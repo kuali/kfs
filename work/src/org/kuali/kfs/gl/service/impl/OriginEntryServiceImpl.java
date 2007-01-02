@@ -41,10 +41,9 @@ import org.kuali.module.gl.util.LedgerEntry;
 import org.kuali.module.gl.util.LedgerEntryHolder;
 import org.kuali.module.gl.util.OriginEntryStatistics;
 import org.kuali.module.gl.util.PosterOutputSummaryEntry;
+import org.springframework.transaction.annotation.Transactional;
 
-/**
- *  
- */
+@Transactional
 public class OriginEntryServiceImpl implements OriginEntryService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryServiceImpl.class);
 

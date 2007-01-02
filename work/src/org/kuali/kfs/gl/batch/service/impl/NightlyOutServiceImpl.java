@@ -16,7 +16,6 @@
 package org.kuali.module.gl.service.impl;
 
 import java.sql.Date;
-import java.util.Collection;
 import java.util.Iterator;
 
 import org.kuali.Constants;
@@ -30,12 +29,12 @@ import org.kuali.module.gl.service.NightlyOutService;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.ReportService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class implements the nightly out batch job.
- * 
- * 
  */
+@Transactional
 public class NightlyOutServiceImpl implements NightlyOutService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(NightlyOutServiceImpl.class);
 

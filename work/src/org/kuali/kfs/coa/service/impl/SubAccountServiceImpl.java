@@ -18,13 +18,13 @@ package org.kuali.module.chart.service.impl;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.dao.SubAccountDao;
 import org.kuali.module.chart.service.SubAccountService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class is the service implementation for the SubAccount structure. This is the default implementation that gets delivered
  * with Kuali.
- * 
- * 
  */
+@Transactional
 public class SubAccountServiceImpl implements SubAccountService {
     private SubAccountDao subAccountDao;
 

@@ -1,41 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
+	Copyright 2005-2006 The Kuali Foundation.
+	
+	Licensed under the Educational Community License, Version 1.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+	
+	http://www.opensource.org/licenses/ecl1.php
+	
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-	<bean id="financialMetaData" class="org.kuali.core.KualiModuleMetaData">
-		<property name="id" value="financial" />
-		<property name="name" value="Kuali Financials" />
-		<property name="transactionalizedServiceNames">
-			<list>
-				<value>financialUserService</value>
-				<value>cashDetailTypeCodeService</value>
-				<value>cashDrawerService</value>
-				<value>cashManagementService</value>
-				<value>cashReceiptService</value>
-				<value>checkService</value>
-				<value>accountPresenceService</value>
-				<value>flexibleOffsetAccountService</value>
-				<value>serviceBillingControlService</value>
-			</list>
-		</property>
-	</bean>
-
 	<bean id="financialModule" class="org.kuali.core.KualiModule">
-		<property name="metaData" ref="financialMetaData" />
+		<property name="moduleId" value="financial" />
+		<property name="moduleName" value="Kuali Financials" />
 		<property name="moduleUserService" ref="financialUserService" />
 		<property name="moduleAuthorizer">
 			<bean class="org.kuali.core.authorization.KualiModuleAuthorizerBase">
@@ -85,8 +68,8 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-		<property name="persistenceService">
-			<ref bean="persistenceService" />
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
 		</property>
 	</bean>
 
@@ -203,26 +186,37 @@
 			<ref bean="workflowDocumentService" />
 		</property>
 	</bean>
+	
+	<bean id="procurementCardDocumentJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="loadDataFileStep" />
+				<ref bean="createDocumentsStep" />
+				<ref bean="routeDocumentsStep" />
+				<ref bean="autoApproveDocumentsStep" />
+			</list>
+		</property>
+	</bean>
 
-	<bean id="loadDataFileStep" class="org.kuali.module.financial.batch.pcard.LoadDataFileStep">
+	<bean id="loadDataFileStep" class="org.kuali.module.financial.batch.pcard.LoadDataFileStep" parent="step">
 		<property name="procurementCardLoadTransactionsService">
 			<ref bean="procurementCardLoadTransactionsService" />
 		</property>
 	</bean>
 
-	<bean id="createDocumentsStep" class="org.kuali.module.financial.batch.pcard.CreateDocumentsStep">
+	<bean id="createDocumentsStep" class="org.kuali.module.financial.batch.pcard.CreateDocumentsStep" parent="step">
 		<property name="procurementCardCreateDocumentService">
 			<ref bean="procurementCardCreateDocumentService" />
 		</property>
 	</bean>
 
-	<bean id="routeDocumentsStep" class="org.kuali.module.financial.batch.pcard.RouteDocumentsStep">
+	<bean id="routeDocumentsStep" class="org.kuali.module.financial.batch.pcard.RouteDocumentsStep" parent="step">
 		<property name="procurementCardCreateDocumentService">
 			<ref bean="procurementCardCreateDocumentService" />
 		</property>
 	</bean>
 
-	<bean id="autoApproveDocumentsStep" class="org.kuali.module.financial.batch.pcard.AutoApproveDocumentsStep">
+	<bean id="autoApproveDocumentsStep" class="org.kuali.module.financial.batch.pcard.AutoApproveDocumentsStep" parent="step">
 		<property name="procurementCardCreateDocumentService">
 			<ref bean="procurementCardCreateDocumentService" />
 		</property>

@@ -15,14 +15,10 @@
  */
 package org.kuali.module.gl.batch;
 
-import org.kuali.core.batch.Step;
+import org.kuali.core.batch.AbstractStep;
 import org.kuali.module.gl.service.NightlyOutService;
 
-/**
- * 
- */
-public class NightlyOutStep implements Step {
-
+public class NightlyOutStep extends AbstractStep {
     private NightlyOutService nightlyOutService;
 
     /**
@@ -31,13 +27,6 @@ public class NightlyOutStep implements Step {
     public boolean execute() {
         nightlyOutService.copyApprovedPendingLedgerEntries();
         return true;
-    }
-
-    /**
-     * @see org.kuali.core.batch.Step#getName()
-     */
-    public String getName() {
-        return "Nighly Out Job";
     }
 
     /**

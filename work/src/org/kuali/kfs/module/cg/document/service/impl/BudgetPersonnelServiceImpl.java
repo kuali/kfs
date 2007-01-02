@@ -45,18 +45,9 @@ import org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod;
 import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.budget.service.BudgetFringeRateService;
 import org.kuali.module.kra.budget.service.BudgetPersonnelService;
+import org.springframework.transaction.annotation.Transactional;
 
-
-/**
- * This class...
- * 
- * 
- */
-/**
- * 
- * 
- * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code Templates
- */
+@Transactional
 public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
 
     private static HashMap appointmentTypeMappings;

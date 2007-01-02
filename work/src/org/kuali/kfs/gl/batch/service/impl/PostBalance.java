@@ -27,11 +27,9 @@ import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.dao.BalanceDao;
+import org.springframework.transaction.annotation.Transactional;
 
-/**
- * 
- * 
- */
+@Transactional
 public class PostBalance implements PostTransaction, BalanceCalculator {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostBalance.class);
 

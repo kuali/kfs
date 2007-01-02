@@ -38,7 +38,7 @@ public class GenesisTest {
         Constants.CONFIGURATION_FILE_NAME).getString(Constants.LOG4J_SETTINGS_FILE_KEY));
      
   //    this supposedly configures spring/ojb
-     SpringServiceLocator.initializeBatchApplicationContext();
+     SpringServiceLocator.initializeDDGeneratorApplicationContext();
      BeanFactory factory = SpringServiceLocator.getBeanFactory();
      KualiConfigurationService configService = 
             SpringServiceLocator.getKualiConfigurationService();

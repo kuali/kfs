@@ -15,29 +15,14 @@
  */
 package org.kuali.module.gl.batch;
 
-import org.kuali.core.batch.Step;
+import org.kuali.core.batch.AbstractStep;
 import org.kuali.module.gl.service.PosterService;
 
-/**
- * 
- * 
- */
-public class PosterReversalStep implements Step {
+public class PosterReversalStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterReversalStep.class);
-
     private PosterService posterService;
 
-    public PosterReversalStep() {
-        super();
-    }
-
-    public String getName() {
-        return "Poster of Reversed Entries";
-    }
-
     public boolean execute() {
-        LOG.debug("performStep() started");
-
         posterService.postReversalEntries();
         return true;
     }

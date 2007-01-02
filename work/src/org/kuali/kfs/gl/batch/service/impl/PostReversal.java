@@ -19,20 +19,15 @@
  */
 package org.kuali.module.gl.batch.poster.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.kuali.module.gl.batch.poster.PostTransaction;
-import org.kuali.module.gl.batch.poster.VerifyTransaction;
 import org.kuali.module.gl.bo.Reversal;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.ReversalDao;
+import org.springframework.transaction.annotation.Transactional;
 
-/**
- * 
- * 
- */
+@Transactional
 public class PostReversal implements PostTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostReversal.class);
 

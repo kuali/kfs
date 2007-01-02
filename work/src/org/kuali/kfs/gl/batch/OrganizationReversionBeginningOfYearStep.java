@@ -15,27 +15,19 @@
  */
 package org.kuali.module.gl.batch;
 
-import org.kuali.core.batch.Step;
+import org.kuali.core.batch.AbstractStep;
 import org.kuali.module.gl.service.OrganizationReversionProcessService;
 
-public class OrganizationReversionBeginningOfYearStep implements Step {
+public class OrganizationReversionBeginningOfYearStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionEndOfYearStep.class);
-
     private OrganizationReversionProcessService organizationReversionProcessService;
 
     public boolean execute() {
-        LOG.debug("performStep() started");
-
         organizationReversionProcessService.organizationReversionProcessBeginningOfYear();
         return true;
-    }
-
-    public String getName() {
-        return "Organization Reversion Process (Beginning of Year)";
     }
 
     public void setOrganizationReversionProcessService(OrganizationReversionProcessService organizationReversionProcessService) {
         this.organizationReversionProcessService = organizationReversionProcessService;
     }
-
 }

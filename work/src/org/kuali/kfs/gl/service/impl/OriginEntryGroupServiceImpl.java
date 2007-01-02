@@ -30,8 +30,9 @@ import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.dao.OriginEntryDao;
 import org.kuali.module.gl.dao.OriginEntryGroupDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.web.struts.action.CorrectionAction;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryGroupServiceImpl.class);
 

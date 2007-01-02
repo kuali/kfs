@@ -43,7 +43,9 @@ import org.kuali.module.gl.service.SufficientFundRebuildService;
 import org.kuali.module.gl.service.SufficientFundsRebuilderService;
 import org.kuali.module.gl.service.SufficientFundsService;
 import org.kuali.module.gl.util.Summary;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebuilderService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsRebuilderServiceImpl.class);
 

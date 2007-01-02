@@ -15,29 +15,21 @@
  */
 package org.kuali.module.gl.batch;
 
-import org.kuali.core.batch.Step;
+import org.kuali.core.batch.AbstractStep;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 
-public class ClearOldOriginEntryStep implements Step {
+public class ClearOldOriginEntryStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ClearOldOriginEntryStep.class);
-
     private OriginEntryGroupService originEntryGroupService;
     private KualiConfigurationService kualiConfigurationService;
 
     public boolean execute() {
         LOG.debug("performStep() started");
-
         String daysStr = kualiConfigurationService.getApplicationParameterValue("glClearOldOriginEntryStep", "days");
         int days = Integer.parseInt(daysStr);
-
         originEntryGroupService.deleteOlderGroups(days);
-
         return true;
-    }
-
-    public String getName() {
-        return "Clear old origin entry groups";
     }
 
     public void setOriginEntryGroupService(OriginEntryGroupService oes) {

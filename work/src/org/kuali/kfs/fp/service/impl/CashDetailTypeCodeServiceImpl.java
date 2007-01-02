@@ -18,13 +18,13 @@ package org.kuali.module.financial.service.impl;
 import org.kuali.core.service.KualiCodeService;
 import org.kuali.module.financial.bo.CashDetailTypeCode;
 import org.kuali.module.financial.service.CashDetailTypeCodeService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This is the default implementation for the CashDetailTypeCodeService interface. This implementation used the KualiCodeService,
  * which in turn uses the KualiCodeDao for retrieving values from the database.
- * 
- * 
  */
+@Transactional
 public class CashDetailTypeCodeServiceImpl implements CashDetailTypeCodeService {
     private KualiCodeService kualiCodeService;
 

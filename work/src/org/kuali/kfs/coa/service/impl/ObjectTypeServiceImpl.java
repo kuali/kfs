@@ -18,11 +18,9 @@ package org.kuali.module.chart.service.impl;
 import org.kuali.module.chart.bo.ObjectType;
 import org.kuali.module.chart.dao.ObjectTypeDao;
 import org.kuali.module.chart.service.ObjectTypeService;
+import org.springframework.transaction.annotation.Transactional;
 
-/**
- *  
- */
-
+@Transactional
 public class ObjectTypeServiceImpl implements ObjectTypeService {
 
     private ObjectTypeDao objectTypeDao;

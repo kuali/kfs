@@ -18,16 +18,16 @@ package org.kuali.module.chart.service.impl;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-
+import org.kuali.core.util.spring.Cached;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.dao.OrganizationDao;
 import org.kuali.module.chart.service.OrganizationService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class is the service implementation for the Org structure. This is the default implementation, that is delivered with Kuali.
- * 
- * 
  */
+@Transactional
 public class OrganizationServiceImpl implements OrganizationService {
     private OrganizationDao organizationDao;
     
@@ -49,6 +49,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      * 
      * @see org.kuali.module.chart.service.impl.OrganizationServiceImpl#getByPrimaryId(java.lang.String, java.lang.String)
      */
+    @Cached
     public Org getByPrimaryIdWithCaching(String chartOfAccountsCode, String organizationCode) {
         return organizationDao.getByPrimaryId(chartOfAccountsCode, organizationCode);
     }

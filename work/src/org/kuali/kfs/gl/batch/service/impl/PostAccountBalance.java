@@ -25,11 +25,9 @@ import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.AccountBalanceDao;
+import org.springframework.transaction.annotation.Transactional;
 
-/**
- * 
- * 
- */
+@Transactional
 public class PostGlAccountBalance implements PostTransaction, AccountBalanceCalculator {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostGlAccountBalance.class);
 

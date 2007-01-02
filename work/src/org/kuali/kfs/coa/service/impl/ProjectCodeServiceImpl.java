@@ -16,17 +16,16 @@
 package org.kuali.module.chart.service.impl;
 
 
-import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.bo.ProjectCode;
 import org.kuali.module.chart.dao.ProjectCodeDao;
 import org.kuali.module.chart.service.ProjectCodeService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class is the service implementation for the ProjectCode structure. This is the default implementation, that is delivered
  * with Kuali.
- * 
- * 
  */
+@Transactional
 public class ProjectCodeServiceImpl implements ProjectCodeService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProjectCodeServiceImpl.class);
 

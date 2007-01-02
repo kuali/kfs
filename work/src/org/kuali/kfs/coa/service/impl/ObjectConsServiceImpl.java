@@ -18,13 +18,13 @@ package org.kuali.module.chart.service.impl;
 import org.kuali.module.chart.bo.ObjectCons;
 import org.kuali.module.chart.dao.ObjectConsDao;
 import org.kuali.module.chart.service.ObjectConsService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class is the service implementation for the ObjLevel structure. This is the default implementation, that is delivered with
  * Kuali.
- * 
- * 
  */
+@Transactional
 public class ObjectConsServiceImpl implements ObjectConsService {
     private ObjectConsDao objectConsDao;
 

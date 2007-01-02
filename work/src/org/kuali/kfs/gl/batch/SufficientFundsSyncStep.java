@@ -15,24 +15,16 @@
  */
 package org.kuali.module.gl.batch;
 
-import org.kuali.core.batch.Step;
+import org.kuali.core.batch.AbstractStep;
 import org.kuali.module.gl.service.SufficientFundsSyncService;
 
-public class SufficientFundsSyncStep implements Step {
+public class SufficientFundsSyncStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsSyncStep.class);
-
     private SufficientFundsSyncService sufficientFundsSyncService;
 
     public boolean execute() {
-        LOG.debug("performStep() started");
-
         sufficientFundsSyncService.syncSufficientFunds();
-
         return true;
-    }
-
-    public String getName() {
-        return "Sufficient Funds Synchronization";
     }
 
     public void setSufficientFundsSyncService(SufficientFundsSyncService sfss) {

@@ -46,14 +46,11 @@ import org.kuali.module.kra.budget.service.BudgetModularService;
 import org.kuali.module.kra.budget.service.BudgetPersonnelService;
 import org.kuali.module.kra.budget.service.BudgetService;
 import org.kuali.module.kra.budget.web.struts.form.BudgetNonpersonnelCopyOverBoHelper;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
-/**
- * This class...
- * 
- * 
- */
+@Transactional
 public class BudgetServiceImpl implements BudgetService {
 
     private BudgetFringeRateService budgetFringeRateService;

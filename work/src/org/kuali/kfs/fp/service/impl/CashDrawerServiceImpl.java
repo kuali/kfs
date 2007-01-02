@@ -23,13 +23,13 @@ import org.kuali.Constants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.service.CashDrawerService;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
  * CashDrawerService implementation.
- * 
- * 
  */
+@Transactional
 public class CashDrawerServiceImpl implements CashDrawerService {
     private BusinessObjectService businessObjectService;
 

@@ -22,7 +22,9 @@ import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.gl.bo.SufficientFundRebuild;
 import org.kuali.module.gl.dao.SufficientFundRebuildDao;
 import org.kuali.module.gl.service.SufficientFundsSyncService;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class SufficientFundsSyncServiceImpl implements SufficientFundsSyncService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsSyncServiceImpl.class);
 

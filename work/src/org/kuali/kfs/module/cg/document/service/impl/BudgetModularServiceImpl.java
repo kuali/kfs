@@ -33,12 +33,9 @@ import org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod;
 import org.kuali.module.kra.budget.service.BudgetModularService;
 import org.kuali.module.kra.budget.service.BudgetNonpersonnelService;
 import org.kuali.module.kra.budget.web.struts.form.BudgetNonpersonnelFormHelper;
+import org.springframework.transaction.annotation.Transactional;
 
-/**
- * This class provides implementations for BudgetModularService interface
- * 
- * 
- */
+@Transactional
 public class BudgetModularServiceImpl implements BudgetModularService {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetModularServiceImpl.class);

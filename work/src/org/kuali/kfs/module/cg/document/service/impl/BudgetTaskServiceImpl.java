@@ -26,11 +26,9 @@ import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.kra.budget.bo.BudgetTask;
 import org.kuali.module.kra.budget.service.BudgetTaskService;
+import org.springframework.transaction.annotation.Transactional;
 
-/**
- * 
- * 
- */
+@Transactional
 public class BudgetTaskServiceImpl implements BudgetTaskService {
 
     private BusinessObjectService businessObjectService;

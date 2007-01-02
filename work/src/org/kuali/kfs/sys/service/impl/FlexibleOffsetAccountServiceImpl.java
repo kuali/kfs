@@ -21,7 +21,6 @@ import java.util.HashMap;
 import org.kuali.Constants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -31,12 +30,12 @@ import org.kuali.module.financial.bo.OffsetAccount;
 import org.kuali.module.financial.exceptions.InvalidFlexibleOffsetException;
 import org.kuali.module.financial.service.FlexibleOffsetAccountService;
 import org.kuali.module.gl.bo.OriginEntry;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class implements FlexibleOffsetAccountService.
- * 
- * 
  */
+@Transactional
 public class FlexibleOffsetAccountServiceImpl implements FlexibleOffsetAccountService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FlexibleOffsetAccountServiceImpl.class);
 

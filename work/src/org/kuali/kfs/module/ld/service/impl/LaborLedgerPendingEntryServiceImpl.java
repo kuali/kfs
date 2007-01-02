@@ -17,16 +17,11 @@ package org.kuali.module.labor.service.impl;
 
 import java.util.Map;
 
-import org.kuali.core.dao.BusinessObjectDao;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.module.chart.service.ChartUserService;
 import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
+import org.springframework.transaction.annotation.Transactional;
 
-/**
- * This class is the service implementation for the laborLedgerPendingEntry structure.
- * 
- * 
- */
+@Transactional
 public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEntryService {
 
     private BusinessObjectService businessObjectService;

@@ -15,24 +15,16 @@
  */
 package org.kuali.module.gl.batch;
 
-import org.kuali.core.batch.Step;
+import org.kuali.core.batch.AbstractStep;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 
-public class CreateBackupGroupStep implements Step {
+public class CreateBackupGroupStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CreateBackupGroupStep.class);
-
     private OriginEntryGroupService originEntryGroupService;
 
     public boolean execute() {
-        LOG.debug("performStep() started");
-
         originEntryGroupService.createBackupGroup();
-
         return true;
-    }
-
-    public String getName() {
-        return "Create Backup Group";
     }
 
     public void setOriginEntryGroupService(OriginEntryGroupService oegs) {

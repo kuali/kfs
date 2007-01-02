@@ -44,13 +44,9 @@ import org.kuali.module.gl.service.SufficientFundRebuildService;
 import org.kuali.module.gl.service.SufficientFundsService;
 import org.kuali.module.gl.service.SufficientFundsServiceConstants;
 import org.kuali.module.gl.util.SufficientFundsItem;
+import org.springframework.transaction.annotation.Transactional;
 
-
-/**
- * Sufficient Funds implementation
- * 
- * 
- */
+@Transactional
 public class SufficientFundsServiceImpl implements SufficientFundsService, SufficientFundsServiceConstants {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsServiceImpl.class);
 

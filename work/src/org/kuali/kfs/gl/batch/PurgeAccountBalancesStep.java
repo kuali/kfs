@@ -19,14 +19,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.Constants;
-import org.kuali.core.batch.Step;
+import org.kuali.core.batch.AbstractStep;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.module.chart.service.ChartService;
 import org.kuali.module.gl.service.AccountBalanceService;
 
-public class PurgeAccountBalancesStep implements Step {
+public class PurgeAccountBalancesStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurgeAccountBalancesStep.class);
-
     private ChartService chartService;
     private AccountBalanceService accountBalanceService;
     private KualiConfigurationService kualiConfigurationService;
@@ -35,26 +34,16 @@ public class PurgeAccountBalancesStep implements Step {
      * This step will purge data from the gl_acct_balances_t table older than a specified year. It purges the data one chart at a
      * time each within their own transaction so database transaction logs don't get completely filled up when doing this. This step
      * class should NOT be transactional.
-     * 
      */
     public boolean execute() {
-        LOG.debug("performStep() started");
-
         String yearStr = kualiConfigurationService.getApplicationParameterValue(Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.PURGE_GL_ACCT_BALANCES_T_BEFORE_YEAR);
-
         int year = Integer.parseInt(yearStr);
-
         List charts = chartService.getAllChartCodes();
         for (Iterator iter = charts.iterator(); iter.hasNext();) {
             String chart = (String) iter.next();
             accountBalanceService.purgeYearByChart(chart, year);
         }
-
         return true;
-    }
-
-    public String getName() {
-        return "Purge gl_acct_balances_t";
     }
 
     public void setAccountBalanceService(AccountBalanceService accountBalanceService) {

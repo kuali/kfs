@@ -15,25 +15,14 @@
  */
 package org.kuali.module.gl.batch;
 
-import org.kuali.core.batch.Step;
+import org.kuali.core.batch.AbstractStep;
 import org.kuali.module.gl.service.PosterService;
 
-/**
- * 
- * 
- */
-public class PosterEntriesStep implements Step {
+public class PosterEntriesStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterEntriesStep.class);
-
     private PosterService posterService;
 
-    public String getName() {
-        return "Poster of GL Entries";
-    }
-
     public boolean execute() {
-        LOG.debug("performStep() started");
-
         posterService.postMainEntries();
         return true;
     }

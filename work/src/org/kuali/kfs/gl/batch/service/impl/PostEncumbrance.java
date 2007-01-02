@@ -30,11 +30,9 @@ import org.kuali.module.gl.bo.Encumbrance;
 import org.kuali.module.gl.bo.Entry;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.EncumbranceDao;
+import org.springframework.transaction.annotation.Transactional;
 
-/**
- * 
- * 
- */
+@Transactional
 public class PostEncumbrance implements PostTransaction, VerifyTransaction, EncumbranceCalculator {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostEncumbrance.class);
 

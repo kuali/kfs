@@ -34,13 +34,12 @@ import org.kuali.module.gl.bo.GlSummary;
 import org.kuali.module.gl.dao.BalanceDao;
 import org.kuali.module.gl.service.BalanceService;
 import org.kuali.module.gl.util.OJBUtility;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 
  * This class is the OJB implementation of the Balance Service
- * 
- * 
  */
+@Transactional
 public class BalanceServiceImpl implements BalanceService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceServiceImpl.class);
 

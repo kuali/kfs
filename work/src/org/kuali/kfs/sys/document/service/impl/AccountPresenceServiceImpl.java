@@ -20,12 +20,9 @@ import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.financial.service.AccountPresenceService;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.dao.BalanceDao;
+import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Imlementation of AccountPresenceService
- * 
- * 
- */
+@Transactional
 public class AccountPresenceServiceImpl implements AccountPresenceService {
     private BalanceDao balanceDao;
 

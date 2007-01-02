@@ -51,7 +51,6 @@ public @interface RelatesTo {
         KULRNE42,
         KULRNE1847,
         KULRNE1612,
-        KULCFG196,
         KULPURAP283,
         ;
         

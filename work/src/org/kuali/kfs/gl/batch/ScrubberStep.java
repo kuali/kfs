@@ -15,19 +15,11 @@
  */
 package org.kuali.module.gl.batch;
 
-import org.kuali.core.batch.Step;
+import org.kuali.core.batch.AbstractStep;
 import org.kuali.module.gl.service.ScrubberService;
 
-/**
- * 
- * 
- */
-public class ScrubberStep implements Step {
+public class ScrubberStep extends AbstractStep {
     private ScrubberService scrubberService;
-
-    public String getName() {
-        return "GL ScrubberStep";
-    }
 
     public boolean execute() {
         scrubberService.scrubEntries();

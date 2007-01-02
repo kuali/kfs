@@ -19,6 +19,7 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.chart.service.OffsetDefinitionService;
 import org.kuali.module.financial.service.FlexibleOffsetAccountService;
@@ -32,7 +33,9 @@ import org.kuali.module.gl.service.ScrubberValidator;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class ScrubberServiceImpl implements ScrubberService, BeanFactoryAware {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberServiceImpl.class);
 
@@ -50,7 +53,7 @@ public class ScrubberServiceImpl implements ScrubberService, BeanFactoryAware {
     private ReportService reportService;
     private ScrubberValidator scrubberValidator;
     private String cutoffTime;
-    
+
     public ScrubberServiceImpl() {
         super();
         cutoffTime = null;
@@ -65,7 +68,7 @@ public class ScrubberServiceImpl implements ScrubberService, BeanFactoryAware {
         LOG.debug("init() started");
 
         // If we are in test mode
-        if (beanFactory.containsBean("testDateTimeService")) {
+        if (SpringServiceLocator.isInTestMode()) {
             dateTimeService = (DateTimeService) beanFactory.getBean("testDateTimeService");
         }
     }
@@ -154,5 +157,5 @@ public class ScrubberServiceImpl implements ScrubberService, BeanFactoryAware {
     
     public void setCutoffTime(String cutoffTime) {
         this.cutoffTime = cutoffTime;
-    }
+}
 }

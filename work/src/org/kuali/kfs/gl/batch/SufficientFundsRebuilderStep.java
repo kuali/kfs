@@ -15,19 +15,11 @@
  */
 package org.kuali.module.gl.batch;
 
-import org.kuali.core.batch.Step;
+import org.kuali.core.batch.AbstractStep;
 import org.kuali.module.gl.service.SufficientFundsRebuilderService;
 
-/**
- * 
- * 
- */
-public class SufficientFundsRebuilderStep implements Step {
+public class SufficientFundsRebuilderStep extends AbstractStep {
     private SufficientFundsRebuilderService sufficientFundsRebuilderService;
-
-    public String getName() {
-        return "GL SufficientFundsRebuilderStep";
-    }
 
     public boolean execute() {
         sufficientFundsRebuilderService.rebuildSufficientFunds();

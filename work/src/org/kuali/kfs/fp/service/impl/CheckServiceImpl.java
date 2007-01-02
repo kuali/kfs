@@ -21,13 +21,9 @@ import org.apache.log4j.Logger;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.dao.CheckDao;
 import org.kuali.module.financial.service.CheckService;
+import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Default implementation of the Check service.
- * 
- * 
- */
-
+@Transactional
 public class CheckServiceImpl implements CheckService {
     // set up logging
     private static Logger LOG = Logger.getLogger(CheckServiceImpl.class);

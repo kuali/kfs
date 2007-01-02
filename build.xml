@@ -98,15 +98,10 @@
 				<equals arg1="${build.environment}" arg2="gl" />
 			</or>
 		</condition>
-		<property name="base.application.url" value="${test.environment.url}" />
+		<property name="base.application.url" value="${test.environment.url.http}" />
 		<property name="base.htdocs.url" value="${test.environment.url}" />
 		<property name="base.cas.url" value="${test.environment.url}" />
 		<property name="base.workflow.url" value="${test.environment.url}" />
-        <condition property="staging.root.directory" value="${external.config.directory}">
-                <equals arg1="${is.local.build}" arg2="true"/>
-        </condition>
-        <property name="staging.root.directory" value="" />
-        <property name="staging.directory" value="${staging.root.directory}/staging/KUL/${build.environment}" />
 		<condition property="local.plugin.classes" value="${local.plugin.classes.token}">
 			<equals arg1="${is.local.build}" arg2="true" />
 		</condition>
@@ -123,22 +118,20 @@
 			<equals arg1="${is.local.build}" arg2="true" />
 		</condition>
 		<property name="appenders" value="INFO, LogFile" />
-		<condition property="scheduler.bean" value="${scheduler.bean.xml}">
+		<condition property="scheduler.spring.beans.import" value="${scheduler.spring.beans.import.value}">
 			<equals arg1="${use.quartz.scheduling}" arg2="true" />
 		</condition>
-		<property name="scheduler.bean" value="" />
+		<property name="scheduler.spring.beans.import" value="" />
 		<filterset id="external.config.filterset">
 			<filter token="settings-root-directory" value="${settings.root.directory}" />
 			<filter token="security-root-directory" value="${security.root.directory}" />			
 			<filter token="log4j-settings-file" value="${settings.directory}/${log4j.settings.file}" />
-			<filter token="log4j-batch-settings-file" value="${settings.directory}/${log4j.batch.settings.file}" />
 			<filter token="security-directory" value="${security.directory}" />
+			<filter token="settings-directory" value="${settings.directory}" />
 			<filter token="logs-directory" value="${logs.directory}" />
-			<filter token="attachments-root-directory" value="${attachments.root.directory}" />
-			<filter token="htdocs-directory" value="${htdocs.directory}" />
-			<filter token="batch-reports-directory" value="${batch.reports.directory}" />
-			<filter token="online-reports-directory" value="${online.reports.directory}" />
 			<filter token="staging-directory" value="${staging.directory}" />
+			<filter token="attachments-directory" value="${attachments.directory}" />
+			<filter token="reports-directory" value="${reports.directory}" />
 			<filter token="plugin-deploy-root-directory" value="${plugin.deploy.root.directory}" />
 			<filter token="local-plugin-classes" value="${local.plugin.classes}"/>
 			<filter token="local-plugin-lib" value="${local.plugin.lib}"/>
@@ -156,39 +149,21 @@
 			<filter token="base-workflow-url" value="${base.workflow.url}" />
 			<filter token="workflow-url" value="${base.workflow.url}${workflow.application}-${build.environment}" />
 			<filter token="web-authentication-filter" value="${web.authentication.filter}" />
-			<filter token="webservices-keystore-password" value="${webservices.keystore.password}" />
 			<filter token="driver-class" value="${driver.class}" />
-			<filter token="context-docbase" value="${context.docbase}" />
-			<filter token="appenders" value="${appenders}" />
-			<filter token="batch-logger" value="" />
-			<filter token="batch-mailing-list" value="${batch.mailing.list}" />
-			<filter token="institution-spring-beans-import" value="${institution.spring.beans.import}" />
-			<filter token="scheduler-bean" value="${scheduler.bean}" />
-			<filter token="variable-ojb-properties" value="${application.ojb.properties}" />
-			<filter token="use-auto-commit" value="1" />
-		</filterset>
-		<filterset id="security.filterset">
 			<filter token="datasource-url" value="${datasource.url}" />
 			<filter token="datasource-username" value="${datasource.username}" />
 			<filter token="datasource-password" value="${datasource.password}" />
-			<filter token="keystore-password" value="${keystore.password}" />
+			<filter token="webservices-keystore-password" value="${webservices.keystore.password}" />
+			<filter token="workflow-webservices-keystore-password" value="${workflow.webservices.keystore.password}" />
 			<filter token="encryption-key" value="${encryption.key}" />
-		</filterset>
-		<condition property="batch.program.directory" value="/home/kultstb/batch/${build.environment}">
-			<or>
-				<equals arg1="${build.environment}" arg2="ptd" />
-				<equals arg1="${build.environment}" arg2="gl" />
-			</or>
-		</condition>
-		<property name="batch.program.directory" value="/home/kuldevb/batch/${build.environment}" />
-		<filterset id="batch.filterset">
-			<filter token="appenders" value="INFO, StdOut" />
-			<filter token="batch-program-directory" value="${batch.program.directory}" />
-			<filter token="batch-classes-directory" value="${batch.program.directory}/classes" />
-			<filter token="batch-lib-directory" value="${batch.program.directory}/lib" />
-			<filter token="batch-command-prefix" value="$JAVA_HOME/bin/java org.kuali.core.batch.BatchStepRunner" />
-			<filter token="batch-script-prefix" value="${batch.script.prefix}" />
-			<filter token="batch-script-suffix" value="${batch.script.suffix}" />
+			<filter token="context-docbase" value="${context.docbase}" />
+			<filter token="appenders" value="${appenders}" />
+			<filter token="mail-relay-server" value="${mail.relay.server}" />
+			<filter token="batch-mailing-list" value="${batch.mailing.list}" />
+			<filter token="institution-spring-beans-import" value="${institution.spring.beans.import}" />
+			<filter token="scheduler-spring-beans-import" value="${scheduler.spring.beans.import}" />
+			<filter token="variable-ojb-properties" value="${application.ojb.properties}" />
+			<filter token="use-auto-commit" value="1" />
 		</filterset>
 		<filterset id="plugin.filterset">
 			<filter token="variable-ojb-properties" value="${plugin.ojb.properties}" />
@@ -240,7 +215,6 @@
 		</delete>
 		<delete file="${lib.directory}/${log4j.library}" />
 		<delete dir="${war.directory}" />
-		<delete dir="${batch.directory}" />
 		<delete dir="${test.directory}" />
 		<delete dir="${plugin.directory}" />
 		<delete>
@@ -274,9 +248,7 @@
 		<delete failonerror="false" includeemptydirs="true">
 			<fileset dir="${logs.root.directory}" includes="*/${ant.project.name}/"/>
 		</delete>
-		<delete dir="${attachments.root.directory}" failonerror="false" />
-		<delete dir="${htdocs.directory}" failonerror="false" />
-		<delete dir="${staging.directory}" failonerror="false" />
+		<delete dir="${static.root.directory}" failonerror="false" />
 	</target>
 
 	<target name="clean-workflow-local" if="is.local.build" depends="init-project-properties">
@@ -328,7 +300,6 @@
 			<fileset dir="${build.tokenized.resources.directory}" includes="${tokenized.source.files}" />
 			<filterset refid="general.filterset" />
 		</copy>
-		<zip destfile="${static.content.zip}" basedir="${webroot.directory}" includes="reports/*,xml/*" />
 	</target>
 
 	<target name="filter-local" if="is.local.build" depends="init-filter-sets">
@@ -342,13 +313,8 @@
 		<copy file="${user.home}/${log4j.settings.file}" todir="${settings.directory}" failonerror="false" overwrite="true">
 			<filterset refid="general.filterset" />
 		</copy>
-		<copy file="${build.settings.directory}/${log4j.settings.file}" tofile="${settings.directory}/${log4j.batch.settings.file}" overwrite="true">
-			<filterset refid="batch.filterset" />
-			<filterset refid="general.filterset" />
-		</copy>
 		<copy todir="${security.directory}" overwrite="true">
 			<fileset dir="${build.security.directory}" excludes="${webservices.keystore.files}" />
-			<filterset refid="security.filterset" />
 			<filterset refid="general.filterset" />
 		</copy>
 		<copy todir="${security.directory}" overwrite="true">
@@ -357,13 +323,16 @@
 		<copy todir="${logs.directory}" overwrite="true">
 			<fileset dir="${build.logs.directory}" />
 		</copy>
-		<mkdir dir="${attachments.root.directory}/${build.environment}" />
-		<unzip src="${static.content.zip}" dest="${htdocs.directory}" />
-		<mkdir dir="${batch.reports.directory}" />
-		<mkdir dir="${online.reports.directory}" />
-		<mkdir dir="${staging.directory}" />
+		<mkdir dir="${reports.directory}" />
+		<copy todir="${attachments.directory}" overwrite="true">
+			<fileset dir="${build.attachments.directory}" />
+		</copy>
+		<copy todir="${staging.directory}" overwrite="true">
+			<fileset dir="${build.staging.directory}" />
+			<filterset refid="general.filterset" />
+		</copy>
 	</target>
-
+	
 	<target name="filter-workflow-local" if="dist.workflow.local" depends="init-filter-sets">
 		<copy todir="${appserver.classes.dir}" overwrite="true">
 			<fileset dir="${build.workflow.appserver.directory}" includes="${workflow.appserver.classes.list}" />
@@ -437,8 +406,9 @@
 	<target name="make-zips" depends="filter-local,filter-workflow-local">
 		<zip destfile="settings.zip" basedir="${settings.directory}" />
 		<zip destfile="security.zip" basedir="${security.directory}" />
+		<zip destfile="skel.zip" basedir="${static.directory}" />
 	</target>
-
+	
 	<target name="make-source-only-package" depends="init-package-directories">
 		<copy todir="${packaging.distribution.directory}" includeemptydirs="false">
 			<fileset dir="${basedir}" excludes="**/*.class,${packaged.build.properties.files}" />
@@ -495,17 +465,6 @@
 		<echo message="Generated test results: ${test.html.results.directory}/index.html" />
 	</target>
 	
-	<target name="batch" depends="init-make-references">
-		<delete file="${batch.results.file}" failonerror="false" />
-		<path id="batch.classpath">
-			<path refid="compile.source.classpath" />
-			<pathelement location="${classes.directory}" />
-		</path>
-		<ant target="pcdo-batch-job"><property name="job.name" value="ProcurementCard" /></ant>
-		<ant target="gl-batch-job"><property name="job.name" value="GeneralLedger" /></ant>
-		<ant target="core-batch-job"><property name="job.name" value="Core" /></ant>
-	</target>
-		
 	<target name="dist" depends="make-source">
 		<copy todir="${war.directory}">
 			<fileset dir="${webroot.directory}" excludes="WEB-INF/classes/**/**" />
@@ -515,23 +474,6 @@
 
 	<target name="dist-plugin" depends="make-source,make-plugin-remote,make-plugin">
 		<zip destfile="en-plugins.zip" basedir="${plugin.directory}" />
-	</target>
-
-	<target name="dist-batch" depends="make-source">
-		<copy todir="${batch.directory}">
-			<fileset dir="${batch.script.directory}" />
-			<filterset refid="batch.filterset" />
-			<filterset refid="general.filterset" />
-		</copy>
-		<copy todir="${batch.classes.directory}">
-			<fileset dir="${war.classes.directory}" />
-		</copy>
-		<copy todir="${batch.lib.directory}">
-			<fileset dir="${lib.directory}" />
-			<fileset dir="${build.appserver.directory}" />
-			<fileset file="${appserver.lib.dir}/servlet-api.jar" />
-		</copy>
-		<zip basedir="${batch.directory}" destfile="${ant.project.name}-${build.environment}.zip" />
 	</target>
 
 	<target name="dist-workflow-local" if="dist.workflow.local" depends="filter-workflow-local,make-plugin,make-plugin-local">
@@ -619,67 +561,6 @@
 		<replaceregexp file="${temp.directory}/WEB-INF/classes/META-INF/workflow.xml" match="\bdev\b" replace="${build.environment}" byline="true" flags="g" />
 		<jar jarfile="${appserver.deploy.dir}/${application}-${build.environment}.war" basedir="${temp.directory}"  />
 		<delete dir="${temp.directory}" />
-	</target>
-	
-	<target name="pcdo-batch-job" depends="batch-step-init">
-		<ant target="batch-step"><property name="step.name" value="loadDataFileStep" /></ant>
-		<ant target="batch-step"><property name="step.name" value="createDocumentsStep" /></ant>
-		<ant target="batch-step"><property name="step.name" value="routeDocumentsStep" /></ant>
-		<ant target="batch-step"><property name="step.name" value="autoApproveDocumentsStep" /></ant>
-	</target>
-	
-	<target name="gl-batch-job" unless="ProcurementCard.failed" depends="batch-step-init">
-		<ant target="batch-step"><property name="step.name" value="glClearPendingEntriesForCancelledOrDisapprovedDocumentsStep" /></ant>
-		<ant target="batch-step"><property name="step.name" value="glCollectorStep" /></ant>
-		<ant target="batch-step"><property name="step.name" value="glNightlyOutStep" /></ant>
-		<ant target="batch-step"><property name="step.name" value="glCreateBackupGroupStep" /></ant>
-		<ant target="batch-step"><property name="step.name" value="glScrubberStep" /></ant>
-		<ant target="batch-step"><property name="step.name" value="glPosterEntriesStep" /></ant>
-		<ant target="batch-step"><property name="step.name" value="glPosterReversalStep" /></ant>
-		<ant target="batch-step"><property name="step.name" value="glPosterIcrGenerationStep" /></ant>
-		<ant target="batch-step"><property name="step.name" value="glPosterIcrEntriesStep" /></ant>
-		<ant target="batch-step"><property name="step.name" value="glSufficientFundsSyncStep" /></ant>
-		<ant target="batch-step"><property name="step.name" value="glSufficientFundsRebuilderStep" /></ant>
-		<ant target="batch-step"><property name="step.name" value="glGlSummaryReportStep" /></ant>
-		<ant target="batch-step"><property name="step.name" value="glClearPendingStep" /></ant>
-	</target>
-	
-	<target name="core-batch-job" depends="batch-step-init">
-		<ant target="batch-step"><property name="step.name" value="corePurgeDocumentContentsStep" /></ant>
-	</target>
-	
-	<target name="batch-step" depends="batch-job-failed" />
-
-	<target name="batch-step-init">
-		<property file="${batch.results.file}" />
-		<echo message="Checking ${job.name} Job - ${step.name} dependencies" />
-	</target>
-
-	<target name="batch-step-execution" unless="${job.name}.step.failed" depends="batch-step-init">
-		<echo message="Running ${job.name} Job - ${step.name}" />
-		<java classname="${batch.step.runner}" classpathref="batch.classpath" fork="true" errorproperty="step.failed">
-			<arg value="${step.name}" />
-		</java>
-		<condition property="${job.name}.step.failed">
-			<and>
-				<equals arg1="${respect.batch.step.dependencies}" arg2="true" />
-				<length string="${step.failed}" when="greater" length="0" trim="true"/>
-			</and>
-		</condition>
-		<condition property="${job.name}.failed">
-			<and>
-				<equals arg1="${respect.batch.job.dependencies}" arg2="true" />
-				<length string="${step.failed}" when="greater" length="0" trim="true"/>
-			</and>
-		</condition>
-	</target>
-
-	<target name="batch-step-failed" if="${job.name}.step.failed" depends="batch-step-execution">
-		<propertyfile file="${batch.results.file}" ><entry key="${job.name}.step.failed" value="true" operation="=" /></propertyfile>
-	</target>
-		
-	<target name="batch-job-failed" if="${job.name}.failed" depends="batch-step-failed">
-		<propertyfile file="${batch.results.file}" ><entry key="${job.name}.failed" value="true" operation="=" /></propertyfile>
 	</target>
 	
 	<target name="help" description="Describe public targets">

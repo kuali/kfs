@@ -15,25 +15,11 @@
  */
 package org.kuali.module.gl.batch;
 
-import org.kuali.core.batch.Step;
+import org.kuali.core.batch.AbstractStep;
 import org.kuali.module.gl.batch.closing.year.service.YearEndService;
 
-/**
- */
-public class NominalActivityClosingStep implements Step {
-
+public class NominalActivityClosingStep extends AbstractStep {
     public YearEndService yearEndService;
-
-    public NominalActivityClosingStep() {
-        super();
-    }
-
-    /**
-     * @see org.kuali.core.batch.Step#getName()
-     */
-    public String getName() {
-        return "Nominal Activity Closing Step";
-    }
 
     /**
      * @see org.kuali.core.batch.Step#performStep()
@@ -49,5 +35,4 @@ public class NominalActivityClosingStep implements Step {
     public void setYearEndService(YearEndService yearEndService) {
         this.yearEndService = yearEndService;
     }
-
 }

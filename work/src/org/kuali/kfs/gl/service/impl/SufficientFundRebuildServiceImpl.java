@@ -21,7 +21,9 @@ import org.kuali.Constants;
 import org.kuali.module.gl.bo.SufficientFundRebuild;
 import org.kuali.module.gl.dao.SufficientFundRebuildDao;
 import org.kuali.module.gl.service.SufficientFundRebuildService;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class SufficientFundRebuildServiceImpl implements SufficientFundRebuildService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundRebuildServiceImpl.class);
 

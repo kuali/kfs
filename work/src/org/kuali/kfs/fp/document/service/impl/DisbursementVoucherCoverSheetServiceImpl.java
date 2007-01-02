@@ -32,7 +32,7 @@ import org.kuali.core.lookup.keyvalues.PaymentMethodValuesFinder;
 import org.kuali.core.rules.RulesUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.PersistenceService;
+import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.uidraw.KeyLabelPair;
 import org.kuali.module.financial.bo.DisbursementVoucherDocumentationLocation;
@@ -67,7 +67,7 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
 
     private KualiConfigurationService kualiConfigurationService;
     private BusinessObjectService businessObjectService;
-    private PersistenceService persistenceService;
+    private PersistenceStructureService persistenceStructureService;
 
     /**
      * 
@@ -162,7 +162,7 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
      * @return
      */
     private PersistableBusinessObject retrieveObjectByKey(Class clazz, String keyValue) {
-        List primaryKeyFields = persistenceService.listPrimaryKeyFieldNames(clazz);
+        List primaryKeyFields = persistenceStructureService.listPrimaryKeyFieldNames(clazz);
         if (primaryKeyFields.size() != 1) {
             throw new IllegalArgumentException("multi-part key found. expecting single key field for " + clazz.getName());
         }
@@ -247,22 +247,11 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
     }
 
     /**
-     * Gets the persistenceService attribute.
+     * Sets the persistenceStructureService attribute value.
      * 
-     * @return Returns the persistenceService.
+     * @param persistenceStructureService The persistenceService to set.
      */
-    public PersistenceService getPersistenceService() {
-        return persistenceService;
+    public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
+        this.persistenceStructureService = persistenceStructureService;
     }
-
-    /**
-     * Sets the persistenceService attribute value.
-     * 
-     * @param persistenceService The persistenceService to set.
-     */
-    public void setPersistenceService(PersistenceService persistenceService) {
-        this.persistenceService = persistenceService;
-    }
-
-
 }

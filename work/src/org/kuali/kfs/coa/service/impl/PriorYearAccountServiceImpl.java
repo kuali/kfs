@@ -19,9 +19,9 @@ package org.kuali.module.chart.service.impl;
 import org.kuali.module.chart.bo.PriorYearAccount;
 import org.kuali.module.chart.dao.PriorYearAccountDao;
 import org.kuali.module.chart.service.PriorYearAccountService;
+import org.springframework.transaction.annotation.Transactional;
 
-/**
- */
+@Transactional
 public class PriorYearAccountServiceImpl implements PriorYearAccountService {
 
     private PriorYearAccountDao priorYearAccountDao;

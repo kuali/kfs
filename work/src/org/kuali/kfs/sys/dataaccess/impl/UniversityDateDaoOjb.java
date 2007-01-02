@@ -23,6 +23,7 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.PropertyConstants;
+import org.kuali.core.util.spring.Cached;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.dao.UniversityDateDao;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
@@ -38,6 +39,7 @@ public class UniversityDateDaoOjb extends PersistenceBrokerDaoSupport implements
         super();
     }
 
+    @Cached
     public UniversityDate getByPrimaryKey(Date date) {
         LOG.debug("getByPrimaryKey() started");
 
@@ -49,6 +51,7 @@ public class UniversityDateDaoOjb extends PersistenceBrokerDaoSupport implements
         return (UniversityDate) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
     }
 
+    @Cached
     public UniversityDate getByPrimaryKey(java.util.Date date) {
         return getByPrimaryKey(convertDate(date));
     }

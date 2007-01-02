@@ -15,25 +15,11 @@
  */
 package org.kuali.module.gl.batch;
 
-import org.kuali.core.batch.Step;
+import org.kuali.core.batch.AbstractStep;
 import org.kuali.module.gl.batch.closing.year.service.YearEndService;
 
-/**
- */
-public class EncumbranceForwardStep implements Step {
-
+public class EncumbranceForwardStep extends AbstractStep {
     private YearEndService yearEndService;
-
-    public EncumbranceForwardStep() {
-        super();
-    }
-
-    /**
-     * @see org.kuali.core.batch.Step#getName()
-     */
-    public String getName() {
-        return "General Ledger Encumbrance Forward Step";
-    }
 
     /**
      * @see org.kuali.core.batch.Step#performStep()
@@ -49,5 +35,4 @@ public class EncumbranceForwardStep implements Step {
     public void setYearEndService(YearEndService yearEndService) {
         this.yearEndService = yearEndService;
     }
-
 }

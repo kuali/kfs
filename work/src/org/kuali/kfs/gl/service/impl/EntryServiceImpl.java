@@ -21,7 +21,9 @@ import org.kuali.module.gl.bo.Entry;
 import org.kuali.module.gl.dao.EntryDao;
 import org.kuali.module.gl.service.EntryService;
 import org.kuali.module.gl.util.OJBUtility;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class EntryServiceImpl implements EntryService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EntryServiceImpl.class);
 

@@ -21,14 +21,11 @@ import org.kuali.module.kra.document.ResearchDocument;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.service.RoutingFormService;
 import org.kuali.module.kra.service.ResearchDocumentService;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
-/**
- * This class...
- * 
- * 
- */
+@Transactional
 public class ResearchDocumentServiceImpl implements ResearchDocumentService {
 
     private BudgetService budgetService;

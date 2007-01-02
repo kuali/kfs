@@ -23,8 +23,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 
+import org.kuali.Constants;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.module.gl.batch.sufficientFunds.SufficientFundsReport;
 import org.kuali.module.gl.bo.SufficientFundRebuild;
@@ -42,13 +42,10 @@ import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfPageEventHelper;
 import com.lowagie.text.pdf.PdfWriter;
 
-/**
- * 
- * 
- */
 public class SufficientFundsReportImpl extends PdfPageEventHelper implements SufficientFundsReport {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsReportImpl.class);
-
+    private KualiConfigurationService configurationService;
+    
     public SufficientFundsReportImpl() {
         super();
     }
@@ -56,8 +53,7 @@ public class SufficientFundsReportImpl extends PdfPageEventHelper implements Suf
     public void generateReport(Map reportErrors, List reportSummary, Date runDate, int mode) {
         LOG.debug("generateReport() started");
 
-        ResourceBundle rb = ResourceBundle.getBundle("configuration");
-        String destinationDirectory = rb.getString("htdocs.directory") + "/reports";
+        String destinationDirectory = configurationService.getPropertyString(Constants.REPORTS_DIRECTORY_KEY);
 
         String title = "Sufficient Funds Report ";
         String fileprefix = "sufficientFunds";
@@ -178,10 +174,6 @@ public class SufficientFundsReportImpl extends PdfPageEventHelper implements Suf
         document.close();
     }
 
-    public void setKualiConfigurationService(KualiConfigurationService kcs) {
-        // kualiConfigurationService = kcs;
-    }
-
     class PageHelper extends PdfPageEventHelper {
         public Date runDate;
         public Font headerFont;
@@ -213,5 +205,13 @@ public class SufficientFundsReportImpl extends PdfPageEventHelper implements Suf
                 throw new ExceptionConverter(e);
             }
         }
+    }
+
+    /**
+     * Sets the configurationService attribute value.
+     * @param configurationService The configurationService to set.
+     */
+    public void setConfigurationService(KualiConfigurationService configurationService) {
+        this.configurationService = configurationService;
     }
 }

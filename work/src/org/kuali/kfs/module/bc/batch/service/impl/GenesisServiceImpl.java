@@ -15,17 +15,13 @@
  */
 package org.kuali.module.budget.service.impl;
 
-import org.kuali.module.budget.service.*;
 import org.kuali.Constants;
-import org.kuali.module.budget.dao.*;
-
-import java.util.*;
-import java.lang.*;
-
-import org.apache.log4j.Logger;
+import org.kuali.module.budget.dao.GenesisDao;
+import org.kuali.module.budget.service.GenesisService;
+import org.springframework.transaction.annotation.Transactional;
 
  
-
+@Transactional
 public class GenesisServiceImpl implements GenesisService {
     
     /*  settings for common fields for all document headers for budget construction */

@@ -27,7 +27,6 @@ import org.kuali.Constants.CashDrawerConstants;
 import org.kuali.Constants.DepositConstants;
 import org.kuali.Constants.DocumentStatusCodes;
 import org.kuali.core.authorization.DocumentAuthorizer;
-
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.exceptions.InfrastructureException;
@@ -51,9 +50,11 @@ import org.kuali.module.financial.service.CashDrawerService;
 import org.kuali.module.financial.service.CashManagementService;
 import org.kuali.module.financial.web.struts.form.CashDrawerStatusCodeFormatter;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
+@Transactional
 public class CashManagementServiceImpl implements CashManagementService {
     private BusinessObjectService businessObjectService;
     private CashDrawerService cashDrawerService;

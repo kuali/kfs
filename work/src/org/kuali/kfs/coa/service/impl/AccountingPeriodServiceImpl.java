@@ -27,14 +27,15 @@ import java.util.TreeSet;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.spring.Cached;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.service.AccountingPeriodService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This service implementation is the default implementation of the AccountingPeriod service that is delivered with Kuali.
- * 
- * 
  */
+@Transactional
 public class AccountingPeriodServiceImpl implements AccountingPeriodService {
     // member data
     private BusinessObjectService businessObjectService;
@@ -62,6 +63,7 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
      * 
      * @see org.kuali.module.chart.service.AccountingPeriodService#getOpenAccountingPeriods()
      */
+    @Cached
     public Collection getOpenAccountingPeriods() {
         HashMap map = new HashMap();
         map.put(Constants.ACCOUNTING_PERIOD_STATUS_CODE_FIELD, Constants.ACCOUNTING_PERIOD_STATUS_OPEN);

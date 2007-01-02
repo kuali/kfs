@@ -30,9 +30,9 @@ import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
 import org.kuali.module.gl.service.impl.orgreversion.GenericOrganizationReversionCategory;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.transaction.annotation.Transactional;
 
-/**
- */
+@Transactional
 public class OrganizationReversionServiceImpl implements OrganizationReversionService, BeanFactoryAware {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionServiceImpl.class);
 

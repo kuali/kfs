@@ -1,37 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2006 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
+	Copyright 2005-2006 The Kuali Foundation.
+	
+	Licensed under the Educational Community License, Version 1.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+	
+	http://www.opensource.org/licenses/ecl1.php
+	
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans>
-	<bean id="arMetaData" class="org.kuali.core.KualiModuleMetaData">
-		<property name="id">
-			<value>ar</value>
-		</property>
-		<property name="name">
-			<value>Kuali Accounts Receivable</value>
-		</property>
-		<property name="transactionalizedServiceNames">
-			<list>
-				<value>arUserService</value>
-			</list>
-		</property>
-	</bean>
-	
+<beans>	
 	<bean id="arModule" class="org.kuali.core.KualiModule">
-		<property name="metaData" ref="arMetaData" />
+		<property name="moduleId" value="ar" />
+		<property name="moduleName" value="Kuali Accounts Receivable" />
 		<property name="moduleUserService" ref="arUserService" />
 		<property name="moduleAuthorizer">
 			<bean class="org.kuali.core.authorization.KualiModuleAuthorizerBase">

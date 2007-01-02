@@ -18,10 +18,9 @@ package org.kuali.module.chart.service.impl;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.dao.SubFundGroupDao;
 import org.kuali.module.chart.service.SubFundGroupService;
+import org.springframework.transaction.annotation.Transactional;
 
-/**
- *  
- */
+@Transactional
 public class SubFundGroupServiceImpl implements SubFundGroupService {
 
     private SubFundGroupDao subFundGroupDao;

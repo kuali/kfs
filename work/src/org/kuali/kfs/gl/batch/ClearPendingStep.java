@@ -15,28 +15,16 @@
  */
 package org.kuali.module.gl.batch;
 
-import org.kuali.core.batch.Step;
+import org.kuali.core.batch.AbstractStep;
 import org.kuali.module.gl.service.NightlyOutService;
 
-public class ClearPendingStep implements Step {
+public class ClearPendingStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ClearPendingStep.class);
-
     private NightlyOutService nightlyOutService;
 
-    public ClearPendingStep() {
-        super();
-    }
-
     public boolean execute() {
-        LOG.debug("performStep() started");
-
         nightlyOutService.deleteCopiedPendingLedgerEntries();
-
         return true;
-    }
-
-    public String getName() {
-        return "Delete Copied Pending Entries";
     }
 
     /**

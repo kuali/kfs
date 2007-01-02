@@ -20,18 +20,14 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
 import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
+import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
 import org.kuali.module.kra.budget.bo.BudgetUser;
 import org.kuali.module.kra.budget.bo.InstitutionCostSharePersonnel;
 import org.kuali.module.kra.budget.service.BudgetCostShareService;
+import org.springframework.transaction.annotation.Transactional;
 
-/**
- * 
- * This class...
- * 
- * 
- */
+@Transactional
 public class BudgetCostShareServiceImpl implements BudgetCostShareService {
 
     public void cleanseCostShare(boolean institutionCostShareIndicator, List<BudgetInstitutionCostShare> budgetInstitutionCostShare, boolean budgetThirdPartyCostShareIndicator, List<BudgetThirdPartyCostShare> budgetThirdPartyCostShare, List<BudgetUser> personnel, List<InstitutionCostSharePersonnel> institutionCostSharePersonnel) {

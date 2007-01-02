@@ -22,12 +22,12 @@ import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.financial.bo.ServiceBillingControl;
 import org.kuali.module.financial.service.ServiceBillingControlService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class implements ServiceBillingControlService.
- * 
- * 
  */
+@Transactional
 public class ServiceBillingControlServiceImpl implements ServiceBillingControlService {
 
     private BusinessObjectService businessObjectService;

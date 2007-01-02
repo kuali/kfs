@@ -20,13 +20,13 @@ import java.util.List;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.dao.ObjectCodeDao;
 import org.kuali.module.chart.service.ObjectCodeService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class is the service implementation for the ObjectCode structure. This is the default implementation, that is delivered with
  * Kuali.
- * 
- * 
  */
+@Transactional
 public class ObjectCodeServiceImpl implements ObjectCodeService {
     private ObjectCodeDao objectCodeDao;
 

@@ -25,7 +25,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
-
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.exceptions.InfrastructureException;
@@ -36,10 +35,12 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.service.CashReceiptService;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.DocumentNotFoundException;
 import edu.iu.uis.eden.exception.WorkflowException;
 
+@Transactional
 public class CashReceiptServiceImpl implements CashReceiptService {
 
     private BusinessObjectService businessObjectService;

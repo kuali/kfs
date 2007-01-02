@@ -18,11 +18,9 @@ package org.kuali.module.chart.service.impl;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.dao.A21SubAccountDao;
 import org.kuali.module.chart.service.A21SubAccountService;
+import org.springframework.transaction.annotation.Transactional;
 
-/**
- *  
- */
-
+@Transactional
 public class A21SubAccountServiceImpl implements A21SubAccountService {
 
     private A21SubAccountDao a21SubAccountDao;

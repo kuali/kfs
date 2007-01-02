@@ -254,9 +254,8 @@ public class BudgetOutputAction extends BudgetAction {
             urlString = STYLESHEET_URL_OR_PATH;
         }
         else {
-            // following is like returnUrl in KualiCore
-            String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-            urlString = baseUrl + STYLESHEET_URL_OR_PATH;
+            String APPLICATION_BASE_URL_KEY = kualiConfigurationService.getPropertyString(Constants.APPLICATION_BASE_URL_KEY);
+            urlString = APPLICATION_BASE_URL_KEY + STYLESHEET_URL_OR_PATH;
         }
 
         if (GENERIC_BY_TASK.equals(currentOutputReportType)) {

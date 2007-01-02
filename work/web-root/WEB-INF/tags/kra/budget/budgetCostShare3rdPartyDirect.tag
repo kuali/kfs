@@ -46,7 +46,7 @@
 					</h2> </span>
 					<span class="subhead-right"> <span class="subhead"><kul:help businessObjectClassName="${DataDictionary.BudgetThirdPartyCostShare.businessObjectClass}" altText="help"/></span> </span>
 			</div>
-			<table cellpadding=0 summary="view/edit document overview information">
+			<table cellpadding=0  cellspacing="0" summary="view/edit document overview information">
 				<tr>
 					<td height="70" align=left valign=middle class="datacell">
 						<div align="center">
@@ -60,7 +60,7 @@
 
 	<c:if test="${KualiForm.document.budget.budgetThirdPartyCostShareIndicator}">
 		<div class="tab-container" align=center>
-			<table class="datatable" cellpadding="0">
+			<table class="datatable" cellpadding="0" cellspacing="0" >
 				<tr>
 					<td class="subhead" colspan="${KualiForm.document.periodListSize+6}">
 						<span class="subhead-left">Cost Share - 3rd Party Direct</span>

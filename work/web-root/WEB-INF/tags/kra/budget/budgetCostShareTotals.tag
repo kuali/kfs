@@ -23,7 +23,7 @@
 
 <kul:tab tabTitle="Cost Share - Totals" defaultOpen="false" tabDescription="&nbsp;" transparentBackground="false">
 	<div class="tab-container" style="" align=center>
-		<table class="datatable" cellpadding="0">
+		<table class="datatable" cellpadding="0" cellspacing="0">
 			<tbody>
 				<tr>
 					<td class="subhead" colspan="${KualiForm.document.periodListSize+3}">

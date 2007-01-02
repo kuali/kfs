@@ -45,7 +45,7 @@
 					</h2> </span>
 					<span class="subhead-right"> <span class="subhead"><kul:help securityGroupName="${KraConstants.KRA_ADMIN_GROUP_NAME}" parameterName="${KraConstants.BUDGET_COSTSHARE_INDIRECT_HELP_PARAMETER_NAME}" altText="help"/></span> </span>
 			</div>
-			<table cellpadding=0 summary="view/edit document overview information">
+			<table cellpadding=0  cellspacing="0" summary="view/edit document overview information">
 				<tr>
 					<td height="70" align=left valign=middle class="datacell">
 						<div align="center">
@@ -59,7 +59,7 @@
 
 	<c:if test="${showCostShareIndirect}">
 		<div class="tab-container" align=center>
-			<table class="datatable" cellpadding="0">
+			<table class="datatable" cellpadding="0" cellspacing="0" >
 				<tr>
 					<td class="subhead" colspan="${KualiForm.document.periodListSize+3}">
 						<span class="subhead-left">Cost Share - Institution Indirect</span>

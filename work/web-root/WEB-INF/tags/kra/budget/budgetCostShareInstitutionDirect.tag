@@ -46,7 +46,7 @@
 	
 	<c:if test="${!KualiForm.document.budget.institutionCostShareIndicator}">
 		<div class="tab-container" align="center">
-			<table class="datatable" cellpadding="0">
+			<table class="datatable" cellpadding="0" cellspacing="0" >
 				<tr>
 					<td class="subhead" colspan="${KualiForm.document.periodListSize+7}">
 						<span class="subhead-left">Institution Cost Share</span>
@@ -66,7 +66,7 @@
 
 	<c:if test="${KualiForm.document.budget.institutionCostShareIndicator}">
 		<div class="tab-container" align=center>
-			<table class="datatable" cellpadding="0">
+			<table class="datatable" cellpadding="0" cellspacing="0" >
 				<tr>
 					<td class="subhead" colspan="${KualiForm.document.periodListSize+7}">
 						<span class="subhead-left">Cost Share - Institution Direct</span>

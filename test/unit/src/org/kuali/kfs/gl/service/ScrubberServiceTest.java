@@ -42,6 +42,13 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         c.set(Calendar.DAY_OF_MONTH, 1);
         c.set(Calendar.MONTH, Calendar.JANUARY);
         c.set(Calendar.YEAR, 2006);
+        
+        // since the cutoff time  is set to 10am (https://test.kuali.org/confluence/display/KFSP1/Scrubber+cutoff+time+configuration)
+        // we want to ensure that the time is always after that time so the cutoff algorithm is not invoked
+        c.set(Calendar.HOUR_OF_DAY, 23);
+        c.set(Calendar.MINUTE, 59);
+        c.set(Calendar.SECOND, 59);
+        
         date = c.getTime();
         dateTimeService.currentDate = date;
     }

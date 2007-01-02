@@ -22,7 +22,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.KeyConstants;
-import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.KualiPercent;
@@ -195,7 +195,7 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
     // Check existence of each field from table.
     private boolean checkExistenceFromTable(Class clazz, Map map, String errorField, String errorMessage) {
         boolean success = true;
-        BusinessObject findByChartCode = null;
+        PersistableBusinessObject findByChartCode = null;
         findByChartCode = getBoService().findByPrimaryKey(clazz, map);
         if (findByChartCode == null) {
             putFieldError(errorField, KeyConstants.ERROR_EXISTENCE, errorMessage);

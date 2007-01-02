@@ -18,13 +18,13 @@ package org.kuali.module.cg.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 
 /**
  * 
  */
-public class AwardProjectDirector extends BusinessObjectBase {
+public class AwardProjectDirector extends PersistableBusinessObjectBase {
 
     private String personUniversalIdentifier;
     private Long proposalNumber;

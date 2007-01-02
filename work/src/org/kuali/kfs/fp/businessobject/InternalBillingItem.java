@@ -18,7 +18,7 @@ package org.kuali.module.financial.bo;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
 /**
@@ -26,7 +26,7 @@ import org.kuali.core.util.KualiDecimal;
  * 
  * 
  */
-public class InternalBillingItem extends BusinessObjectBase {
+public class InternalBillingItem extends PersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -2830091652446423539L;
     private String documentNumber;

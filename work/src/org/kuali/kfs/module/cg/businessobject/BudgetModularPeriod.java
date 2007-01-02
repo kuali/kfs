@@ -18,13 +18,13 @@ package org.kuali.module.kra.budget.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiInteger;
 
 /**
  * 
  */
-public class BudgetModularPeriod extends BusinessObjectBase {
+public class BudgetModularPeriod extends PersistableBusinessObjectBase {
 
     // Stored values
     private String documentNumber;

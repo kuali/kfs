@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.util.SpringServiceLocator;
@@ -33,7 +33,7 @@ import org.kuali.PropertyConstants;
 /**
  * 
  */
-public class BudgetConstructionHeader extends BusinessObjectBase {
+public class BudgetConstructionHeader extends PersistableBusinessObjectBase {
 
     private String documentNumber;
     private Integer universityFiscalYear;

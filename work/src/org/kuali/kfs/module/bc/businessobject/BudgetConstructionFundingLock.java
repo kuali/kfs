@@ -18,7 +18,7 @@ package org.kuali.module.budget.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
@@ -28,7 +28,7 @@ import org.kuali.module.chart.bo.SubAccount;
 /**
  * 
  */
-public class BudgetConstructionFundingLock extends BusinessObjectBase {
+public class BudgetConstructionFundingLock extends PersistableBusinessObjectBase {
 
 	private String appointmentFundingLockUserId;
 	private String accountNumber;

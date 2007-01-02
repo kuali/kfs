@@ -18,7 +18,7 @@ package org.kuali.module.kra.budget.bo;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.PropertyConstants;
 
 
@@ -27,7 +27,7 @@ import org.kuali.PropertyConstants;
  * 
  * 
  */
-public class BudgetTask extends BusinessObjectBase implements Comparable {
+public class BudgetTask extends PersistableBusinessObjectBase implements Comparable {
 
     private static final long serialVersionUID = 2905826718156063909L;
     private String documentNumber;

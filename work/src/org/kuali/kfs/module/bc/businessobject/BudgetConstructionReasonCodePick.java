@@ -18,12 +18,12 @@ package org.kuali.module.budget.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class BudgetConstructionReasonCodePick extends BusinessObjectBase {
+public class BudgetConstructionReasonCodePick extends PersistableBusinessObjectBase {
 
 	private String appointmentFundingReasonCode;
 	private Integer selectFlag;

@@ -23,7 +23,7 @@ import java.util.LinkedHashMap;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.Options;
 import org.kuali.core.bo.OriginationCode;
 import org.kuali.core.document.DocumentType;
@@ -42,7 +42,7 @@ import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.gl.exception.LoadException;
 import org.springframework.util.StringUtils;
 
-public class OriginEntry extends BusinessObjectBase implements Transaction {
+public class OriginEntry extends PersistableBusinessObjectBase implements Transaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntry.class);
 
     private static final String DATE_FORMAT = "yyyy-MM-dd";

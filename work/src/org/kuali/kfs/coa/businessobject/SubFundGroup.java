@@ -18,12 +18,12 @@ package org.kuali.module.chart.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class SubFundGroup extends BusinessObjectBase {
+public class SubFundGroup extends PersistableBusinessObjectBase {
 
     /**
      * Default no-arg constructor.

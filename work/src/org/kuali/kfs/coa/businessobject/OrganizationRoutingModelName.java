@@ -20,12 +20,12 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class OrganizationRoutingModelName extends BusinessObjectBase {
+public class OrganizationRoutingModelName extends PersistableBusinessObjectBase {
 
     private String chartOfAccountsCode;
     private String organizationCode;

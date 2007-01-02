@@ -19,12 +19,12 @@ package org.kuali.module.purap.bo;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class ElectronicInvoiceItem extends BusinessObjectBase {
+public class ElectronicInvoiceItem extends PersistableBusinessObjectBase {
 
 	private Integer invoiceItemIdentifier;
 	private Integer invoiceHeaderInformationIdentifier;

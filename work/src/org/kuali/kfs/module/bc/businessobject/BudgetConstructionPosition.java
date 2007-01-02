@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ResponsibilityCenter;
@@ -30,7 +30,7 @@ import org.kuali.module.chart.bo.ResponsibilityCenter;
 /**
  * 
  */
-public class BudgetConstructionPosition extends BusinessObjectBase {
+public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
 
 	private String positionNumber;
 	private Integer universityFiscalYear;

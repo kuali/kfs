@@ -25,7 +25,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.Constants;
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.PostalZipCode;
 import org.kuali.core.bo.State;
 import org.kuali.core.bo.user.UniversalUser;
@@ -37,7 +37,7 @@ import org.kuali.module.chart.bo.codes.SufficientFundsCode;
 /**
  * 
  */
-public class PriorYearAccount extends BusinessObjectBase implements AccountIntf {
+public class PriorYearAccount extends PersistableBusinessObjectBase implements AccountIntf {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PriorYearAccount.class);
 
     private String chartOfAccountsCode;

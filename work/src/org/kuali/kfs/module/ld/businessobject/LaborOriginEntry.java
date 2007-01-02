@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.Options;
 import org.kuali.core.bo.OriginationCode;
 import org.kuali.core.document.DocumentHeader;
@@ -41,7 +41,7 @@ import org.kuali.module.gl.bo.UniversityDate;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class LaborOriginEntry extends BusinessObjectBase {
+public class LaborOriginEntry extends PersistableBusinessObjectBase {
 
 	private Integer originEntryIdentifier;
 	private Integer originEntryGroupIdentifier;

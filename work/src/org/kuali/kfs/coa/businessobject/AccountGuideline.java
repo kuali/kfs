@@ -17,7 +17,7 @@ package org.kuali.module.chart.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 
 /**
@@ -25,7 +25,7 @@ import org.kuali.core.bo.BusinessObjectBase;
  * 
  * 
  */
-public class AccountGuideline extends BusinessObjectBase {
+public class AccountGuideline extends PersistableBusinessObjectBase {
     private static final long serialVersionUID = 807136405105252199L;
     private String chartOfAccountsCode;
     private String accountNumber;

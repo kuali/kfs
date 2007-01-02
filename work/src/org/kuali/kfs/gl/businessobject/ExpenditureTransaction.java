@@ -17,7 +17,7 @@ package org.kuali.module.gl.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.Options;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
@@ -26,7 +26,7 @@ import org.kuali.module.chart.bo.Account;
  * 
  * 
  */
-public class ExpenditureTransaction extends BusinessObjectBase {
+public class ExpenditureTransaction extends PersistableBusinessObjectBase {
     static final long serialVersionUID = 5296540728313789670L;
 
     private final static String UNIVERISITY_FISCAL_YEAR = "universityFiscalYear";

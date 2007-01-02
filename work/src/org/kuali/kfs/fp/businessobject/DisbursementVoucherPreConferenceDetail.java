@@ -21,7 +21,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.PropertyConstants;
@@ -29,7 +29,7 @@ import org.kuali.PropertyConstants;
 /**
  * 
  */
-public class DisbursementVoucherPreConferenceDetail extends BusinessObjectBase {
+public class DisbursementVoucherPreConferenceDetail extends PersistableBusinessObjectBase {
 
     private String documentNumber;
     private String dvConferenceDestinationName;

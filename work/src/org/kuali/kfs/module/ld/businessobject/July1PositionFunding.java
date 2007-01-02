@@ -19,7 +19,7 @@ package org.kuali.module.labor.bo;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
@@ -30,7 +30,7 @@ import org.kuali.module.chart.bo.SubObjCd;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class July1PositionFunding extends BusinessObjectBase {
+public class July1PositionFunding extends PersistableBusinessObjectBase {
 
 	private Integer universityFiscalYear;
 	private String chartOfAccountsCode;

@@ -19,12 +19,12 @@ package org.kuali.module.chart.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.Building;
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class AccountDescription extends BusinessObjectBase {
+public class AccountDescription extends PersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 6233459415790165510L;
 

@@ -21,7 +21,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.Options;
 import org.kuali.core.bo.OriginationCode;
 import org.kuali.core.document.DocumentHeader;
@@ -42,7 +42,7 @@ import org.kuali.PropertyConstants;
 /**
  * 
  */
-public class LedgerEntry extends BusinessObjectBase {
+public class LedgerEntry extends PersistableBusinessObjectBase {
 
 	private Integer universityFiscalYear;
 	private String chartOfAccountsCode;

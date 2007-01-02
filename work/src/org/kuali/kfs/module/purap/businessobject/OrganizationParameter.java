@@ -18,7 +18,7 @@ package org.kuali.module.purap.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
@@ -26,7 +26,7 @@ import org.kuali.module.chart.bo.Org;
 /**
  * 
  */
-public class OrganizationParameter extends BusinessObjectBase {
+public class OrganizationParameter extends PersistableBusinessObjectBase {
 
 	private String chartOfAccountsCode;
 	private String organizationCode;

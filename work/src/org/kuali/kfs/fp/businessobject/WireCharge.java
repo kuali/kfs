@@ -18,7 +18,7 @@ package org.kuali.module.financial.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.Options;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
@@ -28,7 +28,7 @@ import org.kuali.module.chart.bo.ObjectCode;
 /**
  * 
  */
-public class WireCharge extends BusinessObjectBase {
+public class WireCharge extends PersistableBusinessObjectBase {
 
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;

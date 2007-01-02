@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.KraConstants;
@@ -28,7 +28,7 @@ import org.kuali.module.kra.KraConstants;
 /**
  * 
  */
-public class BudgetIndirectCost extends BusinessObjectBase {
+public class BudgetIndirectCost extends PersistableBusinessObjectBase {
 
     private String documentNumber;
 

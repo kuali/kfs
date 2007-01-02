@@ -18,7 +18,7 @@ package org.kuali.module.budget.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.SubAccount;
@@ -26,7 +26,7 @@ import org.kuali.module.chart.bo.SubAccount;
 /**
  * 
  */
-public class BudgetConstructionAccountDump extends BusinessObjectBase {
+public class BudgetConstructionAccountDump extends PersistableBusinessObjectBase {
 
 	private Integer universityFiscalYear;
 	private String chartOfAccountsCode;

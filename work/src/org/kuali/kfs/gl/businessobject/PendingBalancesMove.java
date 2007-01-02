@@ -18,13 +18,13 @@ package org.kuali.module.gl.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
 /**
  * 
  */
-public class PendingBalancesMove extends BusinessObjectBase {
+public class PendingBalancesMove extends PersistableBusinessObjectBase {
 
     private String personUniversalIdentifier;
     private KualiDecimal appropriationBudget;

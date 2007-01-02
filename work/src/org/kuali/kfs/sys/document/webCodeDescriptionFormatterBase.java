@@ -19,7 +19,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.bo.PersistableBusinessObject;
 
 /**
  * This class...
@@ -41,7 +41,7 @@ public abstract class CodeDescriptionFormatterBase implements CodeDescriptionFor
      *      java.lang.String, java.lang.String)
      */
     public String getFormattedStringWithDescriptions(Set values, String startConjunction, String endConjunction) {
-        Map<String, BusinessObject> valueToBOMap = getValuesToBusinessObjectsMap(values);
+        Map<String, PersistableBusinessObject> valueToBOMap = getValuesToBusinessObjectsMap(values);
         StringBuffer buf = new StringBuffer();
 
         Iterator valuesIter = values.iterator();
@@ -53,7 +53,7 @@ public abstract class CodeDescriptionFormatterBase implements CodeDescriptionFor
             String currValue = (String) valuesIter.next();
             buf.append(currValue).append(", ");
 
-            BusinessObject bo = valueToBOMap.get(currValue);
+            PersistableBusinessObject bo = valueToBOMap.get(currValue);
             buf.append(bo == null ? getDefaultDescription() : getDescriptionOfBO(bo));
         }
         else {
@@ -71,7 +71,7 @@ public abstract class CodeDescriptionFormatterBase implements CodeDescriptionFor
 
             buf.append(currValue).append(", ");
 
-            BusinessObject bo = valueToBOMap.get(currValue);
+            PersistableBusinessObject bo = valueToBOMap.get(currValue);
             buf.append(bo == null ? getDefaultDescription() : getDescriptionOfBO(bo));
         }
         return buf.toString();
@@ -91,7 +91,7 @@ public abstract class CodeDescriptionFormatterBase implements CodeDescriptionFor
      * 
      * @return a map from value string to BO
      */
-    protected abstract Map<String, BusinessObject> getValuesToBusinessObjectsMap(Set values);
+    protected abstract Map<String, PersistableBusinessObject> getValuesToBusinessObjectsMap(Set values);
 
     /**
      * Returns the description of a BO
@@ -99,7 +99,7 @@ public abstract class CodeDescriptionFormatterBase implements CodeDescriptionFor
      * @param bo
      * @return
      */
-    protected abstract String getDescriptionOfBO(BusinessObject bo);
+    protected abstract String getDescriptionOfBO(PersistableBusinessObject bo);
 
     protected String getDefaultDescription() {
         return DEFAULT_DESCRIPTION;

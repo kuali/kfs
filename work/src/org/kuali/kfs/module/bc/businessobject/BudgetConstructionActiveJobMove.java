@@ -19,12 +19,12 @@ package org.kuali.module.budget.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class BudgetConstructionActiveJobMove extends BusinessObjectBase {
+public class BudgetConstructionActiveJobMove extends PersistableBusinessObjectBase {
 
 	private String personUniversalIdentifier;
 	private String emplid;

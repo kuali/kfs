@@ -275,11 +275,11 @@
 
             <attributeReference name="objectType.finObjectTypeDebitcreditCd" sourceClassName="org.kuali.module.chart.bo.ObjectType" sourceAttributeName="finObjectTypeDebitcreditCd" />
 
-            <attributeReference name="dummyBusinessObject.consolidationOption" sourceClassName="org.kuali.module.gl.bo.DummyBusinessObject" sourceAttributeName="consolidationOption" />
+            <attributeReference name="dummyBusinessObject.consolidationOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="consolidationOption" />
 
-            <attributeReference name="dummyBusinessObject.costShareOption" sourceClassName="org.kuali.module.gl.bo.DummyBusinessObject" sourceAttributeName="costShareOption" />
+            <attributeReference name="dummyBusinessObject.costShareOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="costShareOption" />
 
-            <attributeReference name="dummyBusinessObject.genericText" sourceClassName="org.kuali.module.gl.bo.DummyBusinessObject" sourceAttributeName="genericText">
+            <attributeReference name="dummyBusinessObject.genericText" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="genericText">
                 <label>Item Name</label>
             </attributeReference>
         </attributes>

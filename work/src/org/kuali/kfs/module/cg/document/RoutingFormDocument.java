@@ -1146,16 +1146,6 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return m;
     }
-    
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.kuali.bo.Document#validate()
-     */
-    public void validate() throws IllegalObjectStateException {
-        // TODO Auto-generated method stub
-        super.validate();
-    }
 
     public RoutingFormAgency getRoutingFormAgency() {
         return routingFormAgency;

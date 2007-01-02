@@ -18,12 +18,12 @@ package org.kuali.module.kra.budget.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class BudgetBaseCode extends BusinessObjectBase {
+public class BudgetBaseCode extends PersistableBusinessObjectBase {
 
     private String budgetBaseCode;
     private String budgetBaseDescription;

@@ -18,13 +18,13 @@ package org.kuali.module.gl.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.chart.bo.Chart;
 
 /**
  * 
  */
-public class SufficientFundRebuild extends BusinessObjectBase {
+public class SufficientFundRebuild extends PersistableBusinessObjectBase {
 
     public static final String REBUILD_ACCOUNT = "A";
     public static final String REBUILD_OBJECT = "O";

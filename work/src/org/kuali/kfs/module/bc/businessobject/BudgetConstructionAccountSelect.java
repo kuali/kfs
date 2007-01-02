@@ -19,7 +19,7 @@ package org.kuali.module.budget.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
@@ -29,7 +29,7 @@ import org.kuali.PropertyConstants;
 /**
  * 
  */
-public class BudgetConstructionAccountSelect extends BusinessObjectBase {
+public class BudgetConstructionAccountSelect extends PersistableBusinessObjectBase {
 
 	private String personUniversalIdentifier;
 	private Integer universityFiscalYear;

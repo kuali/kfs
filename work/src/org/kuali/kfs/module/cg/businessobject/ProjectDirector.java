@@ -18,7 +18,7 @@ package org.kuali.module.cg.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.bo.user.UserId;
 import org.kuali.core.bo.user.UuId;
@@ -28,7 +28,7 @@ import org.kuali.core.util.SpringServiceLocator;
 /**
  * 
  */
-public class ProjectDirector extends BusinessObjectBase {
+public class ProjectDirector extends PersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -8864103362445919041L;
     private String personUniversalIdentifier;

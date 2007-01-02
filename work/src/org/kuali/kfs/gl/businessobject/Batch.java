@@ -18,14 +18,14 @@ package org.kuali.module.gl.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
 /**
  * 
  * 
  */
-public class Batch extends BusinessObjectBase {
+public class Batch extends PersistableBusinessObjectBase {
     static final long serialVersionUID = -4573386698844451328L;
 
     private Integer batchId;

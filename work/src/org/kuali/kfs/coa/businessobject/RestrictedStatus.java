@@ -17,12 +17,12 @@ package org.kuali.module.chart.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class RestrictedStatus extends BusinessObjectBase {
+public class RestrictedStatus extends PersistableBusinessObjectBase {
 
     /**
      * Default no-arg constructor.

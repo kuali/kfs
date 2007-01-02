@@ -18,13 +18,13 @@ package org.kuali.module.chart.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.Options;
 
 /**
  * 
  */
-public class OrganizationReversionDetail extends BusinessObjectBase {
+public class OrganizationReversionDetail extends PersistableBusinessObjectBase {
 
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;

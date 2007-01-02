@@ -18,13 +18,13 @@ package org.kuali.module.cg.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
 /**
  * 
  */
-public class ProposalSubcontractor extends BusinessObjectBase {
+public class ProposalSubcontractor extends PersistableBusinessObjectBase {
 
     private String proposalSubcontractorNumber;
     private Long proposalNumber;

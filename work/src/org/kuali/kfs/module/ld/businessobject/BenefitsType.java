@@ -18,12 +18,12 @@ package org.kuali.module.labor.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class BenefitsType extends BusinessObjectBase {
+public class BenefitsType extends PersistableBusinessObjectBase {
 
     private String positionBenefitTypeCode;
     private String positionBenefitTypeDescription;

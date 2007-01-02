@@ -23,7 +23,7 @@ import java.util.Map;
 
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
-import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.MaintenanceDocumentBase;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
@@ -47,7 +47,7 @@ public abstract class ChartRuleTestBase extends KualiTestBase {
      * @return a populated MaintenanceDocument instance
      * 
      */
-    protected MaintenanceDocument newMaintDoc(BusinessObject newBo) {
+    protected MaintenanceDocument newMaintDoc(PersistableBusinessObject newBo) {
         return newMaintDoc(null, newBo);
     }
 
@@ -61,7 +61,7 @@ public abstract class ChartRuleTestBase extends KualiTestBase {
      * @return a populated MaintenanceDocument instance
      * 
      */
-    protected MaintenanceDocument newMaintDoc(BusinessObject oldBo, BusinessObject newBo) {
+    protected MaintenanceDocument newMaintDoc(PersistableBusinessObject oldBo, PersistableBusinessObject newBo) {
 
         // disallow null value for newBo
         if (null == newBo) {
@@ -102,7 +102,7 @@ public abstract class ChartRuleTestBase extends KualiTestBase {
      * @return a populated and ready-to-test rule, of the specified class
      * 
      */
-    protected MaintenanceDocumentRule setupMaintDocRule(BusinessObject newBo, Class ruleClass) {
+    protected MaintenanceDocumentRule setupMaintDocRule(PersistableBusinessObject newBo, Class ruleClass) {
         MaintenanceDocument maintDoc = newMaintDoc(newBo);
         return setupMaintDocRule(maintDoc, ruleClass);
     }
@@ -120,7 +120,7 @@ public abstract class ChartRuleTestBase extends KualiTestBase {
      * @return a populated and ready-to-test rule, of the specified class
      * 
      */
-    protected MaintenanceDocumentRule setupMaintDocRule(BusinessObject oldBo, BusinessObject newBo, Class ruleClass) {
+    protected MaintenanceDocumentRule setupMaintDocRule(PersistableBusinessObject oldBo, PersistableBusinessObject newBo, Class ruleClass) {
 
         MaintenanceDocument maintDoc = newMaintDoc(oldBo, newBo);
 
@@ -157,7 +157,7 @@ public abstract class ChartRuleTestBase extends KualiTestBase {
         return rule;
     }
 
-    protected void testDefaultExistenceCheck(BusinessObject bo, String fieldName, boolean shouldFail) {
+    protected void testDefaultExistenceCheck(PersistableBusinessObject bo, String fieldName, boolean shouldFail) {
 
         // init the error path
         GlobalVariables.getErrorMap().addToErrorPath("document.newMaintainableObject");

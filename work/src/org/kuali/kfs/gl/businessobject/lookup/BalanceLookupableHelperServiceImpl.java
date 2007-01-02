@@ -22,11 +22,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.Constants;
-import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.gl.batch.poster.BalanceCalculator;
 import org.kuali.module.gl.bo.Balance;
-import org.kuali.module.gl.bo.DummyBusinessObject;
+import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.service.BalanceService;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
@@ -43,7 +43,7 @@ public class BalanceLookupableHelperServiceImpl extends AbstractGLLookupableHelp
      * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
      */
     @Override
-    public String getInquiryUrl(BusinessObject bo, String propertyName) {
+    public String getInquiryUrl(PersistableBusinessObject bo, String propertyName) {
         return (new BalanceInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
 
@@ -154,7 +154,7 @@ public class BalanceLookupableHelperServiceImpl extends AbstractGLLookupableHelp
                 balance.setMonth12Amount(new KualiDecimal(array[i++].toString()));
                 balance.setMonth13Amount(new KualiDecimal(array[i].toString()));
 
-                balance.setDummyBusinessObject(new DummyBusinessObject());
+                balance.setDummyBusinessObject(new TransientBalanceInquiryAttributes());
                 balance.getDummyBusinessObject().setPendingEntryOption(pendingEntryOption);
 
                 balanceCollection.add(balance);
@@ -177,7 +177,7 @@ public class BalanceLookupableHelperServiceImpl extends AbstractGLLookupableHelp
         while (iterator.hasNext()) {
             Balance balance = (Balance) (iterator.next());
 
-            balance.setDummyBusinessObject(new DummyBusinessObject());
+            balance.setDummyBusinessObject(new TransientBalanceInquiryAttributes());
             balance.getDummyBusinessObject().setPendingEntryOption(pendingEntryOption);
 
             balanceCollection.add(balance);
@@ -308,7 +308,7 @@ public class BalanceLookupableHelperServiceImpl extends AbstractGLLookupableHelp
             Balance balance = postBalance.findBalance(entryCollection, pendingEntry);
 
             String pendingEntryOption = isApproved ? Constant.APPROVED_PENDING_ENTRY : Constant.ALL_PENDING_ENTRY;
-            balance.setDummyBusinessObject(new DummyBusinessObject());
+            balance.setDummyBusinessObject(new TransientBalanceInquiryAttributes());
             balance.getDummyBusinessObject().setPendingEntryOption(pendingEntryOption);
 
             postBalance.updateBalance(pendingEntry, balance);

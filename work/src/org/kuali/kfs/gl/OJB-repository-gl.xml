@@ -597,6 +597,7 @@
 <class-descriptor class="org.kuali.module.gl.document.CorrectionDocument" table="GL_COR_DOC_T">
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="correctionTypeCode" column="GL_COR_TYP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="correctionSelection" column="GL_COR_SELECT_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <field-descriptor name="correctionFileDelete" column="GL_COR_FL_DEL_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />

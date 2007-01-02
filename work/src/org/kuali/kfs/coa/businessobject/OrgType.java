@@ -17,14 +17,14 @@ package org.kuali.module.chart.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * Org Type Business Object
  * 
  * 
  */
-public class OrgType extends BusinessObjectBase {
+public class OrgType extends PersistableBusinessObjectBase {
     private String organizationTypeCode;
     private String organizationTypeName;
 

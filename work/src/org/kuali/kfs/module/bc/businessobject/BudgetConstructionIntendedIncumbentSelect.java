@@ -18,12 +18,12 @@ package org.kuali.module.budget.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class BudgetConstructionIntendedIncumbentSelect extends BusinessObjectBase {
+public class BudgetConstructionIntendedIncumbentSelect extends PersistableBusinessObjectBase {
 
 	private String personUniversalIdentifier;
 	private String emplid;

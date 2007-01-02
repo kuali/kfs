@@ -22,6 +22,7 @@
    <html:hidden property="document.documentNumber" />
 
    <html:hidden property="document.documentHeader.versionNumber" />
+   <html:hidden property="document.objectId" />
    <html:hidden property="document.documentHeader.documentNumber" />
    <html:hidden property="document.documentHeader.financialDocumentStatusCode" />
 

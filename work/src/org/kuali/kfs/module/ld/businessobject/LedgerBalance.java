@@ -19,7 +19,7 @@ package org.kuali.module.labor.bo;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
@@ -33,7 +33,7 @@ import org.kuali.module.gl.bo.Balance;
 /**
  * 
  */
-public class LedgerBalance extends BusinessObjectBase {
+public class LedgerBalance extends PersistableBusinessObjectBase {
 
 	private Integer universityFiscalYear;
 	private String chartOfAccountsCode;

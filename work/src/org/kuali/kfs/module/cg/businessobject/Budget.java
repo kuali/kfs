@@ -23,7 +23,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Agency;
@@ -36,7 +36,7 @@ import org.kuali.PropertyConstants;
  * 
  * 
  */
-public class Budget extends BusinessObjectBase {
+public class Budget extends PersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 8113894775967293272L;
     private String documentNumber;

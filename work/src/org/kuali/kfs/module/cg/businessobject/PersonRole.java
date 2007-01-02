@@ -17,12 +17,12 @@ package org.kuali.module.kra.routingform.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class PersonRole extends BusinessObjectBase {
+public class PersonRole extends PersistableBusinessObjectBase {
 
 	private String personRoleCode;
 	private boolean dataObjectMaintenanceCodeActiveIndicator;

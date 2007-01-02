@@ -23,7 +23,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.Country;
 import org.kuali.core.bo.PostalZipCode;
 import org.kuali.core.bo.user.UniversalUser;
@@ -34,7 +34,7 @@ import org.kuali.core.util.UrlFactory;
 /**
  * 
  */
-public class Org extends BusinessObjectBase {
+public class Org extends PersistableBusinessObjectBase {
     private static final Logger LOG = Logger.getLogger(Org.class);
 
     private static final long serialVersionUID = 121873645110037203L;

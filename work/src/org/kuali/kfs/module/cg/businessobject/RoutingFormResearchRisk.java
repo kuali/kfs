@@ -21,14 +21,14 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
 import org.kuali.PropertyConstants;
 
 /**
  * 
  */
-public class RoutingFormResearchRisk extends BusinessObjectBase {
+public class RoutingFormResearchRisk extends PersistableBusinessObjectBase {
 
 	private String documentNumber;
 	private String researchRiskTypeCode;

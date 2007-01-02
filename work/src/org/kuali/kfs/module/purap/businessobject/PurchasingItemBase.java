@@ -19,14 +19,14 @@ package org.kuali.module.purap.bo;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.document.RequisitionDocument;
 
 /**
  * 
  */
-public class PurchasingItemBase extends BusinessObjectBase implements PurchasingItem {
+public class PurchasingItemBase extends PersistableBusinessObjectBase implements PurchasingItem {
 
 	private Integer itemIdentifier;
 	private Integer itemLineNumber;

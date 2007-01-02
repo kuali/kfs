@@ -17,7 +17,7 @@ package org.kuali.module.financial.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -27,7 +27,7 @@ import org.kuali.module.chart.bo.SubObjCd;
 /**
  * 
  */
-public class BankAccount extends BusinessObjectBase {
+public class BankAccount extends PersistableBusinessObjectBase {
     private String finDocumentBankAccountDesc;
     private String finDocumentBankAccountNumber;
     private String financialDocumentBankCode;

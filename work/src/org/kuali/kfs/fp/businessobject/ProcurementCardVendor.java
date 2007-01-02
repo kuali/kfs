@@ -18,13 +18,13 @@ package org.kuali.module.financial.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.PropertyConstants;
 
 /**
  * 
  */
-public class ProcurementCardVendor extends BusinessObjectBase {
+public class ProcurementCardVendor extends PersistableBusinessObjectBase {
 
     private String documentNumber;
     private Integer financialDocumentTransactionLineNumber;

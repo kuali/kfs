@@ -19,7 +19,7 @@ package org.kuali.module.financial.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
@@ -28,7 +28,7 @@ import org.kuali.PropertyConstants;
 /**
  * 
  */
-public class SalesTax extends BusinessObjectBase {
+public class SalesTax extends PersistableBusinessObjectBase {
 
     private String documentNumber;
     private String financialDocumentLineTypeCode;

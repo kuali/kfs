@@ -17,7 +17,7 @@ package org.kuali.module.chart.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.SpringServiceLocator;
@@ -27,7 +27,7 @@ import org.kuali.core.util.SpringServiceLocator;
  * 
  * 
  */
-public class ReportingCodes extends BusinessObjectBase {
+public class ReportingCodes extends PersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -1585612121519839488L;
     private String chartOfAccountsCode;

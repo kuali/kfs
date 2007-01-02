@@ -18,7 +18,7 @@ package org.kuali.module.chart.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
@@ -26,7 +26,7 @@ import org.kuali.core.bo.BusinessObjectBase;
  * Business object for American Institute of Certified Public Accountants (AICPA) function
  * 
  */
-public class AicpaFunction extends BusinessObjectBase {
+public class AicpaFunction extends PersistableBusinessObjectBase {
 
     private String financialAicpaFunctionCode;
     private String financialAicpaFunctionName;

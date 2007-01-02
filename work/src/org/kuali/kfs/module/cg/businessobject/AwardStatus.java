@@ -18,12 +18,12 @@ package org.kuali.module.cg.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class AwardStatus extends BusinessObjectBase {
+public class AwardStatus extends PersistableBusinessObjectBase {
 
     private String awardStatusCode;
     private String awardStatusDescription;

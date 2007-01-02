@@ -17,7 +17,7 @@ package org.kuali.module.kra.routingform.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.Country;
 import org.kuali.core.bo.PostalZipCode;
 import org.kuali.core.bo.State;
@@ -30,7 +30,7 @@ import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class RoutingFormPersonnel extends BusinessObjectBase {
+public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
 
 	private String documentNumber;
     private Integer routingFormPersonSequenceNumber;

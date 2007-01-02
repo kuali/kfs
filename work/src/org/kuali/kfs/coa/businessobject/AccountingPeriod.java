@@ -21,7 +21,7 @@ import java.util.Calendar;
 import java.util.LinkedHashMap;
 
 import org.kuali.Constants;
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.Options;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.SpringServiceLocator;
@@ -29,7 +29,7 @@ import org.kuali.core.util.SpringServiceLocator;
 /**
  * 
  */
-public class AccountingPeriod extends BusinessObjectBase {
+public class AccountingPeriod extends PersistableBusinessObjectBase {
 
     private Integer universityFiscalYear;
     private String universityFiscalPeriodCode;

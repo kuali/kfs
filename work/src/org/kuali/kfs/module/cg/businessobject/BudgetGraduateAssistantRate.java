@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.PropertyConstants;
 
@@ -29,7 +29,7 @@ import org.kuali.PropertyConstants;
  * 
  */
 
-public class BudgetGraduateAssistantRate extends BusinessObjectBase implements Comparable {
+public class BudgetGraduateAssistantRate extends PersistableBusinessObjectBase implements Comparable {
     private static final long serialVersionUID = -5360306689257897228L;
 
     private String documentNumber;
@@ -244,11 +244,6 @@ public class BudgetGraduateAssistantRate extends BusinessObjectBase implements C
         m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         m.put("campusCode", this.campusCode);
         return m;
-    }
-
-    public void validate() {
-        // TODO Auto-generated method stub
-        super.validate();
     }
 
     /**

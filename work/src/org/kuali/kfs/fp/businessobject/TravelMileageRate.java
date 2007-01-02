@@ -20,12 +20,12 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class TravelMileageRate extends BusinessObjectBase {
+public class TravelMileageRate extends PersistableBusinessObjectBase {
     private Date disbursementVoucherMileageEffectiveDate;
     private Integer mileageLimitAmount;
     private BigDecimal mileageRate;

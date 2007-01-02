@@ -18,14 +18,14 @@ package org.kuali.module.financial.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.document.DocumentHeader;
 import org.kuali.PropertyConstants;
 
 /**
  * 
  */
-public class DistributionDoc extends BusinessObjectBase {
+public class DistributionDoc extends PersistableBusinessObjectBase {
 
     private String documentNumber;
     private Integer finDocumentNextFromLineNbr;

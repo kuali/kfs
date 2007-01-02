@@ -18,7 +18,7 @@ package org.kuali.module.budget.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.bo.ResponsibilityCenter;
@@ -26,7 +26,7 @@ import org.kuali.module.chart.bo.ResponsibilityCenter;
 /**
  * 
  */
-public class BudgetConstructionOrganizationReports extends BusinessObjectBase {
+public class BudgetConstructionOrganizationReports extends PersistableBusinessObjectBase {
 
 	private String chartOfAccountsCode;
 	private String organizationCode;

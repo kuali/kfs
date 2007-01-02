@@ -19,12 +19,12 @@ package org.kuali.module.budget.bo;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class BudgetConstructionPayRateHolding extends BusinessObjectBase {
+public class BudgetConstructionPayRateHolding extends PersistableBusinessObjectBase {
 
 	private String emplid;
 	private String positionNumber;

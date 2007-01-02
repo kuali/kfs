@@ -17,12 +17,12 @@ package org.kuali.module.chart.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class HigherEdFunction extends BusinessObjectBase {
+public class HigherEdFunction extends PersistableBusinessObjectBase {
 
     private String financialHigherEdFunctionCd;
     private String financialHigherEdFunctionNm;

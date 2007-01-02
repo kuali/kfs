@@ -22,13 +22,13 @@ import java.util.List;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiInteger;
 
 /**
  * 
  */
-public class UserAppointmentTask extends BusinessObjectBase implements Comparable {
+public class UserAppointmentTask extends PersistableBusinessObjectBase implements Comparable {
 
     private String documentNumber;
     private Integer budgetTaskSequenceNumber;

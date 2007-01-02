@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.Options;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
@@ -35,7 +35,7 @@ import org.kuali.module.chart.bo.codes.BalanceTyp;
  * 
  * 
  */
-public class Balance extends BusinessObjectBase {
+public class Balance extends PersistableBusinessObjectBase {
     static final long serialVersionUID = 6581797610149985575L;
 
     private Integer universityFiscalYear;
@@ -72,7 +72,7 @@ public class Balance extends BusinessObjectBase {
     private BalanceTyp balanceType;
     private ObjectType objectType;
 
-    private DummyBusinessObject dummyBusinessObject;
+    private TransientBalanceInquiryAttributes dummyBusinessObject;
     private Options option;
 
     /**
@@ -106,7 +106,7 @@ public class Balance extends BusinessObjectBase {
         month11Amount = new KualiDecimal(0);
         month12Amount = new KualiDecimal(0);
         month13Amount = new KualiDecimal(0);
-        this.dummyBusinessObject = new DummyBusinessObject();
+        this.dummyBusinessObject = new TransientBalanceInquiryAttributes();
     }
 
     public Balance(Transaction t) {
@@ -644,7 +644,7 @@ public class Balance extends BusinessObjectBase {
      * 
      * @return Returns the dummyBusinessObject.
      */
-    public DummyBusinessObject getDummyBusinessObject() {
+    public TransientBalanceInquiryAttributes getDummyBusinessObject() {
         return dummyBusinessObject;
     }
 
@@ -653,7 +653,7 @@ public class Balance extends BusinessObjectBase {
      * 
      * @param dummyBusinessObject The dummyBusinessObject to set.
      */
-    public void setDummyBusinessObject(DummyBusinessObject dummyBusinessObject) {
+    public void setDummyBusinessObject(TransientBalanceInquiryAttributes dummyBusinessObject) {
         this.dummyBusinessObject = dummyBusinessObject;
     }
 

@@ -20,13 +20,13 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
 /**
  * 
  */
-public class CashDrawer extends BusinessObjectBase {
+public class CashDrawer extends PersistableBusinessObjectBase {
     private String workgroupName;
     private String statusCode;
 

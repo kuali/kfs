@@ -21,13 +21,13 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
 /**
  * 
  */
-public class Award extends BusinessObjectBase {
+public class Award extends PersistableBusinessObjectBase {
 
     private Long proposalNumber;
     private Timestamp awardBeginningDate;

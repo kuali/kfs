@@ -19,13 +19,13 @@ package org.kuali.module.gl.bo;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.PropertyConstants;
 
 /**
  * 
  */
-public class CorrectionCriteria extends BusinessObjectBase implements Comparable {
+public class CorrectionCriteria extends PersistableBusinessObjectBase implements Comparable {
 
     private String documentNumber;
     private Integer correctionChangeGroupLineNumber;

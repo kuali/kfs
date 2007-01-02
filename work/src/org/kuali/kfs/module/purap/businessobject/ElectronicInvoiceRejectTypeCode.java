@@ -18,12 +18,12 @@ package org.kuali.module.purap.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class ElectronicInvoiceRejectTypeCode extends BusinessObjectBase {
+public class ElectronicInvoiceRejectTypeCode extends PersistableBusinessObjectBase {
 
 	private String invoiceRejectReasonTypeCode;
 	private String invoiceRejectReasonTypeDescription;

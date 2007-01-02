@@ -18,12 +18,12 @@ package org.kuali.module.purap.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class PurchaseOrderTransmissionMethod extends BusinessObjectBase {
+public class PurchaseOrderTransmissionMethod extends PersistableBusinessObjectBase {
 
 	private String purchaseOrderTransmissionMethodCode;
 	private String purchaseOrderTransmissionMethodDescription;

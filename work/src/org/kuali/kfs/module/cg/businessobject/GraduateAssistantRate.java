@@ -18,7 +18,7 @@ package org.kuali.module.kra.budget.bo;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Campus;
 
@@ -26,7 +26,7 @@ import org.kuali.module.chart.bo.Campus;
  * 
  */
 
-public class GraduateAssistantRate extends BusinessObjectBase {
+public class GraduateAssistantRate extends PersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 8803703155949499268L;
     private String campusCode;

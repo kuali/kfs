@@ -18,7 +18,7 @@ package org.kuali.module.cg.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
@@ -26,7 +26,7 @@ import org.kuali.module.chart.bo.Chart;
 /**
  * 
  */
-public class AwardAccount extends BusinessObjectBase {
+public class AwardAccount extends PersistableBusinessObjectBase {
 
     private Long proposalNumber;
     private String chartOfAccountsCode;

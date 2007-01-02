@@ -17,7 +17,7 @@ package org.kuali.module.chart.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.Options;
 import org.kuali.core.document.DocumentType;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
@@ -25,7 +25,7 @@ import org.kuali.module.chart.bo.codes.BalanceTyp;
 /**
  * 
  */
-public class OffsetDefinition extends BusinessObjectBase {
+public class OffsetDefinition extends PersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -6150010338773403021L;
 

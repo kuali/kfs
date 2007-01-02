@@ -20,13 +20,13 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.PropertyConstants;
 
 /**
  * 
  */
-public class RoutingFormBudget extends BusinessObjectBase {
+public class RoutingFormBudget extends PersistableBusinessObjectBase {
 
 	private String documentNumber;
 	private Integer routingFormBudgetMaximumPeriodNumber;

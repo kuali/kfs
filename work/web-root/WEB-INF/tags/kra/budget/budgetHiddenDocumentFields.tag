@@ -23,6 +23,7 @@
 
     <html:hidden property="document.budget.documentNumber" />
     <html:hidden property="document.budget.versionNumber" />
+    <html:hidden property="document.objectId" />
     <html:hidden property="document.documentHeader.financialDocumentStatusCode" />
 		
     <c:if test="${includeDocumenHeaderIdFields == 'true' || includeDocumenHeaderIdFields == 'TRUE'}">

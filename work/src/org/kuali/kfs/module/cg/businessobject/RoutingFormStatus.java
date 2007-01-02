@@ -18,12 +18,12 @@ package org.kuali.module.kra.routingform.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class RoutingFormStatus extends BusinessObjectBase {
+public class RoutingFormStatus extends PersistableBusinessObjectBase {
 
 	private String routingFormStatusCode;
 	private boolean dataObjectMaintenanceCodeActiveIndicator;

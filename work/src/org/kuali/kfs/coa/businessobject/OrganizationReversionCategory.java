@@ -18,12 +18,12 @@ package org.kuali.module.chart.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class OrganizationReversionCategory extends BusinessObjectBase {
+public class OrganizationReversionCategory extends PersistableBusinessObjectBase {
 
     private String organizationReversionCategoryCode;
     private String organizationReversionCategoryName;

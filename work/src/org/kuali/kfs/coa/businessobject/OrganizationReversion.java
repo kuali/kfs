@@ -20,14 +20,14 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.Options;
 import org.kuali.core.util.TypedArrayList;
 
 /**
  * 
  */
-public class OrganizationReversion extends BusinessObjectBase {
+public class OrganizationReversion extends PersistableBusinessObjectBase {
 
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;

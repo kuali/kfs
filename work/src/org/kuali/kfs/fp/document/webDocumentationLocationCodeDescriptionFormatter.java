@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.Constants;
-import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.DisbursementVoucherDocumentationLocation;
 
@@ -33,13 +33,13 @@ import org.kuali.module.financial.bo.DisbursementVoucherDocumentationLocation;
  */
 public class DocumentationLocationCodeDescriptionFormatter extends CodeDescriptionFormatterBase {
     @Override
-    protected String getDescriptionOfBO(BusinessObject bo) {
+    protected String getDescriptionOfBO(PersistableBusinessObject bo) {
         return ((DisbursementVoucherDocumentationLocation) bo).getDisbursementVoucherDocumentationLocationName();
     }
 
     @Override
-    protected Map<String, BusinessObject> getValuesToBusinessObjectsMap(Set values) {
-        Map<String, BusinessObject> map = new HashMap<String, BusinessObject>();
+    protected Map<String, PersistableBusinessObject> getValuesToBusinessObjectsMap(Set values) {
+        Map<String, PersistableBusinessObject> map = new HashMap<String, PersistableBusinessObject>();
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(Constants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE_PROPERTY_NAME, values);
         Collection<DisbursementVoucherDocumentationLocation> coll = SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(DisbursementVoucherDocumentationLocation.class, criteria, "versionNumber", true);

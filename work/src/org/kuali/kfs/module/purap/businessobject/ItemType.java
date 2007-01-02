@@ -18,12 +18,12 @@ package org.kuali.module.purap.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class ItemType extends BusinessObjectBase {
+public class ItemType extends PersistableBusinessObjectBase {
 
 	private String itemTypeCode;
 	private String itemTypeDescription;

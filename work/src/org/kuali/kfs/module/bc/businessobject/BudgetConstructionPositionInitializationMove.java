@@ -20,13 +20,13 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.chart.bo.ResponsibilityCenter;
 
 /**
  * 
  */
-public class BudgetConstructionPositionInitializationMove extends BusinessObjectBase {
+public class BudgetConstructionPositionInitializationMove extends PersistableBusinessObjectBase {
 
 	private String personUniversalIdentifier;
 	private String positionNumber;

@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.PropertyConstants;
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.Options;
 import org.kuali.core.bo.OriginationCode;
 import org.kuali.core.document.DocumentType;
@@ -35,7 +35,7 @@ import org.kuali.module.chart.bo.codes.BalanceTyp;
  * 
  * 
  */
-public class Encumbrance extends BusinessObjectBase {
+public class Encumbrance extends PersistableBusinessObjectBase {
     static final long serialVersionUID = -7494473472438516396L;
 
     private Integer universityFiscalYear;
@@ -66,7 +66,7 @@ public class Encumbrance extends BusinessObjectBase {
     private OriginationCode originationCode;
     private Options option;
 
-    private DummyBusinessObject dummyBusinessObject;
+    private TransientBalanceInquiryAttributes dummyBusinessObject;
 
     public Encumbrance() {
     }
@@ -87,7 +87,7 @@ public class Encumbrance extends BusinessObjectBase {
         accountLineEncumbranceAmount = new KualiDecimal("0");
         accountLineEncumbranceClosedAmount = new KualiDecimal("0");
         accountLineEncumbrancePurgeCode = " ";
-        this.dummyBusinessObject = new DummyBusinessObject();
+        this.dummyBusinessObject = new TransientBalanceInquiryAttributes();
     }
 
     protected LinkedHashMap toStringMapper() {
@@ -416,7 +416,7 @@ public class Encumbrance extends BusinessObjectBase {
      * 
      * @return Returns the dummyBusinessObject.
      */
-    public DummyBusinessObject getDummyBusinessObject() {
+    public TransientBalanceInquiryAttributes getDummyBusinessObject() {
         return dummyBusinessObject;
     }
 
@@ -425,7 +425,7 @@ public class Encumbrance extends BusinessObjectBase {
      * 
      * @param dummyBusinessObject The dummyBusinessObject to set.
      */
-    public void setDummyBusinessObject(DummyBusinessObject dummyBusinessObject) {
+    public void setDummyBusinessObject(TransientBalanceInquiryAttributes dummyBusinessObject) {
         this.dummyBusinessObject = dummyBusinessObject;
     }
 

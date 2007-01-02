@@ -256,7 +256,8 @@
     <field-descriptor name="thirdPartyCostShareNextSequenceNumber" column="THRD_PRTY_CST_SHR_NXT_SEQ_NBR" jdbc-type="INTEGER" />
 
     <field-descriptor name="versionNumber" locking="true" column="VER_NBR" jdbc-type="BIGINT" />
-
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+    
     <reference-descriptor name="budget" class-ref="org.kuali.module.kra.budget.bo.Budget" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-id-ref="1" />
     </reference-descriptor>
@@ -627,6 +628,7 @@
     <field-descriptor id="1" name="documentNumber" column="RDOC_NBR" jdbc-type="VARCHAR" primarykey="true" />
 
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 	<field-descriptor name="agencyAdditionalShippingInstructionsIndicator" column="AGNCY_ADDL_SHIP_INST_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="agencyFederalPassThroughNotAvailableIndicator" column="AGNCY_FEDPT_NA_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="agencyFederalPassThroughNumber" column="AGNCY_FEDPT_NBR" jdbc-type="VARCHAR"/>

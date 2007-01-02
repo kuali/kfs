@@ -19,12 +19,12 @@ package org.kuali.module.kra.budget.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class AppointmentTypeEffectiveDate extends BusinessObjectBase {
+public class AppointmentTypeEffectiveDate extends PersistableBusinessObjectBase {
 
     private String appointmentTypeCode;
     private Integer institutionFiscalYear;

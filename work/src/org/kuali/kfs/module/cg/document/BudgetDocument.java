@@ -256,16 +256,6 @@ public class BudgetDocument extends ResearchDocumentBase {
         setThirdPartyCostShareNextSequenceNumber(new Integer(getThirdPartyCostShareNextSequenceNumber().intValue() + 1));
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.kuali.bo.Document#validate()
-     */
-    public void validate() throws IllegalObjectStateException {
-        // TODO Auto-generated method stub
-        super.validate();
-    }
-
     /**
      * Gets the nonpersonnelNextSequenceNumber attribute.
      * 

@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.DocumentType;
@@ -30,7 +30,7 @@ import org.kuali.core.util.SpringServiceLocator;
 /**
  * 
  */
-public class Delegate extends BusinessObjectBase {
+public class Delegate extends PersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 6883162275377881235L;
 

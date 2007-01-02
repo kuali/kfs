@@ -18,7 +18,7 @@ package org.kuali.module.financial.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCodeCurrent;
@@ -28,7 +28,7 @@ import org.kuali.module.chart.bo.SubObjCdCurrent;
 /**
  * 
  */
-public class CreditCardVendor extends BusinessObjectBase {
+public class CreditCardVendor extends PersistableBusinessObjectBase {
 
     private String financialDocumentCreditCardVendorNumber;
     private String financialDocumentCreditCardVendorName;

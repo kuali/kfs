@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.PropertyConstants;
@@ -30,7 +30,7 @@ import org.kuali.PropertyConstants;
  * 
  * 
  */
-public class BudgetFringeRate extends BusinessObjectBase {
+public class BudgetFringeRate extends PersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -1305514388024735249L;
     private String documentNumber;
@@ -167,16 +167,6 @@ public class BudgetFringeRate extends BusinessObjectBase {
         m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         m.put("institutionAppointmentTypeCode", this.institutionAppointmentTypeCode);
         return m;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.kuali.bo.BusinessObject#validate()
-     */
-    public void validate() {
-        // TODO Auto-generated method stub
-        super.validate();
     }
 
     /*

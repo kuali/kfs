@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.NumberUtils;
 
@@ -31,7 +31,7 @@ import org.kuali.core.util.NumberUtils;
  * 
  */
 
-public class CheckBase extends BusinessObjectBase implements Check {
+public class CheckBase extends PersistableBusinessObjectBase implements Check {
     private String checkNumber;
     private Date checkDate;
     private String description;

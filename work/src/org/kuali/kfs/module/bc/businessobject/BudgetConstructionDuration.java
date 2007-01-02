@@ -18,12 +18,12 @@ package org.kuali.module.budget.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class BudgetConstructionDuration extends BusinessObjectBase {
+public class BudgetConstructionDuration extends PersistableBusinessObjectBase {
 
 	private String appointmentDurationCode;
 	private String appointmentDurationDescription;

@@ -19,7 +19,7 @@ package org.kuali.module.budget.bo;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
@@ -32,7 +32,7 @@ import org.kuali.module.chart.bo.SubObjCd;
 /**
  * 
  */
-public class BudgetConstructionBalanceByAccount extends BusinessObjectBase {
+public class BudgetConstructionBalanceByAccount extends PersistableBusinessObjectBase {
 
 	private String personUniversalIdentifier;
 	private Integer universityFiscalYear;

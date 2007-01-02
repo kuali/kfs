@@ -18,11 +18,11 @@ package org.kuali.module.financial.bo;
 import java.sql.Date;
 
 import org.apache.ojb.broker.PersistenceBrokerAware;
-import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.util.KualiDecimal;
 
 
-public interface Check extends BusinessObject, PersistenceBrokerAware {
+public interface Check extends PersistableBusinessObject, PersistenceBrokerAware {
 
     /**
      * Gets the checkDate attribute.

@@ -19,7 +19,7 @@ package org.kuali.module.kra.routingform.bo;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
@@ -29,7 +29,7 @@ import org.kuali.PropertyConstants;
 /**
  * 
  */
-public class RoutingFormInstitutionCostShare extends BusinessObjectBase {
+public class RoutingFormInstitutionCostShare extends PersistableBusinessObjectBase {
 
 	private Integer routingFormCostShareSequenceNumber;
 	private String documentNumber;

@@ -19,7 +19,7 @@ package org.kuali.module.labor.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.OriginationCode;
 import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.document.DocumentType;
@@ -38,7 +38,7 @@ import org.kuali.PropertyConstants;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class LaborGeneralLedgerEntry extends BusinessObjectBase {
+public class LaborGeneralLedgerEntry extends PersistableBusinessObjectBase {
 
 	private Integer universityFiscalYear;
 	private String chartOfAccountsCode;

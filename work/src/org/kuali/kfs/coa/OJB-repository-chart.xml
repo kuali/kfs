@@ -803,6 +803,7 @@
     <field-descriptor name="code" column="FOBJ_BDGT_AGGR_CD" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="name" column="FIN_BDGT_AGGR_NM" jdbc-type="VARCHAR" />
 </class-descriptor>
 
@@ -810,6 +811,7 @@
     <field-descriptor name="code" column="FOBJ_MNXFR_ELIM_CD" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="name" column="FOBJ_MNXFR_ELIM_NM" jdbc-type="VARCHAR" />
 </class-descriptor>
 
@@ -817,6 +819,7 @@
     <field-descriptor name="code" column="FIN_FED_FUNDED_CD" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="name" column="FIN_FED_FND_NM" jdbc-type="VARCHAR" />
 </class-descriptor>
 
@@ -994,6 +997,7 @@
     <field-descriptor name="chartOfAccountsCode" column="FIN_RPT_CHRT_CD" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="organizationCode" column="FIN_RPT_ORG_CD" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="financialReportingCode" column="FIN_RPT_CD" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="financialReportingCodeDescription" column="FIN_RPT_CD_DESC" jdbc-type="VARCHAR" />
     <field-descriptor name="financialReportingCodeMgrId" column="FIN_REP_CD_MGR_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="financialReportsToReportingCode" column="FIN_RPTS_TO_RPT_CD" jdbc-type="VARCHAR" />

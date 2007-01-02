@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.kuali.PropertyConstants;
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.Options;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.A21SubAccount;
@@ -37,7 +37,7 @@ import org.kuali.module.gl.web.Constant;
  * 
  * 
  */
-public class AccountBalance extends BusinessObjectBase {
+public class AccountBalance extends PersistableBusinessObjectBase {
     static final long serialVersionUID = 6873573726961704771L;
 
     private Integer universityFiscalYear;
@@ -57,7 +57,7 @@ public class AccountBalance extends BusinessObjectBase {
     private ObjectCode financialObject;
     private SubObjCd financialSubObject;
     private A21SubAccount a21SubAccount;
-    private DummyBusinessObject dummyBusinessObject;
+    private TransientBalanceInquiryAttributes dummyBusinessObject;
     private Options option;
     private String title;
 
@@ -68,7 +68,7 @@ public class AccountBalance extends BusinessObjectBase {
 
     public AccountBalance() {
         super();
-        this.dummyBusinessObject = new DummyBusinessObject();
+        this.dummyBusinessObject = new TransientBalanceInquiryAttributes();
         this.financialObject = new ObjectCode();
     }
 
@@ -84,7 +84,7 @@ public class AccountBalance extends BusinessObjectBase {
         accountLineActualsBalanceAmount = KualiDecimal.ZERO;
         accountLineEncumbranceBalanceAmount = KualiDecimal.ZERO;
 
-        this.dummyBusinessObject = new DummyBusinessObject();
+        this.dummyBusinessObject = new TransientBalanceInquiryAttributes();
         this.financialObject = new ObjectCode();
     }
 
@@ -344,7 +344,7 @@ public class AccountBalance extends BusinessObjectBase {
      * 
      * @return Returns the dummyBusinessObject.
      */
-    public DummyBusinessObject getDummyBusinessObject() {
+    public TransientBalanceInquiryAttributes getDummyBusinessObject() {
         return dummyBusinessObject;
     }
 
@@ -353,7 +353,7 @@ public class AccountBalance extends BusinessObjectBase {
      * 
      * @param dummyBusinessObject The dummyBusinessObject to set.
      */
-    public void setDummyBusinessObject(DummyBusinessObject dummyBusinessObject) {
+    public void setDummyBusinessObject(TransientBalanceInquiryAttributes dummyBusinessObject) {
         this.dummyBusinessObject = dummyBusinessObject;
     }
 

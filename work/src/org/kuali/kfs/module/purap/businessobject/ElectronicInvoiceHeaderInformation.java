@@ -20,13 +20,13 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.chart.bo.Campus;
 
 /**
  * 
  */
-public class ElectronicInvoiceHeaderInformation extends BusinessObjectBase {
+public class ElectronicInvoiceHeaderInformation extends PersistableBusinessObjectBase {
 
 	private Integer invoiceHeaderInformationIdentifier;
 	private Long accountsPayableElectronicInvoiceLoadSummaryIdentifier;

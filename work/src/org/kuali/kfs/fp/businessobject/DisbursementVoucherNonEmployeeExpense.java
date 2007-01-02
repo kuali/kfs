@@ -18,14 +18,14 @@ package org.kuali.module.financial.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.PropertyConstants;
 
 /**
  * 
  */
-public class DisbursementVoucherNonEmployeeExpense extends BusinessObjectBase {
+public class DisbursementVoucherNonEmployeeExpense extends PersistableBusinessObjectBase {
 
     private String documentNumber;
     private Integer financialDocumentLineNumber;

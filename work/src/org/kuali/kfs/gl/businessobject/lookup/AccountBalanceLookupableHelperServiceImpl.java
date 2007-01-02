@@ -23,7 +23,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.kuali.Constants;
-import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.Options;
 import org.kuali.core.service.OptionsService;
 import org.kuali.core.util.KualiDecimal;
@@ -32,7 +32,7 @@ import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.batch.poster.AccountBalanceCalculator;
 import org.kuali.module.gl.bo.AccountBalance;
-import org.kuali.module.gl.bo.DummyBusinessObject;
+import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.service.AccountBalanceService;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
@@ -50,7 +50,7 @@ public class AccountBalanceLookupableHelperServiceImpl extends AbstractGLLookupa
      * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
      */
     @Override
-    public String getInquiryUrl(BusinessObject bo, String propertyName) {
+    public String getInquiryUrl(PersistableBusinessObject bo, String propertyName) {
         return (new AccountBalanceInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
 
@@ -86,7 +86,7 @@ public class AccountBalanceLookupableHelperServiceImpl extends AbstractGLLookupa
         // Put the search related stuff in the objects
         for (Iterator iter = searchResultsCollection.iterator(); iter.hasNext();) {
             AccountBalance ab = (AccountBalance) iter.next();
-            DummyBusinessObject dbo = ab.getDummyBusinessObject();
+            TransientBalanceInquiryAttributes dbo = ab.getDummyBusinessObject();
             dbo.setConsolidationOption(consolidationOption);
             dbo.setPendingEntryOption(pendingEntryOption);
         }
@@ -161,7 +161,7 @@ public class AccountBalanceLookupableHelperServiceImpl extends AbstractGLLookupa
             AccountBalance accountBalance = (AccountBalance) iterator.next();
 
             if (accountBalance.getDummyBusinessObject() == null) {
-                accountBalance.setDummyBusinessObject(new DummyBusinessObject());
+                accountBalance.setDummyBusinessObject(new TransientBalanceInquiryAttributes());
             }
 
             KualiDecimal variance = calculateVariance(accountBalance);
@@ -243,7 +243,7 @@ public class AccountBalanceLookupableHelperServiceImpl extends AbstractGLLookupa
 
             // recalculate the variance after pending entries are combined into account balances
             if (accountBalance.getDummyBusinessObject() == null) {
-                accountBalance.setDummyBusinessObject(new DummyBusinessObject());
+                accountBalance.setDummyBusinessObject(new TransientBalanceInquiryAttributes());
             }
             KualiDecimal variance = calculateVariance(accountBalance);
             accountBalance.getDummyBusinessObject().setGenericAmount(variance);

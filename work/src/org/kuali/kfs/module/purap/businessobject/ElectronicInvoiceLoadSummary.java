@@ -20,12 +20,12 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class ElectronicInvoiceLoadSummary extends BusinessObjectBase {
+public class ElectronicInvoiceLoadSummary extends PersistableBusinessObjectBase {
 
 	private Long accountsPayableElectronicInvoiceLoadSummaryIdentifier;
 	private String vendorDunsNumber;

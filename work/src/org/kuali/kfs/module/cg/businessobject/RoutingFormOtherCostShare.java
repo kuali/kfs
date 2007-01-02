@@ -20,13 +20,13 @@ import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import org.kuali.PropertyConstants;
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
 /**
  * 
  */
-public class RoutingFormOtherCostShare extends BusinessObjectBase {
+public class RoutingFormOtherCostShare extends PersistableBusinessObjectBase {
 
 	private Integer routingFormCostShareSequenceNumber;
 	private String documentNumber;

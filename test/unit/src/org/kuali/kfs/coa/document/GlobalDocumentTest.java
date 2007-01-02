@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.util.DateUtils;
@@ -74,7 +74,7 @@ public class GlobalDocumentTest extends KualiTestBase {
         assertNotNull("New Maintainable should never be null.", newMaintainable);
         assertEquals("BO Class should be DelegateChangeContainer.", DelegateChangeContainer.class, newMaintainable.getBoClass());
 
-        BusinessObject newBo = newMaintainable.getBusinessObject();
+        PersistableBusinessObject newBo = newMaintainable.getBusinessObject();
         assertNotNull("New BO should never be null.", newBo);
         assertEquals("New BO should be of the correct class.", DelegateChangeContainer.class, newBo.getClass());
 
@@ -96,7 +96,7 @@ public class GlobalDocumentTest extends KualiTestBase {
         assertNotNull("New Maintainable should never be null.", newMaintainable);
         assertEquals("BO Class should be AccountChangeDocument.", AccountChangeDocument.class, newMaintainable.getBoClass());
 
-        BusinessObject newBo = newMaintainable.getBusinessObject();
+        PersistableBusinessObject newBo = newMaintainable.getBusinessObject();
         assertNotNull("New BO should never be null.", newBo);
         assertEquals("New BO should be of the correct class.", AccountChangeDocument.class, newBo.getClass());
     }

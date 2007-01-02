@@ -18,14 +18,14 @@ package org.kuali.module.kra.budget.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 
 /**
  * 
  */
-public class BudgetTaskPeriodIndirectCost extends BusinessObjectBase implements Comparable {
+public class BudgetTaskPeriodIndirectCost extends PersistableBusinessObjectBase implements Comparable {
 
     private String documentNumber; // RDOC_NBR
     private Integer budgetTaskSequenceNumber; // BDGT_TSK_SEQ_NBR

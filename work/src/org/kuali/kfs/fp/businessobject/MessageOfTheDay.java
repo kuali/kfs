@@ -18,13 +18,13 @@ package org.kuali.module.financial.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.OriginationCode;
 
 /**
  * 
  */
-public class MessageOfTheDay extends BusinessObjectBase {
+public class MessageOfTheDay extends PersistableBusinessObjectBase {
 
     private String financialSystemOriginationCode;
     private String financialSystemMessageOfTheDayText;

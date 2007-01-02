@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
@@ -30,7 +30,7 @@ import org.kuali.PropertyConstants;
 /**
  * 
  */
-public class UserAppointmentTaskPeriod extends BusinessObjectBase implements Comparable {
+public class UserAppointmentTaskPeriod extends PersistableBusinessObjectBase implements Comparable {
 
     private String documentNumber;
     private Integer budgetTaskSequenceNumber;

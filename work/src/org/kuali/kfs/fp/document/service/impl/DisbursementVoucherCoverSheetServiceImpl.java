@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.lookup.keyvalues.KeyValuesFinder;
 import org.kuali.core.lookup.keyvalues.PaymentMethodValuesFinder;
 import org.kuali.core.rules.RulesUtils;
@@ -161,14 +161,14 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
      * @param keyValue
      * @return
      */
-    private BusinessObject retrieveObjectByKey(Class clazz, String keyValue) {
+    private PersistableBusinessObject retrieveObjectByKey(Class clazz, String keyValue) {
         List primaryKeyFields = persistenceService.listPrimaryKeyFieldNames(clazz);
         if (primaryKeyFields.size() != 1) {
             throw new IllegalArgumentException("multi-part key found. expecting single key field for " + clazz.getName());
         }
         Map primaryKeys = new HashMap();
         primaryKeys.put(primaryKeyFields.get(0), keyValue);
-        BusinessObject b = businessObjectService.findByPrimaryKey(clazz, primaryKeys);
+        PersistableBusinessObject b = businessObjectService.findByPrimaryKey(clazz, primaryKeys);
 
         return b;
     }

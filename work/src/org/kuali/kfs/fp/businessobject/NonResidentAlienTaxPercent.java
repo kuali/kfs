@@ -18,13 +18,13 @@ package org.kuali.module.financial.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
 /**
  * 
  */
-public class NonResidentAlienTaxPercent extends BusinessObjectBase {
+public class NonResidentAlienTaxPercent extends PersistableBusinessObjectBase {
 
     private String incomeClassCode;
     private String incomeTaxTypeCode;

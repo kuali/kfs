@@ -19,13 +19,13 @@ package org.kuali.module.purap.bo;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
 /**
  * 
  */
-public class CreditMemoItem extends BusinessObjectBase {
+public class CreditMemoItem extends PersistableBusinessObjectBase {
 
 	private Integer creditMemoItemIdentifier;
 	private Integer creditMemoIdentifier;

@@ -18,13 +18,13 @@ package org.kuali.module.kra.budget.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
 /**
  * 
  */
-public class BudgetIndirectCostLookup extends BusinessObjectBase {
+public class BudgetIndirectCostLookup extends PersistableBusinessObjectBase {
 
     private String documentNumber;
 	private boolean budgetOnCampusIndicator;

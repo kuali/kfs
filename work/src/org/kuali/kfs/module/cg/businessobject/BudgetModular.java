@@ -22,13 +22,13 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiInteger;
 
 /**
  * 
  */
-public class BudgetModular extends BusinessObjectBase {
+public class BudgetModular extends PersistableBusinessObjectBase {
 
     // Stored values - Budget Modular table
     private String documentNumber;

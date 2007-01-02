@@ -19,12 +19,12 @@ package org.kuali.module.financial.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class CustomerCreditCardInformation extends BusinessObjectBase {
+public class CustomerCreditCardInformation extends PersistableBusinessObjectBase {
 
     private String customerCreditCardNumber;
     private String customerCreditCardHolderName;

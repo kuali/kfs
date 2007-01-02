@@ -18,12 +18,12 @@ package org.kuali.module.kra.routingform.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class ResearchRiskType extends BusinessObjectBase {
+public class ResearchRiskType extends PersistableBusinessObjectBase {
 
 	private String researchRiskTypeCode;
 	private boolean dataObjectMaintenanceCodeActiveIndicator;

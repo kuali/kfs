@@ -17,14 +17,14 @@ package org.kuali.module.purap.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.PropertyConstants;
 
 /**
  * 
  */
-public class AssignContractManagerDetail extends BusinessObjectBase {
+public class AssignContractManagerDetail extends PersistableBusinessObjectBase {
 
 	private String documentNumber;
 	private Integer requisitionIdentifier;

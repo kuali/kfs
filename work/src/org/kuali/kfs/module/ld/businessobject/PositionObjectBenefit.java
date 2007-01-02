@@ -18,7 +18,7 @@ package org.kuali.module.labor.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.Options;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -26,7 +26,7 @@ import org.kuali.module.chart.bo.ObjectCode;
 /**
  * Model of Position Object Benefit
  */
-public class PositionObjectBenefit extends BusinessObjectBase {
+public class PositionObjectBenefit extends PersistableBusinessObjectBase {
 
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;

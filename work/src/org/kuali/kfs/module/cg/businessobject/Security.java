@@ -17,13 +17,13 @@ package org.kuali.module.cg.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.chart.bo.ChartUser;
 
 /**
  * 
  */
-public class Security extends BusinessObjectBase {
+public class Security extends PersistableBusinessObjectBase {
 
     private String personUniversalIdentifier;
 

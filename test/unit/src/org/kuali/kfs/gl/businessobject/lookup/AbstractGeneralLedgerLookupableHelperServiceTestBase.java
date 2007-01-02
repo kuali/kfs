@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.gl.GLSpringBeansRegistry;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
@@ -91,7 +91,7 @@ public abstract class AbstractGLLookupableHelperServiceTestBase extends KualiTes
      * @param businessObject the given business object
      * @return true if the given business object is in the search results
      */
-    protected boolean contains(List searchResults, BusinessObjectBase businessObject) {
+    protected boolean contains(List searchResults, PersistableBusinessObjectBase businessObject) {
         boolean isContains = false;
         List priamryKeyFields = getPrimaryKeyFields();
         int numberOfPrimaryKeyFields = priamryKeyFields.size();
@@ -130,7 +130,7 @@ public abstract class AbstractGLLookupableHelperServiceTestBase extends KualiTes
      * @return a lookup form fields
      * @throws Exception
      */
-    public Map getLookupFieldValues(BusinessObjectBase businessObject, boolean isExtended) throws Exception {
+    public Map getLookupFieldValues(PersistableBusinessObjectBase businessObject, boolean isExtended) throws Exception {
         List lookupFields = this.getLookupFields(isExtended);
         return testDataGenerator.generateLookupFieldValues(businessObject, lookupFields);
     }

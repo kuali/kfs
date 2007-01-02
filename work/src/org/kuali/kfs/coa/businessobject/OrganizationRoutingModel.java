@@ -19,13 +19,13 @@ package org.kuali.module.chart.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
 /**
  * 
  */
-public class OrganizationRoutingModel extends BusinessObjectBase {
+public class OrganizationRoutingModel extends PersistableBusinessObjectBase {
 
     private String chartOfAccountsCode;
     private String organizationCode;

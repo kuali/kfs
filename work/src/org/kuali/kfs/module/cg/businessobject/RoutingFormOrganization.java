@@ -18,7 +18,7 @@ package org.kuali.module.kra.routingform.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.PropertyConstants;
@@ -26,7 +26,7 @@ import org.kuali.PropertyConstants;
 /**
  * 
  */
-public class RoutingFormOrganization extends BusinessObjectBase {
+public class RoutingFormOrganization extends PersistableBusinessObjectBase {
 
 	private String chartOfAccountsCode;
 	private String organizationCode;

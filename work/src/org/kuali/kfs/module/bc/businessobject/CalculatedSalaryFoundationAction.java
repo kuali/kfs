@@ -18,12 +18,12 @@ package org.kuali.module.budget.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class CalculatedSalaryFoundationAction extends BusinessObjectBase {
+public class CalculatedSalaryFoundationAction extends PersistableBusinessObjectBase {
 
 	private String action;
 	private String actionReason;

@@ -18,12 +18,12 @@ package org.kuali.module.financial.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class CreditCardType extends BusinessObjectBase {
+public class CreditCardType extends PersistableBusinessObjectBase {
 
     private String financialDocumentCreditCardTypeCode;
     private String financialDocumentCreditCardCompanyName;

@@ -21,12 +21,12 @@ import java.util.Map;
 
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
-import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.AccountBalance;
-import org.kuali.module.gl.bo.DummyBusinessObject;
+import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
 import org.kuali.module.gl.service.AccountBalanceService;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.web.Constant;
@@ -50,7 +50,7 @@ public class AccountBalanceByConsolidationLookupableHelperServiceImpl extends Ab
      * @return String url to inquiry
      */
     @Override
-    public String getInquiryUrl(BusinessObject bo, String propertyName) {
+    public String getInquiryUrl(PersistableBusinessObject bo, String propertyName) {
         return (new AccountBalanceByConsolidationInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
 
@@ -104,7 +104,7 @@ public class AccountBalanceByConsolidationLookupableHelperServiceImpl extends Ab
         for (Iterator iter = results.iterator(); iter.hasNext();) {
             AccountBalance ab = (AccountBalance) iter.next();
             count++;
-            DummyBusinessObject dbo = ab.getDummyBusinessObject();
+            TransientBalanceInquiryAttributes dbo = ab.getDummyBusinessObject();
             dbo.setConsolidationOption(consolidationOption);
             dbo.setCostShareOption(costShareOption);
             dbo.setPendingEntryOption(pendingEntryOption);

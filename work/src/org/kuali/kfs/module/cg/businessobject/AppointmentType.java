@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
 /**
@@ -31,7 +31,7 @@ import org.kuali.core.util.KualiDecimal;
  * 
  * 
  */
-public class AppointmentType extends BusinessObjectBase {
+public class AppointmentType extends PersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 5817907435877665832L;
     private String appointmentTypeCode;
@@ -262,16 +262,6 @@ public class AppointmentType extends BusinessObjectBase {
         m.put("appointmentTypeCode", this.appointmentTypeCode);
 
         return m;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.kuali.bo.BusinessObject#validate()
-     */
-    public void validate() {
-        // TODO Auto-generated method stub
-        super.validate();
     }
 
     /**

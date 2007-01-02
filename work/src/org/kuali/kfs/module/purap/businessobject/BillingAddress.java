@@ -18,13 +18,13 @@ package org.kuali.module.purap.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.chart.bo.Campus;
 
 /**
  * 
  */
-public class BillingAddress extends BusinessObjectBase {
+public class BillingAddress extends PersistableBusinessObjectBase {
 
 	private String billingCampusCode;
 	private String billingName;

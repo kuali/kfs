@@ -607,6 +607,7 @@
 	<field-descriptor name="identifier" column="REQS_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="REQS_ID"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="documentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 	<field-descriptor name="fundingSourceCode" column="FND_SRC_CD" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="requisitionSourceCode" column="REQS_SRC_CD" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="statusCode" column="REQS_STAT_CD" jdbc-type="VARCHAR" index="true"/>
@@ -838,6 +839,7 @@
 	<field-descriptor name="identifier" column="PO_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="PO_ID"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="documentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="postingYear" column="PO_ENCUM_FSCL_YR" jdbc-type="INTEGER"/>
 	<field-descriptor name="requisitionIdentifier" column="REQS_ID" jdbc-type="INTEGER"/>
 	<field-descriptor name="requisitionSourceCode" column="REQS_SRC_CD" jdbc-type="VARCHAR"/>
@@ -1954,7 +1956,7 @@
 
 <class-descriptor class="org.kuali.module.purap.document.AssignContractManagerDocument" table="FP_DOC_HEADER_T">
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <!--  field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" / -->
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="financialDocumentStatusCode" column="FDOC_STATUS_CD" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="financialDocumentDescription" column="FDOC_DESC" jdbc-type="VARCHAR" />

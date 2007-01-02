@@ -19,13 +19,13 @@ package org.kuali.module.chart.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.Country;
 
 /**
  * 
  */
-public class PriorYearOrganization extends BusinessObjectBase {
+public class PriorYearOrganization extends PersistableBusinessObjectBase {
 
     private String chartOfAccountsCode;
     private String organizationCode;

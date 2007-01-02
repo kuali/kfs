@@ -19,7 +19,7 @@ package org.kuali.module.gl.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.Options;
 import org.kuali.core.document.DocumentType;
 import org.kuali.core.util.KualiDecimal;
@@ -37,7 +37,7 @@ import org.kuali.PropertyConstants;
 /**
  * 
  */
-public class Reversal extends BusinessObjectBase implements Transaction {
+public class Reversal extends PersistableBusinessObjectBase implements Transaction {
 
     private Date financialDocumentReversalDate;
     private Integer universityFiscalYear;

@@ -18,14 +18,14 @@ package org.kuali.module.purap.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Chart;
 
 /**
  * 
  */
-public class PaymentRequestThresholdNotToExceed extends BusinessObjectBase {
+public class PaymentRequestThresholdNotToExceed extends PersistableBusinessObjectBase {
 
 	private String chartOfAccountsCode;
 	private KualiDecimal accountsPayableThresholdNotToExceedAmount;

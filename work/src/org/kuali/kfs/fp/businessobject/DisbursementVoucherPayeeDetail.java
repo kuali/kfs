@@ -18,7 +18,7 @@ package org.kuali.module.financial.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.lookup.keyvalues.PayeeTypeValuesFinder;
 import org.kuali.core.lookup.keyvalues.PaymentReasonValuesFinder;
 import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
@@ -27,7 +27,7 @@ import org.kuali.PropertyConstants;
 /**
  * 
  */
-public class DisbursementVoucherPayeeDetail extends BusinessObjectBase {
+public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBase {
 
     private String documentNumber;
     private String disbVchrPaymentReasonCode;

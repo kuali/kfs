@@ -18,12 +18,12 @@ package org.kuali.module.labor.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class PositionObjectGroup extends BusinessObjectBase {
+public class PositionObjectGroup extends PersistableBusinessObjectBase {
 
 	private String positionObjectGroupCode;
 	private String positionObjectGroupName;

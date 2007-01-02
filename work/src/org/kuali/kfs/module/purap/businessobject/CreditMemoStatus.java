@@ -18,12 +18,12 @@ package org.kuali.module.purap.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class CreditMemoStatus extends BusinessObjectBase {
+public class CreditMemoStatus extends PersistableBusinessObjectBase {
 
 	private String creditMemoStatusCode;
 	private String creditMemoStatusDescription;

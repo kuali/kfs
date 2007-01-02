@@ -18,12 +18,12 @@ package org.kuali.module.budget.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class BudgetConstructionAdministrativePost extends BusinessObjectBase {
+public class BudgetConstructionAdministrativePost extends PersistableBusinessObjectBase {
 
 	private String emplid;
 	private String positionNumber;

@@ -21,14 +21,14 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.PropertyConstants;
 
 /**
  * 
  */
-public class CashReceiptHeader extends BusinessObjectBase {
+public class CashReceiptHeader extends PersistableBusinessObjectBase {
 
     private String documentNumber;
     private String explanation;

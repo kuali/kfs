@@ -19,14 +19,14 @@ package org.kuali.module.chart.bo;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.SpringServiceLocator;
 
 /**
  * 
  */
-public class OrganizationExtension extends BusinessObjectBase {
+public class OrganizationExtension extends PersistableBusinessObjectBase {
 
     private String chartOfAccountsCode;
     private String organizationCode;

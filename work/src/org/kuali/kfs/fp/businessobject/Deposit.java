@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.PropertyConstants;
@@ -30,7 +30,7 @@ import org.kuali.PropertyConstants;
 /**
  * 
  */
-public class Deposit extends BusinessObjectBase {
+public class Deposit extends PersistableBusinessObjectBase {
     // primary key
     private String documentNumber;
     private Integer financialDocumentDepositLineNumber;

@@ -18,12 +18,12 @@ package org.kuali.module.purap.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class CapitalAssetTransactionType extends BusinessObjectBase {
+public class CapitalAssetTransactionType extends PersistableBusinessObjectBase {
 
 	private String capitalAssetTransactionTypeCode;
 	private String capitalAssetTransactionTypeDescription;

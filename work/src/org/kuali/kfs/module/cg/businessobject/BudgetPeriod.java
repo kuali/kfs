@@ -20,14 +20,14 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.PropertyConstants;
 
 /**
  * 
  */
 
-public class BudgetPeriod extends BusinessObjectBase implements Comparable {
+public class BudgetPeriod extends PersistableBusinessObjectBase implements Comparable {
     private static final long serialVersionUID = -479888264761887048L;
 
     private String documentNumber;

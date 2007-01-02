@@ -17,13 +17,13 @@ package org.kuali.module.chart.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.Options;
 
 /**
  * 
  */
-public class SubObjCd extends BusinessObjectBase {
+public class SubObjCd extends PersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -5292158248714650271L;
 

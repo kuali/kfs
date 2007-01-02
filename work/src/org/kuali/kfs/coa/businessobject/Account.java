@@ -31,8 +31,8 @@ import org.apache.commons.lang.time.DateUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.Constants;
-import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.PostalZipCode;
 import org.kuali.core.bo.State;
 import org.kuali.core.bo.user.UniversalUser;
@@ -47,7 +47,7 @@ import org.kuali.module.gl.bo.SufficientFundRebuild;
 /**
  * 
  */
-public class Account extends BusinessObjectBase implements AccountIntf {
+public class Account extends PersistableBusinessObjectBase implements AccountIntf {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Account.class);
 
     private String chartOfAccountsCode;
@@ -205,7 +205,7 @@ public class Account extends BusinessObjectBase implements AccountIntf {
     /**
      * This method gathers all SubAccounts related to this account if the account is marked as closed to deactivate
      */
-    public List<BusinessObject> generateDeactivationsToPersist() {
+    public List<PersistableBusinessObject> generateDeactivationsToPersist() {
         BusinessObjectService boService = SpringServiceLocator.getBusinessObjectService();
 
         // retreive all the existing sub accounts for this
@@ -226,7 +226,7 @@ public class Account extends BusinessObjectBase implements AccountIntf {
         for (SubAccount subAccount : bosToDeactivate) {
             subAccount.setSubAccountActiveIndicator(false);
         }
-        return new ArrayList<BusinessObject>(bosToDeactivate);
+        return new ArrayList<PersistableBusinessObject>(bosToDeactivate);
     }
 
     /**

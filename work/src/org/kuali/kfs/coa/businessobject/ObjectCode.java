@@ -19,7 +19,7 @@ import java.util.LinkedHashMap;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.KualiCode;
 import org.kuali.core.bo.Options;
 import org.kuali.core.bo.Summarizable;
@@ -33,7 +33,7 @@ import org.kuali.module.gl.bo.SufficientFundRebuild;
 /**
  * 
  */
-public class ObjectCode extends BusinessObjectBase implements Summarizable {
+public class ObjectCode extends PersistableBusinessObjectBase implements Summarizable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectCode.class);
 
     private static final long serialVersionUID = -965833141452795485L;

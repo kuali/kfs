@@ -18,12 +18,12 @@ package org.kuali.module.chart.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class FederalFunction extends BusinessObjectBase {
+public class FederalFunction extends PersistableBusinessObjectBase {
 
     private String financialFederalFunctionCode;
     private String financialFederalFunctionName;

@@ -19,13 +19,13 @@ package org.kuali.module.purap.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.SpringServiceLocator;
 
 /**
  * 
  */
-public class PurchaseOrderContractLanguage extends BusinessObjectBase {
+public class PurchaseOrderContractLanguage extends PersistableBusinessObjectBase {
 
 	private Integer purchaseOrderContractLanguageIdentifier;
 	private String campusCode;

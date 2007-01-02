@@ -19,7 +19,7 @@ package org.kuali.module.budget.bo;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
@@ -27,7 +27,7 @@ import org.kuali.module.chart.bo.Org;
 /**
  * 
  */
-public class BudgetConstructionSalaryTotal extends BusinessObjectBase {
+public class BudgetConstructionSalaryTotal extends PersistableBusinessObjectBase {
 
 	private String organizationChartOfAccountsCode;
 	private String organizationCode;

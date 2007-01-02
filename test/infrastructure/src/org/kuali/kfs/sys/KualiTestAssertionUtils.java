@@ -27,7 +27,7 @@ import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
@@ -95,7 +95,7 @@ public class KualiTestAssertionUtils {
             if (PropertyUtils.getReadMethod(descriptor) != null) {
                 try {
                     Object expectedValue = PropertyUtils.getSimpleProperty(expectedBean, descriptor.getName());
-                    if (expectedValue != null && !(expectedValue instanceof BusinessObject)) {
+                    if (expectedValue != null && !(expectedValue instanceof PersistableBusinessObject)) {
                         assertEquals(message + descriptor.getName(), expectedValue, PropertyUtils.getSimpleProperty(actualBean, descriptor.getName()));
                     }
                 }

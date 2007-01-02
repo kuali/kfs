@@ -18,14 +18,14 @@ package org.kuali.module.cg.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.kra.budget.bo.AgencyExtension;
 
 /**
  * 
  */
-public class Agency extends BusinessObjectBase {
+public class Agency extends PersistableBusinessObjectBase {
 
     private String agencyNumber;
     private String reportingName;

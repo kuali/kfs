@@ -20,14 +20,14 @@ import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import org.kuali.PropertyConstants;
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.cg.bo.Subcontractor;
 
 /**
  * 
  */
-public class RoutingFormSubcontractor extends BusinessObjectBase {
+public class RoutingFormSubcontractor extends PersistableBusinessObjectBase {
 
 	private String documentNumber;
 	private Integer routingFormSubcontractorSequenceNumber;

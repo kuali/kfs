@@ -19,12 +19,12 @@ package org.kuali.module.financial.bo;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class DepositCashReceiptControl extends BusinessObjectBase {
+public class DepositCashReceiptControl extends PersistableBusinessObjectBase {
     private String financialDocumentDepositNumber;
     private Integer financialDocumentDepositLineNumber;
     private String financialDocumentCashReceiptNumber;

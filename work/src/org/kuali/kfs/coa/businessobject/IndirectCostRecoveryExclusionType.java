@@ -18,13 +18,13 @@ package org.kuali.module.chart.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.chart.bo.codes.ICRTypeCode;
 
 /**
  * 
  */
-public class IndirectCostRecoveryExclusionType extends BusinessObjectBase {
+public class IndirectCostRecoveryExclusionType extends PersistableBusinessObjectBase {
 
     private String accountIndirectCostRecoveryTypeCode;
     private String chartOfAccountsCode;

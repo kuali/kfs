@@ -18,12 +18,12 @@ package org.kuali.module.financial.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class DisbursementVoucherDocumentationLocation extends BusinessObjectBase {
+public class DisbursementVoucherDocumentationLocation extends PersistableBusinessObjectBase {
 
     private String disbursementVoucherDocumentationLocationCode;
     private String disbursementVoucherDocumentationLocationName;

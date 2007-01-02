@@ -18,13 +18,13 @@ package org.kuali.module.chart.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.chart.bo.codes.ICRTypeCode;
 
 /**
  * 
  */
-public class A21SubAccount extends BusinessObjectBase {
+public class A21SubAccount extends PersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 2983753447370117974L;
 

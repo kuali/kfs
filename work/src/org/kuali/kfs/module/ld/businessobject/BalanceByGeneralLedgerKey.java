@@ -18,13 +18,13 @@ package org.kuali.module.labor.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class BalanceByGeneralLedgerKey extends BusinessObjectBase {
+public class BalanceByGeneralLedgerKey extends PersistableBusinessObjectBase {
 
 	private String personUniversalIdentifier;
 	private String subAccountNumber;

@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.Constants;
-import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjLevel;
 
@@ -42,7 +42,7 @@ public class ObjectLevelCodeDescriptionFormatter extends CodeDescriptionFormatte
      * @see org.kuali.module.financial.util.CodeDescriptionFormatterBase#getDescriptionOfBO(org.kuali.core.bo.BusinessObject)
      */
     @Override
-    protected String getDescriptionOfBO(BusinessObject bo) {
+    protected String getDescriptionOfBO(PersistableBusinessObject bo) {
         return ((ObjLevel) bo).getFinancialObjectLevelName();
     }
 
@@ -50,13 +50,13 @@ public class ObjectLevelCodeDescriptionFormatter extends CodeDescriptionFormatte
      * @see org.kuali.module.financial.util.CodeDescriptionFormatterBase#getValuesToBusinessObjectsMap(java.util.Set)
      */
     @Override
-    protected Map<String, BusinessObject> getValuesToBusinessObjectsMap(Set values) {
+    protected Map<String, PersistableBusinessObject> getValuesToBusinessObjectsMap(Set values) {
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
         criteria.put(Constants.FINANCIAL_OBJECT_LEVEL_CODE_PROPERTY_NAME, values);
         Collection<ObjLevel> coll = SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(ObjLevel.class, criteria, Constants.VERSION_NUMBER, true);
 
-        Map<String, BusinessObject> results = new HashMap<String, BusinessObject>();
+        Map<String, PersistableBusinessObject> results = new HashMap<String, PersistableBusinessObject>();
         // TODO: worry about version #s
         for (ObjLevel ol : coll) {
             results.put(ol.getFinancialObjectLevelCode(), ol);

@@ -18,12 +18,12 @@ package org.kuali.module.purap.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
-public class PurchaseOrderItemCapitalAsset extends BusinessObjectBase {
+public class PurchaseOrderItemCapitalAsset extends PersistableBusinessObjectBase {
 
 	private Integer purchaseOrderItemCapitalAssetIdentifier;
 	private Integer purchaseOrderItemIdentifier;

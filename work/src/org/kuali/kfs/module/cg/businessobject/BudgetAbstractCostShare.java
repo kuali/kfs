@@ -20,13 +20,13 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.PropertyConstants;
 
 /**
  * 
  */
-public abstract class BudgetAbstractCostShare extends BusinessObjectBase {
+public abstract class BudgetAbstractCostShare extends PersistableBusinessObjectBase {
 
     protected String documentNumber;
     protected Integer budgetCostShareSequenceNumber;

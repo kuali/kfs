@@ -19,13 +19,13 @@ package org.kuali.module.kra.routingform.bo;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.PropertyConstants;
 
 /**
  * 
  */
-public class RoutingFormKeyword extends BusinessObjectBase {
+public class RoutingFormKeyword extends PersistableBusinessObjectBase {
 
 	private String routingFormKeywordDescription;
 	private String documentNumber;

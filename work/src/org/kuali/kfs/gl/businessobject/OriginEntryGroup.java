@@ -19,9 +19,9 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
-public class OriginEntryGroup extends BusinessObjectBase {
+public class OriginEntryGroup extends PersistableBusinessObjectBase {
 
     private static final String VALID_STRING = "Valid-";
     private static final String INVALID_STRING = "Error-";

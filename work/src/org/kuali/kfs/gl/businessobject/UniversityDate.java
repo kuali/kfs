@@ -18,14 +18,14 @@ package org.kuali.module.gl.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.chart.bo.AccountingPeriod;
 
 /**
  * 
  * 
  */
-public class UniversityDate extends BusinessObjectBase {
+public class UniversityDate extends PersistableBusinessObjectBase {
     static final long serialVersionUID = 2587833750168955556L;
 
     private Date universityDate;

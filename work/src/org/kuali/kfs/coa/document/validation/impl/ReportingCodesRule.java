@@ -17,7 +17,7 @@ package org.kuali.module.chart.rules;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.KeyConstants;
-import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.BusinessObjectService;
@@ -95,8 +95,8 @@ public class ReportingCodesRule extends MaintenanceDocumentRuleBase {
         if (doExistenceTest) {
 
             // attempt to retrieve the specified object from the db
-            BusinessObject referenceBo;
-            referenceBo = businessObjectService.getReferenceIfExists((BusinessObject) newReportingCode, "reportingCodes");
+            PersistableBusinessObject referenceBo;
+            referenceBo = businessObjectService.getReferenceIfExists((PersistableBusinessObject) newReportingCode, "reportingCodes");
             if (!ObjectUtils.isNotNull(referenceBo)) {
                 putFieldError("financialReportsToReportingCode", KeyConstants.ERROR_EXISTENCE, "Reports To Reporting Code");
                 success &= false;

@@ -17,13 +17,13 @@ package org.kuali.module.kra.budget.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
 
-public class NonpersonnelObjectCode extends BusinessObjectBase implements Comparable {
+public class NonpersonnelObjectCode extends PersistableBusinessObjectBase implements Comparable {
     private static final long serialVersionUID = -5150973847161350622L;
 
     /**

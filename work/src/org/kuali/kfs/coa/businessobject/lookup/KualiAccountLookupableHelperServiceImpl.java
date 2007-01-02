@@ -15,7 +15,7 @@
  */
 package org.kuali.module.chart.lookup;
 
-import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.module.chart.bo.Account;
@@ -26,7 +26,7 @@ public class KualiAccountLookupableHelperServiceImpl extends KualiLookupableHelp
      * @returns links to edit and copy maintenance action for the current maintenance record.
      */
     @Override
-    public String getActionUrls(BusinessObject bo) {
+    public String getActionUrls(PersistableBusinessObject bo) {
         StringBuffer actions = new StringBuffer();
         Account theAccount = (Account)bo;
         ChartUser user = (ChartUser)GlobalVariables.getUserSession().getUniversalUser().getModuleUser( ChartUser.MODULE_ID );

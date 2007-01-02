@@ -18,7 +18,7 @@ package org.kuali.module.financial.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.lookup.keyvalues.TaxIncomeClassValuesFinder;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.PropertyConstants;
@@ -26,7 +26,7 @@ import org.kuali.PropertyConstants;
 /**
  * 
  */
-public class DisbursementVoucherNonResidentAlienTax extends BusinessObjectBase {
+public class DisbursementVoucherNonResidentAlienTax extends PersistableBusinessObjectBase {
 
     private String documentNumber;
     private KualiDecimal federalIncomeTaxPercent;

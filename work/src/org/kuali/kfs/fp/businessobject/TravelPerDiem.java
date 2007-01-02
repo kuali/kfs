@@ -18,13 +18,13 @@ package org.kuali.module.financial.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
 /**
  * 
  */
-public class TravelPerDiem extends BusinessObjectBase {
+public class TravelPerDiem extends PersistableBusinessObjectBase {
     private Integer fiscalYear;
     private String perDiemCountryName;
     private KualiDecimal perDiemRate;

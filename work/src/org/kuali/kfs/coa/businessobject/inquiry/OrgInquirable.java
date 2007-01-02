@@ -18,7 +18,7 @@ package org.kuali.module.chart.maintenance;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.inquiry.KualiInquirableImpl;
 import org.kuali.core.web.uidraw.Column;
 import org.kuali.core.web.uidraw.Section;
@@ -27,7 +27,7 @@ import org.kuali.module.chart.bo.Org;
 public class OrgInquirable extends KualiInquirableImpl {
 
     
-    public void addAdditionalSections(List sections, BusinessObject bo) {
+    public void addAdditionalSections(List sections, PersistableBusinessObject bo) {
         if (bo instanceof Org) {
             Org org = (Org) bo;
             

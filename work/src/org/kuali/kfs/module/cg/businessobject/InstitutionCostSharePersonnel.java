@@ -19,14 +19,14 @@ package org.kuali.module.kra.budget.bo;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.PropertyConstants;
 
 /**
  * 
  */
-public class InstitutionCostSharePersonnel extends BusinessObjectBase {
+public class InstitutionCostSharePersonnel extends PersistableBusinessObjectBase {
 
     private String documentNumber;
     private String chartOfAccountsCode;

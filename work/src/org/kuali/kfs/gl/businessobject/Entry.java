@@ -19,7 +19,7 @@ package org.kuali.module.gl.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.Options;
 import org.kuali.core.bo.OriginationCode;
 import org.kuali.core.document.DocumentType;
@@ -38,7 +38,7 @@ import org.kuali.PropertyConstants;
 /**
  * 
  */
-public class Entry extends BusinessObjectBase implements Transaction {
+public class Entry extends PersistableBusinessObjectBase implements Transaction {
     static final long serialVersionUID = -24983129882357448L;
 
     private Integer universityFiscalYear;
@@ -88,7 +88,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
     private OriginationCode originationCode;
     private OriginationCode referenceOriginationCode;
 
-    private DummyBusinessObject dummyBusinessObject;
+    private TransientBalanceInquiryAttributes dummyBusinessObject;
 
     /**
      * Default constructor.
@@ -98,7 +98,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
 
     public Entry(Transaction t, java.util.Date postDate) {
         super();
-        this.dummyBusinessObject = new DummyBusinessObject();
+        this.dummyBusinessObject = new TransientBalanceInquiryAttributes();
 
         setUniversityFiscalYear(t.getUniversityFiscalYear());
         setChartOfAccountsCode(t.getChartOfAccountsCode());
@@ -783,7 +783,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
      * 
      * @return Returns the dummyBusinessObject.
      */
-    public DummyBusinessObject getDummyBusinessObject() {
+    public TransientBalanceInquiryAttributes getDummyBusinessObject() {
         return dummyBusinessObject;
     }
 
@@ -792,7 +792,7 @@ public class Entry extends BusinessObjectBase implements Transaction {
      * 
      * @param dummyBusinessObject The dummyBusinessObject to set.
      */
-    public void setDummyBusinessObject(DummyBusinessObject dummyBusinessObject) {
+    public void setDummyBusinessObject(TransientBalanceInquiryAttributes dummyBusinessObject) {
         this.dummyBusinessObject = dummyBusinessObject;
     }
 

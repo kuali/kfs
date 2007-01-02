@@ -19,7 +19,7 @@ package org.kuali.module.gl.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
@@ -29,7 +29,7 @@ import org.kuali.PropertyConstants;
 /**
  * 
  */
-public class EntryMove extends BusinessObjectBase {
+public class EntryMove extends PersistableBusinessObjectBase {
 
     private String personUniversalIdentifier;
     private Integer universityFiscalYear;

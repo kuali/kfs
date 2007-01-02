@@ -18,13 +18,13 @@ package org.kuali.module.financial.bo;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * 
  */
 
-public class Bank extends BusinessObjectBase {
+public class Bank extends PersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 6091563911993138998L;
     private String financialDocumentBankCode;

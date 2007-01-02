@@ -21,7 +21,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.BusinessObjectBase;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.Options;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
@@ -33,7 +33,7 @@ import org.kuali.module.chart.bo.SubObjCd;
 /**
  * 
  */
-public class CalculatedSalaryFoundationTracker extends BusinessObjectBase {
+public class CalculatedSalaryFoundationTracker extends PersistableBusinessObjectBase {
 
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;

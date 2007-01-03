@@ -703,7 +703,7 @@
 		</property>
 	</bean>
 
-	<bean id="glScrubberService" class="org.kuali.module.gl.service.impl.ScrubberServiceImpl" init-method="init">
+	<bean id="glScrubberService" class="org.kuali.module.gl.service.impl.ScrubberServiceImpl">
 		<property name="flexibleOffsetAccountService">
 			<ref bean="flexibleOffsetAccountService" />
 		</property>
@@ -808,7 +808,7 @@
 		</property>
 	</bean>
 
-	<bean id="glPosterService" class="org.kuali.module.gl.service.impl.PosterServiceImpl" init-method="init">
+	<bean id="glPosterService" class="org.kuali.module.gl.service.impl.PosterServiceImpl">
 		<property name="transactionPosters">
 			<list>
 				<ref bean="glPostGlEntry" />

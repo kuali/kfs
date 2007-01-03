@@ -35,6 +35,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         LOG.debug("setUp() started");
 
         scrubberService = (ScrubberService) beanFactory.getBean("glScrubberService");
+        scrubberService.setDateTimeService(dateTimeService);
         persistenceService = (PersistenceService) beanFactory.getBean("persistenceService");
 
         // Get the test date time service so we can specify the date/time of the run
@@ -50,7 +51,7 @@ public class ScrubberServiceTest extends OriginEntryTestBase {
         c.set(Calendar.SECOND, 59);
         
         date = c.getTime();
-        dateTimeService.currentDate = date;
+        dateTimeService.setCurrentDate(date);
     }
 
     public void testMiscellaneousBlankFields() throws Exception {

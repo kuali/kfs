@@ -43,9 +43,10 @@ public class PosterServiceTest extends OriginEntryTestBase {
         date = c.getTime();
 
         // Set the run date of the job
-        dateTimeService.currentDate = date;
+        dateTimeService.setCurrentDate(date);
 
         posterService = (PosterService) beanFactory.getBean("glPosterService");
+        posterService.setDateTimeService(dateTimeService);
     }
 
     /**

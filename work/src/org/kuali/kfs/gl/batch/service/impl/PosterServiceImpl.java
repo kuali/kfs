@@ -92,13 +92,6 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
     private FlexibleOffsetAccountService flexibleOffsetAccountService;
 
     /**
-     * 
-     */
-    public PosterServiceImpl() {
-        super();
-    }
-
-    /**
      * Post scrubbed GL entries to GL tables.
      */
     public void postMainEntries() {
@@ -608,15 +601,6 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
         }
         else {
             reporting.put(key, new Integer(1));
-        }
-    }
-
-    public void init() {
-        LOG.debug("init() started");
-
-        // If we are in test mode
-        if (beanFactory.containsBean("testDateTimeService")) {
-            dateTimeService = (DateTimeService) beanFactory.getBean("testDateTimeService");
         }
     }
 

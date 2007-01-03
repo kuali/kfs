@@ -55,7 +55,7 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
         super.setUp();
 
         DateFormat transactionDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        dateTimeService.currentDate = new Date(transactionDateFormat.parse(kualiConfigurationService.getApplicationParameterValue("fis_gl_year_end.sh", "TRANSACTION_DT")).getTime());
+        dateTimeService.setCurrentDate(new Date(transactionDateFormat.parse(kualiConfigurationService.getApplicationParameterValue("fis_gl_year_end.sh", "TRANSACTION_DT")).getTime()));
     }
 
     /**
@@ -80,7 +80,7 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
         OriginEntryGroupService groupService = SpringServiceLocator.getOriginEntryGroupService();
 
         // and verify the output.
-        List fisGenerated = GeneralLedgerTestHelper.loadOutputOriginEntriesFromClasspath("org/kuali/module/gl/batch/gl_gleacbfb.data.txt", dateTimeService.currentDate);
+        List fisGenerated = GeneralLedgerTestHelper.loadOutputOriginEntriesFromClasspath("org/kuali/module/gl/batch/gl_gleacbfb.data.txt", dateTimeService.getCurrentDate());
 
         // load our groups.
         Map criteria = new HashMap();

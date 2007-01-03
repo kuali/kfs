@@ -15,6 +15,7 @@
  */
 package org.kuali.module.gl.service;
 
+import org.kuali.core.service.DateTimeService;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 
 /**
@@ -33,4 +34,6 @@ public interface ScrubberService {
      * entry. It will create a the scrubber report
      */
     public void scrubGroupReportOnly(OriginEntryGroup group,String documentNumber);
+    
+    public void setDateTimeService(DateTimeService dateTimeService);
 }

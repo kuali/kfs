@@ -54,25 +54,6 @@ public class ScrubberServiceImpl implements ScrubberService, BeanFactoryAware {
     private ScrubberValidator scrubberValidator;
     private String cutoffTime;
 
-    public ScrubberServiceImpl() {
-        super();
-        cutoffTime = null;
-    }
-
-    /**
-     * This method is called by Spring after it has initialized all dependencies. It will determine if we are in a test or not. If
-     * we are in a test, replace the date time service & report service with a test version.
-     * 
-     */
-    public void init() {
-        LOG.debug("init() started");
-
-        // If we are in test mode
-        if (SpringServiceLocator.isInTestMode()) {
-            dateTimeService = (DateTimeService) beanFactory.getBean("testDateTimeService");
-        }
-    }
-
     /**
      * 
      * @see org.kuali.module.gl.service.ScrubberService#scrubGroupReportOnly(org.kuali.module.gl.bo.OriginEntryGroup)

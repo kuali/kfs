@@ -15,6 +15,8 @@
  */
 package org.kuali.module.gl.service;
 
+import org.kuali.core.service.DateTimeService;
+
 /**
  * 
  * 
@@ -44,4 +46,6 @@ public interface PosterService {
      * 
      */
     public void generateIcrTransactions();
+    
+    public void setDateTimeService(DateTimeService dateTimeService);
 }

@@ -23,9 +23,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.service.ConfigurableDateService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
-import org.kuali.core.service.impl.TestDateTimeServiceImpl;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
@@ -36,13 +36,11 @@ import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.test.KualiTestBase;
 import org.springframework.beans.factory.BeanFactory;
 
-/**
- */
 public class OriginEntryTestBase extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryTestBase.class);
 
     protected BeanFactory beanFactory;
-    protected TestDateTimeServiceImpl dateTimeService;
+    protected ConfigurableDateService dateTimeService;
     protected PersistenceService persistenceService;
     protected UnitTestSqlDao unitTestSqlDao = null;
     protected OriginEntryGroupService originEntryGroupService = null;
@@ -63,7 +61,7 @@ public class OriginEntryTestBase extends KualiTestBase {
 
         beanFactory = SpringServiceLocator.getBeanFactory();
 
-        dateTimeService = (TestDateTimeServiceImpl) beanFactory.getBean("testDateTimeService");
+        dateTimeService = (ConfigurableDateService) beanFactory.getBean("testDateTimeService");
 
         // Other objects needed for the tests
         persistenceService = (PersistenceService) beanFactory.getBean("persistenceService");

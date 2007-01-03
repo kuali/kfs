@@ -39,7 +39,7 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
         super.setUp();
 
         scrubberService = (ScrubberService) beanFactory.getBean(GLSpringBeansRegistry.glScrubberService);
-
+        scrubberService.setDateTimeService(dateTimeService);
         // Get the test date time service so we can specify the date/time of the run
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DAY_OF_MONTH, 1);
@@ -53,7 +53,7 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
         c.set(Calendar.SECOND, 59);
         
         date = c.getTime();
-        dateTimeService.currentDate = date;
+        dateTimeService.setCurrentDate(date);
     }
 
     /**

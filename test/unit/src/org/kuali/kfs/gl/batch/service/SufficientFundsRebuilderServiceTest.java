@@ -32,7 +32,7 @@ import org.springframework.beans.factory.BeanFactory;
 
 @WithTestSpringContext
 public class SufficientFundsRebuilderServiceTest extends KualiTestBase {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberServiceTest.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsRebuilderServiceTest.class);
 
     protected BeanFactory beanFactory;
     private SufficientFundsRebuilderService sufficientFundsRebuilderService = null;

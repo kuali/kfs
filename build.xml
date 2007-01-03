@@ -323,13 +323,8 @@
 		<copy todir="${logs.directory}" overwrite="true">
 			<fileset dir="${build.logs.directory}" />
 		</copy>
-		<mkdir dir="${reports.directory}" />
-		<copy todir="${attachments.directory}" overwrite="true">
-			<fileset dir="${build.attachments.directory}" />
-		</copy>
-		<copy todir="${staging.directory}" overwrite="true">
-			<fileset dir="${build.staging.directory}" />
-			<filterset refid="general.filterset" />
+		<copy todir="${static.directory}" overwrite="true">
+			<fileset dir="${build.static.directory}" />
 		</copy>
 	</target>
 	

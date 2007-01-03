@@ -1329,9 +1329,9 @@
 		</property>
 	</bean>
 
-	<bean id="testDateTimeService" class="org.kuali.core.service.impl.TestDateTimeServiceImpl">
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
-	</bean>
+	<bean id="testDateTimeService" class="org.kuali.core.service.impl.ConfigurableDateTimeServiceImpl">
+	    <property name="universityDateDao">
+            <ref bean="universityDateDao" />
+        </property>
+    </bean>
 </beans>

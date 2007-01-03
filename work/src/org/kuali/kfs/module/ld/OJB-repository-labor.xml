@@ -1015,21 +1015,6 @@
 	<field-descriptor name="calculatedSalaryFoundationAmount" column="CSF_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.labor.bo.FillInPosition" table="LD_FILL_IN_POS_T">
-	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true"/>
-	<field-descriptor name="positionNumber" column="POSITION_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="fillInPositionNumber" column="FILL_IN_POS_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-</class-descriptor>
-
-<class-descriptor class="org.kuali.module.labor.bo.HistoricalPositionNumber" table="LD_HIST_POS_NBR_T">
-	<field-descriptor name="historicalPositionNumber" column="HIST_POSITION_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="positionNumber" column="POSITION_NBR" jdbc-type="VARCHAR" index="true"/>
-</class-descriptor>
-
 <class-descriptor class="org.kuali.module.labor.bo.PendingLedgerEntry" table="LD_PND_LDGR_ENTR_T">
 	<field-descriptor name="financialSystemOriginationCode" column="FS_ORIGIN_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>

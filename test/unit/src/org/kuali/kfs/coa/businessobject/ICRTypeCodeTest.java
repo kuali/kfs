@@ -18,8 +18,6 @@ package org.kuali.module.chart.bo.codes;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
-import org.kuali.test.suite.RelatesTo;
-import static org.kuali.test.suite.RelatesTo.JiraIssue.KULRNE42;
 
 /**
  * Tests of the ICRTypeCode BO.

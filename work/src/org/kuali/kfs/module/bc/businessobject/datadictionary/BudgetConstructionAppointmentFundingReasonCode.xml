@@ -55,6 +55,8 @@
             </resultFields>
         </lookup>
 
+        <titleAttribute>appointmentFundingReasonCode</titleAttribute>
+  
         <attributes>
 
             <attribute name="appointmentFundingReasonCode" forceUppercase="true">

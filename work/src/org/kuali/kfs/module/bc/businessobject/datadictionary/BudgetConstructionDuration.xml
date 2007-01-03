@@ -55,6 +55,9 @@
             </resultFields>
         </lookup>
 
+
+        <titleAttribute>appointmentDurationCode</titleAttribute>
+  
         <attributes>
 
             <attribute name="appointmentDurationCode" forceUppercase="true">

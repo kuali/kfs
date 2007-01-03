@@ -30,7 +30,6 @@ public class ICRTypeCodeTest extends KualiTestBase {
     /**
      * The isActive method should always return true, at least until a phase 2 task adds active indicators to all BOs.
      */
-    @RelatesTo(KULRNE42)
     public void testIsActive() {
         ICRTypeCode bo = (ICRTypeCode) (SpringServiceLocator.getBusinessObjectService().findAll(ICRTypeCode.class).toArray()[0]);
         assertEquals(true, bo.isActive());

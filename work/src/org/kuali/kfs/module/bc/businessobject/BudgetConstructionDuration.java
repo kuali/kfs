@@ -27,7 +27,7 @@ public class BudgetConstructionDuration extends PersistableBusinessObjectBase {
 
 	private String appointmentDurationCode;
 	private String appointmentDurationDescription;
-	private String rowActiveIndicator;
+	private boolean rowActiveIndicator;
 
 	/**
 	 * Default constructor.
@@ -79,27 +79,22 @@ public class BudgetConstructionDuration extends PersistableBusinessObjectBase {
 
 
 	/**
-	 * Gets the rowActiveIndicator attribute.
-	 * 
-	 * @return Returns the rowActiveIndicator
-	 * 
-	 */
-	public String getRowActiveIndicator() { 
-		return rowActiveIndicator;
-	}
+     * Gets the rowActiveIndicator attribute. 
+     * @return Returns the rowActiveIndicator.
+     */
+    public boolean isRowActiveIndicator() {
+        return rowActiveIndicator;
+    }
 
-	/**
-	 * Sets the rowActiveIndicator attribute.
-	 * 
-	 * @param rowActiveIndicator The rowActiveIndicator to set.
-	 * 
-	 */
-	public void setRowActiveIndicator(String rowActiveIndicator) {
-		this.rowActiveIndicator = rowActiveIndicator;
-	}
+    /**
+     * Sets the rowActiveIndicator attribute value.
+     * @param rowActiveIndicator The rowActiveIndicator to set.
+     */
+    public void setRowActiveIndicator(boolean rowActiveIndicator) {
+        this.rowActiveIndicator = rowActiveIndicator;
+    }
 
-
-	/**
+    /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {

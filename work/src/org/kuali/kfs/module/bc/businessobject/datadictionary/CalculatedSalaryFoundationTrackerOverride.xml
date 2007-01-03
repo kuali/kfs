@@ -25,19 +25,19 @@
             <title>Calculated Salary Foundation Tracker Override Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="accountNumber" />
+                <field attributeName="universityFiscalYear" />
                 <field attributeName="chartOfAccountsCode" />
-                <field attributeName="csfAmount" />
-                <field attributeName="csfDeleteCode" />
-                <field attributeName="csfFullTimeEmploymentQuantity" />
-                <field attributeName="csfFundingStatusCode" />
-                <field attributeName="csfTimePercent" />
-                <field attributeName="emplid" />
+                <field attributeName="accountNumber" />
+                <field attributeName="subAccountNumber" />
                 <field attributeName="financialObjectCode" />
                 <field attributeName="financialSubObjectCode" />
                 <field attributeName="positionNumber" />
-                <field attributeName="subAccountNumber" />
-                <field attributeName="universityFiscalYear" />
+                <field attributeName="emplid" />
+                <field attributeName="csfAmount" />
+                <field attributeName="csfFullTimeEmploymentQuantity" />
+                <field attributeName="csfTimePercent" />
+                <field attributeName="csfFundingStatusCode" />
+                <field attributeName="csfDeleteCode" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -55,41 +55,41 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="accountNumber" required="false" />
+                <lookupField attributeName="universityFiscalYear" required="false" noLookup="true" />
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="csfAmount" required="false" />
-                <lookupField attributeName="csfDeleteCode" required="false" />
-                <lookupField attributeName="csfFullTimeEmploymentQuantity" required="false" />
-                <lookupField attributeName="csfFundingStatusCode" required="false" />
-                <lookupField attributeName="csfTimePercent" required="false" />
-                <lookupField attributeName="emplid" required="false" />
+                <lookupField attributeName="accountNumber" required="false" />
+                <lookupField attributeName="subAccountNumber" required="false" />
                 <lookupField attributeName="financialObjectCode" required="false" />
                 <lookupField attributeName="financialSubObjectCode" required="false" />
                 <lookupField attributeName="positionNumber" required="false" />
-                <lookupField attributeName="subAccountNumber" required="false" />
-                <lookupField attributeName="universityFiscalYear" required="false" />
+                <lookupField attributeName="emplid" required="false" />
+                <lookupField attributeName="csfAmount" required="false" />
+                <lookupField attributeName="csfFullTimeEmploymentQuantity" required="false" />
+                <lookupField attributeName="csfTimePercent" required="false" />
+                <lookupField attributeName="csfFundingStatusCode" required="false" />
+                <lookupField attributeName="csfDeleteCode" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="accountNumber" />
+                <field attributeName="universityFiscalYear" />
                 <field attributeName="chartOfAccountsCode" />
-                <field attributeName="csfAmount" />
-                <field attributeName="csfDeleteCode" />
-                <field attributeName="csfFullTimeEmploymentQuantity" />
-                <field attributeName="csfFundingStatusCode" />
-                <field attributeName="csfTimePercent" />
-                <field attributeName="emplid" />
+                <field attributeName="accountNumber" />
+                <field attributeName="subAccountNumber" />
                 <field attributeName="financialObjectCode" />
                 <field attributeName="financialSubObjectCode" />
                 <field attributeName="positionNumber" />
-                <field attributeName="subAccountNumber" />
-                <field attributeName="universityFiscalYear" />
+                <field attributeName="emplid" />
+                <field attributeName="csfAmount" />
+                <field attributeName="csfFullTimeEmploymentQuantity" />
+                <field attributeName="csfTimePercent" />
+                <field attributeName="csfFundingStatusCode" />
+                <field attributeName="csfDeleteCode" />
             </resultFields>
         </lookup>
 
         <attributes>
 
-            <attribute name="accountNumber" forceUppercase="true">
+            <attribute name="accountNumber" forceUppercase="true" >
                 <label>Account Number</label>
                 <shortLabel>Number</shortLabel>
 
@@ -124,7 +124,11 @@
                 <shortLabel>Amount</shortLabel>
 
                 <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+
+                <validationPattern>
+                    <fixedPoint allowNegative="false" precision="19" scale="2" />
+                </validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="21" />
@@ -154,7 +158,9 @@
                 <shortLabel>Quantity</shortLabel>
 
                 <maxLength>9</maxLength>
-                <validationPattern><numeric /></validationPattern>
+                 <validationPattern>
+                    <floatingPoint allowNegative="false" />
+                </validationPattern>
 
                 <control>
                     <text size="11" />
@@ -184,7 +190,10 @@
                 <shortLabel>Percent</shortLabel>
 
                 <maxLength>9</maxLength>
-                <validationPattern><numeric /></validationPattern>
+
+                <validationPattern>
+                    <floatingPoint allowNegative="false" />
+                </validationPattern>
 
                 <control>
                     <text size="11" />
@@ -269,7 +278,7 @@
                 <description>subAccountNumber description...</description>
 			</attribute>
 
-            <attribute name="universityFiscalYear" forceUppercase="true">
+            <attribute name="universityFiscalYear" forceUppercase="true" >
                 <label>University Fiscal Year</label>
                 <shortLabel>Year</shortLabel>
 

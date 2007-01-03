@@ -90,7 +90,7 @@
                     	</td>
                     	<td class="infoline">
                         	<kul:htmlControlAttribute property="newAdHocRoutePerson.id" attributeEntry="${DataDictionary.AdHocRoutePerson.attributes.id}" readOnly="${displayReadOnly}" />
-                        	<kul:lookup boClassName="org.kuali.core.bo.user.KualiUser"  fieldConversions="universalUser.personUserIdentifier:newAdHocRoutePerson.id" />
+                        	<kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser"  fieldConversions="personUserIdentifier:newAdHocRoutePerson.id" />
                     	</td>
                     	<td class="infoline"><div align=center>--</div></td>
                     	<td class="infoline"><div align=center>--</div></td>

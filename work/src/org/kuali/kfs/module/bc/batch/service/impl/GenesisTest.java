@@ -47,6 +47,7 @@ public class GenesisTest {
       DateMakerService dateMakerTestService = 
           SpringServiceLocator.getDateMakerService();
   //
-      genesisTestService.testStep(2007);
+  //    genesisTestService.testStep(2007);
+        genesisTestService.testSLFStep(2009);
   }
 }

@@ -33,6 +33,11 @@ public class GenesisServiceImpl implements GenesisService {
          genesisDao.updateToPBGL(BaseYear);  
       }
       
+      public final void testSLFStep (Integer BaseYear)
+      {
+          genesisDao.setControlFlagsAtTheStartOfGenesis(BaseYear);
+      }
+      
       public final void stepBudgetConstructionGLLoad (Integer universityFiscalYear)
       {
 

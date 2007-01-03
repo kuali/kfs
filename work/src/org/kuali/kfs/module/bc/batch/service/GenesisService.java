@@ -27,5 +27,6 @@ public interface GenesisService {
     public void stepBudgetConstructionGLLoad (Integer universityFiscalYear);
 
     public void testStep(Integer universityFiscalYear);
+    public void testSLFStep(Integer universityFiscalYear);
     
 }

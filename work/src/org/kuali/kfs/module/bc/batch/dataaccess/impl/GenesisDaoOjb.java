@@ -107,7 +107,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
 
     // @@TODO maybe it isn't worth moving these home-coming queen values somewhere else
     //        maybe we don't need the second one at all
-    public final static Long DEFAULT_VERSION_NUMBER = new Long(0);
+    public final static Long DEFAULT_VERSION_NUMBER = new Long(1);
     public final static Integer MAXIMUM_ORGANIZATION_TREE_DEPTH = new Integer(1000);
 
     /*
@@ -218,7 +218,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
        FiscalYearFunctionControl SLF;
        criteriaID = QueryByCriteria.CRITERIA_SELECT_ALL;
        String[] attrQ = {PropertyConstants.FINANCIAL_SYSTEM_FUNCTION_CONTROL_CODE,
-                         PropertyConstants.FINANCIAL_SYSTEM_FUNCTION_ACTIVE_INDICATOR};
+                         PropertyConstants.FINANCIAL_SYSTEM_FUNCTION_DEFAULT_INDICATOR};
        ReportQueryByCriteria rptQueryID = new ReportQueryByCriteria(FunctionControlCode.class,
                                        attrQ,criteriaID);
        Integer sqlFunctionControlCode     = 0;
@@ -231,10 +231,12 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
            SLF = new FiscalYearFunctionControl();
            Object[] resultFields = (Object[]) Results.next();
            String flagTag     = (String) resultFields[sqlFunctionControlCode];
-           String flagDefault = (String) resultFields[sqlFunctionActiveIndicator];
+ //          String flagDefault = (String) resultFields[sqlFunctionActiveIndicator];
+ //  apparently OJB is smart enough to bring this in as a boolean
+           boolean flagDefault = (Boolean) resultFields[sqlFunctionActiveIndicator];
            SLF.setUniversityFiscalYear(RequestYear);
-           SLF.setVersionNumber(DEFAULT_VERSION_NUMBER);
            SLF.setFinancialSystemFunctionControlCode(flagTag);
+           SLF.setVersionNumber(DEFAULT_VERSION_NUMBER);
            if (flagTag == 
                BudgetConstructionConstants.BUDGET_CONSTRUCTION_GENESIS_RUNNING)
            {
@@ -242,8 +244,9 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
            }
            else
            {
-               SLF.setFinancialSystemFunctionActiveIndicator(
-                       ((flagDefault == Constants.ParameterValues.YES)? true : false));
+//               SLF.setFinancialSystemFunctionActiveIndicator(
+//                       ((flagDefault == Constants.ParameterValues.YES)? true : false));
+                 SLF.setFinancialSystemFunctionActiveIndicator(flagDefault);
            }
            getPersistenceBrokerTemplate().store(SLF);
        }

@@ -325,6 +325,7 @@
 		</copy>
 		<copy todir="${static.directory}" overwrite="true">
 			<fileset dir="${build.static.directory}" />
+			<filterset refid="general.filterset" />
 		</copy>
 	</target>
 	

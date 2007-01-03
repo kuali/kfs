@@ -188,50 +188,6 @@ public class BudgetGraduateAssistantRate extends PersistableBusinessObjectBase i
         this.documentNumber = documentNumber;
     }
 
-    public void afterDelete(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        // TODO Auto-generated method stub
-        super.afterDelete(persistenceBroker);
-    }
-
-    public void afterInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        // TODO Auto-generated method stub
-        super.afterInsert(persistenceBroker);
-    }
-
-    public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        // TODO Auto-generated method stub
-        super.afterLookup(persistenceBroker);
-    }
-
-    public void afterUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        // TODO Auto-generated method stub
-        super.afterUpdate(persistenceBroker);
-    }
-
-    public void beforeDelete(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        // TODO Auto-generated method stub
-        super.beforeDelete(persistenceBroker);
-    }
-
-    public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        // TODO Auto-generated method stub
-        super.beforeInsert(persistenceBroker);
-    }
-
-    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        // TODO Auto-generated method stub
-        super.beforeUpdate(persistenceBroker);
-    }
-
-    public List getExtendedAttributeValues() {
-        // TODO Auto-generated method stub
-        return super.getExtendedAttributeValues();
-    }
-
-    public void setExtendedAttributeValues(List extendedAttributeValues) {
-        // TODO Auto-generated method stub
-        super.setExtendedAttributeValues(extendedAttributeValues);
-    }
 
     protected String toStringBuilder(LinkedHashMap fieldValues) {
         // TODO Auto-generated method stub

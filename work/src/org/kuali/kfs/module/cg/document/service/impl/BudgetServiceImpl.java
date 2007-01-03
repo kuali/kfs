@@ -15,6 +15,8 @@
  */
 package org.kuali.module.kra.budget.service.impl;
 
+import java.util.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -22,6 +24,7 @@ import java.util.List;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
@@ -101,7 +104,7 @@ public class BudgetServiceImpl implements BudgetService {
 
                 // Find what's changed that has a down-stream effect on other parts of the Budget, if anything, since the last save
                 List modifiedPeriods = findModifiedPeriods(budgetDocument, databaseBudgetDocument);
-                List modifiedFringeRates = findModifiedFringeRates(budgetDocument, databaseBudgetDocument);
+                List<BudgetFringeRate> modifiedFringeRates = findModifiedFringeRates(budgetDocument, databaseBudgetDocument);
                 // List modifiedPersonnel = findModifiedPersonnel(budgetDocument, databaseBudgetDocument);
 
                 boolean isPersonnelInflationRateModified = isPersonnelInflationRateModified(budgetDocument, databaseBudgetDocument);
@@ -127,12 +130,27 @@ public class BudgetServiceImpl implements BudgetService {
                 List modifiedUserAppointmentTaskPeriods = findModifiedUserAppointmentTaskPeriods(budgetDocument, databaseBudgetDocument);
                 List modifiedNonpersonnel = findModifiedNonpersonnel(budgetDocument, databaseBudgetDocument);
 
-                if (budgetDocument.getBudget().isAgencyModularIndicator() && ((modifiedPeriods.size() > 0 || modifiedUserAppointmentTaskPeriods.size() > 0) || modifiedNonpersonnel.size() > 0)) {
+                if (budget.isAgencyModularIndicator() && ((modifiedPeriods.size() > 0 || modifiedUserAppointmentTaskPeriods.size() > 0) || modifiedNonpersonnel.size() > 0)) {
                     updateModular(budgetDocument);
+                }
+
+                budget.setFringeRates(databaseBudgetDocument.getBudget().getFringeRates());
+                //Update timestamp of modified Fringe Rates
+                for (BudgetFringeRate modifiedBudgetFringeRate : modifiedFringeRates) {
+                    ObjectUtils.removeObjectWithIdentitcalKey(budget.getFringeRates(), modifiedBudgetFringeRate);
+                    modifiedBudgetFringeRate.setBudgetLastUpdateTimestamp(new Timestamp(new Date().getTime()));
+                }
+                
+                //Replace all of the fringe rates with what's in the database.  remove all of the modified ones (the .equals() method does not check timestamp) and re-add them.
+                budget.getFringeRates().addAll(modifiedFringeRates);
+                
+            } else {
+                for (BudgetFringeRate budgetFringeRate : budgetDocument.getBudget().getFringeRates()) {
+                    budgetFringeRate.setBudgetLastUpdateTimestamp(new Timestamp(new Date().getTime()));
                 }
             }
             
-//          Add new data, based on changes that may have occurred prior to the save (e.g., Project Director from Parameters)
+            // Add new data, based on changes that may have occurred prior to the save (e.g., Project Director from Parameters)
             budgetPersonnelService.reconcileProjectDirector(budgetDocument);
 
             // Add new Cost Share data based on personnel
@@ -305,12 +323,9 @@ public class BudgetServiceImpl implements BudgetService {
 
     private void updatePersonnelCostShare(BudgetDocument budgetDocument) {
         // if Institution Cost Share check box check box is un-checked, set the corresponding amounts to zero.
-        for (Iterator budgetUserIter = budgetDocument.getBudget().getPersonnel().iterator(); budgetUserIter.hasNext();) {
-            BudgetUser budgetUser = (BudgetUser) budgetUserIter.next();
-            for (Iterator userAppointmentTaskIter = budgetUser.getUserAppointmentTasks().iterator(); userAppointmentTaskIter.hasNext();) {
-                UserAppointmentTask userAppointmentTask = (UserAppointmentTask) userAppointmentTaskIter.next();
-                for (Iterator userAppointmentTaskPeriodIter = userAppointmentTask.getUserAppointmentTaskPeriods().iterator(); userAppointmentTaskPeriodIter.hasNext();) {
-                    UserAppointmentTaskPeriod userAppointmentTaskPeriod = (UserAppointmentTaskPeriod) userAppointmentTaskPeriodIter.next();
+        for (BudgetUser budgetUser : budgetDocument.getBudget().getPersonnel()) {
+            for (UserAppointmentTask userAppointmentTask : budgetUser.getUserAppointmentTasks()) {
+                for (UserAppointmentTaskPeriod userAppointmentTaskPeriod : userAppointmentTask.getUserAppointmentTaskPeriods()) {
                     userAppointmentTaskPeriod.setInstitutionCostSharePercentEffortAmount(new KualiInteger(0));
                     userAppointmentTaskPeriod.setUserInstitutionHours(new KualiInteger(0));
                     userAppointmentTaskPeriod.setInstitutionFullTimeEquivalentPercent(new KualiInteger(0));

@@ -446,23 +446,10 @@ public class Budget extends PersistableBusinessObjectBase {
         this.documentNumber = documentNumber;
     }
 
-    // /**
-    // * @return Returns the budgetDocument.
-    // */
-    // public BudgetDocument getBudgetDocument() {
-    // return budgetDocument;
-    // }
-    // /**
-    // * @param budgetDocument The budgetDocument to set.
-    // */
-    // public void setBudgetDocument(BudgetDocument budgetDocument) {
-    // this.budgetDocument = budgetDocument;
-    // }
-
     /**
      * @return Returns the fringeRates.
      */
-    public List getFringeRates() {
+    public List<BudgetFringeRate> getFringeRates() {
         return fringeRates;
     }
 

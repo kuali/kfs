@@ -18,22 +18,28 @@ package org.kuali.module.kra.budget.rules.budget;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.KeyConstants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.document.Document;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.KraConstants;
+import org.kuali.module.kra.KraPropertyConstants;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetFringeRate;
 import org.kuali.module.kra.budget.bo.BudgetGraduateAssistantRate;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.document.BudgetDocument;
+import org.kuali.module.kra.budget.service.BudgetFringeRateService;
 
 public class BudgetParametersRule {
     private String MAXIMUM_PERIOD_LENGTH;
@@ -41,6 +47,8 @@ public class BudgetParametersRule {
     private String NEW_PERIOD_IDENTIFIER;
     
     private DataDictionaryService dataDictionaryService;
+    private BusinessObjectService businessObjectService;
+    private BudgetFringeRateService budgetFringeRateService;
     
     /**
      * 
@@ -53,6 +61,8 @@ public class BudgetParametersRule {
         NEW_PERIOD_IDENTIFIER = kcs.getApplicationParameterValue("KraDevelopmentGroup", "newPeriodIdentifier");
         
         dataDictionaryService = SpringServiceLocator.getDataDictionaryService();
+        businessObjectService = SpringServiceLocator.getBusinessObjectService();
+        budgetFringeRateService = SpringServiceLocator.getBudgetFringeRateService();
     }
 
     protected boolean isParametersValid(BudgetDocument budgetDocument) {
@@ -339,13 +349,15 @@ public class BudgetParametersRule {
      * @return boolean True if the list is valid, false otherwise.
      */
     protected boolean isFringeRateListValid(BudgetDocument budgetDocument) {
-        List fringeRateList = budgetDocument.getBudget().getFringeRates();
+        List<BudgetFringeRate> fringeRateList = budgetDocument.getBudget().getFringeRates();
         boolean valid = true;
         boolean isRateChanged = false;
         KualiDecimal maximumRate = new KualiDecimal(100);
-        for (int i = 0; i < fringeRateList.size(); i++) {
-            // get the current budgetFringeRate object from the list collection
-            BudgetFringeRate budgetFringeRate = (BudgetFringeRate) fringeRateList.get(i);
+        int i = 0;
+        for (BudgetFringeRate budgetFringeRate : fringeRateList) {
+            BudgetFringeRate currentDatabaseFringe = budgetFringeRateService.getBudgetFringeRate(budgetFringeRate.getDocumentNumber(), budgetFringeRate.getInstitutionAppointmentTypeCode());
+            
+            boolean currentRateNotEqualSystemRate = false;
 
             // extract the fringe rate from the budgetFringeRate object
             KualiDecimal contractsAndGrantsFringeRate = budgetFringeRate.getContractsAndGrantsFringeRateAmount();
@@ -355,8 +367,15 @@ public class BudgetParametersRule {
 
             // check to see if the system value is different than the user input value
             if ((contractsAndGrantsFringeRate != null && budgetFringeRate.getAppointmentTypeFringeRateAmount().compareTo(contractsAndGrantsFringeRate) != 0) || (institutionCostShare != null && budgetFringeRate.getAppointmentTypeCostShareFringeRateAmount().compareTo(institutionCostShare) != 0)) {
-                isRateChanged = (isRateChanged | true);
+                currentRateNotEqualSystemRate = true;
             }
+            
+            // if the current rate is different than the system rate, check to see which one was changed last.  if the system rate was the last one to change, no justification is required.
+            isRateChanged |= currentRateNotEqualSystemRate && //the rates are different
+                (budgetFringeRate.getBudgetLastUpdateTimestamp() == null || //hasn't been saved yet
+                        (currentDatabaseFringe.getBudgetLastUpdateTimestamp().after(currentDatabaseFringe.getAppointmentType().getLastUpdate()) || //budget rate updated last (newer than system rate)
+                                (!budgetFringeRate.getInstitutionCostShareFringeRateAmount().equals(currentDatabaseFringe.getInstitutionCostShareFringeRateAmount()) || //one of the reates has changed since last save
+                                    !budgetFringeRate.getContractsAndGrantsFringeRateAmount().equals(currentDatabaseFringe.getContractsAndGrantsFringeRateAmount())))); 
             
             // check whether rates are within valid range
             if (budgetFringeRate.getContractsAndGrantsFringeRateAmount().isGreaterThan(maximumRate)) {
@@ -368,6 +387,8 @@ public class BudgetParametersRule {
                 valid = false;
                 GlobalVariables.getErrorMap().putError("budget.fringeRate[" + i + "].institutionCostShareFringeRateAmount", "error.fringeRate.tooLarge");
             }
+            
+            i++;
         }
 
         // get the Rate Change Justification

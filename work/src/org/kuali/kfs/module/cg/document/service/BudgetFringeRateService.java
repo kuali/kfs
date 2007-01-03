@@ -16,11 +16,15 @@
 package org.kuali.module.kra.budget.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetFringeRate;
 import org.kuali.module.kra.budget.bo.BudgetUser;
+import org.kuali.module.kra.budget.document.BudgetDocument;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 
 /**
@@ -48,4 +52,5 @@ public interface BudgetFringeRateService {
     public BudgetFringeRate getBudgetFringeRateForDefaultAppointmentType(String documentNumber);
 
     public BudgetFringeRate getBudgetFringeRate(String documentNumber, String institutionAppointmentTypeCode);
+
 }

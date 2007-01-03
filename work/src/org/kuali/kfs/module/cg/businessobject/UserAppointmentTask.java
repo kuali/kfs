@@ -226,31 +226,7 @@ public class UserAppointmentTask extends PersistableBusinessObjectBase implement
         this.task = task;
     }
 
-    /**
-     * @see org.apache.ojb.broker.PersistenceBrokerAware#beforeInsert(org.apache.ojb.broker.PersistenceBroker)
-     */
-    public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.beforeInsert(persistenceBroker);
-        this.refreshReferenceObject("budgetFringeRate");
-    }
-
-    /**
-     * @see org.apache.ojb.broker.PersistenceBrokerAware#beforeUpdate(org.apache.ojb.broker.PersistenceBroker)
-     */
-    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.beforeUpdate(persistenceBroker);
-        this.refreshReferenceObject("budgetFringeRate");
-    }
-
-    /**
-     * @see org.apache.ojb.broker.PersistenceBrokerAware#beforeDelete(org.apache.ojb.broker.PersistenceBroker)
-     */
-    public void beforeDelete(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.beforeDelete(persistenceBroker);
-        this.refreshReferenceObject("userAppointmentTaskPeriods");
-    }
-
-    /**
+     /**
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     public int compareTo(Object o) {

@@ -31,7 +31,6 @@
                 <field attributeName="fringeRateAmount" />
                 <field attributeName="costShareFringeRateAmount" />
                 <field attributeName="relatedAppointmentTypeCode" />
-                <field attributeName="fiscalYear" />
                 <field attributeName="lastUpdate" />
                 <field attributeName="active" />
             </inquiryFields></inquirySection></inquirySections>
@@ -47,7 +46,6 @@
             <lookupFields>
                 <lookupField attributeName="appointmentTypeCode" required="false" />
                 <lookupField attributeName="appointmentTypeAbbrieviation" required="false" />
-                <lookupField attributeName="fiscalYear" required="false" />
                 <lookupField attributeName="active" required="false">
                     <defaultValue>Y</defaultValue>
                 </lookupField>
@@ -59,8 +57,6 @@
                 <field attributeName="appointmentTypeAbbrieviation" />
                 <field attributeName="fringeRateAmount" />
                 <field attributeName="costShareFringeRateAmount" />
-                <field attributeName="relatedAppointmentTypeCode" />
-                <field attributeName="fiscalYear" />
                 <field attributeName="lastUpdate" />
                 <field attributeName="active" />
             </resultFields>
@@ -115,22 +111,6 @@
                 <description>Appointment Type Abbrieviation...</description>
             </attribute>
 
-            <attribute name="fiscalYear" forceUppercase="false">
-                <label>Fiscal Year</label>
-                <shortLabel>Fscl Year</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern>
-                    <year />
-                </validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>Fiscal Year</summary>
-                <description>Fiscal Year</description>
-            </attribute>
 
             <attribute name="fringeRateAmount" forceUppercase="false">
                 <label>Fringe Rate</label>
@@ -166,23 +146,12 @@
                 <description>Cost Share Fringe Rate</description>
             </attribute>
 
-            <attribute name="lastUpdate" forceUppercase="false">
+            <attributeReference name="lastUpdate"  sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
                 <label>Last Update</label>
                 <shortLabel>Last Update</shortLabel>
-
-                <maxLength>10</maxLength>
-
-                <validationPattern>
-                    <date />
-                </validationPattern>
-
-                <control>
-                    <text size="11" />
-                </control>
-
                 <summary>lastUpdate summary...</summary>
                 <description>lastUpdate description...</description>
-            </attribute>
+            </attributeReference>
             
             <attributeReference name="relatedAppointmentTypeCode" sourceClassName="org.kuali.module.kra.budget.bo.AppointmentType" sourceAttributeName="appointmentTypeCode">
                 <label>Related AppointmentType Code</label>

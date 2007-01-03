@@ -39,7 +39,6 @@ public class AppointmentType extends PersistableBusinessObjectBase {
     private String appointmentTypeAbbrieviation;
     private KualiDecimal fringeRateAmount;
     private KualiDecimal costShareFringeRateAmount;
-    private Integer fiscalYear;
     private Timestamp lastUpdate;
     private boolean displayGrid;
     private boolean active;
@@ -120,19 +119,6 @@ public class AppointmentType extends PersistableBusinessObjectBase {
         this.costShareFringeRateAmount = costShareFringeRateAmount;
     }
 
-    /**
-     * @return Returns the fiscalYear.
-     */
-    public Integer getFiscalYear() {
-        return fiscalYear;
-    }
-
-    /**
-     * @param fiscalYear The fiscalYear to set.
-     */
-    public void setFiscalYear(Integer fiscalYear) {
-        this.fiscalYear = fiscalYear;
-    }
 
     /**
      * @return Returns the fringeRateAmount.
@@ -162,81 +148,17 @@ public class AppointmentType extends PersistableBusinessObjectBase {
         return lastUpdate;
     }
 
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.apache.ojb.broker.PersistenceBrokerAware#afterDelete(org.apache.ojb.broker.PersistenceBroker)
-     */
-    public void afterDelete(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        // TODO Auto-generated method stub
-        super.afterDelete(persistenceBroker);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.apache.ojb.broker.PersistenceBrokerAware#afterInsert(org.apache.ojb.broker.PersistenceBroker)
-     */
-    public void afterInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        // TODO Auto-generated method stub
-        super.afterInsert(persistenceBroker);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.apache.ojb.broker.PersistenceBrokerAware#afterLookup(org.apache.ojb.broker.PersistenceBroker)
-     */
-    public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        // TODO Auto-generated method stub
-        super.afterLookup(persistenceBroker);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.apache.ojb.broker.PersistenceBrokerAware#afterUpdate(org.apache.ojb.broker.PersistenceBroker)
-     */
-    public void afterUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        // TODO Auto-generated method stub
-        super.afterUpdate(persistenceBroker);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.apache.ojb.broker.PersistenceBrokerAware#beforeDelete(org.apache.ojb.broker.PersistenceBroker)
-     */
-    public void beforeDelete(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        // TODO Auto-generated method stub
-        super.beforeDelete(persistenceBroker);
-    }
-
-    public void beforeSave() {
+    public void beforeInsert(PersistenceBroker persistenceBroker) {
+        super.beforeInsert(persistenceBroker);
         this.lastUpdate = new Timestamp(new Date().getTime());
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.apache.ojb.broker.PersistenceBrokerAware#beforeInsert(org.apache.ojb.broker.PersistenceBroker)
-     */
-    public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        // TODO Auto-generated method stub
-        super.beforeInsert(persistenceBroker);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.apache.ojb.broker.PersistenceBrokerAware#beforeUpdate(org.apache.ojb.broker.PersistenceBroker)
-     */
-    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        // TODO Auto-generated method stub
+    public void beforeUpdate(PersistenceBroker persistenceBroker) {
         super.beforeUpdate(persistenceBroker);
+        this.lastUpdate = new Timestamp(new Date().getTime());
     }
 
+    
     /*
      * (non-Javadoc)
      * 

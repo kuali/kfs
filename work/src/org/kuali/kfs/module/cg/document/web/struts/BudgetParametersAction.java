@@ -145,38 +145,24 @@ public class BudgetParametersAction extends BudgetAction {
     public ActionForward copyFringeRateLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         // get the form
         BudgetForm budgetForm = (BudgetForm) form;
-        // get the fringe rate list
-        List budgetFringeRate = budgetForm.getBudgetDocument().getBudget().getFringeRates();
-        int i = 0;
+
         BudgetFringeRateService bfrService = SpringServiceLocator.getBudgetFringeRateService();
-        for (Iterator iter = bfrService.getDefaultFringeRates().iterator(); iter.hasNext();) {
-            AppointmentType appType = (AppointmentType) iter.next();
-
-            BudgetFringeRate currentFringeRate = budgetForm.getBudgetDocument().getBudget().getFringeRate(i);
-            BudgetFringeRate bfr = new BudgetFringeRate(budgetForm.getDocument().getDocumentNumber(), appType.getAppointmentTypeCode(), appType.getFringeRateAmount(), currentFringeRate.getInstitutionCostShareFringeRateAmount(), appType, currentFringeRate.getObjectId(), currentFringeRate.getVersionNumber());
-
-            budgetFringeRate.set(i, bfr);
-            i++;
+        for (BudgetFringeRate budgetFringeRate : budgetForm.getBudgetDocument().getBudget().getFringeRates()) {
+            budgetFringeRate.setContractsAndGrantsFringeRateAmount(budgetFringeRate.getAppointmentTypeFringeRateAmount());
         }
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     public ActionForward copyInstitutionCostShareLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         // get the form
         BudgetForm budgetForm = (BudgetForm) form;
-        // get the fringe rate list
-        List budgetFringeRate = budgetForm.getBudgetDocument().getBudget().getFringeRates();
-        int i = 0;
+        
         BudgetFringeRateService bfrService = SpringServiceLocator.getBudgetFringeRateService();
-        for (Iterator iter = bfrService.getDefaultFringeRates().iterator(); iter.hasNext();) {
-            AppointmentType appType = (AppointmentType) iter.next();
-
-            BudgetFringeRate currentFringeRate = budgetForm.getBudgetDocument().getBudget().getFringeRate(i);
-            BudgetFringeRate bfr = new BudgetFringeRate(budgetForm.getDocument().getDocumentNumber(), appType.getAppointmentTypeCode(), currentFringeRate.getContractsAndGrantsFringeRateAmount(), appType.getCostShareFringeRateAmount(), appType, currentFringeRate.getObjectId(), currentFringeRate.getVersionNumber());
-
-            budgetFringeRate.set(i, bfr);
-            i++;
+        for (BudgetFringeRate budgetFringeRate : budgetForm.getBudgetDocument().getBudget().getFringeRates()) {
+            budgetFringeRate.setInstitutionCostShareFringeRateAmount(budgetFringeRate.getAppointmentTypeCostShareFringeRateAmount());
         }
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 

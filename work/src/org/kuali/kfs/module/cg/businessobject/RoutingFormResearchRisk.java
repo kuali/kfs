@@ -34,6 +34,7 @@ public class RoutingFormResearchRisk extends PersistableBusinessObjectBase {
 	private String researchRiskTypeCode;
 	private String researchRiskDescription;
 	private String dataPresentIndicator;
+    private Integer routingFormResearchRiskStudyNextSequenceNumber;
 
     private ResearchRiskType researchRiskType;
     private RoutingFormResearchRiskStudy newResearchRiskStudy;
@@ -137,6 +138,27 @@ public class RoutingFormResearchRisk extends PersistableBusinessObjectBase {
 	public void setDataPresentIndicator(String dataPresentIndicator) {
 		this.dataPresentIndicator = dataPresentIndicator;
 	}
+    
+    /**
+     * Gets the routingFormResearchRiskStudyNextSequenceNumber attribute. 
+     * @return Returns the routingFormResearchRiskStudyNextSequenceNumber.
+     */
+    public Integer getRoutingFormResearchRiskStudyNextSequenceNumber() {
+        // TODO This should come from the database.
+        if (this.researchRiskStudies.isEmpty()) {
+            return new Integer(1);
+        } else {
+            return this.researchRiskStudies.get(this.researchRiskStudies.size() - 1).getRoutingFormResearchRiskStudySequenceNumber() + 1;
+        }
+    }
+
+    /**
+     * Sets the routingFormResearchRiskStudyNextSequenceNumber attribute value.
+     * @param routingFormResearchRiskStudyNextSequenceNumber The routingFormResearchRiskStudyNextSequenceNumber to set.
+     */
+    public void setRoutingFormResearchRiskStudyNextSequenceNumber(Integer routingFormResearchRiskStudyNextSequenceNumber) {
+        this.routingFormResearchRiskStudyNextSequenceNumber = routingFormResearchRiskStudyNextSequenceNumber;
+    }
 
     /**
      * Gets the researchRiskType attribute. 
@@ -172,13 +194,7 @@ public class RoutingFormResearchRisk extends PersistableBusinessObjectBase {
     }
     
     public void addNewResearchRiskStudyToList() {
-        // set the sequence number
-        if (this.researchRiskStudies.isEmpty()) {
-            this.newResearchRiskStudy.setRoutingFormResearchRiskStudySequenceNumber(new Integer(1));
-        } else {
-            this.newResearchRiskStudy.setRoutingFormResearchRiskStudySequenceNumber(
-                    this.researchRiskStudies.get(this.researchRiskStudies.size() - 1).getRoutingFormResearchRiskStudySequenceNumber() + 1);
-        }
+        this.newResearchRiskStudy.setRoutingFormResearchRiskStudySequenceNumber(this.getRoutingFormResearchRiskStudyNextSequenceNumber());
         this.researchRiskStudies.add(this.newResearchRiskStudy);
         this.newResearchRiskStudy = new RoutingFormResearchRiskStudy();
     }

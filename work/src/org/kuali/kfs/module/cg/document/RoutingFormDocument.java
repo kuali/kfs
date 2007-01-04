@@ -1182,7 +1182,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         return (RoutingFormResearchRisk) getRoutingFormResearchRisks().get(index);
     }
     
-    public List getAllRoutingFormResearchRiskStudies() {
+    private List getAllRoutingFormResearchRiskStudies() {
         List allStudies = new ArrayList();
         
         for (RoutingFormResearchRisk researchRisk: this.routingFormResearchRisks) {

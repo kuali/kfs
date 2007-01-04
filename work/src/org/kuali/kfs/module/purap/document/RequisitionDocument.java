@@ -81,9 +81,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
         this.setPurchaseOrderCostSourceCode( PurapConstants.POCostSources.ESTIMATE );
         this.setPurchaseOrderTransmissionMethodCode( PurapConstants.POTransmissionMethods.FAX );
         
-        this.setFundingSourceCode("IUAC");
-        // TODO ripierce: delete the above line and uncomment the below line after coordinating the database move. 
-//        this.setFundingSourceCode(getKualiConfigurationService().getApplicationParameterValue("PurapAdminGroup","PURAP.REQUISITION_DEFAULT_FUNDING_SOURCE"));
+        this.setFundingSourceCode(getKualiConfigurationService().getApplicationParameterValue("PurapAdminGroup","PURAP.REQUISITION_DEFAULT_FUNDING_SOURCE"));
 
         ChartUser currentUser = (ChartUser)GlobalVariables.getUserSession().getUniversalUser().getModuleUser( ChartUser.MODULE_ID );
         this.setChartOfAccountsCode(currentUser.getChartOfAccountsCode());

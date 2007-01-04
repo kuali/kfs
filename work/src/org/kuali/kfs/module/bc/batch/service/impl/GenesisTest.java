@@ -48,6 +48,7 @@ public class GenesisTest {
           SpringServiceLocator.getDateMakerService();
   //
   //    genesisTestService.testStep(2007);
-        genesisTestService.testSLFStep(2009);
+  //    genesisTestService.testSLFStep(2009);
+      genesisTestService.testSLFAfterStep(2009);
   }
 }

@@ -38,6 +38,11 @@ public class GenesisServiceImpl implements GenesisService {
           genesisDao.setControlFlagsAtTheStartOfGenesis(BaseYear);
       }
       
+      public final void testSLFAfterStep (Integer BaseYear)
+      {
+          genesisDao.setControlFlagsAtTheEndOfGenesis(BaseYear);
+      }
+      
       public final void stepBudgetConstructionGLLoad (Integer universityFiscalYear)
       {
 

@@ -235,10 +235,14 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
  //  apparently OJB is smart enough to bring this in as a boolean
            boolean flagDefault = (Boolean) resultFields[sqlFunctionActiveIndicator];
            SLF.setUniversityFiscalYear(RequestYear);
+           LOG.debug("\nfiscal year has been set");
            SLF.setFinancialSystemFunctionControlCode(flagTag);
+           LOG.debug("\nfunction code has been set");
            SLF.setVersionNumber(DEFAULT_VERSION_NUMBER);
-           if (flagTag == 
-               BudgetConstructionConstants.BUDGET_CONSTRUCTION_GENESIS_RUNNING)
+           LOG.debug(String.format("\nversion number set to %d",
+                                  SLF.getVersionNumber()));
+           if (flagTag.equals( 
+               BudgetConstructionConstants.BUDGET_CONSTRUCTION_GENESIS_RUNNING))
            {
                SLF.setFinancialSystemFunctionActiveIndicator(true);
            }
@@ -248,6 +252,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
 //                       ((flagDefault == Constants.ParameterValues.YES)? true : false));
                  SLF.setFinancialSystemFunctionActiveIndicator(flagDefault);
            }
+           LOG.debug("\nabout to store the result");
            getPersistenceBrokerTemplate().store(SLF);
        }
     }
@@ -274,11 +279,11 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
             getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
         while (Results.hasNext())
         {
-          FiscalYearFunctionControl SLF = new FiscalYearFunctionControl();
+          FiscalYearFunctionControl SLF = (FiscalYearFunctionControl) Results.next();
           String mapKey = SLF.getFinancialSystemFunctionControlCode();
           String newValue = configValues.get(mapKey);
           SLF.setFinancialSystemFunctionActiveIndicator(
-                  ((newValue == ParameterValues.YES)? true : false));
+                  ((newValue.equals(ParameterValues.YES))? true : false));
           getPersistenceBrokerTemplate().store(SLF);
         }
     }

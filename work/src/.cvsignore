@@ -14,3 +14,4 @@ SpringConfigurationResources.xml
 SpringBeans.xml
 SpringWebDataSource.xml
 SpringWebBeans.xml
+SpringSchedulerBeans.xml

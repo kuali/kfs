@@ -22,9 +22,6 @@ package org.kuali.module.purap;
 public class PurapKeyConstants {
 
     public static final String PURAP_GENERAL_POTENTIAL_DUPLICATE = "error.document.purap.potentialDuplicate";
-    public static final String ERROR_CXML_GENERAL = "cxml.response.error";
-    public static final String ERROR_CXML_REQUIRED = "cxml.missing.data";
-    public static final String ERROR_B2B_NOCART = "b2b.cart.error";
     
     //Vendor Maintenance
     public static final String ERROR_VENDOR_TYPE_REQUIRES_TAX_NUMBER = "error.vendorMaint.VendorTypeRequiresTaxNumber";

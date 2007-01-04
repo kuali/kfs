@@ -62,6 +62,9 @@
 		<property name="requisitionDao">
 			<ref bean="requisitionDao" />
 		</property>
+        <property name="vendorService">
+            <ref bean="vendorService" />
+        </property>
 	</bean>
 
 	<bean id="purapService" class="org.kuali.module.purap.service.impl.PurapServiceImpl">
@@ -86,6 +89,9 @@
 		<property name="jcdAlias">
 			<value>dataSource</value>
 		</property>
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>
 	</bean>
 
 	<bean id="requisitionDao" class="org.kuali.module.purap.dao.ojb.RequisitionDaoOjb">
@@ -123,4 +129,5 @@
 			<ref bean="vendorLookupableHelperService" />
 		</property>
 	</bean>
+
 </beans>

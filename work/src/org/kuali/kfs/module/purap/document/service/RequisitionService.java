@@ -22,7 +22,9 @@ import org.kuali.module.purap.document.RequisitionDocument;
 public interface RequisitionService {
 
     public void save(RequisitionDocument requisitionDocument);
-    
+
+    public RequisitionDocument getRequisitionById(Integer id);
+
     public KualiDecimal getApoLimit(Integer vendorContractGeneratedIdentifier, String chart, String org);
 
     public boolean isAutomaticPurchaseOrderAllowed(RequisitionDocument requisition);

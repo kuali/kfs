@@ -19,12 +19,14 @@ import java.sql.Date;
 import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Campus;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.bo.BillingAddress;
 import org.kuali.module.purap.bo.DeliveryRequiredDateReason;
 import org.kuali.module.purap.bo.FundingSource;
 import org.kuali.module.purap.bo.PurchaseOrderCostSource;
@@ -199,7 +201,26 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         this.setVendorStateCode(vendorAddress.getVendorStateCode());
         this.setVendorPostalCode(vendorAddress.getVendorZipCode());
         this.setVendorCountryCode(vendorAddress.getVendorCountryCode());
+        this.setVendorFaxNumber(vendorAddress.getVendorFaxNumber());
     }    
+    
+    /**
+     * Convenience method to set billing address fields based on a given BillingAddress.
+     * 
+     * @param billingAddress
+     */
+    public void templateBillingAddress(BillingAddress billingAddress) {
+        if (ObjectUtils.isNotNull(billingAddress)) {
+            this.setBillingName(billingAddress.getBillingName());
+            this.setBillingLine1Address(billingAddress.getBillingLine1Address());
+            this.setBillingLine2Address(billingAddress.getBillingLine2Address());
+            this.setBillingCityName(billingAddress.getBillingCityName());
+            this.setBillingStateCode(billingAddress.getBillingStateCode());
+            this.setBillingPostalCode(billingAddress.getBillingPostalCode());
+            this.setBillingCountryCode(billingAddress.getBillingCountryCode());
+            this.setBillingPhoneNumber(billingAddress.getBillingPhoneNumber());
+        }
+    }
     
     // GETTERS AND SETTERS    
     /**

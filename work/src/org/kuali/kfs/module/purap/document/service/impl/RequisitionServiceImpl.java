@@ -34,6 +34,7 @@ import org.kuali.module.purap.bo.VendorDetail;
 import org.kuali.module.purap.dao.RequisitionDao;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.RequisitionService;
+import org.kuali.module.purap.service.VendorService;
 
 public class RequisitionServiceImpl implements RequisitionService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionServiceImpl.class);
@@ -41,9 +42,14 @@ public class RequisitionServiceImpl implements RequisitionService {
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
     private RequisitionDao requisitionDao;
+    private VendorService vendorService;
 
     public void save(RequisitionDocument requisitionDocument) {
         requisitionDao.save(requisitionDocument);
+    }
+    
+    public RequisitionDocument getRequisitionById(Integer id) {
+        return requisitionDao.getRequisitionById(id);
     }
     
     public KualiDecimal getApoLimit(Integer vendorContractGeneratedIdentifier, String chart, String org) {
@@ -225,10 +231,9 @@ public class RequisitionServiceImpl implements RequisitionService {
             }
 
             if ((!PurapConstants.RequisitionSources.B2B.equals(requisitionSource)) && (requisition.getVendorContractGeneratedIdentifier() == null)) {
-                VendorContract vendorContract = new VendorContract();
-                vendorContract.setVendorContractGeneratedIdentifier(requisition.getVendorContractGeneratedIdentifier());
-                vendorContract = (VendorContract) businessObjectService.retrieve(vendorContract);
-                if (vendorContract != null) {
+                // TODO check what campus we should be using:  REQ initiator?  doc initiator?  delivery campus?
+                VendorContract b2bContract = vendorService.getVendorB2BContract(vendorDetail, requisition.getDeliveryCampusCode());
+                if (b2bContract != null) {
                     return "Standard requisition with no contract selected but a B2B contract exists for the selected vendorequisition.";
                 }
             }
@@ -301,5 +306,10 @@ public class RequisitionServiceImpl implements RequisitionService {
     public void setRequisitionDao(RequisitionDao requisitionDao) {
         this.requisitionDao = requisitionDao;
     }
+
+    public void setVendorService(VendorService vendorService) {
+        this.vendorService = vendorService;    
+    }
+
 }
 

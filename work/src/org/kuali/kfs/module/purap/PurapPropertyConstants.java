@@ -30,7 +30,7 @@ public class PurapPropertyConstants {
     public static final String VENDOR_DEFAULT_ADDRESS = "vendorDefaultAddresses";
     public static final String VENDOR_SUPPLIER_DIVERSITIES = "vendorSupplierDiversities";
     public static final String VENDOR_ADDRESS_STATE = "vendorStateCode";
-    public static final String VENDOR_STATE_FOR_LOOKUP = "vendorStateForLookup";
+    public static final String VENDOR_ADDRESS_STATE_CODE = "vendorAddresses.vendorStateCode";
     public static final String VENDOR_ADDRESS_ZIP = "vendorZipCode";
     public static final String VENDOR_ADDRESS_TYPE_CODE = "vendorAddresses.vendorAddressTypeCode";
     public static final String VENDOR_ADDRESS_EMAIL = "vendorAddresses.vendorAddressEmailAddress";
@@ -60,6 +60,7 @@ public class PurapPropertyConstants {
     public static final String VENDOR_DETAIL_ASSIGNED_ID = "vendorDetailAssignedIdentifier";
     public static final String VENDOR_HEADER_GENERATED_ID = "vendorHeaderGeneratedIdentifier";
     public static final String VENDOR_ALIAS_NAME = "vendorAliasName";
+    public static final String VENDOR_ALIAS_NAME_FULL_PATH = "vendorAliases.vendorAliasName";
     
     public static final String CONTRACT_LANGUAGE_CREATE_DATE = "contractLanguageCreateDate";
 

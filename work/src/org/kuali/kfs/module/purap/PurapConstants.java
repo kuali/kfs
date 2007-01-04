@@ -36,11 +36,16 @@ public class PurapConstants {
     public static final String VENDOR_LOOKUPABLE_IMPL = "vendorLookupable";
     public static final String DASH = "-";
     public static final String VENDOR_HEADER_ATTR = "vendorHeader";
-
     //Vendor Tax Types
     public static final String TAX_TYPE_FEIN = "FEIN";
     public static final String TAX_TYPE_SSN = "SSN";
     //public static final String TAX_TYPE_ITIN = "ITIN";  //are we implementing this in Kuali??
+
+    //VENDOR PHONE TYPES
+    public static class PhoneTypes {
+        public static final String TOLL_FREE = "TF";
+        public static final String PHONE = "PH";
+    }
     
     public static class RequisitionStatuses {
         public static String IN_PROCESS = "INPR";
@@ -66,6 +71,9 @@ public class PurapConstants {
     
     public static class POTransmissionMethods {
         public static String FAX = "FAX";
+        public static String PRINT = "PRIN";
+        public static String NOPRINT = "NOPR";
+        public static String ELECTRONIC = "ELEC";
     }
     
     public static int REQ_B2B_ALLOW_COPY_DAYS = 5;
@@ -82,12 +90,11 @@ public class PurapConstants {
     
     // Assign Contract Manager Tab Errors
     public static final String ASSIGN_CONTRACT_MANAGER_TAB_ERRORS = "document.unassignedRequisition*";
-    
+
     public static class PurchaseOrderStatuses {
         public static String IN_PROCESS = "INPR";
         public static String WAITING_FOR_VENDOR = "WVEN";
         public static String WAITING_FOR_DEPARTMENT = "WDPT";
         //TODO: Do we need the rest of these in here?  They're in a table (PUR_PO_STAT_T).
     }
-
 }

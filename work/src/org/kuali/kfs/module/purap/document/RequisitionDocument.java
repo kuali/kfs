@@ -101,16 +101,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
         billingAddress.setBillingCampusCode(this.getDeliveryCampusCode());
         Map keys = SpringServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(billingAddress);
         billingAddress = (BillingAddress) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(BillingAddress.class, keys);
-        if (ObjectUtils.isNotNull(billingAddress)) {
-            this.setBillingName(billingAddress.getBillingName());
-            this.setBillingLine1Address(billingAddress.getBillingLine1Address());
-            this.setBillingLine2Address(billingAddress.getBillingLine2Address());
-            this.setBillingCityName(billingAddress.getBillingCityName());
-            this.setBillingStateCode(billingAddress.getBillingStateCode());
-            this.setBillingPostalCode(billingAddress.getBillingPostalCode());
-            this.setBillingCountryCode(billingAddress.getBillingCountryCode());
-            this.setBillingPhoneNumber(billingAddress.getBillingPhoneNumber());
-        }
+        this.templateBillingAddress(billingAddress);
 
 // TODO  WAIT ON ITEM LOGIC  (CHRIS AND DAVID SHOULD FIX THIS HERE)
 //        // add new item for freight
@@ -307,8 +298,10 @@ public class RequisitionDocument extends PurchasingDocumentBase {
         // DOCUMENT PROCESSED
         if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             PurchaseOrderDocument poDocument = SpringServiceLocator.getPurchaseOrderService().createPurchaseOrderDocument(this);
+//            SpringServiceLocator.getDocumentService().routeDocument()
 //            if (SpringServiceLocator.getRequisitionService().isAutomaticPurchaseOrderAllowed(this)) {
 //                PurchaseOrderDocument poDocument = SpringServiceLocator.getPurchaseOrderService().createPurchaseOrderDocument(this);
+            //route APO
 //            }
 //            else {
 //                // TODO else set REQ status to "AWAITING_CONTRACT_MANAGER_ASSIGNMENT"

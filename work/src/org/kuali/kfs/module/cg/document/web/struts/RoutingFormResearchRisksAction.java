@@ -15,6 +15,9 @@
  */
 package org.kuali.module.kra.routingform.web.struts.action;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,7 +26,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
-import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 
 public class RoutingFormResearchRisksAction extends RoutingFormAction {
@@ -44,5 +46,14 @@ public class RoutingFormResearchRisksAction extends RoutingFormAction {
         routingForm.getRoutingFormDocument().getRoutingFormResearchRisks().get(tabToDelete).getResearchRiskStudies().remove(lineToDelete);
         
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        RoutingForm routingForm = (RoutingForm) form;
+        List<RoutingFormResearchRisk> researchRisks = new ArrayList(routingForm.getRoutingFormDocument().getRoutingFormResearchRisks());
+        super.load(mapping, form, request, response);
+        routingForm.getRoutingFormDocument().setRoutingFormResearchRisks(researchRisks);
+        return super.save(mapping, form, request, response);
     }
 }

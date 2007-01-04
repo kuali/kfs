@@ -71,9 +71,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends Transactiona
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      
-        if (getIdentifier() != null) {
-            m.put("identifier", getIdentifier().toString());
-        }
+        m.put("identifier", this.identifier);
         return m;
     }
 

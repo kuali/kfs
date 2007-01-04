@@ -489,6 +489,9 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
     }
 
 
+    /**
+     * Method returns the absolute value of the document's total
+     */
     private Float getAmount(DocumentType docType, DocumentContent docContent) {
         try {
             XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
@@ -519,7 +522,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
             if (value == null) {
                 throw new RuntimeException("Didn't find amount for document " + docContent.getRouteContext().getDocument().getRouteHeaderId());
             }
-            return new Float(value);
+            return Math.abs(new Float(value));
         }
         catch (Exception e) {
             LOG.error("Caught excpeption getting document amount", e);

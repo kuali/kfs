@@ -15,17 +15,13 @@
  */
 package org.kuali.module.kra.routingform.web.struts.action;
 
-import java.util.ArrayList;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.kra.budget.bo.BudgetAdHocOrg;
-import org.kuali.module.kra.budget.bo.BudgetAdHocPermission;
+import org.kuali.Constants;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 
@@ -55,7 +51,10 @@ public class RoutingFormTemplateAction extends RoutingFormAction {
         RoutingForm routingForm = (RoutingForm) form;
         RoutingFormDocument routingFormDoc = routingForm.getRoutingFormDocument();
 
-        RoutingFormDocument copyDoc = (RoutingFormDocument) routingFormDoc.copy();
+        // Check if delivery address to be copied over
+        if (!routingForm.isTemplateAddress()) {
+            routingFormDoc.getRoutingFormAgency().setAgencyAddressDescription("");
+        }
         
 //      Check if ad-hoc permissions to be copied over
         if (!routingForm.isTemplateAdHocPermissions()) {
@@ -67,6 +66,8 @@ public class RoutingFormTemplateAction extends RoutingFormAction {
             // Clear approvers
         }
         
+        RoutingFormDocument copyDoc = (RoutingFormDocument) routingFormDoc.copy();
+        
         routingForm.setDocument(copyDoc);
         routingForm.setDocId(copyDoc.getDocumentNumber());
 
@@ -74,5 +75,10 @@ public class RoutingFormTemplateAction extends RoutingFormAction {
         super.load(mapping, form, request, response);
 
         return super.mainpage(mapping, routingForm, request, response);
+    }
+    
+    public ActionForward navigate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        super.load(mapping, form, request, response);
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 }

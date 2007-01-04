@@ -1103,7 +1103,6 @@
 	<field-descriptor name="questionTypeDescription" column="QSTN_TYP_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="questionTypeSortNumber" column="QSTN_TYP_SORT_NBR" jdbc-type="INTEGER"/>
 	<field-descriptor name="questionTypeWorkgroupName" column="QSTN_TYP_WRKGRP_NM" jdbc-type="VARCHAR"/>
-	<field-descriptor name="questionTypeWorkgroupIndicator" column="QSTN_TYP_WRKGRP_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.routingform.bo.RoutingFormQuestion" table="ER_RF_QSTN_TYP_T">

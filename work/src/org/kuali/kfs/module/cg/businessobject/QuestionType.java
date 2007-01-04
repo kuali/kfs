@@ -29,7 +29,6 @@ public class QuestionType extends PersistableBusinessObjectBase {
     private String questionTypeDescription;
     private Integer questionTypeSortNumber;
     private String questionTypeWorkgroupName;
-    private boolean questionTypeWorkgroupIndicator;
     
     /**
      * Gets the dataObjectMaintenanceCodeActiveIndicator attribute. 
@@ -93,22 +92,6 @@ public class QuestionType extends PersistableBusinessObjectBase {
      */
     public void setQuestionTypeSortNumber(Integer questionTypeSortNumber) {
         this.questionTypeSortNumber = questionTypeSortNumber;
-    }
-
-    /**
-     * Gets the questionTypeWorkgroupIndicator attribute. 
-     * @return Returns the questionTypeWorkgroupIndicator.
-     */
-    public boolean isQuestionTypeWorkgroupIndicator() {
-        return questionTypeWorkgroupIndicator;
-    }
-
-    /**
-     * Sets the questionTypeWorkgroupIndicator attribute value.
-     * @param questionTypeWorkgroupIndicator The questionTypeWorkgroupIndicator to set.
-     */
-    public void setQuestionTypeWorkgroupIndicator(boolean questionTypeWorkgroupIndicator) {
-        this.questionTypeWorkgroupIndicator = questionTypeWorkgroupIndicator;
     }
 
     /**

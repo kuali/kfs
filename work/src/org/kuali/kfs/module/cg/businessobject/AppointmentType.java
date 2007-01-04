@@ -158,21 +158,6 @@ public class AppointmentType extends PersistableBusinessObjectBase {
         this.lastUpdate = new Timestamp(new Date().getTime());
     }
 
-    
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.kuali.bo.BusinessObject#getExtendedAttributeValues()
-     */
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringBuilder(java.util.LinkedHashMap)
-     */
-    protected String toStringBuilder(LinkedHashMap fieldValues) {
-        // TODO Auto-generated method stub
-        return super.toStringBuilder(fieldValues);
-    }
 
     /*
      * (non-Javadoc)

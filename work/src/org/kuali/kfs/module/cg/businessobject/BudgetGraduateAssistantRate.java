@@ -23,6 +23,7 @@ import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.PropertyConstants;
 
 /**
@@ -51,6 +52,12 @@ public class BudgetGraduateAssistantRate extends PersistableBusinessObjectBase i
         super();
         graduateAssistantRate = new GraduateAssistantRate();
     }
+    
+    public BudgetGraduateAssistantRate(String documentNumber, String campusCode) {
+        this();
+        this.documentNumber = documentNumber;
+        this.campusCode = campusCode;
+    }
 
     public BudgetGraduateAssistantRate(String documentNumber, String campusCode, KualiDecimal campusMaximumPeriod1Rate, KualiDecimal campusMaximumPeriod2Rate, KualiDecimal campusMaximumPeriod3Rate, KualiDecimal campusMaximumPeriod4Rate, KualiDecimal campusMaximumPeriod5Rate, KualiDecimal campusMaximumPeriod6Rate, GraduateAssistantRate graduateAssistantRate) {
         this(documentNumber, campusCode, campusMaximumPeriod1Rate, campusMaximumPeriod2Rate, campusMaximumPeriod3Rate, campusMaximumPeriod4Rate, campusMaximumPeriod5Rate, campusMaximumPeriod3Rate, graduateAssistantRate, null, null);
@@ -69,6 +76,11 @@ public class BudgetGraduateAssistantRate extends PersistableBusinessObjectBase i
         this.graduateAssistantRate = graduateAssistantRate;
         setObjectId(objectId);
         setVersionNumber(versionNumber);
+    }
+
+    
+    public BudgetGraduateAssistantRate(String documentNumber, GraduateAssistantRate gradAssistantRate) {
+        this(documentNumber, gradAssistantRate.getCampusCode(), gradAssistantRate.getCampusMaximumPeriod1Rate(), gradAssistantRate.getCampusMaximumPeriod2Rate(), gradAssistantRate.getCampusMaximumPeriod3Rate(), gradAssistantRate.getCampusMaximumPeriod4Rate(), gradAssistantRate.getCampusMaximumPeriod5Rate(), gradAssistantRate.getCampusMaximumPeriod6Rate(), gradAssistantRate);
     }
 
 
@@ -237,4 +249,57 @@ public class BudgetGraduateAssistantRate extends PersistableBusinessObjectBase i
         return this.getCampusCode().compareTo(((BudgetGraduateAssistantRate) o).getCampusCode());
     }
 
+    
+    /*
+     * (non-Javadoc)
+     * Doesn't compare timestamps 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object obj) {
+        boolean equals = true;
+
+        if (ObjectUtils.isNotNull(obj) && obj instanceof BudgetGraduateAssistantRate) {
+            BudgetGraduateAssistantRate objCompare = (BudgetGraduateAssistantRate) obj;
+            equals &= this.documentNumber.equals(objCompare.getDocumentNumber());
+            equals &= this.campusCode.equals(objCompare.getCampusCode());
+            
+            if (this.campusMaximumPeriod1Rate == null && objCompare.getCampusMaximumPeriod1Rate() == null) {
+            }
+            else {
+                equals &= this.campusMaximumPeriod1Rate != null && objCompare.getCampusMaximumPeriod1Rate() != null && this.campusMaximumPeriod1Rate.equals(objCompare.getCampusMaximumPeriod1Rate());
+            }
+            
+            if (this.campusMaximumPeriod2Rate == null && objCompare.getCampusMaximumPeriod2Rate() == null) {
+            }
+            else {
+                equals &= this.campusMaximumPeriod2Rate != null && objCompare.getCampusMaximumPeriod2Rate() != null && this.campusMaximumPeriod2Rate.equals(objCompare.getCampusMaximumPeriod2Rate());
+            }
+            
+            if (this.campusMaximumPeriod3Rate == null && objCompare.getCampusMaximumPeriod3Rate() == null) {
+            }
+            else {
+                equals &= this.campusMaximumPeriod3Rate != null && objCompare.getCampusMaximumPeriod3Rate() != null && this.campusMaximumPeriod3Rate.equals(objCompare.getCampusMaximumPeriod3Rate());
+            }
+            
+            if (this.campusMaximumPeriod3Rate == null && objCompare.getCampusMaximumPeriod3Rate() == null) {
+            }
+            else {
+                equals &= this.campusMaximumPeriod4Rate != null && objCompare.getCampusMaximumPeriod4Rate() != null && this.campusMaximumPeriod4Rate.equals(objCompare.getCampusMaximumPeriod4Rate());
+            }
+            
+            if (this.campusMaximumPeriod5Rate == null && objCompare.getCampusMaximumPeriod5Rate() == null) {
+            }
+            else {
+                equals &= this.campusMaximumPeriod5Rate != null && objCompare.getCampusMaximumPeriod5Rate() != null && this.campusMaximumPeriod5Rate.equals(objCompare.getCampusMaximumPeriod5Rate());
+            }
+            
+            if (this.campusMaximumPeriod6Rate == null && objCompare.getCampusMaximumPeriod6Rate() == null) {
+            }
+            else {
+                equals &= this.campusMaximumPeriod6Rate != null && objCompare.getCampusMaximumPeriod6Rate() != null && this.campusMaximumPeriod6Rate.equals(objCompare.getCampusMaximumPeriod6Rate());
+            }
+        }
+
+        return equals;
+    }
 }

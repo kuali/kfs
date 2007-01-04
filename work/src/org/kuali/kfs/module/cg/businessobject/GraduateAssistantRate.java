@@ -16,8 +16,10 @@
 package org.kuali.module.kra.budget.bo;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.LinkedHashMap;
 
+import org.apache.ojb.broker.PersistenceBroker;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Campus;
@@ -44,6 +46,15 @@ public class GraduateAssistantRate extends PersistableBusinessObjectBase {
      * Default no-arg constructor.
      */
     public GraduateAssistantRate() {
+        super();
+    }
+
+    /**
+     * Default no-arg constructor.
+     */
+    public GraduateAssistantRate(String campusCode) {
+        this();
+        this.campusCode = campusCode;
     }
 
 
@@ -207,7 +218,7 @@ public class GraduateAssistantRate extends PersistableBusinessObjectBase {
      * 
      * @return
      */
-    public Timestamp getlastUpdateTimestamp() {
+    public Timestamp getLastUpdateTimestamp() {
         return lastUpdateTimestamp;
     }
 
@@ -215,7 +226,17 @@ public class GraduateAssistantRate extends PersistableBusinessObjectBase {
      * 
      * @param lastUpdateTimestamp
      */
-    public void setlastUpdateTimestamp(Timestamp lastUpdateTimestamp) {
+    public void setLastUpdateTimestamp(Timestamp lastUpdateTimestamp) {
         this.lastUpdateTimestamp = lastUpdateTimestamp;
+    }
+    
+    public void beforeInsert(PersistenceBroker persistenceBroker) {
+        super.beforeInsert(persistenceBroker);
+        this.lastUpdateTimestamp = new Timestamp(new Date().getTime());
+    }
+
+    public void beforeUpdate(PersistenceBroker persistenceBroker) {
+        super.beforeUpdate(persistenceBroker);
+        this.lastUpdateTimestamp = new Timestamp(new Date().getTime());
     }
 }

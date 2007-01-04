@@ -40,6 +40,7 @@ import org.kuali.module.kra.budget.bo.BudgetGraduateAssistantRate;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.budget.service.BudgetFringeRateService;
+import org.kuali.module.kra.budget.service.BudgetGraduateAssistantRateService;
 
 public class BudgetParametersRule {
     private String MAXIMUM_PERIOD_LENGTH;
@@ -49,6 +50,7 @@ public class BudgetParametersRule {
     private DataDictionaryService dataDictionaryService;
     private BusinessObjectService businessObjectService;
     private BudgetFringeRateService budgetFringeRateService;
+    private BudgetGraduateAssistantRateService budgetGradAsstRateService;
     
     /**
      * 
@@ -63,6 +65,7 @@ public class BudgetParametersRule {
         dataDictionaryService = SpringServiceLocator.getDataDictionaryService();
         businessObjectService = SpringServiceLocator.getBusinessObjectService();
         budgetFringeRateService = SpringServiceLocator.getBudgetFringeRateService();
+        budgetGradAsstRateService = SpringServiceLocator.getBudgetGraduateAssistantRateService();
     }
 
     protected boolean isParametersValid(BudgetDocument budgetDocument) {
@@ -420,14 +423,18 @@ public class BudgetParametersRule {
             // get the current graduate rate object from the list collection
             BudgetGraduateAssistantRate budgetGraduateAssistantRate = (BudgetGraduateAssistantRate) graduateAssistantRateList.get(i);
 
+            BudgetGraduateAssistantRate currentDatabaseGradRate = budgetGradAsstRateService.getBudgetGraduateAssistantRate(budgetGraduateAssistantRate.getDocumentNumber(), budgetGraduateAssistantRate.getCampusCode());
+
+            
             for (int anAcademicYearSubdivisionIndex = 1; anAcademicYearSubdivisionIndex <= numberOfAcademicYearSubdivisions; anAcademicYearSubdivisionIndex++) {
                 KualiDecimal rateForTesting = budgetGraduateAssistantRate.getCampusMaximumPeriodRate(anAcademicYearSubdivisionIndex);
                 KualiDecimal systemRateForComparison = budgetGraduateAssistantRate.getGraduateAssistantRate().getCampusMaximumPeriodRate(anAcademicYearSubdivisionIndex);
 
                 if (rateForTesting != null) {
                     if (!SpringServiceLocator.getBudgetGraduateAssistantRateService().isValidGraduateAssistantRate(rateForTesting)) {
-                        if (academicYearSubdivisionNames == null)
+                        if (academicYearSubdivisionNames == null) {
                             academicYearSubdivisionNames = kcs.getApplicationParameterValues(KraConstants.KRA_DEVELOPMENT_GROUP, "KraBudgetAcademicYearSubdivisionNames");
+                        }
                         String[] graduateAssistantRateErrorMessage = { academicYearSubdivisionNames[anAcademicYearSubdivisionIndex - 1], budgetGraduateAssistantRate.getCampusCode() };
                         GlobalVariables.getErrorMap().putError("budget.graduateAssistantRate[" + i + "].campusMaximumPeriod" + anAcademicYearSubdivisionIndex + "Rate", KeyConstants.ERROR_GRAD_RATE_TOO_HIGH, graduateAssistantRateErrorMessage);
                         valid = false;
@@ -435,7 +442,10 @@ public class BudgetParametersRule {
 
 
                     if (systemRateForComparison != null) {
-                        rateChanged = rateChanged || rateForTesting.compareTo(systemRateForComparison) != 0;
+                        rateChanged |= rateForTesting.compareTo(systemRateForComparison) != 0 && //the rates are different
+                            (budgetGraduateAssistantRate.getLastUpdateTimestamp() == null || //hasn't been saved yet
+                                    (currentDatabaseGradRate.getLastUpdateTimestamp().after(currentDatabaseGradRate.getGraduateAssistantRate().getLastUpdateTimestamp()) || //budget rate updated last (newer than system rate)
+                                            !budgetGraduateAssistantRate.equals(currentDatabaseGradRate))); 
                     }
                 }
                 else {

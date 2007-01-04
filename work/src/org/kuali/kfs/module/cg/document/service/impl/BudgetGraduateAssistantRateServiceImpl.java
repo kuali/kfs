@@ -26,7 +26,9 @@ import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.kra.budget.bo.AppointmentType;
 import org.kuali.module.kra.budget.bo.Budget;
+import org.kuali.module.kra.budget.bo.BudgetFringeRate;
 import org.kuali.module.kra.budget.bo.BudgetGraduateAssistantRate;
 import org.kuali.module.kra.budget.bo.GraduateAssistantRate;
 import org.kuali.module.kra.budget.service.BudgetGraduateAssistantRateService;
@@ -62,6 +64,19 @@ public class BudgetGraduateAssistantRateServiceImpl implements BudgetGraduateAss
             BudgetGraduateAssistantRate budgetGraduateAssistantRate = new BudgetGraduateAssistantRate(budget.getDocumentNumber(), graduateAssistantRate.getCampusCode(), graduateAssistantRate.getCampusMaximumPeriod1Rate(), graduateAssistantRate.getCampusMaximumPeriod2Rate(), graduateAssistantRate.getCampusMaximumPeriod3Rate(), graduateAssistantRate.getCampusMaximumPeriod4Rate(), graduateAssistantRate.getCampusMaximumPeriod5Rate(), graduateAssistantRate.getCampusMaximumPeriod6Rate(), graduateAssistantRate);
             budget.getGraduateAssistantRates().add(budgetGraduateAssistantRate);
         }
+    }
+    
+    public BudgetGraduateAssistantRate getBudgetGraduateAssistantRate(String documentNumber, String campusCode) {
+        
+        BudgetGraduateAssistantRate budgetGradAsstRate = (BudgetGraduateAssistantRate) businessObjectService.retrieve(
+                new BudgetGraduateAssistantRate(documentNumber, campusCode));
+        
+        if (budgetGradAsstRate == null) {
+            GraduateAssistantRate gradAsstRate = (GraduateAssistantRate) businessObjectService.retrieve(new GraduateAssistantRate(campusCode));
+            budgetGradAsstRate = new BudgetGraduateAssistantRate(documentNumber, gradAsstRate);
+        }
+        
+        return budgetGradAsstRate;
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {

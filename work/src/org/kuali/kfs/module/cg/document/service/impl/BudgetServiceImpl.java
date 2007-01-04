@@ -32,6 +32,7 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetFringeRate;
+import org.kuali.module.kra.budget.bo.BudgetGraduateAssistantRate;
 import org.kuali.module.kra.budget.bo.BudgetModular;
 import org.kuali.module.kra.budget.bo.BudgetModularPeriod;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
@@ -105,6 +106,7 @@ public class BudgetServiceImpl implements BudgetService {
                 // Find what's changed that has a down-stream effect on other parts of the Budget, if anything, since the last save
                 List modifiedPeriods = findModifiedPeriods(budgetDocument, databaseBudgetDocument);
                 List<BudgetFringeRate> modifiedFringeRates = findModifiedFringeRates(budgetDocument, databaseBudgetDocument);
+                List<BudgetGraduateAssistantRate> modifiedGraduateAssistantRates = findModifiedGraduateAssistantRates(budgetDocument, databaseBudgetDocument);
                 // List modifiedPersonnel = findModifiedPersonnel(budgetDocument, databaseBudgetDocument);
 
                 boolean isPersonnelInflationRateModified = isPersonnelInflationRateModified(budgetDocument, databaseBudgetDocument);
@@ -143,6 +145,16 @@ public class BudgetServiceImpl implements BudgetService {
                 
                 //Replace all of the fringe rates with what's in the database.  remove all of the modified ones (the .equals() method does not check timestamp) and re-add them.
                 budget.getFringeRates().addAll(modifiedFringeRates);
+                
+                budget.setGraduateAssistantRates(databaseBudgetDocument.getBudget().getGraduateAssistantRates());
+                //Update timestamp of modified Fringe Rates
+                for (BudgetGraduateAssistantRate modifiedBudgetGraduateRate : modifiedGraduateAssistantRates) {
+                    ObjectUtils.removeObjectWithIdentitcalKey(budget.getGraduateAssistantRates(), modifiedBudgetGraduateRate);
+                    modifiedBudgetGraduateRate.setLastUpdateTimestamp(new Timestamp(new Date().getTime()));
+                }
+                 
+                //Replace all of the fringe rates with what's in the database.  remove all of the modified ones (the .equals() method does not check timestamp) and re-add them.
+                budget.getGraduateAssistantRates().addAll(modifiedGraduateAssistantRates);
                 
             } else {
                 for (BudgetFringeRate budgetFringeRate : budgetDocument.getBudget().getFringeRates()) {
@@ -474,6 +486,26 @@ public class BudgetServiceImpl implements BudgetService {
             }
         }
         return modifiedFringeRates;
+    }
+    
+    /**
+     * This method will find and report any Appointment Types that have had changes to the associated Fringe Rates since the last
+     * save.
+     * 
+     * @param budgetDocument
+     * @return List a list of appointments whose fringe rates have been modified
+     */
+    private List findModifiedGraduateAssistantRates(BudgetDocument budgetDocument, BudgetDocument databaseBudgetDocument) {
+        List modifiedGradAsstRates = new ArrayList();
+
+        List<BudgetGraduateAssistantRate> budgetGradAsstRates = budgetDocument.getBudget().getGraduateAssistantRates();
+
+        for (BudgetGraduateAssistantRate budgetGradAsstRate : budgetGradAsstRates) {
+            if (!databaseBudgetDocument.getBudget().getGraduateAssistantRates().contains(budgetGradAsstRate)) {
+                modifiedGradAsstRates.add(budgetGradAsstRate);
+            }
+        }
+        return modifiedGradAsstRates;
     }
 
     private List findModifiedUserAppointmentTaskPeriods(BudgetDocument budgetDocument, BudgetDocument databaseBudgetDocument) {

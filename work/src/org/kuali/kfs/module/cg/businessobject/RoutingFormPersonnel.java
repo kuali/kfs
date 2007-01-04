@@ -34,7 +34,7 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
 
 	private String documentNumber;
     private Integer routingFormPersonSequenceNumber;
-    private Long personSystemIdentifier;
+    private String personSystemIdentifier;
     private String chartOfAccountsCode;
 	private String organizationCode;
 	private KualiInteger personCreditPercent;
@@ -115,7 +115,7 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
      * @return Returns the personSystemIdentifier
      * 
      */
-    public Long getPersonSystemIdentifier() { 
+    public String getPersonSystemIdentifier() { 
         return personSystemIdentifier;
     }
 
@@ -125,7 +125,7 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
      * @param personSystemIdentifier The personSystemIdentifier to set.
      * 
      */
-    public void setPersonSystemIdentifier(Long personSystemIdentifier) {
+    public void setPersonSystemIdentifier(String personSystemIdentifier) {
         this.personSystemIdentifier = personSystemIdentifier;
     }
     

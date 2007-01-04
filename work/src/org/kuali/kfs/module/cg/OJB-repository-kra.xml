@@ -892,10 +892,6 @@
 	<field-descriptor name="researchRiskStudyName" column="RSRCH_RSK_STDY_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="researchRiskStudyReviewCode" column="RSRCH_RSK_STDY_RVW_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="researchRiskStudyExpirationDate" column="RSRCH_RSK_STDY_EXPR_DT" jdbc-type="DATE"/>
-	<reference-descriptor name="researchRiskType" class-ref="org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="documentNumber" />
-		<foreignkey field-ref="researchRiskTypeCode" />
-	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.routingform.bo.RoutingFormStatus" table="ER_RF_STAT_T">

@@ -38,8 +38,6 @@ public class RoutingFormResearchRiskStudy extends PersistableBusinessObjectBase 
 	private String researchRiskTypeCode;
     private Date researchRiskStudyExpirationDate;
     
-    private RoutingFormResearchRisk researchRiskType;
-    
 	/**
 	 * Default constructor.
 	 */
@@ -249,23 +247,6 @@ public class RoutingFormResearchRiskStudy extends PersistableBusinessObjectBase 
      */
     public void setResearchRiskStudyExpirationDate(Date researchRiskStudyExpirationDate) {
         this.researchRiskStudyExpirationDate = researchRiskStudyExpirationDate;
-    }
-  
-    /**
-     * Gets the researchRiskType attribute. 
-     * @return Returns the researchRiskType.
-     */
-    public RoutingFormResearchRisk getResearchRiskType() {
-        return researchRiskType;
-    }
-
-    /**
-     * Sets the researchRiskType attribute value.
-     * @param researchRiskType The researchRiskType to set.
-     * @deprecated
-     */
-    public void setResearchRiskType(RoutingFormResearchRisk researchRiskType) {
-        this.researchRiskType = researchRiskType;
     }
     
     /**

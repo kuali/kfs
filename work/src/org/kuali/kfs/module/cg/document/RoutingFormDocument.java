@@ -1479,10 +1479,19 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         return total;
     }
 
+    /**
+     * Gets the federalPassThroughAgency attribute. 
+     * @return Returns the federalPassThroughAgency.
+     */
     public Agency getFederalPassThroughAgency() {
         return federalPassThroughAgency;
     }
 
+    /**
+     * Sets the federalPassThroughAgency attribute value.
+     * @param federalPassThroughAgency The federalPassThroughAgency to set.
+     * @deprecated
+     */
     public void setFederalPassThroughAgency(Agency federalPassThroughAgency) {
         this.federalPassThroughAgency = federalPassThroughAgency;
     }

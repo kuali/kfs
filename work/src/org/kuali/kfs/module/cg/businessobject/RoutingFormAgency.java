@@ -393,7 +393,7 @@ public class RoutingFormAgency extends PersistableBusinessObjectBase {
 	 * Sets the agencyNumber attribute.
 	 * 
 	 * @param agencyNumber The agencyNumber to set.
-	 * 
+	 * @deprecated
 	 */
 	public void setAgencyNumber(String agencyNumber) {
 		this.agencyNumber = agencyNumber;

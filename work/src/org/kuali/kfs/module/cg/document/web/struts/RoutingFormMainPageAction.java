@@ -16,6 +16,7 @@
 package org.kuali.module.kra.routingform.web.struts.action;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +36,8 @@ import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 
 public class RoutingFormMainPageAction extends RoutingFormAction {
+    
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RoutingFormMainPageAction.class);
     
     public ActionForward addPersonLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         RoutingForm routingForm = (RoutingForm) form;
@@ -86,7 +89,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
 
     
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        RoutingForm routingForm = (RoutingForm)form;
+        RoutingForm routingForm = (RoutingForm) form;
         
         List referenceObjects = new ArrayList();
 
@@ -100,5 +103,72 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(routingForm.getRoutingFormDocument(), referenceObjects);
         
         return super.save(mapping, form, request, response);
+    }
+
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        super.refresh(mapping, form, request, response);
+        RoutingForm routingForm = (RoutingForm) form;
+        RoutingFormDocument routingFormDocument = routingForm.getRoutingFormDocument();
+
+        if (request.getParameter(Constants.REFRESH_CALLER) != null) {
+            String refreshCaller = request.getParameter(Constants.REFRESH_CALLER);
+            // check to see if we are coming back from a lookup
+            if (refreshCaller.equals(Constants.KUALI_LOOKUPABLE_IMPL)) {
+                if (request.getParameter("document.routingFormAgency.agencyNumber") != null) {
+                    // coming back from an Agency lookup - Agency selected
+                    routingFormDocument.setRoutingFormAgencyToBeNamedIndicator(false);
+                }
+                else if ("true".equals(request.getParameter("document.routingFormAgencyToBeNamedIndicator"))) {
+                    // coming back from Agency lookup - To Be Named selected
+                    routingFormDocument.getRoutingFormAgency().setRoutingFormAgency(null);
+                    routingFormDocument.getRoutingFormAgency().refresh();
+                }
+                else if (request.getParameter("document.agencyFederalPassThroughNumber") != null) {
+                    // coming back from Agency Federal Pass Through lookup - Agency selected
+                    routingFormDocument.setAgencyFederalPassThroughNotAvailableIndicator(false);
+                }
+                else if ("true".equals(request.getParameter("document.agencyFederalPassThroughNotAvailableIndicator"))) {
+                    // coming back from Agency Federal Pass Through lookup - Name Later selected
+                    routingFormDocument.setAgencyFederalPassThroughNumber(null);
+                    routingFormDocument.refreshReferenceObject("federalPassThroughAgency");
+                }
+                else if (request.getParameter("newRoutingFormPersonnel.personSystemIdentifier") != null) {
+                    // coming back from new Person lookup - person selected
+                    routingForm.getNewRoutingFormPersonnel().setPersonToBeNamedIndicator(false);
+                }
+                else if ("true".equals(request.getParameter("newRoutingFormPersonnel.personToBeNamedIndicator"))) {
+                    // coming back from new Person lookup - Name Later selected
+                    routingForm.getNewRoutingFormPersonnel().setPersonSystemIdentifier(null);
+                    routingForm.getNewRoutingFormPersonnel().refresh();
+                } else {
+                    // Must be related to personnel lookup, first find which item this relates to.
+                    int personIndex = -1;
+                    Enumeration parameterNames = request.getParameterNames();
+                    while (parameterNames.hasMoreElements()) {
+                        String parametersName = (String) parameterNames.nextElement();
+                        String label = "document.routingFormPerson[";
+                        if (parametersName.startsWith(label)) {
+                            personIndex = Integer.parseInt(parametersName.substring(label.length(), parametersName.indexOf("]")));
+                            break;
+                        }
+                    }
+                    
+                    // Next do the regular clearing of appropriate fields. If the above enumeration didn't find an item
+                    // we print a warn message at the end of this if block.
+                    if (request.getParameter("document.routingFormPerson[" + personIndex + "].personSystemIdentifier") != null) {
+                        // coming back from Person lookup - Person selected
+                        routingFormDocument.getRoutingFormPerson(personIndex).setPersonToBeNamedIndicator(false);
+                    }
+                    else if ("true".equals(request.getParameter("document.routingFormPerson[" + personIndex + "].personToBeNamedIndicator"))) {
+                        // coming back from Person lookup - To Be Named selected
+                        routingFormDocument.getRoutingFormPerson(personIndex).setPersonSystemIdentifier(null);
+                        routingFormDocument.getRoutingFormPerson(personIndex).refresh();
+                    } else {
+                        LOG.warn("Personnel lookup TBN reset code wasn't able to find person: personIndexStr=" + personIndex);
+                    }
+                }
+            }
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 }

@@ -22,7 +22,6 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="kul" %>
 <%@ taglib tagdir="/WEB-INF/tags/dd" prefix="dd" %>
 <%@ taglib tagdir="/WEB-INF/tags/kra" prefix="kra" %>
-<%@ taglib tagdir="/WEB-INF/tags/kra/budget" prefix="kra-b" %>
 
 <div align="right">
 	<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${KraConstants.AUDIT_MODE_HEADER_TAB}" altText="page help"/>

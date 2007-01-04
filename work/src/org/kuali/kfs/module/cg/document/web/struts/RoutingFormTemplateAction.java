@@ -15,6 +15,64 @@
  */
 package org.kuali.module.kra.routingform.web.struts.action;
 
-public class RoutingFormTemplateAction extends RoutingFormAction {
+import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.kra.budget.bo.BudgetAdHocOrg;
+import org.kuali.module.kra.budget.bo.BudgetAdHocPermission;
+import org.kuali.module.kra.routingform.document.RoutingFormDocument;
+import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
+
+/**
+ * This class handles Actions for the Budget Template page.
+ * 
+ * 
+ */
+public class RoutingFormTemplateAction extends RoutingFormAction {
+    
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RoutingFormTemplateAction.class);
+
+    /**
+     * Template the current document and forward to new document parameters page.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    public ActionForward doTemplate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        // Make sure BudgetForm is fully populated
+        super.load(mapping, form, request, response);
+
+        RoutingForm routingForm = (RoutingForm) form;
+        RoutingFormDocument routingFormDoc = routingForm.getRoutingFormDocument();
+
+        RoutingFormDocument copyDoc = (RoutingFormDocument) routingFormDoc.copy();
+        
+//      Check if ad-hoc permissions to be copied over
+        if (!routingForm.isTemplateAdHocPermissions()) {
+            // Clear permissions
+        }
+        
+//      Check if budget fringe rates to be copied over
+        if (!routingForm.isTemplateAdHocApprovers()) {
+            // Clear approvers
+        }
+        
+        routingForm.setDocument(copyDoc);
+        routingForm.setDocId(copyDoc.getDocumentNumber());
+
+        super.save(mapping, form, request, response);
+        super.load(mapping, form, request, response);
+
+        return super.mainpage(mapping, routingForm, request, response);
+    }
 }

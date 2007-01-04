@@ -38,6 +38,10 @@ public class RoutingForm extends ResearchDocumentFormBase {
     private RoutingFormPersonnel newRoutingFormPersonnel;
     private RoutingFormOrganization newRoutingFormOrganization;
     
+    private boolean templateAddress;
+    private boolean templateAdHocPermissions;
+    private boolean templateAdHocApprovers;
+    
     public RoutingForm() {
         super();
        
@@ -111,5 +115,29 @@ public class RoutingForm extends ResearchDocumentFormBase {
 
     public void setNewRoutingFormOrganization(RoutingFormOrganization newRotuingFormOrganization) {
         this.newRoutingFormOrganization = newRotuingFormOrganization;
+    }
+
+    public boolean isTemplateAddress() {
+        return templateAddress;
+    }
+
+    public void setTemplateAddress(boolean templateAddress) {
+        this.templateAddress = templateAddress;
+    }
+
+    public boolean isTemplateAdHocApprovers() {
+        return templateAdHocApprovers;
+    }
+
+    public void setTemplateAdHocApprovers(boolean templateAdHocApprovers) {
+        this.templateAdHocApprovers = templateAdHocApprovers;
+    }
+
+    public boolean isTemplateAdHocPermissions() {
+        return templateAdHocPermissions;
+    }
+
+    public void setTemplateAdHocPermissions(boolean templateAdHocPermissions) {
+        this.templateAdHocPermissions = templateAdHocPermissions;
     }
 }

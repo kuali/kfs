@@ -337,7 +337,7 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                 }
                 
                 // If Human Subjects approval date is more than one year prior to the routing form creation date, the user must enter a more current date, or set the status to Pending.
-                if (researchRisk.getResearchRiskTypeCode().equals(humanSubjectsActiveCode)) {
+                if (researchRisk.getResearchRiskTypeCode().equals(humanSubjectsActiveCode) && ObjectUtils.isNotNull(study.getResearchRiskStudyApprovalDate())) {
                     int dateDiff = SpringServiceLocator.getDateTimeService().dateDiff(study.getResearchRiskStudyApprovalDate(), humanSubjectsEarliestApprovalDate, false);
                     if (ObjectUtils.isNotNull(study.getResearchRiskStudyApprovalDate()) && dateDiff > 0) {
                         // Seems counterintuitive that 'before' is the proper operator here - but it is.
@@ -347,7 +347,7 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                 }
                 
                 // If Animals approval date is more than 3 years prior to the routing form creation date, the user must enter a more current date, or set the status to Pending.
-                if (researchRisk.getResearchRiskTypeCode().equals(animalsActiveCode)) {
+                if (researchRisk.getResearchRiskTypeCode().equals(animalsActiveCode) && ObjectUtils.isNotNull(study.getResearchRiskStudyApprovalDate())) {
                     int dateDiff = SpringServiceLocator.getDateTimeService().dateDiff(study.getResearchRiskStudyApprovalDate(), animalsEarliestApprovalDate, false);
                     if (ObjectUtils.isNotNull(study.getResearchRiskStudyApprovalDate()) && dateDiff > 0) {
                         valid = false;

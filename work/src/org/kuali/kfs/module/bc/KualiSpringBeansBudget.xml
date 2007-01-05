@@ -55,7 +55,18 @@
 		</property>
 	</bean>
 	
-	
+	<bean id="budgetConstructionOrganizationReportsService" class="org.kuali.module.budget.service.impl.BudgetConstructionOrganizationReportsServiceImpl">
+		<property name="budgetConstructionOrganizationReportsDao">
+			<ref bean="budgetConstructionOrganizationReportsDao" />
+		</property>
+	</bean>
+
+	<bean id="budgetConstructionOrganizationReportsDao" class="org.kuali.module.budget.dao.ojb.BudgetConstructionOrganizationReportsDaoOjb">
+		<property name="jcdAlias">
+			<value>dataSource</value>
+		</property>
+	</bean>
+		
     <bean id="genesisService" class="org.kuali.module.budget.service.impl.GenesisServiceImpl">
         <property name="genesisDao">
             <ref bean="genesisDao" />

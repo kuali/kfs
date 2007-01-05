@@ -16,7 +16,9 @@
 package org.kuali.module.labor.document;
 
 import org.kuali.Constants;
+import org.kuali.core.bo.AccountingLineParser;
 import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.module.labor.bo.LaborLedgerAccountingLineParser;
 
 /**
  * 
@@ -47,4 +49,13 @@ public class SalaryExpenseTransferDocument extends TransactionalDocumentBase {
     public String getTargetAccountingLinesSectionTitle() {
         return Constants.TO;
     }
+    
+    /**
+     * @see org.kuali.core.document.TransactionalDocumentBase#getAccountingLineParser()
+     */
+    @Override
+    public AccountingLineParser getAccountingLineParser() {
+        return new LaborLedgerAccountingLineParser();        
+    }    
 }
+

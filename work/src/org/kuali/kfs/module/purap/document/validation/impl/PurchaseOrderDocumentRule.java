@@ -16,6 +16,7 @@
 package org.kuali.module.purap.rules;
 
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.document.RequisitionDocument;
 
 public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
     
@@ -27,6 +28,12 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
         valid &= processPaymentInfoValidation(document);
         valid &= processDeliveryValidation(document);
         valid &= processAdditionalValidation(document);
+        return valid;
+    }
+    
+    
+    boolean processPaymentInfoValidation(RequisitionDocument document) {
+        boolean valid = super.processPaymentInfoValidation(document);
         return valid;
     }
     

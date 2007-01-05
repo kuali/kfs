@@ -63,6 +63,32 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     boolean processPaymentInfoValidation(PurchasingDocument document) {
         boolean valid = true;
         valid &= checkBeginDateBeforeEndDate( document );
+        
+        if (ObjectUtils.isNotNull(document.getPurchaseOrderBeginDate()) ||
+                ObjectUtils.isNotNull(document.getPurchaseOrderEndDate())) {
+            if (ObjectUtils.isNotNull(document.getPurchaseOrderBeginDate()) && ObjectUtils.isNull(document.getPurchaseOrderEndDate())) {
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_END_DATE, PurapKeyConstants.ERROR_PURCHASE_ORDER_BEGIN_DATE_NO_END_DATE);
+                    valid &= false;
+            } 
+            else {
+                if (ObjectUtils.isNull(document.getPurchaseOrderBeginDate()) && ObjectUtils.isNotNull(document.getPurchaseOrderEndDate())) {
+                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_BEGIN_DATE, PurapKeyConstants.ERROR_PURCHASE_ORDER_END_DATE_NO_BEGIN_DATE);
+                    valid &= false;
+                }
+            }
+        }   
+        if (valid && ObjectUtils.isNotNull(document.getPurchaseOrderBeginDate()) && ObjectUtils.isNotNull(document.getPurchaseOrderEndDate())) {
+                if (ObjectUtils.isNull(document.getRecurringPaymentTypeCode())) {
+                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.RECURRING_PAYMENT_TYPE_CODE, PurapKeyConstants.ERROR_RECURRING_DATE_NO_TYPE);
+                    
+                    valid &= false;
+                }
+        } else if (ObjectUtils.isNotNull(document.getRecurringPaymentTypeCode())) {
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_BEGIN_DATE, PurapKeyConstants.ERROR_RECURRING_TYPE_NO_DATE);
+                valid &= false; 
+        }
+        
+        
         return valid;
     }
 

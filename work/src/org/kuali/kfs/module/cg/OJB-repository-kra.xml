@@ -924,6 +924,7 @@
 	<field-descriptor name="researchRiskTypeDescription" column="RSRCH_RSK_TYP_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="researchRiskTypeSortNumber" column="RSRCH_RSK_TYP_SORT_NBR" jdbc-type="INTEGER"/>
 	<field-descriptor name="researchRiskTypeNotificationGroupText" column="RSRCH_RSK_TYP_NTFCTN_GRP_TXT" jdbc-type="VARCHAR"/>
+	<field-descriptor name="researchRiskTypeNotificationValue" column="RSRCH_RSK_TYP_NTFCTN_VAL" jdbc-type="VARCHAR"/>
 	<reference-descriptor name="controlAttributeType" class-ref="org.kuali.module.kra.routingform.bo.ControlAttributeType" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="controlAttributeTypeCode" />
 	</reference-descriptor>
@@ -1095,6 +1096,7 @@
 		<foreignkey field-ref="organizationCode" />
 	</reference-descriptor>
 </class-descriptor>
+
 <class-descriptor class="org.kuali.module.kra.routingform.bo.QuestionType" table="ER_QSTN_TYP_T">
 	<field-descriptor name="questionTypeCode" column="QSTN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
@@ -1103,6 +1105,7 @@
 	<field-descriptor name="questionTypeDescription" column="QSTN_TYP_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="questionTypeSortNumber" column="QSTN_TYP_SORT_NBR" jdbc-type="INTEGER"/>
 	<field-descriptor name="questionTypeWorkgroupName" column="QSTN_TYP_WRKGRP_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="questionTypeNotificationValue" column="QSTN_TYP_NTFCTN_VAL" jdbc-type="VARCHAR"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.routingform.bo.RoutingFormQuestion" table="ER_RF_QSTN_TYP_T">

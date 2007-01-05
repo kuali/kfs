@@ -29,6 +29,7 @@ public class QuestionType extends PersistableBusinessObjectBase {
     private String questionTypeDescription;
     private Integer questionTypeSortNumber;
     private String questionTypeWorkgroupName;
+    private String questionTypeNotificationValue;
     
     /**
      * Gets the dataObjectMaintenanceCodeActiveIndicator attribute. 
@@ -111,6 +112,22 @@ public class QuestionType extends PersistableBusinessObjectBase {
     }
 
     /**
+     * Gets the questionTypeNotificationValue attribute. 
+     * @return Returns the questionTypeNotificationValue.
+     */
+    public String getQuestionTypeNotificationValue() {
+        return questionTypeNotificationValue;
+    }
+
+    /**
+     * Sets the questionTypeNotificationValue attribute value.
+     * @param questionTypeNotificationValue The questionTypeNotificationValue to set.
+     */
+    public void setQuestionTypeNotificationValue(String questionTypeNotificationValue) {
+        this.questionTypeNotificationValue = questionTypeNotificationValue;
+    }
+
+    /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
@@ -118,4 +135,5 @@ public class QuestionType extends PersistableBusinessObjectBase {
         m.put("questionTypeCode", this.questionTypeCode);
         return m;
     }
+
 }

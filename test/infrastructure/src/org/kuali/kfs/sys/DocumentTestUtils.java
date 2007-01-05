@@ -21,6 +21,7 @@ import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.document.DocumentNote;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.InternalBillingItem;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -60,7 +61,7 @@ public class DocumentTestUtils {
      * @return new DocumentNote initialized with the given values
      */
     public static DocumentNote createDocumentNote(String documentHeaderId, UniversalUser documentNoteAuthor, String documentNoteText) {
-        java.util.Date now = new java.util.Date();
+        java.util.Date now = SpringServiceLocator.getDateTimeService().getCurrentDate();
         DocumentNote documentNote = new DocumentNote();
         documentNote.setDocumentNumber(documentHeaderId);
         documentNote.setFinDocumentAuthorUniversalId(documentNoteAuthor.getPersonUniversalIdentifier());

@@ -18,20 +18,23 @@ package org.kuali.bo;
 import java.sql.Date;
 import java.util.ArrayList;
 
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.test.KualiTestBase;
+import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class tests the AccountingPeriod business object.
  * 
  * 
  */
+@WithTestSpringContext
 public class AccountingPeriodTest extends KualiTestBase {
     AccountingPeriod ap;
     public static final boolean BUDGET_ROLLOVER_IND = true;
     public static final String GUID = "123456789012345678901234567890123456";
     public static final String UNIV_FISC_PERD_CODE = "BB";
-    public static final Date UNIV_FISC_PERD_END_DATE = new java.sql.Date(System.currentTimeMillis());
+    public static Date univFiscPerdEndDate;
     public static final Integer UNIV_FISC_YEAR = new Integer(2005);
     public static final String UNIV_FISC_PRD_NAME = "JAN. 1776";
     public static final String UNIV_FISC_PRD_STATUS_CODE = "C";
@@ -40,12 +43,13 @@ public class AccountingPeriodTest extends KualiTestBase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        univFiscPerdEndDate = new java.sql.Date(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
         ap = new AccountingPeriod();
         ap.setBudgetRolloverIndicator(BUDGET_ROLLOVER_IND);
         ap.setExtendedAttributeValues(new ArrayList());
         ap.setObjectId(GUID);
         ap.setUniversityFiscalPeriodCode(UNIV_FISC_PERD_CODE);
-        ap.setUniversityFiscalPeriodEndDate(UNIV_FISC_PERD_END_DATE);
+        ap.setUniversityFiscalPeriodEndDate(univFiscPerdEndDate);
         ap.setUniversityFiscalPeriodName(UNIV_FISC_PRD_NAME);
         ap.setUniversityFiscalPeriodStatusCode(UNIV_FISC_PRD_STATUS_CODE);
         ap.setUniversityFiscalYear(UNIV_FISC_YEAR);
@@ -57,7 +61,7 @@ public class AccountingPeriodTest extends KualiTestBase {
         assertEquals(0, ap.getExtendedAttributeValues().size());
         assertEquals(GUID, ap.getObjectId());
         assertEquals(UNIV_FISC_PERD_CODE, ap.getUniversityFiscalPeriodCode());
-        assertEquals(UNIV_FISC_PERD_END_DATE, ap.getUniversityFiscalPeriodEndDate());
+        assertEquals(univFiscPerdEndDate, ap.getUniversityFiscalPeriodEndDate());
         assertEquals(UNIV_FISC_PRD_NAME, ap.getUniversityFiscalPeriodName());
         assertEquals(UNIV_FISC_PRD_STATUS_CODE, ap.getUniversityFiscalPeriodStatusCode());
         assertEquals(UNIV_FISC_YEAR, ap.getUniversityFiscalYear());

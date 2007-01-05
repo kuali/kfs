@@ -78,6 +78,9 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService"/>
+		</property>
 	</bean>
 
 	<bean id="routingFormService" class="org.kuali.module.kra.routingform.service.impl.RoutingFormServiceImpl">

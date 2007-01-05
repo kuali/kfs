@@ -20,19 +20,22 @@ import java.sql.Date;
 import java.util.ArrayList;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.test.KualiTestBase;
+import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class...
  * 
  * 
  */
+@WithTestSpringContext
 public class CheckBaseTest extends KualiTestBase {
     private CheckBase crchk = null;
     private static final KualiDecimal AMOUNT = new KualiDecimal("100.27");
     private static final String GUID = "123456789012345678901234567890123456";
     private static final Long VER_NBR = new Long(1);
-    private static final Date DATE = new Date(System.currentTimeMillis());
+    private static Date date;
     private static final String CHECK_NUMBER = "123456";
     private static final String DESCRIPTION = "Description 123.";
     private static final String DOC_HDR_ID = "999999";
@@ -41,9 +44,10 @@ public class CheckBaseTest extends KualiTestBase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        date = new Date(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
         crchk = new CheckBase();
         crchk.setAmount(AMOUNT);
-        crchk.setCheckDate(DATE);
+        crchk.setCheckDate(date);
         crchk.setCheckNumber(CHECK_NUMBER);
         crchk.setDescription(DESCRIPTION);
         crchk.setDocumentNumber(DOC_HDR_ID);
@@ -56,7 +60,7 @@ public class CheckBaseTest extends KualiTestBase {
 
     public void testCashReceiptCheckPojo() {
         assertEquals(AMOUNT, crchk.getAmount());
-        assertEquals(DATE, crchk.getCheckDate());
+        assertEquals(date, crchk.getCheckDate());
         assertEquals(CHECK_NUMBER, crchk.getCheckNumber());
         assertEquals(DESCRIPTION, crchk.getDescription());
         assertEquals(DOC_HDR_ID, crchk.getDocumentNumber());

@@ -999,6 +999,9 @@
 		<property name="originEntryGroupService">
 			<ref bean="glOriginEntryGroupService" />
 		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
 	</bean>
 
 	<bean id="reversalService" class="org.kuali.module.gl.service.impl.ReversalServiceImpl">
@@ -1080,6 +1083,9 @@
 		<property name="encumbranceDao">
 			<ref bean="glEncumbranceDao" />
 		</property>
+        <property name="dateTimeService">
+        	<ref bean="dateTimeService"/>
+        </property>
 	</bean>
 
 	<bean id="glPostExpenditureTransaction" class="org.kuali.module.gl.batch.poster.impl.PostExpenditureTransaction">

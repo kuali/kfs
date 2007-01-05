@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.Constants;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
@@ -365,7 +366,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
 
 
     public final void testLifeCycle() {
-        final String RANDOM_WORKGROUP_NAME = "testWorkgroup-" + new Date().getTime();
+        final String RANDOM_WORKGROUP_NAME = "testWorkgroup-" + SpringServiceLocator.getDateTimeService().getCurrentDate().getTime();
 
         boolean deleteSucceeded = false;
 

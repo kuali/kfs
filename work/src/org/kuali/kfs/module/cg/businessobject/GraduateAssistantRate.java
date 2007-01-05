@@ -22,6 +22,7 @@ import java.util.LinkedHashMap;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Campus;
 
 /**
@@ -232,11 +233,11 @@ public class GraduateAssistantRate extends PersistableBusinessObjectBase {
     
     public void beforeInsert(PersistenceBroker persistenceBroker) {
         super.beforeInsert(persistenceBroker);
-        this.lastUpdateTimestamp = new Timestamp(new Date().getTime());
+        this.lastUpdateTimestamp = SpringServiceLocator.getDateTimeService().getCurrentTimestamp();
     }
 
     public void beforeUpdate(PersistenceBroker persistenceBroker) {
         super.beforeUpdate(persistenceBroker);
-        this.lastUpdateTimestamp = new Timestamp(new Date().getTime());
+        this.lastUpdateTimestamp = SpringServiceLocator.getDateTimeService().getCurrentTimestamp();
     }
 }

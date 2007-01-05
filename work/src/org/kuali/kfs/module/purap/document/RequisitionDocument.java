@@ -155,7 +155,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
             Timestamp allowedCopyDate = new Timestamp(c.getTime().getTime());
 
             Calendar c2 = Calendar.getInstance();
-            c2.setTime(new java.util.Date());
+            c2.setTime(SpringServiceLocator.getDateTimeService().getCurrentDate());
             c2.set(Calendar.HOUR, 11);
             c2.set(Calendar.MINUTE, 59);
             c2.set(Calendar.SECOND, 59);

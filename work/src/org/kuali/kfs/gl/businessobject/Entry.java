@@ -24,6 +24,7 @@ import org.kuali.core.bo.Options;
 import org.kuali.core.bo.OriginationCode;
 import org.kuali.core.document.DocumentType;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.Chart;
@@ -129,7 +130,7 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
             setTransactionPostingDate(new Date(postDate.getTime()));
         }
 
-        java.util.Date now = new java.util.Date();
+        java.util.Date now = SpringServiceLocator.getDateTimeService().getCurrentDate();
         setTransactionDateTimeStamp(new Date(now.getTime()));
     }
 

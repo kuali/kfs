@@ -47,7 +47,7 @@ public class OriginEntryTestBase extends KualiTestBase {
     protected OriginEntryService originEntryService = null;
     protected OriginEntryDao originEntryDao = null;
     protected KualiConfigurationService kualiConfigurationService = null;
-    protected Date date = new Date();
+    protected Date date;
 
     public OriginEntryTestBase() {
         super();
@@ -62,7 +62,8 @@ public class OriginEntryTestBase extends KualiTestBase {
         beanFactory = SpringServiceLocator.getBeanFactory();
 
         dateTimeService = (ConfigurableDateService) beanFactory.getBean("testDateTimeService");
-
+        date = dateTimeService.getCurrentDate();
+        
         // Other objects needed for the tests
         persistenceService = (PersistenceService) beanFactory.getBean("persistenceService");
         unitTestSqlDao = (UnitTestSqlDao) beanFactory.getBean("glUnitTestSqlDao");
@@ -92,7 +93,7 @@ public class OriginEntryTestBase extends KualiTestBase {
     }
 
     protected void loadInputTransactions(String groupCode, String[] transactions) {
-        OriginEntryGroup group = originEntryGroupService.createGroup(new java.sql.Date(new java.util.Date().getTime()), groupCode, true, true, true);
+        OriginEntryGroup group = originEntryGroupService.createGroup(new java.sql.Date(dateTimeService.getCurrentDate().getTime()), groupCode, true, true, true);
         loadTransactions(transactions, group);
     }
 

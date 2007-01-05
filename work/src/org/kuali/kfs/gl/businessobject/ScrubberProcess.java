@@ -1583,7 +1583,7 @@ public class ScrubberProcess {
         public String fdocTypCd = "";
         public String fsOriginCd = "";
         public String fdocNbr = "";
-        public Date fdocReversalDt = new Date(new java.util.Date().getTime());
+        public Date fdocReversalDt = new Date(dateTimeService.getCurrentDate().getTime());
         public String univFiscalPrdCd = "";
 
         // Data about unit of work

@@ -86,15 +86,15 @@ public class OrgPreRules extends MaintenancePreRulesBase {
             OrganizationExtension newExt = newData.getOrganizationExtension();
             if (oldExt != null) {
                 if (!ObjectUtils.nullSafeEquals(oldExt.getHrmsCompany(), newExt.getHrmsCompany()) || !ObjectUtils.nullSafeEquals(oldExt.getHrmsIuOrganizationAddress2(), newExt.getHrmsIuOrganizationAddress2()) || !ObjectUtils.nullSafeEquals(oldExt.getHrmsIuOrganizationAddress3(), newExt.getHrmsIuOrganizationAddress3()) || !ObjectUtils.nullSafeEquals(oldExt.getHrmsIuCampusCode(), newExt.getHrmsIuCampusCode()) || !ObjectUtils.nullSafeEquals(oldExt.getHrmsIuCampusBuilding(), newExt.getHrmsIuCampusBuilding()) || !ObjectUtils.nullSafeEquals(oldExt.getHrmsIuCampusRoom(), newExt.getHrmsIuCampusRoom()) || oldExt.isHrmsIuPositionAllowedFlag() != newExt.isHrmsIuPositionAllowedFlag() || oldExt.isHrmsIuTenureAllowedFlag() != newExt.isHrmsIuTenureAllowedFlag() || oldExt.isHrmsIuTitleAllowedFlag() != newExt.isHrmsIuTitleAllowedFlag() || oldExt.isHrmsIuOccupationalUnitAllowedFlag() != newExt.isHrmsIuOccupationalUnitAllowedFlag() || !ObjectUtils.nullSafeEquals(oldExt.getHrmsPersonnelApproverUniversalId(), newExt.getHrmsPersonnelApproverUniversalId()) || !ObjectUtils.nullSafeEquals(oldExt.getFiscalApproverUniversalId(), newExt.getFiscalApproverUniversalId())) {
-                    newExt.setHrmsLastUpdateDate(new Timestamp(new Date().getTime()));
+                    newExt.setHrmsLastUpdateDate(SpringServiceLocator.getDateTimeService().getCurrentTimestamp());
                 }
             }
             else {
-                newExt.setHrmsLastUpdateDate(new Timestamp(new Date().getTime()));
+                newExt.setHrmsLastUpdateDate(SpringServiceLocator.getDateTimeService().getCurrentTimestamp());
             }
         }
         else {
-            newData.getOrganizationExtension().setHrmsLastUpdateDate(new Timestamp(new Date().getTime()));
+            newData.getOrganizationExtension().setHrmsLastUpdateDate(SpringServiceLocator.getDateTimeService().getCurrentTimestamp());
         }
     }
     private void setLocationFromZip(MaintenanceDocument maintenanceDocument) {

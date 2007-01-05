@@ -40,6 +40,7 @@ import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.DisbursementVoucherNonResidentAlienTax;
 import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
 import org.kuali.test.DocumentTestUtils;
@@ -91,7 +92,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
 
         dvParameter.setDisbVchrContactPersonName(GlobalVariables.getUserSession().getUniversalUser().getPersonName());
         // set to tomorrow
-        Calendar calendar = Calendar.getInstance();
+        Calendar calendar = SpringServiceLocator.getDateTimeService().getCurrentCalendar();
         calendar.add(Calendar.DAY_OF_MONTH, 1);
         calendar.clear(Calendar.MILLISECOND);
         calendar.clear(Calendar.SECOND);

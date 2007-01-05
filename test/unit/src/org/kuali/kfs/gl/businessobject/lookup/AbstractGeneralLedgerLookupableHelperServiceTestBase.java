@@ -49,7 +49,7 @@ public abstract class AbstractGLLookupableHelperServiceTestBase extends KualiTes
         super.setUp();
 
         beanFactory = SpringServiceLocator.getBeanFactory();
-        date = new Date();
+        date = SpringServiceLocator.getDateTimeService().getCurrentDate();
         pendingEntry = new GeneralLedgerPendingEntry();
         testDataGenerator = new TestDataGenerator();
 

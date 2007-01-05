@@ -958,8 +958,9 @@ public class AccountRuleTest extends ChartRuleTestBase {
         Calendar testCalendar;
         Timestamp testTimestamp;
 
-        // get today's date
+        // get today's date (or whatever's provided by the DateTimeService)
         testCalendar = Calendar.getInstance();
+        testCalendar.setTime(SpringServiceLocator.getDateTimeService().getCurrentDate());
         testCalendar = DateUtils.truncate(testCalendar, Calendar.DAY_OF_MONTH);
         testTimestamp = new Timestamp(testCalendar.getTimeInMillis());
 

@@ -26,6 +26,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.kuali.KeyConstants;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Delegate;
 import org.kuali.test.WithTestSpringContext;
 
@@ -112,7 +113,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         delegate.setFinancialDocumentTypeCode(DOCTYPE_GOOD_1);
         delegate.setAccountDelegateSystemId(USERID_GOOD_1);
 
-        Timestamp today = new Timestamp(Calendar.getInstance().getTime().getTime());
+        Timestamp today = SpringServiceLocator.getDateTimeService().getCurrentTimestamp();
         delegate.setAccountDelegateStartDate(today);
 
         delegate.refresh();
@@ -329,7 +330,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
 
     public void testCheckSimpleRulesStartDateRule_startDateTomorrow() {
         DelegateRule rule = new DelegateRule();
-        Calendar cal = Calendar.getInstance();
+        Calendar cal = SpringServiceLocator.getDateTimeService().getCurrentCalendar();
         cal.add(Calendar.DATE, 1);
         Timestamp ts = newTimestamp(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
 
@@ -355,7 +356,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
 
     public void testCheckSimpleRulesStartDateRule_startDateYesterday() {
         DelegateRule rule = new DelegateRule();
-        Calendar cal = Calendar.getInstance();
+        Calendar cal = SpringServiceLocator.getDateTimeService().getCurrentCalendar();
         cal.add(Calendar.DATE, -1);
         Timestamp ts = newTimestamp(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
 

@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.Constants;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.module.gl.batch.poster.EncumbranceCalculator;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.batch.poster.VerifyTransaction;
@@ -37,6 +38,7 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostEncumbrance.class);
 
     private EncumbranceDao encumbranceDao;
+    private DateTimeService dateTimeService;
 
     public void setEncumbranceDao(EncumbranceDao ed) {
         encumbranceDao = ed;
@@ -134,7 +136,8 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
         // If we couldn't find one that exists, create a new one
 
         // NOTE: the date doesn't matter so there is no need to call the date service
-        Entry e = new Entry(t, new Date());
+        // Changed to use the datetime service because of KULRNE-4183
+        Entry e = new Entry(t, dateTimeService.getCurrentDate());
         if (Constants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdateCode())) {
             e.setDocumentNumber(t.getReferenceFinancialDocumentNumber());
             e.setFinancialSystemOriginationCode(t.getReferenceFinancialSystemOriginationCode());
@@ -176,5 +179,10 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
 
     public String getDestinationName() {
         return "GL_ENCUMBRANCE_T";
+    }
+    
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 }

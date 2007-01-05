@@ -44,6 +44,7 @@ import org.apache.log4j.*;
 
 //  we need this so we can create a document
 import org.kuali.core.document.Document;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.SpringServiceLocator.*;
@@ -124,6 +125,8 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     public final static String FISCAL_OFFICER_ID_PROPERTY = "accountFiscalOfficerSystemIdentifier";
     public final static String ACCOUNT_CLOSED_INDICATOR_PROPERTY = "accountClosedIndicator";
 
+    private DateTimeService dateTimeService;
+    
     public final Map<String,String> getBudgetConstructionControlFlags (Integer universityFiscalYear)
     {
         /*  return the flag names and the values for all the BC flags for the fiscal year */
@@ -1099,10 +1102,10 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         QueryByCriteria queryID = 
             new QueryByCriteria(PendingBudgetConstructionGeneralLedger.class,
                     criteriaID);
-        LOG.info(String.format("delete PBGL started at %tT for %d",new Date(),
+        LOG.info(String.format("delete PBGL started at %tT for %d",dateTimeService.getCurrentDate(),
                 BaseYear));
         getPersistenceBrokerTemplate().deleteByQuery(queryID);
-        LOG.info(String.format("delete PBGL ended at %tT",new Date()));
+        LOG.info(String.format("delete PBGL ended at %tT",dateTimeService.getCurrentDate()));
     }
     
     private void clearBothYearsPBGL(Integer BaseYear)
@@ -1121,10 +1124,10 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         QueryByCriteria queryID = 
             new QueryByCriteria(PendingBudgetConstructionGeneralLedger.class,
                     criteriaID);
-        LOG.info(String.format("\ndelete PBGL started at %tT for %d",new Date(),
+        LOG.info(String.format("\ndelete PBGL started at %tT for %d",dateTimeService.getCurrentDate(),
                 RequestYear));
         getPersistenceBrokerTemplate().deleteByQuery(queryID);
-        LOG.info(String.format("\ndelete PBGL ended at %tT",new Date()));
+        LOG.info(String.format("\ndelete PBGL ended at %tT",dateTimeService.getCurrentDate()));
     }
     
     private void createNewBCDocuments(Integer BaseYear)
@@ -1303,9 +1306,9 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         // @@TODO this should be in a try/catch structure.  We should catch a 
         //        SQL error, write it to the log, and raise a more generic error
         //        ("error reading GL Balance Table in BC batch"), and throw that
-        LOG.info("\nGL Query started: "+String.format("%tT",new Date()));
+        LOG.info("\nGL Query started: "+String.format("%tT",dateTimeService.getCurrentDate()));
         Iterator Results = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
-        LOG.info("\nGL Query finished: "+String.format("%tT",new Date()));
+        LOG.info("\nGL Query finished: "+String.format("%tT",dateTimeService.getCurrentDate()));
         while (Results.hasNext())
         {
             Object[] ReturnList = (Object []) Results.next();
@@ -1344,7 +1347,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         }
         nGLBBRowsRead = nGLBBRowsRead+pBGLFromGL.size();
         nGLBBKeysRead = bCHdrFromGL.size();
-        LOG.info("\nHash maps built: "+String.format("%tT",new Date()));
+        LOG.info("\nHash maps built: "+String.format("%tT",dateTimeService.getCurrentDate()));
         LOG.info(String.format("\nGL detail hashmap size = %d",pBGLFromGL.size()));
         LOG.info(String.format("\nGL keys hashmap size = %d",bCHdrFromGL.size()));
         info();
@@ -1452,5 +1455,10 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         LOG.info(String.format("\ncurrent PBGL amounts updated: %d",
                  nGLRowsUpdated));
         
+    }
+    
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 }

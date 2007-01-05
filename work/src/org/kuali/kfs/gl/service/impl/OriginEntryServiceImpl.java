@@ -30,6 +30,7 @@ import java.util.Map;
 
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
@@ -53,6 +54,8 @@ public class OriginEntryServiceImpl implements OriginEntryService {
 
     private OriginEntryDao originEntryDao;
     private OriginEntryGroupService originEntryGroupService;
+    
+    private DateTimeService dateTimeService;
 
     /**
      * 
@@ -255,7 +258,7 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     public void loadFlatFile(String filename, String groupSourceCode, boolean isValid, boolean isProcessed, boolean isScrub) {
         LOG.debug("loadFlatFile() started");
 
-        java.sql.Date groupDate = new java.sql.Date(System.currentTimeMillis());
+        java.sql.Date groupDate = new java.sql.Date(dateTimeService.getCurrentDate().getTime());
         OriginEntryGroup newGroup = originEntryGroupService.createGroup(groupDate, groupSourceCode, isValid, isProcessed, isScrub);
 
         BufferedReader input = null;
@@ -441,5 +444,10 @@ public class OriginEntryServiceImpl implements OriginEntryService {
             }
         }
         return output;
+    }
+    
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 }

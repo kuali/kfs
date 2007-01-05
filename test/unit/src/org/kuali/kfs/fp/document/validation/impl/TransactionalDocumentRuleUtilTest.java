@@ -21,6 +21,7 @@ import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEm
 
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.document.JournalVoucherDocument;
@@ -98,21 +99,21 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
      * @return Timestamp
      */
     private java.sql.Date getSqlDateYesterday() {
-        return new java.sql.Date(System.currentTimeMillis() - ONE_DAY_MILLIS);
+        return new java.sql.Date(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime() - ONE_DAY_MILLIS);
     }
 
     /**
      * Fixture accessor method for getting a <code>{@link java.sql.Date}</code> instance that is in the future.
      */
     private java.sql.Date getSqlDateTomorrow() {
-        return new java.sql.Date(System.currentTimeMillis() + ONE_DAY_MILLIS);
+        return new java.sql.Date(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime() + ONE_DAY_MILLIS);
     }
 
     /**
      * @return today's java.sql.Date
      */
     private java.sql.Date getSqlDateToday() {
-        return new java.sql.Date(System.currentTimeMillis());
+        return new java.sql.Date(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
     }
 
     // /////////////////////////////////////////////////////////////////////////

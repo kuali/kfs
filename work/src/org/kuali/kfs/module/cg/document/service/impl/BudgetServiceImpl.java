@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.KualiDecimal;
@@ -65,7 +66,8 @@ public class BudgetServiceImpl implements BudgetService {
     private BudgetModularService budgetModularService;
     private BudgetIndirectCostService budgetIndirectCostService;
     private BusinessObjectService businessObjectService;
-
+    private DateTimeService dateTimeService;
+    
     /**
      * @see org.kuali.module.kra.budget.service.BudgetService#initializeBudget(org.kuali.module.kra.budget.bo.Budget)
      */
@@ -140,7 +142,7 @@ public class BudgetServiceImpl implements BudgetService {
                 //Update timestamp of modified Fringe Rates
                 for (BudgetFringeRate modifiedBudgetFringeRate : modifiedFringeRates) {
                     ObjectUtils.removeObjectWithIdentitcalKey(budget.getFringeRates(), modifiedBudgetFringeRate);
-                    modifiedBudgetFringeRate.setBudgetLastUpdateTimestamp(new Timestamp(new Date().getTime()));
+                    modifiedBudgetFringeRate.setBudgetLastUpdateTimestamp(dateTimeService.getCurrentTimestamp());
                 }
                 
                 //Replace all of the fringe rates with what's in the database.  remove all of the modified ones (the .equals() method does not check timestamp) and re-add them.
@@ -150,7 +152,7 @@ public class BudgetServiceImpl implements BudgetService {
                 //Update timestamp of modified Fringe Rates
                 for (BudgetGraduateAssistantRate modifiedBudgetGraduateRate : modifiedGraduateAssistantRates) {
                     ObjectUtils.removeObjectWithIdentitcalKey(budget.getGraduateAssistantRates(), modifiedBudgetGraduateRate);
-                    modifiedBudgetGraduateRate.setLastUpdateTimestamp(new Timestamp(new Date().getTime()));
+                    modifiedBudgetGraduateRate.setLastUpdateTimestamp(dateTimeService.getCurrentTimestamp());
                 }
                  
                 //Replace all of the fringe rates with what's in the database.  remove all of the modified ones (the .equals() method does not check timestamp) and re-add them.
@@ -158,7 +160,7 @@ public class BudgetServiceImpl implements BudgetService {
                 
             } else {
                 for (BudgetFringeRate budgetFringeRate : budgetDocument.getBudget().getFringeRates()) {
-                    budgetFringeRate.setBudgetLastUpdateTimestamp(new Timestamp(new Date().getTime()));
+                    budgetFringeRate.setBudgetLastUpdateTimestamp(dateTimeService.getCurrentTimestamp());
                 }
             }
             
@@ -611,5 +613,9 @@ public class BudgetServiceImpl implements BudgetService {
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 }

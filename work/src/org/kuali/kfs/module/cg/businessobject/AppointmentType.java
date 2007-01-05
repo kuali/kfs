@@ -25,6 +25,7 @@ import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.SpringServiceLocator;
 
 /**
  * Account Business Object
@@ -150,12 +151,12 @@ public class AppointmentType extends PersistableBusinessObjectBase {
 
     public void beforeInsert(PersistenceBroker persistenceBroker) {
         super.beforeInsert(persistenceBroker);
-        this.lastUpdate = new Timestamp(new Date().getTime());
+        this.lastUpdate = SpringServiceLocator.getDateTimeService().getCurrentTimestamp();
     }
 
     public void beforeUpdate(PersistenceBroker persistenceBroker) {
         super.beforeUpdate(persistenceBroker);
-        this.lastUpdate = new Timestamp(new Date().getTime());
+        this.lastUpdate = SpringServiceLocator.getDateTimeService().getCurrentTimestamp();
     }
 
 

@@ -105,7 +105,7 @@ public class GeneralLedgerPendingEntryServiceTest extends KualiTestBase {
         generalLedgerPendingEntry.setTransactionLedgerEntryAmount(new KualiDecimal("8.8"));
         generalLedgerPendingEntry.setTransactionLedgerEntryDescription("9");
         generalLedgerPendingEntry.setTransactionDebitCreditCode("D");
-        generalLedgerPendingEntry.setTransactionDate(new java.sql.Date(new java.util.Date().getTime()));
+        generalLedgerPendingEntry.setTransactionDate(new java.sql.Date(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime()));
         generalLedgerPendingEntry.setFinancialDocumentTypeCode("12");
         generalLedgerPendingEntry.setTransactionLedgerEntrySequenceNumber(new Integer(1));
         return generalLedgerPendingEntry;

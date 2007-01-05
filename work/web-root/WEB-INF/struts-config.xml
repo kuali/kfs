@@ -87,6 +87,7 @@
         <forward name="cancel" path="/index.jsp" redirect="true" />
         <forward name="close" path="/index.jsp" redirect="true" />
         <forward name="portal" path="/index.jsp" redirect="true" />
+        <forward name="route_report" path="/jsp/core/RoutingReportForward.jsp"/>
     </global-forwards>
 
     <action-mappings>
@@ -192,7 +193,7 @@
         <action path="/labor*" name="{1}Form" input="/jsp/modules/labor/{1}.jsp" type="org.kuali.module.labor.web.struts.action.{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm"> 
             <forward name="basic" path="/jsp/modules/labor/{1}.jsp" /> 
         </action> 
-        
+
         <action path="/budget*" name="{1}Form" input="/jsp/modules/budget/{1}.jsp" type="org.kuali.module.budget.web.struts.action.{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm"> 
             <forward name="basic" path="/jsp/modules/budget/{1}.jsp" /> 
         </action> 

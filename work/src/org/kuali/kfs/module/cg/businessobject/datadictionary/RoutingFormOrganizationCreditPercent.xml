@@ -72,11 +72,12 @@
         <attributes>
 
             <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Of Accounts Code</label>
+                <label>Chart</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="4" />
@@ -102,11 +103,12 @@
 			</attribute>
 
             <attribute name="organizationCode" forceUppercase="true">
-                <label>Organization Code</label>
+                <label>Org</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>4</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="6" />
@@ -117,7 +119,7 @@
 			</attribute>
 
             <attribute name="organizationCreditPercent" forceUppercase="true">
-                <label>Organization Credit Percent</label>
+                <label>% Credit</label>
                 <shortLabel>Percent</shortLabel>
 
                 <maxLength>3</maxLength>
@@ -132,14 +134,14 @@
 			</attribute>
 
             <attribute name="organizationCreditRoleText" forceUppercase="true">
-                <label>Organization Credit Role Text</label>
+                <label>Role</label>
                 <shortLabel>Text</shortLabel>
 
                 <maxLength>50</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
                 <control>
-                    <text size="52" />
+                    <text size="50" />
                 </control>
 
                 <summary>organizationCreditRoleText</summary>
@@ -147,7 +149,7 @@
 			</attribute>
 
             <attribute name="organizationFinancialAidPercent" forceUppercase="true">
-                <label>Organization Financial Aid Percent</label>
+                <label>% F&amp;A</label>
                 <shortLabel>Percent</shortLabel>
 
                 <maxLength>3</maxLength>

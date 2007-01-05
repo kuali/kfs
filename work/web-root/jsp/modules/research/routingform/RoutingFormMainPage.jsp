@@ -15,57 +15,34 @@
 --%>
 <%@ include file="/jsp/core/tldHeader.jsp"%>
 
-<c:set var="routingFormMainPageAttributes"
-	value="${DataDictionary['RoutingFormDocument'].attributes}" />
-<c:set var="readOnly"
-	value="${!empty KualiForm.editingMode['viewOnly']}" />
-
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="KualiRoutingFormDocument"
 	htmlFormAction="researchRoutingFormMainPage" headerDispatch="save"
 	feedbackKey="app.krafeedback.link" headerTabActive="mainpage"
 	showTabButtons="true">
 
-<kra-rf:routingFormHiddenDocumentFields excludeRoutingFormMainPage="true" />
-
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS_LESS_DOCUMENT}" />
 
+    <kra-rf:routingFormHiddenDocumentFields excludeRoutingFormMainPage="true" />
+
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
-	<SCRIPT type="text/javascript">
-	    <!--
-	        function submitForm() {
-	            document.forms[0].submit();
-	        }
-	    //-->
-	</SCRIPT>
 
-	<kra-rf:routingFormMainPageAgencyDeliveryInfo editingMode="${KualiForm.editingMode}" />
+	<kra-rf:routingFormMainPageAgencyDeliveryInfo/>
 
-    <!-- TAB -->
+	<kra-rf:routingFormMainPagePersonnelOrg/>
 
-	<kra-rf:routingFormMainPagePersonnel editingMode="${KualiForm.editingMode}" />
+	<kra-rf:routingFormMainPageSubmissionDetails/>
 
-    <!-- TAB -->
+    <!-- Following is unused, remember to delete file if it can be removed. -->
+	<!-- kra-rf:routingFormMainPageCustomAttributes -->
 
-	<kra-rf:routingFormMainPageSubmissionDetails editingMode="${KualiForm.editingMode}" />
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="b3" summary="">
+      <tr>
+        <td align="left" class="footer"><img src="images/pixel_clear.gif" alt="" width="12" height="14" class="bl3"></td>
+        <td align="right" class="footer-right"><img src="images/pixel_clear.gif" alt="" width="12" height="14" class="br3"></td>
+      </tr>
+    </table>
 
-    <!-- TAB -->
+    <kul:documentControls transactionalDocument="false" suppressRoutingControls="true" viewOnly="${KualiForm.editingMode['viewOnly']}" />
 
-	<!-- kra-rf:routingFormMainPageCustomAttributes editingMode="${KualiForm.editingMode}" /-->
-
-    <!-- TAB -->
-
-          <table width="100%" border="0" cellpadding="0" cellspacing="0" class="b3" summary="">
-            <tr>
-              <td align="left" class="footer"><img src="images/pixel_clear.gif" alt="" width="12" height="14" class="bl3"></td>
-              <td align="right" class="footer-right"><img src="images/pixel_clear.gif" alt="" width="12" height="14" class="br3"></td>
-            </tr>
-
-          </table>
-        </div>
-        <kul:documentControls transactionalDocument="false" suppressRoutingControls="true" viewOnly="${KualiForm.editingMode['viewOnly']}" />
-      <td class="column-right"><img src="images/pixel_clear.gif" alt="" width="20" height="20"></td>
-    </tr>
-  </table>
 </kul:documentPage>
-

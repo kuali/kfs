@@ -712,7 +712,7 @@
     <collection-descriptor name="routingFormPersonnel" proxy="true" element-class-ref="org.kuali.module.kra.routingform.bo.RoutingFormPersonnel" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
-	<collection-descriptor name="routingFormOrgCreditPercent" proxy="true" element-class-ref="org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+	<collection-descriptor name="routingFormOrganizationCreditPercents" proxy="true" element-class-ref="org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
   <collection-descriptor name="routingFormOrganizations" proxy="true" element-class-ref="org.kuali.module.kra.routingform.bo.RoutingFormOrganization" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">

@@ -22,6 +22,7 @@ import org.kuali.module.kra.document.ResearchDocument;
 import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganization;
+import org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent;
 import org.kuali.module.kra.routingform.bo.RoutingFormOtherCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
 import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
@@ -31,11 +32,14 @@ import org.kuali.module.kra.web.struts.form.ResearchDocumentFormBase;
 public class RoutingForm extends ResearchDocumentFormBase {
     
     private boolean auditActivated;
+    
     private RoutingFormKeyword newRoutingFormKeyword;
+    private RoutingFormPersonnel newRoutingFormPersonnel;
+    private RoutingFormOrganizationCreditPercent newRoutingFormOrganizationCreditPercent;
+    
     private RoutingFormInstitutionCostShare newRoutingFormInstitutionCostShare;
     private RoutingFormOtherCostShare newRoutingFormOtherCostShare;
     private RoutingFormSubcontractor newRoutingFormSubcontractor;
-    private RoutingFormPersonnel newRoutingFormPersonnel;
     private RoutingFormOrganization newRoutingFormOrganization;
     
     private boolean templateAddress;
@@ -107,6 +111,14 @@ public class RoutingForm extends ResearchDocumentFormBase {
 
     public void setNewRoutingFormPersonnel(RoutingFormPersonnel newRoutingFormPersonnel) {
         this.newRoutingFormPersonnel = newRoutingFormPersonnel;
+    }
+
+    public RoutingFormOrganizationCreditPercent getNewRoutingFormOrganizationCreditPercent() {
+        return newRoutingFormOrganizationCreditPercent;
+    }
+
+    public void setNewRoutingFormOrganizationCreditPercent(RoutingFormOrganizationCreditPercent newRoutingFormOrganizationCreditPercent) {
+        this.newRoutingFormOrganizationCreditPercent = newRoutingFormOrganizationCreditPercent;
     }
 
     public RoutingFormOrganization getNewRoutingFormOrganization() {

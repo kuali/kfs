@@ -121,7 +121,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private List<RoutingFormSubcontractor> routingFormSubcontractors;
     private Agency federalPassThroughAgency;
     private List<RoutingFormPersonnel> routingFormPersonnel;
-    private List<RoutingFormOrganizationCreditPercent> routingFormOrgCreditPercent;
+    private List<RoutingFormOrganizationCreditPercent> routingFormOrganizationCreditPercents;
     private List<RoutingFormQuestion> routingFormQuestions;
     private List<RoutingFormOrganization> routingFormOrganizations;
     
@@ -149,6 +149,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         routingFormOtherCostShares = new ArrayList<RoutingFormOtherCostShare>();
         routingFormSubcontractors = new ArrayList<RoutingFormSubcontractor>();
         routingFormPersonnel = new ArrayList<RoutingFormPersonnel>();
+        routingFormOrganizationCreditPercents = new ArrayList<RoutingFormOrganizationCreditPercent>();
         routingFormQuestions = new ArrayList<RoutingFormQuestion>();
         routingFormOrganizations = new ArrayList<RoutingFormOrganization>();
 	}
@@ -1413,6 +1414,10 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         
     }
     
+    /**
+     * Adds a RoutingFormPersonnel item to the routingFormPersonnel list.
+     * @param routingFormPersonnel
+     */
     public void addPerson(RoutingFormPersonnel routingFormPersonnel) {
         routingFormPersonnel.setDocumentNumber(this.getDocumentNumber());
         
@@ -1421,6 +1426,16 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         this.setPersonnelNextSequenceNumber(++nextSequenceNumber);
         
         getRoutingFormPersonnel().add(routingFormPersonnel);
+    }
+    
+    /**
+     * Adds a RoutingFormOrganizationCreditPercent item to the routingFormOrganizationCreditPercent list.
+     * @param routingFormOrganizationCreditPercent
+     */
+    public void addOrganizationCreditPercent(RoutingFormOrganizationCreditPercent routingFormOrganizationCreditPercent) {
+        routingFormOrganizationCreditPercent.setDocumentNumber(this.getDocumentNumber());
+
+        getRoutingFormOrganizationCreditPercents().add(routingFormOrganizationCreditPercent);
     }
     
     private Integer getRoutingFormNextSubcontractorSequenceNumber() {
@@ -1557,19 +1572,31 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     }
     
     /**
-     * Gets the routingFormOrgCreditPercent attribute. 
-     * @return Returns the routingFormOrgCreditPercent.
+     * Gets the routingFormOrganizationCreditPercents attribute. 
+     * @return Returns the routingFormOrganizationCreditPercents.
      */
-    public List<RoutingFormOrganizationCreditPercent> getRoutingFormOrgCreditPercent() {
-        return routingFormOrgCreditPercent;
+    public List<RoutingFormOrganizationCreditPercent> getRoutingFormOrganizationCreditPercents() {
+        return routingFormOrganizationCreditPercents;
     }
 
     /**
-     * Sets the routingFormOrgCreditPercent attribute value.
-     * @param routingFormOrgCreditPercent The routingFormOrgCreditPercent to set.
+     * Sets the routingFormOrganizationCreditPercents attribute value.
+     * @param routingFormOrganizationCreditPercents The routingFormOrganizationCreditPercents to set.
      */
-    public void setRoutingFormOrgCreditPercent(List<RoutingFormOrganizationCreditPercent> routingFormOrgCreditPercent) {
-        this.routingFormOrgCreditPercent = routingFormOrgCreditPercent;
+    public void setRoutingFormOrganizationCreditPercents(List<RoutingFormOrganizationCreditPercent> routingFormOrganizationCreditPercents) {
+        this.routingFormOrganizationCreditPercents = routingFormOrganizationCreditPercents;
+    }
+    
+    /**
+     * Gets index i from the routingFormOrganizationCreditPercents list. 
+     * @param index
+     * @return Person at index i
+     */
+    public RoutingFormOrganizationCreditPercent getRoutingFormOrganizationCreditPercent(int index) {
+        while (getRoutingFormOrganizationCreditPercents().size() <= index) {
+            getRoutingFormOrganizationCreditPercents().add(new RoutingFormOrganizationCreditPercent());
+        }
+        return (RoutingFormOrganizationCreditPercent) getRoutingFormOrganizationCreditPercents().get(index);
     }
     
     /**

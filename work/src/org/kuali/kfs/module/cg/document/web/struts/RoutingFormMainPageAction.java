@@ -31,6 +31,7 @@ import org.kuali.PropertyConstants;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
+import org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
@@ -57,6 +58,25 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    public ActionForward addOrganizationCreditPercentLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        RoutingForm routingForm = (RoutingForm) form;
+
+        routingForm.getRoutingFormDocument().addOrganizationCreditPercent(routingForm.getNewRoutingFormOrganizationCreditPercent());
+        routingForm.setNewRoutingFormOrganizationCreditPercent(new RoutingFormOrganizationCreditPercent());
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward deleteOrganizationCreditPercentLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        RoutingForm routingForm = (RoutingForm) form;
+        
+        int lineToDelete = getLineToDelete(request);
+        routingForm.getRoutingFormDocument().getRoutingFormOrganizationCreditPercents().remove(getLineToDelete(request));
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /* TODO Keyword code isn't multi select yet. Following method probably has to change. */
     public ActionForward insertRoutingFormKeyword(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         RoutingForm routingForm = (RoutingForm) form;
@@ -76,6 +96,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    /* TODO Keyword code isn't multi select yet. Following method probably has to change. */
     public ActionForward deleteRoutingFormKeyword(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         RoutingForm routingForm = (RoutingForm) form;

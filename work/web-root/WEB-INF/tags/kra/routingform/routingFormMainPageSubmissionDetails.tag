@@ -13,24 +13,12 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ taglib prefix="c" uri="/tlds/c.tld" %>
-<%@ taglib uri="/tlds/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/tlds/struts-logic.tld" prefix="logic" %>
-<%@ taglib uri="/tlds/fmt.tld" prefix="fmt" %>
-<%@ taglib uri="/tlds/fn.tld" prefix="fn" %>
+<%@ include file="/jsp/core/tldHeader.jsp"%>
 
-<%@ taglib tagdir="/WEB-INF/tags" prefix="kul" %>
-<%@ taglib tagdir="/WEB-INF/tags/dd" prefix="dd" %>
-<%@ taglib tagdir="/WEB-INF/tags/kra" prefix="kra" %>
-
-<%@ attribute name="editingMode" required="true" description="used to decide editability of overview fields" type="java.util.Map"%>
-<c:set var="readOnly" value="${empty editingMode['fullEntry']}" />
-<c:set var="docHeaderAttributes" value="${DataDictionary.DocumentHeader.attributes}" />
+<c:set var="routingFormAttributes" value="${DataDictionary.KualiRoutingFormDocument.attributes}" />
 <c:set var="routingFormBudgetAttributes" value="${DataDictionary.RoutingFormBudget.attributes}" />
 <c:set var="routingFormKeywordAttributes" value="${DataDictionary.RoutingFormKeyword.attributes}" />
 <c:set var="contractGrantProposalAttributes" value="${DataDictionary.ContractGrantProposal.attributes}" />
-
-<dd:evalNameToMap mapName="DataDictionary.${KualiForm.docTypeName}.attributes" returnVar="documentAttributes"/>
 
 <kul:tab tabTitle="Submission Details" defaultOpen="true" tabErrorKey="${Constants.RoutingFormConstants.ROUTING_FORM_SUBMISSION_DETAIL_ERRORS}" >
 
@@ -109,31 +97,31 @@
                 <td colspan=4 class="tab-subhead">Reference Numbers</td>
               </tr>
               <tr>
-                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${documentAttributes.routingFormPriorGrantNumber}" skipHelpUrl="true" /></th>
+                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAttributes.routingFormPriorGrantNumber}" skipHelpUrl="true" /></th>
                 <td align=left valign=middle >
-                	<kul:htmlControlAttribute property="document.routingFormPriorGrantNumber" attributeEntry="${documentAttributes.routingFormPriorGrantNumber}"  />
+                	<kul:htmlControlAttribute property="document.routingFormPriorGrantNumber" attributeEntry="${routingFormAttributes.routingFormPriorGrantNumber}"  />
                	</td>
-                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${documentAttributes.institutionAccountNumber}" skipHelpUrl="true" /></th>
+                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAttributes.institutionAccountNumber}" skipHelpUrl="true" /></th>
                 <td align=left valign=middle >
-                	<kul:htmlControlAttribute property="document.institutionAccountNumber" attributeEntry="${documentAttributes.institutionAccountNumber}"  />
+                	<kul:htmlControlAttribute property="document.institutionAccountNumber" attributeEntry="${routingFormAttributes.institutionAccountNumber}"  />
                 </td>
               </tr>
               <tr>
 
-                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${documentAttributes.federalIdentifier}" skipHelpUrl="true" /></th>
+                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAttributes.federalIdentifier}" skipHelpUrl="true" /></th>
                 <td align=left valign=middle >
-                	<kul:htmlControlAttribute property="document.federalIdentifier" attributeEntry="${documentAttributes.federalIdentifier}"  />
+                	<kul:htmlControlAttribute property="document.federalIdentifier" attributeEntry="${routingFormAttributes.federalIdentifier}"  />
                 </td>
-                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${documentAttributes.grantsGovernmentConfirmationNumber}" skipHelpUrl="true" /></th>
+                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAttributes.grantsGovernmentConfirmationNumber}" skipHelpUrl="true" /></th>
                 <td align=left valign=middle >
-                	<kul:htmlControlAttribute property="document.grantsGovernmentConfirmationNumber" attributeEntry="${documentAttributes.grantsGovernmentConfirmationNumber}"  />
+                	<kul:htmlControlAttribute property="document.grantsGovernmentConfirmationNumber" attributeEntry="${routingFormAttributes.grantsGovernmentConfirmationNumber}"  />
                 </td>
               </tr>
               <tr>
 
-                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${documentAttributes.grantNumber}" skipHelpUrl="true" /></th>
+                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAttributes.grantNumber}" skipHelpUrl="true" /></th>
                 <td align=left valign=middle >
-                	<kul:htmlControlAttribute property="document.grantNumber" attributeEntry="${documentAttributes.grantNumber}"  />
+                	<kul:htmlControlAttribute property="document.grantNumber" attributeEntry="${routingFormAttributes.grantNumber}"  />
                 </td>
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${contractGrantProposalAttributes.proposalNumber}" skipHelpUrl="true" /></th>
                 <td align=left valign=middle >
@@ -173,10 +161,10 @@
                 <td colspan=4 class="tab-subhead"><span class="left">Project Summary </span> </td>
               </tr>
               <tr>
-                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${documentAttributes.routingFormProjectTitle}" skipHelpUrl="true" useShortLabel="true" /></th>
+                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAttributes.routingFormProjectTitle}" skipHelpUrl="true" useShortLabel="true" /></th>
 
                 <td colspan="3" align=left valign=middle nowrap >
-                	<kul:htmlControlAttribute property="document.routingFormProjectTitle" attributeEntry="${documentAttributes.routingFormProjectTitle}" />
+                	<kul:htmlControlAttribute property="document.routingFormProjectTitle" attributeEntry="${routingFormAttributes.routingFormProjectTitle}" />
                 </td>
               </tr>
               <tr>
@@ -206,8 +194,8 @@
                 </td>
               </tr>
               <tr>
-                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${documentAttributes.projectAbstract}" skipHelpUrl="true" useShortLabel="true" /></th>
-                <td colspan="3" align=left valign=middle nowrap ><kul:htmlControlAttribute property="document.projectAbstract" attributeEntry="${documentAttributes.projectAbstract}" /></td>
+                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAttributes.projectAbstract}" skipHelpUrl="true" useShortLabel="true" /></th>
+                <td colspan="3" align=left valign=middle nowrap ><kul:htmlControlAttribute property="document.projectAbstract" attributeEntry="${routingFormAttributes.projectAbstract}" /></td>
               </tr>
             </table>
 

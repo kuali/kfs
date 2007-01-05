@@ -15,6 +15,25 @@
  */
 package org.kuali.module.kra.routingform.web.struts.action;
 
-public class RoutingFormPersonnelAction extends RoutingFormAction {
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
+
+public class RoutingFormPersonnelAction extends RoutingFormAction {
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        RoutingForm routingForm = (RoutingForm) form;
+
+        /* TODO Get stuff to be saved on this page. */
+        
+        super.load(mapping, form, request, response);
+        
+        /* TODO Set stuff to be saved on this page. */
+        
+        return super.save(mapping, form, request, response);
+    }
 }

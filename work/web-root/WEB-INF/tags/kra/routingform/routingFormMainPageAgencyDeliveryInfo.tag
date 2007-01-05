@@ -13,25 +13,11 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ taglib prefix="c" uri="/tlds/c.tld" %>
-<%@ taglib uri="/tlds/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/tlds/struts-logic.tld" prefix="logic" %>
-<%@ taglib uri="/tlds/fmt.tld" prefix="fmt" %>
-<%@ taglib uri="/tlds/fn.tld" prefix="fn" %>
+<%@ include file="/jsp/core/tldHeader.jsp"%>
 
-<%@ taglib tagdir="/WEB-INF/tags" prefix="kul" %>
-<%@ taglib tagdir="/WEB-INF/tags/dd" prefix="dd" %>
-<%@ taglib tagdir="/WEB-INF/tags/kra" prefix="kra" %>
-
-
-<%@ attribute name="editingMode" required="true" description="used to decide editability of overview fields" type="java.util.Map"%>
-<c:set var="readOnly" value="${empty editingMode['fullEntry']}" />
-<c:set var="docHeaderAttributes" value="${DataDictionary.DocumentHeader.attributes}" />
 <c:set var="routingFormAttributes" value="${DataDictionary.KualiRoutingFormDocument.attributes}" />
 <c:set var="routingFormAgencyAttributes" value="${DataDictionary.RoutingFormAgency.attributes}" />
 <c:set var="cfdaAttributes" value="${DataDictionary.CatalogOfFederalDomesticAssistanceReference.attributes}" />
-
-<dd:evalNameToMap mapName="DataDictionary.${KualiForm.docTypeName}.attributes" returnVar="documentAttributes"/>
 
 <kul:tab tabTitle="Agency/Delivery Info" defaultOpen="true" auditCluster="mainPageAuditErrors" tabAuditKey="document.routingFormAgency*">
 
@@ -60,7 +46,7 @@
                 </td>
               </tr>
               <tr>
-                <th width="20%" align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${documentAttributes.agencyFederalPassThroughNumber}" skipHelpUrl="true" /></th>
+                <th width="20%" align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAttributes.agencyFederalPassThroughNumber}" skipHelpUrl="true" /></th>
 
                 <td width="30%" align=left valign=middle >
                   	<html:hidden property="document.agencyFederalPassThroughNotAvailableIndicator" />
@@ -89,8 +75,8 @@
                 	<kul:htmlControlAttribute property="document.routingFormAgency.agencyShippingInstructionsDescription" attributeEntry="${routingFormAgencyAttributes.agencyShippingInstructionsDescription}"  />
                 </td>
                 <td nowrap >
-                	<kul:htmlControlAttribute property="document.grantsGovernmentSubmissionIndicator" attributeEntry="${documentAttributes.grantsGovernmentSubmissionIndicator}"  />
-                	<kul:htmlAttributeLabel attributeEntry="${documentAttributes.grantsGovernmentSubmissionIndicator}" skipHelpUrl="true" labelFor="document.grantsGovernmentSubmissionIndicator" noColon="true" />
+                	<kul:htmlControlAttribute property="document.grantsGovernmentSubmissionIndicator" attributeEntry="${routingFormAttributes.grantsGovernmentSubmissionIndicator}"  />
+                	<kul:htmlAttributeLabel attributeEntry="${routingFormAttributes.grantsGovernmentSubmissionIndicator}" skipHelpUrl="true" labelFor="document.grantsGovernmentSubmissionIndicator" noColon="true" />
                   	<br>
                 	<kul:htmlControlAttribute property="document.routingFormAgency.agencyDiskAccompanyIndicator" attributeEntry="${routingFormAgencyAttributes.agencyDiskAccompanyIndicator}"  />
                 	<kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.agencyDiskAccompanyIndicator}" skipHelpUrl="true" labelFor="document.routingFormAgency.agencyDiskAccompanyIndicator" noColon="true" />
@@ -117,10 +103,10 @@
                 </td>
               </tr>
               <tr>
-                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${documentAttributes.routingFormAnnouncementNumber}" skipHelpUrl="true" useShortLabel="true" /></th>
+                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAttributes.routingFormAnnouncementNumber}" skipHelpUrl="true" useShortLabel="true" /></th>
 
                 <td colspan="4" align=left valign=middle >
-                	<kul:htmlControlAttribute property="document.routingFormAnnouncementNumber" attributeEntry="${documentAttributes.routingFormAnnouncementNumber}"  />
+                	<kul:htmlControlAttribute property="document.routingFormAnnouncementNumber" attributeEntry="${routingFormAttributes.routingFormAnnouncementNumber}"  />
                 </td>
               </tr>
             </table>

@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
@@ -40,7 +41,7 @@ import org.kuali.module.chart.bo.SubObjCd;
  * 
  */
 public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubAccountRule.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IcrAutomatedEntryRule.class);
     private IcrAutomatedEntry oldIcrAutomatedEntry;
     private IcrAutomatedEntry newIcrAutomatedEntry;
 
@@ -104,7 +105,7 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
 
         // Sub-Account Number Rule
         if (subAccountNumber != null) {
-            if (StringUtils.contains(subAccountNumber, "@") || StringUtils.contains(subAccountNumber, "-----")) {
+            if (StringUtils.contains(subAccountNumber, "@") || StringUtils.contains(subAccountNumber, Constants.DASHES_SUB_ACCOUNT_NUMBER)) {
 
             }
             else {
@@ -132,7 +133,7 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
 
         // Financial SubObjectCode Rule
         if (financialSubObjectCode != null) {
-            if (StringUtils.contains(financialSubObjectCode, "---")) {
+            if (StringUtils.contains(financialSubObjectCode, Constants.DASHES_SUB_OBJECT_CODE)) {
 
             }
             else {

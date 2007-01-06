@@ -64,9 +64,9 @@
                     <maintainableField name="awardIndrCostRcvyEntryNbr" required="true" />
                     <maintainableField name="chartOfAccountsCode" required="true" />
                     <maintainableField name="accountNumber" required="true" />
-                    <maintainableField name="subAccountNumber" required="true" />
+                    <maintainableField name="subAccountNumber" required="false" />
                     <maintainableField name="financialObjectCode" required="true" />
-                    <maintainableField name="financialSubObjectCode" required="true" />
+                    <maintainableField name="financialSubObjectCode" required="false" />
                     <maintainableField name="offsetBalanceSheetObjectCodeNumber" required="true" />
                     <maintainableField name="transactionDebitIndicator"  />
                     <maintainableField name="awardIndrCostRcvyRatePct" required="true" />

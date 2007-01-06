@@ -153,7 +153,8 @@
                 <validationPattern>
                     <anyCharacter />
                 </validationPattern>
-                <required>true</required>
+                <!-- KULRNE-4298: false for required allows for empty subaccount codes to be converted to dashes without complaint by the DictionaryValidationService. -->
+                <required>false</required>
                 <control>
                     <text size="5" />
                 </control>
@@ -174,7 +175,8 @@
                 <validationPattern>
                     <anyCharacter />
                 </validationPattern>
-                <required>true</required>
+                <!-- KULRNE-4298: false for required allows for empty subobject codes to be converted to dashes without complaint by the DictionaryValidationService. -->
+                <required>false</required>
                 <control>
                     <text size="3" />
                 </control>

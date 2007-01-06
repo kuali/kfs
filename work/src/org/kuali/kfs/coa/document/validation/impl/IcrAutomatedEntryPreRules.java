@@ -16,6 +16,7 @@
 package org.kuali.module.chart.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.Constants;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.chart.bo.Account;
@@ -40,10 +41,12 @@ public class IcrAutomatedEntryPreRules extends MaintenancePreRulesBase {
     protected boolean doCustomPreRules(MaintenanceDocument document) {
         setupConvenienceObjects(document);
         checkForContinuationAccounts(); // run this first to avoid side effects
-
+        
         LOG.debug("done with continuation account, proceeeding with remaining pre rules");
 
-
+        setSubAccountToDashesIfBlank();
+        setSubObjectToDashesIfBlank();
+        
         return true;
     }
 
@@ -59,6 +62,20 @@ public class IcrAutomatedEntryPreRules extends MaintenancePreRulesBase {
         }
     }
 
+    protected void setSubAccountToDashesIfBlank() {
+        String newSubAccount = newAccount.getSubAccountNumber();
+        if (StringUtils.isBlank(newSubAccount)) {
+            newAccount.setSubAccountNumber(Constants.DASHES_SUB_ACCOUNT_NUMBER);
+        }
+    }
+    
+    protected void setSubObjectToDashesIfBlank() {
+        String newSubObject = newAccount.getFinancialSubObjectCode();
+        if (StringUtils.isBlank(newSubObject)) {
+            newAccount.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
+        }
+    }
+    
     private void setupConvenienceObjects(MaintenanceDocument document) {
 
         // setup newAccount convenience objects, make sure all possible sub-objects are populated

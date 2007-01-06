@@ -71,7 +71,7 @@
             </lookupFields>
 
             <resultFields>
-                <field attributeName="universityFiscalYear" />
+                <field attributeName="universityFiscalYear" noInquiry="true" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="accountNumber" />
                 <field attributeName="subAccountNumber" />

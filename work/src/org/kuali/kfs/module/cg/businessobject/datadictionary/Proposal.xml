@@ -225,7 +225,8 @@
 
                 <summary>proposalDirectCostAmount</summary>
                 <description>proposalDirectCostAmount description...</description>
-			</attribute>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
+            </attribute>
 
             <attributeReference name="proposalDueDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Proposal Due Date</label>
@@ -285,6 +286,7 @@
 
                 <summary>proposalIndirectCostAmount</summary>
                 <description>proposalIndirectCostAmount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attributeReference name="proposalLastUpdateDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
@@ -382,6 +384,7 @@
 
                 <summary>proposalTotalAmount</summary>
                 <description>proposalTotalAmount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="proposalTotalProjectAmount" forceUppercase="true">
@@ -397,6 +400,7 @@
 
                 <summary>proposalTotalProjectAmount</summary>
                 <description>proposalTotalProjectAmount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

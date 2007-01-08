@@ -17,7 +17,7 @@ package org.kuali.module.labor.service;
 
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
+import org.kuali.module.chart.bo.Account;
 
 /**
  * This interface defines methods that a LaborLedgerPendingEntry Service must provide
@@ -35,4 +35,6 @@ public interface LaborLedgerPendingEntryService {
      */
     
     public int countMatching(Class clazz, Map fieldValues);
+    public boolean hasPendingLaborLedgerEntry(Account account);
+    
 }

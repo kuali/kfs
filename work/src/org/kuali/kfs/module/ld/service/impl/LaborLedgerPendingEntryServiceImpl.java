@@ -15,9 +15,12 @@
  */
 package org.kuali.module.labor.service.impl;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.module.chart.bo.Account;
+import org.kuali.module.labor.bo.PendingLedgerEntry;
 import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,5 +42,13 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+    
+    public boolean hasPendingLaborLedgerEntry(Account account) {
+        Map fieldValues = new HashMap();
+        fieldValues.put("chartOfAccountsCode", account.getChartOfAccountsCode());
+        fieldValues.put("accountNumber", account.getAccountNumber());
+        
+        return businessObjectService.countMatching(PendingLedgerEntry.class, fieldValues) > 0;
     }
 }

@@ -25,7 +25,6 @@ import org.apache.commons.lang.time.DateUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.Building;
-
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
@@ -35,12 +34,13 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.IcrAutomatedEntry;
 import org.kuali.module.chart.bo.ChartUser;
+import org.kuali.module.chart.bo.IcrAutomatedEntry;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.gl.service.BalanceService;
 import org.kuali.module.gl.service.GeneralLedgerPendingEntryService;
+import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 
 /**
  * Business rule(s) applicable to AccountMaintenance documents.
@@ -66,6 +66,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     private static final String BUDGET_RECORDING_LEVEL_MIXED = "M";
 
     private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
+    private LaborLedgerPendingEntryService laborLedgerPendingEntryService;
     private BalanceService balanceService;
     private AccountService accountService;
 
@@ -556,6 +557,12 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             success &= false;
         }
 
+        // We must have not have any pending labor ledger entries
+        if (laborLedgerPendingEntryService.hasPendingLaborLedgerEntry(newAccount)) {
+            putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_PENDING_LABOR_LEDGER_ENTRIES);
+           success &= false;
+        }
+        
         // beginning balance must be loaded in order to close account
         if (!balanceService.beginningBalanceLoaded(newAccount)) {
             putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_NO_LOADED_BEGINNING_BALANCE);

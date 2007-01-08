@@ -165,7 +165,7 @@ public class RequisitionServiceImpl implements RequisitionService {
     private String checkAutomaticPurchaseOrderRules(RequisitionDocument requisition) {
         String requisitionSource = requisition.getRequisitionSourceCode();
         KualiDecimal reqTotal = requisition.getTotalDollarAmount();
-        KualiDecimal apoLimit = getApoLimit(requisition.getVendorHeaderGeneratedIdentifier(),
+        KualiDecimal apoLimit = getApoLimit(requisition.getVendorContractGeneratedIdentifier(),
           requisition.getChartOfAccountsCode(), requisition.getOrganizationCode());
 
         LOG.debug("isAPO() reqId = " + requisition.getIdentifier() + "; apoLimit = " + apoLimit + "; reqTotal = " + reqTotal);
@@ -216,6 +216,8 @@ public class RequisitionServiceImpl implements RequisitionService {
             return "Vendor was not selected from the vendor database.";
         }
         else {
+// TODO why is the reference null?  shouldn't it have the vendorDetail in the REQ??
+//            VendorDetail vendorDetail = requisition.getVendorDetail();
             VendorDetail vendorDetail = new VendorDetail();
             vendorDetail.setVendorHeaderGeneratedIdentifier(requisition.getVendorHeaderGeneratedIdentifier());
             vendorDetail.setVendorDetailAssignedIdentifier(requisition.getVendorDetailAssignedIdentifier());
@@ -223,7 +225,8 @@ public class RequisitionServiceImpl implements RequisitionService {
             if (vendorDetail == null) {
                 return "Error retrieving vendor from the database.";
             }
-            requisition.setVendorRestrictedIndicator(vendorDetail.getVendorRestrictedIndicator());
+            //TODO don't set if ind is null
+//            requisition.setVendorRestrictedIndicator(vendorDetail.getVendorRestrictedIndicator());
             // TODO save REQ
             // requisitionService.saveRequisitionEnroute(r, u);
             if (requisition.getVendorRestrictedIndicator()) {

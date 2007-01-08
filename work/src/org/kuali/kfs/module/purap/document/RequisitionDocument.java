@@ -297,15 +297,23 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 
         // DOCUMENT PROCESSED
         if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-            PurchaseOrderDocument poDocument = SpringServiceLocator.getPurchaseOrderService().createPurchaseOrderDocument(this);
-//            SpringServiceLocator.getDocumentService().routeDocument()
-//            if (SpringServiceLocator.getRequisitionService().isAutomaticPurchaseOrderAllowed(this)) {
-//                PurchaseOrderDocument poDocument = SpringServiceLocator.getPurchaseOrderService().createPurchaseOrderDocument(this);
-            //route APO
-//            }
-//            else {
-//                // TODO else set REQ status to "AWAITING_CONTRACT_MANAGER_ASSIGNMENT"
-//            }
+            
+            if (SpringServiceLocator.getRequisitionService().isAutomaticPurchaseOrderAllowed(this)) {
+                PurchaseOrderDocument poDocument = SpringServiceLocator.getPurchaseOrderService().createPurchaseOrderDocument(this);
+                //TODO how do we override the doc initiator?
+                try {
+                    poDocument = (PurchaseOrderDocument)SpringServiceLocator.getDocumentService().routeDocument(poDocument, null, null);
+                }
+                catch (WorkflowException e) {
+                    LOG.error("Error routing PO document: " + e.getMessage());
+                    throw new RuntimeException("Error routing PO document: " + e.getMessage());
+                }
+            }
+            else {
+                // TODO else set REQ status to "AWAITING_CONTRACT_MANAGER_ASSIGNMENT"
+                SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN);
+                SpringServiceLocator.getRequisitionService().save(this);
+            }
         }
         // DOCUMENT DISAPPROVED
         else if (this.getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {

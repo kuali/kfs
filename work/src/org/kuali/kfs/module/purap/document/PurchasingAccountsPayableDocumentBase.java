@@ -56,7 +56,9 @@ public abstract class PurchasingAccountsPayableDocumentBase extends Transactiona
     // OVERRIDEN METHODS
     @Override
     public KualiDecimal getTotalDollarAmount() {
-        return Constants.ZERO;
+        //FIXME get real total
+//        return Constants.ZERO;
+        return new KualiDecimal(100);
     }
 
     /**
@@ -64,6 +66,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends Transactiona
      */
     public void refreshAllReferences() {
         this.refreshReferenceObject("status");
+        this.refreshReferenceObject("vendorDetail");
     }
 
     /**

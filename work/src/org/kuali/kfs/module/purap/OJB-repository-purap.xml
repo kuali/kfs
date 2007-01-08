@@ -695,10 +695,10 @@
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
         <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
     </reference-descriptor>
-    <collection-descriptor name="statusHistories" element-class-ref="org.kuali.module.purap.bo.RequisitionStatusHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+    <!--  collection-descriptor name="statusHistories" element-class-ref="org.kuali.module.purap.bo.RequisitionStatusHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
         <orderby name="statusHistoryIdentifier" sort="ASC" />
         <inverse-foreignkey field-ref="purapDocumentIdentifier" />
-    </collection-descriptor>
+    </collection-descriptor -->
     <collection-descriptor name="items" proxy="true" element-class-ref="org.kuali.module.purap.bo.RequisitionItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="itemLineNumber" sort="ASC" />
         <inverse-foreignkey field-ref="purapDocumentIdentifier" />
@@ -1011,9 +1011,9 @@
     <reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.module.purap.bo.ShippingPaymentTerms" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorShippingPaymentTermsCode" />
     </reference-descriptor>
-    <collection-descriptor name="purchaseOrderVendorStipulations" proxy="true" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorStipulation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <!-- collection-descriptor name="purchaseOrderVendorStipulations" proxy="true" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorStipulation" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="purchaseOrderIdentifier" />
-    </collection-descriptor>
+    </collection-descriptor -->
 
     <!-- reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterialStatusHistory" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderIdentifier" />

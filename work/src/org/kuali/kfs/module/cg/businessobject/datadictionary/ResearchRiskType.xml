@@ -29,6 +29,7 @@
                 <field attributeName="controlAttributeTypeCode" />
                 <field attributeName="researchRiskTypeDescription" />
                 <field attributeName="researchRiskTypeNotificationGroupText" />
+                <field attributeName="researchRiskTypeNotificationValue" />
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
@@ -49,6 +50,7 @@
                 <lookupField attributeName="controlAttributeTypeCode" required="false" />
                 <lookupField attributeName="researchRiskTypeDescription" required="false" />
                 <lookupField attributeName="researchRiskTypeNotificationGroupText" required="false" />
+                <lookupField attributeName="researchRiskTypeNotificationValue" required="false" />
                 <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false">
                     <defaultValue>Y</defaultValue>
                 </lookupField>
@@ -59,6 +61,7 @@
                 <field attributeName="controlAttributeTypeCode" />
                 <field attributeName="researchRiskTypeDescription" />
                 <field attributeName="researchRiskTypeNotificationGroupText" />
+                <field attributeName="researchRiskTypeNotificationValue" />
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
             </resultFields>
         </lookup>
@@ -94,7 +97,7 @@
                 </control>
 
                 <summary>controlAttributeTypeCode</summary>
-                <description>controlAttributeTypeCode description...</description>
+                <description>Specifies how the research risk is displayed.</description>
 			</attribute>
 
             <attribute name="researchRiskTypeDescription" forceUppercase="false">
@@ -122,8 +125,22 @@
                 </control>
 
                 <summary>researchRiskTypeNotificationGroupText</summary>
-                <description>researchRiskTypeNotificationGroupText description...</description>
+                <description>Workgroup to notify if the user-entered value for this research risk matches the notification value.</description>
             </attributeReference>
+            
+            <attribute name="researchRiskTypeNotificationValue" forceUppercase="true">
+            	<label>Research Risk Type Notification Value</label>
+            	<shortLabel>Not. Val</shortLabel>
+            	
+            	<maxLength>1</maxLength>
+            	
+            	<control>
+            		<text size="3" />
+            	</control>
+            	
+            	<summary>Research Risk Type Notification Value</summary>
+            	<description>Value on which to route to the notification group.  Valid options are Y (yes), N (no), A (all), X (never).</description>
+            </attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 

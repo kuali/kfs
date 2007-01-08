@@ -793,6 +793,10 @@
 	<field-descriptor name="routingFormBudgetIndirectCostAmount" column="RF_BGT_IDC_AMT" jdbc-type="DECIMAL"/>
 	<field-descriptor name="routingFormBudgetIndirectCostDescription" column="RF_BGT_IDC_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="routingFormBudgetStartDate" column="RF_BGT_STRT_DT" jdbc-type="DATE"/>
+	<field-descriptor name="routingFormBudgetTotalDirectAmount" column="RF_BGT_TOT_DIR_AMT" jdbc-type="DECIMAL"/>
+	<field-descriptor name="routingFormBudgetTotalEndDate" column="RF_BGT_TOT_END_DT" jdbc-type="DATE"/>
+	<field-descriptor name="routingFormBudgetTotalIndirectCostAmount" column="RF_BGT_TOT_IDC_AMT" jdbc-type="DECIMAL"/>
+	<field-descriptor name="routingFormBudgetTotalStartDate" column="RF_BGT_TOT_STRT_DT" jdbc-type="DATE"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor" table="ER_RF_SUBCNR_T">

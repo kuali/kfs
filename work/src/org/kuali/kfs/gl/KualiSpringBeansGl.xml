@@ -76,6 +76,9 @@
 		<property name="businessObjectDictionaryService">
 			<ref bean="businessObjectDictionaryService" />
 		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
 		<!--property name="dictionaryValidationService">
 			<ref bean="dictionaryValidationService" />
 			</property-->
@@ -109,6 +112,9 @@
 		<property name="businessObjectDictionaryService">
 			<ref bean="businessObjectDictionaryService" />
 		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
 		<!--property name="dictionaryValidationService">
 			<ref bean="dictionaryValidationService" />
 			</property-->
@@ -141,6 +147,9 @@
 		</property>
 		<property name="businessObjectDictionaryService">
 			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
 		</property>
 		<!--property name="dictionaryValidationService">
 			<ref bean="dictionaryValidationService" />
@@ -178,6 +187,9 @@
 		<property name="businessObjectDictionaryService">
 			<ref bean="businessObjectDictionaryService" />
 		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
 		<!--property name="dictionaryValidationService">
 			<ref bean="dictionaryValidationService" />
 			</property-->
@@ -210,6 +222,9 @@
 		</property>
 		<property name="businessObjectDictionaryService">
 			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
 		</property>
 		<!--property name="dictionaryValidationService">
 			<ref bean="dictionaryValidationService" />
@@ -247,6 +262,9 @@
 		<property name="businessObjectDictionaryService">
 			<ref bean="businessObjectDictionaryService" />
 		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
 		<!--property name="dictionaryValidationService">
 			<ref bean="dictionaryValidationService" />
 			</property-->
@@ -283,6 +301,9 @@
 		<property name="businessObjectDictionaryService">
 			<ref bean="businessObjectDictionaryService" />
 		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
 		<!--property name="dictionaryValidationService">
 			<ref bean="dictionaryValidationService" />
 			</property-->
@@ -310,6 +331,9 @@
 		<property name="businessObjectDictionaryService">
 			<ref bean="businessObjectDictionaryService" />
 		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
 		<!--property name="dictionaryValidationService">
 			<ref bean="dictionaryValidationService" />
 			</property-->
@@ -336,6 +360,9 @@
 		</property>
 		<property name="businessObjectDictionaryService">
 			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
 		</property>
 		<!--property name="dictionaryValidationService">
 			<ref bean="dictionaryValidationService" />

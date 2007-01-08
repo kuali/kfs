@@ -107,6 +107,9 @@
 		<property name="lookupService">
 			<ref bean="lookupService" />
 		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
 		<property name="businessObjectDictionaryService">
 			<ref bean="businessObjectDictionaryService" />
 		</property>

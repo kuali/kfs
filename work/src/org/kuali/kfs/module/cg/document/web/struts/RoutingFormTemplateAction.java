@@ -26,7 +26,7 @@ import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 
 /**
- * This class handles Actions for the Budget Template page.
+ * This class handles Actions for the Routing Form Template page.
  * 
  * 
  */
@@ -77,6 +77,15 @@ public class RoutingFormTemplateAction extends RoutingFormAction {
         return super.mainpage(mapping, routingForm, request, response);
     }
     
+    /**
+     * Handle header navigation request.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @throws Exception
+     */
     public ActionForward navigate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.load(mapping, form, request, response);
         return mapping.findForward(Constants.MAPPING_BASIC);

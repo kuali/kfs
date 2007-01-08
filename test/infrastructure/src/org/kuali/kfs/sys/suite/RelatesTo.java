@@ -50,6 +50,7 @@ public @interface RelatesTo {
     public enum JiraIssue {
         KULRNE4213,
         KULRNE1612,
+        KULRNE4303,
         ;
         
         private final static Pattern PATTERN = Pattern.compile("(\\p{Alpha}+)(\\p{Digit}+)");

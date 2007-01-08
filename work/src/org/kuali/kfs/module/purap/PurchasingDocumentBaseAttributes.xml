@@ -452,6 +452,9 @@
     <label>Cost Source</label>
     <shortLabel>Code</shortLabel>
     <required>true</required>
+    <control>
+        <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderCostSourceValuesFinder" />
+    </control>
     
     <summary>purchaseOrderCostSourceCode</summary>
     <description>purchaseOrderCostSourceCode description...</description>
@@ -484,6 +487,9 @@
 <attributeReference name="purchaseOrderTransmissionMethodCode" sourceClassName="org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod" sourceAttributeName="purchaseOrderTransmissionMethodCode">
     <label>Method of PO Transmission</label>
     <shortLabel>Code</shortLabel>
+    <control>
+        <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderTransmissionMethodValuesFinder" />
+    </control>
     <summary>purchaseOrderTransmissionMethodCode</summary>
     <description>purchaseOrderTransmissionMethodCode description...</description>
 </attributeReference>

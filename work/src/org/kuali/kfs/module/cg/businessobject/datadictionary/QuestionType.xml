@@ -29,6 +29,7 @@
                 <field attributeName="questionTypeDescription" />
                 <field attributeName="questionTypeSortNumber" />
                 <field attributeName="questionTypeWorkgroupName" />
+                <field attributeName="questionTypeNotificationValue" />
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
@@ -49,6 +50,7 @@
                 <lookupField attributeName="questionTypeDescription" required="false" />
                 <lookupField attributeName="questionTypeSortNumber" required="false" />
                 <lookupField attributeName="questionTypeWorkgroupName" required="false" />
+                <lookupField attributeName="questionTypeNotificationValue" required="false" />
                 <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
             </lookupFields>
 
@@ -57,6 +59,7 @@
                 <field attributeName="questionTypeDescription" />
                 <field attributeName="questionTypeSortNumber" />
                 <field attributeName="questionTypeWorkgroupName" />
+                <field attributeName="questionTypeNotificationValue" />
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
             </resultFields>
         </lookup>
@@ -134,6 +137,20 @@
 
                 <summary>questionTypeWorkgroupName</summary>
                 <description>questionTypeWorkgroupName description...</description>
+			</attribute>
+			
+			<attribute name="questionTypeNotificationValue" forceUppercase="true">
+				<label>Question Type Notification Value</label>
+				<shortLabel>Not. Value</shortLabel>
+				
+				<maxLength>1</maxLength>
+				
+				<control>
+					<text size="3" />
+				</control>
+				
+				<summary>questionTypeNotificationValue</summary>
+				<description>Value on which to route to the notification group.  Valid options are Y (yes), N (no), A (all), X (never).</description>
 			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

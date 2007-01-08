@@ -51,6 +51,7 @@
                     <maintainableField name="questionTypeDescription" required="true" />
                     <maintainableField name="questionTypeSortNumber" required="false" />
                     <maintainableField name="questionTypeWorkgroupName" required="false" />
+                    <maintainableField name="questionTypeNotificationValue" required="false" />
 					<maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="true">
 						<defaultValue>true</defaultValue>
 					</maintainableField>

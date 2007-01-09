@@ -33,7 +33,7 @@
         </authorizations>
 
 		<documentTypeName>KualiLaborObjectMaintenanceDocument</documentTypeName>
-		<documentTypeCode>LDOB</documentTypeCode>
+		<documentTypeCode>LOBJ</documentTypeCode>
 
 		<label>Labor Object Maintenance Document</label>
 		<shortLabel>Lab Obj Maint Doc</shortLabel>

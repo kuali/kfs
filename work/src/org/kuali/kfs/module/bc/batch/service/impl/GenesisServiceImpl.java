@@ -43,6 +43,11 @@ public class GenesisServiceImpl implements GenesisService {
           genesisDao.setControlFlagsAtTheEndOfGenesis(BaseYear);
       }
       
+      public final void testBCDocumentCreationStep(Integer BaseYear)
+      {
+          genesisDao.testBCDocumentCreation(BaseYear);
+      }
+      
       public final void stepBudgetConstructionGLLoad (Integer universityFiscalYear)
       {
 

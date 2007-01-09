@@ -29,5 +29,5 @@ public interface GenesisService {
     public void testStep(Integer universityFiscalYear);
     public void testSLFStep(Integer universityFiscalYear);
     public void testSLFAfterStep(Integer universityFiscalYear);
-    
+    public void testBCDocumentCreationStep(Integer universityFiscalYear);
 }

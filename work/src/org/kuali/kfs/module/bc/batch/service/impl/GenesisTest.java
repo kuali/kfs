@@ -49,6 +49,7 @@ public class GenesisTest {
   //
   //    genesisTestService.testStep(2007);
   //    genesisTestService.testSLFStep(2009);
-      genesisTestService.testSLFAfterStep(2009);
+  //    genesisTestService.testSLFAfterStep(2009);
+        genesisTestService.testBCDocumentCreationStep(2009);
   }
 }

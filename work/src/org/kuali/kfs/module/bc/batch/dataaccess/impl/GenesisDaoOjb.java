@@ -282,15 +282,55 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
             getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
         while (Results.hasNext())
         {
+          LOG.info("\nbefore call to next() and cast");  
           FiscalYearFunctionControl SLF = (FiscalYearFunctionControl) Results.next();
+          LOG.info("\nafter call to next()");
           String mapKey = SLF.getFinancialSystemFunctionControlCode();
           String newValue = configValues.get(mapKey);
           SLF.setFinancialSystemFunctionActiveIndicator(
                   ((newValue.equals(ParameterValues.YES))? true : false));
+          LOG.info("\nabout to store the result");
           getPersistenceBrokerTemplate().store(SLF);
+          LOG.info("\nafter store");
         }
     }
     
+    /*
+     *    @@TODO:
+     *    these are some test routines which should be removed in production
+     */
+    public void testBCDocumentCreation(Integer BaseYear)
+    {
+        Integer RequestYear = BaseYear+1;
+        Criteria criteriaID = new Criteria();
+        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
+        criteriaID.addEqualTo(PropertyConstants.BALANCE_TYPE_CODE,
+                              Constants.BALANCE_TYPE_BASE_BUDGET);
+        criteriaID.addEqualTo("ROWNUM",1);
+        String[] queryAttr = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                PropertyConstants.ACCOUNT_NUMBER,
+                PropertyConstants.SUB_ACCOUNT_NUMBER,
+                PropertyConstants.OBJECT_CODE,
+                PropertyConstants.SUB_OBJECT_CODE,
+                PropertyConstants.BALANCE_TYPE_CODE,
+                PropertyConstants.OBJECT_TYPE_CODE,
+                PropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT,
+                PropertyConstants.BEGINNING_BALANCE_LINE_AMOUNT};
+        ReportQueryByCriteria queryID = 
+        new ReportQueryByCriteria(Balance.class, queryAttr, criteriaID, true);
+        LOG.info("\nGL Query started: "+String.format("%tT",new Date()));
+        Iterator Results = 
+            getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+        LOG.info("\nGL Query finished: "+String.format("%tT",new Date()));
+        while (Results.hasNext())
+        {
+          Object[] ReturnList = (Object []) Results.next();
+          String HeaderTestKey = buildHeaderTestKeyFromSQLResults(ReturnList);
+          bCHdrFromGL.put(HeaderTestKey, newBCHdrBusinessObject(RequestYear, ReturnList));
+        }
+        LOG.info(String.format("\nNumber of BC headers: %d",bCHdrFromGL.size()));
+        createNewBCDocuments(BaseYear);
+    }
     
     /*
      *   here are the routines which freeze accounting at the beginning of
@@ -1137,6 +1177,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         {
             return;
         }
+        Integer RequestYear = BaseYear + 1;
         // now we have to get the document service and the workflow service
         DocumentService documentService = SpringServiceLocator.getDocumentService();
         // this routine reads the list of GL document accounting keys from
@@ -1153,7 +1194,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
               //         should we just save the objects in an array and
               //         store them at the end?  
                bCDocument = 
-               documentService.getNewDocument(BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_TYPE);
+               documentService.getNewDocument(BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
             }
             catch (WorkflowException exxx)
             {
@@ -1188,11 +1229,20 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
             }
             String documentID = bCDocument.getDocumentNumber();
             headerGL.setDocumentNumber(documentID);
-            //  store the new header, but keep the object around
+            //  store the new BC header, but keep the object around
             //  we'll need it later to assign a document number to its corresponding
             //  detail rows
             nGLHeadersAdded = nGLHeadersAdded+1;
             getPersistenceBrokerTemplate().store(headerGL);
+            //  we also need to store the Kuali document header
+            DocumentHeader kualiDocHeader = bCDocument.getDocumentHeader();
+            kualiDocHeader.setOrganizationDocumentNumber(Integer.toString(RequestYear));
+            kualiDocHeader.setFinancialDocumentStatusCode(
+                           BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_INITIAL_STATUS);
+            kualiDocHeader.setFinancialDocumentTotalAmount(KualiDecimal.ZERO);
+            kualiDocHeader.setFinancialDocumentDescription(
+                           BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION);
+            getPersistenceBrokerTemplate().store(kualiDocHeader);
         }
     }
     

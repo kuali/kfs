@@ -46,4 +46,10 @@ public interface GenesisDao {
    // pending budget construction general ledger
    public void initialLoadToPBGL(Integer currentFiscalYear);
    public void updateToPBGL(Integer currentFiscalYear);
+   
+   /*
+    * @@TODO:
+    * test routines which need to be removed
+    */
+   public void testBCDocumentCreation(Integer CurrentFiscalYear);
 }

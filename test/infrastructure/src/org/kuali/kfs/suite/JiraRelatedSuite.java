@@ -41,6 +41,7 @@ import junit.framework.TestCase;
 public abstract class JiraRelatedSuite {
 
     public static enum State {
+        TEST1("foo"),
         IN_PROGRESS("status=3&tempMax=1000"),
         OPEN_OR_IN_PROGRESS("status=1&status=3&tempMax=9999"),
         OPEN_OR_IN_PROGRESS_OR_REOPENED("status=1&status=3&status=4&tempMax=9999");

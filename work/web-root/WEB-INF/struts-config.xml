@@ -55,6 +55,7 @@
 
 		<!-- Budget Construction Bean Definitions -->
    		<form-bean name="SalarySettingForm" type="org.kuali.module.budget.web.struts.form.SalarySettingForm" />
+   		<form-bean name="BudgetConstructionForm" type="org.kuali.module.budget.web.struts.form.BudgetConstructionForm" />
 
 
         <!-- KRA Module Bean Definitions -->

@@ -2040,7 +2040,7 @@
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="financialSystemFunctionActiveIndicator" column="FS_FUNC_ACTIVE_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-    <reference-descriptor name="functionControl" class-ref="org.kuali.module.financial.bo.FunctionControlCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="functionControl" class-ref="org.kuali.module.financial.bo.FunctionControlCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="financialSystemFunctionControlCode" />
     </reference-descriptor>
 </class-descriptor>

@@ -177,6 +177,66 @@
                 <description>routingFormBudgetStartDate description...</description>
 			</attribute>
 
+            <attribute name="routingFormBudgetTotalDirectAmount" forceUppercase="true">
+                <label>Routing Form Budget Total Direct Amount</label>
+                <shortLabel>Total Direct Costs</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>routingFormBudgetTotalDirectAmount</summary>
+                <description>routingFormBudgetTotalDirectAmount description...</description>
+			</attribute>
+
+            <attribute name="routingFormBudgetTotalEndDate" forceUppercase="true">
+                <label>Routing Form Budget Total End Date</label>
+                <shortLabel>End Date</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>routingFormBudgetTotalEndDate</summary>
+                <description>routingFormBudgetTotalEndDate description...</description>
+			</attribute>
+
+            <attribute name="routingFormBudgetTotalIndirectCostAmount" forceUppercase="true">
+                <label>Routing Form Budget Total Indirect Cost Amount</label>
+                <shortLabel>Indirect Costs</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>routingFormBudgetTotalIndirectCostAmount</summary>
+                <description>routingFormBudgetTotalIndirectCostAmount description...</description>
+			</attribute>
+
+            <attribute name="routingFormBudgetTotalStartDate" forceUppercase="true">
+                <label>Routing Form Budget Total Start Date</label>
+                <shortLabel>Start Date</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>routingFormBudgetTotalStartDate</summary>
+                <description>routingFormBudgetTotalStartDate description...</description>
+			</attribute>
+
             <attribute name="documentNumber" forceUppercase="true">
                 <label>Document Number</label>
                 <shortLabel>Number</shortLabel>

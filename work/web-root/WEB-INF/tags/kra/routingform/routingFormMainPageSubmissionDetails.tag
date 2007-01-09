@@ -221,11 +221,11 @@
               </tr>
               <tr>
                 <th scope="row"><div align="right">Total Periods:</div></th>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
+                <td><div align="center"><kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetTotalDirectAmount" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetTotalDirectAmount}"  /></div></td>
+                <td><div align="center"><kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetTotalIndirectCostAmount" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetTotalIndirectCostAmount}"  /></div></td>
+                <td><div align="right">$ ${KualiForm.document.routingFormBudget.routingFormBudgetTotalDirectAmount + KualiForm.document.routingFormBudget.routingFormBudgetTotalIndirectCostAmount} </div></td>
+                <td><div align="center"><kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetTotalStartDate" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetTotalStartDate}" datePicker="true" /></div></td>
+                <td><div align="center"><kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetTotalEndDate" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetTotalEndDate}" datePicker="true" /></div></td>
               </tr>
             </table>
 

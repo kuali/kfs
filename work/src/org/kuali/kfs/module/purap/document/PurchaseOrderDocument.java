@@ -16,9 +16,10 @@
 
 package org.kuali.module.purap.document;
 
-import java.util.Date;
+import java.sql.Date;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.purap.bo.PaymentTermType;
 import org.kuali.module.purap.bo.PurchaseOrderVendorChoice;
 import org.kuali.module.purap.bo.RecurringPaymentFrequency;
@@ -74,8 +75,9 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     }
 
     public void populatePurchaseOrderFromRequisition(RequisitionDocument requisitionDocument) {
-// TODO check this (is this data correct?  is there a better way of doing this?
-        this.setPurchaseOrderCreateDate(requisitionDocument.getDocumentHeader().getWorkflowDocument().getCreateDate());
+// TODO fix this (is this data correct?  is there a better way of doing this?
+//        this.setPurchaseOrderCreateDate(requisitionDocument.getDocumentHeader().getWorkflowDocument().getCreateDate());
+        this.setPurchaseOrderCreateDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
         
         this.getDocumentHeader().setOrganizationDocumentNumber(requisitionDocument.getDocumentHeader().getOrganizationDocumentNumber());
         this.getDocumentHeader().setFinancialDocumentDescription(requisitionDocument.getDocumentHeader().getFinancialDocumentDescription());

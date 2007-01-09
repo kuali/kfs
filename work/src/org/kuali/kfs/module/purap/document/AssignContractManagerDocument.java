@@ -115,7 +115,7 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
                         LOG.debug("Status and status history have been updated for requisition #"+detail.getRequisitionIdentifier());
                         SpringServiceLocator.getRequisitionService().save(req);
                         // TODO:  what do we do if the save fails for one or more reqs in the list?                    
-                        // TODO: create PO here.                        
+                        PurchaseOrderDocument poDocument = SpringServiceLocator.getPurchaseOrderService().createPurchaseOrderDocument(req);
                     }
                     else {
                         LOG.info("FAILURE while updating status and status history for requisition #"+detail.getRequisitionIdentifier());

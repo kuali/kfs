@@ -537,6 +537,8 @@
     <label>Requestor Phone</label>
     <shortLabel>Phone Number</shortLabel>
 
+    <required>true</required>
+
     <summary>requestorPersonPhoneNumber</summary>
     <description>requestorPersonPhoneNumber description...</description>
 </attributeReference>

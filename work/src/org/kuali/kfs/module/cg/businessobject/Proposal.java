@@ -23,6 +23,9 @@ import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerException;
 
 /**
  * 
@@ -145,19 +148,53 @@ public class Proposal extends PersistableBusinessObjectBase {
      * 
      */
     public KualiDecimal getProposalTotalAmount() {
-        return proposalTotalAmount;
+        KualiDecimal direct = getProposalDirectCostAmount();
+        KualiDecimal indirect = getProposalIndirectCostAmount();
+        return ObjectUtils.isNull(direct) || ObjectUtils.isNull(indirect) ? null : direct.add(indirect);
     }
 
     /**
-     * Sets the proposalTotalAmount attribute.
+     * Does nothing.  This property is determined by the direct and indirect cost amounts.
+     * This setter is here only because without it, the maintenance framework won't display this attribute.
      * 
      * @param proposalTotalAmount The proposalTotalAmount to set.
      * 
      */
     public void setProposalTotalAmount(KualiDecimal proposalTotalAmount) {
-        this.proposalTotalAmount = proposalTotalAmount;
+        // do nothing
     }
 
+    /**
+     * OJB calls this method as the first operation before this BO is inserted into the database.
+     * The database contains CGPRPSL_TOT_AMT, a denormalized column that
+     * Kuali does not use but needs to maintain with this method because OJB bypasses the getter.
+     * 
+     * @param persistenceBroker from OJB
+     * @throws PersistenceBrokerException
+     */
+    @Override
+    public void beforeInsert(PersistenceBroker persistenceBroker)
+        throws PersistenceBrokerException
+    {
+        super.beforeInsert(persistenceBroker);
+        proposalTotalAmount = getProposalTotalAmount();
+    }
+
+    /**
+     * OJB calls this method as the first operation before this BO is updated to the database.
+     * The database contains CGPRPSL_TOT_AMT, a denormalized column that
+     * Kuali does not use but needs to maintain with this method because OJB bypasses the getter.
+     * 
+     * @param persistenceBroker from OJB
+     * @throws PersistenceBrokerException
+     */
+    @Override
+    public void beforeUpdate(PersistenceBroker persistenceBroker)
+        throws PersistenceBrokerException
+    {
+        super.beforeUpdate(persistenceBroker);
+        proposalTotalAmount = getProposalTotalAmount();
+    }
 
     /**
      * Gets the proposalDirectCostAmount attribute.

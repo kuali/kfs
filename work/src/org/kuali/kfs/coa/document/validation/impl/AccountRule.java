@@ -558,10 +558,10 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         }
 
         // We must have not have any pending labor ledger entries
-        if (laborLedgerPendingEntryService.hasPendingLaborLedgerEntry(newAccount)) {
-            putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_PENDING_LABOR_LEDGER_ENTRIES);
-           success &= false;
-        }
+        // if (laborLedgerPendingEntryService.hasPendingLaborLedgerEntry(newAccount)) {
+        // putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_PENDING_LABOR_LEDGER_ENTRIES);
+        // success &= false;
+        // }
         
         // beginning balance must be loaded in order to close account
         if (!balanceService.beginningBalanceLoaded(newAccount)) {

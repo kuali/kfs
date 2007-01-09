@@ -26,8 +26,11 @@ public interface GenesisService {
     */ 
     public void stepBudgetConstructionGLLoad (Integer universityFiscalYear);
 
+    public void genesisStep(Integer BaseYear);
+    
     public void testStep(Integer universityFiscalYear);
     public void testSLFStep(Integer universityFiscalYear);
     public void testSLFAfterStep(Integer universityFiscalYear);
     public void testBCDocumentCreationStep(Integer universityFiscalYear);
+    public void testLockClearance(Integer currentFiscalYear);
 }

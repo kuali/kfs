@@ -35,6 +35,9 @@ public interface GenesisDao {
     */
    public String getBudgetConstructionInitiatorID();
    
+   // clear locks in headers
+   public void clearHangingBCLocks (Integer currentFiscalYear);
+
    // control flags
    public void setControlFlagsAtTheStartOfGenesis(Integer currentFiscalYear);
    public void setControlFlagsAtTheEndOfGenesis(Integer currentFiscalYear);

@@ -48,6 +48,12 @@ public class GenesisServiceImpl implements GenesisService {
           genesisDao.testBCDocumentCreation(BaseYear);
       }
       
+      public final void testLockClearance(Integer currentFiscalYear)
+      {
+          genesisDao.clearHangingBCLocks(currentFiscalYear);
+      }
+
+      
       public final void stepBudgetConstructionGLLoad (Integer universityFiscalYear)
       {
 
@@ -118,6 +124,14 @@ public class GenesisServiceImpl implements GenesisService {
           *  to decide?              
           */ 
       }
+      
+    public void genesisStep(Integer BaseYear)
+    {
+        genesisDao.setControlFlagsAtTheStartOfGenesis(BaseYear);
+        genesisDao.createChartForNextBudgetCycle();
+        genesisDao.initialLoadToPBGL(BaseYear);
+        genesisDao.rebuildOrganizationHierarchy(BaseYear);
+    }
 
 
     public void setGenesisDao(GenesisDao genesisDao)

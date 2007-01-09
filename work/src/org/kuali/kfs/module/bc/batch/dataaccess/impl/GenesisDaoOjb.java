@@ -861,20 +861,20 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
             //  make sure that a NULL test is used in case = NULL is not supported
             //  by the database
             lockID.addNotNull("budgetLockUserIdentifier");
-            tranLockID.addNotNull("budgetLockUserIdentifier");
+            tranLockID.addNotNull("budgetTransactionLockUserIdentifier");
         }
         else
         {
             lockID.addNotEqualTo("budgetLockUserIdentifier",
                           BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
-            tranLockID.addNotEqualTo("budgetTransacdtionLockUserIdentifier",
+            tranLockID.addNotEqualTo("budgetTransactionLockUserIdentifier",
                     BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
         };
         lockID.addOrCriteria(tranLockID);
         criteriaID.addAndCriteria(lockID);
         //
         QueryByCriteria queryID = 
-            new QueryByCriteria(DocumentHeader.class, criteriaID);
+            new QueryByCriteria(BudgetConstructionHeader.class, criteriaID);
         Iterator Results = getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
         //  now just loop through and change the locks
         while (Results.hasNext())

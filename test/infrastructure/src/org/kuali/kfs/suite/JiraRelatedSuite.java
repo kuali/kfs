@@ -45,6 +45,7 @@ public abstract class JiraRelatedSuite {
         OPEN_OR_IN_PROGRESS("status=1&status=3&tempMax=9999"),
         OPEN_OR_IN_PROGRESS_OR_REOPENED("status=1&status=3&status=4&tempMax=9999"),
         TEST1("foo"),
+        TEST2(""),
         ;
 
         public final String filterUrl;

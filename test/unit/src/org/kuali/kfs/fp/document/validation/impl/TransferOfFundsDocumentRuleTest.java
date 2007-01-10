@@ -77,6 +77,7 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
 
 
     @AnnotationTestSuite(CrossSectionSuite.class)
+    @RelatesTo(RelatesTo.JiraIssue.KULRNE4308)
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpenseFlexibleOffset() throws Exception {
         mockConfigurationServiceForFlexibleOffsetEnabled(true);
         testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument(), FLEXIBLE_EXPENSE_LINE.createTargetAccountingLine(), EXPECTED_FLEXIBLE_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE2, EXPECTED_FLEXIBLE_OFFSET_SOURCE_PENDING_ENTRY);
@@ -558,10 +559,12 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
         testRouteDocumentRule_processRouteDocument(createDocumentUnbalanced(), false);
     }
 
+    @RelatesTo(RelatesTo.JiraIssue.KULRNE4308)
     public void testProcessGenerateGeneralLedgerPendingEntries_validTargetExpense() throws Exception {
         testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument(), EXPENSE_LINE.createTargetAccountingLine(), EXPECTED_EXPLICIT_TARGET_PENDING_ENTRY_FOR_EXPENSE, EXPECTED_OFFSET_TARGET_PENDING_ENTRY);
     }
-
+    
+    @RelatesTo(RelatesTo.JiraIssue.KULRNE4308)
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpense() throws Exception {
 
         testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument(), EXPENSE_LINE.createSourceAccountingLine(), EXPECTED_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE, EXPECTED_OFFSET_SOURCE_PENDING_ENTRY);

@@ -40,6 +40,8 @@ import static org.kuali.module.financial.rules.TransactionalDocumentRuleTestUtil
 import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.suite.RelatesTo;
+
 import static org.kuali.test.fixtures.AccountingLineFixture.ACCRUED_INCOME_LINE;
 import static org.kuali.test.fixtures.AccountingLineFixture.CASH_LINE;
 import static org.kuali.test.fixtures.AccountingLineFixture.EXPENSE_GEC_LINE;
@@ -467,19 +469,23 @@ public class GeneralErrorCorrectionDocumentRuleTest extends KualiTestBase {
         testRouteDocumentRule_processRouteDocument(createDocumentUnbalanced(), false);
     }
 
+    @RelatesTo(RelatesTo.JiraIssue.KULRNE4308)
     public void testProcessGenerateGeneralLedgerPendingEntries_validTargetExpense() throws Exception {
         testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument(), getExpenseTargetLine(), EXPECTED_GEC_EXPLICIT_TARGET_PENDING_ENTRY_FOR_EXPENSE, EXPECTED_GEC_OFFSET_TARGET_PENDING_ENTRY);
     }
 
+    @RelatesTo(RelatesTo.JiraIssue.KULRNE4308)
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpense() throws Exception {
 
         testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument(), getExpenseSourceLine(), EXPECTED_GEC_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE, EXPECTED_GEC_OFFSET_SOURCE_PENDING_ENTRY);
     }
 
+    @RelatesTo(RelatesTo.JiraIssue.KULRNE4308)
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceAsset() throws Exception {
         testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument(), getAssetSourceLine(), EXPECTED_GEC_EXPLICIT_SOURCE_PENDING_ENTRY, EXPECTED_GEC_OFFSET_SOURCE_PENDING_ENTRY);
     }
 
+    @RelatesTo(RelatesTo.JiraIssue.KULRNE4308)
     public void testProcessGenerateGeneralLedgerPendingEntries_validTargetAsset() throws Exception {
         testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument(), getAssetTargetLine(), EXPECTED_GEC_EXPLICIT_TARGET_PENDING_ENTRY, EXPECTED_GEC_OFFSET_TARGET_PENDING_ENTRY);
     }

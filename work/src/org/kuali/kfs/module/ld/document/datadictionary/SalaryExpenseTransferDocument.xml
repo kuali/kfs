@@ -21,7 +21,8 @@
 <dictionaryEntry>
     <transactionalDocument>
         <documentClass>org.kuali.module.labor.document.SalaryExpenseTransferDocument</documentClass>
-
+		<businessRulesClass>org.kuali.module.labor.rules.SalaryExpenseTransferDocumentRule</businessRulesClass>
+		
         <documentAuthorizerClass>org.kuali.module.labor.document.LaborDocumentAuthorizer</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">

@@ -48,8 +48,8 @@
         <maintainableSections>
             <maintainableSection title="Edit Auto Approve Exclude">
                 <maintainableItems>
-                    <maintainableField name="accountNumber" required="true" />
                     <maintainableField name="chartOfAccountsCode" required="true" />
+                    <maintainableField name="accountNumber" required="true" />
                     <maintainableField name="dataObjectMaintenanceCodeActiveIndicator" />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>

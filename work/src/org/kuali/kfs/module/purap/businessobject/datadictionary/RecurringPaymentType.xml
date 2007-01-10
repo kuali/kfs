@@ -55,6 +55,8 @@
             </resultFields>
         </lookup>
 
+        <titleAttribute>recurringPaymentTypeCode</titleAttribute>
+
         <attributes>
 
             <attribute name="recurringPaymentTypeCode" forceUppercase="true">

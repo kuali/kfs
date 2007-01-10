@@ -55,6 +55,8 @@
             </resultFields>
         </lookup>
 
+        <titleAttribute>itemTypeCode</titleAttribute>
+
         <attributes>
 
             <attribute name="itemTypeCode" forceUppercase="true">

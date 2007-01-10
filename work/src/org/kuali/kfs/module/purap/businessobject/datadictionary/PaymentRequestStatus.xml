@@ -55,6 +55,8 @@
             </resultFields>
         </lookup>
 
+        <titleAttribute>paymentRequestStatusCode</titleAttribute>
+
         <attributes>
             <attribute name="paymentRequestStatusCode" forceUppercase="true">
                 <label>Payment Request Status Code</label>

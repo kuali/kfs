@@ -76,6 +76,8 @@
             </resultFields>
         </lookup>
 
+        <titleAttribute>billingCampusCode</titleAttribute>
+
         <attributes>
 
             <attribute name="billingCampusCode" forceUppercase="true">

@@ -55,6 +55,8 @@
              </resultFields>
         </lookup>
 
+        <titleAttribute>deliveryRequiredDateReasonCode</titleAttribute>
+
         <attributes>
 
             <attribute name="deliveryRequiredDateReasonCode" forceUppercase="true">

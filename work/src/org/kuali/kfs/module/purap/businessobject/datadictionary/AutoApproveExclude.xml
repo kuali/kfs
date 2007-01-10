@@ -43,17 +43,19 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="accountNumber" required="false" />
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="accountNumber" required="false" />
                 <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="accountNumber" />
                 <field attributeName="chartOfAccountsCode" />
+                <field attributeName="accountNumber" />
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
             </resultFields>
         </lookup>
+
+        <titleAttribute>chartOfAccountsCode</titleAttribute>
 
         <attributes>
 

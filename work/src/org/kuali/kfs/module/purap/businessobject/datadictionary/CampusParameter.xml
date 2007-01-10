@@ -58,6 +58,8 @@
             </resultFields>
         </lookup>
 
+        <titleAttribute>campusCode</titleAttribute>
+
         <attributes>
 
             <attribute name="campusAccountsPayableEmailAddress" forceUppercase="true">

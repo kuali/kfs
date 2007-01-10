@@ -55,6 +55,8 @@
             </resultFields>
         </lookup>
 
+        <titleAttribute>creditMemoStatusCode</titleAttribute>
+
         <attributes>
 
             <attribute name="creditMemoStatusCode" forceUppercase="true">

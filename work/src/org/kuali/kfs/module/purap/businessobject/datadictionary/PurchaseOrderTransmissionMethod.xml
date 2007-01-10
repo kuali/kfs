@@ -55,6 +55,8 @@
             </resultFields>
         </lookup>
 
+        <titleAttribute>purchaseOrderTransmissionMethodCode</titleAttribute>
+
         <attributes>
 
             <attribute name="purchaseOrderTransmissionMethodCode" forceUppercase="true">

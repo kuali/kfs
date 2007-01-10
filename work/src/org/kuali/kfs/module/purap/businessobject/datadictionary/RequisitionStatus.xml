@@ -54,7 +54,9 @@
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
             </resultFields>
         </lookup>
-        
+
+        <titleAttribute>statusCode</titleAttribute>
+
 		<attributes>
 		
             <attribute name="statusCode" forceUppercase="true">

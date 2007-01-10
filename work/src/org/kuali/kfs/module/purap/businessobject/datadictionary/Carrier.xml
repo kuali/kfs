@@ -57,6 +57,8 @@
             </resultFields>
         </lookup>
 
+        <titleAttribute>carrierCode</titleAttribute>
+
         <attributes>
 
             <attribute name="carrierCode" forceUppercase="true">

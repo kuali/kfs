@@ -58,6 +58,8 @@
             </resultFields>
         </lookup>
 
+        <titleAttribute>vendorStipulationIdentifier</titleAttribute>
+
         <attributes>
 
             <attribute name="vendorStipulationIdentifier" forceUppercase="true">

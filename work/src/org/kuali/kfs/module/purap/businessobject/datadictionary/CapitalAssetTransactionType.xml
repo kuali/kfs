@@ -58,6 +58,8 @@
             </resultFields>
         </lookup>
 
+        <titleAttribute>capitalAssetTransactionTypeCode</titleAttribute>
+
         <attributes>
 
             <attribute name="capitalAssetTransactionTypeCode" forceUppercase="true">

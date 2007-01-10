@@ -61,6 +61,8 @@
             </resultFields>
         </lookup>
 
+        <titleAttribute>restrictedMaterialCode</titleAttribute>
+
         <attributes>
 
             <attribute name="restrictedMaterialCode" forceUppercase="true">

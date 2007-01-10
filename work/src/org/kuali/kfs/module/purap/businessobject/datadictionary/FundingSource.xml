@@ -55,6 +55,8 @@
             </resultFields>
         </lookup>
 
+        <titleAttribute>fundingSourceCode</titleAttribute>
+
         <attributes>
 
             <attribute name="fundingSourceCode" forceUppercase="true">

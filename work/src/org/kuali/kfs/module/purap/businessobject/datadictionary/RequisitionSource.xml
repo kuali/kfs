@@ -55,6 +55,8 @@
             </resultFields>
         </lookup>
 
+        <titleAttribute>requisitionSourceCode</titleAttribute>
+
         <attributes>
             
             <attribute name="requisitionSourceCode" forceUppercase="true">

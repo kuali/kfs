@@ -55,6 +55,8 @@
             </resultFields>
         </lookup>
 
+        <titleAttribute>purchaseOrderVendorChoiceCode</titleAttribute>
+
         <attributes>
 
             <attribute name="purchaseOrderVendorChoiceCode" forceUppercase="true">

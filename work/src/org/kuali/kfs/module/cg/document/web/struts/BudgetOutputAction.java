@@ -254,7 +254,7 @@ public class BudgetOutputAction extends BudgetAction {
             urlString = STYLESHEET_URL_OR_PATH;
         }
         else {
-            String APPLICATION_BASE_URL_KEY = kualiConfigurationService.getPropertyString(Constants.APPLICATION_BASE_URL_KEY);
+            String APPLICATION_BASE_URL_KEY = kualiConfigurationService.getPropertyString(Constants.APPLICATION_URL_KEY);
             urlString = APPLICATION_BASE_URL_KEY + STYLESHEET_URL_OR_PATH;
         }
 

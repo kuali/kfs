@@ -23,11 +23,11 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.Constants;
 import org.kuali.core.bo.Country;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.PostalZipCode;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.UrlFactory;
 
@@ -904,7 +904,7 @@ public class Org extends PersistableBusinessObjectBase {
         params.put("conversionFields", "");
         params.put("returnLocation", "");
 
-        return UrlFactory.parameterizeUrl(SpringServiceLocator.getKualiConfigurationService().getPropertyString("workflow.base.url") + "/Lookup.do", params);
+        return UrlFactory.parameterizeUrl(SpringServiceLocator.getKualiConfigurationService().getPropertyString(Constants.WORKFLOW_URL_KEY) + "/Lookup.do", params);
     }
 
     /**

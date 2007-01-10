@@ -52,7 +52,7 @@ public class InquirableFinancialDocument {
 
     private String getUrl(String originCode, String docNumber) {
         if (Constants.ORIGIN_CODE_KUALI.equals(originCode) && !StringUtils.isBlank(docNumber)) {
-            return kualiConfigurationService.getPropertyString("workflow.base.url") + "/DocHandler.do?docId=" + docNumber + "&command=displayDocSearchView";
+            return kualiConfigurationService.getPropertyString(Constants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + docNumber + "&command=displayDocSearchView";
         }
         return Constants.EMPTY_STRING;
     }

@@ -100,6 +100,7 @@
 		</condition>
 		<property name="base.application.url" value="${test.environment.url}" />
 		<property name="base.htdocs.url" value="${test.environment.url}" />
+		<property name="htdocs.url" value="${base.htdocs.url}${ant.project.name}/${build.environment}/" />
 		<property name="base.cas.url" value="${test.environment.url}" />
 		<property name="base.workflow.url" value="${test.environment.url}" />
 		<condition property="local.plugin.classes" value="${local.plugin.classes.token}">
@@ -148,7 +149,9 @@
 			<filter token="environment" value="${build.environment}" />
 			<filter token="version" value="${project.cvs.tag}" />
 			<filter token="application-url" value="${base.application.url}${ant.project.name}-${build.environment}" />
-			<filter token="htdocs-url" value="${base.application.url}${ant.project.name}/${build.environment}/" />
+			<filter token="htdocs-url" value="${htdocs.url}" />
+			<filter token="htdocs-logs-url" value="${htdocs.url}logs/" />
+			<filter token="htdocs-staging-url" value="${htdocs.url}staging/" />
 			<filter token="cas-url" value="${base.cas.url}${cas.application}-${build.environment}" />
 			<filter token="base-workflow-url" value="${base.workflow.url}" />
 			<filter token="workflow-url" value="${base.workflow.url}${workflow.application}-${build.environment}" />

@@ -255,7 +255,7 @@ public class KualiWorkflowUtils {
         params.put(Constants.DISPATCH_REQUEST_PARAMETER, "getAttributeHelpText");
         params.put(Constants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, field.getBusinessObjectClassName());
         params.put(PropertyConstants.ATTRIBUTE_NAME, field.getPropertyName());
-        return UrlFactory.parameterizeUrl(SpringServiceLocator.getKualiConfigurationService().getPropertyString(Constants.APPLICATION_BASE_URL_KEY) + "/help.do", params);
+        return UrlFactory.parameterizeUrl(SpringServiceLocator.getKualiConfigurationService().getPropertyString(Constants.APPLICATION_URL_KEY) + "/help.do", params);
     }
 
     /**

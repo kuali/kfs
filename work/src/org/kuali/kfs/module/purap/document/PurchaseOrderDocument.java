@@ -38,7 +38,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private String vendorPaymentTermsCode;
     private String vendorShippingTitleCode;
     private String vendorShippingPaymentTermsCode;
-    private KualiDecimal purchaseOrderTotalAmount;
     private String recurringPaymentFrequencyCode;
     private KualiDecimal recurringPaymentAmount;
     private Date recurringPaymentDate;
@@ -324,14 +323,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
 
     public void setPurchaseOrderQuoteVendorNoteText(String purchaseOrderQuoteVendorNoteText) {
         this.purchaseOrderQuoteVendorNoteText = purchaseOrderQuoteVendorNoteText;
-    }
-
-    public KualiDecimal getPurchaseOrderTotalAmount() {
-        return purchaseOrderTotalAmount;
-    }
-
-    public void setPurchaseOrderTotalAmount(KualiDecimal purchaseOrderTotalAmount) {
-        this.purchaseOrderTotalAmount = purchaseOrderTotalAmount;
     }
 
     public String getPurchaseOrderVendorChoiceCode() {

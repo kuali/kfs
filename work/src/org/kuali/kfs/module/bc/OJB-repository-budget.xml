@@ -13,6 +13,49 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
+<class-descriptor class="org.kuali.module.budget.document.BudgetConstructionDocument" table="LD_BCNSTR_HDR_T">
+	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true"/>
+	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="organizationLevelCode" column="ORG_LEVEL_CD" jdbc-type="INTEGER"/>
+	<field-descriptor name="organizationLevelChartOfAccountsCode" column="ORG_COA_OF_LVL_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationLevelOrganizationCode" column="ORG_OF_LVL_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="budgetLockUserIdentifier" column="BDGT_LOCK_USR_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="budgetTransactionLockUserIdentifier" column="BDGT_TRNLCK_USR_ID" jdbc-type="VARCHAR"/>
+<!-- need relationship for budgetLockUserIdentifier -->
+	<reference-descriptor name="financialDocument" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="documentNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="chartOfAccountsCode" />
+	</reference-descriptor>
+	<reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="accountNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="organizationLevelOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="organizationLevelChartOfAccountsCode" />
+		<foreignkey field-ref="organizationLevelOrganizationCode" />
+	</reference-descriptor>
+	<reference-descriptor name="subAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="accountNumber" />
+		<foreignkey field-ref="subAccountNumber" />
+	</reference-descriptor>
+	<collection-descriptor name="budgetConstructionAccountSelect" element-class-ref="org.kuali.module.budget.bo.BudgetConstructionAccountSelect" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<orderby name="personUniversalIdentifier" sort="ASC" />
+		<inverse-foreignkey field-ref="documentNumber" />
+		<inverse-foreignkey field-ref="universityFiscalYear" />
+		<inverse-foreignkey field-ref="chartOfAccountsCode" />
+		<inverse-foreignkey field-ref="accountNumber" />
+		<inverse-foreignkey field-ref="subAccountNumber" />
+	</collection-descriptor>
+</class-descriptor>
+
 <class-descriptor class="org.kuali.module.budget.bo.BudgetConstructionHeader" table="LD_BCNSTR_HDR_T">
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true"/>

@@ -31,8 +31,6 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.AssignContractManagerDetail;
 
-import edu.iu.uis.eden.exception.WorkflowException;
-
 public class AssignContractManagerDocument extends TransactionalDocumentBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssignContractManagerDocument.class);
 
@@ -99,7 +97,7 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
                 
                 // Get the requisition for this AssignContractManagerDetail.
                 RequisitionDocument req = detail.getRequisition();
-   
+
                 // If the ContractManagerCode of the saved req is not null it means that another
                 //   AssignContractManagerDocument already assigned the contract manager.
                 //   If so we won't assign it here but will send an fyi to the initiator of this document.
@@ -107,19 +105,14 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
                   req.getStatusCode().equals(PurapConstants.RequisitionStatuses.CLOSED) && 
                   !req.getContractManagerCode().equals(detail.getContractManagerCode())) {
                     // TODO: send a workflow fyi here.
-                } else {
+                }
+
+                if (ObjectUtils.isNull(req.getContractManagerCode())) {
                     req.setContractManagerCode(detail.getContractManagerCode());                    
-                    boolean success = SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(req, 
-                      PurapConstants.RequisitionStatuses.CLOSED);
-                    if (success) {
-                        LOG.debug("Status and status history have been updated for requisition #"+detail.getRequisitionIdentifier());
-                        SpringServiceLocator.getRequisitionService().save(req);
-                        // TODO:  what do we do if the save fails for one or more reqs in the list?                    
-                        PurchaseOrderDocument poDocument = SpringServiceLocator.getPurchaseOrderService().createPurchaseOrderDocument(req);
-                    }
-                    else {
-                        LOG.info("FAILURE while updating status and status history for requisition #"+detail.getRequisitionIdentifier());
-                    }
+                    SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(req, PurapConstants.RequisitionStatuses.CLOSED);
+                    SpringServiceLocator.getRequisitionService().save(req);
+                    // TODO:  what do we do if the save fails for one or more reqs in the list?                    
+                    PurchaseOrderDocument poDocument = SpringServiceLocator.getPurchaseOrderService().createPurchaseOrderDocument(req);
                 }
             }
         }

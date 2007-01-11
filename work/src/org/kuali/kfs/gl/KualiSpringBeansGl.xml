@@ -515,12 +515,6 @@
 		<property name="scrubberValidator">
 			<ref bean="glScrubberValidator" />
 		</property>
-		<!-- The cutoff time is used to determine transactions need to be run as it were the previous day.
-		     The time is to be specified as a String in the format of HH:mm:ss as defined in the the java.text.SimpleDateFormat class.
-		     In particular, note that this string contains no whitespace and represents a 24 hour clock time (i.e. 0:00:00 is midnight and 13:12:00 is 1:12 PM)
-		     
-		     See https://test.kuali.org/jira/browse/KULRNE-70 and https://test.kuali.org/confluence/display/KFSP1/Scrubber+cutoff+time+configuration -->
-		<property name="cutoffTime" value="10:00:00"/>
 	</bean>
 
 	<bean id="glScrubberValidator" class="org.kuali.module.gl.service.impl.ScrubberValidatorImpl">

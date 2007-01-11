@@ -104,6 +104,8 @@ public class GLConstants {
         static final public String LIABILITY_OBJECT_CODE = "LIABILITY.OBJECT_CODE";
 
         static final public String PLANT_INDEBTEDNESS_IND = "PLANT_INDEBTEDNESS.IND";
+        
+        static final public String SCRUBBER_CUTOFF_TIME = "SCRUBBER_CUTOFF_TIME";
     }
 
     public static class GlScrubberGroupRules {

@@ -37,6 +37,7 @@ import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.OffsetDefinition;
 import org.kuali.module.chart.service.ObjectCodeService;
@@ -156,6 +157,8 @@ public class ScrubberProcess {
         cutoffHour = null;
         cutoffMinute = null;
         cutoffSecond = null;
+        
+        initCutoffTime();
     }
 
     /**
@@ -1651,12 +1654,14 @@ public class ScrubberProcess {
         LOG.info("Setting cutoff time to hour: " + hourOfDay + ", minute: " + minuteOfDay + ", second: " + secondOfDay);
     }
     
-    public void setCutoffTime(String cutoffTime) {
+    protected void setCutoffTime(String cutoffTime) {
         if (!StringUtils.hasText(cutoffTime)) {
+            LOG.debug("Cutoff time is blank");
             unsetCutoffTimeForPreviousDay();
         }
         else {
             cutoffTime = cutoffTime.trim();
+            LOG.debug("Cutoff time value found: " + cutoffTime);
             StringTokenizer st = new StringTokenizer(cutoffTime, ":", false);
             
             try {
@@ -1734,5 +1739,17 @@ public class ScrubberProcess {
         }
         // if cutoff date is not properly defined, then it is considered to be after the cutoff
         return false;
+    }
+    
+    protected void initCutoffTime() {
+        FinancialSystemParameter cutoffParam = parameters.get(GLConstants.GlScrubberGroupParameters.SCRUBBER_CUTOFF_TIME);
+        String cutoffTime = null;
+        if (cutoffParam == null) {
+            LOG.debug("Cutoff time system parameter not found");
+            unsetCutoffTimeForPreviousDay();
+            return;
+        }
+        cutoffTime = cutoffParam.getFinancialSystemParameterText();
+        setCutoffTime(cutoffTime);
     }
 }

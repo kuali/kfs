@@ -28,6 +28,7 @@ import org.kuali.module.budget.bo.BudgetConstructionPosition;
 import org.kuali.module.budget.dao.BudgetConstructionDao;
 import org.kuali.module.budget.service.LockService;
 import org.springframework.dao.DataAccessException;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class implements the LockService interface
@@ -46,6 +47,7 @@ import org.springframework.dao.DataAccessException;
  * only for the duration of the accounting line update.
  * 
  */
+@Transactional
 public class LockServiceImpl implements LockService {
 
     private BudgetConstructionDao budgetConstructionDao;

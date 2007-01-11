@@ -163,9 +163,24 @@
                 <description>Sub-Account Number</description>
             </attribute>
 
-            <attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
+            <attribute name="financialObjectCode" forceUppercase="true">
+                <label>Object Code</label>
+                <shortLabel>Object</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
                 <required>true</required>
-            </attributeReference>
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The code for the "object" of accounting for a transaction, expressed as a 4-digit numeric text, including leading zeros. For Search Criteria, select the Help for the Object Code Lookup title.</description>
+            </attribute>
 
             <attribute name="financialSubObjectCode" forceUppercase="true">
                 <label>Sub-Object Code</label>

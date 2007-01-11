@@ -25,6 +25,7 @@ import java.math.*;
 
 import org.kuali.module.budget.dao.*;
 import org.kuali.module.budget.bo.*;
+import org.kuali.module.budget.document.*;
 import org.kuali.module.financial.bo.FiscalYearFunctionControl;
 import org.kuali.module.financial.bo.FunctionControlCode;
 import org.kuali.core.dao.DocumentHeaderDao;
@@ -49,6 +50,8 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.SpringServiceLocator.*;
 import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.core.workflow.service.*;
 
 public class GenesisDaoOjb extends PersistenceBrokerDaoSupport 
              implements GenesisDao {
@@ -125,7 +128,9 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     public final static String FISCAL_OFFICER_ID_PROPERTY = "accountFiscalOfficerSystemIdentifier";
     public final static String ACCOUNT_CLOSED_INDICATOR_PROPERTY = "accountClosedIndicator";
 
-    private DateTimeService dateTimeService;
+    private DateTimeService dateTimeService; 
+    private DocumentService documentService; 
+    private WorkflowDocumentService workflowDocumentService;
     
     public final Map<String,String> getBudgetConstructionControlFlags (Integer universityFiscalYear)
     {
@@ -1179,7 +1184,8 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         }
         Integer RequestYear = BaseYear + 1;
         // now we have to get the document service and the workflow service
-        DocumentService documentService = SpringServiceLocator.getDocumentService();
+        documentService = SpringServiceLocator.getDocumentService();
+        workflowDocumentService = SpringServiceLocator.getWorkflowDocumentService();
         // this routine reads the list of GL document accounting keys from
         // the GL that are not in the budget, and creates both a workflow
         // document and a budget construction header for them
@@ -1192,7 +1198,11 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
             {
               //@@TODO:  it looks like these things need to be saved.
               //         should we just save the objects in an array and
-              //         store them at the end?  
+              //         store them at the end?
+              //
+              // apparently this is creating an object which contains (a) the Kuali
+              // document header and (b) a pointer to the table object which will be
+              // populated on the save to workflow  
                bCDocument = 
                documentService.getNewDocument(BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
             }
@@ -1209,14 +1219,52 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                // we can try again on the next run
                continue;
             }
+            String documentID = bCDocument.getDocumentNumber();
+            headerGL.setDocumentNumber(documentID);
+            //  store the new BC header, but keep the object around
+            //  we'll need it later to assign a document number to its corresponding
+            //  detail rows
+            nGLHeadersAdded = nGLHeadersAdded+1;
+            // @@TODO:
+            // the row below is commented out
+            // we think that workflow will actually save the header to the table
+            // so this is commented out.  once we are sure, it should go away
+            // getPersistenceBrokerTemplate().store(headerGL);
+            //  we also need to store the Kuali document header (in the Kuali doc
+            //  header table, not the BC docheader table
+            // @@TODO:
+            // we also think the save will store the Kuali document header 
+            DocumentHeader kualiDocHeader = bCDocument.getDocumentHeader();
+            kualiDocHeader.setOrganizationDocumentNumber(Integer.toString(RequestYear));
+            kualiDocHeader.setFinancialDocumentStatusCode(
+                           BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_INITIAL_STATUS);
+            kualiDocHeader.setFinancialDocumentTotalAmount(KualiDecimal.ZERO);
+            kualiDocHeader.setFinancialDocumentDescription(
+                           BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION);
+            // getPersistenceBrokerTemplate().store(kualiDocHeader);
+            /*
+             *   the hierarchy is apparently as follows.
+             *   Document objects have a header (getHeader) and a (transient) workflowDocument
+             *   (getWorkflowDocument).  the header refers to the Kuali document header table.
+             *   the workflowDocument points to an object of the class of document being created,
+             *   and this object will be saved to the table which the object is mapped to in the
+             *   OJB repository.
+             */
             try
             {
             //@@TODO:  where do these go?  into the "inbox" of the batch user?
-              documentService.saveDocument(bCDocument);  
+            //  the line commented out below triggered some SQL to add general ledger
+            //  pending entries, because the budget construction document is an instanceof
+            //  financial document.  so, we extracted the methods which do the save, leaving
+            //  out the ones that do the general ledger entry check, in an attempt to save
+            //  the workflow document.    
+            //  documentService.saveDocument(bCDocument);
+            //@@TODO:  this is a test    
+                createNewBCDocumentWorkflowSave(headerGL, bCDocument);
             }
             catch (WorkflowException exxx)
             {
-               LOG.warn(String.format("\nerror %s saving BC document for:\n"+
+               LOG.warn(String.format("\nerror %s \nsaving BC document for:\n"+
                                       "Chart : %s\nAccount: %s\nSubaccount: %s\n",
                                       exxx.getMessage(),
                                       headerGL.getChartOfAccountsCode(),
@@ -1227,23 +1275,43 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                // we can try again on the next run
                continue;
             }
-            String documentID = bCDocument.getDocumentNumber();
-            headerGL.setDocumentNumber(documentID);
-            //  store the new BC header, but keep the object around
-            //  we'll need it later to assign a document number to its corresponding
-            //  detail rows
-            nGLHeadersAdded = nGLHeadersAdded+1;
-            getPersistenceBrokerTemplate().store(headerGL);
-            //  we also need to store the Kuali document header
-            DocumentHeader kualiDocHeader = bCDocument.getDocumentHeader();
-            kualiDocHeader.setOrganizationDocumentNumber(Integer.toString(RequestYear));
-            kualiDocHeader.setFinancialDocumentStatusCode(
-                           BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_INITIAL_STATUS);
-            kualiDocHeader.setFinancialDocumentTotalAmount(KualiDecimal.ZERO);
-            kualiDocHeader.setFinancialDocumentDescription(
-                           BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION);
-            getPersistenceBrokerTemplate().store(kualiDocHeader);
         }
+    }
+    
+    // @@TODO:
+    // this is a temporary method to see if we can by-pass the document save
+    private void createNewBCDocumentWorkflowSave(BudgetConstructionHeader BCHdr, 
+                 Document bCDocument) throws WorkflowException
+    {   
+        /*
+         * workflow will save our budget construction header row for us, because the
+         * BudgetConstructionDocument is mapped to the budget construction header table
+         * in the OJB repository.  a pointer to the BudgetConstructionDocument object is
+         * stored in the (transient) workflowDocument pointer in the Document.
+         * we have to set the fields in the budget construction header row
+         */
+        BudgetConstructionDocument workflowDocument = 
+            (BudgetConstructionDocument) bCDocument.getDocumentHeader().getWorkflowDocument();
+        
+         workflowDocument.setDocumentNumber(bCDocument.getDocumentNumber());
+         workflowDocument.setUniversityFiscalYear(BCHdr.getUniversityFiscalYear());
+         workflowDocument.setChartOfAccountsCode(BCHdr.getChartOfAccountsCode());
+         workflowDocument.setAccountNumber(BCHdr.getAccountNumber());
+         workflowDocument.setSubAccountNumber(BCHdr.getSubAccountNumber());
+         workflowDocument.setOrganizationLevelCode(BCHdr.getOrganizationLevelCode());
+         workflowDocument.setOrganizationLevelChartOfAccountsCode(
+                           BCHdr.getOrganizationLevelChartOfAccountsCode());
+         workflowDocument.setOrganizationLevelOrganizationCode(
+                           BCHdr.getOrganizationLevelOrganizationCode());
+         workflowDocument.setBudgetLockUserIdentifier(
+                           BCHdr.getBudgetLockUserIdentifier());
+         workflowDocument.setBudgetTransactionLockUserIdentifier(
+                           BCHdr.getBudgetLockUserIdentifier());                                                      
+         
+        // these methods do the actual save
+            documentService.prepareWorkflowDocument(bCDocument);
+            workflowDocumentService.save((KualiWorkflowDocument) workflowDocument,
+                                         null, null);
     }
     
     private String findRowDocumentNumber(String headerKey)

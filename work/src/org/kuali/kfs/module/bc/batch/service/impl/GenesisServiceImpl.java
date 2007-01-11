@@ -131,6 +131,7 @@ public class GenesisServiceImpl implements GenesisService {
         genesisDao.createChartForNextBudgetCycle();
         genesisDao.initialLoadToPBGL(BaseYear);
         genesisDao.rebuildOrganizationHierarchy(BaseYear);
+        genesisDao.setControlFlagsAtTheEndOfGenesis(BaseYear);
     }
 
 

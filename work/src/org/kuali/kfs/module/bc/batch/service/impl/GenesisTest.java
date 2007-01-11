@@ -18,13 +18,20 @@ package org.kuali.module.budget.service.impl;
 import org.kuali.module.budget.service.*;
 import org.kuali.core.util.SpringServiceLocator.*;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.*;
+import org.kuali.core.util.*;
+import org.kuali.core.bo.user.*;
 import org.kuali.module.budget.dao.ojb.*;
 
 // import these things to handle the configuration
 import org.kuali.core.service.KualiConfigurationService;
 import org.springframework.beans.factory.BeanFactory;
+//  handle workflow
+import edu.iu.uis.eden.exception.WorkflowException;
+import org.kuali.core.exceptions.UserNotFoundException;
 //this is just for the logger, and could be taken out
 import org.apache.log4j.PropertyConfigurator;
+import org.apache.log4j.*;
 import org.apache.log4j.Logger;
 import java.util.ResourceBundle;
 import org.kuali.Constants;
@@ -36,6 +43,9 @@ public class GenesisTest {
   //    this supposedly configures a logger that everybody can fetch and use
       PropertyConfigurator.configure(ResourceBundle.getBundle(
         Constants.CONFIGURATION_FILE_NAME).getString(Constants.LOG4J_SETTINGS_FILE_KEY));
+  //  get one for this routine
+      Logger LOG =
+          org.apache.log4j.Logger.getLogger(GenesisTest.class);
      
   //    this supposedly configures spring/ojb
      SpringServiceLocator.initializeDDGeneratorApplicationContext();
@@ -47,10 +57,28 @@ public class GenesisTest {
       DateMakerService dateMakerTestService = 
           SpringServiceLocator.getDateMakerService();
   //
+      UniversalUser universalUser = new UniversalUser();
+      LOG.info(String.format("\nuniversal user string %s",
+              universalUser.getPersonUserIdentifier()));
+      try
+      {
+      GlobalVariables.setUserSession(new UserSession(universalUser.getPersonUserIdentifier()));
+      }
+      catch (WorkflowException wfex)
+      {
+          LOG.warn(String.format("\nworkflow exception on fetching session %s",
+                                 wfex.getMessage()));
+      }
+      catch (UserNotFoundException nfex)
+      {
+          LOG.warn(String.format("\nuser not found on fetching session %s",
+                   nfex.getMessage()));
+      }
+  //
   //    genesisTestService.testStep(2007);
   //    genesisTestService.testSLFStep(2009);
   //    genesisTestService.testSLFAfterStep(2009);
-  //    genesisTestService.testBCDocumentCreationStep(2009);
-      genesisTestService.testLockClearance(2007);
+      genesisTestService.testBCDocumentCreationStep(2009);
+  //    genesisTestService.testLockClearance(2007);
   }
 }

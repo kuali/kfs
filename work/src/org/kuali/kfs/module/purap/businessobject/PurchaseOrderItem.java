@@ -16,11 +16,8 @@
 
 package org.kuali.module.purap.bo;
 
-import java.math.BigDecimal;
-import java.util.LinkedHashMap;
-
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.purap.document.PurchaseOrderDocument;
 
 /**
  * 
@@ -38,7 +35,7 @@ public class PurchaseOrderItem extends PurchasingItemBase {
 	private boolean itemActiveIndicator;
 	private String purchaseOrderCommodityCd;
 
-    private PurchaseOrder purchaseOrder;
+    private PurchaseOrderDocument purchaseOrder;
 
 	/**
 	 * Default constructor.
@@ -179,7 +176,7 @@ public class PurchaseOrderItem extends PurchasingItemBase {
      * Gets the purchaseOrder attribute. 
      * @return Returns the purchaseOrder.
      */
-    public PurchaseOrder getPurchaseOrder() {
+    public PurchaseOrderDocument getPurchaseOrder() {
         return purchaseOrder;
     }
 
@@ -187,7 +184,7 @@ public class PurchaseOrderItem extends PurchasingItemBase {
      * Sets the purchaseOrder attribute value.
      * @param purchaseOrder The purchaseOrder to set.
      */
-    public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
+    public void setPurchaseOrder(PurchaseOrderDocument purchaseOrder) {
         this.purchaseOrder = purchaseOrder;
     }
 

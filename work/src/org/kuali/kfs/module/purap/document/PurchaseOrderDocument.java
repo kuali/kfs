@@ -33,7 +33,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderDocument.class);
 
     private Date purchaseOrderCreateDate;
-    private String purchaseOrderGeneralDescription;
     private Integer requisitionIdentifier;
     private String purchaseOrderVendorChoiceCode;
     private String vendorPaymentTermsCode;
@@ -277,14 +276,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
 
     public void setPurchaseOrderCreateDate(Date purchaseOrderCreateDate) {
         this.purchaseOrderCreateDate = purchaseOrderCreateDate;
-    }
-
-    public String getPurchaseOrderGeneralDescription() {
-        return purchaseOrderGeneralDescription;
-    }
-
-    public void setPurchaseOrderGeneralDescription(String purchaseOrderGeneralDescription) {
-        this.purchaseOrderGeneralDescription = purchaseOrderGeneralDescription;
     }
 
     public Date getPurchaseOrderInitialOpenDate() {

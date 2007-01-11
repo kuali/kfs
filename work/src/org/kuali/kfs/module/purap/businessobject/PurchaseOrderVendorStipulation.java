@@ -20,6 +20,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.module.purap.document.PurchaseOrderDocument;
 
 /**
  * 
@@ -32,7 +33,7 @@ public class PurchaseOrderVendorStipulation extends PersistableBusinessObjectBas
 	private String vendorStipulationAuthorEmployeeIdentifier;
 	private Date vendorStipulationCreateDate;
 
-    private PurchaseOrder purchaseOrder;
+    private PurchaseOrderDocument purchaseOrder;
 
 	/**
 	 * Default constructor.
@@ -152,7 +153,7 @@ public class PurchaseOrderVendorStipulation extends PersistableBusinessObjectBas
 	 * @return Returns the purchaseOrder
 	 * 
 	 */
-	public PurchaseOrder getPurchaseOrder() { 
+	public PurchaseOrderDocument getPurchaseOrder() { 
 		return purchaseOrder;
 	}
 
@@ -162,7 +163,7 @@ public class PurchaseOrderVendorStipulation extends PersistableBusinessObjectBas
 	 * @param purchaseOrder The purchaseOrder to set.
 	 * @deprecated
 	 */
-	public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
+	public void setPurchaseOrder(PurchaseOrderDocument purchaseOrder) {
 		this.purchaseOrder = purchaseOrder;
 	}
 

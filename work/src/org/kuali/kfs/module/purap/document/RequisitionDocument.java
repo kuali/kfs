@@ -39,6 +39,7 @@ import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.bo.BillingAddress;
 import org.kuali.module.purap.bo.VendorContract;
 import org.kuali.module.purap.bo.VendorDetail;
+import org.kuali.module.purap.util.PhoneNumberUtils;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -87,6 +88,9 @@ public class RequisitionDocument extends PurchasingDocumentBase {
         this.setChartOfAccountsCode(currentUser.getChartOfAccountsCode());
         this.setOrganizationCode(currentUser.getOrganization().getOrganizationCode());
         this.setDeliveryCampusCode(currentUser.getUniversalUser().getCampusCode());
+        this.setRequestorPersonName(currentUser.getUniversalUser().getPersonName());
+        this.setRequestorPersonEmailAddress(currentUser.getUniversalUser().getPersonEmailAddress());
+        this.setRequestorPersonPhoneNumber(PhoneNumberUtils.formatNumberIfPossible(currentUser.getUniversalUser().getPersonLocalPhoneNumber()));
 
         // Set the purchaseOrderTotalLimit
         if (ObjectUtils.isNull(getPurchaseOrderTotalLimit())) {

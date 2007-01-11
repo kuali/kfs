@@ -37,7 +37,7 @@
         <documentTypeName>KualiProposalMaintenanceDocument</documentTypeName>
         <documentTypeCode>PRPL</documentTypeCode>
 
-		<!--webScriptFile>chart/accountDocument.js</webScriptFile-->
+		<webScriptFile>cg/proposalDocument.js</webScriptFile>
 
         <label>Proposal Maintenance Document</label>
         <shortLabel>PrpslMaintDoc</shortLabel>
@@ -55,7 +55,6 @@
             <reference attributeName="agency" activeIndicatorAttributeName="historicalIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="agencyNumber" />
             <reference attributeName="proposalAwardType" activeIndicatorAttributeName="rowActiveIndicator" attributeToHighlightOnFail="proposalAwardTypeCode" />
             <reference attributeName="proposalPurpose" activeIndicatorAttributeName="rowActiveIndicator" attributeToHighlightOnFail="proposalPurposeCode" />
-            <!-- todo: add grantNumber BO, relation, and existence check? -->
             <reference attributeName="federalPassThroughAgency" activeIndicatorAttributeName="historicalIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="federalPassThroughAgencyNumber" />
             <reference attributeName="cfda" activeIndicatorAttributeName="cfdaStatusCode" attributeToHighlightOnFail="cfdaNumber" />
         </defaultExistenceChecks>
@@ -71,8 +70,8 @@
                     <maintainableField name="proposalProjectTitle" required="true" />
                     <maintainableField name="proposalBeginningDate" required="true" />
                     <maintainableField name="proposalEndingDate" required="true" />
-                    <maintainableField name="proposalDirectCostAmount" required="true" />
-                    <maintainableField name="proposalIndirectCostAmount" required="true" />
+                    <maintainableField name="proposalDirectCostAmount" required="true" webUILeaveFieldFunction="onblur_proposalDirectCostAmount" />
+                    <maintainableField name="proposalIndirectCostAmount" required="true" webUILeaveFieldFunction="onblur_proposalIndirectCostAmount" />
                     <maintainableField name="proposalTotalAmount" readOnly="true" />
                     <maintainableField name="proposalSubmissionDate" required="true" />
                     <maintainableField name="proposalClosingDate" readOnly="true" />

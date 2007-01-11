@@ -212,21 +212,16 @@
                 <description>proposalClosingDate description...</description>
 			</attributeReference>
 
-            <attribute name="proposalDirectCostAmount" forceUppercase="true">
+            <attributeReference name="proposalDirectCostAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Proposal Direct Cost Amount</label>
                 <shortLabel>Amount</shortLabel>
 
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
+                <exclusiveMin>-0.001</exclusiveMin>
 
                 <summary>proposalDirectCostAmount</summary>
                 <description>proposalDirectCostAmount description...</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attribute>
+            </attributeReference>
 
             <attributeReference name="proposalDueDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Proposal Due Date</label>
@@ -273,21 +268,16 @@
                 <description>proposalFellowName description...</description>
 			</attribute>
 
-            <attribute name="proposalIndirectCostAmount" forceUppercase="true">
+            <attributeReference name="proposalIndirectCostAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Proposal Indirect Cost Amount</label>
                 <shortLabel>Amount</shortLabel>
 
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
+                <exclusiveMin>-0.001</exclusiveMin>
 
                 <summary>proposalIndirectCostAmount</summary>
                 <description>proposalIndirectCostAmount description...</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
+			</attributeReference>
 
             <attributeReference name="proposalLastUpdateDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Proposal Last Update Date</label>
@@ -371,37 +361,27 @@
                 <description>proposalSubmissionDate description...</description>
 			</attributeReference>
 
-            <attribute name="proposalTotalAmount" forceUppercase="true">
+            <attributeReference name="proposalTotalAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Proposal Total Amount</label>
                 <shortLabel>Amount</shortLabel>
 
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
+                <exclusiveMin>-0.001</exclusiveMin>
 
                 <summary>proposalTotalAmount</summary>
                 <description>proposalTotalAmount description...</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
+			</attributeReference>
 
-            <attribute name="proposalTotalProjectAmount" forceUppercase="true">
+            <attributeReference name="proposalTotalProjectAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Proposal Total Project Amount</label>
                 <shortLabel>Amount</shortLabel>
 
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
+                <exclusiveMin>-0.001</exclusiveMin>
+                
                 <summary>proposalTotalProjectAmount</summary>
                 <description>proposalTotalProjectAmount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-			</attribute>
+                <!--formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass-->
+			</attributeReference>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 

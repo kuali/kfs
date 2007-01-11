@@ -84,6 +84,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         this.setGeneralLedgerPendingEntryService(SpringServiceLocator.getGeneralLedgerPendingEntryService());
         this.setBalanceService(SpringServiceLocator.getBalanceService());
         this.setAccountService(SpringServiceLocator.getAccountService());
+        this.setLaborLedgerPendingEntryService(SpringServiceLocator.getLaborLedgerPendingEntryService());
     }
 
     /**
@@ -556,12 +557,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_PENDING_LEDGER_ENTRIES);
             success &= false;
         }
-
-        // We must have not have any pending labor ledger entries
-        // if (laborLedgerPendingEntryService.hasPendingLaborLedgerEntry(newAccount)) {
-        // putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_PENDING_LABOR_LEDGER_ENTRIES);
-        // success &= false;
-        // }
         
         // beginning balance must be loaded in order to close account
         if (!balanceService.beginningBalanceLoaded(newAccount)) {
@@ -578,7 +573,11 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             success &= false;
         }
 
-        // TODO: must have no pending labor ledger entries (depends on labor: KULLAB-1)
+        // We must not have any pending labor ledger entries
+        if (laborLedgerPendingEntryService.hasPendingLaborLedgerEntry(newAccount)) {
+        putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCOUNT_CLOSED_PENDING_LABOR_LEDGER_ENTRIES);
+        success &= false;
+        }
 
         return success;
     }
@@ -978,6 +977,10 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
     public void setGeneralLedgerPendingEntryService(GeneralLedgerPendingEntryService generalLedgerPendingEntryService) {
         this.generalLedgerPendingEntryService = generalLedgerPendingEntryService;
+    }
+
+    public void setLaborLedgerPendingEntryService(LaborLedgerPendingEntryService laborLedgerPendingEntryService) {
+        this.laborLedgerPendingEntryService = laborLedgerPendingEntryService;
     }
 
     public void setBalanceService(BalanceService balanceService) {

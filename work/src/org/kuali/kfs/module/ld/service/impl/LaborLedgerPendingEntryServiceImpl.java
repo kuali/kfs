@@ -28,14 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEntryService {
 
     private BusinessObjectService businessObjectService;
-    
-    /**
-     * @see org.kuali.core.service.BusinessObjectService#countMatching(java.lang.Class, java.util.Map)
-     */
-    public int countMatching(Class clazz, Map fieldValues) {
-        return businessObjectService.countMatching(clazz, fieldValues);
-    }
-    
+        
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
@@ -48,7 +41,7 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
         Map fieldValues = new HashMap();
         fieldValues.put("chartOfAccountsCode", account.getChartOfAccountsCode());
         fieldValues.put("accountNumber", account.getAccountNumber());
-        
+       
         return businessObjectService.countMatching(PendingLedgerEntry.class, fieldValues) > 0;
     }
 }

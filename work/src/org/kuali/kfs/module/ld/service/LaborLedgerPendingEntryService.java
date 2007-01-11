@@ -34,7 +34,6 @@ public interface LaborLedgerPendingEntryService {
      * @return
      */
     
-    public int countMatching(Class clazz, Map fieldValues);
     public boolean hasPendingLaborLedgerEntry(Account account);
     
 }

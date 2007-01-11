@@ -55,7 +55,6 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
 	private Account account;
     private SubAccount subAccount;
     private SubObjCd financialSubObject;
-    private Balance financialBalance;
     private BalanceTyp balanceType;
     private ObjectType objectType;
     private LaborObject laborObject;
@@ -410,23 +409,6 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
      */
     public void setSubAccount(SubAccount subAccount) {
         this.subAccount = subAccount;
-    }
-
-    /**
-     * Gets the financialBalance attribute. 
-     * @return Returns the financialBalance.
-     */
-    public Balance getFinancialBalance() {
-        return financialBalance;
-    }
-
-    /**
-     * Sets the financialBalance attribute value.
-     * @param financialBalance The financialBalance to set.
-     * @deprecated
-     */
-    public void setFinancialBalance(Balance financialBalance) {
-        this.financialBalance = financialBalance;
     }
 
     /**

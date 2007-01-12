@@ -27,7 +27,7 @@
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="code" />
                 <field attributeName="name" />
-                <field attributeName="active" />
+                <field attributeName="rowActiveIndicator" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -41,13 +41,13 @@
             <lookupFields>
                 <lookupField attributeName="code" required="false" />
                 <lookupField attributeName="name" required="false" />
-                <lookupField attributeName="active" required="false" />
+                <lookupField attributeName="rowActiveIndicator" required="false" />
             </lookupFields>
 
             <resultFields>
                 <field attributeName="code" noInquiry="true" />
                 <field attributeName="name" />
-                <field attributeName="active" />
+                <field attributeName="rowActiveIndicator" />
             </resultFields>
         </lookup>
 
@@ -94,7 +94,7 @@
                 <description>The description of the Agency Type.</description>
             </attribute>
 
-            <attribute name="active" forceUppercase="false">
+            <attribute name="rowActiveIndicator" forceUppercase="false">
                 <label>Active Indicator</label>
                 <shortLabel>Active Indicator</shortLabel>
 

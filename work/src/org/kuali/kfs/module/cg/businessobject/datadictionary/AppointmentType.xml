@@ -88,13 +88,16 @@
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>40</maxLength>
+                <validationPattern>
+                    <alphaNumeric />
+                </validationPattern>
 
                 <control>
                     <text size="40" />
                 </control>
 
                 <summary>Appointment Type Description</summary>
-                <description>Appointment Type Description...</description>
+                <description>A description of the appointment type.</description>
             </attribute>
 
             <attribute name="appointmentTypeAbbrieviation" forceUppercase="false">
@@ -102,13 +105,16 @@
                 <shortLabel>Abrv</shortLabel>
 
                 <maxLength>25</maxLength>
+                <validationPattern>
+                    <alphaNumeric />
+                </validationPattern>
 
                 <control>
                     <text size="12" />
                 </control>
 
                 <summary>Appointment Type Abbrieviation</summary>
-                <description>Appointment Type Abbrieviation...</description>
+                <description>An abbreviation of the appointment type.</description>
             </attribute>
 
 

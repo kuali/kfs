@@ -179,20 +179,17 @@
                 <description>oldProposalNumber description...</description>
 			</attribute>
 
-            <attribute name="proposalAwardTypeCode" forceUppercase="true">
+            <attributeReference name="proposalAwardTypeCode" sourceClassName="org.kuali.module.cg.bo.ProposalAwardType" sourceAttributeName="proposalAwardTypeCode">
                 <label>Proposal Type Code</label>
                 <shortLabel>Code</shortLabel>
 
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
                 <control>
-                    <text size="3" />
+                    <select valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.ProposalAwardTypeValuesFinder" />
                 </control>
 
                 <summary>proposalAwardTypeCode</summary>
                 <description>proposalAwardTypeCode description...</description>
-			</attribute>
+			</attributeReference>
 
             <attributeReference name="proposalBeginningDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Proposal Beginning Date</label>

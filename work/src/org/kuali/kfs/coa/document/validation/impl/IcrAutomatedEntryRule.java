@@ -120,7 +120,7 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
             // Sub-Account Number Rule
             if (subAccountNumber != null) {
                 // checkCorrectWildcards makes sure that the wildcard is appropriate for the sub account number
-                if (isWildcard(subAccountNumber) || StringUtils.equals(subAccountNumber, Constants.DASHES_SUB_ACCOUNT_NUMBER)) {
+                if (isWildcard(subAccountNumber) || StringUtils.containsOnly(subAccountNumber, "-")) {
     
                 }
                 else {
@@ -150,7 +150,7 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
     
             // Financial SubObjectCode Rule
             if (financialSubObjectCode != null) {
-                if (isWildcard(financialSubObjectCode) || StringUtils.contains(financialSubObjectCode, Constants.DASHES_SUB_OBJECT_CODE)) {
+                if (isWildcard(financialSubObjectCode) || StringUtils.containsOnly(financialSubObjectCode, "-")) {
     
                 }
                 else {
@@ -253,11 +253,11 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
         // TODO: make these into app parameters?
         success &= isValidWildcard(newIcrAutomatedEntry, Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode, "@", "#");
         success &= isValidWildcard(newIcrAutomatedEntry, Constants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber, "@", "#");
-        if (!Constants.DASHES_SUB_ACCOUNT_NUMBER.equals(subAccountNumber)) {
+        if (!StringUtils.containsOnly(subAccountNumber, "-")) {
             success &= isValidWildcard(newIcrAutomatedEntry, Constants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME, subAccountNumber, "@", "#");
         }
         success &= isValidWildcard(newIcrAutomatedEntry, Constants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, financialObjectCode, "@", "#");
-        if (!Constants.DASHES_SUB_OBJECT_CODE.equals(financialSubObjectCode)) {
+        if (!StringUtils.containsOnly(financialSubObjectCode, "-")) {
             success &= isValidWildcard(newIcrAutomatedEntry, Constants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME, financialSubObjectCode, "@");
         }
         
@@ -281,6 +281,10 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
                         // wildcard validation passed
                         return true;
                     }
+                }
+                if (StringUtils.containsOnly(fieldValue, "-") && 
+                        (StringUtils.equals(Constants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME, fieldName) || StringUtils.equals(Constants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME, fieldName))) {
+                    return true;
                 }
                 // validation didn't pass against allowed list of wildcards
                 putInvalidWildcardError(newIcrAutomatedEntry, fieldName, allowedWildcards);
@@ -327,7 +331,7 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
             // these should never be null
             // chart needs same wildcard as account, and if chart is wildcard, then then subaccount must be the same wildcard or dashes
             boolean success = chartOfAccountsCode.equals(accountNumber) && 
-                (chartOfAccountsCode.equals(subAccountNumber) || Constants.DASHES_SUB_ACCOUNT_NUMBER.equals(subAccountNumber));
+                (chartOfAccountsCode.equals(subAccountNumber) || StringUtils.containsOnly(subAccountNumber, "-"));
             if (!success) {
                 String chartDesc = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrAutomatedEntry.getClass(), Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
                 String accountDesc = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrAutomatedEntry.getClass(), Constants.ACCOUNT_NUMBER_PROPERTY_NAME);
@@ -359,7 +363,7 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
         if (isWildcard(chartOfAccountsCode) || isWildcard(financialObjectCode) || isWildcard(financialSubObjectCode)) {
             // these should never be null
             boolean success = chartOfAccountsCode.equals(financialObjectCode) && 
-                    (chartOfAccountsCode.equals(financialSubObjectCode) || Constants.DASHES_SUB_OBJECT_CODE.equals(financialSubObjectCode));
+                    (chartOfAccountsCode.equals(financialSubObjectCode) || StringUtils.containsOnly(financialSubObjectCode, "-"));
             if (!success) {
                 String chartDesc = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrAutomatedEntry.getClass(), Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
                 String objectDesc = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrAutomatedEntry.getClass(), Constants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME);

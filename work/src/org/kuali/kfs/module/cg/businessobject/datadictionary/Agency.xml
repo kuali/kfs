@@ -48,6 +48,7 @@
                 <lookupField attributeName="reportingName" required="false" />
                 <lookupField attributeName="fullName" required="false" />
                 <lookupField attributeName="agencyType.name" required="false" />
+                <lookupField attributeName="historicalIndicator" required="false" />
             </lookupFields>
 
             <resultFields>

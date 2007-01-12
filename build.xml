@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project name="kuali" default="dist-local" basedir=".">
 	<!-- run the help task to view usage instructions -->
-	<target name="dist-local" if="is.local.build" depends="clean,filter-project,filter-local,dist-cas-local,dist-workflow-local" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
+	<target name="dist-local" if="is.local.build" depends="clean,filter-project,filter-local,dist-workflow-local" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
 		<copy file="${metainf.directory}/${tomcat.context.file}" tofile="${appserver.localhost.dir}/${ant.project.name}-${build.environment}.xml" overwrite="true" />
 	</target>
 
@@ -13,7 +13,7 @@
 	
 	<target name="test-local" depends="init-project-properties,test" description="Run all unit tests and format results"/>
 
-	<target name="clean" depends="clean-project,clean-local,clean-cas-local,clean-workflow-local" description="Remove all build output" />
+	<target name="clean" depends="clean-project,clean-local,clean-workflow-local" description="Remove all build output" />
 
 	<target name="init-user-properties">
 		<property file="${user.home}/${ant.project.name}-build.properties" />
@@ -25,9 +25,6 @@
 		</condition>
 		<condition property="dist.workflow.local">
 			<equals arg1="${is.local.workflow.build}" arg2="true" />
-		</condition>
-		<condition property="dist.cas.local">
-			<equals arg1="${is.local.cas.build}" arg2="true" />
 		</condition>
 		<echo message="Loaded properties in ${user.home}/${ant.project.name}-build.properties" />
 	</target>
@@ -152,7 +149,7 @@
 			<filter token="htdocs-url" value="${htdocs.url}" />
 			<filter token="htdocs-logs-url" value="${htdocs.url}logs/" />
 			<filter token="htdocs-staging-url" value="${htdocs.url}staging/" />
-			<filter token="cas-url" value="${base.cas.url}${cas.application}-${build.environment}" />
+			<filter token="cas-url" value="${base.cas.url}${ant.project.name}-${build.environment}/cas" />
 			<filter token="base-workflow-url" value="${base.workflow.url}" />
 			<filter token="workflow-url" value="${base.workflow.url}${workflow.application}-${build.environment}" />
 			<filter token="web-authentication-filter" value="${web.authentication.filter}" />
@@ -275,16 +272,7 @@
 		<delete file="${workflow.usr.directory}/workflow.xml" />
 		<delete dir="${plugin.deploy.directory}" failonerror="false" />
 	</target>
-	
-	<target name="clean-cas-local" if="is.local.build" depends="init-project-properties">
-		<delete failonerror="false">
-			<fileset dir="${appserver.localhost.dir}" includes="${cas.application}-*" />
-		</delete>
-		<delete failonerror="false" includeemptydirs="true">
-			<fileset dir="${appserver.deploy.dir}" includes="${cas.application}-*/**" />
-		</delete>
-	</target>
-	
+
 	<!-- wrapper based on naming convention required by workflow build script -->
 	<target name="clean-plugin" depends="clean"/>
 
@@ -489,14 +477,7 @@
 			<fileset dir="${plugin.directory}" excludes="**/*.jar"/>
 		</copy>
 	</target>
-	
-	<target name="dist-cas-local" if="dist.cas.local" depends="init-filter-sets">
-		<ant target="update-war">
-			<property name="source.war.directory" value="${build.cas.appserver.directory}" />
-			<property name="application" value="${cas.application}" />
-		</ant>
-	</target>
-		
+
 	<target name="dist-package" depends="init-package-directories">
 		<copy todir="${packaging.distribution.directory}">
 			<fileset dir="${basedir}" includes="${packaged.build.properties.files}" />
@@ -547,12 +528,6 @@
 			<propertyset refid="${workflow.application}-properties" />
 		</ant>
 		<zip destfile="${dependencies.project.directory}/workflow-${workflow.version}-doc.zip" basedir="${workflow.project.directory}/dist/api" />-->
-	</target>
-	
-	<target name="update-cas" depends="init-project-properties">
-		<ant dir="${cas.project.directory}" target="dist" inheritall="false"/>
-		<copy file="${cas.project.directory}/${cas.metainf.directory}/${tomcat.context.file}" todir="${build.cas.appserver.directory}" overwrite="true" />
-		<copy file="${cas.project.directory}/${cas.application}-${build.environment}.war" todir="${build.cas.appserver.directory}" />
 	</target>
 
 	<target name="update-war">

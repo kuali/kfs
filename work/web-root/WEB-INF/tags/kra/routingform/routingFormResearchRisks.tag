@@ -36,7 +36,8 @@
 			defaultOpen="false" rightSideHtmlProperty="document.routingFormResearchRisk[${researchRiskStatus.index}].dataPresentIndicator" 
 			rightSideHtmlAttribute="${routingFormResearchRiskStudyAttributes.dataPresentIndicator}" 
 			transparentBackground="${researchRiskStatus.index == 0}"
-			tabErrorKey="document.routingFormResearchRisk[${researchRiskStatus.index}]*">
+			tabErrorKey="document.routingFormResearchRisk[${researchRiskStatus.index}]*"
+			tabItemCount="${researchRisk.numStudies}">
 			<div class="tab-container" id="G02" style="" align="center">
             	<div class="h2-container"><h2>${researchRisk.researchRiskType.researchRiskTypeDescription}</h2></div>
             	<table cellpadding="0" cellspacing="0" summary="">
@@ -167,7 +168,8 @@
 			rightSideHtmlProperty="document.routingFormResearchRisk[${researchRiskStatus.index}].dataPresentIndicator" 
 			rightSideHtmlAttribute="${routingFormResearchRiskStudyAttributes.dataPresentIndicator}"
 			transparentBackground="${researchRiskStatus.index == 0}"
-			tabErrorKey="document.routingFormResearchRisk[${researchRiskStatus.index}]*">
+			tabErrorKey="document.routingFormResearchRisk[${researchRiskStatus.index}]*"
+			tabItemCount="${researchRisk.numStudies}">
 			<div class="tab-container" id="G02" style="" align="center">
             	<div class="h2-container"><h2>${researchRisk.researchRiskType.researchRiskTypeDescription}</h2></div>
             	<table cellpadding="0" cellspacing="0" summary="">

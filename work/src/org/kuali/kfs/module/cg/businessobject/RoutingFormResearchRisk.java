@@ -193,6 +193,13 @@ public class RoutingFormResearchRisk extends PersistableBusinessObjectBase {
         return (RoutingFormResearchRiskStudy) getResearchRiskStudies().get(index);
     }
     
+    public int getNumStudies() {
+        if (this.getResearchRiskStudies() != null) {
+            return this.getResearchRiskStudies().size();
+        }
+        return 0;
+    }
+    
     public void addNewResearchRiskStudyToList() {
         this.newResearchRiskStudy.setRoutingFormResearchRiskStudySequenceNumber(this.getRoutingFormResearchRiskStudyNextSequenceNumber());
         this.researchRiskStudies.add(this.newResearchRiskStudy);

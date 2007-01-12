@@ -15,14 +15,13 @@
  */
 package org.kuali.module.purap.document;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.Constants;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.module.purap.bo.SourceDocumentReference;
 import org.kuali.module.purap.bo.Status;
 import org.kuali.module.purap.bo.StatusHistory;
 import org.kuali.module.purap.bo.VendorDetail;
@@ -43,6 +42,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends Transactiona
 
     // COMMON ELEMENTS
     protected List<StatusHistory> statusHistories;
+    protected List<SourceDocumentReference> sourceDocumentReferences;
 
     // REFERENCE OBJECTS
     private Status status;
@@ -178,5 +178,12 @@ public abstract class PurchasingAccountsPayableDocumentBase extends Transactiona
     public void setVendorDetail(VendorDetail vendorDetail) {
         this.vendorDetail = vendorDetail;
     }
+    
+    public List<SourceDocumentReference> getSourceDocumentReferences() {
+        return sourceDocumentReferences;
+    }
 
+    public void setSourceDocumentReferences(List<SourceDocumentReference> sourceDocumentReferences) {
+        this.sourceDocumentReferences = sourceDocumentReferences;
+    }
 }

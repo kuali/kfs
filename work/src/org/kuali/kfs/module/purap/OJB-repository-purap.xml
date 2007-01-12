@@ -750,6 +750,11 @@
 	<reference-descriptor name="vendorContract" class-ref="org.kuali.module.purap.bo.VendorContract" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="vendorContractGeneratedIdentifier" />
 	</reference-descriptor>
+	<collection-descriptor name="SourceDocumentReferences" proxy="true" element-class-ref="org.kuali.module.purap.bo.SourceDocumentReference" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="false" auto-delete="false">
+        <orderby name="sourceDocumentReferenceGeneratedIdentifier" sort="ASC" />
+        <orderby name="sourceDocumentIdentifier" sort="ASC" />
+        <inverse-foreignkey field-ref="sourceDocumentIdentifier" />
+    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.FundingSource" table="PUR_FND_SRC_T">
@@ -1016,6 +1021,11 @@
     <!-- reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterialStatusHistory" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderIdentifier" />
     </reference-descriptor -->
+    <collection-descriptor name="SourceDocumentReferences" proxy="true" element-class-ref="org.kuali.module.purap.bo.SourceDocumentReference" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="false" auto-delete="false">
+        <orderby name="sourceDocumentReferenceGeneratedIdentifier" sort="ASC" />
+        <orderby name="sourceDocumentIdentifier" sort="ASC" />
+        <inverse-foreignkey field-ref="sourceDocumentIdentifier" />
+    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.CreditMemo" table="AP_CRDT_MEMO_T">
@@ -1992,4 +2002,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="sourceDocumentObjectIdentifier" column="SRC_DOC_OBJ_ID" jdbc-type="VARCHAR"/>
+	<reference-descriptor name="purchasingAccountsPayableDocument" class-ref="org.kuali.module.purap.document.PurchasingAccountsPayableDocument"  auto-retrieve="false" auto-update="true" auto-delete="true">
+		<foreignkey field-ref="identifier"  />
+	</reference-descriptor>
 </class-descriptor>

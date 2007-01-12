@@ -18,6 +18,7 @@ package org.kuali.module.purap.document;
 import java.util.List;
 
 import org.kuali.core.document.TransactionalDocument;
+import org.kuali.module.purap.bo.SourceDocumentReference;
 import org.kuali.module.purap.bo.Status;
 import org.kuali.module.purap.bo.StatusHistory;
 
@@ -74,5 +75,9 @@ public interface PurchasingAccountsPayableDocument extends TransactionalDocument
     public List<StatusHistory> getStatusHistories();
 
     public void setStatusHistories(List<StatusHistory> statusHistories);
+    
+    public List<SourceDocumentReference> getSourceDocumentReferences();
+    
+    public void setSourceDocumentReferences(List<SourceDocumentReference> sourceDocumentReferences);
 
 }

@@ -120,10 +120,11 @@
               <tr>
                 <th>&nbsp;</th>
                 <th> <div align=left><kul:htmlAttributeLabel attributeEntry="${routingFormOrganizationCreditPercent.chartOfAccountsCode}" skipHelpUrl="true" noColon="true" />/<kul:htmlAttributeLabel attributeEntry="${routingFormOrganizationCreditPercent.organizationCode}" skipHelpUrl="true" noColon="true" /> </div></th>
-                <th colspan=2><div align="center"><kul:htmlAttributeLabel attributeEntry="${routingFormOrganizationCreditPercent.organizationCreditRoleText}" skipHelpUrl="true" noColon="true" /></div></th>
-                <th colspan=2><div align="center"><kul:htmlAttributeLabel attributeEntry="${routingFormOrganizationCreditPercent.organizationFinancialAidPercent}" skipHelpUrl="true" noColon="true" /></th>
-                <th colspan=2><div align="center"><kul:htmlAttributeLabel attributeEntry="${routingFormOrganizationCreditPercent.organizationCreditPercent}" skipHelpUrl="true" noColon="true" /></th>
-                <th >Action</th>
+                <th colspan=3><div align="center"><kul:htmlAttributeLabel attributeEntry="${routingFormOrganizationCreditPercent.organizationCreditRoleText}" skipHelpUrl="true" noColon="true" /></div></th>
+                <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${routingFormOrganizationCreditPercent.organizationFinancialAidPercent}" skipHelpUrl="true" noColon="true" /></th>
+                <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${routingFormOrganizationCreditPercent.organizationCreditPercent}" skipHelpUrl="true" noColon="true" /></th>
+                <th>&nbsp;</th>
+                <th>Action</th>
               </tr>
               <tr>
                 <th scope="row">add:</th>
@@ -138,15 +139,16 @@
                   </c:choose>
                   <kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:newRoutingFormOrganizationCreditPercent.chartOfAccountsCode,organizationCode:newRoutingFormOrganizationCreditPercent.organizationCode" anchor="${currentTabIndex}" />
                 </td>
-                <td class="infoline" colspan=2><div align="center">
+                <td class="infoline" colspan=3><div align="center">
                   <kul:htmlControlAttribute property="newRoutingFormOrganizationCreditPercent.organizationCreditRoleText" attributeEntry="${routingFormOrganizationCreditPercent.organizationCreditRoleText}" />
                 </div></td>
-                <td class="infoline" colspan=2><div align="center">
+                <td class="infoline"><div align="center">
                   <kul:htmlControlAttribute property="newRoutingFormOrganizationCreditPercent.organizationFinancialAidPercent" attributeEntry="${routingFormOrganizationCreditPercent.organizationFinancialAidPercent}" />
                 </div></td>
-                <td class="infoline" colspan=2><div align="center">
+                <td class="infoline"><div align="center">
                   <kul:htmlControlAttribute property="newRoutingFormOrganizationCreditPercent.organizationCreditPercent" attributeEntry="${routingFormOrganizationCreditPercent.organizationCreditPercent}" />
                 </div></td>
+                <td class="infoline">&nbsp;</td>
                 <td class="infoline"><div align=center><html:image property="methodToCall.addOrganizationCreditPercentLine.anchor${currentTabIndex}" src="images/tinybutton-add1.gif" styleClass="tinybutton" alt="add org line"/></div></td>
               </tr>
               <c:forEach items = "${KualiForm.document.routingFormOrganizationCreditPercents}" var="org" varStatus="status"  >
@@ -164,18 +166,42 @@
                     </c:choose>
                     <kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:document.routingFormOrganizationCreditPercent[${status.index}].chartOfAccountsCode,organizationCode:document.routingFormOrganizationCreditPercent[${status.index}].organizationCode" anchor="${currentTabIndex}" />
                   </td>
-                  <td colspan=2><div align="center"><span class="infoline">
+                  <td colspan=3><div align="center"><span class="infoline">
                     <kul:htmlControlAttribute property="document.routingFormOrganizationCreditPercent[${status.index}].organizationCreditRoleText" attributeEntry="${routingFormOrganizationCreditPercent.organizationCreditRoleText}" />
                   </span></div></td>
-                  <td colspan=2><div align="center"><span class="infoline">
+                  <td><div align="center"><span class="infoline">
                     <kul:htmlControlAttribute property="document.routingFormOrganizationCreditPercent[${status.index}].organizationFinancialAidPercent" attributeEntry="${routingFormOrganizationCreditPercent.organizationFinancialAidPercent}" />
                   </span></div></td>
-                  <td colspan=2><div align="center"><span class="infoline">
+                  <td><div align="center"><span class="infoline">
                     <kul:htmlControlAttribute property="document.routingFormOrganizationCreditPercent[${status.index}].organizationCreditPercent" attributeEntry="${routingFormOrganizationCreditPercent.organizationCreditPercent}" />
                   </span></div></td>
+                  <td>&nbsp;</td>
                   <td><div align=center><html:image property="methodToCall.deleteOrganizationCreditPercentLine.line${status.index}.anchor${currentTabIndex}" src="images/tinybutton-delete1.gif" styleClass="tinybutton" alt="delete person line"/></div></td>
                 </tr>
               </c:forEach>
+              
+              <tr>
+                <td colspan=9 class="tab-subhead"><span class="left">Summary</span></td>
+              </tr>
+              <tr>
+                <th>&nbsp;</th>
+                <th colspan=4>&nbsp;</th>
+                <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${routingFormOrganizationCreditPercent.organizationFinancialAidPercent}" skipHelpUrl="true" noColon="true" /></th>
+                <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${routingFormOrganizationCreditPercent.organizationCreditPercent}" skipHelpUrl="true" noColon="true" /></th>
+                <th colspan=2>&nbsp;</th>
+              </tr>
+              <tr>
+                <th scope="row">&nbsp;</th>
+                <td colspan=4 class="infoline"><div align="right"><b>Totals</b></div></td>
+                <td class="infoline"><div align="center">
+                  todo%
+                </div></td>
+                <td class="infoline"><div align="center">
+                  todo%
+                </div></td>
+                <td colspan=2 class="infoline">&nbsp;</td>
+              </tr>
+
             </table>
           </div>
 </kul:tab>

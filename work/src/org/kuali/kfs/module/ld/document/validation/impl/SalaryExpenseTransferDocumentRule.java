@@ -15,26 +15,16 @@
  */
 package org.kuali.module.labor.rules;
 
-import static org.kuali.Constants.BALANCE_TYPE_ACTUAL;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
 import org.kuali.KeyConstants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
-import org.kuali.core.bo.Options;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
+import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.financial.document.TransferOfFundsDocument;
 import org.kuali.module.financial.rules.TransactionalDocumentRuleBase;
-import org.kuali.module.financial.rules.TransactionalDocumentRuleUtil;
-import org.kuali.module.financial.rules.TransferOfFundsDocumentRuleConstants;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 
 /**
  * Business rule(s) applicable to Salary Expense Transfer documents.
@@ -42,6 +32,34 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
  * 
  */
 public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRuleBase {
+
+    /**
+     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.core.bo.AccountingLine)
+     */
+    @Override
+    public boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
+        boolean allow = true;
+        ErrorMap errors = GlobalVariables.getErrorMap();
+        
+        if (accountingLine.isSourceAccountingLine()) {
+            LOG.info("Processing Source Accounting Line...");
+            LOG.info("#Source Accounting Lines:" + transactionalDocument.getSourceAccountingLines().size());
+            LOG.info("Last Account Number:" + transactionalDocument.getSourceAccountingLine(0).getAccount().getAccountNumber());
+            LOG.info("Last Amount:" + transactionalDocument.getSourceAccountingLine(0).getAmount());
+        }
+        LOG.info("validating accounting line # " + transactionalDocument.getSourceAccountingLine(0).getSequenceNumber());
+//        errors.putErrorWithoutFullErrorPath(PropertyConstants.DOCUMENT + "." + PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE, "Way Bad.");
+        // don't validate generated tax lines
+     //   if (!((SalaryExpenseTransferDocument) transactionalDocument).getSourceAccountingLine(0).getChartOfAccountsCode().equals("XX"))  {
+       //         return true;
+         //   }
+
+        LOG.debug("end validating accounting line, has errors: " + allow);
+
+        return allow;
+    }
 
     /**
      * Set attributes of an offset pending entry according to rules specific to TransferOfFundsDocument.

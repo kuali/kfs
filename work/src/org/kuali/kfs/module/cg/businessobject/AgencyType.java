@@ -26,11 +26,28 @@ import org.kuali.core.bo.KualiCodeBase;
  */
 public class AgencyType extends KualiCodeBase {
 
+    private boolean rowActiveIndicator;
+    
     /**
      * Default no-arg constructor.
      */
     public AgencyType() {
         super(); // KualiCodeBase does some setup in constructor
+    }
+
+    /**
+     * @return Getter for the active field.
+     */
+    public boolean isRowActiveIndicator() {
+        return rowActiveIndicator;
+    }
+
+    
+    /**
+     * @param name - Setter for the active field.
+     */
+    public void setRowActiveIndicator(boolean a) {
+        this.rowActiveIndicator = a;
     }
 
 }

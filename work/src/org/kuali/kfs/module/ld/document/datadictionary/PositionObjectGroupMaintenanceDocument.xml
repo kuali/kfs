@@ -33,7 +33,7 @@
         </authorizations>
 
 		<documentTypeName>KualiPositionObjectGroupMaintenanceDocument</documentTypeName>
-		<documentTypeCode>POG</documentTypeCode>
+		<documentTypeCode>POGR</documentTypeCode>
 
 		<label>Position Object Group Maintenance Document</label>
 		<shortLabel>Pos Obj Group Doc</shortLabel>

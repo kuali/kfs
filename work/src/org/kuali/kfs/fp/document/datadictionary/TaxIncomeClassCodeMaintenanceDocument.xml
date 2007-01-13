@@ -42,6 +42,8 @@
         <description>Document used to create or update Tax Income Class objects</description>
         <help securityGroupName="Kuali.DisbursementVoucher.Help" parameterName="DISBURSEMENT_VOUCHER_HELP_TAX_INCOME_CLASS_CODE" />
 
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
             <field attributeName="code" />
         </lockingKeys>

@@ -42,6 +42,8 @@
 		<description>Document used to create or update Benefit type codes.</description>
         <help securityGroupName="Kuali.Other.Help" parameterName="OTHER_HELP_LABOR_BENEFITS_TYPE" />
 
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
 			<field attributeName="positionBenefitTypeCode" />
 		</lockingKeys>         

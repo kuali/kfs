@@ -41,6 +41,8 @@
         <summary>Award Maintenance Document</summary>
         <description>Document used to create or update Award Status objects</description>
 
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
             <field attributeName="awardStatusCode" />
         </lockingKeys>

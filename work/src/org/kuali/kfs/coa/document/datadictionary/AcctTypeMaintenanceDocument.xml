@@ -40,6 +40,8 @@
         <description>Maintenance document which allows you to create new Account Types, or modify existing Account Types.</description>
         <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_ACCOUNT_TYPE" />
 
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
             <field attributeName="accountTypeCode" />
         </lockingKeys>

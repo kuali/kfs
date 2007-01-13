@@ -41,6 +41,8 @@
         <summary>Recurring Payment Type Maintenance Document</summary>
         <description>Document used to create or update Recurring Payment Type objects</description>
 
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
             <field attributeName="recurringPaymentTypeCode" />
         </lockingKeys>

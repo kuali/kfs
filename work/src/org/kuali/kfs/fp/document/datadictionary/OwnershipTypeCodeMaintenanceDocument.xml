@@ -40,7 +40,9 @@
 
         <summary>Ownership Type Code Maintenance Document</summary>
         <description>Document used to create or update Ownership Type objects</description>
-       <help securityGroupName="Kuali.DisbursementVoucher.Help" parameterName="DISBURSEMENT_VOUCHER_HELP_OWNERSHIP_TYPE_CODE" />
+        <help securityGroupName="Kuali.DisbursementVoucher.Help" parameterName="DISBURSEMENT_VOUCHER_HELP_OWNERSHIP_TYPE_CODE" />
+
+        <allowsCopy>true</allowsCopy>
 
         <lockingKeys>
             <field attributeName="code" />

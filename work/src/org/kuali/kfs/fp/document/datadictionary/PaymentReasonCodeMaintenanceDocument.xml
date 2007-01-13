@@ -42,6 +42,8 @@
         <description>Document used to create or update Payment Reason objects</description>
         <help securityGroupName="Kuali.DisbursementVoucher.Help" parameterName="DISBURSEMENT_VOUCHER_HELP_PAYMENT_REASON_CODE" />
 
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
             <field attributeName="code" />
         </lockingKeys>

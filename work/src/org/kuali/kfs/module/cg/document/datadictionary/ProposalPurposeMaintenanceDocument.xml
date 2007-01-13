@@ -41,6 +41,8 @@
         <summary>Proposal Purpose Maintenance Document</summary>
         <description>Document used to create or update Proposal Purpose objects</description>
 
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
             <field attributeName="proposalPurposeCode" />
         </lockingKeys>

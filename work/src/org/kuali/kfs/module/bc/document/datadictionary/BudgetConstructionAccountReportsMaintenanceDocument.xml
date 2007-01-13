@@ -41,6 +41,8 @@
         <summary>Budget Construction Account Reports Maintenance Document</summary>
         <description>Document used to create or update Budget Construction Account Reports Maintenance Document objects</description>
 
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
             <field attributeName="chartOfAccountsCode" />
             <field attributeName="accountNumber" />

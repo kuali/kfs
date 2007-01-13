@@ -41,6 +41,8 @@
         <summary>Purchase Order Vendor Choice Maintenance Document</summary>
         <description>Document used to create or update Purchase Order Vendor Choice objects</description>
 
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
             <field attributeName="purchaseOrderVendorChoiceCode" />
         </lockingKeys>

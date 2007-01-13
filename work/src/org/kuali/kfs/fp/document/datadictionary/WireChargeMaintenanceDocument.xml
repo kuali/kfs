@@ -42,6 +42,8 @@
         <description>Document used to create or update wire charges.</description>
         <help securityGroupName="Kuali.DisbursementVoucher.Help" parameterName="DISBURSEMENT_VOUCHER_HELP_WIRE_CHARGE" />
 
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
             <field attributeName="universityFiscalYear" />
         </lockingKeys>

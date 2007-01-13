@@ -42,6 +42,8 @@
 		<description>Document used to create or update Position Object Benefit objects</description>
         <help securityGroupName="Kuali.Other.Help" parameterName="OTHER_HELP_LABOR_OBJECT_BENEFIT" />
 
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
 			<field attributeName="universityFiscalYear" />
 			<field attributeName="chartOfAccountsCode" />

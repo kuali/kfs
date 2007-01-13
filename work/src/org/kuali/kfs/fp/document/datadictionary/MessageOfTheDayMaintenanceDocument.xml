@@ -42,6 +42,8 @@
         <description>Document used to create or update Message Of The Day objects</description>
         <help securityGroupName="Kuali.Other.Help" parameterName="OTHER_HELP_MESSAGE_OF_THE_DAY" />
 
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
             <field attributeName="financialSystemOriginationCode" />
         </lockingKeys>

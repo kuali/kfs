@@ -41,6 +41,8 @@
         <summary>Proposal Award Type Maintenance Document</summary>
         <description>Document used to create or update Proposal Award Type objects</description>
 
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
             <field attributeName="proposalAwardTypeCode" />
         </lockingKeys>

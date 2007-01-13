@@ -41,6 +41,8 @@
         <summary>Billing Address Maintenance Document</summary>
         <description>Document used to create or update Billing Address objects</description>
 
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
             <field attributeName="billingCampusCode" />
         </lockingKeys>

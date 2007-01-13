@@ -40,6 +40,9 @@
 
         <summary>Question Type Maintenance Document</summary>
         <description>Document used to create or update Question Type objects</description>
+
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
             <field attributeName="questionTypeCode" />
         </lockingKeys>

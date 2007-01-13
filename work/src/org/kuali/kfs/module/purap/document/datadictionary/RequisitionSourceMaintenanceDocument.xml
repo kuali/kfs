@@ -41,6 +41,8 @@
         <summary>Requisition Source Maintenance Document</summary>
         <description>Document used to create or update Requisition Source objects</description>
 
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
             <field attributeName="requisitionSourceCode" />
         </lockingKeys>

@@ -40,6 +40,9 @@
 
         <summary>Research Risk Type Maintenance Document</summary>
         <description>Document used to create or update Research Risk Type objects</description>
+        
+        <allowsCopy>true</allowsCopy>
+        
         <lockingKeys>
             <field attributeName="researchRiskTypeCode" />
         </lockingKeys>

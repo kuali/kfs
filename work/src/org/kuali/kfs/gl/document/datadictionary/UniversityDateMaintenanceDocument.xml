@@ -42,6 +42,8 @@
         <description>Document used to create or update University Date objects</description>
         <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_UNIVERSITY_DATE" />
 
+        <allowsCopy>true</allowsCopy>
+
 
         <lockingKeys>
             <field attributeName="universityDate" />

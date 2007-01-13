@@ -41,7 +41,9 @@
         <summary>Indirect Cost Recovery Automated Entry Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Indirect Cost Recovery Automated Entries, or modify existing Indirect Cost Recovery Automated Entries.</description>
         <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_INDIRECT_COST_RECOVERY_AUTOMATED_ENTRY" />
-        
+
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
             <field attributeName="universityFiscalYear" />
             <field attributeName="financialIcrSeriesIdentifier" />

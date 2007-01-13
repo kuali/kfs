@@ -41,6 +41,8 @@
         <description>Document used to create or update Sub Fund Group Type objects</description>
         <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_SUB_FUND_GROUP_TYPE" />
 
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
             <field attributeName="subFundGroupTypeCode" />
         </lockingKeys>

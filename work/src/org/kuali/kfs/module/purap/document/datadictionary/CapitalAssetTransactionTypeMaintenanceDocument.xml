@@ -41,6 +41,8 @@
         <summary>Capital Asset Transaction Type Maintenance Document</summary>
         <description>Document used to create or update Capital Asset Transaction Type objects</description>
 
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
             <field attributeName="capitalAssetTransactionTypeCode" />
         </lockingKeys>

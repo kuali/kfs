@@ -42,6 +42,8 @@
         <description>Document used to create or update University Budget Office Function Maintenance Document objects</description>
         <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_UNIVERSITY_BUDGET_OFFICE_FUNCTION" />
 
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
             <field attributeName="financialUniversityBudgetOfficeFunctionCode" />
         </lockingKeys>

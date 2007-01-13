@@ -41,6 +41,8 @@
         <summary>Subcontractor Maintenance Document</summary>
         <description>Document used to create or update Subcontractor objects</description>
 
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
             <field attributeName="subcontractorNumber" />
         </lockingKeys>

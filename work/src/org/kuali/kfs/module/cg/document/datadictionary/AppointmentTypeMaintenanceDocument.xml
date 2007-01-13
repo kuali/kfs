@@ -41,6 +41,8 @@
         <summary>Appointment Type maintenance document</summary>
         <description>Document used to create or update AppointmentType objects</description>
 
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
             <field attributeName="appointmentTypeCode" />
         </lockingKeys>

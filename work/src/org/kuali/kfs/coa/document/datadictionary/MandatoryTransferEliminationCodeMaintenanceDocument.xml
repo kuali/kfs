@@ -40,7 +40,9 @@
         <summary>Mandatory Transfer EliminationCode Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Mandatory Transfer Elimination Codes, or modify existing Mandatory Transfer Elimination Codes.</description>
         <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_MANDATORY_TRANSFER_ELIMINATION_CODE" />
-        
+
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
             <field attributeName="code" />
         </lockingKeys>

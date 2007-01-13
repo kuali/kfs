@@ -41,6 +41,9 @@
         <summary>Responsibility Center maintenance document</summary>
         <description>Document used to create or update Responsibility Center objects</description>
         <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_RESPONSIBILITY_CENTER" />
+
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
             <field attributeName="responsibilityCenterCode" />
         </lockingKeys>

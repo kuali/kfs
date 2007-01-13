@@ -42,7 +42,9 @@
         <summary>Account Delegate Maintenance Document</summary>
         <description>Maintenance document which allows you to create, remove or modify Account Delegates.</description>
         <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_ACCOUNT_DELEGATE" />
-        
+
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
             <field attributeName="chartOfAccountsCode" />
             <field attributeName="accountNumber" />

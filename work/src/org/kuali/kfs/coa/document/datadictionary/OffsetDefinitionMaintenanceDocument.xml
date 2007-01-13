@@ -40,7 +40,9 @@
         <summary>Offset Definition Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Offset Definitions, remove exsiting Offset Definitions, or modify existing Offset Definitions.</description>
         <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_OFFSET_DEFINITION" />
-        
+
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
             <field attributeName="universityFiscalYear" />
             <field attributeName="chartOfAccountsCode" />

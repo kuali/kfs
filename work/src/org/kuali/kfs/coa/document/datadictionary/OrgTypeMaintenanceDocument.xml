@@ -39,7 +39,9 @@
         <summary>Organization Type Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Organization Types, or modify existing Organization Types.</description>
         <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_ORGANIZATION_TYPE" />
-        
+
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
             <field attributeName="organizationTypeCode" />
         </lockingKeys>

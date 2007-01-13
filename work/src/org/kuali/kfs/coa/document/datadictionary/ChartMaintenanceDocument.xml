@@ -43,6 +43,8 @@
         <description>Document used to create or update Chart objects</description>
         <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_CHART" />
         
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
             <field attributeName="chartOfAccountsCode" />
         </lockingKeys>

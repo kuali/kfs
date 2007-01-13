@@ -42,6 +42,8 @@
         <description>Document used to create or update Travel Mileage Rate objects</description>
         <help securityGroupName="Kuali.DisbursementVoucher.Help" parameterName="DISBURSEMENT_VOUCHER_HELP_TRAVEL_MILEAGE_RATE" />
 
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
             <field attributeName="disbursementVoucherMileageEffectiveDate" />
             <field attributeName="mileageLimitAmount" />

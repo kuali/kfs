@@ -41,6 +41,8 @@
         <summary>Purchase Order Transmission Method Maintenance Document</summary>
         <description>Document used to create or update Purchase Order Transmission Method objects</description>
 
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
             <field attributeName="purchaseOrderTransmissionMethodCode" />
         </lockingKeys>

@@ -41,6 +41,8 @@
         <summary>Agency Type maintenance document</summary>
         <description>Document used to create or update Agency Type objects</description>
 
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
             <field attributeName="code" />
         </lockingKeys>

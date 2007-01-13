@@ -40,7 +40,9 @@
         <summary>Object Sub-Type Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Object Sub-Types, or modify existing Object Sub-Types.</description>
         <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_OBJECT_SUB_TYPE" />
-        
+
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
             <field attributeName="code" />
         </lockingKeys>

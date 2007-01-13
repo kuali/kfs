@@ -41,6 +41,8 @@
         <summary>Calculated Salary Foundation Tracker Override Maintenance Document</summary>
         <description>Document used to create or update Calculated Salary Foundation Tracker Override Maintenance Document objects</description>
 
+        <allowsCopy>true</allowsCopy>
+
         <lockingKeys>
             <field attributeName="universityFiscalYear" />
             <field attributeName="chartOfAccountsCode" />

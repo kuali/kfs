@@ -117,20 +117,20 @@
     <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="proposalBeginningDate" column="CGPRPSL_BEG_DT" jdbc-type="TIMESTAMP" />
-    <field-descriptor name="proposalEndingDate" column="CGPRPSL_END_DT" jdbc-type="TIMESTAMP" />
+    <field-descriptor name="proposalBeginningDate" column="CGPRPSL_BEG_DT" jdbc-type="DATE" />
+    <field-descriptor name="proposalEndingDate" column="CGPRPSL_END_DT" jdbc-type="DATE" />
     <field-descriptor name="proposalTotalAmount" column="CGPRPSL_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="proposalDirectCostAmount" column="CGPRPSL_DRCTCS_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="proposalIndirectCostAmount" column="CGPRPSL_INDRCS_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
-    <field-descriptor name="proposalRejectedDate" column="CGPRPSL_REJECTD_DT" jdbc-type="TIMESTAMP" />
-    <field-descriptor name="proposalLastUpdateDate" column="CGPRPSL_LSTUPDT_DT" jdbc-type="TIMESTAMP" />
-    <field-descriptor name="proposalDueDate" column="CGPRPSL_DUE_DT" jdbc-type="TIMESTAMP" />
+    <field-descriptor name="proposalRejectedDate" column="CGPRPSL_REJECTD_DT" jdbc-type="DATE" />
+    <field-descriptor name="proposalLastUpdateDate" column="CGPRPSL_LSTUPDT_DT" jdbc-type="DATE" />
+    <field-descriptor name="proposalDueDate" column="CGPRPSL_DUE_DT" jdbc-type="DATE" />
     <field-descriptor name="proposalTotalProjectAmount" column="CGPRPSL_TOTPRJ_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
-    <field-descriptor name="proposalSubmissionDate" column="CGPRPSL_SUBMSSN_DT" jdbc-type="TIMESTAMP" />
+    <field-descriptor name="proposalSubmissionDate" column="CGPRPSL_SUBMSSN_DT" jdbc-type="DATE" />
     <field-descriptor name="proposalFederalPassThroughIndicator" column="CGPRPSL_FEDPT_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <field-descriptor name="oldProposalNumber" column="CG_OLD_PRPSL_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="grantNumber" column="CG_GRANT_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="proposalClosingDate" column="CGPRPSL_CLOSING_DT" jdbc-type="TIMESTAMP" />
+    <field-descriptor name="proposalClosingDate" column="CGPRPSL_CLOSING_DT" jdbc-type="DATE" />
     <field-descriptor name="proposalAwardTypeCode" column="CGPRPSL_AWD_TYP_CD" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="proposalStatusCode" column="CGPRPSL_STAT_CD" jdbc-type="VARCHAR" index="true" />

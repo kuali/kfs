@@ -16,16 +16,16 @@
 
 package org.kuali.module.cg.bo;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 
 /**
  * 
@@ -33,20 +33,29 @@ import org.apache.ojb.broker.PersistenceBrokerException;
 public class Proposal extends PersistableBusinessObjectBase {
 
     private Long proposalNumber;
-    private Timestamp proposalBeginningDate;
-    private Timestamp proposalEndingDate;
+    private Date proposalBeginningDate;
+    private Date proposalEndingDate;
+    
+    /**
+     * This field is for write-only to the database via OJB, not the corresponding property of this BO.
+     * OJB uses reflection to read it, so the compiler warns because it doesn't know.
+     * @see #getProposalTotalAmount
+     * @see #setProposalTotalAmount
+     */
+    @SuppressWarnings({"UnusedDeclaration"})
     private KualiDecimal proposalTotalAmount;
+    
     private KualiDecimal proposalDirectCostAmount;
     private KualiDecimal proposalIndirectCostAmount;
-    private Timestamp proposalRejectedDate;
-    private Timestamp proposalLastUpdateDate;
-    private Timestamp proposalDueDate;
+    private Date proposalRejectedDate;
+    private Date proposalLastUpdateDate;
+    private Date proposalDueDate;
     private KualiDecimal proposalTotalProjectAmount;
-    private Timestamp proposalSubmissionDate;
+    private Date proposalSubmissionDate;
     private boolean proposalFederalPassThroughIndicator;
     private String oldProposalNumber;
     private String grantNumber;
-    private Timestamp proposalClosingDate;
+    private Date proposalClosingDate;
     private String proposalAwardTypeCode;
     private String agencyNumber;
     private String proposalStatusCode;
@@ -105,7 +114,7 @@ public class Proposal extends PersistableBusinessObjectBase {
      * @return Returns the proposalBeginningDate
      * 
      */
-    public Timestamp getProposalBeginningDate() {
+    public Date getProposalBeginningDate() {
         return proposalBeginningDate;
     }
 
@@ -115,7 +124,7 @@ public class Proposal extends PersistableBusinessObjectBase {
      * @param proposalBeginningDate The proposalBeginningDate to set.
      * 
      */
-    public void setProposalBeginningDate(Timestamp proposalBeginningDate) {
+    public void setProposalBeginningDate(Date proposalBeginningDate) {
         this.proposalBeginningDate = proposalBeginningDate;
     }
 
@@ -126,7 +135,7 @@ public class Proposal extends PersistableBusinessObjectBase {
      * @return Returns the proposalEndingDate
      * 
      */
-    public Timestamp getProposalEndingDate() {
+    public Date getProposalEndingDate() {
         return proposalEndingDate;
     }
 
@@ -136,7 +145,7 @@ public class Proposal extends PersistableBusinessObjectBase {
      * @param proposalEndingDate The proposalEndingDate to set.
      * 
      */
-    public void setProposalEndingDate(Timestamp proposalEndingDate) {
+    public void setProposalEndingDate(Date proposalEndingDate) {
         this.proposalEndingDate = proposalEndingDate;
     }
 
@@ -244,7 +253,7 @@ public class Proposal extends PersistableBusinessObjectBase {
      * @return Returns the proposalRejectedDate
      * 
      */
-    public Timestamp getProposalRejectedDate() {
+    public Date getProposalRejectedDate() {
         return proposalRejectedDate;
     }
 
@@ -254,7 +263,7 @@ public class Proposal extends PersistableBusinessObjectBase {
      * @param proposalRejectedDate The proposalRejectedDate to set.
      * 
      */
-    public void setProposalRejectedDate(Timestamp proposalRejectedDate) {
+    public void setProposalRejectedDate(Date proposalRejectedDate) {
         this.proposalRejectedDate = proposalRejectedDate;
     }
 
@@ -265,7 +274,7 @@ public class Proposal extends PersistableBusinessObjectBase {
      * @return Returns the proposalLastUpdateDate
      * 
      */
-    public Timestamp getProposalLastUpdateDate() {
+    public Date getProposalLastUpdateDate() {
         return proposalLastUpdateDate;
     }
 
@@ -275,7 +284,7 @@ public class Proposal extends PersistableBusinessObjectBase {
      * @param proposalLastUpdateDate The proposalLastUpdateDate to set.
      * 
      */
-    public void setProposalLastUpdateDate(Timestamp proposalLastUpdateDate) {
+    public void setProposalLastUpdateDate(Date proposalLastUpdateDate) {
         this.proposalLastUpdateDate = proposalLastUpdateDate;
     }
 
@@ -286,7 +295,7 @@ public class Proposal extends PersistableBusinessObjectBase {
      * @return Returns the proposalDueDate
      * 
      */
-    public Timestamp getProposalDueDate() {
+    public Date getProposalDueDate() {
         return proposalDueDate;
     }
 
@@ -296,7 +305,7 @@ public class Proposal extends PersistableBusinessObjectBase {
      * @param proposalDueDate The proposalDueDate to set.
      * 
      */
-    public void setProposalDueDate(Timestamp proposalDueDate) {
+    public void setProposalDueDate(Date proposalDueDate) {
         this.proposalDueDate = proposalDueDate;
     }
 
@@ -328,7 +337,7 @@ public class Proposal extends PersistableBusinessObjectBase {
      * @return Returns the proposalSubmissionDate
      * 
      */
-    public Timestamp getProposalSubmissionDate() {
+    public Date getProposalSubmissionDate() {
         return proposalSubmissionDate;
     }
 
@@ -338,7 +347,7 @@ public class Proposal extends PersistableBusinessObjectBase {
      * @param proposalSubmissionDate The proposalSubmissionDate to set.
      * 
      */
-    public void setProposalSubmissionDate(Timestamp proposalSubmissionDate) {
+    public void setProposalSubmissionDate(Date proposalSubmissionDate) {
         this.proposalSubmissionDate = proposalSubmissionDate;
     }
 
@@ -412,7 +421,7 @@ public class Proposal extends PersistableBusinessObjectBase {
      * @return Returns the proposalClosingDate
      * 
      */
-    public Timestamp getProposalClosingDate() {
+    public Date getProposalClosingDate() {
         return proposalClosingDate;
     }
 
@@ -422,7 +431,7 @@ public class Proposal extends PersistableBusinessObjectBase {
      * @param proposalClosingDate The proposalClosingDate to set.
      * 
      */
-    public void setProposalClosingDate(Timestamp proposalClosingDate) {
+    public void setProposalClosingDate(Date proposalClosingDate) {
         this.proposalClosingDate = proposalClosingDate;
     }
 

@@ -244,7 +244,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
                     currentSfbl.setCurrentBudgetBalanceAmount(KualiDecimal.ZERO);
                 }
 
-                if (sfrbAccount.isInCg()) {
+                if (sfrbAccount.isForContractsAndGrants()) {
                     balance.setAccountLineAnnualBalanceAmount(balance.getAccountLineAnnualBalanceAmount().add(balance.getContractsGrantsBeginningBalanceAmount()));
                 }
 

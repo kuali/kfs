@@ -138,7 +138,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     private String accountDescriptionSectionBlank;
     private String accountDescriptionSection;
 
-    private boolean isCGAccount;
+    private boolean forContractsAndGrants;
 
     private AccountGuideline accountGuideline;
     private AccountDescription accountDescription;
@@ -151,55 +151,11 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     public Account() {
     }
 
-    /**
-     * This tells if this account is a C&G account.
-     * 
-     * @return true if C&G account
-     */
-    public boolean isInCg() {
-        // IF C&G is a sub fund group, use this line
-        // return isInCgSubFundGroup();
-
-        // IF C&G is a fund group, use this line
-        return isInCgFundGroup();
-    }
-
-    public static boolean isInCg(SubFundGroup subFundGroup) {
-        if (subFundGroup != null) {
-            return Constants.CONTRACTS_AND_GRANTS.equals(subFundGroup.getFundGroupCode());
-        }
-        else {
-            // If sub fund group is missing
-            return false;
-        }
-    }
-    
-    private boolean isInCgFundGroup() {
-        if (getSubFundGroup() != null) {
-            return Constants.CONTRACTS_AND_GRANTS.equals(getSubFundGroup().getFundGroupCode());
-        }
-        else {
-            if (getSubFundGroupCode()!=null && getSubFundGroupCode().length()>0) {
-                throw new Error("Unable to determine whether this account is a CG account");
-            }
-            // If sub fund group is missing
-            return false;
-        }
-    }
-
-    private boolean isInCgSubFundGroup() {
-        if (true) {
-            throw new Error("You must also fix the method isInCg(SubFundGroup subFundGroup)");
-        }
-        return Constants.CONTRACTS_AND_GRANTS.equals(getSubFundGroupCode());
-    }
-
     public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
         super.afterLookup(persistenceBroker);
-
         // This is needed to put a value in the object so the persisted XML has a flag that
         // can be used in routing to determine if an account is a C&G Account
-        isCGAccount = isInCg();
+        forContractsAndGrants = SpringServiceLocator.getSubFundGroupService().isForContractsAndGrants(getSubFundGroup());
     }
 
     /**
@@ -1901,4 +1857,11 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
         }
     }
 
+    /**
+     * Gets the forContractsAndGrants attribute. 
+     * @return Returns the forContractsAndGrants.
+     */
+    public boolean isForContractsAndGrants() {
+        return forContractsAndGrants;
+    }
 }

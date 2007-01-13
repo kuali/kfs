@@ -366,7 +366,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     }
 
     private void adjustAccountIfContractsAndGrants(Account account) {
-        if (account.isInCg() && (!account.isAccountClosedIndicator())) {
+        if (account.isForContractsAndGrants() && (!account.isAccountClosedIndicator())) {
             Calendar tempCal = Calendar.getInstance();
             tempCal.setTimeInMillis(account.getAccountExpirationDate().getTime());
             tempCal.add(Calendar.MONTH, 3); // TODO: make this configurable

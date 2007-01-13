@@ -531,7 +531,7 @@ public class ScrubberProcess {
 
                 if (costShareObjectTypeCodes.succeedsRule(scrubbedEntry.getFinancialObjectTypeCode()) && 
                         costShareEncBalanceTypeCodes.succeedsRule(scrubbedEntry.getFinancialBalanceTypeCode()) && 
-                        scrubbedEntry.getAccount().isInCg() && Constants.COST_SHARE.equals(subAccountTypeCode) && 
+                        scrubbedEntry.getAccount().isForContractsAndGrants() && Constants.COST_SHARE.equals(subAccountTypeCode) && 
                         costShareEncFiscalPeriodCodes.succeedsRule(scrubbedEntry.getUniversityFiscalPeriodCode()) && 
                         costShareEncDocTypeCodes.succeedsRule(scrubbedEntry.getFinancialDocumentTypeCode().trim())) {
                     TransactionError te1 = generateCostShareEncumbranceEntries(scrubbedEntry);
@@ -547,7 +547,7 @@ public class ScrubberProcess {
 
                 if (costShareObjectTypeCodes.succeedsRule(scrubbedEntry.getFinancialObjectTypeCode()) && 
                         scrubbedEntry.getOption().getActualFinancialBalanceTypeCd().equals(scrubbedEntry.getFinancialBalanceTypeCode()) && 
-                        scrubbedEntry.getAccount().isInCg() && 
+                        scrubbedEntry.getAccount().isForContractsAndGrants() && 
                         Constants.COST_SHARE.equals(subAccountTypeCode) && 
                         costShareFiscalPeriodCodes.succeedsRule(scrubbedEntry.getUniversityFiscalPeriodCode()) && 
                         costShareEncDocTypeCodes.succeedsRule(scrubbedEntry.getFinancialDocumentTypeCode().trim())) {

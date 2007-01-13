@@ -383,7 +383,7 @@ public class BalanceForwardRuleHelper {
                     // 1076 006030 OR 'PFCMR ')
 
                     // Contract and grants balances.
-                    if (priorYearAccount.isInCg() || ObjectHelper.isOneOf(subFundGroup.getSubFundGroupCode().trim(), new String[] { "SDCI", "PFCMR" })) {
+                    if (priorYearAccount.isForContractsAndGrants() || ObjectHelper.isOneOf(subFundGroup.getSubFundGroupCode().trim(), new String[] { "SDCI", "PFCMR" })) {
 
                         // 1077 006040 MOVE 'Y' TO WS-SELECT-ACTIVE-SW
 

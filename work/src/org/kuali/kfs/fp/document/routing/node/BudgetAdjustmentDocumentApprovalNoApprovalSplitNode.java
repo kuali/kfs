@@ -102,7 +102,7 @@ public class BudgetAdjustmentDocumentApprovalNoApprovalSplitNode implements Spli
             }
             else {
                 // fund group should not be CG
-                if (userAccount.isInCg()) {
+                if (userAccount.isForContractsAndGrants()) {
                     autoApprovalAllowed = false;
                 }
 

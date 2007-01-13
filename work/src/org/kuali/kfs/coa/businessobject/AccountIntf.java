@@ -34,7 +34,7 @@ public interface AccountIntf {
      * 
      * @return true if C&G account
      */
-    public boolean isInCg();
+    public boolean isForContractsAndGrants();
 
     /**
      * Gets the accountNumber attribute.

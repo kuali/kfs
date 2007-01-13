@@ -15,6 +15,8 @@
  */
 package org.kuali.module.chart.service.impl;
 
+import org.kuali.Constants;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.dao.SubFundGroupDao;
 import org.kuali.module.chart.service.SubFundGroupService;
@@ -22,21 +24,33 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class SubFundGroupServiceImpl implements SubFundGroupService {
-
+    private KualiConfigurationService configurationService;
     private SubFundGroupDao subFundGroupDao;
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
+     * @see org.kuali.module.chart.service.SubFundGroupService#isForContractsAndGrants(org.kuali.module.chart.bo.SubFundGroup)
+     */
+    public boolean isForContractsAndGrants(SubFundGroup subFundGroup) {
+        if (configurationService.getApplicationParameterIndicator(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, Constants.ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG)) {
+            return isForContractsAndGrants(subFundGroup.getFundGroupCode());
+        }
+        else {
+            return isForContractsAndGrants(subFundGroup.getSubFundGroupCode());
+        }
+    }
+
+    private boolean isForContractsAndGrants(String fundGroupOrSubFundGroupCode) {
+        return configurationService.getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, Constants.ChartApcParms.ACCOUNT_CG_DENOTING_VALUE).equals(fundGroupOrSubFundGroupCode);
+    }
+
+    /**
      * @see org.kuali.module.chart.service.SubFundGroupService#getByPrimaryId(java.lang.String)
      */
     public SubFundGroup getByPrimaryId(String subFundGroupCode) {
         return subFundGroupDao.getByPrimaryId(subFundGroupCode);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.kuali.module.chart.service.SubFundGroupService#getByChartAndAccount(java.lang.String, java.lang.String)
      */
     public SubFundGroup getByChartAndAccount(String chartCode, String accountNumber) {
@@ -44,8 +58,18 @@ public class SubFundGroupServiceImpl implements SubFundGroupService {
     }
 
     /**
+     * Sets the configurationService attribute value.
      * 
-     * @param subFundGroupDao
+     * @param configurationService The configurationService to set.
+     */
+    public void setConfigurationService(KualiConfigurationService configurationService) {
+        this.configurationService = configurationService;
+    }
+
+    /**
+     * Sets the subFundGroupDao attribute values.
+     * 
+     * @param subFundGroupDao The subFundGroupDao to set.
      */
     public void setSubFundGroupDao(SubFundGroupDao subFundGroupDao) {
         this.subFundGroupDao = subFundGroupDao;

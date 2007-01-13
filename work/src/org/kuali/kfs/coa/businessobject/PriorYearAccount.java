@@ -24,6 +24,8 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.Constants;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.PostalZipCode;
@@ -131,6 +133,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     private AccountDescription accountDescription;
 
     private List subAccounts;
+    private boolean forContractsAndGrants;
 
     /**
      * Default no-arg constructor.
@@ -138,33 +141,13 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     public PriorYearAccount() {
     }
 
-    /**
-     * This tells if this account is a C&G account.
-     * 
-     * @return true if C&G account
-     */
-    public boolean isInCg() {
-        // IF C&G is a sub fund group, use this line
-        // return isInCgSubFundGroup();
-
-        // IF C&G is a fund group, use this line
-        return isInCgFundGroup();
+    public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+        super.afterLookup(persistenceBroker);
+        // This is needed to put a value in the object so the persisted XML has a flag that
+        // can be used in routing to determine if an account is a C&G Account
+        forContractsAndGrants = SpringServiceLocator.getSubFundGroupService().isForContractsAndGrants(getSubFundGroup());
     }
-
-    private boolean isInCgFundGroup() {
-        if (getSubFundGroup() != null) {
-            return Constants.CONTRACTS_AND_GRANTS.equals(getSubFundGroup().getFundGroupCode());
-        }
-        else {
-            // If sub fund group is missing
-            return false;
-        }
-    }
-
-    private boolean isInCgSubFundGroup() {
-        return Constants.CONTRACTS_AND_GRANTS.equals(getSubFundGroupCode());
-    }
-
+    
     /**
      * Gets the accountNumber attribute.
      * 
@@ -1776,4 +1759,11 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
         return guidelinesAndPurposeSectionBlank;
     }
 
+    /**
+     * Gets the forContractsAndGrants attribute. 
+     * @return Returns the forContractsAndGrants.
+     */
+    public boolean isForContractsAndGrants() {
+        return forContractsAndGrants;
+    }
 }

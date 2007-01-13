@@ -70,7 +70,7 @@
                 <field attributeName="financialHigherEdFunctionCd" />
                 <field attributeName="financialIcrSeriesIdentifier" />
                 <field attributeName="financialObjectivePrsctrlIndicator" />
-                <field attributeName="inCg" />
+                <field attributeName="forContractsAndGrants" />
                 <field attributeName="incomeStreamAccountNumber" />
                 <field attributeName="incomeStreamFinancialCoaCode" />
                 <field attributeName="indirectCostRcvyFinCoaCode" />
@@ -143,7 +143,7 @@
                 <lookupField attributeName="financialHigherEdFunctionCd" required="false" />
                 <lookupField attributeName="financialIcrSeriesIdentifier" required="false" />
                 <lookupField attributeName="financialObjectivePrsctrlIndicator" required="false" />
-                <lookupField attributeName="inCg" required="false" />
+                <lookupField attributeName="forContractsAndGrants" required="false" />
                 <lookupField attributeName="incomeStreamAccountNumber" required="false" />
                 <lookupField attributeName="incomeStreamFinancialCoaCode" required="false" />
                 <lookupField attributeName="indirectCostRcvyFinCoaCode" required="false" />
@@ -203,7 +203,7 @@
                 <field attributeName="financialHigherEdFunctionCd" />
                 <field attributeName="financialIcrSeriesIdentifier" />
                 <field attributeName="financialObjectivePrsctrlIndicator" />
-                <field attributeName="inCg" />
+                <field attributeName="forContractsAndGrants" />
                 <field attributeName="incomeStreamAccountNumber" />
                 <field attributeName="incomeStreamFinancialCoaCode" />
                 <field attributeName="indirectCostRcvyFinCoaCode" />
@@ -843,7 +843,7 @@
                 <description>Select the check box to indicate that this account uses object presence control. Clear the check box, if it does not. Object presence control requires that an Object Code be budgeted for the account before it can be used on an actual or encumbrance transaction.</description>
 			</attribute>
 
-            <attribute name="inCg" forceUppercase="true">
+            <attribute name="forContractsAndGrants" forceUppercase="true">
                 <label>In Cg</label>
                 <shortLabel>Cg</shortLabel>
 

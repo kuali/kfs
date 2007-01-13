@@ -149,9 +149,8 @@
 	</bean>
 
 	<bean id="subFundGroupService" class="org.kuali.module.chart.service.impl.SubFundGroupServiceImpl">
-		<property name="subFundGroupDao">
-			<ref bean="subFundGroupDao" />
-		</property>
+		<property name="configurationService" ref="kualiConfigurationService" />
+		<property name="subFundGroupDao" ref="subFundGroupDao" />
 	</bean>
 
 	<bean id="objectTypeService" class="org.kuali.module.chart.service.impl.ObjectTypeServiceImpl">

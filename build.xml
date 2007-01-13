@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <project name="kuali" default="dist-local" basedir=".">
+	<!-- test -->
 	<!-- run the help task to view usage instructions -->
 	<target name="dist-local" if="is.local.build" depends="clean,filter-project,filter-local,dist-workflow-local" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
 		<copy file="${metainf.directory}/${tomcat.context.file}" tofile="${appserver.localhost.dir}/${ant.project.name}-${build.environment}.xml" overwrite="true" />
@@ -272,7 +273,7 @@
 		<delete file="${workflow.usr.directory}/workflow.xml" />
 		<delete dir="${plugin.deploy.directory}" failonerror="false" />
 	</target>
-
+	
 	<!-- wrapper based on naming convention required by workflow build script -->
 	<target name="clean-plugin" depends="clean"/>
 
@@ -477,7 +478,7 @@
 			<fileset dir="${plugin.directory}" excludes="**/*.jar"/>
 		</copy>
 	</target>
-
+	
 	<target name="dist-package" depends="init-package-directories">
 		<copy todir="${packaging.distribution.directory}">
 			<fileset dir="${basedir}" includes="${packaged.build.properties.files}" />
@@ -529,7 +530,7 @@
 		</ant>
 		<zip destfile="${dependencies.project.directory}/workflow-${workflow.version}-doc.zip" basedir="${workflow.project.directory}/dist/api" />-->
 	</target>
-
+	
 	<target name="update-war">
 		<property name="temp.directory" value="temp" />
 		<mkdir dir="${temp.directory}"/>

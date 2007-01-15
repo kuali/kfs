@@ -184,7 +184,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
 
         this.setVendorContract(vendorContract);
         this.setVendorContractName(vendorContract.getVendorContractName());
-    }    
+    }
     
     /**
      * Convenience method to set vendor address fields based on a given VendorAddress.

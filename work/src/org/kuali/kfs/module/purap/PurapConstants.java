@@ -45,6 +45,7 @@ public class PurapConstants {
     public static class PhoneTypes {
         public static final String TOLL_FREE = "TF";
         public static final String PHONE = "PH";
+        public static final String FAX = "FX";
     }
     
     public static class RequisitionStatuses {

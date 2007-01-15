@@ -127,10 +127,34 @@
 		</property>
 	</bean>
 
+	<bean id="vendorContactLookupableHelperService" class="org.kuali.module.purap.lookup.VendorContactLookupableHelperServiceImpl" singleton="false">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="lookupService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+	</bean>
+	
 	<bean id="vendorLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="vendorLookupableHelperService" />
 		</property>
 	</bean>
-
+	
+	<bean id="vendorContactLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="vendorContactLookupableHelperService" />
+		</property>
+	</bean>
+	
 </beans>

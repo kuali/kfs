@@ -1788,6 +1788,11 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
        return total;
     }
 
+    public void setVendorContactsLabel(String vendorContactsLabel) {
+        this.vendorContactsLabel = vendorContactsLabel;
+    }
+
+
     /**
      * @see org.kuali.core.document.TransactionalDocumentBase#buildListOfDeletionAwareLists()
      */

@@ -750,7 +750,7 @@
 	<reference-descriptor name="vendorContract" class-ref="org.kuali.module.purap.bo.VendorContract" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="vendorContractGeneratedIdentifier" />
 	</reference-descriptor>
-	<collection-descriptor name="SourceDocumentReferences" proxy="true" element-class-ref="org.kuali.module.purap.bo.SourceDocumentReference" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="false" auto-delete="false">
+	<collection-descriptor name="sourceDocumentReferences" proxy="true" element-class-ref="org.kuali.module.purap.bo.SourceDocumentReference" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="false" auto-delete="false">
         <orderby name="sourceDocumentReferenceGeneratedIdentifier" sort="ASC" />
         <orderby name="sourceDocumentIdentifier" sort="ASC" />
         <inverse-foreignkey field-ref="sourceDocumentIdentifier" />
@@ -1021,7 +1021,7 @@
     <!-- reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterialStatusHistory" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderIdentifier" />
     </reference-descriptor -->
-    <collection-descriptor name="SourceDocumentReferences" proxy="true" element-class-ref="org.kuali.module.purap.bo.SourceDocumentReference" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="false" auto-delete="false">
+    <collection-descriptor name="sourceDocumentReferences" proxy="true" element-class-ref="org.kuali.module.purap.bo.SourceDocumentReference" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="false" auto-delete="false">
         <orderby name="sourceDocumentReferenceGeneratedIdentifier" sort="ASC" />
         <orderby name="sourceDocumentIdentifier" sort="ASC" />
         <inverse-foreignkey field-ref="sourceDocumentIdentifier" />

@@ -46,7 +46,7 @@ public class KualiPasswordHandler extends WatchfulPasswordHandler {
     public boolean authenticate(javax.servlet.ServletRequest request, String username, String password) {
         if (super.authenticate(request, username, password) != false) {
             try {
-                if (username != null) {
+                if (username != null && !username.trim().equals( "" ) ) {
                     // check the username and password against the db
                     // return true if they are there and have a valid password
                     //if ( LOG.isDebugEnabled() ) {

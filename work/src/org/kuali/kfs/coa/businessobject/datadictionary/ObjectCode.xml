@@ -380,6 +380,8 @@
                 <shortLabel>FedFundCd</shortLabel>
 
                 <maxLength>1</maxLength>
+                <required>true</required>
+                
                 <control>
                     <select valuesFinderClass="org.kuali.core.lookup.keyvalues.FederalFundedCodeValuesFinder" />
                 </control>

@@ -83,7 +83,7 @@
                     </maintainableField>
                     <maintainableField name="financialBudgetAggregationCd" required="true" />
                     <maintainableField name="finObjMandatoryTrnfrelimCd" required="true" />
-                    <maintainableField name="financialFederalFundedCode" />
+                    <maintainableField name="financialFederalFundedCode" required="true" />
                     <maintainableField name="nextYearFinancialObjectCode" />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>

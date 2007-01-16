@@ -271,6 +271,7 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
      * - If study is not approved, approval date and expiration date must be empty.
      * - If review status is 'exempt', exception number is required.
      * - If review status in not 'exempt', exception number should be blank.
+     * - Expiration date must not be earlier than approval date.
      * - If the Human Subjects approval date is more than one year prior to the routing form creation date, the user must enter a more current date, or set the status to Pending.
      * - If the Animal approval date is more than three years prior to the routing form creation date, the user must enter a more current date, or set the status to Pending.
      * 
@@ -334,6 +335,13 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                         && !StringUtils.isBlank(study.getResearchRiskExemptionNumber())) {
                     valid = false;
                     errorMap.putError("researchRiskExemptionNumber", KraKeyConstants.ERROR_EXEMPTION_NUMBER_REMOVE);
+                }
+                
+                // Expiration date must not be earlier than approval date.
+                if (ObjectUtils.isNotNull(study.getResearchRiskStudyApprovalDate()) && ObjectUtils.isNotNull(study.getResearchRiskStudyExpirationDate())
+                        && study.getResearchRiskStudyExpirationDate().before(study.getResearchRiskStudyApprovalDate())) {
+                    valid = false;
+                    errorMap.putError("researchRiskStudyExpirationDate", KraKeyConstants.ERROR_EXPIRATION_DATE_TOO_EARLY);
                 }
                 
                 // If Human Subjects approval date is more than one year prior to the routing form creation date, the user must enter a more current date, or set the status to Pending.

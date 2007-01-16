@@ -46,4 +46,5 @@ public class KraKeyConstants {
     public static final String ERROR_EXEMPTION_NUMBER_REMOVE = "error.exemptionNumber.remove";
     public static final String ERROR_HUMAN_SUBJECTS_APPROVAL_DATE_TOO_OLD = "error.humanSubjects.approvalDate.tooOld";
     public static final String ERROR_ANIMALS_APPROVAL_DATE_TOO_OLD = "error.animals.approvalDate.tooOld";
+    public static final String ERROR_EXPIRATION_DATE_TOO_EARLY = "error.expiration.tooEarly";
 }

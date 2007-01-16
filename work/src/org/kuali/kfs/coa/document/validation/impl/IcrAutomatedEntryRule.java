@@ -83,8 +83,10 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
         
         if (success) {
             // because of check above, we know that:
-            // if any of these are wildcards: chart, account, or subaccount, then they are all wildcards (except for subaccount, which may be dashes)
-            // if any of these are wildcards: chart, object, or subobject, then they are all wildcards (except for subobject, which may be dashes)
+            // if any of these are wildcards: chart, account, or subaccount, then they are all wildcards (except for subaccount, which may be 3 dashes i.e. Constants.DASHES_SUB_ACCOUNT_NUMBER)
+            // if any of these are wildcards: chart, object, or subobject, then they are all wildcards (except for subobject, which may be 5 dashes i.e. Constants.DASHES_SUB_OBJECT_CODE)
+            
+            // a consequence of this rule is that all 6 of these fields must have wildcards if any of the fields have a wildcard, unless the field is allowed to have dashes
             
             Class icrClazz = newIcrAutomatedEntry.getClass();
             
@@ -94,6 +96,7 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
     
                 }
                 else {
+                    // there should be no wildcards if the code gets in there, so we should not have to worry about removing wildcards from pkMap
                     Map pkMap = new HashMap();
                     pkMap.put(Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
                     success &= checkExistenceFromTable(Chart.class, pkMap, Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME,
@@ -108,10 +111,11 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
     
                 }
                 else {
+                    // there should be no wildcards if the code gets in there, so we should not have to worry about removing wildcards from pkMap
                     Map pkMap = new HashMap();
                     pkMap.put(Constants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
                     pkMap.put(Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
-                    success &= checkExistenceFromTable(Account.class, removeWildcardForPkMap(pkMap), Constants.ACCOUNT_NUMBER_PROPERTY_NAME,
+                    success &= checkExistenceFromTable(Account.class, pkMap, Constants.ACCOUNT_NUMBER_PROPERTY_NAME,
                             SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrClazz, Constants.ACCOUNT_NUMBER_PROPERTY_NAME));
                 }
             }
@@ -120,15 +124,17 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
             // Sub-Account Number Rule
             if (subAccountNumber != null) {
                 // checkCorrectWildcards makes sure that the wildcard is appropriate for the sub account number
-                if (isWildcard(subAccountNumber) || StringUtils.containsOnly(subAccountNumber, "-")) {
+                // we allow any string of only dashes to be a valid value for the sub acct, but to bypass validation, it must be equal to Constants.DASHES_SUB_ACCOUNT_NUMBER
+                if (isWildcard(subAccountNumber) || StringUtils.equals(subAccountNumber, Constants.DASHES_SUB_ACCOUNT_NUMBER)) {
     
                 }
                 else {
+                    // there should be no wildcards if the code gets in there, so we should not have to worry about removing wildcards from pkMap
                     Map pkMap = new HashMap();
                     pkMap.put(Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
                     pkMap.put(Constants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
                     pkMap.put(Constants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME, subAccountNumber);
-                    success &= checkExistenceFromTable(SubAccount.class, removeWildcardForPkMap(pkMap), Constants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME,
+                    success &= checkExistenceFromTable(SubAccount.class, pkMap, Constants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME,
                             SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrClazz, Constants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME));
                 }
             }
@@ -139,28 +145,31 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
     
                 }
                 else {
+                    // there should be no wildcards if the code gets in there, so we should not have to worry about removing wildcards from pkMap
                     Map pkMap = new HashMap();
                     pkMap.put(Constants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
                     pkMap.put(Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
                     pkMap.put(Constants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, financialObjectCode);
-                    success &= checkExistenceFromTable(ObjectCode.class, removeWildcardForPkMap(pkMap), Constants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME,
+                    success &= checkExistenceFromTable(ObjectCode.class, pkMap, Constants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME,
                             SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrClazz, Constants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME));
                 }
             }
     
             // Financial SubObjectCode Rule
             if (financialSubObjectCode != null) {
-                if (isWildcard(financialSubObjectCode) || StringUtils.containsOnly(financialSubObjectCode, "-")) {
+                // we allow any string of only dashes to be a valid value for the sub object, but to bypass validation, it must be equal to Constants.DASHES_SUB_OBJECT_CODE
+                if (isWildcard(financialSubObjectCode) || StringUtils.equals(financialSubObjectCode, Constants.DASHES_SUB_OBJECT_CODE)) {
     
                 }
                 else {
+                    // there should be no wildcards if the code gets in there, so we should not have to worry about removing wildcards from pkMap
                     Map pkMap = new HashMap();
                     pkMap.put(Constants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
                     pkMap.put(Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
                     pkMap.put(Constants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
                     pkMap.put(Constants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, financialObjectCode);
                     pkMap.put(Constants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME, financialSubObjectCode);
-                    success = checkExistenceFromTable(SubObjCd.class, removeWildcardForPkMap(pkMap), Constants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME,
+                    success = checkExistenceFromTable(SubObjCd.class, pkMap, Constants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME,
                             SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrClazz, Constants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME));
                 }
             }
@@ -220,21 +229,6 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
             GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(Constants.MAINTENANCE_NEW_MAINTAINABLE + errorField, KeyConstants.ERROR_EXISTENCE, errorMessage);
         }
         return success;
-    }
-    
-    private Map removeWildcardForPkMap(Map pkMap){
-        Map returnMap = new HashMap();
-        Iterator keyIter = pkMap.keySet().iterator(); 
-        
-        while(keyIter.hasNext()){
-            Object key = keyIter.next();
-            Object value = pkMap.get(key);
-            if (!isWildcard(value.toString())){
-                returnMap.put(key, value);
-            }
-        }
-        
-        return returnMap;
     }
     
     protected boolean checkCorrectWildcards(IcrAutomatedEntry newIcrAutomatedEntry) {

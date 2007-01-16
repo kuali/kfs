@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.module.kra.KraPropertyConstants;
 import org.kuali.module.kra.routingform.bo.ResearchRiskType;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
@@ -48,7 +49,7 @@ public class RoutingFormResearchRiskServiceImpl implements RoutingFormResearchRi
         Map criteria = new HashMap();
         criteria.put(PropertyConstants.DATA_OBJECT_MAINTENANCE_CODE_ACTIVE_INDICATOR, true);
         List<ResearchRiskType> researchRiskTypes = (List<ResearchRiskType>) getBusinessObjectService().findMatchingOrderBy(
-                ResearchRiskType.class, criteria, PropertyConstants.RESEARCH_RISK_TYPE_DESCRIPTION, true);
+                ResearchRiskType.class, criteria, KraPropertyConstants.RESEARCH_RISK_TYPE_SORT_NUMBER, true);
         return researchRiskTypes;
     }
 

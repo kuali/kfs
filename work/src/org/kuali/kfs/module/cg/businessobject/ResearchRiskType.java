@@ -20,6 +20,8 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
+import edu.iu.uis.eden.workgroup.Workgroup;
+
 /**
  * 
  */
@@ -35,6 +37,7 @@ public class ResearchRiskType extends PersistableBusinessObjectBase {
     private String researchRiskTypeNotificationValue;
     
     private ControlAttributeType controlAttributeType;
+    private Workgroup routeWorkgroup;
     
 	/**
 	 * Default constructor.

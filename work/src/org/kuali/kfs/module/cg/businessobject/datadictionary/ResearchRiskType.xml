@@ -28,6 +28,7 @@
                 <field attributeName="researchRiskTypeCode" />
                 <field attributeName="controlAttributeTypeCode" />
                 <field attributeName="researchRiskTypeDescription" />
+                <field attributeName="researchRiskTypeSortNumber" />
                 <field attributeName="researchRiskTypeNotificationGroupText" />
                 <field attributeName="researchRiskTypeNotificationValue" />
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
@@ -49,6 +50,7 @@
                 <lookupField attributeName="researchRiskTypeCode" required="false" />
                 <lookupField attributeName="controlAttributeTypeCode" required="false" />
                 <lookupField attributeName="researchRiskTypeDescription" required="false" />
+                <lookupField attributeName="researchRiskTypeSortNumber" required="false" />
                 <lookupField attributeName="researchRiskTypeNotificationGroupText" required="false" />
                 <lookupField attributeName="researchRiskTypeNotificationValue" required="false" />
                 <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false">
@@ -60,6 +62,7 @@
                 <field attributeName="researchRiskTypeCode" />
                 <field attributeName="controlAttributeTypeCode" />
                 <field attributeName="researchRiskTypeDescription" />
+                <field attributeName="researchRiskTypeSortNumber" />
                 <field attributeName="researchRiskTypeNotificationGroupText" />
                 <field attributeName="researchRiskTypeNotificationValue" />
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
@@ -112,6 +115,21 @@
 
                 <summary>researchRiskTypeDescription</summary>
                 <description>researchRiskTypeDescription description...</description>
+			</attribute>
+			
+			<attribute name="researchRiskTypeSortNumber" forceUppercase="true">
+                <label>Sort Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>sortNumber</summary>
+                <description>sortNumber description...</description>
 			</attribute>
 			
 			<attributeReference name="researchRiskTypeNotificationGroupText" sourceClassName="org.kuali.core.bo.AdHocRouteWorkgroup" sourceAttributeName="id">

@@ -32,12 +32,12 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.bo.SubAccount;
+import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 public class BudgetConstructionDocument extends TransactionalDocumentBase {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionDocument.class);
 
-    private String documentNumber;
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;
     private String accountNumber;
@@ -54,16 +54,18 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
     private UniversalUser budgetLockUser;
     private UniversalUser budgetTransactionLockUser;
     private Org organizationLevelOrganization;
-    private DocumentHeader financialDocument;
-    
+/*    
     private List budgetConstructionAccountSelect;
-
+*/
     private String financialObjectTypeCode;
 
     private Collection<PendingBudgetConstructionGeneralLedger> pendingBudgetConstructionGeneralLedger;
     
     public BudgetConstructionDocument(){
+        super();
+/*
         budgetConstructionAccountSelect = new ArrayList();
+*/
     }
     
 /**
@@ -86,26 +88,6 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
             LOG.debug("pendingBudgetConstructionGeneralLedger is: "+pendingBudgetConstructionGeneralLedger);
         }
     }
-    /**
-     * Gets the documentNumber attribute.
-     * 
-     * @return Returns the documentNumber
-     * 
-     */
-    public String getDocumentNumber() {
-        return documentNumber;
-    }
-
-    /**
-     * Sets the documentNumber attribute.
-     * 
-     * @param documentNumber The documentNumber to set.
-     * 
-     */
-    public void setDocumentNumber(String documentNumber) {
-        this.documentNumber = documentNumber;
-    }
-
 
     /**
      * Gets the universityFiscalYear attribute.
@@ -357,20 +339,20 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
      * @return Returns the budgetConstructionAccountSelect list
      * 
      */
-    public List getBudgetConstructionAccountSelect() {
+/*    public List getBudgetConstructionAccountSelect() {
         return budgetConstructionAccountSelect;
     }
-
+*/
     /**
      * Sets the budgetConstructionAccountSelect list.
      * 
      * @param budgetConstructionAccountSelect The budgetConstructionAccountSelect list to set.
      * 
      */
-    public void setBudgetConstructionAccountSelect(List budgetConstructionAccountSelect) {
+/*    public void setBudgetConstructionAccountSelect(List budgetConstructionAccountSelect) {
         this.budgetConstructionAccountSelect = budgetConstructionAccountSelect;
     }
-
+*/
     public UniversalUser getBudgetTransactionLockUser() {
         budgetTransactionLockUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(budgetTransactionLockUserIdentifier, budgetTransactionLockUser);
         return budgetTransactionLockUser;
@@ -424,22 +406,37 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * Gets the financialDocument attribute. 
-     * @return Returns the financialDocument.
+     * 
+     * @see org.kuali.core.document.Document#getExplanation()
      */
-    public DocumentHeader getFinancialDocument() {
-        return financialDocument;
+    @Override
+    public String getExplanation() {
+        return documentHeader.getExplanation();
     }
 
     /**
-     * Sets the financialDocument attribute value.
-     * @param financialDocument The financialDocument to set.
-     * @deprecated
+     * 
+     * @see org.kuali.core.document.Document#setExplanation(java.lang.String)
      */
-    public void setFinancialDocument(DocumentHeader financialDocument) {
-        this.financialDocument = financialDocument;
-    }    
-    
+    @Override
+    public void setExplanation(String explanation) {
+        documentHeader.setExplanation(explanation);
+    }
+
+    /**
+     * @see org.kuali.core.document.DocumentBase#buildListOfDeletionAwareLists()
+     */
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        return new ArrayList();
+//        List managedLists = super.buildListOfDeletionAwareLists();
+
+//        managedLists.add(getSourceAccountingLines());
+//        managedLists.add(getTargetAccountingLines());
+
+//        return managedLists;
+    }
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

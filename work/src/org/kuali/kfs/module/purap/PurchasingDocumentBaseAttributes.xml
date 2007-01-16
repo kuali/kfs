@@ -566,14 +566,6 @@
     <description>vendorContractGeneratedIdentifier description...</description>
 </attributeReference>
 
-<attributeReference name="vendorCountryCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="countryCode">
-    <label>Country</label>
-    <shortLabel>Code</shortLabel>
-   
-    <summary>vendorCountryCode</summary>
-    <description>vendorCountryCode description...</description>
-</attributeReference>
-
 <attributeReference name="vendorFaxNumber" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="phoneNumberNoValidation">
     <label>Fax Number</label>
     <shortLabel>Number</shortLabel>

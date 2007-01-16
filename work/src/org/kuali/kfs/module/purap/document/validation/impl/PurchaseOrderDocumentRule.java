@@ -15,6 +15,14 @@
  */
 package org.kuali.module.purap.rules;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.Constants;
+import org.kuali.KeyConstants;
+import org.kuali.core.datadictionary.validation.fieldlevel.ZipcodeValidationPattern;
+import org.kuali.core.util.ErrorMap;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.module.purap.PurapKeyConstants;
+import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
 
@@ -31,6 +39,28 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
         return valid;
     }
     
+    boolean processVendorValidation(PurchaseOrderDocument document) {
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        boolean valid = super.processVendorValidation(document);
+        if (StringUtils.isBlank(document.getVendorCountryCode())) {
+            valid = false;
+            errorMap.putError(PurapPropertyConstants.VENDOR_COUNTRY_CODE, KeyConstants.ERROR_REQUIRED);
+        } else if (document.getVendorCountryCode().equals(Constants.COUNTRY_CODE_UNITED_STATES)) {
+            if (StringUtils.isBlank(document.getVendorStateCode())   ) {
+                valid = false;
+                errorMap.putError(PurapPropertyConstants.VENDOR_STATE_CODE, KeyConstants.ERROR_REQUIRED_FOR_US);    
+            }
+            ZipcodeValidationPattern zipPattern = new ZipcodeValidationPattern();
+            if (StringUtils.isBlank(document.getVendorPostalCode())) {
+                valid = false;
+                errorMap.putError(PurapPropertyConstants.VENDOR_POSTAL_CODE, KeyConstants.ERROR_REQUIRED_FOR_US);   
+            } else if (!zipPattern.matches(document.getVendorPostalCode())) {
+                valid = false;
+                errorMap.putError(PurapPropertyConstants.VENDOR_POSTAL_CODE, PurapKeyConstants.ERROR_POSTAL_CODE_INVALID);
+            }
+        } 
+        return valid;
+    }
     
     boolean processPaymentInfoValidation(RequisitionDocument document) {
         boolean valid = super.processPaymentInfoValidation(document);

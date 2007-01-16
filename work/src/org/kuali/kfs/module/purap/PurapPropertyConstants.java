@@ -79,6 +79,8 @@ public class PurapPropertyConstants {
     public static final String PURCHASE_ORDER_BEGIN_DATE = "purchaseOrderBeginDate";
     public static final String PURCHASE_ORDER_END_DATE = "purchaseOrderEndDate";
     public static final String VENDOR_POSTAL_CODE = "document.vendorPostalCode";
+    public static final String VENDOR_COUNTRY_CODE = "document.vendorCountryCode";
+    public static final String VENDOR_STATE_CODE = "document.vendorStateCode";
     public static final String PURCHASE_ORDER_TOTAL_LIMIT = "document.purchaseOrderTotalLimit";
     public static final String REQUISITION_VENDOR_FAX_NUMBER = "document.vendorFaxNumber";
     public static final String STATUS_CODE = "statusCode";

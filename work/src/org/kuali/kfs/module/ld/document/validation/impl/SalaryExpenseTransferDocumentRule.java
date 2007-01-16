@@ -15,16 +15,20 @@
  */
 package org.kuali.module.labor.rules;
 
-import org.kuali.KeyConstants;
-import org.kuali.PropertyConstants;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.rules.TransactionalDocumentRuleBase;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
-import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
+import org.kuali.module.labor.bo.LaborObject;
 
 /**
  * Business rule(s) applicable to Salary Expense Transfer documents.
@@ -33,29 +37,55 @@ import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
  */
 public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRuleBase {
 
+    private BusinessObjectService businessObjectService;
+    
+    public SalaryExpenseTransferDocumentRule() {
+
+        this.businessObjectService = SpringServiceLocator.getBusinessObjectService();
+    }   
+    
+    protected boolean AddAccountingLineBusinessRules(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
+        return processCustomAddAccountingLineBusinessRules(transactionalDocument, accountingLine);
+    }
+    
     /**
      * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
     @Override
-    public boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
+    protected boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
         boolean allow = true;
         ErrorMap errors = GlobalVariables.getErrorMap();
-        
+
+
         if (accountingLine.isSourceAccountingLine()) {
+            
             LOG.info("Processing Source Accounting Line...");
             LOG.info("#Source Accounting Lines:" + transactionalDocument.getSourceAccountingLines().size());
-            LOG.info("Last Account Number:" + transactionalDocument.getSourceAccountingLine(0).getAccount().getAccountNumber());
-            LOG.info("Last Amount:" + transactionalDocument.getSourceAccountingLine(0).getAmount());
+            LOG.info("Last Account Number:" + accountingLine.getAccountNumber());
+            LOG.info("Last Object Code:" + accountingLine.getFinancialObjectCode());
+            LOG.info("Last Amount:" + accountingLine.getAmount());
+            
+            // Retrieve the Fringe or Salary Code for the object code in the ld_labor_obj_t table. It must have a value of "S".
+            
+            Map fieldValues = new HashMap();
+            fieldValues.put("financialObjectCode", accountingLine.getFinancialObjectCode().toString());
+            ArrayList laborObjects = (ArrayList) businessObjectService.findMatching(LaborObject.class, fieldValues);
+            if (laborObjects.size() == 0) {
+                LOG.info("Object code not found. Cannot tell if this one is labor related.");
+                allow  = false;
+            }
+            else
+                allow  = true;
+
+            LOG.info("Labor Objects:" +  laborObjects.size());
+            LaborObject laborObject = (LaborObject) laborObjects.get(0);    
+            String FringeOrSalaryCode = laborObject.getFinancialObjectFringeOrSalaryCode();
+
+            LOG.info("FringeOrSalaryCode:" + FringeOrSalaryCode);
         }
         LOG.info("validating accounting line # " + transactionalDocument.getSourceAccountingLine(0).getSequenceNumber());
-//        errors.putErrorWithoutFullErrorPath(PropertyConstants.DOCUMENT + "." + PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE, "Way Bad.");
-        // don't validate generated tax lines
-     //   if (!((SalaryExpenseTransferDocument) transactionalDocument).getSourceAccountingLine(0).getChartOfAccountsCode().equals("XX"))  {
-       //         return true;
-         //   }
-
         LOG.debug("end validating accounting line, has errors: " + allow);
 
         return allow;

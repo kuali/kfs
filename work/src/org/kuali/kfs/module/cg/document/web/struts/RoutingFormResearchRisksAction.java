@@ -25,6 +25,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 
@@ -55,5 +56,15 @@ public class RoutingFormResearchRisksAction extends RoutingFormAction {
         super.load(mapping, form, request, response);
         routingForm.getRoutingFormDocument().setRoutingFormResearchRisks(researchRisks);
         return super.save(mapping, form, request, response);
+    }
+    
+    @Override
+    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = super.reload(mapping, form, request, response);
+        RoutingForm routingForm = (RoutingForm) form;
+        if (routingForm.getRoutingFormDocument().getRoutingFormResearchRisks().isEmpty()) {
+            SpringServiceLocator.getRoutingFormResearchRiskService().setupResearchRisks(routingForm.getRoutingFormDocument());
+        }
+        return forward;
     }
 }

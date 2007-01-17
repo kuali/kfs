@@ -35,7 +35,9 @@ import org.kuali.module.purap.dao.RequisitionDao;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.RequisitionService;
 import org.kuali.module.purap.service.VendorService;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class RequisitionServiceImpl implements RequisitionService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionServiceImpl.class);
 

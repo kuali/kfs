@@ -238,6 +238,13 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 
         return originEntryGroupDao.getGroupsToBackup(scrubDate);
     }
+    
+    /**
+     * @see org.kuali.module.gl.service.OriginEntryGroupService#getGroups(java.lang.String)
+     */
+    public Collection getGroupsToPost(String entryGroupSourceCode) {
+        return originEntryGroupDao.getPosterGroups(entryGroupSourceCode);
+    }
 
     /**
      * 

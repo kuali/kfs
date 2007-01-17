@@ -62,6 +62,13 @@ public interface OriginEntryGroupService {
     public Collection getOriginEntryGroupsPendingProcessing();
 
     public Collection getGroupsToPost();
+    
+    /**
+     * get entry groups to be posted that have the given group source code
+     * @param entryGroupSourceCode the given group source code
+     * @return the entry groups to be posted that have the given group source code
+     */
+    public Collection getGroupsToPost(String entryGroupSourceCode);
 
     public Collection getIcrGroupsToPost();
 

@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.KeyConstants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
@@ -55,40 +57,30 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
      */
     @Override
     protected boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
-        boolean allow = true;
         ErrorMap errors = GlobalVariables.getErrorMap();
-
 
         if (accountingLine.isSourceAccountingLine()) {
             
-            LOG.info("Processing Source Accounting Line...");
-            LOG.info("#Source Accounting Lines:" + transactionalDocument.getSourceAccountingLines().size());
-            LOG.info("Last Account Number:" + accountingLine.getAccountNumber());
-            LOG.info("Last Object Code:" + accountingLine.getFinancialObjectCode());
-            LOG.info("Last Amount:" + accountingLine.getAmount());
-            
-            // Retrieve the Fringe or Salary Code for the object code in the ld_labor_obj_t table. It must have a value of "S".
+            // Retrieve the Fringe or Salary Code for the object code in the ld_labor_obj_t table. 
+            // It must have a value of "S".
             
             Map fieldValues = new HashMap();
             fieldValues.put("financialObjectCode", accountingLine.getFinancialObjectCode().toString());
             ArrayList laborObjects = (ArrayList) businessObjectService.findMatching(LaborObject.class, fieldValues);
             if (laborObjects.size() == 0) {
-                LOG.info("Object code not found. Cannot tell if this one is labor related.");
-                allow  = false;
+                reportError(PropertyConstants.ACCOUNT, KeyConstants.Labor.LABOR_OBJECT_MISSING_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
+                return false;
             }
-            else
-                allow  = true;
-
-            LOG.info("Labor Objects:" +  laborObjects.size());
             LaborObject laborObject = (LaborObject) laborObjects.get(0);    
             String FringeOrSalaryCode = laborObject.getFinancialObjectFringeOrSalaryCode();
 
-            LOG.info("FringeOrSalaryCode:" + FringeOrSalaryCode);
+            if (!FringeOrSalaryCode.equals("S")) {
+                LOG.info("FringeOrSalaryCode not equal S");
+                reportError(PropertyConstants.ACCOUNT, KeyConstants.Labor.FRINGE_OR_SALARY_CODE_MISSING_ERROR, accountingLine.getAccountNumber());
+                return false;
+            }
         }
-        LOG.info("validating accounting line # " + transactionalDocument.getSourceAccountingLine(0).getSequenceNumber());
-        LOG.debug("end validating accounting line, has errors: " + allow);
-
-        return allow;
+        return true;
     }
 
     /**

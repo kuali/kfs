@@ -18,6 +18,7 @@ package org.kuali.module.kra.routingform.web.struts.action;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,8 +28,12 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.ChartUser;
+import org.kuali.module.chart.service.ChartUserService;
 import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent;
@@ -127,6 +132,15 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         return super.save(mapping, form, request, response);
     }
 
+    /**
+     * Refresh method on Main Page does several things for lookups:
+     * <ul>
+     * <li>If TBN is selected it clears the according key field for the appropriate lookup.</li>
+     * <li>If an item is selected it clears the TBN field for the appropriate lookup.</li>
+     * <li>For personnel lookups it sets the chart / org to the appropriate line (or new) field.</li>
+     * </ul>
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.refresh(mapping, form, request, response);
         RoutingForm routingForm = (RoutingForm) form;
@@ -155,8 +169,11 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
                     routingFormDocument.refreshReferenceObject("federalPassThroughAgency");
                 }
                 else if (request.getParameter("newRoutingFormPersonnel.personSystemIdentifier") != null) {
-                    // coming back from new Person lookup - person selected
-                    routingForm.getNewRoutingFormPersonnel().setPersonToBeNamedIndicator(false);
+                    RoutingFormPersonnel newRoutingFormPersonnel = routingForm.getNewRoutingFormPersonnel();
+
+                    // coming back from new Person lookup - person selected. Unset TBN indicated and set chart / org.
+                    setupPersonChartOrg(newRoutingFormPersonnel);
+                    newRoutingFormPersonnel.setPersonToBeNamedIndicator(false);
                 }
                 else if ("true".equals(request.getParameter("newRoutingFormPersonnel.personToBeNamedIndicator"))) {
                     // coming back from new Person lookup - Name Later selected
@@ -164,21 +181,15 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
                     routingForm.getNewRoutingFormPersonnel().refresh();
                 } else {
                     // Must be related to personnel lookup, first find which item this relates to.
-                    int personIndex = -1;
-                    Enumeration parameterNames = request.getParameterNames();
-                    while (parameterNames.hasMoreElements()) {
-                        String parametersName = (String) parameterNames.nextElement();
-                        String label = "document.routingFormPerson[";
-                        if (parametersName.startsWith(label)) {
-                            personIndex = Integer.parseInt(parametersName.substring(label.length(), parametersName.indexOf("]")));
-                            break;
-                        }
-                    }
+                    int personIndex = determinePersonnelIndex(request);
                     
                     // Next do the regular clearing of appropriate fields. If the above enumeration didn't find an item
                     // we print a warn message at the end of this if block.
                     if (request.getParameter("document.routingFormPerson[" + personIndex + "].personSystemIdentifier") != null) {
-                        // coming back from Person lookup - Person selected
+                        RoutingFormPersonnel routingFormPersonnel = routingForm.getNewRoutingFormPersonnel();
+                        
+                        // coming back from Person lookup - Person selected. Unset TBN indicated and set chart / org.
+                        setupPersonChartOrg(routingFormPersonnel);
                         routingFormDocument.getRoutingFormPerson(personIndex).setPersonToBeNamedIndicator(false);
                     }
                     else if ("true".equals(request.getParameter("document.routingFormPerson[" + personIndex + "].personToBeNamedIndicator"))) {
@@ -192,5 +203,41 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
             }
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /**
+     * Sets the chart / org of a RoutingFormPersonnel person based upon the contained UniversalUserService's ChartUserService.
+     * @param routingFormPersonnel
+     */
+    private void setupPersonChartOrg(RoutingFormPersonnel routingFormPersonnel) {
+        // retrieve services and refresh UniversalUser objects (it's empty after returning from a kul:lookup)
+        UniversalUserService universalUserService = SpringServiceLocator.getUniversalUserService();
+        ChartUserService chartUserService = SpringServiceLocator.getChartUserService();
+        UniversalUser user =  universalUserService.updateUniversalUserIfNecessary(routingFormPersonnel.getPersonSystemIdentifier(), routingFormPersonnel.getUser());
+        
+        // set chart / org for new person
+        Map<String,String> chartMap = chartUserService.getDefaultOrgPair((ChartUser) user.getModuleUser("chart"));
+        routingFormPersonnel.setChartOfAccountsCode(chartMap.get(PropertyConstants.CHART_OF_ACCOUNTS_CODE));
+        routingFormPersonnel.setOrganizationCode(chartMap.get(PropertyConstants.ORGANIZATION_CODE));
+    }
+
+    /**
+     * Checks what index document.routingFormPerson[?] refers to.
+     * @param request
+     * @return index of the personnel item referred to
+     */
+    private int determinePersonnelIndex(HttpServletRequest request) {
+        int personIndex = -1;
+        
+        Enumeration parameterNames = request.getParameterNames();
+        while (parameterNames.hasMoreElements()) {
+            String parametersName = (String) parameterNames.nextElement();
+            String label = "document.routingFormPerson[";
+            if (parametersName.startsWith(label)) {
+                personIndex = Integer.parseInt(parametersName.substring(label.length(), parametersName.indexOf("]")));
+                break;
+            }
+        }
+        return personIndex;
     }
 }

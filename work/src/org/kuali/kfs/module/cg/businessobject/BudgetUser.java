@@ -18,16 +18,19 @@ package org.kuali.module.kra.budget.bo;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.PropertyConstants;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.ChartUser;
+import org.kuali.module.chart.service.ChartUserService;
 import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.budget.service.BudgetPersonnelService;
-import org.kuali.PropertyConstants;
 
 /**
  * This class...
@@ -38,6 +41,7 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetUser.class);
     private transient BudgetPersonnelService budgetPersonnelService;
+    private transient ChartUserService chartUserService;
 
     private String documentNumber; // RDOC_NBR
     private Integer budgetUserSequenceNumber; // BDGT_USR_SEQ_NBR
@@ -73,6 +77,7 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
     public BudgetUser() {
         super();
         budgetPersonnelService = SpringServiceLocator.getBudgetPersonnelService();
+        chartUserService = (ChartUserService) SpringServiceLocator.getKualiModuleService().getModule("chart").getModuleUserService();
     }
     
     public BudgetUser(String documentNumber, Integer budgetUserSequenceNumber) {
@@ -395,12 +400,10 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
             else {
                 this.baseSalary = new KualiDecimal(0);
             }
-            String[] departmentIdSplit = this.user.getDeptid().split("-");
-            this.fiscalCampusCode = departmentIdSplit[0];
-            if (departmentIdSplit.length > 1)
-                this.primaryDepartmentCode = departmentIdSplit[1];
-            else
-                this.primaryDepartmentCode = departmentIdSplit[0];
+            
+            Map<String,String> chartMap = chartUserService.getDefaultOrgPair((ChartUser) this.user.getModuleUser("chart"));
+            this.fiscalCampusCode = chartMap.get(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
+            this.primaryDepartmentCode = chartMap.get(PropertyConstants.ORGANIZATION_CODE);
         }
         else {
             this.baseSalary = new KualiDecimal(0);

@@ -25,6 +25,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.core.authorization.AuthorizationConstants;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.routingform.rules.event.RunRoutingFormAuditEvent;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
@@ -126,14 +127,10 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
         if (!"TRUE".equals(routingForm.getEditingMode().get(AuthorizationConstants.EditMode.VIEW_ONLY))) {
             super.save(mapping, form, request, response);
         }
-
-        // TODO RF Audit Mode
-        /*
+        
         if (routingForm.isAuditActivated()) {
-            routingForm.newTabState(true, true);
             return mapping.findForward("auditmode");
         }
-        */
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 

@@ -29,6 +29,10 @@ public class KraKeyConstants {
     public static final String AUDIT_PERSONNEL_STATUS = "audit.personnel.status";
     public static final String AUDIT_NONPERSONNEL_SUBCONTRACTOR_EXCESS_AMOUNT = "audit.nonpersonnel.subcontractorExceesAmount";
     public static final String AUDIT_PARAMETERS_NEGATIVE_IDC = "audit.parameters.negativeIdc";
+    public static final String AUDIT_AGENCY_REQUIRED = "audit.mainPage.agency.required";
+    public static final String AUDIT_TOTAL_CREDIT_PERCENT_NOT_100 = "audit.mainPage.total.credit.percent.not.100";
+    public static final String AUDIT_TOTAL_FA_PERCENT_NOT_100 = "audit.mainPage.total.fa.percent.not.100";
+    
     public static final String ERROR_INVALID_AMOUNT_POSITIVE_ONLY = "error.invalid.amount.positive.only";
     public static final String ERROR_ORG_ALREADY_EXISTS_ON_RF = "error.org.already.exists.on.rf";
     public static final String ERROR_ACCOUNT_ALREADY_EXISTS_ON_RF = "error.account.already.exists.on.rf";
@@ -36,7 +40,8 @@ public class KraKeyConstants {
     public static final String ERROR_SUBCONTRACTOR_NOT_FOUND = "error.subcontractor.not.found";
     public static final String ERROR_SUBCONTRACTOR_ALREADY_EXISTS_ON_RF = "error.subcontractor.already.exists.on.rf";
     public static final String ERROR_FRINGE_RATE_TOO_LARGE = "error.fringeRate.tooLarge";
-    public static final String ERROR_AGENCY_REQUIRED = "audit.routingForm.mainPage.agency";
+    public static final String ERROR_KEYWORD_MISSING = "error.keyword.missing";
+    public static final String ERROR_PERSON_NOT_NAMED = "error.person.not.named";
     
     // Routing Form Research Risks page errors
     public static final String ERROR_APPROVAL_DATE_REQUIRED = "error.approvalDate.required";

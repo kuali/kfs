@@ -18,7 +18,7 @@
 <c:set var="routingFormPersonnel" value="${DataDictionary.RoutingFormPersonnel.attributes}" />
 <c:set var="routingFormOrganizationCreditPercent" value="${DataDictionary.RoutingFormOrganizationCreditPercent.attributes}" />
 
-<kul:tab tabTitle="Personnel and Units/Orgs" defaultOpen="false" >
+<kul:tab tabTitle="Personnel and Units/Orgs" defaultOpen="false" tabErrorKey="newRoutingFormPersonnel*,document.routingFormPerson*,newRoutingFormOrganizationCreditPercent*,document.routingFormOrganizationCreditPercent*" auditCluster="mainPageAuditErrors" tabAuditKey="document.routingFormPerson*">
 
   <html:hidden property="document.personnelNextSequenceNumber" />
 
@@ -194,10 +194,10 @@
                 <th scope="row">&nbsp;</th>
                 <td colspan=4 class="infoline"><div align="right"><b>Totals</b></div></td>
                 <td class="infoline"><div align="center">
-                  todo%
+                  ${KualiForm.document.totalFinancialAidPercent}%
                 </div></td>
                 <td class="infoline"><div align="center">
-                  todo%
+                  ${KualiForm.document.totalCreditPercent}%
                 </div></td>
                 <td colspan=2 class="infoline">&nbsp;</td>
               </tr>

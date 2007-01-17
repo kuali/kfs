@@ -24,6 +24,7 @@ import java.util.List;
 import org.kuali.PropertyConstants;
 import org.kuali.core.exceptions.IllegalObjectStateException;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference;
@@ -1667,6 +1668,40 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         this.routingFormOrganizations = routingFormOrganizations;
     }
     
+    /**
+     * Sums percent financial aid from all personnel and organizations.
+     * @return total financial aid for summary display
+     */
+    public KualiInteger getTotalFinancialAidPercent() {
+        KualiInteger total = KualiInteger.ZERO;
+        for (RoutingFormPersonnel routingFormPerson : this.getRoutingFormPersonnel()) {
+            if (routingFormPerson.getPersonFinancialAidPercent() != null)
+                total = total.add(routingFormPerson.getPersonFinancialAidPercent());
+        }
+        for (RoutingFormOrganizationCreditPercent routingFormOrganizationCreditPercent : this.getRoutingFormOrganizationCreditPercents()) {
+            if (routingFormOrganizationCreditPercent.getOrganizationFinancialAidPercent() != null)
+                total = total.add(routingFormOrganizationCreditPercent.getOrganizationFinancialAidPercent());
+        }
+        return total;
+    }
+    
+    /**
+     * Sums percent credit from all personnel and organizations.
+     * @return total percent credit for summary display
+     */
+    public KualiInteger getTotalCreditPercent() {
+        KualiInteger total = KualiInteger.ZERO;
+        for (RoutingFormPersonnel routingFormPerson : this.getRoutingFormPersonnel()) {
+            if (routingFormPerson.getPersonCreditPercent() != null)
+                total = total.add(routingFormPerson.getPersonCreditPercent());
+        }
+        for (RoutingFormOrganizationCreditPercent routingFormOrganizationCreditPercent : this.getRoutingFormOrganizationCreditPercents()) {
+            if (routingFormOrganizationCreditPercent.getOrganizationCreditPercent() != null)
+                total = total.add(routingFormOrganizationCreditPercent.getOrganizationCreditPercent());
+        }
+        return total;
+    }
+
     /**
      * Gets index i from the routingFormPersonnel list. 
      * @param index

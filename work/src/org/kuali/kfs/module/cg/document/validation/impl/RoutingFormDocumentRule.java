@@ -25,6 +25,7 @@ import org.kuali.KeyConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.KraConstants;
@@ -33,6 +34,7 @@ import org.kuali.module.kra.budget.rules.ResearchDocumentRuleBase;
 import org.kuali.module.kra.document.ResearchDocument;
 import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganization;
+import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchRiskStudy;
 import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
@@ -73,6 +75,8 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
         
         valid &= processRoutingFormResearchRisks(routingFormDocument);
 
+        valid &= processRoutingFormPersonnel(routingFormDocument);
+        
         valid &= GlobalVariables.getErrorMap().isEmpty();
 
         return valid;
@@ -98,13 +102,29 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
         return valid;
     }
     
+    /**
+     * Runs audit mode business rule checks on a Main Page.
+     * 
+     * @param routingFormDocument
+     * @return boolean True if the researchDocument is valid, false otherwise.
+     */
     private boolean processRoutingFormMainPageAuditChecks(RoutingFormDocument routingFormDocument) {
         boolean valid = true;
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         
         if (routingFormDocument.isRoutingFormAgencyToBeNamedIndicator() || ObjectUtils.isNull(routingFormDocument.getRoutingFormAgency().getAgencyNumber())) {
             valid = false;
-            auditErrors.add(new AuditError("document.routingFormAgency.agencyNumber", KraKeyConstants.ERROR_AGENCY_REQUIRED, "mainpage"));
+            auditErrors.add(new AuditError("document.routingFormAgency.agencyNumber", KraKeyConstants.AUDIT_AGENCY_REQUIRED, "mainpage"));
+        }
+        
+        if (!routingFormDocument.getTotalFinancialAidPercent().equals(new KualiInteger(100))) {
+            valid = false;
+            auditErrors.add(new AuditError("document.routingFormPerson.personFinancialAidPercent", KraKeyConstants.AUDIT_TOTAL_FA_PERCENT_NOT_100, "mainpage"));
+        }
+        
+        if (!routingFormDocument.getTotalCreditPercent().equals(new KualiInteger(100))) {
+            valid = false;
+            auditErrors.add(new AuditError("document.routingFormPerson.personCreditPercent", KraKeyConstants.AUDIT_TOTAL_CREDIT_PERCENT_NOT_100, "mainpage"));
         }
         
         if (!auditErrors.isEmpty()) {
@@ -116,11 +136,14 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
     
     /**
      * This method validates Institution Cost Share Orgs.  It checks the following:
-     * 1 - The Org must exist
-     * 2 - If an Account Number is specified, the Account must exist
-     * 3 - Orgs without Accounts can appear in the list only once
-     * 4 - Accounts, when specified, can appear in the list only once 
-     * 5 - Positive, non-zero amounts are required for all lines 
+     * <ul>
+     * <li>The Org must exist</li>
+     * <li>If an Account Number is specified, the Account must exist</li>
+     * <li>Orgs without Accounts can appear in the list only once</li>
+     * <li>Accounts, when specified, can appear in the list only once </li>
+     * <li>Positive, non-zero amounts are required for all lines </li>
+     * </ul>
+     * 
      * @param routingFormDocument The routingFormDocument that is being validated
      * @return valid Does the validation pass
      */
@@ -180,8 +203,10 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
     
     /**
      * This method validates 'Other Organizations'.  It checks the following:
-     * 1 - The Org must exist
-     * 2 - The Org must appear in the list only once
+     * <ul>
+     * <li>The Org must exist</li>
+     * <li>The Org must appear in the list only once</li>
+     * </ul>
      * 
      * @param routingFormDocument The routingFormDocument that is being validated
      * @return valid Does the validation pass
@@ -221,8 +246,10 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
     
     /**
      * This method validates 'Subcontractors'.  It checks the following:
-     * 1 - The Subcontractor must exist
-     * 2 - The Subcontractor must appear in the list only once
+     * <ul>
+     * <li>The Subcontractor must exist</li>
+     * <li>The Subcontractor must appear in the list only once</li>
+     * </ul>
      * 
      * @param routingFormDocument The routingFormDocument that is being validated
      * @return valid Does the validation pass
@@ -266,14 +293,46 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
     }
     
     /**
+     * This method validates Personnel. It checks the following:
+     * <ul>
+     * <li>Required person name or TBNed selected.</li>
+     * </ul>
+     * 
+     * @param routingFormDocument The routingFormDocument that is being validated
+     * @return valid Does the validation pass
+     */
+    private boolean processRoutingFormPersonnel(RoutingFormDocument routingFormDocument) {
+        boolean valid = true;
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        
+        // Functionally personnel doesn't need an index i, but it's left here for consistency of validating lists.
+        int i = 0;
+
+        for (RoutingFormPersonnel person : routingFormDocument.getRoutingFormPersonnel()) {
+            errorMap.addToErrorPath("routingFormPerson[" + i + "]");
+            
+            if (person.getPersonSystemIdentifier() == null && !person.isPersonToBeNamedIndicator()) {
+                valid = false;
+                errorMap.putError("personSystemIdentifier", KraKeyConstants.ERROR_PERSON_NOT_NAMED);
+            }
+            errorMap.removeFromErrorPath("routingFormPerson[" + i + "]");
+            i++;
+        }
+
+        return valid;
+    }
+    
+    /**
      * This method validates 'Research Risks'.  It checks the following:
-     * - If Study is approved, approval date is required.
-     * - If study is not approved, approval date and expiration date must be empty.
-     * - If review status is 'exempt', exception number is required.
-     * - If review status in not 'exempt', exception number should be blank.
-     * - Expiration date must not be earlier than approval date.
-     * - If the Human Subjects approval date is more than one year prior to the routing form creation date, the user must enter a more current date, or set the status to Pending.
-     * - If the Animal approval date is more than three years prior to the routing form creation date, the user must enter a more current date, or set the status to Pending.
+     * <ul>
+     * <li>If Study is approved, approval date is required.</li>
+     * <li>If study is not approved, approval date and expiration date must be empty.</li>
+     * <li>If review status is 'exempt', exception number is required.</li>
+     * <li>If review status in not 'exempt', exception number should be blank.</li>
+     * <li>Expiration date must not be earlier than approval date.</li>
+     * <li>If the Human Subjects approval date is more than one year prior to the routing form creation date, the user must enter a more current date, or set the status to Pending.</li>
+     * <li>If the Animal approval date is more than three years prior to the routing form creation date, the user must enter a more current date, or set the status to Pending.</li>
+     * </ul>
      * 
      * @param routingFormDocument The routingFormDocument that is being validated
      * @return valid Does the validation pass

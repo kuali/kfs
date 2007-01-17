@@ -19,7 +19,7 @@
 <c:set var="routingFormAgencyAttributes" value="${DataDictionary.RoutingFormAgency.attributes}" />
 <c:set var="cfdaAttributes" value="${DataDictionary.CatalogOfFederalDomesticAssistanceReference.attributes}" />
 
-<kul:tab tabTitle="Agency/Delivery Info" defaultOpen="true" auditCluster="mainPageAuditErrors" tabAuditKey="document.routingFormAgency*">
+<kul:tab tabTitle="Agency/Delivery Info" defaultOpen="true" tabErrorKey="document.routingFormAgency*,document.federalPassThroughAgency*" auditCluster="mainPageAuditErrors" tabAuditKey="document.routingFormAgency*">
 
 		<div class="tab-container" align="center">
             <div class="tab-container-error"> </div>

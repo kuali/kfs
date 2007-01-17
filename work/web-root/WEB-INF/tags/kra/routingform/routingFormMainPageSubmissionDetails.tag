@@ -20,7 +20,7 @@
 <c:set var="routingFormKeywordAttributes" value="${DataDictionary.RoutingFormKeyword.attributes}" />
 <c:set var="contractGrantProposalAttributes" value="${DataDictionary.ContractGrantProposal.attributes}" />
 
-<kul:tab tabTitle="Submission Details" defaultOpen="true" tabErrorKey="${Constants.RoutingFormConstants.ROUTING_FORM_SUBMISSION_DETAIL_ERRORS}" >
+<kul:tab tabTitle="Submission Details" defaultOpen="true" tabErrorKey="newRoutingFormKeyword*,document.contractGrantProposal*,document.projectAbstract,document.routingFormProjectTitle,document.routingFormBudget*" >
 
           <div class="tab-container" align="center">
             <div class="h2-container">

@@ -26,10 +26,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
-import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
@@ -88,10 +88,11 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
             // use getters and setters on the form to reinitialize the properties on the form.                
             routingForm.setNewRoutingFormKeyword(new RoutingFormKeyword());
         } else {
-            // Throw error
-            GlobalVariables.getErrorMap().addToErrorPath(PropertyConstants.NEW_ROUTING_FORM_KEYWORD);
-            GlobalVariables.getErrorMap().putError(PropertyConstants.NEW_ROUTING_FORM_KEYWORD, KeyConstants.ERROR_ROUTING_FORM_MISSING_KEYWORD);
-            GlobalVariables.getErrorMap().removeFromErrorPath(PropertyConstants.NEW_ROUTING_FORM_KEYWORD);
+            /* TODO Following should be in rules class? */
+            // Display error to user.
+            GlobalVariables.getErrorMap().addToErrorPath("newRoutingFormKeyword");
+            GlobalVariables.getErrorMap().putError("newRoutingFormKeyword", KraKeyConstants.ERROR_KEYWORD_MISSING);
+            GlobalVariables.getErrorMap().removeFromErrorPath("newRoutingFormKeyword");
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }

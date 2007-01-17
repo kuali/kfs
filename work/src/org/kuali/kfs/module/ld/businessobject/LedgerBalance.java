@@ -33,7 +33,7 @@ import org.kuali.module.gl.bo.Balance;
 /**
  * 
  */
-public class LedgerBalance extends PersistableBusinessObjectBase {
+public class LedgerBalance extends Balance {
 
 	private Integer universityFiscalYear;
 	private String chartOfAccountsCode;

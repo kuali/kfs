@@ -29,10 +29,6 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
 
     private BusinessObjectService businessObjectService;
         
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -43,5 +39,14 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
         fieldValues.put("accountNumber", account.getAccountNumber());
        
         return businessObjectService.countMatching(PendingLedgerEntry.class, fieldValues) > 0;
+    }
+
+    public void save(PendingLedgerEntry pendingLedgerEntry) {
+        businessObjectService.save(pendingLedgerEntry);        
+    }
+
+    public Integer getMaxSequenceNumber() {
+        // TODO Auto-generated method stub
+        return 0;
     }
 }

@@ -33,12 +33,13 @@ import org.kuali.module.chart.bo.ProjectCode;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
+import org.kuali.module.gl.bo.Entry;
 import org.kuali.PropertyConstants;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class LaborGeneralLedgerEntry extends PersistableBusinessObjectBase {
+public class LaborGeneralLedgerEntry extends Entry {
 
 	private Integer universityFiscalYear;
 	private String chartOfAccountsCode;

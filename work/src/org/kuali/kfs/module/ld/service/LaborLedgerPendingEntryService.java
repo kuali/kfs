@@ -18,6 +18,7 @@ package org.kuali.module.labor.service;
 import java.util.Map;
 
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.labor.bo.PendingLedgerEntry;
 
 /**
  * This interface defines methods that a LaborLedgerPendingEntry Service must provide
@@ -35,5 +36,8 @@ public interface LaborLedgerPendingEntryService {
      */
     
     public boolean hasPendingLaborLedgerEntry(Account account);
-    
+
+    public void save(PendingLedgerEntry pendingLedgerEntry);
+
+    public Integer getMaxSequenceNumber();   
 }

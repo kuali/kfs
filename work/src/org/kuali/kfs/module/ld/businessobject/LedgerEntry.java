@@ -36,13 +36,14 @@ import org.kuali.module.chart.bo.ProjectCode;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
+import org.kuali.module.gl.bo.Entry;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.PropertyConstants;
 
 /**
  * 
  */
-public class LedgerEntry extends PersistableBusinessObjectBase {
+public class LedgerEntry extends Entry {
 
 	private Integer universityFiscalYear;
 	private String chartOfAccountsCode;
@@ -1515,5 +1516,4 @@ public class LedgerEntry extends PersistableBusinessObjectBase {
         }
         return m;
     }
-
 }

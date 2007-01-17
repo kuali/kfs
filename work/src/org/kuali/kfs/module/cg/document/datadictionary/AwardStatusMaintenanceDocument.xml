@@ -55,6 +55,7 @@
                     <maintainableField name="rowActiveIndicator" required="true">
 						<defaultValue>true</defaultValue>
 					</maintainableField>
+                    <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>
         </maintainableSections>

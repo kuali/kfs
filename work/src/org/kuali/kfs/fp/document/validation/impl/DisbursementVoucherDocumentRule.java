@@ -877,7 +877,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
                 Map<String, String> paymentReasonParams = new HashMap<String, String>();
                 paymentReasonParams.put("code", paymentReasonCode);
                 // TODO: should we not ignore active flag?
-                Collection<PaymentReasonCode> paymentReasons = SpringServiceLocator.getKeyValuesNonCachedService().findMatching(PaymentReasonCode.class, paymentReasonParams);
+                Collection<PaymentReasonCode> paymentReasons = SpringServiceLocator.getKeyValuesService().findMatching(PaymentReasonCode.class, paymentReasonParams);
 
                 String prName = "(Description unavailable)";
 

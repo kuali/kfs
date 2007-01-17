@@ -15,7 +15,6 @@
  */
 package org.kuali.module.gl.service.impl;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -27,7 +26,9 @@ import org.kuali.module.gl.dao.ReversalDao;
 import org.kuali.module.gl.service.ReversalService;
 import org.kuali.module.gl.util.LedgerEntry;
 import org.kuali.module.gl.util.LedgerEntryHolder;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class ReversalServiceImpl implements ReversalService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReversalServiceImpl.class);
 

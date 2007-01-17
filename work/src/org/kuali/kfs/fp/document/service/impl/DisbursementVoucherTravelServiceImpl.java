@@ -29,12 +29,12 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.financial.bo.TravelMileageRate;
 import org.kuali.module.financial.dao.TravelMileageRateDao;
 import org.kuali.module.financial.service.DisbursementVoucherTravelService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Performs calculations of travel per diem and mileage amounts.
- * 
- * 
  */
+@Transactional
 public class DisbursementVoucherTravelServiceImpl implements DisbursementVoucherTravelService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherTravelServiceImpl.class);
 

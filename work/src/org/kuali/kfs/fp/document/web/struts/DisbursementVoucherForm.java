@@ -126,7 +126,7 @@ public class DisbursementVoucherForm extends KualiTransactionalDocumentFormBase 
         Map criteria = new HashMap();
         criteria.put("fiscalYear", SpringServiceLocator.getDateTimeService().getCurrentFiscalYear());
 
-        return (List) SpringServiceLocator.getKeyValuesNonCachedService().findMatching(TravelPerDiem.class, criteria);
+        return (List) SpringServiceLocator.getKeyValuesService().findMatching(TravelPerDiem.class, criteria);
     }
 
     /**

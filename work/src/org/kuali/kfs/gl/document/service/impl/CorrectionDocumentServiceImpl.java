@@ -24,7 +24,9 @@ import org.kuali.module.gl.dao.CorrectionChangeGroupDao;
 import org.kuali.module.gl.dao.CorrectionCriteriaDao;
 import org.kuali.module.gl.document.CorrectionDocument;
 import org.kuali.module.gl.service.CorrectionDocumentService;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class CorrectionDocumentServiceImpl implements CorrectionDocumentService {
 
     private CorrectionChangeGroupDao correctionChangeGroupDao;

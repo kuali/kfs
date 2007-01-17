@@ -120,7 +120,7 @@
 			</attribute>
 
             <attribute name="cfdaNumber" forceUppercase="true">
-                <label>Cfda Number</label>
+                <label>CFDA Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>6</maxLength>
@@ -130,8 +130,8 @@
                     <text size="8" />
                 </control>
 
-                <summary>cfdaNumber</summary>
-                <description>cfdaNumber description...</description>
+                <summary>CFDA Number</summary>
+                <description>CFDA Number description...</description>
 			</attribute>
 
             <attribute name="federalPassThroughAgencyNumber" forceUppercase="true">

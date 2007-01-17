@@ -23,15 +23,23 @@ import java.util.Map;
 import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.kra.KraPropertyConstants;
+import org.kuali.module.kra.budget.service.impl.BudgetPermissionsServiceImpl;
 import org.kuali.module.kra.routingform.bo.ResearchRiskType;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.service.RoutingFormResearchRiskService;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class RoutingFormResearchRiskServiceImpl implements RoutingFormResearchRiskService {
+    
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RoutingFormResearchRiskServiceImpl.class);
 
     private BusinessObjectService businessObjectService;
     
+    /**
+     * @see org.kuali.module.kra.budget.service.RoutingFormResearchRiskServiceImpl#setupResearchRisks(RoutingFormDocument routingFormDocument)
+     */
     public void setupResearchRisks(RoutingFormDocument routingFormDocument) {
         List<ResearchRiskType> researchRiskTypes = getAllResearchRiskTypes();
         List<RoutingFormResearchRisk> researchRisks = new ArrayList<RoutingFormResearchRisk>();
@@ -41,22 +49,24 @@ public class RoutingFormResearchRiskServiceImpl implements RoutingFormResearchRi
         routingFormDocument.setRoutingFormResearchRisks(researchRisks);
     }
     
-    public int getNumberOfResearchRisks() {
-        return getAllResearchRiskTypes().size();
-    }
-    
+    /**
+     * Get the list of research risk types from the database.
+     * 
+     * @return List<ResearchRiskType>
+     */
     private List<ResearchRiskType> getAllResearchRiskTypes() {
         Map criteria = new HashMap();
         criteria.put(PropertyConstants.DATA_OBJECT_MAINTENANCE_CODE_ACTIVE_INDICATOR, true);
-        List<ResearchRiskType> researchRiskTypes = (List<ResearchRiskType>) getBusinessObjectService().findMatchingOrderBy(
+        List<ResearchRiskType> researchRiskTypes = (List<ResearchRiskType>) this.businessObjectService.findMatchingOrderBy(
                 ResearchRiskType.class, criteria, KraPropertyConstants.RESEARCH_RISK_TYPE_SORT_NUMBER, true);
         return researchRiskTypes;
     }
 
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
+    /**
+     * Setter for BusinessObjectService property.
+     * 
+     * @param BusinessObjectService businessObjectService
+     */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

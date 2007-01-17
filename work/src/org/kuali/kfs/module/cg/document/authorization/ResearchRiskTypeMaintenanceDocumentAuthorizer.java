@@ -30,6 +30,11 @@ import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.VendorSupplierDiversity;
 import org.kuali.module.purap.util.PurapUtils;
 
+/**
+ * Authorizer class for ResearchRiskTypeMaintenanceDocument - allows for targeted field disabling.
+ * 
+ * 
+ */
 public class ResearchRiskTypeMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
     
     @Override

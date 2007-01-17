@@ -23,6 +23,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import edu.iu.uis.eden.workgroup.Workgroup;
 
 /**
+ * Class representing a ResearchRiskType.
  * 
  */
 public class ResearchRiskType extends PersistableBusinessObjectBase {

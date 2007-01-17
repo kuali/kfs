@@ -23,6 +23,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.PropertyConstants;
 
 /**
+ * Class representing a RoutingFormResearchRiskTypeStudy.
  * 
  */
 public class RoutingFormResearchRiskStudy extends PersistableBusinessObjectBase {

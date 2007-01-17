@@ -26,6 +26,7 @@ import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
 import org.kuali.PropertyConstants;
 
 /**
+ * Class representing a RoutingFormResearchRiskType.
  * 
  */
 public class RoutingFormResearchRisk extends PersistableBusinessObjectBase {

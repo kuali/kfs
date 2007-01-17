@@ -20,7 +20,17 @@ import java.util.List;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 
+/**
+ * This interface defines methods that a RoutingFormResearchRiskService must provide
+ * 
+ * 
+ */
 public interface RoutingFormResearchRiskService {
+    
+    /**
+     * Setup research risks in the document.
+     * 
+     * @param RoutingFormDocument
+     */
     public void setupResearchRisks(RoutingFormDocument routingFormDocument);
-    public int getNumberOfResearchRisks();
 }

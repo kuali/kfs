@@ -39,34 +39,38 @@ import org.kuali.module.labor.bo.LaborObject;
  */
 public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRuleBase {
 
-    private BusinessObjectService businessObjectService;
-    
     public SalaryExpenseTransferDocumentRule() {
-
-        this.businessObjectService = SpringServiceLocator.getBusinessObjectService();
     }   
     
     protected boolean AddAccountingLineBusinessRules(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
         return processCustomAddAccountingLineBusinessRules(transactionalDocument, accountingLine);
     }
     
-    /**
+    /** Account must be valid.
+      * Object code must be valid.
+      * Object code must be a labor object code.
+             Object code must exist in the ld_labor_obj_t table.
+             The field finobj_frngslry_cd for the object code in the ld_labor_obj_t table must have a value of "S".
+      * Sub-account, if specified, must be valid for account.
+      * Sub-object, if specified, must be valid for account and object code.
+      * Enforce the A21-report-related business rules for the "SAVE" action.
+      * Position must be valid for fiscal year. FIS enforces this by a direct lookup of the PeopleSoft HRMS position data table. Kuali cannot do this. (See issue 12.)
+      * Amount must not be zero. 
      * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
     @Override
     protected boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
-        ErrorMap errors = GlobalVariables.getErrorMap();
-
         if (accountingLine.isSourceAccountingLine()) {
             
             // Retrieve the Fringe or Salary Code for the object code in the ld_labor_obj_t table. 
             // It must have a value of "S".
             
+            ErrorMap errorMap = GlobalVariables.getErrorMap();
             Map fieldValues = new HashMap();
             fieldValues.put("financialObjectCode", accountingLine.getFinancialObjectCode().toString());
-            ArrayList laborObjects = (ArrayList) businessObjectService.findMatching(LaborObject.class, fieldValues);
+            ArrayList laborObjects = (ArrayList) SpringServiceLocator.getBusinessObjectService().findMatching(LaborObject.class, fieldValues);
             if (laborObjects.size() == 0) {
                 reportError(PropertyConstants.ACCOUNT, KeyConstants.Labor.LABOR_OBJECT_MISSING_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
                 return false;
@@ -76,7 +80,7 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
 
             if (!FringeOrSalaryCode.equals("S")) {
                 LOG.info("FringeOrSalaryCode not equal S");
-                reportError(PropertyConstants.ACCOUNT, KeyConstants.Labor.FRINGE_OR_SALARY_CODE_MISSING_ERROR, accountingLine.getAccountNumber());
+                  reportError(PropertyConstants.ACCOUNT, KeyConstants.Labor.FRINGE_OR_SALARY_CODE_MISSING_ERROR, accountingLine.getAccountNumber());
                 return false;
             }
         }

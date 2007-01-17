@@ -99,7 +99,7 @@ public class UniversityDateDaoOjb extends PersistenceBrokerDaoSupport implements
         Criteria criteria = new Criteria();
 
         ReportQueryByCriteria query = QueryFactory.newReportQuery(UniversityDate.class, criteria);
-        query.setAttributes(new String[] { "distict " + PropertyConstants.UNIVERSITY_FISCAL_ACCOUNTING_PERIOD });
+        query.setAttributes(new String[] { "distinct " + PropertyConstants.UNIVERSITY_FISCAL_ACCOUNTING_PERIOD });
         query.addOrderByAscending(PropertyConstants.UNIVERSITY_FISCAL_ACCOUNTING_PERIOD);
 
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);

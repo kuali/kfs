@@ -17,6 +17,7 @@
 package org.kuali.module.gl.bo;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
@@ -68,7 +69,7 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
     private Date financialDocumentReversalDate;
     private String transactionEncumbranceUpdateCode;
     private Date transactionPostingDate;
-    private Date transactionDateTimeStamp;
+    private Timestamp transactionDateTimeStamp;
     private String budgetYear;
 
     // bo references
@@ -130,8 +131,8 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
             setTransactionPostingDate(new Date(postDate.getTime()));
         }
 
-        java.util.Date now = SpringServiceLocator.getDateTimeService().getCurrentDate();
-        setTransactionDateTimeStamp(new Date(now.getTime()));
+        Timestamp now = SpringServiceLocator.getDateTimeService().getCurrentTimestamp();
+        setTransactionDateTimeStamp(now);
     }
 
     public OriginationCode getOriginationCode() {
@@ -623,7 +624,7 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
      * 
      * @return Returns the transactionDateTimeStamp
      */
-    public Date getTransactionDateTimeStamp() {
+    public Timestamp getTransactionDateTimeStamp() {
         return transactionDateTimeStamp;
     }
 
@@ -632,7 +633,7 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
      * 
      * @param transactionDateTimeStamp The transactionDateTimeStamp to set.
      */
-    public void setTransactionDateTimeStamp(Date transactionDateTimeStamp) {
+    public void setTransactionDateTimeStamp(Timestamp transactionDateTimeStamp) {
         this.transactionDateTimeStamp = transactionDateTimeStamp;
     }
 

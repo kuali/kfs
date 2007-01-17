@@ -179,7 +179,7 @@
     <field-descriptor name="financialDocumentReversalDate" column="FDOC_REVERSAL_DT" jdbc-type="DATE" />
     <field-descriptor name="transactionEncumbranceUpdateCode" column="TRN_ENCUM_UPDT_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="transactionPostingDate" column="TRN_POST_DT" jdbc-type="DATE" />
-    <field-descriptor name="transactionDateTimeStamp" column="TIMESTAMP" jdbc-type="DATE" index="true" />
+    <field-descriptor name="transactionDateTimeStamp" column="TIMESTAMP" jdbc-type="TIMESTAMP" index="true" />
     <field-descriptor name="budgetYear" column="BDGT_YR" jdbc-type="VARCHAR" />
     <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />

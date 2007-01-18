@@ -25,7 +25,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.core.authorization.AuthorizationConstants;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.routingform.rules.event.RunRoutingFormAuditEvent;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
@@ -108,6 +107,8 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
     }
 
     public ActionForward auditmode(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        this.load(mapping, form, request, response);
+
         return mapping.findForward("auditmode");
     }
 

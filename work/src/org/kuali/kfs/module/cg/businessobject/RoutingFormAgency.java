@@ -55,7 +55,7 @@ public class RoutingFormAgency extends PersistableBusinessObjectBase {
 	private Date routingFormSubmitDate;
 
     private RoutingFormDueDateType routingFormDueDateType;
-    private Agency routingFormAgency;
+    private Agency agency;
     
 	/**
 	 * Default constructor.
@@ -393,7 +393,6 @@ public class RoutingFormAgency extends PersistableBusinessObjectBase {
 	 * Sets the agencyNumber attribute.
 	 * 
 	 * @param agencyNumber The agencyNumber to set.
-	 * @deprecated
 	 */
 	public void setAgencyNumber(String agencyNumber) {
 		this.agencyNumber = agencyNumber;
@@ -614,12 +613,16 @@ public class RoutingFormAgency extends PersistableBusinessObjectBase {
         return m;
     }
 
-    public Agency getRoutingFormAgency() {
-        return routingFormAgency;
+    public Agency getAgency() {
+        return agency;
     }
-
-    public void setRoutingFormAgency(Agency routingFormAgency) {
-        this.routingFormAgency = routingFormAgency;
+    
+    /**
+     * @param agency
+     * @deprecated
+     */
+    public void setAgency(Agency routingFormAgency) {
+        this.agency = routingFormAgency;
     }
 
 }

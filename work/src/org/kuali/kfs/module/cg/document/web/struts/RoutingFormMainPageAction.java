@@ -156,7 +156,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
             }
             else if ("true".equals(request.getParameter("document.routingFormAgencyToBeNamedIndicator"))) {
                 // coming back from Agency lookup - To Be Named selected
-                routingFormDocument.getRoutingFormAgency().setRoutingFormAgency(null);
+                routingFormDocument.getRoutingFormAgency().setAgency(null);
                 routingFormDocument.getRoutingFormAgency().refresh();
             }
             else if (request.getParameter("document.agencyFederalPassThroughNumber") != null) {

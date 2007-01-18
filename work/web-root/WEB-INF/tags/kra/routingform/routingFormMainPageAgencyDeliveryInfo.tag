@@ -33,11 +33,11 @@
                 <td width="30%">
                   	<html:hidden property="document.routingFormAgencyToBeNamedIndicator" />
 			    	<html:hidden property="document.routingFormAgency.agencyNumber" />
-			    	<html:hidden write="true" property="document.routingFormAgency.routingFormAgency.fullName"/>
+			    	<html:hidden write="true" property="document.routingFormAgency.agency.fullName"/>
 			    	<c:if test="${empty KualiForm.document.routingFormAgency.agencyNumber && !KualiForm.document.routingFormAgencyToBeNamedIndicator}">(select)</c:if>
   			    	<c:if test="${KualiForm.document.routingFormAgencyToBeNamedIndicator}">TO BE NAMED</c:if>
 			    	<c:if test="${!viewOnly}">
-			    		<kul:lookup boClassName="org.kuali.module.cg.bo.Agency" lookupParameters="document.routingFormAgency.agencyNumber:agencyNumber,document.routingFormAgency.routingFormAgency.fullName:fullName" fieldConversions="agencyNumber:document.routingFormAgency.agencyNumber,fullName:document.routingFormAgency.routingFormAgency.fullName" extraButtonSource="images/buttonsmall_namelater.gif" extraButtonParams="&document.routingFormAgencyToBeNamedIndicator=true" tabindexOverride="5100" anchor="${currentTabIndex}" />
+			    		<kul:lookup boClassName="org.kuali.module.cg.bo.Agency" lookupParameters="document.routingFormAgency.agencyNumber:agencyNumber,document.routingFormAgency.agency.fullName:fullName" fieldConversions="agencyNumber:document.routingFormAgency.agencyNumber,fullName:document.routingFormAgency.agency.fullName" extraButtonSource="images/buttonsmall_namelater.gif" extraButtonParams="&document.routingFormAgencyToBeNamedIndicator=true" tabindexOverride="5100" anchor="${currentTabIndex}" />
                 	</c:if>
                 </td>
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.routingFormDueDate}" skipHelpUrl="true" /></th>

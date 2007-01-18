@@ -777,7 +777,7 @@
 	<reference-descriptor name="routingFormDueDateType" class-ref="org.kuali.module.kra.routingform.bo.RoutingFormDueDateType" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="routingFormDueDateTypeCode" />
 	</reference-descriptor>
-    <reference-descriptor name="routingFormAgency" class-ref="org.kuali.module.cg.bo.Agency" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="agency" class-ref="org.kuali.module.cg.bo.Agency" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="agencyNumber" />
     </reference-descriptor>
 </class-descriptor>

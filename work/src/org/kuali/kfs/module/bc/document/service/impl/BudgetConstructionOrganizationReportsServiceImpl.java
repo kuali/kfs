@@ -18,6 +18,7 @@ package org.kuali.module.budget.service.impl;
 import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
 import org.kuali.module.budget.dao.BudgetConstructionOrganizationReportsDao;
 import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Implements the getByPrimaryId method defined by BudgetConstructionOrganizationReportsService.
@@ -27,7 +28,7 @@ import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsServ
  * @return BudgetConstructionOrganizationReports Business Object
  * @see org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService#getByPrimaryId(java.lang.String, java.lang.String)
  */
-
+@Transactional
 public class BudgetConstructionOrganizationReportsServiceImpl implements BudgetConstructionOrganizationReportsService {
 
     private BudgetConstructionOrganizationReportsDao budgetConstructionOrganizationReportsDao;

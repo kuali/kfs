@@ -17,7 +17,6 @@
 package org.kuali.module.cg.bo;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -26,6 +25,7 @@ import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.TypedArrayList;
 
 /**
  * 
@@ -64,9 +64,9 @@ public class Proposal extends PersistableBusinessObjectBase {
     private String proposalFellowName;
     private String proposalPurposeCode;
     private String proposalProjectTitle;
-    private List<Subcontractor> proposalSubcontractors;
-    private List<AwardOrganization> proposalOrganizations;
-    private List<ProjectDirector> proposalProjectDirectors;
+    private List<ProposalSubcontractor> proposalSubcontractors;
+    private List<ProposalOrganization> proposalOrganizations;
+    private List<ProposalProjectDirector> proposalProjectDirectors;
     private List<ProposalDiary> proposalDiaries;
 
     private ResearchType researchType;
@@ -80,11 +80,13 @@ public class Proposal extends PersistableBusinessObjectBase {
     /**
      * Default constructor.
      */
+    @SuppressWarnings({"unchecked"})  // todo: generify TypedArrayList and rename to something appropriate like AlwaysGettableArrayList
     public Proposal() {
-        proposalSubcontractors = new ArrayList<Subcontractor>();
-        proposalOrganizations = new ArrayList<AwardOrganization>();
-        proposalProjectDirectors = new ArrayList<ProjectDirector>();
-        proposalDiaries = new ArrayList<ProposalDiary>();
+        // Must use TypedArrayList because its get() method automatically grows the array for Struts.
+        proposalSubcontractors = new TypedArrayList(ProposalSubcontractor.class);
+        proposalOrganizations = new TypedArrayList(ProposalOrganization.class);
+        proposalProjectDirectors = new TypedArrayList(ProposalProjectDirector.class);
+        proposalDiaries = new TypedArrayList(ProposalDiary.class);
     }
 
     /**
@@ -750,7 +752,7 @@ public class Proposal extends PersistableBusinessObjectBase {
      * @return Returns the proposalSubcontractors list
      * 
      */
-    public List<Subcontractor> getProposalSubcontractors() {
+    public List<ProposalSubcontractor> getProposalSubcontractors() {
         return proposalSubcontractors;
     }
 
@@ -760,35 +762,35 @@ public class Proposal extends PersistableBusinessObjectBase {
      * @param proposalSubcontractors The proposalSubcontractors list to set.
      * 
      */
-    public void setProposalSubcontractors(List<Subcontractor> proposalSubcontractors) {
+    public void setProposalSubcontractors(List<ProposalSubcontractor> proposalSubcontractors) {
         this.proposalSubcontractors = proposalSubcontractors;
     }
 
     /**
      * @return Returns the proposalOrganizations.
      */
-    public List<AwardOrganization> getProposalOrganizations() {
+    public List<ProposalOrganization> getProposalOrganizations() {
         return proposalOrganizations;
     }
 
     /**
      * @param proposalOrganizations The proposalOrganizations to set.
      */
-    public void setProposalOrganizations(List<AwardOrganization> proposalOrganizations) {
+    public void setProposalOrganizations(List<ProposalOrganization> proposalOrganizations) {
         this.proposalOrganizations = proposalOrganizations;
     }
 
     /**
      * @return Returns the proposalProjectDirectors.
      */
-    public List<ProjectDirector> getProposalProjectDirectors() {
+    public List<ProposalProjectDirector> getProposalProjectDirectors() {
         return proposalProjectDirectors;
     }
 
     /**
      * @param proposalProjectDirectors The proposalProjectDirectors to set.
      */
-    public void setProposalProjectDirectors(List<ProjectDirector> proposalProjectDirectors) {
+    public void setProposalProjectDirectors(List<ProposalProjectDirector> proposalProjectDirectors) {
         this.proposalProjectDirectors = proposalProjectDirectors;
     }
 

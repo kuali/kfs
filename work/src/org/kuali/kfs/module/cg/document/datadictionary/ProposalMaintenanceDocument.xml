@@ -89,6 +89,22 @@
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>
+            
+            <maintainableSection title="Organizations">
+                <maintainableItems>
+                    <maintainableCollection name="proposalOrganizations" businessObjectClass="org.kuali.module.cg.bo.ProposalOrganization">
+                        <maintainableField name="chartOfAccountsCode" required="true" />
+                        <maintainableField name="organizationCode" required="true" />
+                        <maintainableField name="proposalPrimaryOrganizationIndicator" required="false" />
+                        <maintainableField name="versionNumber" />
+                        <summaryFields>
+                            <summaryField name="chartOfAccountsCode" />
+                            <summaryField name="organizationCode" />
+                            <summaryField name="proposalPrimaryOrganizationIndicator" />
+                        </summaryFields>
+                    </maintainableCollection>
+                </maintainableItems>
+            </maintainableSection>
         </maintainableSections>
     </maintenanceDocument>
 </dictionaryEntry>

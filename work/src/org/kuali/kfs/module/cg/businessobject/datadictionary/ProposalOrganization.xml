@@ -62,50 +62,16 @@
 
         <attributes>
 
-            <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
+            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
                 <control>
-                    <text size="4" />
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
                 </control>
+                <summary>Chart Of Accounts Code</summary>
+            </attributeReference>
 
-                <summary>chartOfAccountsCode</summary>
-                <description>chartOfAccountsCode description...</description>
-			</attribute>
+            <attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode"/>
 
-            <attribute name="organizationCode" forceUppercase="true">
-                <label>Organization Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>organizationCode</summary>
-                <description>organizationCode description...</description>
-			</attribute>
-
-            <attribute name="proposalNumber" forceUppercase="true">
-                <label>Proposal Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>12</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="14" />
-                </control>
-
-                <summary>proposalNumber</summary>
-                <description>proposalNumber description...</description>
-			</attribute>
+            <attributeReference name="proposalNumber" sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="proposalNumber"/>
 
             <attribute name="proposalPrimaryOrganizationIndicator" forceUppercase="true">
                 <label>Proposal Primary Organization Indicator</label>

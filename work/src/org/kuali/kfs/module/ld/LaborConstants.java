@@ -15,6 +15,11 @@
  */
 package org.kuali.module.labor;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.kuali.PropertyConstants;
+
 /**
  * This class...
  */
@@ -37,5 +42,35 @@ public class LaborConstants {
         public static final String EXPENSE_TRANSFER_SACH = "SACH";
         public static final String EXPENSE_TRANSFER_YEST = "YEST";
         public static final String EXPENSE_TRANSFER_YEBT = "YEBT";
+    }
+    
+    public static List<String> consolidationAttributesOfOriginEntry() {
+        List<String> consolidationAttributes = new ArrayList<String>();
+
+        consolidationAttributes.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        consolidationAttributes.add(PropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
+
+        consolidationAttributes.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        consolidationAttributes.add(PropertyConstants.ACCOUNT_NUMBER);
+        consolidationAttributes.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
+
+        consolidationAttributes.add(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
+        consolidationAttributes.add(PropertyConstants.FINANCIAL_OBJECT_CODE);
+        consolidationAttributes.add(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        consolidationAttributes.add(PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
+
+        consolidationAttributes.add(PropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
+        consolidationAttributes.add(PropertyConstants.DOCUMENT_NUMBER);
+        consolidationAttributes.add(PropertyConstants.ORGANIZATION_DOCUMENT_NUMBER);
+
+        consolidationAttributes.add(PropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE);
+        consolidationAttributes.add(PropertyConstants.REFERENCE_FINANCIAL_SYSTEM_ORIGINATION_CODE);
+        consolidationAttributes.add(PropertyConstants.PROJECT_CODE);
+        consolidationAttributes.add(PropertyConstants.ORGANIZATION_REFERENCE_ID);
+
+        consolidationAttributes.add(PropertyConstants.DEBIT_CREDIT_CODE);
+        consolidationAttributes.add(PropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT);
+
+        return consolidationAttributes;
     }
 }

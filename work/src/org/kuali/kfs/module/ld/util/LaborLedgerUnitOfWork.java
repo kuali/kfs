@@ -21,6 +21,7 @@ import java.util.List;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 
 public class LaborLedgerUnitOfWork {
@@ -81,8 +82,9 @@ public class LaborLedgerUnitOfWork {
             KualiDecimal unitAmount = workingEntry.getTransactionLedgerEntryAmount();
             KualiDecimal entryAmount = laborOriginEntry.getTransactionLedgerEntryAmount();
 
+            // if the input entry has a "credit" code , then subtract its amount from the unit total amount
             boolean creditIndicator = Constants.GL_CREDIT_CODE.equals(laborOriginEntry.getTransactionDebitCreditCode());
-            unitAmount = creditIndicator ? unitAmount.add(entryAmount) : unitAmount.subtract(entryAmount);
+            unitAmount = creditIndicator ? unitAmount.subtract(entryAmount) : unitAmount.add(entryAmount);
 
             workingEntry.setTransactionLedgerEntryAmount(unitAmount);
             numOfMember++;
@@ -177,29 +179,10 @@ public class LaborLedgerUnitOfWork {
 
     // Get the default key fields as a list
     private List<String> getDefaultKeyFields() {
-        List<String> defaultKeyFields = new ArrayList<String>();
-
-        defaultKeyFields.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        defaultKeyFields.add(PropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
-
-        defaultKeyFields.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        defaultKeyFields.add(PropertyConstants.ACCOUNT_NUMBER);
-        defaultKeyFields.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
-
-        defaultKeyFields.add(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
-        defaultKeyFields.add(PropertyConstants.FINANCIAL_OBJECT_CODE);
-        defaultKeyFields.add(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
-        defaultKeyFields.add(PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
-
-        defaultKeyFields.add(PropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
-        defaultKeyFields.add(PropertyConstants.DOCUMENT_NUMBER);
-        defaultKeyFields.add(PropertyConstants.ORGANIZATION_DOCUMENT_NUMBER);
-
-        defaultKeyFields.add(PropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE);
-        defaultKeyFields.add(PropertyConstants.REFERENCE_FINANCIAL_SYSTEM_ORIGINATION_CODE);
-        defaultKeyFields.add(PropertyConstants.PROJECT_CODE);
-        defaultKeyFields.add(PropertyConstants.ORGANIZATION_REFERENCE_ID);
-
+        List<String> defaultKeyFields = new ArrayList<String>(LaborConstants.consolidationAttributesOfOriginEntry());
+        defaultKeyFields.remove(PropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT);
+        defaultKeyFields.remove(PropertyConstants.DEBIT_CREDIT_CODE);
+        
         return defaultKeyFields;
     }
 }

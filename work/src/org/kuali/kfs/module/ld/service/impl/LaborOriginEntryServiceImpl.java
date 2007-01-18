@@ -15,30 +15,69 @@
  */
 package org.kuali.module.labor.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
 import org.kuali.module.gl.bo.OriginEntryGroup;
+import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LaborOriginEntry;
+import org.kuali.module.labor.dao.LaborOriginEntryDao;
 import org.kuali.module.labor.service.LaborOriginEntryService;
+import org.kuali.module.labor.util.LaborLedgerUnitOfWork;
+import org.kuali.module.labor.util.ObjectUtil;
 
 /**
  * This class...
  */
 public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
+    private LaborOriginEntryDao originEntryDao;
 
+    /**
+     * @see org.kuali.module.labor.service.LaborOriginEntryService#getEntriesByGroup(org.kuali.module.gl.bo.OriginEntryGroup)
+     */
     public Iterator<LaborOriginEntry> getEntriesByGroup(OriginEntryGroup group) {
-        // TODO Auto-generated method stub
-        return null;
+        return originEntryDao.getEntriesByGroup(group);
     }
 
+    /**
+     * @see org.kuali.module.labor.service.LaborOriginEntryService#getEntriesByGroups(java.util.Collection)
+     */
     public Iterator<LaborOriginEntry> getEntriesByGroups(Collection<OriginEntryGroup> postingGroups) {
-        // TODO Auto-generated method stub
-        return null;
+        return originEntryDao.getEntriesByGroups(postingGroups);
     }
 
+    /**
+     * @see org.kuali.module.labor.service.LaborOriginEntryService#getEntriesByGroup(org.kuali.module.gl.bo.OriginEntryGroup,
+     *      boolean)
+     */
     public Iterator<LaborOriginEntry> getEntriesByGroup(OriginEntryGroup validGroup, boolean isConsolidated) {
-        // TODO Auto-generated method stub
-        return null;
+        Collection<LaborOriginEntry> entryCollection = new ArrayList<LaborOriginEntry>(); 
+        LaborLedgerUnitOfWork laborLedgerUnitOfWork = new LaborLedgerUnitOfWork();
+        
+        Iterator<Object[]> consolidatedEntries = originEntryDao.getConsolidatedEntriesByGroup(validGroup);
+        while(consolidatedEntries.hasNext()){
+            LaborOriginEntry laborOriginEntry = new LaborOriginEntry();
+            Object[] oneEntry = consolidatedEntries.next();
+            ObjectUtil.buildObject(laborOriginEntry, oneEntry, LaborConstants.consolidationAttributesOfOriginEntry());
+            
+            if(laborLedgerUnitOfWork.canContain(laborOriginEntry)){
+                laborLedgerUnitOfWork.addEntryIntoUnit(laborOriginEntry);
+            }
+            else{
+                entryCollection.add(laborLedgerUnitOfWork.getWorkingEntry());
+                laborLedgerUnitOfWork.resetLaborLedgerUnitOfWork(laborOriginEntry);
+            }           
+        }
+        return entryCollection.iterator();
+    }
+
+    /**
+     * Sets the originEntryDao attribute value.
+     * 
+     * @param originEntryDao The originEntryDao to set.
+     */
+    public void setOriginEntryDao(LaborOriginEntryDao originEntryDao) {
+        this.originEntryDao = originEntryDao;
     }
 }

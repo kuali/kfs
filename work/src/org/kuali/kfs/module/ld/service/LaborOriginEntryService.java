@@ -23,9 +23,25 @@ import org.kuali.module.labor.bo.LaborOriginEntry;
 
 public interface LaborOriginEntryService {
 
+    /**
+     * Get origin entries that belong to the given group
+     * @param group the given origin entry group
+     * @return origin entries that belong to the given group
+     */
     Iterator<LaborOriginEntry> getEntriesByGroup(OriginEntryGroup group);
 
+    /**
+     * Get origin entries that belong to the given groups
+     * @param postingGroups the given origin entry groups
+     * @return origin entries that belong to the given groups
+     */
     Iterator<LaborOriginEntry> getEntriesByGroups(Collection<OriginEntryGroup> postingGroups);
 
+    /**
+     * Get the valid origin entries that belong to the given group in either the consolidation manner or not
+     * @param validGroup the given group that contains valid origin entry
+     * @param isConsolidated the flag that indicates if return origin entries in either the consolidation manner or not
+     * @return the valid origin entries that belong to the given group in either the consolidation manner or not
+     */
     Iterator<LaborOriginEntry> getEntriesByGroup(OriginEntryGroup validGroup, boolean isConsolidated);
 }

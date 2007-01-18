@@ -15,6 +15,33 @@
  */
 package org.kuali.module.labor.dao;
 
-public interface LaborOriginEntryDao {
+import java.util.Collection;
+import java.util.Iterator;
 
+import org.kuali.module.gl.bo.OriginEntryGroup;
+import org.kuali.module.gl.dao.OriginEntryDao;
+import org.kuali.module.labor.bo.LaborOriginEntry;
+
+public interface LaborOriginEntryDao extends OriginEntryDao{
+
+    /**
+     * Get origin entries that belong to the given group
+     * @param group the given origin entry group
+     * @return origin entries that belong to the given group
+     */
+    Iterator<LaborOriginEntry> getEntriesByGroup(OriginEntryGroup group);
+
+    /**
+     * Get origin entries that belong to the given groups
+     * @param postingGroups the given origin entry groups
+     * @return origin entries that belong to the given groups
+     */
+    Iterator<LaborOriginEntry> getEntriesByGroups(Collection<OriginEntryGroup> postingGroups);
+
+    /**
+     * Get the valid origin entries that belong to the given group in either the consolidation manner
+     * @param validGroup the given group that contains valid origin entry
+     * @return the valid origin entries that belong to the given group in either the consolidation manner
+     */
+    Iterator<Object[]> getConsolidatedEntriesByGroup(OriginEntryGroup validGroup);
 }

@@ -112,9 +112,18 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
         boolean valid = true;
         List<AuditError> auditErrors = new ArrayList<AuditError>();
         
+        // Agency/Delivery Info
         if (routingFormDocument.isRoutingFormAgencyToBeNamedIndicator() || ObjectUtils.isNull(routingFormDocument.getRoutingFormAgency().getAgencyNumber())) {
             valid = false;
             auditErrors.add(new AuditError("document.routingFormAgency.agencyNumber", KraKeyConstants.AUDIT_AGENCY_REQUIRED, "mainpage"));
+        }
+        
+        // Personnel and Units/Orgs
+        for (RoutingFormPersonnel person : routingFormDocument.getRoutingFormPersonnel()) {
+            if (person.isPersonToBeNamedIndicator()) {
+                valid = false;
+                auditErrors.add(new AuditError("document.routingFormPersonnel.personSystemIdentifier", KraKeyConstants.AUDIT_PERSON_REQUIRED, "mainpage"));
+            }
         }
         
         if (!routingFormDocument.getTotalFinancialAidPercent().equals(new KualiInteger(100))) {
@@ -127,6 +136,10 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
             auditErrors.add(new AuditError("document.routingFormPerson.personCreditPercent", KraKeyConstants.AUDIT_TOTAL_CREDIT_PERCENT_NOT_100, "mainpage"));
         }
         
+        // Amounts & Dates
+        /* TODO */
+        
+        // Done, finish up
         if (!auditErrors.isEmpty()) {
             GlobalVariables.getAuditErrorMap().put("mainPageAuditErrors", new AuditCluster("Main Page", auditErrors));
         }

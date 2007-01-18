@@ -30,6 +30,7 @@ public class KraKeyConstants {
     public static final String AUDIT_NONPERSONNEL_SUBCONTRACTOR_EXCESS_AMOUNT = "audit.nonpersonnel.subcontractorExceesAmount";
     public static final String AUDIT_PARAMETERS_NEGATIVE_IDC = "audit.parameters.negativeIdc";
     public static final String AUDIT_AGENCY_REQUIRED = "audit.mainPage.agency.required";
+    public static final String AUDIT_PERSON_REQUIRED = "audit.mainPage.person.required";
     public static final String AUDIT_TOTAL_CREDIT_PERCENT_NOT_100 = "audit.mainPage.total.credit.percent.not.100";
     public static final String AUDIT_TOTAL_FA_PERCENT_NOT_100 = "audit.mainPage.total.fa.percent.not.100";
     

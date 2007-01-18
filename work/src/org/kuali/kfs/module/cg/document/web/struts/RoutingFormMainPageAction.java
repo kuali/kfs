@@ -29,6 +29,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
@@ -146,62 +147,62 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         RoutingForm routingForm = (RoutingForm) form;
         RoutingFormDocument routingFormDocument = routingForm.getRoutingFormDocument();
 
-        if (request.getParameter(Constants.REFRESH_CALLER) != null) {
-            String refreshCaller = request.getParameter(Constants.REFRESH_CALLER);
-            // check to see if we are coming back from a lookup
-            if (refreshCaller.equals(Constants.KUALI_LOOKUPABLE_IMPL)) {
-                if (request.getParameter("document.routingFormAgency.agencyNumber") != null) {
-                    // coming back from an Agency lookup - Agency selected
-                    routingFormDocument.setRoutingFormAgencyToBeNamedIndicator(false);
-                }
-                else if ("true".equals(request.getParameter("document.routingFormAgencyToBeNamedIndicator"))) {
-                    // coming back from Agency lookup - To Be Named selected
-                    routingFormDocument.getRoutingFormAgency().setRoutingFormAgency(null);
-                    routingFormDocument.getRoutingFormAgency().refresh();
-                }
-                else if (request.getParameter("document.agencyFederalPassThroughNumber") != null) {
-                    // coming back from Agency Federal Pass Through lookup - Agency selected
-                    routingFormDocument.setAgencyFederalPassThroughNotAvailableIndicator(false);
-                }
-                else if ("true".equals(request.getParameter("document.agencyFederalPassThroughNotAvailableIndicator"))) {
-                    // coming back from Agency Federal Pass Through lookup - Name Later selected
-                    routingFormDocument.setAgencyFederalPassThroughNumber(null);
-                    routingFormDocument.refreshReferenceObject("federalPassThroughAgency");
-                }
-                else if (request.getParameter("newRoutingFormPersonnel.personSystemIdentifier") != null) {
-                    RoutingFormPersonnel newRoutingFormPersonnel = routingForm.getNewRoutingFormPersonnel();
+        String refreshCaller = request.getParameter(Constants.REFRESH_CALLER);
+        // check to see if we are coming back from a lookup
+        if (Constants.KUALI_LOOKUPABLE_IMPL.equals(refreshCaller)) {
+            if (request.getParameter("document.routingFormAgency.agencyNumber") != null) {
+                // coming back from an Agency lookup - Agency selected
+                routingFormDocument.setRoutingFormAgencyToBeNamedIndicator(false);
+            }
+            else if ("true".equals(request.getParameter("document.routingFormAgencyToBeNamedIndicator"))) {
+                // coming back from Agency lookup - To Be Named selected
+                routingFormDocument.getRoutingFormAgency().setRoutingFormAgency(null);
+                routingFormDocument.getRoutingFormAgency().refresh();
+            }
+            else if (request.getParameter("document.agencyFederalPassThroughNumber") != null) {
+                // coming back from Agency Federal Pass Through lookup - Agency selected
+                routingFormDocument.setAgencyFederalPassThroughNotAvailableIndicator(false);
+            }
+            else if ("true".equals(request.getParameter("document.agencyFederalPassThroughNotAvailableIndicator"))) {
+                // coming back from Agency Federal Pass Through lookup - Name Later selected
+                routingFormDocument.setAgencyFederalPassThroughNumber(null);
+                routingFormDocument.refreshReferenceObject("federalPassThroughAgency");
+            }
+        } else if (Constants.KUALI_USER_LOOKUPABLE_IMPL.equals(refreshCaller)) {
+            if (request.getParameter("newRoutingFormPersonnel.personSystemIdentifier") != null) {
+                RoutingFormPersonnel newRoutingFormPersonnel = routingForm.getNewRoutingFormPersonnel();
 
-                    // coming back from new Person lookup - person selected. Unset TBN indicated and set chart / org.
-                    setupPersonChartOrg(newRoutingFormPersonnel);
-                    newRoutingFormPersonnel.setPersonToBeNamedIndicator(false);
-                }
-                else if ("true".equals(request.getParameter("newRoutingFormPersonnel.personToBeNamedIndicator"))) {
-                    // coming back from new Person lookup - Name Later selected
-                    routingForm.getNewRoutingFormPersonnel().setPersonSystemIdentifier(null);
-                    routingForm.getNewRoutingFormPersonnel().refresh();
-                } else {
-                    // Must be related to personnel lookup, first find which item this relates to.
-                    int personIndex = determinePersonnelIndex(request);
+                // coming back from new Person lookup - person selected. Unset TBN indicated and set chart / org.
+                setupPersonChartOrg(newRoutingFormPersonnel);
+                newRoutingFormPersonnel.setPersonToBeNamedIndicator(false);
+            }
+            else if ("true".equals(request.getParameter("newRoutingFormPersonnel.personToBeNamedIndicator"))) {
+                // coming back from new Person lookup - Name Later selected
+                routingForm.getNewRoutingFormPersonnel().setPersonSystemIdentifier(null);
+                routingForm.getNewRoutingFormPersonnel().refresh();
+            } else {
+                // Must be related to personnel lookup, first find which item this relates to.
+                int personIndex = determinePersonnelIndex(request);
+                
+                // Next do the regular clearing of appropriate fields. If the above enumeration didn't find an item
+                // we print a warn message at the end of this if block.
+                if (request.getParameter("document.routingFormPerson[" + personIndex + "].personSystemIdentifier") != null) {
+                    RoutingFormPersonnel routingFormPersonnel = routingFormDocument.getRoutingFormPerson(personIndex);
                     
-                    // Next do the regular clearing of appropriate fields. If the above enumeration didn't find an item
-                    // we print a warn message at the end of this if block.
-                    if (request.getParameter("document.routingFormPerson[" + personIndex + "].personSystemIdentifier") != null) {
-                        RoutingFormPersonnel routingFormPersonnel = routingForm.getNewRoutingFormPersonnel();
-                        
-                        // coming back from Person lookup - Person selected. Unset TBN indicated and set chart / org.
-                        setupPersonChartOrg(routingFormPersonnel);
-                        routingFormDocument.getRoutingFormPerson(personIndex).setPersonToBeNamedIndicator(false);
-                    }
-                    else if ("true".equals(request.getParameter("document.routingFormPerson[" + personIndex + "].personToBeNamedIndicator"))) {
-                        // coming back from Person lookup - To Be Named selected
-                        routingFormDocument.getRoutingFormPerson(personIndex).setPersonSystemIdentifier(null);
-                        routingFormDocument.getRoutingFormPerson(personIndex).refresh();
-                    } else {
-                        LOG.warn("Personnel lookup TBN reset code wasn't able to find person: personIndexStr=" + personIndex);
-                    }
+                    // coming back from Person lookup - Person selected. Unset TBN indicated and set chart / org.
+                    setupPersonChartOrg(routingFormPersonnel);
+                    routingFormPersonnel.setPersonToBeNamedIndicator(false);
+                }
+                else if ("true".equals(request.getParameter("document.routingFormPerson[" + personIndex + "].personToBeNamedIndicator"))) {
+                    // coming back from Person lookup - To Be Named selected
+                    routingFormDocument.getRoutingFormPerson(personIndex).setPersonSystemIdentifier(null);
+                    routingFormDocument.getRoutingFormPerson(personIndex).refresh();
+                } else {
+                    LOG.warn("Personnel lookup TBN reset code wasn't able to find person: personIndexStr=" + personIndex);
                 }
             }
         }
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 

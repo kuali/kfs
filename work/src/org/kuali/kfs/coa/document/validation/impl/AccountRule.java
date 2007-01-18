@@ -644,7 +644,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         String fundGroupCode = newAccount.getSubFundGroup().getFundGroupCode().trim();
 
         // if this is a CG fund group, then its required
-        if (newAccount.isForContractsAndGrants()) {
+        if (SpringServiceLocator.getSubFundGroupService().isForContractsAndGrants(newAccount.getSubFundGroup())) {
             required = true;
         }
 
@@ -687,7 +687,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
         // Certain C&G fields are required if the Account belongs to the CG Fund Group
         if (ObjectUtils.isNotNull(newAccount.getSubFundGroup())) {
-            if (newAccount.isForContractsAndGrants()) {
+            if (SpringServiceLocator.getSubFundGroupService().isForContractsAndGrants(newAccount.getSubFundGroup())) {
                 result &= checkEmptyBOField("contractControlFinCoaCode", newAccount.getContractControlFinCoaCode(), "When Fund Group is CG, Contract Control Chart of Accounts Code");
                 result &= checkEmptyBOField("contractControlAccountNumber", newAccount.getContractControlAccountNumber(), "When Fund Group is CG, Contract Control Account Number");
                 result &= checkEmptyBOField("acctIndirectCostRcvyTypeCd", newAccount.getAcctIndirectCostRcvyTypeCd(), "When Fund Group is CG, ICR Type Code");

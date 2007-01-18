@@ -63,5 +63,6 @@
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/spring-modules-ojb-0.6.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/spring-mock-2.0.1.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/spring-2.0.1.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/dwr-1.1.4.jar"/>
 	<classpathentry kind="output" path="work/web-root/WEB-INF/classes"/>
 </classpath>

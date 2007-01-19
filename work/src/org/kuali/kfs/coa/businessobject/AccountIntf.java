@@ -502,20 +502,20 @@ public interface AccountIntf {
     public void setFinancialObjectivePrsctrlIndicator(boolean _FinancialObjectivePrsctrlIndicator_);
 
     /**
-     * Gets the cgCatlfFedDomestcAssistNbr attribute.
+     * Gets the accountCfdaNumber attribute.
      * 
-     * @return Returns the cgCatlfFedDomestcAssistNbr
+     * @return Returns the accountCfdaNumber
      * 
      */
-    public String getCgCatlfFedDomestcAssistNbr();
+    public String getAccountCfdaNumber();
 
     /**
-     * Sets the cgCatlfFedDomestcAssistNbr attribute.
+     * Sets the accountCfdaNumber attribute.
      * 
-     * @param cgCatlfFedDomestcAssistNbr The cgCatlfFedDomestcAssistNbr to set.
+     * @param accountCfdaNumber The accountCfdaNumber to set.
      * 
      */
-    public void setCgCatlfFedDomestcAssistNbr(String cgCatlfFedDomestcAssistNbr);
+    public void setAccountCfdaNumber(String accountCfdaNumber);
 
     /**
      * Gets the accountOffCampusIndicator attribute.

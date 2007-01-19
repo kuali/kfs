@@ -1101,7 +1101,7 @@ private void disableBeginBalanceLoadInd(){
         newAccount.setFinancialIcrSeriesIdentifier(null);
         newAccount.setIndirectCostRcvyFinCoaCode(null);
         newAccount.setIndirectCostRecoveryAcctNbr(null);
-        newAccount.setCgCatlfFedDomestcAssistNbr(null);
+        newAccount.setAccountCfdaNumber(null);
 
         // run the rule
         result = rule.checkCgRequiredFields(newAccount);
@@ -1113,7 +1113,7 @@ private void disableBeginBalanceLoadInd(){
         assertFieldErrorExists("financialIcrSeriesIdentifier", KeyConstants.ERROR_REQUIRED);
         assertFieldErrorExists("indirectCostRcvyFinCoaCode", KeyConstants.ERROR_REQUIRED);
         assertFieldErrorExists("indirectCostRecoveryAcctNbr", KeyConstants.ERROR_REQUIRED);
-        assertFieldErrorExists("cgCatlfFedDomestcAssistNbr", KeyConstants.ERROR_REQUIRED);
+        assertFieldErrorExists("accountCfdaNumber", KeyConstants.ERROR_REQUIRED);
 
     }
 
@@ -1142,7 +1142,7 @@ private void disableBeginBalanceLoadInd(){
         newAccount.setFinancialIcrSeriesIdentifier("001");
         newAccount.setIndirectCostRcvyFinCoaCode(Accounts.ChartCode.GOOD1);
         newAccount.setIndirectCostRecoveryAcctNbr(Accounts.AccountNumber.GOOD1);
-        newAccount.setCgCatlfFedDomestcAssistNbr("001");
+        newAccount.setAccountCfdaNumber("001");
 
         // run the rule
         result = rule.checkCgRequiredFields(newAccount);

@@ -69,7 +69,7 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     private boolean intrnlFinEncumSufficntFndIndicator;
     private boolean finPreencumSufficientFundIndicator;
     private boolean financialObjectivePrsctrlIndicator;
-    private String cgCatlfFedDomestcAssistNbr;
+    private String accountCfdaNumber;
     private boolean accountOffCampusIndicator;
     private boolean accountClosedIndicator;
     private String programCode;
@@ -762,23 +762,23 @@ public class PriorYearAccount extends PersistableBusinessObjectBase implements A
     }
 
     /**
-     * Gets the cgCatlfFedDomestcAssistNbr attribute.
+     * Gets the accountCfdaNumber attribute.
      * 
-     * @return Returns the cgCatlfFedDomestcAssistNbr
+     * @return Returns the accountCfdaNumber
      * 
      */
-    public String getCgCatlfFedDomestcAssistNbr() {
-        return cgCatlfFedDomestcAssistNbr;
+    public String getAccountCfdaNumber() {
+        return accountCfdaNumber;
     }
 
     /**
-     * Sets the cgCatlfFedDomestcAssistNbr attribute.
+     * Sets the accountCfdaNumber attribute.
      * 
-     * @param cgCatlfFedDomestcAssistNbr The cgCatlfFedDomestcAssistNbr to set.
+     * @param accountCfdaNumber The accountCfdaNumber to set.
      * 
      */
-    public void setCgCatlfFedDomestcAssistNbr(String cgCatlfFedDomestcAssistNbr) {
-        this.cgCatlfFedDomestcAssistNbr = cgCatlfFedDomestcAssistNbr;
+    public void setAccountCfdaNumber(String accountCfdaNumber) {
+        this.accountCfdaNumber = accountCfdaNumber;
     }
 
     /**

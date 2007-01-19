@@ -146,7 +146,7 @@
                     <maintainableField name="financialIcrSeriesIdentifier" required="false" />
                     <maintainableField name="indirectCostRcvyFinCoaCode" required="false" />
                     <maintainableField name="indirectCostRecoveryAcctNbr" required="false" />
-                    <maintainableField name="cgCatlfFedDomestcAssistNbr" required="false" />
+                    <maintainableField name="accountCfdaNumber" required="false" />
                 </maintainableItems>
             </maintainableSection>
             <maintainableSection title="Guidelines And Purpose">

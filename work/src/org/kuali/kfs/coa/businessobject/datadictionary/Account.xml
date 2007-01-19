@@ -79,7 +79,7 @@
                 <field attributeName="financialIcrSeriesIdentifier" />
                 <field attributeName="indirectCostRcvyFinCoaCode" />
                 <field attributeName="indirectCostRecoveryAcctNbr" />
-                <field attributeName="cgCatlfFedDomestcAssistNbr" />
+                <field attributeName="accountCfdaNumber" />
 
                 <field attributeName="guidelinesAndPurposeSectionBlank" />
                 <field attributeName="guidelinesAndPurposeSection" />
@@ -823,25 +823,15 @@
                 <description>A checkbox that indicates if the Account will use presence control, i.e., sufficient funds checking by Object Code.</description>
             </attributeReference>
 
-            <attribute name="cgCatlfFedDomestcAssistNbr" forceUppercase="false">
-                <label>Code Of Federal Domestic Assistance Number</label>
+            <attributeReference name="accountCfdaNumber" sourceClassName="org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference" sourceAttributeName="cfdaNumber">
+                <label>Catalog of Federal Domestic Assistance Number</label>
                 <shortLabel>FedDomAssisNum</shortLabel>
-
-                <maxLength>6</maxLength>
-                <validationPattern>
-                    <anyCharacter />
-                </validationPattern>
                 <required>false</required>
-
-                <control>
-                    <text size="6" />
-                </control>
-
                 <summary>
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>Numeric identifier for the federal government sources for awards. The label is required for the Audit of Federal Domestic Assistance conducted under OMB regulation A-133.</description>
-            </attribute>
+            </attributeReference>
 
             <attributeReference name="accountOffCampusIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator">
                 <label>Account Off Campus Indicator</label>

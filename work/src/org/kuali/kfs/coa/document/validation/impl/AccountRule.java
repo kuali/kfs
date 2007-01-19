@@ -705,7 +705,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                 
                 result &= checkEmptyBOField("indirectCostRcvyFinCoaCode", newAccount.getIndirectCostRcvyFinCoaCode(), "When Fund Group is CG, ICR Cost Recovery Chart of Accounts Code");
                 result &= checkEmptyBOField("indirectCostRecoveryAcctNbr", newAccount.getIndirectCostRecoveryAcctNbr(), "When Fund Group is CG, ICR Cost Recovery Account");
-                result &= checkEmptyBOField("cgCatlfFedDomestcAssistNbr", newAccount.getCgCatlfFedDomestcAssistNbr(), "When Fund Group is CG, C&G Domestic Assistance Number");
+                result &= checkEmptyBOField("accountCfdaNumber", newAccount.getAccountCfdaNumber(), "When Fund Group is CG, C&G Federal Domestic Assistance Number");
                 result &= checkContractControlAccountNumberRequired(newAccount);
             }
         }

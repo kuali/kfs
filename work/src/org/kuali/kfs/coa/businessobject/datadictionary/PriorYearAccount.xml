@@ -56,7 +56,7 @@
                 <field attributeName="awardPeriodEndMonth" />
                 <field attributeName="awardPeriodEndYear" />
                 <field attributeName="budgetRecordingLevelCode" />
-                <field attributeName="cgCatlfFedDomestcAssistNbr" />
+                <field attributeName="accountCfdaNumber" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="continuationAccountNumber" />
                 <field attributeName="continuationFinChrtOfAcctCd" />
@@ -129,7 +129,7 @@
                 <lookupField attributeName="awardPeriodEndMonth" required="false" />
                 <lookupField attributeName="awardPeriodEndYear" required="false" />
                 <lookupField attributeName="budgetRecordingLevelCode" required="false" />
-                <lookupField attributeName="cgCatlfFedDomestcAssistNbr" required="false" />
+                <lookupField attributeName="accountCfdaNumber" required="false" />
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
                 <lookupField attributeName="continuationAccountNumber" required="false" />
                 <lookupField attributeName="continuationFinChrtOfAcctCd" required="false" />
@@ -189,7 +189,7 @@
                 <field attributeName="awardPeriodEndMonth" />
                 <field attributeName="awardPeriodEndYear" />
                 <field attributeName="budgetRecordingLevelCode" />
-                <field attributeName="cgCatlfFedDomestcAssistNbr" />
+                <field attributeName="accountCfdaNumber" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="continuationAccountNumber" />
                 <field attributeName="continuationFinChrtOfAcctCd" />
@@ -636,8 +636,8 @@
                 <description>The indicator to show if this account is recording its budget by account (A), consolidation (C), object code (O), level (L), sub-account (S), mixed (M), or no budget (N).</description>
 			</attribute>
 
-            <attribute name="cgCatlfFedDomestcAssistNbr" forceUppercase="true">
-                <label>Cg Catlf Fed Domestc Assist Nbr</label>
+            <attribute name="accountCfdaNumber" forceUppercase="true">
+                <label>Catalog of Federal Domestic Assistance Number</label>
                 <shortLabel>Nbr</shortLabel>
 
                 <maxLength>6</maxLength>
@@ -648,7 +648,7 @@
                 </control>
 
                 <summary><![CDATA[&nbsp;]]></summary>
-                <description>cgCatlfFedDomestcAssistNbr description...</description>
+                <description>accountCfdaNumber description...</description>
 			</attribute>
 
             <attribute name="chartOfAccountsCode" forceUppercase="true">

@@ -39,6 +39,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference;
 import org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode;
 import org.kuali.module.chart.bo.codes.ICRTypeCode;
 import org.kuali.module.chart.bo.codes.SufficientFundsCode;
@@ -77,7 +78,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     private boolean intrnlFinEncumSufficntFndIndicator;
     private boolean finPreencumSufficientFundIndicator;
     private boolean financialObjectivePrsctrlIndicator;
-    private String cgCatlfFedDomestcAssistNbr;
+    private String accountCfdaNumber;
     private boolean accountOffCampusIndicator;
     private boolean accountClosedIndicator;
     private String programCode;
@@ -127,6 +128,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     private BudgetRecordingLevelCode budgetRecordingLevel;
     private SufficientFundsCode sufficientFundsCode;
     private Program program;
+    private CatalogOfFederalDomesticAssistanceReference cfda;
 
     // Several kinds of Dummy Attributes for dividing sections on Inquiry page
     private String accountResponsibilitySectionBlank;
@@ -799,23 +801,31 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     }
 
     /**
-     * Gets the cgCatlfFedDomestcAssistNbr attribute.
+     * Gets the accountCfdaNumber attribute.
      * 
-     * @return Returns the cgCatlfFedDomestcAssistNbr
+     * @return Returns the accountCfdaNumber
      * 
      */
-    public String getCgCatlfFedDomestcAssistNbr() {
-        return cgCatlfFedDomestcAssistNbr;
+    public String getAccountCfdaNumber() {
+        return accountCfdaNumber;
     }
 
     /**
-     * Sets the cgCatlfFedDomestcAssistNbr attribute.
+     * Sets the accountCfdaNumber attribute.
      * 
-     * @param cgCatlfFedDomestcAssistNbr The cgCatlfFedDomestcAssistNbr to set.
+     * @param accountCfdaNumber The accountCfdaNumber to set.
      * 
      */
-    public void setCgCatlfFedDomestcAssistNbr(String cgCatlfFedDomestcAssistNbr) {
-        this.cgCatlfFedDomestcAssistNbr = cgCatlfFedDomestcAssistNbr;
+    public void setAccountCfdaNumber(String accountCfdaNumber) {
+        this.accountCfdaNumber = accountCfdaNumber;
+    }
+
+    public CatalogOfFederalDomesticAssistanceReference getCfda() {
+        return cfda;
+    }
+
+    public void setCfda(CatalogOfFederalDomesticAssistanceReference cfda) {
+        this.cfda = cfda;
     }
 
     /**

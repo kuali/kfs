@@ -1,5 +1,5 @@
 <%--
- Copyright 2006 The Kuali Foundation.
+ Copyright 2006-2007 The Kuali Foundation.
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
 <kul:tab tabTitle="Labor Ledger Pending Entries" defaultOpen="false" tabErrorKey="${Constants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS}">
 <div class="tab-container" align=center>
 		<div class="h2-container">
-		<h2>Labor Ledger Pending Entries <kul:lookup boClassName="org.kuali.module.gl.bo.GeneralLedgerPendingEntry" lookupParameters="document.documentNumber:documentNumber" hideReturnLink="true" suppressActions="true"/></h2>
+		<h2>Labor Ledger Pending Entries <kul:lookup boClassName="org.kuali.module.labor.bo.PendingLedgerEntry" lookupParameters="document.documentNumber:documentNumber" hideReturnLink="true" suppressActions="true"/></h2>
 		</div>
 	 <table cellpadding="0" cellspacing="0" class="datatable" summary="view/edit pending entries">
 
@@ -30,7 +30,7 @@
 		</tr>
 	</c:if>
 	<c:if test="${!empty KualiForm.document.generalLedgerPendingEntries}">
-        <c:set var="entryAttributes" value="${DataDictionary.GeneralLedgerPendingEntry.attributes}" />
+        <c:set var="entryAttributes" value="${DataDictionary.PendingLedgerEntry.attributes}" />
 		<tr>
             <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.transactionLedgerEntrySequenceNumber}" hideRequiredAsterisk="true" scope="col"/>
             <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.universityFiscalYear}" hideRequiredAsterisk="true" scope="col"/>
@@ -46,61 +46,61 @@
             <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.transactionLedgerEntryAmount}" hideRequiredAsterisk="true" scope="col"/>
             <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.transactionDebitCreditCode}" hideRequiredAsterisk="true" scope="col"/>
 		</tr>
-		<logic:iterate id="generalLedgerPendingEntry" name="KualiForm" property="document.generalLedgerPendingEntries" indexId="ctr">
+		<logic:iterate id="laborLedgerPendingEntry" name="KualiForm" property="document.generalLedgerPendingEntries" indexId="ctr">
 			<tr>
-				<th class="datacell center"><html:hidden property="document.generalLedgerPendingEntry[${ctr}].transactionLedgerEntrySequenceNumber" write="true"/></th>
+				<th class="datacell center"><html:hidden property="document.laborLedgerPendingEntry[${ctr}].transactionLedgerEntrySequenceNumber" write="true"/></th>
 				<td class="datacell center">
 					<kul:inquiry boClassName="org.kuali.core.bo.Options" keyValues="universityFiscalYear=${generalLedgerPendingEntry.universityFiscalYear}" render="true">
-						<html:hidden property="document.generalLedgerPendingEntry[${ctr}].universityFiscalYear" write="true"/>
+						<html:hidden property="document.laborLedgerPendingEntry[${ctr}].universityFiscalYear" write="true"/>
 					</kul:inquiry>
 				</td>
 				<td class="datacell center">
 					<kul:inquiry boClassName="org.kuali.module.chart.bo.Chart" keyValues="chartOfAccountsCode=${generalLedgerPendingEntry.chartOfAccountsCode}" render="true">
-						<html:hidden property="document.generalLedgerPendingEntry[${ctr}].chartOfAccountsCode" write="true"/>
+						<html:hidden property="document.laborLedgerPendingEntry[${ctr}].chartOfAccountsCode" write="true"/>
 					</kul:inquiry>
 				</td>
 				<td class="datacell center">
 					<kul:inquiry boClassName="org.kuali.module.chart.bo.Account" keyValues="chartOfAccountsCode=${generalLedgerPendingEntry.chartOfAccountsCode}&accountNumber=${generalLedgerPendingEntry.accountNumber}" render="true">
-						<html:hidden property="document.generalLedgerPendingEntry[${ctr}].accountNumber" write="true"/>
+						<html:hidden property="document.laborLedgerPendingEntry[${ctr}].accountNumber" write="true"/>
 					</kul:inquiry>
 				</td>
 				<td class="datacell center">
 					<kul:inquiry boClassName="org.kuali.module.chart.bo.SubAccount" keyValues="chartOfAccountsCode=${generalLedgerPendingEntry.chartOfAccountsCode}&accountNumber=${generalLedgerPendingEntry.accountNumber}&subAccountNumber=${generalLedgerPendingEntry.subAccountNumber}" render="${ ! generalLedgerPendingEntry.subAccountNumberBlank}">
-						<html:hidden property="document.generalLedgerPendingEntry[${ctr}].subAccountNumber" write="true"/>
+						<html:hidden property="document.laborLedgerPendingEntry[${ctr}].subAccountNumber" write="true"/>
 					</kul:inquiry>
 				</td>
 				<td class="datacell center">
 					<kul:inquiry boClassName="org.kuali.module.chart.bo.ObjectCode" keyValues="financialObjectCode=${generalLedgerPendingEntry.financialObjectCode}&chartOfAccountsCode=${generalLedgerPendingEntry.chartOfAccountsCode}&universityFiscalYear=${generalLedgerPendingEntry.universityFiscalYear}" render="${ ! generalLedgerPendingEntry.financialObjectCodeBlank}">
-						<html:hidden property="document.generalLedgerPendingEntry[${ctr}].financialObjectCode" write="true"/>
+						<html:hidden property="document.laborLedgerPendingEntry[${ctr}].financialObjectCode" write="true"/>
 					</kul:inquiry>
 				</td>
 				<td class="datacell center">
 					<kul:inquiry boClassName="org.kuali.module.chart.bo.SubObjCd" keyValues="financialSubObjectCode=${generalLedgerPendingEntry.financialSubObjectCode}&financialObjectCode=${generalLedgerPendingEntry.financialObjectCode}&chartOfAccountsCode=${generalLedgerPendingEntry.chartOfAccountsCode}&universityFiscalYear=${generalLedgerPendingEntry.universityFiscalYear}" render="${ ! generalLedgerPendingEntry.financialSubObjectCodeBlank}">
-						<html:hidden property="document.generalLedgerPendingEntry[${ctr}].financialSubObjectCode" write="true"/>
+						<html:hidden property="document.laborLedgerPendingEntry[${ctr}].financialSubObjectCode" write="true"/>
 					</kul:inquiry>
 				</td>
 				<td class="datacell center">
 					<kul:inquiry boClassName="org.kuali.module.chart.bo.ProjectCode" keyValues="code=${generalLedgerPendingEntry.projectCode}" render="${ ! generalLedgerPendingEntry.projectCodeBlank}">
-						<html:hidden property="document.generalLedgerPendingEntry[${ctr}].projectCode" write="true"/>
+						<html:hidden property="document.laborLedgerPendingEntry[${ctr}].projectCode" write="true"/>
 					</kul:inquiry>
 				</td>
 				<td class="datacell center">
 					<kul:inquiry boClassName="org.kuali.core.document.DocumentType" keyValues="financialDocumentTypeCode=${generalLedgerPendingEntry.financialDocumentTypeCode}" render="true">
-						<html:hidden property="document.generalLedgerPendingEntry[${ctr}].financialDocumentTypeCode" write="true"/>
+						<html:hidden property="document.laborLedgerPendingEntry[${ctr}].financialDocumentTypeCode" write="true"/>
 					</kul:inquiry>
 				</td>
 				<td class="datacell center">
 					<kul:inquiry boClassName="org.kuali.module.chart.bo.codes.BalanceTyp" keyValues="code=${generalLedgerPendingEntry.financialBalanceTypeCode}" render="true">
-						<html:hidden property="document.generalLedgerPendingEntry[${ctr}].financialBalanceTypeCode" write="true"/>
+						<html:hidden property="document.laborLedgerPendingEntry[${ctr}].financialBalanceTypeCode" write="true"/>
 					</kul:inquiry>
 				</td>
 				<td class="datacell center">
 					<kul:inquiry boClassName="org.kuali.module.chart.bo.ObjectType" keyValues="code=${generalLedgerPendingEntry.financialObjectTypeCode}" render="${ ! generalLedgerPendingEntry.financialObjectTypeCodeBlank}">
-						<html:hidden property="document.generalLedgerPendingEntry[${ctr}].financialObjectTypeCode" write="true"/>
+						<html:hidden property="document.laborLedgerPendingEntry[${ctr}].financialObjectTypeCode" write="true"/>
 					</kul:inquiry>
 				</td>
-				<td class="datacell center"><html:hidden property="document.generalLedgerPendingEntry[${ctr}].transactionLedgerEntryAmount" write="true"/></td>
-				<td class="datacell center"><html:hidden property="document.generalLedgerPendingEntry[${ctr}].transactionDebitCreditCode" write="true"/>&nbsp;</td>
+				<td class="datacell center"><html:hidden property="document.laborLedgerPendingEntry[${ctr}].transactionLedgerEntryAmount" write="true"/></td>
+				<td class="datacell center"><html:hidden property="document.laborLedgerPendingEntry[${ctr}].transactionDebitCreditCode" write="true"/>&nbsp;</td>
 			</tr>
 		</logic:iterate>
 	</c:if>

@@ -21,14 +21,18 @@
 
 	<kul:hiddenDocumentFields />
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
+	<label>Employee Search ID:
+	<input type="text" name="emplid" id="emplid" />
+	</label> 
+  <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" lookupParameters="document.emplid:emplid" hideReturnLink="true" suppressActions="true"/></h2>
 	<fin:accountingLines editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}" 
 		optionalFields="positionNumber,payrollEndDateFiscalYear,payrollEndDateFiscalPeriodCode,payrollTotalHours"/>
 	<ld:laborLedgerPendingEntries />
+	<kul:generalLedgerPendingEntries />
 	<kul:notes />
 	<kul:adHocRecipients />
 	<kul:routeLog />
 	<kul:panelFooter />
 	<kul:documentControls transactionalDocument="true" />
-
 </kul:documentPage>

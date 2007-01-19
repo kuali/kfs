@@ -32,16 +32,16 @@ public interface LaborOriginEntryService {
 
     /**
      * Get origin entries that belong to the given groups
-     * @param postingGroups the given origin entry groups
+     * @param groups the given origin entry groups
      * @return origin entries that belong to the given groups
      */
-    Iterator<LaborOriginEntry> getEntriesByGroups(Collection<OriginEntryGroup> postingGroups);
+    Iterator<LaborOriginEntry> getEntriesByGroups(Collection<OriginEntryGroup> groups);
 
     /**
-     * Get the valid origin entries that belong to the given group in either the consolidation manner or not
-     * @param validGroup the given group that contains valid origin entry
+     * Get the origin entries that belong to the given group in either the consolidation manner or not
+     * @param group the given group
      * @param isConsolidated the flag that indicates if return origin entries in either the consolidation manner or not
-     * @return the valid origin entries that belong to the given group in either the consolidation manner or not
+     * @return the origin entries that belong to the given group in either the consolidation manner or not
      */
-    Iterator<LaborOriginEntry> getEntriesByGroup(OriginEntryGroup validGroup, boolean isConsolidated);
+    Iterator<LaborOriginEntry> getEntriesByGroup(OriginEntryGroup group, boolean isConsolidated);
 }

@@ -21,13 +21,13 @@ import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.batch.poster.impl.PostGlEntry;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.labor.bo.LedgerEntry;
-import org.kuali.module.labor.service.LaborledgerEntryService;
+import org.kuali.module.labor.service.LaborLedgerEntryService;
 import org.kuali.module.labor.util.ObjectUtil;
 
 public class LaborLedgerEntryPoster implements PostTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerEntryPoster.class);
     
-    private LaborledgerEntryService laborledgerEntryService;
+    private LaborLedgerEntryService laborLedgerEntryService;
 
     /**
      * @see org.kuali.module.gl.batch.poster.PostTransaction#post(org.kuali.module.gl.bo.Transaction, int, java.util.Date)
@@ -36,10 +36,10 @@ public class LaborLedgerEntryPoster implements PostTransaction {
         LedgerEntry ledgerEntry = new LedgerEntry();        
         ObjectUtil.buildObject(ledgerEntry, transaction);
         
-        ledgerEntry.setTransactionLedgerEntrySequenceNumber(laborledgerEntryService.getMaxSquenceNumber(ledgerEntry) + 1);        
+        ledgerEntry.setTransactionLedgerEntrySequenceNumber(laborLedgerEntryService.getMaxSquenceNumber(ledgerEntry) + 1);        
         ledgerEntry.setTransactionPostingDate(new Date(postDate.getTime()));
         
-        laborledgerEntryService.addLedgerEntry(ledgerEntry);        
+        laborLedgerEntryService.save(ledgerEntry);        
         return "I";
     }
     
@@ -51,10 +51,10 @@ public class LaborLedgerEntryPoster implements PostTransaction {
     }
 
     /**
-     * Sets the laborledgerEntryService attribute value.
-     * @param laborledgerEntryService The laborledgerEntryService to set.
+     * Sets the laborLedgerEntryService attribute value.
+     * @param laborLedgerEntryService The laborLedgerEntryService to set.
      */
-    public void setLaborledgerEntryService(LaborledgerEntryService laborledgerEntryService) {
-        this.laborledgerEntryService = laborledgerEntryService;
+    public void setLaborLedgerEntryService(LaborLedgerEntryService laborledgerEntryService) {
+        this.laborLedgerEntryService = laborledgerEntryService;
     }
 }

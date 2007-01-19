@@ -31,6 +31,7 @@ import org.kuali.module.labor.util.ObjectUtil;
  * This class...
  */
 public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
+    
     private LaborOriginEntryDao originEntryDao;
 
     /**
@@ -43,19 +44,23 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
     /**
      * @see org.kuali.module.labor.service.LaborOriginEntryService#getEntriesByGroups(java.util.Collection)
      */
-    public Iterator<LaborOriginEntry> getEntriesByGroups(Collection<OriginEntryGroup> postingGroups) {
-        return originEntryDao.getEntriesByGroups(postingGroups);
+    public Iterator<LaborOriginEntry> getEntriesByGroups(Collection<OriginEntryGroup> groups) {
+        return originEntryDao.getEntriesByGroups(groups);
     }
 
     /**
      * @see org.kuali.module.labor.service.LaborOriginEntryService#getEntriesByGroup(org.kuali.module.gl.bo.OriginEntryGroup,
      *      boolean)
      */
-    public Iterator<LaborOriginEntry> getEntriesByGroup(OriginEntryGroup validGroup, boolean isConsolidated) {
+    public Iterator<LaborOriginEntry> getEntriesByGroup(OriginEntryGroup group, boolean isConsolidated) {
+        if(!isConsolidated){
+            return this.getEntriesByGroup(group);
+        }
+        
         Collection<LaborOriginEntry> entryCollection = new ArrayList<LaborOriginEntry>(); 
         LaborLedgerUnitOfWork laborLedgerUnitOfWork = new LaborLedgerUnitOfWork();
         
-        Iterator<Object[]> consolidatedEntries = originEntryDao.getConsolidatedEntriesByGroup(validGroup);
+        Iterator<Object[]> consolidatedEntries = originEntryDao.getConsolidatedEntriesByGroup(group);
         while(consolidatedEntries.hasNext()){
             LaborOriginEntry laborOriginEntry = new LaborOriginEntry();
             Object[] oneEntry = consolidatedEntries.next();

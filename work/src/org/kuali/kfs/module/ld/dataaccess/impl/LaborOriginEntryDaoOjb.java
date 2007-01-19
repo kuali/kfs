@@ -55,11 +55,17 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
     /**
      * @see org.kuali.module.labor.dao.LaborOriginEntryDao#getEntriesByGroups(java.util.Collection)
      */
-    public Iterator<LaborOriginEntry> getEntriesByGroups(Collection<OriginEntryGroup> postingGroups) {
+    public Iterator<LaborOriginEntry> getEntriesByGroups(Collection<OriginEntryGroup> groups) {
         LOG.debug("getEntriesByGroups() started");
+        
+        // extract the group ids of the given groups
+        List<Integer> groupIds = new ArrayList<Integer>();
+        for(OriginEntryGroup group : groups){
+            groupIds.add(group.getId());
+        }
 
         Criteria criteria = new Criteria();
-        criteria.addIn(PropertyConstants.ENTRY_GROUP_ID, postingGroups);
+        criteria.addIn(PropertyConstants.ENTRY_GROUP_ID, groupIds);
 
         QueryByCriteria query = QueryFactory.newQuery(this.getEntryClass(), criteria);
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
@@ -68,11 +74,11 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
     /**
      * @see org.kuali.module.labor.dao.LaborOriginEntryDao#getConsolidatedEntriesByGroup(org.kuali.module.gl.bo.OriginEntryGroup)
      */
-    public Iterator<Object[]> getConsolidatedEntriesByGroup(OriginEntryGroup validGroup) {
-        LOG.debug("getEntriesByGroup() started");
+    public Iterator<Object[]> getConsolidatedEntriesByGroup(OriginEntryGroup group) {
+        LOG.debug("getConsolidatedEntriesByGroup() started");
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(PropertyConstants.ENTRY_GROUP_ID, validGroup.getId());
+        criteria.addEqualTo(PropertyConstants.ENTRY_GROUP_ID, group.getId());
 
         ReportQueryByCriteria query = QueryFactory.newReportQuery(this.getEntryClass(), criteria);
 

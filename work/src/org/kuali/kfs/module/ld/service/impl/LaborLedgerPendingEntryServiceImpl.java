@@ -40,13 +40,4 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
        
         return businessObjectService.countMatching(PendingLedgerEntry.class, fieldValues) > 0;
     }
-
-    public void save(PendingLedgerEntry pendingLedgerEntry) {
-        businessObjectService.save(pendingLedgerEntry);        
-    }
-
-    public Integer getMaxSequenceNumber() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
 }

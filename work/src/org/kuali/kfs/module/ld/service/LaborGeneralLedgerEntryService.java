@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2007 The Kuali Foundation.
+ * Copyright 2007 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,25 +15,23 @@
  */
 package org.kuali.module.labor.service;
 
-import java.util.Map;
-
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.labor.bo.PendingLedgerEntry;
+import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
 
 /**
- * This interface defines methods that a LaborLedgerPendingEntry Service must provide
- * 
- * 
+ * This class...
  */
-public interface LaborLedgerPendingEntryService {
+public interface LaborGeneralLedgerEntryService {
 
     /**
-     * 
-     * Does the given account have any labor ledger entries? It is necessary to check this before closing an account.
-     * 
-     * @param account
+     * Get the max sequence number 
+     * @param laborGeneralLedgerEntry
      * @return
      */
-    
-    public boolean hasPendingLaborLedgerEntry(Account account);
+    Integer getMaxSequenceNumber(LaborGeneralLedgerEntry laborGeneralLedgerEntry);
+
+    /**
+     * This method...
+     * @param laborGeneralLedgerEntry
+     */
+    void save(LaborGeneralLedgerEntry laborGeneralLedgerEntry);
 }

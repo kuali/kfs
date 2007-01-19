@@ -33,15 +33,15 @@ public interface LaborOriginEntryDao extends OriginEntryDao{
 
     /**
      * Get origin entries that belong to the given groups
-     * @param postingGroups the given origin entry groups
+     * @param groups the given origin entry groups
      * @return origin entries that belong to the given groups
      */
-    Iterator<LaborOriginEntry> getEntriesByGroups(Collection<OriginEntryGroup> postingGroups);
+    Iterator<LaborOriginEntry> getEntriesByGroups(Collection<OriginEntryGroup> groups);
 
     /**
-     * Get the valid origin entries that belong to the given group in either the consolidation manner
-     * @param validGroup the given group that contains valid origin entry
-     * @return the valid origin entries that belong to the given group in either the consolidation manner
+     * Get the origin entries that belong to the given group in either the consolidation manner
+     * @param group the given group
+     * @return the origin entries that belong to the given group in either the consolidation manner
      */
-    Iterator<Object[]> getConsolidatedEntriesByGroup(OriginEntryGroup validGroup);
+    Iterator<Object[]> getConsolidatedEntriesByGroup(OriginEntryGroup group);
 }

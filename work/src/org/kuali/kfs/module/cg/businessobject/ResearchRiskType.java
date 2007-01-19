@@ -31,7 +31,6 @@ public class ResearchRiskType extends PersistableBusinessObjectBase {
 	private String researchRiskTypeCode;
 	private boolean dataObjectMaintenanceCodeActiveIndicator;
 	private String researchRiskTypeDescription;
-	private boolean researchRiskBiosafetyIndicator;
     private String controlAttributeTypeCode;
     private Integer researchRiskTypeSortNumber;
     private String researchRiskTypeNotificationGroupText;
@@ -107,27 +106,6 @@ public class ResearchRiskType extends PersistableBusinessObjectBase {
 	 */
 	public void setResearchRiskTypeDescription(String researchRiskTypeDescription) {
 		this.researchRiskTypeDescription = researchRiskTypeDescription;
-	}
-
-
-	/**
-	 * Gets the researchRiskBiosafetyIndicator attribute.
-	 * 
-	 * @return Returns the researchRiskBiosafetyIndicator
-	 * 
-	 */
-	public boolean isResearchRiskBiosafetyIndicator() { 
-		return researchRiskBiosafetyIndicator;
-	}
-
-	/**
-	 * Sets the researchRiskBiosafetyIndicator attribute.
-	 * 
-	 * @param researchRiskBiosafetyIndicator The researchRiskBiosafetyIndicator to set.
-	 * 
-	 */
-	public void setResearchRiskBiosafetyIndicator(boolean researchRiskBiosafetyIndicator) {
-		this.researchRiskBiosafetyIndicator = researchRiskBiosafetyIndicator;
 	}
 
     /**
@@ -219,5 +197,4 @@ public class ResearchRiskType extends PersistableBusinessObjectBase {
         m.put("researchRiskTypeCode", this.researchRiskTypeCode);
         return m;
     }
-
 }

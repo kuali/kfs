@@ -55,29 +55,13 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
     }
     
     public ActionForward researchrisks(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
         RoutingForm routingForm = (RoutingForm) form;
-        routingForm.setDocId(routingForm.getDocument().getDocumentNumber());
-        this.loadDocument(routingForm);
-        
-//      Setup research risks
-        if (routingForm.getRoutingFormDocument().getRoutingFormResearchRisks().isEmpty()) {
-            SpringServiceLocator.getRoutingFormResearchRiskService().setupResearchRisks(routingForm.getRoutingFormDocument());
-        }
-        
         routingForm.setTabStates(new ArrayList());
         return mapping.findForward("researchrisks");
     }
     
     public ActionForward projectdetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
         RoutingForm routingForm = (RoutingForm) form;
-        
-        // Setup project details questions
-        if (routingForm.getRoutingFormDocument().getRoutingFormQuestions().isEmpty()) {
-            SpringServiceLocator.getRoutingFormProjectDetailsService().setupOtherProjectDetailsQuestions(routingForm.getRoutingFormDocument());
-        }
-        
         routingForm.setTabStates(new ArrayList());
         return mapping.findForward("projectdetails");
     }

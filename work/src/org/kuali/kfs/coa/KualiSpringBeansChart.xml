@@ -19,10 +19,16 @@
 	<bean id="chartModule" class="org.kuali.core.KualiModule">
 		<property name="moduleId" value="chart" />
 		<property name="moduleName" value="Kuali Chart Of Accounts" />
+		<property name="moduleCode" value="COA" />
 		<property name="moduleUserService" ref="chartUserService" />
 		<property name="moduleUserRule" ref="chartUserRule" />
 		<property name="moduleAuthorizer" ref="chartModuleAuthorizer" />
 		<property name="moduleUserPreRules" ref="chartUserPreRules" />
+		<property name="dataDictionaryPackages">
+			<list>
+				<value>org.kuali.module.chart.datadictionary</value>
+			</list>
+		</property>
 	</bean>
 
 	<bean id="chartUserService" class="org.kuali.module.chart.service.impl.ChartUserServiceImpl" parent="kualiModuleUserServiceBase">

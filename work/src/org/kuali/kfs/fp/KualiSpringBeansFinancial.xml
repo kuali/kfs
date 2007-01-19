@@ -18,7 +18,8 @@
 <beans>
 	<bean id="financialModule" class="org.kuali.core.KualiModule">
 		<property name="moduleId" value="financial" />
-		<property name="moduleName" value="Kuali Financials" />
+		<property name="moduleName" value="Kuali Financial Transactions" />
+		<property name="moduleCode" value="FT" />
 		<property name="moduleUserService" ref="financialUserService" />
 		<property name="moduleAuthorizer">
 			<bean class="org.kuali.core.authorization.KualiModuleAuthorizerBase">
@@ -34,6 +35,11 @@
 		</property>
 		<property name="moduleUserPreRules">
 			<null />
+		</property>
+		<property name="dataDictionaryPackages">
+			<list>
+				<value>org.kuali.module.financial.datadictionary</value>
+			</list>
 		</property>
 	</bean>
 

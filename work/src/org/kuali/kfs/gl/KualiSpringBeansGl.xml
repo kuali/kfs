@@ -19,6 +19,7 @@
 	<bean id="glModule" class="org.kuali.core.KualiModule">
 		<property name="moduleId" value="gl" />
 		<property name="moduleName" value="Kuali General Ledger" />
+		<property name="moduleCode" value="GL" />
 		<property name="moduleUserService" ref="glUserService" />
 		<property name="moduleAuthorizer">
 			<bean class="org.kuali.core.authorization.KualiModuleAuthorizerBase">
@@ -34,6 +35,11 @@
 		</property>
 		<property name="moduleUserPreRules">
 			<null />
+		</property>
+		<property name="dataDictionaryPackages">
+			<list>
+				<value>org.kuali.module.gl.datadictionary</value>
+			</list>
 		</property>
 	</bean>
 

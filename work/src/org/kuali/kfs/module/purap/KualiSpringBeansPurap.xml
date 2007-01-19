@@ -19,6 +19,7 @@
 	<bean id="purapModule" class="org.kuali.core.KualiModule">
 		<property name="moduleId" value="purap" />
 		<property name="moduleName" value="Kuali Purchasing/Accounts Payable" />
+		<property name="moduleCode" value="PUR" />
 		<property name="moduleUserService" ref="purapUserService" />
 		<property name="moduleAuthorizer">
 			<bean class="org.kuali.core.authorization.KualiModuleAuthorizerBase">
@@ -34,6 +35,11 @@
 		</property>
 		<property name="moduleUserPreRules">
 			<null />
+		</property>
+		<property name="dataDictionaryPackages">
+			<list>
+				<value>org.kuali.module.purap.datadictionary</value>
+			</list>
 		</property>
 	</bean>
 

@@ -19,6 +19,7 @@
 	<bean id="cgModule" class="org.kuali.core.KualiModule">
 		<property name="moduleId" value="cg" />
 		<property name="moduleName" value="Kuali Contracts and Grants" />
+		<property name="moduleCode" value="CG" />
 		<property name="moduleUserService" ref="cgUserService" />
 		<property name="moduleAuthorizer">
 			<bean class="org.kuali.core.authorization.KualiModuleAuthorizerBase">
@@ -34,6 +35,11 @@
 		</property>
 		<property name="moduleUserPreRules">
 			<null />
+		</property>
+		<property name="dataDictionaryPackages">
+			<list>
+				<value>org.kuali.module.cg.datadictionary</value>
+			</list>
 		</property>
 	</bean>
 

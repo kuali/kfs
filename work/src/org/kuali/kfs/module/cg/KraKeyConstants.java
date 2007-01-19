@@ -15,6 +15,8 @@
  */
 package org.kuali.module.kra;
 
+import org.kuali.module.kra.util.AuditError;
+
 /**
  * Holds error key constants for KRA.
  * 
@@ -29,10 +31,17 @@ public class KraKeyConstants {
     public static final String AUDIT_PERSONNEL_STATUS = "audit.personnel.status";
     public static final String AUDIT_NONPERSONNEL_SUBCONTRACTOR_EXCESS_AMOUNT = "audit.nonpersonnel.subcontractorExceesAmount";
     public static final String AUDIT_PARAMETERS_NEGATIVE_IDC = "audit.parameters.negativeIdc";
-    public static final String AUDIT_AGENCY_REQUIRED = "audit.mainPage.agency.required";
-    public static final String AUDIT_PERSON_REQUIRED = "audit.mainPage.person.required";
-    public static final String AUDIT_TOTAL_CREDIT_PERCENT_NOT_100 = "audit.mainPage.total.credit.percent.not.100";
-    public static final String AUDIT_TOTAL_FA_PERCENT_NOT_100 = "audit.mainPage.total.fa.percent.not.100";
+    public static final String AUDIT_MAIN_PAGE_AGENCY_REQUIRED = "audit.mainPage.agency.required";
+    public static final String AUDIT_MAIN_PAGE_PERSON_REQUIRED = "audit.mainPage.person.required";
+    public static final String AUDIT_MAIN_PAGE_TOTAL_CREDIT_PERCENT_NOT_100 = "audit.mainPage.total.credit.percent.not.100";
+    public static final String AUDIT_MAIN_PAGE_TOTAL_FA_PERCENT_NOT_100 = "audit.mainPage.total.fa.percent.not.100";
+    public static final String AUDIT_MAIN_PAGE_DIRECT_LESS_TOTAL_DIRECT = "audit.mainPage.direct.less.total.direct";
+    public static final String AUDIT_MAIN_PAGE_INDIRECT_LESS_TOTAL_INDIRECT = "audit.mainPage.indirect.less.total.indirect";
+    public static final String AUDIT_MAIN_PAGE_START_DATE_GREATER_TOTAL_START_DATE = "audit.mainPage.start.date.greater.total.start.date";
+    public static final String AUDIT_MAIN_PAGE_END_DATE_LESS_TOTAL_END_DATE = "audit.mainPage.end.date.less.total.end.date";
+    public static final String AUDIT_MAIN_PAGE_DIRECT_LESS_INDIRECT = "audit.mainPage.direct.less.indirect";
+    public static final String AUDIT_MAIN_PAGE_START_DATE_BEFORE_END_DATE = "audit.mainPage.start.date.before.end.date";
+    public static final String AUDIT_MAIN_PAGE_TOTAL_START_DATE_BEFORE_TOTAL_END_DATE = "audit.mainPage.total.start.date.before.total.end.date";
     
     public static final String ERROR_INVALID_AMOUNT_POSITIVE_ONLY = "error.invalid.amount.positive.only";
     public static final String ERROR_ORG_ALREADY_EXISTS_ON_RF = "error.org.already.exists.on.rf";

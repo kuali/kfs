@@ -32,6 +32,7 @@ import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.budget.rules.ResearchDocumentRuleBase;
 import org.kuali.module.kra.document.ResearchDocument;
+import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
 import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganization;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
@@ -115,33 +116,90 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
         // Agency/Delivery Info
         if (routingFormDocument.isRoutingFormAgencyToBeNamedIndicator() || ObjectUtils.isNull(routingFormDocument.getRoutingFormAgency().getAgencyNumber())) {
             valid = false;
-            auditErrors.add(new AuditError("document.routingFormAgency.agencyNumber", KraKeyConstants.AUDIT_AGENCY_REQUIRED, "mainpage"));
+            auditErrors.add(new AuditError("document.routingFormAgency.agencyNumber", KraKeyConstants.AUDIT_MAIN_PAGE_AGENCY_REQUIRED, "mainpage"));
         }
         
         // Personnel and Units/Orgs
         for (RoutingFormPersonnel person : routingFormDocument.getRoutingFormPersonnel()) {
             if (person.isPersonToBeNamedIndicator()) {
                 valid = false;
-                auditErrors.add(new AuditError("document.routingFormPersonnel.personSystemIdentifier", KraKeyConstants.AUDIT_PERSON_REQUIRED, "mainpage"));
+                auditErrors.add(new AuditError("document.routingFormPersonnel.personSystemIdentifier", KraKeyConstants.AUDIT_MAIN_PAGE_PERSON_REQUIRED, "mainpage"));
             }
         }
         
         if (!routingFormDocument.getTotalFinancialAidPercent().equals(new KualiInteger(100))) {
             valid = false;
-            auditErrors.add(new AuditError("document.routingFormPerson.personFinancialAidPercent", KraKeyConstants.AUDIT_TOTAL_FA_PERCENT_NOT_100, "mainpage"));
+            auditErrors.add(new AuditError("document.routingFormPerson.personFinancialAidPercent", KraKeyConstants.AUDIT_MAIN_PAGE_TOTAL_FA_PERCENT_NOT_100, "mainpage"));
         }
         
         if (!routingFormDocument.getTotalCreditPercent().equals(new KualiInteger(100))) {
             valid = false;
-            auditErrors.add(new AuditError("document.routingFormPerson.personCreditPercent", KraKeyConstants.AUDIT_TOTAL_CREDIT_PERCENT_NOT_100, "mainpage"));
+            auditErrors.add(new AuditError("document.routingFormPerson.personCreditPercent", KraKeyConstants.AUDIT_MAIN_PAGE_TOTAL_CREDIT_PERCENT_NOT_100, "mainpage"));
         }
         
         // Amounts & Dates
-        /* TODO */
+        RoutingFormBudget routingFormBudget = routingFormDocument.getRoutingFormBudget();
+        if (routingFormBudget != null) {
+            valid = processRoutingFormMainPageAmountsDateAuditChecks(auditErrors, routingFormBudget);
+        }
         
         // Done, finish up
         if (!auditErrors.isEmpty()) {
             GlobalVariables.getAuditErrorMap().put("mainPageAuditErrors", new AuditCluster("Main Page", auditErrors));
+        }
+        
+        return valid;
+    }
+
+    /**
+     * Runs audit mode business rule checks on a Main Page, section Amounts & Dates.
+     * @param auditErrors
+     * @param routingFormBudget
+     * @return
+     */
+    private boolean processRoutingFormMainPageAmountsDateAuditChecks(List<AuditError> auditErrors, RoutingFormBudget routingFormBudget) {
+        boolean valid = true;
+
+        if(routingFormBudget.getRoutingFormBudgetDirectAmount() != null && routingFormBudget.getRoutingFormBudgetIndirectCostAmount() != null &&
+                routingFormBudget.getRoutingFormBudgetDirectAmount().compareTo(routingFormBudget.getRoutingFormBudgetIndirectCostAmount()) < 0){
+            valid = false;
+            auditErrors.add(new AuditError("document.routingFormBudget.routingFormBudgetDirectAmount", KraKeyConstants.AUDIT_MAIN_PAGE_DIRECT_LESS_INDIRECT, "mainpage"));
+        }
+        if(routingFormBudget.getRoutingFormBudgetTotalDirectAmount() != null && routingFormBudget.getRoutingFormBudgetTotalIndirectCostAmount() != null &&
+                routingFormBudget.getRoutingFormBudgetTotalDirectAmount().compareTo(routingFormBudget.getRoutingFormBudgetTotalIndirectCostAmount()) < 0){
+            valid = false;
+            auditErrors.add(new AuditError("document.routingFormBudget.routingFormBudgetDirectAmount", KraKeyConstants.AUDIT_MAIN_PAGE_DIRECT_LESS_INDIRECT, "mainpage"));
+        }
+        if(routingFormBudget.getRoutingFormBudgetStartDate() != null && routingFormBudget.getRoutingFormBudgetEndDate() != null &&
+                routingFormBudget.getRoutingFormBudgetStartDate().compareTo(routingFormBudget.getRoutingFormBudgetEndDate()) >= 0){
+            valid = false;
+            auditErrors.add(new AuditError("document.routingFormBudget.routingFormBudgetDirectAmount", KraKeyConstants.AUDIT_MAIN_PAGE_START_DATE_BEFORE_END_DATE, "mainpage"));
+        }
+        if(routingFormBudget.getRoutingFormBudgetTotalStartDate() != null && routingFormBudget.getRoutingFormBudgetTotalEndDate() != null &&
+                routingFormBudget.getRoutingFormBudgetTotalStartDate().compareTo(routingFormBudget.getRoutingFormBudgetTotalEndDate()) >= 0){
+            valid = false;
+            auditErrors.add(new AuditError("document.routingFormBudget.routingFormBudgetDirectAmount", KraKeyConstants.AUDIT_MAIN_PAGE_TOTAL_START_DATE_BEFORE_TOTAL_END_DATE, "mainpage"));
+        }
+        
+        if(routingFormBudget.getRoutingFormBudgetDirectAmount() != null && routingFormBudget.getRoutingFormBudgetTotalDirectAmount() != null &&
+                routingFormBudget.getRoutingFormBudgetDirectAmount().compareTo(routingFormBudget.getRoutingFormBudgetTotalDirectAmount()) > 0) {
+            valid = false;
+            auditErrors.add(new AuditError("document.routingFormBudget.routingFormBudgetDirectAmount", KraKeyConstants.AUDIT_MAIN_PAGE_DIRECT_LESS_TOTAL_DIRECT, "mainpage"));
+        }
+        if(routingFormBudget.getRoutingFormBudgetIndirectCostAmount() != null && routingFormBudget.getRoutingFormBudgetTotalIndirectCostAmount() != null &&
+                routingFormBudget.getRoutingFormBudgetIndirectCostAmount().compareTo(routingFormBudget.getRoutingFormBudgetTotalIndirectCostAmount()) > 0) {
+            valid = false;
+            auditErrors.add(new AuditError("document.routingFormBudget.routingFormBudgetIndirectCostAmount", KraKeyConstants.AUDIT_MAIN_PAGE_INDIRECT_LESS_TOTAL_INDIRECT, "mainpage"));
+        }
+        if(routingFormBudget.getRoutingFormBudgetStartDate() != null && routingFormBudget.getRoutingFormBudgetTotalStartDate() != null &&
+                routingFormBudget.getRoutingFormBudgetStartDate().compareTo(routingFormBudget.getRoutingFormBudgetTotalStartDate()) < 0) {
+            valid = false;
+            auditErrors.add(new AuditError("document.routingFormBudget.routingFormBudgetStartDate", KraKeyConstants.AUDIT_MAIN_PAGE_START_DATE_GREATER_TOTAL_START_DATE, "mainpage"));
+        }
+        if(routingFormBudget.getRoutingFormBudgetEndDate() != null && routingFormBudget.getRoutingFormBudgetTotalEndDate() != null &&
+                routingFormBudget.getRoutingFormBudgetEndDate().compareTo(routingFormBudget.getRoutingFormBudgetTotalEndDate()) > 0) {
+            valid = false;
+            auditErrors.add(new AuditError("document.routingFormBudget.routingFormBudgetStartDate", KraKeyConstants.AUDIT_MAIN_PAGE_END_DATE_LESS_TOTAL_END_DATE, "mainpage"));
         }
         
         return valid;
@@ -377,14 +435,14 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                 errorMap.addToErrorPath("researchRiskStudy[" + j + "]");
                 
                 // If study is approved, approval date is required.
-                if (KraConstants.RESEARCH_RISK_STUDY_STATUS_APPROVED.equals(study.getResearchRiskApprovalPendingIndicator())
+                if (KraConstants.RESEARCH_RISK_STUDY_STATUS_APPROVED.equals(study.getResearchRiskStudyApprovalStatusCode())
                         && ObjectUtils.isNull(study.getResearchRiskStudyApprovalDate())) {
                     valid = false;
                     errorMap.putError("researchRiskStudyApprovalDate", KraKeyConstants.ERROR_APPROVAL_DATE_REQUIRED);
                 }
                 
                 // If study is not approved, approval date and expiration date must be empty.
-                if (!KraConstants.RESEARCH_RISK_STUDY_STATUS_APPROVED.equals(study.getResearchRiskApprovalPendingIndicator())) {
+                if (!KraConstants.RESEARCH_RISK_STUDY_STATUS_APPROVED.equals(study.getResearchRiskStudyApprovalStatusCode())) {
                     if (ObjectUtils.isNotNull(study.getResearchRiskStudyApprovalDate())) {
                         valid = false;
                         errorMap.putError("researchRiskStudyApprovalDate", KraKeyConstants.ERROR_APPROVAL_DATE_REMOVE);

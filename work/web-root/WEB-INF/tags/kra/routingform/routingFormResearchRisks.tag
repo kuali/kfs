@@ -30,7 +30,8 @@
 	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskType.researchRiskTypeNotificationGroupText"/>
 	<html:hidden property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskType.controlAttributeTypeCode"/>
 	
-	<c:if test="${researchRisk.researchRiskType.controlAttributeTypeCode == KraConstants.RESEARCH_RISK_TYPE_ALL_COLUMNS}">
+	<c:choose>
+	  <c:when test="${researchRisk.researchRiskType.controlAttributeTypeCode == KraConstants.RESEARCH_RISK_TYPE_ALL_COLUMNS}">
 		<kul:tab 
 			tabTitle="${researchRisk.researchRiskType.researchRiskTypeDescription}" 
 			defaultOpen="false" rightSideHtmlProperty="document.routingFormResearchRisk[${researchRiskStatus.index}].dataPresentIndicator" 
@@ -159,9 +160,8 @@
             	</table>
           	</div>
 		</kul:tab>
-	</c:if>
-
-	<c:if test="${researchRisk.researchRiskType.controlAttributeTypeCode == KraConstants.RESEARCH_RISK_TYPE_SOME_COLUMNS}">
+	  </c:when>
+	  <c:when test="${researchRisk.researchRiskType.controlAttributeTypeCode == KraConstants.RESEARCH_RISK_TYPE_SOME_COLUMNS}">
 		<kul:tab 
 			tabTitle="${researchRisk.researchRiskType.researchRiskTypeDescription}" 
 			defaultOpen="false"
@@ -261,9 +261,8 @@
             	</table>
           	</div>
 		</kul:tab>
-	</c:if>
-	
-	<c:if test="${researchRisk.researchRiskType.controlAttributeTypeCode == KraConstants.RESEARCH_RISK_TYPE_DESCRIPTION}">
+	  </c:when>
+	  <c:when test="${researchRisk.researchRiskType.controlAttributeTypeCode == KraConstants.RESEARCH_RISK_TYPE_DESCRIPTION}">
 		<kul:tab 
 			tabTitle="${researchRisk.researchRiskType.researchRiskTypeDescription}" 
 			defaultOpen="false"  
@@ -281,7 +280,9 @@
 				</table>
             </div>
         </kul:tab>
-	</c:if>
+      </c:when>
+      <c:otherwise><!-- not a match - do nothing. --></c:otherwise>
+    </c:choose>
   </c:forEach>
   <table width="100%" border="0" cellpadding="0" cellspacing="0" class="b3" summary="">
 	<tr>
@@ -289,5 +290,4 @@
 		<td align="right" class="footer-right"><img src="images/pixel_clear.gif" alt="" width="12" height="14" class="br3"></td>
     </tr>
   </table>
-
 </div>

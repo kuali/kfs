@@ -171,6 +171,16 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         this.getContractGrantProposal().setDocumentNumber(documentNumber);
         this.getRoutingFormAgency().setDocumentNumber(documentNumber);
         this.getRoutingFormBudget().setDocumentNumber(documentNumber);
+        
+        // Setup research risks if this is the first save
+        if (this.routingFormResearchRisks.isEmpty()) {
+            SpringServiceLocator.getRoutingFormResearchRiskService().setupResearchRisks(this);
+        }
+        
+        // Setup project details questions if this is the first save
+        if (this.routingFormQuestions.isEmpty()) {
+            SpringServiceLocator.getRoutingFormProjectDetailsService().setupOtherProjectDetailsQuestions(this);
+        }
     }
 
     /**

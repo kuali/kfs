@@ -17,6 +17,8 @@ package org.kuali.module.labor.rules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.KeyConstants;
@@ -27,10 +29,13 @@ import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.rules.TransactionalDocumentRuleBase;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.labor.bo.LaborObject;
+import org.kuali.module.labor.bo.SalaryExpenseTransferAccountingLine;
+import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 
 /**
  * Business rule(s) applicable to Salary Expense Transfer documents.
@@ -194,21 +199,191 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-        /*
+        
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
 
-        TransferOfFundsDocument tofDoc = (TransferOfFundsDocument) document;
+        SalaryExpenseTransferDocument setDoc = (SalaryExpenseTransferDocument) document;
 
+        List sourceLines = new ArrayList();
+        List targetLines = new ArrayList();
+
+        //set source and target accounting lines
+        sourceLines.addAll(setDoc.getSourceAccountingLines());
+        targetLines.addAll(setDoc.getTargetAccountingLines());
+
+        //check to ensure totals of accounting lines in source and target sections match
         if (isValid) {
-            isValid = isAllAccountingLinesMatchingBudgetYear(tofDoc);
+            isValid = isAccountingLineTotalsMatch(sourceLines, targetLines);            
         }
 
-        return isValid;
-        */
+        //check to ensure totals of accounting lines in source and target sections match by pay FY + pay period
+        if (isValid) {
+            isValid = isAccountingLineTotalsMatchByPayFYAndPayPeriod(sourceLines, targetLines);
+        }
         
-        return true;
+        return isValid;        
     }
 
+    /**
+     * 
+     * 
+     * @param sourceLines
+     * @param targetLines
+     * @return
+     */
+    private boolean isAccountingLineTotalsMatch(List sourceLines, List targetLines){
+        
+        boolean isValid = true;
+        
+        AccountingLine line = null; 
+        
+        // totals for the from and to lines.
+        KualiDecimal sourceLinesAmount = new KualiDecimal(0);
+        KualiDecimal targetLinesAmount = new KualiDecimal(0);
+
+        //sum source lines
+        for (Iterator i = sourceLines.iterator(); i.hasNext();) {
+            line = (SalaryExpenseTransferAccountingLine) i.next();            
+            sourceLinesAmount = sourceLinesAmount.add(line.getAmount());            
+        }
+
+        //sum target lines
+        for (Iterator i = targetLines.iterator(); i.hasNext();) {
+            line = (SalaryExpenseTransferAccountingLine) i.next();            
+            targetLinesAmount = targetLinesAmount.add(line.getAmount());            
+        }
+        
+        //if totals don't match, then add error message
+        if (sourceLinesAmount.compareTo(targetLinesAmount) != 0) {
+            isValid = false;
+            reportError(PropertyConstants.SOURCE_ACCOUNTING_LINES, KeyConstants.Labor.ACCOUNTING_LINE_TOTALS_MISMATCH_ERROR);            
+        }
+
+        return isValid;        
+    }
+    
+    /**
+     * 
+     * 
+     * @param sourceLines
+     * @param targetLines
+     * @return
+     */
+    private boolean isAccountingLineTotalsMatchByPayFYAndPayPeriod(List sourceLines, List targetLines){
+        
+        boolean isValid = true;
+                
+        Map sourceLinesMap = new HashMap();
+        Map targetLinesMap = new HashMap();                       
+
+        //sum source lines by pay fy and pay period, store in map by key PayFY+PayPeriod
+        sourceLinesMap = sumAccountingLineAmountsByPayFYAndPayPeriod(sourceLines);
+
+        //sum source lines by pay fy and pay period, store in map by key PayFY+PayPeriod
+        targetLinesMap = sumAccountingLineAmountsByPayFYAndPayPeriod(targetLines);
+        
+        //if totals don't match by PayFY+PayPeriod categories, then add error message
+        if ( compareAccountingLineTotalsByPayFYAndPayPeriod(sourceLinesMap, targetLinesMap) == false ) {
+            isValid = false;
+            reportError(PropertyConstants.SOURCE_ACCOUNTING_LINES, KeyConstants.Labor.ACCOUNTING_LINE_TOTALS_BY_PAYFY_PAYPERIOD_MISMATCH_ERROR);            
+        }
+
+        return isValid;        
+    }
+
+    private String createPayFYPeriodKey(Integer payFiscalYear, String payPeriodCode){
+    
+        StringBuffer payFYPeriodKey = new StringBuffer();
+        
+        payFYPeriodKey.append(payFiscalYear);
+        payFYPeriodKey.append(payPeriodCode);
+        
+        return payFYPeriodKey.toString();
+    }
+    
+    private Map sumAccountingLineAmountsByPayFYAndPayPeriod(List accountingLines){
+        
+        SalaryExpenseTransferAccountingLine line = null; 
+        KualiDecimal linesAmount = new KualiDecimal(0);
+        Map linesMap = new HashMap();
+        String payFYPeriodKey = null;
+        
+        //go through source lines adding amounts to appropriate place in map
+        for (Iterator i = accountingLines.iterator(); i.hasNext();) {
+            //initialize
+            line = (SalaryExpenseTransferAccountingLine) i.next();
+            linesAmount = new KualiDecimal(0);
+            
+            //create hash key
+            payFYPeriodKey = createPayFYPeriodKey(
+                    line.getPayrollEndDateFiscalYear(), line.getPayrollEndDateFiscalPeriodCode()); 
+            
+            //if entry exists, pull from hash
+            if ( linesMap.containsKey(payFYPeriodKey) ){
+                linesAmount = (KualiDecimal)linesMap.get(payFYPeriodKey);                
+            }
+                        
+            //update and store
+            linesAmount = linesAmount.add(line.getAmount());            
+            linesMap.put(payFYPeriodKey, linesAmount);            
+        }
+        
+        return linesMap;        
+    }
+    
+    private boolean compareAccountingLineTotalsByPayFYAndPayPeriod(Map sourceLinesMap, Map targetLinesMap){
+    
+        boolean isValid = true;
+        Map.Entry entry = null;
+        String currentKey = null;
+        KualiDecimal sourceLinesAmount = new KualiDecimal(0);
+        KualiDecimal targetLinesAmount = new KualiDecimal(0);
+
+        
+        //Loop through source lines comparing against target lines
+        for(Iterator i=sourceLinesMap.entrySet().iterator(); i.hasNext() && isValid;){
+            //initialize
+            entry = (Map.Entry)i.next();
+            currentKey = (String)entry.getKey();
+            sourceLinesAmount = (KualiDecimal)entry.getValue();
+            
+            if( targetLinesMap.containsKey( currentKey ) ){
+                targetLinesAmount = (KualiDecimal)targetLinesMap.get(currentKey);
+
+                if ( sourceLinesAmount.compareTo(targetLinesAmount) != 0 ) {
+                    isValid = false;                
+                }
+
+            }else{
+                isValid = false;                
+            }            
+        }
+        
+        /* Now loop through target lines comparing against source lines.
+         * This finds missing entries from either direction (source or target)
+         */
+        for(Iterator i=targetLinesMap.entrySet().iterator(); i.hasNext() && isValid;){
+            //initialize
+            entry = (Map.Entry)i.next();
+            currentKey = (String)entry.getKey();
+            targetLinesAmount = (KualiDecimal)entry.getValue();
+            
+            if( sourceLinesMap.containsKey( currentKey ) ){
+                sourceLinesAmount = (KualiDecimal)sourceLinesMap.get(currentKey);
+
+                if ( targetLinesAmount.compareTo(sourceLinesAmount) != 0 ) {
+                    isValid = false;                                
+                }
+                
+            }else{
+                isValid = false;                
+            }            
+        }
+        
+        
+        return isValid;    
+    }
+    
     /**
      * This is a helper method that wraps the fund group balancing check. This check can be configured by updating the APC that is
      * associated with this check. See the document's specification for details.

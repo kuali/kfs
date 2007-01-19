@@ -45,8 +45,6 @@ public class DisbursementVoucherWireTransfer extends PersistableBusinessObjectBa
     private String disbursementVoucherForeignCurrencyTypeName;
     private String disbursementVoucherForeignCurrencyTypeCode;
 
-    private DisbursementVoucherDocument disbursementVoucherDocument;
-
 
     /**
      * Default no-arg constructor.
@@ -414,21 +412,6 @@ public class DisbursementVoucherWireTransfer extends PersistableBusinessObjectBa
      */
     public void setDisbursementVoucherAutomatedClearingHouseProfileNumber(String disbursementVoucherAutomatedClearingHouseProfileNumber) {
         this.disbursementVoucherAutomatedClearingHouseProfileNumber = disbursementVoucherAutomatedClearingHouseProfileNumber;
-    }
-
-    /**
-     * @return Returns the disbursementVoucherDocument.
-     */
-    public DisbursementVoucherDocument getDisbursementVoucherDocument() {
-        return disbursementVoucherDocument;
-    }
-
-    /**
-     * @param disbursementVoucherDocument The disbursementVoucherDocument to set.
-     * @deprecated
-     */
-    public void setDisbursementVoucherDocument(DisbursementVoucherDocument disbursementVoucherDocument) {
-        this.disbursementVoucherDocument = disbursementVoucherDocument;
     }
 
     public void setDisbVchrForeignBankIndicatorName(String name) {

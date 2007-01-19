@@ -47,7 +47,9 @@ public class A21SubAccount extends PersistableBusinessObjectBase {
     private Account costShareAccount;
     private SubAccount costShareSourceSubAccount;
     private ICRTypeCode icrTypeCode;
-
+    private Chart chartOfAccounts;
+    private Account account;
+    
     /**
      * 
      */
@@ -386,6 +388,40 @@ public class A21SubAccount extends PersistableBusinessObjectBase {
      */
     public void setOffCampusCode(boolean offCampusCode) {
         this.offCampusCode = offCampusCode;
+    }
+
+    /**
+     * Gets the account attribute. 
+     * @return Returns the account.
+     */
+    public Account getAccount() {
+        return account;
+    }
+
+    /**
+     * Sets the account attribute value.
+     * @param account The account to set.
+     * @deprecated
+     */
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    /**
+     * Gets the chartOfAccounts attribute. 
+     * @return Returns the chartOfAccounts.
+     */
+    public Chart getChartOfAccounts() {
+        return chartOfAccounts;
+    }
+
+    /**
+     * Sets the chartOfAccounts attribute value.
+     * @param chartOfAccounts The chartOfAccounts to set.
+     * @deprecated
+     */
+    public void setChartOfAccounts(Chart chartOfAccounts) {
+        this.chartOfAccounts = chartOfAccounts;
     }
 
     /*

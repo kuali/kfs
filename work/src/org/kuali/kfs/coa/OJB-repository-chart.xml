@@ -601,6 +601,7 @@
         <foreignkey field-ref="financialReportingCode" />
     </reference-descriptor>
 
+<!-- the RI for this reference is reversed and the constraint is on A21 sub-account referencing sub-account; this is because of the problem with 1-1 relationships in OJB -->
     <reference-descriptor name="a21SubAccount" class-ref="org.kuali.module.chart.bo.A21SubAccount" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="accountNumber" />
@@ -1323,6 +1324,14 @@
         <foreignkey field-ref="costShareSourceSubAccountNumber" />
     </reference-descriptor>
 
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="chartOfAccountsCode" />
+    </reference-descriptor>
+
+    <reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="chartOfAccountsCode" />
+        <foreignkey field-ref="accountNumber" />
+    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.chart.bo.codes.ICRTypeCode" table="CA_ICR_TYPE_T">

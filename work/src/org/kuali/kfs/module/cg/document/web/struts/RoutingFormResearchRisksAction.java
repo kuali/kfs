@@ -82,14 +82,4 @@ public class RoutingFormResearchRisksAction extends RoutingFormAction {
         routingForm.getRoutingFormDocument().setRoutingFormResearchRisks(researchRisks);
         return super.save(mapping, form, request, response);
     }
-    
-    @Override
-    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward = super.reload(mapping, form, request, response);
-        RoutingForm routingForm = (RoutingForm) form;
-        if (routingForm.getRoutingFormDocument().getRoutingFormResearchRisks().isEmpty()) {
-            SpringServiceLocator.getRoutingFormResearchRiskService().setupResearchRisks(routingForm.getRoutingFormDocument());
-        }
-        return forward;
-    }
 }

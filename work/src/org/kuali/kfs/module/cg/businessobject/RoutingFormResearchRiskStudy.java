@@ -30,7 +30,7 @@ public class RoutingFormResearchRiskStudy extends PersistableBusinessObjectBase 
 
 	private String documentNumber;
 	private Integer routingFormResearchRiskStudySequenceNumber;
-	private String researchRiskApprovalPendingIndicator;
+	private String researchRiskStudyApprovalStatusCode;
 	private String researchRiskExemptionNumber;
 	private Date researchRiskStudyApprovalDate;
 	private String researchRiskStudyNumber;
@@ -89,23 +89,23 @@ public class RoutingFormResearchRiskStudy extends PersistableBusinessObjectBase 
 
 
 	/**
-	 * Gets the researchRiskApprovalPendingIndicator attribute.
+	 * Gets the researchRiskStudyApprovalStatusCode attribute.
 	 * 
-	 * @return Returns the researchRiskApprovalPendingIndicator
+	 * @return Returns the researchRiskStudyApprovalStatusCode
 	 * 
 	 */
-	public String getResearchRiskApprovalPendingIndicator() { 
-		return researchRiskApprovalPendingIndicator;
+	public String getResearchRiskStudyApprovalStatusCode() { 
+		return researchRiskStudyApprovalStatusCode;
 	}
 
 	/**
-	 * Sets the researchRiskApprovalPendingIndicator attribute.
+	 * Sets the researchRiskStudyApprovalStatusCode attribute.
 	 * 
-	 * @param researchRiskApprovalPendingIndicator The researchRiskApprovalPendingIndicator to set.
+	 * @param researchRiskStudyApprovalStatusCode The researchRiskStudyApprovalStatusCode to set.
 	 * 
 	 */
-	public void setResearchRiskApprovalPendingIndicator(String researchRiskApprovalPendingIndicator) {
-		this.researchRiskApprovalPendingIndicator = researchRiskApprovalPendingIndicator;
+	public void setResearchRiskStudyApprovalStatusCode(String researchRiskStudyApprovalStatusCode) {
+		this.researchRiskStudyApprovalStatusCode = researchRiskStudyApprovalStatusCode;
 	}
 
 

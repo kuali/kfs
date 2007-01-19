@@ -680,10 +680,10 @@
 	<reference-descriptor name="routingFormStatus" class-ref="org.kuali.module.kra.routingform.bo.RoutingFormStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="routingFormStatusCode" />
 	</reference-descriptor>
-	<reference-descriptor name="routingFormPurpose" class-ref="org.kuali.module.kra.routingform.bo.RoutingFormPurpose" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="purpose" class-ref="org.kuali.module.kra.routingform.bo.Purpose" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="routingFormPurposeCode" />
 	</reference-descriptor>
-	<reference-descriptor name="researchType" class-ref="org.kuali.module.kra.routingform.bo.RoutingFormResearchType" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="researchType" class-ref="org.kuali.module.kra.routingform.bo.ResearchTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="researchTypeCode" />
 	</reference-descriptor>
 	<reference-descriptor name="submissionType" class-ref="org.kuali.module.kra.routingform.bo.SubmissionType" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -841,12 +841,12 @@
 	<field-descriptor name="routingFormDueDateDescription" column="RF_DUEDT_DESC" jdbc-type="VARCHAR"/>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.kra.routingform.bo.RoutingFormPurpose" table="ER_RF_PRPS_T">
-	<field-descriptor name="routingFormPurposeCode" column="RF_PRPS_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+<class-descriptor class="org.kuali.module.kra.routingform.bo.Purpose" table="ER_RF_PRPS_T">
+	<field-descriptor name="purposeCode" column="RF_PRPS_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="dataObjectMaintenanceCodeActiveIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="routingFormPurposeDescription" column="RF_PRPS_DESC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="purposeDescription" column="RF_PRPS_DESC" jdbc-type="VARCHAR"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare" table="ER_RF_INST_CST_SHR_T">
@@ -894,7 +894,7 @@
 	<field-descriptor name="researchRiskTypeCode" column="RSRCH_RSK_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="researchRiskApprovalPendingIndicator" column="RSRCH_RSK_APRV_PND_IND" jdbc-type="VARCHAR"/>
+	<field-descriptor name="researchRiskStudyApprovalStatusCode" column="RSRCH_RSK_APRV_PND_IND" jdbc-type="VARCHAR"/>
 	<field-descriptor name="researchRiskExemptionNumber" column="RSRCH_RSK_EXMPT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="researchRiskStudyApprovalDate" column="RSRCH_RSK_STDY_APRV_DT" jdbc-type="DATE"/>
 	<field-descriptor name="researchRiskStudyNumber" column="RSRCH_RSK_STDY_NBR" jdbc-type="VARCHAR"/>
@@ -950,24 +950,16 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="dataObjectMaintenanceCodeActiveIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="controlAttributeTypeCode" column="CTRL_ATTRIB_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="projectTypeDescription" column="PROJ_TYP_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="sortNumber" column="SORT_NBR" jdbc-type="INTEGER"/>
-	<reference-descriptor name="controlAttributeType" class-ref="org.kuali.module.kra.routingform.bo.ControlAttributeType" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="controlAttributeTypeCode" />
-	</reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.kra.routingform.bo.RoutingFormResearchType" table="ER_RF_RSRCH_TYP_T">
+<class-descriptor class="org.kuali.module.kra.routingform.bo.ResearchTypeCode" table="ER_RF_RSRCH_TYP_T">
 	<field-descriptor name="researchTypeCode" column="RSRCH_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="dataObjectMaintenanceCodeActiveIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="controlAttributeTypeCode" column="CTRL_ATTRIB_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="researchTypeDescription" column="RSRCH_TYP_DESC" jdbc-type="VARCHAR"/>
-	<reference-descriptor name="controlAttributeType" class-ref="org.kuali.module.kra.routingform.bo.ControlAttributeType" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="controlAttributeTypeCode" />
-	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.routingform.bo.SubmissionType" table="ER_SUBM_TYP_T">
@@ -975,11 +967,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="dataObjectMaintenanceCodeActiveIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="controlAttributeTypeCode" column="CTRL_ATTRIB_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="submissionTypeDescription" column="SUBM_TYP_DESC" jdbc-type="VARCHAR"/>
-	<reference-descriptor name="controlAttributeType" class-ref="org.kuali.module.kra.routingform.bo.ControlAttributeType" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="controlAttributeTypeCode" />
-	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.routingform.bo.Keyword" table="ER_KEYWRD_T">

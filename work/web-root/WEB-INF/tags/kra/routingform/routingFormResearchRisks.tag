@@ -49,7 +49,7 @@
                 		<th>&nbsp;</th>
                 		<th>
                 			<div align="center">
-								<kul:htmlAttributeLabel attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskApprovalPendingIndicator}" useShortLabel="false" skipHelpUrl="true" noColon="true" />
+								<kul:htmlAttributeLabel attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskStudyApprovalStatusCode}" useShortLabel="false" skipHelpUrl="true" noColon="true" />
 							</div>
 						</th>
                 		<th>
@@ -83,7 +83,7 @@
                 		<th scope="row">add:</th>
                 		<td class="infoline">
                 			<div align="center">
-                				<kul:htmlControlAttribute property="document.routingFormResearchRisk[${researchRiskStatus.index}].newResearchRiskStudy.researchRiskApprovalPendingIndicator" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskApprovalPendingIndicator}" />
+                				<kul:htmlControlAttribute property="document.routingFormResearchRisk[${researchRiskStatus.index}].newResearchRiskStudy.researchRiskStudyApprovalStatusCode" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskStudyApprovalStatusCode}" />
                 			</div>
                 		</td>
                 		<td class="infoline">
@@ -119,7 +119,7 @@
                 			<th scope="row">${studyStatus.index + 1}</th>
                 			<td class="infoline">
                 				<div align="center">
-	            					<kul:htmlControlAttribute property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchRiskApprovalPendingIndicator" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskApprovalPendingIndicator}" />
+	            					<kul:htmlControlAttribute property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchRiskStudyApprovalStatusCode" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskStudyApprovalStatusCode}" />
                 				</div>
                 			</td>
                 			<td class="infoline">
@@ -180,7 +180,7 @@
                 		<th>&nbsp;</th>                
                 		<th> 
                 			<div align="center">
-								<kul:htmlAttributeLabel attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskApprovalPendingIndicator}" useShortLabel="false" skipHelpUrl="true" noColon="true" />
+								<kul:htmlAttributeLabel attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskStudyApprovalStatusCode}" useShortLabel="false" skipHelpUrl="true" noColon="true" />
 							</div>
 						</th>
                 		<th>
@@ -204,7 +204,7 @@
                 		<th scope="row">add:</th>
                 		<td class="infoline">
                 			<div align="center">
-                				<kul:htmlControlAttribute property="document.routingFormResearchRisk[${researchRiskStatus.index}].newResearchRiskStudy.researchRiskApprovalPendingIndicator" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskApprovalPendingIndicator}" />
+                				<kul:htmlControlAttribute property="document.routingFormResearchRisk[${researchRiskStatus.index}].newResearchRiskStudy.researchRiskStudyApprovalStatusCode" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskStudyApprovalStatusCode}" />
                 			</div>
                 		</td>
                 		<td class="infoline">
@@ -230,7 +230,7 @@
                 			<th scope="row">${studyStatus.index + 1}</th>
                 			<td class="infoline">
                 				<div align="center">
-	            					<kul:htmlControlAttribute property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchRiskApprovalPendingIndicator" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskApprovalPendingIndicator}" />
+	            					<kul:htmlControlAttribute property="document.routingFormResearchRisk[${researchRiskStatus.index}].researchRiskStudy[${studyStatus.index}].researchRiskStudyApprovalStatusCode" attributeEntry="${routingFormResearchRiskStudyAttributes.researchRiskStudyApprovalStatusCode}" />
                 				</div>
                 			</td>
                 			<td class="infoline">

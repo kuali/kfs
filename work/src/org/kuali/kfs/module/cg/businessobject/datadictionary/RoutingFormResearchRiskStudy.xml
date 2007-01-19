@@ -26,7 +26,7 @@
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="routingFormResearchRiskStudySequenceNumber" />
-                <field attributeName="researchRiskApprovalPendingIndicator" />
+                <field attributeName="researchRiskStudyApprovalStatusCode" />
                 <field attributeName="researchRiskExemptionNumber" />
                 <field attributeName="researchRiskStudyApprovalDate" />
                 <field attributeName="researchRiskStudyName" />
@@ -51,7 +51,7 @@
 
             <lookupFields>
                 <lookupField attributeName="routingFormResearchRiskStudySequenceNumber" required="false" />
-                <lookupField attributeName="researchRiskApprovalPendingIndicator" required="false" />
+                <lookupField attributeName="researchRiskStudyApprovalStatusCode" required="false" />
                 <lookupField attributeName="researchRiskExemptionNumber" required="false" />
                 <lookupField attributeName="researchRiskStudyApprovalDate" required="false" />
                 <lookupField attributeName="researchRiskStudyName" required="false" />
@@ -63,7 +63,7 @@
 
             <resultFields>
                 <field attributeName="routingFormResearchRiskStudySequenceNumber" />
-                <field attributeName="researchRiskApprovalPendingIndicator" />
+                <field attributeName="researchRiskStudyApprovalStatusCode" />
                 <field attributeName="researchRiskExemptionNumber" />
                 <field attributeName="researchRiskStudyApprovalDate" />
                 <field attributeName="researchRiskStudyName" />
@@ -91,7 +91,7 @@
                 <description>routingFormResearchRiskStudySequenceNumber description...</description>
 			</attribute>
 
-            <attribute name="researchRiskApprovalPendingIndicator" forceUppercase="true">
+            <attribute name="researchRiskStudyApprovalStatusCode" forceUppercase="true">
                 <label>Approval Status</label>
                 <shortLabel>Indicator</shortLabel>
 
@@ -101,8 +101,8 @@
                     <select valuesFinderClass="org.kuali.module.kra.routingform.lookup.keyvalues.RoutingFormApprovalStatusValuesFinder" />
                 </control>
 
-                <summary>researchRiskApprovalPendingIndicator</summary>
-                <description>researchRiskApprovalPendingIndicator description...</description>
+                <summary>researchRiskStudyApprovalStatusCode</summary>
+                <description>researchRiskStudyApprovalStatusCode description...</description>
 			</attribute>
 
             <attribute name="researchRiskExemptionNumber" forceUppercase="true">

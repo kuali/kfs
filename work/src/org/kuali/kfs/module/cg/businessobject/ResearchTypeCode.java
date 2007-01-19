@@ -23,38 +23,37 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 /**
  * 
  */
-public class ProjectType extends PersistableBusinessObjectBase {
+public class ResearchTypeCode extends PersistableBusinessObjectBase {
 
-	private String projectTypeCode;
+	private String researchTypeCode;
 	private boolean dataObjectMaintenanceCodeActiveIndicator;
-	private String projectTypeDescription;
-	private Integer sortNumber;
+	private String researchTypeDescription;
     
 	/**
 	 * Default constructor.
 	 */
-	public ProjectType() {
+	public ResearchTypeCode() {
 
 	}
 
 	/**
-	 * Gets the projectTypeCode attribute.
+	 * Gets the researchTypeCode attribute.
 	 * 
-	 * @return Returns the projectTypeCode
+	 * @return Returns the researchTypeCode
 	 * 
 	 */
-	public String getProjectTypeCode() { 
-		return projectTypeCode;
+	public String getResearchTypeCode() { 
+		return researchTypeCode;
 	}
 
 	/**
-	 * Sets the projectTypeCode attribute.
+	 * Sets the researchTypeCode attribute.
 	 * 
-	 * @param projectTypeCode The projectTypeCode to set.
+	 * @param researchTypeCode The researchTypeCode to set.
 	 * 
 	 */
-	public void setProjectTypeCode(String projectTypeCode) {
-		this.projectTypeCode = projectTypeCode;
+	public void setResearchTypeCode(String researchTypeCode) {
+		this.researchTypeCode = researchTypeCode;
 	}
 
 
@@ -80,44 +79,23 @@ public class ProjectType extends PersistableBusinessObjectBase {
 
 
 	/**
-	 * Gets the projectTypeDescription attribute.
+	 * Gets the researchTypeDescription attribute.
 	 * 
-	 * @return Returns the projectTypeDescription
+	 * @return Returns the researchTypeDescription
 	 * 
 	 */
-	public String getProjectTypeDescription() { 
-		return projectTypeDescription;
+	public String getResearchTypeDescription() { 
+		return researchTypeDescription;
 	}
 
 	/**
-	 * Sets the projectTypeDescription attribute.
+	 * Sets the researchTypeDescription attribute.
 	 * 
-	 * @param projectTypeDescription The projectTypeDescription to set.
-	 * 
-	 */
-	public void setProjectTypeDescription(String projectTypeDescription) {
-		this.projectTypeDescription = projectTypeDescription;
-	}
-
-
-	/**
-	 * Gets the sortNumber attribute.
-	 * 
-	 * @return Returns the sortNumber
+	 * @param researchTypeDescription The researchTypeDescription to set.
 	 * 
 	 */
-	public Integer getSortNumber() { 
-		return sortNumber;
-	}
-
-	/**
-	 * Sets the sortNumber attribute.
-	 * 
-	 * @param sortNumber The sortNumber to set.
-	 * 
-	 */
-	public void setSortNumber(Integer sortNumber) {
-		this.sortNumber = sortNumber;
+	public void setResearchTypeDescription(String researchTypeDescription) {
+		this.researchTypeDescription = researchTypeDescription;
 	} 
     
 	/**
@@ -125,7 +103,7 @@ public class ProjectType extends PersistableBusinessObjectBase {
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
-        m.put("projectTypeCode", this.projectTypeCode);
+        m.put("researchTypeCode", this.researchTypeCode);
 	    return m;
     }
 }

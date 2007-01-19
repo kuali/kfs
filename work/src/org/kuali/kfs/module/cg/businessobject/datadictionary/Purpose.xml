@@ -18,40 +18,40 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../dataDictionary-1_0.dtd">
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.kra.routingform.bo.RoutingFormPurpose">
+    <businessObject businessObjectClass="org.kuali.module.kra.routingform.bo.Purpose">
         <customAttributeEnabled>false</customAttributeEnabled>
 
         <inquiry>
-            <title>Routing Form Purpose Inquiry</title>
+            <title>Purpose Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
-                <field attributeName="routingFormPurposeCode" />
-                <field attributeName="routingFormPurposeDescription" />
+                <field attributeName="purposeCode" />
+                <field attributeName="purposeDescription" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>
-            <title>Routing Form Purpose Lookup</title>
+            <title>Purpose Lookup</title>
 
-            <instructions>Look up a Routing Form Purpose</instructions>
+            <instructions>Look up a Purpose</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="routingFormPurposeCode" />
+                    <sortAttribute attributeName="purposeCode" />
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
                 <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
-                <lookupField attributeName="routingFormPurposeCode" required="false" />
-                <lookupField attributeName="routingFormPurposeDescription" required="false" />
+                <lookupField attributeName="purposeCode" required="false" />
+                <lookupField attributeName="purposeDescription" required="false" />
             </lookupFields>
 
             <resultFields>
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
-                <field attributeName="routingFormPurposeCode" />
-                <field attributeName="routingFormPurposeDescription" />
+                <field attributeName="purposeCode" />
+                <field attributeName="purposeDescription" />
             </resultFields>
         </lookup>
 
@@ -72,8 +72,8 @@
                 <description>dataObjectMaintenanceCodeActiveIndicator description...</description>
 			</attribute>
 
-            <attribute name="routingFormPurposeCode" forceUppercase="true">
-                <label>Routing Form Purpose Code</label>
+            <attribute name="purposeCode" forceUppercase="true">
+                <label>Purpose Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -83,12 +83,12 @@
                     <text size="3" />
                 </control>
 
-                <summary>routingFormPurposeCode</summary>
-                <description>routingFormPurposeCode description...</description>
+                <summary>purposeCode</summary>
+                <description>purposeCode description...</description>
 			</attribute>
 
-            <attribute name="routingFormPurposeDescription" forceUppercase="true">
-                <label>Routing Form Purpose Description</label>
+            <attribute name="purposeDescription" forceUppercase="true">
+                <label>Purpose Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>26</maxLength>
@@ -98,8 +98,8 @@
                     <text size="28" />
                 </control>
 
-                <summary>routingFormPurposeDescription</summary>
-                <description>routingFormPurposeDescription description...</description>
+                <summary>purposeDescription</summary>
+                <description>purposeDescription description...</description>
 			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

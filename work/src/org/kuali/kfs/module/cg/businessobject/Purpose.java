@@ -23,37 +23,37 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 /**
  * 
  */
-public class RoutingFormPurpose extends PersistableBusinessObjectBase {
+public class Purpose extends PersistableBusinessObjectBase {
 
-	private String routingFormPurposeCode;
+	private String purposeCode;
 	private String dataObjectMaintenanceCodeActiveIndicator;
-	private String routingFormPurposeDescription;
+	private String purposeDescription;
 
 	/**
 	 * Default constructor.
 	 */
-	public RoutingFormPurpose() {
+	public Purpose() {
 
 	}
 
 	/**
-	 * Gets the routingFormPurposeCode attribute.
+	 * Gets the purposeCode attribute.
 	 * 
-	 * @return Returns the routingFormPurposeCode
+	 * @return Returns the purposeCode
 	 * 
 	 */
-	public String getRoutingFormPurposeCode() { 
-		return routingFormPurposeCode;
+	public String getPurposeCode() { 
+		return purposeCode;
 	}
 
 	/**
-	 * Sets the routingFormPurposeCode attribute.
+	 * Sets the purposeCode attribute.
 	 * 
-	 * @param routingFormPurposeCode The routingFormPurposeCode to set.
+	 * @param purposeCode The purposeCode to set.
 	 * 
 	 */
-	public void setRoutingFormPurposeCode(String routingFormPurposeCode) {
-		this.routingFormPurposeCode = routingFormPurposeCode;
+	public void setPurposeCode(String routingFormPurposeCode) {
+		this.purposeCode = routingFormPurposeCode;
 	}
 
 
@@ -79,23 +79,23 @@ public class RoutingFormPurpose extends PersistableBusinessObjectBase {
 
 
 	/**
-	 * Gets the routingFormPurposeDescription attribute.
+	 * Gets the purposeDescription attribute.
 	 * 
-	 * @return Returns the routingFormPurposeDescription
+	 * @return Returns the purposeDescription
 	 * 
 	 */
-	public String getRoutingFormPurposeDescription() { 
-		return routingFormPurposeDescription;
+	public String getPurposeDescription() { 
+		return purposeDescription;
 	}
 
 	/**
-	 * Sets the routingFormPurposeDescription attribute.
+	 * Sets the purposeDescription attribute.
 	 * 
-	 * @param routingFormPurposeDescription The routingFormPurposeDescription to set.
+	 * @param purposeDescription The purposeDescription to set.
 	 * 
 	 */
-	public void setRoutingFormPurposeDescription(String routingFormPurposeDescription) {
-		this.routingFormPurposeDescription = routingFormPurposeDescription;
+	public void setPurposeDescription(String routingFormPurposeDescription) {
+		this.purposeDescription = routingFormPurposeDescription;
 	}
 
 
@@ -104,7 +104,7 @@ public class RoutingFormPurpose extends PersistableBusinessObjectBase {
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
-        m.put("routingFormPurposeCode", this.routingFormPurposeCode);
+        m.put("purposeCode", this.purposeCode);
 	    return m;
     }
 }

@@ -435,14 +435,14 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                 errorMap.addToErrorPath("researchRiskStudy[" + j + "]");
                 
                 // If study is approved, approval date is required.
-                if (KraConstants.RESEARCH_RISK_STUDY_STATUS_APPROVED.equals(study.getResearchRiskApprovalPendingIndicator())
+                if (KraConstants.RESEARCH_RISK_STUDY_STATUS_APPROVED.equals(study.getResearchRiskStudyApprovalStatusCode())
                         && ObjectUtils.isNull(study.getResearchRiskStudyApprovalDate())) {
                     valid = false;
                     errorMap.putError("researchRiskStudyApprovalDate", KraKeyConstants.ERROR_APPROVAL_DATE_REQUIRED);
                 }
                 
                 // If study is not approved, approval date and expiration date must be empty.
-                if (!KraConstants.RESEARCH_RISK_STUDY_STATUS_APPROVED.equals(study.getResearchRiskApprovalPendingIndicator())) {
+                if (!KraConstants.RESEARCH_RISK_STUDY_STATUS_APPROVED.equals(study.getResearchRiskStudyApprovalStatusCode())) {
                     if (ObjectUtils.isNotNull(study.getResearchRiskStudyApprovalDate())) {
                         valid = false;
                         errorMap.putError("researchRiskStudyApprovalDate", KraKeyConstants.ERROR_APPROVAL_DATE_REMOVE);

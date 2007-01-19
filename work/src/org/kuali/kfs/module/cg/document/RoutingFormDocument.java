@@ -39,10 +39,10 @@ import org.kuali.module.kra.routingform.bo.RoutingFormOrganization;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent;
 import org.kuali.module.kra.routingform.bo.RoutingFormOtherCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
-import org.kuali.module.kra.routingform.bo.RoutingFormPurpose;
+import org.kuali.module.kra.routingform.bo.Purpose;
 import org.kuali.module.kra.routingform.bo.RoutingFormQuestion;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
-import org.kuali.module.kra.routingform.bo.RoutingFormResearchType;
+import org.kuali.module.kra.routingform.bo.ResearchTypeCode;
 import org.kuali.module.kra.routingform.bo.RoutingFormStatus;
 import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
 import org.kuali.module.kra.routingform.bo.SubmissionType;
@@ -108,13 +108,13 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     
     private Campus routingFormPhysicalCampus;
     private RoutingFormStatus routingFormStatus;
-    private RoutingFormPurpose routingFormPurpose;
+    private Purpose purpose;
     private RoutingFormAgency routingFormAgency;
     private CatalogOfFederalDomesticAssistanceReference catalogOfFederalDomesticAssistanceReference;
     private List<RoutingFormResearchRisk> routingFormResearchRisks;
     private List<RoutingFormKeyword> routingFormKeywords;
     private RoutingFormBudget routingFormBudget;
-    private RoutingFormResearchType researchType;
+    private ResearchTypeCode researchType;
     private SubmissionType submissionType;
     private ContractGrantProposal contractGrantProposal;
     private List<RoutingFormInstitutionCostShare> routingFormInstitutionCostShares;
@@ -975,20 +975,20 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     }
 
     /**
-     * Gets the routingFormPurpose attribute. 
-     * @return Returns the routingFormPurpose.
+     * Gets the purpose attribute. 
+     * @return Returns the purpose.
      */
-    public RoutingFormPurpose getRoutingFormPurpose() {
-        return routingFormPurpose;
+    public Purpose getPurpose() {
+        return purpose;
     }
 
     /**
-     * Sets the routingFormPurpose attribute value.
-     * @param routingFormPurpose The routingFormPurpose to set.
+     * Sets the purpose attribute value.
+     * @param purpose The purpose to set.
      * @deprecated
      */
-    public void setRoutingFormPurpose(RoutingFormPurpose routingFormPurpose) {
-        this.routingFormPurpose = routingFormPurpose;
+    public void setPurpose(Purpose purpose) {
+        this.purpose = purpose;
     }    
 
     /**
@@ -1240,7 +1240,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
      * Gets the researchType attribute. 
      * @return Returns the researchType.
      */
-    public RoutingFormResearchType getResearchType() {
+    public ResearchTypeCode getResearchType() {
         return researchType;
     }
 
@@ -1249,7 +1249,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
      * @param researchType The researchType to set.
      * @deprecated
      */
-    public void setResearchType(RoutingFormResearchType researchType) {
+    public void setResearchType(ResearchTypeCode researchType) {
         this.researchType = researchType;
     }
 

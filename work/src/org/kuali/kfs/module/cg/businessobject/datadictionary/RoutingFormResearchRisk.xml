@@ -25,7 +25,6 @@
             <title>Routing Form Research Risk Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="dataPresentIndicator" />
                 <field attributeName="researchRiskDescription" />
                 <field attributeName="documentNumber" />
                 <field attributeName="researchRiskTypeCode" />
@@ -45,14 +44,12 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="dataPresentIndicator" required="false" />
                 <lookupField attributeName="researchRiskDescription" required="false" />
                 <lookupField attributeName="documentNumber" required="false" />
                 <lookupField attributeName="researchRiskTypeCode" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="dataPresentIndicator" />
                 <field attributeName="researchRiskDescription" />
                 <field attributeName="documentNumber" />
                 <field attributeName="researchRiskTypeCode" />
@@ -60,20 +57,6 @@
         </lookup>
 
         <attributes>
-
-            <attribute name="dataPresentIndicator" forceUppercase="true">
-                <label>Data Present Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <radio valuesFinderClass="org.kuali.core.lookup.keyvalues.IndicatorYNOnlyValuesFinder" />
-                </control>
-
-                <summary>dataPresentIndicator</summary>
-                <description>dataPresentIndicator description...</description>
-			</attribute>
 
             <attribute name="researchRiskDescription" forceUppercase="true">
                 <label>Research Risk Description</label>

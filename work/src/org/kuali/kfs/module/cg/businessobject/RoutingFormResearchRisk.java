@@ -34,7 +34,6 @@ public class RoutingFormResearchRisk extends PersistableBusinessObjectBase {
 	private String documentNumber;
 	private String researchRiskTypeCode;
 	private String researchRiskDescription;
-	private String dataPresentIndicator;
     private Integer routingFormResearchRiskStudyNextSequenceNumber;
 
     private ResearchRiskType researchRiskType;
@@ -46,12 +45,13 @@ public class RoutingFormResearchRisk extends PersistableBusinessObjectBase {
 	 * Default constructor.
 	 */
 	public RoutingFormResearchRisk() {
+        super();
         newResearchRiskStudy = new RoutingFormResearchRiskStudy();
 	    researchRiskStudies = new ArrayList<RoutingFormResearchRiskStudy>();
 	}
     
     public RoutingFormResearchRisk(String documentNumber, ResearchRiskType researchRiskType) {
-        super();
+        this();
         this.documentNumber = documentNumber;
         this.researchRiskTypeCode = researchRiskType.getResearchRiskTypeCode();
         this.researchRiskType = researchRiskType;
@@ -117,27 +117,6 @@ public class RoutingFormResearchRisk extends PersistableBusinessObjectBase {
 	 */
 	public void setResearchRiskDescription(String researchRiskDescription) {
 		this.researchRiskDescription = researchRiskDescription;
-	}
-
-
-	/**
-	 * Gets the dataPresentIndicator attribute.
-	 * 
-	 * @return Returns the dataPresentIndicator
-	 * 
-	 */
-	public String getDataPresentIndicator() { 
-		return dataPresentIndicator;
-	}
-
-	/**
-	 * Sets the dataPresentIndicator attribute.
-	 * 
-	 * @param dataPresentIndicator The dataPresentIndicator to set.
-	 * 
-	 */
-	public void setDataPresentIndicator(String dataPresentIndicator) {
-		this.dataPresentIndicator = dataPresentIndicator;
 	}
     
     /**

@@ -42,7 +42,7 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="researchRiskTypeCode" />
+                    <sortAttribute attributeName="researchRiskTypeSortNumber" />
                 </sortAttributes>
             </defaultSort>
 
@@ -100,7 +100,7 @@
                 </control>
 
                 <summary>controlAttributeTypeCode</summary>
-                <description>Specifies how the research risk is displayed.</description>
+                <description>Specifies how the research risk is displayed. A=all columns; S=some columns; D=description textarea</description>
 			</attribute>
 
             <attribute name="researchRiskTypeDescription" forceUppercase="false">

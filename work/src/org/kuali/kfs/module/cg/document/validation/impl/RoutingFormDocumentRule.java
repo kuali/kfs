@@ -363,11 +363,11 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
         
         // Setup dates.
         Date createDate = routingFormDocument.getRoutingFormCreateDate();
-        Calendar todayCalendar = SpringServiceLocator.getDateTimeService().getCalendar(createDate);
-        todayCalendar.add(Calendar.YEAR, -1);
-        Date humanSubjectsEarliestApprovalDate = todayCalendar.getTime();
-        todayCalendar.add(Calendar.YEAR, -2);
-        Date animalsEarliestApprovalDate = todayCalendar.getTime();
+        Calendar createCalendar = SpringServiceLocator.getDateTimeService().getCalendar(createDate);
+        createCalendar.add(Calendar.YEAR, -1);
+        Date humanSubjectsEarliestApprovalDate = createCalendar.getTime();
+        createCalendar.add(Calendar.YEAR, -2);
+        Date animalsEarliestApprovalDate = createCalendar.getTime();
         
         int i = 0;
         for (RoutingFormResearchRisk researchRisk : routingFormDocument.getRoutingFormResearchRisks()) {
@@ -419,7 +419,7 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                 // If Human Subjects approval date is more than one year prior to the routing form creation date, the user must enter a more current date, or set the status to Pending.
                 if (researchRisk.getResearchRiskTypeCode().equals(humanSubjectsActiveCode) && ObjectUtils.isNotNull(study.getResearchRiskStudyApprovalDate())) {
                     int dateDiff = SpringServiceLocator.getDateTimeService().dateDiff(study.getResearchRiskStudyApprovalDate(), humanSubjectsEarliestApprovalDate, false);
-                    if (ObjectUtils.isNotNull(study.getResearchRiskStudyApprovalDate()) && dateDiff > 0) {
+                    if (dateDiff > 0) {
                         // Seems counterintuitive that 'before' is the proper operator here - but it is.
                         valid = false;
                         errorMap.putError("researchRiskStudyApprovalDate", KraKeyConstants.ERROR_HUMAN_SUBJECTS_APPROVAL_DATE_TOO_OLD);
@@ -429,7 +429,7 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                 // If Animals approval date is more than 3 years prior to the routing form creation date, the user must enter a more current date, or set the status to Pending.
                 if (researchRisk.getResearchRiskTypeCode().equals(animalsActiveCode) && ObjectUtils.isNotNull(study.getResearchRiskStudyApprovalDate())) {
                     int dateDiff = SpringServiceLocator.getDateTimeService().dateDiff(study.getResearchRiskStudyApprovalDate(), animalsEarliestApprovalDate, false);
-                    if (ObjectUtils.isNotNull(study.getResearchRiskStudyApprovalDate()) && dateDiff > 0) {
+                    if (dateDiff > 0) {
                         valid = false;
                         errorMap.putError("researchRiskStudyApprovalDate", KraKeyConstants.ERROR_ANIMALS_APPROVAL_DATE_TOO_OLD);
                     }

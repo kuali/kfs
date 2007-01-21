@@ -50,8 +50,8 @@
                         <field attributeName="laborLedgerOriginalSubAccountNumber" />
                         <field attributeName="organizationDocumentNumber" />
                         <field attributeName="organizationReferenceId" />
-                        <field attributeName="originEntryGroupIdentifier" />
-                        <field attributeName="originEntryIdentifier" />
+                        <field attributeName="entryGroupId" />
+                        <field attributeName="entryId" />
                         <field attributeName="payGroup" />
                         <field attributeName="payPeriodEndDate" />
                         <field attributeName="payrollEndDateFiscalPeriodCode" />
@@ -90,7 +90,7 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="originEntryIdentifier" />
+                    <sortAttribute attributeName="entryId" />
                 </sortAttributes>
             </defaultSort>
 
@@ -118,8 +118,8 @@
                 <lookupField attributeName="laborLedgerOriginalSubAccountNumber" required="false" />
                 <lookupField attributeName="organizationDocumentNumber" required="false" />
                 <lookupField attributeName="organizationReferenceId" required="false" />
-                <lookupField attributeName="originEntryGroupIdentifier" required="false" />
-                <lookupField attributeName="originEntryIdentifier" required="false" />
+                <lookupField attributeName="entryGroupId" required="false" />
+                <lookupField attributeName="entryId" required="false" />
                 <lookupField attributeName="payGroup" required="false" />
                 <lookupField attributeName="payPeriodEndDate" required="false" />
                 <lookupField attributeName="payrollEndDateFiscalPeriodCode" required="false" />
@@ -172,8 +172,8 @@
                 <field attributeName="laborLedgerOriginalSubAccountNumber" />
                 <field attributeName="organizationDocumentNumber" />
                 <field attributeName="organizationReferenceId" />
-                <field attributeName="originEntryGroupIdentifier" />
-                <field attributeName="originEntryIdentifier" />
+                <field attributeName="entryGroupId" />
+                <field attributeName="entryId" />
                 <field attributeName="payGroup" />
                 <field attributeName="payPeriodEndDate" />
                 <field attributeName="payrollEndDateFiscalPeriodCode" />
@@ -546,7 +546,7 @@
                 <description>organizationReferenceId description...</description>
 			</attribute>
 
-            <attribute name="originEntryGroupIdentifier" forceUppercase="true">
+            <attribute name="entryGroupId" forceUppercase="true">
                 <label>Origin Entry Group Identifier</label>
                 <shortLabel>Identifier</shortLabel>
 
@@ -557,11 +557,11 @@
                     <text size="16" />
                 </control>
 
-                <summary>originEntryGroupIdentifier</summary>
-                <description>originEntryGroupIdentifier description...</description>
+                <summary>origin Entry Group Identifier</summary>
+                <description>origin Entry Group Identifier description...</description>
 			</attribute>
 
-            <attribute name="originEntryIdentifier" forceUppercase="true">
+            <attribute name="entryId" forceUppercase="true">
                 <label>Origin Entry Identifier</label>
                 <shortLabel>Identifier</shortLabel>
 
@@ -572,8 +572,8 @@
                     <text size="16" />
                 </control>
 
-                <summary>originEntryIdentifier</summary>
-                <description>originEntryIdentifier description...</description>
+                <summary>origin Entry Identifier</summary>
+                <description>origin Entry Identifier description...</description>
 			</attribute>
 
             <attribute name="payGroup" forceUppercase="true">
@@ -971,3 +971,4 @@
         </attributes>
     </businessObject>
 </dictionaryEntry>
+

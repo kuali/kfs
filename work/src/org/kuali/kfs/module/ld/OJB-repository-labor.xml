@@ -1157,10 +1157,10 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.labor.bo.LaborOriginEntry" table="LD_LBR_ORIGIN_ENTRY_T">
-	<field-descriptor name="originEntryIdentifier" column="ORIGIN_ENTRY_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
+	<field-descriptor name="entryId" column="ORIGIN_ENTRY_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="originEntryGroupIdentifier" column="ORIGIN_ENTRY_GRP_ID" jdbc-type="INTEGER"/>
+	<field-descriptor name="entryGroupId" column="ORIGIN_ENTRY_GRP_ID" jdbc-type="INTEGER"/>
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER"/>
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR"/>
@@ -1297,6 +1297,6 @@
         <foreignkey field-ref="financialDocumentReversalDate" />
     </reference-descriptor>
     <reference-descriptor name="originEntryGroup" class-ref="org.kuali.module.gl.bo.OriginEntryGroup" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="originEntryGroupIdentifier" />
+        <foreignkey field-ref="entryGroupId" />
     </reference-descriptor>
 </class-descriptor>

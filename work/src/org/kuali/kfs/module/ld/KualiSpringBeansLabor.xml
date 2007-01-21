@@ -63,14 +63,20 @@
     
     
 		<bean id="laborOriginEntryService" class="org.kuali.module.labor.service.impl.LaborOriginEntryServiceImpl">
-		<property name="originEntryDao">
-			<ref bean="glOriginEntryDao" />
+		<property name="laborOriginEntryDao">
+			<ref bean="ldOriginEntryDao" />
 		</property>
 		<property name="originEntryGroupService">
 			<ref bean="glOriginEntryGroupService" />
 		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
+		</property>
+	</bean>
+	
+	<bean id="ldOriginEntryDao" class="org.kuali.module.labor.dao.ojb.LaborOriginEntryDaoOjb">
+		<property name="jcdAlias">
+			<value>dataSource</value>
 		</property>
 	</bean>
 	

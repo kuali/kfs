@@ -984,6 +984,11 @@
 		<property name="jcdAlias">
 			<value>dataSource</value>
 		</property>
+		<property name="entryClass">
+			<bean class="java.lang.Class" factory-method="forName">
+  			<constructor-arg value="org.kuali.module.gl.bo.OriginEntry"/>
+   			</bean>
+		</property>
 	</bean>
 
 	<bean id="glOriginEntryGroupDao" class="org.kuali.module.gl.dao.ojb.OriginEntryGroupDaoOjb">

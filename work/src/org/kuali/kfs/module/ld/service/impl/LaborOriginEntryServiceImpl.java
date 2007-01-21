@@ -19,7 +19,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.kuali.core.service.DateTimeService;
 import org.kuali.module.gl.bo.OriginEntryGroup;
+import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.dao.LaborOriginEntryDao;
@@ -32,20 +34,22 @@ import org.kuali.module.labor.util.ObjectUtil;
  */
 public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
     
-    private LaborOriginEntryDao originEntryDao;
+    private LaborOriginEntryDao laborOriginEntryDao;
+    private OriginEntryGroupService originEntryGroupService;
+    private DateTimeService dateTimeService;
 
     /**
      * @see org.kuali.module.labor.service.LaborOriginEntryService#getEntriesByGroup(org.kuali.module.gl.bo.OriginEntryGroup)
      */
     public Iterator<LaborOriginEntry> getEntriesByGroup(OriginEntryGroup group) {
-        return originEntryDao.getEntriesByGroup(group);
+        return laborOriginEntryDao.getEntriesByGroup(group);
     }
 
     /**
      * @see org.kuali.module.labor.service.LaborOriginEntryService#getEntriesByGroups(java.util.Collection)
      */
     public Iterator<LaborOriginEntry> getEntriesByGroups(Collection<OriginEntryGroup> groups) {
-        return originEntryDao.getEntriesByGroups(groups);
+        return laborOriginEntryDao.getEntriesByGroups(groups);
     }
 
     /**
@@ -60,7 +64,7 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
         Collection<LaborOriginEntry> entryCollection = new ArrayList<LaborOriginEntry>(); 
         LaborLedgerUnitOfWork laborLedgerUnitOfWork = new LaborLedgerUnitOfWork();
         
-        Iterator<Object[]> consolidatedEntries = originEntryDao.getConsolidatedEntriesByGroup(group);
+        Iterator<Object[]> consolidatedEntries = laborOriginEntryDao.getConsolidatedEntriesByGroup(group);
         while(consolidatedEntries.hasNext()){
             LaborOriginEntry laborOriginEntry = new LaborOriginEntry();
             Object[] oneEntry = consolidatedEntries.next();
@@ -78,11 +82,18 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
     }
 
     /**
-     * Sets the originEntryDao attribute value.
+     * Sets the laborOriginEntryDao attribute value.
      * 
-     * @param originEntryDao The originEntryDao to set.
+     * @param laborOriginEntryDao The laborOriginEntryDao to set.
      */
-    public void setOriginEntryDao(LaborOriginEntryDao originEntryDao) {
-        this.originEntryDao = originEntryDao;
+    public void setlaborOriginEntryDao(LaborOriginEntryDao laborOriginEntryDao) {
+        this.laborOriginEntryDao = laborOriginEntryDao;
+    }
+    public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService){
+        this.originEntryGroupService = originEntryGroupService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 }

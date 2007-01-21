@@ -16,7 +16,6 @@
 package org.kuali.module.labor.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.kuali.core.service.KualiConfigurationService;
@@ -27,6 +26,7 @@ import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.service.ScrubberValidator;
 import org.kuali.module.gl.service.impl.scrubber.Message;
+import org.kuali.module.labor.bo.LaborOriginEntry;
 
 public class ScrubberValidatorImpl implements ScrubberValidator {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberValidatorImpl.class);
@@ -52,7 +52,9 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         LOG.debug("validateTransaction() started");
         List<Message> errors = new ArrayList<Message>();
         
-        errors = scrubberValidator.validateTransaction(originEntry, scrubbedEntry, universityRunDate);
+        LaborOriginEntry laborOriginEntry = (LaborOriginEntry) originEntry;
+        
+        errors = scrubberValidator.validateTransaction(laborOriginEntry, scrubbedEntry, universityRunDate);
                 
 
         return errors;

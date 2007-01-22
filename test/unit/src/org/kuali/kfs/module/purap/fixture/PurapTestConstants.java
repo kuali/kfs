@@ -17,6 +17,12 @@ package org.kuali.module.purap.fixtures;
 
 import java.sql.Date;
 
+import org.kuali.module.purap.bo.VendorAddress;
+import org.kuali.module.purap.bo.VendorContract;
+import org.kuali.module.purap.bo.VendorDetail;
+import org.kuali.module.purap.bo.VendorHeader;
+import org.kuali.module.purap.bo.VendorShippingSpecialCondition;
+import org.kuali.module.purap.bo.VendorSupplierDiversity;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
 
@@ -30,5 +36,18 @@ class PurapTestConstants {
         static final Date LAST_DATE = new Date(109,1,1);  //2009-01-01
         static RequisitionDocument REQ = new RequisitionDocument();
         static PurchaseOrderDocument PO = new PurchaseOrderDocument();
+    }
+    
+    static class VendorParts {
+        static final String CODE1 = "C1";
+        static final String CODE2 = "C2";
+        static final String NAME = "Snow Bound";
+        
+        static VendorHeader VH = new VendorHeader();
+        static VendorSupplierDiversity VSD = new VendorSupplierDiversity();
+        static VendorDetail VD = new VendorDetail();
+        static VendorAddress VA  = new VendorAddress();
+        static VendorContract VC  = new VendorContract();
+        static VendorShippingSpecialCondition VSSC = new VendorShippingSpecialCondition();
     }
 }

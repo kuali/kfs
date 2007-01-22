@@ -24,5 +24,5 @@ import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
  * 
  * 
  */
-public class SalaryExpenseTransferAction extends KualiTransactionalDocumentActionBase {
+public class SalaryExpenseTransferAction extends LaborDocumentActionBase {
 }

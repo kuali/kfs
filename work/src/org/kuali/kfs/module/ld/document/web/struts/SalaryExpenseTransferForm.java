@@ -25,7 +25,7 @@ import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
  * 
  * 
  */
-public class SalaryExpenseTransferForm extends KualiTransactionalDocumentFormBase {
+public class SalaryExpenseTransferForm extends LaborDocumentFormBase {
 
     /**
      * Constructs a SalaryExpenseTransferForm instance and sets up the appropriately casted document.

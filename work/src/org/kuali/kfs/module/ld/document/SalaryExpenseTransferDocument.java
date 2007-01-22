@@ -23,7 +23,7 @@ import org.kuali.module.labor.bo.LaborLedgerAccountingLineParser;
 /**
  * 
  */
-public class SalaryExpenseTransferDocument extends TransactionalDocumentBase {
+public class SalaryExpenseTransferDocument extends LaborDocument {
 
     /**
      * Initializes the array lists and some basic info.

@@ -28,6 +28,11 @@ import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 
 public class RoutingFormAuditModeAction extends RoutingFormAction {
     
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        super.load(mapping, form, request, response);
+        return super.execute(mapping, form, request, response);
+    }
+    
     /**
      * Activate audit checks.
      * 
@@ -38,8 +43,6 @@ public class RoutingFormAuditModeAction extends RoutingFormAction {
      * @throws Exception
      */
     public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        super.load(mapping, form, request, response);
-
         RoutingForm routingForm = (RoutingForm) form;
         routingForm.setAuditActivated(true);
         

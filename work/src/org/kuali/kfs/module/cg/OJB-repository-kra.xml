@@ -841,7 +841,7 @@
 	<field-descriptor name="routingFormDueDateDescription" column="RF_DUEDT_DESC" jdbc-type="VARCHAR"/>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.kra.routingform.bo.Purpose" table="ER_RF_PRPS_T">
+<class-descriptor class="org.kuali.module.kra.routingform.bo.Purpose" table="ER_PRPS_T">
 	<field-descriptor name="purposeCode" column="RF_PRPS_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -894,7 +894,7 @@
 	<field-descriptor name="researchRiskTypeCode" column="RSRCH_RSK_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="researchRiskStudyApprovalStatusCode" column="RSRCH_RSK_APRV_PND_IND" jdbc-type="VARCHAR"/>
+	<field-descriptor name="researchRiskStudyApprovalStatusCode" column="RSRCH_RSK_STDY_APRV_STAT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="researchRiskExemptionNumber" column="RSRCH_RSK_EXMPT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="researchRiskStudyApprovalDate" column="RSRCH_RSK_STDY_APRV_DT" jdbc-type="DATE"/>
 	<field-descriptor name="researchRiskStudyNumber" column="RSRCH_RSK_STDY_NBR" jdbc-type="VARCHAR"/>
@@ -954,7 +954,7 @@
 	<field-descriptor name="sortNumber" column="SORT_NBR" jdbc-type="INTEGER"/>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.kra.routingform.bo.ResearchTypeCode" table="ER_RF_RSRCH_TYP_T">
+<class-descriptor class="org.kuali.module.kra.routingform.bo.ResearchTypeCode" table="ER_RSRCH_TYP_CD_T">
 	<field-descriptor name="researchTypeCode" column="RSRCH_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -999,6 +999,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="researchRiskDescription" column="RSRCH_RSK_DESC" jdbc-type="VARCHAR"/>
+    <field-descriptor name="routingFormResearchRiskStudyNextSequenceNumber" column="RF_RSRCH_RSK_STDY_NXT_SEQ_NBR" jdbc-type="INTEGER" />
 	<reference-descriptor name="researchRiskType" class-ref="org.kuali.module.kra.routingform.bo.ResearchRiskType" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="researchRiskTypeCode" />
 	</reference-descriptor>

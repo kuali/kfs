@@ -28,10 +28,12 @@ import org.kuali.module.labor.dao.LaborOriginEntryDao;
 import org.kuali.module.labor.service.LaborOriginEntryService;
 import org.kuali.module.labor.util.LaborLedgerUnitOfWork;
 import org.kuali.module.labor.util.ObjectUtil;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class...
  */
+@Transactional
 public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
     
     private LaborOriginEntryDao laborOriginEntryDao;

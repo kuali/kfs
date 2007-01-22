@@ -29,22 +29,24 @@
 			<c:set var="errorText">
 				<bean:message key="${audit.messageKey}" arg0="${audit.params[0]}" arg1="${audit.params[1]}" arg2="${audit.params[2]}" arg3="${audit.params[3]}" arg4="${audit.params[4]}"/>
 			</c:set>
-			<c:if test="${(empty keyMatch) || (audit.errorKey == keyMatch) || (fn:endsWith(keyMatch, '*') && fn:startsWith(audit.errorKey, fn:replace(keyMatch, '*', '')))}">
-				<c:if test="${includesTitle && isFirstLocalError}">
-					<c:set var="isFirstLocalError" value="false"/>
-					<strong>Audit Errors found in this Section:</strong><br/>
+			<c:forEach items="${fn:split(keyMatch,',')}" var="prefix">
+				<c:if test="${(empty prefix) || (audit.errorKey == prefix) || (fn:endsWith(prefix, '*') && fn:startsWith(audit.errorKey, fn:replace(prefix, '*', '')))}">
+					<c:if test="${includesTitle && isFirstLocalError}">
+						<c:set var="isFirstLocalError" value="false"/>
+						<strong>Audit Errors found in this Section:</strong><br/>
+					</c:if>
+					<c:choose>
+						<c:when test="${isLink}">
+							<tr>
+								<td>&nbsp;</td>
+								<td width="94%">${errorText}</td>
+								<td width="5%"><div align="center"><html:image src="images/tinybutton-fix.gif" property="methodToCall.${audit.link}.x"/></div></td>
+							</tr>
+						</c:when>
+						<c:otherwise><li>${errorText}</li></c:otherwise>
+					</c:choose>
 				</c:if>
-				<c:choose>
-					<c:when test="${isLink}">
-						<tr>
-							<td>&nbsp;</td>
-							<td width="94%">${errorText}</td>
-							<td width="5%"><div align="center"><html:image src="images/tinybutton-fix.gif" property="methodToCall.${audit.link}.x"/></div></td>
-						</tr>
-					</c:when>
-					<c:otherwise><li>${errorText}</li></c:otherwise>
-				</c:choose>
-			</c:if>
+			</c:forEach>
 		</c:forEach>
 	</div>
 </c:if>

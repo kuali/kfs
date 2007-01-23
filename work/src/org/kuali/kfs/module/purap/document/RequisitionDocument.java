@@ -23,7 +23,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
-
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.exceptions.ValidationException;
@@ -32,11 +31,13 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.bo.BillingAddress;
+import org.kuali.module.purap.bo.SourceDocumentReference;
 import org.kuali.module.purap.bo.VendorContract;
 import org.kuali.module.purap.bo.VendorDetail;
 import org.kuali.module.purap.util.PhoneNumberUtils;
@@ -66,6 +67,23 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 	 */
 	public RequisitionDocument() {
         super();
+        
+        SourceDocumentReference sourceDocumentReference = new SourceDocumentReference();
+        
+        sourceDocumentReference.setSourceDocumentIdentifier(this.getIdentifier());
+        sourceDocumentReference.setSourceFinancialDocumentTypeCode("REQ");
+        // This line is giving this error:
+        /*
+        javax.servlet.ServletException: OJB operation; SQL []; ORA-01400: cannot insert NULL into ("KULDEV"."PUR_SRC_DOC_REF_T"."SRC_DOC_OBJ_ID")
+        ; nested exception is java.sql.SQLException: ORA-01400: cannot insert NULL into ("KULDEV"."PUR_SRC_DOC_REF_T"."SRC_DOC_OBJ_ID")
+        */
+        //sourceDocumentReference.setSourceDocumentObjectIdentifier(this.getObjectId());
+        sourceDocumentReference.setSourceDocumentObjectIdentifier("objectID");
+        sourceDocumentReferences = new TypedArrayList(SourceDocumentReference.class);
+        sourceDocumentReferences.add(sourceDocumentReference);
+
+      
+        
     }
 
     public void refreshAllReferences() {
@@ -91,7 +109,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
         this.setRequestorPersonName(currentUser.getUniversalUser().getPersonName());
         this.setRequestorPersonEmailAddress(currentUser.getUniversalUser().getPersonEmailAddress());
         this.setRequestorPersonPhoneNumber(PhoneNumberUtils.formatNumberIfPossible(currentUser.getUniversalUser().getPersonLocalPhoneNumber()));
-
+        
         // Set the purchaseOrderTotalLimit
         if (ObjectUtils.isNull(getPurchaseOrderTotalLimit())) {
             KualiDecimal purchaseOrderTotalLimit = SpringServiceLocator.getRequisitionService().getApoLimit(

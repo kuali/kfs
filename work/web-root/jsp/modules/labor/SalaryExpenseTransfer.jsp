@@ -13,9 +13,8 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 
-  <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" lookupParameters="document.emplid:emplid" hideReturnLink="true" suppressActions="true" /></h2>
-
 --%>
+
 <%@ include file="/jsp/core/tldHeader.jsp"%>
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="KualiSalaryExpenseTransferDocument"

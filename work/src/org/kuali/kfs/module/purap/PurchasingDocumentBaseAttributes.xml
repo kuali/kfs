@@ -20,12 +20,6 @@
     </control>
 </attributeReference>
 
-<attributeReference name="vendorName" sourceClassName="org.kuali.module.purap.bo.VendorDetail" sourceAttributeName="vendorName">
-    <label>Suggested Vendor</label>
-    <shortLabel>Vendor</shortLabel>
-    <required>false</required>
-</attributeReference>
-
 <attributeReference name="vendorNumber" sourceClassName="org.kuali.module.purap.bo.VendorDetail" sourceAttributeName="vendorNumber">
     <label>Vendor Number</label>
     <shortLabel>Number</shortLabel>
@@ -550,14 +544,6 @@
     <description>requisitionSourceCode description...</description>
 </attributeReference>
 
-<attributeReference name="vendorCityName" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="cityName">
-    <label>City</label>
-    <shortLabel>Name</shortLabel>
-
-    <summary>vendorCityName</summary>
-    <description>vendorCityName description...</description>
-</attributeReference>
-
 <attributeReference name="vendorContractGeneratedIdentifier" sourceClassName="org.kuali.module.purap.bo.VendorContract" sourceAttributeName="vendorContractGeneratedIdentifier">
     <label>Contract ID</label>
     <shortLabel>Identifier</shortLabel>
@@ -572,14 +558,6 @@
 
     <summary>vendorFaxNumber</summary>
     <description>vendorFaxNumber description...</description>
-</attributeReference>
-
-<attributeReference name="vendorLine1Address" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="line1Address">
-    <label>Address 1</label>
-    <shortLabel>Address</shortLabel>
-    
-    <summary>vendorLine1Address</summary>
-    <description>vendorLine1Address description...</description>
 </attributeReference>
 
 <attributeReference name="vendorLine2Address" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="line2Address">

@@ -54,7 +54,7 @@ public abstract class JiraRelatedSuite {
 
     private static Map<State, Collection<String>> jiraIssuesByState = new HashMap<State, Collection<String>>();
     private static RuntimeException initializationException = null;
-    private final static Pattern EXPECTED_JIRA_KEY = Pattern.compile("KUL\\p{Upper}+-\\p{Digit}+");
+    private final static Pattern EXPECTED_JIRA_KEY = Pattern.compile("\\p{Upper}+-\\p{Digit}+");
 
     /**
      * Gets the JIRA issues currently in the given state.  Caches the results, to avoid queries to the JIRA server, for speed.

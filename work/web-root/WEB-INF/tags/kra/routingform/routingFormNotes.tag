@@ -38,4 +38,10 @@
     <td align="right" class="footer-right"><img src="images/pixel_clear.gif" alt="" width="12" height="14" class="br3"></td>
   </tr>
 </table>  
+
+<br/>
+<br/>
+<center>
+   <input name="methodToCall.reload" src="images/buttonsmall_reload.gif" onclick="excludeSubmitRestriction=true" class="globalbuttons" title="reload" alt="reload" type="image">
+</center>
 </div>

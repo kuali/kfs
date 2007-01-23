@@ -17,7 +17,7 @@
 
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="KualiRoutingFormDocument"
-	htmlFormAction="researchRoutingFormNotes" headerDispatch="save"
+	htmlFormAction="researchRoutingFormNotes" headerDispatch="refresh"
 	feedbackKey="app.krafeedback.link" headerTabActive="notes" renderMultipart="true" >
 	
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />

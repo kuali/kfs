@@ -79,7 +79,7 @@
                 <description>routingFormApprovalLeadTime description...</description>
 			</attribute>
 
-            <attribute name="routingFormDueDateDescription" forceUppercase="true">
+            <attribute name="routingFormDueDateDescription" forceUppercase="false">
                 <label>Due Date Description</label>
                 <shortLabel>Description</shortLabel>
 

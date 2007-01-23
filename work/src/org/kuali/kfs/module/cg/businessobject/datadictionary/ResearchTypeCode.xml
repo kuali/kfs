@@ -25,9 +25,9 @@
             <title>Research Type Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
                 <field attributeName="researchTypeCode" />
                 <field attributeName="researchTypeDescription" />
+                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -43,33 +43,19 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
                 <lookupField attributeName="researchTypeCode" required="false" />
                 <lookupField attributeName="researchTypeDescription" required="false" />
+                <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
                 <field attributeName="researchTypeCode" />
                 <field attributeName="researchTypeDescription" />
+                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
             </resultFields>
         </lookup>
 
         <attributes>
-
-            <attribute name="dataObjectMaintenanceCodeActiveIndicator" forceUppercase="true">
-                <label>Data Object Maintenance Code Active Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>dataObjectMaintenanceCodeActiveIndicator</summary>
-                <description>dataObjectMaintenanceCodeActiveIndicator description...</description>
-			</attribute>
 
             <attribute name="researchTypeCode" forceUppercase="true">
                 <label>Research Type Code</label>
@@ -86,7 +72,7 @@
                 <description>researchTypeCode description...</description>
 			</attribute>
 
-            <attribute name="researchTypeDescription" forceUppercase="true">
+            <attribute name="researchTypeDescription" forceUppercase="false">
                 <label>Research Type Description</label>
                 <shortLabel>Description</shortLabel>
 
@@ -100,6 +86,8 @@
                 <summary>researchTypeDescription</summary>
                 <description>researchTypeDescription description...</description>
 			</attribute>
+
+            <attributeReference name="dataObjectMaintenanceCodeActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 

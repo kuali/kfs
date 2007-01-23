@@ -25,10 +25,10 @@
             <title>Project Type Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
                 <field attributeName="projectTypeCode" />
                 <field attributeName="projectTypeDescription" />
                 <field attributeName="sortNumber" />
+                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -44,35 +44,21 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
                 <lookupField attributeName="projectTypeCode" required="false" />
                 <lookupField attributeName="projectTypeDescription" required="false" />
                 <lookupField attributeName="sortNumber" required="false" />
+                <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
                 <field attributeName="projectTypeCode" />
                 <field attributeName="projectTypeDescription" />
                 <field attributeName="sortNumber" />
+                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
             </resultFields>
         </lookup>
 
         <attributes>
-
-            <attribute name="dataObjectMaintenanceCodeActiveIndicator" forceUppercase="true">
-                <label>Data Object Maintenance Code Active Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>dataObjectMaintenanceCodeActiveIndicator</summary>
-                <description>dataObjectMaintenanceCodeActiveIndicator description...</description>
-			</attribute>
 
             <attribute name="projectTypeCode" forceUppercase="true">
                 <label>Project Type Code</label>
@@ -89,7 +75,7 @@
                 <description>projectTypeCode description...</description>
 			</attribute>
 
-            <attribute name="projectTypeDescription" forceUppercase="true">
+            <attribute name="projectTypeDescription" forceUppercase="false">
                 <label>Project Type Description</label>
                 <shortLabel>Description</shortLabel>
 
@@ -118,6 +104,8 @@
                 <summary>sortNumber</summary>
                 <description>sortNumber description...</description>
 			</attribute>
+
+            <attributeReference name="dataObjectMaintenanceCodeActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 

@@ -80,7 +80,7 @@
                 <description>personRoleCode description...</description>
 			</attribute>
 
-            <attribute name="personRoleDescription" forceUppercase="true">
+            <attribute name="personRoleDescription" forceUppercase="false">
                 <label>Person Role Description</label>
                 <shortLabel>Description</shortLabel>
 

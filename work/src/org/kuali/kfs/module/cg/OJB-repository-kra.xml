@@ -842,11 +842,11 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.routingform.bo.Purpose" table="ER_PRPS_T">
-	<field-descriptor name="purposeCode" column="RF_PRPS_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="purposeCode" column="PRPS_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="dataObjectMaintenanceCodeActiveIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="purposeDescription" column="RF_PRPS_DESC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="purposeDescription" column="PRPS_DESC" jdbc-type="VARCHAR"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare" table="ER_RF_INST_CST_SHR_T">

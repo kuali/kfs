@@ -26,7 +26,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 public class Purpose extends PersistableBusinessObjectBase {
 
 	private String purposeCode;
-	private String dataObjectMaintenanceCodeActiveIndicator;
+	private boolean dataObjectMaintenanceCodeActiveIndicator;
 	private String purposeDescription;
 
 	/**
@@ -57,25 +57,25 @@ public class Purpose extends PersistableBusinessObjectBase {
 	}
 
 
-	/**
-	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
-	 * 
-	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator
-	 * 
-	 */
-	public String getDataObjectMaintenanceCodeActiveIndicator() { 
-		return dataObjectMaintenanceCodeActiveIndicator;
-	}
+    /**
+     * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
+     * 
+     * @return Returns the dataObjectMaintenanceCodeActiveIndicator
+     * 
+     */
+    public boolean isDataObjectMaintenanceCodeActiveIndicator() { 
+        return dataObjectMaintenanceCodeActiveIndicator;
+    }
 
-	/**
-	 * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
-	 * 
-	 * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
-	 * 
-	 */
-	public void setDataObjectMaintenanceCodeActiveIndicator(String dataObjectMaintenanceCodeActiveIndicator) {
-		this.dataObjectMaintenanceCodeActiveIndicator = dataObjectMaintenanceCodeActiveIndicator;
-	}
+    /**
+     * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
+     * 
+     * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
+     * 
+     */
+    public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
+        this.dataObjectMaintenanceCodeActiveIndicator = dataObjectMaintenanceCodeActiveIndicator;
+    }
 
 
 	/**

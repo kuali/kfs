@@ -33,4 +33,12 @@ public interface RoutingFormService {
      * @throws WorkflowException
      */
     public void prepareRoutingFormForSave(RoutingFormDocument RoutingFormDocument) throws WorkflowException;
+
+    /**
+     * This method will determine if Grants Gov checkbox has changed from checked to unchecked.
+     * 
+     * @param routingFormDocument
+     * @return boolean
+     */
+    public boolean isGrantsGovModified(RoutingFormDocument routingFormDocument);
 }

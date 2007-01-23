@@ -29,7 +29,6 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
@@ -130,6 +129,12 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
 
         SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(routingForm.getRoutingFormDocument(), referenceObjects);
         
+        // Logic for SF424 question.
+        ActionForward preRulesForward = preRulesCheck(mapping, form, request, response, "save");
+        if (preRulesForward != null) {
+            return preRulesForward;
+        }
+        
         return super.save(mapping, form, request, response);
     }
 
@@ -156,7 +161,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
             }
             else if ("true".equals(request.getParameter("document.routingFormAgencyToBeNamedIndicator"))) {
                 // coming back from Agency lookup - To Be Named selected
-                routingFormDocument.getRoutingFormAgency().setAgency(null);
+                routingFormDocument.getRoutingFormAgency().getAgency().setFullName(null);
                 routingFormDocument.getRoutingFormAgency().refresh();
             }
             else if (request.getParameter("document.agencyFederalPassThroughNumber") != null) {

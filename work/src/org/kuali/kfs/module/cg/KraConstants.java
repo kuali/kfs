@@ -126,6 +126,8 @@ public class KraConstants extends JstlConstants {
     public static final String DELETE_TASK_QUESTION_ID = "DeleteTaskQuestion";
     public static final String DELETE_COST_SHARE_QUESTION_ID = "DeleteCostShareQuestion";
     
+    public static final String DELETE_GRANTS_GOV_QUESTION_ID = "DeleteGrantsGovQuestion";
+    
     // Research Risk Types
     public static final String RESEARCH_RISK_TYPE_ALL_COLUMNS = "A";
     public static final String RESEARCH_RISK_TYPE_SOME_COLUMNS = "S";

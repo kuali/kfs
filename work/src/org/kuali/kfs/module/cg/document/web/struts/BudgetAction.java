@@ -350,7 +350,7 @@ public class BudgetAction extends ResearchDocumentActionBase {
      * @throws Exception
      */
     protected String buildBudgetConfirmationQuestion(String confirmationContext, KualiConfigurationService kualiConfiguration) throws Exception {
-        return StringUtils.replace(kualiConfiguration.getPropertyString(KeyConstants.QUESTION_BUDGET_DELETE_CONFIRMATION), "{0}", confirmationContext);
+        return StringUtils.replace(kualiConfiguration.getPropertyString(KeyConstants.QUESTION_KRA_DELETE_CONFIRMATION), "{0}", confirmationContext);
     }
 
     /**

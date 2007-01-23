@@ -17,7 +17,6 @@ package org.kuali.module.kra.routingform.service.impl;
 
 import org.kuali.core.service.DocumentService;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
-import org.kuali.module.kra.routingform.service.RoutingFormResearchRiskService;
 import org.kuali.module.kra.routingform.service.RoutingFormService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -35,8 +34,28 @@ public class RoutingFormServiceImpl implements RoutingFormService {
      */
     public void prepareRoutingFormForSave(RoutingFormDocument routingFormDocument) throws WorkflowException {
         // TODO
+        
+        /* TODO write cleanse grants.gov (sf424) method. See Budget for samples. 
+         * Also see RoutingFormDocumentPreRules.confirmDeleteGrantsGovSubmission for Main Page confirm message. */
     }
 
+    /**
+     * @see org.kuali.module.kra.routingform.service.RoutingFormService#isGrantsGovModified(org.kuali.module.kra.routingform.document.RoutingFormDocument)
+     */
+    public boolean isGrantsGovModified(RoutingFormDocument routingFormDocument) {
+        RoutingFormDocument databaseRoutingFormDocument;
+        try {
+            databaseRoutingFormDocument = (RoutingFormDocument) documentService.getByDocumentHeaderId(routingFormDocument.getDocumentNumber());
+        } catch (WorkflowException e) {
+            throw new RuntimeException("Exception retrieving document: " + e);
+        }
+        if (databaseRoutingFormDocument == null) {
+            return false;
+        }
+
+        return databaseRoutingFormDocument.isGrantsGovernmentSubmissionIndicator() && !routingFormDocument.isGrantsGovernmentSubmissionIndicator();
+    }
+    
     /**
      * Sets the documentService attribute value.
      * 

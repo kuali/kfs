@@ -56,7 +56,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private OriginationCodeService originationCodeService;
     private DateTimeService dateTimeService;
 
-    public static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    public static final String DATE_FORMAT_STRING = "yyyy-MM-dd";
 
     private static String[] debitOrCredit = new String[] { Constants.GL_DEBIT_CODE, Constants.GL_CREDIT_CODE };
     private static String[] continuationAccountBypassOriginationCodes = new String[] { "EU", "PL" };
@@ -381,6 +381,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             UniversityDate universityDate = universityDateDao.getByPrimaryKey(originEntry.getFinancialDocumentReversalDate());
             if (universityDate == null) {
                 Date reversalDate = originEntry.getFinancialDocumentReversalDate();
+                SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT_STRING);
                 return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_REVERSAL_DATE_NOT_FOUND) + "(" + format.format(reversalDate) + ")", Message.TYPE_FATAL);
             }
             else {

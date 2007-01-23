@@ -73,7 +73,7 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
     public static final String SELECT_CODE = "S";
 
     public static final KualiDecimal warningMaxDifference = new KualiDecimal("0.05");
-    public static final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+    public static final String DATE_FORMAT_STRING = "yyyyMMdd";
 
     private BeanFactory beanFactory;
     private List transactionPosters;
@@ -455,6 +455,7 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
 
         e.setFinancialDocumentTypeCode(kualiConfigurationService.getApplicationParameterValue(Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.GL_INDIRECT_COST_RECOVERY));
         e.setFinancialSystemOriginationCode(kualiConfigurationService.getApplicationParameterValue(Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.GL_ORIGINATION_CODE));
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_STRING);
         e.setDocumentNumber(sdf.format(runDate));
         if (Constants.GL_DEBIT_CODE.equals(icrEntry.getTransactionDebitIndicator())) {
             e.setTransactionLedgerEntryDescription(getChargeDescription(pct, et.getObjectCode(), et.getAccount().getAcctIndirectCostRcvyTypeCd(), et.getAccountObjectDirectCostAmount().abs()));

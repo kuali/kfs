@@ -48,7 +48,7 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
     private Account account;
 
     public static final String BLANKS = "                 ";
-    public static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    public static final String DATE_FORMAT_STRING = "yyyy-MM-dd";
 
     /**
      * Default constructor.
@@ -148,6 +148,7 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
             return null;
         }
         else {
+            SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_STRING);
             sdf.setLenient(beLenientWithDates);
 
             try {
@@ -165,6 +166,7 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
             return "          ";
         }
         else {
+            SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_STRING);
             return sdf.format(date);
         }
     }

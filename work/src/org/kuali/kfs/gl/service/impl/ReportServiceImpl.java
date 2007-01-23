@@ -91,7 +91,7 @@ public class ReportServiceImpl implements ReportService {
     private KualiConfigurationService kualiConfigurationService;
     private PersistenceService persistenceService;
 
-    public static final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+    public static final String DATE_FORMAT_STRING = "yyyyMMdd_HHmmss";
 
     public ReportServiceImpl() {
         super();
@@ -108,6 +108,7 @@ public class ReportServiceImpl implements ReportService {
         LOG.debug("generatePendingEntryReport() started");
 
         GeneralLedgerPendingEntryReport glper = new GeneralLedgerPendingEntryReport();
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_STRING);
         glper.generateReport(runDate,reportsDirectory,sdf,originEntryService.getEntriesByGroupReportOrder(group));
     }
 
@@ -152,7 +153,8 @@ public class ReportServiceImpl implements ReportService {
 
         try {
             String filename = reportsDirectory + "/" + fileprefix + "_";
-
+            SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_STRING);
+            
             filename = filename + sdf.format(runDate);
             filename = filename + ".pdf";
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filename));
@@ -749,7 +751,8 @@ public class ReportServiceImpl implements ReportService {
 
         try {
             String filename = reportsDirectory + "/glcp_" + cDocument.getDocumentNumber() + "_";
-
+            SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_STRING);
+            
             filename = filename + sdf.format(runDate);
             filename = filename + ".pdf";
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filename));

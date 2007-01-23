@@ -137,4 +137,7 @@ public class KraConstants extends JstlConstants {
     
     // Study Review Statuses
     public static final String RESEARCH_RISK_STUDY_REVIEW_EXEMPT = "X";
+    
+    public static final String PERSON_ROLE_CODE_PD = "P";
+    public static final String SUBMISSION_TYPE_CHANGE = "C";
 }

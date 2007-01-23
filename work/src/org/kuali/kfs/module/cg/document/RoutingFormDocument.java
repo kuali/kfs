@@ -1534,6 +1534,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         list.add(this.getRoutingFormResearchRisks());
         list.add(this.getAllRoutingFormResearchRiskStudies());
         list.add(this.getRoutingFormOrganizations());
+        list.add(this.getRoutingFormOrganizationCreditPercents());
         
         return list;
     }

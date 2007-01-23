@@ -16,12 +16,12 @@
 
 package org.kuali.module.kra.routingform.bo;
 
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.PropertyConstants;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.util.KualiInteger;
 
 /**
  * 
@@ -31,14 +31,14 @@ public class RoutingFormBudget extends PersistableBusinessObjectBase {
 	private String documentNumber;
 	private Integer routingFormBudgetMaximumPeriodNumber;
 	private Integer routingFormBudgetMinimumPeriodNumber;
-	private BigDecimal routingFormBudgetDirectAmount;
+	private KualiInteger routingFormBudgetDirectAmount;
 	private Date routingFormBudgetEndDate;
-	private BigDecimal routingFormBudgetIndirectCostAmount;
+	private KualiInteger routingFormBudgetIndirectCostAmount;
 	private String routingFormBudgetIndirectCostDescription;
 	private Date routingFormBudgetStartDate;
-    private BigDecimal routingFormBudgetTotalDirectAmount;
+    private KualiInteger routingFormBudgetTotalDirectAmount;
     private Date routingFormBudgetTotalEndDate;
-    private BigDecimal routingFormBudgetTotalIndirectCostAmount;
+    private KualiInteger routingFormBudgetTotalIndirectCostAmount;
     private Date routingFormBudgetTotalStartDate;
    
 	/**
@@ -117,7 +117,7 @@ public class RoutingFormBudget extends PersistableBusinessObjectBase {
 	 * @return Returns the routingFormBudgetDirectAmount
 	 * 
 	 */
-	public BigDecimal getRoutingFormBudgetDirectAmount() { 
+	public KualiInteger getRoutingFormBudgetDirectAmount() { 
 		return routingFormBudgetDirectAmount;
 	}
 
@@ -127,7 +127,7 @@ public class RoutingFormBudget extends PersistableBusinessObjectBase {
 	 * @param routingFormBudgetDirectAmount The routingFormBudgetDirectAmount to set.
 	 * 
 	 */
-	public void setRoutingFormBudgetDirectAmount(BigDecimal routingFormBudgetDirectAmount) {
+	public void setRoutingFormBudgetDirectAmount(KualiInteger routingFormBudgetDirectAmount) {
 		this.routingFormBudgetDirectAmount = routingFormBudgetDirectAmount;
 	}
 
@@ -159,7 +159,7 @@ public class RoutingFormBudget extends PersistableBusinessObjectBase {
 	 * @return Returns the routingFormBudgetIndirectCostAmount
 	 * 
 	 */
-	public BigDecimal getRoutingFormBudgetIndirectCostAmount() { 
+	public KualiInteger getRoutingFormBudgetIndirectCostAmount() { 
 		return routingFormBudgetIndirectCostAmount;
 	}
 
@@ -169,7 +169,7 @@ public class RoutingFormBudget extends PersistableBusinessObjectBase {
 	 * @param routingFormBudgetIndirectCostAmount The routingFormBudgetIndirectCostAmount to set.
 	 * 
 	 */
-	public void setRoutingFormBudgetIndirectCostAmount(BigDecimal routingFormBudgetIndirectCostAmount) {
+	public void setRoutingFormBudgetIndirectCostAmount(KualiInteger routingFormBudgetIndirectCostAmount) {
 		this.routingFormBudgetIndirectCostAmount = routingFormBudgetIndirectCostAmount;
 	}
 
@@ -219,7 +219,7 @@ public class RoutingFormBudget extends PersistableBusinessObjectBase {
      * Gets the routingFormBudgetTotalDirectAmount attribute. 
      * @return Returns the routingFormBudgetTotalDirectAmount.
      */
-    public BigDecimal getRoutingFormBudgetTotalDirectAmount() {
+    public KualiInteger getRoutingFormBudgetTotalDirectAmount() {
         return routingFormBudgetTotalDirectAmount;
     }
 
@@ -227,7 +227,7 @@ public class RoutingFormBudget extends PersistableBusinessObjectBase {
      * Sets the routingFormBudgetTotalDirectAmount attribute value.
      * @param routingFormBudgetTotalDirectAmount The routingFormBudgetTotalDirectAmount to set.
      */
-    public void setRoutingFormBudgetTotalDirectAmount(BigDecimal routingFormBudgetTotalDirectAmount) {
+    public void setRoutingFormBudgetTotalDirectAmount(KualiInteger routingFormBudgetTotalDirectAmount) {
         this.routingFormBudgetTotalDirectAmount = routingFormBudgetTotalDirectAmount;
     }
 
@@ -251,7 +251,7 @@ public class RoutingFormBudget extends PersistableBusinessObjectBase {
      * Gets the routingFormBudgetTotalIndirectCostAmount attribute. 
      * @return Returns the routingFormBudgetTotalIndirectCostAmount.
      */
-    public BigDecimal getRoutingFormBudgetTotalIndirectCostAmount() {
+    public KualiInteger getRoutingFormBudgetTotalIndirectCostAmount() {
         return routingFormBudgetTotalIndirectCostAmount;
     }
 
@@ -259,7 +259,7 @@ public class RoutingFormBudget extends PersistableBusinessObjectBase {
      * Sets the routingFormBudgetTotalIndirectCostAmount attribute value.
      * @param routingFormBudgetTotalIndirectCostAmount The routingFormBudgetTotalIndirectCostAmount to set.
      */
-    public void setRoutingFormBudgetTotalIndirectCostAmount(BigDecimal routingFormBudgetTotalIndirectCostAmount) {
+    public void setRoutingFormBudgetTotalIndirectCostAmount(KualiInteger routingFormBudgetTotalIndirectCostAmount) {
         this.routingFormBudgetTotalIndirectCostAmount = routingFormBudgetTotalIndirectCostAmount;
     }
 

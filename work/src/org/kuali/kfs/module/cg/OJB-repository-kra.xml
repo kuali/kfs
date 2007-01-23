@@ -788,14 +788,14 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="routingFormBudgetMaximumPeriodNumber" column="RF_BDGT_MAX_PRD_NBR" jdbc-type="INTEGER"/>
 	<field-descriptor name="routingFormBudgetMinimumPeriodNumber" column="RF_BDGT_MIN_PRD_NBR" jdbc-type="INTEGER"/>
-	<field-descriptor name="routingFormBudgetDirectAmount" column="RF_BGT_DIR_AMT" jdbc-type="DECIMAL"/>
+	<field-descriptor name="routingFormBudgetDirectAmount" column="RF_BGT_DIR_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion" />
 	<field-descriptor name="routingFormBudgetEndDate" column="RF_BGT_END_DT" jdbc-type="DATE"/>
-	<field-descriptor name="routingFormBudgetIndirectCostAmount" column="RF_BGT_IDC_AMT" jdbc-type="DECIMAL"/>
+	<field-descriptor name="routingFormBudgetIndirectCostAmount" column="RF_BGT_IDC_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion" />
 	<field-descriptor name="routingFormBudgetIndirectCostDescription" column="RF_BGT_IDC_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="routingFormBudgetStartDate" column="RF_BGT_STRT_DT" jdbc-type="DATE"/>
-	<field-descriptor name="routingFormBudgetTotalDirectAmount" column="RF_BGT_TOT_DIR_AMT" jdbc-type="DECIMAL"/>
+	<field-descriptor name="routingFormBudgetTotalDirectAmount" column="RF_BGT_TOT_DIR_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion" />
 	<field-descriptor name="routingFormBudgetTotalEndDate" column="RF_BGT_TOT_END_DT" jdbc-type="DATE"/>
-	<field-descriptor name="routingFormBudgetTotalIndirectCostAmount" column="RF_BGT_TOT_IDC_AMT" jdbc-type="DECIMAL"/>
+	<field-descriptor name="routingFormBudgetTotalIndirectCostAmount" column="RF_BGT_TOT_IDC_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion" />
 	<field-descriptor name="routingFormBudgetTotalStartDate" column="RF_BGT_TOT_STRT_DT" jdbc-type="DATE"/>
 </class-descriptor>
 

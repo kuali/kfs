@@ -25,8 +25,10 @@ import java.util.Map;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.DocumentHeader;
+import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
@@ -59,7 +61,8 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
 */
     private String financialObjectTypeCode;
 
-    private Collection<PendingBudgetConstructionGeneralLedger> pendingBudgetConstructionGeneralLedger;
+    private Collection<PendingBudgetConstructionGeneralLedger> pendingBudgetConstructionGeneralLedgerRevenue;
+    private Collection<PendingBudgetConstructionGeneralLedger> pendingBudgetConstructionGeneralLedgerExpenditure;
     
     public BudgetConstructionDocument(){
         super();
@@ -73,20 +76,35 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
  * move stuff from constructor to here so as to get out of fred's way
  * initiateDocument would be called from BudgetConstructionAction
  */
-    public void initiateDocument() {
+    public void initiateDocument(BudgetConstructionHeader budgetConstructionHeader) {
 
         
         Map fieldValues = new HashMap();
-        fieldValues.put("UNIV_FISCAL_YR", new Integer(2008));
-        fieldValues.put("FIN_COA_CD", "BA");
-        fieldValues.put("ACCOUNT_NBR", "6044906");
-        fieldValues.put("SUB_ACCT_NBR", "-----");
+//        fieldValues.put("UNIV_FISCAL_YR", new Integer(2008));
+//        fieldValues.put("FIN_COA_CD", "BA");
+//        fieldValues.put("ACCOUNT_NBR", "6044906");
+//        fieldValues.put("SUB_ACCT_NBR", "-----");
+        fieldValues.put("UNIV_FISCAL_YR", budgetConstructionHeader.getUniversityFiscalYear());
+        fieldValues.put("FIN_COA_CD", budgetConstructionHeader.getChartOfAccountsCode());
+        fieldValues.put("ACCOUNT_NBR", budgetConstructionHeader.getAccountNumber());
+        fieldValues.put("SUB_ACCT_NBR", budgetConstructionHeader.getSubAccountNumber());
+        
+        
         fieldValues.put("FIN_OBJ_TYP_CD", "IN");
         
-        pendingBudgetConstructionGeneralLedger = SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(PendingBudgetConstructionGeneralLedger.class, fieldValues, "FIN_OBJECT_CD", true);
+        pendingBudgetConstructionGeneralLedgerRevenue = SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(PendingBudgetConstructionGeneralLedger.class, fieldValues, "FIN_OBJECT_CD", true);
         if (LOG.isDebugEnabled()) {
-            LOG.debug("pendingBudgetConstructionGeneralLedger is: "+pendingBudgetConstructionGeneralLedger);
+            LOG.debug("pendingBudgetConstructionGeneralLedgerRevenue is: "+pendingBudgetConstructionGeneralLedgerRevenue);
         }
+        
+        fieldValues.remove("FIN_OBJ_TYP_CD");
+        fieldValues.put("FIN_OBJ_TYP_CD", "EX");
+
+        pendingBudgetConstructionGeneralLedgerExpenditure = SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(PendingBudgetConstructionGeneralLedger.class, fieldValues, "FIN_OBJECT_CD", true);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("pendingBudgetConstructionGeneralLedgerExpenditure is: "+pendingBudgetConstructionGeneralLedgerExpenditure);
+        }
+        
     }
 
     /**
@@ -437,6 +455,22 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
 //        return managedLists;
     }
 
+    public Collection<PendingBudgetConstructionGeneralLedger> getPendingBudgetConstructionGeneralLedgerRevenue() {
+        return pendingBudgetConstructionGeneralLedgerRevenue;
+    }
+
+    public void setPendingBudgetConstructionGeneralLedgerRevenue(Collection<PendingBudgetConstructionGeneralLedger> pendingBudgetConstructionGeneralLedgerRevenue) {
+        this.pendingBudgetConstructionGeneralLedgerRevenue = pendingBudgetConstructionGeneralLedgerRevenue;
+    }
+
+    public Collection<PendingBudgetConstructionGeneralLedger> getPendingBudgetConstructionGeneralLedgerExpenditure() {
+        return pendingBudgetConstructionGeneralLedgerExpenditure;
+    }
+
+    public void setPendingBudgetConstructionGeneralLedgerExpenditure(Collection<PendingBudgetConstructionGeneralLedger> pendingBudgetConstructionGeneralLedgerExpenditure) {
+        this.pendingBudgetConstructionGeneralLedgerExpenditure = pendingBudgetConstructionGeneralLedgerExpenditure;
+    }
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
@@ -450,14 +484,6 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
         m.put("accountNumber", this.accountNumber);
         m.put("subAccountNumber", this.subAccountNumber);
         return m;
-    }
-
-    public Collection<PendingBudgetConstructionGeneralLedger> getPendingBudgetConstructionGeneralLedger() {
-        return pendingBudgetConstructionGeneralLedger;
-    }
-
-    public void setPendingBudgetConstructionGeneralLedger(Collection<PendingBudgetConstructionGeneralLedger> pendingBudgetConstructionGeneralLedger) {
-        this.pendingBudgetConstructionGeneralLedger = pendingBudgetConstructionGeneralLedger;
     }
 
 }

@@ -17,7 +17,7 @@
 <c:set var="budgetConstructionAttributes"
 	value="${DataDictionary['KualiBudgetConstructionDocument'].attributes}" />
 
-<kul:page showDocumentInfo="false"
+<kul:page showDocumentInfo="true"
 	htmlFormAction="budgetBudgetConstruction" renderMultipart="true"
 	showTabButtons="true"
 	docTitle="Budget Construction Document"
@@ -25,7 +25,23 @@
 	>
 
 	<kul:hiddenDocumentFields />
-    <bc:budgetConstruction />
+
+	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
+<%--
+		includePostingYear="true"
+        postingYearOnChange="submitForm()"
+        includePostingYearRefresh="true"
+        postingYearAttributes="${DataDictionary.KualiBudgetAdjustmentDocument.attributes}" />
+--%>
+
+    <bc:budgetConstructionRevenueLines />
+
+    <bc:budgetConstructionExpenditureLines />
+
+	<kul:notes />
+
+	<kul:routeLog />
+
 	<kul:panelFooter />
 
 </kul:page>

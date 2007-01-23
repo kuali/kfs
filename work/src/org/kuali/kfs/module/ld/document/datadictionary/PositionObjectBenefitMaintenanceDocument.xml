@@ -33,7 +33,7 @@
         </authorizations>
 
 		<documentTypeName>KualiPositionObjectBenefitMaintenanceDocument</documentTypeName>
-		<documentTypeCode>POBN</documentTypeCode>
+		<documentTypeCode>LOBN</documentTypeCode>
 
 		<label>Position Object Benefit Maintenance Document</label>
 		<shortLabel>Pos Obj Benefit Maint Doc</shortLabel>

@@ -12,6 +12,9 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
+
+  <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" lookupParameters="document.emplid:emplid" hideReturnLink="true" suppressActions="true" /></h2>
+
 --%>
 <%@ include file="/jsp/core/tldHeader.jsp"%>
 <kul:documentPage showDocumentInfo="true"
@@ -21,10 +24,7 @@
 
 	<kul:hiddenDocumentFields />
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
-	<label>Employee Search ID:
-	<input type="text" name="emplid" id="emplid" />
-	</label> 
-  <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" lookupParameters="document.emplid:emplid" hideReturnLink="true" suppressActions="true"/></h2>
+    <kul:employeeLookup />
 	<fin:accountingLines editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}" 
 		optionalFields="positionNumber,payrollEndDateFiscalYear,payrollEndDateFiscalPeriodCode,payrollTotalHours"/>

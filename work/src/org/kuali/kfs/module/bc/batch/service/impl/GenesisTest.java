@@ -29,6 +29,7 @@ import org.springframework.beans.factory.BeanFactory;
 //  handle workflow
 import edu.iu.uis.eden.exception.WorkflowException;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.workflow.*;
 //this is just for the logger, and could be taken out
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.*;
@@ -54,15 +55,15 @@ public class GenesisTest {
             SpringServiceLocator.getKualiConfigurationService();
   //    
       GenesisService genesisTestService = SpringServiceLocator.getGenesisService();
+      GenesisRouteService genesisTestRouteService =
+          SpringServiceLocator.getGenesisRouteService();
       DateMakerService dateMakerTestService = 
           SpringServiceLocator.getDateMakerService();
   //
-      UniversalUser universalUser = new UniversalUser();
-      LOG.info(String.format("\nuniversal user string %s",
-              universalUser.getPersonUserIdentifier()));
+      GlobalVariables.clear();
       try
       {
-      GlobalVariables.setUserSession(new UserSession(universalUser.getPersonUserIdentifier()));
+      GlobalVariables.setUserSession(new UserSession("KHUNTLEY"));
       }
       catch (WorkflowException wfex)
       {
@@ -78,7 +79,9 @@ public class GenesisTest {
   //    genesisTestService.testStep(2007);
   //    genesisTestService.testSLFStep(2009);
   //    genesisTestService.testSLFAfterStep(2009);
+      genesisTestRouteService.routeNewBCDocumentsStep(2009);
       genesisTestService.testBCDocumentCreationStep(2009);
+      genesisTestRouteService.routeNewBCDocumentsStep(2009);
   //    genesisTestService.testLockClearance(2007);
   }
 }

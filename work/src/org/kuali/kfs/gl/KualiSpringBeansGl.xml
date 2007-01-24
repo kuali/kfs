@@ -1087,7 +1087,7 @@
 			<ref bean="glCorrectionCriteriaDao" />
 		</property>
 		<property name="documentDao">
-			<ref bean="glDocumentDao" />
+			<ref bean="documentDao" />
 		</property>
 	</bean>
 
@@ -1106,15 +1106,6 @@
 	<bean id="glCorrectionCriteriaDao" class="org.kuali.module.gl.dao.ojb.CorrectionCriteriaDaoOjb">
 		<property name="jcdAlias">
 			<value>dataSource</value>
-		</property>
-	</bean>
-
-	<bean id="glDocumentDao" class="org.kuali.core.dao.ojb.DocumentDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-		<property name="businessObjectDao">
-			<ref bean="businessObjectDao" />
 		</property>
 	</bean>
 

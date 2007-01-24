@@ -1113,6 +1113,9 @@
 		<property name="jcdAlias">
 			<value>dataSource</value>
 		</property>
+		<property name="businessObjectDao">
+			<ref bean="businessObjectDao" />
+		</property>
 	</bean>
 
 	<bean id="testDateTimeService" class="org.kuali.core.service.impl.ConfigurableDateTimeServiceImpl">

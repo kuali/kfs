@@ -21,9 +21,8 @@
 <dictionaryEntry>
     <maintenanceDocument>
         <businessObjectClass>org.kuali.module.cg.bo.Proposal</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-        <!--maintainableClass>org.kuali.module.cg.maintenance.ProposalMaintainableImpl</maintainableClass-->
-        <!--businessRulesClass>org.kuali.module.chart.rules.AccountRule</businessRulesClass-->
+        <maintainableClass>org.kuali.module.cg.maintenance.ProposalMaintainableImpl</maintainableClass>
+        <businessRulesClass>org.kuali.module.cg.rules.ProposalRule</businessRulesClass>
         <!--preRulesCheckClass>org.kuali.module.chart.rules.AccountPreRules</preRulesCheckClass-->
         <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
@@ -69,6 +68,7 @@
                     </maintainableField>
                     <maintainableField name="proposalStatusCode" required="true" />
                     <maintainableField name="agencyNumber" required="true" />
+                    <maintainableField name="agency.fullName" readOnly="true" />
                     <maintainableField name="proposalProjectTitle" required="true" />
                     <maintainableField name="proposalBeginningDate" required="true" />
                     <maintainableField name="proposalEndingDate" required="true" />

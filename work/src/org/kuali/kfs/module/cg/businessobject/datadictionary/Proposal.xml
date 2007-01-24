@@ -64,7 +64,7 @@
 
             <lookupFields>
                 <lookupField attributeName="proposalNumber" required="false" />
-                <lookupField attributeName="agency.agencyNumber" required="false" />
+                <lookupField attributeName="agencyNumber" required="false" />
                 <lookupField attributeName="proposalTotalAmount" required="false" />
                 <lookupField attributeName="proposalBeginningDate" required="false" />
                 <lookupField attributeName="proposalEndingDate" required="false" />
@@ -96,28 +96,11 @@
 				<description>Insert desc here...</description>
             </attributeReference>
 
-            <attributeReference name="agency.agencyNumber" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="agencyNumber">
-				<description>Insert desc here...</description>
-            </attributeReference>
-
             <attributeReference name="agency.fullName" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="fullName">
 				<description>Insert desc here...</description>
             </attributeReference>
 
-            <attribute name="agencyNumber" forceUppercase="true">
-                <label>Agency Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="7" />
-                </control>
-
-                <summary>agencyNumber</summary>
-                <description>agencyNumber description...</description>
-			</attribute>
+            <attributeReference name="agencyNumber" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="agencyNumber"/>
 
             <attribute name="cfdaNumber" forceUppercase="true">
                 <label>CFDA Number</label>

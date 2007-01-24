@@ -76,6 +76,17 @@ public class SalaryExpenseTransferForm extends LaborDocumentFormBase {
     }
 
     /**
+     * Sets the <code>{@link UniversalUser}</code> through the <code>personUserIdentifier</code> attribute value
+     *
+     * @param uid <code>personUserIdentifier</code>
+     */
+    public void setPersonName(String personName) throws UserNotFoundException {
+        if (personName != null) {
+            //  This may happen during populate when there is no initial user
+            user = getUniversalUserService().getUniversalUser(personName);
+        }
+    }
+    /**
      * Gets the <code>personName</code> attribute value from the <code>{@link UniversalUser}</code> instance
      *
      * @return String <code>personName</code>

@@ -31,6 +31,8 @@ import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetModular;
 import org.kuali.module.kra.budget.bo.BudgetModularPeriod;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
+import org.kuali.module.kra.budget.bo.BudgetPeriod;
+import org.kuali.module.kra.budget.bo.BudgetTask;
 import org.kuali.module.kra.budget.bo.BudgetTaskPeriodIndirectCost;
 import org.kuali.module.kra.budget.bo.BudgetUser;
 import org.kuali.module.kra.budget.bo.UserAppointmentTask;
@@ -81,6 +83,10 @@ public class BudgetOverviewFormHelper {
     private KualiInteger totalCostsAgencyRequest;
     private KualiInteger totalCostsInstitutionCostShare;
     private KualiInteger totalCostsThirdPartyCostShare;
+    
+    // What this instance of BudgetOverviewFormHelper represents
+    private BudgetPeriod budgetPeriod;
+    private BudgetTask budgetTask;
 
     /**
      * Constructs a BudgetOverviewFormHelper. Sets necessary constants.
@@ -130,7 +136,7 @@ public class BudgetOverviewFormHelper {
      * </p>
      * <p>
      * <b>Note that BudgetIndirectCostService.refreshIndirectCost and BudgetModularService.generateModularBudget has to have been
-     * called before this.<b>
+     * called before this.</b>
      * </p>
      * 
      * @param currentTaskNumber determines for which task the calculations should be performed.
@@ -151,7 +157,7 @@ public class BudgetOverviewFormHelper {
         // nonpersonnel for display only.
         setupPersonnel(currentTaskNumber, currentPeriodNumber, budget.getPersonnel(), budget.getNonpersonnelItems());
 
-        // Used for the Nonpersonnel section
+        // Used for the Nonpersonnel section - This needs to happen after setPersonnel so Fee Remissions from Grad Asst. Appointments are handled properly.
         BudgetNonpersonnelFormHelper budgetNonpersonnelFormHelper = new BudgetNonpersonnelFormHelper(currentTaskNumber, currentPeriodNumber, nonpersonnelCategories, budget.getNonpersonnelItems(), true);
 
         // Used for IDC section
@@ -1029,5 +1035,21 @@ public class BudgetOverviewFormHelper {
         public void setPersonWeeksAmount(Integer personWeeksAmount) {
             this.personWeeksAmount = personWeeksAmount;
         }
+    }
+
+    public BudgetPeriod getBudgetPeriod() {
+        return budgetPeriod;
+    }
+
+    public void setBudgetPeriod(BudgetPeriod budgetPeriod) {
+        this.budgetPeriod = budgetPeriod;
+    }
+
+    public BudgetTask getBudgetTask() {
+        return budgetTask;
+    }
+
+    public void setBudgetTask(BudgetTask budgetTask) {
+        this.budgetTask = budgetTask;
     }
 }

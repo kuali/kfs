@@ -89,6 +89,9 @@
         <property name="jcdAlias">
             <value>dataSource</value>
         </property>
+        <property name="documentService">
+            <ref bean="documentService"/>
+        </property>
         <property name="dateTimeService">
         	<ref bean="dateTimeService"/>
         </property>

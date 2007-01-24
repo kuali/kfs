@@ -17,6 +17,7 @@ package org.kuali.module.budget.dao.ojb;
 
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Arrays;
@@ -320,7 +321,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
         criteriaID.addEqualTo(PropertyConstants.BALANCE_TYPE_CODE,
                               Constants.BALANCE_TYPE_BASE_BUDGET);
-        criteriaID.addEqualTo("ROWNUM",10);
+        criteriaID.addLessThan("ROWNUM",new Integer(4));
         String[] queryAttr = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
                 PropertyConstants.ACCOUNT_NUMBER,
                 PropertyConstants.SUB_ACCOUNT_NUMBER,
@@ -1193,9 +1194,9 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         }
         Integer RequestYear = BaseYear + 1;
         // now we have to get the document service and the workflow service
-        documentService = SpringServiceLocator.getDocumentService();
-        workflowDocumentService = SpringServiceLocator.getWorkflowDocumentService();
-        
+        //@@TODO:
+        //documentService = SpringServiceLocator.getDocumentService();
+        //workflowDocumentService = SpringServiceLocator.getWorkflowDocumentService();
         // this routine reads the list of GL document accounting keys from
         // the GL that are not in the budget, and creates both a workflow
         // document and a budget construction header for them
@@ -1609,6 +1610,107 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         Integer RequestYear = BaseYear+1;
         Long bCDocumentsRead   = new Long(0);
         Long bCDocumentsRouted = new Long(0);
+        Collection<BudgetConstructionDocument> holdbCDocument;
+        DocumentHeader holdDocumentHeader = new DocumentHeader();
+        // first, get all the documents from the budget construction header table
+        Criteria bCCriteria    = new Criteria();
+        bCCriteria.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                RequestYear);
+        QueryByCriteria bCDocumentQuery = 
+                 new QueryByCriteria(BudgetConstructionDocument.class, bCCriteria);
+        holdbCDocument = (Collection<BudgetConstructionDocument>)
+            getPersistenceBrokerTemplate().getCollectionByQuery(bCDocumentQuery);
+        Iterator Results = holdbCDocument.iterator();
+        while (Results.hasNext())
+        {
+           BudgetConstructionDocument bCDocument = (BudgetConstructionDocument) Results.next(); 
+           String documentNumber = bCDocument.getDocumentNumber(); 
+           bCDocumentsRead = bCDocumentsRead+1;
+           /*
+           try
+           {
+               if (workflowDocumentService.workflowDocumentExists(documentNumber))
+               {
+                   continue;
+               }
+           }
+           catch (IllegalArgumentException iaex)
+           {
+               LOG.warn("\ndocument "+documentNumber+
+                        " triggered on search: \n"+iaex.getMessage());
+               continue;
+           }
+           */
+           // fetch the document: it needs to be routed
+           // make a clone of the document header
+           // we are going to want to override the status that routing inserts
+           // once the document is routed
+           // cloneDocumentHeader(holdDocumentHeader,bCDocument.getDocumentHeader());
+           holdDocumentHeader = bCDocument.getDocumentHeader();
+           try
+           {
+               KualiWorkflowDocument kualiWorkflowDocument =
+                   workflowDocumentService.createWorkflowDocument(
+                           Long.valueOf(bCDocument.getDocumentHeader().getDocumentNumber()),
+                           GlobalVariables.getUserSession().getUniversalUser());
+               GlobalVariables.getUserSession().setWorkflowDocument(kualiWorkflowDocument);
+               bCDocument.getDocumentHeader().setWorkflowDocument(kualiWorkflowDocument);
+//               getPersistenceBrokerTemplate().store(bCDocument.getDocumentHeader());
+//               getPersistenceBrokerTemplate().store(bCDocument);
+               documentService.routeDocument((Document) bCDocument,"created by Genesis",null);
+           }
+           catch (ValidationException vex)
+           {
+               LOG.warn("\ndocument "+documentNumber+ 
+                       " triggered on route: \n"+vex.getMessage());
+              continue;
+           }
+           catch (WorkflowException wex)
+           {
+               LOG.warn("\ndocument "+documentNumber+
+                       " triggered on route: \n"+wex.getMessage());
+              continue;
+           }
+           bCDocumentsRouted = bCDocumentsRouted+1;
+           //  change the routing code
+           getPersistenceBrokerTemplate().store(holdDocumentHeader);
+        }
+        LOG.info(String.format("\nBudget documents read for %d: %d",
+                               RequestYear,bCDocumentsRead));
+        LOG.info(String.format("\nBudget documents routed for %d: %d",
+                 RequestYear,bCDocumentsRouted));
+    }
+    
+    private void cloneDocumentHeader(DocumentHeader DHTo, DocumentHeader DHFrom)
+    {
+        DHTo.setCorrectedByDocumentId(DHFrom.getCorrectedByDocumentId());
+        DHTo.setDocumentFinalDate(DHFrom.getDocumentFinalDate());
+        DHTo.setExplanation(DHFrom.getExplanation());
+        DHTo.setExtendedAttributeValues(DHFrom.getExtendedAttributeValues());
+        DHTo.setFinancialDocumentDescription(DHFrom.getFinancialDocumentDescription());
+        DHTo.setFinancialDocumentInErrorNumber(DHFrom.getFinancialDocumentInErrorNumber());
+        DHTo.setFinancialDocumentStatusCode(BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_INITIAL_STATUS);
+        DHTo.setFinancialDocumentTemplateNumber(
+                DHFrom.getFinancialDocumentTemplateNumber());
+        DHTo.setFinancialDocumentTotalAmount(
+                DHFrom.getFinancialDocumentTotalAmount());
+        DHTo.setNotes(DHFrom.getNotes());
+        DHTo.setObjectId(DHFrom.getObjectId());
+        DHTo.setOrganizationDocumentNumber(DHFrom.getOrganizationDocumentNumber());
+        DHTo.setVersionNumber(DHFrom.getVersionNumber());
+        DHTo.setWorkflowDocument(DHFrom.getWorkflowDocument());
+    }
+    
+    
+    //  @@TODO:
+    //  this routine had the same problem as version 1: an iterator is cleaned up
+    //  when a persistence broker is closed.
+    
+    public void routeNewBCDocumentsVersion2 (Integer BaseYear)
+    {
+        Integer RequestYear = BaseYear+1;
+        Long bCDocumentsRead   = new Long(0);
+        Long bCDocumentsRouted = new Long(0);
         DocumentHeader holdDocHeader = new DocumentHeader();
         // first, get all the document numbers from the budget construction header table
         Criteria bCCriteria    = new Criteria();
@@ -1678,31 +1780,11 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         LOG.info(String.format("\nBudget documents routed for %d: %d",
                  RequestYear,bCDocumentsRouted));
     }
-    
-    private void cloneDocumentHeader(DocumentHeader DHTo, DocumentHeader DHFrom)
-    {
-        DHTo.setCorrectedByDocumentId(DHFrom.getCorrectedByDocumentId());
-        DHTo.setDocumentFinalDate(DHFrom.getDocumentFinalDate());
-        DHTo.setExplanation(DHFrom.getExplanation());
-        DHTo.setExtendedAttributeValues(DHFrom.getExtendedAttributeValues());
-        DHTo.setFinancialDocumentDescription(DHFrom.getFinancialDocumentDescription());
-        DHTo.setFinancialDocumentInErrorNumber(DHFrom.getFinancialDocumentInErrorNumber());
-        DHTo.setFinancialDocumentStatusCode(BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_INITIAL_STATUS);
-        DHTo.setFinancialDocumentTemplateNumber(
-                DHFrom.getFinancialDocumentTemplateNumber());
-        DHTo.setFinancialDocumentTotalAmount(
-                DHFrom.getFinancialDocumentTotalAmount());
-        DHTo.setNotes(DHFrom.getNotes());
-        DHTo.setObjectId(DHFrom.getObjectId());
-        DHTo.setOrganizationDocumentNumber(DHFrom.getOrganizationDocumentNumber());
-        DHTo.setVersionNumber(DHFrom.getVersionNumber());
-        DHTo.setWorkflowDocument(DHFrom.getWorkflowDocument());
-    }
 
     //@@TODO:
     // this is the old, non-working version, which should be removed unless we
     // need to tweak it if our document number method does not work
-    private void oldrouteNewBCDocuments(Integer BaseYear)
+    private void routeNewBCDocumentsVersion1(Integer BaseYear)
     {
         Integer RequestYear = BaseYear+1;
         Long bCDocumentsRead   = new Long(0);
@@ -1732,10 +1814,12 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                         " triggered on search: \n"+iaex.getMessage());
                continue;
            }
-           // try to route the document
+           // create and route the workflow document
            try
            {
-               documentService.routeDocument((Document) bCDocument,null,null);
+               // we have to create a transient KualiWorkflowDocument object with the 
+               // correct document number
+               documentService.routeDocument((Document) bCDocument,"created by Genesis",null);
            }
            catch (ValidationException vex)
            {
@@ -1762,6 +1846,10 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                  RequestYear,bCDocumentsRouted));
     }
     
+    public void setDocumentService(DocumentService documentService)
+    {
+        this.documentService = documentService;
+    }
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;

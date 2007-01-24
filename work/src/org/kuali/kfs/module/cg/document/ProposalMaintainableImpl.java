@@ -22,10 +22,51 @@
  */
 package org.kuali.module.cg.maintenance;
 
+import java.util.Map;
+
 import org.kuali.core.maintenance.KualiMaintainableImpl;
+import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.module.cg.bo.Proposal;
 
 /**
  * Methods for the Proposal maintenance document UI.
  */
 public class ProposalMaintainableImpl extends KualiMaintainableImpl {
+
+    /**
+     * This method is called for refreshing the Agency before display to show the full name
+     * in case the agency number was changed by hand before any submit that causes a redisplay.
+     */
+    @Override
+    public void processAfterRetrieve() {
+        refreshProposal();
+        super.processAfterRetrieve();
+    }
+
+    /**
+     * This method is called for refreshing the Agency before a save to display the full name
+     * in case the agency number was changed by hand just before the save.
+     */
+    @Override
+    public void prepareForSave() {
+        refreshProposal();
+        super.prepareForSave();
+    }
+
+    /**
+     *  This method is called for refreshing the Agency after a lookup to display its full name without AJAX.
+     */
+    @Override
+    public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
+        refreshProposal();
+        super.refresh(refreshCaller, fieldValues, document);
+    }
+
+    private void refreshProposal() {
+        getProposal().refreshNonUpdateableReferences();
+    }
+    
+    private Proposal getProposal() {
+        return (Proposal) getBusinessObject();
+    }
 }

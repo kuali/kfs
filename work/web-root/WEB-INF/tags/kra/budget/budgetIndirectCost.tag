@@ -394,13 +394,13 @@
 					
 		          </b></div></td>
 		          <td align="right" class="infoline"><div align="right"><b>
-		          	<c:choose>
-		          		<c:when test="${KualiForm.document.budget.indirectCost.budgetUnrecoveredIndirectCostIndicator}">
-		          			<fmt:formatNumber value="${KualiForm.budgetIndirectCostFormHelper.periodSubTotal.costShareUnrecoveredIndirectCost}" type="currency" currencySymbol="$" maxFractionDigits="0" />
-						</c:when>
-						<c:otherwise>&nbsp;</c:otherwise>
-					</c:choose>
-                  </b></div></td>
+                <c:choose>
+                  <c:when test="${KualiForm.document.budget.indirectCost.budgetUnrecoveredIndirectCostIndicator}">
+                    <fmt:formatNumber value="${KualiForm.budgetIndirectCostFormHelper.periodSubTotal.costShareUnrecoveredIndirectCost}" type="currency" currencySymbol="$" maxFractionDigits="0" />
+                  </c:when>
+                  <c:otherwise>&nbsp;</c:otherwise>
+                </c:choose>
+              </b></div></td>
 				</c:when>
 				<c:otherwise>
 				<td class="infoline">&nbsp;</td>

@@ -16,7 +16,9 @@
 package org.kuali.module.chart.service.impl;
 
 import org.kuali.Constants;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.module.chart.bo.FundGroup;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.dao.SubFundGroupDao;
 import org.kuali.module.chart.service.SubFundGroupService;
@@ -25,22 +27,42 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class SubFundGroupServiceImpl implements SubFundGroupService {
     private KualiConfigurationService configurationService;
+    private DataDictionaryService dataDictionaryService;
     private SubFundGroupDao subFundGroupDao;
 
     /**
      * @see org.kuali.module.chart.service.SubFundGroupService#isForContractsAndGrants(org.kuali.module.chart.bo.SubFundGroup)
      */
     public boolean isForContractsAndGrants(SubFundGroup subFundGroup) {
-        if (configurationService.getApplicationParameterIndicator(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, Constants.ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG)) {
-            return isForContractsAndGrants(subFundGroup.getFundGroupCode());
+        if (fundGroupDenotesContractsAndGrants()) {
+            return getContractsAndGrantsDenotingValue().equals(subFundGroup.getFundGroupCode());
         }
         else {
-            return isForContractsAndGrants(subFundGroup.getSubFundGroupCode());
+            return getContractsAndGrantsDenotingValue().equals(subFundGroup.getSubFundGroupCode());
         }
     }
+        
+    /**
+     * @see org.kuali.module.chart.service.SubFundGroupService#getContractsAndGrantsDenotingAttributeLabel()
+     */
+    public String getContractsAndGrantsDenotingAttributeLabel() {
+        if (fundGroupDenotesContractsAndGrants()) {
+            return dataDictionaryService.getAttributeLabel(FundGroup.class, Constants.FUND_GROUP_CODE_PROPERTY_NAME);
+        }
+        else {
+            return dataDictionaryService.getAttributeLabel(SubFundGroup.class, Constants.SUB_FUND_GROUP_CODE_PROPERTY_NAME);
+        }
+    }
+    
+    /**
+     * @see org.kuali.module.chart.service.SubFundGroupService#getContractsAndGrantsDenotingValue()
+     */
+    public String getContractsAndGrantsDenotingValue() {
+        return configurationService.getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, Constants.ChartApcParms.ACCOUNT_CG_DENOTING_VALUE);
+    }
 
-    private boolean isForContractsAndGrants(String fundGroupOrSubFundGroupCode) {
-        return configurationService.getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, Constants.ChartApcParms.ACCOUNT_CG_DENOTING_VALUE).equals(fundGroupOrSubFundGroupCode);
+    private boolean fundGroupDenotesContractsAndGrants() {
+        return configurationService.getApplicationParameterIndicator(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, Constants.ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG);
     }
 
     /**

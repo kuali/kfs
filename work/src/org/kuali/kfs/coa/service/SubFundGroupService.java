@@ -37,4 +37,8 @@ public interface SubFundGroupService {
     public SubFundGroup getByChartAndAccount(String chartCode, String accountNumber);
     
     public boolean isForContractsAndGrants(SubFundGroup subFundGroup);
+    
+    public String getContractsAndGrantsDenotingAttributeLabel();
+    
+    public String getContractsAndGrantsDenotingValue();
 }

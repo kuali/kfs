@@ -23,14 +23,13 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
-import org.kuali.core.bo.user.KualiGroup;
-
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.IcrAutomatedEntry;
 import org.kuali.module.chart.bo.SubAccount;
@@ -45,7 +44,6 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubAccountRule.class);
 
     public static final String CG_WORKGROUP_PARM_NAME = "SubAccount.CGWorkgroup";
-    public static final String CG_FUND_GROUP_CODE = "SubAccount.CG.FundGroupCode";
     public static final String CG_ALLOWED_SUBACCOUNT_TYPE_CODES = "SubAccount.ValidSubAccountTypeCodes";
     public static final String CG_A21_TYPE_COST_SHARING = "CS";
     public static final String CG_A21_TYPE_ICR = "EX";
@@ -257,12 +255,8 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         if (ObjectUtils.isNotNull(newSubAccount.getAccount())) {
             if (ObjectUtils.isNotNull(newSubAccount.getAccount().getSubFundGroup())) {
 
-                // get the fundgroupcode for this SubAccount, and the CG FundGroupcode
-                String thisFundGroupCode = newSubAccount.getAccount().getSubFundGroup().getFundGroupCode();
-                String cgFundGroupCode = getConfigService().getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, CG_FUND_GROUP_CODE);
-
-                // compare them, exit if this isnt a CG subaccount
-                if (!thisFundGroupCode.trim().equalsIgnoreCase(cgFundGroupCode.trim())) {
+                // compare them, exit if the account isn't for contracts and grants
+                if (!SpringServiceLocator.getSubFundGroupService().isForContractsAndGrants(newSubAccount.getAccount().getSubFundGroup())) {
 
                     // KULCOA-1116 - Check if CG CS and CG ICR are empty, if not throw an error
                     if (checkCgCostSharingIsEmpty() == false) {
@@ -352,16 +346,10 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
             }
         }
 
-        // Cost Sharing Account may not be a CG fund group
+        // Cost Sharing Account may not be for contracts and grants
         if (ObjectUtils.isNotNull(a21.getCostShareAccount())) {
             if (ObjectUtils.isNotNull(a21.getCostShareAccount().getSubFundGroup())) {
-
-                // get the cost sharing account's fund group code, and the forbidden fund group code
-                String costSharingAccountFundGroupCode = a21.getCostShareAccount().getSubFundGroup().getFundGroupCode();
-                String cgFundGroupCode = getConfigService().getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, CG_FUND_GROUP_CODE);
-
-                // disallow them being the same
-                if (costSharingAccountFundGroupCode.trim().equalsIgnoreCase(cgFundGroupCode.trim())) {
+                if (a21.getCostShareAccount().isForContractsAndGrants()) {
                     putFieldError("a21SubAccount.costShareSourceAccountNumber", KeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_COST_SHARE_ACCOUNT_MAY_NOT_BE_CG_FUNDGROUP);
                     success &= false;
                 }

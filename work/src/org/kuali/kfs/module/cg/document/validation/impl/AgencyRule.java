@@ -100,9 +100,6 @@ public class AgencyRule extends MaintenanceDocumentRuleBase {
 
                     agency = agency.getReportsToAgency();
                 }
-                
-                success = false;
-                
             }
         }
         return success;

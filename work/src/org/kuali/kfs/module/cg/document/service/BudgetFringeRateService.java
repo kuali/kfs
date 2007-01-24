@@ -33,8 +33,6 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * 
  */
 public interface BudgetFringeRateService {
-    // public void setFringeRate(Long documentNumber, Collection accountNumber);
-
     /**
      * Returns active AppointmentTypes.
      * @return active AppointmentType objects

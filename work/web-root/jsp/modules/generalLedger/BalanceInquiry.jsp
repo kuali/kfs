@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/core/tldHeader.jsp"%>
 
-<kul:pageLookup showDocumentInfo="false"
+<kul:page lookup="true" showDocumentInfo="false"
 	htmlFormAction="glBalanceInquiry"
 	headerMenuBar="${KualiForm.lookupable.htmlMenuBar}"
 	headerTitle="Lookup" docTitle="" transactionalDocument="false">
@@ -218,4 +218,4 @@
 		</tr>
 	</table>
 
-</kul:pageLookup>
+</kul:page>

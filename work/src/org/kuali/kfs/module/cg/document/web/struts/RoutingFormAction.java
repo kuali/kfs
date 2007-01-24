@@ -55,12 +55,14 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
     }
     
     public ActionForward researchrisks(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
         RoutingForm routingForm = (RoutingForm) form;
         routingForm.setTabStates(new ArrayList());
         return mapping.findForward("researchrisks");
     }
     
     public ActionForward projectdetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
         RoutingForm routingForm = (RoutingForm) form;
         routingForm.setTabStates(new ArrayList());
         return mapping.findForward("projectdetails");
@@ -75,6 +77,12 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
     }
 
     public ActionForward link(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        RoutingForm routingForm = (RoutingForm)form;
+        
+        if (routingForm.getRoutingFormDocument().getRoutingFormBudgetNumber() != null) {
+            new RoutingFormLinkAction().setupBudgetPeriodData(routingForm);
+        }
+        
         return mapping.findForward("link");
     }
 

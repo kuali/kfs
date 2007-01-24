@@ -15,6 +15,7 @@
  */
 package org.kuali.module.kra.routingform.service;
 
+import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -33,6 +34,8 @@ public interface RoutingFormService {
      * @throws WorkflowException
      */
     public void prepareRoutingFormForSave(RoutingFormDocument RoutingFormDocument) throws WorkflowException;
+    public BudgetDocument retrieveBudgetForLinking(String budgetDocumentNumber) throws WorkflowException;
+    public void linkImportBudgetDataToRoutingForm(RoutingFormDocument routingFormDocument, String budgetDocumentHeaderId) throws WorkflowException;
 
     /**
      * This method will determine if Grants Gov checkbox has changed from checked to unchecked.

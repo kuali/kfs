@@ -15,9 +15,12 @@
  */
 package org.kuali.module.kra.routingform.web.struts.form;
 
+import java.util.List;
+
 import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.kra.budget.web.struts.form.BudgetOverviewFormHelper;
 import org.kuali.module.kra.document.ResearchDocument;
 import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
@@ -33,15 +36,24 @@ public class RoutingForm extends ResearchDocumentFormBase {
     
     private boolean auditActivated;
     
+    //Main Page
     private RoutingFormKeyword newRoutingFormKeyword;
     private RoutingFormPersonnel newRoutingFormPersonnel;
     private RoutingFormOrganizationCreditPercent newRoutingFormOrganizationCreditPercent;
     
+    //Project Details 
     private RoutingFormInstitutionCostShare newRoutingFormInstitutionCostShare;
     private RoutingFormOtherCostShare newRoutingFormOtherCostShare;
     private RoutingFormSubcontractor newRoutingFormSubcontractor;
     private RoutingFormOrganization newRoutingFormOrganization;
     
+    //Module Links
+    private String[] selectedBudgetPeriods;
+    private String allPeriodsSelected;
+    private List<BudgetOverviewFormHelper> periodBudgetOverviewFormHelpers;
+    private BudgetOverviewFormHelper summaryBudgetOverviewFormHelper;
+    
+    //Template properties
     private boolean templateAddress;
     private boolean templateAdHocPermissions;
     private boolean templateAdHocApprovers;
@@ -152,4 +164,37 @@ public class RoutingForm extends ResearchDocumentFormBase {
     public void setTemplateAdHocPermissions(boolean templateAdHocPermissions) {
         this.templateAdHocPermissions = templateAdHocPermissions;
     }
+
+    public List<BudgetOverviewFormHelper> getPeriodBudgetOverviewFormHelpers() {
+        return periodBudgetOverviewFormHelpers;
+    }
+
+    public void setPeriodBudgetOverviewFormHelpers(List<BudgetOverviewFormHelper> periodBudgetOverviewFormHelpers) {
+        this.periodBudgetOverviewFormHelpers = periodBudgetOverviewFormHelpers;
+    }
+
+    public String[] getSelectedBudgetPeriods() {
+        return selectedBudgetPeriods;
+    }
+
+    public void setSelectedBudgetPeriods(String[] selectedBudgetPeriods) {
+        this.selectedBudgetPeriods = selectedBudgetPeriods;
+    }
+
+    public BudgetOverviewFormHelper getSummaryBudgetOverviewFormHelper() {
+        return summaryBudgetOverviewFormHelper;
+    }
+
+    public void setSummaryBudgetOverviewFormHelper(BudgetOverviewFormHelper summaryBudgetOverviewFormHelper) {
+        this.summaryBudgetOverviewFormHelper = summaryBudgetOverviewFormHelper;
+    }
+
+    public String getAllPeriodsSelected() {
+        return allPeriodsSelected;
+    }
+
+    public void setAllPeriodsSelected(String allPeriodsSelected) {
+        this.allPeriodsSelected = allPeriodsSelected;
+    }
+
 }

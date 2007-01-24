@@ -15,7 +15,9 @@
  */
 package org.kuali.module.kra.routingform.service.impl;
 
+import org.kuali.core.document.Document;
 import org.kuali.core.service.DocumentService;
+import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.service.RoutingFormService;
 
@@ -39,6 +41,27 @@ public class RoutingFormServiceImpl implements RoutingFormService {
          * Also see RoutingFormDocumentPreRules.confirmDeleteGrantsGovSubmission for Main Page confirm message. */
     }
 
+    public BudgetDocument retrieveBudgetForLinking(String budgetDocumentNumber) throws WorkflowException {
+        Document document = documentService.getByDocumentHeaderId(budgetDocumentNumber);
+
+        if (document != null && document instanceof BudgetDocument) {
+            return (BudgetDocument)document;
+        } else {
+            return null;
+        }
+    }
+    
+    public void linkImportBudgetDataToRoutingForm(RoutingFormDocument routingFormDocument, String budgetDocumentHeaderId) throws WorkflowException {
+        
+        BudgetDocument budgetDocument = retrieveBudgetForLinking(budgetDocumentHeaderId);
+        
+        routingFormDocument.getRoutingFormAgency().setAgencyNumber(budgetDocument.getBudget().getBudgetAgencyNumber());
+        routingFormDocument.setRoutingFormAgencyToBeNamedIndicator(budgetDocument.getBudget().isAgencyToBeNamedIndicator());
+        
+        
+        
+    }
+    
     /**
      * @see org.kuali.module.kra.routingform.service.RoutingFormService#isGrantsGovModified(org.kuali.module.kra.routingform.document.RoutingFormDocument)
      */

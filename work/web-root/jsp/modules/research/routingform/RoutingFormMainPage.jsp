@@ -23,7 +23,7 @@
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS_LESS_DOCUMENT}" />
 
-    <kra-rf:routingFormHiddenDocumentFields excludeRoutingFormMainPage="true" />
+    <kra-rf:routingFormHiddenDocumentFields includeRoutingFormMainPage="true" />
 
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 

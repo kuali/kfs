@@ -15,9 +15,9 @@
 --%>
 <%@ include file="/jsp/core/tldHeader.jsp" %>
 <%@ attribute name="includeDocumenHeaderIdFields" required="false" %>
-<%@ attribute name="excludeRoutingFormMainPage" required="false" %>
+<%@ attribute name="includeRoutingFormMainPage" required="false" %>
 
-<c:set var="excludeRoutingFormMainPage" value="${not empty excludeRoutingFormMainPage}"/>
+<c:set var="includeRoutingFormMainPage" value="${not empty includeRoutingFormMainPage ? includeRoutingFormMainPage : 'false'}"/>
 
    <html:hidden property="document.documentNumber" />
    <html:hidden property="document.routingFormCreateDate" />
@@ -29,9 +29,14 @@
 
     <html:hidden property="auditActivated" />
     
-    <c:if test="${!excludeRoutingFormMainPage}">
-      <html:hidden property="document.documentHeader.financialDocumentDescription" />
-    </c:if>
+    <c:choose>
+      <c:when test="${includeRoutingFormMainPage}">
+        <html:hidden property="document.routingFormBudgetNumber" />
+      </c:when>
+      <c:otherwise>
+        <html:hidden property="document.documentHeader.financialDocumentDescription" />
+      </c:otherwise>
+    </c:choose>
 
     <html:hidden property="document.routingFormAgency.versionNumber" />
     <html:hidden property="document.routingFormBudget.versionNumber" />

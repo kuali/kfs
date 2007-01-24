@@ -67,35 +67,7 @@ public class RequisitionAction extends PurchasingActionBase {
         RequisitionForm rqForm = (RequisitionForm) form;
         RequisitionDocument document = (RequisitionDocument) rqForm.getDocument();
         BusinessObjectService businessObjectService = SpringServiceLocator.getBusinessObjectService();
-        /* refresh from requisition vendor lookup */
-        if (document.getVendorDetail() == null &&
-            document.getVendorDetailAssignedIdentifier() != null &&
-            document.getVendorHeaderGeneratedIdentifier() != null)  {
 
-            Integer vendorDetailAssignedId = ((RequisitionDocument) rqForm.getDocument()).getVendorDetailAssignedIdentifier();
-            Integer vendorHeaderGeneratedId = ((RequisitionDocument) rqForm.getDocument()).getVendorHeaderGeneratedIdentifier();
-            VendorDetail refreshVendorDetail = new VendorDetail();
-            refreshVendorDetail.setVendorDetailAssignedIdentifier(vendorDetailAssignedId);
-            refreshVendorDetail.setVendorHeaderGeneratedIdentifier(vendorHeaderGeneratedId);
-            refreshVendorDetail = (VendorDetail)businessObjectService.retrieve(refreshVendorDetail);
-            ((RequisitionDocument) rqForm.getDocument()).templateVendorDetail(refreshVendorDetail);
-        } 
-        if (Constants.KUALI_LOOKUPABLE_IMPL.equals(rqForm.getRefreshCaller()) &&
-            request.getParameter("document.vendorContractGeneratedIdentifier") != null) {
-            Integer vendorContractGeneratedId = ((RequisitionDocument) rqForm.getDocument()).getVendorContractGeneratedIdentifier();
-            VendorContract refreshVendorContract = new VendorContract();
-            refreshVendorContract.setVendorContractGeneratedIdentifier(vendorContractGeneratedId);
-            refreshVendorContract = (VendorContract)businessObjectService.retrieve(refreshVendorContract);
-            ((RequisitionDocument) rqForm.getDocument()).templateVendorContract(refreshVendorContract);
-        }
-        else if (Constants.KUALI_LOOKUPABLE_IMPL.equals(rqForm.getRefreshCaller()) &&
-            request.getParameter("document.vendorAddressGeneratedIdentifier") != null) {
-            Integer vendorAddressGeneratedId = ((RequisitionDocument) rqForm.getDocument()).getVendorAddressGeneratedIdentifier();
-            VendorAddress refreshVendorAddress = new VendorAddress();
-            refreshVendorAddress.setVendorAddressGeneratedIdentifier(vendorAddressGeneratedId);
-            refreshVendorAddress = (VendorAddress)businessObjectService.retrieve(refreshVendorAddress);
-            ((RequisitionDocument) rqForm.getDocument()).templateVendorAddress(refreshVendorAddress);
-        }
         // Format phone numbers
         document.setInstitutionContactPhoneNumber(PhoneNumberUtils.formatNumberIfPossible(document.getInstitutionContactPhoneNumber()));    
         document.setRequestorPersonPhoneNumber(PhoneNumberUtils.formatNumberIfPossible(document.getRequestorPersonPhoneNumber()));    

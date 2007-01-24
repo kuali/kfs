@@ -22,11 +22,17 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.module.purap.bo.PurchasingItem;
+import org.kuali.module.purap.bo.VendorAddress;
+import org.kuali.module.purap.bo.VendorContract;
+import org.kuali.module.purap.bo.VendorDetail;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.document.PurchasingDocumentBase;
+import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
 
 /**
@@ -38,6 +44,7 @@ public class PurchasingActionBase extends KualiTransactionalDocumentActionBase {
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase baseForm = (PurchasingFormBase) form;
         PurchasingDocumentBase document = (PurchasingDocumentBase)baseForm.getDocument();
+        BusinessObjectService businessObjectService = SpringServiceLocator.getBusinessObjectService();
         
         //Set a few fields on the delivery tag in a data-dependent manner (KULPURAP-260).
         if (!(Constants.KUALI_LOOKUPABLE_IMPL.equals(baseForm.getRefreshCaller())) && (ObjectUtils.isNotNull(document.isDeliveryBuildingOther()))) {
@@ -50,6 +57,37 @@ public class PurchasingActionBase extends KualiTransactionalDocumentActionBase {
                 document.setDeliveryBuildingName(null);
                 document.setDeliveryBuildingCode(null);
                 baseForm.setNotOtherDelBldg(true);
+            }
+        }
+        
+        if (document.getVendorDetail() == null &&
+            document.getVendorDetailAssignedIdentifier() != null &&
+            document.getVendorHeaderGeneratedIdentifier() != null)  {
+
+            Integer vendorDetailAssignedId = document.getVendorDetailAssignedIdentifier();
+            Integer vendorHeaderGeneratedId = document.getVendorHeaderGeneratedIdentifier();
+            VendorDetail refreshVendorDetail = new VendorDetail();
+            refreshVendorDetail.setVendorDetailAssignedIdentifier(vendorDetailAssignedId);
+            refreshVendorDetail.setVendorHeaderGeneratedIdentifier(vendorHeaderGeneratedId);
+            refreshVendorDetail = (VendorDetail)businessObjectService.retrieve(refreshVendorDetail);
+            document.templateVendorDetail(refreshVendorDetail);
+        }
+
+        if (Constants.KUALI_LOOKUPABLE_IMPL.equals(baseForm.getRefreshCaller())) {
+            
+            if (request.getParameter("document.vendorContractGeneratedIdentifier") != null) {
+                Integer vendorContractGeneratedId = document.getVendorContractGeneratedIdentifier();
+                VendorContract refreshVendorContract = new VendorContract();
+                refreshVendorContract.setVendorContractGeneratedIdentifier(vendorContractGeneratedId);
+                refreshVendorContract = (VendorContract)businessObjectService.retrieve(refreshVendorContract);
+                document.templateVendorContract(refreshVendorContract);
+            }
+            if (request.getParameter("document.vendorAddressGeneratedIdentifier") != null) {
+                Integer vendorAddressGeneratedId = document.getVendorAddressGeneratedIdentifier();
+                VendorAddress refreshVendorAddress = new VendorAddress();
+                refreshVendorAddress.setVendorAddressGeneratedIdentifier(vendorAddressGeneratedId);
+                refreshVendorAddress = (VendorAddress)businessObjectService.retrieve(refreshVendorAddress);
+                document.templateVendorAddress(refreshVendorAddress);
             }
         }
         return super.refresh(mapping, form, request, response);

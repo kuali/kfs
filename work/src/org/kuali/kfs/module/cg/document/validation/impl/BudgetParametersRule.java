@@ -18,13 +18,10 @@ package org.kuali.module.kra.budget.rules.budget;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.KeyConstants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
@@ -33,7 +30,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.KraConstants;
-import org.kuali.module.kra.KraPropertyConstants;
+import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetFringeRate;
 import org.kuali.module.kra.budget.bo.BudgetGraduateAssistantRate;
@@ -116,12 +113,12 @@ public class BudgetParametersRule {
                 SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.BUDGET_MAX_INFLATION_RATE_PARAMETER_NAME));
 
         if (budgetDocument.getBudget().getBudgetPersonnelInflationRate() != null && budgetDocument.getBudget().getBudgetPersonnelInflationRate().isGreaterThan(MAX_INFLATION_RATE)) {
-            GlobalVariables.getErrorMap().putError("budget.budgetPersonnelInflationRate", KeyConstants.ERROR_INVALID_VALUE, new String[] { dataDictionaryService.getAttributeLabel(Budget.class, "budgetPersonnelInflationRate") });
+            GlobalVariables.getErrorMap().putError("budget.budgetPersonnelInflationRate", KraKeyConstants.ERROR_INVALID_VALUE, new String[] { dataDictionaryService.getAttributeLabel(Budget.class, "budgetPersonnelInflationRate") });
             valid = false;
         }
 
         if (budgetDocument.getBudget().getBudgetNonpersonnelInflationRate() != null && budgetDocument.getBudget().getBudgetNonpersonnelInflationRate().isGreaterThan(MAX_INFLATION_RATE)) {
-            GlobalVariables.getErrorMap().putError("budget.budgetNonpersonnelInflationRate", KeyConstants.ERROR_INVALID_VALUE, new String[] { dataDictionaryService.getAttributeLabel(Budget.class, "budgetNonpersonnelInflationRate") });
+            GlobalVariables.getErrorMap().putError("budget.budgetNonpersonnelInflationRate", KraKeyConstants.ERROR_INVALID_VALUE, new String[] { dataDictionaryService.getAttributeLabel(Budget.class, "budgetNonpersonnelInflationRate") });
             valid = false;
         }
 
@@ -164,7 +161,7 @@ public class BudgetParametersRule {
             return true;
         }
 
-        GlobalVariables.getErrorMap().putError("budget.budgetProjectDirectorSystemId", KeyConstants.ERROR_MISSING, new String[] { dataDictionaryService.getAttributeLabel(Budget.class, "budgetProjectDirectorSystemId") });
+        GlobalVariables.getErrorMap().putError("budget.budgetProjectDirectorSystemId", KraKeyConstants.ERROR_MISSING, new String[] { dataDictionaryService.getAttributeLabel(Budget.class, "budgetProjectDirectorSystemId") });
 
         return false;
     }
@@ -181,7 +178,7 @@ public class BudgetParametersRule {
             return true;
         }
 
-        GlobalVariables.getErrorMap().putError("budget.budgetAgencyNumber", KeyConstants.ERROR_MISSING, new String[] { dataDictionaryService.getAttributeLabel(Budget.class, "budgetAgency") });
+        GlobalVariables.getErrorMap().putError("budget.budgetAgencyNumber", KraKeyConstants.ERROR_MISSING, new String[] { dataDictionaryService.getAttributeLabel(Budget.class, "budgetAgency") });
 
         return false;
     }
@@ -223,17 +220,17 @@ public class BudgetParametersRule {
         String MAXIMUM_NUMBER_MODULAR_PERIODS = configurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "maximumNumberModularPeriods");
 
         if (periods.size() > Integer.parseInt(MAXIMUM_NUMBER_OF_PERIODS)) {
-            GlobalVariables.getErrorMap().putError("budget.period.tooMany", KeyConstants.ERROR_TOO_MANY, new String[] { Integer.toString(KraConstants.maximumNumberOfPeriods), "period" });
+            GlobalVariables.getErrorMap().putError("budget.period.tooMany", KraKeyConstants.ERROR_TOO_MANY, new String[] { Integer.toString(KraConstants.maximumNumberOfPeriods), "period" });
             return false;
         }
         else if (modularBudget) {
             if (periods.size() > Integer.parseInt(MAXIMUM_NUMBER_MODULAR_PERIODS)) {
-                GlobalVariables.getErrorMap().putError("budget.period.modularTooMany", KeyConstants.ERROR_MODULAR_TOO_MANY, new String[] { MAXIMUM_NUMBER_MODULAR_PERIODS, "period" });
+                GlobalVariables.getErrorMap().putError("budget.period.modularTooMany", KraKeyConstants.ERROR_MODULAR_TOO_MANY, new String[] { MAXIMUM_NUMBER_MODULAR_PERIODS, "period" });
             }
         }
 
         if (periods.size() < Integer.parseInt(MINIMUM_NUMBER_OF_PERIODS)) {
-            GlobalVariables.getErrorMap().putError("budget.period.notEnough", KeyConstants.ERROR_NOT_ENOUGH, new String[] { MINIMUM_NUMBER_OF_PERIODS, "period" });
+            GlobalVariables.getErrorMap().putError("budget.period.notEnough", KraKeyConstants.ERROR_NOT_ENOUGH, new String[] { MINIMUM_NUMBER_OF_PERIODS, "period" });
             return false;
         }
 
@@ -264,7 +261,7 @@ public class BudgetParametersRule {
         latterPeriodStart.setTime(latterPeriodStartDate);
 
         if (!formerPeriodEndPlusOneDay.equals(latterPeriodStart)) {
-            GlobalVariables.getErrorMap().putError(errorKey, KeyConstants.ERROR_NONCONSECUTIVE, new String[] { formerPeriodIdentifier, latterPeriodIdentifier });
+            GlobalVariables.getErrorMap().putError(errorKey, KraKeyConstants.ERROR_NONCONSECUTIVE, new String[] { formerPeriodIdentifier, latterPeriodIdentifier });
             return false;
         }
 
@@ -282,7 +279,7 @@ public class BudgetParametersRule {
      */
     protected boolean isPeriodDatesOrderValid(Date startDate, Date endDate, String periodIdentifier, String errorKey) {
         if (startDate != null && endDate != null && startDate.compareTo(endDate) > 0) {
-            GlobalVariables.getErrorMap().putError(errorKey, KeyConstants.ERROR_INVALID_ORDERING, new String[] { periodIdentifier });
+            GlobalVariables.getErrorMap().putError(errorKey, KraKeyConstants.ERROR_INVALID_ORDERING, new String[] { periodIdentifier });
             return false;
         }
         return true;
@@ -309,7 +306,7 @@ public class BudgetParametersRule {
             endCal.setTime(endDate);
 
             if (!endCal.before(startDatePlusMaximumPeriodLength)) {
-                GlobalVariables.getErrorMap().putError(errorKey, KeyConstants.ERROR_INVALID_PERIOD_LENGTH, new String[] { periodIdentifier });
+                GlobalVariables.getErrorMap().putError(errorKey, KraKeyConstants.ERROR_INVALID_PERIOD_LENGTH, new String[] { periodIdentifier });
                 return false;
             }
 
@@ -333,13 +330,13 @@ public class BudgetParametersRule {
 
         if (budgetTaskList.size() > Integer.parseInt(MAXIMUM_NUMBER_OF_TASKS)) {
             String[] tooManyTasksError = new String[] { MAXIMUM_NUMBER_OF_TASKS, "task" };
-            GlobalVariables.getErrorMap().putError("budget.tasks.tooMany", KeyConstants.ERROR_TOO_MANY, tooManyTasksError);
+            GlobalVariables.getErrorMap().putError("budget.tasks.tooMany", KraKeyConstants.ERROR_TOO_MANY, tooManyTasksError);
             return false;
         }
 
         if (budgetTaskList.size() < Integer.parseInt(MINIMUM_NUMBER_OF_TASKS)) {
             String[] notEnoughTasksError = new String[] { MINIMUM_NUMBER_OF_TASKS, "task" };
-            GlobalVariables.getErrorMap().putError("budget.tasks.notEnough", KeyConstants.ERROR_NOT_ENOUGH, notEnoughTasksError);
+            GlobalVariables.getErrorMap().putError("budget.tasks.notEnough", KraKeyConstants.ERROR_NOT_ENOUGH, notEnoughTasksError);
             return false;
         }
         return true;
@@ -398,7 +395,7 @@ public class BudgetParametersRule {
         String fringeRateChange = budgetDocument.getBudget().getBudgetFringeRateDescription();
         // if there is a rate change and the justification note is not filled in then display an error
         if (isRateChanged && fringeRateChange == null) {
-            GlobalVariables.getErrorMap().putError("budget.fringeRate", KeyConstants.ERROR_FRINGE_RATE_CHANGE_JUSTIFICATION_REQUIRED, new String[] {});
+            GlobalVariables.getErrorMap().putError("budget.fringeRate", KraKeyConstants.ERROR_FRINGE_RATE_CHANGE_JUSTIFICATION_REQUIRED, new String[] {});
             valid = false;
         }
         return valid;
@@ -436,7 +433,7 @@ public class BudgetParametersRule {
                             academicYearSubdivisionNames = kcs.getApplicationParameterValues(KraConstants.KRA_DEVELOPMENT_GROUP, "KraBudgetAcademicYearSubdivisionNames");
                         }
                         String[] graduateAssistantRateErrorMessage = { academicYearSubdivisionNames[anAcademicYearSubdivisionIndex - 1], budgetGraduateAssistantRate.getCampusCode() };
-                        GlobalVariables.getErrorMap().putError("budget.graduateAssistantRate[" + i + "].campusMaximumPeriod" + anAcademicYearSubdivisionIndex + "Rate", KeyConstants.ERROR_GRAD_RATE_TOO_HIGH, graduateAssistantRateErrorMessage);
+                        GlobalVariables.getErrorMap().putError("budget.graduateAssistantRate[" + i + "].campusMaximumPeriod" + anAcademicYearSubdivisionIndex + "Rate", KraKeyConstants.ERROR_GRAD_RATE_TOO_HIGH, graduateAssistantRateErrorMessage);
                         valid = false;
                     }
 
@@ -462,7 +459,7 @@ public class BudgetParametersRule {
         String gradFringeRateChange = budgetDocument.getBudget().getBudgetFringeRateDescription();
         // if there is a rate change and the justification note is not filled in then display an error
         if (rateChanged && gradFringeRateChange == null) {
-            GlobalVariables.getErrorMap().putError("budget.grad", KeyConstants.ERROR_GRAD_RATE_CHANGE_JUSTIFICATION_REQUIRED, new String[] {});
+            GlobalVariables.getErrorMap().putError("budget.grad", KraKeyConstants.ERROR_GRAD_RATE_CHANGE_JUSTIFICATION_REQUIRED, new String[] {});
             valid = false;
         }
         return valid;

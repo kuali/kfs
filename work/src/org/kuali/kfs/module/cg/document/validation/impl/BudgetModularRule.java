@@ -18,10 +18,10 @@ package org.kuali.module.kra.budget.rules.budget;
 import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.KeyConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetModular;
 import org.kuali.module.kra.budget.bo.BudgetModularPeriod;
@@ -50,7 +50,7 @@ public class BudgetModularRule {
         // Total direct cost amount is greater than the number of periods times the period maximum
         if (budget.getModularBudget().isInvalidMode()) {
             GlobalVariables.getErrorMap().putError(
-                    "tooLarge", KeyConstants.ERROR_MODULAR_TOO_LARGE, 
+                    "tooLarge", KraKeyConstants.ERROR_MODULAR_TOO_LARGE, 
                     new String[] { budget.getModularBudget().getTotalActualDirectCostAmount().toString(), 
                     Integer.toString(budget.getPeriods().size()), 
                     SpringServiceLocator.getBudgetModularService().determineBudgetPeriodMaximumAmount(budget.getBudgetAgency()).toString() });
@@ -96,7 +96,7 @@ public class BudgetModularRule {
                     if (modularBudget.getBudgetModularDirectCostAmount() != null 
                             && modularPeriod.getBudgetAdjustedModularDirectCostAmount() != null
                             && modularBudget.getBudgetModularDirectCostAmount().intValue() != modularPeriod.getBudgetAdjustedModularDirectCostAmount().intValue()) {
-                        GlobalVariables.getErrorMap().putError("budgetModularVariableAdjustmentDescription.missing", KeyConstants.ERROR_MODULAR_VARIABLE, new String[] {});
+                        GlobalVariables.getErrorMap().putError("budgetModularVariableAdjustmentDescription.missing", KraKeyConstants.ERROR_MODULAR_VARIABLE, new String[] {});
                         valid = false;
                         break;
                     }
@@ -104,7 +104,7 @@ public class BudgetModularRule {
             }
 
             if (StringUtils.isBlank(modularBudget.getBudgetModularPersonnelDescription())) {
-                GlobalVariables.getErrorMap().putError("budgetModularPersonnelDescription.missing", KeyConstants.ERROR_MODULAR_PERSONNEL, new String[] {});
+                GlobalVariables.getErrorMap().putError("budgetModularPersonnelDescription.missing", KraKeyConstants.ERROR_MODULAR_PERSONNEL, new String[] {});
                 valid = false;
             }
         }

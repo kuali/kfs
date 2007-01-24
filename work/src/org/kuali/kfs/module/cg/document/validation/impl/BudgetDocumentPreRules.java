@@ -25,6 +25,7 @@ import org.kuali.core.rules.PreRulesContinuationBase;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.KraConstants;
+import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.bo.BudgetTask;
@@ -91,7 +92,7 @@ public class BudgetDocumentPreRules extends PreRulesContinuationBase {
             BudgetPeriod periodToDelete = budgetDocument.getBudget().getPeriod(Integer.parseInt(event.getQuestionContext()));
             
             String questionText = StringUtils.replace(SpringServiceLocator.getKualiConfigurationService().getPropertyString(
-                    KeyConstants.QUESTION_KRA_DELETE_CONFIRMATION), "{0}", periodToDelete.getBudgetPeriodLabel());
+                    KraKeyConstants.QUESTION_KRA_DELETE_CONFIRMATION), "{0}", periodToDelete.getBudgetPeriodLabel());
             
             boolean deletePeriod = super.askOrAnalyzeYesNoQuestion(KraConstants.DELETE_PERIOD_QUESTION_ID, questionText);
 
@@ -129,7 +130,7 @@ public class BudgetDocumentPreRules extends PreRulesContinuationBase {
             BudgetTask taskToDelete = budgetDocument.getBudget().getTask(Integer.parseInt(event.getQuestionContext()));
             
             String questionText = StringUtils.replace(SpringServiceLocator.getKualiConfigurationService().getPropertyString(
-                    KeyConstants.QUESTION_KRA_DELETE_CONFIRMATION), "{0}", taskToDelete.getBudgetTaskName());
+                    KraKeyConstants.QUESTION_KRA_DELETE_CONFIRMATION), "{0}", taskToDelete.getBudgetTaskName());
             
             boolean deleteTask = super.askOrAnalyzeYesNoQuestion(KraConstants.DELETE_TASK_QUESTION_ID, questionText);
 
@@ -173,7 +174,7 @@ public class BudgetDocumentPreRules extends PreRulesContinuationBase {
           }
             
             String questionText = StringUtils.replace(SpringServiceLocator.getKualiConfigurationService().getPropertyString(
-                    KeyConstants.QUESTION_KRA_DELETE_CONFIRMATION), "{0}", codeText.toString());
+                    KraKeyConstants.QUESTION_KRA_DELETE_CONFIRMATION), "{0}", codeText.toString());
             
             boolean deleteCostShare = super.askOrAnalyzeYesNoQuestion(KraConstants.DELETE_COST_SHARE_QUESTION_ID, questionText);
 

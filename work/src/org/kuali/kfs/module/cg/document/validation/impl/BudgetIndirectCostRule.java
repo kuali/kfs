@@ -15,11 +15,11 @@
  */
 package org.kuali.module.kra.budget.rules.budget;
 
-import org.kuali.KeyConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.budget.bo.BudgetIndirectCost;
 import org.kuali.module.kra.budget.bo.BudgetTaskPeriodIndirectCost;
 import org.kuali.module.kra.budget.document.BudgetDocument;
@@ -67,7 +67,7 @@ public class BudgetIndirectCostRule {
         int i = 0;
         for (BudgetTaskPeriodIndirectCost budgetTaskPeriodIndirectCost : idc.getBudgetTaskPeriodIndirectCostItems()) {
             if (budgetTaskPeriodIndirectCost.getBudgetManualIndirectCostRate().isGreaterThan(maxManualIdcRate)) {
-                GlobalVariables.getErrorMap().putError("budgetTaskPeriodIndirectCostItem[" + i + "].budgetManualIndirectCostRate", KeyConstants.ERROR_INDIRECT_COST_MANUAL_RATE_TOO_BIG, maxManualIdcRate.toString());
+                GlobalVariables.getErrorMap().putError("budgetTaskPeriodIndirectCostItem[" + i + "].budgetManualIndirectCostRate", KraKeyConstants.ERROR_INDIRECT_COST_MANUAL_RATE_TOO_BIG, maxManualIdcRate.toString());
                 valid = false;
             }
             i++;
@@ -86,7 +86,7 @@ public class BudgetIndirectCostRule {
 
         // If our unrecovered indirect cost boolean is true, but the indirect cost share indicator isn't, we have a problem.
         if (idc.getBudgetUnrecoveredIndirectCostIndicator() && !idc.getBudgetIndirectCostCostShareIndicator()) {
-            GlobalVariables.getErrorMap().putError("budgetUnrecoveredIndirectCostIndicator", KeyConstants.ERROR_UNRECOVERED_INDIRECT_COST_NOT_POSSIBLE);
+            GlobalVariables.getErrorMap().putError("budgetUnrecoveredIndirectCostIndicator", KraKeyConstants.ERROR_UNRECOVERED_INDIRECT_COST_NOT_POSSIBLE);
             valid = false;
         }
 
@@ -104,7 +104,7 @@ public class BudgetIndirectCostRule {
 
         // If the user has chosen to use manual values instead of system values and the justification is blank, we have a problem.
         if ("Y".equals(idc.getBudgetManualRateIndicator()) && ("".equals(idc.getBudgetIndirectCostJustificationText()) || idc.getBudgetIndirectCostJustificationText() == null)) {
-            GlobalVariables.getErrorMap().putError("budgetIndirectCostJustificationText", KeyConstants.ERROR_INDIRECT_COST_MANUAL_JUSTIFICATION_REQUIRED);
+            GlobalVariables.getErrorMap().putError("budgetIndirectCostJustificationText", KraKeyConstants.ERROR_INDIRECT_COST_MANUAL_JUSTIFICATION_REQUIRED);
             valid = false;
         }
 

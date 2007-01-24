@@ -25,6 +25,39 @@ import org.kuali.module.kra.util.AuditError;
  */
 public class KraKeyConstants {
 
+    // KRA confirmation messages
+    public static final String QUESTION_KRA_DELETE_CONFIRMATION = "document.question.deleteContext.text";
+    public static final String ROUTING_FORM_GRANTS_GOV = "document.routingForm.grants.gov";
+    
+    // KRA specific Error Codes
+    public static final String ERROR_INVALID_PERIOD_LENGTH = "error.invalidPeriodLength";
+    public static final String ERROR_INVALID_ORDERING = "error.invalidOrdering";
+    public static final String ERROR_NONCONSECUTIVE = "error.nonconsecutive";
+    public static final String ERROR_NOT_ENOUGH = "error.notEnough";
+    public static final String ERROR_TOO_MANY = "error.tooMany";
+    public static final String ERROR_MODULAR_TOO_MANY = "error.modular.notEnough";
+    public static final String ERROR_MISSING = "error.missing";
+    public static final String ERROR_INVALID_VALUE = "error.invalidValue";
+    public static final String ERROR_MODULAR_VARIABLE = "error.modular.variable";
+    public static final String ERROR_MODULAR_PERSONNEL = "error.modular.personnel";
+    public static final String ERROR_GRAD_RATE_CHANGE_JUSTIFICATION_REQUIRED = "error.gradRateChangeJustificationRequired";
+    public static final String ERROR_GRAD_RATE_TOO_HIGH = "error.gradRateTooHigh";
+    public static final String ERROR_FRINGE_RATE_CHANGE_JUSTIFICATION_REQUIRED = "error.fringeRateChangeJustificationRequired";
+    public static final String ERROR_MODULAR_TOO_LARGE = "error.modular.tooLarge";
+    public static final String ERROR_PERSONNEL_SALARY_CHANGE_JUSTIFICATION_REQUIRED = "error.personnel.salary.change.justification.required";
+    public static final String ERROR_PERSONNEL_PERIOD_EFFORT_TOO_MUCH = "error.personnel.period.effort.tooMuch";
+    public static final String ERROR_PERSONNEL_PERIOD_EFFORT_TOO_MUCH_SUMMER = "error.personnel.period.effort.summer.tooMuch";
+    public static final String ERROR_PERSONNEL_SUMMER_WEEKS_TOO_MUCH = "errors.summer.weeks.tooMuch";
+    public static final String ERROR_PERSON_ALREADY_EXISTS_ON_BUDGET = "errors.person.already.exists";
+    public static final String ERROR_PERSON_NOT_SELECTED = "errors.person.not.selected";
+    public static final String ERROR_UNRECOVERED_INDIRECT_COST_NOT_POSSIBLE = "error.unrecoveredIndirectCostNotPossible";
+    public static final String ERROR_INDIRECT_COST_MANUAL_JUSTIFICATION_REQUIRED = "error.indirectCostManualJustificationRequired";
+    public static final String ERROR_FEE_REMISSION_DISTRIBUTION = "error.feeRemissionDistribution";
+    public static final String ERROR_NO_PERSON_SELECTED = "error.noPermissionSelected";
+    public static final String ERROR_NO_ORG_SELECTED = "error.noOrgSelected";
+    public static final String ERROR_INDIRECT_COST_MANUAL_RATE_TOO_BIG = "error.indirectCost.manualRate.tooBig";
+
+    
     // KRA Audit Errors
     public static final String AUDIT_COST_SHARE_INSTITUTION_DISTRIBUTED = "audit.costShare.institution.distributed";
     public static final String AUDIT_COST_SHARE_3P_DISTRIBUTED = "audit.costShare.3p.distributed";
@@ -95,4 +128,10 @@ public class KraKeyConstants {
     public static final String ERROR_HUMAN_SUBJECTS_APPROVAL_DATE_TOO_OLD = "error.humanSubjects.approvalDate.tooOld";
     public static final String ERROR_ANIMALS_APPROVAL_DATE_TOO_OLD = "error.animals.approvalDate.tooOld";
     public static final String ERROR_EXPIRATION_DATE_TOO_EARLY = "error.expiration.tooEarly";
+
+    //Module Link page
+    public static final String ERROR_BUDGET_ALREADY_LINKED = "error.budget.already.linked";
+    public static final String ERROR_DOCUMENT_NUMBER_NOT_BUDGET_DOCUMENT = "error.document.number.not.budget";
+    public static final String ERROR_DOCUMENT_NUMBER_NOT_EXIST = "error.document.number.not.exist";
+    
 }

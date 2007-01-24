@@ -25,7 +25,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
-import org.kuali.KeyConstants;
 import org.kuali.core.authorization.DocumentActionFlags;
 import org.kuali.core.bo.AdHocRoutePerson;
 import org.kuali.core.bo.AdHocRouteWorkgroup;
@@ -35,6 +34,7 @@ import org.kuali.core.rule.event.AddAdHocRoutePersonEvent;
 import org.kuali.core.rule.event.AddAdHocRouteWorkgroupEvent;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.budget.bo.BudgetAdHocOrg;
 import org.kuali.module.kra.budget.bo.BudgetAdHocPermission;
 import org.kuali.module.kra.budget.bo.BudgetAdHocWorkgroup;
@@ -143,7 +143,7 @@ public class BudgetPermissionsAction extends BudgetAction {
 
         if (budgetForm.getNewAdHocOrg().getFiscalCampusCode() == null) {
             // Add page error.
-            GlobalVariables.getErrorMap().putError("newAdHocOrg", KeyConstants.ERROR_NO_ORG_SELECTED, new String[] {});
+            GlobalVariables.getErrorMap().putError("newAdHocOrg", KraKeyConstants.ERROR_NO_ORG_SELECTED, new String[] {});
         }
         else {
             BudgetAdHocOrg newAdHocOrg = budgetForm.getNewAdHocOrg();

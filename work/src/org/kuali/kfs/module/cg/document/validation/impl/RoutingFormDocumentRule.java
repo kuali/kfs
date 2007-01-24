@@ -18,11 +18,15 @@ package org.kuali.module.kra.routingform.rules;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.KeyConstants;
 import org.kuali.core.document.Document;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
@@ -30,6 +34,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.KraKeyConstants;
+import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.budget.rules.ResearchDocumentRuleBase;
 import org.kuali.module.kra.document.ResearchDocument;
 import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
@@ -42,6 +47,8 @@ import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.util.AuditCluster;
 import org.kuali.module.kra.util.AuditError;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class...
@@ -91,8 +98,8 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
      */
     public boolean processRunAuditBusinessRules(Document document) {
         return RoutingFormAuditRule.processRunAuditBusinessRules(document);
-    }
-    
+        }
+        
     /**
      * This method validates Institution Cost Share Orgs.  It checks the following:
      * <ul>
@@ -387,6 +394,72 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
             errorMap.removeFromErrorPath("routingFormResearchRisk[" + i++ + "]");
         }
         
+        return valid;
+    }
+    
+        
+    /**
+     * This method validates that a Budget can be lined to a RF. It checks the following:
+     * <ul>
+     * <li>/...</li>
+     * </ul>
+     * 
+     * @param routingFormDocument The routingFormDocument that is being validated
+     * @param budgetDocumentHeaderId The doc header ID of the budget to be linked to this RF
+     * @param selectedBudgetPeriods An array containing the 
+     * @param allPeriods
+     * @return valid Does the validation pass
+     */
+    public boolean processBudgetRoutingFormLink(RoutingFormDocument routingFormDocument, String[] selectedBudgetPeriods, boolean allPeriods, boolean checkPeriods) {
+        boolean valid = true;
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        
+        DocumentService documentService = SpringServiceLocator.getDocumentService();
+        BusinessObjectService businessObjectService = SpringServiceLocator.getBusinessObjectService();
+
+        errorMap.addToErrorPath("document");
+        
+        try {
+            //see if the Budget Document Header ID is valid
+            if (documentService.documentExists(routingFormDocument.getRoutingFormBudgetNumber())) {
+                Document document = documentService.getByDocumentHeaderId(routingFormDocument.getRoutingFormBudgetNumber());
+                if (BudgetDocument.class.isAssignableFrom(document.getClass())) {
+                    BudgetDocument budgetDocument = (BudgetDocument)document;
+                    
+                    //see if this budget is already linked to another RF
+                    Map<String, Object> fieldValues = new HashMap<String, Object>();
+                    fieldValues.put("routingFormBudgetNumber", routingFormDocument.getRoutingFormBudgetNumber());
+                    
+                    List<RoutingFormDocument> matching = (List<RoutingFormDocument>)businessObjectService.findMatching(RoutingFormDocument.class, fieldValues);
+
+                    for (RoutingFormDocument rfd : matching) {
+                        if (! rfd.getDocumentNumber().equals(routingFormDocument.getDocumentNumber())) {
+                            valid = false;
+                            errorMap.putError("routingFormBudgetNumber", KraKeyConstants.ERROR_BUDGET_ALREADY_LINKED, new String[] {routingFormDocument.getRoutingFormBudgetNumber(), rfd.getDocumentNumber()});
+                            break;
+                        }
+                    }
+                    
+                    //see if Modular has been distributed
+                    
+                } else {
+                    valid = false;
+                    errorMap.putError("routingFormBudgetNumber", KraKeyConstants.ERROR_DOCUMENT_NUMBER_NOT_BUDGET_DOCUMENT, new String[] {routingFormDocument.getRoutingFormBudgetNumber()});
+                }
+            } else {
+                valid = false;
+                errorMap.putError("routingFormBudgetNumber", KraKeyConstants.ERROR_DOCUMENT_NUMBER_NOT_EXIST, new String[] {routingFormDocument.getRoutingFormBudgetNumber()});
+            }
+
+            errorMap.removeFromErrorPath("document");
+            
+            if (checkPeriods) {
+                //check selected periods
+            
+            }
+        } catch (WorkflowException e) {
+            throw new RuntimeException("Exception validating budget to link", e);
+        }
         return valid;
     }
 }

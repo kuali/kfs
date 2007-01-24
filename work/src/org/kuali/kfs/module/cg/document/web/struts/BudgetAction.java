@@ -28,7 +28,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
-import org.kuali.KeyConstants;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.AdHocRoutePerson;
 import org.kuali.core.bo.AdHocRouteWorkgroup;
@@ -37,8 +36,8 @@ import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.web.struts.action.KualiDocumentActionBase;
 import org.kuali.module.kra.KraConstants;
+import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.budget.bo.BudgetAdHocPermission;
 import org.kuali.module.kra.budget.bo.BudgetAdHocWorkgroup;
 import org.kuali.module.kra.budget.rules.event.EnterModularEvent;
@@ -49,8 +48,6 @@ import org.kuali.module.kra.budget.web.struts.form.BudgetIndirectCostFormHelper;
 import org.kuali.module.kra.budget.web.struts.form.BudgetNonpersonnelFormHelper;
 import org.kuali.module.kra.budget.web.struts.form.BudgetOverviewFormHelper;
 import org.kuali.module.kra.web.struts.action.ResearchDocumentActionBase;
-
-import edu.iu.uis.eden.clientapp.IDocHandler;
 
 /**
  * This class handles Actions for Research Administration.
@@ -350,7 +347,7 @@ public class BudgetAction extends ResearchDocumentActionBase {
      * @throws Exception
      */
     protected String buildBudgetConfirmationQuestion(String confirmationContext, KualiConfigurationService kualiConfiguration) throws Exception {
-        return StringUtils.replace(kualiConfiguration.getPropertyString(KeyConstants.QUESTION_KRA_DELETE_CONFIRMATION), "{0}", confirmationContext);
+        return StringUtils.replace(kualiConfiguration.getPropertyString(KraKeyConstants.QUESTION_KRA_DELETE_CONFIRMATION), "{0}", confirmationContext);
     }
 
     /**

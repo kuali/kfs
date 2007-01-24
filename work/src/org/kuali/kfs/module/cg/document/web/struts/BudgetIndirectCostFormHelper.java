@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.bo.BudgetTask;
 import org.kuali.module.kra.budget.bo.BudgetTaskPeriodIndirectCost;
@@ -70,6 +71,15 @@ public class BudgetIndirectCostFormHelper {
         this(budgetForm.getBudgetDocument().getBudget().getTasks(), budgetForm.getBudgetDocument().getBudget().getPeriods(), budgetForm.getBudgetDocument().getBudget().getIndirectCost().getBudgetTaskPeriodIndirectCostItems());
     }
 
+    /**
+     * Non-default constructor, sets default values based on passed Budget object.
+     * 
+     * @param budgetForm
+     */
+    public BudgetIndirectCostFormHelper(Budget budget) {
+        this(budget.getTasks(), budget.getPeriods(), budget.getIndirectCost().getBudgetTaskPeriodIndirectCostItems());
+    }
+    
     /**
      * Update all Indirect Cost totals. This is the function generally called from the action class. Used this method to consolidate
      * all calls.

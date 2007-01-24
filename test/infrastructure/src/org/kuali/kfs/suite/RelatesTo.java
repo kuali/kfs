@@ -48,6 +48,7 @@ public @interface RelatesTo {
      * Using this enumeration makes it easy for the IDE to show which tests relate to which issues.
      */
     public enum JiraIssue {
+        KULDBA614,
         KULRNE4213,
         KULRNE1612,
         KULRNE4303,

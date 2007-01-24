@@ -49,6 +49,17 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
         BusinessObjectService businessObjectService = SpringServiceLocator.getBusinessObjectService();
 
+        //Handling lookups for alternate vendor for escrow payment that are only specific to Purchase Order
+        if (request.getParameter("document.alternateVendorHeaderGeneratedIdentifier") != null &&
+            request.getParameter("document.alternateVendorDetailAssignedIdentifier") != null) {
+            Integer alternateVendorDetailAssignedId = document.getAlternateVendorDetailAssignedIdentifier();
+            Integer alternateVendorHeaderGeneratedId = document.getAlternateVendorHeaderGeneratedIdentifier();
+            VendorDetail refreshVendorDetail = new VendorDetail();
+            refreshVendorDetail.setVendorDetailAssignedIdentifier(alternateVendorDetailAssignedId);
+            refreshVendorDetail.setVendorHeaderGeneratedIdentifier(alternateVendorHeaderGeneratedId);
+            refreshVendorDetail = (VendorDetail)businessObjectService.retrieve(refreshVendorDetail);
+            document.templateAlternateVendor(refreshVendorDetail);
+        }
         // Format phone numbers
         document.setInstitutionContactPhoneNumber(PhoneNumberUtils.formatNumberIfPossible(document.getInstitutionContactPhoneNumber()));    
         document.setRequestorPersonPhoneNumber(PhoneNumberUtils.formatNumberIfPossible(document.getRequestorPersonPhoneNumber()));    

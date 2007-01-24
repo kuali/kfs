@@ -18,13 +18,16 @@ package org.kuali.module.purap.document;
 
 import java.sql.Date;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.PaymentTermType;
 import org.kuali.module.purap.bo.PurchaseOrderVendorChoice;
 import org.kuali.module.purap.bo.RecurringPaymentFrequency;
 import org.kuali.module.purap.bo.ShippingPaymentTerms;
 import org.kuali.module.purap.bo.ShippingTitle;
+import org.kuali.module.purap.bo.VendorDetail;
 
 /**
  * Requisition Document
@@ -55,6 +58,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private Integer purchaseOrderPreviousIdentifier;
     private Integer alternateVendorHeaderGeneratedIdentifier;
     private Integer alternateVendorDetailAssignedIdentifier;
+    private String alternateVendorNumber; //not persisted in db
     private String alternateVendorName;
     private String statusChange;
     private String statusChangeNote;
@@ -445,4 +449,58 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.statusChangeNote = statusChangeNote;
     }
 
+    
+    /**
+     * Gets the alternateVendorNumber attribute. 
+     * @return Returns the alternateVendorNumber.
+     */
+    public String getAlternateVendorNumber() {
+        String hdrGenId = "";
+        String detAssgndId = "";
+        String vendorNumber = "";
+        if( this.alternateVendorHeaderGeneratedIdentifier != null ) {
+            hdrGenId = this.alternateVendorHeaderGeneratedIdentifier.toString();
+        }
+        if( this.alternateVendorDetailAssignedIdentifier != null ) {
+            detAssgndId = this.alternateVendorDetailAssignedIdentifier.toString();
+        }
+        if (!StringUtils.isEmpty(hdrGenId) && !StringUtils.isEmpty(detAssgndId)) {
+            vendorNumber = hdrGenId+"-"+detAssgndId;
+        }
+        return vendorNumber;
+    }
+
+    /**
+     * Sets the alternateVendorNumber attribute value.
+     * @param alternateVendorNumber The vendorNumber to set.
+     */
+    public void setAlternateVendorNumber(String vendorNumber) {
+        if (! StringUtils.isEmpty(vendorNumber)) {
+            int dashInd = vendorNumber.indexOf("-");
+            if (vendorNumber.length() >= dashInd) {
+                String vndrHdrGenId = vendorNumber.substring( 0, dashInd );
+                String vndrDetailAssgnedId = vendorNumber.substring( dashInd + 1 );
+                if (!StringUtils.isEmpty(vndrHdrGenId) && !StringUtils.isEmpty(vndrDetailAssgnedId)) {
+                    this.alternateVendorHeaderGeneratedIdentifier = new Integer(vndrHdrGenId);
+                    this.alternateVendorDetailAssignedIdentifier = new Integer(vndrDetailAssgnedId);
+                }
+            }
+        } else {
+            this.alternateVendorNumber = vendorNumber;
+        }
+    }
+    
+    /**
+     * Convenience method to set alternate vendor fields based on a given VendorDetail.
+     * 
+     * @param vendorDetail
+     */
+    public void templateAlternateVendor(VendorDetail vendorDetail) {
+        if (vendorDetail == null) {
+            return;
+        }
+    
+        this.setAlternateVendorNumber(vendorDetail.getVendorHeaderGeneratedIdentifier() + PurapConstants.DASH + vendorDetail.getVendorDetailAssignedIdentifier());
+        this.setAlternateVendorName(vendorDetail.getVendorName());
+    }
 }

@@ -20,4 +20,6 @@ import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 public interface RoutingFormProjectDetailsService {
     
     public void setupOtherProjectDetailsQuestions(RoutingFormDocument routingFormDocument);
+    
+    public void reconcileOtherProjectDetailsQuestions(RoutingFormDocument routingFormDocument);
 }

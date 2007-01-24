@@ -15,6 +15,8 @@
  */
 package org.kuali.module.kra.routingform.web.struts.action;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,6 +24,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
+import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 
@@ -50,6 +54,11 @@ public class RoutingFormTemplateAction extends RoutingFormAction {
 
         RoutingForm routingForm = (RoutingForm) form;
         RoutingFormDocument routingFormDoc = routingForm.getRoutingFormDocument();
+        
+        // Clear Research Risks
+        routingFormDoc.setRoutingFormResearchRisks(new ArrayList<RoutingFormResearchRisk>());
+        
+        SpringServiceLocator.getRoutingFormProjectDetailsService().reconcileOtherProjectDetailsQuestions(routingFormDoc);
 
         // Check if delivery address to be copied over
         if (!routingForm.isTemplateAddress()) {

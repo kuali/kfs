@@ -126,6 +126,25 @@ public class QuestionType extends PersistableBusinessObjectBase {
     public void setQuestionTypeNotificationValue(String questionTypeNotificationValue) {
         this.questionTypeNotificationValue = questionTypeNotificationValue;
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof QuestionType) {
+            return this.questionTypeCode.equals(((QuestionType) obj).getQuestionTypeCode());
+        }
+        return false;
+    }
+    
+    @Override
+    public int hashCode() {
+        int hashCode = 0;
+
+        if (this.questionTypeCode != null) {
+            hashCode = this.questionTypeCode.hashCode();
+        }
+
+        return hashCode;
+    }
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
@@ -135,5 +154,4 @@ public class QuestionType extends PersistableBusinessObjectBase {
         m.put("questionTypeCode", this.questionTypeCode);
         return m;
     }
-
 }

@@ -42,6 +42,26 @@ public class RoutingFormProjectDetailsServiceImpl implements RoutingFormProjectD
         routingFormDocument.setRoutingFormQuestions(questions);
     }
     
+    public void reconcileOtherProjectDetailsQuestions(RoutingFormDocument routingFormDocument) {
+        List<RoutingFormQuestion> questions = routingFormDocument.getRoutingFormQuestions();
+        List<RoutingFormQuestion> newQuestions = new ArrayList<RoutingFormQuestion>();
+        List<QuestionType> questionTypes = getAllQuestionTypes();
+        List indexList = new ArrayList();
+        for (RoutingFormQuestion question: questions) {
+            QuestionType currentType = question.getQuestion();
+            if (questionTypes.contains(currentType)) {
+                newQuestions.add(question);
+                indexList.add(questionTypes.indexOf(currentType));
+            }
+        }
+        for (int i = 0; i < questionTypes.size(); i++) {
+            if (!indexList.contains(i)) {
+                newQuestions.add(new RoutingFormQuestion(routingFormDocument.getDocumentNumber(), questionTypes.get(i)));
+            }
+        }
+        routingFormDocument.setRoutingFormQuestions(newQuestions);
+    }
+    
     private List<QuestionType> getAllQuestionTypes() {
         Map criteria = new HashMap();
         criteria.put(PropertyConstants.DATA_OBJECT_MAINTENANCE_CODE_ACTIVE_INDICATOR, true);

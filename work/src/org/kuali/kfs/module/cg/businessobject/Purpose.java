@@ -28,7 +28,8 @@ public class Purpose extends PersistableBusinessObjectBase {
 	private String purposeCode;
 	private boolean dataObjectMaintenanceCodeActiveIndicator;
 	private String purposeDescription;
-
+    private Integer userSortNumber;
+    
 	/**
 	 * Default constructor.
 	 */
@@ -98,7 +99,22 @@ public class Purpose extends PersistableBusinessObjectBase {
 		this.purposeDescription = routingFormPurposeDescription;
 	}
 
+    /**
+     * Gets the userSortNumber attribute. 
+     * @return Returns the userSortNumber.
+     */
+    public Integer getUserSortNumber() {
+        return userSortNumber;
+    }
 
+    /**
+     * Sets the userSortNumber attribute value.
+     * @param userSortNumber The userSortNumber to set.
+     */
+    public void setUserSortNumber(Integer userSortNumber) {
+        this.userSortNumber = userSortNumber;
+    }
+    
 	/**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */

@@ -38,17 +38,15 @@ public class LaborLedgerUnitOfWork {
 
     /**
      * Constructs a LaborLedgerUnitOfWork.java.
-     * 
      * @param laborOriginEntry the given origin entry
      */
     public LaborLedgerUnitOfWork(LaborOriginEntry laborOriginEntry) {
         workingEntry = new LaborOriginEntry();
         this.resetLaborLedgerUnitOfWork(laborOriginEntry);
-    } 
-    
+    }
+
     /**
-     * Intialize the default key fields of the labor ledger unit of work with the given origin entry
-     * 
+     * Intialize the default key fields of the labor ledger unit of work with the given origin entry 
      * @param laborOriginEntry the given origin entry
      */
     public void resetLaborLedgerUnitOfWork(LaborOriginEntry laborOriginEntry) {
@@ -57,7 +55,6 @@ public class LaborLedgerUnitOfWork {
 
     /**
      * Intialize the specified key fields of the labor ledger unit of work with the given origin entry
-     * 
      * @param laborOriginEntry the given origin entry
      * @param keyFields the keys to which values will be assigned
      */
@@ -72,8 +69,7 @@ public class LaborLedgerUnitOfWork {
     }
 
     /**
-     * add the given origin entry as a member of the working unit
-     * 
+     * add the given origin entry as a member of the working unit 
      * @param laborOriginEntry the given origin entry
      * @return true if the given origin entry is successfully added into the current unit of work; otherwise, false
      */
@@ -88,7 +84,7 @@ public class LaborLedgerUnitOfWork {
 
             workingEntry.setTransactionLedgerEntryAmount(unitAmount);
             numOfMember++;
-            
+
             return true;
         }
         return false;
@@ -96,7 +92,6 @@ public class LaborLedgerUnitOfWork {
 
     /**
      * Determine if the given origin entry belongs to the current unit of work
-     * 
      * @param laborOriginEntry the given origin entry
      * @return true if the given origin entry belongs to the current unit of work; otherwise, false
      */
@@ -125,7 +120,6 @@ public class LaborLedgerUnitOfWork {
 
     /**
      * Gets the workingEntry attribute.
-     * 
      * @return Returns the workingEntry.
      */
     public LaborOriginEntry getWorkingEntry() {
@@ -134,7 +128,6 @@ public class LaborLedgerUnitOfWork {
 
     /**
      * Sets the workingEntry attribute value.
-     * 
      * @param workingEntry The workingEntry to set.
      */
     public void setWorkingEntry(LaborOriginEntry workingEntry) {
@@ -143,7 +136,6 @@ public class LaborLedgerUnitOfWork {
 
     /**
      * Gets the keyFields attribute.
-     * 
      * @return Returns the keyFields.
      */
     public List<String> getKeyFields() {
@@ -152,7 +144,6 @@ public class LaborLedgerUnitOfWork {
 
     /**
      * Sets the keyFields attribute value.
-     * 
      * @param keyFields The keyFields to set.
      */
     public void setKeyFields(List<String> keyFields) {
@@ -161,7 +152,6 @@ public class LaborLedgerUnitOfWork {
 
     /**
      * Gets the numOfMember attribute.
-     * 
      * @return Returns the numOfMember.
      */
     public int getNumOfMember() {
@@ -169,8 +159,7 @@ public class LaborLedgerUnitOfWork {
     }
 
     /**
-     * Sets the numOfMember attribute value.
-     * 
+     * Sets the numOfMember attribute value. 
      * @param numOfMember The numOfMember to set.
      */
     public void setNumOfMember(int numOfMember) {
@@ -181,8 +170,8 @@ public class LaborLedgerUnitOfWork {
     private List<String> getDefaultKeyFields() {
         List<String> defaultKeyFields = new ArrayList<String>(LaborConstants.consolidationAttributesOfOriginEntry());
         defaultKeyFields.remove(PropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT);
-        defaultKeyFields.remove(PropertyConstants.DEBIT_CREDIT_CODE);
-        
+        defaultKeyFields.remove(PropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE);
+
         return defaultKeyFields;
     }
 }

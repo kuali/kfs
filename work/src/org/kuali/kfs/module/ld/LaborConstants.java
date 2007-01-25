@@ -68,7 +68,7 @@ public class LaborConstants {
         consolidationAttributes.add(PropertyConstants.PROJECT_CODE);
         consolidationAttributes.add(PropertyConstants.ORGANIZATION_REFERENCE_ID);
 
-        consolidationAttributes.add(PropertyConstants.DEBIT_CREDIT_CODE);
+        consolidationAttributes.add(PropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE);
         consolidationAttributes.add(PropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT);
 
         return consolidationAttributes;

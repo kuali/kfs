@@ -1157,7 +1157,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.labor.bo.LaborOriginEntry" table="LD_LBR_ORIGIN_ENTRY_T">
-	<field-descriptor name="entryId" column="ORIGIN_ENTRY_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
+	<field-descriptor name="entryId" column="ORIGIN_ENTRY_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="ORIGIN_ENTRY_ID_SEQ"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="entryGroupId" column="ORIGIN_ENTRY_GRP_ID" jdbc-type="INTEGER"/>

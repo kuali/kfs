@@ -49,4 +49,13 @@
 		</property>
 	</bean>
 
+  <bean id="proposalService" class="org.kuali.module.cg.service.impl.ProposalServiceImpl">
+    <property name="documentService">
+      <ref bean="documentService" />
+    </property>
+    <property name="maintenanceDocumentDictionaryService">
+      <ref bean="maintenanceDocumentDictionaryService" />
+    </property>
+  </bean>
+
 </beans>

@@ -37,7 +37,7 @@ public class RoutingFormDocumentAuthorizer extends DocumentAuthorizerBase {
         DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
 
         flags.setCanAcknowledge(false);
-        flags.setCanApprove(false);
+//        flags.setCanApprove(false);
         flags.setCanBlanketApprove(false);
         flags.setCanCancel(false);
         flags.setCanDisapprove(false);

@@ -31,14 +31,16 @@ public class RoutingFormBudget extends PersistableBusinessObjectBase {
 	private String documentNumber;
 	private Integer routingFormBudgetMaximumPeriodNumber;
 	private Integer routingFormBudgetMinimumPeriodNumber;
-	private KualiInteger routingFormBudgetDirectAmount;
-	private Date routingFormBudgetEndDate;
-	private KualiInteger routingFormBudgetIndirectCostAmount;
-	private String routingFormBudgetIndirectCostDescription;
-	private Date routingFormBudgetStartDate;
+    private String routingFormBudgetIndirectCostDescription;
+    
+    private KualiInteger routingFormBudgetDirectAmount;
     private KualiInteger routingFormBudgetTotalDirectAmount;
-    private Date routingFormBudgetTotalEndDate;
+    private KualiInteger routingFormBudgetIndirectCostAmount;
     private KualiInteger routingFormBudgetTotalIndirectCostAmount;
+    
+    private Date routingFormBudgetEndDate;
+    private Date routingFormBudgetStartDate;
+    private Date routingFormBudgetTotalEndDate;
     private Date routingFormBudgetTotalStartDate;
    
 	/**

@@ -17,6 +17,7 @@
 package org.kuali.module.cg.bo;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -24,8 +25,12 @@ import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
+import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 
 /**
  * 
@@ -87,6 +92,28 @@ public class Proposal extends PersistableBusinessObjectBase {
         proposalProjectDirectors = new TypedArrayList(ProposalProjectDirector.class);
     }
 
+    public Proposal(RoutingFormDocument routingFormDocument) {
+        this();
+        
+        this.setProposalNumber(SpringServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("CGPRPSL_NBR_SEQ"));
+        
+        RoutingFormBudget routingFormBudget = routingFormDocument.getRoutingFormBudget();
+        this.setProposalBeginningDate(routingFormBudget.getRoutingFormBudgetStartDate());
+        this.setProposalEndingDate(routingFormBudget.getRoutingFormBudgetEndDate());
+        this.setProposalTotalAmount((routingFormBudget.getRoutingFormBudgetDirectAmount() != null ? routingFormBudget.getRoutingFormBudgetDirectAmount() : new KualiInteger(0)).add(routingFormBudget.getRoutingFormBudgetIndirectCostAmount() != null ? routingFormBudget.getRoutingFormBudgetIndirectCostAmount() : new KualiInteger(0)).kualiDecimalValue());
+        this.setProposalDirectCostAmount((routingFormBudget.getRoutingFormBudgetDirectAmount() != null ? routingFormBudget.getRoutingFormBudgetDirectAmount() : new KualiInteger(0)).kualiDecimalValue());
+        this.setProposalIndirectCostAmount((routingFormBudget.getRoutingFormBudgetIndirectCostAmount() != null ? routingFormBudget.getRoutingFormBudgetIndirectCostAmount() : new KualiInteger(0)).kualiDecimalValue());
+        this.setProposalDueDate(routingFormDocument.getRoutingFormAgency().getRoutingFormDueDate());
+
+        //required fields not coming from other BOs yet.
+        this.setProposalProjectTitle("my title");
+        this.setProposalSubmissionDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
+        this.setProposalStatusCode("P");
+        this.setAgencyNumber("12500");
+        this.setProposalPurposeCode("A");
+        this.setProposalAwardTypeCode("N");
+    }
+    
     /**
      * Gets the proposalNumber attribute.
      * 

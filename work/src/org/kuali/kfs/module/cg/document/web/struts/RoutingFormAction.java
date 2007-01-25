@@ -126,5 +126,4 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-
 }

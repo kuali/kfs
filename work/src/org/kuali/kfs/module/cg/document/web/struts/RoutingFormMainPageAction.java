@@ -114,6 +114,40 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        RoutingForm routingForm = (RoutingForm) form;
+        
+        List referenceObjects = new ArrayList();
+
+        referenceObjects.add("routingFormSubcontractors");
+        referenceObjects.add("routingFormOtherCostShares");
+        referenceObjects.add("routingFormInstitutionCostShares");
+        referenceObjects.add("routingFormResearchRisks");
+        referenceObjects.add("routingFormOrganizations");
+        referenceObjects.add("routingFormQuestions");
+
+        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(routingForm.getRoutingFormDocument(), referenceObjects);
+
+        return super.route(mapping, form, request, response);
+    }
+    
+    public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        RoutingForm routingForm = (RoutingForm) form;
+        
+        List referenceObjects = new ArrayList();
+
+        referenceObjects.add("routingFormSubcontractors");
+        referenceObjects.add("routingFormOtherCostShares");
+        referenceObjects.add("routingFormInstitutionCostShares");
+        referenceObjects.add("routingFormResearchRisks");
+        referenceObjects.add("routingFormOrganizations");
+        referenceObjects.add("routingFormQuestions");
+
+        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(routingForm.getRoutingFormDocument(), referenceObjects);
+
+        return super.approve(mapping, form, request, response);
+    }
+
     
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         RoutingForm routingForm = (RoutingForm) form;

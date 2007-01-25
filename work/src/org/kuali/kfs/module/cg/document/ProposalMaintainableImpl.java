@@ -33,6 +33,15 @@ import org.kuali.module.cg.bo.Proposal;
  */
 public class ProposalMaintainableImpl extends KualiMaintainableImpl {
 
+    public ProposalMaintainableImpl() {
+        super();
+    }
+    
+    public ProposalMaintainableImpl(Proposal proposal) {
+        super(proposal);
+        this.setBoClass(proposal.getClass());
+    }
+    
     /**
      * This method is called for refreshing the Agency before display to show the full name
      * in case the agency number was changed by hand before any submit that causes a redisplay.

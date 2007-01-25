@@ -22,7 +22,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.PropertyConstants;
-import org.kuali.core.exceptions.IllegalObjectStateException;
+import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.core.document.MaintenanceDocumentBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.SpringServiceLocator;
@@ -31,6 +32,8 @@ import org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference;
 import org.kuali.module.chart.bo.Campus;
 import org.kuali.module.kra.document.ResearchDocumentBase;
 import org.kuali.module.kra.routingform.bo.ContractGrantProposal;
+import org.kuali.module.kra.routingform.bo.Purpose;
+import org.kuali.module.kra.routingform.bo.ResearchTypeCode;
 import org.kuali.module.kra.routingform.bo.RoutingFormAgency;
 import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
 import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
@@ -39,13 +42,13 @@ import org.kuali.module.kra.routingform.bo.RoutingFormOrganization;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent;
 import org.kuali.module.kra.routingform.bo.RoutingFormOtherCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
-import org.kuali.module.kra.routingform.bo.Purpose;
 import org.kuali.module.kra.routingform.bo.RoutingFormQuestion;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
-import org.kuali.module.kra.routingform.bo.ResearchTypeCode;
 import org.kuali.module.kra.routingform.bo.RoutingFormStatus;
 import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
 import org.kuali.module.kra.routingform.bo.SubmissionType;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * 
@@ -158,7 +161,23 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     public void initialize() {
         this.setRoutingFormCreateDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
     }
-    
+
+    @Override
+    public void handleRouteStatusChange() {
+        // TODO Auto-generated method stub
+        super.handleRouteStatusChange();
+        
+        if (super.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+            
+            //Logic to determine whether or not this RF should become a C&G Proposal
+            if (this.getContractGrantProposal().getProposalNumber() == null) {
+                SpringServiceLocator.getProposalService().createAndRouteProposalMaintenanceDocument(this);
+            }
+        }
+
+        
+    }
+
     /**
      * Ensures required fields for supporting objects are properly set since we don't use transient objects.
      */

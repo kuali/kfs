@@ -19,7 +19,7 @@
 	<bean id="chartModule" class="org.kuali.core.KualiModule">
 		<property name="moduleId" value="chart" />
 		<property name="moduleName" value="Kuali Chart Of Accounts" />
-		<property name="moduleCode" value="COA" />
+		<property name="moduleCode" value="ch" />
 		<property name="moduleUserService" ref="chartUserService" />
 		<property name="moduleUserRule" ref="chartUserRule" />
 		<property name="moduleAuthorizer" ref="chartModuleAuthorizer" />

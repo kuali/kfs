@@ -19,7 +19,7 @@
 	<bean id="kraModule" class="org.kuali.core.KualiModule">
 		<property name="moduleId" value="kra" />
 		<property name="moduleName" value="Kuali Research Administration" />
-		<property name="moduleCode" value="KRA" />
+		<property name="moduleCode" value="ra" />
 		<property name="moduleUserService" ref="kraUserService" />
 		<property name="moduleAuthorizer">
 			<bean class="org.kuali.core.authorization.KualiModuleAuthorizerBase">

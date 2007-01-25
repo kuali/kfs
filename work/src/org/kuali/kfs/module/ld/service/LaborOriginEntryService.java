@@ -21,6 +21,9 @@ import java.util.Iterator;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 
+/**
+ * This interface provides its clients with access to labor origin entries in the backend data store.  
+ */
 public interface LaborOriginEntryService {
 
     /**

@@ -31,11 +31,11 @@ import org.kuali.module.labor.util.ObjectUtil;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * This class...
+ * This class implements LaborOriginEntryService to provide the access to labor origin entries in data stores.
  */
 @Transactional
 public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
-    
+
     private LaborOriginEntryDao laborOriginEntryDao;
     private OriginEntryGroupService originEntryGroupService;
     private DateTimeService dateTimeService;
@@ -59,43 +59,51 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
      *      boolean)
      */
     public Iterator<LaborOriginEntry> getEntriesByGroup(OriginEntryGroup group, boolean isConsolidated) {
-        if(!isConsolidated){
+        if (!isConsolidated) {
             return this.getEntriesByGroup(group);
         }
-        
-        Collection<LaborOriginEntry> entryCollection = new ArrayList<LaborOriginEntry>(); 
+
+        Collection<LaborOriginEntry> entryCollection = new ArrayList<LaborOriginEntry>();
         LaborLedgerUnitOfWork laborLedgerUnitOfWork = new LaborLedgerUnitOfWork();
-        
+
         Iterator<Object[]> consolidatedEntries = laborOriginEntryDao.getConsolidatedEntriesByGroup(group);
-        while(consolidatedEntries.hasNext()){
+        while (consolidatedEntries.hasNext()) {
             LaborOriginEntry laborOriginEntry = new LaborOriginEntry();
             Object[] oneEntry = consolidatedEntries.next();
             ObjectUtil.buildObject(laborOriginEntry, oneEntry, LaborConstants.consolidationAttributesOfOriginEntry());
-            
-            if(laborLedgerUnitOfWork.canContain(laborOriginEntry)){
+
+            if (laborLedgerUnitOfWork.canContain(laborOriginEntry)) {
                 laborLedgerUnitOfWork.addEntryIntoUnit(laborOriginEntry);
             }
-            else{
+            else {
                 entryCollection.add(laborLedgerUnitOfWork.getWorkingEntry());
                 laborLedgerUnitOfWork.resetLaborLedgerUnitOfWork(laborOriginEntry);
-            }           
+            }
         }
         return entryCollection.iterator();
     }
 
     /**
-     * Sets the laborOriginEntryDao attribute value.
-     * 
-     * @param laborOriginEntryDao The laborOriginEntryDao to set.
+     * Sets the dateTimeService attribute value.
+     * @param dateTimeService The dateTimeService to set.
      */
-    public void setlaborOriginEntryDao(LaborOriginEntryDao laborOriginEntryDao) {
-        this.laborOriginEntryDao = laborOriginEntryDao;
-    }
-    public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService){
-        this.originEntryGroupService = originEntryGroupService;
-    }
-
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+
+    /**
+     * Sets the laborOriginEntryDao attribute value.
+     * @param laborOriginEntryDao The laborOriginEntryDao to set.
+     */
+    public void setLaborOriginEntryDao(LaborOriginEntryDao laborOriginEntryDao) {
+        this.laborOriginEntryDao = laborOriginEntryDao;
+    }
+
+    /**
+     * Sets the originEntryGroupService attribute value.
+     * @param originEntryGroupService The originEntryGroupService to set.
+     */
+    public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
+        this.originEntryGroupService = originEntryGroupService;
     }
 }

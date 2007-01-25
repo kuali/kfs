@@ -17,14 +17,16 @@ package org.kuali.module.labor.service.impl;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.labor.bo.LedgerEntry;
+import org.kuali.module.labor.dao.LaborLedgerEntryDao;
 import org.kuali.module.labor.service.LaborLedgerEntryService;
 
 /**
- * This class...
+ * This class implements LaborOriginEntryService to provide the access to labor ledger entries in data stores.
  */
 public class LaborLedgerEntryServiceImpl implements LaborLedgerEntryService {
 
     private BusinessObjectService businessObjectService;
+    private LaborLedgerEntryDao ledgerEntryDao;
     
     /**
      * @see org.kuali.module.labor.service.LaborLedgerEntryService#save(org.kuali.module.labor.bo.LedgerEntry)
@@ -37,8 +39,7 @@ public class LaborLedgerEntryServiceImpl implements LaborLedgerEntryService {
      * @see org.kuali.module.labor.service.LaborLedgerEntryService#getMaxSquenceNumber(org.kuali.module.labor.bo.LedgerEntry)
      */
     public Integer getMaxSquenceNumber(LedgerEntry ledgerEntry) {
-        // TODO Auto-generated method stub
-        return null;
+        return ledgerEntryDao.getMaxSquenceNumber(ledgerEntry);
     }
 
     /**
@@ -47,5 +48,13 @@ public class LaborLedgerEntryServiceImpl implements LaborLedgerEntryService {
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    /**
+     * Sets the ledgerEntryDao attribute value.
+     * @param ledgerEntryDao The ledgerEntryDao to set.
+     */
+    public void setLedgerEntryDao(LaborLedgerEntryDao ledgerEntryDao) {
+        this.ledgerEntryDao = ledgerEntryDao;
     }
 }

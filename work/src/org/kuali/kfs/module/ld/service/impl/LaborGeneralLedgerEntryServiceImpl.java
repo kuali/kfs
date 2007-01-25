@@ -17,21 +17,24 @@ package org.kuali.module.labor.service.impl;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
+import org.kuali.module.labor.dao.LaborGeneralLedgerEntryDao;
 import org.kuali.module.labor.service.LaborGeneralLedgerEntryService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
- * This class...
+ * This class implements LaborOriginEntryService to provide the access to labor general ledger entries in data stores.
  */
+@Transactional
 public class LaborGeneralLedgerEntryServiceImpl implements LaborGeneralLedgerEntryService {
 
     private BusinessObjectService businessObjectService;
+    private LaborGeneralLedgerEntryDao laborGeneralLedgerEntryDao;
 
     /**
      * @see org.kuali.module.labor.service.LaborGeneralLedgerEntryService#getMaxSequenceNumber()
      */
     public Integer getMaxSequenceNumber(LaborGeneralLedgerEntry laborGeneralLedgerEntry) {
-        // TODO Auto-generated method stub
-        return null;
+        return laborGeneralLedgerEntryDao.getMaxSequenceNumber(laborGeneralLedgerEntry);
     }
 
     /**
@@ -43,10 +46,17 @@ public class LaborGeneralLedgerEntryServiceImpl implements LaborGeneralLedgerEnt
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
+    }
+
+    /**
+     * Sets the laborGeneralLedgerEntryDao attribute value.
+     * @param laborGeneralLedgerEntryDao The laborGeneralLedgerEntryDao to set.
+     */
+    public void setLaborGeneralLedgerEntryDao(LaborGeneralLedgerEntryDao laborGeneralLedgerEntryDao) {
+        this.laborGeneralLedgerEntryDao = laborGeneralLedgerEntryDao;
     }
 }

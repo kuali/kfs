@@ -19,13 +19,12 @@
     "../dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.kra.routingform.bo.RoutingFormDueDateType">
-        <customAttributeEnabled>false</customAttributeEnabled>
+        <customAttributeEnabled>false</customAttributeEnabled> 
 
         <inquiry>
             <title>Due Date Type Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="routingFormApprovalLeadTime" />
                 <field attributeName="routingFormDueDateDescription" />
                 <field attributeName="routingFormDueDateTypeCode" />
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
@@ -44,7 +43,6 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="routingFormApprovalLeadTime" required="false" />
                 <lookupField attributeName="routingFormDueDateDescription" required="false" />
                 <lookupField attributeName="routingFormDueDateTypeCode" required="false" />
                 <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false">
@@ -53,7 +51,6 @@
             </lookupFields>
 
             <resultFields>
-                <field attributeName="routingFormApprovalLeadTime" />
                 <field attributeName="routingFormDueDateDescription" />
                 <field attributeName="routingFormDueDateTypeCode" />
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />

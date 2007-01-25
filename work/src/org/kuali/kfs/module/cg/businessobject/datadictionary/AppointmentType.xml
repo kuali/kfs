@@ -84,12 +84,12 @@
             </attribute>
 
             <attribute name="appointmentTypeDescription" forceUppercase="false">
-                <label>Position</label>
-                <shortLabel>Description</shortLabel>
+                <label>Position Name</label>
+                <shortLabel>Name</shortLabel>
 
                 <maxLength>40</maxLength>
                 <validationPattern>
-                    <alphaNumeric />
+                    <anyCharacter allowWhitespace="true"/>
                 </validationPattern>
 
                 <control>
@@ -102,11 +102,11 @@
 
             <attribute name="appointmentTypeAbbrieviation" forceUppercase="false">
                 <label>Appointment Type Abbreviation</label>
-                <shortLabel>Abrv</shortLabel>
+                <shortLabel>Appt Type Abrv</shortLabel>
 
                 <maxLength>25</maxLength>
                 <validationPattern>
-                    <alphaNumeric />
+                    <anyCharacter allowWhitespace="true"/>
                 </validationPattern>
 
                 <control>
@@ -120,9 +120,10 @@
 
             <attribute name="fringeRateAmount" forceUppercase="false">
                 <label>Fringe Rate</label>
-                <shortLabel>Fringe Rate</shortLabel>
+                <shortLabel>Fringe</shortLabel>
 
                 <maxLength>8</maxLength>
+                <inclusiveMax>999</inclusiveMax>
                 <validationPattern>
                     <floatingPoint />
                 </validationPattern>
@@ -137,9 +138,10 @@
 
             <attribute name="costShareFringeRateAmount" forceUppercase="false">
                 <label>Cost Share Fringe Rate</label>
-                <shortLabel>Cost Share</shortLabel>
+                <shortLabel>Cost Share Fringe</shortLabel>
 
                 <maxLength>8</maxLength>
+                <inclusiveMax>999</inclusiveMax>
                 <validationPattern>
                     <floatingPoint />
                 </validationPattern>
@@ -153,7 +155,7 @@
             </attribute>
 
             <attributeReference name="lastUpdate"  sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
-                <label>Last Update</label>
+                <label>Last Update Timestamp</label>
                 <shortLabel>Last Update</shortLabel>
                 <summary>lastUpdate summary...</summary>
                 <description>lastUpdate description...</description>

@@ -53,7 +53,7 @@
                 <maintainableItems>
                     <maintainableField name="budgetOnCampusIndicator" />
                     <maintainableField name="budgetPurposeCode" required="true" />
-                    <maintainableField name="budgetIndirectCostRate" required="false" />
+                    <maintainableField name="budgetIndirectCostRate" required="true" />
 					<maintainableField name="active" required="true">
 						<defaultValue>true</defaultValue>
 					</maintainableField>

@@ -48,7 +48,7 @@
             </lookupFields>
 
             <resultFields>
-                <field attributeName="code" />
+                <field attributeName="code" noInquiry="true" />
                 <field attributeName="name" />
                 <field attributeName="active" />
             </resultFields>

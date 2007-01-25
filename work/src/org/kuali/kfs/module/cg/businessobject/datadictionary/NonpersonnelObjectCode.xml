@@ -66,19 +66,19 @@
             <attributeReference name="nonpersonnelSubCategory.name" sourceClassName="org.kuali.module.kra.budget.bo.NonpersonnelSubCategory" sourceAttributeName="name" />
 
             <attribute name="budgetNonpersonnelObjectCode" forceUppercase="false">
-                <label>Object Code Name</label>
-                <shortLabel>ObjCodeName</shortLabel>
-                <maxLength>40</maxLength>
+                <label>Object Code</label>
+                <shortLabel>Obj Cd</shortLabel>
+                <maxLength>4</maxLength>
                 <validationPattern>
                     <anyCharacter allowWhitespace="true" />
                 </validationPattern>
                 <required>true</required>
                 <control>
-                    <text size="2" />
+                    <text size="4" />
                 </control>
 
-                <summary>Object Code Name</summary>
-                <description>The name assigned to this object code.</description>
+                <summary>Object Code</summary>
+                <description>The assigned object code.</description>
             </attribute>
 
             <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />

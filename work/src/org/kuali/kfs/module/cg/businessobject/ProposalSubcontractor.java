@@ -30,7 +30,8 @@ public class ProposalSubcontractor extends PersistableBusinessObjectBase {
     private Long proposalNumber;
     private String subcontractorNumber;
     private KualiDecimal proposalSubcontractorAmount;
-
+    private String proposalSubcontractorDescription;
+    
     private Subcontractor subcontractor;
 
     /**
@@ -124,6 +125,22 @@ public class ProposalSubcontractor extends PersistableBusinessObjectBase {
     }
 
     /**
+     * Gets the proposalSubcontractorDescription attribute. 
+     * @return Returns the proposalSubcontractorDescription.
+     */
+    public String getProposalSubcontractorDescription() {
+        return proposalSubcontractorDescription;
+    }
+
+    /**
+     * Sets the proposalSubcontractorDescription attribute value.
+     * @param proposalSubcontractorDescription The proposalSubcontractorDescription to set.
+     */
+    public void setProposalSubcontractorDescription(String proposalSubcontractorDescription) {
+        this.proposalSubcontractorDescription = proposalSubcontractorDescription;
+    }
+
+    /**
      * @return Returns the subcontractor.
      */
     public Subcontractor getSubcontractor() {
@@ -136,8 +153,8 @@ public class ProposalSubcontractor extends PersistableBusinessObjectBase {
      */
     public void setSubcontractor(Subcontractor subcontractor) {
         this.subcontractor = subcontractor;
-    }
-
+    }    
+    
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
@@ -149,7 +166,7 @@ public class ProposalSubcontractor extends PersistableBusinessObjectBase {
         }
         m.put("subcontractorNumber", this.subcontractorNumber);
         return m;
-    }
+    }    
 
 
 }

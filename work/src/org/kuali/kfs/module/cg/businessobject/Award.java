@@ -66,7 +66,6 @@ public class Award extends PersistableBusinessObjectBase {
     private List<AwardAccount> awardAccounts;
     private List<AwardSubcontractor> awardSubcontractors;
     private List<AwardOrganization> awardOrganizations;
-    private List<AwardDiary> awardDiaries;
 
     private Proposal proposal;
     private ProposalAwardType proposalAwardType;
@@ -85,7 +84,6 @@ public class Award extends PersistableBusinessObjectBase {
         awardAccounts = new ArrayList<AwardAccount>();
         awardSubcontractors = new ArrayList<AwardSubcontractor>();
         awardOrganizations = new ArrayList<AwardOrganization>();
-        awardDiaries = new ArrayList<AwardDiary>();
     }
 
     /**
@@ -973,20 +971,6 @@ public class Award extends PersistableBusinessObjectBase {
      */
     public void setAwardAccounts(List<AwardAccount> awardAccounts) {
         this.awardAccounts = awardAccounts;
-    }
-
-    /**
-     * @return Returns the awardDiaries.
-     */
-    public List<AwardDiary> getAwardDiaries() {
-        return awardDiaries;
-    }
-
-    /**
-     * @param awardDiaries The awardDiaries to set.
-     */
-    public void setAwardDiaries(List<AwardDiary> awardDiaries) {
-        this.awardDiaries = awardDiaries;
     }
 
     /**

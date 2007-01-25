@@ -96,6 +96,7 @@
                         <maintainableField name="chartOfAccountsCode" required="true" />
                         <maintainableField name="organizationCode" required="true" />
                         <maintainableField name="proposalPrimaryOrganizationIndicator" required="false" />
+                        <maintainableField name="proposalNumber" />
                         <maintainableField name="versionNumber" />
                         <summaryFields>
                             <summaryField name="chartOfAccountsCode" />

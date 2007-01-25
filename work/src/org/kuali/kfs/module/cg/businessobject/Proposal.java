@@ -67,7 +67,6 @@ public class Proposal extends PersistableBusinessObjectBase {
     private List<ProposalSubcontractor> proposalSubcontractors;
     private List<ProposalOrganization> proposalOrganizations;
     private List<ProposalProjectDirector> proposalProjectDirectors;
-    private List<ProposalDiary> proposalDiaries;
 
     private ResearchType researchType;
     private ProposalAwardType proposalAwardType;
@@ -86,7 +85,6 @@ public class Proposal extends PersistableBusinessObjectBase {
         proposalSubcontractors = new TypedArrayList(ProposalSubcontractor.class);
         proposalOrganizations = new TypedArrayList(ProposalOrganization.class);
         proposalProjectDirectors = new TypedArrayList(ProposalProjectDirector.class);
-        proposalDiaries = new TypedArrayList(ProposalDiary.class);
     }
 
     /**
@@ -792,20 +790,6 @@ public class Proposal extends PersistableBusinessObjectBase {
      */
     public void setProposalProjectDirectors(List<ProposalProjectDirector> proposalProjectDirectors) {
         this.proposalProjectDirectors = proposalProjectDirectors;
-    }
-
-    /**
-     * @return Returns the proposalDiaries.
-     */
-    public List<ProposalDiary> getProposalDiaries() {
-        return proposalDiaries;
-    }
-
-    /**
-     * @param proposalDiaries The proposalDiaries to set.
-     */
-    public void setProposalDiaries(List<ProposalDiary> proposalDiaries) {
-        this.proposalDiaries = proposalDiaries;
     }
 
     /**

@@ -24,9 +24,11 @@ package org.kuali.module.cg.maintenance;
 
 import java.util.Map;
 
-import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.core.maintenance.KualiMaintainableImpl;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.module.cg.bo.Proposal;
+import org.kuali.module.cg.bo.ProposalOrganization;
 
 /**
  * Methods for the Proposal maintenance document UI.
@@ -60,6 +62,17 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
         refreshProposal();
         super.refresh(refreshCaller, fieldValues, document);
+    }
+
+    @Override
+    public PersistableBusinessObject initNewCollectionLine( String collectionName ) {
+        PersistableBusinessObject newBo = super.initNewCollectionLine(collectionName);
+        
+        if (collectionName.equals("proposalOrganizations")) {
+            ProposalOrganization po = (ProposalOrganization) newBo;
+            po.setProposalNumber(getProposal().getProposalNumber());
+        }
+        return newBo;
     }
 
     private void refreshProposal() {

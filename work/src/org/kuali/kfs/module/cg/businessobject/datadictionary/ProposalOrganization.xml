@@ -71,7 +71,11 @@
 
             <attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode"/>
 
-            <attributeReference name="proposalNumber" sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="proposalNumber"/>
+            <attributeReference name="proposalNumber" sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="proposalNumber">
+                <control>
+                    <hidden/>
+                </control>
+            </attributeReference>
 
             <attribute name="proposalPrimaryOrganizationIndicator" forceUppercase="true">
                 <label>Proposal Primary Organization Indicator</label>

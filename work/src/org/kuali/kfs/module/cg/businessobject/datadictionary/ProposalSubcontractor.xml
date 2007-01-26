@@ -71,8 +71,6 @@
 			<attributeReference name="subcontractorNumber" sourceClassName="org.kuali.module.cg.bo.Subcontractor" sourceAttributeName="subcontractorNumber"/>
 
 			<attributeReference name="proposalSubcontractorAmount"  sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-				<required>true</required>
-				
 				<description>Proposal Subcontractor Amount</description>
 			</attributeReference>				
 

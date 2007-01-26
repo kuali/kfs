@@ -112,7 +112,9 @@
                         <maintainableField name="subcontractorNumber" required="true" />
                         <maintainableField name="subcontractor.subcontractorName" readOnly="true" />
 						<maintainableField name="proposalSubcontractorDescription" />
-                        <maintainableField name="proposalSubcontractorAmount" required="true" />
+                        <maintainableField name="proposalSubcontractorAmount">
+							<defaultValue>0.00</defaultValue>
+						</maintainableField>
                         <summaryFields>
                             <summaryField name="subcontractor.subcontractorName" />
                             <summaryField name="proposalSubcontractorAmount" />

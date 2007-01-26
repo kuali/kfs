@@ -15,14 +15,17 @@
  */
 package org.kuali.module.labor.web.struts.form;
 
+import static org.kuali.core.util.SpringServiceLocator.getUniversalUserService;
+
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
-
-import static org.kuali.core.util.SpringServiceLocator.getUniversalUserService;
 
 /**
  * This class is the form class for the Salary Expense Transfer document. This method extends the parent
@@ -34,6 +37,7 @@ import static org.kuali.core.util.SpringServiceLocator.getUniversalUserService;
 public class SalaryExpenseTransferForm extends LaborDocumentFormBase {
     private UniversalUser user;
     private String userId;
+    private String emplid;
 
     /**
      * Constructs a SalaryExpenseTransferForm instance and sets up the appropriately casted document.
@@ -98,14 +102,55 @@ public class SalaryExpenseTransferForm extends LaborDocumentFormBase {
         }
         return retval;
     }
-
+    /**
+     * Sets the <code>{@link UniversalUser}</code> through the <code>personUserIdentifier</code> attribute value
+     *
+     * @param uid <code>personUserIdentifier</code>
+     */
+    public void setDeptid(String deptid) throws UserNotFoundException {
+        if (deptid != null) {
+            //  This may happen during populate when there is no initial user
+            user = getUniversalUserService().getUniversalUser(deptid);
+        }
+    }
+    /**
+     * Gets the <code>personName</code> attribute value from the <code>{@link UniversalUser}</code> instance
+     *
+     * @return String <code>personName</code>
+     */
+    public String getDeptid() {
+        String retval = null;
+        if (user != null) {
+            retval = user.getDeptid();
+        }
+        return retval;
+    }
+    
     /**
      * @param request direct access to the <code>{@link javax.servlet.http.HttpServletRequest}</code> instance 
      */
     @Override
     public void populate(HttpServletRequest request) {
-        super.populate(request);
-        
-        
+        super.populate(request);        
+    }
+
+
+    /**
+     * @param request direct access to the <code>{@link javax.servlet.http.HttpServletRequest}</code> instance 
+     */
+  
+    public String getEmplid() {
+        String retval = null;
+        if (user != null) {
+            retval = user.getEmplid();
+        }
+        return retval;
+    }
+
+    public void setEmplid(String emplid)throws UserNotFoundException {
+        if (emplid != null) {
+            //  This may happen during populate when there is no initial user
+            user = getUniversalUserService().getUniversalUser(emplid);
+        }
     }
 }

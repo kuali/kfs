@@ -67,6 +67,10 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
      */
     @Override
     protected boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
+
+        SalaryExpenseTransferDocument salaryExpenseTransferDocument = null;
+        SalaryExpenseTransferAccountingLine salaryExpenseTransferAccountingLine = null;
+
         if (accountingLine.isSourceAccountingLine()) {
             
             // Retrieve the Fringe or Salary Code for the object code in the ld_labor_obj_t table. 
@@ -87,7 +91,9 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
                 LOG.info("FringeOrSalaryCode not equal S");
                   reportError(PropertyConstants.ACCOUNT, KeyConstants.Labor.FRINGE_OR_SALARY_CODE_MISSING_ERROR, accountingLine.getAccountNumber());
                 return false;
-            }
+            }            
+            
+            salaryExpenseTransferAccountingLine.setEmplid(salaryExpenseTransferDocument.getEmplid());
         }
         return true;
     }
@@ -103,30 +109,6 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
     protected boolean customizeOffsetGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
         //offsetEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL);
         return true;
-    }
-
-    /**
-     * Set attributes of an explicit pending entry according to rules specific to TransferOfFundsDocument.
-     * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.core.document.TransactionalDocument,
-     *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
-     */
-    @Override
-    protected void customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
-        /*Options options = SpringServiceLocator.getOptionsService().getCurrentYearOptions();
-
-        explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL);
-        if (isExpense(accountingLine)) {
-            explicitEntry.setFinancialObjectTypeCode(options.getFinancialObjectTypeTransferExpenseCode());
-        }
-        else {
-            if (isIncome(accountingLine)) {
-                explicitEntry.setFinancialObjectTypeCode(options.getFinancialObjectTypeTransferIncomeCode());
-            }
-            else {
-                explicitEntry.setFinancialObjectTypeCode(TransactionalDocumentRuleUtil.getObjectCodeTypeCodeWithoutSideEffects(accountingLine));
-            }
-        }*/
     }
 
     /**
@@ -163,6 +145,7 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
         return true;
     }
 
+    
     /**
      * Overrides to check balances across mandator transfers and non-mandatory transfers. Also checks balances across fund groups.
      * 

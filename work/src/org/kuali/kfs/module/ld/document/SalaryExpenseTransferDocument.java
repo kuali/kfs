@@ -25,6 +25,16 @@ import org.kuali.module.labor.bo.LaborLedgerAccountingLineParser;
  */
 public class SalaryExpenseTransferDocument extends LaborDocument {
 
+    private String emplid;
+    
+    public String getEmplid() {
+        return emplid;
+    }
+
+    public void setEmplid(String emplid) {
+        this.emplid = emplid;
+    }
+
     /**
      * Initializes the array lists and some basic info.
      */

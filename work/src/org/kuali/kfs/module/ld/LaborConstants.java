@@ -21,7 +21,7 @@ import java.util.List;
 import org.kuali.PropertyConstants;
 
 /**
- * This class...
+ * This class contains the constants used by Labor Distribution.
  */
 public class LaborConstants {
     public static class PayrollDocumentTypeCode{
@@ -42,6 +42,13 @@ public class LaborConstants {
         public static final String EXPENSE_TRANSFER_SACH = "SACH";
         public static final String EXPENSE_TRANSFER_YEST = "YEST";
         public static final String EXPENSE_TRANSFER_YEBT = "YEBT";
+    }
+    
+    public static class OperationType{
+        public static final String INSERT = "insert";
+        public static final String UPDATE = "update";
+        public static final String DELETE = "delete";
+        public static final String SELECT = "select";
     }
     
     public static List<String> consolidationAttributesOfOriginEntry() {

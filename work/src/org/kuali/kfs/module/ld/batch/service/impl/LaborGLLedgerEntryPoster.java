@@ -37,6 +37,7 @@ import org.kuali.module.labor.util.ObjectUtil;
  */
 public class LaborGLLedgerEntryPoster implements PostTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborGLLedgerEntryPoster.class);
+    public static final String DESTINATION_NAME = "LD_LABOR_GL_ENTRY_T";
     
     private LaborGeneralLedgerEntryService laborGeneralLedgerEntryService;
 
@@ -44,6 +45,7 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
      * @see org.kuali.module.gl.batch.poster.PostTransaction#post(org.kuali.module.gl.bo.Transaction, int, java.util.Date)
      */
     public String post(Transaction transaction, int mode, java.util.Date postDate) {
+        String operationType = LaborConstants.OperationType.INSERT;
         LaborGeneralLedgerEntry laborGeneralLedgerEntry = new LaborGeneralLedgerEntry();
         ObjectUtil.buildObject(laborGeneralLedgerEntry, transaction);
 
@@ -66,7 +68,7 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
         laborGeneralLedgerEntry.setTransactionLedgerEntrySequenceNumber(sequenceNumber);
 
         laborGeneralLedgerEntryService.save(laborGeneralLedgerEntry);
-        return "U";
+        return operationType;
     }
 
     private String getDebitCreditCode(Transaction transaction) {
@@ -115,7 +117,7 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
      * @see org.kuali.module.gl.batch.poster.PostTransaction#getDestinationName()
      */
     public String getDestinationName() {
-        return "LD_LABOR_GL_ENTRY_T";
+        return DESTINATION_NAME;
     }
 
     /**

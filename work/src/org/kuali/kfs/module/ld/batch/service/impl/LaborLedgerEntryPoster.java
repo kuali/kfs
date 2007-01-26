@@ -20,12 +20,14 @@ import java.sql.Date;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.batch.poster.impl.PostGlEntry;
 import org.kuali.module.gl.bo.Transaction;
+import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.service.LaborLedgerEntryService;
 import org.kuali.module.labor.util.ObjectUtil;
 
 public class LaborLedgerEntryPoster implements PostTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerEntryPoster.class);
+    public static final String DESTINATION_NAME = "LD_LEDGER_ENTRY_T";
     
     private LaborLedgerEntryService laborLedgerEntryService;
 
@@ -33,6 +35,7 @@ public class LaborLedgerEntryPoster implements PostTransaction {
      * @see org.kuali.module.gl.batch.poster.PostTransaction#post(org.kuali.module.gl.bo.Transaction, int, java.util.Date)
      */
     public String post(Transaction transaction, int mode, java.util.Date postDate) {
+        String operationType = LaborConstants.OperationType.INSERT;
         LedgerEntry ledgerEntry = new LedgerEntry();        
         ObjectUtil.buildObject(ledgerEntry, transaction);
         
@@ -40,14 +43,14 @@ public class LaborLedgerEntryPoster implements PostTransaction {
         ledgerEntry.setTransactionPostingDate(new Date(postDate.getTime()));
         
         laborLedgerEntryService.save(ledgerEntry);        
-        return "I";
+        return operationType;
     }
     
     /**
      * @see org.kuali.module.gl.batch.poster.PostTransaction#getDestinationName()
      */
     public String getDestinationName() {
-        return "LD_LEDGER_ENTRY_T";
+        return DESTINATION_NAME;
     }
 
     /**

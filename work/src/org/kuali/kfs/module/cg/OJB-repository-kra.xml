@@ -942,7 +942,6 @@
 	<field-descriptor name="documentNumber" column="RDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="projectTypeDescription" column="PROJ_TYP_DESC" jdbc-type="VARCHAR"/>
 	<reference-descriptor name="projectType" class-ref="org.kuali.module.kra.routingform.bo.ProjectType" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="projectTypeCode" />
 	</reference-descriptor>

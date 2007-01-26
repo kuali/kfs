@@ -29,7 +29,6 @@ public class RoutingFormProjectType extends PersistableBusinessObjectBase {
 
 	private String projectTypeCode;
 	private String documentNumber;
-	private String projectTypeDescription;
 
     private ProjectType projectType;
     
@@ -90,26 +89,6 @@ public class RoutingFormProjectType extends PersistableBusinessObjectBase {
 	}
 
 
-	/**
-	 * Gets the projectTypeDescription attribute.
-	 * 
-	 * @return Returns the projectTypeDescription
-	 * 
-	 */
-	public String getProjectTypeDescription() { 
-		return projectTypeDescription;
-	}
-
-	/**
-	 * Sets the projectTypeDescription attribute.
-	 * 
-	 * @param projectTypeDescription The projectTypeDescription to set.
-	 * 
-	 */
-	public void setProjectTypeDescription(String projectTypeDescription) {
-		this.projectTypeDescription = projectTypeDescription;
-	}
-
     /**
      * Gets the projectType attribute. 
      * @return Returns the projectType.
@@ -156,7 +135,7 @@ public class RoutingFormProjectType extends PersistableBusinessObjectBase {
      * @see java.lang.Object#hashCode()
      */
     public int hashCode() {
-        String hashString = this.getDocumentNumber() + "|" + this.getProjectTypeCode() + "|" + this.getProjectTypeDescription() + this.getDocumentNumber();
+        String hashString = this.getDocumentNumber() + "|" + this.getProjectTypeCode() + "|" + this.getDocumentNumber();
         return hashString.hashCode();
     }
 }

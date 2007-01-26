@@ -26,7 +26,6 @@
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="projectTypeCode" />
-                <field attributeName="projectTypeDescription" />
                 <field attributeName="documentNumber" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
@@ -45,13 +44,11 @@
 
             <lookupFields>
                 <lookupField attributeName="projectTypeCode" required="false" />
-                <lookupField attributeName="projectTypeDescription" required="false" />
                 <lookupField attributeName="documentNumber" required="false" />
             </lookupFields>
 
             <resultFields>
                 <field attributeName="projectTypeCode" />
-                <field attributeName="projectTypeDescription" />
                 <field attributeName="documentNumber" />
             </resultFields>
         </lookup>
@@ -71,21 +68,6 @@
 
                 <summary>projectTypeCode</summary>
                 <description>projectTypeCode description...</description>
-			</attribute>
-
-            <attribute name="projectTypeDescription" forceUppercase="true">
-                <label>Project Type Description</label>
-                <shortLabel>Description</shortLabel>
-
-                <maxLength>75</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="77" />
-                </control>
-
-                <summary>projectTypeDescription</summary>
-                <description>projectTypeDescription description...</description>
 			</attribute>
 
             <attribute name="documentNumber" forceUppercase="true">

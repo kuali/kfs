@@ -100,6 +100,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private Integer personnelNextSequenceNumber;
     private boolean routingFormAgencyToBeNamedIndicator;
     private String routingFormCatalogOfFederalDomesticAssistanceNumber;    
+    private String projectTypeOtherDescription;
     
     // monetary attributes
     private KualiDecimal totalInstitutionCostShareAmount = KualiDecimal.ZERO;
@@ -1674,6 +1675,26 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         this.routingFormCatalogOfFederalDomesticAssistanceNumber = routingFormCatalogOfFederalDomesticAssistanceNumber;
     }
 
+    /**
+     * Gets the projectTypeOtherDescription attribute.
+     * 
+     * @return Returns the projectTypeOtherDescription
+     * 
+     */
+    public String getProjectTypeOtherDescription() { 
+        return projectTypeOtherDescription;
+    }
+
+    /**
+     * Sets the projectTypeOtherDescription attribute.
+     * 
+     * @param projectTypeOtherDescription The projectTypeOtherDescription to set.
+     * 
+     */
+    public void setProjectTypeOtherDescription(String projectTypeOtherDescription) {
+        this.projectTypeOtherDescription = projectTypeOtherDescription;
+    }
+    
     /**
      * Gets the personnelNextSequenceNumber attribute. 
      * @return Returns the personnelNextSequenceNumber.

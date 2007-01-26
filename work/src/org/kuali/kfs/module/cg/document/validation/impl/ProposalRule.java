@@ -116,10 +116,4 @@ public class ProposalRule extends MaintenanceDocumentRuleBase {
     protected void putFieldError(String propertyName, String errorConstant, String... parameters) {
         super.putFieldError(propertyName, errorConstant, parameters);
     }
-
-    // todo: change the super method to accept var args
-    @Override
-    protected void putDocumentError(String propertyName, String errorConstant, String... parameters) {
-        super.putDocumentError(propertyName, errorConstant, parameters);
-    }
 }

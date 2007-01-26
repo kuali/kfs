@@ -38,7 +38,7 @@
         
         <attributes>
             <attributeReference name="explanation" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="documentExplanation">            
-            	<required>false</required>
+            	<required>true</required>
             </attributeReference>
         </attributes>
         

@@ -376,6 +376,21 @@
                 <description>routingFormOtherPurposeDescription description...</description>
       </attribute>
 
+            <attribute name="projectTypeOtherDescription" forceUppercase="true">
+                <label>Project Type Other Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>75</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>projectTypeOtherDescription</summary>
+                <description>projectTypeOtherDescription description...</description>
+			</attribute>
+
             <attribute name="routingFormOtherTypeDescription" forceUppercase="true">
                 <label>Routing Form Other Type Description</label>
                 <shortLabel>Description</shortLabel>

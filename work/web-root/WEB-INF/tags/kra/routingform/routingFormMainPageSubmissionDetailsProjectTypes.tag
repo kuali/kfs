@@ -18,6 +18,8 @@
 <%@ attribute name="begin" required="true" %>
 <%@ attribute name="end" required="true" %>
 
+<c:set var="routingFormAttributes" value="${DataDictionary.KualiRoutingFormDocument.attributes}" />
+
 <table width="100%" cellpadding="0" cellspacing="0" class="nobord">
   <c:forEach items="${KualiForm.projectTypes}" var="projectType" varStatus="status" begin="${begin}" end="${end}">
     <tr>
@@ -27,7 +29,7 @@
           &nbsp;&nbsp;${projectType.projectTypeDescription}
         </label>
         <c:if test="${projectType.projectTypeCode eq KraConstants.PROJECT_TYPE_OTHER}">
-          &nbsp;TODO
+          &nbsp;<kul:htmlControlAttribute property="document.projectTypeOtherDescription" attributeEntry="${routingFormAttributes.projectTypeOtherDescription}"  />
         </c:if>
       </td>
     </tr>

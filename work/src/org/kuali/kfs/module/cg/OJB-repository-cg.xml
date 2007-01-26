@@ -75,7 +75,6 @@
     <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 </class-descriptor>
 
-<!-- 
 <class-descriptor class="org.kuali.module.cg.bo.ProposalResearchRisk" table="CG_PRPSL_RSRCH_RSK_T">
     <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
 	<field-descriptor name="researchRiskTypeCode" column="RSRCH_RSK_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
@@ -85,12 +84,12 @@
     <reference-descriptor name="proposal" class-ref="org.kuali.module.cg.bo.Proposal" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="proposalNumber" />
     </reference-descriptor>
-    <reference-descriptor name="researchRiskType" class-ref="org.kuali.module.kra.bo.ResearchRiskType" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="researchRiskType" class-ref="org.kuali.module.kra.routingform.bo.ResearchRiskType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="proposalNumber" />
     </reference-descriptor>
 </class-descriptor>
--->
 
+<!-- 
 <class-descriptor class="org.kuali.module.cg.bo.ResearchType" table="CG_RESEARCH_TYP_T">
     <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
@@ -103,6 +102,7 @@
         <foreignkey field-ref="proposalNumber" />
     </reference-descriptor>
 </class-descriptor>
+-->
 
 <class-descriptor class="org.kuali.module.cg.bo.LetterOfCreditFundGroup" table="CG_LTRCR_FNDGRP_T">
     <field-descriptor name="letterOfCreditFundGroupCode" column="CG_LTRCR_FNDGRP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />

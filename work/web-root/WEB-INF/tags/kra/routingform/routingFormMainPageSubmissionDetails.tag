@@ -17,10 +17,11 @@
 
 <c:set var="routingFormAttributes" value="${DataDictionary.KualiRoutingFormDocument.attributes}" />
 <c:set var="routingFormBudgetAttributes" value="${DataDictionary.RoutingFormBudget.attributes}" />
+<c:set var="routingFormProjectTypeAttributes" value="${DataDictionary.RoutingFormProjectType.attributes}" />
 <c:set var="routingFormKeywordAttributes" value="${DataDictionary.RoutingFormKeyword.attributes}" />
 <c:set var="contractGrantProposalAttributes" value="${DataDictionary.ContractGrantProposal.attributes}" />
 
-<kul:tab tabTitle="Submission Details" defaultOpen="true" tabErrorKey="newRoutingFormKeyword*,document.contractGrantProposal*,document.projectAbstract,document.routingFormProjectTitle,document.routingFormBudget*" auditCluster="mainPageAuditErrors" tabAuditKey="document.routingFormBudget*,document.submissionTypeCode,document.previousFederalIdentifier,document.routingFormPurposeCode,document.routingFormProjectTitle,document.projectAbstract">
+<kul:tab tabTitle="Submission Details" defaultOpen="true" tabErrorKey="newRoutingFormKeyword*,document.contractGrantProposal*,document.projectAbstract,document.routingFormProjectTitle,document.routingFormBudget*" auditCluster="mainPageAuditErrors" tabAuditKey="document.routingFormBudget*,document.submissionTypeCode,document.previousFederalIdentifier,document.routingFormPurposeCode,document.routingFormOtherPurposeDescription,document.routingFormProjectTitle,document.projectAbstract">
 
           <div class="tab-container" align="center">
             <div class="h2-container">
@@ -29,68 +30,47 @@
             <table cellpadding="0" cellspacing="0" summary="view/edit document overview information">
 
               <tr>
-                <td colspan=4 class="tab-subhead"><span class="left">Submission Type </span> </td>
+                <td colspan=4 class="tab-subhead"><span class="left"><kul:htmlAttributeLabel attributeEntry="${routingFormAttributes.submissionTypeCode}" skipHelpUrl="true" noColon="true"/></span> </td>
               </tr>
               <tr>
                 <th align=right valign=middle>Type:</th>
-                <td colspan="3" align=left valign=middle nowrap ><label>
-                  <input name="RadioGroup1" type="radio" class="nobord" value="radio">
-
-                  Pre-application</label>
-                  <br>
-                  <label>
-                  <input name="RadioGroup1" type="radio" class="nobord" value="radio">
-                  Application</label>
-                  <br>
-                  <label>
-                  <input name="RadioGroup1" type="radio" class="nobord" value="radio">
-
-                  Change/corrected application (include previous federal identifier): </label>&nbsp;
-
-                  <input name="textfield" type="text" size="12">
+                <td colspan="3" align=left valign=middle nowrap >
+                  <c:forEach items="${KualiForm.submissionTypes}" var="submissionType" varStatus="status">
+		            <label>
+		            <html:radio property="document.submissionTypeCode" value="${submissionType.submissionTypeCode}"/>
+		            ${submissionType.submissionTypeDescription}</label>
+		            <c:if test="${submissionType.submissionTypeCode eq KraConstants.SUBMISSION_TYPE_CHANGE}">
+		              &nbsp;<kul:htmlControlAttribute property="document.previousFederalIdentifier" attributeEntry="${routingFormAttributes.previousFederalIdentifier}"  />
+		            </c:if>
+		            <br>
+	              </c:forEach>
                 </td>
               </tr>
               <tr>
-                <td colspan=4 class="tab-subhead">Project Type</td>
+                <td colspan=4 class="tab-subhead"><kul:htmlAttributeLabel attributeEntry="${routingFormProjectTypeAttributes.projectTypeCode}" skipHelpUrl="true" noColon="true"/></td>
               </tr>
 
               <tr>
                 <th align=right valign=middle>Type:</th>
-                <td colspan="3" align=left valign=middle ><table width="100%" cellpadding="0"  cellspacing="0" class="nobord">
-                    <tr>
-                      <td class="nobord"><input name="checkbox" type="checkbox" class="radio" value="checkbox">
+                <td colspan="3" align=left valign=middle >
+                  <c:forEach items="${KualiForm.document.routingFormProjectTypes}" varStatus="status">
+                    <html:hidden property="document.routingFormProjectType[${status.index}].projectTypeCode" />
+                    <html:hidden property="document.routingFormProjectType[${status.index}].documentNumber" />
+                    <html:hidden property="document.routingFormProjectType[${status.index}].versionNumber" />
+                  </c:forEach>
+                  <table width="100%" cellspacing="0" cellpadding="0" class="nobord">
+				    <tr>
+				      <td class="nobord" width="50%" valign="top">
+					    <c:set var="roundedEndIndex"><fmt:formatNumber value="${fn:length(KualiForm.projectTypes) / 2 - 1}" maxFractionDigits="0"/></c:set>
+					    <kra-rf:routingFormMainPageSubmissionDetailsProjectTypes begin="0" end="${roundedEndIndex}"/>
                       </td>
-                      <td class="nobord">New</td>
-                      <td class="nobord"><input name="checkbox" type="checkbox" class="radio" value="checkbox"></td>
-
-                      <td class="nobord">Time Extension</td>
-                    </tr>
-                    <tr>
-                      <td class="nobord"><input name="checkbox" type="checkbox" class="radio" value="checkbox">
+					  <td class="nobord" width="50%" valign="top">
+					    <c:set var="roundedBeginIndex"><fmt:formatNumber value="${fn:length(KualiForm.projectTypes) / 2}" maxFractionDigits="0"/></c:set>
+					    <kra-rf:routingFormMainPageSubmissionDetailsProjectTypes begin="${roundedBeginIndex}" end="${fn:length(KualiForm.projectTypes)}"/>
                       </td>
-                      <td class="nobord">Renewal-Not Previously Committed</td>
-                      <td class="nobord"><input name="checkbox" type="checkbox" class="radio" value="checkbox"></td>
-                      <td class="nobord">Budget Revision to Active Project</td>
-
-                    </tr>
-                    <tr>
-                      <td class="nobord"><input name="checkbox" type="checkbox" class="radio" value="checkbox">
-                      </td>
-                      <td class="nobord">Renewal-Previously Committed</td>
-                      <td class="nobord"><input name="checkbox" type="checkbox" class="radio" value="checkbox"></td>
-                      <td class="nobord">Budget Revision to Pending Proposal</td>
-                    </tr>
-
-                    <tr>
-                      <td class="nobord"><input name="checkbox" type="checkbox" class="radio" value="checkbox">
-                      </td>
-                      <td class="nobord">Supplemental Funds</td>
-                      <td class="nobord"><input name="checkbox" type="checkbox" class="radio" value="checkbox"></td>
-                      <td class="nobord">Other - Specify:
-                        <input name="textfield" type="text" size="12"></td>
-                    </tr>
-                  </table></td>
-
+				    </tr>
+				  </table>
+              </td>
               </tr>
 
               <tr>
@@ -129,32 +109,25 @@
                 </td>
               </tr>
               <tr>
-                <td colspan=4 class="tab-subhead"><span class="left">Project Purpose </span> </td>
+                <td colspan=4 class="tab-subhead"><span class="left"><kul:htmlAttributeLabel attributeEntry="${routingFormAttributes.routingFormPurposeCode}" skipHelpUrl="true" noColon="true"/></span> </td>
               </tr>
               <tr>
                 <th align=right valign=middle>Type:</th>
-                <td colspan="3" align=left valign=middle nowrap ><label>
-                  <input name="RadioGroup1" type="radio" class="nobord" value="radio">
-                  Research</label>
-                  <label>
-                  <select name="select2">
-                    <option selected>select type:</option>
-                    <option>basic</option>
-                    <option>applied</option>
-                  </select>
-                  </label>
-                  <br>
-                  <label>
-
-                  <input name="RadioGroup1" type="radio" class="nobord" value="radio">
-                  Instruction</label>
-                  <br>
-                  <label>
-                  <input name="RadioGroup1" type="radio" class="nobord" value="radio">
-                  Service/other: </label>
-                  &nbsp;
-                  <input name="textfield" type="text" size="12">
-
+                <td colspan="3" align=left valign=middle nowrap >
+                  <c:forEach items="${KualiForm.purposes}" var="purpose" varStatus="status">
+		            <label>
+		            <html:radio property="document.routingFormPurposeCode" value="${purpose.purposeCode}"/>
+		            ${purpose.purposeDescription}</label>
+		            <c:choose>
+		              <c:when test="${purpose.purposeCode eq KraConstants.PURPOSE_RESEARCH}">
+		                <kul:htmlControlAttribute property="document.researchTypeCode" attributeEntry="${routingFormAttributes.researchTypeCode}"  />
+		              </c:when>
+		              <c:when test="${purpose.purposeCode eq KraConstants.PURPOSE_OTHER}">
+		                &nbsp;<kul:htmlControlAttribute property="document.routingFormOtherPurposeDescription" attributeEntry="${routingFormAttributes.routingFormOtherPurposeDescription}"  />
+		              </c:when>
+		            </c:choose>
+		            <br>
+	              </c:forEach>
                 </td>
               </tr>
               <tr>
@@ -168,7 +141,7 @@
                 </td>
               </tr>
               <tr>
-                <th align=right valign=middle>Keywords:</th>
+                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormKeywordAttributes.routingFormKeywordDescription}" skipHelpUrl="true" /></th>
                 <td colspan="3" align=left valign=middle nowrap >
 
 		            <table cellpadding="0" cellspacing="0" class="neutral">

@@ -56,7 +56,7 @@
         <attributes>
 
             <attribute name="routingFormKeywordDescription" forceUppercase="true">
-                <label>Routing Form Keyword Description</label>
+                <label>Keywords</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>70</maxLength>

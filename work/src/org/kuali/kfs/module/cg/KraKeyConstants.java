@@ -87,6 +87,7 @@ public class KraKeyConstants {
     public static final String AUDIT_MAIN_PAGE_SUBMISSION_TYPE_REQUIRED = "audit.mainPage.submission.type.required";
     public static final String AUDIT_MAIN_PAGE_SUBMISSION_TYPE_FEDID_REQUIRED = "audit.mainPage.submission.type.fedid.required";
     public static final String AUDIT_MAIN_PAGE_PURPOSE_REQUIRED = "audit.mainPage.purpose.required";
+    public static final String AUDIT_MAIN_PAGE_PURPOSE_OTHER_REQUIRED = "audit.mainPage.purpose.other.required";
     public static final String AUDIT_MAIN_PAGE_TITLE_REQUIRED = "audit.mainPage.title.required";
     public static final String AUDIT_MAIN_PAGE_ABSTRACT_REQUIRED = "audit.mainPage.abstract.required";
     

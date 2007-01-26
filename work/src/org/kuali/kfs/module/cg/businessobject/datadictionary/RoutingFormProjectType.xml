@@ -59,7 +59,7 @@
         <attributes>
 
             <attribute name="projectTypeCode" forceUppercase="true">
-                <label>Project Type Code</label>
+                <label>Project Type</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>70</maxLength>

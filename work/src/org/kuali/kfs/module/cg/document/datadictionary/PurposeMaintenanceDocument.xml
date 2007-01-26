@@ -52,7 +52,7 @@
                 <maintainableItems>
                     <maintainableField name="purposeCode" required="true" />
                     <maintainableField name="purposeDescription" required="true" />
-                    <!-- maintainableField name="sortNumber" required="false" / -->
+                    <maintainableField name="userSortNumber" required="false" />
 					<maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="true">
 						<defaultValue>true</defaultValue>
 					</maintainableField>

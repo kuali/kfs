@@ -366,10 +366,10 @@
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>50</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 
                 <control>
-                    <text size="52" />
+                    <text size="12" />
                 </control>
 
                 <summary>routingFormOtherPurposeDescription</summary>
@@ -452,7 +452,7 @@
       </attribute>
 
             <attribute name="routingFormPurposeCode" forceUppercase="true">
-                <label>Routing Form Purpose Code</label>
+                <label>Project Purpose</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -546,7 +546,7 @@
                 <maxLength>1</maxLength>
 
                 <control>
-                    <checkbox />
+                    <select valuesFinderClass="org.kuali.module.kra.routingform.lookup.keyvalues.ResearchTypeCodeValuesFinder" />
                 </control>
 
                 <summary>researchTypeCode</summary>
@@ -554,8 +554,8 @@
       </attribute>
 
             <attribute name="submissionTypeCode" forceUppercase="true">
-                <label>Submission Type Code</label>
-                <shortLabel>Number</shortLabel>
+                <label>Submission Type</label>
+                <shortLabel>Code</shortLabel>
 
                 <maxLength>1</maxLength>
 
@@ -572,7 +572,7 @@
                 <shortLabel>Identifier</shortLabel>
 
                 <maxLength>12</maxLength>
-                <validationPattern><numeric /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 
                 <control>
                     <text size="12" />

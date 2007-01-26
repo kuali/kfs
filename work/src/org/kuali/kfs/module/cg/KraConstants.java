@@ -142,4 +142,7 @@ public class KraConstants extends JstlConstants {
     
     public static final String PERSON_ROLE_CODE_PD = "P";
     public static final String SUBMISSION_TYPE_CHANGE = "C";
+    public static final String PROJECT_TYPE_OTHER = "O";
+    public static final String PURPOSE_RESEARCH = "R";
+    public static final String PURPOSE_OTHER = "O";
 }

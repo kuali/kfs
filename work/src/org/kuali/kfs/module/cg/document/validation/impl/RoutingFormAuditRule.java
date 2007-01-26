@@ -270,6 +270,11 @@ public class RoutingFormAuditRule {
             auditErrors.add(new AuditError("document.routingFormPurposeCode", KraKeyConstants.AUDIT_MAIN_PAGE_PURPOSE_REQUIRED, "mainpage"));
         }
         
+        if (KraConstants.PURPOSE_OTHER.equals(routingFormDocument.getRoutingFormPurposeCode()) && ObjectUtils.isNull(routingFormDocument.getRoutingFormOtherPurposeDescription())) {
+            valid = false;
+            auditErrors.add(new AuditError("document.routingFormOtherPurposeDescription", KraKeyConstants.AUDIT_MAIN_PAGE_PURPOSE_OTHER_REQUIRED, "mainpage"));
+        }
+        
         if (ObjectUtils.isNull(routingFormDocument.getRoutingFormProjectTitle())) {
             valid = false;
             auditErrors.add(new AuditError("document.routingFormProjectTitle", KraKeyConstants.AUDIT_MAIN_PAGE_TITLE_REQUIRED, "mainpage"));

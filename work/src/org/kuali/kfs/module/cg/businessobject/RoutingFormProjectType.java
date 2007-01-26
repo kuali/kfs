@@ -18,8 +18,9 @@ package org.kuali.module.kra.routingform.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.PropertyConstants;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.util.ObjectUtils;
 
 /**
  * 
@@ -39,6 +40,14 @@ public class RoutingFormProjectType extends PersistableBusinessObjectBase {
 
 	}
 
+    /**
+     * Constructs with projectTypeCode argument.
+     * @param projectTypeCode
+     */
+    public RoutingFormProjectType(String projectTypeCode) {
+        this.projectTypeCode = projectTypeCode;
+    }
+    
 	/**
 	 * Gets the projectTypeCode attribute.
 	 * 
@@ -119,6 +128,21 @@ public class RoutingFormProjectType extends PersistableBusinessObjectBase {
     }
 
     /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object obj) {
+        boolean equals = false;
+
+        if (ObjectUtils.isNotNull(obj) && obj instanceof RoutingFormProjectType) {
+            RoutingFormProjectType routingFormProjectType = (RoutingFormProjectType) obj;
+            
+            equals = this.projectTypeCode.equals(routingFormProjectType.getProjectTypeCode());
+        }
+        
+        return equals;
+    }
+    
+    /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
@@ -128,5 +152,11 @@ public class RoutingFormProjectType extends PersistableBusinessObjectBase {
         return m;
     }
 
-
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    public int hashCode() {
+        String hashString = this.getDocumentNumber() + "|" + this.getProjectTypeCode() + "|" + this.getProjectTypeDescription() + this.getDocumentNumber();
+        return hashString.hashCode();
+    }
 }

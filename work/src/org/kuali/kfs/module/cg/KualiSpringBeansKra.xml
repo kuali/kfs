@@ -209,6 +209,30 @@
 		</property>
 	</bean>
 
+	<bean id="projectTypeService" class="org.kuali.module.kra.routingform.service.impl.ProjectTypeServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+
+	<bean id="purposeService" class="org.kuali.module.kra.routingform.service.impl.PurposeServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+	
+	<bean id="submissionTypeService" class="org.kuali.module.kra.routingform.service.impl.SubmissionTypeServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+
+	<bean id="researchTypeCodeService" class="org.kuali.module.kra.routingform.service.impl.ResearchTypeCodeServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+
 	<bean id="routingFormProjectDetailsService" class="org.kuali.module.kra.routingform.service.impl.RoutingFormProjectDetailsServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />

@@ -16,6 +16,7 @@
 package org.kuali.module.kra.routingform.web.struts.action;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,7 @@ import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
+import org.kuali.module.kra.routingform.bo.RoutingFormProjectType;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 
@@ -45,6 +47,28 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
     
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RoutingFormMainPageAction.class);
     
+    /**
+     * @see org.kuali.module.kra.routingform.web.struts.action.RoutingFormAction#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        RoutingForm routingForm = (RoutingForm) form;
+        
+        routingForm.setProjectTypes(SpringServiceLocator.getProjectTypeService().getProjectTypes());
+        routingForm.setSubmissionTypes(SpringServiceLocator.getSubmissionTypeService().getSubmissionTypes());
+        routingForm.setPurposes(SpringServiceLocator.getPurposeService().getPurposes());
+        
+        return super.execute(mapping, form, request, response);
+    }
+
+    /**
+     * When a person is added to the list.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
     public ActionForward addPersonLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         RoutingForm routingForm = (RoutingForm) form;
 
@@ -54,6 +78,14 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    /**
+     * When a person is deleted from the list.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
     public ActionForward deletePersonLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         RoutingForm routingForm = (RoutingForm) form;
         
@@ -63,6 +95,14 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    /**
+     * When an org is added to the list.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
     public ActionForward addOrganizationCreditPercentLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         RoutingForm routingForm = (RoutingForm) form;
 
@@ -72,6 +112,14 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    /**
+     * When an org is deleted from the list.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
     public ActionForward deleteOrganizationCreditPercentLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         RoutingForm routingForm = (RoutingForm) form;
         
@@ -114,60 +162,46 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    /**
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#route(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         RoutingForm routingForm = (RoutingForm) form;
         
-        List referenceObjects = new ArrayList();
-
-        referenceObjects.add("routingFormSubcontractors");
-        referenceObjects.add("routingFormOtherCostShares");
-        referenceObjects.add("routingFormInstitutionCostShares");
-        referenceObjects.add("routingFormResearchRisks");
-        referenceObjects.add("routingFormOrganizations");
-        referenceObjects.add("routingFormQuestions");
-
-        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(routingForm.getRoutingFormDocument(), referenceObjects);
+        retrieveMainPageReferenceObjects(routingForm.getRoutingFormDocument());
 
         return super.route(mapping, form, request, response);
     }
     
+    /**
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#approve(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         RoutingForm routingForm = (RoutingForm) form;
         
-        List referenceObjects = new ArrayList();
-
-        referenceObjects.add("routingFormSubcontractors");
-        referenceObjects.add("routingFormOtherCostShares");
-        referenceObjects.add("routingFormInstitutionCostShares");
-        referenceObjects.add("routingFormResearchRisks");
-        referenceObjects.add("routingFormOrganizations");
-        referenceObjects.add("routingFormQuestions");
-
-        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(routingForm.getRoutingFormDocument(), referenceObjects);
+        retrieveMainPageReferenceObjects(routingForm.getRoutingFormDocument());
 
         return super.approve(mapping, form, request, response);
     }
 
-    
+    /**
+     * @see org.kuali.module.kra.routingform.web.struts.action.RoutingFormAction#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         RoutingForm routingForm = (RoutingForm) form;
-        
-        List referenceObjects = new ArrayList();
+        RoutingFormDocument routingFormDocument = routingForm.getRoutingFormDocument();
 
-        referenceObjects.add("routingFormSubcontractors");
-        referenceObjects.add("routingFormOtherCostShares");
-        referenceObjects.add("routingFormInstitutionCostShares");
-        referenceObjects.add("routingFormResearchRisks");
-        referenceObjects.add("routingFormOrganizations");
-        referenceObjects.add("routingFormQuestions");
-
-        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(routingForm.getRoutingFormDocument(), referenceObjects);
-        
         // Logic for SF424 question.
         ActionForward preRulesForward = preRulesCheck(mapping, form, request, response, "save");
         if (preRulesForward != null) {
             return preRulesForward;
         }
+        
+        retrieveMainPageReferenceObjects(routingFormDocument);
+        handleProjectTypeCodesSelection(routingForm.getSelectedRoutingFormProjectTypes(), routingFormDocument.getDocumentNumber(), routingFormDocument.getRoutingFormProjectTypes());
         
         return super.save(mapping, form, request, response);
     }
@@ -181,6 +215,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
      * </ul>
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
+    @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.refresh(mapping, form, request, response);
         RoutingForm routingForm = (RoutingForm) form;
@@ -279,5 +314,54 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
             }
         }
         return personIndex;
+    }
+    
+    /**
+     * Takes string array of selected project types and does two things:
+     * <ul>
+     * <li>Filters them correctly into RoutingFormDocument.getRoutingFormProjectType</li>
+     * <li>Removes items from RoutingFormDocument.getRoutingFormProjectType that don't exist anymore. Unfortunatly HTML checkboxes don't tell us when they have been unchecked. Note that routingFormProjectTypes will need to be a DeletionAwareList in order for this to work.</li>
+     * </ul>
+     * This is done so that the documents' project types may still properly fill in hidden variables (version#) via JSP but at the
+     * same time a user may multiselect/-deselect items via checkboxes. 
+     * @param documentNumber
+     * @param selectedRoutingFormProjectTypes
+     * @param routingFormProjectTypes
+     */
+    private void handleProjectTypeCodesSelection(String[] selectedRoutingFormProjectTypes, String documentNumber, List<RoutingFormProjectType> routingFormProjectTypes) {
+        for(int i = 0; i < selectedRoutingFormProjectTypes.length; i++) {
+            if (!routingFormProjectTypes.contains(new RoutingFormProjectType(selectedRoutingFormProjectTypes[i]))) {
+                RoutingFormProjectType routingFormProjectType = new RoutingFormProjectType();
+                routingFormProjectType.setProjectTypeCode(selectedRoutingFormProjectTypes[i]);
+                routingFormProjectType.setDocumentNumber(documentNumber);
+                routingFormProjectTypes.add(routingFormProjectType);
+            }
+        }
+        
+        List selectedRoutingFormProjectTypesList = Arrays.asList(selectedRoutingFormProjectTypes);
+        for(int i = routingFormProjectTypes.size()-1; i >= 0 ; i--) {
+            RoutingFormProjectType routingFormProjectType = routingFormProjectTypes.get(i);
+            if (!selectedRoutingFormProjectTypesList.contains(routingFormProjectType.getProjectTypeCode())) {
+                routingFormProjectTypes.remove(i);
+            }
+        }
+    }
+    
+    /**
+     * Retrieves references objects for main page. Nothing special about this method, it's just consolidating code that's
+     * called in multiple places.
+     * @param routingForm
+     */
+    private void retrieveMainPageReferenceObjects(RoutingFormDocument routingFormDocument) {
+        List referenceObjects = new ArrayList();
+
+        referenceObjects.add("routingFormSubcontractors");
+        referenceObjects.add("routingFormOtherCostShares");
+        referenceObjects.add("routingFormInstitutionCostShares");
+        referenceObjects.add("routingFormResearchRisks");
+        referenceObjects.add("routingFormOrganizations");
+        referenceObjects.add("routingFormQuestions");
+
+        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(routingFormDocument, referenceObjects);
     }
 }

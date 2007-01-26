@@ -93,7 +93,7 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
                 return false;
             }            
             
-            salaryExpenseTransferAccountingLine.setEmplid(salaryExpenseTransferDocument.getEmplid());
+          //  salaryExpenseTransferAccountingLine.setEmplid(salaryExpenseTransferDocument.getEmplid());
         }
         return true;
     }

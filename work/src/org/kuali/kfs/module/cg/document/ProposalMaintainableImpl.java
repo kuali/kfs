@@ -22,10 +22,13 @@
  */
 package org.kuali.module.cg.maintenance;
 
+import java.util.Collection;
 import java.util.Map;
 
 import static org.kuali.PropertyConstants.PROPOSAL_SUBCONTRACTORS;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
+import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.module.cg.bo.Proposal;
 import org.kuali.module.cg.bo.ProposalSubcontractor;
@@ -38,15 +41,15 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
     public ProposalMaintainableImpl() {
         super();
     }
-    
+
     public ProposalMaintainableImpl(Proposal proposal) {
         super(proposal);
         this.setBoClass(proposal.getClass());
     }
-    
+
     /**
-     * This method is called for refreshing the Agency before display to show the full name
-     * in case the agency number was changed by hand before any submit that causes a redisplay.
+     * This method is called for refreshing the Agency before display to show the full name in case the agency number was changed by
+     * hand before any submit that causes a redisplay.
      */
     @Override
     public void processAfterRetrieve() {
@@ -55,8 +58,8 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
-     * This method is called for refreshing the Agency before a save to display the full name
-     * in case the agency number was changed by hand just before the save.
+     * This method is called for refreshing the Agency before a save to display the full name in case the agency number was changed
+     * by hand just before the save.
      */
     @Override
     public void prepareForSave() {
@@ -65,26 +68,42 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
-     *  This method is called for refreshing the Agency after a lookup to display its full name without AJAX.
+     * This method is called for refreshing the Agency after a lookup to display its full name without AJAX.
      */
     @Override
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
-        ((ProposalSubcontractor)document.getNewMaintainableObject().getNewCollectionLine(PROPOSAL_SUBCONTRACTORS)).refreshNonUpdateableReferences();
-        ((ProposalSubcontractor)document.getOldMaintainableObject().getNewCollectionLine(PROPOSAL_SUBCONTRACTORS)).refreshNonUpdateableReferences();
+        ((ProposalSubcontractor) document.getNewMaintainableObject().getNewCollectionLine(PROPOSAL_SUBCONTRACTORS)).refreshNonUpdateableReferences();
+        ((ProposalSubcontractor) document.getOldMaintainableObject().getNewCollectionLine(PROPOSAL_SUBCONTRACTORS)).refreshNonUpdateableReferences();
         refreshProposal();
         super.refresh(refreshCaller, fieldValues, document);
     }
 
     private void refreshProposal() {
         getProposal().refreshNonUpdateableReferences();
-        //refresh subcontractors
-        for(ProposalSubcontractor proposalSubcontractor:getProposal().getProposalSubcontractors()){
+        // refresh subcontractors
+        for (ProposalSubcontractor proposalSubcontractor : getProposal().getProposalSubcontractors()) {
             proposalSubcontractor.refreshNonUpdateableReferences();
         }
-        
+
     }
-    
+
     private Proposal getProposal() {
         return (Proposal) getBusinessObject();
+    }
+
+    /**
+     * called for refreshing the subcontractor on proposalSubcontractor before adding to the proposalSubcontractors collection on
+     * the proposal. this is to ensure that the summary fields are show correctly. i.e. subcontractor name
+     * 
+     * @see org.kuali.core.maintenance.KualiMaintainableImpl#addNewLineToCollection(java.lang.String)
+     */
+    @Override
+    public void addNewLineToCollection(String collectionName) {
+        if (collectionName.equals(PROPOSAL_SUBCONTRACTORS)) {
+            PersistableBusinessObject itemToBeAdded = newCollectionLines.get(collectionName);
+            itemToBeAdded.refreshNonUpdateableReferences();
+        }
+        super.addNewLineToCollection(collectionName);
+
     }
 }

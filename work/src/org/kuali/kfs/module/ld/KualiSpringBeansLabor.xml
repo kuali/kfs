@@ -19,7 +19,7 @@
 	<bean id="laborModule" class="org.kuali.core.KualiModule">
 		<property name="moduleId" value="labor" />
 		<property name="moduleName" value="Kuali Labor Distribution" />
-		<property name="moduleCode" value="lb" />
+		<property name="moduleCode" value="LB" />
 		<property name="moduleUserService" ref="laborUserService" />
 		<property name="moduleAuthorizer">
 			<bean class="org.kuali.core.authorization.KualiModuleAuthorizerBase">

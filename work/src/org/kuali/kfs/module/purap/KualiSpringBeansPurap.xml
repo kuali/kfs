@@ -19,7 +19,7 @@
 	<bean id="purapModule" class="org.kuali.core.KualiModule">
 		<property name="moduleId" value="purap" />
 		<property name="moduleName" value="Kuali Purchasing/Accounts Payable" />
-		<property name="moduleCode" value="pa" />
+		<property name="moduleCode" value="PA" />
 		<property name="moduleUserService" ref="purapUserService" />
 		<property name="moduleAuthorizer">
 			<bean class="org.kuali.core.authorization.KualiModuleAuthorizerBase">

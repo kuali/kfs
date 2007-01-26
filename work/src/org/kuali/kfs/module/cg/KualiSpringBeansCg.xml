@@ -19,7 +19,7 @@
 	<bean id="cgModule" class="org.kuali.core.KualiModule">
 		<property name="moduleId" value="cg" />
 		<property name="moduleName" value="Kuali Contracts and Grants" />
-		<property name="moduleCode" value="cg" />
+		<property name="moduleCode" value="CG" />
 		<property name="moduleUserService" ref="cgUserService" />
 		<property name="moduleAuthorizer">
 			<bean class="org.kuali.core.authorization.KualiModuleAuthorizerBase">

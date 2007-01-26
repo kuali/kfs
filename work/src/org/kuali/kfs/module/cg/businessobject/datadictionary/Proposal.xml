@@ -377,6 +377,16 @@
                 </summary>
                 <description>Proposal Organizations</description>
             </collection>
+
+			<collection name="proposalSubcontractors">
+                <label>Proposal Subcontractor</label>
+                <shortLabel>Subcontractors</shortLabel>
+                <elementLabel>Subcontractor</elementLabel>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Proposal Subcontractors</description>
+            </collection>
         </collections>
     </businessObject>
 </dictionaryEntry>

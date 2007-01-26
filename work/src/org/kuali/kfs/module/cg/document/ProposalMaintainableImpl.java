@@ -24,9 +24,11 @@ package org.kuali.module.cg.maintenance;
 
 import java.util.Map;
 
-import org.kuali.core.document.MaintenanceDocument;
+import static org.kuali.PropertyConstants.PROPOSAL_SUBCONTRACTORS;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
+import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.module.cg.bo.Proposal;
+import org.kuali.module.cg.bo.ProposalSubcontractor;
 
 /**
  * Methods for the Proposal maintenance document UI.
@@ -67,12 +69,19 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
      */
     @Override
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
+        ((ProposalSubcontractor)document.getNewMaintainableObject().getNewCollectionLine(PROPOSAL_SUBCONTRACTORS)).refreshNonUpdateableReferences();
+        ((ProposalSubcontractor)document.getOldMaintainableObject().getNewCollectionLine(PROPOSAL_SUBCONTRACTORS)).refreshNonUpdateableReferences();
         refreshProposal();
         super.refresh(refreshCaller, fieldValues, document);
     }
 
     private void refreshProposal() {
         getProposal().refreshNonUpdateableReferences();
+        //refresh subcontractors
+        for(ProposalSubcontractor proposalSubcontractor:getProposal().getProposalSubcontractors()){
+            proposalSubcontractor.refreshNonUpdateableReferences();
+        }
+        
     }
     
     private Proposal getProposal() {

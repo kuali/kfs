@@ -105,6 +105,21 @@
                     </maintainableCollection>
                 </maintainableItems>
             </maintainableSection>
+			
+            <maintainableSection title="Subcontractor">
+                <maintainableItems>
+                    <maintainableCollection name="proposalSubcontractors" businessObjectClass="org.kuali.module.cg.bo.ProposalSubcontractor">
+                        <maintainableField name="subcontractorNumber" required="true" />
+                        <maintainableField name="subcontractor.subcontractorName" readOnly="true" />
+						<maintainableField name="proposalSubcontractorDescription" />
+                        <maintainableField name="proposalSubcontractorAmount" required="true" />
+                        <summaryFields>
+                            <summaryField name="subcontractor.subcontractorName" />
+                            <summaryField name="proposalSubcontractorAmount" />
+                        </summaryFields>
+                    </maintainableCollection>
+                </maintainableItems>
+            </maintainableSection>
         </maintainableSections>
     </maintenanceDocument>
 </dictionaryEntry>

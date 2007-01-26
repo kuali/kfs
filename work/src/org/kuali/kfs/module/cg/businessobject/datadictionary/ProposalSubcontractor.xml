@@ -24,12 +24,16 @@
         <inquiry>
             <title>Proposal Subcontractor Inquiry</title>
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="proposalNumber" />
-                <field attributeName="proposalSubcontractorAmount" />
-                <field attributeName="proposalSubcontractorNumber" />
-                <field attributeName="subcontractorNumber" />
-            </inquiryFields></inquirySection></inquirySections>
+            <inquirySections>
+				<inquirySection title="Header Text">
+					<inquiryFields>
+						<field attributeName="proposalNumber" />
+		                <field attributeName="proposalSubcontractorAmount" />
+			            <field attributeName="proposalSubcontractorNumber" />
+			            <field attributeName="subcontractorNumber" />
+			        </inquiryFields>
+				</inquirySection>
+			</inquirySections>
         </inquiry>
 
         <lookup>
@@ -62,35 +66,15 @@
 
         <attributes>
 
-            <attribute name="proposalNumber" forceUppercase="true">
-                <label>Proposal Number</label>
-                <shortLabel>Number</shortLabel>
+            <attributeReference name="proposalNumber"  sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="proposalNumber"/>
 
-                <maxLength>12</maxLength>
-                <validationPattern><numeric /></validationPattern>
+			<attributeReference name="subcontractorNumber" sourceClassName="org.kuali.module.cg.bo.Subcontractor" sourceAttributeName="subcontractorNumber"/>
 
-                <control>
-                    <text size="14" />
-                </control>
-
-                <summary>proposalNumber</summary>
-                <description>proposalNumber description...</description>
-			</attribute>
-
-            <attribute name="proposalSubcontractorAmount" forceUppercase="true">
-                <label>Proposal Subcontractor Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>proposalSubcontractorAmount</summary>
-                <description>proposalSubcontractorAmount description...</description>
-			</attribute>
+			<attributeReference name="proposalSubcontractorAmount"  sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+				<required>true</required>
+				
+				<description>Proposal Subcontractor Amount</description>
+			</attributeReference>				
 
             <attribute name="proposalSubcontractorNumber" forceUppercase="true">
                 <label>Proposal Subcontractor Number</label>
@@ -99,29 +83,36 @@
                 <maxLength>2</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
 
-                <control>
+				<control>
                     <text size="4" />
                 </control>
 
-                <summary>proposalSubcontractorNumber</summary>
-                <description>proposalSubcontractorNumber description...</description>
+                <summary><![CDATA[&nbsp;]]></summary>
+                <description>proposal Subcontractor Number</description>
 			</attribute>
 
-            <attribute name="subcontractorNumber" forceUppercase="true">
-                <label>Subcontractor Number</label>
-                <shortLabel>Number</shortLabel>
 
-                <maxLength>5</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+			<attribute name="proposalSubcontractorDescription">
+                <label>Proposal Subcontractor Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>30</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" maxLength="30"/>
+                </validationPattern>
 
                 <control>
-                    <text size="7" />
+                    <text size="30" />
                 </control>
 
-                <summary>subcontractorNumber</summary>
-                <description>subcontractorNumber description...</description>
-			</attribute>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Proposal Subcontractor Description</description>
+            </attribute>
 
+			<attributeReference name="subcontractor.subcontractorName" sourceClassName="org.kuali.module.cg.bo.Subcontractor" sourceAttributeName="subcontractorName"/>
+			
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>

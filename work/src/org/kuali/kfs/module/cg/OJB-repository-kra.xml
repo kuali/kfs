@@ -662,6 +662,7 @@
 	<field-descriptor name="researchTypeCode" column="RSRCH_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="submissionTypeCode" column="SUBM_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="previousFederalIdentifier" column="PREV_FED_ID" jdbc-type="VARCHAR"/>
+    <field-descriptor name="projectTypeOtherDescription" column="PROJ_TYP_OTHR_DESC" jdbc-type="VARCHAR"/> 
 	<field-descriptor name="federalIdentifier" column="FED_ID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="grantsGovernmentConfirmationNumber" column="GRNTS_GOV_CNFRM_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="grantsGovernmentSubmissionIndicator" column="GRNTS_GOV_SUBM_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>

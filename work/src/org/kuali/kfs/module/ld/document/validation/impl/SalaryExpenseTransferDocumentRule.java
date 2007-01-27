@@ -36,6 +36,7 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.bo.SalaryExpenseTransferAccountingLine;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
+import org.kuali.module.labor.web.struts.form.SalaryExpenseTransferForm;
 
 /**
  * Business rule(s) applicable to Salary Expense Transfer documents.
@@ -68,9 +69,6 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
     @Override
     protected boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
 
-        SalaryExpenseTransferDocument salaryExpenseTransferDocument = null;
-        SalaryExpenseTransferAccountingLine salaryExpenseTransferAccountingLine = null;
-
         if (accountingLine.isSourceAccountingLine()) {
             
             // Retrieve the Fringe or Salary Code for the object code in the ld_labor_obj_t table. 
@@ -93,8 +91,18 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
                 return false;
             }            
             
-          //  salaryExpenseTransferAccountingLine.setEmplid(salaryExpenseTransferDocument.getEmplid());
         }
+
+      // Set the emplid in the header
+      // set all source accounting lines
+      // set all target accounting lines
+
+        System.out.println("Test...");
+        SalaryExpenseTransferDocument salaryExpenseTransferDocument = (SalaryExpenseTransferDocument)transactionalDocument;
+        System.out.println("Test:" + salaryExpenseTransferDocument.getEmplid());
+//        SalaryExpenseTransferAccountingLine sal = (SalaryExpenseTransferAccountingLine)salaryExpenseTransferDocument();
+//        accountingLine = accountingLine (salaryExpenseTransferAccountingLine) salaryExpenseTransferDocument.getEmplid();  
+
         return true;
     }
 

@@ -79,10 +79,7 @@ public class GenesisTest {
   //    genesisTestService.testStep(2007);
   //    genesisTestService.testSLFStep(2009);
   //    genesisTestService.testSLFAfterStep(2009);
-      // TODO uncomment the routeNewBCDocumentsStep lines when they compile - abyrne
-      //genesisTestRouteService.routeNewBCDocumentsStep(2009);
-      genesisTestService.testBCDocumentCreationStep(2009);
-      //genesisTestRouteService.routeNewBCDocumentsStep(2009);
+  //    genesisTestService.testBCDocumentCreationStep(2009);
   //    genesisTestService.testLockClearance(2007);
   }
 }

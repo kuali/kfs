@@ -45,14 +45,12 @@ public class LaborLedgerAccountingLineParser extends AccountingLineParserBase {
         PAYROLL_END_DATE_FISCAL_YEAR, PAYROLL_END_DATE_FISCAL_PERIOD_CODE, PAYROLL_TOTAL_HOURS, AMOUNT };
     
     public LaborLedgerAccountingLineParser() {
-        System.out.println("Testing 123...");
     }
     
     /**
      * @see org.kuali.core.bo.AccountingLineParser#getSourceAccountingLineFormat()
      */
     public String[] getSourceAccountingLineFormat() {
-        System.out.println("Testing ... getSourceLaborLedgerAccountingLineFormat()");
         return LABOR_LEDGER_FORMAT;
     }
 

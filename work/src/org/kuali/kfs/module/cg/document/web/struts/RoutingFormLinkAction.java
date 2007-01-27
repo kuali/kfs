@@ -16,6 +16,8 @@
 package org.kuali.module.kra.routingform.web.struts.action;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +34,6 @@ import org.kuali.module.kra.budget.bo.BudgetPeriod;
 import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.budget.web.struts.form.BudgetIndirectCostFormHelper;
 import org.kuali.module.kra.budget.web.struts.form.BudgetOverviewFormHelper;
-import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.rules.event.RoutingFormBudgetLinkEvent;
 import org.kuali.module.kra.routingform.service.RoutingFormService;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
@@ -44,9 +45,23 @@ public class RoutingFormLinkAction extends RoutingFormAction {
     public ActionForward linkBudget(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         RoutingForm routingForm = (RoutingForm)form;
     
-        String[] selectedBudgetPeriods = routingForm.getSelectedBudgetPeriods();
+        List selectedBudgetPeriodsList = new ArrayList();
+        List<BudgetOverviewFormHelper> linkedPeriods = new ArrayList();
+        Integer i = 0;
+        for (BudgetOverviewFormHelper budgetOverviewFormHelper : routingForm.getPeriodBudgetOverviewFormHelpers()) {
+            if (budgetOverviewFormHelper.isSelected() || routingForm.getAllPeriodsSelected()) {
+                selectedBudgetPeriodsList.add(i.toString());
+                linkedPeriods.add(budgetOverviewFormHelper);
+            }
+            i++;
+        }
+        routingForm.setAllPeriodsSelected(false);
+        
+        Collections.sort(selectedBudgetPeriodsList);
+        
+        String[] selectedBudgetPeriods = (String[])selectedBudgetPeriodsList.toArray(new String[selectedBudgetPeriodsList.size()]);
 
-        boolean isBudgetValidForLink = SpringServiceLocator.getKualiRuleService().applyRules(new RoutingFormBudgetLinkEvent(routingForm.getRoutingFormDocument(), selectedBudgetPeriods, Boolean.valueOf(routingForm.getAllPeriodsSelected()), true));
+        boolean isBudgetValidForLink = SpringServiceLocator.getKualiRuleService().applyRules(new RoutingFormBudgetLinkEvent(routingForm.getRoutingFormDocument(), selectedBudgetPeriods, routingForm.getAllPeriodsSelected(), true));
         
         //if no errors, proceed with the link and return to the RF Main Page
         if (isBudgetValidForLink) {
@@ -56,13 +71,12 @@ public class RoutingFormLinkAction extends RoutingFormAction {
             super.load(mapping, form, request, response);
             
             routingForm.getRoutingFormDocument().setRoutingFormBudgetNumber(budgetDocumentHeaderId);
-            routingForm.getRoutingFormDocument().getRoutingFormBudget().setRoutingFormBudgetMinimumPeriodNumber(Integer.valueOf(selectedBudgetPeriods[0]));
-            routingForm.getRoutingFormDocument().getRoutingFormBudget().setRoutingFormBudgetMaximumPeriodNumber(Integer.valueOf(selectedBudgetPeriods[selectedBudgetPeriods.length - 1]));
+            routingForm.getRoutingFormDocument().getRoutingFormBudget().setRoutingFormBudgetMinimumPeriodNumber(linkedPeriods.get(0).getBudgetPeriod().getBudgetPeriodSequenceNumber());
+            routingForm.getRoutingFormDocument().getRoutingFormBudget().setRoutingFormBudgetMaximumPeriodNumber(linkedPeriods.get(linkedPeriods.size() - 1).getBudgetPeriod().getBudgetPeriodSequenceNumber());
             
             //service method to link budget data
             SpringServiceLocator.getRoutingFormService().linkImportBudgetDataToRoutingForm(routingForm.getRoutingFormDocument(), routingForm.getRoutingFormDocument().getRoutingFormBudgetNumber());
-            
-            
+
             //save the new budget data into the RF
             super.save(mapping, form, request, response);
             
@@ -75,6 +89,16 @@ public class RoutingFormLinkAction extends RoutingFormAction {
                 return mapping.findForward("mainpage");
             }
         }
+
+        //if we're refreshing this page, it's because there was some problem with the data or saving.  re-setup the budget data so the use doesn't have to re-load the budget themselves.
+        this.loadBudget(mapping, form, request, response);
+
+        i = 0;
+        for (BudgetOverviewFormHelper budgetOverviewFormHelper : routingForm.getPeriodBudgetOverviewFormHelpers()) {
+            budgetOverviewFormHelper.setSelected(selectedBudgetPeriodsList.contains(i.toString()));
+            i++;
+        }
+
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     

@@ -75,32 +75,35 @@
                         <div class="nowrap" align="center">
                           <strong>${status.index + 1}</strong>
                           <br />
-                          <span class="fineprint">${periodBudgetOverviewFormHelper.budgetPeriod.budgetPeriodLabel}</span>
+                          <span class="fineprint">${KualiForm.periodBudgetOverviewFormHelpers[status.index].budgetPeriod.budgetPeriodLabel}</span>
+                        </div>
+                        <html:hidden property="periodBudgetOverviewFormHelper[${status.index}].budgetPeriod.budgetPeriodBeginDate"/>
+                        <html:hidden property="periodBudgetOverviewFormHelper[${status.index}].budgetPeriod.budgetPeriodEndDate"/>
+                        <html:hidden property="periodBudgetOverviewFormHelper[${status.index}].budgetPeriod.budgetPeriodSequenceNumber"/>
+                      </td>
+                      
+                      <td class="datacell">
+                        <div align="right">
+                          <html:hidden property="periodBudgetOverviewFormHelper[${status.index}].totalDirectCostsAgencyRequest" write="true" />
                         </div>
                       </td>
                       
                       <td class="datacell">
                         <div align="right">
-                          <fmt:formatNumber value="${periodBudgetOverviewFormHelper.totalDirectCostsAgencyRequest}" type="currency" currencySymbol="" maxFractionDigits="0" />
+                          <html:hidden property="periodBudgetOverviewFormHelper[${status.index}].indirectCostItem.calculatedIndirectCost" write="true" />
                         </div>
                       </td>
                       
                       <td class="datacell">
                         <div align="right">
-                          <fmt:formatNumber value="${periodBudgetOverviewFormHelper.totalIndirectCostsAgencyRequest}" type="currency" currencySymbol="" maxFractionDigits="0" />
+                          <html:hidden property="periodBudgetOverviewFormHelper[${status.index}].totalCostsAgencyRequest" write="true" />
                         </div>
                       </td>
                       
-                      <td class="datacell">
-                        <div align="right">
-                          <fmt:formatNumber value="${periodBudgetOverviewFormHelper.totalCostsAgencyRequest}" type="currency" currencySymbol="" maxFractionDigits="0" />
-                        </div>
-                      </td>
-                      
-                      <td class="datacell"><div align="center"><html:multibox property="selectedBudgetPeriods" value="${periodBudgetOverviewFormHelper.budgetPeriod.budgetPeriodSequenceNumber}" /></div></td>
+                      <td class="datacell"><div align="center"><html:checkbox property="periodBudgetOverviewFormHelper[${status.index}].selected"/></div></td>
                     </tr>
 
-                  </c:forEach>                    
+                  </c:forEach>
 
                     <tr>
                       <td class="infoline">
@@ -129,7 +132,7 @@
                         </div>
                       </td>
                       
-                      <td class="infoline"><div align="center"><input type="checkbox" name="allPeriodsSelected" /></div></td>
+                      <td class="infoline"><div align="center"><html:checkbox property="allPeriodsSelected" /></div></td>
                     </tr>
                     
                     <tr>

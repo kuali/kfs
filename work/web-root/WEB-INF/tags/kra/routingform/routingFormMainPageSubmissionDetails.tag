@@ -36,13 +36,13 @@
                 <th align=right valign=middle>Type:</th>
                 <td colspan="3" align=left valign=middle nowrap >
                   <c:forEach items="${KualiForm.submissionTypes}" var="submissionType" varStatus="status">
-		            <label>
+                  <label>
 		            <html:radio property="document.submissionTypeCode" value="${submissionType.submissionTypeCode}"/>
 		            ${submissionType.submissionTypeDescription}</label>
 		            <c:if test="${submissionType.submissionTypeCode eq KraConstants.SUBMISSION_TYPE_CHANGE}">
 		              &nbsp;<kul:htmlControlAttribute property="document.previousFederalIdentifier" attributeEntry="${routingFormAttributes.previousFederalIdentifier}"  />
 		            </c:if>
-		            <br>
+                  <br>
 	              </c:forEach>
                 </td>
               </tr>
@@ -59,7 +59,7 @@
                     <html:hidden property="document.routingFormProjectType[${status.index}].versionNumber" />
                   </c:forEach>
                   <table width="100%" cellspacing="0" cellpadding="0" class="nobord">
-				    <tr>
+                    <tr>
 				      <td class="nobord" width="50%" valign="top">
 					    <c:set var="roundedEndIndex"><fmt:formatNumber value="${fn:length(KualiForm.projectTypes) / 2 - 1}" maxFractionDigits="0"/></c:set>
 					    <kra-rf:routingFormMainPageSubmissionDetailsProjectTypes begin="0" end="${roundedEndIndex}"/>
@@ -68,12 +68,12 @@
 					    <c:set var="roundedBeginIndex"><fmt:formatNumber value="${fn:length(KualiForm.projectTypes) / 2}" maxFractionDigits="0"/></c:set>
 					    <kra-rf:routingFormMainPageSubmissionDetailsProjectTypes begin="${roundedBeginIndex}" end="${fn:length(KualiForm.projectTypes)}"/>
                       </td>
-				    </tr>
+                    </tr>
 				  </table>
-              </td>
-              </tr>
+                      </td>
+                    </tr>
 
-              <tr>
+                    <tr>
                 <td colspan=4 class="tab-subhead">Reference Numbers</td>
               </tr>
               <tr>
@@ -115,7 +115,7 @@
                 <th align=right valign=middle>Type:</th>
                 <td colspan="3" align=left valign=middle nowrap >
                   <c:forEach items="${KualiForm.purposes}" var="purpose" varStatus="status">
-		            <label>
+                  <label>
 		            <html:radio property="document.routingFormPurposeCode" value="${purpose.purposeCode}"/>
 		            ${purpose.purposeDescription}</label>
 		            <c:choose>
@@ -126,7 +126,7 @@
 		                &nbsp;<kul:htmlControlAttribute property="document.routingFormOtherPurposeDescription" attributeEntry="${routingFormAttributes.routingFormOtherPurposeDescription}"  />
 		              </c:when>
 		            </c:choose>
-		            <br>
+                  <br>
 	              </c:forEach>
                 </td>
               </tr>
@@ -190,7 +190,10 @@
                 <td><div align="center"><kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetIndirectCostAmount" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetIndirectCostAmount}"  /></div></td>
                 <td><div align="right">$ ${KualiForm.document.routingFormBudget.routingFormBudgetDirectAmount + KualiForm.document.routingFormBudget.routingFormBudgetIndirectCostAmount} </div></td>
                 <td><div align="center"><kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetStartDate" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetStartDate}" datePicker="true" /></div></td>
-                <td><div align="center"><kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetEndDate" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetEndDate}" datePicker="true" /></div></td>
+                <td><div align="center"><kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetEndDate" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetEndDate}" datePicker="true" /></div>
+                  <kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetMinimumPeriodNumber" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetMinimumPeriodNumber}" />
+                  <kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetMaximumPeriodNumber" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetMaximumPeriodNumber}" />
+                </td>
               </tr>
               <tr>
                 <th scope="row"><div align="right">Total Periods:</div></th>

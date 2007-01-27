@@ -26,6 +26,8 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.kra.budget.web.struts.form.BudgetOverviewFormHelper;
+import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
 import org.kuali.module.kra.routingform.rules.event.RunRoutingFormAuditEvent;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 import org.kuali.module.kra.web.struts.action.ResearchDocumentActionBase;
@@ -46,7 +48,6 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
     
     public ActionForward mainpage(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         RoutingForm routingForm = (RoutingForm) form;
-        
         routingForm.setTabStates(new ArrayList());
         routingForm.setProjectTypes(SpringServiceLocator.getProjectTypeService().getProjectTypes());
         routingForm.setSubmissionTypes(SpringServiceLocator.getSubmissionTypeService().getSubmissionTypes());
@@ -86,8 +87,15 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
         
         if (routingForm.getRoutingFormDocument().getRoutingFormBudgetNumber() != null) {
             new RoutingFormLinkAction().setupBudgetPeriodData(routingForm);
+            RoutingFormBudget routingFormBudget = routingForm.getRoutingFormDocument().getRoutingFormBudget();
+
+            for (BudgetOverviewFormHelper budgetOverviewFormHelper : routingForm.getPeriodBudgetOverviewFormHelpers()) {
+                if (budgetOverviewFormHelper.getBudgetPeriod().getBudgetPeriodSequenceNumber().compareTo(routingFormBudget.getRoutingFormBudgetMinimumPeriodNumber()) >= 0 &&
+                        budgetOverviewFormHelper.getBudgetPeriod().getBudgetPeriodSequenceNumber().compareTo(routingFormBudget.getRoutingFormBudgetMaximumPeriodNumber()) <= 0) {
+                    budgetOverviewFormHelper.setSelected(true);
+                }
+            }
         }
-        
         return mapping.findForward("link");
     }
 

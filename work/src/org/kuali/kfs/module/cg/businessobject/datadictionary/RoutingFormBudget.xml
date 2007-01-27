@@ -29,8 +29,6 @@
                 <field attributeName="routingFormBudgetEndDate" />
                 <field attributeName="routingFormBudgetIndirectCostAmount" />
                 <field attributeName="routingFormBudgetIndirectCostDescription" />
-                <field attributeName="routingFormBudgetMaximumPeriodNumber" />
-                <field attributeName="routingFormBudgetMinimumPeriodNumber" />
                 <field attributeName="routingFormBudgetStartDate" />
                 <field attributeName="documentNumber" />
             </inquiryFields></inquirySection></inquirySections>
@@ -52,8 +50,6 @@
                 <lookupField attributeName="routingFormBudgetEndDate" required="false" />
                 <lookupField attributeName="routingFormBudgetIndirectCostAmount" required="false" />
                 <lookupField attributeName="routingFormBudgetIndirectCostDescription" required="false" />
-                <lookupField attributeName="routingFormBudgetMaximumPeriodNumber" required="false" />
-                <lookupField attributeName="routingFormBudgetMinimumPeriodNumber" required="false" />
                 <lookupField attributeName="routingFormBudgetStartDate" required="false" />
                 <lookupField attributeName="documentNumber" required="false" />
             </lookupFields>
@@ -63,8 +59,6 @@
                 <field attributeName="routingFormBudgetEndDate" />
                 <field attributeName="routingFormBudgetIndirectCostAmount" />
                 <field attributeName="routingFormBudgetIndirectCostDescription" />
-                <field attributeName="routingFormBudgetMaximumPeriodNumber" />
-                <field attributeName="routingFormBudgetMinimumPeriodNumber" />
                 <field attributeName="routingFormBudgetStartDate" />
                 <field attributeName="documentNumber" />
             </resultFields>
@@ -140,7 +134,7 @@
                 <validationPattern><numeric /></validationPattern>
 
                 <control>
-                    <text size="4" />
+                    <hidden />
                 </control>
 
                 <summary>routingFormBudgetMaximumPeriodNumber</summary>
@@ -155,7 +149,7 @@
                 <validationPattern><numeric /></validationPattern>
 
                 <control>
-                    <text size="4" />
+                    <hidden />
                 </control>
 
                 <summary>routingFormBudgetMinimumPeriodNumber</summary>

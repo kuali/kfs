@@ -451,15 +451,28 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                 errorMap.putError("routingFormBudgetNumber", KraKeyConstants.ERROR_DOCUMENT_NUMBER_NOT_EXIST, new String[] {routingFormDocument.getRoutingFormBudgetNumber()});
             }
 
-            errorMap.removeFromErrorPath("document");
-            
-            if (checkPeriods) {
-                //check selected periods
-            
+            //check selected periods
+            if (!allPeriods && checkPeriods) {
+                int nextPeriodNumberShouldBe = -1;
+                if (selectedBudgetPeriods != null && selectedBudgetPeriods.length > 0) {
+                    for (int i = 0; i < selectedBudgetPeriods.length; i++){
+                        if (i != 0 && Integer.valueOf(selectedBudgetPeriods[i]) != nextPeriodNumberShouldBe) { //first time
+                            valid = false;
+                            errorMap.putError("selectedBudgetPeriods[" + i + "]", KraKeyConstants.ERROR_DOCUMENT_NUMBER_NOT_EXIST);
+                            break;
+                        }
+                        nextPeriodNumberShouldBe = Integer.valueOf(selectedBudgetPeriods[i]) + 1;
+                    }
+                } else {
+                    valid = false;
+                    errorMap.putError("routingFormBudgetNumber", KraKeyConstants.ERROR_DOCUMENT_NUMBER_NOT_EXIST);
+                }
             }
         } catch (WorkflowException e) {
             throw new RuntimeException("Exception validating budget to link", e);
         }
+
+        errorMap.removeFromErrorPath("document");
         return valid;
     }
 }

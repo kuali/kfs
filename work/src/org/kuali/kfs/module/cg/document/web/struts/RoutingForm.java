@@ -59,7 +59,7 @@ public class RoutingForm extends ResearchDocumentFormBase {
     
     //Module Links
     private String[] selectedBudgetPeriods;
-    private String allPeriodsSelected;
+    private boolean allPeriodsSelected;
     private List<BudgetOverviewFormHelper> periodBudgetOverviewFormHelpers;
     private BudgetOverviewFormHelper summaryBudgetOverviewFormHelper;
     
@@ -78,6 +78,8 @@ public class RoutingForm extends ResearchDocumentFormBase {
         this.setHeaderNavigationTabs(budgetDocumentEntry.getHeaderTabNavigation());
         
         setDocument(new RoutingFormDocument());
+        
+        periodBudgetOverviewFormHelpers = new ArrayList();
     }
     
     @Override
@@ -144,7 +146,7 @@ public class RoutingForm extends ResearchDocumentFormBase {
     public void setNewRoutingFormOrganizationCreditPercent(RoutingFormOrganizationCreditPercent newRoutingFormOrganizationCreditPercent) {
         this.newRoutingFormOrganizationCreditPercent = newRoutingFormOrganizationCreditPercent;
     }
-    
+
     public String[] getSelectedRoutingFormProjectTypes() {
         return selectedRoutingFormProjectTypes.toArray(new String[selectedRoutingFormProjectTypes.size()]);
     }
@@ -239,12 +241,11 @@ public class RoutingForm extends ResearchDocumentFormBase {
         this.periodBudgetOverviewFormHelpers = periodBudgetOverviewFormHelpers;
     }
 
-    public String[] getSelectedBudgetPeriods() {
-        return selectedBudgetPeriods;
-    }
-
-    public void setSelectedBudgetPeriods(String[] selectedBudgetPeriods) {
-        this.selectedBudgetPeriods = selectedBudgetPeriods;
+    public BudgetOverviewFormHelper getPeriodBudgetOverviewFormHelper(int index) {
+        while (this.getPeriodBudgetOverviewFormHelpers().size() <= index) {
+            this.getPeriodBudgetOverviewFormHelpers().add(new BudgetOverviewFormHelper());
+        }
+        return this.getPeriodBudgetOverviewFormHelpers().get(index);
     }
 
     public BudgetOverviewFormHelper getSummaryBudgetOverviewFormHelper() {
@@ -255,11 +256,11 @@ public class RoutingForm extends ResearchDocumentFormBase {
         this.summaryBudgetOverviewFormHelper = summaryBudgetOverviewFormHelper;
     }
 
-    public String getAllPeriodsSelected() {
+    public boolean getAllPeriodsSelected() {
         return allPeriodsSelected;
     }
 
-    public void setAllPeriodsSelected(String allPeriodsSelected) {
+    public void setAllPeriodsSelected(boolean allPeriodsSelected) {
         this.allPeriodsSelected = allPeriodsSelected;
     }
 

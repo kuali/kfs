@@ -164,18 +164,15 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 
     @Override
     public void handleRouteStatusChange() {
-        // TODO Auto-generated method stub
         super.handleRouteStatusChange();
-        
-        if (super.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-            
+
+        //TODO Need to handle logic for the RF Type: Copy into Proposal if the type is New, Renewal, Renewal Previous Commit, or Supplemental Funds
+        if (super.getDocumentHeader().getWorkflowDocument().stateIsApproved()) {
             //Logic to determine whether or not this RF should become a C&G Proposal
             if (this.getContractGrantProposal().getProposalNumber() == null) {
                 SpringServiceLocator.getProposalService().createAndRouteProposalMaintenanceDocument(this);
             }
         }
-
-        
     }
 
     /**
@@ -263,6 +260,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 	public void setAgencyFederalPassThroughNumber(String agencyFederalPassThroughNumber) {
 		this.agencyFederalPassThroughNumber = agencyFederalPassThroughNumber;
 	}
+    
 
 
 	/**

@@ -87,6 +87,9 @@ public class BudgetOverviewFormHelper {
     // What this instance of BudgetOverviewFormHelper represents
     private BudgetPeriod budgetPeriod;
     private BudgetTask budgetTask;
+    
+    //Helper for use on RF Linking
+    private boolean selected;
 
     /**
      * Constructs a BudgetOverviewFormHelper. Sets necessary constants.
@@ -355,6 +358,14 @@ public class BudgetOverviewFormHelper {
         totalCostsInstitutionCostShare = personnelSalaryInstitutionCostShare.add(personnelFringeBenefitsInstitutionCostShare).add(budgetNonpersonnelFormHelper.getNonpersonnelUnivCostShareTotal()).add(indirectCostItem.getCostShareCalculatedIndirectCost());
 
         totalCostsThirdPartyCostShare = budgetNonpersonnelFormHelper.getNonpersonnelThirdPartyCostShareTotal();
+    }
+
+    public BudgetTaskPeriodIndirectCost getIndirectCostItem() {
+        return indirectCostItem;
+    }
+
+    public void setIndirectCostItem(BudgetTaskPeriodIndirectCost indirectCostItem) {
+        this.indirectCostItem = indirectCostItem;
     }
 
     /**
@@ -1051,5 +1062,13 @@ public class BudgetOverviewFormHelper {
 
     public void setBudgetTask(BudgetTask budgetTask) {
         this.budgetTask = budgetTask;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }

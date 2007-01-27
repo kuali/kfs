@@ -92,7 +92,7 @@
             
             <maintainableSection title="Organizations">
                 <maintainableItems>
-                    <maintainableCollection name="proposalOrganizations" businessObjectClass="org.kuali.module.cg.bo.ProposalOrganization">
+                    <maintainableCollection name="proposalOrganizations" businessObjectClass="org.kuali.module.cg.bo.ProposalOrganization" attributeToHighlightOnDuplicateKey="organizationCode">
                         <maintainableField name="chartOfAccountsCode" required="true" />
                         <maintainableField name="organizationCode" required="true" />
                         <maintainableField name="proposalPrimaryOrganizationIndicator" required="false" />
@@ -106,9 +106,9 @@
                 </maintainableItems>
             </maintainableSection>
 			
-            <maintainableSection title="Subcontractor">
+            <maintainableSection title="Subcontractors">
                 <maintainableItems>
-                    <maintainableCollection name="proposalSubcontractors" businessObjectClass="org.kuali.module.cg.bo.ProposalSubcontractor">
+                    <maintainableCollection name="proposalSubcontractors" businessObjectClass="org.kuali.module.cg.bo.ProposalSubcontractor" attributeToHighlightOnDuplicateKey="subcontractorNumber">
                         <maintainableField name="subcontractorNumber" required="true" />
                         <maintainableField name="subcontractor.subcontractorName" readOnly="true" />
 						<maintainableField name="proposalSubcontractorDescription" />

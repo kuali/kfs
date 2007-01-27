@@ -23,7 +23,9 @@
 package org.kuali.module.cg.rules;
 
 import java.util.Collection;
+import java.util.Collections;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.ObjectUtils;
@@ -37,14 +39,14 @@ import org.kuali.KeyConstants;
  * Rules for the Proposal maintenance document.
  */
 public class ProposalRule extends MaintenanceDocumentRuleBase {
-    
+
     // private Proposal oldProposal;
     private Proposal newProposal;
 
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         processCustomRouteDocumentBusinessRules(document);
-        return true;  // save dispite error messages
+        return true; // save dispite error messages
     }
 
     @Override
@@ -68,17 +70,13 @@ public class ProposalRule extends MaintenanceDocumentRuleBase {
                 }
                 foundPrimary = true;
             }
-            if (countObjectsWithIdentitcalKey(newProposal.getProposalOrganizations(), po) > 1) {
-                putFieldError(propertyName, KeyConstants.ERROR_DUPLICATE_ORGS, po.getChartOfAccountsCode(), po.getOrganizationCode());
+            
+            po.refreshNonUpdateableReferences();
+            if (ObjectUtils.isNull(po.getOrganization())) {
+                // todo: add an attribute to some DD for the organization label? e.g., getFieldLabel(ProposalOrganization.class,
+                // PropertyConstants.ORGANIZATION)
+                putFieldError(propertyName, KeyConstants.ERROR_EXISTENCE, PropertyConstants.ORGANIZATION);
                 success = false;
-            }
-            else {
-                po.refreshNonUpdateableReferences();
-                if (ObjectUtils.isNull(po.getOrganization())) {
-                    // todo: add an attribute to some DD for the organization label?  e.g., getFieldLabel(ProposalOrganization.class, PropertyConstants.ORGANIZATION)
-                    putFieldError(propertyName, KeyConstants.ERROR_EXISTENCE, PropertyConstants.ORGANIZATION);
-                    success = false;
-                }
             }
         }
         if (!foundPrimary) {
@@ -93,24 +91,6 @@ public class ProposalRule extends MaintenanceDocumentRuleBase {
         newProposal = (Proposal) super.getNewBo();
     }
 
-    /**
-     * Compares a business object with a Collection of BOs to count how many have the same key as the BO.
-     *
-     * @param collection - The collection of items to check
-     * @param bo - The BO whose keys we are looking for in the collection
-     * @return how many have the same keys
-     */
-    private static int countObjectsWithIdentitcalKey(Collection<? extends PersistableBusinessObject> collection, PersistableBusinessObject bo) {
-        // todo: move this method to ObjectUtils (and genericize collectionContainsObjectWithIdentitcalKey() to leverage this method?)
-        int n = 0;
-        for (PersistableBusinessObject item : collection) {
-            if (ObjectUtils.equalByKeys(item, bo)) {
-                n++;
-            }
-        }
-        return n;
-    }
-    
     // todo: change the super method to accept var args
     @Override
     protected void putFieldError(String propertyName, String errorConstant, String... parameters) {

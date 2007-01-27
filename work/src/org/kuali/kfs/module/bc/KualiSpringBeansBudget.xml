@@ -89,15 +89,15 @@
         <property name="jcdAlias">
             <value>dataSource</value>
         </property>
-        <property name="documentService">
-            <ref bean="documentService"/>
-        </property>
         <property name="dateTimeService">
         	<ref bean="dateTimeService"/>
         </property>
+        <property name="documentService">
+            <ref bean="documentService" />
+        </property>
         <property name="workflowDocumentService">
-            <ref bean="workflowDocumentService"/>
-        </property>    
+            <ref bean="workflowDocumentService" />
+        </property>
     </bean>
     
 	

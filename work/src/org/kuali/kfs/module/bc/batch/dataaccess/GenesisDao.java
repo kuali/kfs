@@ -15,6 +15,7 @@
  */
 package org.kuali.module.budget.dao;
 import java.util.*;
+import org.kuali.module.budget.bo.*;
 
 public interface GenesisDao {
 
@@ -46,16 +47,16 @@ public interface GenesisDao {
    public void createChartForNextBudgetCycle();
    public void rebuildOrganizationHierarchy(Integer currentFiscalYear);
    
+   // intialization for genesis
+   public void clearDBForGenesis(Integer BaseYear);
+   
    // pending budget construction general ledger
    public void initialLoadToPBGL(Integer currentFiscalYear);
    public void updateToPBGL(Integer currentFiscalYear);
    
-   //
-   // route the documents saved under transactional control
-   // there are no distributed transactions in Kuali, so documents saved
-   // in genesis under transactional control cannot be seen by workflow for routing
-   // purposes until genesis ends and the transaction is committed.
-   public void routeNewBCDocuments(Integer currentFiscalYear);
+   // document creation
+   public void createNewBCDocuments(Integer currentFiscalYear);
+   public void primeNewBCHeadersDocumentCreation(Integer currentFiscalYear);
    /*
     * @@TODO:
     * test routines which need to be removed

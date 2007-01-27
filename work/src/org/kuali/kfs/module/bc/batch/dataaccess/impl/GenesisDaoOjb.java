@@ -18,6 +18,7 @@ package org.kuali.module.budget.dao.ojb;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Arrays;
@@ -49,13 +50,11 @@ import org.apache.log4j.*;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.SpringServiceLocator.*;
 import edu.iu.uis.eden.exception.WorkflowException;
 import org.kuali.core.exceptions.*;
-import org.kuali.core.workflow.service.WorkflowDocumentService;
-import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.workflow.service.*;
 
 import org.kuali.core.bo.*;
 import org.kuali.core.datadictionary.*;
@@ -137,9 +136,9 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     public final static String FISCAL_OFFICER_ID_PROPERTY = "accountFiscalOfficerSystemIdentifier";
     public final static String ACCOUNT_CLOSED_INDICATOR_PROPERTY = "accountClosedIndicator";
 
-    private DateTimeService dateTimeService; 
-    private DocumentService documentService; 
+    private DocumentService documentService;
     private WorkflowDocumentService workflowDocumentService;
+    private DateTimeService dateTimeService; 
     private DocumentDao documentDao;
     
     public final Map<String,String> getBudgetConstructionControlFlags (Integer universityFiscalYear)
@@ -310,6 +309,290 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         }
     }
     
+    //  this method cleans out the PBGL and document tables.
+    //  BC only allows one fiscal year at a time
+    //  (this could be modified to clear things out by fiscal year)
+    //  it should be modified to add more tables
+    // intialization for genesis
+    public void clearDBForGenesis(Integer BaseYear)
+    {
+        clearBothYearsPBGL(BaseYear);
+        clearBothYearsHeaders(BaseYear);
+    }
+    
+    private void clearBothYearsHeaders(Integer BaseYear)
+    {
+        Integer RequestYear = BaseYear+1;
+        Criteria criteriaId = new Criteria();
+        criteriaId.addBetween(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                              BaseYear,RequestYear);
+        QueryByCriteria queryId = new QueryByCriteria(BudgetConstructionHeader.class,
+                                                      criteriaId);
+        getPersistenceBrokerTemplate().deleteByQuery(queryId);
+    }
+
+    
+    //
+    //  these methods are used to create BC documents outside of transactional
+    //  control.  we will create all the needed documents based on what needs to be done,
+    //  and route them.
+    //
+    //
+    //  this is convoluted, but we are trying to minimize database calls
+    //  (1) The GL BALANCE is joined to 8 other tables, so each GL BALANCE row that
+    //      we select in a "persistable" query requires 9 data base calls
+    //  (2) A report query can return the keys and the amounts we need in a single call
+    //  (3) The persistence broker access we are allowed on this project will only allow
+    //      a report query to return an iterator.  One cannot return an iterator in a 
+    //      non-transactional context.
+    //  (4) Because workflow is a remote transaction, and must read what we write, we
+    //      cannot call workflow in the middle of a transaction--we must commit first.
+    //  (5) Each BC Header row is unique by fiscal year, chart, account, sub account.
+    //
+    //   So, since we are trying to minimize data base calls, we will do the following
+    //   Transactional:
+    //      * Read the GL with an iterator and decide which keys require a new header.
+    //      * Store the new header with a proxy document number (just the header, not
+    //        the Kuali document header that accompanies it).
+    //   Non-transactional:
+    //      * Read all the headers with proxy document numbers into a collection.
+    //      * Delete all the headers with proxy document numbers.
+    //      * Create a new Budget Construction Document for each header in the collection,
+    //        and store and route it.
+    //   Transactional:
+    //      * We are now assured that all required documents exist.  We will now do the
+    //        actual data processing to create the PBGL rows.
+    
+    HashSet<String> currentBCHeaderKeys;
+    HashMap<String,BudgetConstructionHeader> newHeaderFromGL =
+        new HashMap<String,BudgetConstructionHeader>(
+                Constants.BudgetConstructionConstants.ESTIMATED_BUDGET_CONSTRUCTION_DOCUMENT_COUNT);
+    Collection<BudgetConstructionHeader> newBCDocumentSource;
+    // counters
+    Long documentsToCreateinNTS    = new Long(0);
+    Long documentsSkippedinNTS     = new Long(0);
+    Long documentsCreatedinNTS     = new Long(0);
+    
+    Long proxyCandidatesReadinTS   = new Long(0);
+    Long proxyBCHeadersCreatedinTS = new Long(0);
+    
+    private String proxyDocumentNumber = new String("-");
+ 
+ // this is the non-transactional public method
+ // called in GenesisRouteService
+    
+    public void createNewBCDocuments(Integer BaseYear)
+    {
+        stepToGetProxyDocumentNumberRows(BaseYear);
+        stepToStoreNewDocuments(BaseYear);
+        LOG.info(String.format("\nstub BC Headers removed: %d",documentsToCreateinNTS));
+        LOG.info(String.format("\n  new documents created: %d",documentsCreatedinNTS));
+        LOG.info(String.format("\n  new document failures: %d",documentsSkippedinNTS));
+    }
+ 
+//  this is the transactional public method
+//  called from GenesisService    
+    
+    public void primeNewBCHeadersDocumentCreation(Integer BaseYear)
+    {
+        Integer RequestYear = BaseYear+1;
+        // fetch the keys currently in budget construction header
+        getCurrentBCHeaderKeys(BaseYear);
+        //
+        // we have to read the GL BALANCE (which is NOT proxy=true) to 
+        // create new BC header objects
+        storeCurrentGLBCHeaderCandidates(BaseYear);
+        LOG.info(String.format("\nproxy BC Header candidates read: %d",
+                proxyCandidatesReadinTS));
+        LOG.info(String.format("\nproxy BC Header rows created: %d",
+                proxyBCHeadersCreatedinTS));
+    }
+    
+    private void getCurrentBCHeaderKeys(Integer BaseYear)
+    {
+        Integer RequestYear = BaseYear+1;
+        Criteria criteriaId = new Criteria();
+        Collection<BudgetConstructionHeader> Results;
+        criteriaId.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                              RequestYear);
+        QueryByCriteria queryId = new QueryByCriteria(BudgetConstructionHeader.class,
+                                                      criteriaId);
+        Results = getPersistenceBrokerTemplate().getCollectionByQuery(queryId);
+        if (Results.size() > 0) 
+        {
+            currentBCHeaderKeys = new HashSet<String>(Results.size()); 
+        }
+        else
+        {
+            currentBCHeaderKeys = new HashSet<String>();
+            return;
+        }
+        Iterator ReturnedRows = Results.iterator();
+        
+        while (ReturnedRows.hasNext())
+        {
+            BudgetConstructionHeader bCHdr = 
+                (BudgetConstructionHeader) ReturnedRows.next();
+            currentBCHeaderKeys.add(bCHdr.getChartOfAccountsCode()+
+                                    bCHdr.getAccountNumber()+
+                                    bCHdr.getSubAccountNumber());
+        }
+    }
+    
+    private void setUpNewBCDocument(BudgetConstructionDocument toDoc,
+                                     BudgetConstructionHeader fromDoc)
+    {
+        toDoc.setUniversityFiscalYear(fromDoc.getUniversityFiscalYear());
+        toDoc.setChartOfAccountsCode(fromDoc.getChartOfAccountsCode());
+        toDoc.setAccountNumber(fromDoc.getAccountNumber());
+        toDoc.setSubAccountNumber(fromDoc.getSubAccountNumber());
+        toDoc.setOrganizationLevelCode(fromDoc.getOrganizationLevelCode());
+        toDoc.setOrganizationLevelChartOfAccountsCode(
+                fromDoc.getOrganizationLevelChartOfAccountsCode());
+        toDoc.setOrganizationLevelOrganizationCode(
+                fromDoc.getOrganizationLevelOrganizationCode());
+        toDoc.setBudgetLockUserIdentifier(
+                fromDoc.getBudgetLockUserIdentifier());
+        toDoc.setBudgetTransactionLockUserIdentifier(
+                fromDoc.getBudgetTransactionLockUserIdentifier());
+        //  now set up the remaining values
+        toDoc.setVersionNumber(DEFAULT_VERSION_NUMBER);
+        DocumentHeader kualiDocumentHeader = toDoc.getDocumentHeader();
+        toDoc.setDocumentNumber(toDoc.getDocumentHeader().getDocumentNumber());
+        kualiDocumentHeader.setOrganizationDocumentNumber(
+                            toDoc.getUniversityFiscalYear().toString());
+        kualiDocumentHeader.setFinancialDocumentStatusCode(
+                Constants.INITIAL_KUALI_DOCUMENT_STATUS_CD);
+        kualiDocumentHeader.setFinancialDocumentTotalAmount(KualiDecimal.ZERO);
+        kualiDocumentHeader.setFinancialDocumentDescription(String.format("%s %d %s %s",
+                BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION,
+                       fromDoc.getUniversityFiscalYear(),
+                       fromDoc.getChartOfAccounts(),fromDoc.getAccountNumber()));
+        kualiDocumentHeader.setExplanation(
+                BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION);
+    }
+    
+    private void stepToGetProxyDocumentNumberRows(Integer BaseYear)
+    {
+        Integer RequestYear = BaseYear + 1;
+        Criteria criteriaId = new Criteria();
+        criteriaId.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,RequestYear);
+        criteriaId.addEqualTo(PropertyConstants.DOCUMENT_NUMBER,proxyDocumentNumber);
+        QueryByCriteria queryId = new QueryByCriteria(BudgetConstructionHeader.class,
+                                                      criteriaId);
+        newBCDocumentSource = 
+            getPersistenceBrokerTemplate().getCollectionByQuery(queryId);
+        // now we have to get rid of them
+        getPersistenceBrokerTemplate().deleteByQuery(queryId);
+    }
+    
+    private void stepToStoreNewDocuments(Integer BaseYear) 
+    {
+        Iterator bCHeaderRows = newBCDocumentSource.iterator();
+        documentsToCreateinNTS =  ((Integer) (newBCDocumentSource.size())).longValue();
+        while (bCHeaderRows.hasNext())
+        {
+            BudgetConstructionHeader bCTemplate = 
+                (BudgetConstructionHeader) bCHeaderRows.next();
+            try
+            {
+                storeBudgetConstructionDocument(bCTemplate);
+            }
+            catch (WorkflowException wex)
+            {
+                LOG.warn(String.format(
+                        "\nskipping creation of document \n(%s)\n for: %s %s %s",
+                        bCTemplate.getChartOfAccounts(),
+                        bCTemplate.getAccountNumber(),
+                        bCTemplate.getSubAccountNumber()));
+                documentsSkippedinNTS = documentsSkippedinNTS+1;
+                continue;
+            }
+            documentsCreatedinNTS = documentsCreatedinNTS+1;
+        }
+    }
+    
+    private void storeBudgetConstructionDocument (BudgetConstructionHeader bCHdrTemplate)
+    throws WorkflowException
+    {
+        //  this should only be called from a non-transactional method
+        // first we get the new document
+        BudgetConstructionDocument bCDocument = (BudgetConstructionDocument) 
+            documentService.getNewDocument(
+                    BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
+        setUpNewBCDocument(bCDocument, bCHdrTemplate);
+        getPersistenceBrokerTemplate().store(bCDocument);
+        documentService.prepareWorkflowDocument(bCDocument);
+        workflowDocumentService.route(bCDocument.getDocumentHeader().getWorkflowDocument(),
+                     "created by Genesis",null);
+    }
+    
+    private void storeCurrentGLBCHeaderCandidates(Integer BaseYear)
+    {
+        Integer RequestYear = BaseYear+1;
+        Criteria criteriaId = new Criteria();
+        criteriaId.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
+        criteriaId.addEqualTo(PropertyConstants.BALANCE_TYPE_CODE,
+                              Constants.BALANCE_TYPE_BASE_BUDGET);
+        String[] queryAttr = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                              PropertyConstants.ACCOUNT_NUMBER,
+                              PropertyConstants.SUB_ACCOUNT_NUMBER,
+                              "sum("+
+                              PropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT+")",
+                              "sum("+
+                              PropertyConstants.BEGINNING_BALANCE_LINE_AMOUNT+")"};
+        ReportQueryByCriteria queryId = new ReportQueryByCriteria(Balance.class,
+                                                                  queryAttr,
+                                                                  criteriaId);
+        queryId.addGroupBy(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        queryId.addGroupBy(PropertyConstants.ACCOUNT_NUMBER);
+        queryId.addGroupBy(PropertyConstants.SUB_ACCOUNT_NUMBER);
+        Iterator RowsReturned = 
+            getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryId);
+        while (RowsReturned.hasNext())
+        {
+            proxyCandidatesReadinTS = proxyCandidatesReadinTS+1;
+            Object[] Results = (Object[]) RowsReturned.next();
+            String testKey = ((String) Results[0])+
+                             ((String) Results[1])+
+                             ((String) Results[2]);
+            if (currentBCHeaderKeys.contains(testKey))
+            {
+                // don't create a new row for anything with a current header
+                continue;
+            }
+            KualiDecimal BaseAmount = (KualiDecimal) Results[4];
+            BaseAmount = 
+                BaseAmount.add((KualiDecimal) Results[5]);
+            if (BaseAmount.isZero())
+            {
+                // skip anything with an overall zero balance
+                continue;
+            }
+            // set up the Budget Construction Header
+            BudgetConstructionHeader newBCHdr = new BudgetConstructionHeader();
+            newBCHdr.setDocumentNumber(proxyDocumentNumber);
+            newBCHdr.setUniversityFiscalYear(RequestYear);
+            newBCHdr.setChartOfAccountsCode((String) Results[0]);
+            newBCHdr.setAccountNumber((String) Results[1]);
+            newBCHdr.setSubAccountNumber((String) Results[2]);
+            newBCHdr.setOrganizationLevelChartOfAccountsCode(
+                    BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_CHART_OF_ACCOUNTS_CODE);
+            newBCHdr.setOrganizationLevelOrganizationCode(
+                    BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_ORGANIZATION_CODE);
+            newBCHdr.setOrganizationLevelCode(
+                    BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_CODE);
+            newBCHdr.setBudgetTransactionLockUserIdentifier(
+                    BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
+            newBCHdr.setBudgetLockUserIdentifier(
+                    BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
+            newBCHdr.setVersionNumber(DEFAULT_VERSION_NUMBER);
+           // store the result
+            getPersistenceBrokerTemplate().store(newBCHdr);
+            proxyBCHeadersCreatedinTS = proxyBCHeadersCreatedinTS+1;
+        }
+    }
+    
     /*
      *    @@TODO:
      *    these are some test routines which should be removed in production
@@ -344,7 +627,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
           bCHdrFromGL.put(HeaderTestKey, newBCHdrBusinessObject(RequestYear, ReturnList));
         }
         LOG.info(String.format("\nNumber of BC headers: %d",bCHdrFromGL.size()));
-        createNewBCDocuments(BaseYear);
+   //     createNewBCDocuments(BaseYear);
     }
     
     /*
@@ -912,7 +1195,6 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         // this implies that last year's data can't be there, because the
         // organization hierarchy will have changed
         readGLForPBGL(BaseYear);
-        createNewBCDocuments(BaseYear);
         addNewGLRowsToPBGL(BaseYear);
         writeFinalDiagnosticCounts();
     }
@@ -1184,7 +1466,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         getPersistenceBrokerTemplate().deleteByQuery(queryID);
         LOG.info(String.format("\ndelete PBGL ended at %tT",dateTimeService.getCurrentDate()));
     }
-    
+ /*   
     private void createNewBCDocuments(Integer BaseYear)
     {
         // if there are no documents, just return and skip all the set up
@@ -1193,10 +1475,6 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
             return;
         }
         Integer RequestYear = BaseYear + 1;
-        // now we have to get the document service and the workflow service
-        //@@TODO:
-        //documentService = SpringServiceLocator.getDocumentService();
-        //workflowDocumentService = SpringServiceLocator.getWorkflowDocumentService();
         // this routine reads the list of GL document accounting keys from
         // the GL that are not in the budget, and creates both a workflow
         // document and a budget construction header for them
@@ -1205,139 +1483,55 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         {
             BudgetConstructionHeader headerGL = newBCHdrRows.getValue();
             String headerGLKey                = newBCHdrRows.getKey();
-            Document bCDocument;
+            String documentID;
             try
             {
-              //@@TODO:  it looks like these things need to be saved.
-              //         should we just save the objects in an array and
-              //         store them at the end?
-              //
-              //  the return from the getNewDocument is a new instance of the BC Header
-              //  document cast as a document.  our BCHeader document, as all documents do,
-              //  extends documentBase.  so, we will set the document base fields, then
-              //  we will set the header specific values from the header object  
-               bCDocument = 
-               documentService.getNewDocument(BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
-               LOG.info(String.format("\nDocument Number: %s",bCDocument.getDocumentNumber()));
-               LOG.info(String.format("\ninstance of BudgetConstructionDocument? %s",
-                        (bCDocument.getDocumentHeader().getWorkflowDocument() instanceof
-                                BudgetConstructionDocument)));
-               LOG.info(String.format("\ndocument class of workflow document: %s",
-                       bCDocument.getDocumentHeader().getWorkflowDocument().getClass().getName()));
-               LOG.info(String.format("\ndocument class of documentHeader in document: %s",
-                                      bCDocument.getDocumentHeader().getClass().getName()));
-               
+              documentID = 
+                  genesisRouteService.createNewBCDocumentsNonTransactional(headerGL);
             }
             catch (WorkflowException exxx)
             {
                LOG.warn(String.format("\nerror %s creating BC document for:\n"+
-                                      "Chart : %s\nAccount: %s\nSubaccount: %s\n",
+                                      "Chart : %s\nAccount: %s\nSubaccount: %s\n"+
+                                      "this key and its detail will not be loaded\n",
                                       exxx.getMessage(),
                                       headerGL.getChartOfAccountsCode(),
                                       headerGL.getAccountNumber(),
                                       headerGL.getSubAccountNumber()));
-               // the document header will have no document number
-               // the relevant GL rows will NOT be written to PBGL
-               // we can try again on the next run
                continue;
             }
             //  save the new document number so we can
             //  store the detail PBGL rows later.
             //  the BC pending GL entry rows
             //  (the tests use the document header to get the document number.)
-            String documentID = bCDocument.getDocumentHeader().getDocumentNumber();
-            bCDocument.setDocumentNumber(documentID);
             CurrentPBGLDocNumbers.put(headerGLKey,documentID);  
             headerGL.setDocumentNumber(documentID);
             //  before we store, we need to set the Budget Construction header fields
             //  in the new of a document that we just got
             nGLHeadersAdded = nGLHeadersAdded+1;
-            // @@TODO:
-            //  we also need to store the Kuali document header (in the Kuali doc
+            //  we need to update the Kuali document header (in the Kuali doc
             //  header table, not the BC docheader table)
             // when the table associated with the budget construction document is filled
             // (ld_bcnstr_hdr_t), the auto-update=object on the reference-id to the
             // fp_doc_header_t table will automatically store the generic kuali document
             // header
-            DocumentHeader kualiDocHeader = bCDocument.getDocumentHeader();
-            kualiDocHeader.setOrganizationDocumentNumber(Integer.toString(RequestYear));
+            // we need to change the status code now that the workflow document has been 
+            // routed
+            Criteria criteriaId = new Criteria();
+            criteriaId.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                                  RequestYear);
+            criteriaId.addEqualTo(PropertyConstants.DOCUMENT_NUMBER,
+                                  documentID);
+            QueryByCriteria queryId = new QueryByCriteria(DocumentHeader.class,criteriaId);
+            DocumentHeader kualiDocHeader = 
+                (DocumentHeader) getPersistenceBrokerTemplate().getObjectByQuery(queryId);
             kualiDocHeader.setFinancialDocumentStatusCode(
-                           BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_INITIAL_STATUS);
-//            kualiDocHeader.setFinancialDocumentStatusCode(
-//                           Constants.INITIAL_KUALI_DOCUMENT_STATUS_CD);
-            kualiDocHeader.setFinancialDocumentTotalAmount(KualiDecimal.ZERO);
-            kualiDocHeader.setFinancialDocumentDescription(String.format("%s %d %s %s",
-                           BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION,
-                           headerGL.getUniversityFiscalYear(),
-                           headerGL.getChartOfAccounts(),headerGL.getAccountNumber()));
-            kualiDocHeader.setExplanation(
-                    BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION);
-            //  we need to set the values in the new document object
-            BudgetConstructionDocument bCDocumentPtr = 
-                    createNewBCDocumentSetUp(headerGL,bCDocument);
-            getPersistenceBrokerTemplate().store(bCDocumentPtr);
-            /*
-             *   the hierarchy is apparently as follows.
-             *   Document objects have a header (getHeader) and a (transient) workflowDocument
-             *   (getWorkflowDocument).  the header refers to the Kuali document header table.
-             *   the workflowDocument points to an object of the class of document being created,
-             *   and this object will be saved to the table which the object is mapped to in the
-             *   OJB repository.
-             */
-            //  we are simply going to store the budget construction document
-            //  genesis is under transactional control, and workflow will not be able to
-            //  read and route our document until our transaction commits.  therefore, we will
-            //  actually route the document in a separate step.
- //           try
- //           {
- //               TransactionalDocument tDocument = (TransactionalDocument) bCDocument;
- //               documentService.saveDocument(tDocument);
- //               documentService.routeDocument(tDocument,"created by Genesis",null);
- //           }
- //           catch (WorkflowException exxx)
- //           {
- //              LOG.warn(String.format("\nerror %s \nsaving BC document for:\n"+
- //                                     "Chart : %s\nAccount: %s\nSubaccount: %s\n",
- //                                     exxx.getMessage(),
- //                                     headerGL.getChartOfAccountsCode(),
- //                                     headerGL.getAccountNumber(),
- //                                     headerGL.getSubAccountNumber()));
-               // the document header will have no document number
-               // the relevant GL rows will NOT be written to PBGL
-               // we can try again on the next run
- //              continue;
- //           }
+                    BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_INITIAL_STATUS);
+            getPersistenceBrokerTemplate().store(kualiDocHeader);
         }
     }
-    
-    private BudgetConstructionDocument createNewBCDocumentSetUp(BudgetConstructionHeader BCHdr, 
-                 Document bCDocument) 
-    {   
-        /*
-         * workflow will save our budget construction header row for us, because the
-         * the document class name of the document we fetched with getNewDocument is
-         * mapped to the Budget Construction Header table in the OJB repository.
-         * we cast the generic document object as a Budget Construction Document so
-         * we can set the fields
-         */
-        BudgetConstructionDocument bCDocumentPtr = 
-            (BudgetConstructionDocument) bCDocument;
-         bCDocumentPtr.setUniversityFiscalYear(BCHdr.getUniversityFiscalYear());
-         bCDocumentPtr.setChartOfAccountsCode(BCHdr.getChartOfAccountsCode());
-         bCDocumentPtr.setAccountNumber(BCHdr.getAccountNumber());
-         bCDocumentPtr.setSubAccountNumber(BCHdr.getSubAccountNumber());
-         bCDocumentPtr.setOrganizationLevelCode(BCHdr.getOrganizationLevelCode());
-         bCDocumentPtr.setOrganizationLevelChartOfAccountsCode(
-                           BCHdr.getOrganizationLevelChartOfAccountsCode());
-         bCDocumentPtr.setOrganizationLevelOrganizationCode(
-                           BCHdr.getOrganizationLevelOrganizationCode());
-         bCDocumentPtr.setBudgetLockUserIdentifier(
-                           BCHdr.getBudgetLockUserIdentifier());
-         bCDocumentPtr.setBudgetTransactionLockUserIdentifier(
-                           BCHdr.getBudgetLockUserIdentifier());
-         return bCDocumentPtr;
-    }
-    
+*/
+
     private String findRowDocumentNumber(String headerKey)
     {
         String documentNumber = CurrentPBGLDocNumbers.get(headerKey);
@@ -1360,8 +1554,9 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
             Object[] sqlResult)
     {
        BudgetConstructionHeader hDrBC = new BudgetConstructionHeader();
-       // document number will be set in the service--we don't yet know whether this
-       // will require a new document
+       // document number will be set by the document route service
+       // this will allow us to step outside transactional control and
+       // allow the workflow distributed transaction to proceed.
        hDrBC.setUniversityFiscalYear(RequestYear);
        hDrBC.setChartOfAccountsCode((String) sqlResult[sqlChartOfAccountsCode]);
        hDrBC.setAccountNumber((String) sqlResult[sqlAccountNumber]);
@@ -1599,263 +1794,16 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         
     }
     
-    //  
-    //  this routine is designed to route BC documents outside of transactional
-    //  control.  the documents have already been saved in the single genesis
-    //  transaction.  here, we fetch them all, and route the ones which are not
-    //  yet in workflow.
-    //
-    public void routeNewBCDocuments(Integer BaseYear)
-    {
-        Integer RequestYear = BaseYear+1;
-        Long bCDocumentsRead   = new Long(0);
-        Long bCDocumentsRouted = new Long(0);
-        Collection<BudgetConstructionDocument> holdbCDocument;
-        DocumentHeader holdDocumentHeader = new DocumentHeader();
-        // first, get all the documents from the budget construction header table
-        Criteria bCCriteria    = new Criteria();
-        bCCriteria.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
-                RequestYear);
-        QueryByCriteria bCDocumentQuery = 
-                 new QueryByCriteria(BudgetConstructionDocument.class, bCCriteria);
-        holdbCDocument = (Collection<BudgetConstructionDocument>)
-            getPersistenceBrokerTemplate().getCollectionByQuery(bCDocumentQuery);
-        Iterator Results = holdbCDocument.iterator();
-        while (Results.hasNext())
-        {
-           BudgetConstructionDocument bCDocument = (BudgetConstructionDocument) Results.next(); 
-           String documentNumber = bCDocument.getDocumentNumber(); 
-           bCDocumentsRead = bCDocumentsRead+1;
-           /*
-           try
-           {
-               if (workflowDocumentService.workflowDocumentExists(documentNumber))
-               {
-                   continue;
-               }
-           }
-           catch (IllegalArgumentException iaex)
-           {
-               LOG.warn("\ndocument "+documentNumber+
-                        " triggered on search: \n"+iaex.getMessage());
-               continue;
-           }
-           */
-           // fetch the document: it needs to be routed
-           // make a clone of the document header
-           // we are going to want to override the status that routing inserts
-           // once the document is routed
-           // cloneDocumentHeader(holdDocumentHeader,bCDocument.getDocumentHeader());
-           holdDocumentHeader = bCDocument.getDocumentHeader();
-           try
-           {
-               KualiWorkflowDocument kualiWorkflowDocument =
-                   workflowDocumentService.createWorkflowDocument(
-                           Long.valueOf(bCDocument.getDocumentHeader().getDocumentNumber()),
-                           GlobalVariables.getUserSession().getUniversalUser());
-               GlobalVariables.getUserSession().setWorkflowDocument(kualiWorkflowDocument);
-               bCDocument.getDocumentHeader().setWorkflowDocument(kualiWorkflowDocument);
-//               getPersistenceBrokerTemplate().store(bCDocument.getDocumentHeader());
-//               getPersistenceBrokerTemplate().store(bCDocument);
-               documentService.routeDocument((Document) bCDocument,"created by Genesis",null);
-           }
-           catch (ValidationException vex)
-           {
-               LOG.warn("\ndocument "+documentNumber+ 
-                       " triggered on route: \n"+vex.getMessage());
-              continue;
-           }
-           catch (WorkflowException wex)
-           {
-               LOG.warn("\ndocument "+documentNumber+
-                       " triggered on route: \n"+wex.getMessage());
-              continue;
-           }
-           bCDocumentsRouted = bCDocumentsRouted+1;
-           //  change the routing code
-           getPersistenceBrokerTemplate().store(holdDocumentHeader);
-        }
-        LOG.info(String.format("\nBudget documents read for %d: %d",
-                               RequestYear,bCDocumentsRead));
-        LOG.info(String.format("\nBudget documents routed for %d: %d",
-                 RequestYear,bCDocumentsRouted));
-    }
-    
-    private void cloneDocumentHeader(DocumentHeader DHTo, DocumentHeader DHFrom)
-    {
-        DHTo.setCorrectedByDocumentId(DHFrom.getCorrectedByDocumentId());
-        DHTo.setDocumentFinalDate(DHFrom.getDocumentFinalDate());
-        DHTo.setExplanation(DHFrom.getExplanation());
-        DHTo.setExtendedAttributeValues(DHFrom.getExtendedAttributeValues());
-        DHTo.setFinancialDocumentDescription(DHFrom.getFinancialDocumentDescription());
-        DHTo.setFinancialDocumentInErrorNumber(DHFrom.getFinancialDocumentInErrorNumber());
-        DHTo.setFinancialDocumentStatusCode(BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_INITIAL_STATUS);
-        DHTo.setFinancialDocumentTemplateNumber(
-                DHFrom.getFinancialDocumentTemplateNumber());
-        DHTo.setFinancialDocumentTotalAmount(
-                DHFrom.getFinancialDocumentTotalAmount());
-        DHTo.setNotes(DHFrom.getNotes());
-        DHTo.setObjectId(DHFrom.getObjectId());
-        DHTo.setOrganizationDocumentNumber(DHFrom.getOrganizationDocumentNumber());
-        DHTo.setVersionNumber(DHFrom.getVersionNumber());
-        DHTo.setWorkflowDocument(DHFrom.getWorkflowDocument());
-    }
-    
-    
-    //  @@TODO:
-    //  this routine had the same problem as version 1: an iterator is cleaned up
-    //  when a persistence broker is closed.
-    
-    public void routeNewBCDocumentsVersion2 (Integer BaseYear)
-    {
-        Integer RequestYear = BaseYear+1;
-        Long bCDocumentsRead   = new Long(0);
-        Long bCDocumentsRouted = new Long(0);
-        DocumentHeader holdDocHeader = new DocumentHeader();
-        // first, get all the document numbers from the budget construction header table
-        Criteria bCCriteria    = new Criteria();
-        bCCriteria.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
-                RequestYear);
-        String[] queryAttr = {PropertyConstants.DOCUMENT_NUMBER};
-        ReportQueryByCriteria bCDocumentQuery = 
-                 new ReportQueryByCriteria(BudgetConstructionDocument.class,
-                                           queryAttr, bCCriteria);
-        Iterator Results = 
-            getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(bCDocumentQuery);
-        // this iterator does not persist, so the closing of the broker on every
-        // transaction will not destroy it
-        while (Results.hasNext())
-        {
-           String documentNumber = (String) ((Object[]) Results.next())[0]; 
-           bCDocumentsRead = bCDocumentsRead + 1;
-           try
-           {
-               if (workflowDocumentService.workflowDocumentExists(documentNumber))
-               {
-                   continue;
-               }
-           }
-           catch (IllegalArgumentException iaex)
-           {
-               LOG.warn("\ndocument "+documentNumber+
-                        " triggered on search: \n"+iaex.getMessage());
-               continue;
-           }
-           // fetch the document: it needs to be routed
-           // try to route the document
-           Criteria bCDocCriteria = new Criteria();
-           bCDocCriteria.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
-                RequestYear);
-           bCDocCriteria.addEqualTo(PropertyConstants.DOCUMENT_NUMBER,documentNumber);
-           QueryByCriteria bCDocQuery = new QueryByCriteria(
-                   BudgetConstructionDocument.class,bCDocCriteria);
-           BudgetConstructionDocument bCDocument = (BudgetConstructionDocument)
-               getPersistenceBrokerTemplate().getObjectByQuery(bCDocQuery);
-           // make a clone of the document header
-           // we are going to want to override the status that routing inserts
-           // once the document is routed
-           cloneDocumentHeader(holdDocHeader,bCDocument.getDocumentHeader());
-           try
-           {
-               documentService.routeDocument((Document) bCDocument,null,null);
-           }
-           catch (ValidationException vex)
-           {
-               LOG.warn("\ndocument "+documentNumber+ 
-                       " triggered on route: \n"+vex.getMessage());
-              continue;
-           }
-           catch (WorkflowException wex)
-           {
-               LOG.warn("\ndocument "+documentNumber+
-                       " triggered on route: \n"+wex.getMessage());
-              continue;
-           }
-           bCDocumentsRouted = bCDocumentsRouted+1;
-           //  change the routing code
-           getPersistenceBrokerTemplate().store(holdDocHeader);
-        }
-        LOG.info(String.format("\nBudget documents read for %d: %d",
-                               RequestYear,bCDocumentsRead));
-        LOG.info(String.format("\nBudget documents routed for %d: %d",
-                 RequestYear,bCDocumentsRouted));
-    }
 
-    //@@TODO:
-    // this is the old, non-working version, which should be removed unless we
-    // need to tweak it if our document number method does not work
-    private void routeNewBCDocumentsVersion1(Integer BaseYear)
-    {
-        Integer RequestYear = BaseYear+1;
-        Long bCDocumentsRead   = new Long(0);
-        Long bCDocumentsRouted = new Long(0);
-        Criteria bCCriteria    = new Criteria();
-        bCCriteria.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
-                RequestYear);
-        QueryByCriteria bCDocumentQuery = 
-                 new QueryByCriteria(BudgetConstructionDocument.class,bCCriteria);
-        Iterator Results = getPersistenceBrokerTemplate().getIteratorByQuery(bCDocumentQuery);
-        while (Results.hasNext())
-        {
-           BudgetConstructionDocument bCDocument = 
-               (BudgetConstructionDocument) Results.next();
-           bCDocumentsRead = bCDocumentsRead + 1;
-           try
-           {
-               if (workflowDocumentService.workflowDocumentExists(
-                       bCDocument.getDocumentHeader().getDocumentNumber()))
-               {
-                   continue;
-               }
-           }
-           catch (IllegalArgumentException iaex)
-           {
-               LOG.warn("\ndocument bCDocument.getDocumentHeader().getDocumentNumber()"+
-                        " triggered on search: \n"+iaex.getMessage());
-               continue;
-           }
-           // create and route the workflow document
-           try
-           {
-               // we have to create a transient KualiWorkflowDocument object with the 
-               // correct document number
-               documentService.routeDocument((Document) bCDocument,"created by Genesis",null);
-           }
-           catch (ValidationException vex)
-           {
-               LOG.warn("\ndocument bCDocument.getDocumentHeader().getDocumentNumber()"+
-                       " triggered on route: \n"+vex.getMessage());
-              continue;
-           }
-           catch (WorkflowException wex)
-           {
-               LOG.warn("\ndocument bCDocument.getDocumentHeader().getDocumentNumber()"+
-                       " triggered on route: \n"+wex.getMessage());
-              continue;
-           }
-           bCDocumentsRouted = bCDocumentsRouted+1;
-           //  change the routing code
-           DocumentHeader documentHeader = bCDocument.getDocumentHeader();
-           documentHeader.setFinancialDocumentStatusCode(
-                   BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_INITIAL_STATUS);
-           getPersistenceBrokerTemplate().store(documentHeader);
-        }
-        LOG.info(String.format("\nBudget documents read for %d: %d",
-                               RequestYear,bCDocumentsRead));
-        LOG.info(String.format("\nBudget documents routed for %d: %d",
-                 RequestYear,bCDocumentsRouted));
-    }
-    
     public void setDocumentService(DocumentService documentService)
     {
         this.documentService = documentService;
     }
-
-    public void setDateTimeService(DateTimeService dateTimeService) {
+     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
-    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService)
-    {
-        this.workflowDocumentService = workflowDocumentService;
-    }
+     public void setWorkflowDocumentService (WorkflowDocumentService workflowDocumentService)
+     {
+         this.workflowDocumentService = workflowDocumentService;
+     }
 }

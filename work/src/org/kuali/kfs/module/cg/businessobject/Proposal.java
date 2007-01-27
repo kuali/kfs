@@ -17,7 +17,6 @@
 package org.kuali.module.cg.bo;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -30,6 +29,8 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
+import org.kuali.module.kra.routingform.bo.RoutingFormOrganization;
+import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 
 /**
@@ -37,6 +38,7 @@ import org.kuali.module.kra.routingform.document.RoutingFormDocument;
  */
 public class Proposal extends PersistableBusinessObjectBase {
 
+    private static final String PROPOSAL_CODE = "P";
     private Long proposalNumber;
     private Date proposalBeginningDate;
     private Date proposalEndingDate;
@@ -95,8 +97,21 @@ public class Proposal extends PersistableBusinessObjectBase {
     public Proposal(RoutingFormDocument routingFormDocument) {
         this();
         
-        this.setProposalNumber(SpringServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("CGPRPSL_NBR_SEQ"));
+        Long newProposalNumber = SpringServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("CGPRPSL_NBR_SEQ");
+        this.setProposalNumber(newProposalNumber);
+        this.setProposalStatusCode(PROPOSAL_CODE);
+
+        //Values coming from RoutingFormDocument (ER_RF_DOC_T)
+        this.setProposalProjectTitle(routingFormDocument.getRoutingFormProjectTitle().substring(0, 250));
+        this.setProposalPurposeCode(routingFormDocument.getRoutingFormPurposeCode());
+        this.setProposalAwardTypeCode("N");
+        this.setGrantNumber(routingFormDocument.getGrantNumber());
+        this.setCfdaNumber(routingFormDocument.getRoutingFormCatalogOfFederalDomesticAssistanceNumber());
+        this.setProposalFellowName(routingFormDocument.getRoutingFormFellowFullName());
+        this.setProposalFederalPassThroughIndicator(routingFormDocument.getRoutingFormFederalPassThroughIndicator());
+        this.setFederalPassThroughAgencyNumber(routingFormDocument.getAgencyFederalPassThroughNumber());
         
+        //Values coming from Routing Form Budget BO (ER_RF_BDGT_T)
         RoutingFormBudget routingFormBudget = routingFormDocument.getRoutingFormBudget();
         this.setProposalBeginningDate(routingFormBudget.getRoutingFormBudgetStartDate());
         this.setProposalEndingDate(routingFormBudget.getRoutingFormBudgetEndDate());
@@ -105,13 +120,32 @@ public class Proposal extends PersistableBusinessObjectBase {
         this.setProposalIndirectCostAmount((routingFormBudget.getRoutingFormBudgetIndirectCostAmount() != null ? routingFormBudget.getRoutingFormBudgetIndirectCostAmount() : new KualiInteger(0)).kualiDecimalValue());
         this.setProposalDueDate(routingFormDocument.getRoutingFormAgency().getRoutingFormDueDate());
 
-        //required fields not coming from other BOs yet.
-        this.setProposalProjectTitle("my title");
+        //Values coming from RoutingFormAgency (ER_RF_AGNCY_T)
+        this.setAgencyNumber(routingFormDocument.getRoutingFormAgency().getAgencyNumber());
+
+        //Values coming from the list of Subcontractors (ER_RF_SUBCNR_T)
+        for (RoutingFormSubcontractor routingFormSubcontractor : routingFormDocument.getRoutingFormSubcontractors()) {
+            this.getProposalSubcontractors().add(new ProposalSubcontractor(newProposalNumber, routingFormSubcontractor));
+        }
+
+        for (RoutingFormOrganization routingFormOrganization : routingFormDocument.getRoutingFormOrganizations()) {
+            //construct a new ProposalOrganization using the current RoutingFormOrganization as a template.
+            ProposalOrganization proposalOrganization = new ProposalOrganization(newProposalNumber, routingFormOrganization);
+            
+            //check to see if the list or ProposalOrganizations already contains an entry with this key; add it to the list if it does not.
+            if (!ObjectUtils.collectionContainsObjectWithIdentitcalKey(this.getProposalOrganizations(), proposalOrganization)) {
+                this.getProposalOrganizations().add(proposalOrganization);
+            }
+        }
+        
+        //Can't do yet?
         this.setProposalSubmissionDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
-        this.setProposalStatusCode("P");
-        this.setAgencyNumber("12500");
-        this.setProposalPurposeCode("A");
-        this.setProposalAwardTypeCode("N");
+        //can't do Project Director until RoutingFormPersonnel is done.
+        /**
+          - er.er_rf_prjdr_t.person_unvl_id - person_unvl_id
+          - er.er_rf_prjdr_t.prpsl_prm_pjd_ind - prpsl_prmprjdr_ind
+        */
+        
     }
     
     /**

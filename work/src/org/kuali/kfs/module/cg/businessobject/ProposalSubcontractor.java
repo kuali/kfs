@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
 
 /**
  * 
@@ -41,6 +42,18 @@ public class ProposalSubcontractor extends PersistableBusinessObjectBase {
 
     }
 
+    /**
+     * Constructs a ProposalSubcontractor with a Proposal Number and uses a RoutingFormSubcontractor as a template.
+     * @param proposalNumber The proposalNumber for the Proposal that this ProposalSubcontractor will be associated with
+     * @param routingFormSubcontractor The routingFormSubcontractor that will act as a template for this ProposalSubcontractor
+     */
+    public ProposalSubcontractor(Long proposalNumber, RoutingFormSubcontractor routingFormSubcontractor) {
+        this.setProposalNumber(proposalNumber);
+        this.setProposalSubcontractorNumber(routingFormSubcontractor.getRoutingFormSubcontractorSequenceNumber().toString());
+        this.setSubcontractorNumber(routingFormSubcontractor.getRoutingFormSubcontractorNumber());
+        this.setProposalSubcontractorAmount(routingFormSubcontractor.getRoutingFormSubcontractorAmount());
+    }
+    
     /**
      * Gets the proposalSubcontractorNumber attribute.
      * 

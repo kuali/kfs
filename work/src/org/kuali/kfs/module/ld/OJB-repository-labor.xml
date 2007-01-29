@@ -587,6 +587,11 @@
         <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
+    
+        <collection-descriptor name="laborLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.module.labor.bo.PendingLedgerEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.labor.bo.SalaryExpenseTransferSourceAccountingLine" table="LD_EXP_TRNFR_FRM_T">

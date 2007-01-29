@@ -74,8 +74,8 @@ public class Proposal extends PersistableBusinessObjectBase {
     private List<ProposalSubcontractor> proposalSubcontractors;
     private List<ProposalOrganization> proposalOrganizations;
     private List<ProposalProjectDirector> proposalProjectDirectors;
+    private List<ProposalResearchRisk> proposalResearchRisks;
 
-    private ResearchType researchType;
     private ProposalAwardType proposalAwardType;
     private Agency agency;
     private ProposalStatus proposalStatus;
@@ -92,6 +92,7 @@ public class Proposal extends PersistableBusinessObjectBase {
         proposalSubcontractors = new TypedArrayList(ProposalSubcontractor.class);
         proposalOrganizations = new TypedArrayList(ProposalOrganization.class);
         proposalProjectDirectors = new TypedArrayList(ProposalProjectDirector.class);
+        proposalResearchRisks = new TypedArrayList(ProposalResearchRisk.class);
     }
 
     public Proposal(RoutingFormDocument routingFormDocument) {
@@ -664,25 +665,12 @@ public class Proposal extends PersistableBusinessObjectBase {
         this.proposalProjectTitle = proposalProjectTitle;
     }
 
-
-    /**
-     * Gets the researchType attribute.
-     * 
-     * @return Returns the researchType
-     * 
-     */
-    public ResearchType getResearchType() {
-        return researchType;
+    public List<ProposalResearchRisk> getProposalResearchRisks() {
+        return proposalResearchRisks;
     }
 
-    /**
-     * Sets the researchType attribute.
-     * 
-     * @param researchType The researchType to set.
-     * @deprecated
-     */
-    public void setResearchType(ResearchType researchType) {
-        this.researchType = researchType;
+    public void setProposalResearchRisks(List<ProposalResearchRisk> proposalResearchRisks) {
+        this.proposalResearchRisks = proposalResearchRisks;
     }
 
     /**

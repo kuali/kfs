@@ -155,9 +155,6 @@
     <field-descriptor name="proposalFellowName" column="CGPRPSL_FELLOW_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="proposalPurposeCode" column="CGPRPSL_PURPOSE_CD" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="proposalProjectTitle" column="CGPRPSL_PROJ_TTL" jdbc-type="VARCHAR" />
-    <reference-descriptor name="researchType" class-ref="org.kuali.module.cg.bo.ResearchType" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="proposalNumber" />
-    </reference-descriptor>
     <reference-descriptor name="proposalAwardType" class-ref="org.kuali.module.cg.bo.ProposalAwardType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="proposalAwardTypeCode" />
     </reference-descriptor>
@@ -190,6 +187,12 @@
         <orderby name="personUniversalIdentifier" sort="ASC" />
         <inverse-foreignkey field-ref="proposalNumber" />
     </collection-descriptor>
+<!-- 
+    <collection-descriptor name="proposalResearchRisks" element-class-ref="org.kuali.module.cg.bo.ProposalResearchRisk" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="false" auto-retrieve="true" auto-update="true" auto-delete="true">
+        <inverse-foreignkey field-ref="proposalNumber" />
+        <inverse-foreignkey field-ref="researchRiskTypeCode" />
+    </collection-descriptor>
+-->
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cg.bo.ProposalAwardType" table="CG_PRPSL_AWD_TYP_T">

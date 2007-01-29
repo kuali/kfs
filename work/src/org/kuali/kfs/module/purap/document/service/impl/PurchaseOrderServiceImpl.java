@@ -18,6 +18,7 @@ package org.kuali.module.purap.service.impl;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
+import org.kuali.module.purap.dao.PurchaseOrderDao;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.PurchaseOrderService;
@@ -30,7 +31,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
     private DocumentService documentService;
-
+    private PurchaseOrderDao purchaseOrderDao;
+    
+    public void save(PurchaseOrderDocument purchaseOrderDocument) {
+        purchaseOrderDao.save(purchaseOrderDocument);
+    }
 
     /**
      * Creates a PurchaseOrderDocument from given RequisitionDocument
@@ -72,6 +77,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+
+    /**
+     * Sets the purchaseOrderDao attribute value.
+     * @param purchaseOrderDao The purchaseOrderDao to set.
+     */
+    public void setPurchaseOrderDao(PurchaseOrderDao purchaseOrderDao) {
+        this.purchaseOrderDao = purchaseOrderDao;
     }
 
 }

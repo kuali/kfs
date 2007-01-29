@@ -38,7 +38,8 @@
         <div class="h2-container">
             <h2>Vendor Info</h2>
         </div>
-
+		<html:hidden property="document.vendorHeaderGeneratedIdentifier" />
+		<html:hidden property="document.vendorDetailAssignedIdentifier" />
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Vendor Section">
             <c:if test="${displayPurchaseOrderFields}">
                 <tr>

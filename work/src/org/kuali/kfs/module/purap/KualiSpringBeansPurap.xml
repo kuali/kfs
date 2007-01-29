@@ -89,6 +89,9 @@
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
+		<property name="purchaseOrderDao">
+			<ref bean="purchaseOrderDao" />
+		</property>
 	</bean>
 
 	<bean id="vendorDao" class="org.kuali.module.purap.dao.ojb.VendorDaoOjb">
@@ -101,6 +104,12 @@
 	</bean>
 
 	<bean id="requisitionDao" class="org.kuali.module.purap.dao.ojb.RequisitionDaoOjb">
+		<property name="jcdAlias">
+			<value>dataSource</value>
+		</property>
+	</bean>
+
+	<bean id="purchaseOrderDao" class="org.kuali.module.purap.dao.ojb.PurchaseOrderDaoOjb">
 		<property name="jcdAlias">
 			<value>dataSource</value>
 		</property>

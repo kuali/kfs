@@ -148,7 +148,8 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.setVendorStateCode(requisitionDocument.getVendorStateCode());
         this.setExternalOrganizationB2bSupplierIdentifier(requisitionDocument.getExternalOrganizationB2bSupplierIdentifier());
         this.setRequisitionSourceCode(requisitionDocument.getRequisitionSourceCode());
-
+        
+        this.setStatusCode(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
         //copy items from req to pending (which will copy the item's accounts and assets)
 //        List items = new ArrayList();
 //        for (Iterator iter = requisitionDocument.getItems().iterator(); iter.hasNext();) {
@@ -179,7 +180,9 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
 
         // DOCUMENT PROCESSED
         if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-            // TODO code
+            //is this the right status?
+            SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
+            SpringServiceLocator.getPurchaseOrderService().save(this);
         }
         // DOCUMENT DISAPPROVED
         else if (this.getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {

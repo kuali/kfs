@@ -28,5 +28,12 @@ public class PurchasingAccountsPayableDocumentRuleBase extends TransactionalDocu
         // TODO Auto-generated method stub
         return false;
     }
+    /**
+     * for now we are just ignoring accounting line errors
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.TransactionalDocument)
+     */
+    protected boolean isAccountingLinesRequiredNumberForRoutingMet(TransactionalDocument transactionalDocument) {
+        return true;
+    }
 
 }

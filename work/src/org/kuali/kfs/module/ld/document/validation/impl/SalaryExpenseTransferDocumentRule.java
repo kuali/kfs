@@ -100,7 +100,10 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
         System.out.println("Test...");
         SalaryExpenseTransferDocument salaryExpenseTransferDocument = (SalaryExpenseTransferDocument)transactionalDocument;
         System.out.println("Test:" + salaryExpenseTransferDocument.getEmplid());
-//        SalaryExpenseTransferAccountingLine sal = (SalaryExpenseTransferAccountingLine)salaryExpenseTransferDocument();
+        
+        SalaryExpenseTransferAccountingLine sal = (SalaryExpenseTransferAccountingLine)accountingLine;
+        sal.setEmplid(salaryExpenseTransferDocument.getEmplid());
+        
 //        accountingLine = accountingLine (salaryExpenseTransferAccountingLine) salaryExpenseTransferDocument.getEmplid();  
 
         return true;

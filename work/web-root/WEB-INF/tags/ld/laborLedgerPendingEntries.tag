@@ -17,19 +17,20 @@
 <%@ taglib uri="/tlds/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/tlds/struts-logic.tld" prefix="logic" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="kul" %>
-<kul:tab tabTitle="Labor Ledger Pending Entries" defaultOpen="false" tabErrorKey="${Constants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS}">
+<%@ taglib tagdir="/WEB-INF/tags" prefix="ld" %>
+<kul:tab tabTitle="Labor Ledger Pending Entries" defaultOpen="false" tabErrorKey="${Constants.LABOR_LEDGER_PENDING_ENTRIES_TAB_ERRORS}">
 <div class="tab-container" align=center>
 		<div class="h2-container">
 		<h2>Labor Ledger Pending Entries <kul:lookup boClassName="org.kuali.module.labor.bo.PendingLedgerEntry" lookupParameters="document.documentNumber:documentNumber" hideReturnLink="true" suppressActions="true"/></h2>
 		</div>
 	 <table cellpadding="0" cellspacing="0" class="datatable" summary="view/edit pending entries">
 
-	<c:if test="${empty KualiForm.document.generalLedgerPendingEntries}">
+	<c:if test="${empty KualiForm.document.laborLedgerPendingEntries}">
 		<tr>
 			<td class="datacell" height="50"colspan="12"><div align="center">There are currently no Labor Ledger Pending Entries associated with this Transaction Processing document.</div></td>
 		</tr>
 	</c:if>
-	<c:if test="${!empty KualiForm.document.generalLedgerPendingEntries}">
+	<c:if test="${!empty KualiForm.document.laborLedgerPendingEntries}">
         <c:set var="entryAttributes" value="${DataDictionary.PendingLedgerEntry.attributes}" />
 		<tr>
             <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.transactionLedgerEntrySequenceNumber}" hideRequiredAsterisk="true" scope="col"/>

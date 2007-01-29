@@ -180,7 +180,8 @@
                         <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.alternateVendorName}" /></div>
                     </th>
                     <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.alternateVendorName}" property="document.alternateVendorName" readOnly="${vendorReadOnly}" />
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.alternateVendorName}" property="document.alternateVendorName" readOnly="true" />
+                        <kul:lookup  boClassName="org.kuali.module.purap.bo.VendorDetail" fieldConversions="vendorHeaderGeneratedIdentifier:document.alternateVendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:document.alternateVendorDetailAssignedIdentifier"/>                    
                     </td>                        
                 </tr>
                 <tr>
@@ -191,10 +192,10 @@
                         <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorShippingTitleCode}" property="document.vendorShippingTitleCode" readOnly="${vendorReadOnly}" />
                     </td>
                     <th align=right valign=middle class="bord-l-b">
-                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.alternateVendorHeaderGeneratedIdentifier}" /></div>
+                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.alternateVendorNumber}" /></div>
                     </th>
                     <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.alternateVendorHeaderGeneratedIdentifier}" property="document.vendorShippingTitleCode" readOnly="${vendorReadOnly}" />
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.alternateVendorNumber}" property="document.alternateVendorNumber" readOnly="true" />
                     </td>                        
                 </tr>
                 <tr>

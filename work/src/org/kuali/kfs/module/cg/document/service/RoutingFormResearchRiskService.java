@@ -17,7 +17,7 @@ package org.kuali.module.kra.routingform.service;
 
 import java.util.List;
 
-import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
+import org.kuali.module.kra.routingform.bo.ResearchRiskType;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 
 /**
@@ -30,7 +30,15 @@ public interface RoutingFormResearchRiskService {
     /**
      * Setup research risks in the document.
      * 
-     * @param RoutingFormDocument
+     * @param routingFormDocument the doc to set up
      */
     public void setupResearchRisks(RoutingFormDocument routingFormDocument);
+
+    /**
+     * Get the list of active research risk types from the database.
+     *
+     * @param exceptCodes the codes of research risk types to exclude from the results
+     * @return List<ResearchRiskType>
+     */
+    public List<ResearchRiskType> getResearchRiskTypes(String[] exceptCodes);
 }

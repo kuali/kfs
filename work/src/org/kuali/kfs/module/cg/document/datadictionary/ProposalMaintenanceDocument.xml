@@ -122,6 +122,23 @@
                     </maintainableCollection>
                 </maintainableItems>
             </maintainableSection>
+            
+            <maintainableSection title="Research Risks">
+                <maintainableItems>
+                    <maintainableCollection name="proposalResearchRisks" businessObjectClass="org.kuali.module.cg.bo.ProposalResearchRisk">
+                        <maintainableField name="researchRiskType.researchRiskTypeDescription" readOnly="true" />
+                        <maintainableField name="isActive" required="false" />
+                        <!-- hidden fields -->
+                        <maintainableField name="versionNumber" />
+                        <maintainableField name="researchRiskTypeCode" />
+                        <summaryFields>
+                            <summaryField name="researchRiskType.researchRiskTypeDescription" />
+                            <summaryField name="isActive" />
+                        </summaryFields>
+                    </maintainableCollection>
+                </maintainableItems>
+            </maintainableSection>
+
         </maintainableSections>
     </maintenanceDocument>
 </dictionaryEntry>

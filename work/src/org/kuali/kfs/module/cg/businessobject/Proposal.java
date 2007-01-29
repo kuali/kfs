@@ -665,14 +665,6 @@ public class Proposal extends PersistableBusinessObjectBase {
         this.proposalProjectTitle = proposalProjectTitle;
     }
 
-    public List<ProposalResearchRisk> getProposalResearchRisks() {
-        return proposalResearchRisks;
-    }
-
-    public void setProposalResearchRisks(List<ProposalResearchRisk> proposalResearchRisks) {
-        this.proposalResearchRisks = proposalResearchRisks;
-    }
-
     /**
      * Gets the proposalAwardType attribute.
      * 
@@ -842,6 +834,20 @@ public class Proposal extends PersistableBusinessObjectBase {
     }
 
     /**
+     * @return Returns the proposalResearchRisks.
+     */
+    public List<ProposalResearchRisk> getProposalResearchRisks() {
+        return proposalResearchRisks;
+    }
+
+    /**
+     * @param proposalResearchRisks The proposalResearchRisks to set.
+     */
+    public void setProposalResearchRisks(List<ProposalResearchRisk> proposalResearchRisks) {
+        this.proposalResearchRisks = proposalResearchRisks;
+    }
+
+    /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
@@ -851,5 +857,4 @@ public class Proposal extends PersistableBusinessObjectBase {
         }
         return m;
     }
-
 }

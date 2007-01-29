@@ -15,16 +15,19 @@
  */
 package org.kuali.module.cg.maintenance;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import static org.kuali.PropertyConstants.PROPOSAL_SUBCONTRACTORS;
-import org.kuali.core.maintenance.KualiMaintainableImpl;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.core.maintenance.KualiMaintainableImpl;
+import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.util.AssertionUtils;
 import org.kuali.module.cg.bo.Proposal;
+import org.kuali.module.cg.bo.ProposalResearchRisk;
 import org.kuali.module.cg.bo.ProposalSubcontractor;
+import org.kuali.module.kra.routingform.bo.ResearchRiskType;
 
 /**
  * Methods for the Proposal maintenance document UI.
@@ -71,13 +74,36 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
         super.refresh(refreshCaller, fieldValues, document);
     }
 
+    @Override
+    public void setGenerateDefaultValues(boolean generateDefaultValues) {
+        if (generateDefaultValues) {
+            initResearchRiskTypes();
+        }
+        super.setGenerateDefaultValues(generateDefaultValues);
+    }
+    
+    private void initResearchRiskTypes() {
+        List<ProposalResearchRisk> risks = getProposal().getProposalResearchRisks();
+        AssertionUtils.assertThat(risks.isEmpty());
+        List<ResearchRiskType> researchRiskTypes = SpringServiceLocator.getRoutingFormResearchRiskService().getResearchRiskTypes(new String[0]);
+        for (ResearchRiskType type : researchRiskTypes) {
+            ProposalResearchRisk ppr = new ProposalResearchRisk();
+            ppr.setResearchRiskTypeCode(type.getResearchRiskTypeCode());
+            ppr.setResearchRiskType(type);  // one less refresh
+            risks.add(ppr);
+        }
+    }
+
     private void refreshProposal() {
         getProposal().refreshNonUpdateableReferences();
         // refresh subcontractors
         for (ProposalSubcontractor proposalSubcontractor : getProposal().getProposalSubcontractors()) {
             proposalSubcontractor.refreshNonUpdateableReferences();
         }
-
+        // refresh research risks
+        for (ProposalResearchRisk prr : getProposal().getProposalResearchRisks()) {
+            prr.refreshNonUpdateableReferences();
+        }
     }
 
     private Proposal getProposal() {
@@ -97,6 +123,5 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
             itemToBeAdded.refreshNonUpdateableReferences();
         }
         super.addNewLineToCollection(collectionName);
-
     }
 }

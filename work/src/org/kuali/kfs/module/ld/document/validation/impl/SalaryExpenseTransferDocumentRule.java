@@ -26,7 +26,6 @@ import org.kuali.PropertyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -36,7 +35,6 @@ import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.bo.SalaryExpenseTransferAccountingLine;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
-import org.kuali.module.labor.web.struts.form.SalaryExpenseTransferForm;
 
 /**
  * Business rule(s) applicable to Salary Expense Transfer documents.
@@ -93,18 +91,10 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
             
         }
 
-      // Set the emplid in the header
-      // set all source accounting lines
-      // set all target accounting lines
-
-        System.out.println("Test...");
+        // Save the employee ID in all accounting related lines
         SalaryExpenseTransferDocument salaryExpenseTransferDocument = (SalaryExpenseTransferDocument)transactionalDocument;
-        System.out.println("Test:" + salaryExpenseTransferDocument.getEmplid());
-        
-        SalaryExpenseTransferAccountingLine sal = (SalaryExpenseTransferAccountingLine)accountingLine;
-        sal.setEmplid(salaryExpenseTransferDocument.getEmplid());
-        
-//        accountingLine = accountingLine (salaryExpenseTransferAccountingLine) salaryExpenseTransferDocument.getEmplid();  
+        SalaryExpenseTransferAccountingLine salaryExpenseTransferAccountingLine = (SalaryExpenseTransferAccountingLine)accountingLine;
+        salaryExpenseTransferAccountingLine.setEmplid(salaryExpenseTransferDocument.getEmplid()); 
 
         return true;
     }

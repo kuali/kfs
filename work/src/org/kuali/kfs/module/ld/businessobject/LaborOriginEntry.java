@@ -35,17 +35,18 @@ import org.kuali.module.chart.bo.ProjectCode;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
+import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.bo.UniversityDate;
+import org.kuali.module.gl.exception.LoadException;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class LaborOriginEntry extends OriginEntry {
 
-    private String chartOfAccountsCode;
     private String positionNumber;
     private Date transactionPostingDate;
     private Date payPeriodEndDate;
@@ -73,59 +74,44 @@ public class LaborOriginEntry extends OriginEntry {
     private Date transactionDateTimeStamp;
 
     private ObjectCode laborLedgerOriginalFinancialObject;
-    private ObjectCode financialObject;
-    private Chart chartOfAccounts;
-    private Account account;
     private Chart laborLedgerOriginalChartOfAccounts;
     private Account laborLedgerOriginalAccount;
-    private ObjectType financialObjectType;
-    private BalanceTyp balanceType;
-    private AccountingPeriod universityFiscalPeriod;
-    private DocumentType documentType;
-    private SubAccount subAccount;
-    private SubObjCd financialSubObject;
-    private ProjectCode project;
+    
     private DocumentHeader financialDocument;
     private DocumentType referenceFinancialDocumentType;
     private OriginationCode referenceFinancialSystemOrigination;
     private AccountingPeriod payrollEndDateFiscalPeriod;
     private SubAccount laborLedgerOriginalSubAccount;
     private SubObjCd laborLedgerOriginalFinancialSubObject;
-    private Options option;
-    private UniversityDate reversalDate;
-    private OriginEntryGroup originEntryGroup;
-    private OriginationCode financialSystemOrigination;
+    
+    
     
     /**
      * Default constructor.
      */
-    public LaborOriginEntry() {
-
+    public LaborOriginEntry(GeneralLedgerPendingEntry glpe) {
+        super();
+        
     }
-
     
-
-    /**
-     * Gets the chartOfAccountsCode attribute.
-     * 
-     * @return Returns the chartOfAccountsCode
-     * 
-     */
-    public String getChartOfAccountsCode() { 
-        return chartOfAccountsCode;
+    public LaborOriginEntry(String financialDocumentTypeCode, String financialSystemOriginationCode) {
+        super(financialDocumentTypeCode, financialSystemOriginationCode);
+    }
+    
+    public LaborOriginEntry() {
+        this(null, null);
+    }
+    
+    public LaborOriginEntry(Transaction t) {
+        this();
+        setTransaction(t);
     }
 
-    /**
-     * Sets the chartOfAccountsCode attribute.
-     * 
-     * @param chartOfAccountsCode The chartOfAccountsCode to set.
-     * 
-     */
-    public void setChartOfAccountsCode(String chartOfAccountsCode) {
-        this.chartOfAccountsCode = chartOfAccountsCode;
+    public LaborOriginEntry(String line) {
+        super(line);
+     
     }
-
-
+    
     /**
      * Gets the positionNumber attribute.
      * 
@@ -657,67 +643,7 @@ public class LaborOriginEntry extends OriginEntry {
         this.laborLedgerOriginalFinancialObject = laborLedgerOriginalFinancialObject;
     }
 
-    /**
-     * Gets the financialObject attribute.
-     * 
-     * @return Returns the financialObject
-     * 
-     */
-    public ObjectCode getFinancialObject() { 
-        return financialObject;
-    }
-
-    /**
-     * Sets the financialObject attribute.
-     * 
-     * @param financialObject The financialObject to set.
-     * @deprecated
-     */
-    public void setFinancialObject(ObjectCode financialObject) {
-        this.financialObject = financialObject;
-    }
-
-    /**
-     * Gets the chartOfAccounts attribute.
-     * 
-     * @return Returns the chartOfAccounts
-     * 
-     */
-    public Chart getChartOfAccounts() { 
-        return chartOfAccounts;
-    }
-
-    /**
-     * Sets the chartOfAccounts attribute.
-     * 
-     * @param chartOfAccounts The chartOfAccounts to set.
-     * @deprecated
-     */
-    public void setChartOfAccounts(Chart chartOfAccounts) {
-        this.chartOfAccounts = chartOfAccounts;
-    }
-
-    /**
-     * Gets the account attribute.
-     * 
-     * @return Returns the account
-     * 
-     */
-    public Account getAccount() { 
-        return account;
-    }
-
-    /**
-     * Sets the account attribute.
-     * 
-     * @param account The account to set.
-     * @deprecated
-     */
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
-    /**
+        /**
      * Gets the laborLedgerOriginalChartOfAccounts attribute.
      * 
      * @return Returns the laborLedgerOriginalChartOfAccounts
@@ -758,40 +684,6 @@ public class LaborOriginEntry extends OriginEntry {
     }
 
     /**
-     * Gets the balanceType attribute. 
-     * @return Returns the balanceType.
-     */
-    public BalanceTyp getBalanceType() {
-        return balanceType;
-    }
-
-    /**
-     * Sets the balanceType attribute value.
-     * @param balanceType The balanceType to set.
-     * @deprecated
-     */
-    public void setBalanceType(BalanceTyp balanceType) {
-        this.balanceType = balanceType;
-    }
-
-    /**
-     * Gets the documentType attribute. 
-     * @return Returns the documentType.
-     */
-    public DocumentType getDocumentType() {
-        return documentType;
-    }
-
-    /**
-     * Sets the documentType attribute value.
-     * @param documentType The documentType to set.
-     * @deprecated
-     */
-    public void setDocumentType(DocumentType documentType) {
-        this.documentType = documentType;
-    }
-
-    /**
      * Gets the financialDocument attribute. 
      * @return Returns the financialDocument.
      */
@@ -806,40 +698,6 @@ public class LaborOriginEntry extends OriginEntry {
      */
     public void setFinancialDocument(DocumentHeader financialDocument) {
         this.financialDocument = financialDocument;
-    }
-
-    /**
-     * Gets the financialObjectType attribute. 
-     * @return Returns the financialObjectType.
-     */
-    public ObjectType getFinancialObjectType() {
-        return financialObjectType;
-    }
-
-    /**
-     * Sets the financialObjectType attribute value.
-     * @param financialObjectType The financialObjectType to set.
-     * @deprecated
-     */
-    public void setFinancialObjectType(ObjectType financialObjectType) {
-        this.financialObjectType = financialObjectType;
-    }
-
-    /**
-     * Gets the financialSubObject attribute. 
-     * @return Returns the financialSubObject.
-     */
-    public SubObjCd getFinancialSubObject() {
-        return financialSubObject;
-    }
-
-    /**
-     * Sets the financialSubObject attribute value.
-     * @param financialSubObject The financialSubObject to set.
-     * @deprecated
-     */
-    public void setFinancialSubObject(SubObjCd financialSubObject) {
-        this.financialSubObject = financialSubObject;
     }
 
     /**
@@ -877,23 +735,6 @@ public class LaborOriginEntry extends OriginEntry {
     }
 
     /**
-     * Gets the option attribute. 
-     * @return Returns the option.
-     */
-    public Options getOption() {
-        return option;
-    }
-
-    /**
-     * Sets the option attribute value.
-     * @param option The option to set.
-     * @deprecated
-     */
-    public void setOption(Options option) {
-        this.option = option;
-    }
-
-    /**
      * Gets the payrollEndDateFiscalPeriod attribute. 
      * @return Returns the payrollEndDateFiscalPeriod.
      */
@@ -908,23 +749,6 @@ public class LaborOriginEntry extends OriginEntry {
      */
     public void setPayrollEndDateFiscalPeriod(AccountingPeriod payrollEndDateFiscalPeriod) {
         this.payrollEndDateFiscalPeriod = payrollEndDateFiscalPeriod;
-    }
-
-    /**
-     * Gets the project attribute. 
-     * @return Returns the project.
-     */
-    public ProjectCode getProject() {
-        return project;
-    }
-
-    /**
-     * Sets the project attribute value.
-     * @param project The project to set.
-     * @deprecated
-     */
-    public void setProject(ProjectCode project) {
-        this.project = project;
     }
 
     /**
@@ -961,92 +785,7 @@ public class LaborOriginEntry extends OriginEntry {
         this.referenceFinancialSystemOrigination = referenceFinancialSystemOrigination;
     }
 
-    /**
-     * Gets the reversalDate attribute. 
-     * @return Returns the reversalDate.
-     */
-    public UniversityDate getReversalDate() {
-        return reversalDate;
-    }
-
-    /**
-     * Sets the reversalDate attribute value.
-     * @param reversalDate The reversalDate to set.
-     * @deprecated
-     */
-    public void setReversalDate(UniversityDate reversalDate) {
-        this.reversalDate = reversalDate;
-    }
-
-    /**
-     * Gets the subAccount attribute. 
-     * @return Returns the subAccount.
-     */
-    public SubAccount getSubAccount() {
-        return subAccount;
-    }
-
-    /**
-     * Sets the subAccount attribute value.
-     * @param subAccount The subAccount to set.
-     * @deprecated
-     */
-    public void setSubAccount(SubAccount subAccount) {
-        this.subAccount = subAccount;
-    }
-
-    /**
-     * Gets the universityFiscalPeriod attribute. 
-     * @return Returns the universityFiscalPeriod.
-     */
-    public AccountingPeriod getUniversityFiscalPeriod() {
-        return universityFiscalPeriod;
-    }
-
-    /**
-     * Sets the universityFiscalPeriod attribute value.
-     * @param universityFiscalPeriod The universityFiscalPeriod to set.
-     * @deprecated
-     */
-    public void setUniversityFiscalPeriod(AccountingPeriod universityFiscalPeriod) {
-        this.universityFiscalPeriod = universityFiscalPeriod;
-    }    
-
-    /**
-     * Gets the originEntryGroup. 
-     * @return Returns the originEntryGroup.
-     */    
-    public OriginEntryGroup getOriginEntryGroup() {
-        return originEntryGroup;
-    }
-
-    /**
-     * Sets the originEntryGroup attribute value.
-     * @param originEntryGroup The originEntryGroup to set.
-     * @deprecated
-     */    
-    public void setOriginEntryGroup(OriginEntryGroup originEntryGroup) {
-        this.originEntryGroup = originEntryGroup;
-    }    
-    
-    /**
-     * Gets the financialSystemOrigination attribute. 
-     * @return Returns the financialSystemOrigination.
-     */
-    public OriginationCode getFinancialSystemOrigination() {
-        return financialSystemOrigination;
-    }
-
-    /**
-     * Sets the financialSystemOrigination attribute value.
-     * @param financialSystemOrigination The financialSystemOrigination to set.
-     * @deprecated
-     */
-    public void setFinancialSystemOrigination(OriginationCode financialSystemOrigination) {
-        this.financialSystemOrigination = financialSystemOrigination;
-    }
-
-  /*  *//**
+    /*  *//**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      *//*
     protected LinkedHashMap toStringMapper() {

@@ -28,6 +28,7 @@ import org.kuali.core.util.AssertionUtils;
 import org.kuali.module.cg.bo.Proposal;
 import org.kuali.module.cg.bo.ProposalResearchRisk;
 import org.kuali.module.cg.bo.ProposalSubcontractor;
+import org.kuali.module.cg.lookup.valueFinder.NextProposalNumberFinder;
 import org.kuali.module.kra.routingform.bo.ResearchRiskType;
 
 /**
@@ -42,6 +43,12 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
     public ProposalMaintainableImpl(Proposal proposal) {
         super(proposal);
         this.setBoClass(proposal.getClass());
+    }
+
+    @Override
+    public void processAfterCopy() {
+        getProposal().setProposalNumber(NextProposalNumberFinder.getLongValue());
+        super.processAfterCopy();
     }
 
     /**

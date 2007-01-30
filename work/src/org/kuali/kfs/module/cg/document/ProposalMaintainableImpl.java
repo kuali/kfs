@@ -45,6 +45,9 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
         this.setBoClass(proposal.getClass());
     }
 
+    /**
+     * Use a new proposal number when creating a copy.
+     */
     @Override
     public void processAfterCopy() {
         getProposal().setProposalNumber(NextProposalNumberFinder.getLongValue());

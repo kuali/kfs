@@ -32,6 +32,7 @@ import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganization;
 import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
+import org.kuali.module.cg.lookup.valueFinder.NextProposalNumberFinder;
 
 /**
  * 
@@ -98,7 +99,7 @@ public class Proposal extends PersistableBusinessObjectBase {
     public Proposal(RoutingFormDocument routingFormDocument) {
         this();
         
-        Long newProposalNumber = SpringServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("CGPRPSL_NBR_SEQ");
+        Long newProposalNumber = NextProposalNumberFinder.getLongValue();
         this.setProposalNumber(newProposalNumber);
         this.setProposalStatusCode(PROPOSAL_CODE);
 

@@ -15,7 +15,6 @@
  */
 package org.kuali.module.cg.lookup.valueFinder;
 
-import org.kuali.core.bo.OriginationCode;
 import org.kuali.core.lookup.valueFinder.ValueFinder;
 import org.kuali.core.util.SpringServiceLocator;
 
@@ -30,14 +29,11 @@ public class NextProposalNumberFinder implements ValueFinder {
      * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
-        final String homeCode = SpringServiceLocator.getHomeOriginationService().getHomeOrigination().getFinSystemHomeOriginationCode();
-        // todo: NextSequenceNumberService or the following addition to the Kuali Nervous System, for proper transaction
-        // return SpringServiceLocator.getOriginationCodeService().getNextCgProposalNumberAndIncrement(homeCode).toString();
-        // Until the Kuali project gets around to resolving this, live dangerously without the transaction...
-        OriginationCode o = SpringServiceLocator.getOriginationCodeService().getByPrimaryKey(homeCode);
-        Long next = o.getNextCgProposalNumber();
-        o.setNextCgProposalNumber(next + 1);
-        SpringServiceLocator.getOriginationCodeService().save(o);
-        return next.toString();
+        return getLongValue().toString();
+    }
+    
+    public static Long getLongValue() {
+        // no constant because this is the only place the sequence name is used
+        return SpringServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("CGPRPSL_NBR_SEQ");
     }
 }

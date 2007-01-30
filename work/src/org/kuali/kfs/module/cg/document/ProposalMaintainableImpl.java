@@ -75,6 +75,10 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
         super.refresh(refreshCaller, fieldValues, document);
     }
 
+    /**
+     * This is a hook for initializing the BO from the maintenance framework.
+     * @param generateDefaultValues true for initialization
+     */
     @Override
     public void setGenerateDefaultValues(boolean generateDefaultValues) {
         if (generateDefaultValues) {

@@ -163,6 +163,8 @@
             <forward name="accountICR" path="/jsp/xmlhttp/accountICR.jsp" />
 	    	<forward name="orgLocation" path="/jsp/xmlhttp/orgLocation.jsp" />
             <forward name="accountRestrictedStatusCode" path="/jsp/xmlhttp/accountRestrictedStatusCode.jsp" />
+            <forward name="bcPositionFTE" path="/jsp/xmlhttp/bcPositionFTE.jsp" />
+            
         </action>
 
         <!--  Module Action Mappings -->

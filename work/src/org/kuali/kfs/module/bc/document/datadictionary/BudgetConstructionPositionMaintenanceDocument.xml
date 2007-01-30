@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd" >
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.budget.bo.BudgetConstructionPosition</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>KualiBudgetConstructionPositionMaintenanceDocument</documentTypeName>
+        <documentTypeCode>BCPS</documentTypeCode>
+
+       
+        <webScriptFile>budget/budgetConstructionPositionDocument.js</webScriptFile>
+        
+        <label>Budget Construction Position Maintenance Document</label>
+        <shortLabel>BC - BC Position Maint Doc</shortLabel>
+
+        <summary>Budget Construction Position Maintenance Document</summary>
+        <description>Document used to create or update Budget Construction Position Maintenance Document objects</description>
+
+        <lockingKeys>
+            <field attributeName="positionNumber" />
+            <field attributeName="universityFiscalYear" />
+        </lockingKeys>
+
+        <maintainableSections>
+            <maintainableSection title="Edit BC Position">
+                <maintainableItems>
+                    <maintainableField name="positionNumber" required="true" />
+                    <maintainableField name="positionDescription" required="true"/>
+                    <maintainableField name="universityFiscalYear" required="true" />
+	            	<maintainableField name="positionEffectiveDate" required="false"/>
+	            	<maintainableField name="positionEffectiveStatus" required="true"/>
+	            	<maintainableField name="positionStatus" required="false"/>
+	            	<maintainableField name="setidDepartment" required="false"/>
+	            	<maintainableField name="positionDepartmentIdentifier" required="true"/>
+	            	<maintainableField name="jobCode" required="false"/>
+	            	<maintainableField name="jobCodeDescription" required="false"/>
+	            	<maintainableField name="budgetedPosition" required="true"/>
+	            	<maintainableField name="confidentialPosition" required="false"/>
+	            	<maintainableField name="positionUnionCode" required="false"/>	            	
+	            	<maintainableField name="positionStandardHoursDefault" required="true" webUILeaveFieldFunction="updateBCPositionFTE"/>
+	            	<maintainableField name="iuNormalWorkMonths" required="true" webUILeaveFieldFunction="updateBCPositionFTE"/>
+	            	<maintainableField name="iuPayMonths" required="true" webUILeaveFieldFunction="updateBCPositionFTE"  />
+	            	<maintainableField name="positionFullTimeEquivalency" required="false" readOnly="true" />
+	            	<maintainableField name="positionSalaryPlanDefault" required="true"/>
+	            	<maintainableField name="positionGradeDefault" required="true"/>
+	            	<maintainableField name="responsibilityCenterCode" required="true"/>
+	            	<maintainableField name="setidSalary" required="false"/>
+	            	<maintainableField name="setidJobCode" required="false"/>
+	            	<maintainableField name="iuDefaultObjectCode" required="true"/>
+	            	<maintainableField name="iuPositionType" required="true"/>
+	            	<maintainableField name="positionLockUserIdentifier" required="false"/>
+	            	            	
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>

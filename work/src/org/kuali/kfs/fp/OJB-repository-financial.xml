@@ -2040,6 +2040,9 @@
     <reference-descriptor name="functionControl" class-ref="org.kuali.module.financial.bo.FunctionControlCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="financialSystemFunctionControlCode" />
     </reference-descriptor>
+   	<reference-descriptor name="universityFiscal" class-ref="org.kuali.core.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="universityFiscalYear" />
+    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine" table="FP_BDGT_ADJ_DTL_T">

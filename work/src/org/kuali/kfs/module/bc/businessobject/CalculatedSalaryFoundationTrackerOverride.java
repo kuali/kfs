@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.core.bo.Options;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
@@ -53,7 +54,7 @@ public class CalculatedSalaryFoundationTrackerOverride extends PersistableBusine
 	private Account account;
     private SubAccount subAccount;
     private SubObjCd financialSubObject;
-
+    private Options universityFiscal;
     private List calculatedSalaryFoundationTracker;
     
 	/**
@@ -448,6 +449,22 @@ public class CalculatedSalaryFoundationTrackerOverride extends PersistableBusine
     }    
     
 	/**
+     * Gets the universityFiscal attribute. 
+     * @return Returns the universityFiscal.
+     */
+    public Options getUniversityFiscal() {
+        return universityFiscal;
+    }
+
+    /**
+     * Sets the universityFiscal attribute value.
+     * @param universityFiscal The universityFiscal to set.
+     */
+    public void setUniversityFiscal(Options universityFiscal) {
+        this.universityFiscal = universityFiscal;
+    }
+
+    /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {

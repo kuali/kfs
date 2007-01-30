@@ -55,7 +55,7 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="universityFiscalYear" required="false" noLookup="true" />
+                <lookupField attributeName="universityFiscalYear" required="false"  />
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
                 <lookupField attributeName="accountNumber" required="false" />
                 <lookupField attributeName="subAccountNumber" required="false" />

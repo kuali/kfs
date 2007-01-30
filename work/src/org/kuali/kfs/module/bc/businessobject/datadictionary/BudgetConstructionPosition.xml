@@ -25,32 +25,33 @@
             <title>Budget Construction Position Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="budgetedPosition" />
-                <field attributeName="confidentialPosition" />
-                <field attributeName="iuDefaultObjectCode" />
-                <field attributeName="iuNormalWorkMonths" />
-                <field attributeName="iuPayMonths" />
-                <field attributeName="iuPositionType" />
-                <field attributeName="jobCode" />
-                <field attributeName="jobCodeDescription" />
-                <field attributeName="positionDepartmentIdentifier" />
+            
+                <field attributeName="positionNumber" />
                 <field attributeName="positionDescription" />
+                <field attributeName="universityFiscalYear" />
                 <field attributeName="positionEffectiveDate" />
                 <field attributeName="positionEffectiveStatus" />
-                <field attributeName="positionFullTimeEquivalency" />
-                <field attributeName="positionGradeDefault" />
-                <field attributeName="positionLockUserIdentifier" />
-                <field attributeName="positionNumber" />
-                <field attributeName="positionRegularTemporary" />
-                <field attributeName="positionSalaryPlanDefault" />
-                <field attributeName="positionStandardHoursDefault" />
                 <field attributeName="positionStatus" />
-                <field attributeName="positionUnionCode" />
-                <field attributeName="responsibilityCenterCode" />
                 <field attributeName="setidDepartment" />
-                <field attributeName="setidJobCode" />
+                <field attributeName="positionDepartmentIdentifier" />
+                <field attributeName="jobCode" />
+                <field attributeName="jobCodeDescription" />
+                <field attributeName="budgetedPosition" />
+                <field attributeName="confidentialPosition" />
+                <field attributeName="positionUnionCode" />
+                <field attributeName="positionRegularTemporary" />
+            	<field attributeName="positionStandardHoursDefault" />
+                <field attributeName="iuNormalWorkMonths" />
+                <field attributeName="iuPayMonths" />
+                <field attributeName="positionFullTimeEquivalency" />
+                <field attributeName="positionSalaryPlanDefault" />
+                <field attributeName="positionGradeDefault" />
+                <field attributeName="responsibilityCenterCode" />
                 <field attributeName="setidSalary" />
-                <field attributeName="universityFiscalYear" />
+                <field attributeName="setidJobCode" /> 
+                <field attributeName="iuDefaultObjectCode" />               
+                <field attributeName="iuPositionType" />           
+                <field attributeName="positionLockUserIdentifier" />             
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -67,95 +68,53 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="budgetedPosition" required="false" />
-                <lookupField attributeName="confidentialPosition" required="false" />
-                <lookupField attributeName="iuDefaultObjectCode" required="false" />
-                <lookupField attributeName="iuNormalWorkMonths" required="false" />
-                <lookupField attributeName="iuPayMonths" required="false" />
-                <lookupField attributeName="iuPositionType" required="false" />
-                <lookupField attributeName="jobCode" required="false" />
-                <lookupField attributeName="jobCodeDescription" required="false" />
-                <lookupField attributeName="positionDepartmentIdentifier" required="false" />
-                <lookupField attributeName="positionDescription" required="false" />
-                <lookupField attributeName="positionEffectiveDate" required="false" />
-                <lookupField attributeName="positionEffectiveStatus" required="false" />
-                <lookupField attributeName="positionFullTimeEquivalency" required="false" />
-                <lookupField attributeName="positionGradeDefault" required="false" />
-                <lookupField attributeName="positionLockUserIdentifier" required="false" />
                 <lookupField attributeName="positionNumber" required="false" />
+                <lookupField attributeName="positionDescription" required="false" />
+                <lookupField attributeName="universityFiscalYear" required="false" />
+                <lookupField attributeName="positionDepartmentIdentifier" required="false" />
                 <lookupField attributeName="positionRegularTemporary" required="false" />
                 <lookupField attributeName="positionSalaryPlanDefault" required="false" />
-                <lookupField attributeName="positionStandardHoursDefault" required="false" />
-                <lookupField attributeName="positionStatus" required="false" />
-                <lookupField attributeName="positionUnionCode" required="false" />
-                <lookupField attributeName="responsibilityCenterCode" required="false" />
-                <lookupField attributeName="setidDepartment" required="false" />
-                <lookupField attributeName="setidJobCode" required="false" />
-                <lookupField attributeName="setidSalary" required="false" />
-                <lookupField attributeName="universityFiscalYear" required="false" />
-            </lookupFields>
+                <lookupField attributeName="positionGradeDefault" required="false" />
+                <lookupField attributeName="iuPositionType" required="false" />
+             </lookupFields>
 
             <resultFields>
-                <field attributeName="budgetedPosition" />
-                <field attributeName="confidentialPosition" />
-                <field attributeName="iuDefaultObjectCode" />
-                <field attributeName="iuNormalWorkMonths" />
-                <field attributeName="iuPayMonths" />
-                <field attributeName="iuPositionType" />
-                <field attributeName="jobCode" />
-                <field attributeName="jobCodeDescription" />
-                <field attributeName="positionDepartmentIdentifier" />
-                <field attributeName="positionDescription" />
-                <field attributeName="positionEffectiveDate" />
-                <field attributeName="positionEffectiveStatus" />
-                <field attributeName="positionFullTimeEquivalency" />
-                <field attributeName="positionGradeDefault" />
-                <field attributeName="positionLockUserIdentifier" />
                 <field attributeName="positionNumber" />
-                <field attributeName="positionRegularTemporary" />
-                <field attributeName="positionSalaryPlanDefault" />
-                <field attributeName="positionStandardHoursDefault" />
-                <field attributeName="positionStatus" />
-                <field attributeName="positionUnionCode" />
-                <field attributeName="responsibilityCenterCode" />
-                <field attributeName="setidDepartment" />
-                <field attributeName="setidJobCode" />
-                <field attributeName="setidSalary" />
+                <field attributeName="positionDescription" />
                 <field attributeName="universityFiscalYear" />
+                <field attributeName="positionEffectiveStatus" />
+                <field attributeName="setidDepartment" />
+                <field attributeName="positionDepartmentIdentifier" />
+                <field attributeName="confidentialPosition" />
+                <field attributeName="positionRegularTemporary" />                
+                <field attributeName="positionSalaryPlanDefault" />
+                <field attributeName="positionGradeDefault" />
             </resultFields>
         </lookup>
 
+       <titleAttribute>positionNumber</titleAttribute>
+
         <attributes>
 
-            <attribute name="budgetedPosition" forceUppercase="true">
+            <attributeReference name="budgetedPosition" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Budgeted Position</label>
                 <shortLabel>Position</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>budgetedPosition</summary>
+                <required>true</required>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
                 <description>budgetedPosition description...</description>
-			</attribute>
+            </attributeReference>
 
-            <attribute name="confidentialPosition" forceUppercase="true">
+            <attributeReference name="confidentialPosition" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Confidential Position</label>
-                <shortLabel>Position</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>confidentialPosition</summary>
+                <shortLabel>Conf. Pos.</shortLabel>
+                <required>true</required>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
                 <description>confidentialPosition description...</description>
-			</attribute>
+            </attributeReference>
 
             <attribute name="iuDefaultObjectCode" forceUppercase="true">
                 <label>Iu Default Object Code</label>
@@ -276,25 +235,19 @@
                 <summary>positionDescription</summary>
                 <description>positionDescription description...</description>
 			</attribute>
-
-            <attribute name="positionEffectiveDate" forceUppercase="true">
+			
+            <attributeReference name="positionEffectiveDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
                 <label>Position Effective Date</label>
                 <shortLabel>Date</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>positionEffectiveDate</summary>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
                 <description>positionEffectiveDate description...</description>
-			</attribute>
+            </attributeReference>
 
             <attribute name="positionEffectiveStatus" forceUppercase="true">
                 <label>Position Effective Status</label>
-                <shortLabel>Status</shortLabel>
+                <shortLabel>Pos Eff Status</shortLabel>
 
                 <maxLength>1</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -303,7 +256,7 @@
                     <text size="3" />
                 </control>
 
-                <summary>positionEffectiveStatus</summary>
+                <summary>positionEffectiveStatus </summary>
                 <description>positionEffectiveStatus description...</description>
 			</attribute>
 
@@ -312,7 +265,7 @@
                 <shortLabel>Equivalency</shortLabel>
 
                 <maxLength>9</maxLength>
-                <validationPattern><numeric /></validationPattern>
+                <validationPattern><fixedPoint allowNegative="false" precision="4" scale="2"/></validationPattern>
 
                 <control>
                     <text size="11" />
@@ -402,7 +355,7 @@
                 <shortLabel>Default</shortLabel>
 
                 <maxLength>6</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+                <validationPattern><fixedPoint allowNegative="false" precision="4" scale="2"/></validationPattern>
 
                 <control>
                     <text size="8" />
@@ -411,6 +364,7 @@
                 <summary>positionStandardHoursDefault</summary>
                 <description>positionStandardHoursDefault description...</description>
 			</attribute>
+
 
             <attribute name="positionStatus" forceUppercase="true">
                 <label>Position Status</label>
@@ -423,9 +377,10 @@
                     <text size="3" />
                 </control>
 
-                <summary>positionStatus</summary>
+                <summary>positionStatus </summary>
                 <description>positionStatus description...</description>
 			</attribute>
+
 
             <attribute name="positionUnionCode" forceUppercase="true">
                 <label>Position Union Code</label>
@@ -502,21 +457,16 @@
                 <description>setidSalary description...</description>
 			</attribute>
 
-            <attribute name="universityFiscalYear" forceUppercase="true">
+			<attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
                 <label>University Fiscal Year</label>
                 <shortLabel>Year</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>universityFiscalYear</summary>
-                <description>universityFiscalYear description...</description>
-			</attribute>
-
+                <required>true</required>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>This identifies the fiscal year.</description>
+            </attributeReference>
+            
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>

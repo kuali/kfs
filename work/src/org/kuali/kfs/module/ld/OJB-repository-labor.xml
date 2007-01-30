@@ -1226,7 +1226,7 @@
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="financialObjectCode" />
 	</reference-descriptor>
-	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
 	<reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -1240,13 +1240,13 @@
 		<foreignkey field-ref="laborLedgerOriginalChartOfAccountsCode" />
 		<foreignkey field-ref="laborLedgerOriginalAccountNumber" />
 	</reference-descriptor>
-    <reference-descriptor name="financialObjectType" class-ref="org.kuali.module.chart.bo.ObjectType" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="objectType" class-ref="org.kuali.module.chart.bo.ObjectType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="financialObjectTypeCode" />
     </reference-descriptor>
     <reference-descriptor name="balanceType" class-ref="org.kuali.module.chart.bo.codes.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="financialBalanceTypeCode" />
     </reference-descriptor>
-    <reference-descriptor name="universityFiscalPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="accountingPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="universityFiscalYear" />
         <foreignkey field-ref="universityFiscalPeriodCode" />
     </reference-descriptor>
@@ -1265,7 +1265,12 @@
 		<foreignkey field-ref="financialObjectCode" />
 		<foreignkey field-ref="financialSubObjectCode" />
 	</reference-descriptor>
-    <reference-descriptor name="project" class-ref="org.kuali.module.chart.bo.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+	 <reference-descriptor name="a21SubAccount" class-ref="org.kuali.module.chart.bo.A21SubAccount" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="chartOfAccountsCode" />
+        <foreignkey field-ref="accountNumber" />
+        <foreignkey field-ref="subAccountNumber" />
+    </reference-descriptor>
+	<reference-descriptor name="project" class-ref="org.kuali.module.chart.bo.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="projectCode" />
     </reference-descriptor>
     <reference-descriptor name="financialDocument" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -1277,7 +1282,7 @@
     <reference-descriptor name="referenceFinancialSystemOrigination" class-ref="org.kuali.core.bo.OriginationCode" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="referenceFinancialSystemOriginationCode" />
     </reference-descriptor>
-    <reference-descriptor name="financialSystemOrigination" class-ref="org.kuali.core.bo.OriginationCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="origination" class-ref="org.kuali.core.bo.OriginationCode" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="financialSystemOriginationCode" />
     </reference-descriptor>
     <reference-descriptor name="payrollEndDateFiscalPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -1302,7 +1307,7 @@
     <reference-descriptor name="reversalDate" class-ref="org.kuali.module.gl.bo.UniversityDate" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="financialDocumentReversalDate" />
     </reference-descriptor>
-    <reference-descriptor name="originEntryGroup" class-ref="org.kuali.module.gl.bo.OriginEntryGroup" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="group" class-ref="org.kuali.module.gl.bo.OriginEntryGroup" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="entryGroupId" />
     </reference-descriptor>
 </class-descriptor>

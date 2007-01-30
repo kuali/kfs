@@ -156,6 +156,7 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
                         keyConversion = persistenceStructureService.getForeignKeyFieldName(businessObject.getClass(), attributeRefName, keyName);
                     }
                 }
+
                 Object keyValue = ObjectUtils.getPropertyValue(businessObject, keyConversion);
                 keyValue = (keyValue == null) ? "" : keyValue.toString();
 

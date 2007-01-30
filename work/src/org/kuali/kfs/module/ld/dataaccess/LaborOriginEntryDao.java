@@ -18,6 +18,7 @@ package org.kuali.module.labor.dao;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.OriginEntryDao;
 import org.kuali.module.labor.bo.LaborOriginEntry;
@@ -44,4 +45,8 @@ public interface LaborOriginEntryDao extends OriginEntryDao{
      * @return the origin entries that belong to the given group in either the consolidation manner
      */
     Iterator<Object[]> getConsolidatedEntriesByGroup(OriginEntryGroup group);
+    
+    Collection<LaborOriginEntry> testingLaborGetAllEntries(); 
+    
+    Iterator<LaborOriginEntry> getLaborEntriesByGroup(OriginEntryGroup oeg, int sort);
 }

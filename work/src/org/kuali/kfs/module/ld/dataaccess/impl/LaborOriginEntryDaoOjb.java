@@ -25,7 +25,9 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.PropertyConstants;
+import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
+import org.kuali.module.gl.dao.OriginEntryDao;
 import org.kuali.module.gl.dao.ojb.OriginEntryDaoOjb;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LaborOriginEntry;
@@ -39,6 +41,25 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborOriginEntryDaoOjb.class);
     private Class entryClass = LaborOriginEntry.class;
 
+    private static final String ENTRY_GROUP_ID = "entryGroupId";
+    private static final String ENTRY_ID = "entryId";
+    private static final String FINANCIAL_BALANCE_TYPE_CODE = "financialBalanceTypeCode";
+    private static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
+    private static final String ACCOUNT_NUMBER = "accountNumber";
+    private static final String SUB_ACCOUNT_NUMBER = "subAccountNumber";
+    private static final String FINANCIAL_DOCUMENT_TYPE_CODE = "financialDocumentTypeCode";
+    private static final String FINANCIAL_SYSTEM_ORIGINATION_CODE = "financialSystemOriginationCode";
+    private static final String FINANCIAL_DOCUMENT_REVERSAL_DATE = "financialDocumentReversalDate";
+    private static final String UNIVERSITY_FISCAL_PERIOD_CODE = "universityFiscalPeriodCode";
+    private static final String UNIVERSITY_FISCAL_YEAR = "universityFiscalYear";
+    private static final String FINANCIAL_OBJECT_CODE = "financialObjectCode";
+    private static final String FINANCIAL_SUB_OBJECT_CODE = "financialSubObjectCode";
+    private static final String FINANCIAL_OBJECT_TYPE_CODE = "financialObjectTypeCode";
+    private static final String TRANSACTION_LEDGER_ENTRY_SEQUENCE_NUMBER = "transactionLedgerEntrySequenceNumber";
+    private static final String TRANSACTION_LEDGER_ENTRY_DESCRIPTION = "transactionLedgerEntryDescription";
+    private static final String TRANSACTION_LEDGER_ENTRY_AMOUNT = "transactionLedgerEntryAmount";
+    private static final String TRANSACTION_DEBIT_CREDIT_CODE = "transactionDebitCreditCode";
+    
     /**
      * @see org.kuali.module.labor.dao.LaborOriginEntryDao#getEntriesByGroup(org.kuali.module.gl.bo.OriginEntryGroup)
      */
@@ -128,4 +149,84 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
     public void setEntryClass(Class entryClass) {
         this.entryClass = entryClass;
     }
+    
+    public Collection<LaborOriginEntry> testingLaborGetAllEntries() {
+        LOG.debug("testingGetAllEntries() started");
+
+        Criteria criteria = new Criteria();
+        QueryByCriteria qbc = QueryFactory.newQuery(entryClass, criteria);
+        qbc.addOrderByAscending("entryGroupId");
+        return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+    }
+    
+    public Iterator<LaborOriginEntry> getLaborEntriesByGroup(OriginEntryGroup oeg, int sort) {
+        LOG.debug("getEntriesByGroup() started");
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(ENTRY_GROUP_ID, oeg.getId());
+
+        QueryByCriteria qbc = QueryFactory.newQuery(entryClass, criteria);
+
+        if (sort == OriginEntryDao.SORT_DOCUMENT) {
+            qbc.addOrderByAscending(FINANCIAL_DOCUMENT_TYPE_CODE);
+            qbc.addOrderByAscending(FINANCIAL_SYSTEM_ORIGINATION_CODE);
+            qbc.addOrderByAscending(PropertyConstants.DOCUMENT_NUMBER);
+            qbc.addOrderByAscending(CHART_OF_ACCOUNTS_CODE);
+            qbc.addOrderByAscending(ACCOUNT_NUMBER);
+            qbc.addOrderByAscending(SUB_ACCOUNT_NUMBER);
+            qbc.addOrderByAscending(FINANCIAL_BALANCE_TYPE_CODE);
+            qbc.addOrderByAscending(FINANCIAL_DOCUMENT_REVERSAL_DATE);
+            qbc.addOrderByAscending(UNIVERSITY_FISCAL_PERIOD_CODE);
+            qbc.addOrderByAscending(UNIVERSITY_FISCAL_YEAR);
+            // The above order by fields are required by the scrubber process. Adding these
+            // fields makes the data in the exact same order as the COBOL scrubber.
+            qbc.addOrderByAscending(FINANCIAL_OBJECT_CODE);
+            qbc.addOrderByAscending(FINANCIAL_SUB_OBJECT_CODE);
+            qbc.addOrderByAscending(FINANCIAL_BALANCE_TYPE_CODE);
+            qbc.addOrderByAscending(FINANCIAL_OBJECT_TYPE_CODE);
+            qbc.addOrderByAscending(UNIVERSITY_FISCAL_PERIOD_CODE);
+            qbc.addOrderByAscending(FINANCIAL_DOCUMENT_TYPE_CODE);
+            qbc.addOrderByAscending(FINANCIAL_SYSTEM_ORIGINATION_CODE);
+            qbc.addOrderByAscending(PropertyConstants.DOCUMENT_NUMBER);
+            qbc.addOrderByAscending(TRANSACTION_LEDGER_ENTRY_SEQUENCE_NUMBER);
+            qbc.addOrderByAscending(TRANSACTION_LEDGER_ENTRY_DESCRIPTION);
+            qbc.addOrderByAscending(TRANSACTION_LEDGER_ENTRY_AMOUNT);
+            qbc.addOrderByAscending(TRANSACTION_DEBIT_CREDIT_CODE);
+        } else if (sort == OriginEntryDao.SORT_REPORT ) {
+            qbc.addOrderByAscending(FINANCIAL_DOCUMENT_TYPE_CODE);
+            qbc.addOrderByAscending(FINANCIAL_SYSTEM_ORIGINATION_CODE);
+            qbc.addOrderByAscending(PropertyConstants.DOCUMENT_NUMBER);
+            qbc.addOrderByAscending(TRANSACTION_DEBIT_CREDIT_CODE);            
+            qbc.addOrderByAscending(CHART_OF_ACCOUNTS_CODE);
+            qbc.addOrderByAscending(ACCOUNT_NUMBER);
+            qbc.addOrderByAscending(FINANCIAL_OBJECT_CODE);
+        } else if(sort == OriginEntryDao.SORT_LISTING_REPORT ) {
+            qbc.addOrderByAscending(UNIVERSITY_FISCAL_YEAR);
+            qbc.addOrderByAscending(CHART_OF_ACCOUNTS_CODE);
+            qbc.addOrderByAscending(ACCOUNT_NUMBER);
+            qbc.addOrderByAscending(FINANCIAL_OBJECT_CODE);
+            qbc.addOrderByAscending(FINANCIAL_OBJECT_TYPE_CODE);
+            qbc.addOrderByAscending(FINANCIAL_BALANCE_TYPE_CODE);
+            qbc.addOrderByAscending(UNIVERSITY_FISCAL_PERIOD_CODE);
+            qbc.addOrderByAscending(FINANCIAL_DOCUMENT_TYPE_CODE);
+            qbc.addOrderByAscending(FINANCIAL_SYSTEM_ORIGINATION_CODE);
+            qbc.addOrderByAscending(PropertyConstants.DOCUMENT_NUMBER);
+            qbc.addOrderByAscending(TRANSACTION_LEDGER_ENTRY_DESCRIPTION);            
+        }
+        else {
+            qbc.addOrderByAscending(CHART_OF_ACCOUNTS_CODE);
+            qbc.addOrderByAscending(ACCOUNT_NUMBER);
+            qbc.addOrderByAscending(SUB_ACCOUNT_NUMBER);
+            qbc.addOrderByAscending(FINANCIAL_OBJECT_CODE);
+            qbc.addOrderByAscending(FINANCIAL_OBJECT_TYPE_CODE);
+            qbc.addOrderByAscending(UNIVERSITY_FISCAL_PERIOD_CODE);
+            qbc.addOrderByAscending(FINANCIAL_DOCUMENT_TYPE_CODE);
+            qbc.addOrderByAscending(FINANCIAL_SYSTEM_ORIGINATION_CODE);
+            qbc.addOrderByAscending(PropertyConstants.DOCUMENT_NUMBER);
+            qbc.addOrderByAscending(TRANSACTION_LEDGER_ENTRY_DESCRIPTION);
+        }
+
+        return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
+    }
+    
 }

@@ -17,6 +17,7 @@ package org.kuali.module.cg.maintenance;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Collection;
 
 import static org.kuali.PropertyConstants.PROPOSAL_SUBCONTRACTORS;
 import org.kuali.core.bo.PersistableBusinessObject;
@@ -85,7 +86,9 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
     private void initResearchRiskTypes() {
         List<ProposalResearchRisk> risks = getProposal().getProposalResearchRisks();
         AssertionUtils.assertThat(risks.isEmpty());
-        List<ResearchRiskType> researchRiskTypes = SpringServiceLocator.getRoutingFormResearchRiskService().getResearchRiskTypes(new String[0]);
+        // todo: make an FS_PARM_T parameter for this and get it from KualiConfigurationService 
+        final String[] riskTypeCodesToExclude = new String[0];
+        List<ResearchRiskType> researchRiskTypes = SpringServiceLocator.getRoutingFormResearchRiskService().getResearchRiskTypes(riskTypeCodesToExclude);
         for (ResearchRiskType type : researchRiskTypes) {
             ProposalResearchRisk ppr = new ProposalResearchRisk();
             ppr.setResearchRiskTypeCode(type.getResearchRiskTypeCode());
@@ -95,14 +98,16 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
     }
 
     private void refreshProposal() {
-        getProposal().refreshNonUpdateableReferences();
-        // refresh subcontractors
-        for (ProposalSubcontractor proposalSubcontractor : getProposal().getProposalSubcontractors()) {
-            proposalSubcontractor.refreshNonUpdateableReferences();
-        }
-        // refresh research risks
-        for (ProposalResearchRisk prr : getProposal().getProposalResearchRisks()) {
-            prr.refreshNonUpdateableReferences();
+        Proposal p = getProposal();
+        p.refreshNonUpdateableReferences();
+        refreshNonUpdateableReferences(p.getProposalSubcontractors());
+        refreshNonUpdateableReferences(p.getProposalResearchRisks());
+    }
+    
+    // todo: move to ObjectUtils?
+    private static void refreshNonUpdateableReferences(Collection<? extends PersistableBusinessObject> collection) {
+        for (PersistableBusinessObject item : collection) {
+            item.refreshNonUpdateableReferences();
         }
     }
 

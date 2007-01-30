@@ -115,6 +115,7 @@
                         <maintainableField name="proposalSubcontractorAmount">
 							<defaultValue>0.00</defaultValue>
 						</maintainableField>
+						<maintainableField name="versionNumber" />
                         <summaryFields>
                             <summaryField name="subcontractor.subcontractorName" />
                             <summaryField name="proposalSubcontractorAmount" />

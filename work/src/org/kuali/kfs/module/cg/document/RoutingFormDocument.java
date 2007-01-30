@@ -32,6 +32,9 @@ import org.kuali.module.kra.document.ResearchDocumentBase;
 import org.kuali.module.kra.routingform.bo.ContractGrantProposal;
 import org.kuali.module.kra.routingform.bo.Purpose;
 import org.kuali.module.kra.routingform.bo.ResearchTypeCode;
+import org.kuali.module.kra.routingform.bo.RoutingFormAdHocOrg;
+import org.kuali.module.kra.routingform.bo.RoutingFormAdHocPerson;
+import org.kuali.module.kra.routingform.bo.RoutingFormAdHocWorkgroup;
 import org.kuali.module.kra.routingform.bo.RoutingFormAgency;
 import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
 import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
@@ -128,6 +131,10 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private List<RoutingFormOrganization> routingFormOrganizations;
     private List<RoutingFormProjectType> routingFormProjectTypes;
     
+    private List<RoutingFormAdHocPerson> routingFormAdHocPeople;
+    private List<RoutingFormAdHocOrg> routingFormAdHocOrgs;
+    private List<RoutingFormAdHocWorkgroup> routingFormAdHocWorkgroups;
+    
     //Sequence numbers for keeping track of the 'next' number
     private Integer routingFormNextInstitutionCostShareSequenceNumber;
     private Integer routingFormNextOtherCostShareSequenceNumber;
@@ -156,6 +163,10 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         routingFormQuestions = new ArrayList<RoutingFormQuestion>();
         routingFormOrganizations = new ArrayList<RoutingFormOrganization>();
         routingFormProjectTypes = new ArrayList<RoutingFormProjectType>();
+        
+        routingFormAdHocPeople = new ArrayList<RoutingFormAdHocPerson>();
+        routingFormAdHocOrgs = new ArrayList<RoutingFormAdHocOrg>();
+        routingFormAdHocWorkgroups = new ArrayList<RoutingFormAdHocWorkgroup>();
 	}
 
     public void initialize() {
@@ -1732,6 +1743,93 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         return (RoutingFormProjectType) getRoutingFormProjectTypes().get(index);
     }
     
+    /**
+     * Gets the routingFormAdHocOrgs attribute. 
+     * @return Returns the routingFormAdHocOrgs.
+     */
+    public List<RoutingFormAdHocOrg> getRoutingFormAdHocOrgs() {
+        return routingFormAdHocOrgs;
+    }
+
+    /**
+     * Sets the routingFormAdHocOrgs attribute value.
+     * @param routingFormAdHocOrgs The routingFormAdHocOrgs to set.
+     */
+    public void setRoutingFormAdHocOrgs(List<RoutingFormAdHocOrg> routingFormAdHocOrgs) {
+        this.routingFormAdHocOrgs = routingFormAdHocOrgs;
+    }
+    
+    /**
+     * Gets the RoutingFormAdHocOrg item at given index.
+     * 
+     * @param index
+     * @return RoutingFormAdHocOrg
+     */
+    public RoutingFormAdHocOrg getRoutingFormAdHocOrg(int index) {
+        while (this.getRoutingFormAdHocOrgs().size() <= index) {
+            this.getRoutingFormAdHocOrgs().add(new RoutingFormAdHocOrg());
+        }
+        return this.getRoutingFormAdHocOrgs().get(index);
+    }
+    
+    /**
+     * Gets the routingFormAdHocPeople attribute. 
+     * @return Returns the routingFormAdHocPeople.
+     */
+    public List<RoutingFormAdHocPerson> getRoutingFormAdHocPeople() {
+        return routingFormAdHocPeople;
+    }
+
+    /**
+     * Sets the routingFormAdHocPeople attribute value.
+     * @param routingFormAdHocPeople The routingFormAdHocPeople to set.
+     */
+    public void setRoutingFormAdHocPeople(List<RoutingFormAdHocPerson> routingFormAdHocPeople) {
+        this.routingFormAdHocPeople = routingFormAdHocPeople;
+    }
+    
+    /**
+     * Gets the RoutingFormAdHocPerson item at given index.
+     * 
+     * @param index
+     * @return RoutingFormAdHocPerson
+     */
+    public RoutingFormAdHocPerson getRoutingFormAdHocPerson(int index) {
+        while (this.getRoutingFormAdHocPeople().size() <= index) {
+            this.getRoutingFormAdHocPeople().add(new RoutingFormAdHocPerson());
+        }
+        return this.getRoutingFormAdHocPeople().get(index);
+    }
+
+    /**
+     * Gets the routingFormAdHocWorkgroups attribute. 
+     * @return Returns the routingFormAdHocWorkgroups.
+     */
+    public List<RoutingFormAdHocWorkgroup> getRoutingFormAdHocWorkgroups() {
+        return routingFormAdHocWorkgroups;
+    }
+
+    /**
+     * Sets the routingFormAdHocWorkgroups attribute value.
+     * @param routingFormAdHocWorkgroups The routingFormAdHocWorkgroups to set.
+     */
+    public void setRoutingFormAdHocWorkgroups(List<RoutingFormAdHocWorkgroup> routingFormAdHocWorkgroups) {
+        this.routingFormAdHocWorkgroups = routingFormAdHocWorkgroups;
+    }
+    
+    /**
+     * Gets the RoutingFormAdHocWorkgroup item at given index.
+     * 
+     * @param index
+     * @return RoutingFormAdHocWorkgroup
+     */
+    public RoutingFormAdHocWorkgroup getRoutingFormAdHocWorkgroup(int index) {
+        while (this.getRoutingFormAdHocWorkgroups().size() <= index) {
+            this.getRoutingFormAdHocWorkgroups().add(new RoutingFormAdHocWorkgroup());
+        }
+        return this.getRoutingFormAdHocWorkgroups().get(index);
+    }
+
     /**
      * Sums percent financial aid from all personnel and organizations.
      * @return total financial aid for summary display

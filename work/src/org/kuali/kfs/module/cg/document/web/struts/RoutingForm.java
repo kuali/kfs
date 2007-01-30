@@ -25,6 +25,9 @@ import org.kuali.module.kra.budget.web.struts.form.BudgetOverviewFormHelper;
 import org.kuali.module.kra.document.ResearchDocument;
 import org.kuali.module.kra.routingform.bo.ProjectType;
 import org.kuali.module.kra.routingform.bo.Purpose;
+import org.kuali.module.kra.routingform.bo.RoutingFormAdHocOrg;
+import org.kuali.module.kra.routingform.bo.RoutingFormAdHocPerson;
+import org.kuali.module.kra.routingform.bo.RoutingFormAdHocWorkgroup;
 import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganization;
@@ -67,6 +70,11 @@ public class RoutingForm extends ResearchDocumentFormBase {
     private boolean templateAddress;
     private boolean templateAdHocPermissions;
     private boolean templateAdHocApprovers;
+    
+    //Permissions
+    private RoutingFormAdHocPerson newAdHocPerson;
+    private RoutingFormAdHocOrg newAdHocOrg;
+    private RoutingFormAdHocWorkgroup newAdHocWorkgroup;
     
     public RoutingForm() {
         super();
@@ -263,5 +271,52 @@ public class RoutingForm extends ResearchDocumentFormBase {
     public void setAllPeriodsSelected(boolean allPeriodsSelected) {
         this.allPeriodsSelected = allPeriodsSelected;
     }
+    
+    /**
+     * Gets the newAdHocPerson attribute. 
+     * @return Returns the newAdHocPerson.
+     */
+    public RoutingFormAdHocPerson getNewAdHocPerson() {
+        return newAdHocPerson;
+    }
 
+    /**
+     * Sets the newAdHocPerson attribute value.
+     * @param newAdHocPerson The newAdHocPerson to set.
+     */
+    public void setNewAdHocPerson(RoutingFormAdHocPerson newAdHocPerson) {
+        this.newAdHocPerson = newAdHocPerson;
+    }
+
+    /**
+     * Gets the newAdHocOrg attribute. 
+     * @return Returns the newAdHocOrg.
+     */
+    public RoutingFormAdHocOrg getNewAdHocOrg() {
+        return newAdHocOrg;
+    }
+
+    /**
+     * Sets the newAdHocOrg attribute value.
+     * @param newAdHocOrg The newAdHocOrg to set.
+     */
+    public void setNewAdHocOrg(RoutingFormAdHocOrg newAdHocOrg) {
+        this.newAdHocOrg = newAdHocOrg;
+    }
+
+    /**
+     * Gets the newAdHocWorkgroup attribute. 
+     * @return Returns the newAdHocWorkgroup.
+     */
+    public RoutingFormAdHocWorkgroup getNewAdHocWorkgroup() {
+        return newAdHocWorkgroup;
+    }
+
+    /**
+     * Sets the newAdHocWorkgroup attribute value.
+     * @param newAdHocWorkgroup The newAdHocWorkgroup to set.
+     */
+    public void setNewAdHocWorkgroup(RoutingFormAdHocWorkgroup newAdHocWorkgroup) {
+        this.newAdHocWorkgroup = newAdHocWorkgroup;
+    }
 }

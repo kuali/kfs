@@ -64,7 +64,7 @@
     
 		<bean id="laborOriginEntryService" class="org.kuali.module.labor.service.impl.LaborOriginEntryServiceImpl">
 		<property name="laborOriginEntryDao">
-			<ref bean="ldOriginEntryDao" />
+			<ref bean="laborOriginEntryDao" />
 		</property>
 		<property name="originEntryGroupService">
 			<ref bean="glOriginEntryGroupService" />
@@ -72,12 +72,60 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
+		<property name="originEntryDao">
+			<ref bean="glOriginEntryDao" />
+		</property>
 	</bean>
 	
-	<bean id="ldOriginEntryDao" class="org.kuali.module.labor.dao.ojb.LaborOriginEntryDaoOjb">
+	<bean id="laborOriginEntryDao" class="org.kuali.module.labor.dao.ojb.LaborOriginEntryDaoOjb">
 		<property name="jcdAlias">
 			<value>dataSource</value>
 		</property>
+	    <property name="entryClass">
+            <bean class="java.lang.Class" factory-method="forName">
+                 <constructor-arg value="org.kuali.module.labor.bo.LaborOriginEntry"/>
+            </bean>
+        </property>
 	</bean>
+	
+	<bean id="laborScrubberService" class="org.kuali.module.labor.service.impl.LaborScrubberServiceImpl">
+		<property name="flexibleOffsetAccountService">
+			<ref bean="flexibleOffsetAccountService" />
+		</property>
+		<property name="documentTypeService">
+			<ref bean="documentTypeService" />
+		</property>
+		<property name="laborOriginEntryService">
+			<ref bean="laborOriginEntryService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="offsetDefinitionService">
+			<ref bean="offsetDefinitionService" />
+		</property>
+		<property name="objectCodeService">
+			<ref bean="objectCodeService" />
+		</property>
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+		<property name="universityDateDao">
+			<ref bean="universityDateDao" />
+		</property>
+		<property name="originEntryGroupService">
+			<ref bean="glOriginEntryGroupService" />
+		</property>
+		<property name="persistenceService">
+			<ref bean="persistenceService" />
+		</property>
+		<property name="reportService">
+			<ref bean="glReportService" />
+		</property>
+		<property name="scrubberValidator">
+			<ref bean="laborScrubberValidator" />
+		</property>
+	</bean>
+	
 	
 </beans>

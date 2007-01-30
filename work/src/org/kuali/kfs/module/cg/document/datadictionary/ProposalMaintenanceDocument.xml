@@ -140,5 +140,8 @@
             </maintainableSection>
 
         </maintainableSections>
+               
+        <allowsNoteDelete>false</allowsNoteDelete>
+        <displayTopicFieldInNotes>true</displayTopicFieldInNotes>
     </maintenanceDocument>
 </dictionaryEntry>

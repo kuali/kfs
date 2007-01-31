@@ -991,6 +991,7 @@
 
 <class-descriptor class="org.kuali.module.kra.routingform.bo.ControlAttributeType" table="ER_CTRL_ATTRIB_TYP_T">
 	<field-descriptor name="controlAttributeTypeCode" column="CTRL_ATTRIB_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="controlAttributeTypeDescription" column="CTRL_ATTRIB_TYP_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="dataObjectMaintenanceCodeActiveIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>

@@ -26,6 +26,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 public class ControlAttributeType extends PersistableBusinessObjectBase {
 
 	private String controlAttributeTypeCode;
+    private String controlAttributeTypeDescription;
 	private boolean dataObjectMaintenanceCodeActiveIndicator;
 	private boolean requiredIndicator;
 
@@ -55,9 +56,24 @@ public class ControlAttributeType extends PersistableBusinessObjectBase {
 	public void setControlAttributeTypeCode(String controlAttributeTypeCode) {
 		this.controlAttributeTypeCode = controlAttributeTypeCode;
 	}
-
-
+    
 	/**
+     * Gets the controlAttributeTypeDescription attribute. 
+     * @return Returns the controlAttributeTypeDescription.
+     */
+    public String getControlAttributeTypeDescription() {
+        return controlAttributeTypeDescription;
+    }
+
+    /**
+     * Sets the controlAttributeTypeDescription attribute value.
+     * @param controlAttributeTypeDescription The controlAttributeTypeDescription to set.
+     */
+    public void setControlAttributeTypeDescription(String controlAttributeTypeDescription) {
+        this.controlAttributeTypeDescription = controlAttributeTypeDescription;
+    }
+
+    /**
 	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
 	 * 
 	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator

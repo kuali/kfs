@@ -26,6 +26,7 @@
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="controlAttributeTypeCode" />
+                <field attributeName="controlAttributeTypeDescription" />
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
                 <field attributeName="requiredIndicator" />
             </inquiryFields></inquirySection></inquirySections>
@@ -44,12 +45,14 @@
 
             <lookupFields>
                 <lookupField attributeName="controlAttributeTypeCode" required="false" />
+                <lookupField attributeName="controlAttributeTypeDescription" required="false" />
                 <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
                 <lookupField attributeName="requiredIndicator" required="false" />
             </lookupFields>
 
             <resultFields>
                 <field attributeName="controlAttributeTypeCode" />
+                <field attributeName="controlAttributeTypeDescription" />
                 <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
                 <field attributeName="requiredIndicator" />
             </resultFields>
@@ -70,6 +73,21 @@
 
                 <summary>controlAttributeTypeCode</summary>
                 <description>controlAttributeTypeCode description...</description>
+			</attribute>
+			
+			<attribute name="controlAttributeTypeDescription" forceUppercase="false">
+                <label>Control Attribute Type Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>100</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="20" />
+                </control>
+
+                <summary>controlAttributeTypeDescription</summary>
+                <description>controlAttributeTypeDescription description...</description>
 			</attribute>
 
             <attribute name="dataObjectMaintenanceCodeActiveIndicator" forceUppercase="true">

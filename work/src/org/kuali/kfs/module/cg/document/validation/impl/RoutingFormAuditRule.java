@@ -16,17 +16,20 @@
 package org.kuali.module.kra.routingform.rules;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
+import org.kuali.module.kra.routingform.bo.RoutingFormProjectType;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.util.AuditCluster;
 import org.kuali.module.kra.util.AuditError;
@@ -201,70 +204,74 @@ public class RoutingFormAuditRule {
             auditErrors.add(new AuditError("document.previousFederalIdentifier", KraKeyConstants.AUDIT_MAIN_PAGE_SUBMISSION_TYPE_FEDID_REQUIRED, "mainpage"));
         }
 
-        /* TODO implement project type audit logic. Sample code shown is from ERA. */
-        // Hard Audit Error: Select a project type.
-        // Hard Audit Error: Project type-Describe the Other type action.
+        String projectTypes[] = new String[routingFormDocument.getRoutingFormProjectTypes().size()];
         
-        // Hard Audit Error: PRIOR Grant # not valid if TYPE is "New" - for a revised submission, use Current Grant # field to identify.
-        // prpslTypesForm.getPrpsl_new_ind().equals("Y") && (prpslForm.getPrpsl_prior_grant_nbr() != null && !prpslForm.getPrpsl_prior_grant_nbr().equals(""))
+        // Could do asList(projectTypes).contains but that's a bit less efficient since we need to check for quiet a few of them.
+        boolean projectTypeNew = false;
+        boolean projectTypeTimeExtention = false;
+        boolean projectTypeBudgetRevisionActive = false;
+        boolean projectTypeBudgetRevisionPending = false;
+        boolean projectTypeOther = false;
         
-        // Hard Audit Error: Current IU Proposal # field only permitted with Time Extension, Budget Revision, or Other.
-        // prpslTypesForm.getPrpsl_new_ind().equals("Y") || prpslTypesForm.getPrpsl_rnwl_ind().equals("Y") || prpslTypesForm.getPrpsl_rnwl_prev_cmt_ind().equals("Y") || prpslTypesForm.getPrpsl_supl_fnd_ind().equals("Y")) && (cgprpsl_nbr != null && !cgprpsl_nbr.equals("")) && !prpslForm.getPrpsl_stat_cd().equals("A")
+        if (routingFormDocument.getRoutingFormProjectTypes() == null || routingFormDocument.getRoutingFormProjectTypes().size() == 0) {
+            valid = false;
+            auditErrors.add(new AuditError("document.routingFormProjectTypes", KraKeyConstants.AUDIT_MAIN_PAGE_PROJECT_TYPE_REQUIRED, "mainpage"));
+        } else if (routingFormDocument.getRoutingFormProjectTypes() != null) {
+            int i = 0;
+            for(RoutingFormProjectType routingFormProjectType : routingFormDocument.getRoutingFormProjectTypes()) {
+                projectTypes[i] = routingFormProjectType.getProjectTypeCode();
+                
+                if (routingFormProjectType.getProjectTypeCode().equals(KraConstants.PROJECT_TYPE_NEW)) {
+                    projectTypeNew = true;
+                } else if (routingFormProjectType.getProjectTypeCode().equals(KraConstants.PROJECT_TYPE_TIME_EXTENTION)) {
+                    projectTypeTimeExtention = true;
+                } else if (routingFormProjectType.getProjectTypeCode().equals(KraConstants.PROJECT_TYPE_BUDGET_REVISION_ACTIVE)) {
+                    projectTypeBudgetRevisionActive = true;
+                } else if (routingFormProjectType.getProjectTypeCode().equals(KraConstants.PROJECT_TYPE_BUDGET_REVISION_PENDING)) {
+                    projectTypeBudgetRevisionPending = true;
+                } else if (routingFormProjectType.getProjectTypeCode().equals(KraConstants.PROJECT_TYPE_OTHER)) {
+                    projectTypeOther = true;
+                    
+                    if (ObjectUtils.isNull(routingFormDocument.getProjectTypeOtherDescription())) {
+                        valid = false;
+                        auditErrors.add(new AuditError("document.projectTypeOtherDescription", KraKeyConstants.AUDIT_MAIN_PAGE_PROJECT_TYPE_OTHER_REQUIRED, "mainpage"));
+                    }
+                }
+                
+                i++;
+            }
+            
+            // It's important to sort because KraDevelopmentGroup.KraRoutingFormProjectTypesValid has elements in alphabetic order.
+            Arrays.sort(projectTypes);
+            
+            // We could use .toString but rather not rely on the representation implementation of that.
+            String projectTypesString = "";
+            for(i = 0; i < projectTypes.length; i++) {
+                projectTypesString += projectTypes[i];
+                if (projectTypes.length != i+1) {
+                    projectTypesString += ",";
+                }
+            }
+            
+            String[] projectTypesValid = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValues("KraDevelopmentGroup", "KraRoutingFormProjectTypesValid");
+            List<String> projectTypesValidList = Arrays.asList(projectTypesValid);
+            if (!projectTypesValidList.contains(projectTypesString)) {
+                valid = false;
+                auditErrors.add(new AuditError("document.routingFormProjectTypes", KraKeyConstants.AUDIT_MAIN_PAGE_PROJECT_TYPE_INVALID, "mainpage"));
+            }
+        }
         
-        // Hard Audit Error: Invalid project type combination (See Help Screen).
-//        if(prpslTypesForm.getPrpsl_new_ind().equals("Y")) {
-//            typeSelectionAsString += "10,";
-//          }
-//          if(prpslTypesForm.getPrpsl_rnwl_ind().equals("Y")) {
-//            typeSelectionAsString += "20,";
-//          }
-//          if(prpslTypesForm.getPrpsl_rnwl_prev_cmt_ind().equals("Y")) {
-//            typeSelectionAsString += "30,";
-//          }
-//          if(prpslTypesForm.getPrpsl_supl_fnd_ind().equals("Y")) {
-//            typeSelectionAsString += "40,";
-//          }
-//          if(prpslTypesForm.getPrpsl_tm_extns_ind().equals("Y")) {
-//            typeSelectionAsString += "50,";
-//          }
-//          if(prpslTypesForm.getPrpsl_bdgt_rvsn_actv_ind().equals("Y")) {
-//            typeSelectionAsString += "60,";
-//          }
-//          if(prpslTypesForm.getPrpsl_bdgt_rvsn_pend_ind().equals("Y")) {
-//            typeSelectionAsString += "70,";
-//          }
-//          if(prpslTypesForm.getPrpsl_othr_ind().equals("Y")) {
-//            typeSelectionAsString += "80,";
-//          }
-//          // It can be left empty (this is not an invalid combination, see runAudit
-//          // -- it's a seperate error).
-//          validTypeSelection.add("");
-//
-//          // 8 atomic selections
-//          validTypeSelection.add("10,");
-//          validTypeSelection.add("20,");
-//          validTypeSelection.add("30,");
-//          validTypeSelection.add("40,");
-//          validTypeSelection.add("50,");
-//          validTypeSelection.add("60,");
-//          validTypeSelection.add("70,");
-//          validTypeSelection.add("80,");
-//
-//          // 13 other selections
-//          validTypeSelection.add("10,80,");
-//          validTypeSelection.add("20,80,");
-//          validTypeSelection.add("30,80,");
-//          validTypeSelection.add("40,50,");
-//          validTypeSelection.add("40,50,80,");
-//          validTypeSelection.add("40,60,");
-//          validTypeSelection.add("40,60,80,");
-//          validTypeSelection.add("40,80,");
-//          validTypeSelection.add("50,60,");
-//          validTypeSelection.add("50,60,80,");
-//          validTypeSelection.add("50,80,");
-//          validTypeSelection.add("60,80,");
-//          validTypeSelection.add("70,80,");
+        if (ObjectUtils.isNotNull(routingFormDocument.getRoutingFormPriorGrantNumber()) && projectTypeNew) {
+            valid = false;
+            auditErrors.add(new AuditError("document.routingFormPriorGrantNumber", KraKeyConstants.AUDIT_MAIN_PAGE_PROJECT_TYPE_NEW_AND_PRIOR_GRANT, "mainpage"));
+        }
 
+        if (ObjectUtils.isNotNull(routingFormDocument.getGrantNumber()) && 
+                !(projectTypeTimeExtention || projectTypeBudgetRevisionActive || projectTypeBudgetRevisionPending || projectTypeOther)) {
+            valid = false;
+            auditErrors.add(new AuditError("document.grantNumber", KraKeyConstants.AUDIT_MAIN_PAGE_PROJECT_TYPE_SELECTION_AND_GRANT, "mainpage"));
+        }
+        
         if (ObjectUtils.isNull(routingFormDocument.getRoutingFormPurposeCode())) {
             valid = false;
             auditErrors.add(new AuditError("document.routingFormPurposeCode", KraKeyConstants.AUDIT_MAIN_PAGE_PURPOSE_REQUIRED, "mainpage"));

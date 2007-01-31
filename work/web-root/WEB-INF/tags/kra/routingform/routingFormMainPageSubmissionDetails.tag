@@ -21,7 +21,7 @@
 <c:set var="routingFormKeywordAttributes" value="${DataDictionary.RoutingFormKeyword.attributes}" />
 <c:set var="contractGrantProposalAttributes" value="${DataDictionary.ContractGrantProposal.attributes}" />
 
-<kul:tab tabTitle="Submission Details" defaultOpen="true" tabErrorKey="newRoutingFormKeyword*,document.contractGrantProposal*,document.projectAbstract,document.routingFormProjectTitle,document.routingFormBudget*" auditCluster="mainPageAuditErrors" tabAuditKey="document.routingFormBudget*,document.submissionTypeCode,document.previousFederalIdentifier,document.routingFormPurposeCode,document.routingFormOtherPurposeDescription,document.routingFormProjectTitle,document.projectAbstract">
+<kul:tab tabTitle="Submission Details" defaultOpen="true" tabErrorKey="newRoutingFormKeyword*,document.contractGrantProposal*,document.projectAbstract,document.routingFormProjectTitle,document.routingFormBudget*" auditCluster="mainPageAuditErrors" tabAuditKey="document.routingFormBudget*,document.submissionTypeCode,document.previousFederalIdentifier,document.routingFormPurposeCode,document.routingFormOtherPurposeDescription,document.routingFormProjectTitle,document.projectAbstract,document.routingFormProjectTypes*,document.projectTypeOtherDescription,document.routingFormPriorGrantNumber,document.grantNumber">
 
           <div class="tab-container" align="center">
             <div class="h2-container">

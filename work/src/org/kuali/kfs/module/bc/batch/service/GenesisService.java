@@ -26,11 +26,18 @@ public interface GenesisService {
     */ 
     public void stepBudgetConstructionGLLoad (Integer universityFiscalYear);
 
+    // this step clears out the database for genesis
+    public void clearDBForGenesis(Integer BaseYear);   
+    
+    // this step creates "placeholder" budget construction headers (no document numbers)
+    // in a transactional step, so we can minimize database calls
+    public void createProxyBCHeadersTransactional(Integer BaseYear);
+    
+    // once all needed BC documents have been created, this step runs the rest of genesis
     public void genesisStep(Integer BaseYear);
     
     public void testStep(Integer universityFiscalYear);
     public void testSLFStep(Integer universityFiscalYear);
     public void testSLFAfterStep(Integer universityFiscalYear);
-    public void testBCDocumentCreationStep(Integer universityFiscalYear);
     public void testLockClearance(Integer currentFiscalYear);
 }

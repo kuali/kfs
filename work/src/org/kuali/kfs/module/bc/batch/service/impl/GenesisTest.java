@@ -75,6 +75,11 @@ public class GenesisTest {
           LOG.warn(String.format("\nuser not found on fetching session %s",
                    nfex.getMessage()));
       }
+      // create the proxy BC headers
+     // genesisTestService.clearDBForGenesis(2009);
+     // genesisTestService.createProxyBCHeadersTransactional(2009);
+      // create the real BC documents based on the proxies
+      genesisTestRouteService.createNewBCDocumentsNonTransactional(2009);
   //
   //    genesisTestService.testStep(2007);
   //    genesisTestService.testSLFStep(2009);

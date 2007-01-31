@@ -57,9 +57,4 @@ public interface GenesisDao {
    // document creation
    public void createNewBCDocuments(Integer currentFiscalYear);
    public void primeNewBCHeadersDocumentCreation(Integer currentFiscalYear);
-   /*
-    * @@TODO:
-    * test routines which need to be removed
-    */
-   public void testBCDocumentCreation(Integer CurrentFiscalYear);
 }

@@ -43,11 +43,6 @@ public class GenesisServiceImpl implements GenesisService {
           genesisDao.setControlFlagsAtTheEndOfGenesis(BaseYear);
       }
       
-      public final void testBCDocumentCreationStep(Integer BaseYear)
-      {
-          genesisDao.testBCDocumentCreation(BaseYear);
-      }
-      
       public final void testLockClearance(Integer currentFiscalYear)
       {
           genesisDao.clearHangingBCLocks(currentFiscalYear);
@@ -124,6 +119,16 @@ public class GenesisServiceImpl implements GenesisService {
           *  to decide?              
           */ 
       }
+      
+    public void clearDBForGenesis(Integer BaseYear)
+    {
+        genesisDao.clearDBForGenesis(BaseYear); 
+    }
+      
+    public void createProxyBCHeadersTransactional(Integer BaseYear)
+    {
+        genesisDao.primeNewBCHeadersDocumentCreation(BaseYear);
+    }
       
     public void genesisStep(Integer BaseYear)
     {

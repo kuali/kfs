@@ -15,6 +15,7 @@
  */
 package org.kuali.module.gl.util;
 
+
 public class Summary implements Comparable {
     /**
      * This number is used by TransactionReport when sorting the list of Summary objects passed to
@@ -40,7 +41,6 @@ public class Summary implements Comparable {
     }
 
     /**
-     * 
      * @param sortOrder
      * @param description
      * @param count
@@ -78,6 +78,20 @@ public class Summary implements Comparable {
             return 0;
         }
     }
+    
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object object) {
+        if (this == object)
+            return true;
+        if (!(object instanceof Summary))
+            return false;
+
+        Summary that = (Summary) object;
+        return this.description.equals(that.getDescription());
+    }
 
     public long getCount() {
         return count;
@@ -102,5 +116,4 @@ public class Summary implements Comparable {
     public void setSortOrder(int sortOrder) {
         this.sortOrder = sortOrder;
     }
-
 }

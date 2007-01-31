@@ -22,8 +22,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.util.LedgerEntryHolder;
-import org.kuali.module.gl.util.PosterOutputSummaryEntry;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.util.LedgerEntryHolder;
 import org.kuali.module.gl.util.OriginEntryStatistics;

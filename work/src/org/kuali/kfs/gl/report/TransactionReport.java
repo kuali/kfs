@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.service.impl.scrubber.Message;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;

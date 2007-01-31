@@ -15,6 +15,7 @@
  */
 package org.kuali.module.gl.util;
 
+import org.kuali.Constants;
 import org.kuali.core.util.KualiDecimal;
 
 /**
@@ -78,6 +79,44 @@ public class LedgerEntry {
         this.noDCCount += addend.getNoDCCount();
 
         this.recordCount = this.creditCount + this.debitCount + this.noDCCount;
+    }
+    
+    // create or update a ledger entry with the array of information from the given entry summary object
+    public static LedgerEntry buildLedgerEntry(Object[] entrySummary) {
+        // extract the data from an array and use them to populate a ledger entry
+        Object oFiscalYear = entrySummary[0];
+        Object oPeriodCode = entrySummary[1];
+        Object oBalanceType = entrySummary[2];
+        Object oOriginCode = entrySummary[3];
+        Object oDebitCreditCode = entrySummary[4];
+        Object oAmount = entrySummary[5];
+        Object oCount = entrySummary[6];
+
+        Integer fiscalYear = oFiscalYear != null ? new Integer(oFiscalYear.toString()) : null;
+        String periodCode = oPeriodCode != null ? oPeriodCode.toString() : "  ";
+        String balanceType = oBalanceType != null ? oBalanceType.toString() : "  ";
+        String originCode = oOriginCode != null ? oOriginCode.toString() : "  ";
+        String debitCreditCode = oDebitCreditCode != null ? oDebitCreditCode.toString() : " ";
+        KualiDecimal amount = oAmount != null ? new KualiDecimal(oAmount.toString()) : KualiDecimal.ZERO;
+        int count = oCount != null ? Integer.parseInt(oCount.toString()) : 0;
+
+        // construct a ledger entry with the information fetched from the given array
+        LedgerEntry ledgerEntry = new LedgerEntry(fiscalYear, periodCode, balanceType, originCode);
+        if (Constants.GL_CREDIT_CODE.equals(debitCreditCode)) {
+            ledgerEntry.setCreditAmount(amount);
+            ledgerEntry.setCreditCount(count);
+        }
+        else if (Constants.GL_DEBIT_CODE.equals(debitCreditCode)) {
+            ledgerEntry.setDebitAmount(amount);
+            ledgerEntry.setDebitCount(count);
+        }
+        else {
+            ledgerEntry.setNoDCAmount(amount);
+            ledgerEntry.setNoDCCount(count);
+        }
+        ledgerEntry.setRecordCount(count);
+
+        return ledgerEntry;
     }
 
     /**

@@ -20,7 +20,7 @@ import java.util.List;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.UniversityDate;
-import org.kuali.module.gl.service.impl.scrubber.Message;
+import org.kuali.module.gl.util.Message;
 
 public interface ScrubberValidator {
     /**

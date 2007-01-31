@@ -19,7 +19,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.kuali.Constants;
 import org.kuali.core.util.KualiDecimal;
 
-public class PosterOutputSummaryEntry implements Comparable{
+public class PosterOutputSummaryEntry implements Comparable {
     private static String[] assetExpenseObjectTypeCodeList = new String[] { "AS", "EE", "ES", "EX", "TE" };
 
     private Integer universityFiscalYear;
@@ -40,7 +40,7 @@ public class PosterOutputSummaryEntry implements Comparable{
     }
 
     public String getKey() {
-        return universityFiscalYear + "-" + balanceTypeCode + "-" + fiscalPeriodCode + "-" + fundGroup; 
+        return universityFiscalYear + "-" + balanceTypeCode + "-" + fiscalPeriodCode + "-" + fundGroup;
     }
 
     /**
@@ -67,7 +67,7 @@ public class PosterOutputSummaryEntry implements Comparable{
 
         if (Constants.GL_CREDIT_CODE.equals(debitCreditCode)) {
             setCreditAmount(creditAmount.add(amount));
-            if ( ArrayUtils.contains(assetExpenseObjectTypeCodeList, objectTypeCode) ) {
+            if (ArrayUtils.contains(assetExpenseObjectTypeCodeList, objectTypeCode)) {
                 setNetAmount(netAmount.subtract(amount));
             }
             else {
@@ -76,7 +76,7 @@ public class PosterOutputSummaryEntry implements Comparable{
         }
         else if (Constants.GL_DEBIT_CODE.equals(debitCreditCode)) {
             setDebitAmount(debitAmount.add(amount));
-            if ( ArrayUtils.contains(assetExpenseObjectTypeCodeList, objectTypeCode) ) {
+            if (ArrayUtils.contains(assetExpenseObjectTypeCodeList, objectTypeCode)) {
                 setNetAmount(netAmount.add(amount));
             }
             else {
@@ -89,26 +89,62 @@ public class PosterOutputSummaryEntry implements Comparable{
         }
     }
 
-    public String toString(){
-       String posterOutputSummaryEntry = "";
-       posterOutputSummaryEntry += "[UniversityFiscalYear: " + this.getUniversityFiscalYear();
-       posterOutputSummaryEntry += ", FiscalPeriodCode: " + this.getFiscalPeriodCode();
-       posterOutputSummaryEntry += ", BalanceTypeCode:" + this.getBalanceTypeCode();
-       posterOutputSummaryEntry += ", FundGroup: " + this.getFundGroup();
-       posterOutputSummaryEntry += ", ObjectTypeCode: " + this.getObjectTypeCode();
-       posterOutputSummaryEntry += ", CreditAmount: " + this.getCreditAmount();
-       posterOutputSummaryEntry += ", DebitAmount: " + this.getDebitAmount();
-       posterOutputSummaryEntry += ", BudgetAmount: " + this.getBudgetAmount();
-       posterOutputSummaryEntry += ", NetAmount: " + this.getNetAmount();
-       posterOutputSummaryEntry += "]";
-        
+    public String toString() {
+        String posterOutputSummaryEntry = "";
+        posterOutputSummaryEntry += "[UniversityFiscalYear: " + this.getUniversityFiscalYear();
+        posterOutputSummaryEntry += ", FiscalPeriodCode: " + this.getFiscalPeriodCode();
+        posterOutputSummaryEntry += ", BalanceTypeCode:" + this.getBalanceTypeCode();
+        posterOutputSummaryEntry += ", FundGroup: " + this.getFundGroup();
+        posterOutputSummaryEntry += ", ObjectTypeCode: " + this.getObjectTypeCode();
+        posterOutputSummaryEntry += ", CreditAmount: " + this.getCreditAmount();
+        posterOutputSummaryEntry += ", DebitAmount: " + this.getDebitAmount();
+        posterOutputSummaryEntry += ", BudgetAmount: " + this.getBudgetAmount();
+        posterOutputSummaryEntry += ", NetAmount: " + this.getNetAmount();
+        posterOutputSummaryEntry += "]";
+
         return posterOutputSummaryEntry;
     }
 
     public int compareTo(Object anotherPosterOutputSummaryEntry) {
-        PosterOutputSummaryEntry tempPosterOutputSummaryEntry = (PosterOutputSummaryEntry)anotherPosterOutputSummaryEntry;
+        PosterOutputSummaryEntry tempPosterOutputSummaryEntry = (PosterOutputSummaryEntry) anotherPosterOutputSummaryEntry;
 
         return getKey().compareTo(tempPosterOutputSummaryEntry.getKey());
+    }
+
+    public static PosterOutputSummaryEntry buildPosterOutputSummaryEntry(Object[] entrySummary) {
+        PosterOutputSummaryEntry posterOutputSummaryEntry = new PosterOutputSummaryEntry();
+        int indexOfField = 0;
+
+        Object tempEntry = entrySummary[indexOfField++];
+        String entry = (tempEntry == null) ? "" : tempEntry.toString();
+        posterOutputSummaryEntry.setBalanceTypeCode(entry);
+
+        tempEntry = entrySummary[indexOfField++];
+        entry = (tempEntry == null) ? null : tempEntry.toString();
+        posterOutputSummaryEntry.setUniversityFiscalYear(new Integer(entry));
+
+        tempEntry = entrySummary[indexOfField++];
+        entry = (tempEntry == null) ? "" : tempEntry.toString();
+        posterOutputSummaryEntry.setFiscalPeriodCode(entry);
+
+        tempEntry = entrySummary[indexOfField++];
+        entry = (tempEntry == null) ? "" : tempEntry.toString();
+        posterOutputSummaryEntry.setFundGroup(entry);
+
+        tempEntry = entrySummary[indexOfField++];
+        String objectTypeCode = (tempEntry == null) ? "" : tempEntry.toString();
+        posterOutputSummaryEntry.setObjectTypeCode(objectTypeCode);
+
+        tempEntry = entrySummary[indexOfField++];
+        String debitCreditCode = (tempEntry == null) ? Constants.GL_BUDGET_CODE : tempEntry.toString();
+
+        tempEntry = entrySummary[indexOfField];
+        entry = (tempEntry == null) ? "0" : tempEntry.toString();
+        KualiDecimal amount = new KualiDecimal(entry);
+
+        posterOutputSummaryEntry.setAmount(debitCreditCode, objectTypeCode, amount);
+        
+        return posterOutputSummaryEntry;
     }
 
     public String getFiscalPeriodCode() {

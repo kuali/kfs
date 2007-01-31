@@ -45,10 +45,10 @@ public class LaborConstants {
     }
     
     public static class OperationType{
-        public static final String INSERT = "insert";
-        public static final String UPDATE = "update";
-        public static final String DELETE = "delete";
-        public static final String SELECT = "select";
+        public static final String INSERT = "inserted";
+        public static final String UPDATE = "updated";
+        public static final String DELETE = "deleted";
+        public static final String SELECT = "selected";
     }
     
     public static List<String> consolidationAttributesOfOriginEntry() {

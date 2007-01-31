@@ -22,6 +22,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.module.gl.bo.OriginEntryGroup;
+import org.kuali.module.gl.util.LedgerEntryHolder;
+import org.kuali.module.gl.util.PosterOutputSummaryEntry;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.util.LedgerEntryHolder;
 import org.kuali.module.gl.util.OriginEntryStatistics;
@@ -91,14 +93,6 @@ public interface LaborOriginEntryService {
     public Iterator<LaborOriginEntry> getBadBalanceEntries(Collection groups);
 
     /**
-     * Return all the entries in a specific group
-     * 
-     * @param oeg Group used to select entries
-     * @return Iterator to all the entires
-     */
-    public Iterator<LaborOriginEntry> getEntriesByGroup(OriginEntryGroup oeg);
-
-    /**
      * Return all the entries for a specific document in a specific group
      * 
      * @param oeg Group selection
@@ -151,28 +145,44 @@ public interface LaborOriginEntryService {
      */
     public void flatFile(Integer groupId, BufferedOutputStream bw);
 
-    /**
-     * get the summarized information of the entries that belong to the entry groups with the given group id list
-     * 
-     * @param groupIdList the origin entry groups
-     * @return a set of summarized information of the entries within the specified group
-     */
-    public LedgerEntryHolder getSummaryByGroupId(Collection groupIdList);
-
     public Collection getMatchingEntriesByCollection(Map searchCriteria);
 
     public LaborOriginEntry getExactMatchingEntry(Integer entryId);
 
+
     /**
-     * get the summarized information of poster input entries that belong to the entry groups with the given group id list
-     * 
-     * @param groupIdList the origin entry groups
+     * Get origin entries that belong to the given group
+     * @param group the given origin entry group
+     * @return origin entries that belong to the given group
+     */
+    public Iterator<LaborOriginEntry> getEntriesByGroup(OriginEntryGroup group);
+
+    /**
+     * Get origin entries that belong to the given groups
+     * @param groups the given origin entry groups
+     * @return origin entries that belong to the given groups
+     */
+    public Iterator<LaborOriginEntry> getEntriesByGroups(Collection<OriginEntryGroup> groups);
+
+    /**
+     * Get the origin entries that belong to the given group in either the consolidation manner or not
+     * @param group the given group
+     * @param isConsolidated the flag that indicates if return origin entries in either the consolidation manner or not
+     * @return the origin entries that belong to the given group in either the consolidation manner or not
+     */
+    public Iterator<LaborOriginEntry> getEntriesByGroup(OriginEntryGroup group, boolean isConsolidated);    
+    
+    /**
+     * get the summarized information of the entries that belong to the entry groups with the given groups
+     * @param groups the origin entry groups
+     * @return a set of summarized information of the entries within the specified groups
+     */
+    public LedgerEntryHolder getSummariedEntriesByGroups(Collection<OriginEntryGroup> groups);
+    
+    /**
+     * get the summarized information of poster input entries that belong to the entry groups with the given groups 
+     * @param groups the origin entry groups
      * @return a map of summarized information of poster input entries within the specified groups
      */    
-    public Map<String,PosterOutputSummaryEntry> getPosterOutputSummaryByGroupId(Collection groupIdList);
-    
-    Iterator<LaborOriginEntry> getEntriesByGroup(OriginEntryGroup group, boolean isConsolidated);
-
-
+    public Map<String,PosterOutputSummaryEntry> getPosterOutputSummaryByGroups(Collection<OriginEntryGroup> groups);
 }
-

@@ -67,35 +67,41 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
     @Override
     protected boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
 
-        if (accountingLine.isSourceAccountingLine()) {
-            
-            // Retrieve the Fringe or Salary Code for the object code in the ld_labor_obj_t table. 
-            // It must have a value of "S".
-            
-            ErrorMap errorMap = GlobalVariables.getErrorMap();
-            Map fieldValues = new HashMap();
-            fieldValues.put("financialObjectCode", accountingLine.getFinancialObjectCode().toString());
-            ArrayList laborObjects = (ArrayList) SpringServiceLocator.getBusinessObjectService().findMatching(LaborObject.class, fieldValues);
-            if (laborObjects.size() == 0) {
-                reportError(PropertyConstants.ACCOUNT, KeyConstants.Labor.LABOR_OBJECT_MISSING_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
-                return false;
-            }
-            LaborObject laborObject = (LaborObject) laborObjects.get(0);    
-            String FringeOrSalaryCode = laborObject.getFinancialObjectFringeOrSalaryCode();
-
-            if (!FringeOrSalaryCode.equals("S")) {
-                LOG.info("FringeOrSalaryCode not equal S");
-                  reportError(PropertyConstants.ACCOUNT, KeyConstants.Labor.FRINGE_OR_SALARY_CODE_MISSING_ERROR, accountingLine.getAccountNumber());
-                return false;
-            }            
-            
+        // Retrieve the Fringe or Salary Code for the object code in the ld_labor_obj_t table. 
+        // It must have a value of "S".
+        
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        Map fieldValues = new HashMap();
+        fieldValues.put("financialObjectCode", accountingLine.getFinancialObjectCode().toString());
+        ArrayList laborObjects = (ArrayList) SpringServiceLocator.getBusinessObjectService().findMatching(LaborObject.class, fieldValues);
+        if (laborObjects.size() == 0) {
+            reportError(PropertyConstants.ACCOUNT, KeyConstants.Labor.LABOR_OBJECT_MISSING_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
+            return false;
         }
+        LaborObject laborObject = (LaborObject) laborObjects.get(0);    
+        String FringeOrSalaryCode = laborObject.getFinancialObjectFringeOrSalaryCode();
 
+        if (!FringeOrSalaryCode.equals("S")) {
+            LOG.info("FringeOrSalaryCode not equal S");
+              reportError(PropertyConstants.ACCOUNT, KeyConstants.Labor.FRINGE_OR_SALARY_CODE_MISSING_ERROR, accountingLine.getAccountNumber());
+            return false;
+        }            
+            
+        if (accountingLine.isSourceAccountingLine()) {
+            System.out.println("** Source **");
+        }
+        else if (accountingLine.isTargetAccountingLine()) {
+            System.out.println("** Target **");
+        }
+        else {
+            System.out.println("** Other **");
+        }
+        
         // Save the employee ID in all accounting related lines
         SalaryExpenseTransferDocument salaryExpenseTransferDocument = (SalaryExpenseTransferDocument)transactionalDocument;
         SalaryExpenseTransferAccountingLine salaryExpenseTransferAccountingLine = (SalaryExpenseTransferAccountingLine)accountingLine;
         salaryExpenseTransferAccountingLine.setEmplid(salaryExpenseTransferDocument.getEmplid()); 
-
+        
         return true;
     }
 

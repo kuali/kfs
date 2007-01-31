@@ -394,6 +394,7 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
 
     /**
      * Sets the dateTimeService attribute value.
+     * 
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -402,6 +403,7 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
 
     /**
      * Sets the laborOriginEntryDao attribute value.
+     * 
      * @param laborOriginEntryDao The laborOriginEntryDao to set.
      */
     public void setLaborOriginEntryDao(LaborOriginEntryDao laborOriginEntryDao) {
@@ -410,6 +412,7 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
 
     /**
      * Sets the originEntryDao attribute value.
+     * 
      * @param originEntryDao The originEntryDao to set.
      */
     public void setOriginEntryDao(OriginEntryDao originEntryDao) {
@@ -418,6 +421,7 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
 
     /**
      * Sets the originEntryGroupService attribute value.
+     * 
      * @param originEntryGroupService The originEntryGroupService to set.
      */
     public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {

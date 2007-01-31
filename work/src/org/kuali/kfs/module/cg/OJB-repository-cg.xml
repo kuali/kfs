@@ -127,6 +127,7 @@
     <field-descriptor name="cfdaProgramTitleName" column="CG_CFDA_PGM_TTL_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="cfdaStatusCode" column="CG_CFDA_STAT_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldAIConversion"/>
     <field-descriptor name="cfdaMaintenanceTypeId" column="CG_CFDA_MAINT_TYP_ID" jdbc-type="VARCHAR" />
+    <field-descriptor name="rowActiveIndicator" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cg.bo.Proposal" table="CG_PRPSL_T">

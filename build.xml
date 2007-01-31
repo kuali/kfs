@@ -153,6 +153,9 @@
 			<filter token="base-workflow-url" value="${base.workflow.url}" />
 			<filter token="workflow-url" value="${base.workflow.url}${workflow.application}-${build.environment}" />
 			<filter token="web-authentication-filter" value="${web.authentication.filter}" />
+			<filter token="web-authentication-service" value="${web.authentication.service}" />
+			<filter token="maintain-users-locally" value="${maintain.users.locally}" />
+			<filter token="production-environment-code" value="${production.environment.code}" />
 			<filter token="driver-class" value="${driver.class}" />
 			<filter token="datasource-url" value="${datasource.url}" />
 			<filter token="datasource-username" value="${datasource.username}" />

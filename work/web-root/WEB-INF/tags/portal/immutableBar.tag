@@ -14,6 +14,7 @@
  limitations under the License.
 --%>
 <%@ taglib prefix="c" uri="/tlds/c.tld" %>
+<%@ taglib prefix="fn" uri="/tlds/fn.tld" %>
 <%@ taglib uri="/tlds/struts-html.tld" prefix="html" %>
 <%@ taglib uri="/tlds/struts-logic.tld" prefix="logic" %>
 <%@ taglib tagdir="/WEB-INF/tags/portal" prefix="portal" %>
@@ -32,7 +33,7 @@
   <c:choose> 
       <c:when test="${empty UserSession.loggedInUserNetworkId}" > 
       </c:when> 
-      <c:when test="${ConfigProperties.environment == 'prd'}" >
+      <c:when test="${fn:trim(ConfigProperties.environment) == fn:trim(ConfigProperties.production.environment.code)}" >
       </c:when>
       <c:otherwise> 
       <html:form action="/portal.do" method="post" style="margin:0;">

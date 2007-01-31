@@ -57,8 +57,8 @@ public class KualiPasswordHandler extends WatchfulPasswordHandler {
                     //if ( LOG.isDebugEnabled() ) {
                     //    LOG.debug( "Found user " + user.getPersonName() + " with password hash: " + user.getFinancialSystemsEncryptedPasswordText() );
                     //}
-                    // check if the password needs to be checked
-                    if ( SpringServiceLocator.getKualiConfigurationService().getApplicationParameterIndicator( Constants.CoreApcParms.GROUP_CORE_MAINT_EDOCS, Constants.CoreApcParms.CAS_PASSWORD_ENABLED ) ) {
+                    // check if the password needs to be checked (if in a production environment or password turned on explicitly)
+                    if ( SpringServiceLocator.getKualiConfigurationService().isProductionEnvironment() || SpringServiceLocator.getWebAuthenticationService().isValidatePassword() ) {
                         // if so, hash the passed in password and compare to the hash retrieved from the database
                         String hashedPassword = user.getFinancialSystemsEncryptedPasswordText();
                         if ( hashedPassword == null ) {
@@ -69,16 +69,20 @@ public class KualiPasswordHandler extends WatchfulPasswordHandler {
                             return true; // password matched
                         }
                     } else {
-                        return true; // no need to check password - user's existence is enough
+                        LOG.warn( "WARNING: password checking is disabled - user " + username + " has been authenticated without a password." );
+                        return true; // no need to check password - user's existence is enough 
                     }
                 }
             } catch ( GeneralSecurityException ex ) {
+                LOG.error( "Error validating password", ex );
                 return false; // fail if the hash function fails
             } catch ( UserNotFoundException ex ) {
+                LOG.info( "User " + username + " was not found in the UniversalUser table." );
                 return false; // fail if user does not exist
             }
 
         }
+        LOG.warn( "CAS base password handler failed authenication for " + username + " based on number of attempts." );
         return false; // fail if we get to this point
     }
 }

@@ -205,7 +205,7 @@ public class Login extends HttpServlet {
             throw new ServletException(ex);
         }
         // check if the password field should be shown and set a flag to be used by the JSP
-        request.setAttribute( "showPasswordField", SpringServiceLocator.getKualiConfigurationService().getApplicationParameterIndicator( Constants.CoreApcParms.GROUP_CORE_MAINT_EDOCS, Constants.CoreApcParms.CAS_PASSWORD_ENABLED ) );
+        request.setAttribute( "showPasswordField", SpringServiceLocator.getKualiConfigurationService().isProductionEnvironment() || SpringServiceLocator.getWebAuthenticationService().isValidatePassword() );
         app.getRequestDispatcher(loginForm).forward(request, response);
     }
 
@@ -251,7 +251,7 @@ public class Login extends HttpServlet {
             TicketGrantingTicket t = new TicketGrantingTicket(username);
             String token = tgcCache.addTicket(t);
             Cookie tgc = new Cookie(TGC_ID, token);
-            if (request.getRequestURI().startsWith("https")) {
+            if (request.getRequestURI().startsWith("https") || SpringServiceLocator.getKualiConfigurationService().isProductionEnvironment() ) {
                 tgc.setSecure(true);
             }
             tgc.setMaxAge(-1);

@@ -200,6 +200,9 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 
         ChartUser currentUser = (ChartUser)GlobalVariables.getUserSession().getUniversalUser().getModuleUser( ChartUser.MODULE_ID );
 
+        this.setIdentifier(null);
+        //TODO what about id in items?
+
         // Set req status to INPR.
         this.setStatusCode(PurapConstants.RequisitionStatuses.IN_PROCESS);
 

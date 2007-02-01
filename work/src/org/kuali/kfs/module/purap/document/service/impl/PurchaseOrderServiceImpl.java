@@ -15,9 +15,12 @@
  */
 package org.kuali.module.purap.service.impl;
 
+import org.kuali.core.rule.event.SaveOnlyDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.module.purap.dao.PurchaseOrderDao;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
@@ -32,6 +35,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private DateTimeService dateTimeService;
     private DocumentService documentService;
     private PurchaseOrderDao purchaseOrderDao;
+    private WorkflowDocumentService workflowDocumentService;
     
     public void save(PurchaseOrderDocument purchaseOrderDocument) {
         purchaseOrderDao.save(purchaseOrderDocument);
@@ -52,7 +56,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             poDocument.populatePurchaseOrderFromRequisition(reqDocument);
             // TODO set other default info
             // TODO set initiator of document as contract manager (is that right?)
+
             documentService.updateDocument(poDocument);
+            documentService.prepareWorkflowDocument(poDocument);
+            workflowDocumentService.save(poDocument.getDocumentHeader().getWorkflowDocument(), "", null);
+
         }
         catch (WorkflowException e) {
             LOG.error("Error creating PO document: " + e.getMessage());
@@ -85,6 +93,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      */
     public void setPurchaseOrderDao(PurchaseOrderDao purchaseOrderDao) {
         this.purchaseOrderDao = purchaseOrderDao;
+    }
+
+    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
+        this.workflowDocumentService = workflowDocumentService;
     }
 
 }

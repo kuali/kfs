@@ -33,4 +33,5 @@ public interface PurapRuleConstants {
     
     public static final String ALLOWED_EMPLOYEE_TYPE_RULE = "AllowedEmployeeTypes";
 
+    public static final String PURAP_DOCUMENT_PO_ACTIONS = "PURAP.DOCUMENT.PO.ACTIONS";
 }

@@ -21,6 +21,7 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.*;
 import org.kuali.core.util.*;
 import org.kuali.core.bo.user.*;
+import org.kuali.module.budget.dao.*;
 import org.kuali.module.budget.dao.ojb.*;
 
 // import these things to handle the configuration
@@ -53,10 +54,9 @@ public class GenesisTest {
      BeanFactory factory = SpringServiceLocator.getBeanFactory();
      KualiConfigurationService configService = 
             SpringServiceLocator.getKualiConfigurationService();
+     GenesisDao genesisDao = (GenesisDao) factory.getBean("genesisDao");
   //    
       GenesisService genesisTestService = SpringServiceLocator.getGenesisService();
-      GenesisRouteService genesisTestRouteService =
-          SpringServiceLocator.getGenesisRouteService();
       DateMakerService dateMakerTestService = 
           SpringServiceLocator.getDateMakerService();
   //
@@ -76,15 +76,14 @@ public class GenesisTest {
                    nfex.getMessage()));
       }
       // create the proxy BC headers
-     // genesisTestService.clearDBForGenesis(2009);
-     // genesisTestService.createProxyBCHeadersTransactional(2009);
+      genesisTestService.clearDBForGenesis(2009);
+      genesisTestService.createProxyBCHeadersTransactional(2009);
       // create the real BC documents based on the proxies
-      genesisTestRouteService.createNewBCDocumentsNonTransactional(2009);
+      genesisDao.createNewBCDocuments(2009);
   //
   //    genesisTestService.testStep(2007);
   //    genesisTestService.testSLFStep(2009);
   //    genesisTestService.testSLFAfterStep(2009);
-  //    genesisTestService.testBCDocumentCreationStep(2009);
   //    genesisTestService.testLockClearance(2007);
   }
 }

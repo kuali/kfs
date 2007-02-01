@@ -692,8 +692,8 @@
         <foreignkey field-ref="statusCode" />
     </reference-descriptor>
     <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.purap.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="vendorDetailAssignedIdentifier" />
-        <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+    	<foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+        <foreignkey field-ref="vendorDetailAssignedIdentifier" />       
     </reference-descriptor>
     <!--  collection-descriptor name="statusHistories" element-class-ref="org.kuali.module.purap.bo.RequisitionStatusHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
         <orderby name="statusHistoryIdentifier" sort="ASC" />
@@ -943,8 +943,8 @@
         <foreignkey field-ref="statusCode" />
     </reference-descriptor>
     <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.purap.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="vendorDetailAssignedIdentifier" />
-        <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+    	<foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+        <foreignkey field-ref="vendorDetailAssignedIdentifier" />       
     </reference-descriptor>
     <collection-descriptor name="statusHistories" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderStatusHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
         <orderby name="statusHistoryIdentifier" sort="ASC" />

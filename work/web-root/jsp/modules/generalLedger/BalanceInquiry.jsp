@@ -52,7 +52,7 @@
 					<c:set var="ActionName" value="glBalanceInquiry.do" scope="request" />
 					<c:set var="IsLookupDisplay" value="true" scope="request" />
 
-					<%@ include file="/jsp/core/RowDisplay.jsp"%>
+					<kul:newrowdisplay fieldRows="${FieldRows}" />
 
 					<tr align=center>
 						<td height="30" colspan=2 class="infoline"><html:image

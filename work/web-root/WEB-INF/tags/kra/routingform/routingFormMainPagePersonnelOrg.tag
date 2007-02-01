@@ -17,6 +17,7 @@
 
 <c:set var="routingFormPersonnel" value="${DataDictionary.RoutingFormPersonnel.attributes}" />
 <c:set var="routingFormOrganizationCreditPercent" value="${DataDictionary.RoutingFormOrganizationCreditPercent.attributes}" />
+<c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
 
 <kul:tab tabTitle="Personnel and Units/Orgs" defaultOpen="false" tabErrorKey="newRoutingFormPersonnel*,document.routingFormPerson*,newRoutingFormOrganizationCreditPercent*,document.routingFormOrganizationCreditPercent*" auditCluster="mainPageAuditErrors" tabAuditKey="document.routingFormPerson*,document.routingFormOrganizationCreditPercent*">
 
@@ -42,6 +43,7 @@
                 <th>Profile</th>
                 <th>Action</th>
               </tr>
+              <c:if test="${!viewOnly}">
               <tr>
                 <th scope="row">add:</th>
                 <td class="infoline">
@@ -50,10 +52,12 @@
                   <html:hidden write="true" property="newRoutingFormPersonnel.user.personName"/>
                   <c:if test="${empty KualiForm.newRoutingFormPersonnel.personSystemIdentifier && !KualiForm.newRoutingFormPersonnel.personToBeNamedIndicator}">(select)</c:if>
 		    	  <c:if test="${KualiForm.newRoutingFormPersonnel.personToBeNamedIndicator}">TO BE NAMED</c:if>
-                  <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:newRoutingFormPersonnel.personSystemIdentifier,personName:newRoutingFormPersonnel.user.personName" extraButtonSource="images/buttonsmall_namelater.gif" extraButtonParams="&newRoutingFormPersonnel.personToBeNamedIndicator=true" tabindexOverride="5100" anchor="${currentTabIndex}" />
+                  <c:if test="${!viewOnly}">
+                    <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:newRoutingFormPersonnel.personSystemIdentifier,personName:newRoutingFormPersonnel.user.personName" extraButtonSource="images/buttonsmall_namelater.gif" extraButtonParams="&newRoutingFormPersonnel.personToBeNamedIndicator=true" tabindexOverride="5100" anchor="${currentTabIndex}" />
+                  </c:if>
                 </td>
-                <td class="infoline"><kul:htmlControlAttribute property="newRoutingFormPersonnel.personRoleCode" attributeEntry="${routingFormPersonnel.personRoleCode}"  /></td>
-                <td class="infoline"><kul:htmlControlAttribute property="newRoutingFormPersonnel.personRoleText" attributeEntry="${routingFormPersonnel.personRoleText}"  /></td>
+                <td class="infoline"><kul:htmlControlAttribute property="newRoutingFormPersonnel.personRoleCode" attributeEntry="${routingFormPersonnel.personRoleCode}" readOnly="${viewOnly}"/></td>
+                <td class="infoline"><kul:htmlControlAttribute property="newRoutingFormPersonnel.personRoleText" attributeEntry="${routingFormPersonnel.personRoleText}" readOnly="${viewOnly}"/></td>
                 <td class="infoline">
                   <html:hidden property="newRoutingFormPersonnel.chartOfAccountsCode"/>
                   <html:hidden property="newRoutingFormPersonnel.organizationCode"/>
@@ -63,17 +67,20 @@
                     </c:when>
                     <c:otherwise>(select)</c:otherwise>
                   </c:choose>
-                  <kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:newRoutingFormPersonnel.chartOfAccountsCode,organizationCode:newRoutingFormPersonnel.organizationCode" anchor="${currentTabIndex}" />
+                  <c:if test="${!viewOnly}">
+                    <kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:newRoutingFormPersonnel.chartOfAccountsCode,organizationCode:newRoutingFormPersonnel.organizationCode" anchor="${currentTabIndex}" />
+                  </c:if>
                 </td>
                 <td class="infoline"><div align="center">
-                  <kul:htmlControlAttribute property="newRoutingFormPersonnel.personFinancialAidPercent" attributeEntry="${routingFormPersonnel.personFinancialAidPercent}" />
+                  <kul:htmlControlAttribute property="newRoutingFormPersonnel.personFinancialAidPercent" attributeEntry="${routingFormPersonnel.personFinancialAidPercent}" readOnly="${viewOnly}"/>
                 </div></td>
                 <td class="infoline"><div align="center">
-                  <kul:htmlControlAttribute property="newRoutingFormPersonnel.personCreditPercent" attributeEntry="${routingFormPersonnel.personCreditPercent}" />
+                  <kul:htmlControlAttribute property="newRoutingFormPersonnel.personCreditPercent" attributeEntry="${routingFormPersonnel.personCreditPercent}" readOnly="${viewOnly}"/>
                 </div></td>
                 <td class="infoline">&nbsp;</td>
                 <td class="infoline"><div align=center><html:image property="methodToCall.addPersonLine.anchor${currentTabIndex}" src="images/tinybutton-add1.gif" styleClass="tinybutton" alt="add person line"/></div></td>
               </tr>
+              </c:if>
               
               <c:forEach items = "${KualiForm.document.routingFormPersonnel}" var="person" varStatus="status"  >
                 <tr>
@@ -88,10 +95,12 @@
                     <html:hidden write="true" property="document.routingFormPerson[${status.index}].user.personName" />
                     <c:if test="${empty person.personSystemIdentifier && !person.personToBeNamedIndicator}">(select)</c:if>
 		    	    <c:if test="${person.personToBeNamedIndicator}">TO BE NAMED</c:if>
-                    <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:document.routingFormPerson[${status.index}].personSystemIdentifier,personName:document.routingFormPerson[${status.index}].user.personName" extraButtonSource="images/buttonsmall_namelater.gif" extraButtonParams="&document.routingFormPerson[${status.index}].personToBeNamedIndicator=true" tabindexOverride="5100" anchor="${currentTabIndex}" />
+                    <c:if test="${!viewOnly}">
+                      <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:document.routingFormPerson[${status.index}].personSystemIdentifier,personName:document.routingFormPerson[${status.index}].user.personName" extraButtonSource="images/buttonsmall_namelater.gif" extraButtonParams="&document.routingFormPerson[${status.index}].personToBeNamedIndicator=true" tabindexOverride="5100" anchor="${currentTabIndex}" />
+                    </c:if>
                   </td>
-                  <td><kul:htmlControlAttribute property="document.routingFormPerson[${status.index}].personRoleCode" attributeEntry="${routingFormPersonnel.personRoleCode}"  /></td>
-                  <td><kul:htmlControlAttribute property="document.routingFormPerson[${status.index}].personRoleText" attributeEntry="${routingFormPersonnel.personRoleText}"  /></td>
+                  <td><kul:htmlControlAttribute property="document.routingFormPerson[${status.index}].personRoleCode" attributeEntry="${routingFormPersonnel.personRoleCode}" readOnly="${viewOnly}"/></td>
+                  <td><kul:htmlControlAttribute property="document.routingFormPerson[${status.index}].personRoleText" attributeEntry="${routingFormPersonnel.personRoleText}" readOnly="${viewOnly}"/></td>
                   <td>
                     <html:hidden property="document.routingFormPerson[${status.index}].chartOfAccountsCode"/>
                     <html:hidden property="document.routingFormPerson[${status.index}].organizationCode"/>
@@ -101,13 +110,15 @@
                       </c:when>
                       <c:otherwise>(select)</c:otherwise>
                     </c:choose>
-                    <kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:document.routingFormPerson[${status.index}].chartOfAccountsCode,organizationCode:document.routingFormPerson[${status.index}].organizationCode" anchor="${currentTabIndex}" />
+                    <c:if test="${!viewOnly}">
+                      <kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:document.routingFormPerson[${status.index}].chartOfAccountsCode,organizationCode:document.routingFormPerson[${status.index}].organizationCode" anchor="${currentTabIndex}" />
+                    </c:if>
                   </td>
                   <td><div align="center"><span class="infoline">
-                    <kul:htmlControlAttribute property="document.routingFormPerson[${status.index}].personFinancialAidPercent" attributeEntry="${routingFormPersonnel.personFinancialAidPercent}" />
+                    <kul:htmlControlAttribute property="document.routingFormPerson[${status.index}].personFinancialAidPercent" attributeEntry="${routingFormPersonnel.personFinancialAidPercent}" readOnly="${viewOnly}"/>
                   </span></div></td>
                   <td><div align="center"><span class="infoline">
-                    <kul:htmlControlAttribute property="document.routingFormPerson[${status.index}].personCreditPercent" attributeEntry="${routingFormPersonnel.personCreditPercent}" />
+                    <kul:htmlControlAttribute property="document.routingFormPerson[${status.index}].personCreditPercent" attributeEntry="${routingFormPersonnel.personCreditPercent}" readOnly="${viewOnly}"/>
                   </span></div></td>
                   <td><div align="center"><html:image property="methodToCall.headerTab.headerDispatch.save.navigateTo.personnel.anchor${currentTabIndex}" src="images/tinybutton-view.gif" styleClass="tinybutton" alt="view person line"/></div></td>
                   <td><div align=center><html:image property="methodToCall.deletePersonLine.line${status.index}.anchor${currentTabIndex}" src="images/tinybutton-delete1.gif" styleClass="tinybutton" alt="delete person line"/></div></td>
@@ -126,6 +137,7 @@
                 <th>&nbsp;</th>
                 <th>Action</th>
               </tr>
+              <c:if test="${!viewOnly}">
               <tr>
                 <th scope="row">add:</th>
                 <td class="infoline">
@@ -137,20 +149,23 @@
                     </c:when>
                     <c:otherwise>(select)</c:otherwise>
                   </c:choose>
-                  <kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:newRoutingFormOrganizationCreditPercent.chartOfAccountsCode,organizationCode:newRoutingFormOrganizationCreditPercent.organizationCode" anchor="${currentTabIndex}" />
+                  <c:if test="${!viewOnly}">
+                    <kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:newRoutingFormOrganizationCreditPercent.chartOfAccountsCode,organizationCode:newRoutingFormOrganizationCreditPercent.organizationCode" anchor="${currentTabIndex}" />
+                  </c:if>
                 </td>
                 <td class="infoline" colspan=3><div align="center">
-                  <kul:htmlControlAttribute property="newRoutingFormOrganizationCreditPercent.organizationCreditRoleText" attributeEntry="${routingFormOrganizationCreditPercent.organizationCreditRoleText}" />
+                  <kul:htmlControlAttribute property="newRoutingFormOrganizationCreditPercent.organizationCreditRoleText" attributeEntry="${routingFormOrganizationCreditPercent.organizationCreditRoleText}" readOnly="${viewOnly}"/>
                 </div></td>
                 <td class="infoline"><div align="center">
-                  <kul:htmlControlAttribute property="newRoutingFormOrganizationCreditPercent.organizationFinancialAidPercent" attributeEntry="${routingFormOrganizationCreditPercent.organizationFinancialAidPercent}" />
+                  <kul:htmlControlAttribute property="newRoutingFormOrganizationCreditPercent.organizationFinancialAidPercent" attributeEntry="${routingFormOrganizationCreditPercent.organizationFinancialAidPercent}" readOnly="${viewOnly}"/>
                 </div></td>
                 <td class="infoline"><div align="center">
-                  <kul:htmlControlAttribute property="newRoutingFormOrganizationCreditPercent.organizationCreditPercent" attributeEntry="${routingFormOrganizationCreditPercent.organizationCreditPercent}" />
+                  <kul:htmlControlAttribute property="newRoutingFormOrganizationCreditPercent.organizationCreditPercent" attributeEntry="${routingFormOrganizationCreditPercent.organizationCreditPercent}" readOnly="${viewOnly}"/>
                 </div></td>
                 <td class="infoline">&nbsp;</td>
                 <td class="infoline"><div align=center><html:image property="methodToCall.addOrganizationCreditPercentLine.anchor${currentTabIndex}" src="images/tinybutton-add1.gif" styleClass="tinybutton" alt="add org line"/></div></td>
               </tr>
+              </c:if>
               <c:forEach items = "${KualiForm.document.routingFormOrganizationCreditPercents}" var="org" varStatus="status"  >
                 <tr>
    	              <html:hidden property="document.routingFormOrganizationCreditPercent[${status.index}].chartOfAccountsCode" />
@@ -164,16 +179,18 @@
                       </c:when>
                       <c:otherwise>(select)</c:otherwise>
                     </c:choose>
-                    <kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:document.routingFormOrganizationCreditPercent[${status.index}].chartOfAccountsCode,organizationCode:document.routingFormOrganizationCreditPercent[${status.index}].organizationCode" anchor="${currentTabIndex}" />
+                    <c:if test="${!viewOnly}">
+                      <kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:document.routingFormOrganizationCreditPercent[${status.index}].chartOfAccountsCode,organizationCode:document.routingFormOrganizationCreditPercent[${status.index}].organizationCode" anchor="${currentTabIndex}" />
+                    </c:if>
                   </td>
                   <td colspan=3><div align="center"><span class="infoline">
-                    <kul:htmlControlAttribute property="document.routingFormOrganizationCreditPercent[${status.index}].organizationCreditRoleText" attributeEntry="${routingFormOrganizationCreditPercent.organizationCreditRoleText}" />
+                    <kul:htmlControlAttribute property="document.routingFormOrganizationCreditPercent[${status.index}].organizationCreditRoleText" attributeEntry="${routingFormOrganizationCreditPercent.organizationCreditRoleText}" readOnly="${viewOnly}"/>
                   </span></div></td>
                   <td><div align="center"><span class="infoline">
-                    <kul:htmlControlAttribute property="document.routingFormOrganizationCreditPercent[${status.index}].organizationFinancialAidPercent" attributeEntry="${routingFormOrganizationCreditPercent.organizationFinancialAidPercent}" />
+                    <kul:htmlControlAttribute property="document.routingFormOrganizationCreditPercent[${status.index}].organizationFinancialAidPercent" attributeEntry="${routingFormOrganizationCreditPercent.organizationFinancialAidPercent}" readOnly="${viewOnly}"/>
                   </span></div></td>
                   <td><div align="center"><span class="infoline">
-                    <kul:htmlControlAttribute property="document.routingFormOrganizationCreditPercent[${status.index}].organizationCreditPercent" attributeEntry="${routingFormOrganizationCreditPercent.organizationCreditPercent}" />
+                    <kul:htmlControlAttribute property="document.routingFormOrganizationCreditPercent[${status.index}].organizationCreditPercent" attributeEntry="${routingFormOrganizationCreditPercent.organizationCreditPercent}" readOnly="${viewOnly}"/>
                   </span></div></td>
                   <td>&nbsp;</td>
                   <td><div align=center><html:image property="methodToCall.deleteOrganizationCreditPercentLine.line${status.index}.anchor${currentTabIndex}" src="images/tinybutton-delete1.gif" styleClass="tinybutton" alt="delete person line"/></div></td>

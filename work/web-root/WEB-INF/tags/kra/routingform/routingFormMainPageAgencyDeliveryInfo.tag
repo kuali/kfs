@@ -18,6 +18,7 @@
 <c:set var="routingFormAttributes" value="${DataDictionary.KualiRoutingFormDocument.attributes}" />
 <c:set var="routingFormAgencyAttributes" value="${DataDictionary.RoutingFormAgency.attributes}" />
 <c:set var="cfdaAttributes" value="${DataDictionary.CatalogOfFederalDomesticAssistanceReference.attributes}" />
+<c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
 
 <kul:tab tabTitle="Agency/Delivery Info" defaultOpen="true" tabErrorKey="document.routingFormAgency*,document.federalPassThroughAgency*" auditCluster="mainPageAuditErrors" tabAuditKey="document.routingFormAgency*">
 
@@ -42,7 +43,7 @@
                 </td>
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.routingFormDueDate}" skipHelpUrl="true" /></th>
                 <td colspan="2" align=left valign=middle >
-                	<kul:htmlControlAttribute property="document.routingFormAgency.routingFormDueDate" attributeEntry="${routingFormAgencyAttributes.routingFormDueDate}" datePicker="true" />
+                	<kul:htmlControlAttribute property="document.routingFormAgency.routingFormDueDate" attributeEntry="${routingFormAgencyAttributes.routingFormDueDate}" datePicker="true" readOnly="${viewOnly}"/>
                 </td>
               </tr>
               <tr>
@@ -61,27 +62,27 @@
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.routingFormDueDateTypeCode}" skipHelpUrl="true" /></th>
 
                 <td colspan="2" align=left valign=middle >
-                	<kul:htmlControlAttribute property="document.routingFormAgency.routingFormDueDateTypeCode" attributeEntry="${routingFormAgencyAttributes.routingFormDueDateTypeCode}"  />
+                	<kul:htmlControlAttribute property="document.routingFormAgency.routingFormDueDateTypeCode" attributeEntry="${routingFormAgencyAttributes.routingFormDueDateTypeCode}" readOnly="${viewOnly}"/>
                 </td>
 
               </tr>
               <tr>
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.agencyAddressDescription}" skipHelpUrl="true" useShortLabel="true" /></th>
                 <td align=left valign=middle >
-                	<kul:htmlControlAttribute property="document.routingFormAgency.agencyAddressDescription" attributeEntry="${routingFormAgencyAttributes.agencyAddressDescription}"  />
+                	<kul:htmlControlAttribute property="document.routingFormAgency.agencyAddressDescription" attributeEntry="${routingFormAgencyAttributes.agencyAddressDescription}" readOnly="${viewOnly}"/>
                 </td>
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.agencyShippingInstructionsDescription}" skipHelpUrl="true" useShortLabel="true" /></th>
                 <td align=left valign=middle >
-                	<kul:htmlControlAttribute property="document.routingFormAgency.agencyShippingInstructionsDescription" attributeEntry="${routingFormAgencyAttributes.agencyShippingInstructionsDescription}"  />
+                	<kul:htmlControlAttribute property="document.routingFormAgency.agencyShippingInstructionsDescription" attributeEntry="${routingFormAgencyAttributes.agencyShippingInstructionsDescription}" readOnly="${viewOnly}"/>
                 </td>
                 <td nowrap >
-                	<kul:htmlControlAttribute property="document.grantsGovernmentSubmissionIndicator" attributeEntry="${routingFormAttributes.grantsGovernmentSubmissionIndicator}"  />
+                	<kul:htmlControlAttribute property="document.grantsGovernmentSubmissionIndicator" attributeEntry="${routingFormAttributes.grantsGovernmentSubmissionIndicator}" readOnly="${viewOnly}"/>
                 	<kul:htmlAttributeLabel attributeEntry="${routingFormAttributes.grantsGovernmentSubmissionIndicator}" skipHelpUrl="true" labelFor="document.grantsGovernmentSubmissionIndicator" noColon="true" />
                   	<br>
-                	<kul:htmlControlAttribute property="document.routingFormAgency.agencyDiskAccompanyIndicator" attributeEntry="${routingFormAgencyAttributes.agencyDiskAccompanyIndicator}"  />
+                	<kul:htmlControlAttribute property="document.routingFormAgency.agencyDiskAccompanyIndicator" attributeEntry="${routingFormAgencyAttributes.agencyDiskAccompanyIndicator}" readOnly="${viewOnly}"/>
                 	<kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.agencyDiskAccompanyIndicator}" skipHelpUrl="true" labelFor="document.routingFormAgency.agencyDiskAccompanyIndicator" noColon="true" />
                   	<br>
-                	<kul:htmlControlAttribute property="document.routingFormAgency.agencyElectronicSubmissionIndicator" attributeEntry="${routingFormAgencyAttributes.agencyElectronicSubmissionIndicator}"  />
+                	<kul:htmlControlAttribute property="document.routingFormAgency.agencyElectronicSubmissionIndicator" attributeEntry="${routingFormAgencyAttributes.agencyElectronicSubmissionIndicator}" readOnly="${viewOnly}"/>
                 	<kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.agencyElectronicSubmissionIndicator}" skipHelpUrl="true" labelFor="document.routingFormAgency.agencyElectronicSubmissionIndicator" noColon="true" />
                   </td>
               </tr>
@@ -98,7 +99,7 @@
 				</td>
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.routingFormRequiredCopyNumber}" skipHelpUrl="true" useShortLabel="true" /></th>
                 <td colspan="2" align=left valign=middle >
-                	<kul:htmlControlAttribute property="document.routingFormAgency.routingFormRequiredCopyNumber" attributeEntry="${routingFormAgencyAttributes.routingFormRequiredCopyNumber}"  />
+                	<kul:htmlControlAttribute property="document.routingFormAgency.routingFormRequiredCopyNumber" attributeEntry="${routingFormAgencyAttributes.routingFormRequiredCopyNumber}" readOnly="${viewOnly}"/>
                 	Submit 2 additional copies plus the number of required by your department and school.
                 </td>
               </tr>
@@ -106,7 +107,7 @@
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAttributes.routingFormAnnouncementNumber}" skipHelpUrl="true" useShortLabel="true" /></th>
 
                 <td colspan="4" align=left valign=middle >
-                	<kul:htmlControlAttribute property="document.routingFormAnnouncementNumber" attributeEntry="${routingFormAttributes.routingFormAnnouncementNumber}"  />
+                	<kul:htmlControlAttribute property="document.routingFormAnnouncementNumber" attributeEntry="${routingFormAttributes.routingFormAnnouncementNumber}" readOnly="${viewOnly}"/>
                 </td>
               </tr>
             </table>

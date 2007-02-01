@@ -33,9 +33,6 @@
 
 	<kra-rf:routingFormMainPageSubmissionDetails/>
 
-    <!-- Following is unused, remember to delete file if it can be removed. -->
-	<!-- kra-rf:routingFormMainPageCustomAttributes -->
-
     <table width="100%" border="0" cellpadding="0" cellspacing="0" class="b3" summary="">
       <tr>
         <td align="left" class="footer"><img src="images/pixel_clear.gif" alt="" width="12" height="14" class="bl3"></td>

@@ -324,9 +324,9 @@ public class RoutingFormAuditRule {
             valid = false;
             auditErrors.add(new AuditError("document.routingFormBudget.routingFormBudgetStartDate", KraKeyConstants.AUDIT_MAIN_PAGE_START_DATE_REQUIRED, "mainpage"));
         }
-        if (ObjectUtils.isNull(routingFormBudget.getRoutingFormBudgetStartDate())) {
+        if (ObjectUtils.isNull(routingFormBudget.getRoutingFormBudgetEndDate())) {
             valid = false;
-            auditErrors.add(new AuditError("document.routingFormBudget.routingFormBudgetStartDate", KraKeyConstants.AUDIT_MAIN_PAGE_END_DATE_REQUIRED, "mainpage"));
+            auditErrors.add(new AuditError("document.routingFormBudget.routingFormBudgetEndDate", KraKeyConstants.AUDIT_MAIN_PAGE_END_DATE_REQUIRED, "mainpage"));
         }
         
         if (ObjectUtils.isNull(routingFormBudget.getRoutingFormBudgetTotalDirectAmount())) {
@@ -341,9 +341,9 @@ public class RoutingFormAuditRule {
             valid = false;
             auditErrors.add(new AuditError("document.routingFormBudget.routingFormBudgetTotalStartDate", KraKeyConstants.AUDIT_MAIN_PAGE_TOTAL_START_DATE_REQUIRED, "mainpage"));
         }
-        if (ObjectUtils.isNull(routingFormBudget.getRoutingFormBudgetTotalStartDate())) {
+        if (ObjectUtils.isNull(routingFormBudget.getRoutingFormBudgetTotalEndDate())) {
             valid = false;
-            auditErrors.add(new AuditError("document.routingFormBudget.routingFormBudgetTotalStartDate", KraKeyConstants.AUDIT_MAIN_PAGE_TOTAL_END_DATE_REQUIRED, "mainpage"));
+            auditErrors.add(new AuditError("document.routingFormBudget.routingFormBudgetTotalEndDate", KraKeyConstants.AUDIT_MAIN_PAGE_TOTAL_END_DATE_REQUIRED, "mainpage"));
         }
         
         // logic data relation on each row (not relation between the two)

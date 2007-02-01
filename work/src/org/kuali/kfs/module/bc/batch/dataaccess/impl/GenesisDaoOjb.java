@@ -438,11 +438,17 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     //      * We are now assured that all required documents exist.  We will now do the
     //        actual data processing to create the PBGL rows.
     
-    HashSet<String> currentBCHeaderKeys;
-    HashMap<String,BudgetConstructionHeader> newHeaderFromGL =
+    private HashSet<String> currentBCHeaderKeys;
+    private HashMap<String,BudgetConstructionHeader> newHeaderFromGL =
         new HashMap<String,BudgetConstructionHeader>(
                 Constants.BudgetConstructionConstants.ESTIMATED_BUDGET_CONSTRUCTION_DOCUMENT_COUNT);
-    Collection<BudgetConstructionHeader> newBCDocumentSource;
+    private Collection<BudgetConstructionHeader> newBCDocumentSource;
+    // this saves our document numbers so we can update the status codes at the end
+    // of the route process--we want this to be FIFO, so workflow flows undisturbed
+    // (ulitmately, as will everything else, to the sea)
+    private ArrayList<String> newBCDocumentNumbers = 
+        new ArrayList<String>(
+                Constants.BudgetConstructionConstants.ESTIMATED_BUDGET_CONSTRUCTION_DOCUMENT_COUNT);
     // counters
     Long documentsToCreateinNTS    = new Long(0);
     Long documentsSkippedinNTS     = new Long(0);
@@ -585,6 +591,8 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
             }
             documentsCreatedinNTS = documentsCreatedinNTS+1;
         }
+        storeBudgetConstructionDocumentsInitialStatus();
+
     }
     
     private void storeBudgetConstructionDocument (BudgetConstructionHeader bCHdrTemplate)
@@ -607,11 +615,18 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         //  we need to reset the status code
         //  the OLTP screens use the status code to keep track of whether the 
         //  document has been edited
-        storeBudgetConstructionDocumentInitialStatus(
-                bCDocument.getDocumentNumber());
+        /*
+         *  apparently something in workflow route accesses the header two or
+         *  three times.  we were getting optimistic locking errors (and having
+         *  our status overridden even when we were able to update) because
+         *  we were competing with this asynchronous process.  so, we save the 
+         *  document numbers here in a FIFO array, so we can update the documents
+         *  later after workflow has done its business
+         */
+        newBCDocumentNumbers.add(bCDocument.getDocumentNumber());
     }
     
-    private void storeBudgetConstructionDocumentInitialStatus (String documentNumber)
+    private void storeBudgetConstructionDocumentsInitialStatus ()
     {
         //  since the object ID was created when the document was stored, we need to
         //  retrieve the header from the database instead of just using the header
@@ -622,15 +637,19 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         //  so, we will probably do three DB calls: (a) get the document header,
         //  (b) get it again on store to see if ojb should do an update or an insert,
         //  and (c) update. 
-        Criteria criteriaId = new Criteria();
-        criteriaId.addEqualTo(PropertyConstants.DOCUMENT_NUMBER,documentNumber);
-        QueryByCriteria queryId = 
-            new QueryByCriteria(DocumentHeader.class,criteriaId);
-        DocumentHeader routedDocument = 
-            (DocumentHeader) getPersistenceBrokerTemplate().getObjectByQuery(queryId);
-        routedDocument.setFinancialDocumentStatusCode(
-                BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_INITIAL_STATUS);
-        getPersistenceBrokerTemplate().store(routedDocument);
+        for (int i=0; i < newBCDocumentNumbers.size(); i++)
+        {
+          String documentNumber = newBCDocumentNumbers.get(i);    
+          Criteria criteriaId = new Criteria();
+          criteriaId.addEqualTo(PropertyConstants.DOCUMENT_NUMBER,documentNumber);
+          QueryByCriteria queryId = 
+             new QueryByCriteria(DocumentHeader.class,criteriaId);
+          DocumentHeader routedDocument = 
+              (DocumentHeader) getPersistenceBrokerTemplate().getObjectByQuery(queryId);
+          routedDocument.setFinancialDocumentStatusCode(
+                  BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_INITIAL_STATUS);
+          getPersistenceBrokerTemplate().store(routedDocument);
+        }
     }
     
     private void storeCurrentGLBCHeaderCandidates(Integer BaseYear)

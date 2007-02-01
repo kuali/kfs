@@ -16,6 +16,7 @@
 package org.kuali.module.budget.service.impl;
 
 import org.kuali.module.budget.service.*;
+import org.kuali.core.service.*;
 import org.kuali.core.util.SpringServiceLocator.*;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.*;
@@ -59,6 +60,8 @@ public class GenesisTest {
       GenesisService genesisTestService = SpringServiceLocator.getGenesisService();
       DateMakerService dateMakerTestService = 
           SpringServiceLocator.getDateMakerService();
+      DateTimeService dateTimeService =
+          SpringServiceLocator.getDateTimeService();
   //
       GlobalVariables.clear();
       try
@@ -77,9 +80,11 @@ public class GenesisTest {
       }
       // create the proxy BC headers
       genesisTestService.clearDBForGenesis(2009);
+      LOG.info("\nDocument creation started: "+String.format("%tT",dateTimeService.getCurrentDate()));
       genesisTestService.createProxyBCHeadersTransactional(2009);
       // create the real BC documents based on the proxies
       genesisDao.createNewBCDocuments(2009);
+      LOG.info("\nDocument creation ended: "+String.format("%tT",dateTimeService.getCurrentDate()));
   //
   //    genesisTestService.testStep(2007);
   //    genesisTestService.testSLFStep(2009);

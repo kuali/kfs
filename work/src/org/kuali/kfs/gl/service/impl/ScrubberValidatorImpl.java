@@ -366,9 +366,18 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
     private void adjustAccountIfContractsAndGrants(Account account) {
         if (account.isForContractsAndGrants() && (!account.isAccountClosedIndicator())) {
+            
+            String daysOffset = kualiConfigurationService.getApplicationParameterValue(Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
+            int daysOffsetInt = 3 * 30; //default to 90 days (approximately 3 months)
+            
+            if(daysOffset.trim().length()>0){
+               
+                    daysOffsetInt = new Integer(daysOffset).intValue();
+            }
+            
             Calendar tempCal = Calendar.getInstance();
             tempCal.setTimeInMillis(account.getAccountExpirationDate().getTime());
-            tempCal.add(Calendar.MONTH, 3); // TODO: make this configurable
+            tempCal.add(Calendar.DAY_OF_MONTH, daysOffsetInt);
             account.setAccountExpirationDate(new Timestamp(tempCal.getTimeInMillis()));
         }
         return;

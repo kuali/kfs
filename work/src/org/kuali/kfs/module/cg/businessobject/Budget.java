@@ -685,7 +685,12 @@ public class Budget extends PersistableBusinessObjectBase {
      * @return String[]
      */
     public String[] getBudgetTypeCodeArray() {
-        return this.getBudgetTypeCodeText().split("-");
+        String[] array = this.getBudgetTypeCodeText().split("-");
+        return array;
+    }
+    
+    public void addBudgetTypeCode(String budgetTypeCode) {
+        this.setBudgetTypeCodeText(this.getBudgetTypeCodeText() + "-" + budgetTypeCode);
     }
 
     public void setBudgetTypeCodeArray(String[] budgetTypeCodeArray) {

@@ -31,7 +31,6 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.datadictionary.DocumentEntry;
-import org.kuali.core.datadictionary.HeaderNavigation;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.uidraw.KeyLabelPair;
 import org.kuali.module.kra.budget.bo.Budget;
@@ -941,5 +940,32 @@ public class BudgetForm extends ResearchDocumentFormBase {
 
     public void setDisplayCostSharePermission(boolean displayCostSharePermission) {
         this.displayCostSharePermission = displayCostSharePermission;
+    }
+    
+    /**
+     * This is a work around for a problem with html:multibox. See KULERA-835 for details. Essentially it appears that
+     * in Kuali html:multibox doesn't handle string arrays correctly. It only handles the first element of a string array.
+     * @param projectTypeCode
+     * @return
+     */
+    public String[] getSelectedBudgetTypesMultiboxFix(String budgetTypeCode) {
+        String[] budgetTypes = this.getBudgetDocument().getBudget().getBudgetTypeCodeArray();
+        
+        for(int i = 0; i < budgetTypes.length; i++) {
+            String budgetType = (String) budgetTypes[i];
+            if (budgetType.equals(budgetTypeCode)) {
+                return new String[] {budgetTypeCode};
+            }
+        }
+        
+        // don't pass String[0], JSPs don't like that (exception)
+        return new String[] {""};
+    }
+
+    /**
+     * @see org.kuali.module.kra.routingform.web.struts.form.RoutingForm#getSelectedBudgetTypesMultiboxFix(String)
+     */
+    public void setSelectedBudgetTypesMultiboxFix(String code, String[] something) {
+        this.getBudgetDocument().getBudget().addBudgetTypeCode(code);
     }
 }

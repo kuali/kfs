@@ -131,7 +131,8 @@
     		<html:hidden property="budgetTypeCode[${i}].budgetTypeDescription" />
     		<c:choose>
     			<c:when test="${not viewOnly}">
-		    		<html:multibox name="KualiForm" property="document.budget.budgetTypeCodeArray"> ${budgetType.budgetTypeCode} </html:multibox> ${budgetType.budgetTypeDescription} <br/>
+		    		<html:multibox property="selectedBudgetTypesMultiboxFix(${budgetType.budgetTypeCode})" value="${budgetType.budgetTypeCode}"/>
+		    		<%-- <html:multibox name="KualiForm" property="document.budget.budgetTypeCodeArray"> ${budgetType.budgetTypeCode} </html:multibox> --%> ${budgetType.budgetTypeDescription} <br/>
     			</c:when>
     			<c:otherwise>
     				<c:choose>
@@ -142,7 +143,7 @@
     			</c:otherwise>
     		</c:choose>
       	</logic:iterate> 
-      		
+      	
       <kul:htmlControlAttribute property="document.budget.agencyModularIndicator" attributeEntry="${budgetAttributes.agencyModularIndicator}" readOnly="${viewOnly}" onclick="modularVarianceToggle(); " disabled="${!supportsModular}" tabindexOverride="5070"/><kul:htmlAttributeLabel attributeEntry="${budgetAttributes.agencyModularIndicator}" labelFor="document.budget.agencyModularIndicator" useShortLabel="true" skipHelpUrl="true" noColon="true" />
       <html:hidden property="supportsModular" />
     </td>

@@ -48,7 +48,7 @@ import org.kuali.module.labor.util.ObjectUtil;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * This class...
+ * This class implements LaborOriginEntryService to provide the access to labor origin entries in data stores.
  */
 @Transactional
 public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {

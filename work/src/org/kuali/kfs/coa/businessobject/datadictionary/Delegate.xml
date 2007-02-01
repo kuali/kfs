@@ -99,6 +99,7 @@
             <attributeReference name="accountDelegateSystemId" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier">
                 <label>Account Delegate Universal ID</label>
                 <shortLabel>UnvlID</shortLabel>
+                <displayLabelAttribute>accountDelegate.personUserIdentifier</displayLabelAttribute>
                 <required>true</required>
                 <control>
                     <hidden />

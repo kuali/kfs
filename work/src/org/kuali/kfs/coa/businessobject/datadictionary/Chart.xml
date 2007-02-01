@@ -117,6 +117,7 @@
             <attributeReference name="finCoaManagerUniversalId" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier">
                 <label>Chart Manager Employee Id</label>
                 <shortLabel>Chart Manager</shortLabel>
+                <displayLabelAttribute>finCoaManagerUniversal.personUserIdentifier</displayLabelAttribute>
                 <required>true</required>
                 <control>
                     <hidden />

@@ -862,6 +862,7 @@
             <attributeReference name="accountFiscalOfficerSystemIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier">
                 <label>Fiscal Officer Unvl ID</label>
                 <shortLabel>FiscOffId</shortLabel>
+                <displayLabelAttribute>accountFiscalOfficerUser.personUserIdentifier</displayLabelAttribute>
                 <required>true</required>
                 <control>
                     <hidden />
@@ -897,6 +898,7 @@
             <attributeReference name="accountsSupervisorySystemsIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier">
                 <label>Supervisor Unvl ID</label>
                 <shortLabel>SprvsrId</shortLabel>
+                <displayLabelAttribute>accountSupervisoryUser.personUserIdentifier</displayLabelAttribute>
                 <required>true</required>
                 <control>
                     <hidden />
@@ -932,6 +934,7 @@
             <attributeReference name="accountManagerSystemIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier">
                 <label>Manager Unvl ID</label>
                 <shortLabel>MgrId</shortLabel>
+                <displayLabelAttribute>accountManagerUser.personUserIdentifier</displayLabelAttribute>
                 <required>true</required>
                 <control>
                     <hidden />

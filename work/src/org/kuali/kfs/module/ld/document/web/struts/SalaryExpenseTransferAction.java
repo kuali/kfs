@@ -15,13 +15,10 @@
  */
 package org.kuali.module.labor.web.struts.action;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.bo.AccountingLine;
-import org.kuali.core.bo.AccountingLineOverride;
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.module.labor.bo.SalaryExpenseTransferAccountingLine;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
@@ -34,27 +31,23 @@ import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
  * 
  */
 public class SalaryExpenseTransferAction extends LaborDocumentActionBase {
-        
+             
     protected void processAccountingLineOverrides(KualiTransactionalDocumentFormBase transForm) {
-
-        processAccountingLineOverrides(transForm.getNewSourceLine());
-        processAccountingLineOverrides(transForm.getNewTargetLine());
+        
         if (transForm.hasDocumentId()) {
-            TransactionalDocument transactionalDocument = (TransactionalDocument) transForm.getDocument();
-            SalaryExpenseTransferDocument salaryExpenseTransferDocument = (SalaryExpenseTransferDocument)transactionalDocument;            
-            
-            // Save the employee ID on all source and target accounting lines
-            for (Iterator i = transactionalDocument.getSourceAccountingLines().iterator(); i.hasNext();) {
-                SalaryExpenseTransferAccountingLine salaryExpenseTransferAccountingLine = (SalaryExpenseTransferAccountingLine) i.next();
-                salaryExpenseTransferAccountingLine.setEmplid(salaryExpenseTransferDocument.getEmplid());
-            }
-            for (Iterator i = transactionalDocument.getTargetAccountingLines().iterator(); i.hasNext();) {
-                SalaryExpenseTransferAccountingLine salaryExpenseTransferAccountingLine = (SalaryExpenseTransferAccountingLine) i.next();
-                salaryExpenseTransferAccountingLine.setEmplid(salaryExpenseTransferDocument.getEmplid());
-            }
 
-            processAccountingLineOverrides(transactionalDocument.getSourceAccountingLines());
-            processAccountingLineOverrides(transactionalDocument.getTargetAccountingLines());
+            // Save the employee ID in all source and target accounting lines.
+            TransactionalDocument transactionalDocument = (TransactionalDocument) transForm.getDocument();
+            SalaryExpenseTransferDocument salaryExpenseTransferDocument = (SalaryExpenseTransferDocument) transactionalDocument;
+            List<SalaryExpenseTransferAccountingLine> accountingLines = new ArrayList();
+            accountingLines.addAll((List<SalaryExpenseTransferAccountingLine>) salaryExpenseTransferDocument.getSourceAccountingLines());
+            accountingLines.addAll((List<SalaryExpenseTransferAccountingLine>) salaryExpenseTransferDocument.getTargetAccountingLines());
+           
+            for (SalaryExpenseTransferAccountingLine line : accountingLines) {
+                line.setEmplid(salaryExpenseTransferDocument.getEmplid());
+            }
+   
+            super.processAccountingLineOverrides(transForm);
         }
     }
 }

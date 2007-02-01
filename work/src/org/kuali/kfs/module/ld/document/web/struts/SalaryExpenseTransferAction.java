@@ -31,7 +31,8 @@ import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
  * 
  */
 public class SalaryExpenseTransferAction extends LaborDocumentActionBase {
-             
+
+    @Override         
     protected void processAccountingLineOverrides(KualiTransactionalDocumentFormBase transForm) {
         
         if (transForm.hasDocumentId()) {
@@ -46,7 +47,6 @@ public class SalaryExpenseTransferAction extends LaborDocumentActionBase {
             for (SalaryExpenseTransferAccountingLine line : accountingLines) {
                 line.setEmplid(salaryExpenseTransferDocument.getEmplid());
             }
-   
             super.processAccountingLineOverrides(transForm);
         }
     }

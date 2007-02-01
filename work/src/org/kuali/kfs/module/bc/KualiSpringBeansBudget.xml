@@ -79,12 +79,6 @@
         </property>
     </bean>
 
-    <bean id="genesisRouteService" class="org.kuali.module.budget.service.impl.GenesisRouteServiceImpl">
-        <property name="genesisDao">
-            <ref bean="genesisDao" />
-        </property>
-    </bean>
-
     <bean id="genesisDao" class="org.kuali.module.budget.dao.ojb.GenesisDaoOjb">
         <property name="jcdAlias">
             <value>dataSource</value>

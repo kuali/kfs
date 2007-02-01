@@ -92,6 +92,8 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
             return BigDecimal.valueOf(0.0);
         }
     }
+
+ 
     
 	/**
 	 * Gets the positionNumber attribute.

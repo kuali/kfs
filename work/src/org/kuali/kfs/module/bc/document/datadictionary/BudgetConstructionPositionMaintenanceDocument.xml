@@ -22,7 +22,7 @@
     <maintenanceDocument>
         <businessObjectClass>org.kuali.module.budget.bo.BudgetConstructionPosition</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-
+        <preRulesCheckClass>org.kuali.module.budget.rules.BudgetConstructionPositionPreRules</preRulesCheckClass>
         <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
@@ -64,7 +64,8 @@
 	            	<maintainableField name="jobCodeDescription" required="false"/>
 	            	<maintainableField name="budgetedPosition" required="true"/>
 	            	<maintainableField name="confidentialPosition" required="false"/>
-	            	<maintainableField name="positionUnionCode" required="false"/>	            	
+	            	<maintainableField name="positionUnionCode" required="false"/>
+	            	<maintainableField name="positionRegularTemporary" required="false"/>	            	
 	            	<maintainableField name="positionStandardHoursDefault" required="true" webUILeaveFieldFunction="updateBCPositionFTE"/>
 	            	<maintainableField name="iuNormalWorkMonths" required="true" webUILeaveFieldFunction="updateBCPositionFTE"/>
 	            	<maintainableField name="iuPayMonths" required="true" webUILeaveFieldFunction="updateBCPositionFTE"  />
@@ -76,7 +77,6 @@
 	            	<maintainableField name="setidJobCode" required="false"/>
 	            	<maintainableField name="iuDefaultObjectCode" required="true"/>
 	            	<maintainableField name="iuPositionType" required="true"/>
-	            	<maintainableField name="positionLockUserIdentifier" required="false"/>
 	            	            	
                     <maintainableField name="versionNumber" />
                 </maintainableItems>

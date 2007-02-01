@@ -51,7 +51,6 @@
                 <field attributeName="setidJobCode" /> 
                 <field attributeName="iuDefaultObjectCode" />               
                 <field attributeName="iuPositionType" />           
-                <field attributeName="positionLockUserIdentifier" />             
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -236,7 +235,7 @@
                 <description>positionDescription description...</description>
 			</attribute>
 			
-            <attributeReference name="positionEffectiveDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
+            <attributeReference name="positionEffectiveDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Position Effective Date</label>
                 <shortLabel>Date</shortLabel>
                 <summary>
@@ -252,8 +251,8 @@
                 <maxLength>1</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
 
-                <control>
-                    <text size="3" />
+ 				<control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.BudgetConstructionPositionEffectiveStatusValuesFinder" />
                 </control>
 
                 <summary>positionEffectiveStatus </summary>
@@ -328,7 +327,7 @@
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="3" />
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.BudgetConstructionPositionRegularTemporaryValuesFinder" />
                 </control>
 
                 <summary>positionRegularTemporary</summary>
@@ -374,7 +373,7 @@
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="3" />
+                   <select valuesFinderClass="org.kuali.core.lookup.keyvalues.BudgetConstructionPositionStatusValuesFinder" />
                 </control>
 
                 <summary>positionStatus </summary>

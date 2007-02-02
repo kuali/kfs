@@ -535,14 +535,6 @@
     <field-descriptor name="budgetTypeDescription" column="BDGT_TYP_DESC" jdbc-type="VARCHAR" />
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.kra.budget.bo.BudgetPurposeCode" table="ER_BDGT_PRPS_CD_T">
-    <field-descriptor name="budgetPurposeCode" column="BDGT_PRPS_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="budgetPurposeDescription" column="BDGT_PRPS_DESC" jdbc-type="VARCHAR" />
-    <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-</class-descriptor>
-
 <class-descriptor class="org.kuali.module.kra.budget.bo.BudgetIndirectCostLookup" table="ER_BDGT_IDC_LU_T">
     <field-descriptor name="documentNumber" column="RDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="budgetOnCampusIndicator" column="BDGT_ON_CMP_IND" jdbc-type="VARCHAR" primarykey="true" index="true" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
@@ -563,7 +555,7 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="budgetIndirectCostRate" column="BDGT_IDC_RT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbDecimalPercentageFieldConversion" />
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-    <reference-descriptor name="budgetPurpose" proxy="true" class-ref="org.kuali.module.kra.budget.bo.BudgetPurposeCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="budgetPurpose" proxy="true" class-ref="org.kuali.module.kra.routingform.bo.Purpose" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="budgetPurposeCode" />
     </reference-descriptor>
 </class-descriptor>

@@ -71,7 +71,7 @@
                 <description>Budget On Campus Indicator.</description>
             </attribute>
 
-            <attributeReference name="budgetPurposeCode" sourceClassName="org.kuali.module.kra.budget.bo.BudgetPurposeCode" sourceAttributeName="budgetPurposeCode">
+            <attributeReference name="budgetPurposeCode" sourceClassName="org.kuali.module.kra.routingform.bo.Purpose" sourceAttributeName="purposeCode">
                 <label>Budget Purpose Code</label>
                 <shortLabel>BdgtPrpsCd</shortLabel>
                 <summary>Budget Purpose Code</summary>

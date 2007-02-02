@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.kra.routingform.bo.Purpose;
 
 /**
  * 
@@ -29,7 +30,7 @@ public class IndirectCostLookup extends PersistableBusinessObjectBase {
     private boolean budgetOnCampusIndicator;
     private String budgetPurposeCode;
     private KualiDecimal budgetIndirectCostRate;
-    private BudgetPurposeCode budgetPurpose;
+    private Purpose budgetPurpose;
     private boolean active;
     
     /**
@@ -109,7 +110,7 @@ public class IndirectCostLookup extends PersistableBusinessObjectBase {
      * Gets the budgetPurpose attribute. 
      * @return Returns the budgetPurpose.
      */
-    public BudgetPurposeCode getBudgetPurpose() {
+    public Purpose getBudgetPurpose() {
         return budgetPurpose;
     }
 
@@ -117,7 +118,7 @@ public class IndirectCostLookup extends PersistableBusinessObjectBase {
      * Sets the budgetPurpose attribute value.
      * @param budgetPurpose The budgetPurpose to set.
      */
-    public void setBudgetPurpose(BudgetPurposeCode budgetPurpose) {
+    public void setBudgetPurpose(Purpose budgetPurpose) {
         this.budgetPurpose = budgetPurpose;
     }
 

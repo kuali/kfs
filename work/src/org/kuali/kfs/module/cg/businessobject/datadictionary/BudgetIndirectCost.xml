@@ -145,7 +145,7 @@
                 <shortLabel>Code</shortLabel>
                 <maxLength>2</maxLength>
                 <control>
-                    <select valuesFinderClass="org.kuali.module.kra.budget.lookup.keyvalues.BudgetPurposeCodeValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.kra.routingform.lookup.keyvalues.PurposeValuesFinder" />
                 </control>
 
                 <summary>Purpose Code</summary>

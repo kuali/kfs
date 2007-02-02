@@ -53,7 +53,7 @@
                   <c:if test="${empty KualiForm.newRoutingFormPersonnel.personSystemIdentifier && !KualiForm.newRoutingFormPersonnel.personToBeNamedIndicator}">(select)</c:if>
 		    	  <c:if test="${KualiForm.newRoutingFormPersonnel.personToBeNamedIndicator}">TO BE NAMED</c:if>
                   <c:if test="${!viewOnly}">
-                    <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:newRoutingFormPersonnel.personSystemIdentifier,personName:newRoutingFormPersonnel.user.personName" extraButtonSource="images/buttonsmall_namelater.gif" extraButtonParams="&newRoutingFormPersonnel.personToBeNamedIndicator=true" tabindexOverride="5100" anchor="${currentTabIndex}" />
+                    <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:newRoutingFormPersonnel.personSystemIdentifier,personName:newRoutingFormPersonnel.user.personName" extraButtonSource="images/buttonsmall_namelater.gif" extraButtonParams="&newRoutingFormPersonnel.personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
                   </c:if>
                 </td>
                 <td class="infoline"><kul:htmlControlAttribute property="newRoutingFormPersonnel.personRoleCode" attributeEntry="${routingFormPersonnel.personRoleCode}" readOnly="${viewOnly}"/></td>
@@ -96,14 +96,12 @@
                     <c:if test="${empty person.personSystemIdentifier && !person.personToBeNamedIndicator}">(select)</c:if>
 		    	    <c:if test="${person.personToBeNamedIndicator}">TO BE NAMED</c:if>
                     <c:if test="${!viewOnly}">
-                      <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:document.routingFormPerson[${status.index}].personSystemIdentifier,personName:document.routingFormPerson[${status.index}].user.personName" extraButtonSource="images/buttonsmall_namelater.gif" extraButtonParams="&document.routingFormPerson[${status.index}].personToBeNamedIndicator=true" tabindexOverride="5100" anchor="${currentTabIndex}" />
+                      <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:document.routingFormPerson[${status.index}].personSystemIdentifier,personName:document.routingFormPerson[${status.index}].user.personName" extraButtonSource="images/buttonsmall_namelater.gif" extraButtonParams="&document.routingFormPerson[${status.index}].personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
                     </c:if>
                   </td>
                   <td><kul:htmlControlAttribute property="document.routingFormPerson[${status.index}].personRoleCode" attributeEntry="${routingFormPersonnel.personRoleCode}" readOnly="${viewOnly}"/></td>
                   <td><kul:htmlControlAttribute property="document.routingFormPerson[${status.index}].personRoleText" attributeEntry="${routingFormPersonnel.personRoleText}" readOnly="${viewOnly}"/></td>
                   <td>
-                    <html:hidden property="document.routingFormPerson[${status.index}].chartOfAccountsCode"/>
-                    <html:hidden property="document.routingFormPerson[${status.index}].organizationCode"/>
                     <c:choose>
                       <c:when test="${person.chartOfAccountsCode ne null and person.organizationCode ne null}">
                         ${person.chartOfAccountsCode} / ${person.organizationCode}
@@ -120,7 +118,7 @@
                   <td><div align="center"><span class="infoline">
                     <kul:htmlControlAttribute property="document.routingFormPerson[${status.index}].personCreditPercent" attributeEntry="${routingFormPersonnel.personCreditPercent}" readOnly="${viewOnly}"/>
                   </span></div></td>
-                  <td><div align="center"><html:image property="methodToCall.headerTab.headerDispatch.save.navigateTo.personnel.anchor${currentTabIndex}" src="images/tinybutton-view.gif" styleClass="tinybutton" alt="view person line"/></div></td>
+                  <td><div align="center"><html:image property="methodToCall.headerTab.headerDispatch.save.navigateTo.personnel.anchor${status.index+1}" src="images/tinybutton-view.gif" styleClass="tinybutton" alt="view person line"/></div></td>
                   <td><div align=center><html:image property="methodToCall.deletePersonLine.line${status.index}.anchor${currentTabIndex}" src="images/tinybutton-delete1.gif" styleClass="tinybutton" alt="delete person line"/></div></td>
                 </tr>
               </c:forEach>

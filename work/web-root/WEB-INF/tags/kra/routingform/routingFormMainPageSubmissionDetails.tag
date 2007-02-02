@@ -162,7 +162,7 @@
 		                <td class="neutral"> <div align="left">
 					    	<c:if test="${!viewOnly}">
 						    	<html:hidden write="true" property="newRoutingFormKeyword.routingFormKeywordDescription" /> 
-					    		<kul:lookup boClassName="org.kuali.module.kra.routingform.bo.Keyword" lookupParameters="newRoutingFormKeyword.routingFormKeywordDescription:routingFormKeywordDescription" fieldConversions="routingFormKeywordDescription:newRoutingFormKeyword.routingFormKeywordDescription" tabindexOverride="5100" anchor="${currentTabIndex}" />
+					    		<kul:lookup boClassName="org.kuali.module.kra.routingform.bo.Keyword" lookupParameters="newRoutingFormKeyword.routingFormKeywordDescription:routingFormKeywordDescription" fieldConversions="routingFormKeywordDescription:newRoutingFormKeyword.routingFormKeywordDescription" anchor="${currentTabIndex}" />
 		                	</c:if>
 		                </div></td>
 		                <td class="neutral"><div align="center">

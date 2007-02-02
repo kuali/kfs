@@ -763,14 +763,14 @@
         		<navigateTo>projectdetails</navigateTo>
         		<displayName>Project Details</displayName>
         	</headerNavigationTab>
-        	<headerNavigationTab>
+        	<!-- headerNavigationTab>
         		<navigateTo>agencyspecific</navigateTo>
         		<displayName>Agency Specific</displayName>
         	</headerNavigationTab>
         	<headerNavigationTab>
         		<navigateTo>sf424</navigateTo>
         		<displayName>SF 424</displayName>
-        	</headerNavigationTab>
+        	</headerNavigationTab -->
         	<headerNavigationTab>
         		<navigateTo>link</navigateTo>
         		<displayName>Module Links</displayName>

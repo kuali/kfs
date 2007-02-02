@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
+import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
 
 /**
  * Handles queries and validation on tax id numbers.
@@ -26,22 +27,6 @@ import org.kuali.module.financial.document.DisbursementVoucherDocument;
  * 
  */
 public interface DisbursementVoucherTaxService {
-    public static Integer TAX_NUMBER_NOT_FOUND = new Integer(0);
-    public static Integer INSTITUTION_TAX_NUMBER = new Integer(1);
-    public static Integer TAX_ID_VENDOR = new Integer(2);
-    public static Integer TAX_ID_EXISTING_PAYEE = new Integer(3);
-    public static Integer TAX_ID_PENDING_PAYEE = new Integer(4);
-    public static Integer TAX_ID_EMPLOYEE = new Integer(5);
-
-    /**
-     * Checks the existence of a tax id number as one of the following, returning the constant representing the match: 1) No Match
-     * 2) Institution special tax number 3) Vendor ID Number 4) Tax ID of existing payee 5) Tax ID of pending payee 6) Employee tax
-     * number
-     * 
-     * @param taxIDNumber
-     * @return
-     */
-    public Integer getTaxIDNumberUsage(String taxIDNumber, String taxpayerTypeCode);
 
     /**
      * Returns the vendor id number whose tax number matches the number passed in, or null if no vendor is found.
@@ -50,7 +35,7 @@ public interface DisbursementVoucherTaxService {
      * @param taxpayerTypeCode
      * @return
      */
-    public String getVendorNumber(String taxIDNumber, String taxpayerTypeCode);
+    public String getVendorId(String taxIDNumber, String taxpayerTypeCode);
 
     /**
      * Returns the pending payee id number whose tax number matches the number passed in, or null if no payee is found.
@@ -59,7 +44,7 @@ public interface DisbursementVoucherTaxService {
      * @param taxpayerTypeCode
      * @return
      */
-    public String getPendingPayeeNumber(String taxIDNumber, String taxpayerTypeCode);
+    public String getPendingPayeeId(String taxIDNumber, String taxpayerTypeCode);
 
     /**
      * Returns the payee id number whose tax number matches the number passed in, or null if no payee is found.
@@ -68,7 +53,7 @@ public interface DisbursementVoucherTaxService {
      * @param taxpayerTypeCode
      * @return
      */
-    public String getPayeeNumber(String taxIDNumber, String taxpayerTypeCode);
+    public String getPayeeId(String taxIDNumber, String taxpayerTypeCode);
 
     /**
      * Returns the employee id number whose tax number matches the number passed in, or null if no employee is found.
@@ -77,7 +62,7 @@ public interface DisbursementVoucherTaxService {
      * @param taxpayerTypeCode
      * @return
      */
-    public String getEmployeeNumber(String taxIDNumber, String taxpayerTypeCode);
+    public String getUniversalId(String taxIDNumber, String taxpayerTypeCode);
 
     /**
      * Removes tax lines from the document's accounting lines and updates the check total.

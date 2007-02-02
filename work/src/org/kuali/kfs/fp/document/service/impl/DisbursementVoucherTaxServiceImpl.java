@@ -29,11 +29,16 @@ import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
+import org.kuali.core.bo.user.SocialSecurityNumber;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.bo.user.UserId;
 import org.kuali.core.exceptions.ApplicationParameterException;
 import org.kuali.core.exceptions.InfrastructureException;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.MaintenanceDocumentService;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -50,126 +55,43 @@ import org.kuali.module.financial.service.DisbursementVoucherTaxService;
  * 
  * 
  */
-public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTaxService {
+public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTaxService, DisbursementVoucherRuleConstants {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherTaxServiceImpl.class);
 
     private KualiConfigurationService kualiConfigurationService;
     private BusinessObjectService businessObjectService;
     private MaintenanceDocumentService maintenanceDocumentService;
-
-    /**
-     * @see org.kuali.module.financial.service.DisbursementVoucherTaxService#getTaxIDNumberUsage(java.lang.String)
-     */
-    public Integer getTaxIDNumberUsage(String taxIDNumber, String taxpayerTypeCode) {
-        Integer taxIDMatch = DisbursementVoucherTaxService.TAX_NUMBER_NOT_FOUND;
-        if (taxIDNumber == null || taxpayerTypeCode == null) {
-            return taxIDMatch;
-        }
-
-        String institutionFeinNumber = kualiConfigurationService.getPropertyString(KeyConstants.INSTITUTION_TAX_FEIN_NUMBER);
-        if (taxIDNumber.equals(institutionFeinNumber)) {
-            taxIDMatch = DisbursementVoucherTaxService.INSTITUTION_TAX_NUMBER;
-        }
-        else if (isVendorIDNumber(taxIDNumber)) {
-            taxIDMatch = DisbursementVoucherTaxService.TAX_ID_VENDOR;
-        }
-        else if (isPayeeTaxNumber(taxIDNumber, taxpayerTypeCode)) {
-            taxIDMatch = DisbursementVoucherTaxService.TAX_ID_EXISTING_PAYEE;
-        }
-        else if (isPendingPayeeTaxNumber(taxIDNumber, taxpayerTypeCode)) {
-            taxIDMatch = DisbursementVoucherTaxService.TAX_ID_PENDING_PAYEE;
-        }
-        else if (isEmployeeTaxNumber(taxIDNumber)) {
-            taxIDMatch = DisbursementVoucherTaxService.TAX_ID_EMPLOYEE;
-        }
-
-        return taxIDMatch;
-    }
-
-    /**
-     * Checks whether the given tax id number matches a current vendor id number.
-     * 
-     * @param taxIDNumber
-     * @return
-     */
-    private boolean isVendorIDNumber(String taxIDNumber) {
-        boolean isVendorID = false;
-        // TODO: Implement check once Epic is integrated
-
-        return isVendorID;
-    }
-
-    /**
-     * Checks whether the given tax id number matches a current payee tax number.
-     * 
-     * @param taxIDNumber
-     * @return
-     */
-    private boolean isPayeeTaxNumber(String taxIDNumber, String taxpayerTypeCode) {
-        boolean isPayeeNumber = false;
-
-        Map taxIDCrit = new HashMap();
-        taxIDCrit.put("taxIdNumber", taxIDNumber);
-        taxIDCrit.put("taxpayerTypeCode", taxpayerTypeCode);
-        Collection foundPayees = businessObjectService.findMatching(Payee.class, taxIDCrit);
-
-        if (!foundPayees.isEmpty()) {
-            isPayeeNumber = true;
-        }
-
-        return isPayeeNumber;
-    }
-
-    /**
-     * Checks whether the given tax id number matches a pending payee tax number.
-     * 
-     * @param taxIDNumber
-     * @return
-     */
-    private boolean isPendingPayeeTaxNumber(String taxIDNumber, String taxpayerTypeCode) {
-        boolean isPendingPayeeNumber = false;
-        List pendingPayees = maintenanceDocumentService.getPendingObjects(Payee.class);
-
-        for (Iterator iter = pendingPayees.iterator(); iter.hasNext();) {
-            Payee pendingPayee = (Payee) iter.next();
-            if (taxIDNumber.equals(pendingPayee.getTaxIdNumber()) && taxpayerTypeCode.equals(pendingPayee.getTaxpayerTypeCode())) {
-                isPendingPayeeNumber = true;
-            }
-        }
-
-
-        return isPendingPayeeNumber;
-    }
-
-    /**
-     * Checks whether the given tax id number matches a current employee tax number.
-     * 
-     * @param taxIDNumber
-     * @return
-     */
-    private boolean isEmployeeTaxNumber(String taxIDNumber) {
-        boolean isEmployeeNumber = false;
-
-        // TODO: implement LDAP search of tax number to find employee uuid
-
-        return isEmployeeNumber;
-    }
-
+    private UniversalUserService universalUserService;
+    
     /**
      * @see org.kuali.module.financial.service.DisbursementVoucherTaxService#getEmployeeNumber(java.lang.String, java.lang.String)
      */
-    public String getEmployeeNumber(String taxIDNumber, String taxpayerTypeCode) {
-        String employeeNumber = null;
+    public String getUniversalId(String taxIDNumber, String taxpayerTypeCode) {
+        if (TAX_TYPE_FEIN.equals(taxpayerTypeCode)) {
+            return null;
+        }
+        
+        String universalId = null;
+        UserId userId = (UserId) new SocialSecurityNumber(taxIDNumber);
+        UniversalUser universalUser = null;
 
-
-        return employeeNumber;
+        try {
+            universalUser = universalUserService.getUniversalUser(userId);
+        }
+        catch (UserNotFoundException e) {
+        }
+        
+        if (universalUser != null) {
+            universalId = universalUser.getPersonUniversalIdentifier();
+        }
+        return universalId;
     }
 
     /**
      * @see org.kuali.module.financial.service.DisbursementVoucherTaxService#getPayeeNumber(java.lang.String, java.lang.String)
      */
-    public String getPayeeNumber(String taxIDNumber, String taxpayerTypeCode) {
-        String payeeNumber = null;
+    public String getPayeeId(String taxIDNumber, String taxpayerTypeCode) {
+        String payeeId = null;
 
         Map taxIDCrit = new HashMap();
         taxIDCrit.put("taxIdNumber", taxIDNumber);
@@ -178,40 +100,39 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
 
         if (!foundPayees.isEmpty()) {
             Payee payee = (Payee) foundPayees.iterator().next();
-            payeeNumber = payee.getPayeeIdNumber();
+            payeeId = payee.getPayeeIdNumber();
         }
 
-        return payeeNumber;
+        return payeeId;
     }
 
     /**
      * @see org.kuali.module.financial.service.DisbursementVoucherTaxService#getVendorNumber(java.lang.String, java.lang.String)
      */
-    public String getVendorNumber(String taxIDNumber, String taxpayerTypeCode) {
-        String vendorNumber = null;
-
-        return vendorNumber;
+    public String getVendorId(String taxIDNumber, String taxpayerTypeCode) {
+        String vendorId = null;
+        //TODO: implement once EPIC is integrated
+        return vendorId;
     }
 
     /**
      * @see org.kuali.module.financial.service.DisbursementVoucherTaxService#getPendingPayeeNumber(java.lang.String,
      *      java.lang.String)
      */
-    public String getPendingPayeeNumber(String taxIDNumber, String taxpayerTypeCode) {
-        String pendingPayeeNumber = null;
+    public String getPendingPayeeId(String taxIDNumber, String taxpayerTypeCode) {
+        String pendingPayeeId = null;
 
         List pendingPayees = maintenanceDocumentService.getPendingObjects(Payee.class);
 
         for (Iterator iter = pendingPayees.iterator(); iter.hasNext();) {
             Payee pendingPayee = (Payee) iter.next();
             if (taxIDNumber.equals(pendingPayee.getTaxIdNumber()) && taxpayerTypeCode.equals(pendingPayee.getTaxpayerTypeCode())) {
-                pendingPayeeNumber = pendingPayee.getPayeeIdNumber();
+                pendingPayeeId = pendingPayee.getPayeeIdNumber();
             }
         }
 
-        return pendingPayeeNumber;
+        return pendingPayeeId;
     }
-
 
     /**
      * @see org.kuali.module.financial.service.DisbursementVoucherTaxService#generateNRATaxLines(org.kuali.module.financial.document.DisbursementVoucherDocument)
@@ -570,5 +491,19 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
      */
     public void setMaintenanceDocumentService(MaintenanceDocumentService maintenanceDocumentService) {
         this.maintenanceDocumentService = maintenanceDocumentService;
+    }
+
+    /**
+     * @return Returns the universalUserService.
+     */
+    public UniversalUserService getUniversalUserService() {
+        return universalUserService;
+    }
+
+    /**
+     * @param universalUserService The universalUserService to set.
+     */
+    public void setUniversalUserService(UniversalUserService universalUserService) {
+        this.universalUserService = universalUserService;
     }
 }

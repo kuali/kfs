@@ -63,8 +63,6 @@ Copyright 2005-2007  The Kuali Foundation.  All rights reserved.  Kuali is licen
 
 <p>This product includes Cross-Browser XMLHttpRequest v1.1 by Andrew Gregory (<span class="nobr"><a href="http://www.scss.com.au/family/andrew/webdesign/xmlhttprequest/" title="xmlhttprequest" rel="nofollow">http://www.scss.com.au/family/andrew/webdesign/xmlhttprequest/</a></span>).</p>
 
-<p>This product includes Random GUID v1.2.1 by Marc A. Mnich.  Licensed under GNU Lesser General Public License (<span class="nobr"><a href="http://www.opensource.org/licenses/lgpl-license.php" title="LGPL" rel="nofollow">http://www.opensource.org/licenses/lgpl-license.php</a></span>).</p>
-
 <p>This product includes software copyrighted under the Lesser General Public License (<span class="nobr"><a href="http://www.opensource.org/licenses/lgpl-license.php" title="LGPL" rel="nofollow">http://www.opensource.org/licenses/lgpl-license.php</a></span>).</p>
 
 <p>This product includes software copyrighted under the Common Public License (<span class="nobr"><a href="http://www.opensource.org/licenses/cpl1.0.php" title="CPL" rel="nofollow">http://www.opensource.org/licenses/cpl1.0.php</a></span>).</p>

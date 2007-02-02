@@ -54,7 +54,7 @@
         
 		<!-- Labor Distribution Bean Definitions -->
    		<form-bean name="SalaryExpenseTransferForm" type="org.kuali.module.labor.web.struts.form.SalaryExpenseTransferForm" />
-   		<form-bean name="BenefitExpenseTransferForm" type="org.kuali.module.labor.web.struts.form.BebefitExpenseTransferForm" />
+   		<form-bean name="BenefitExpenseTransferForm" type="org.kuali.module.labor.web.struts.form.BenefitExpenseTransferForm" />
 
 		<!-- Budget Construction Bean Definitions -->
    		<form-bean name="SalarySettingForm" type="org.kuali.module.budget.web.struts.form.SalarySettingForm" />

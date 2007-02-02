@@ -15,19 +15,19 @@
  */
 package org.kuali.module.cg.maintenance;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Collection;
 
+import static org.kuali.PropertyConstants.PROPOSAL_PROJECT_DIRECTORS;
 import static org.kuali.PropertyConstants.PROPOSAL_SUBCONTRACTORS;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.AssertionUtils;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Proposal;
 import org.kuali.module.cg.bo.ProposalResearchRisk;
-import org.kuali.module.cg.bo.ProposalSubcontractor;
 import org.kuali.module.cg.lookup.valueFinder.NextProposalNumberFinder;
 import org.kuali.module.kra.routingform.bo.ResearchRiskType;
 
@@ -79,8 +79,6 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
      */
     @Override
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
-        ((ProposalSubcontractor) document.getNewMaintainableObject().getNewCollectionLine(PROPOSAL_SUBCONTRACTORS)).refreshNonUpdateableReferences();
-        ((ProposalSubcontractor) document.getOldMaintainableObject().getNewCollectionLine(PROPOSAL_SUBCONTRACTORS)).refreshNonUpdateableReferences();
         refreshProposal();
         super.refresh(refreshCaller, fieldValues, document);
     }
@@ -114,6 +112,12 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
     private void refreshProposal() {
         Proposal p = getProposal();
         p.refreshNonUpdateableReferences();
+
+        getNewCollectionLine(PROPOSAL_SUBCONTRACTORS).refreshNonUpdateableReferences();
+        getNewCollectionLine(PROPOSAL_PROJECT_DIRECTORS).refreshNonUpdateableReferences();
+        
+        // the org list doesn't need any refresh
+        refreshNonUpdateableReferences(p.getProposalProjectDirectors());
         refreshNonUpdateableReferences(p.getProposalSubcontractors());
         refreshNonUpdateableReferences(p.getProposalResearchRisks());
     }
@@ -137,10 +141,7 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
      */
     @Override
     public void addNewLineToCollection(String collectionName) {
-        if (collectionName.equals(PROPOSAL_SUBCONTRACTORS)) {
-            PersistableBusinessObject itemToBeAdded = newCollectionLines.get(collectionName);
-            itemToBeAdded.refreshNonUpdateableReferences();
-        }
+        refreshProposal();
         super.addNewLineToCollection(collectionName);
     }
 }

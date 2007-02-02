@@ -75,7 +75,7 @@
 
             <attribute name="proposalPrimaryOrganizationIndicator" forceUppercase="true">
                 <label>Proposal Primary Organization Indicator</label>
-                <shortLabel>Indicator</shortLabel>
+                <shortLabel>Primary</shortLabel>
 
                 <maxLength>1</maxLength>
 

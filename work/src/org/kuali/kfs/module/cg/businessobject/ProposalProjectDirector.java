@@ -19,7 +19,6 @@ package org.kuali.module.cg.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.bo.user.UniversalUser;
 
 /**
  * 
@@ -125,10 +124,19 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @return Returns the personUniversal.
+     * @return the projectDirector.
      */
     public ProjectDirector getProjectDirector() {
         return projectDirector;
+    }
+
+    /**
+     * Sets the projectDirector.
+     * @param projectDirector the projectDirector to set
+     * @deprecated required by UniversalUserServiceImpl.isUniversalUserProperty() for PojoPropertyUtilsBean.getPropertyDescriptor()
+     */
+    public void setProjectDirector(ProjectDirector projectDirector) {
+        this.projectDirector = projectDirector;
     }
 
     /**

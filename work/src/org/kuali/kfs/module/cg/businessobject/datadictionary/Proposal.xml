@@ -378,6 +378,16 @@
                 <description>Proposal Organizations</description>
             </collection>
 
+            <collection name="proposalProjectDirectors">
+                <label>Proposal Project Directors</label>
+                <shortLabel>Project Directors</shortLabel>
+                <elementLabel>Project Director</elementLabel>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Proposal Project Directors</description>
+            </collection>
+
             <collection name="proposalSubcontractors">
                 <label>Proposal Subcontractor</label>
                 <shortLabel>Subcontractors</shortLabel>

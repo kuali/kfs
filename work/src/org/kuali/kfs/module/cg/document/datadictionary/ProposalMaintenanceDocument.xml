@@ -58,6 +58,7 @@
             <reference attributeName="proposalPurpose" activeIndicatorAttributeName="rowActiveIndicator" attributeToHighlightOnFail="proposalPurposeCode" />
             <reference attributeName="federalPassThroughAgency" activeIndicatorAttributeName="historicalIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="federalPassThroughAgencyNumber" />
             <reference attributeName="cfda" activeIndicatorAttributeName="cfdaStatusCode" attributeToHighlightOnFail="cfdaNumber" />
+            <!-- when collections support: reference attributeName="proposalProjectDirectors.projectDirector.universalUser" attributeToHighlightOnFail="projectDirector.universalUser.personUserIdentifier" / -->
         </defaultExistenceChecks>
 
         <maintainableSections>
@@ -101,6 +102,24 @@
                             <summaryField name="chartOfAccountsCode" />
                             <summaryField name="organizationCode" />
                             <summaryField name="proposalPrimaryOrganizationIndicator" />
+                        </summaryFields>
+                    </maintainableCollection>
+                </maintainableItems>
+            </maintainableSection>
+
+            <maintainableSection title="Project Directors">
+                <maintainableItems>
+                    <maintainableCollection name="proposalProjectDirectors" businessObjectClass="org.kuali.module.cg.bo.ProposalProjectDirector">
+                        <maintainableField name="personUniversalIdentifier" required="true" />
+                        <maintainableField name="projectDirector.universalUser.personName" required="false" readOnly="true" />
+                        <maintainableField name="proposalPrimaryProjectDirectorIndicator" required="false" />
+                        <maintainableField name="proposalProjectDirectorProjectTitle" required="false" />
+                        <!-- hidden fields -->
+                        <maintainableField name="versionNumber" />
+                        <summaryFields>
+                            <summaryField name="projectDirector.universalUser.personName" />
+                            <summaryField name="proposalPrimaryProjectDirectorIndicator" />
+                            <summaryField name="proposalProjectDirectorProjectTitle" />
                         </summaryFields>
                     </maintainableCollection>
                 </maintainableItems>

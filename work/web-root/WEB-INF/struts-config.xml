@@ -51,12 +51,14 @@
         <form-bean name="ProcurementCardForm" type="org.kuali.module.financial.web.struts.form.ProcurementCardForm" />
         <form-bean name="BudgetAdjustmentForm" type="org.kuali.module.financial.web.struts.form.BudgetAdjustmentForm" />
         <form-bean name="YearEndBudgetAdjustmentForm" type="org.kuali.module.financial.web.struts.form.YearEndBudgetAdjustmentForm" />
+        
+		<!-- Labor Distribution Bean Definitions -->
    		<form-bean name="SalaryExpenseTransferForm" type="org.kuali.module.labor.web.struts.form.SalaryExpenseTransferForm" />
+   		<form-bean name="BenefitExpenseTransferForm" type="org.kuali.module.labor.web.struts.form.BebefitExpenseTransferForm" />
 
 		<!-- Budget Construction Bean Definitions -->
    		<form-bean name="SalarySettingForm" type="org.kuali.module.budget.web.struts.form.SalarySettingForm" />
    		<form-bean name="BudgetConstructionForm" type="org.kuali.module.budget.web.struts.form.BudgetConstructionForm" />
-
 
         <!-- KRA Module Bean Definitions -->
         <form-bean name="BudgetForm" type="org.kuali.module.kra.budget.web.struts.form.BudgetForm" />

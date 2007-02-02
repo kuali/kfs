@@ -118,9 +118,6 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
 
     boolean processAdditionalValidation(RequisitionDocument document) {
         boolean valid = super.processAdditionalValidation(document);
-        // TODO code validation
-        validateTotDollarAmtIsLessThanPOTotLimit(document);
-        validateFaxNumberIfTransmissionTypeIsFax(document);
         return valid;
     }
     
@@ -153,29 +150,6 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
             }
         }
   
-        return valid;
-    }
-
-    /**
-     * Validate that if Vendor Id (VendorHeaderGeneratedId) is not empty, and tranmission method is fax, 
-     *   vendor fax number cannot be empty and must be valid. In other words: allow reqs to not force fax # 
-     *   when transmission type is fax if vendor id is empty because it will not be allowed to become an APO 
-     *   and it will be forced on the PO. 
-     * 
-     * @return False if VendorHeaderGeneratedId is not empty, tranmission method is fax, and
-     *   VendorFaxNumber is empty or invalid. True otherwise.
-     */
-    boolean validateFaxNumberIfTransmissionTypeIsFax(RequisitionDocument document) {
-        boolean valid = true;
-        if (ObjectUtils.isNotNull(document.getVendorHeaderGeneratedIdentifier()) &&
-              document.getPurchaseOrderTransmissionMethodCode().equals(PurapConstants.POTransmissionMethods.FAX)) {
-            if (ObjectUtils.isNull(document.getVendorFaxNumber()) ||
-                  ! PhoneNumberUtils.isValidPhoneNumber(document.getVendorFaxNumber())  ) {
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.REQUISITION_VENDOR_FAX_NUMBER, 
-                  PurapKeyConstants.ERROR_FAX_NUMBER_PO_TRANSMISSION_TYPE);
-                valid &= false;
-            }
-        } 
         return valid;
     }
     

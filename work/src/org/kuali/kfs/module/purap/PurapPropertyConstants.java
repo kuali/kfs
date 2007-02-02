@@ -86,6 +86,8 @@ public class PurapPropertyConstants {
     public static final String STATUS_CODE = "statusCode";
     public static final String DOCUMENT_IDENTIFIER = "purapDocumentIdentifier";
     public static final String CONTRACT_MANAGER_CODE = "contractManagerCode";
+    public static final String VENDOR_STIPULATION = "purchaseOrderVendorStipulations";
+    public static final String VENDOR_STIPULATION_DESCRIPTION = "vendorStipulationDescription";
     
     public static final String SOURCE_DOCUMENT_IDENTIFIER  = "sourceDocumentIdentifier";
 }

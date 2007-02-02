@@ -124,8 +124,8 @@
         <attributes>
 
             <attribute name="agencyAddressDescription" forceUppercase="true">
-                <label>Agency Address Description</label>
-                <shortLabel>Address Description</shortLabel>
+                <label>Primary Delivery Address</label>
+                <shortLabel>Description</shortLabel>
 
                 <maxLength>500</maxLength>
                 <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>

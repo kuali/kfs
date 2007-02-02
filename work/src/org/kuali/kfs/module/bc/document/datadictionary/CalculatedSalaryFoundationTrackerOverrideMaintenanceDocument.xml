@@ -22,6 +22,7 @@
     <maintenanceDocument>
         <businessObjectClass>org.kuali.module.budget.bo.CalculatedSalaryFoundationTrackerOverride</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <businessRulesClass>org.kuali.module.budget.rules.CalculatedSalaryFoundationTrackerOverrideRule</businessRulesClass>
 
         <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
@@ -58,6 +59,7 @@
             <reference attributeName="chartOfAccounts" activeIndicatorAttributeName="finChartOfAccountActiveIndicator" activeIndicatorReversed="false" attributeToHighlightOnFail="chartOfAccountsCode" displayFieldName="Chart Of Accounts Code" />
             <reference attributeName="account" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="accountNumber" displayFieldName="Account Number" />
             <reference attributeName="financialObject" activeIndicatorAttributeName="financialObjectActiveCode" attributeToHighlightOnFail="financialObjectCode" />
+            <reference attributeName="universityFiscal" attributeToHighlightOnFail="universityFiscalYear" />
         </defaultExistenceChecks>
 
         <maintainableSections>

@@ -48,6 +48,11 @@
             <field attributeName="universityFiscalYear" />
             <field attributeName="financialSystemFunctionControlCode" />
         </lockingKeys>
+        
+        <defaultExistenceChecks>
+            <reference attributeName="universityFiscal" attributeToHighlightOnFail="universityFiscalYear" />
+            <reference attributeName="functionControl" attributeToHighlightOnFail="financialSystemFunctionControlCode" />
+        </defaultExistenceChecks>
 
         <maintainableSections>
             <maintainableSection title="Edit Fiscal Year Function Control">

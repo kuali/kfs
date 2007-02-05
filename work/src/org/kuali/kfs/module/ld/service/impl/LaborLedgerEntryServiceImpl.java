@@ -26,7 +26,7 @@ import org.kuali.module.labor.service.LaborLedgerEntryService;
 public class LaborLedgerEntryServiceImpl implements LaborLedgerEntryService {
 
     private BusinessObjectService businessObjectService;
-    private LaborLedgerEntryDao ledgerEntryDao;
+    private LaborLedgerEntryDao laborLedgerEntryDao;
     
     /**
      * @see org.kuali.module.labor.service.LaborLedgerEntryService#save(org.kuali.module.labor.bo.LedgerEntry)
@@ -39,7 +39,7 @@ public class LaborLedgerEntryServiceImpl implements LaborLedgerEntryService {
      * @see org.kuali.module.labor.service.LaborLedgerEntryService#getMaxSquenceNumber(org.kuali.module.labor.bo.LedgerEntry)
      */
     public Integer getMaxSquenceNumber(LedgerEntry ledgerEntry) {
-        return ledgerEntryDao.getMaxSquenceNumber(ledgerEntry);
+        return laborLedgerEntryDao.getMaxSquenceNumber(ledgerEntry);
     }
 
     /**
@@ -51,10 +51,10 @@ public class LaborLedgerEntryServiceImpl implements LaborLedgerEntryService {
     }
 
     /**
-     * Sets the ledgerEntryDao attribute value.
-     * @param ledgerEntryDao The ledgerEntryDao to set.
+     * Sets the laborLedgerEntryDao attribute value.
+     * @param laborLedgerEntryDao The laborLedgerEntryDao to set.
      */
-    public void setLedgerEntryDao(LaborLedgerEntryDao ledgerEntryDao) {
-        this.ledgerEntryDao = ledgerEntryDao;
+    public void setLaborLedgerEntryDao(LaborLedgerEntryDao laborLedgerEntryDao) {
+        this.laborLedgerEntryDao = laborLedgerEntryDao;
     }
 }

@@ -131,8 +131,8 @@
             </attributeReference>
 
             <attribute name="historicalIndicator" forceUppercase="false">
-                <label>Historical Indicator</label>
-                <shortLabel>Historical Indicator</shortLabel>
+                <label>Active Indicator</label>
+                <shortLabel>Active Indicator</shortLabel>
 
                 <maxLength>1</maxLength>
 
@@ -140,8 +140,8 @@
                     <checkbox />
                 </control>
 
-                <summary>Historical Indicator</summary>
-                <description>Agency Historical Indicator</description>
+                <summary>Active Indicator</summary>
+                <description>Agency Active Indicator</description>
             </attribute>
 
             <attribute name="inStateIndicator" forceUppercase="false">

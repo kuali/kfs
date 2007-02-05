@@ -47,11 +47,7 @@
 
             <lookupFields>
                 <lookupField attributeName="emplid" required="false" />
-                <lookupField attributeName="grade" required="false" />
-                <lookupField attributeName="iuClassificationLevel" required="false" />
                 <lookupField attributeName="personName" required="false" />
-                <lookupField attributeName="salaryAdministrationPlan" required="false" />
-                <lookupField attributeName="setidSalary" required="false" />
             </lookupFields>
 
             <resultFields>
@@ -116,7 +112,7 @@
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>50</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
                 <control>
                     <text size="52" />

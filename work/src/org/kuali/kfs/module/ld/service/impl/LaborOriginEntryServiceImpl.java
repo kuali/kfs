@@ -54,10 +54,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryServiceImpl.class);
 
-    private static final String ENTRY_GROUP_ID = "entryGroupId";
-    private static final String FINANCIAL_DOCUMENT_TYPE_CODE = "financialDocumentTypeCode";
-    private static final String FINANCIAL_SYSTEM_ORIGINATION_CODE = "financialSystemOriginationCode";
-
     private LaborOriginEntryDao laborOriginEntryDao;
     private OriginEntryDao originEntryDao;
     private OriginEntryGroupService originEntryGroupService;
@@ -158,10 +154,10 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
         LOG.debug("getEntriesByGroup() started");
 
         Map criteria = new HashMap();
-        criteria.put(ENTRY_GROUP_ID, originEntryGroup.getId());
+        criteria.put(PropertyConstants.ENTRY_GROUP_ID, originEntryGroup.getId());
         criteria.put(PropertyConstants.DOCUMENT_NUMBER, documentNumber);
-        criteria.put(FINANCIAL_DOCUMENT_TYPE_CODE, documentTypeCode);
-        criteria.put(FINANCIAL_SYSTEM_ORIGINATION_CODE, originCode);
+        criteria.put(PropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, documentTypeCode);
+        criteria.put(PropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, originCode);
 
         return originEntryDao.getMatchingEntries(criteria);
     }

@@ -41,7 +41,6 @@ public class LaborLedgerUnitOfWork {
      * @param laborOriginEntry the given origin entry
      */
     public LaborLedgerUnitOfWork(LaborOriginEntry laborOriginEntry) {
-        workingEntry = new LaborOriginEntry();
         this.resetLaborLedgerUnitOfWork(laborOriginEntry);
     }
 
@@ -59,6 +58,7 @@ public class LaborLedgerUnitOfWork {
      * @param keyFields the keys to which values will be assigned
      */
     public void resetLaborLedgerUnitOfWork(LaborOriginEntry laborOriginEntry, List<String> keyFields) {
+        this.workingEntry = new LaborOriginEntry();
         this.setKeyFields(keyFields);
 
         if (laborOriginEntry != null) {

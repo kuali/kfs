@@ -37,19 +37,37 @@ import org.kuali.module.gl.util.BusinessObjectFieldConverter;
  */
 public class TestDataGenerator {
 
-    private final String propertiesFileName = "test/src/org/kuali/module/gl/web/data.properties";
+    private String propertiesFileName;
     private Properties properties;
 
-    private final String messageFileName = "test/src/org/kuali/module/gl/web/message.properties";
+    private String messageFileName;
     private Properties message;
 
     /**
      * Constructs a TestDataGenerator.java.
      */
     public TestDataGenerator() {
+        this.messageFileName = "test/src/org/kuali/module/gl/web/message.properties";
+        this.propertiesFileName = "test/src/org/kuali/module/gl/web/data.properties";
+        
         properties = loadProperties(propertiesFileName);
         message = loadProperties(messageFileName);
     }
+    
+    /**
+     * Constructs a TestDataGenerator.java.
+     * @param propertiesFileName
+     * @param messageFileName
+     */
+    public TestDataGenerator(String propertiesFileName, String messageFileName) {
+        this.propertiesFileName = propertiesFileName;
+        this.messageFileName = messageFileName;
+        
+        properties = loadProperties(propertiesFileName);
+        message = loadProperties(messageFileName);
+    }
+
+
 
     /**
      * This method generates transaction data for a business object from properties

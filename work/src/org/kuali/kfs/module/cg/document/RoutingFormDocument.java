@@ -105,11 +105,6 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private String routingFormCatalogOfFederalDomesticAssistanceNumber;    
     private String projectTypeOtherDescription;
     
-    // monetary attributes
-    private KualiDecimal totalInstitutionCostShareAmount = KualiDecimal.ZERO;
-    private KualiDecimal totalOtherCostShareAmount = KualiDecimal.ZERO;
-    private KualiDecimal totalSubcontractorAmount = KualiDecimal.ZERO;
-    
     private Campus routingFormPhysicalCampus;
     private RoutingFormStatus routingFormStatus;
     private Purpose purpose;
@@ -1524,8 +1519,8 @@ public class RoutingFormDocument extends ResearchDocumentBase {
      * This method...
      * @return
      */
-    public KualiDecimal getTotalSubcontractorAmount() {
-        KualiDecimal total = KualiDecimal.ZERO;
+    public KualiInteger getTotalSubcontractorAmount() {
+        KualiInteger total = KualiInteger.ZERO;
         for (RoutingFormSubcontractor subcontractor: getRoutingFormSubcontractors()) {
             if (subcontractor.getRoutingFormSubcontractorAmount() != null)
                 total = total.add(subcontractor.getRoutingFormSubcontractorAmount());

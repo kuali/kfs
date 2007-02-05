@@ -396,8 +396,7 @@ public class RoutingFormAuditRule {
             auditErrors.add(new AuditError("document.routingFormBudget.routingFormBudgetStartDate", KraKeyConstants.AUDIT_MAIN_PAGE_END_DATE_LESS_TOTAL_END_DATE, "mainpage"));
         }
         
-        /* TODO see KULERA-736 subtask. Following isn't a safe conversion */
-        KualiInteger totalSubcontractorAmountInteger = new KualiInteger(routingFormDocument.getTotalSubcontractorAmount().longValue());
+        KualiInteger totalSubcontractorAmountInteger = routingFormDocument.getTotalSubcontractorAmount();
         if (routingFormBudget.getRoutingFormBudgetDirectAmount() != null &&
                 routingFormBudget.getRoutingFormBudgetDirectAmount().isLessThan(totalSubcontractorAmountInteger)) {
             valid = false;

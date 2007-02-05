@@ -51,7 +51,7 @@ public class ProposalSubcontractor extends PersistableBusinessObjectBase {
         this.setProposalNumber(proposalNumber);
         this.setProposalSubcontractorNumber(routingFormSubcontractor.getRoutingFormSubcontractorSequenceNumber().toString());
         this.setSubcontractorNumber(routingFormSubcontractor.getRoutingFormSubcontractorNumber());
-        this.setProposalSubcontractorAmount(routingFormSubcontractor.getRoutingFormSubcontractorAmount());
+        this.setProposalSubcontractorAmount(routingFormSubcontractor.getRoutingFormSubcontractorAmount().kualiDecimalValue());
     }
     
     /**

@@ -16,12 +16,11 @@
 
 package org.kuali.module.kra.routingform.bo;
 
-import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.module.cg.bo.Subcontractor;
 
 /**
@@ -31,7 +30,7 @@ public class RoutingFormSubcontractor extends PersistableBusinessObjectBase {
 
 	private String documentNumber;
 	private Integer routingFormSubcontractorSequenceNumber;
-	private KualiDecimal routingFormSubcontractorAmount;
+	private KualiInteger routingFormSubcontractorAmount;
 	private String routingFormSubcontractorNumber;
     private Subcontractor subcontractor;
 
@@ -90,7 +89,7 @@ public class RoutingFormSubcontractor extends PersistableBusinessObjectBase {
 	 * @return Returns the routingFormSubcontractorAmount
 	 * 
 	 */
-	public KualiDecimal getRoutingFormSubcontractorAmount() { 
+	public KualiInteger getRoutingFormSubcontractorAmount() { 
 		return routingFormSubcontractorAmount;
 	}
 
@@ -100,7 +99,7 @@ public class RoutingFormSubcontractor extends PersistableBusinessObjectBase {
 	 * @param routingFormSubcontractorAmount The routingFormSubcontractorAmount to set.
 	 * 
 	 */
-	public void setRoutingFormSubcontractorAmount(KualiDecimal routingFormSubcontractorAmount) {
+	public void setRoutingFormSubcontractorAmount(KualiInteger routingFormSubcontractorAmount) {
 		this.routingFormSubcontractorAmount = routingFormSubcontractorAmount;
 	}
 

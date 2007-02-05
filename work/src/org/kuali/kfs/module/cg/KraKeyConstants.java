@@ -74,6 +74,7 @@ public class KraKeyConstants {
 
     // Personnel and Units/Orgs
     public static final String AUDIT_MAIN_PAGE_PERSON_REQUIRED = "audit.mainPage.person.required";
+    public static final String AUDIT_MAIN_PAGE_PERSON_NOT_PD = "audit.mainPage.person.not.pd";
     public static final String AUDIT_MAIN_PAGE_PERSON_FA_REQUIRED = "audit.mainPage.person.fa.required";
     public static final String AUDIT_MAIN_PAGE_PERSON_CREDIT_REQUIRED = "audit.mainPage.person.credit.required";
     public static final String AUDIT_MAIN_PAGE_PD_REQUIRED = "audit.mainPage.pd.required";

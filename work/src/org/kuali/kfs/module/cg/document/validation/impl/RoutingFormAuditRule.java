@@ -135,6 +135,12 @@ public class RoutingFormAuditRule {
             
             if (KraConstants.PERSON_ROLE_CODE_PD.equals(person.getPersonRoleCode())) {
                 projectDirectorCount++;
+                
+                /* TODO KULERA-816: Following line has to be replaced with an appropriate workgroup call. */
+                if (false) {
+                    valid = false;
+                    auditErrors.add(new AuditError("document.routingFormPerson[" + i + "].personSystemIdentifier", KraKeyConstants.AUDIT_MAIN_PAGE_PERSON_NOT_PD, "mainpage"));
+                }
             }
 
             if (ObjectUtils.isNull(person.getPersonFinancialAidPercent())) {

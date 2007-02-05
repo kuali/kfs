@@ -65,8 +65,8 @@
                 <label>Routing Form Subcontractor Amount</label>
                 <shortLabel>Amount</shortLabel>
 
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+                <maxLength>15</maxLength>
+                <validationPattern><numeric /></validationPattern>
 
                 <control>
                     <text size="21" />

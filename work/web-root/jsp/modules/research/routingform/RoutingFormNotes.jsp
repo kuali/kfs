@@ -25,5 +25,7 @@
 	<kra-rf:routingFormHiddenDocumentFields includeDocumenHeaderIdFields="true" />
 
 	<kra-rf:routingFormNotes />
+	
+	<kul:documentControls transactionalDocument="false" suppressRoutingControls="true" viewOnly="true" /> <!--  viewOnly="true" effectively hides the save button -->
 
 </kul:documentPage>

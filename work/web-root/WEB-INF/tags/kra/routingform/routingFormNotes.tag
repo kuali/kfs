@@ -41,7 +41,4 @@
 
 <br/>
 <br/>
-<center>
-   <input name="methodToCall.reload" src="images/buttonsmall_reload.gif" onclick="excludeSubmitRestriction=true" class="globalbuttons" title="reload" alt="reload" type="image">
-</center>
 </div>

@@ -15,20 +15,17 @@
  */
 package org.kuali.module.budget.rules;
 
-import java.util.Iterator;
-import java.util.List;
-import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
 import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
 import org.kuali.module.chart.bo.Org;
+import org.kuali.module.chart.service.ChartService;
 import org.kuali.module.chart.service.OrganizationService;
 
 public class BudgetConstructionOrganizationReportsRule extends MaintenanceDocumentRuleBase {
@@ -37,10 +34,12 @@ public class BudgetConstructionOrganizationReportsRule extends MaintenanceDocume
 
     
     private OrganizationService orgService;
+    private ChartService chartService;
     private BudgetConstructionOrganizationReportsService bcOrgReportsService;
 
     private BudgetConstructionOrganizationReports oldBCOrgReports;
     private BudgetConstructionOrganizationReports newBCOrgReports;
+    private String rootChartUserId;
 
 
     public BudgetConstructionOrganizationReportsRule() {
@@ -54,6 +53,7 @@ public class BudgetConstructionOrganizationReportsRule extends MaintenanceDocume
         // When this happens, just remove these calls to the setters with
         // SpringServiceLocator, and configure the bean defs for spring.
         this.setOrgService(SpringServiceLocator.getOrganizationService());
+        this.setChartService(SpringServiceLocator.getChartService());
         this.setBCOrgReportsService(SpringServiceLocator.getBudgetConstructionOrganizationReportsService());
     }
 
@@ -68,6 +68,8 @@ public class BudgetConstructionOrganizationReportsRule extends MaintenanceDocume
 
         // check reporting hierarchy is valid
         success &= checkSimpleRules(document);
+        // check that user is authorized
+        success &= checkUserAuthorized();
 
         return success;
     }
@@ -83,7 +85,8 @@ public class BudgetConstructionOrganizationReportsRule extends MaintenanceDocume
 
         // check reporting hierarchy is valid
         success &= checkSimpleRules(document);
-
+        // check that user is authorized       
+        success &= checkUserAuthorized();
         return success;
     }
 
@@ -96,6 +99,8 @@ public class BudgetConstructionOrganizationReportsRule extends MaintenanceDocume
 
         // check reporting hierarchy is valid
         checkSimpleRules(document);
+        // check that user is authorized        
+        checkUserAuthorized();
         return true;
     }
 
@@ -199,6 +204,43 @@ public class BudgetConstructionOrganizationReportsRule extends MaintenanceDocume
 
     /**
      * 
+     * Check that the user is authorized to process this document.
+     * 
+     * The user is authorized if either of the following are true:
+     * 1. The transaction user is the manager of the Chart
+     * 2. The transaction user is the manager of the Root Chart
+     * 
+     * @param document - the maintenanceDocument being evaluated
+     * 
+     */
+
+    protected boolean checkUserAuthorized() {
+        
+        boolean success = true;
+        String chartUserId = "";
+        String transactionUserId = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+        if (!(newBCOrgReports.getChartOfAccounts()== null)){
+        
+               chartUserId = newBCOrgReports.getChartOfAccounts().getFinCoaManagerUniversalId();
+               if (transactionUserId.equals(chartUserId)||transactionUserId.equals(rootChartUserId)){
+                   success = true;
+               }else{
+                   putFieldError("chartOfAccountsCode", KeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_USER_MUST_BE_CHART_MANAGER_OR_ROOT_MANAGER);
+                   success = false;
+               }
+        } else{
+            putFieldError("chartOfAccountsCode", KeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_USER_MUST_BE_CHART_MANAGER_OR_ROOT_MANAGER);
+            success = false;
+        }
+//        LOG.info("transactionUserId = " + transactionUserId );
+//        LOG.info("chartUserId = " + chartUserId );
+//        LOG.info("rootChartUserId = " + rootChartUserId );
+                  
+        return success;
+    }
+       
+    /**
+     * 
      * This method sets the convenience objects like newAccount and oldAccount, so you have short and easy handles to the new and
      * old objects contained in the maintenance document.
      * 
@@ -215,6 +257,7 @@ public class BudgetConstructionOrganizationReportsRule extends MaintenanceDocume
 
         // setup newAccount convenience objects, make sure all possible sub-objects are populated
         newBCOrgReports = (BudgetConstructionOrganizationReports) super.getNewBo();
+        rootChartUserId = chartService.getUniversityChart().getFinCoaManagerUniversalId();
     }
 
     /**
@@ -224,6 +267,15 @@ public class BudgetConstructionOrganizationReportsRule extends MaintenanceDocume
      */
     public void setOrgService(OrganizationService orgService) {
         this.orgService = orgService;
+    }
+
+    /**
+     * Sets the chartService attribute value.
+     * 
+     * @param chartService The orgService to set.
+     */
+    public void setChartService(ChartService chartService) {
+        this.chartService = chartService;
     }
 
     /**

@@ -93,6 +93,7 @@ public class KraKeyConstants {
     public static final String AUDIT_MAIN_PAGE_PROJECT_TYPE_NEW_AND_PRIOR_GRANT = "audit.mainPage.project.type.new.and.prior.grant";
     public static final String AUDIT_MAIN_PAGE_PROJECT_TYPE_SELECTION_AND_GRANT = "audit.mainPage.project.type.selection.and.grant";
     public static final String AUDIT_MAIN_PAGE_PURPOSE_REQUIRED = "audit.mainPage.purpose.required";
+    public static final String AUDIT_MAIN_PAGE_PURPOSE_RESEARCH_TYPE_REQUIRED = "audit.mainPage.purpose.research.type.required";
     public static final String AUDIT_MAIN_PAGE_PURPOSE_OTHER_REQUIRED = "audit.mainPage.purpose.other.required";
     public static final String AUDIT_MAIN_PAGE_TITLE_REQUIRED = "audit.mainPage.title.required";
     public static final String AUDIT_MAIN_PAGE_ABSTRACT_REQUIRED = "audit.mainPage.abstract.required";

@@ -80,6 +80,9 @@ public class RoutingForm extends ResearchDocumentFormBase {
         super();
        
         selectedRoutingFormProjectTypes = new ArrayList();
+        submissionTypes = new ArrayList();
+        projectTypes = new ArrayList();
+        purposes = new ArrayList();
         
         DataDictionary dataDictionary = SpringServiceLocator.getDataDictionaryService().getDataDictionary();
         DocumentEntry budgetDocumentEntry = dataDictionary.getDocumentEntry(org.kuali.module.kra.routingform.document.RoutingFormDocument.class);
@@ -189,12 +192,26 @@ public class RoutingForm extends ResearchDocumentFormBase {
         return projectTypes;
     }
 
+    public ProjectType getProjectType(int index) {
+        while (this.getProjectTypes().size() <= index) {
+            this.getProjectTypes().add(new ProjectType());
+        }
+        return this.getProjectTypes().get(index);
+    }
+    
     public void setProjectTypes(List<ProjectType> projectTypes) {
         this.projectTypes = projectTypes;
     }
     
     public List<Purpose> getPurposes() {
         return purposes;
+    }
+    
+    public Purpose getPurpose(int index) {
+        while (this.getPurposes().size() <= index) {
+            this.getPurposes().add(new Purpose());
+        }
+        return this.getPurposes().get(index);
     }
     
     public void setPurposes(List<Purpose> purposes) {
@@ -205,6 +222,13 @@ public class RoutingForm extends ResearchDocumentFormBase {
         return submissionTypes;
     }
 
+    public SubmissionType getSubmissionType(int index) {
+        while (this.getSubmissionTypes().size() <= index) {
+            this.getSubmissionTypes().add(new SubmissionType());
+        }
+        return this.getSubmissionTypes().get(index);
+    }
+    
     public void setSubmissionTypes(List<SubmissionType> submissionTypes) {
         this.submissionTypes = submissionTypes;
     }

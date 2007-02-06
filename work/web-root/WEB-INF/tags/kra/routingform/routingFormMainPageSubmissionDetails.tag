@@ -22,7 +22,7 @@
 <c:set var="contractGrantProposalAttributes" value="${DataDictionary.ContractGrantProposal.attributes}" />
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
 
-<kul:tab tabTitle="Submission Details" defaultOpen="true" tabErrorKey="newRoutingFormKeyword*,document.contractGrantProposal*,document.projectAbstract,document.routingFormProjectTitle,document.routingFormBudget*" auditCluster="mainPageAuditErrors" tabAuditKey="document.routingFormBudget*,document.submissionTypeCode,document.previousFederalIdentifier,document.routingFormPurposeCode,document.routingFormOtherPurposeDescription,document.routingFormProjectTitle,document.projectAbstract,document.routingFormProjectTypes*,document.projectTypeOtherDescription,document.routingFormPriorGrantNumber,document.grantNumber">
+<kul:tab tabTitle="Submission Details" defaultOpen="true" tabErrorKey="newRoutingFormKeyword*,document.contractGrantProposal*,document.projectAbstract,document.routingFormProjectTitle,document.routingFormBudget*" auditCluster="mainPageAuditErrors" tabAuditKey="document.routingFormBudget*,document.submissionTypeCode,document.previousFederalIdentifier,document.routingFormPurposeCode,document.researchTypeCode,document.routingFormOtherPurposeDescription,document.routingFormProjectTitle,document.projectAbstract,document.routingFormProjectTypes*,document.projectTypeOtherDescription,document.routingFormPriorGrantNumber,document.grantNumber">
 
           <div class="tab-container" align="center">
             <div class="h2-container">
@@ -37,15 +37,18 @@
                 <th align=right valign=middle>Type:</th>
                 <td colspan="3" align=left valign=middle nowrap >
                   <c:forEach items="${KualiForm.submissionTypes}" var="submissionType" varStatus="status">
-                  <label>
-                    <c:choose>
-                      <c:when test="${!viewOnly}">
-                        <html:radio property="document.submissionTypeCode" value="${submissionType.submissionTypeCode}" disabled="${viewOnly}"/>
-                      </c:when>
-                      <c:when test="${KualiForm.document.submissionTypeCode eq submissionType.submissionTypeCode}"> Yes </c:when>
-    				  <c:otherwise> No </c:otherwise>
-                    </c:choose>
-		            ${submissionType.submissionTypeDescription}</label>
+                    <html:hidden property="submissionType[${status.index}].submissionTypeCode" />
+                    <html:hidden property="submissionType[${status.index}].submissionTypeDescription" />
+                    <label>
+                      <c:choose>
+                        <c:when test="${!viewOnly}">
+                          <html:radio property="document.submissionTypeCode" value="${submissionType.submissionTypeCode}" disabled="${viewOnly}"/>
+                        </c:when>
+                        <c:when test="${KualiForm.document.submissionTypeCode eq submissionType.submissionTypeCode}"> Yes </c:when>
+    				    <c:otherwise> No </c:otherwise>
+                      </c:choose>
+		              ${submissionType.submissionTypeDescription}
+		            </label>
 		            <c:if test="${submissionType.submissionTypeCode eq KraConstants.SUBMISSION_TYPE_CHANGE}">
 		              &nbsp;<kul:htmlControlAttribute property="document.previousFederalIdentifier" attributeEntry="${routingFormAttributes.previousFederalIdentifier}" readOnly="${viewOnly}"/>
 		            </c:if>
@@ -60,6 +63,10 @@
               <tr>
                 <th align=right valign=middle>Type:</th>
                 <td colspan="3" align=left valign=middle >
+                  <c:forEach items="${KualiForm.projectTypes}" varStatus="status">
+                    <html:hidden property="projectType[${status.index}].projectTypeCode" />
+                    <html:hidden property="projectType[${status.index}].projectTypeDescription" />
+                  </c:forEach>
                   <c:forEach items="${KualiForm.document.routingFormProjectTypes}" varStatus="status">
                     <html:hidden property="document.routingFormProjectType[${status.index}].projectTypeCode" />
                     <html:hidden property="document.routingFormProjectType[${status.index}].documentNumber" />
@@ -122,15 +129,18 @@
                 <th align=right valign=middle>Type:</th>
                 <td colspan="3" align=left valign=middle nowrap >
                   <c:forEach items="${KualiForm.purposes}" var="purpose" varStatus="status">
-                  <label>
-                    <c:choose>
-                      <c:when test="${!viewOnly}">
-                        <html:radio property="document.routingFormPurposeCode" value="${purpose.purposeCode}" disabled="${viewOnly}"/>
-                      </c:when>
-                      <c:when test="${KualiForm.document.routingFormPurposeCode eq purpose.purposeCode}"> Yes </c:when>
-    				  <c:otherwise> No </c:otherwise>
-                    </c:choose>
-		            ${purpose.purposeDescription}</label>
+                    <html:hidden property="purpose[${status.index}].purposeCode" />
+                    <html:hidden property="purpose[${status.index}].purposeDescription" />
+                    <label>
+                      <c:choose>
+                        <c:when test="${!viewOnly}">
+                          <html:radio property="document.routingFormPurposeCode" value="${purpose.purposeCode}" disabled="${viewOnly}"/>
+                        </c:when>
+                        <c:when test="${KualiForm.document.routingFormPurposeCode eq purpose.purposeCode}"> Yes </c:when>
+    				    <c:otherwise> No </c:otherwise>
+                      </c:choose>
+		              ${purpose.purposeDescription}
+		            </label>
 		            <c:choose>
 		              <c:when test="${purpose.purposeCode eq KraConstants.PURPOSE_RESEARCH}">
 		                <kul:htmlControlAttribute property="document.researchTypeCode" attributeEntry="${routingFormAttributes.researchTypeCode}" readOnly="${viewOnly}"/>

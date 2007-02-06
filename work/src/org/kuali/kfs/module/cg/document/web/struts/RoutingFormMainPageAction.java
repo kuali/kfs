@@ -41,24 +41,26 @@ import org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
 import org.kuali.module.kra.routingform.bo.RoutingFormProjectType;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
+import org.kuali.module.kra.routingform.rules.event.RunRoutingFormAuditEvent;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
+import org.kuali.module.kra.web.struts.form.ResearchDocumentFormBase;
+
+import edu.iu.uis.eden.clientapp.IDocHandler;
 
 public class RoutingFormMainPageAction extends RoutingFormAction {
     
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RoutingFormMainPageAction.class);
-    
+
     /**
-     * @see org.kuali.module.kra.routingform.web.struts.action.RoutingFormAction#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * Necessary to override so that RoutingFormMainPage has properly initialized data upon initiated documents.
+     * @see org.kuali.module.kra.web.struts.action.ResearchDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        RoutingForm routingForm = (RoutingForm) form;
+    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        SpringServiceLocator.getRoutingFormMainPageService().initializeRoutingFormMainPage((RoutingForm) form);
         
-        routingForm.setProjectTypes(SpringServiceLocator.getProjectTypeService().getProjectTypes());
-        routingForm.setSubmissionTypes(SpringServiceLocator.getSubmissionTypeService().getSubmissionTypes());
-        routingForm.setPurposes(SpringServiceLocator.getPurposeService().getPurposes());
-        
-        return super.execute(mapping, form, request, response);
+        return super.docHandler(mapping, form, request, response);
     }
 
     /**
@@ -171,6 +173,12 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         
         retrieveMainPageReferenceObjects(routingForm.getRoutingFormDocument());
 
+        boolean auditErrorsPassed = SpringServiceLocator.getKualiRuleService().applyRules(new RunRoutingFormAuditEvent(routingForm.getRoutingFormDocument()));
+        if (!auditErrorsPassed) {
+            routingForm.setAuditActivated(true);
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        
         return super.route(mapping, form, request, response);
     }
     

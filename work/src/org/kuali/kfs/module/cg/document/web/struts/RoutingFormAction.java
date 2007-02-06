@@ -50,9 +50,8 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
     public ActionForward mainpage(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         RoutingForm routingForm = (RoutingForm) form;
         routingForm.setTabStates(new ArrayList());
-        routingForm.setProjectTypes(SpringServiceLocator.getProjectTypeService().getProjectTypes());
-        routingForm.setSubmissionTypes(SpringServiceLocator.getSubmissionTypeService().getSubmissionTypes());
-        routingForm.setPurposes(SpringServiceLocator.getPurposeService().getPurposes());
+        
+        SpringServiceLocator.getRoutingFormMainPageService().initializeRoutingFormMainPage(routingForm);
         
         return mapping.findForward("mainpage");
     }

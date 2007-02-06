@@ -70,8 +70,8 @@
                 <label>Routing Form Budget Direct Amount</label>
                 <shortLabel>Direct Costs</shortLabel>
 
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+                <maxLength>15</maxLength>
+                <validationPattern><numeric /></validationPattern>
 
                 <control>
                     <text size="21" />
@@ -100,8 +100,8 @@
                 <label>Routing Form Budget Indirect Cost Amount</label>
                 <shortLabel>Indirect Costs</shortLabel>
 
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+                <maxLength>15</maxLength>
+                <validationPattern><numeric /></validationPattern>
 
                 <control>
                     <text size="21" />
@@ -175,8 +175,8 @@
                 <label>Routing Form Budget Total Direct Amount</label>
                 <shortLabel>Total Direct Costs</shortLabel>
 
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+                <maxLength>15</maxLength>
+                <validationPattern><numeric /></validationPattern>
 
                 <control>
                     <text size="21" />
@@ -205,8 +205,8 @@
                 <label>Routing Form Budget Total Indirect Cost Amount</label>
                 <shortLabel>Indirect Costs</shortLabel>
 
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+                <maxLength>15</maxLength>
+                <validationPattern><numeric /></validationPattern>
 
                 <control>
                     <text size="21" />

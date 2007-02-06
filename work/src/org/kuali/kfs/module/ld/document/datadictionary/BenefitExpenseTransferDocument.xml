@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
         <documentTypeName>KualiBenefitExpenseTransferDocument</documentTypeName>
-        <documentTypeCode>ST</documentTypeCode>
+        <documentTypeCode>BT</documentTypeCode>
         <label>Benefit Expense Transfer Document</label>
         <shortLabel>BTDoc</shortLabel>
         

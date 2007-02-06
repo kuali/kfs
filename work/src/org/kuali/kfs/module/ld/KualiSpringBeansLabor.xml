@@ -163,9 +163,6 @@
     </bean>
 
     <bean id="laborPosterService" class="org.kuali.module.labor.service.impl.PosterServiceImpl" init-method="init">
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
         <property name="laborOriginEntryService">
             <ref bean="laborOriginEntryService" />
         </property>

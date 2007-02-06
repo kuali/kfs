@@ -766,7 +766,6 @@
 	<field-descriptor name="routingFormDueDateTypeCode" column="RF_DUEDT_TYP_CD" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="routingFormDueDate" column="RF_DUE_DT" jdbc-type="DATE"/>
 	<field-descriptor name="routingFormDueTime" column="RF_DUE_TM" jdbc-type="VARCHAR"/>
-	<field-descriptor name="routingFormRequiredCopyNumber" column="RF_REQ_CPY_NBR" jdbc-type="INTEGER"/>
 	<field-descriptor name="routingFormRequiredCopyText" column="RF_REQ_CPY_TXT" jdbc-type="VARCHAR"/>
 	<field-descriptor name="routingFormSubmitDate" column="RF_SUBMT_DT" jdbc-type="DATE"/>
 	<reference-descriptor name="routingFormDueDateType" class-ref="org.kuali.module.kra.routingform.bo.RoutingFormDueDateType" auto-retrieve="true" auto-update="none" auto-delete="none">

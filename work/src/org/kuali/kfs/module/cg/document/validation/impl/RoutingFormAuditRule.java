@@ -102,9 +102,9 @@ public class RoutingFormAuditRule {
             auditErrors.add(new AuditError("document.routingFormAgency.routingFormDueDateTypeCode", KraKeyConstants.AUDIT_MAIN_PAGE_DUE_DATE_TYPE_REQUIRED, "mainpage.anchor1"));
         }
         
-        if (ObjectUtils.isNull(routingFormDocument.getRoutingFormAgency().getRoutingFormRequiredCopyNumber())) {
+        if (ObjectUtils.isNull(routingFormDocument.getRoutingFormAgency().getRoutingFormRequiredCopyText())) {
             valid = false;
-            auditErrors.add(new AuditError("document.routingFormAgency.routingFormRequiredCopyNumber", KraKeyConstants.AUDIT_MAIN_PAGE_COPIES_REQUIRED, "mainpage.anchor1"));
+            auditErrors.add(new AuditError("document.routingFormAgency.routingFormRequiredCopyText", KraKeyConstants.AUDIT_MAIN_PAGE_COPIES_REQUIRED, "mainpage.anchor1"));
         }
         
         if (ObjectUtils.isNull(routingFormDocument.getRoutingFormAgency().getAgencyAddressDescription())) {

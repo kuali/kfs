@@ -50,7 +50,6 @@ public class RoutingFormAgency extends PersistableBusinessObjectBase {
 	private String routingFormDueDateTypeCode;
 	private Date routingFormDueDate;
 	private String routingFormDueTime;
-	private Integer routingFormRequiredCopyNumber;
 	private String routingFormRequiredCopyText;
 	private Date routingFormSubmitDate;
 
@@ -523,28 +522,6 @@ public class RoutingFormAgency extends PersistableBusinessObjectBase {
 	public void setRoutingFormDueTime(String routingFormDueTime) {
 		this.routingFormDueTime = routingFormDueTime;
 	}
-
-
-	/**
-	 * Gets the routingFormRequiredCopyNumber attribute.
-	 * 
-	 * @return Returns the routingFormRequiredCopyNumber
-	 * 
-	 */
-	public Integer getRoutingFormRequiredCopyNumber() { 
-		return routingFormRequiredCopyNumber;
-	}
-
-	/**
-	 * Sets the routingFormRequiredCopyNumber attribute.
-	 * 
-	 * @param routingFormRequiredCopyNumber The routingFormRequiredCopyNumber to set.
-	 * 
-	 */
-	public void setRoutingFormRequiredCopyNumber(Integer routingFormRequiredCopyNumber) {
-		this.routingFormRequiredCopyNumber = routingFormRequiredCopyNumber;
-	}
-
 
 	/**
 	 * Gets the routingFormRequiredCopyText attribute.

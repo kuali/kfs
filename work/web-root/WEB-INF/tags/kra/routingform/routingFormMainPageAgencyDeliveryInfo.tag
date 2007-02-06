@@ -96,9 +96,9 @@
 			    		<kul:lookup boClassName="org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference" lookupParameters="document.routingFormCatalogOfFederalDomesticAssistanceNumber:cfdaNumber" fieldConversions="cfdaNumber:document.routingFormCatalogOfFederalDomesticAssistanceNumber" anchor="${currentTabIndex}" />
                 	</c:if>
 				</td>
-                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.routingFormRequiredCopyNumber}" skipHelpUrl="true" useShortLabel="true" /></th>
+                <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.routingFormRequiredCopyText}" skipHelpUrl="true" useShortLabel="true" /></th>
                 <td colspan="2" align=left valign=middle >
-                	<kul:htmlControlAttribute property="document.routingFormAgency.routingFormRequiredCopyNumber" attributeEntry="${routingFormAgencyAttributes.routingFormRequiredCopyNumber}" readOnly="${viewOnly}"/>
+                	<kul:htmlControlAttribute property="document.routingFormAgency.routingFormRequiredCopyText" attributeEntry="${routingFormAgencyAttributes.routingFormRequiredCopyText}" readOnly="${viewOnly}"/>
                 	Submit 2 additional copies plus the number of required by your department and school.
                 </td>
               </tr>

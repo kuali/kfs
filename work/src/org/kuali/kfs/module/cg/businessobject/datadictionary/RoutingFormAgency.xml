@@ -46,7 +46,6 @@
                 <field attributeName="routingFormDueDate" />
                 <field attributeName="routingFormDueDateTypeCode" />
                 <field attributeName="routingFormDueTime" />
-                <field attributeName="routingFormRequiredCopyNumber" />
                 <field attributeName="routingFormRequiredCopyText" />
                 <field attributeName="routingFormSubmitDate" />
                 <field attributeName="documentNumber" />
@@ -86,7 +85,6 @@
                 <lookupField attributeName="routingFormDueDate" required="false" />
                 <lookupField attributeName="routingFormDueDateTypeCode" required="false" />
                 <lookupField attributeName="routingFormDueTime" required="false" />
-                <lookupField attributeName="routingFormRequiredCopyNumber" required="false" />
                 <lookupField attributeName="routingFormRequiredCopyText" required="false" />
                 <lookupField attributeName="routingFormSubmitDate" required="false" />
                 <lookupField attributeName="documentNumber" required="false" />
@@ -114,7 +112,6 @@
                 <field attributeName="routingFormDueDate" />
                 <field attributeName="routingFormDueDateTypeCode" />
                 <field attributeName="routingFormDueTime" />
-                <field attributeName="routingFormRequiredCopyNumber" />
                 <field attributeName="routingFormRequiredCopyText" />
                 <field attributeName="routingFormSubmitDate" />
                 <field attributeName="documentNumber" />
@@ -436,27 +433,12 @@
                 <description>routingFormDueTime description...</description>
 			</attribute>
 
-            <attribute name="routingFormRequiredCopyNumber" forceUppercase="true">
-                <label>Routing Form Required Copy Number</label>
-                <shortLabel>Copies to Agency</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>routingFormRequiredCopyNumber</summary>
-                <description>routingFormRequiredCopyNumber description...</description>
-			</attribute>
-
             <attribute name="routingFormRequiredCopyText" forceUppercase="true">
                 <label>Routing Form Required Copy Text</label>
-                <shortLabel>Text</shortLabel>
+                <shortLabel>Copies to Agency</shortLabel>
 
                 <maxLength>20</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
                 <control>
                     <text size="22" />

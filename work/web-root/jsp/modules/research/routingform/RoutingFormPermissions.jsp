@@ -27,6 +27,8 @@
 	
 	<kra-rf:routingFormAdHocPermissions />
 	
+	<kra-rf:routingFormDefaultPermissions />
+	
 	<kul:panelFooter />
 	
 	<kul:documentControls transactionalDocument="false" suppressRoutingControls="true" viewOnly="${KualiForm.editingMode['viewOnly']}" />

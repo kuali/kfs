@@ -277,7 +277,7 @@
 
             <attributeReference name="budgetAgency" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="agencyNumber">
                 <label>Agency</label>
-                <shortLabel>Number</shortLabel>
+                <shortLabel>Agency</shortLabel>
                 <summary>Budget Agency</summary>
                 <description>Budget Agency...</description>
             </attributeReference>

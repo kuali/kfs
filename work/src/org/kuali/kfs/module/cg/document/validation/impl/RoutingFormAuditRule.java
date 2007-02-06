@@ -143,6 +143,14 @@ public class RoutingFormAuditRule {
                 }
             }
 
+            if (ObjectUtils.isNull(person.getPersonRoleCode())) {
+                valid = false;
+                auditErrors.add(new AuditError("document.routingFormPerson[" + i + "].personRoleCode", KraKeyConstants.AUDIT_MAIN_PAGE_PERSON_ROLE_CODE_REQUIRED, "mainpage.anchor2"));
+            } else if (KraConstants.PERSON_ROLE_CODE_OTHER.equals(person.getPersonRoleCode()) && ObjectUtils.isNull(person.getPersonRoleText())) {
+                valid = false;
+                auditErrors.add(new AuditError("document.routingFormPerson[" + i + "].personRoleText", KraKeyConstants.AUDIT_MAIN_PAGE_PERSON_ROLE_TEXT_REQUIRED, "mainpage.anchor2"));
+            }
+            
             if (ObjectUtils.isNull(person.getPersonFinancialAidPercent())) {
                 valid = false;
                 auditErrors.add(new AuditError("document.routingFormPerson[" + i + "].personFinancialAidPercent", KraKeyConstants.AUDIT_MAIN_PAGE_PERSON_FA_REQUIRED, "mainpage.anchor2"));

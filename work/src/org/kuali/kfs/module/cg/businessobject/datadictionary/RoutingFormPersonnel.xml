@@ -377,7 +377,7 @@
 			</attribute>
 
             <attribute name="personRoleText" forceUppercase="true">
-                <label>Role (other)</label>
+                <label>Description</label>
                 <shortLabel>Text</shortLabel>
 
                 <maxLength>50</maxLength>

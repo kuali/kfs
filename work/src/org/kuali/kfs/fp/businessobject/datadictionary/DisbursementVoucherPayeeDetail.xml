@@ -22,6 +22,8 @@
     <businessObject businessObjectClass="org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail">
 
         <customAttributeEnabled>false</customAttributeEnabled>
+        
+        <titleAttribute>dvPayeeDetail</titleAttribute>
 
         <attributes>
 
@@ -171,5 +173,6 @@
 
             <attributeReference name="disbVchrAlienPaymentCode" sourceClassName="org.kuali.module.financial.bo.Payee" sourceAttributeName="alienPaymentCode" />
         </attributes>
+        <objectLabel>DV Payee Detail</objectLabel>
     </businessObject>
 </dictionaryEntry>

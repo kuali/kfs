@@ -52,7 +52,7 @@
                 <maintainableItems>
                     <maintainableField name="letterOfCreditFundGroupCode" required="true" />
                     <maintainableField name="letterOfCreditFundGroupDescription" required="true" />
-                    <maintainableField name="rowActiveIndicator" required="true">
+                    <maintainableField name="rowActiveIndicator" required="false">
 						<defaultValue>true</defaultValue>
 					</maintainableField>
                 </maintainableItems>

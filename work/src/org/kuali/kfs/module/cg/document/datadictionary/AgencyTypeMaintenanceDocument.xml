@@ -52,7 +52,7 @@
                 <maintainableItems>
                     <maintainableField name="code" required="true" />
                     <maintainableField name="name" required="true" />
-					<maintainableField name="rowActiveIndicator" required="true">
+					<maintainableField name="rowActiveIndicator" required="false">
 						<defaultValue>true</defaultValue>
 					</maintainableField>
                     <maintainableField name="versionNumber" />

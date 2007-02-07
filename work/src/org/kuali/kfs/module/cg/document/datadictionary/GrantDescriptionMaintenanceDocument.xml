@@ -52,7 +52,7 @@
                 <maintainableItems>
                     <maintainableField name="grantDescriptionCode" required="true" />
                     <maintainableField name="grantDescription" required="true" />
-                    <maintainableField name="grantDescriptionActiveCode" required="true">
+                    <maintainableField name="grantDescriptionActiveCode" required="false">
 						<defaultValue>true</defaultValue>
 					</maintainableField>
 					<maintainableField name="versionNumber" />

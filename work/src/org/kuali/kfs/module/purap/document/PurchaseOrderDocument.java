@@ -17,16 +17,24 @@
 package org.kuali.module.purap.document;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.PaymentTermType;
 import org.kuali.module.purap.bo.PurchaseOrderVendorChoice;
 import org.kuali.module.purap.bo.RecurringPaymentFrequency;
 import org.kuali.module.purap.bo.ShippingPaymentTerms;
 import org.kuali.module.purap.bo.ShippingTitle;
+import org.kuali.module.purap.bo.SourceDocumentReference;
+import org.kuali.module.purap.bo.VendorAddress;
 import org.kuali.module.purap.bo.VendorDetail;
 
 /**
@@ -148,7 +156,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.setVendorStateCode(requisitionDocument.getVendorStateCode());
         this.setExternalOrganizationB2bSupplierIdentifier(requisitionDocument.getExternalOrganizationB2bSupplierIdentifier());
         this.setRequisitionSourceCode(requisitionDocument.getRequisitionSourceCode());
-        
+
         this.setStatusCode(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
         //copy items from req to pending (which will copy the item's accounts and assets)
 //        List items = new ArrayList();
@@ -157,6 +165,31 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
 //          items.add(new PurchaseOrderItem(reqItem, this));
 //        }
 //        this.setItems(items);
+        
+      // TODO Naser This is the code Naser is working on
+ 
+        SourceDocumentReference sourceDocumentReference = new SourceDocumentReference();
+        Integer ReqId = this.getRequisitionIdentifier();
+        // The following code is assuming that any PO has one and only one requisition:
+        Map fieldValues = new HashMap();
+        fieldValues.put(PurapPropertyConstants.SOURCE_DOCUMENT_IDENTIFIER, this.getRequisitionIdentifier());
+        List<SourceDocumentReference> sourceDocumentReferences = new ArrayList(SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(SourceDocumentReference.class,  
+                fieldValues, PurapPropertyConstants.SOURCE_DOCUMENT_IDENTIFIER, true));
+        if (sourceDocumentReferences.size()== 1){
+            Integer sourceDocumentReferenceGeneratedId = sourceDocumentReferences.get(0).getSourceDocumentReferenceGeneratedIdentifier();
+            sourceDocumentReference.setSourceDocumentReferenceGeneratedIdentifier(sourceDocumentReferences.get(0).getSourceDocumentReferenceGeneratedIdentifier());
+        }
+      
+        sourceDocumentReference.setSourceFinancialDocumentTypeCode("PO");
+        // This line is giving this error:
+        
+        //javax.servlet.ServletException: OJB operation; SQL []; ORA-01400: cannot insert NULL into ("KULDEV"."PUR_SRC_DOC_REF_T"."SRC_DOC_OBJ_ID")
+        // ; nested exception is java.sql.SQLException: ORA-01400: cannot insert NULL into ("KULDEV"."PUR_SRC_DOC_REF_T"."SRC_DOC_OBJ_ID")
+        //sourceDocumentReference.setSourceDocumentObjectIdentifier(this.getObjectId());
+        sourceDocumentReference.setSourceDocumentObjectIdentifier("POObjectID");
+        //sourceDocumentReferences = new TypedArrayList(SourceDocumentReference.class);
+        sourceDocumentReferences.add(sourceDocumentReference);
+     
     }
 
     public void refreshAllReferences() {
@@ -463,7 +496,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         String vendorNumber = "";
         if( this.alternateVendorHeaderGeneratedIdentifier != null ) {
             hdrGenId = this.alternateVendorHeaderGeneratedIdentifier.toString();
-        }
+}
         if( this.alternateVendorDetailAssignedIdentifier != null ) {
             detAssgndId = this.alternateVendorDetailAssignedIdentifier.toString();
         }
@@ -472,7 +505,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         }
         return vendorNumber;
     }
-
+    
     /**
      * Sets the alternateVendorNumber attribute value.
      * @param alternateVendorNumber The vendorNumber to set.

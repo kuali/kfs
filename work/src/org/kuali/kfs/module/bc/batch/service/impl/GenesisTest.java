@@ -79,12 +79,24 @@ public class GenesisTest {
                    nfex.getMessage()));
       }
       // create the proxy BC headers
+      /*
       genesisTestService.clearDBForGenesis(2009);
       LOG.info("\nDocument creation started: "+String.format("%tT",dateTimeService.getCurrentDate()));
       genesisTestService.createProxyBCHeadersTransactional(2009);
+      LOG.info("\nProxy documents created: "+String.format("%tT",dateTimeService.getCurrentDate()));
+      */
       // create the real BC documents based on the proxies
+      /*
       genesisDao.createNewBCDocuments(2009);
       LOG.info("\nDocument creation ended: "+String.format("%tT",dateTimeService.getCurrentDate()));
+      */
+     // try running the hierarchy creation
+     //  genesisTestService.testChartCreation();  
+     //  genesisTestService.testHierarchyCreation(2009);
+     // test the changes we made to the organization service for the root organization
+        String[] roots = 
+            SpringServiceLocator.getOrganizationService().getRootOrganizationCode();
+        LOG.info(String.format("\nroot chart: %s, root organization: %s", roots[0], roots[1]));
   //
   //    genesisTestService.testStep(2007);
   //    genesisTestService.testSLFStep(2009);

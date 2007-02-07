@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.math.*;
 import java.lang.*;
 
@@ -395,10 +396,10 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         QueryByCriteria queryID = 
             new QueryByCriteria(PendingBudgetConstructionGeneralLedger.class,
                     criteriaID);
-        LOG.info(String.format("\ndelete PBGL started at %tT for %d",dateTimeService.getCurrentDate(),
+        LOG.debug(String.format("\ndelete PBGL started at %tT for %d",dateTimeService.getCurrentDate(),
                 RequestYear));
         getPersistenceBrokerTemplate().deleteByQuery(queryID);
-        LOG.info(String.format("\ndelete PBGL ended at %tT",dateTimeService.getCurrentDate()));
+        LOG.debug(String.format("\ndelete PBGL ended at %tT",dateTimeService.getCurrentDate()));
     }
     
     /* 
@@ -569,6 +570,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     
     private void stepToStoreNewDocuments(Integer BaseYear) 
     {
+        LOG.info("\nInteraction with workflow started: "+String.format("%tT",new GregorianCalendar().getTime()));
         Iterator bCHeaderRows = newBCDocumentSource.iterator();
         documentsToCreateinNTS =  ((Integer) (newBCDocumentSource.size())).longValue();
         while (bCHeaderRows.hasNext())
@@ -591,7 +593,9 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
             }
             documentsCreatedinNTS = documentsCreatedinNTS+1;
         }
+        LOG.info("\nInteraction with workflow ended: "+String.format("%tT",new GregorianCalendar().getTime()));
         storeBudgetConstructionDocumentsInitialStatus();
+        LOG.info("\nStatus changes completed: "+String.format("%tT",new GregorianCalendar().getTime()));
 
     }
     
@@ -750,8 +754,8 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         
         Integer sqlChartOfAccountsCode = 0;
         Integer sqlAccountNumber = 1;
-        Integer sqlReportsToChartofAccountsCode = 2;
-        Integer sqlOrganizationCode = 3;
+        Integer sqlReportsToChartofAccountsCode = 0;
+        Integer sqlOrganizationCode = 2;
         
         Long accountsAdded = new Long(0);
         
@@ -760,11 +764,11 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                               Constants.ParameterValues.YES);
         String[] queryAttr = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
                               PropertyConstants.ACCOUNT_NUMBER,
-                              PropertyConstants.CHART_OF_ACCOUNTS_CODE,
                               PropertyConstants.ORGANIZATION_CODE};
        ReportQueryByCriteria queryID = 
        new ReportQueryByCriteria(Account.class, queryAttr, criteriaID, true);
-       Iterator Results = getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
+       Iterator Results = 
+           getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
        while (Results.hasNext())
        {
            Object[] ReturnList = (Object[]) Results.next();
@@ -782,7 +786,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
            getPersistenceBrokerTemplate().store(acctRpts);
            accountsAdded = accountsAdded + 1;
        }
-       LOG.info(String.format("Account reporting lines added to budget construction %d",
+       LOG.info(String.format("\nAccount reporting lines added to budget construction %d",
                 accountsAdded));
     }
     
@@ -810,7 +814,8 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                               PropertyConstants.RESPONSIBILITY_CENTER_CODE};
        ReportQueryByCriteria queryID = 
        new ReportQueryByCriteria(Org.class, queryAttr, criteriaID, true);
-       Iterator Results = getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
+       Iterator Results = 
+           getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
        while (Results.hasNext())
        {
            Object[] ReturnList = (Object[]) Results.next();
@@ -830,7 +835,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
            getPersistenceBrokerTemplate().store(orgRpts);
            organizationsAdded = organizationsAdded + 1;
        }
-       LOG.info(String.format("Organization reporting lines added to budget construction %d",
+       LOG.info(String.format("\nOrganization reporting lines added to budget construction %d",
                 organizationsAdded));
     }
     
@@ -976,7 +981,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         }
         if (orgLevel >= MAXIMUM_ORGANIZATION_TREE_DEPTH)
         {
-            LOG.warn(String.format("%s/%s reports to more than %d organizations",
+            LOG.warn(String.format("\n%s/%s reports to more than %d organizations",
                      acctRpts.getChartOfAccountsCode(),
                      acctRpts.getAccountNumber(),
                      MAXIMUM_ORGANIZATION_TREE_DEPTH));

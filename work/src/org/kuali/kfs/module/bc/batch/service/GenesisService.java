@@ -40,4 +40,7 @@ public interface GenesisService {
     public void testSLFStep(Integer universityFiscalYear);
     public void testSLFAfterStep(Integer universityFiscalYear);
     public void testLockClearance(Integer currentFiscalYear);
+    
+    public void testChartCreation();
+    public void testHierarchyCreation(Integer currentFiscalYear);
 }

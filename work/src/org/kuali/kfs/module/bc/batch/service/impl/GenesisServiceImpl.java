@@ -129,7 +129,21 @@ public class GenesisServiceImpl implements GenesisService {
     {
         genesisDao.primeNewBCHeadersDocumentCreation(BaseYear);
     }
-      
+ //  this step must be re-done
+ //  we need (1) an intiation step that sets the flags,
+ //              builds the chart, and creates the proxy
+ //              documents
+ //          (2) a non-transactional step (not in this service)
+ //              that sets document numbers and routes the
+ //              documents.  this should be called directly
+ //              from geneisDao.
+ //          (3) a step that does the rest (initializes the
+ //              document status, builds the org hieratchy and
+ //              the GL, and resets the flags
+ //           THERE COULD BE A DOCUMENT STEP, AS LONG AS THE
+ //           THE TRANSACTIONAL PARTS COME FROM A SERVICE AND 
+ //           BUT THE DOCUMENT ROUTE IS FROM genesisDao AND IS
+ //           NON_TRANSACTIONAL.   
     public void genesisStep(Integer BaseYear)
     {
         genesisDao.setControlFlagsAtTheStartOfGenesis(BaseYear);
@@ -139,6 +153,15 @@ public class GenesisServiceImpl implements GenesisService {
         genesisDao.setControlFlagsAtTheEndOfGenesis(BaseYear);
     }
 
+    public void testChartCreation()
+    {
+        genesisDao.createChartForNextBudgetCycle();
+    }
+    
+    public void testHierarchyCreation(Integer BaseYear)
+    {
+        genesisDao.rebuildOrganizationHierarchy(BaseYear);
+    }
 
     public void setGenesisDao(GenesisDao genesisDao)
     {

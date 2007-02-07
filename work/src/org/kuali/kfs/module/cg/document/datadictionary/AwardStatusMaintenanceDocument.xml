@@ -52,7 +52,7 @@
                 <maintainableItems>
                     <maintainableField name="awardStatusCode" required="true" />
                     <maintainableField name="awardStatusDescription" required="true" />
-                    <maintainableField name="rowActiveIndicator" required="true">
+                    <maintainableField name="rowActiveIndicator" required="false">
 						<defaultValue>true</defaultValue>
 					</maintainableField>
                     <maintainableField name="versionNumber" />

@@ -58,7 +58,9 @@
                     <maintainableField name="reportingName" required="true" />
                     <maintainableField name="fullName" required="true" />
                     <maintainableField name="agencyTypeCode" required="true" />
-                    <maintainableField name="historicalIndicator" />
+                    <maintainableField name="historicalIndicator" required="false">
+						<defaultValue>true</defaultValue>
+                    </maintainableField>
                     <maintainableField name="inStateIndicator" />
                     <maintainableField name="indirectAmount" />
                     <maintainableField name="reportsToAgencyNumber" />

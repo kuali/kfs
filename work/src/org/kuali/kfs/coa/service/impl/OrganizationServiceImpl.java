@@ -17,6 +17,8 @@ package org.kuali.module.chart.service.impl;
 
 import java.util.List;
 
+import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.Constants.*;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.spring.Cached;
 import org.kuali.module.chart.bo.Org;
@@ -116,6 +118,21 @@ public class OrganizationServiceImpl implements OrganizationService {
         
         return organizationDao.getActiveOrgsByType( organizationTypeCode );
     }
-    
+   
+    /*
+     *   returns the chart of accounts code and the orgnization code of the root
+     *   organization
+     */
+    public String[] getRootOrganizationCode()
+    {
+        String rootChart = 
+        SpringServiceLocator.getChartService().getUniversityChart().getChartOfAccountsCode();
+        String selfReportsOrgType =
+        SpringServiceLocator.getKualiConfigurationService().getApplicationRule(
+                ChartApcParms.GROUP_CHART_MAINT_EDOCS,
+                ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES).getRuleText();
+        return (organizationDao.getRootOrganizationCode(rootChart,
+                                                        selfReportsOrgType));
+    }
     
 }

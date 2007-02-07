@@ -83,5 +83,10 @@ public interface OrganizationService {
      * @return
      */
     public List<Org> getActiveOrgsByType( String organizationTypeCode );
-    
+ 
+    /**
+     * 
+     * returns the chart and organization of the ACTIVE root-level organization
+     */
+    public String[] getRootOrganizationCode();
 }

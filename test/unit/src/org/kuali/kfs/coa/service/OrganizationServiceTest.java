@@ -94,6 +94,11 @@ public class OrganizationServiceTest extends KualiTestBase {
         public List<Org> getActiveOrgsByType(String organizationTypeCode){
             return Collections.EMPTY_LIST;
         }
+        public String[] getRootOrganizationCode(String rootChart, String selfReportsORgType)
+        {
+            String[] returnValues = {null, null};
+            return returnValues;
+        }
         
     }
 }

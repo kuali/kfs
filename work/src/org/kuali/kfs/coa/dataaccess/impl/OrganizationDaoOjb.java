@@ -18,13 +18,18 @@ package org.kuali.module.chart.dao.ojb;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Iterator;
+
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.apache.ojb.broker.query.*;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.dao.OrganizationDao;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.kuali.Constants;
+import org.kuali.PropertyConstants;
 
 /**
  * This class is the OJB implementation of the OrganizationDao interface.
@@ -115,6 +120,37 @@ public class OrganizationDaoOjb extends PersistenceBrokerDaoSupport implements O
             return Collections.EMPTY_LIST;
         }
         return orgs;
+    }
+    /**
+     * 
+     *  get the root organization based on the root chart and the organization type
+     *  we insist that the root organization be active
+     */
+    public String[] getRootOrganizationCode(String rootChart,
+                                            String selfReportsOrgTypeCode)
+    {
+       String[] returnValues = {null, null};
+       Criteria criteria = new Criteria();
+       criteria.addEqualTo(PropertyConstants.CHART_OF_ACCOUNTS_CODE,rootChart);
+       criteria.addEqualTo(PropertyConstants.ORGANIZATION_TYPE_CODE,
+                                             selfReportsOrgTypeCode);
+       //  the root organization must be active
+       criteria.addEqualTo(PropertyConstants.ORGANIZATION_ACTIVE_INDICATOR,
+                           Constants.ACTIVE_INDICATOR);
+       String[] attributeList = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                                 PropertyConstants.ORGANIZATION_CODE};
+       ReportQueryByCriteria rptQuery = new ReportQueryByCriteria(Org.class,
+                                                                  attributeList,
+                                                                  criteria);
+       Iterator Results = 
+           getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rptQuery); 
+       if (Results.hasNext())
+       {
+           Object[] returnList = (Object[]) Results.next();
+           returnValues[0] = (String) returnList[0];
+           returnValues[1] = (String) returnList[1];
+       }
+       return returnValues;
     }
 
 }

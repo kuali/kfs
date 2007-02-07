@@ -41,4 +41,8 @@ public interface OrganizationDao {
      * @return
      */
     public List<Org> getActiveOrgsByType( String organizationTypeCode );
+    
+    public String[] getRootOrganizationCode(String rootChart,
+            String selfReportsOrgTypeCode);
+
 }

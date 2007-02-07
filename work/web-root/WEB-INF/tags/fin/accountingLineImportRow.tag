@@ -60,7 +60,7 @@
                       '     width=72 height=15 border=0 align="middle" class="det-button">' +
                     '<\/a>' +
                     '<div id="${uploadDiv}" style="display:none;" >' +
-                      '<a href="html/help/AccountingLineImport.html" target="helpWindow"><img src="images/my_cp_inf.gif" alt="${altText}" hspace=5 border=0  align="middle"><\/a>&nbsp;' +
+                      '<a href="${ConfigProperties.externalizable.help.url}AccountingLineImport.html" target="helpWindow"><img src="images/my_cp_inf.gif" alt="${altText}" hspace=5 border=0  align="middle"><\/a>&nbsp;' +
                       '<html:file size="30" property="${file}" />' +
                       '<html:image property="methodToCall.${uploadLines}" src="images/tinybutton-add1.gif"
                                     styleClass="tinybutton" alt="insert ${sourceOrTarget} accounting lines" title="insert ${sourceOrTarget} accounting lines" />' +

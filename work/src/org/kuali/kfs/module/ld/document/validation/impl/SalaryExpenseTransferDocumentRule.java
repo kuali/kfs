@@ -320,9 +320,8 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
      * @see org.kuali.core.rule.GenerateGeneralLedgerPendingEntriesRule#processGenerateGeneralLedgerPendingEntries(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
-    public boolean processGenerateGeneralLedgerPendingEntries(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        return true;
-        //return processGenerateLaborLedgerPendingEntries(transactionalDocument, accountingLine, sequenceHelper);
+    public boolean processGenerateGeneralLedgerPendingEntries(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {        
+        return processGenerateLaborLedgerPendingEntries(transactionalDocument, accountingLine, sequenceHelper);
     }
 
     /**
@@ -343,7 +342,7 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
         sequenceHelper.increment();
 
         // handle the offset entry
-        PendingLedgerEntry offsetEntry = (PendingLedgerEntry) ObjectUtils.deepCopy(originalEntry);
+        //PendingLedgerEntry offsetEntry = (PendingLedgerEntry) ObjectUtils.deepCopy(originalEntry);
         
         return true;
     }
@@ -373,8 +372,8 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
 
         //TODO: Need to find out why there number of fields on the spec does not match with the number of fields
         // specified in the PendingLedgerEntry class.
-        originalEntry.setUniversityFiscalPeriodCode(null); // null here, is assigned during batch or in specific document rule classes
-        originalEntry.setUniversityFiscalYear(transactionalDocument.getPostingYear());
+        originalEntry.setUniversityFiscalPeriodCode(null);
+        originalEntry.setUniversityFiscalYear(null);
         originalEntry.setChartOfAccountsCode(accountingLine.getChartOfAccountsCode());
         originalEntry.setAccountNumber(accountingLine.getAccountNumber());
         originalEntry.setSubAccountNumber(getEntryValue(accountingLine.getSubAccountNumber(), GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_ACCOUNT_NUMBER));
@@ -392,38 +391,26 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
         originalEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
         originalEntry.setTransactionLedgerEntryDescription(getEntryValue(accountingLine.getFinancialDocumentLineDescription(), transactionalDocument.getDocumentHeader().getFinancialDocumentDescription()));
         originalEntry.setTransactionLedgerEntryAmount(getGeneralLedgerPendingEntryAmountForAccountingLine(accountingLine));
-        originalEntry.setTransactionDebitCreditCode(isDebit(transactionalDocument, accountingLine) ? Constants.GL_DEBIT_CODE : Constants.GL_CREDIT_CODE);
+        originalEntry.setTransactionDebitCreditCode( accountingLine.isSourceAccountingLine() ? Constants.GL_CREDIT_CODE : Constants.GL_DEBIT_CODE);
         Timestamp transactionTimestamp = new Timestamp(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
         originalEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
+        originalEntry.setTransactionPostingDate(new java.sql.Date(transactionTimestamp.getTime()));
         originalEntry.setOrganizationDocumentNumber(transactionalDocument.getDocumentHeader().getOrganizationDocumentNumber());
         originalEntry.setProjectCode(getEntryValue(accountingLine.getProjectCode(), GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING));
-        originalEntry.setOrganizationReferenceId(accountingLine.getOrganizationReferenceId());      
+        originalEntry.setOrganizationReferenceId(accountingLine.getOrganizationReferenceId());
+        originalEntry.setFinancialDocumentReversalDate(null);
         originalEntry.setPositionNumber( ((SalaryExpenseTransferAccountingLine)accountingLine).getPositionNumber() );
         originalEntry.setEmplid( ((SalaryExpenseTransferAccountingLine)accountingLine).getEmplid() );
         originalEntry.setPayrollEndDateFiscalYear( ((SalaryExpenseTransferAccountingLine)accountingLine).getPayrollEndDateFiscalYear() );
         originalEntry.setPayrollEndDateFiscalPeriodCode( ((SalaryExpenseTransferAccountingLine)accountingLine).getPayrollEndDateFiscalPeriodCode() );
         originalEntry.setTransactionTotalHours( ((SalaryExpenseTransferAccountingLine)accountingLine).getPayrollTotalHours() );
-        
-        
-        //originalEntry.setVersionNumber(new Long(1));
-        
-        //TODO: This field is a Date in GL but a Timestamp in LL
-        //originalEntry.setTransactionEntryProcessedTimestamp(new java.sql.Timestamp(transactionTimestamp.getTime()));
-        //TODO: check why sufficient funds fin obj code doesn't exist for LL
-        //originalEntry.setAcctSufficientFundsFinObjCd(SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(accountingLine.getObjectCode(), accountingLine.getAccount().getAccountSufficientFundsCode()));
-        //originalEntry.setFinancialDocumentApprovedCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.NO);
-        //originalEntry.setTransactionEncumbranceUpdateCode(BLANK_SPACE);
-        //originalEntry.setReferenceFinancialSystemOriginationCode(getEntryValue(accountingLine.getReferenceOriginCode(), BLANK_SPACE));
-        //originalEntry.setReferenceFinancialDocumentNumber(getEntryValue(accountingLine.getReferenceNumber(), BLANK_SPACE));
-        //originalEntry.setReferenceFinancialDocumentTypeCode(getEntryValue(accountingLine.getReferenceTypeCode(), BLANK_SPACE));
-
-        //TODO: offset indicator doesn't exist in LLPE, but offset code does exist but not in GLPE
-        //originalEntry.setTransactionEntryOffsetIndicator(false);
-        
+        originalEntry.setReferenceFinancialSystemOriginationCode(null);
+        originalEntry.setReferenceFinancialDocumentNumber(null);
+        originalEntry.setReferenceFinancialDocumentTypeCode(null);
+                      
         // TODO wait for core budget year data structures to be put in place
         // originalEntry.setBudgetYear(accountingLine.getBudgetYear());
         // originalEntry.setBudgetYearFundingSourceCode(budgetYearFundingSourceCode);
-
     }
     
     protected boolean processA21LaborLedgerPendingEntry(TransactionalDocument transactionalDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry a21Entry) {        

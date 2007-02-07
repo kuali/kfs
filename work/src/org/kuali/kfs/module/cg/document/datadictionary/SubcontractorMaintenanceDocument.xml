@@ -58,7 +58,7 @@
                     <maintainableField name="subcontractorStateCode" required="true" />
                     <maintainableField name="subcontractorZipCode" required="true" />
                     <maintainableField name="subcontractorCountryCode" required="true" />
-					<maintainableField name="active" required="true">
+					<maintainableField name="active" required="false">
 						<defaultValue>true</defaultValue>
 					</maintainableField>
                     <maintainableField name="versionNumber" />

@@ -175,7 +175,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         fieldValues.put(PurapPropertyConstants.SOURCE_DOCUMENT_IDENTIFIER, this.getRequisitionIdentifier());
         List<SourceDocumentReference> sourceDocumentReferences = new ArrayList(SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(SourceDocumentReference.class,  
                 fieldValues, PurapPropertyConstants.SOURCE_DOCUMENT_IDENTIFIER, true));
-        if (sourceDocumentReferences.size()== 1){
+        if (sourceDocumentReferences.size()>= 1){
             Integer sourceDocumentReferenceGeneratedId = sourceDocumentReferences.get(0).getSourceDocumentReferenceGeneratedIdentifier();
             sourceDocumentReference.setSourceDocumentReferenceGeneratedIdentifier(sourceDocumentReferences.get(0).getSourceDocumentReferenceGeneratedIdentifier());
         }
@@ -189,6 +189,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         sourceDocumentReference.setSourceDocumentObjectIdentifier("POObjectID");
         //sourceDocumentReferences = new TypedArrayList(SourceDocumentReference.class);
         sourceDocumentReferences.add(sourceDocumentReference);
+        this.setSourceDocumentReferences(sourceDocumentReferences);
      
     }
 

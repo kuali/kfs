@@ -44,9 +44,6 @@
 	</bean>
 
 	<bean id="budgetUserService" class="org.kuali.module.budget.service.impl.BudgetUserServiceImpl" parent="kualiModuleUserServiceBase">
-		<property name="chartUserService">
-			<ref bean="chartUserService" />
-		</property>
 	</bean>
 
 	<bean id="lockService" class="org.kuali.module.budget.service.impl.LockServiceImpl">

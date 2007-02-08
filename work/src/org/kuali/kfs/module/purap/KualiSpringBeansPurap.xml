@@ -44,9 +44,6 @@
 	</bean>
 
 	<bean id="purapUserService" class="org.kuali.module.purap.service.impl.PurapUserServiceImpl" parent="kualiModuleUserServiceBase">
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
-		</property>
 	</bean>
 
 	<bean id="vendorService" class="org.kuali.module.purap.service.impl.VendorServiceImpl">

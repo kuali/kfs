@@ -44,9 +44,6 @@
 	</bean>
 
 	<bean id="glUserService" class="org.kuali.module.gl.service.impl.GlUserServiceImpl" parent="kualiModuleUserServiceBase">
-		<property name="chartUserService">
-			<ref bean="chartUserService" />
-		</property>
 	</bean>
 
 	<bean id="glBalanceLookupableHelperService" class="org.kuali.module.gl.web.lookupable.BalanceLookupableHelperServiceImpl" singleton="false">

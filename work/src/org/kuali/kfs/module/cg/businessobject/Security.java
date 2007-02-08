@@ -27,8 +27,6 @@ public class Security extends PersistableBusinessObjectBase {
 
     private String personUniversalIdentifier;
 
-    private ChartUser kfsUser;
-
     /**
      * Default no-arg constructor.
      */
@@ -52,25 +50,6 @@ public class Security extends PersistableBusinessObjectBase {
      */
     public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
         this.personUniversalIdentifier = personUniversalIdentifier;
-    }
-
-    /**
-     * Gets the kualiUser attribute.
-     * 
-     * @return Returns the kualiUser.
-     */
-    public ChartUser getKFSUser() {
-        return kfsUser;
-    }
-
-    /**
-     * Sets the kualiUser attribute value.
-     * 
-     * @param kualiUser The kualiUser to set.
-     * @deprecated
-     */
-    public void setKFSUser(ChartUser kfsUser) {
-        this.kfsUser = kfsUser;
     }
 
     /**

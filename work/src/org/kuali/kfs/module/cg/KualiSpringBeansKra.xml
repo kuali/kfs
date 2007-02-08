@@ -45,9 +45,6 @@
 	</bean>
 
 	<bean id="kraUserService" class="org.kuali.module.kra.service.impl.KraUserServiceImpl" parent="kualiModuleUserServiceBase">
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
-		</property>
 	</bean>
 
 	<!-- The following is temporary, only until SH_UNIV_DATE_T is corrected in the databse -->

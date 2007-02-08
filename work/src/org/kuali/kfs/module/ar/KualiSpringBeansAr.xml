@@ -44,8 +44,5 @@
 	</bean>
 
 	<bean id="arUserService" class="org.kuali.module.ar.service.impl.ArUserServiceImpl" parent="kualiModuleUserServiceBase">
-		<property name="chartUserService">
-			<ref bean="chartUserService" />
-		</property>
 	</bean>
 </beans>

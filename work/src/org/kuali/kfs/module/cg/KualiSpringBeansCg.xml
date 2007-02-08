@@ -44,9 +44,6 @@
 	</bean>
 
 	<bean id="cgUserService" class="org.kuali.module.cg.service.impl.CgUserServiceImpl" parent="kualiModuleUserServiceBase">
-		<property name="chartUserService">
-			<ref bean="chartUserService" />
-		</property>
 	</bean>
 
   <bean id="proposalService" class="org.kuali.module.cg.service.impl.ProposalServiceImpl">

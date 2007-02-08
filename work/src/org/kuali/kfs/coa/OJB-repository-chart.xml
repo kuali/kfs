@@ -43,45 +43,6 @@
     </class-descriptor>
 -->
 
-<class-descriptor class="org.kuali.module.chart.bo.ChartUser" table="FP_FIS_USER_T">
-    <field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="active" column="PERSON_ACTIVE_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-    <!-- 
-    <field-descriptor name="personOriginationCode" column="PERSON_ORIGIN_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="personUpdateAbilityCode" column="PRSN_UPDT_ABLTY_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="personInFinancialProcessCode" column="PRSN_IN_FP_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-    <field-descriptor name="personApprovalChartOfAcctCd" column="PRSN_APRV_COA_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="personApprovalRcCode" column="PRSN_APRV_RC_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="personUpdateAbilityNumber" column="PRSN_UPDTABLTY_NBR" jdbc-type="BIGINT" />
-	-->
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="chartOfAccountsCode" />
-    </reference-descriptor>
-
-    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="chartOfAccountsCode" />
-        <foreignkey field-ref="organizationCode" />
-    </reference-descriptor>
-	<!-- 
-    <reference-descriptor name="personApprovalChartOfAcct" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="personApprovalChartOfAcctCd" />
-    </reference-descriptor>
-
-    <reference-descriptor name="personApprovalRc" class-ref="org.kuali.module.chart.bo.ResponsibilityCenter" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="personApprovalRcCode" />
-    </reference-descriptor>
-
-    <reference-descriptor name="personOrigination" class-ref="org.kuali.core.bo.OriginationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="personOriginationCode" />
-    </reference-descriptor>
-    -->
-</class-descriptor>
-
-
 <class-descriptor class="org.kuali.module.chart.bo.Account" table="CA_ACCOUNT_T">
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />

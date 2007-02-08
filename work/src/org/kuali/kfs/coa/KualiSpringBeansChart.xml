@@ -21,9 +21,23 @@
 		<property name="moduleName" value="Kuali Chart Of Accounts" />
 		<property name="moduleCode" value="CH" />
 		<property name="moduleUserService" ref="chartUserService" />
-		<property name="moduleUserRule" ref="chartUserRule" />
-		<property name="moduleAuthorizer" ref="chartModuleAuthorizer" />
-		<property name="moduleUserPreRules" ref="chartUserPreRules" />
+		<property name="moduleUserRule">
+			<bean class="org.kuali.module.chart.rules.ChartUserRule" singleton="false" parent="maintenanceDocumentRuleBase">
+				<!--  TODO: bind in other services -->
+			</bean>
+		</property>
+		<property name="moduleAuthorizer">
+			<bean id="chartModuleAuthorizer" class="org.kuali.core.authorization.KualiModuleAuthorizerBase">
+				<property name="packagePrefixes">
+					<list>
+						<value>org.kuali.module.chart.</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="moduleUserPreRules">
+			<null />
+		</property>
 		<property name="dataDictionaryPackages">
 			<list>
 				<value>org.kuali.module.chart.datadictionary</value>
@@ -39,9 +53,6 @@
 				<value>active</value>
 			</list>
 		</property>
-		<property name="chartUserDao">
-			<ref bean="chartUserDao" />
-		</property>
 		<property name="accountService">
 			<ref bean="accountService" />
 		</property>
@@ -50,19 +61,6 @@
 		</property>
 	</bean>
 	
-	<bean id="chartModuleAuthorizer" class="org.kuali.core.authorization.KualiModuleAuthorizerBase">
-		<property name="packagePrefixes">
-			<list>
-				<value>org.kuali.module.chart.</value>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="chartUserDao" class="org.kuali.module.chart.dao.ojb.ChartUserDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
 
 	<bean id="accountService" class="org.kuali.module.chart.service.impl.AccountServiceImpl">
 		<property name="accountDao">
@@ -129,15 +127,6 @@
 			<ref bean="offsetDefinitionDao" />
 		</property>
 	</bean>
-
-	<bean id="chartUserRule" class="org.kuali.module.chart.rules.ChartUserRule" singleton="false" parent="maintenanceDocumentRuleBase">
-		<!--  TODO: bind in other services -->
-	</bean>
-
-	<bean id="chartUserPreRules" class="org.kuali.module.chart.rules.ChartUserPreRules" singleton="false">
-		<!--  TODO: bind in other services -->
-	</bean>
-
 
 	<bean id="balanceTypService" class="org.kuali.module.chart.service.impl.BalanceTypServiceImpl">
 		<property name="kualiCodeService">
@@ -405,12 +394,6 @@
 	<bean id="workflow-org.kuali.module.chart.bo.HigherEdFunction-Lookupable" parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
 			<value>org.kuali.module.chart.bo.HigherEdFunction</value>
-		</property>
-	</bean>
-
-	<bean id="workflow-org.kuali.module.chart.bo.ChartUser-Lookupable" parent="workflowLookupable" singleton="false">
-		<property name="businessObjectClassName">
-			<value>org.kuali.module.chart.bo.ChartUser</value>
 		</property>
 	</bean>
 

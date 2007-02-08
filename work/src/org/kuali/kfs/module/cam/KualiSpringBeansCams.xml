@@ -44,9 +44,6 @@
 	</bean>
 
 	<bean id="camsUserService" class="org.kuali.module.cams.service.impl.CamsUserServiceImpl" parent="kualiModuleUserServiceBase">
-		<property name="chartUserService">
-			<ref bean="chartUserService" />
-		</property>
 	</bean>
 
 </beans>

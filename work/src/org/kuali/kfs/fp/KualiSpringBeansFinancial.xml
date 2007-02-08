@@ -31,7 +31,9 @@
 			</bean>
 		</property>
 		<property name="moduleUserRule">
-			<null />
+			<bean class="org.kuali.module.financial.rules.FinancialUserRule" singleton="false" parent="maintenanceDocumentRuleBase">
+				<!--  TODO: bind in other services -->
+			</bean>
 		</property>
 		<property name="moduleUserPreRules">
 			<null />
@@ -44,8 +46,11 @@
 	</bean>
 
 	<bean id="financialUserService" class="org.kuali.module.financial.service.impl.FinancialUserServiceImpl" parent="kualiModuleUserServiceBase">
-		<property name="chartUserService">
-			<ref bean="chartUserService" />
+		<property name="propertyList">
+			<list>
+				<value>chartOfAccountsCode</value>
+				<value>organizationCode</value>
+			</list>
 		</property>
 	</bean>
 

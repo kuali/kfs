@@ -24,31 +24,49 @@
         <inquiry>
             <title>Proposal Inquiry</title>
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="agencyNumber" />
-                <field attributeName="cfdaNumber" />
-                <field attributeName="federalPassThroughAgencyNumber" />
-                <field attributeName="grantNumber" />
-                <field attributeName="oldProposalNumber" />
-                <field attributeName="proposalAwardTypeCode" />
-                <field attributeName="proposalBeginningDate" />
-                <field attributeName="proposalClosingDate" />
-                <field attributeName="proposalDirectCostAmount" />
-                <field attributeName="proposalDueDate" />
-                <field attributeName="proposalEndingDate" />
-                <field attributeName="proposalFederalPassThroughIndicator" />
-                <field attributeName="proposalFellowName" />
-                <field attributeName="proposalIndirectCostAmount" />
-                <field attributeName="proposalLastUpdateDate" />
-                <field attributeName="proposalNumber" />
-                <field attributeName="proposalProjectTitle" />
-                <field attributeName="proposalPurposeCode" />
-                <field attributeName="proposalRejectedDate" />
-                <field attributeName="proposalStatusCode" />
-                <field attributeName="proposalSubmissionDate" />
-                <field attributeName="proposalTotalAmount" />
-                <field attributeName="proposalTotalProjectAmount" />
-            </inquiryFields></inquirySection></inquirySections>
+            <inquirySections>
+                <inquirySection title="Proposal Details">
+                    <inquiryFields>
+                        <field attributeName="agencyNumber" />
+                        <field attributeName="cfdaNumber" />
+                        <field attributeName="federalPassThroughAgencyNumber" />
+                        <field attributeName="grantNumber" />
+                        <field attributeName="oldProposalNumber" />
+                        <field attributeName="proposalAwardTypeCode" />
+                        <field attributeName="proposalBeginningDate" />
+                        <field attributeName="proposalClosingDate" />
+                        <field attributeName="proposalDirectCostAmount" />
+                        <field attributeName="proposalDueDate" />
+                        <field attributeName="proposalEndingDate" />
+                        <field attributeName="proposalFederalPassThroughIndicator" />
+                        <field attributeName="proposalFellowName" />
+                        <field attributeName="proposalIndirectCostAmount" />
+                        <field attributeName="proposalLastUpdateDate" />
+                        <field attributeName="proposalNumber" />
+                        <field attributeName="proposalProjectTitle" />
+                        <field attributeName="proposalPurposeCode" />
+                        <field attributeName="proposalRejectedDate" />
+                        <field attributeName="proposalStatusCode" />
+                        <field attributeName="proposalSubmissionDate" />
+                        <field attributeName="proposalTotalAmount" />
+                        <field attributeName="proposalTotalProjectAmount" />
+                    </inquiryFields>
+                </inquirySection>
+                <inquirySection title="Organizations">
+                    <inquiryFields>
+                        <inquiryCollection name="proposalOrganizations" businessObjectClass="org.kuali.module.cg.bo.ProposalOrganization">
+                            <field attributeName="chartOfAccountsCode" />
+                            <field attributeName="organizationCode" />
+                            <field attributeName="proposalPrimaryOrganizationIndicator" />
+                            <inquirySummaryFields>
+                              <inquirySummaryField attributeName="chartOfAccountsCode" />
+                              <inquirySummaryField attributeName="organizationCode" />
+                              <inquirySummaryField attributeName="proposalPrimaryOrganizationIndicator" />
+                            </inquirySummaryFields>
+                        </inquiryCollection>
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>
         </inquiry>
 
         <lookup>

@@ -147,9 +147,27 @@ public class GenesisServiceImpl implements GenesisService {
     public void genesisStep(Integer BaseYear)
     {
         genesisDao.setControlFlagsAtTheStartOfGenesis(BaseYear);
+        genesisDao.clearDBForGenesis(BaseYear);
         genesisDao.createChartForNextBudgetCycle();
         genesisDao.initialLoadToPBGL(BaseYear);
         genesisDao.rebuildOrganizationHierarchy(BaseYear);
+        genesisDao.setControlFlagsAtTheEndOfGenesis(BaseYear);
+    }
+    
+    public void genesisDocumentStep (Integer BaseYear)
+    {
+        genesisDao.setControlFlagsAtTheStartOfGenesis(BaseYear);
+        genesisDao.clearDBForGenesis(BaseYear);
+        genesisDao.primeNewBCHeadersDocumentCreation(BaseYear);
+    }
+    
+    public void genesisFinalStep (Integer BaseYear)
+    {
+        // this assumes that the documents have been built in genesisDocumentStep
+        genesisDao.createChartForNextBudgetCycle();
+        genesisDao.rebuildOrganizationHierarchy(BaseYear);
+        //
+        genesisDao.initialLoadToPBGL(BaseYear);
         genesisDao.setControlFlagsAtTheEndOfGenesis(BaseYear);
     }
 

@@ -760,8 +760,12 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         Long accountsAdded = new Long(0);
         
         Criteria criteriaID = new Criteria();
+        /*  current IU genesis does NOT check for closed accounts--it loads all accounts
+         *  it is possible that an account which has been closed still has base budget 
         criteriaID.addNotEqualTo(PropertyConstants.ACCOUNT_CLOSED_INDICATOR,
                               Constants.ParameterValues.YES);
+         */
+        criteriaID = QueryByCriteria.CRITERIA_SELECT_ALL;
         String[] queryAttr = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
                               PropertyConstants.ACCOUNT_NUMBER,
                               PropertyConstants.ORGANIZATION_CODE};
@@ -805,8 +809,14 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         Long organizationsAdded = new Long(0);
         
         Criteria criteriaID = new Criteria();
+        /*
+         *  IU genesis takes all organizations, not just active ones
+         *  the reason is that a closed account which still has a base budget
+         *  might report to one of these organizations 
         criteriaID.addEqualTo(PropertyConstants.ORGANIZATION_ACTIVE_INDICATOR,
                               Constants.ParameterValues.YES);
+         */
+        criteriaID = QueryByCriteria.CRITERIA_SELECT_ALL;
         String[] queryAttr = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
                               PropertyConstants.ORGANIZATION_CODE,
                               PropertyConstants.REPORTS_TO_CHART_OF_ACCOUNTS_CODE,
@@ -863,6 +873,11 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     private HashMap<String,BudgetConstructionAccountOrganizationHierarchy> acctOrgHierMap =
         new HashMap(BudgetConstructionConstants.BUDGETED_ACCOUNTS_TIMES_AVERAGE_REPORTING_TREE_SIZE);
     private BudgetConstructionHeader budgetConstructionHeader; 
+    //  these are the values at the root of the organization tree
+    //  they report to themselves, and they are at the highest level of every 
+    //  organization's reporting chain
+    private String rootChart;
+    private String rootOrganization;
     
     private Integer nHeadersBackToZero      = 0;
     private Integer nHeadersSwitchingLevels = 0;
@@ -891,6 +906,12 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         killOrgHierQuery.setCriteria(criteriaID);
         getPersistenceBrokerTemplate().deleteByQuery(killOrgHierQuery);
         getPersistenceBrokerTemplate().clearCache();
+        //
+        // now we fetch the root of the organization tree
+        String[] rootNode = 
+            SpringServiceLocator.getOrganizationService().getRootOrganizationCode();
+        rootChart = rootNode[0];
+        rootOrganization = rootNode[1];
         //
         // read the entire account reports to table, and build a hash map for the
         // join with the PBGL accounts
@@ -929,8 +950,9 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         {
             return;
         }
-        Integer orgLevel = 0;
-        // the organization the account directly reports to is at level 0
+        Integer orgLevel = 1;
+        // the organization the account directly reports to is at level 1
+        // (the account starts out at the account fiscal office level--level 0) 
         BudgetConstructionAccountOrganizationHierarchy acctOrgHier;
         acctOrgHier =
             new BudgetConstructionAccountOrganizationHierarchy();
@@ -1059,22 +1081,39 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     
     private boolean noNewMapEntryNeeded(BudgetConstructionOrganizationReports orgRpts)
     {
+        // no new entry is needed we are at the root of the organization tree
+        String thisChart = orgRpts.getChartOfAccountsCode();
+        String thisOrg   = orgRpts.getOrganizationCode();
+        if ((thisChart.compareTo(rootChart) == 0)&&
+             (thisOrg.compareTo(rootOrganization) == 0))
+             {
+                 return true;
+             }
         // no new entry is needed if either the chart or the organization 
         // which this organization reports to is null
         // or if the organization reports to itself
         String rptsToChart = orgRpts.getReportsToChartOfAccountsCode();
-        if (rptsToChart == null)
+        if (rptsToChart.length() == 0)
         {
+            LOG.warn(String.format("\n(%s, %s) reports to a null chart",
+                    thisChart, thisOrg));
             return true;
         }
         String rptsToOrg = orgRpts.getReportsToOrganizationCode();
-        if (rptsToOrg == null) 
+        if (rptsToOrg.length() == 0) 
         {
+            LOG.warn(String.format("\n(%s, %s) reports to a null organization",
+                    thisChart, thisOrg));
             return true;
         }
-        String thisChart = orgRpts.getChartOfAccountsCode();
-        String thisOrg   = orgRpts.getOrganizationCode();
-        return ((thisChart == rptsToChart)&&(thisOrg == rptsToOrg));
+        if ((thisChart.compareTo(rptsToChart) == 0)
+           &&(thisOrg.compareTo(rptsToOrg) == 0))
+        {
+            LOG.warn(String.format("\n(%s,%s) reports to itself and is not the root",
+                     thisChart, thisOrg));
+            return true;
+        }
+        return false;
     }
     
     private void readAcctReportsTo()
@@ -1597,7 +1636,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
             }
             else
             { 
-               pBGLFromGL.get(HeaderTestKey).setDocumentNumber(
+               pBGLFromGL.get(GLTestKey).setDocumentNumber(
                        documentNumberFromBCHdr.get(HeaderTestKey)); 
             }
         }

@@ -36,6 +36,12 @@ public interface GenesisService {
     // once all needed BC documents have been created, this step runs the rest of genesis
     public void genesisStep(Integer BaseYear);
     
+    //  February, 2007
+    //  these are the two transactional steps
+    //  when workflow is "embedded", this will all change.
+    public void genesisDocumentStep(Integer BaseYear);
+    public void genesisFinalStep(Integer BaseYear);
+    
     public void testStep(Integer universityFiscalYear);
     public void testSLFStep(Integer universityFiscalYear);
     public void testSLFAfterStep(Integer universityFiscalYear);

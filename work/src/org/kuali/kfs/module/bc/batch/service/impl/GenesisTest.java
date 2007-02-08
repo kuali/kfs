@@ -78,6 +78,23 @@ public class GenesisTest {
           LOG.warn(String.format("\nuser not found on fetching session %s",
                    nfex.getMessage()));
       }
+      
+      // OK.  This is the sequence as of February, 2007.  When workflow is embedded, 
+      // it should change.  we won't need to do the proxies.  But, to avoid a complete
+      // re-write, we probably should create all the documents first, then create
+      // the PBGL by reading GL again.  We should do the routing update change while
+      // the newly created documents are in memory.  we will modify updateGL to 
+      // create new documents on the fly (which can't be done now because workflow
+      // is a remote user which must read our data AFTER we have committed it.
+      LOG.info(String.format("\ngenesis started %tT",dateTimeService.getCurrentDate()));
+      LOG.info("\nDocument creation started: "+String.format("%tT",dateTimeService.getCurrentDate()));
+      genesisTestService.genesisDocumentStep(2009);
+      genesisDao.createNewBCDocuments(2009);
+      LOG.info("\nDocument creation ended: "+String.format("%tT",dateTimeService.getCurrentDate()));
+      genesisTestService.genesisFinalStep(2009);
+      LOG.info(String.format("\ngenesis ended %tT",dateTimeService.getCurrentDate()));
+      //
+      //
       // create the proxy BC headers
       /*
       genesisTestService.clearDBForGenesis(2009);
@@ -94,9 +111,9 @@ public class GenesisTest {
      //  genesisTestService.testChartCreation();  
      //  genesisTestService.testHierarchyCreation(2009);
      // test the changes we made to the organization service for the root organization
-        String[] roots = 
-            SpringServiceLocator.getOrganizationService().getRootOrganizationCode();
-        LOG.info(String.format("\nroot chart: %s, root organization: %s", roots[0], roots[1]));
+     //   String[] roots = 
+     //       SpringServiceLocator.getOrganizationService().getRootOrganizationCode();
+     //   LOG.info(String.format("\nroot chart: %s, root organization: %s", roots[0], roots[1]));
   //
   //    genesisTestService.testStep(2007);
   //    genesisTestService.testSLFStep(2009);

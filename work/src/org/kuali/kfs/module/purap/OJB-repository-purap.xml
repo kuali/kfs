@@ -1912,12 +1912,13 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.Note" table="SH_NTE_T">
-	<field-descriptor name="remoteObjectIdentifier" column="RMT_OBJ_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="noteAuthorIdentifier" column="NTE_AUTH_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="notePostedTimestamp" column="NTE_POST_TS" jdbc-type="TIMESTAMP" primarykey="true" index="true"/>
-	<field-descriptor name="noteTypeCode" column="NTE_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="noteIdentifier" column="NTE_ID" jdbc-type="BIGINT" primarykey="true" index="true" autoincrement="true" sequence-name="NTE_ID_SEQ"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="remoteObjectIdentifier" column="RMT_OBJ_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="noteAuthorIdentifier" column="NTE_AUTH_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="notePostedTimestamp" column="NTE_POST_TS" jdbc-type="TIMESTAMP"/>
+	<field-descriptor name="noteTypeCode" column="NTE_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="noteText" column="NTE_TXT" jdbc-type="VARCHAR"/>
 	<field-descriptor name="notePurgeCode" column="NTE_PRG_CD" jdbc-type="VARCHAR"/>
 	<reference-descriptor name="noteType" class-ref="org.kuali.module.purap.bo.NoteType" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -1932,6 +1933,7 @@
 	<field-descriptor name="noteTypeDescription" column="NTE_TYP_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="noteTypeActiveIndicator" column="NTE_TYP_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
+
 <class-descriptor class="org.kuali.module.purap.bo.OrganizationParameter" table="PUR_AP_ORG_PARM_T">
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>

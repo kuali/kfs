@@ -33,7 +33,6 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.rules.TransactionalDocumentRuleBase;
 import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.labor.bo.LaborObject;
-import org.kuali.module.labor.bo.SalaryExpenseTransferAccountingLine;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 
 /**

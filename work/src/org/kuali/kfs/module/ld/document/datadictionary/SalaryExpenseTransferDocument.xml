@@ -53,8 +53,8 @@
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>true</allowsErrorCorrection>
         
-        <sourceAccountingLineClass>org.kuali.module.labor.bo.SalaryExpenseTransferSourceAccountingLine</sourceAccountingLineClass>        
-        <targetAccountingLineClass>org.kuali.module.labor.bo.SalaryExpenseTransferTargetAccountingLine</targetAccountingLineClass>        
+        <sourceAccountingLineClass>org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine</sourceAccountingLineClass>        
+        <targetAccountingLineClass>org.kuali.module.labor.bo.ExpenseTransferTargetAccountingLine</targetAccountingLineClass>        
         
     </transactionalDocument>
 </dictionaryEntry>

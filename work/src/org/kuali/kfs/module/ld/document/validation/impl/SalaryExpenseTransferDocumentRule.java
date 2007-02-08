@@ -16,8 +16,6 @@
 package org.kuali.module.labor.rules;
 
 import static org.kuali.Constants.BALANCE_TYPE_ACTUAL;
-import static org.kuali.Constants.BLANK_SPACE;
-import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_OBJECT_CODE;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -41,14 +39,11 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.OffsetDefinition;
 import org.kuali.module.financial.bo.OffsetAccount;
 import org.kuali.module.financial.rules.TransactionalDocumentRuleBase;
-import org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.bo.PendingLedgerEntry;
-import org.kuali.module.labor.bo.SalaryExpenseTransferAccountingLine;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 
 /**
@@ -102,19 +97,9 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
             return false;
         }            
             
-        if (accountingLine.isSourceAccountingLine()) {
-            System.out.println("** Source **");
-        }
-        else if (accountingLine.isTargetAccountingLine()) {
-            System.out.println("** Target **");
-        }
-        else {
-            System.out.println("** Other **");
-        }
-        
         // Save the employee ID in all accounting related lines
         SalaryExpenseTransferDocument salaryExpenseTransferDocument = (SalaryExpenseTransferDocument)transactionalDocument;
-        SalaryExpenseTransferAccountingLine salaryExpenseTransferAccountingLine = (SalaryExpenseTransferAccountingLine)accountingLine;
+        ExpenseTransferAccountingLine salaryExpenseTransferAccountingLine = (ExpenseTransferAccountingLine)accountingLine;
         salaryExpenseTransferAccountingLine.setEmplid(salaryExpenseTransferDocument.getEmplid()); 
         
         return true;
@@ -172,13 +157,13 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
 
         //sum source lines
         for (Iterator i = sourceLines.iterator(); i.hasNext();) {
-            line = (SalaryExpenseTransferAccountingLine) i.next();            
+            line = (ExpenseTransferAccountingLine) i.next();            
             sourceLinesAmount = sourceLinesAmount.add(line.getAmount());            
         }
 
         //sum target lines
         for (Iterator i = targetLines.iterator(); i.hasNext();) {
-            line = (SalaryExpenseTransferAccountingLine) i.next();            
+            line = (ExpenseTransferAccountingLine) i.next();            
             targetLinesAmount = targetLinesAmount.add(line.getAmount());            
         }
         
@@ -232,7 +217,7 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
     
     private Map sumAccountingLineAmountsByPayFYAndPayPeriod(List accountingLines){
         
-        SalaryExpenseTransferAccountingLine line = null; 
+        ExpenseTransferAccountingLine line = null; 
         KualiDecimal linesAmount = new KualiDecimal(0);
         Map linesMap = new HashMap();
         String payFYPeriodKey = null;
@@ -240,7 +225,7 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
         //go through source lines adding amounts to appropriate place in map
         for (Iterator i = accountingLines.iterator(); i.hasNext();) {
             //initialize
-            line = (SalaryExpenseTransferAccountingLine) i.next();
+            line = (ExpenseTransferAccountingLine) i.next();
             linesAmount = new KualiDecimal(0);
             
             //create hash key
@@ -399,11 +384,11 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
         originalEntry.setProjectCode(getEntryValue(accountingLine.getProjectCode(), GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING));
         originalEntry.setOrganizationReferenceId(accountingLine.getOrganizationReferenceId());
         originalEntry.setFinancialDocumentReversalDate(null);
-        originalEntry.setPositionNumber( ((SalaryExpenseTransferAccountingLine)accountingLine).getPositionNumber() );
-        originalEntry.setEmplid( ((SalaryExpenseTransferAccountingLine)accountingLine).getEmplid() );
-        originalEntry.setPayrollEndDateFiscalYear( ((SalaryExpenseTransferAccountingLine)accountingLine).getPayrollEndDateFiscalYear() );
-        originalEntry.setPayrollEndDateFiscalPeriodCode( ((SalaryExpenseTransferAccountingLine)accountingLine).getPayrollEndDateFiscalPeriodCode() );
-        originalEntry.setTransactionTotalHours( ((SalaryExpenseTransferAccountingLine)accountingLine).getPayrollTotalHours() );
+        originalEntry.setPositionNumber( ((ExpenseTransferAccountingLine)accountingLine).getPositionNumber() );
+        originalEntry.setEmplid( ((ExpenseTransferAccountingLine)accountingLine).getEmplid() );
+        originalEntry.setPayrollEndDateFiscalYear( ((ExpenseTransferAccountingLine)accountingLine).getPayrollEndDateFiscalYear() );
+        originalEntry.setPayrollEndDateFiscalPeriodCode( ((ExpenseTransferAccountingLine)accountingLine).getPayrollEndDateFiscalPeriodCode() );
+        originalEntry.setTransactionTotalHours( ((ExpenseTransferAccountingLine)accountingLine).getPayrollTotalHours() );
         originalEntry.setReferenceFinancialSystemOriginationCode(null);
         originalEntry.setReferenceFinancialDocumentNumber(null);
         originalEntry.setReferenceFinancialDocumentTypeCode(null);

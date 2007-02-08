@@ -111,14 +111,19 @@
         <attributes>
 
             <attributeReference name="proposal.grantNumber" sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="grantNumber">
+				<summary>Proposal Grant Number</summary>
 				<description>Insert desc here...</description>
             </attributeReference>
 
             <attributeReference name="agency.fullName" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="fullName">
+				<summary>Agency Name</summary>
 				<description>Insert desc here...</description>
             </attributeReference>
 
-            <attributeReference name="agencyNumber" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="agencyNumber"/>
+            <attributeReference name="agencyNumber" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="agencyNumber">
+				<summary>Agency Number</summary>
+				<description>Insert desc here...</description>
+            </attributeReference>
 
             <attribute name="cfdaNumber" forceUppercase="true">
                 <label>CFDA Number</label>
@@ -146,7 +151,7 @@
                     <text size="7" />
                 </control>
 
-                <summary>federalPassThroughAgencyNumber</summary>
+                <summary>Federal Pass Through Agency Number</summary>
                 <description>federalPassThroughAgencyNumber description...</description>
 			</attribute>
 
@@ -161,7 +166,7 @@
                     <text size="29" />
                 </control>
 
-                <summary>grantNumber</summary>
+                <summary>Grant Number</summary>
                 <description>grantNumber description...</description>
 			</attribute>
 
@@ -176,7 +181,7 @@
                     <text size="10" />
                 </control>
 
-                <summary>oldProposalNumber</summary>
+                <summary>Old Proposal Number</summary>
                 <description>oldProposalNumber description...</description>
 			</attribute>
 
@@ -188,7 +193,7 @@
                     <select valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.ProposalAwardTypeValuesFinder" />
                 </control>
 
-                <summary>proposalAwardTypeCode</summary>
+                <summary>Proposal Award Type Code</summary>
                 <description>proposalAwardTypeCode description...</description>
 			</attributeReference>
 
@@ -197,7 +202,7 @@
                 <shortLabel>Date</shortLabel>
 
                 <summary>
-                    <![CDATA[&nbsp;]]>
+                    Proposal Beginning Date
                 </summary>
                 <description>proposalBeginningDate description...</description>
 			</attributeReference>
@@ -206,7 +211,7 @@
                 <label>Proposal Closing Date</label>
                 <shortLabel>Date</shortLabel>
 
-                <summary>proposalClosingDate</summary>
+                <summary>Proposal Closing Date</summary>
                 <description>proposalClosingDate description...</description>
 			</attributeReference>
 
@@ -216,7 +221,7 @@
 
                 <exclusiveMin>-0.001</exclusiveMin>
 
-                <summary>proposalDirectCostAmount</summary>
+                <summary>Proposal Direct Cost Amount</summary>
                 <description>proposalDirectCostAmount description...</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
@@ -225,7 +230,7 @@
                 <label>Proposal Due Date</label>
                 <shortLabel>Date</shortLabel>
 
-                <summary>proposalDueDate</summary>
+                <summary>Proposal Due Date</summary>
                 <description>proposalDueDate description...</description>
 			</attributeReference>
 
@@ -233,7 +238,7 @@
                 <label>Proposal Ending Date</label>
                 <shortLabel>Date</shortLabel>
 
-                <summary>proposalEndingDate</summary>
+                <summary>Proposal Ending Date</summary>
                 <description>proposalEndingDate description...</description>
 			</attributeReference>
 
@@ -247,7 +252,7 @@
                     <checkbox />
                 </control>
 
-                <summary>proposalFederalPassThroughIndicator</summary>
+                <summary>Proposal Federal Pass Through Indicator</summary>
                 <description>proposalFederalPassThroughIndicator description...</description>
 			</attribute>
 
@@ -262,7 +267,7 @@
                     <text size="32" />
                 </control>
 
-                <summary>proposalFellowName</summary>
+                <summary>Proposal Fellow Name</summary>
                 <description>proposalFellowName description...</description>
 			</attribute>
 
@@ -272,7 +277,7 @@
 
                 <exclusiveMin>-0.001</exclusiveMin>
 
-                <summary>proposalIndirectCostAmount</summary>
+                <summary>Proposal Indirect Cost Amount</summary>
                 <description>proposalIndirectCostAmount description...</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attributeReference>
@@ -281,7 +286,7 @@
                 <label>Proposal Last Update Date</label>
                 <shortLabel>Date</shortLabel>
 
-                <summary>proposalLastUpdateDate</summary>
+                <summary>Proposal Last Update Date</summary>
                 <description>proposalLastUpdateDate description...</description>
 			</attributeReference>
 
@@ -296,7 +301,7 @@
                     <text size="14" />
                 </control>
 
-                <summary>proposalNumber</summary>
+                <summary>Proposal Number</summary>
                 <description>proposalNumber description...</description>
 			</attribute>
 
@@ -311,7 +316,7 @@
                     <textarea rows="5" cols="80"/>
                 </control>
 
-                <summary>proposalProjectTitle</summary>
+                <summary>Proposal Project Title</summary>
                 <description>proposalProjectTitle description...</description>
 			</attribute>
 
@@ -324,7 +329,7 @@
                 </control>
 
                 <summary>
-                    <![CDATA[&nbsp;]]>
+                    Proposal Purpose Code
                 </summary>
                 <description>A proposal purpose code</description>
             </attributeReference>
@@ -333,7 +338,7 @@
                 <label>Proposal Rejected Date</label>
                 <shortLabel>Date</shortLabel>
 
-                <summary>proposalRejectedDate</summary>
+                <summary>Proposal Rejected Date</summary>
                 <description>proposalRejectedDate description...</description>
 			</attributeReference>
 
@@ -346,7 +351,7 @@
                 </control>
 
                 <summary>
-                    <![CDATA[&nbsp;]]>
+                    Proposal Status Code
                 </summary>
                 <description>A proposal status code</description>
             </attributeReference>
@@ -355,7 +360,7 @@
                 <label>Proposal Submission Date</label>
                 <shortLabel>Date</shortLabel>
 
-                <summary>proposalSubmissionDate</summary>
+                <summary>Proposal Submission Date</summary>
                 <description>proposalSubmissionDate description...</description>
 			</attributeReference>
 
@@ -365,7 +370,7 @@
 
                 <exclusiveMin>-0.001</exclusiveMin>
 
-                <summary>proposalTotalAmount</summary>
+                <summary>Proposal Total Amount</summary>
                 <description>proposalTotalAmount description...</description>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attributeReference>
@@ -376,7 +381,7 @@
 
                 <exclusiveMin>-0.001</exclusiveMin>
                 
-                <summary>proposalTotalProjectAmount</summary>
+                <summary>Proposal Total Project Amount</summary>
                 <description>proposalTotalProjectAmount description...</description>
                 <!--formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass-->
 			</attributeReference>
@@ -391,7 +396,7 @@
                 <shortLabel>Organizations</shortLabel>
                 <elementLabel>Organization</elementLabel>
                 <summary>
-                    <![CDATA[&nbsp;]]>
+                    Proposal Organizations
                 </summary>
                 <description>Proposal Organizations</description>
             </collection>
@@ -401,7 +406,7 @@
                 <shortLabel>Project Directors</shortLabel>
                 <elementLabel>Project Director</elementLabel>
                 <summary>
-                    <![CDATA[&nbsp;]]>
+                    Proposal Project Directors
                 </summary>
                 <description>Proposal Project Directors</description>
             </collection>
@@ -411,7 +416,7 @@
                 <shortLabel>Subcontractors</shortLabel>
                 <elementLabel>Subcontractor</elementLabel>
                 <summary>
-                    <![CDATA[&nbsp;]]>
+                    Proposal Subcontractors
                 </summary>
                 <description>Proposal Subcontractors</description>
             </collection>
@@ -421,7 +426,7 @@
                 <shortLabel>Research Risks</shortLabel>
                 <elementLabel>Research Risk</elementLabel>
                 <summary>
-                    <![CDATA[&nbsp;]]>
+                    Proposal Research Risks
                 </summary>
                 <description>Proposal Research Risks</description>
             </collection>

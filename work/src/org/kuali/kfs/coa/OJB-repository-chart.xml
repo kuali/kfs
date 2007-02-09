@@ -1667,6 +1667,25 @@
 	<reference-descriptor name="reportsToChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="reportsToChartOfAccountsCode" />
 	</reference-descriptor>
+	<reference-descriptor name="financialObjectType" class-ref="org.kuali.module.chart.bo.ObjectType" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="financialObjectTypeCode" />
+    </reference-descriptor>
+    <reference-descriptor name="financialObjectSubType" class-ref="org.kuali.module.chart.bo.ObjSubTyp" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="financialObjectSubTypeCode" />
+    </reference-descriptor>
+    <reference-descriptor name="financialObjectLevel" class-ref="org.kuali.module.chart.bo.ObjLevel" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="chartOfAccountsCode" />
+        <foreignkey field-ref="financialObjectLevelCode" />
+    </reference-descriptor>
+    <reference-descriptor name="financialBudgetAggregation" class-ref="org.kuali.module.chart.bo.codes.BudgetAggregationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="financialBudgetAggregationCd" />
+    </reference-descriptor>
+    <reference-descriptor name="finObjMandatoryTrnfrelim" class-ref="org.kuali.module.chart.bo.codes.MandatoryTransferEliminationCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="finObjMandatoryTrnfrOrElimCd" />
+    </reference-descriptor>
+    <reference-descriptor name="financialFederalFunded" class-ref="org.kuali.module.chart.bo.codes.FederalFundedCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="financialFederalFundedCode" />
+    </reference-descriptor>
 	<collection-descriptor name="objectCodeChangeDetails" element-class-ref="org.kuali.module.chart.bo.ObjectCodeChangeDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
         <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="universityFiscalYear" sort="ASC" />

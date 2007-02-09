@@ -229,7 +229,7 @@
 		<foreignkey field-ref="subAccountNumber" />
 	</reference-descriptor>
 	<reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-		<foreignkey field-ref="organizationFinancialChartOfAccountsCode" />
+		<foreignkey field-ref="organizationChartOfAccountsCode" />
 		<foreignkey field-ref="organizationCode" />
 	</reference-descriptor>
 </class-descriptor>

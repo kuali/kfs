@@ -128,7 +128,8 @@ public class LaborOriginEntryServiceTest extends KualiTestBase {
     public void testGetConsolidatedEntriesByGroup() throws Exception {
         int numberOfTestData = Integer.valueOf(properties.getProperty("getConsolidatedEntriesByGroup.numOfData"));
         int expectedNumber = Integer.valueOf(properties.getProperty("getConsolidatedEntriesByGroup.expectedNumOfData"));
-        KualiDecimal expectedTotal = new KualiDecimal(properties.getProperty("getConsolidatedEntriesByGroup.expectedTotal"));
+        KualiDecimal expectedTotal1 = new KualiDecimal(properties.getProperty("getConsolidatedEntriesByGroup.expectedTotal1"));
+        KualiDecimal expectedTotal2 = new KualiDecimal(properties.getProperty("getConsolidatedEntriesByGroup.expectedTotal2"));
         
         OriginEntryGroup group1 = originEntryGroupService.createGroup(today, MAIN_POSTER_VALID, false, false, false);
         Integer groupId1 = group1.getId();
@@ -140,18 +141,21 @@ public class LaborOriginEntryServiceTest extends KualiTestBase {
         ObjectUtil.populateBusinessObject(expected1, properties, "getConsolidatedEntriesByGroup.expected1", fieldNames, deliminator);
         Map fieldValues = ObjectUtil.buildPropertyMap(expected1, keyFieldList);
         fieldValues.remove(PropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER);
+        fieldValues.remove(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
         businessObjectService.deleteMatching(LaborOriginEntry.class, fieldValues);
         assertEquals(businessObjectService.countMatching(LedgerEntry.class, fieldValues), 0);
                   
         businessObjectService.save(getInputDataList("getConsolidatedEntriesByGroup.testData", numberOfTestData, groupId1));
         List<LaborOriginEntry> entries = convertIteratorAsList(laborOriginEntryService.getEntriesByGroup(group1, true));
         assertEquals(expectedNumber, entries.size());
-        assertEquals(expectedTotal, entries.get(0).getTransactionLedgerEntryAmount());
+        assertEquals(expectedTotal1, entries.get(0).getTransactionLedgerEntryAmount());
+        assertEquals(expectedTotal2, entries.get(1).getTransactionLedgerEntryAmount());
         
         businessObjectService.save(getInputDataList("getConsolidatedEntriesByGroup.testData", numberOfTestData, groupId2));
         entries = convertIteratorAsList(laborOriginEntryService.getEntriesByGroup(group1, true));
         assertEquals(expectedNumber, entries.size());
-        assertEquals(expectedTotal, entries.get(0).getTransactionLedgerEntryAmount());
+        assertEquals(expectedTotal1, entries.get(0).getTransactionLedgerEntryAmount());
+        assertEquals(expectedTotal2, entries.get(1).getTransactionLedgerEntryAmount());
     }
     
     private List getInputDataList(String propertyKeyPrefix, int numberOfInputData, Integer groupId){

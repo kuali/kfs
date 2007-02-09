@@ -584,10 +584,11 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
             catch (WorkflowException wex)
             {
                 LOG.warn(String.format(
-                        "\nskipping creation of document \n(%s)\n for: %s %s %s",
+                        "\nskipping creation of document for: %s %s %s \n(%s)\n",
                         bCTemplate.getChartOfAccounts(),
                         bCTemplate.getAccountNumber(),
-                        bCTemplate.getSubAccountNumber()));
+                        bCTemplate.getSubAccountNumber(),
+                        wex.getMessage()));
                 documentsSkippedinNTS = documentsSkippedinNTS+1;
                 continue;
             }
@@ -1193,30 +1194,37 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
    private void updateBudgetConstructionHeaderAsNeeded(
                 BudgetConstructionHeader bCHdr)
    {
-      // we will only update if the level has changed or if the organization at 
-      // at the level indicated has disappeared
+      // header rows at the lowest (initial) level should be left alone
+      if (bCHdr.getOrganizationLevelCode().equals( 
+          BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_CODE))
+      {
+          return;
+      }
+      // we will only update if the level of the organization has changed 
+      // or if the organization has disappeared completely 
       String mapKey = getOrgHierarchyKeyFromBCHeader(bCHdr);
       BudgetConstructionAccountOrganizationHierarchy acctOrgHier =
           acctOrgHierMap.get(mapKey);
       if (acctOrgHier == null)
-      {
-          // we have to return to the zero level and the organization to which
-          // the account directly reports
+      {   
+          // the account no longer reports to this organization
+          // we have to return to the lowest level and the default the
+          // organization reported to
           nHeadersBackToZero = nHeadersBackToZero+1;
-          String acctKey = getAcctRptsToKeyFromBCHdr(bCHdr);
-          BudgetConstructionAccountReports acctRpts = acctRptsToMap.get(acctKey);
           bCHdr.setOrganizationLevelChartOfAccountsCode(
-                  acctRpts.getReportsToChartOfAccountsCode());
+                  BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_CHART_OF_ACCOUNTS_CODE);
           bCHdr.setOrganizationLevelOrganizationCode(
-                  acctRpts.getReportsToOrganizationCode());
-          bCHdr.setOrganizationLevelCode(new Integer(0));
+                  BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_ORGANIZATION_CODE);
+          bCHdr.setOrganizationLevelCode(
+                  BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_CODE);
           getPersistenceBrokerTemplate().store(bCHdr);
           return;
       }
      Integer levelFromHierarchy = acctOrgHier.getOrganizationLevelCode();
      Integer levelFromHeader    = bCHdr.getOrganizationLevelCode();
-     if (levelFromHierarchy != levelFromHeader)
+     if (!levelFromHierarchy.equals(levelFromHeader))
      {
+         // the organization reported to has changed its location in the hierarchy
          bCHdr.setOrganizationLevelCode(levelFromHierarchy);
          getPersistenceBrokerTemplate().store(bCHdr);
          nHeadersSwitchingLevels = nHeadersSwitchingLevels+1;
@@ -1447,7 +1455,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
              pBGLFromGL.entrySet())
         {
              PendingBudgetConstructionGeneralLedger rowToAdd = newPBGLRows.getValue();
-             nGLHeadersAdded = nGLHeadersAdded+1;
+             nGLRowsAdded = nGLRowsAdded+1;
              getPersistenceBrokerTemplate().store(rowToAdd);
         }
     }
@@ -1643,6 +1651,8 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         LOG.info("\nHash maps built: "+
                 String.format("%tT",dateTimeService.getCurrentDate()));
         info();
+        nGLBBKeysRead = documentNumberFromBCHdr.size();
+        nGLBBRowsRead = pBGLFromGL.size()+ nGLBBRowsRead;
     }
     
     private void recordSkippedKeys(String badGLKey)
@@ -1675,7 +1685,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
        // it won't match with anything else
        // it should NOT be inserted into the PBGL table
        pBGLFromGL.remove(TestKey);
-       if (baseFromCurrentGL == baseFromPBGL)
+       if (baseFromCurrentGL.equals(baseFromPBGL))
        {
            // no need to update--false alarm
            return;
@@ -1700,7 +1710,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
        // we will compare the GL Key row with the the current PBLG row,
        // and if the keys are the same, we will eliminate the GL key row
        //
-       //  fetch the current BC header rows
+       //  fetch the current PBGL rows
        Criteria criteriaID = new Criteria();
        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,RequestYear);
        QueryByCriteria queryID = 
@@ -1732,7 +1742,8 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                  nGLRowsAdded));
         LOG.info(String.format("\ncurrent PBGL amounts updated: %d",
                  nGLRowsUpdated));
-        LOG.info(String.format("\nGL rows skipped %d\n",nGLBBRowsSkipped));
+        LOG.info(String.format("\nGL rows with zero net amounts (skipped) %d\n",nGLBBRowsZeroNet));
+        LOG.info(String.format("\nGL account/subaccount keys skipped: %d",nGLBBRowsSkipped));
         if (!skippedPBGLKeys.isEmpty())
         {
             for (Map.Entry<String,Integer> skippedRows : skippedPBGLKeys.entrySet())

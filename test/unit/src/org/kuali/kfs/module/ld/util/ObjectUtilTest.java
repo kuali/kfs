@@ -95,7 +95,7 @@ public class ObjectUtilTest  extends TestCase {
         assertEquals(address.getZip(), propertyMap.get("zip"));
     }
     
-    public void testConvertLineToBusinessObjectBasedOnDeliminator() throws Exception{
+    public void testConvertLineToBusinessObjectBasedOnDeliminatorAndKeyList() throws Exception{
         String delim = ";";
         String line = "1000 Main Street" + delim + "Source City" +delim + "Kuali" + delim + "10000";
         
@@ -107,6 +107,20 @@ public class ObjectUtilTest  extends TestCase {
         
         SimpleAddress address = new SimpleAddress();
         ObjectUtil.convertLineToBusinessObject(address, line, delim, propertyList);
+        
+        assertEquals(address.getStreet(), "1000 Main Street");
+        assertEquals(address.getCity(), "Source City");
+        assertEquals(address.getState(), "Kuali");
+        assertEquals(address.getZip(), new Integer(10000));        
+    }
+    
+    public void testConvertLineToBusinessObjectBasedOnDeliminatorAndKeyString() throws Exception{
+        String delim = ";";
+        String line = "1000 Main Street" + delim + "Source City" +delim + "Kuali" + delim + "10000";
+        String fieldNames = "street" + delim + "city" + delim + "state" + delim + "zip";
+        
+        SimpleAddress address = new SimpleAddress();
+        ObjectUtil.convertLineToBusinessObject(address, line, delim, fieldNames);
         
         assertEquals(address.getStreet(), "1000 Main Street");
         assertEquals(address.getCity(), "Source City");

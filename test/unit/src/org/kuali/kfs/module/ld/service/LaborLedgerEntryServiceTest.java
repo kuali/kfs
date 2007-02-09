@@ -1,0 +1,117 @@
+/*
+ * Copyright 2007 The Kuali Foundation.
+ * 
+ * Licensed under the Educational Community License, Version 1.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.kuali.module.labor.service;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
+import org.apache.commons.lang.StringUtils;
+import org.kuali.PropertyConstants;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.gl.web.TestDataGenerator;
+import org.kuali.module.labor.bo.LaborOriginEntry;
+import org.kuali.module.labor.bo.LedgerEntry;
+import org.kuali.module.labor.util.LaborLedgerUnitOfWork;
+import org.kuali.module.labor.util.ObjectUtil;
+import org.kuali.test.KualiTestBase;
+import org.kuali.test.WithTestSpringContext;
+import org.springframework.beans.factory.BeanFactory;
+
+/**
+ * This class...
+ */
+@WithTestSpringContext
+public class LaborLedgerEntryServiceTest extends KualiTestBase {
+
+    private Properties properties;    
+    private String fieldNames;
+    private String deliminator;
+    private List<String> keyFieldList;
+    
+    private BeanFactory beanFactory;
+    private LaborLedgerEntryService laborLedgerEntryService;
+    private BusinessObjectService businessObjectService;
+
+    public void setUp() throws Exception{
+        super.setUp();
+        String messageFileName = "test/src/org/kuali/module/labor/testdata/message.properties";
+        String propertiesFileName = "test/src/org/kuali/module/labor/testdata/laborLedgerEntryService.properties";
+
+        properties  = (new TestDataGenerator(propertiesFileName, messageFileName)).getProperties();
+        fieldNames  = properties.getProperty("fieldNames");
+        deliminator = properties.getProperty("deliminator");
+        keyFieldList= Arrays.asList(StringUtils.split(fieldNames, deliminator));
+               
+        beanFactory = SpringServiceLocator.getBeanFactory();
+        laborLedgerEntryService = (LaborLedgerEntryService)beanFactory.getBean("laborLedgerEntryService");
+        businessObjectService = (BusinessObjectService)beanFactory.getBean("businessObjectService");
+    }
+
+    public void testSave() throws Exception {
+        LedgerEntry input1 = new LedgerEntry();
+        populateBusinessObject(input1, "save.testData1", fieldNames, deliminator);
+
+        LedgerEntry expected1 = new LedgerEntry();
+        populateBusinessObject(expected1, "save.expected1", fieldNames, deliminator);
+        Map fieldValues = ObjectUtil.buildPropertyMap(expected1, keyFieldList);
+                
+        businessObjectService.deleteMatching(LedgerEntry.class, fieldValues); 
+        assertEquals(businessObjectService.countMatching(LedgerEntry.class, fieldValues), 0);
+        
+        laborLedgerEntryService.save(input1);                
+        assertEquals(businessObjectService.countMatching(LedgerEntry.class, fieldValues), 1);
+    }
+
+    public void testGetMaxSeqNumber() throws Exception {       
+        LedgerEntry input1 = new LedgerEntry();
+        populateBusinessObject(input1, "maxSeqNumber.testData1", fieldNames, deliminator);
+        
+        Map fieldValues = ObjectUtil.buildPropertyMap(input1, keyFieldList);
+        fieldValues.remove(PropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER);
+        businessObjectService.deleteMatching(LedgerEntry.class, fieldValues); 
+        
+        Integer maxSeqNumber = laborLedgerEntryService.getMaxSquenceNumber(input1);
+        assertEquals(maxSeqNumber, Integer.valueOf(0));
+        
+        LedgerEntry ledgerEntryExpected1 = new LedgerEntry();
+        String expectedSeqNumber1  = properties.getProperty("maxSeqNumber.expected1");
+
+        laborLedgerEntryService.save(input1); 
+        maxSeqNumber = laborLedgerEntryService.getMaxSquenceNumber(input1);
+        assertEquals(maxSeqNumber, Integer.valueOf(expectedSeqNumber1));
+
+        LedgerEntry input2 = new LedgerEntry();
+        populateBusinessObject(input2, "maxSeqNumber.testData2", fieldNames, deliminator);
+        
+        LedgerEntry expected2 = new LedgerEntry();
+        String expectedSeqNumber2  = properties.getProperty("maxSeqNumber.expected2");
+
+        laborLedgerEntryService.save(input2); 
+        maxSeqNumber = laborLedgerEntryService.getMaxSquenceNumber(input1);
+        assertEquals(maxSeqNumber, Integer.valueOf(expectedSeqNumber2)); 
+        
+        maxSeqNumber = laborLedgerEntryService.getMaxSquenceNumber(input2);
+        assertEquals(maxSeqNumber, Integer.valueOf(expectedSeqNumber2));
+    }
+    
+    private void populateBusinessObject(Object businessOjbject, String propertyKey, String fieldNames, String deliminator){
+        String data  = properties.getProperty(propertyKey);
+        ObjectUtil.convertLineToBusinessObject(businessOjbject, data, deliminator, fieldNames);
+    }
+}

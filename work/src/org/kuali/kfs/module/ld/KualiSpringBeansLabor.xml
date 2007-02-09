@@ -159,7 +159,7 @@
         </property>
     </bean>
 	
-    <bean id="laborPosterService" class="org.kuali.module.labor.service.impl.PosterServiceImpl" init-method="init">
+    <bean id="laborPosterService" class="org.kuali.module.labor.service.impl.LaborPosterServiceImpl" init-method="init">
         <property name="laborOriginEntryService">
             <ref bean="laborOriginEntryService" />
         </property>
@@ -192,7 +192,7 @@
         </property>
     </bean>
 
-    <bean id="laborReportService" class="org.kuali.module.labor.service.impl.ReportServiceImpl">
+    <bean id="laborReportService" class="org.kuali.module.labor.service.impl.LaborReportServiceImpl">
         <property name="laborOriginEntryService">
             <ref bean="laborOriginEntryService" />
         </property>

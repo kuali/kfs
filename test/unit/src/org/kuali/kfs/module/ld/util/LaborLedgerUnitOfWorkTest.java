@@ -99,12 +99,4 @@ public class LaborLedgerUnitOfWorkTest extends TestCase {
         laborOriginEntry.setUniversityFiscalYear(1000);
         assertFalse(laborLedgerUnitOfWork.hasSameKey(laborOriginEntry));
     }
-    
-    public void testBuildLaborOriginEntry() throws Exception {
-        laborLedgerUnitOfWork = new LaborLedgerUnitOfWork();
-        laborLedgerUnitOfWork.resetLaborLedgerUnitOfWork(laborOriginEntry);
-        
-        StringBuffer propertyXML = ObjectUtil.buildPropertyXML(laborOriginEntry);
-        System.out.print(propertyXML);
-    }
 }

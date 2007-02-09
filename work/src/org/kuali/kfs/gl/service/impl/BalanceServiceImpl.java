@@ -28,6 +28,7 @@ import org.kuali.core.bo.Options;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.OptionsService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.GlSummary;
@@ -104,7 +105,7 @@ public class BalanceServiceImpl implements BalanceService {
      */
     public Iterator<Balance> findBalancesForFiscalYear(Integer fiscalYear) {
 
-        return (Iterator<Balance>) copyToExternallyUsuableIterator(balanceDao.findBalancesForFiscalYear(fiscalYear));
+        return (Iterator<Balance>) TransactionalServiceUtils.copyToExternallyUsuableIterator(balanceDao.findBalancesForFiscalYear(fiscalYear));
     }
 
     /**
@@ -294,7 +295,7 @@ public class BalanceServiceImpl implements BalanceService {
     public Iterator findCashBalance(Map fieldValues, boolean isConsolidated) {
         LOG.debug("findCashBalance() started");
         
-        return copyToExternallyUsuableIterator(balanceDao.findCashBalance(fieldValues, isConsolidated));
+        return TransactionalServiceUtils.copyToExternallyUsuableIterator(balanceDao.findCashBalance(fieldValues, isConsolidated));
     }
 
     /**
@@ -320,7 +321,7 @@ public class BalanceServiceImpl implements BalanceService {
      */
     public Iterator findBalance(Map fieldValues, boolean isConsolidated) {
         LOG.debug("findBalance() started");
-        return copyToExternallyUsuableIterator(balanceDao.findBalance(fieldValues, isConsolidated));
+        return TransactionalServiceUtils.copyToExternallyUsuableIterator(balanceDao.findBalance(fieldValues, isConsolidated));
     }
 
     /**
@@ -421,20 +422,5 @@ public class BalanceServiceImpl implements BalanceService {
             loadConstantsFromOptions();
         }
         return encumbranceBaseBudgetBalanceTypeCodes;
-    }
-    
-    /**
-     * Copys iterators so that they may be used outside of this class.  Often, the DAO may
-     * return iterators that may not be used outside of this class because the transaction/
-     * connection may be automatically closed by Spring.
-     * 
-     * This method copies all of the elements in the OJB backed iterators into list-based iterators
-     * by placing the returned BOs into a list
-     * 
-     * @param iter an OJB backed iterator to copy
-     * @return an Iterator that may be used outside of this class
-     */
-    private Iterator copyToExternallyUsuableIterator(Iterator iter) {
-        return IteratorUtils.toList(iter).iterator();
     }
 }

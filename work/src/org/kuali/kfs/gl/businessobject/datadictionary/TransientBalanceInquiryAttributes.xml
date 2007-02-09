@@ -25,7 +25,8 @@
             <attribute name="pendingEntryOption">
                 <label>Include Pending Ledger Entry</label>
                 <shortLabel>Include Pending Ledger Entry</shortLabel>
-                <maxLength>2</maxLength>
+                <!-- making this a small number will cause gl lookups to fail -->
+                <maxLength>20</maxLength>
                 <control>
                     <radio valuesFinderClass="org.kuali.module.gl.web.optionfinder.GLPendingEntryOptionFinder" />
                 </control>
@@ -36,7 +37,8 @@
             <attribute name="consolidationOption">
                 <label>Consolidation Option</label>
                 <shortLabel>Consolidation Option</shortLabel>
-                <maxLength>2</maxLength>
+                <!-- making this a small number will cause gl lookups to fail -->
+                <maxLength>20</maxLength>
                 <control>
                     <radio valuesFinderClass="org.kuali.module.gl.web.optionfinder.GLConsolidationOptionFinder" />
                 </control>
@@ -47,7 +49,8 @@
             <attribute name="amountViewOption">
                 <label>Amount View Option</label>
                 <shortLabel>Amount View</shortLabel>
-                <maxLength>2</maxLength>
+                <!-- making this a small number will cause gl lookups to fail -->
+                <maxLength>20</maxLength>
                 <control>
                     <radio valuesFinderClass="org.kuali.module.gl.web.optionfinder.GLAmountViewOptionFinder" />
                 </control>
@@ -58,7 +61,8 @@
             <attribute name="costShareOption">
                 <label>Include Cost Share Sub-Accounts</label>
                 <shortLabel>Cost Share</shortLabel>
-                <maxLength>2</maxLength>
+                <!-- making this a small number will cause gl lookups to fail -->
+                <maxLength>20</maxLength>
                 <control>
                     <radio valuesFinderClass="org.kuali.module.gl.web.optionfinder.GLCostShareOptionFinder" />
                 </control>
@@ -69,7 +73,8 @@
             <attribute name="linkButtonOption">
                 <label>linkButtonOption</label>
                 <shortLabel>linkButtonOption</shortLabel>
-                <maxLength>2</maxLength>
+                <!-- making this a small number will cause gl lookups to fail -->
+                <maxLength>20</maxLength>
                 <control>
                     <text size="2" />
                 </control>

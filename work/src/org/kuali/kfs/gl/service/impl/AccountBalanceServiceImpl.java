@@ -23,6 +23,7 @@ import java.util.Map;
 import org.apache.commons.collections.IteratorUtils;
 import org.kuali.KeyConstants;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.dao.AccountBalanceDao;
@@ -44,7 +45,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
     public Iterator findConsolidatedAvailableAccountBalance(Map fieldValues) {
         LOG.debug("findConsolidatedAvailableAccountBalance() started");
 
-        return accountBalanceDao.findConsolidatedAvailableAccountBalance(fieldValues);
+        return TransactionalServiceUtils.copyToExternallyUsuableIterator(accountBalanceDao.findConsolidatedAvailableAccountBalance(fieldValues));
     }
 
     /**
@@ -53,7 +54,7 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
     public Iterator findAvailableAccountBalance(Map fieldValues) {
         LOG.debug("findAvailableAccountBalance() started");
 
-        return accountBalanceDao.findAvailableAccountBalance(fieldValues);
+        return TransactionalServiceUtils.copyToExternallyUsuableIterator(accountBalanceDao.findAvailableAccountBalance(fieldValues));
     }
 
     /**

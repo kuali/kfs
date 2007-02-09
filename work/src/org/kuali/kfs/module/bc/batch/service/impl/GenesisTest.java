@@ -38,29 +38,35 @@ import org.apache.log4j.*;
 import org.apache.log4j.Logger;
 import java.util.ResourceBundle;
 import org.kuali.Constants;
+import org.kuali.Constants.*;
 
 public class GenesisTest {
-  public static void main(String args[])
+    
+  private static GenesisService            genesisTestService;
+  private static GenesisDao                genesisDao;
+  private static Logger                    LOG;
+  private static DateTimeService           dateTimeService;
+  private static DateMakerService          dateMakerTestService;
+  private static KualiConfigurationService configService;
+  
+  private static void configurationStep()
   {
-  //    unit tests for Genesis 
-  //    this supposedly configures a logger that everybody can fetch and use
+      //    this supposedly configures a logger that everybody can fetch and use
       PropertyConfigurator.configure(ResourceBundle.getBundle(
         Constants.CONFIGURATION_FILE_NAME).getString(Constants.LOG4J_SETTINGS_FILE_KEY));
   //  get one for this routine
-      Logger LOG =
-          org.apache.log4j.Logger.getLogger(GenesisTest.class);
+      LOG = org.apache.log4j.Logger.getLogger(GenesisTest.class);
      
   //    this supposedly configures spring/ojb
      SpringServiceLocator.initializeDDGeneratorApplicationContext();
-     BeanFactory factory = SpringServiceLocator.getBeanFactory();
-     KualiConfigurationService configService = 
+     configService = 
             SpringServiceLocator.getKualiConfigurationService();
-     GenesisDao genesisDao = (GenesisDao) factory.getBean("genesisDao");
+     genesisDao = (GenesisDao) SpringServiceLocator.getBeanFactory().getBean("genesisDao");
   //    
-      GenesisService genesisTestService = SpringServiceLocator.getGenesisService();
-      DateMakerService dateMakerTestService = 
+     genesisTestService = SpringServiceLocator.getGenesisService();
+     dateMakerTestService = 
           SpringServiceLocator.getDateMakerService();
-      DateTimeService dateTimeService =
+      dateTimeService =
           SpringServiceLocator.getDateTimeService();
   //
       GlobalVariables.clear();
@@ -79,6 +85,10 @@ public class GenesisTest {
                    nfex.getMessage()));
       }
       
+  }
+  
+  private static void genesisStep (Integer BaseYear)
+  {
       // OK.  This is the sequence as of February, 2007.  When workflow is embedded, 
       // it should change.  we won't need to do the proxies.  But, to avoid a complete
       // re-write, we probably should create all the documents first, then create
@@ -87,12 +97,46 @@ public class GenesisTest {
       // create new documents on the fly (which can't be done now because workflow
       // is a remote user which must read our data AFTER we have committed it.
       LOG.info(String.format("\ngenesis started %tT",dateTimeService.getCurrentDate()));
-      LOG.info("\nDocument creation started: "+String.format("%tT",dateTimeService.getCurrentDate()));
-      genesisTestService.genesisDocumentStep(2009);
-      genesisDao.createNewBCDocuments(2009);
-      LOG.info("\nDocument creation ended: "+String.format("%tT",dateTimeService.getCurrentDate()));
-      genesisTestService.genesisFinalStep(2009);
+      LOG.info("\nDocument creation started: "+String.format("%tT",
+              dateTimeService.getCurrentDate()));
+      genesisTestService.genesisDocumentStep(BaseYear);
+      genesisDao.createNewBCDocuments(BaseYear);
+      LOG.info("\nDocument creation ended: "+
+               String.format("%tT",dateTimeService.getCurrentDate()));
+      genesisTestService.genesisFinalStep(BaseYear);
       LOG.info(String.format("\ngenesis ended %tT",dateTimeService.getCurrentDate()));
+  }
+  
+  private static void bcUpdateStep(Integer BaseYear)
+  {
+      Integer RequestYear = BaseYear + 1;
+      genesisDao.rebuildOrganizationHierarchy(BaseYear);
+      genesisDao.clearHangingBCLocks(BaseYear);
+      if (genesisDao.getBudgetConstructionControlFlag(RequestYear,
+              BudgetConstructionConstants.BUDGET_CONSTRUCTION_ACTIVE) &&
+          genesisDao.getBudgetConstructionControlFlag(BaseYear,
+              BudgetConstructionConstants.BASE_BUDGET_UPDATES_OK))
+      {
+          // use the log as a quick way to test whether the flags work
+          LOG.info(String.format("\nentered GL update block"));
+          genesisDao.primeNewBCHeadersDocumentCreation(BaseYear);
+          genesisDao.createNewBCDocuments(BaseYear);
+          genesisDao.updateToPBGL(BaseYear);
+          LOG.info(String.format("\nfinished GL update block"));
+      }
+  }
+    
+  public static void main(String args[])
+  {
+      configurationStep();
+      //   these are the current run configurations (to change when workflow is embedded)
+      //   for
+      //   genesis
+      genesisStep(2009);
+      //   budget construction update
+      // bcUpdateStep(2009);
+      //
+      //    unit tests for Genesis 
       //
       //
       // create the proxy BC headers

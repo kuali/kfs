@@ -185,7 +185,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                              queryID);
         // TODO@ we need to create an exception, put a try around this block, and log errors
         Result = (String) ((Object[]) Results.next()) [0];
-        return (Result == Constants.ParameterValues.YES);
+        return (Result.compareTo(Constants.ParameterValues.YES) == 0);
             
     }
     
@@ -1707,7 +1707,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
        // replace the amount on each current PBGL row which matches from
        // the GL row, and remove the GL row 
        //
-       // we will compare the GL Key row with the the current PBLG row,
+       // we will compare the GL Key row with the the current PBGL row,
        // and if the keys are the same, we will eliminate the GL key row
        //
        //  fetch the current PBGL rows
@@ -1754,7 +1754,161 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
             }
         }
     }
+ 
+    /*
+     * ******************************************************************************
+     * (7)  there could be an object class in the object code table that was marked
+     *      as inactive during the current fiscal year.  there could also be GL rows
+     *      with base budget which refer to this object code.  the fiscal year makers
+     *      routine would NOT copy a deleted object code into the new fiscal year.
+     *      to maintain referential integrity, we will copy such an object code (but
+     *      mark it as deleted) into the new fiscal year if it will occur in budget
+     *      construction.
+     */
     
+    private HashMap<String,String[]> baseYearInactiveObjects;
+    private HashMap<String,String[]> gLBBObjects;
+    private Integer nInactiveBBObjectCodes = new Integer(0);
+    
+    public void ensureObjectClassRIForBudget(Integer BaseYear)
+    {
+        readBaseYearInactiveObjects(BaseYear);
+        if (baseYearInactiveObjects.isEmpty())
+        {
+            // no problems
+            LOG.info(String.format("\nInactive Object Codes in BC GL: %d",
+                     nInactiveBBObjectCodes));
+            return;
+        }
+        readAndFilterGLBBObjects(BaseYear);
+        if (gLBBObjects.isEmpty())
+        {
+            // no problems
+            LOG.info(String.format("\nInactive Object Codes in BC GL: %d",
+                    nInactiveBBObjectCodes));
+            return;
+        }
+        // we have to create an object row for the request year
+        addRIObjectClassesForBB(BaseYear);
+        LOG.info(String.format("\nInactive Object Codes in BC GL: %d",
+                nInactiveBBObjectCodes));
+    }
+    
+    public void addRIObjectClassesForBB(Integer BaseYear)
+    {
+        //  we will read the object table for the request year first
+        //  if the row is there (someone could have added it, or updated it),
+        //  we will not change it at all.
+        //  this is an extra read, but overall looking just for problems
+        //  will require many fewer reads than comparing all object codes in the
+        //  request year to all object codes in the GL BB base.
+        Integer RequestYear = BaseYear + 1;
+        for(Map.Entry<String,String[]> problemObjectCodes: gLBBObjects.entrySet())
+        {
+          String problemChart =  problemObjectCodes.getValue()[0];
+          String problemObject =  problemObjectCodes.getValue()[1];   
+          if (isObjectInRequestYear(BaseYear,problemChart,problemObject))
+          {
+              // everything is fine
+              continue;
+          }
+          //  now we have to add the object to the request year as an inactive object
+          Criteria criteriaID = new Criteria();
+          criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
+          criteriaID.addColumnEqualTo(PropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                                      problemChart);
+          criteriaID.addEqualTo(PropertyConstants.OBJECT_CODE,problemObject);
+          ReportQueryByCriteria queryID = 
+              new ReportQueryByCriteria(ObjectCode.class,criteriaID);
+          Iterator Results = 
+              getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+          if (!Results.hasNext())
+          {
+              // this should never happen
+              // if it does, it will cause an RI exception in the GL load to BC
+              // at least this message will give some clue
+              LOG.warn(String.format("could not find BB object (%s, %s) in %d",
+                       problemChart,problemObject,BaseYear));
+              continue;
+          }
+          ObjectCode baseYearObject = (ObjectCode) Results.next();
+          baseYearObject.setUniversityFiscalYear(RequestYear);
+          baseYearObject.setActive(false);
+          getPersistenceBrokerTemplate().store(baseYearObject);
+        }
+    }
+
+    private boolean isObjectInRequestYear(Integer BaseYear,
+                                          String Chart, String ObjectCode)
+    {
+        Integer RequestYear = BaseYear + 1;
+        Criteria criteriaID = new Criteria();
+        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,RequestYear);
+        criteriaID.addEqualTo(PropertyConstants.CHART_OF_ACCOUNTS_CODE,Chart);
+        criteriaID.addEqualTo(PropertyConstants.ACCOUNT_NUMBER,ObjectCode);
+        QueryByCriteria queryID = 
+            new QueryByCriteria(ObjectCode.class,criteriaID);
+        Integer Result = 
+            getPersistenceBrokerTemplate().getCount(queryID);
+        return (!Result.equals(0));
+    }
+    
+    public void readBaseYearInactiveObjects(Integer BaseYear)
+    {
+        baseYearInactiveObjects = new HashMap<String,String[]>();
+        Criteria criteriaID = new Criteria();
+        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
+        criteriaID.addEqualTo(PropertyConstants.FINANCIAL_OBJECT_ACTIVE_CODE,
+                              Constants.ParameterValues.NO);
+        String[] queryAttr  = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                               PropertyConstants.OBJECT_CODE};
+        ReportQueryByCriteria queryID = new ReportQueryByCriteria(ObjectCode.class,
+                                                                  queryAttr,
+                                                                  criteriaID);
+        Iterator Result = 
+            getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+        while (Result.hasNext())
+        {
+          Object[] resultRow = (Object[]) Result.next();
+          String[] hashMapValue = new String[2];
+          hashMapValue[0] = (String) resultRow[0];
+          hashMapValue[1] = (String) resultRow[1];
+          String hashMapKey = hashMapValue[0]+hashMapValue[1];
+          baseYearInactiveObjects.put(hashMapKey,hashMapValue);
+        }
+    }
+        
+        private void readAndFilterGLBBObjects(Integer BaseYear)
+        {
+            // this must be done before we read GL for PBGL
+            // otherwise, we will get an RI violation when we try to add a PBGL
+            // row with an object inactive in the current year
+            gLBBObjects = new HashMap<String,String[]>();
+            Criteria criteriaID = new Criteria();
+            criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear);
+            criteriaID.addEqualTo(PropertyConstants.BALANCE_TYPE_CODE,
+                                  Constants.BALANCE_TYPE_BASE_BUDGET);
+            String[] queryAttr = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,           
+                                  PropertyConstants.OBJECT_CODE};
+            ReportQueryByCriteria queryID = 
+                new ReportQueryByCriteria(Balance.class,
+                                          queryAttr,criteriaID,true);
+            Iterator Result = 
+                getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+            while (Result.hasNext())
+            {
+              Object[] resultRow = (Object[]) Result.next();
+              String[] hashMapValue = new String[2];
+              hashMapValue[0] = (String) resultRow[0];
+              hashMapValue[1] = (String) resultRow[1];
+              String hashMapKey = hashMapValue[0]+hashMapValue[1];
+              if (baseYearInactiveObjects.get(hashMapKey)!= null)
+              {
+                  gLBBObjects.put(hashMapKey,hashMapValue);
+                  nInactiveBBObjectCodes = nInactiveBBObjectCodes + 1;
+              }
+            }
+        }
 
     public void setDocumentService(DocumentService documentService)
     {

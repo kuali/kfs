@@ -19,10 +19,12 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.dao.LaborLedgerEntryDao;
 import org.kuali.module.labor.service.LaborLedgerEntryService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class implements LaborOriginEntryService to provide the access to labor ledger entries in data stores.
  */
+@Transactional
 public class LaborLedgerEntryServiceImpl implements LaborLedgerEntryService {
 
     private BusinessObjectService businessObjectService;
@@ -38,7 +40,7 @@ public class LaborLedgerEntryServiceImpl implements LaborLedgerEntryService {
     /**
      * @see org.kuali.module.labor.service.LaborLedgerEntryService#getMaxSquenceNumber(org.kuali.module.labor.bo.LedgerEntry)
      */
-    public Integer getMaxSquenceNumber(LedgerEntry ledgerEntry) {
+    public Integer getMaxSequenceNumber(LedgerEntry ledgerEntry) {
         return laborLedgerEntryDao.getMaxSquenceNumber(ledgerEntry);
     }
 

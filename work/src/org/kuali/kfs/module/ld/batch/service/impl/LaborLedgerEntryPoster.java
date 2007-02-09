@@ -39,7 +39,7 @@ public class LaborLedgerEntryPoster implements PostTransaction {
         LedgerEntry ledgerEntry = new LedgerEntry();        
         ObjectUtil.buildObject(ledgerEntry, transaction);
         
-        ledgerEntry.setTransactionLedgerEntrySequenceNumber(laborLedgerEntryService.getMaxSquenceNumber(ledgerEntry) + 1);        
+        ledgerEntry.setTransactionLedgerEntrySequenceNumber(laborLedgerEntryService.getMaxSequenceNumber(ledgerEntry) + 1);        
         ledgerEntry.setTransactionPostingDate(new Date(postDate.getTime()));
         
         laborLedgerEntryService.save(ledgerEntry);        

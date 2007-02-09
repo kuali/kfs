@@ -32,7 +32,7 @@ public class LaborLedgerUnitOfWorkTest extends TestCase {
 
     public LaborLedgerUnitOfWorkTest() throws Exception {
         String messageFileName = "test/src/org/kuali/module/labor/testdata/message.properties";
-        String propertiesFileName = "test/src/org/kuali/module/labor/testdata/laborOriginEntry.properties";
+        String propertiesFileName = "test/src/org/kuali/module/labor/testdata/laborLedgerUnitOfWork.properties";
 
         laborOriginEntry = new LaborOriginEntry();
         testDataGenerator = new TestDataGenerator(propertiesFileName, messageFileName);

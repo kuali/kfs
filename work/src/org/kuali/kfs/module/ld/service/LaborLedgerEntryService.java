@@ -34,5 +34,5 @@ public interface LaborLedgerEntryService {
      * @param ledgerEntry the given ledger entry
      * @return the maximum sequence number in a group of entries. If the group doesn't exist, return 0.
      */
-    Integer getMaxSquenceNumber(LedgerEntry ledgerEntry);
+    Integer getMaxSequenceNumber(LedgerEntry ledgerEntry);
 }

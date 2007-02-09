@@ -20,9 +20,9 @@ import org.kuali.test.WithTestSpringContext;
 
 @WithTestSpringContext
 public class LaborPosterServiceTest extends KualiTestBase {
-    
-    //TODO: delete this test case after a new test case is added
-    public void testEmptyCase() throws Exception{
-        assertTrue(1==1);
+
+    // TODO: delete this test case after a new test case is added
+    public void testEmptyCase() throws Exception {
+        assertTrue(1 == 1);
     }
 }

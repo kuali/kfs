@@ -15,6 +15,7 @@
  */
 package org.kuali.module.labor.dao.ojb;
 
+import java.math.BigDecimal;
 import java.util.Iterator;
 
 import org.apache.ojb.broker.query.Criteria;
@@ -59,7 +60,7 @@ public class LaborGeneralLedgerEntryDaoOjb extends PersistenceBrokerDaoSupport i
         if (iterator.hasNext()) {
             Object[] data = (Object[]) iterator.next();
             if (data[0] != null) {
-                maxSequenceNumber = (Integer)data[0];
+                maxSequenceNumber = ((BigDecimal)data[0]).intValue();
             }
         }
         return maxSequenceNumber;

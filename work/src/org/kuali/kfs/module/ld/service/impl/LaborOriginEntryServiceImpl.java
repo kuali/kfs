@@ -345,8 +345,8 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
                 laborLedgerUnitOfWork.addEntryIntoUnit(laborOriginEntry);
             }
             else {
-                entryCollection.add(laborLedgerUnitOfWork.getWorkingEntry());
                 laborLedgerUnitOfWork.resetLaborLedgerUnitOfWork(laborOriginEntry);
+                entryCollection.add(laborLedgerUnitOfWork.getWorkingEntry());
             }
         }
         return entryCollection.iterator();

@@ -122,8 +122,8 @@
         <attributes>
 
             <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart</label>
-                <shortLabel>Code</shortLabel>
+                <label>Organization</label>
+                <shortLabel>Chart</shortLabel>
 
                 <maxLength>2</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -152,8 +152,8 @@
 			</attribute>
 
             <attribute name="organizationCode" forceUppercase="true">
-                <label>Org</label>
-                <shortLabel>Code</shortLabel>
+                <label>Department</label>
+                <shortLabel>Org</shortLabel>
 
                 <maxLength>4</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -167,14 +167,14 @@
 			</attribute>
 
             <attribute name="personCityName" forceUppercase="true">
-                <label>Person City Name</label>
+                <label>City</label>
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>30</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
                 <control>
-                    <text size="32" />
+                    <text size="16" />
                 </control>
 
                 <summary>personCityName</summary>
@@ -182,14 +182,13 @@
 			</attribute>
 
             <attribute name="personCountryCode" forceUppercase="true">
-                <label>Person Country Code</label>
+                <label>Country</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>40</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="42" />
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CountryValuesFinder" />
                 </control>
 
                 <summary>personCountryCode</summary>
@@ -197,14 +196,14 @@
 			</attribute>
 
             <attribute name="personCountyName" forceUppercase="true">
-                <label>Person County Name</label>
+                <label>County</label>
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>30</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
                 <control>
-                    <text size="32" />
+                    <text size="16" />
                 </control>
 
                 <summary>personCountyName</summary>
@@ -227,14 +226,14 @@
 			</attribute>
 
             <attribute name="personDivisionText" forceUppercase="true">
-                <label>Person Division Text</label>
+                <label>Division</label>
                 <shortLabel>Text</shortLabel>
 
                 <maxLength>30</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
                 <control>
-                    <text size="32" />
+                    <text size="16" />
                 </control>
 
                 <summary>personDivisionText</summary>
@@ -242,14 +241,14 @@
 			</attribute>
 
             <attribute name="personEmailAddress" forceUppercase="true">
-                <label>Person Email Address</label>
+                <label>E-mail</label>
                 <shortLabel>Address</shortLabel>
 
                 <maxLength>100</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><emailAddress /></validationPattern>
 
                 <control>
-                    <text size="102" />
+                    <text size="16" />
                 </control>
 
                 <summary>personEmailAddress</summary>
@@ -257,14 +256,14 @@
 			</attribute>
 
             <attribute name="personFaxNumber" forceUppercase="true">
-                <label>Person Fax Number</label>
+                <label>Fax</label>
                 <shortLabel>Number</shortLabel>
 
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <maxLength>12</maxLength>
+                <validationPattern><phoneNumber/></validationPattern>
 
                 <control>
-                    <text size="12" />
+                    <text size="16" />
                 </control>
 
                 <summary>personFaxNumber</summary>
@@ -287,14 +286,14 @@
 			</attribute>
 
             <attribute name="personLine1Address" forceUppercase="true">
-                <label>Person Line1 Address</label>
+                <label>Street 1</label>
                 <shortLabel>Address</shortLabel>
 
                 <maxLength>40</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
                 <control>
-                    <text size="42" />
+                    <text size="16" />
                 </control>
 
                 <summary>personLine1Address</summary>
@@ -302,14 +301,14 @@
 			</attribute>
 
             <attribute name="personLine2Address" forceUppercase="true">
-                <label>Person Line2 Address</label>
+                <label>Street 1</label>
                 <shortLabel>Address</shortLabel>
 
                 <maxLength>40</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
                 <control>
-                    <text size="42" />
+                    <text size="16" />
                 </control>
 
                 <summary>personLine2Address</summary>
@@ -317,14 +316,14 @@
 			</attribute>
 
             <attribute name="personPhoneNumber" forceUppercase="true">
-                <label>Person Phone Number</label>
+                <label>Phone</label>
                 <shortLabel>Number</shortLabel>
 
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <maxLength>12</maxLength>
+                <validationPattern><phoneNumber/></validationPattern>
 
                 <control>
-                    <text size="12" />
+                    <text size="16" />
                 </control>
 
                 <summary>personPhoneNumber</summary>
@@ -332,14 +331,14 @@
 			</attribute>
 
             <attribute name="personPositionTitle" forceUppercase="true">
-                <label>Person Position Title</label>
+                <label>Position Title</label>
                 <shortLabel>Title</shortLabel>
 
                 <maxLength>30</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
                 <control>
-                    <text size="32" />
+                    <text size="16" />
                 </control>
 
                 <summary>personPositionTitle</summary>
@@ -347,14 +346,14 @@
 			</attribute>
 
             <attribute name="personPrefixText" forceUppercase="true">
-                <label>Person Prefix Text</label>
+                <label>Prefix</label>
                 <shortLabel>Text</shortLabel>
 
                 <maxLength>15</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
                 <control>
-                    <text size="17" />
+                    <text size="16" />
                 </control>
 
                 <summary>personPrefixText</summary>
@@ -406,14 +405,13 @@
 			</attribute>
 
             <attribute name="personStateCode" forceUppercase="true">
-                <label>Person State Code</label>
+                <label>State</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="4" />
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.StateValuesFinder" />
                 </control>
 
                 <summary>personStateCode</summary>
@@ -421,14 +419,14 @@
 			</attribute>
 
             <attribute name="personSuffixText" forceUppercase="true">
-                <label>Person Suffix Text</label>
+                <label>Suffix</label>
                 <shortLabel>Text</shortLabel>
 
                 <maxLength>15</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
                 <control>
-                    <text size="17" />
+                    <text size="16" />
                 </control>
 
                 <summary>personSuffixText</summary>
@@ -451,14 +449,14 @@
 			</attribute>
 
             <attribute name="personZipCode" forceUppercase="true">
-                <label>Person Zip Code</label>
+                <label>Zip</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><zipcode/></validationPattern>
 
                 <control>
-                    <text size="12" />
+                    <text size="16" />
                 </control>
 
                 <summary>personZipCode</summary>

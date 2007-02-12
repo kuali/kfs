@@ -31,13 +31,12 @@ public class RoutingFormPersonnelAction extends RoutingFormAction {
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         RoutingForm routingForm = (RoutingForm) form;
-        RoutingFormDocument routingFormDocument = routingForm.getRoutingFormDocument();
 
-        List<RoutingFormPersonnel> routingFormPersonnel = routingFormDocument.getRoutingFormPersonnel();
+        List<RoutingFormPersonnel> routingFormPersonnel = routingForm.getRoutingFormDocument().getRoutingFormPersonnel();
         
         super.load(mapping, form, request, response);
         
-        routingFormDocument.setRoutingFormPersonnel(routingFormPersonnel);
+        routingForm.getRoutingFormDocument().setRoutingFormPersonnel(routingFormPersonnel);
         
         return super.save(mapping, form, request, response);
     }

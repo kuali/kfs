@@ -255,7 +255,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
                 RoutingFormPersonnel newRoutingFormPersonnel = routingForm.getNewRoutingFormPersonnel();
 
                 // coming back from new Person lookup - person selected. Unset TBN indicated and set chart / org.
-                setupPersonChartOrg(newRoutingFormPersonnel);
+                setupPerson(newRoutingFormPersonnel);
                 newRoutingFormPersonnel.setPersonToBeNamedIndicator(false);
             }
             else if ("true".equals(request.getParameter("newRoutingFormPersonnel.personToBeNamedIndicator"))) {
@@ -272,7 +272,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
                     RoutingFormPersonnel routingFormPersonnel = routingFormDocument.getRoutingFormPerson(personIndex);
                     
                     // coming back from Person lookup - Person selected. Unset TBN indicated and set chart / org.
-                    setupPersonChartOrg(routingFormPersonnel);
+                    setupPerson(routingFormPersonnel);
                     routingFormPersonnel.setPersonToBeNamedIndicator(false);
                 }
                 else if ("true".equals(request.getParameter("document.routingFormPerson[" + personIndex + "].personToBeNamedIndicator"))) {
@@ -289,10 +289,17 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
     }
 
     /**
-     * Sets the chart / org of a RoutingFormPersonnel person based upon the contained UniversalUserService's ChartUserService.
+     * Sets several fields in RoutingFormPersonnel person based upon the contained UniversalUserService's ChartUserService:
+     * <ul>
+     * <li>chart</li>
+     * <li>org</li>
+     * <li>email address</li>
+     * <li>campus address</li>
+     * <li>phone number</li>
+     * </ul>
      * @param routingFormPersonnel
      */
-    private void setupPersonChartOrg(RoutingFormPersonnel routingFormPersonnel) {
+    private void setupPerson(RoutingFormPersonnel routingFormPersonnel) {
         // retrieve services and refresh UniversalUser objects (it's empty after returning from a kul:lookup)
         UniversalUserService universalUserService = SpringServiceLocator.getUniversalUserService();
         ChartUserService chartUserService = SpringServiceLocator.getChartUserService();
@@ -302,6 +309,11 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         Map<String,String> chartMap = chartUserService.getDefaultOrgPair((ChartUser) user.getModuleUser("chart"));
         routingFormPersonnel.setChartOfAccountsCode(chartMap.get(PropertyConstants.CHART_OF_ACCOUNTS_CODE));
         routingFormPersonnel.setOrganizationCode(chartMap.get(PropertyConstants.ORGANIZATION_CODE));
+        
+        // set email address, campus address, and phone
+        routingFormPersonnel.setPersonEmailAddress(user.getPersonEmailAddress());
+        routingFormPersonnel.setPersonLine1Address(user.getPersonCampusAddress());
+        routingFormPersonnel.setPersonPhoneNumber(user.getPersonLocalPhoneNumber());
     }
 
     /**

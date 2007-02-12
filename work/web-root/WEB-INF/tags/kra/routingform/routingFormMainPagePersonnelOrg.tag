@@ -37,7 +37,7 @@
                 <th><div align=left>* Name</div></th>
                 <th><div align=left><kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.personRoleCode}" skipHelpUrl="true" noColon="true" /></div></th>
                 <th><div align="left"><kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.personRoleText}" skipHelpUrl="true" noColon="true" /></div></th>
-                <th><div align=center><kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.chartOfAccountsCode}" skipHelpUrl="true" noColon="true" />/<kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.organizationCode}" skipHelpUrl="true" noColon="true" /></div></th>
+                <th><div align=center><kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.chartOfAccountsCode}" skipHelpUrl="true" noColon="true" useShortLabel="true"/>/<kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.organizationCode}" skipHelpUrl="true" noColon="true" useShortLabel="true"/></div></th>
                 <th><kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.personFinancialAidPercent}" skipHelpUrl="true" noColon="true" /></th>
                 <th><kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.personCreditPercent}" skipHelpUrl="true" noColon="true" /></th>
                 <th>Profile</th>
@@ -45,7 +45,12 @@
               </tr>
               <c:if test="${!viewOnly}">
               <tr>
-                <th scope="row">add:</th>
+                <th scope="row">add:
+                  <!-- Following fields are to keep track of personnel page data -->
+                  <html:hidden property="newRoutingFormPersonnel.personLine1Address" />
+                  <html:hidden property="newRoutingFormPersonnel.personPhoneNumber" />
+                  <html:hidden property="newRoutingFormPersonnel.personEmailAddress" />
+                </th>
                 <td class="infoline">
                   <html:hidden property="newRoutingFormPersonnel.personToBeNamedIndicator" />
                   <html:hidden property="newRoutingFormPersonnel.personSystemIdentifier" />
@@ -90,6 +95,21 @@
    	              <html:hidden property="document.routingFormPerson[${status.index}].organizationCode" />
    	              <html:hidden property="document.routingFormPerson[${status.index}].personToBeNamedIndicator" />
                   <html:hidden property="document.routingFormPerson[${status.index}].versionNumber" />
+                  <!-- Following fields are to keep track of personnel page data -->
+                  <html:hidden property="document.routingFormPerson[${status.index}].personLine1Address" />
+                  <html:hidden property="document.routingFormPerson[${status.index}].personLine2Address" />
+                  <html:hidden property="document.routingFormPerson[${status.index}].personCityName" />
+                  <html:hidden property="document.routingFormPerson[${status.index}].personCountyName" />
+                  <html:hidden property="document.routingFormPerson[${status.index}].personPrefixText" />
+                  <html:hidden property="document.routingFormPerson[${status.index}].personStateCode" />
+                  <html:hidden property="document.routingFormPerson[${status.index}].personSuffixText" />
+                  <html:hidden property="document.routingFormPerson[${status.index}].personCountryCode" />
+                  <html:hidden property="document.routingFormPerson[${status.index}].personPositionTitle" />
+                  <html:hidden property="document.routingFormPerson[${status.index}].personZipCode" />
+                  <html:hidden property="document.routingFormPerson[${status.index}].personPhoneNumber" />
+                  <html:hidden property="document.routingFormPerson[${status.index}].personFaxNumber" />
+                  <html:hidden property="document.routingFormPerson[${status.index}].personDivisionText" />
+                  <html:hidden property="document.routingFormPerson[${status.index}].personEmailAddress" />
                   <th scope="row"><div align="center">${status.index+1}</div></th>
                   <td>
                     <html:hidden write="true" property="document.routingFormPerson[${status.index}].user.personName" />

@@ -27,5 +27,7 @@
 
 	<kra-rf:routingFormPersonnel/>
 
-	<kul:documentControls transactionalDocument="false" suppressRoutingControls="true" viewOnly="${KualiForm.editingMode['viewOnly']}" />
+    <c:if test="${!empty KualiForm.document.routingFormPersonnel}">
+	  <kul:documentControls transactionalDocument="false" suppressRoutingControls="true" viewOnly="${KualiForm.editingMode['viewOnly']}" />
+	</c:if>
 </kul:documentPage>

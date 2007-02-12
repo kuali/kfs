@@ -104,6 +104,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 
         ChartUser currentUser = (ChartUser)GlobalVariables.getUserSession().getUniversalUser().getModuleUser( ChartUser.MODULE_ID );
         this.setChartOfAccountsCode(currentUser.getChartOfAccountsCode());
+        currentUser.refresh();
         this.setOrganizationCode(currentUser.getOrganization().getOrganizationCode());
         this.setDeliveryCampusCode(currentUser.getUniversalUser().getCampusCode());
         this.setRequestorPersonName(currentUser.getUniversalUser().getPersonName());

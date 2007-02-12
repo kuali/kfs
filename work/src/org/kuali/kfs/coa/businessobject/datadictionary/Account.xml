@@ -696,8 +696,8 @@
             </attributeReference>
 
             <attribute name="financialIcrSeriesIdentifier" forceUppercase="false">
-                <label>Financial Series ID</label>
-                <shortLabel>FinSerId</shortLabel>
+                <label>Indirect Cost Rate</label>
+                <shortLabel>Indr Cost Rate</shortLabel>
 
                 <maxLength>3</maxLength>
                 <validationPattern>

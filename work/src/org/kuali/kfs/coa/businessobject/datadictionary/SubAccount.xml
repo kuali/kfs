@@ -261,8 +261,8 @@
             </attributeReference>
 
             <attributeReference name="a21SubAccount.financialIcrSeriesIdentifier" sourceClassName="org.kuali.module.chart.bo.A21SubAccount" sourceAttributeName="financialIcrSeriesIdentifier">
-                <label>Financial ICR Series Identifier</label>
-                <shortLabel>FinICRSerID</shortLabel>
+                <label>Indirect Cost Rate</label>
+                <shortLabel>Indr Cost Rate</shortLabel>
                 <required>false</required>
                 <summary>
                     <![CDATA[&nbsp;]]>

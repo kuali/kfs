@@ -60,8 +60,8 @@
             <attributeReference name="indirectCostRecoveryTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.ICRTypeCode" sourceAttributeName="code" />
 
             <attribute name="financialIcrSeriesIdentifier" forceUppercase="true">
-                <label>Series Id</label>
-                <shortLabel>Series Id</shortLabel>
+                <label>Indirect Cost Rate</label>
+                <shortLabel>Indr Cost Rate</shortLabel>
 
                 <maxLength>3</maxLength>
                 <validationPattern>

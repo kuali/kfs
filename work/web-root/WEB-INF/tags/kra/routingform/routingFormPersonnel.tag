@@ -49,21 +49,21 @@
     </c:set>
     
     <kul:tab tabTitle="${personName}" tabDescription="${personRoleDescription}" defaultOpen="${defaultOpen}" transparentBackground="${status.index eq 0}" tabErrorKey="document.routingFormPersonnel[${status.index}]*" tabAuditKey="document.routingFormPersonnel[${status.index}]*">
-      <html:hidden property="document.routingFormPerson[${status.index}].personSystemIdentifier" />
-      <html:hidden property="document.routingFormPerson[${status.index}].routingFormPersonSequenceNumber" />
-      <html:hidden property="document.routingFormPerson[${status.index}].chartOfAccountsCode" />
-      <html:hidden property="document.routingFormPerson[${status.index}].organizationCode" />
-      <html:hidden property="document.routingFormPerson[${status.index}].personToBeNamedIndicator" />
-      <html:hidden property="document.routingFormPerson[${status.index}].personRoleCode" />
-      <html:hidden property="document.routingFormPerson[${status.index}].personRoleText" />
-      <html:hidden property="document.routingFormPerson[${status.index}].personFinancialAidPercent" />
-      <html:hidden property="document.routingFormPerson[${status.index}].personCreditPercent" />
-      <html:hidden property="document.routingFormPerson[${status.index}].personToBeNamedIndicator" />
-      <html:hidden property="document.routingFormPerson[${status.index}].versionNumber" />
-      <html:hidden property="document.routingFormPerson[${status.index}].user.personName" />
-      <html:hidden property="document.routingFormPerson[${status.index}].user.personFirstName" />
-      <html:hidden property="document.routingFormPerson[${status.index}].user.personLastName" />
-      <html:hidden property="document.routingFormPerson[${status.index}].personRole.personRoleDescription" />
+      <html:hidden property="document.routingFormPersonnel[${status.index}].personSystemIdentifier" />
+      <html:hidden property="document.routingFormPersonnel[${status.index}].routingFormPersonSequenceNumber" />
+      <html:hidden property="document.routingFormPersonnel[${status.index}].chartOfAccountsCode" />
+      <html:hidden property="document.routingFormPersonnel[${status.index}].organizationCode" />
+      <html:hidden property="document.routingFormPersonnel[${status.index}].personToBeNamedIndicator" />
+      <html:hidden property="document.routingFormPersonnel[${status.index}].personRoleCode" />
+      <html:hidden property="document.routingFormPersonnel[${status.index}].personRoleText" />
+      <html:hidden property="document.routingFormPersonnel[${status.index}].personFinancialAidPercent" />
+      <html:hidden property="document.routingFormPersonnel[${status.index}].personCreditPercent" />
+      <html:hidden property="document.routingFormPersonnel[${status.index}].personToBeNamedIndicator" />
+      <html:hidden property="document.routingFormPersonnel[${status.index}].versionNumber" />
+      <html:hidden property="document.routingFormPersonnel[${status.index}].user.personName" />
+      <html:hidden property="document.routingFormPersonnel[${status.index}].user.personFirstName" />
+      <html:hidden property="document.routingFormPersonnel[${status.index}].user.personLastName" />
+      <html:hidden property="document.routingFormPersonnel[${status.index}].personRole.personRoleDescription" />
 
       <div class="tab-container" align="center">
         <div class="h2-container">
@@ -141,7 +141,7 @@
   <c:choose>
     <c:when test="${empty KualiForm.document.routingFormPersonnel}">
       <div align="center">
-	    No Personnel selected yet.
+	    No Person selected yet.
 	  </div>
     </c:when>
     <c:otherwise>

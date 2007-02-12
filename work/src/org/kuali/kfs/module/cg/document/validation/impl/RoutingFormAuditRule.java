@@ -130,7 +130,7 @@ public class RoutingFormAuditRule {
         for (RoutingFormPersonnel person : routingFormDocument.getRoutingFormPersonnel()) {
             if (person.isPersonToBeNamedIndicator()) {
                 valid = false;
-                auditErrors.add(new AuditError("document.routingFormPerson[" + i + "].personSystemIdentifier", KraKeyConstants.AUDIT_MAIN_PAGE_PERSON_REQUIRED, "mainpage.anchor2"));
+                auditErrors.add(new AuditError("document.routingFormPersonnel[" + i + "].personSystemIdentifier", KraKeyConstants.AUDIT_MAIN_PAGE_PERSON_REQUIRED, "mainpage.anchor2"));
             }
             
             if (KraConstants.PERSON_ROLE_CODE_PD.equals(person.getPersonRoleCode())) {
@@ -139,26 +139,26 @@ public class RoutingFormAuditRule {
                 /* TODO KULERA-816: Following line has to be replaced with an appropriate workgroup call. */
                 if (false) {
                     valid = false;
-                    auditErrors.add(new AuditError("document.routingFormPerson[" + i + "].personSystemIdentifier", KraKeyConstants.AUDIT_MAIN_PAGE_PERSON_NOT_PD, "mainpage.anchor2"));
+                    auditErrors.add(new AuditError("document.routingFormPersonnel[" + i + "].personSystemIdentifier", KraKeyConstants.AUDIT_MAIN_PAGE_PERSON_NOT_PD, "mainpage.anchor2"));
                 }
             }
 
             if (ObjectUtils.isNull(person.getPersonRoleCode())) {
                 valid = false;
-                auditErrors.add(new AuditError("document.routingFormPerson[" + i + "].personRoleCode", KraKeyConstants.AUDIT_MAIN_PAGE_PERSON_ROLE_CODE_REQUIRED, "mainpage.anchor2"));
+                auditErrors.add(new AuditError("document.routingFormPersonnel[" + i + "].personRoleCode", KraKeyConstants.AUDIT_MAIN_PAGE_PERSON_ROLE_CODE_REQUIRED, "mainpage.anchor2"));
             } else if (KraConstants.PERSON_ROLE_CODE_OTHER.equals(person.getPersonRoleCode()) && ObjectUtils.isNull(person.getPersonRoleText())) {
                 valid = false;
-                auditErrors.add(new AuditError("document.routingFormPerson[" + i + "].personRoleText", KraKeyConstants.AUDIT_MAIN_PAGE_PERSON_ROLE_TEXT_REQUIRED, "mainpage.anchor2"));
+                auditErrors.add(new AuditError("document.routingFormPersonnel[" + i + "].personRoleText", KraKeyConstants.AUDIT_MAIN_PAGE_PERSON_ROLE_TEXT_REQUIRED, "mainpage.anchor2"));
             }
             
             if (ObjectUtils.isNull(person.getPersonFinancialAidPercent())) {
                 valid = false;
-                auditErrors.add(new AuditError("document.routingFormPerson[" + i + "].personFinancialAidPercent", KraKeyConstants.AUDIT_MAIN_PAGE_PERSON_FA_REQUIRED, "mainpage.anchor2"));
+                auditErrors.add(new AuditError("document.routingFormPersonnel[" + i + "].personFinancialAidPercent", KraKeyConstants.AUDIT_MAIN_PAGE_PERSON_FA_REQUIRED, "mainpage.anchor2"));
             }
             
             if (ObjectUtils.isNull(person.getPersonCreditPercent())) {
                 valid = false;
-                auditErrors.add(new AuditError("document.routingFormPerson[" + i + "].personCreditPercent", KraKeyConstants.AUDIT_MAIN_PAGE_PERSON_CREDIT_REQUIRED, "mainpage.anchor2"));
+                auditErrors.add(new AuditError("document.routingFormPersonnel[" + i + "].personCreditPercent", KraKeyConstants.AUDIT_MAIN_PAGE_PERSON_CREDIT_REQUIRED, "mainpage.anchor2"));
             }
             
             i++;
@@ -176,12 +176,12 @@ public class RoutingFormAuditRule {
         for (RoutingFormOrganizationCreditPercent org : routingFormDocument.getRoutingFormOrganizationCreditPercents()) {
             if (ObjectUtils.isNull(org.getOrganizationFinancialAidPercent())) {
                 valid = false;
-                auditErrors.add(new AuditError("document.routingFormOrganizationCreditPercent[" + i + "].personFinancialAidPercent", KraKeyConstants.AUDIT_MAIN_PAGE_ORG_FA_REQUIRED, "mainpage.anchor2"));
+                auditErrors.add(new AuditError("document.routingFormOrganizationCreditPercents[" + i + "].personFinancialAidPercent", KraKeyConstants.AUDIT_MAIN_PAGE_ORG_FA_REQUIRED, "mainpage.anchor2"));
             }
             
             if (ObjectUtils.isNull(org.getOrganizationCreditPercent())) {
                 valid = false;
-                auditErrors.add(new AuditError("document.routingFormOrganizationCreditPercent[" + i + "].personCreditPercent", KraKeyConstants.AUDIT_MAIN_PAGE_ORG_CREDIT_REQUIRED, "mainpage.anchor2"));
+                auditErrors.add(new AuditError("document.routingFormOrganizationCreditPercents[" + i + "].personCreditPercent", KraKeyConstants.AUDIT_MAIN_PAGE_ORG_CREDIT_REQUIRED, "mainpage.anchor2"));
             }
             
             i++;

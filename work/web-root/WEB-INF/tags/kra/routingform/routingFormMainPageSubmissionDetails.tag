@@ -37,8 +37,8 @@
                 <th align=right valign=middle>Type:</th>
                 <td colspan="3" align=left valign=middle nowrap >
                   <c:forEach items="${KualiForm.submissionTypes}" var="submissionType" varStatus="status">
-                    <html:hidden property="submissionType[${status.index}].submissionTypeCode" />
-                    <html:hidden property="submissionType[${status.index}].submissionTypeDescription" />
+                    <html:hidden property="submissionTypes[${status.index}].submissionTypeCode" />
+                    <html:hidden property="submissionTypes[${status.index}].submissionTypeDescription" />
                     <label>
                       <c:choose>
                         <c:when test="${!viewOnly}">
@@ -64,13 +64,13 @@
                 <th align=right valign=middle>Type:</th>
                 <td colspan="3" align=left valign=middle >
                   <c:forEach items="${KualiForm.projectTypes}" varStatus="status">
-                    <html:hidden property="projectType[${status.index}].projectTypeCode" />
-                    <html:hidden property="projectType[${status.index}].projectTypeDescription" />
+                    <html:hidden property="projectTypes[${status.index}].projectTypeCode" />
+                    <html:hidden property="projectTypes[${status.index}].projectTypeDescription" />
                   </c:forEach>
                   <c:forEach items="${KualiForm.document.routingFormProjectTypes}" varStatus="status">
-                    <html:hidden property="document.routingFormProjectType[${status.index}].projectTypeCode" />
-                    <html:hidden property="document.routingFormProjectType[${status.index}].documentNumber" />
-                    <html:hidden property="document.routingFormProjectType[${status.index}].versionNumber" />
+                    <html:hidden property="document.routingFormProjectTypes[${status.index}].projectTypeCode" />
+                    <html:hidden property="document.routingFormProjectTypes[${status.index}].documentNumber" />
+                    <html:hidden property="document.routingFormProjectTypes[${status.index}].versionNumber" />
                   </c:forEach>
                   <table width="100%" cellspacing="0" cellpadding="0" class="nobord">
                     <tr>
@@ -129,8 +129,8 @@
                 <th align=right valign=middle>Type:</th>
                 <td colspan="3" align=left valign=middle nowrap >
                   <c:forEach items="${KualiForm.purposes}" var="purpose" varStatus="status">
-                    <html:hidden property="purpose[${status.index}].purposeCode" />
-                    <html:hidden property="purpose[${status.index}].purposeDescription" />
+                    <html:hidden property="purposes[${status.index}].purposeCode" />
+                    <html:hidden property="purposes[${status.index}].purposeDescription" />
                     <label>
                       <c:choose>
                         <c:when test="${!viewOnly}">
@@ -185,7 +185,7 @@
 		              <c:forEach items = "${KualiForm.document.routingFormKeywords}" var="routingFormKeyword" varStatus="status"  >
 					  <tr>
 		                <td class="neutral"> <div align="left">
-				    		<html:hidden write="true" property="document.routingFormKeyword[${status.index}].routingFormKeywordDescription" /> 
+				    		<html:hidden write="true" property="document.routingFormKeywords[${status.index}].routingFormKeywordDescription" /> 
 		                </div></td>
 		                <td class="neutral"><div align="center">
 		                  <c:if test="${!viewOnly}">

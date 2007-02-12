@@ -25,6 +25,7 @@ import org.kuali.PropertyConstants;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference;
 import org.kuali.module.chart.bo.Campus;
@@ -149,15 +150,15 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         personnelNextSequenceNumber = new Integer(1);
         
         routingFormResearchRisks = new ArrayList<RoutingFormResearchRisk>();
-        routingFormKeywords = new ArrayList<RoutingFormKeyword>();
+        routingFormKeywords = new TypedArrayList(RoutingFormKeyword.class);
         routingFormInstitutionCostShares = new ArrayList<RoutingFormInstitutionCostShare>();
         routingFormOtherCostShares = new ArrayList<RoutingFormOtherCostShare>();
         routingFormSubcontractors = new ArrayList<RoutingFormSubcontractor>();
-        routingFormPersonnel = new ArrayList<RoutingFormPersonnel>();
-        routingFormOrganizationCreditPercents = new ArrayList<RoutingFormOrganizationCreditPercent>();
+        routingFormPersonnel = new TypedArrayList(RoutingFormPersonnel.class);
+        routingFormOrganizationCreditPercents = new TypedArrayList(RoutingFormOrganizationCreditPercent.class);
         routingFormQuestions = new ArrayList<RoutingFormQuestion>();
         routingFormOrganizations = new ArrayList<RoutingFormOrganization>();
-        routingFormProjectTypes = new ArrayList<RoutingFormProjectType>();
+        routingFormProjectTypes = new TypedArrayList(RoutingFormProjectType.class);
         
         routingFormAdHocPeople = new ArrayList<RoutingFormAdHocPerson>();
         routingFormAdHocOrgs = new ArrayList<RoutingFormAdHocOrg>();
@@ -1242,13 +1243,6 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     public List<RoutingFormKeyword> getRoutingFormKeywords() {
         return routingFormKeywords;
     }
-
-    public RoutingFormKeyword getRoutingFormKeyword(int index) {
-        while (getRoutingFormKeywords().size() <= index) {
-            getRoutingFormKeywords().add(new RoutingFormKeyword());
-        }
-        return (RoutingFormKeyword) getRoutingFormKeywords().get(index);
-    }
     
     public void setRoutingFormKeywords(List<RoutingFormKeyword> routingFormKeywords) {
         this.routingFormKeywords = routingFormKeywords;
@@ -1594,18 +1588,6 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     public void setRoutingFormPersonnel(List<RoutingFormPersonnel> routingFormPersonnel) {
         this.routingFormPersonnel = routingFormPersonnel;
     }
-
-    /**
-     * Gets index i from the routingFormPersonnel list. 
-     * @param index
-     * @return Person at index i
-     */
-    public RoutingFormPersonnel getRoutingFormPerson(int index) {
-        while (getRoutingFormPersonnel().size() <= index) {
-            getRoutingFormPersonnel().add(new RoutingFormPersonnel());
-        }
-        return (RoutingFormPersonnel) getRoutingFormPersonnel().get(index);
-    }
     
     /**
      * Gets the routingFormOrganizationCreditPercents attribute. 
@@ -1621,18 +1603,6 @@ public class RoutingFormDocument extends ResearchDocumentBase {
      */
     public void setRoutingFormOrganizationCreditPercents(List<RoutingFormOrganizationCreditPercent> routingFormOrganizationCreditPercents) {
         this.routingFormOrganizationCreditPercents = routingFormOrganizationCreditPercents;
-    }
-    
-    /**
-     * Gets index i from the routingFormOrganizationCreditPercents list. 
-     * @param index
-     * @return Person at index i
-     */
-    public RoutingFormOrganizationCreditPercent getRoutingFormOrganizationCreditPercent(int index) {
-        while (getRoutingFormOrganizationCreditPercents().size() <= index) {
-            getRoutingFormOrganizationCreditPercents().add(new RoutingFormOrganizationCreditPercent());
-        }
-        return (RoutingFormOrganizationCreditPercent) getRoutingFormOrganizationCreditPercents().get(index);
     }
     
     /**
@@ -1729,13 +1699,6 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 
     public void setRoutingFormProjectTypes(List<RoutingFormProjectType> routingFormProjectTypes) {
         this.routingFormProjectTypes = routingFormProjectTypes;
-    }
-    
-    public RoutingFormProjectType getRoutingFormProjectType(int index) {
-        while (getRoutingFormProjectTypes().size() <= index) {
-            getRoutingFormProjectTypes().add(new RoutingFormProjectType());
-        }
-        return (RoutingFormProjectType) getRoutingFormProjectTypes().get(index);
     }
     
     /**

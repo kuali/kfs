@@ -21,6 +21,7 @@ import java.util.List;
 import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.module.kra.budget.web.struts.form.BudgetOverviewFormHelper;
 import org.kuali.module.kra.document.ResearchDocument;
 import org.kuali.module.kra.routingform.bo.ProjectType;
@@ -46,7 +47,7 @@ public class RoutingForm extends ResearchDocumentFormBase {
     
     //Main Page
     private RoutingFormKeyword newRoutingFormKeyword;
-    private RoutingFormPersonnel newRoutingFormPersonnel;
+    private RoutingFormPersonnel newRoutingFormPerson;
     private RoutingFormOrganizationCreditPercent newRoutingFormOrganizationCreditPercent;
     private List<String> selectedRoutingFormProjectTypes;
     
@@ -80,9 +81,9 @@ public class RoutingForm extends ResearchDocumentFormBase {
         super();
        
         selectedRoutingFormProjectTypes = new ArrayList();
-        submissionTypes = new ArrayList();
-        projectTypes = new ArrayList();
-        purposes = new ArrayList();
+        submissionTypes = new TypedArrayList(SubmissionType.class);
+        projectTypes = new TypedArrayList(ProjectType.class);
+        purposes = new TypedArrayList(Purpose.class);
         
         DataDictionary dataDictionary = SpringServiceLocator.getDataDictionaryService().getDataDictionary();
         DocumentEntry budgetDocumentEntry = dataDictionary.getDocumentEntry(org.kuali.module.kra.routingform.document.RoutingFormDocument.class);
@@ -142,12 +143,12 @@ public class RoutingForm extends ResearchDocumentFormBase {
         this.newRoutingFormSubcontractor = newRoutingFormSubcontractor;
     }
 
-    public RoutingFormPersonnel getNewRoutingFormPersonnel() {
-        return newRoutingFormPersonnel;
+    public RoutingFormPersonnel getNewRoutingFormPerson() {
+        return newRoutingFormPerson;
     }
 
-    public void setNewRoutingFormPersonnel(RoutingFormPersonnel newRoutingFormPersonnel) {
-        this.newRoutingFormPersonnel = newRoutingFormPersonnel;
+    public void setNewRoutingFormPerson(RoutingFormPersonnel newRoutingFormPerson) {
+        this.newRoutingFormPerson = newRoutingFormPerson;
     }
 
     public RoutingFormOrganizationCreditPercent getNewRoutingFormOrganizationCreditPercent() {
@@ -191,13 +192,6 @@ public class RoutingForm extends ResearchDocumentFormBase {
     public List<ProjectType> getProjectTypes() {
         return projectTypes;
     }
-
-    public ProjectType getProjectType(int index) {
-        while (this.getProjectTypes().size() <= index) {
-            this.getProjectTypes().add(new ProjectType());
-        }
-        return this.getProjectTypes().get(index);
-    }
     
     public void setProjectTypes(List<ProjectType> projectTypes) {
         this.projectTypes = projectTypes;
@@ -207,26 +201,12 @@ public class RoutingForm extends ResearchDocumentFormBase {
         return purposes;
     }
     
-    public Purpose getPurpose(int index) {
-        while (this.getPurposes().size() <= index) {
-            this.getPurposes().add(new Purpose());
-        }
-        return this.getPurposes().get(index);
-    }
-    
     public void setPurposes(List<Purpose> purposes) {
         this.purposes = purposes;
     }
     
     public List<SubmissionType> getSubmissionTypes() {
         return submissionTypes;
-    }
-
-    public SubmissionType getSubmissionType(int index) {
-        while (this.getSubmissionTypes().size() <= index) {
-            this.getSubmissionTypes().add(new SubmissionType());
-        }
-        return this.getSubmissionTypes().get(index);
     }
     
     public void setSubmissionTypes(List<SubmissionType> submissionTypes) {

@@ -104,8 +104,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 
         ChartUser currentUser = (ChartUser)GlobalVariables.getUserSession().getUniversalUser().getModuleUser( ChartUser.MODULE_ID );
         this.setChartOfAccountsCode(currentUser.getChartOfAccountsCode());
-        currentUser.refresh();
-        this.setOrganizationCode(currentUser.getOrganization().getOrganizationCode());
+        this.setOrganizationCode(currentUser.getOrganizationCode());
         this.setDeliveryCampusCode(currentUser.getUniversalUser().getCampusCode());
         this.setRequestorPersonName(currentUser.getUniversalUser().getPersonName());
         this.setRequestorPersonEmailAddress(currentUser.getUniversalUser().getPersonEmailAddress());
@@ -208,8 +207,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
         this.setStatusCode(PurapConstants.RequisitionStatuses.IN_PROCESS);
 
         // Set fields from the user.
-        currentUser.refresh();
-        this.setChartOfAccountsCode(currentUser.getOrganization().getChartOfAccountsCode());
+        this.setChartOfAccountsCode(currentUser.getChartOfAccountsCode());
         this.setOrganizationCode(currentUser.getOrganizationCode());
 
         this.dateTimeService = SpringServiceLocator.getDateTimeService();

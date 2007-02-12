@@ -133,7 +133,7 @@
                 </control>
 
                 <summary>Fringe Rate</summary>
-                <description>Fringe Rate</description>
+                <description>This is the fringe benefits rate that is charged on salaries that are booked to the project. The fringe rate is dependent on the employee classification.</description>
             </attribute>
 
             <attribute name="costShareFringeRateAmount" forceUppercase="false">
@@ -151,20 +151,21 @@
                 </control>
 
                 <summary>Cost Share Fringe Rate</summary>
-                <description>Cost Share Fringe Rate</description>
+                <description>This is the fringe benefits rate that is charged on cost-shared salaries. The fringe rate is dependent on the employee classification.</description>
             </attribute>
 
             <attributeReference name="lastUpdate"  sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
                 <label>Last Update Timestamp</label>
                 <shortLabel>Last Update</shortLabel>
-                <summary>lastUpdate summary...</summary>
-                <description>lastUpdate description...</description>
+                <summary>Last Update</summary>
+                <description>The date of the most recent change to the fringe benefits rates.</description>
             </attributeReference>
             
             <attributeReference name="relatedAppointmentTypeCode" sourceClassName="org.kuali.module.kra.budget.bo.AppointmentType" sourceAttributeName="appointmentTypeCode">
-                <label>Related AppointmentType Code</label>
+                <label>Related Appointment Type Code</label>
                 <shortLabel>Related Appt Type</shortLabel>
-                <summary>The Appointment Type Code of a related Appointment Type, used for creating entries for dual appointment types.  For example, an Academic 12- Month appointment could be combined with an Hourly appointment.</summary>
+                <summary>Related Appointment Type Code</summary>
+                <description>The Appointment Type Code of a related Appointment Type, used for creating entries for dual appointment types.  For example, an Academic 12- Month appointment could be combined with an Hourly appointment.</description>
             </attributeReference>
 
             <attribute name="objectId" forceUppercase="true">
@@ -181,7 +182,7 @@
                     <text size="36" />
                 </control>
 
-                <summary>objectId summary...</summary>
+                <summary>Object ID</summary>
                 <description>objectId description...</description>
             </attribute>
 

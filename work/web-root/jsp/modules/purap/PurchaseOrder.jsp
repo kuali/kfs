@@ -24,11 +24,13 @@
 	<kul:hiddenDocumentFields excludePostingYear="true" />
 
     <purap:hiddenPurapFields />
+    <!-- TODO move this to where? -->
+    <html:hidden property="document.requisitionIdentifier" />
 
 	<kul:documentOverview editingMode="${KualiForm.editingMode}"
 		includePostingYear="true"
         postingYearAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" >
-        
+
         <purap:purapDocumentDetail
 	    	documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}"
 	    	purchaseOrder="true"

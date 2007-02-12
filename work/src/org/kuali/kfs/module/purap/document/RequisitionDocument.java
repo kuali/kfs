@@ -207,6 +207,7 @@ public class RequisitionDocument extends PurchasingDocumentBase {
         this.setStatusCode(PurapConstants.RequisitionStatuses.IN_PROCESS);
 
         // Set fields from the user.
+        currentUser.refresh();
         this.setChartOfAccountsCode(currentUser.getOrganization().getChartOfAccountsCode());
         this.setOrganizationCode(currentUser.getOrganizationCode());
 

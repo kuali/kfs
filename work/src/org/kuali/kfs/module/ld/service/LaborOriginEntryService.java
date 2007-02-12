@@ -171,14 +171,14 @@ public interface LaborOriginEntryService {
     public Iterator<LaborOriginEntry> getEntriesByGroup(OriginEntryGroup group, boolean isConsolidated);    
     
     /**
-     * get the summarized information of the entries that belong to the entry groups with the given groups
+     * get the summarized information of the entries that belong to the given entry groups
      * @param groups the origin entry groups
      * @return a set of summarized information of the entries within the specified groups
      */
     public LedgerEntryHolder getSummariedEntriesByGroups(Collection<OriginEntryGroup> groups);
     
     /**
-     * get the summarized information of poster input entries that belong to the entry groups with the given groups 
+     * get the summarized information of poster input entries that belong to the given entry groups 
      * @param groups the origin entry groups
      * @return a map of summarized information of poster input entries within the specified groups
      */    

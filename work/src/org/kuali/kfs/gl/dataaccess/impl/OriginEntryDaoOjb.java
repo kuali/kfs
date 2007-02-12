@@ -62,6 +62,14 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
         this.entryClass = entryClass;
     }
 
+    /**
+     * Gets the entryClass attribute. 
+     * @return Returns the entryClass.
+     */
+    public Class getEntryClass() {
+        return entryClass;
+    }
+
     public OriginEntryDaoOjb() {
         super();
     }

@@ -39,7 +39,6 @@ import org.kuali.module.labor.dao.LaborOriginEntryDao;
  */
 public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOriginEntryDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborOriginEntryDaoOjb.class);
-    private Class entryClass = LaborOriginEntry.class;
     
     /**
      * @see org.kuali.module.labor.dao.LaborOriginEntryDao#getEntriesByGroup(org.kuali.module.gl.bo.OriginEntryGroup)
@@ -112,30 +111,12 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
         groupByList.remove(PropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT);
         return groupByList;
     }
-
-    /**
-     * Gets the entryClass attribute.
-     * 
-     * @return Returns the entryClass.
-     */
-    public Class getEntryClass() {
-        return entryClass;
-    }
-
-    /**
-     * Sets the entryClass attribute value.
-     * 
-     * @param entryClass The entryClass to set.
-     */
-    public void setEntryClass(Class entryClass) {
-        this.entryClass = entryClass;
-    }
     
     public Collection<LaborOriginEntry> testingLaborGetAllEntries() {
         LOG.debug("testingGetAllEntries() started");
 
         Criteria criteria = new Criteria();
-        QueryByCriteria qbc = QueryFactory.newQuery(entryClass, criteria);
+        QueryByCriteria qbc = QueryFactory.newQuery(getEntryClass(), criteria);
         qbc.addOrderByAscending("entryGroupId");
         return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
@@ -146,7 +127,7 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PropertyConstants.ENTRY_GROUP_ID, oeg.getId());
 
-        QueryByCriteria qbc = QueryFactory.newQuery(entryClass, criteria);
+        QueryByCriteria qbc = QueryFactory.newQuery(getEntryClass(), criteria);
 
         if (sort == OriginEntryDao.SORT_DOCUMENT) {
             qbc.addOrderByAscending(PropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);

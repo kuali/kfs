@@ -33,6 +33,8 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OriginEntryGroupService;
+import org.kuali.module.gl.util.LedgerEntryHolder;
+import org.kuali.module.gl.util.PosterOutputSummaryEntry;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.bo.LedgerEntry;
@@ -47,9 +49,9 @@ public class LaborOriginEntryServiceTest extends KualiTestBase {
     private Properties properties;
     private String fieldNames;
     private String deliminator;
-    private List<String> keyFieldList;
-    private Date today;
-
+    private OriginEntryGroup group1, group2;
+    private Map fieldValues;
+    
     private BeanFactory beanFactory;
     private LaborOriginEntryService laborOriginEntryService;
     private OriginEntryGroupService originEntryGroupService;
@@ -63,66 +65,52 @@ public class LaborOriginEntryServiceTest extends KualiTestBase {
         properties = (new TestDataGenerator(propertiesFileName, messageFileName)).getProperties();
         fieldNames = properties.getProperty("fieldNames");
         deliminator = properties.getProperty("deliminator");
-        keyFieldList = Arrays.asList(StringUtils.split(fieldNames, deliminator));
 
         beanFactory = SpringServiceLocator.getBeanFactory();
         laborOriginEntryService = (LaborOriginEntryService) beanFactory.getBean("laborOriginEntryService");
         originEntryGroupService = (OriginEntryGroupService) beanFactory.getBean("glOriginEntryGroupService");
         businessObjectService = (BusinessObjectService) beanFactory.getBean("businessObjectService");
-        today = ((DateTimeService) beanFactory.getBean("dateTimeService")).getCurrentSqlDate();
+        
+        Date today = ((DateTimeService) beanFactory.getBean("dateTimeService")).getCurrentSqlDate();        
+        group1 = originEntryGroupService.createGroup(today, MAIN_POSTER_VALID, false, false, false);
+        group2 = originEntryGroupService.createGroup(today, MAIN_POSTER_VALID, false, false, false);
+        
+        LaborOriginEntry cleanup = new LaborOriginEntry();
+        ObjectUtil.populateBusinessObject(cleanup, properties, "dataCleanup", fieldNames, deliminator);
+        fieldValues = ObjectUtil.buildPropertyMap(cleanup, Arrays.asList(StringUtils.split(fieldNames, deliminator)));
+        fieldValues.remove(PropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER);
+        fieldValues.remove(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        fieldValues.remove(PropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE);
+        businessObjectService.deleteMatching(LaborOriginEntry.class, fieldValues);
     }
 
     public void testGetEntriesByGroup() throws Exception {
         int numberOfTestData = Integer.valueOf(properties.getProperty("getEntriesByGroup.numOfData"));
-        
-        OriginEntryGroup group1 = originEntryGroupService.createGroup(today, MAIN_POSTER_VALID, false, false, false);
-        Integer entryGroupId1 = group1.getId();
-
-        OriginEntryGroup group2 = originEntryGroupService.createGroup(today, MAIN_POSTER_VALID, false, false, false);
-        Integer entryGroupId2 = group2.getId();
-        
-        LaborOriginEntry expected1 = new LaborOriginEntry();
-        ObjectUtil.populateBusinessObject(expected1, properties, "getEntriesByGroup.expected1", fieldNames, deliminator);
-        Map fieldValues = ObjectUtil.buildPropertyMap(expected1, keyFieldList);
-        fieldValues.remove(PropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER);
-        businessObjectService.deleteMatching(LaborOriginEntry.class, fieldValues);
-        assertEquals(businessObjectService.countMatching(LedgerEntry.class, fieldValues), 0);
+        int expectedNumber = Integer.valueOf(properties.getProperty("getEntriesByGroup.expectedNumOfData"));
           
-        businessObjectService.save(getInputDataList("getEntriesByGroup.testData", numberOfTestData, entryGroupId1));
+        businessObjectService.save(getInputDataList("getEntriesByGroup.testData", numberOfTestData, group1));
         List<LaborOriginEntry> entries = convertIteratorAsList(laborOriginEntryService.getEntriesByGroup(group1));
-        assertEquals(numberOfTestData, entries.size());
+        assertEquals(expectedNumber, entries.size());
         
-        businessObjectService.save(getInputDataList("getEntriesByGroup.testData", numberOfTestData-1, entryGroupId2));
+        businessObjectService.save(getInputDataList("getEntriesByGroup.testData", numberOfTestData-1, group2));
         entries = convertIteratorAsList(laborOriginEntryService.getEntriesByGroup(group1));
-        assertEquals(numberOfTestData, entries.size());
+        assertEquals(expectedNumber, entries.size());
     }
     
     public void testGetEntriesByGroups() throws Exception {
         int numberOfTestData = Integer.valueOf(properties.getProperty("getEntriesByGroups.numOfData"));
-        
-        OriginEntryGroup group1 = originEntryGroupService.createGroup(today, MAIN_POSTER_VALID, false, false, false);
-        Integer groupId1 = group1.getId();
-
-        OriginEntryGroup group2 = originEntryGroupService.createGroup(today, MAIN_POSTER_VALID, false, false, false);
-        Integer groupId2 = group2.getId();
-        
-        LaborOriginEntry expected1 = new LaborOriginEntry();
-        ObjectUtil.populateBusinessObject(expected1, properties, "getEntriesByGroups.expected1", fieldNames, deliminator);
-        Map fieldValues = ObjectUtil.buildPropertyMap(expected1, keyFieldList);
-        fieldValues.remove(PropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER);
-        businessObjectService.deleteMatching(LaborOriginEntry.class, fieldValues);
-        assertEquals(businessObjectService.countMatching(LedgerEntry.class, fieldValues), 0);
+        int expectedNumber = Integer.valueOf(properties.getProperty("getEntriesByGroups.expectedNumOfData"));
         
         List<OriginEntryGroup> groups = new ArrayList<OriginEntryGroup>();
         groups.add(group1);          
-        businessObjectService.save(getInputDataList("getEntriesByGroups.testData", numberOfTestData, groupId1));
+        businessObjectService.save(getInputDataList("getEntriesByGroups.testData", numberOfTestData, group1));
         List<LaborOriginEntry> entries = convertIteratorAsList(laborOriginEntryService.getEntriesByGroups(groups));
-        assertEquals(numberOfTestData, entries.size());
+        assertEquals(expectedNumber, entries.size());
         
         groups.add(group2);
-        businessObjectService.save(getInputDataList("getEntriesByGroups.testData", numberOfTestData-1, groupId2));
+        businessObjectService.save(getInputDataList("getEntriesByGroups.testData", numberOfTestData-1, group2));
         entries = convertIteratorAsList(laborOriginEntryService.getEntriesByGroups(groups));
-        assertEquals(numberOfTestData + numberOfTestData - 1, entries.size());
+        assertEquals(expectedNumber + expectedNumber - 1, entries.size());
     }
     
     public void testGetConsolidatedEntriesByGroup() throws Exception {
@@ -130,41 +118,66 @@ public class LaborOriginEntryServiceTest extends KualiTestBase {
         int expectedNumber = Integer.valueOf(properties.getProperty("getConsolidatedEntriesByGroup.expectedNumOfData"));
         KualiDecimal expectedTotal1 = new KualiDecimal(properties.getProperty("getConsolidatedEntriesByGroup.expectedTotal1"));
         KualiDecimal expectedTotal2 = new KualiDecimal(properties.getProperty("getConsolidatedEntriesByGroup.expectedTotal2"));
-        
-        OriginEntryGroup group1 = originEntryGroupService.createGroup(today, MAIN_POSTER_VALID, false, false, false);
-        Integer groupId1 = group1.getId();
-
-        OriginEntryGroup group2 = originEntryGroupService.createGroup(today, MAIN_POSTER_VALID, false, false, false);
-        Integer groupId2 = group2.getId();
-        
-        LaborOriginEntry expected1 = new LaborOriginEntry();
-        ObjectUtil.populateBusinessObject(expected1, properties, "getConsolidatedEntriesByGroup.expected1", fieldNames, deliminator);
-        Map fieldValues = ObjectUtil.buildPropertyMap(expected1, keyFieldList);
-        fieldValues.remove(PropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER);
-        fieldValues.remove(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        businessObjectService.deleteMatching(LaborOriginEntry.class, fieldValues);
-        assertEquals(businessObjectService.countMatching(LedgerEntry.class, fieldValues), 0);
                   
-        businessObjectService.save(getInputDataList("getConsolidatedEntriesByGroup.testData", numberOfTestData, groupId1));
+        businessObjectService.save(getInputDataList("getConsolidatedEntriesByGroup.testData", numberOfTestData, group1));
         List<LaborOriginEntry> entries = convertIteratorAsList(laborOriginEntryService.getEntriesByGroup(group1, true));
         assertEquals(expectedNumber, entries.size());
         assertEquals(expectedTotal1, entries.get(0).getTransactionLedgerEntryAmount());
         assertEquals(expectedTotal2, entries.get(1).getTransactionLedgerEntryAmount());
         
-        businessObjectService.save(getInputDataList("getConsolidatedEntriesByGroup.testData", numberOfTestData, groupId2));
+        businessObjectService.save(getInputDataList("getConsolidatedEntriesByGroup.testData", numberOfTestData, group2));
         entries = convertIteratorAsList(laborOriginEntryService.getEntriesByGroup(group1, true));
         assertEquals(expectedNumber, entries.size());
         assertEquals(expectedTotal1, entries.get(0).getTransactionLedgerEntryAmount());
         assertEquals(expectedTotal2, entries.get(1).getTransactionLedgerEntryAmount());
     }
     
-    private List getInputDataList(String propertyKeyPrefix, int numberOfInputData, Integer groupId){
-        List inputDataList = new ArrayList();
+    public void testGetSummariedEntriesByGroups() throws Exception {
+        int numberOfTestData = Integer.valueOf(properties.getProperty("getSummariedEntriesByGroups.numOfData"));
+        int expectedNumber = Integer.valueOf(properties.getProperty("getSummariedEntriesByGroups.expectedNumOfData"));
+        
+        List<OriginEntryGroup> groups = new ArrayList<OriginEntryGroup>();
+        LedgerEntryHolder ledgerEntryHolder = laborOriginEntryService.getSummariedEntriesByGroups(groups);
+        assertTrue(ledgerEntryHolder.getLedgerEntries().isEmpty());
+                  
+        groups.add(group1);
+        businessObjectService.save(getInputDataList("getSummariedEntriesByGroups.testData", numberOfTestData, group1));
+        ledgerEntryHolder = laborOriginEntryService.getSummariedEntriesByGroups(groups);
+        assertEquals(expectedNumber, ledgerEntryHolder.getLedgerEntries().size());
+        
+        groups.add(group2);
+        businessObjectService.save(getInputDataList("getSummariedEntriesByGroups.testData", numberOfTestData, group2));
+        ledgerEntryHolder = laborOriginEntryService.getSummariedEntriesByGroups(groups);
+        assertEquals(expectedNumber, ledgerEntryHolder.getLedgerEntries().size());
+    }
+    
+    public void testGetPosterOutputSummaryByGroups() throws Exception {
+        int numberOfTestData = Integer.valueOf(properties.getProperty("getPosterOutputSummaryByGroups.numOfData"));
+        int expectedNumber = Integer.valueOf(properties.getProperty("getPosterOutputSummaryByGroups.expectedNumOfData"));
+        
+        List<OriginEntryGroup> groups = new ArrayList<OriginEntryGroup>();
+        Map<String,PosterOutputSummaryEntry> outputSummary = laborOriginEntryService.getPosterOutputSummaryByGroups(groups);
+        assertTrue(outputSummary.isEmpty());
+                  
+        groups.add(group1);
+        businessObjectService.save(getInputDataList("getPosterOutputSummaryByGroups.testData", numberOfTestData, group1));
+        outputSummary = laborOriginEntryService.getPosterOutputSummaryByGroups(groups);
+        assertEquals(expectedNumber, outputSummary.size());
+        
+        groups.add(group2);
+        businessObjectService.save(getInputDataList("getPosterOutputSummaryByGroups.testData", numberOfTestData, group2));
+        outputSummary = laborOriginEntryService.getPosterOutputSummaryByGroups(groups);
+        assertEquals(expectedNumber, outputSummary.size());
+    }
+    
+    private List getInputDataList(String propertyKeyPrefix, int numberOfInputData, OriginEntryGroup group){
+        List inputDataList = new ArrayList();        
         for (int i = 1; i <= numberOfInputData; i++) {
             String propertyKey = propertyKeyPrefix + i;
             LaborOriginEntry inputData = new LaborOriginEntry();
             ObjectUtil.populateBusinessObject(inputData, properties, propertyKey, fieldNames, deliminator);
-            inputData.setEntryGroupId(groupId);
+            inputData.setEntryGroupId(group.getId());
+            inputData.setGroup(group);
             inputDataList.add(inputData);
         }
         return inputDataList;

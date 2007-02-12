@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.PropertyConstants;
@@ -134,7 +135,7 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
 
     public Iterator<LaborOriginEntry> getEntriesByGroupReportOrder(OriginEntryGroup oeg) {
         LOG.debug("getEntriesByGroupAccountOrder() started");
-        Iterator returnVal = originEntryDao.getEntriesByGroup(oeg, originEntryDao.SORT_REPORT);
+        Iterator returnVal = originEntryDao.getEntriesByGroup(oeg, OriginEntryDao.SORT_REPORT);
 
         return returnVal;
     }
@@ -142,7 +143,7 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
     public Iterator<LaborOriginEntry> getEntriesByGroupListingReportOrder(OriginEntryGroup oeg) {
         LOG.debug("getEntriesByGroupAccountOrder() started");
 
-        Iterator returnVal = originEntryDao.getEntriesByGroup(oeg, originEntryDao.SORT_LISTING_REPORT);
+        Iterator returnVal = originEntryDao.getEntriesByGroup(oeg, OriginEntryDao.SORT_LISTING_REPORT);
         return returnVal;
     }
 
@@ -374,17 +375,19 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
     public Map<String, PosterOutputSummaryEntry> getPosterOutputSummaryByGroups(Collection<OriginEntryGroup> groups) {
         Map<String, PosterOutputSummaryEntry> outputSummary = new HashMap<String, PosterOutputSummaryEntry>();
 
-        Iterator entrySummaryIterator = laborOriginEntryDao.getPosterOutputSummaryByGroupId(groups);
-        while (entrySummaryIterator.hasNext()) {
-            Object[] entrySummary = (Object[]) entrySummaryIterator.next();
-            PosterOutputSummaryEntry posterOutputSummaryEntry = PosterOutputSummaryEntry.buildPosterOutputSummaryEntry(entrySummary);
+        if (groups.size() > 0) {
+            Iterator entrySummaryIterator = laborOriginEntryDao.getPosterOutputSummaryByGroupId(groups);
+            while (entrySummaryIterator.hasNext()) {
+                Object[] entrySummary = (Object[]) entrySummaryIterator.next();
+                PosterOutputSummaryEntry posterOutputSummaryEntry = PosterOutputSummaryEntry.buildPosterOutputSummaryEntry(entrySummary);
 
-            if (outputSummary.containsKey(posterOutputSummaryEntry.getKey())) {
-                PosterOutputSummaryEntry tempEntry = outputSummary.get(posterOutputSummaryEntry.getKey());
-                tempEntry.add(posterOutputSummaryEntry);
-            }
-            else {
-                outputSummary.put(posterOutputSummaryEntry.getKey(), posterOutputSummaryEntry);
+                if (outputSummary.containsKey(posterOutputSummaryEntry.getKey())) {
+                    PosterOutputSummaryEntry tempEntry = outputSummary.get(posterOutputSummaryEntry.getKey());
+                    tempEntry.add(posterOutputSummaryEntry);
+                }
+                else {
+                    outputSummary.put(posterOutputSummaryEntry.getKey(), posterOutputSummaryEntry);
+                }
             }
         }
         return outputSummary;

@@ -89,39 +89,24 @@
 
         <attributes>
 
-            <attribute name="accountNumber" forceUppercase="true" >
-                <label>Account Number</label>
-                <shortLabel>Number</shortLabel>
+            <attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
+                <required>true</required>
+                <description>Account Number for the override.</description>
+            </attributeReference>
 
-                <maxLength>7</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
 
-                <control>
-                    <text size="9" />
-                </control>
+            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+                <required>true</required>
+			  <control>
+				 <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+			  </control>
+                <description>Chart of Accounts Code for the override.</description>
+            </attributeReference>
 
-                <summary>accountNumber</summary>
-                <description>accountNumber description...</description>
-			</attribute>
-
-            <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>chartOfAccountsCode</summary>
-                <description>chartOfAccountsCode description...</description>
-			</attribute>
 
             <attribute name="csfAmount" forceUppercase="true">
-                <label>Csf Amount</label>
-                <shortLabel>Amount</shortLabel>
+                <label>CSF Amount</label>
+                <shortLabel>CSF Amount</shortLabel>
 
                 <maxLength>19</maxLength>
 
@@ -134,13 +119,13 @@
                     <text size="21" />
                 </control>
 
-                <summary>csfAmount</summary>
-                <description>csfAmount description...</description>
+                <summary>Position CSF Amount</summary>
+                <description>Position CSF Amount for the override.</description>
 			</attribute>
 
             <attribute name="csfDeleteCode" forceUppercase="true">
                 <label>Csf Delete Code</label>
-                <shortLabel>Code</shortLabel>
+                <shortLabel>Delete Code</shortLabel>
 
                 <maxLength>1</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -149,13 +134,13 @@
                     <text size="3" />
                 </control>
 
-                <summary>csfDeleteCode</summary>
-                <description>csfDeleteCode description...</description>
+                <summary>Position CSF Delete Code</summary>
+                <description>Position CSF Delete Code for the override.</description>
 			</attribute>
 
             <attribute name="csfFullTimeEmploymentQuantity" forceUppercase="true">
-                <label>Csf Full Time Employment Quantity</label>
-                <shortLabel>Quantity</shortLabel>
+                <label>CSF FTE</label>
+                <shortLabel>CSF FTE</shortLabel>
 
                 <maxLength>9</maxLength>
                  <validationPattern>
@@ -166,13 +151,13 @@
                     <text size="11" />
                 </control>
 
-                <summary>csfFullTimeEmploymentQuantity</summary>
-                <description>csfFullTimeEmploymentQuantity description...</description>
+                <summary>Position CSF Full Time Equivalent</summary>
+                <description>Position CSF Full Time Equivalent for the override.</description>
 			</attribute>
 
             <attribute name="csfFundingStatusCode" forceUppercase="true">
-                <label>Csf Funding Status Code</label>
-                <shortLabel>Code</shortLabel>
+                <label>CSF Funding Status Code</label>
+                <shortLabel>CSF Funding Status</shortLabel>
 
                 <maxLength>1</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -181,13 +166,13 @@
                     <text size="3" />
                 </control>
 
-                <summary>csfFundingStatusCode</summary>
-                <description>csfFundingStatusCode description...</description>
+                <summary>Position CSF Funding Status Code</summary>
+                <description>Position CSF Funding Status Code for the override.</description>
 			</attribute>
 
             <attribute name="csfTimePercent" forceUppercase="true">
-                <label>Csf Time Percent</label>
-                <shortLabel>Percent</shortLabel>
+                <label>CSF Time Percent Time</label>
+                <shortLabel>Percent Time</shortLabel>
 
                 <maxLength>9</maxLength>
 
@@ -199,13 +184,13 @@
                     <text size="11" />
                 </control>
 
-                <summary>csfTimePercent</summary>
-                <description>csfTimePercent description...</description>
+                <summary>Position CSF Time Percent Time</summary>
+                <description>Position CSF Time Percent Time for the override</description>
 			</attribute>
 
             <attribute name="emplid" forceUppercase="true">
-                <label>Emplid</label>
-                <shortLabel>Emplid</shortLabel>
+                <label>Employee ID</label>
+                <shortLabel>Employee ID</shortLabel>
 
                 <maxLength>11</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -214,43 +199,25 @@
                     <text size="13" />
                 </control>
 
-                <summary>emplid</summary>
-                <description>emplid description...</description>
+                <summary>Employee ID</summary>
+                <description>Employee ID</description>
 			</attribute>
 
-            <attribute name="financialObjectCode" forceUppercase="true">
-                <label>Financial Object Code</label>
-                <shortLabel>Code</shortLabel>
+             <attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
+                <required>true</required>
+                 <description>Financial Object Code for the override</description>                
+            </attributeReference>
 
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
 
-                <control>
-                    <text size="6" />
-                </control>
+            <attributeReference name="financialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode">
+                <required>false</required>
+                    <description>Sub-Object Code for the override.</description>
+            </attributeReference>
 
-                <summary>financialObjectCode</summary>
-                <description>financialObjectCode description...</description>
-			</attribute>
-
-            <attribute name="financialSubObjectCode" forceUppercase="true">
-                <label>Financial Sub Object Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>financialSubObjectCode</summary>
-                <description>financialSubObjectCode description...</description>
-			</attribute>
 
             <attribute name="positionNumber" forceUppercase="true">
                 <label>Position Number</label>
-                <shortLabel>Number</shortLabel>
+                <shortLabel>Position Number</shortLabel>
 
                 <maxLength>8</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -259,24 +226,13 @@
                     <text size="10" />
                 </control>
 
-                <summary>positionNumber</summary>
-                <description>positionNumber description...</description>
+                <summary>Position Number</summary>
+                <description>Position Number for the override.</description>
 			</attribute>
 
-            <attribute name="subAccountNumber" forceUppercase="true">
-                <label>Sub Account Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="7" />
-                </control>
-
-                <summary>subAccountNumber</summary>
-                <description>subAccountNumber description...</description>
-			</attribute>
+            <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
+                <description>Sub-Account number for the override</description>
+            </attributeReference>
 
             <attribute name="universityFiscalYear" forceUppercase="true" >
                 <label>University Fiscal Year</label>
@@ -289,8 +245,8 @@
                     <text size="6" />
                 </control>
 
-                <summary>universityFiscalYear</summary>
-                <description>universityFiscalYear description...</description>
+                <summary>University Fiscal Year</summary>
+                <description>University Fiscal Year</description>
 			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

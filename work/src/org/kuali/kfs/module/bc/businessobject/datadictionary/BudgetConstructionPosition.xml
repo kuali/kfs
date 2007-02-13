@@ -97,12 +97,12 @@
 
             <attributeReference name="budgetedPosition" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
                 <label>Budgeted Position</label>
-                <shortLabel>Position</shortLabel>
+                <shortLabel>Budgeted</shortLabel>
                 <required>true</required>
                 <summary>
                     <![CDATA[&nbsp;]]>
                 </summary>
-                <description>budgetedPosition description...</description>
+                <description>Budgeted flag for the position.</description>
             </attributeReference>
 
             <attributeReference name="confidentialPosition" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
@@ -112,11 +112,11 @@
                 <summary>
                     <![CDATA[&nbsp;]]>
                 </summary>
-                <description>confidentialPosition description...</description>
+                <description>Confidential flag for the position.</description>
             </attributeReference>
 
             <attribute name="iuDefaultObjectCode" forceUppercase="true">
-                <label>Iu Default Object Code</label>
+                <label>Default Object Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>4</maxLength>
@@ -126,13 +126,13 @@
                     <text size="6" />
                 </control>
 
-                <summary>iuDefaultObjectCode</summary>
-                <description>iuDefaultObjectCode description...</description>
+                <summary>Default Object Code</summary>
+                <description>Default Object Code for the position.</description>
 			</attribute>
 
             <attribute name="iuNormalWorkMonths" forceUppercase="true">
-                <label>Iu Normal Work Months</label>
-                <shortLabel>Months</shortLabel>
+                <label>Normal Work Months</label>
+                <shortLabel>Work Months</shortLabel>
 
                 <maxLength>2</maxLength>
                 <validationPattern><numeric /></validationPattern>
@@ -141,13 +141,13 @@
                     <text size="4" />
                 </control>
 
-                <summary>iuNormalWorkMonths</summary>
-                <description>iuNormalWorkMonths description...</description>
+                <summary>Normal Work Months</summary>
+                <description>Normal Work Months value for the position.</description>
 			</attribute>
 
             <attribute name="iuPayMonths" forceUppercase="true">
-                <label>Iu Pay Months</label>
-                <shortLabel>Months</shortLabel>
+                <label>Pay Months</label>
+                <shortLabel>Pay Months</shortLabel>
 
                 <maxLength>2</maxLength>
                 <validationPattern><numeric /></validationPattern>
@@ -161,8 +161,8 @@
 			</attribute>
 
             <attribute name="iuPositionType" forceUppercase="true">
-                <label>Iu Position Type</label>
-                <shortLabel>Type</shortLabel>
+                <label>Position Type</label>
+                <shortLabel>Position Type</shortLabel>
 
                 <maxLength>2</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -171,13 +171,13 @@
                     <text size="4" />
                 </control>
 
-                <summary>iuPositionType</summary>
-                <description>iuPositionType description...</description>
+                <summary>Position Type</summary>
+                <description>Position Type for the position.</description>
 			</attribute>
 
             <attribute name="jobCode" forceUppercase="true">
                 <label>Job Code</label>
-                <shortLabel>Code</shortLabel>
+                <shortLabel>Job Code</shortLabel>
 
                 <maxLength>6</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -186,8 +186,8 @@
                     <text size="8" />
                 </control>
 
-                <summary>jobCode</summary>
-                <description>jobCode description...</description>
+                <summary>Job Code</summary>
+                <description>Job Code for the position.</description>
 			</attribute>
 
             <attribute name="jobCodeDescription" forceUppercase="true">
@@ -201,13 +201,13 @@
                     <text size="32" />
                 </control>
 
-                <summary>jobCodeDescription</summary>
-                <description>jobCodeDescription description...</description>
+                <summary>Job Code Description</summary>
+                <description>Job Code description for the position.</description>
 			</attribute>
 
             <attribute name="positionDepartmentIdentifier" forceUppercase="true">
                 <label>Position Department Identifier</label>
-                <shortLabel>Identifier</shortLabel>
+                <shortLabel>Department Identifier</shortLabel>
 
                 <maxLength>10</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -216,13 +216,13 @@
                     <text size="12" />
                 </control>
 
-                <summary>positionDepartmentIdentifier</summary>
-                <description>positionDepartmentIdentifier description...</description>
+                <summary>Position Department Identifier</summary>
+                <description>Position Department Identifier for the position</description>
 			</attribute>
 
             <attribute name="positionDescription" forceUppercase="true">
                 <label>Position Description</label>
-                <shortLabel>Description</shortLabel>
+                <shortLabel>Position Desc</shortLabel>
 
                 <maxLength>30</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -231,17 +231,17 @@
                     <text size="32" />
                 </control>
 
-                <summary>positionDescription</summary>
-                <description>positionDescription description...</description>
+                <summary>Position Description</summary>
+                <description>Description for the position.</description>
 			</attribute>
 			
             <attributeReference name="positionEffectiveDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Position Effective Date</label>
-                <shortLabel>Date</shortLabel>
+                <shortLabel>Pos Eff Date</shortLabel>
                 <summary>
                     <![CDATA[&nbsp;]]>
                 </summary>
-                <description>positionEffectiveDate description...</description>
+                <description>Effective Date for the position.</description>
             </attributeReference>
 
             <attribute name="positionEffectiveStatus" forceUppercase="true">
@@ -255,13 +255,13 @@
                     <select valuesFinderClass="org.kuali.core.lookup.keyvalues.BudgetConstructionPositionEffectiveStatusValuesFinder" />
                 </control>
 
-                <summary>positionEffectiveStatus </summary>
-                <description>positionEffectiveStatus description...</description>
+                <summary>Position Effective Status </summary>
+                <description>Effective Status for the position.</description>
 			</attribute>
 
             <attribute name="positionFullTimeEquivalency" forceUppercase="true">
                 <label>Position Full Time Equivalency</label>
-                <shortLabel>Equivalency</shortLabel>
+                <shortLabel>FTE</shortLabel>
 
                 <maxLength>9</maxLength>
                 <validationPattern><fixedPoint allowNegative="false" precision="4" scale="2"/></validationPattern>
@@ -270,12 +270,12 @@
                     <text size="11" />
                 </control>
 
-                <summary>positionFullTimeEquivalency</summary>
-                <description>positionFullTimeEquivalency description...</description>
+                <summary>Position Full Time Equivalency</summary>
+                <description>Full time equivalent value for the position.</description>
 			</attribute>
 
             <attribute name="positionGradeDefault" forceUppercase="true">
-                <label>Position Grade Default</label>
+                <label>Position Salary Grade Default</label>
                 <shortLabel>Default</shortLabel>
 
                 <maxLength>3</maxLength>
@@ -285,8 +285,8 @@
                     <text size="5" />
                 </control>
 
-                <summary>positionGradeDefault</summary>
-                <description>positionGradeDefault description...</description>
+                <summary>Position Salary Grade Default</summary>
+                <description>Default salary grade for the position</description>
 			</attribute>
 
             <attribute name="positionLockUserIdentifier" forceUppercase="true">
@@ -300,8 +300,8 @@
                     <text size="12" />
                 </control>
 
-                <summary>positionLockUserIdentifier</summary>
-                <description>positionLockUserIdentifier description...</description>
+                <summary>Position Lock User Identifier</summary>
+                <description>Position Lock User Identifier</description>
 			</attribute>
 
             <attribute name="positionNumber" forceUppercase="true">
@@ -315,13 +315,13 @@
                     <text size="10" />
                 </control>
 
-                <summary>positionNumber</summary>
-                <description>positionNumber description...</description>
+                <summary>Position Number</summary>
+                <description>Position Number for the position</description>
 			</attribute>
 
             <attribute name="positionRegularTemporary" forceUppercase="true">
                 <label>Position Regular Temporary</label>
-                <shortLabel>Temporary</shortLabel>
+                <shortLabel>Pos Reg/Temp</shortLabel>
 
                 <maxLength>1</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -330,13 +330,13 @@
                     <select valuesFinderClass="org.kuali.core.lookup.keyvalues.BudgetConstructionPositionRegularTemporaryValuesFinder" />
                 </control>
 
-                <summary>positionRegularTemporary</summary>
-                <description>positionRegularTemporary description...</description>
+                <summary>Position Regular Temporary</summary>
+                <description>Position Regular Temporary flag for the position</description>
 			</attribute>
 
             <attribute name="positionSalaryPlanDefault" forceUppercase="true">
                 <label>Position Salary Plan Default</label>
-                <shortLabel>Default</shortLabel>
+                <shortLabel>Sal Plan Default</shortLabel>
 
                 <maxLength>4</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -345,13 +345,13 @@
                     <text size="6" />
                 </control>
 
-                <summary>positionSalaryPlanDefault</summary>
-                <description>positionSalaryPlanDefault description...</description>
+                <summary>Position Salary Plan Default</summary>
+                <description>Default Salary Plan for the position</description>
 			</attribute>
 
             <attribute name="positionStandardHoursDefault" forceUppercase="true">
                 <label>Position Standard Hours Default</label>
-                <shortLabel>Default</shortLabel>
+                <shortLabel>Pos Std Hrs Default</shortLabel>
 
                 <maxLength>6</maxLength>
                 <validationPattern><fixedPoint allowNegative="false" precision="4" scale="2"/></validationPattern>
@@ -360,14 +360,14 @@
                     <text size="8" />
                 </control>
 
-                <summary>positionStandardHoursDefault</summary>
-                <description>positionStandardHoursDefault description...</description>
+                <summary>Position Standard Hours Default</summary>
+                <description>Standard Hours Default for the position.</description>
 			</attribute>
 
 
             <attribute name="positionStatus" forceUppercase="true">
                 <label>Position Status</label>
-                <shortLabel>Status</shortLabel>
+                <shortLabel>Position Status</shortLabel>
 
                 <maxLength>1</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -376,14 +376,14 @@
                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.BudgetConstructionPositionStatusValuesFinder" />
                 </control>
 
-                <summary>positionStatus </summary>
-                <description>positionStatus description...</description>
+                <summary>Position Status </summary>
+                <description>Status of the position.</description>
 			</attribute>
 
 
             <attribute name="positionUnionCode" forceUppercase="true">
                 <label>Position Union Code</label>
-                <shortLabel>Code</shortLabel>
+                <shortLabel>Position Union Code</shortLabel>
 
                 <maxLength>3</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -392,13 +392,13 @@
                     <text size="5" />
                 </control>
 
-                <summary>positionUnionCode</summary>
-                <description>positionUnionCode description...</description>
+                <summary>Position Union Code</summary>
+                <description>Union Code for the position.</description>
 			</attribute>
 
             <attribute name="responsibilityCenterCode" forceUppercase="true">
                 <label>Responsibility Center Code</label>
-                <shortLabel>Code</shortLabel>
+                <shortLabel>RC Code</shortLabel>
 
                 <maxLength>2</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -407,13 +407,13 @@
                     <text size="4" />
                 </control>
 
-                <summary>responsibilityCenterCode</summary>
-                <description>responsibilityCenterCode description...</description>
+                <summary>Responsibility Center Code</summary>
+                <description>Responsibility Center Code for the position.</description>
 			</attribute>
 
             <attribute name="setidDepartment" forceUppercase="true">
-                <label>Setid Department</label>
-                <shortLabel>Department</shortLabel>
+                <label>Department Set Id</label>
+                <shortLabel>Dept Set Id</shortLabel>
 
                 <maxLength>5</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -422,13 +422,13 @@
                     <text size="7" />
                 </control>
 
-                <summary>setidDepartment</summary>
-                <description>setidDepartment description...</description>
+                <summary>Department Set Id</summary>
+                <description>Department Set Id for the position.</description>
 			</attribute>
 
             <attribute name="setidJobCode" forceUppercase="true">
-                <label>Setid Job Code</label>
-                <shortLabel>Code</shortLabel>
+                <label>Job Code Set Id</label>
+                <shortLabel>Job Code Set Id</shortLabel>
 
                 <maxLength>5</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -437,13 +437,13 @@
                     <text size="7" />
                 </control>
 
-                <summary>setidJobCode</summary>
-                <description>setidJobCode description...</description>
+                <summary>Job Code Set Id</summary>
+                <description>Job Code Set Id for the position.</description>
 			</attribute>
 
             <attribute name="setidSalary" forceUppercase="true">
-                <label>Setid Salary</label>
-                <shortLabel>Salary</shortLabel>
+                <label>Salary Set Id</label>
+                <shortLabel>Salary Set Id</shortLabel>
 
                 <maxLength>5</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -452,8 +452,8 @@
                     <text size="7" />
                 </control>
 
-                <summary>setidSalary</summary>
-                <description>setidSalary description...</description>
+                <summary>Salary Set Id</summary>
+                <description>Salary Set Id for the position.</description>
 			</attribute>
 
 			<attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">

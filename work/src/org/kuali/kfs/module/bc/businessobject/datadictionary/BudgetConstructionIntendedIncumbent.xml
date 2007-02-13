@@ -63,7 +63,7 @@
         <attributes>
 
             <attribute name="emplid" forceUppercase="true">
-                <label>Emplid</label>
+                <label>Employee Id</label>
                 <shortLabel>Emplid</shortLabel>
 
                 <maxLength>11</maxLength>
@@ -73,13 +73,13 @@
                     <text size="13" />
                 </control>
 
-                <summary>emplid</summary>
-                <description>emplid description...</description>
+                <summary>Employee Id</summary>
+                <description>Identifies employee</description>
 			</attribute>
 
             <attribute name="grade" forceUppercase="true">
-                <label>Grade</label>
-                <shortLabel>Grade</shortLabel>
+                <label>Salary Grade</label>
+                <shortLabel>Sal Grade</shortLabel>
 
                 <maxLength>3</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -88,13 +88,13 @@
                     <text size="5" />
                 </control>
 
-                <summary>grade</summary>
-                <description>grade description...</description>
+                <summary>Salary Grade</summary>
+                <description>Salary Grade for the employee.</description>
 			</attribute>
 
             <attribute name="iuClassificationLevel" forceUppercase="true">
                 <label>Iu Classification Level</label>
-                <shortLabel>Level</shortLabel>
+                <shortLabel>Class Level</shortLabel>
 
                 <maxLength>2</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -103,8 +103,8 @@
                     <text size="4" />
                 </control>
 
-                <summary>iuClassificationLevel</summary>
-                <description>iuClassificationLevel description...</description>
+                <summary>Classification Level</summary>
+                <description>Classification Level of the employee.</description>
 			</attribute>
 
             <attribute name="personName" forceUppercase="true">
@@ -118,8 +118,8 @@
                     <text size="52" />
                 </control>
 
-                <summary>personName</summary>
-                <description>personName description...</description>
+                <summary>Person Name</summary>
+                <description>Last and first name of the employee.</description>
 			</attribute>
 
             <attribute name="salaryAdministrationPlan" forceUppercase="true">
@@ -133,13 +133,13 @@
                     <text size="6" />
                 </control>
 
-                <summary>salaryAdministrationPlan</summary>
-                <description>salaryAdministrationPlan description...</description>
+                <summary>Salary Administration Plan</summary>
+                <description>Salary Administration Plan for the employee.</description>
 			</attribute>
 
             <attribute name="setidSalary" forceUppercase="true">
-                <label>Setid Salary</label>
-                <shortLabel>Salary</shortLabel>
+                <label>Salary Setid</label>
+                <shortLabel>Sal Setid</shortLabel>
 
                 <maxLength>5</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -148,8 +148,8 @@
                     <text size="7" />
                 </control>
 
-                <summary>setidSalary</summary>
-                <description>setidSalary description...</description>
+                <summary>Salary Setid</summary>
+                <description>Salary admin plan set identifier for the employee.</description>
 			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

@@ -88,8 +88,8 @@
                     <checkbox />
                 </control>
 
-                <summary>financialSystemFunctionActiveIndicator</summary>
-                <description>financialSystemFunctionActiveIndicator description...</description>
+                <summary>Financial System Function Active Indicator</summary>
+                <description>Financial System Function Active Indicator.</description>
                 
                <formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
             </attribute>

@@ -64,65 +64,32 @@
 
         <attributes>
 
-            <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
+             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
                 <control>
-                    <text size="4" />
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
                 </control>
+            </attributeReference>
 
-                <summary>chartOfAccountsCode</summary>
-                <description>chartOfAccountsCode description...</description>
-			</attribute>
+            <attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
+                <required>true</required>
+            </attributeReference>
 
-            <attribute name="organizationCode" forceUppercase="true">
-                <label>Organization Code</label>
-                <shortLabel>Code</shortLabel>
+            <attributeReference name="reportsToChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+                <label>Reports To Chart</label>
+                <shortLabel>Repts to Cht</shortLabel>
+                <required>true</required>
+				<control>
+					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+				</control>
+                <description>The Chart for the Reports To organization.</description>
+            </attributeReference>
 
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>organizationCode</summary>
-                <description>organizationCode description...</description>
-			</attribute>
-
-            <attribute name="reportsToChartOfAccountsCode" forceUppercase="true">
-                <label>Reports To Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>reportsToChartOfAccountsCode</summary>
-                <description>reportsToChartOfAccountsCode description...</description>
-			</attribute>
-
-            <attribute name="reportsToOrganizationCode" forceUppercase="true">
-                <label>Reports To Organization Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>reportsToOrganizationCode</summary>
-                <description>reportsToOrganizationCode description...</description>
-			</attribute>
+            <attributeReference name="reportsToOrganizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
+                <label>Reports To Organization</label>
+                <shortLabel>Rpts To Org</shortLabel>
+                <required>true</required>
+                <description>The Reports To organization for the account.</description>
+            </attributeReference>
 
             <attribute name="responsibilityCenterCode" forceUppercase="true">
                 <label>Responsibility Center Code</label>
@@ -135,8 +102,8 @@
                     <text size="4" />
                 </control>
 
-                <summary>responsibilityCenterCode</summary>
-                <description>responsibilityCenterCode description...</description>
+                <summary>Responsibility Center Code</summary>
+                <description>The code uniquely identifying a particular Responsibility Center.</description>
 			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

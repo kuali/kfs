@@ -62,7 +62,7 @@
 
             <attribute name="appointmentDurationCode" forceUppercase="true">
                 <label>Appointment Duration Code</label>
-                <shortLabel>Code</shortLabel>
+                <shortLabel>Duration Code</shortLabel>
 
                 <maxLength>4</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -71,13 +71,13 @@
                     <text size="6" />
                 </control>
 
-                <summary>appointmentDurationCode</summary>
-                <description>appointmentDurationCode description...</description>
+                <summary>Appointment Duration Code</summary>
+                <description>Leave of absence duration code for an appointment.</description>
 			</attribute>
 
             <attribute name="appointmentDurationDescription" forceUppercase="true">
                 <label>Appointment Duration Description</label>
-                <shortLabel>Description</shortLabel>
+                <shortLabel>Duration Desc</shortLabel>
 
                 <maxLength>40</maxLength>
                 <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
@@ -86,13 +86,13 @@
                     <text size="42" />
                 </control>
 
-                <summary>appointmentDurationDescription</summary>
-                <description>appointmentDurationDescription description...</description>
+                <summary>Appointment Duration Description</summary>
+                <description>Appointment Duration Description</description>
 			</attribute>
 
             <attribute name="rowActiveIndicator" forceUppercase="true">
-                <label>Row Active Indicator</label>
-                <shortLabel>Indicator</shortLabel>
+                <label>Duration Code active indicator</label>
+                <shortLabel>Active Indicator</shortLabel>
 
                 <maxLength>1</maxLength>
 
@@ -100,8 +100,8 @@
                     <checkbox />
                 </control>
 
-                <summary>rowActiveIndicator</summary>
-                <description>rowActiveIndicator description...</description>
+                <summary>Duration Code active indicator</summary>
+                <description>Appointment Duration Code active indicator.</description>
 			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

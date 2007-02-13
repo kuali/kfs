@@ -29,7 +29,7 @@ import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.bo.user.SocialSecurityNumber;
+import org.kuali.core.bo.user.PersonTaxId;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.bo.user.UserId;
 import org.kuali.core.exceptions.ApplicationParameterException;
@@ -72,7 +72,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
         }
         
         String universalId = null;
-        UserId userId = (UserId) new SocialSecurityNumber(taxIDNumber);
+        UserId userId = (UserId) new PersonTaxId(taxIDNumber);
         UniversalUser universalUser = null;
 
         try {

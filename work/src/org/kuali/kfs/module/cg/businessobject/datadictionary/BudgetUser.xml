@@ -29,7 +29,8 @@
                 <field attributeName="user.personUniversalIdentifier" />
                 <field attributeName="user.personUserIdentifier" />
                 <field attributeName="user.personName" />
-                <field attributeName="user.deptid" />
+                <field attributeName="user.campusCode" />
+                <field attributeName="user.primaryDepartmentCode" />
                 <field attributeName="user.employeeStatusCode" />
                 <field attributeName="user.employeeTypeCode" />
             </inquiryFields></inquirySection></inquirySections>
@@ -321,7 +322,10 @@
                 <description>Project Director Name</description>
             </attributeReference>
 
-            <attributeReference name="user.deptid" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="deptid">
+			<attributeReference name="user.campusCode" sourceClassName="org.kuali.module.chart.bo.Campus" sourceAttributeName="campusCode">
+			</attributeReference>
+
+            <attributeReference name="user.primaryDepartmentCode" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="primaryDepartmentCode">
                 <label>Dept ID</label>
                 <shortLabel>Dept ID</shortLabel>
                 <summary>Dept ID</summary>

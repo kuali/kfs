@@ -121,7 +121,7 @@ public class SalaryExpenseTransferForm extends LaborDocumentFormBase {
     public String getEmplid() {
         String retval = null;
         if (user != null) {
-            retval = user.getEmplid();
+            retval = user.getPersonPayrollIdentifier();
         }
         return retval;
     }   

@@ -26,6 +26,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.bo.user.UniversalUser;
@@ -417,11 +418,11 @@ public class BudgetForm extends ResearchDocumentFormBase {
      */
     public String getInitiatorOrgCode() {
         if (this.getInitiator() != null) {
-            String[] departmentIdSplit = this.getInitiator().getDeptid().split("-");
-            if (departmentIdSplit.length > 1) {
-                return departmentIdSplit[1];
+            if ( !StringUtils.isEmpty( this.getInitiator().getPrimaryDepartmentCode() ) ) {
+                return this.getInitiator().getPrimaryDepartmentCode();
+            } else {
+                return this.getInitiator().getCampusCode();
             }
-            return departmentIdSplit[0];
         }
         return "";
     }

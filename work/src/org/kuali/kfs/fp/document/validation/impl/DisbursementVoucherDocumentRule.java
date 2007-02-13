@@ -999,7 +999,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
             if (dvPayee != null && TAX_TYPE_SSN.equals(dvPayee.getTaxpayerTypeCode())) {
                 // check ssn against employee table
                 UniversalUser user = new UniversalUser();
-                user.setPersonSocialSecurityNbrId(dvPayee.getTaxIdNumber());
+                user.setPersonTaxIdentifier(dvPayee.getTaxIdNumber());
                 user = (UniversalUser) SpringServiceLocator.getBusinessObjectService().retrieve(user);
                 if (user != null) {
                     uuid = user.getPersonUniversalIdentifier();
@@ -1419,7 +1419,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         boolean isEmployee = false;
 
         UniversalUser employee = new UniversalUser();
-        employee.setPersonSocialSecurityNbrId(ssnNumber);
+        employee.setPersonTaxIdentifier(ssnNumber);
         UniversalUser foundEmployee = (UniversalUser) SpringServiceLocator.getBusinessObjectService().retrieve(employee);
 
         if (foundEmployee != null) {
@@ -1439,7 +1439,7 @@ public class DisbursementVoucherDocumentRule extends TransactionalDocumentRuleBa
         boolean isActiveEmployee = false;
 
         UniversalUser employee = new UniversalUser();
-        employee.setPersonSocialSecurityNbrId(ssnNumber);
+        employee.setPersonTaxIdentifier(ssnNumber);
         UniversalUser foundEmployee = (UniversalUser) SpringServiceLocator.getBusinessObjectService().retrieve(employee);
 
         if (foundEmployee != null && Constants.EMPLOYEE_ACTIVE_STATUS.equals(foundEmployee.getEmployeeStatusCode())) {

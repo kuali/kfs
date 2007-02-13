@@ -28,7 +28,8 @@
                 <field attributeName="personUniversalIdentifier" />
                 <field attributeName="universalUser.personUserIdentifier" />
                 <field attributeName="universalUser.personName" />
-                <field attributeName="universalUser.deptid" />
+                <field attributeName="universalUser.campusCode" />
+                <field attributeName="universalUser.primaryDepartmentCode" />
                 <field attributeName="universalUser.employeeStatusCode" />
                 <field attributeName="universalUser.employeeTypeCode" />
             </inquiryFields></inquirySection></inquirySections>
@@ -44,9 +45,9 @@
             <lookupFields>
                 <lookupField attributeName="universalUser.personUserIdentifier" required="false" />
                 <lookupField attributeName="personUniversalIdentifier" required="false" />
-                <lookupField attributeName="universalUser.emplid" required="false" />
+                <lookupField attributeName="universalUser.personPayrollIdentifier" required="false" />
                 <lookupField attributeName="universalUser.personName" required="false" />
-                <lookupField attributeName="universalUser.deptid" required="false" />
+                <lookupField attributeName="universalUser.primaryDepartmentCode" required="false" />
                 <lookupField attributeName="universalUser.employeeStatusCode" required="false" />
                 <lookupField attributeName="universalUser.employeeTypeCode" required="false" />
             </lookupFields>
@@ -54,9 +55,9 @@
             <resultFields>
                 <field attributeName="universalUser.personUserIdentifier" />
                 <field attributeName="personUniversalIdentifier" />
-                <field attributeName="universalUser.emplid" />
+                <field attributeName="universalUser.personPayrollIdentifier" />
                 <field attributeName="universalUser.personName" />
-                <field attributeName="universalUser.deptid" />
+                <field attributeName="universalUser.primaryDepartmentCode" />
                 <field attributeName="universalUser.employeeStatusCode" />
                 <field attributeName="universalUser.employeeTypeCode" />
             </resultFields>
@@ -64,7 +65,8 @@
         </lookup>
 
         <attributes>
-            <attributeReference name="universalUser.emplid" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="emplid"></attributeReference>
+            <attributeReference name="universalUser.personPayrollIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personPayrollIdentifier">
+            </attributeReference>
 
             <attributeReference name="personUniversalIdentifier" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
                 <label>Universal ID</label>
@@ -88,7 +90,10 @@
                 <description>Project Director Name</description>
             </attributeReference>
 
-            <attributeReference name="universalUser.deptid" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="deptid">
+			<attributeReference name="universalUser.campusCode" sourceClassName="org.kuali.module.chart.bo.Campus" sourceAttributeName="campusCode">
+			</attributeReference>
+
+            <attributeReference name="universalUser.primaryDepartmentCode" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="primaryDepartmentCode">
                 <label>Dept ID</label>
                 <shortLabel>Dept ID</shortLabel>
                 <summary>Dept ID</summary>

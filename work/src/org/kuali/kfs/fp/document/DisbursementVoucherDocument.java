@@ -745,7 +745,7 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
         this.getDvPayeeDetail().setDisbursementVoucherPayeeTypeCode(DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE);
         this.getDvPayeeDetail().setDisbVchrPayeeIdNumber(employee.getPersonUniversalIdentifier());
         this.getDvPayeeDetail().setDisbVchrPayeePersonName(employee.getPersonName());
-        this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(employee.getDeptid());
+        this.getDvPayeeDetail().setDisbVchrPayeeLine1Addr(employee.getCampusCode()+"-"+employee.getPrimaryDepartmentCode());
         this.getDvPayeeDetail().setDisbVchrPayeeLine2Addr("");
         this.getDvPayeeDetail().setDisbVchrPayeeCityName(employee.getCampus().getCampusName() + " CAMPUS");
         this.getDvPayeeDetail().setDisbVchrPayeeStateCode("");

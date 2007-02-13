@@ -306,9 +306,8 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         UniversalUser user =  universalUserService.updateUniversalUserIfNecessary(routingFormPersonnel.getPersonSystemIdentifier(), routingFormPersonnel.getUser());
         
         // set chart / org for new person
-        Map<String,String> chartMap = chartUserService.getDefaultOrgPair((ChartUser) user.getModuleUser("chart"));
-        routingFormPersonnel.setChartOfAccountsCode(chartMap.get(PropertyConstants.CHART_OF_ACCOUNTS_CODE));
-        routingFormPersonnel.setOrganizationCode(chartMap.get(PropertyConstants.ORGANIZATION_CODE));
+        routingFormPersonnel.setChartOfAccountsCode(chartUserService.getDefaultChartOfAccountsCode( (ChartUser)user.getModuleUser(ChartUser.MODULE_ID) ));
+        routingFormPersonnel.setOrganizationCode(chartUserService.getDefaultOrganizationCode( (ChartUser)user.getModuleUser(ChartUser.MODULE_ID) ));
         
         // set email address, campus address, and phone
         routingFormPersonnel.setPersonEmailAddress(user.getPersonEmailAddress());

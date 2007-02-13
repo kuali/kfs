@@ -401,9 +401,8 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
                 this.baseSalary = new KualiDecimal(0);
             }
             
-            Map<String,String> chartMap = chartUserService.getDefaultOrgPair((ChartUser) this.user.getModuleUser("chart"));
-            this.fiscalCampusCode = chartMap.get(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
-            this.primaryDepartmentCode = chartMap.get(PropertyConstants.ORGANIZATION_CODE);
+            this.fiscalCampusCode = this.user.getCampusCode();
+            this.primaryDepartmentCode = this.user.getPrimaryDepartmentCode();
         }
         else {
             this.baseSalary = new KualiDecimal(0);
@@ -454,7 +453,7 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
             LOG.info("  user: <null>");
         }
         else {
-            LOG.info("  user: (" + this.user.getEmplid() + ")");
+            LOG.info("  user: (" + this.user.getPersonPayrollIdentifier() + ")");
         }
     }
 

@@ -31,7 +31,7 @@
 	<kul:help documentTypeName="${DataDictionary.KualiBudgetDocument.documentTypeName}" pageName="${KraConstants.NOTES_HEADER_TAB}" altText="page help"/>
 </div>
 
-<kul:notes allowsNoteDelete="${DataDictionary.KualiBudgetDocument.allowsNoteDelete}" defaultOpen="true" attachmentTypesValuesFinderClass="${DataDictionary.KualiBudgetDocument.attachmentTypesValuesFinderClass}" displayTopicFieldInNotes="{DataDictionary.KualiBudgetDocument.displayTopicFieldInNotes}" transparentBackground="true" />
+<kul:notes allowsNoteDelete="${DataDictionary.KualiBudgetDocument.allowsNoteDelete}" defaultOpen="true" attachmentTypesValuesFinderClass="${DataDictionary.KualiBudgetDocument.attachmentTypesValuesFinderClass}" displayTopicFieldInNotes="${DataDictionary.KualiBudgetDocument.displayTopicFieldInNotes}" transparentBackground="true" />
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="b3" summary="">
   <tr>
     <td align="left" class="footer"><img src="images/pixel_clear.gif" alt="" width="12" height="14" class="bl3"></td>

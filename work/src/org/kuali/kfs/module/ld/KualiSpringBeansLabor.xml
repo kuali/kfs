@@ -200,6 +200,8 @@
             <ref bean="glOriginEntryGroupService" />
         </property>
     </bean>
+    
+    <bean id="laborReportServiceForUnitTesting" class="org.kuali.module.labor.service.impl.LaborReportServiceImplForUnitTesting"/>
 
     <bean id="laborLedgerEntryPoster" class="org.kuali.module.labor.batch.poster.impl.LaborLedgerEntryPoster">
         <property name="laborLedgerEntryService">

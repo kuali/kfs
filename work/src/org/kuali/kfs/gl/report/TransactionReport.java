@@ -97,8 +97,9 @@ public class TransactionReport {
         LOG.debug("generateReport() started");
 
         List transactions = new ArrayList();
-        transactions.addAll(reportErrors.keySet());
-
+        if(reportErrors != null){
+            transactions.addAll(reportErrors.keySet());
+        }
         generateReport(transactions, reportErrors, reportSummary, runDate, title, fileprefix, destinationDirectory);
     }
 

@@ -71,14 +71,15 @@ public class LaborLedgerEntryServiceTest extends KualiTestBase {
 
         laborLedgerEntryService.save(input1);
         assertEquals(businessObjectService.countMatching(LedgerEntry.class, fieldValues), 1);
-        
+
         LedgerEntry input2 = new LedgerEntry();
         ObjectUtil.populateBusinessObject(input2, properties, "save.testData2", fieldNames, deliminator);
-        try{
+        try {
             laborLedgerEntryService.save(input2);
             fail();
         }
-        catch(Exception e){}
+        catch (Exception e) {
+        }
     }
 
     public void testGetMaxSequenceNumber() throws Exception {

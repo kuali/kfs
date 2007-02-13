@@ -32,14 +32,14 @@ import org.kuali.module.labor.util.ReportRegistry;
 public interface LaborReportService {
 
     /**
-     * Generate poster main ledger summary report with the given information
+     * Generate poster input summary report with the given information
      * 
      * @param groups the given origin entry groups
      * @param reportInfo the primary elements of a report, such as report title and report file name
      * @param reportsDirectory the directory in file system that is used to contain reports
      * @param runDate the datetime of the repor generation
      */
-    public void generatePosterMainLedgerSummaryReport(Collection<OriginEntryGroup> groups, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
+    public void generatePosterInputSummaryReport(Collection<OriginEntryGroup> groups, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
 
     /**
      * Generate poster error transaction listing as a report

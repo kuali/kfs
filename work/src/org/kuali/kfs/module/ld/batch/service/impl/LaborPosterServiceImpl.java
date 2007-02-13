@@ -29,6 +29,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.kuali.Constants;
+import org.kuali.KeyConstants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -132,9 +133,9 @@ public class LaborPosterServiceImpl implements LaborPosterService {
             originEntryGroupService.save(entryGroup);
         }
         updateReportSummary(reportSummary, ORIGN_ENTRY_TABLE, OperationType.SELECT, numberOfOriginEntry, 0);
-        reportService.generatePosterStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_MAIN, reportsDirectory, runDate);
+        reportService.generatePosterStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_STATISTICS, reportsDirectory, runDate);
         
-        reportService.generatePosterMainLedgerSummaryReport(postingGroups, ReportRegistry.LABOR_POSTER_INPUT, reportsDirectory, runDate);
+        reportService.generatePosterInputSummaryReport(postingGroups, ReportRegistry.LABOR_POSTER_INPUT, reportsDirectory, runDate);
         reportService.generatePosterOutputSummaryReport(validGroup, ReportRegistry.LABOR_POSTER_OUTPUT, reportsDirectory, runDate);
         reportService.generatePosterErrorTransactionListing(invalidGroup, ReportRegistry.LABOR_POSTER_ERROR, reportsDirectory, runDate);
     }
@@ -152,7 +153,11 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
     // validate the given entry, and generate an error list if the entry cannot meet the business rules
     private List<Message> validateEntry(LaborOriginEntry originEntry) {
-        List<Message> errors = verifyTransaction.verifyTransaction(originEntry);
+        List<Message> errors = new ArrayList<Message>();        
+        List<String> errorMessages = verifyTransaction.verifyTransaction(originEntry);        
+        for(String error : errorMessages){
+            errors.add(new Message(error, 1));
+        }        
         return errors;
     }
 
@@ -184,8 +189,9 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         for (Iterator<LaborOriginEntry> entries = laborOriginEntryService.getEntriesByGroup(validGroup, true); entries.hasNext();) {
             LaborOriginEntry originEntry = entries.next();
 
-            if (this.isPostableForLaborGLEntry(originEntry)) {
-                errorMap.put(originEntry, null); // TODO: change null to error message
+            List<Message> errors = this.isPostableForLaborGLEntry(originEntry);
+            if (!errors.isEmpty()) {
+                errorMap.put(originEntry, errors);
                 continue;
             }
             String operationType = laborGLLedgerEntryPoster.post(originEntry, 0, runDate);
@@ -198,17 +204,18 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     }
 
     // determine if the given origin entry can be posted back to Labor GL entry
-    private boolean isPostableForLaborGLEntry(LaborOriginEntry originEntry) {
+    private List<Message> isPostableForLaborGLEntry(LaborOriginEntry originEntry) {
+        List<Message> errors = new ArrayList<Message>();
         if (ArrayUtils.contains(PERIOD_CODES_NOT_PROCESSED, originEntry.getUniversityFiscalPeriodCode())) {
-            return false;
+            errors.add(new Message("Cannot process the PERIOD_CODES", 0));
         }
         else if (ArrayUtils.contains(BALANCE_TYPES_NOT_PROCESSED, originEntry.getFinancialBalanceTypeCode())) {
-            return false;
+            errors.add(new Message("Cannot process the BALANCE_TYPES", 0));
         }
         else if (originEntry.getTransactionLedgerEntryAmount().isZero()) {
-            return false;
+            errors.add(new Message("Amount cannot be ZERO", 0));
         }
-        return true;
+        return errors;
     }
 
     // build a report summary list for labor ledger posting

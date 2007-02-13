@@ -51,7 +51,7 @@ public class LaborReportServiceImpl implements LaborReportService {
      * @see org.kuali.module.labor.service.LaborReportService#generate(java.util.Collection, org.kuali.module.labor.util.ReportRegistry,
      *      java.util.Date)
      */
-    public void generatePosterMainLedgerSummaryReport(Collection<OriginEntryGroup> groups, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
+    public void generatePosterInputSummaryReport(Collection<OriginEntryGroup> groups, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
         LedgerEntryHolder ledgerEntries;
         ledgerEntries = groups.size() > 0 ? laborOriginEntryService.getSummariedEntriesByGroups(groups) : new LedgerEntryHolder();
 

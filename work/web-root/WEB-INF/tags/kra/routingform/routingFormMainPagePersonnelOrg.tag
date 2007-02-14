@@ -19,7 +19,7 @@
 <c:set var="routingFormOrganizationCreditPercent" value="${DataDictionary.RoutingFormOrganizationCreditPercent.attributes}" />
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
 
-<kul:tab tabTitle="Personnel and Units/Orgs" defaultOpen="false" tabErrorKey="newRoutingFormPerson*,document.routingFormPersonnel*,newRoutingFormOrganizationCreditPercent*,document.routingFormOrganizationCreditPercent*" auditCluster="mainPageAuditErrors" tabAuditKey="document.routingFormPersonnel*,document.routingFormOrganizationCreditPercent*">
+<kul:tab tabTitle="Personnel and Units/Orgs" defaultOpen="true" tabErrorKey="newRoutingFormPerson*,document.routingFormPersonnel*,newRoutingFormOrganizationCreditPercent*,document.routingFormOrganizationCreditPercent*" auditCluster="mainPageAuditErrors" tabAuditKey="document.routingFormPersonnel*,document.routingFormOrganizationCreditPercent*">
 
   <html:hidden property="document.personnelNextSequenceNumber" />
 

@@ -460,6 +460,206 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     
     private String proxyDocumentNumber = new String("-");
  
+ //
+ // this is the new document creation mechanism that works with embedded workflow
+    public void createNewBCDocumentsFromGLCSF (Integer BaseYear)
+    {
+        Integer RequestYear = BaseYear+1;
+        // fetch the keys currently in budget construction header
+        getCurrentBCHeaderKeys(BaseYear);
+        //
+        //  we have to read the GL BALANCE (which is not proxy=true) to create
+        //  new BC header objects
+        getAndStoreCurrentGLBCHeaderCandidates(BaseYear);
+        //  we also have to read CSF for any accounts with no base budget in GL BALANCE
+        //  but which pay people in budgeted positions
+        getAndStoreCurrentCSFBCHeaderCandidates(BaseYear);
+    }
+
+    //  here are the private methods that go with it      
+    private void getAndStoreCurrentCSFBCHeaderCandidates(Integer BaseYear)
+    {
+        Integer RequestYear = BaseYear+1;
+        // first build a document set from the CSF Tracker
+        Criteria criteriaId = new Criteria();
+        criteriaId.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
+        criteriaId.addEqualTo(PropertyConstants.CSF_DELETE_CODE,
+                              BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
+        String[] queryAttr = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                              PropertyConstants.ACCOUNT_NUMBER,
+                              PropertyConstants.SUB_ACCOUNT_NUMBER};
+        ReportQueryByCriteria queryId = 
+            new ReportQueryByCriteria(CalculatedSalaryFoundationTracker.class,
+                                      queryAttr, criteriaId, true);
+        Iterator RowsReturned = 
+            getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryId);
+        while (RowsReturned.hasNext())
+        {
+            proxyCandidatesReadinTS = proxyCandidatesReadinTS+1;
+            Object[] Results = (Object[]) RowsReturned.next();
+            String testKey = ((String) Results[0])+
+                             ((String) Results[1])+
+                             ((String) Results[2]);
+            if (currentBCHeaderKeys.contains(testKey))
+            {
+                // don't create a new row for anything with a current header
+                continue;
+            }
+            // set up the Budget Construction Header
+            BudgetConstructionDocument newBCHdr;
+            try
+            {
+            newBCHdr = (BudgetConstructionDocument)
+            documentService.getNewDocument(
+                    BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
+            }
+            catch (WorkflowException wex)
+            {
+                LOG.warn(String.format(
+                        "\nskipping creation of document for: %s %s %s \n(%s)\n",
+                        (String) Results[0],
+                        (String) Results[1],
+                        (String) Results[2],
+                        wex.getMessage()));
+                documentsSkippedinNTS = documentsSkippedinNTS+1;
+                continue;
+            }
+            newBCHdr.setUniversityFiscalYear(RequestYear);
+            newBCHdr.setChartOfAccountsCode((String) Results[0]);
+            newBCHdr.setAccountNumber((String) Results[1]);
+            newBCHdr.setSubAccountNumber((String) Results[2]);
+            //  store the document
+            try
+            {
+            storeANewBCDocument(newBCHdr);
+            }
+            catch (WorkflowException wex)
+            {
+                LOG.warn(String.format(
+                        "\nskipping creation of document for: %s %s %s \n(%s)\n",
+                        newBCHdr.getChartOfAccounts(),
+                        newBCHdr.getAccountNumber(),
+                        newBCHdr.getSubAccountNumber(),
+                        wex.getMessage()));
+                documentsSkippedinNTS = documentsSkippedinNTS+1;
+                continue;
+
+            }
+            //  add this header to the current BC Header map
+            currentBCHeaderKeys.add(testKey);
+        }
+    }
+    
+    private void getAndStoreCurrentGLBCHeaderCandidates(Integer BaseYear)
+    {
+        Integer RequestYear = BaseYear+1;
+        // first build a document set from GL BALANCE
+        Criteria criteriaId = new Criteria();
+        criteriaId.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
+        criteriaId.addEqualTo(PropertyConstants.BALANCE_TYPE_CODE,
+                              Constants.BALANCE_TYPE_BASE_BUDGET);
+        String newAttr = ColumnNames.BEGINNING_BALANCE+"-"+
+                         ColumnNames.ANNUAL_BALANCE;
+        criteriaId.addNotEqualTo(newAttr,0);
+        String[] queryAttr = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                              PropertyConstants.ACCOUNT_NUMBER,
+                              PropertyConstants.SUB_ACCOUNT_NUMBER};
+        ReportQueryByCriteria queryId = new ReportQueryByCriteria(Balance.class,
+                                                                  queryAttr,
+                                                                  criteriaId,
+                                                                  true);
+        Iterator RowsReturned = 
+            getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryId);
+        while (RowsReturned.hasNext())
+        {
+            proxyCandidatesReadinTS = proxyCandidatesReadinTS+1;
+            Object[] Results = (Object[]) RowsReturned.next();
+            String testKey = ((String) Results[0])+
+                             ((String) Results[1])+
+                             ((String) Results[2]);
+            if (currentBCHeaderKeys.contains(testKey))
+            {
+                // don't create a new row for anything with a current header
+                continue;
+            }
+            // set up the Budget Construction Header
+            BudgetConstructionDocument newBCHdr;
+            try
+            {
+            newBCHdr = (BudgetConstructionDocument)
+            documentService.getNewDocument(
+                    BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
+            }
+            catch (WorkflowException wex)
+            {
+                LOG.warn(String.format(
+                        "\nskipping creation of document for: %s %s %s \n(%s)\n",
+                        (String) Results[0],
+                        (String) Results[1],
+                        (String) Results[2],
+                        wex.getMessage()));
+                documentsSkippedinNTS = documentsSkippedinNTS+1;
+                continue;
+            }
+            newBCHdr.setUniversityFiscalYear(RequestYear);
+            newBCHdr.setChartOfAccountsCode((String) Results[0]);
+            newBCHdr.setAccountNumber((String) Results[1]);
+            newBCHdr.setSubAccountNumber((String) Results[2]);
+            //  store the document
+            try
+            {
+            storeANewBCDocument(newBCHdr);
+            }
+            catch (WorkflowException wex)
+            {
+                LOG.warn(String.format(
+                        "\nskipping creation of document for: %s %s %s \n(%s)\n",
+                        newBCHdr.getChartOfAccounts(),
+                        newBCHdr.getAccountNumber(),
+                        newBCHdr.getSubAccountNumber(),
+                        wex.getMessage()));
+                documentsSkippedinNTS = documentsSkippedinNTS+1;
+                continue;
+
+            }
+            //  add this header to the current BC Header map
+            currentBCHeaderKeys.add(testKey);
+        }
+    }
+    
+    public void storeANewBCDocument(BudgetConstructionDocument newBCHdr)
+    throws WorkflowException
+    {
+        newBCHdr.setOrganizationLevelChartOfAccountsCode(
+                BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_CHART_OF_ACCOUNTS_CODE);
+        newBCHdr.setOrganizationLevelOrganizationCode(
+                BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_ORGANIZATION_CODE);
+        newBCHdr.setOrganizationLevelCode(
+                BudgetConstructionConstants.INITIAL_ORGANIZATION_LEVEL_CODE);
+        newBCHdr.setBudgetTransactionLockUserIdentifier(
+                BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
+        newBCHdr.setBudgetLockUserIdentifier(
+                BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
+        newBCHdr.setVersionNumber(DEFAULT_VERSION_NUMBER);
+        DocumentHeader kualiDocumentHeader = newBCHdr.getDocumentHeader();
+        newBCHdr.setDocumentNumber(newBCHdr.getDocumentHeader().getDocumentNumber());
+        kualiDocumentHeader.setOrganizationDocumentNumber(
+                            newBCHdr.getUniversityFiscalYear().toString());
+        kualiDocumentHeader.setFinancialDocumentStatusCode(
+                Constants.INITIAL_KUALI_DOCUMENT_STATUS_CD);
+        kualiDocumentHeader.setFinancialDocumentTotalAmount(KualiDecimal.ZERO);
+        kualiDocumentHeader.setFinancialDocumentDescription(String.format("%s %d %s %s",
+                BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION,
+                       newBCHdr.getUniversityFiscalYear(),
+                       newBCHdr.getChartOfAccountsCode(),newBCHdr.getAccountNumber()));
+        kualiDocumentHeader.setExplanation(
+                BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION);
+        getPersistenceBrokerTemplate().store(newBCHdr);
+        documentService.prepareWorkflowDocument(newBCHdr);
+        workflowDocumentService.route(newBCHdr.getDocumentHeader().getWorkflowDocument(),
+                                      "created by Genesis",null);
+   }
+    
  // this is the non-transactional public method
  // called in GenesisRouteService
     

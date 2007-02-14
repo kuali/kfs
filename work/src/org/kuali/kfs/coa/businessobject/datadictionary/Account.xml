@@ -54,8 +54,10 @@
                 <field attributeName="accountResponsibilitySectionBlank" />
                 <field attributeName="accountResponsibilitySection" />
 
+				<field attributeName="accountFiscalOfficerSystemIdentifier" />
                 <field attributeName="accountFiscalOfficerUser.personName" />
                 <field attributeName="accountSupervisoryUser.personName" />
+                <field attributeName="accountManagerSystemIdentifier" />
                 <field attributeName="accountManagerUser.personName" />
                 <field attributeName="continuationFinChrtOfAcctCd" />
                 <field attributeName="continuationAccountNumber" />

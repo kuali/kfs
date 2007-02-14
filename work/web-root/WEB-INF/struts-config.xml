@@ -59,6 +59,7 @@
 		<!-- Budget Construction Bean Definitions -->
    		<form-bean name="SalarySettingForm" type="org.kuali.module.budget.web.struts.form.SalarySettingForm" />
    		<form-bean name="BudgetConstructionForm" type="org.kuali.module.budget.web.struts.form.BudgetConstructionForm" />
+   		<form-bean name="MonthlyBudgetForm" type="org.kuali.module.budget.web.struts.form.MonthlyBudgetForm" />
 
         <!-- KRA Module Bean Definitions -->
         <form-bean name="BudgetForm" type="org.kuali.module.kra.budget.web.struts.form.BudgetForm" />
@@ -197,7 +198,7 @@
         <action path="/labor*" name="{1}Form" input="/jsp/modules/labor/{1}.jsp" type="org.kuali.module.labor.web.struts.action.{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm"> 
             <forward name="basic" path="/jsp/modules/labor/{1}.jsp" /> 
         </action> 
-        
+
         <action path="/budget*" name="{1}Form" input="/jsp/modules/budget/{1}.jsp" type="org.kuali.module.budget.web.struts.action.{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm"> 
             <forward name="basic" path="/jsp/modules/budget/{1}.jsp" /> 
         </action> 

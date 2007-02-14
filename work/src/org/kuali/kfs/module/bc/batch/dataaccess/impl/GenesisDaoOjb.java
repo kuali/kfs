@@ -444,6 +444,8 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         new HashMap<String,BudgetConstructionHeader>(
                 Constants.BudgetConstructionConstants.ESTIMATED_BUDGET_CONSTRUCTION_DOCUMENT_COUNT);
     private Collection<BudgetConstructionHeader> newBCDocumentSource;
+    // these routines are used to merge CSF and CSF Override
+    private HashMap<String,String[]> CSFTrackerKeys;
     // this saves our document numbers so we can update the status codes at the end
     // of the route process--we want this to be FIFO, so workflow flows undisturbed
     // (ulitmately, as will everything else, to the sea)
@@ -454,6 +456,8 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     Long documentsToCreateinNTS    = new Long(0);
     Long documentsSkippedinNTS     = new Long(0);
     Long documentsCreatedinNTS     = new Long(0);
+    Long documentsCSFCreatedinNTS  = new Long(0);
+    Long documentsGLCreatedinNTS   = new Long(0);
     
     Long proxyCandidatesReadinTS   = new Long(0);
     Long proxyBCHeadersCreatedinTS = new Long(0);
@@ -462,49 +466,51 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
  
  //
  // this is the new document creation mechanism that works with embedded workflow
-    public void createNewBCDocumentsFromGLCSF (Integer BaseYear)
+    public void createNewBCDocumentsFromGLCSF (Integer BaseYear,
+                                               Boolean GLUpdatesAllowed,
+                                               Boolean CSFUpdatesAllowed)
     {
+        if ((!GLUpdatesAllowed)&&(!CSFUpdatesAllowed))
+        {
+            // no new documents need to be created
+            return;
+        }
         Integer RequestYear = BaseYear+1;
         // fetch the keys currently in budget construction header
         getCurrentBCHeaderKeys(BaseYear);
         //
         //  we have to read the GL BALANCE (which is not proxy=true) to create
-        //  new BC header objects
-        getAndStoreCurrentGLBCHeaderCandidates(BaseYear);
+        //  new BC header objects.  we use a report query to avoid triggering
+        //  nine separate reads for each row, and to avoid returning the entire
+        //  field list when we only need a few fields.
+        if (GLUpdatesAllowed)
+        {
+          getAndStoreCurrentGLBCHeaderCandidates(BaseYear);
+        }
         //  we also have to read CSF for any accounts with no base budget in GL BALANCE
         //  but which pay people in budgeted positions
-        getAndStoreCurrentCSFBCHeaderCandidates(BaseYear);
+        if (CSFUpdatesAllowed)
+        {
+          getCSFCandidateDocumentKeys(BaseYear);
+          getCSFOverrideDeletedKeys(BaseYear);
+          getCSFOverrideCandidateDocumentKeys(BaseYear);
+          getAndStoreCurrentCSFBCHeaderCandidates(BaseYear);
+        }
+        //  now we have to read the newly created documents (after workflow is
+        //  finished with them, and change the status flag to correspond to the
+        //  budget construction "untouched" status
+        storeBudgetConstructionDocumentsInitialStatus();
     }
 
     //  here are the private methods that go with it      
     private void getAndStoreCurrentCSFBCHeaderCandidates(Integer BaseYear)
     {
         Integer RequestYear = BaseYear+1;
-        // first build a document set from the CSF Tracker
-        Criteria criteriaId = new Criteria();
-        criteriaId.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
-        criteriaId.addEqualTo(PropertyConstants.CSF_DELETE_CODE,
-                              BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
-        String[] queryAttr = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
-                              PropertyConstants.ACCOUNT_NUMBER,
-                              PropertyConstants.SUB_ACCOUNT_NUMBER};
-        ReportQueryByCriteria queryId = 
-            new ReportQueryByCriteria(CalculatedSalaryFoundationTracker.class,
-                                      queryAttr, criteriaId, true);
-        Iterator RowsReturned = 
-            getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryId);
-        while (RowsReturned.hasNext())
+        for (Map.Entry<String, String[]> newCSFDocs: CSFTrackerKeys.entrySet())
         {
+            // all the CSF keys in the map require new documents
             proxyCandidatesReadinTS = proxyCandidatesReadinTS+1;
-            Object[] Results = (Object[]) RowsReturned.next();
-            String testKey = ((String) Results[0])+
-                             ((String) Results[1])+
-                             ((String) Results[2]);
-            if (currentBCHeaderKeys.contains(testKey))
-            {
-                // don't create a new row for anything with a current header
-                continue;
-            }
+            String[] Results = newCSFDocs.getValue();
             // set up the Budget Construction Header
             BudgetConstructionDocument newBCHdr;
             try
@@ -516,18 +522,15 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
             catch (WorkflowException wex)
             {
                 LOG.warn(String.format(
-                        "\nskipping creation of document for: %s %s %s \n(%s)\n",
-                        (String) Results[0],
-                        (String) Results[1],
-                        (String) Results[2],
-                        wex.getMessage()));
+                        "\nskipping creation of document for CSF key: %s %s %s \n(%s)\n",
+                        Results[0], Results[1], Results[2], wex.getMessage()));
                 documentsSkippedinNTS = documentsSkippedinNTS+1;
                 continue;
             }
             newBCHdr.setUniversityFiscalYear(RequestYear);
-            newBCHdr.setChartOfAccountsCode((String) Results[0]);
-            newBCHdr.setAccountNumber((String) Results[1]);
-            newBCHdr.setSubAccountNumber((String) Results[2]);
+            newBCHdr.setChartOfAccountsCode(Results[0]);
+            newBCHdr.setAccountNumber(Results[1]);
+            newBCHdr.setSubAccountNumber(Results[2]);
             //  store the document
             try
             {
@@ -536,17 +539,19 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
             catch (WorkflowException wex)
             {
                 LOG.warn(String.format(
-                        "\nskipping creation of document for: %s %s %s \n(%s)\n",
+                        "\nskipping creation of document for CSF key: %s %s %s \n(%s)\n",
                         newBCHdr.getChartOfAccounts(),
                         newBCHdr.getAccountNumber(),
                         newBCHdr.getSubAccountNumber(),
                         wex.getMessage()));
                 documentsSkippedinNTS = documentsSkippedinNTS+1;
                 continue;
-
             }
+            documentsCSFCreatedinNTS = documentsCSFCreatedinNTS+1;
+            documentsCreatedinNTS = documentsCreatedinNTS+1;
             //  add this header to the current BC Header map
-            currentBCHeaderKeys.add(testKey);
+            // String testKey = Results[0]+Results[1]+Results[2];
+            // currentBCHeaderKeys.add(testKey);
         }
     }
     
@@ -593,7 +598,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
             catch (WorkflowException wex)
             {
                 LOG.warn(String.format(
-                        "\nskipping creation of document for: %s %s %s \n(%s)\n",
+                        "\nskipping creation of document for GL key: %s %s %s \n(%s)\n",
                         (String) Results[0],
                         (String) Results[1],
                         (String) Results[2],
@@ -613,7 +618,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
             catch (WorkflowException wex)
             {
                 LOG.warn(String.format(
-                        "\nskipping creation of document for: %s %s %s \n(%s)\n",
+                        "\nskipping creation of document for GL key: %s %s %s \n(%s)\n",
                         newBCHdr.getChartOfAccounts(),
                         newBCHdr.getAccountNumber(),
                         newBCHdr.getSubAccountNumber(),
@@ -622,11 +627,124 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                 continue;
 
             }
+            documentsGLCreatedinNTS = documentsGLCreatedinNTS+1;
+            documentsCreatedinNTS = documentsCreatedinNTS+1;
             //  add this header to the current BC Header map
             currentBCHeaderKeys.add(testKey);
         }
     }
     
+    public void getCSFCandidateDocumentKeys(Integer BaseYear)
+    {
+        Criteria criteriaId = new Criteria();
+        criteriaId.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
+        criteriaId.addEqualTo(PropertyConstants.CSF_DELETE_CODE,
+                              BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
+        String[] queryAttr = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                              PropertyConstants.ACCOUNT_NUMBER,
+                              PropertyConstants.SUB_ACCOUNT_NUMBER};
+        ReportQueryByCriteria queryId = 
+            new ReportQueryByCriteria(CalculatedSalaryFoundationTracker.class,
+                                      queryAttr, criteriaId, true);
+        Iterator rowsReturned = 
+            getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryId);
+        // decide which keys from CSF need to create new documents
+        // we have already created new documents for all the GL keys
+        while (rowsReturned.hasNext())
+        {
+            Object [] returnedRow = (Object []) rowsReturned.next();
+            String testKey = ((String) returnedRow[0])+
+                             ((String) returnedRow[1])+
+                             ((String) returnedRow[2]);
+            if (currentBCHeaderKeys.contains(testKey))
+            {
+                //  there is no need to create a row for this key
+                continue;
+            }
+            String[] valueCSF = {(String) returnedRow[0],
+                                 (String) returnedRow[1],
+                                 (String) returnedRow[2]};
+            CSFTrackerKeys.put(testKey, valueCSF);
+        }
+    }
+    
+    public void getCSFOverrideCandidateDocumentKeys(Integer BaseYear)
+    {
+        Criteria criteriaId = new Criteria();
+        criteriaId.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
+        criteriaId.addEqualTo(PropertyConstants.CSF_DELETE_CODE,
+                              BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
+        String[] queryAttr = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                              PropertyConstants.ACCOUNT_NUMBER,
+                              PropertyConstants.SUB_ACCOUNT_NUMBER};
+        ReportQueryByCriteria queryId = 
+            new ReportQueryByCriteria(CalculatedSalaryFoundationTrackerOverride.class,
+                                      queryAttr, criteriaId, true);
+        Iterator rowsReturned = 
+            getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryId);
+        // decide which keys from CSF override need to create new documents
+        // we have already read in the CSF keys--existing keys need not be replaced
+        // new active keys from CSF override should be added
+        while (rowsReturned.hasNext())
+        {
+            Object [] returnedRow = (Object []) rowsReturned.next();
+            String testKey = ((String) returnedRow[0])+
+                             ((String) returnedRow[1])+
+                             ((String) returnedRow[2]);
+            if (currentBCHeaderKeys.contains(testKey))
+            {
+                //  there is no need to create a row for this key
+                //  it is already in the base budget in the GL
+                continue;
+            }
+            String[] valueCSF = {(String) returnedRow[0],
+                                 (String) returnedRow[1],
+                                 (String) returnedRow[2]};
+            CSFTrackerKeys.put(testKey, valueCSF);
+        }
+    }
+    
+    public void getCSFOverrideDeletedKeys(Integer BaseYear)
+    {
+        Criteria criteriaId = new Criteria();
+        criteriaId.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
+        criteriaId.addNotEqualTo(PropertyConstants.CSF_DELETE_CODE,
+                              BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
+        String[] queryAttr = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                              PropertyConstants.ACCOUNT_NUMBER,
+                              PropertyConstants.SUB_ACCOUNT_NUMBER};
+        ReportQueryByCriteria queryId = 
+            new ReportQueryByCriteria(CalculatedSalaryFoundationTrackerOverride.class,
+                                      queryAttr, criteriaId, true);
+        Iterator rowsReturned = 
+            getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryId);
+        // decide which keys from CSF override need to create new documents
+        // we have already read in the CSF keys--any overrides of existing CSF
+        // which carry a delete code should be tentatively removed CSF key table
+        while (rowsReturned.hasNext())
+        {
+            Object [] returnedRow = (Object []) rowsReturned.next();
+            String testKey = ((String) returnedRow[0])+
+                             ((String) returnedRow[1])+
+                             ((String) returnedRow[2]);
+            if (currentBCHeaderKeys.contains(testKey))
+            {
+                //  this key is in the GL base budget
+                //  it should create a document whether anyone is paid from it
+                //  or not
+                continue;
+            }
+            if (CSFTrackerKeys.containsKey(testKey))
+            {
+                // an override row deletes a key in CSF
+                // we tentatively remove this key from the map
+                // if there is an active override row for this key as well, it 
+                // will be restored when we read the active override keys
+                CSFTrackerKeys.remove(testKey);
+            }
+        }
+    }
+
     public void storeANewBCDocument(BudgetConstructionDocument newBCHdr)
     throws WorkflowException
     {
@@ -658,6 +776,12 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         documentService.prepareWorkflowDocument(newBCHdr);
         workflowDocumentService.route(newBCHdr.getDocumentHeader().getWorkflowDocument(),
                                       "created by Genesis",null);
+        // save the document number
+        // after all the documents are created, we will read each one in turn
+        // (in order of creation) and change the status.
+        // there needs to be a lag in doing this, to allow workflow to route the
+        // document (which apparently takes three separate read/save sequences).
+        newBCDocumentNumbers.add(newBCHdr.getDocumentNumber());
    }
     
  // this is the non-transactional public method

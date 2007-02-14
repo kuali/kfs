@@ -254,8 +254,8 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
     // update the report summary with the given information
     private void updateReportSummary(List<Summary> reportSummary, String destinationName, String operationType, int count, int order) {
-        String summaryDescription = this.buildSummaryDescription(destinationName, operationType);
-        Summary inputSummary = new Summary(order, summaryDescription, count);
+        StringBuilder summaryDescription = this.buildSummaryDescription(destinationName, operationType);
+        Summary inputSummary = new Summary(order, summaryDescription.toString(), count);
 
         int index = reportSummary.indexOf(inputSummary);
         if (index >= 0) {
@@ -268,8 +268,10 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     }
 
     // build the description of summary with the given information
-    private String buildSummaryDescription(String destinationName, String operationType) {
-        return "Number of " + destinationName + " records " + operationType + ":";
+    private StringBuilder buildSummaryDescription(String destinationName, String operationType) {
+        StringBuilder summaryDescription = new StringBuilder();
+        summaryDescription.append("Number of ").append(destinationName).append(" records ").append(operationType).append(":");
+        return summaryDescription;
     }
 
     /**

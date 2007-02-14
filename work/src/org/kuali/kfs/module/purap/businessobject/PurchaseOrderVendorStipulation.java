@@ -35,14 +35,10 @@ public class PurchaseOrderVendorStipulation extends PersistableBusinessObjectBas
 
     private PurchaseOrderDocument purchaseOrder;
 
-	/**
-	 * Default constructor.
-	 */
-	public PurchaseOrderVendorStipulation() {
+    public PurchaseOrderVendorStipulation() {
+    }
 
-	}
-
-	/**
+    /**
 	 * Gets the purchaseOrderVendorStipulationIdentifier attribute.
 	 * 
 	 * @return Returns the purchaseOrderVendorStipulationIdentifier

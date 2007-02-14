@@ -15,10 +15,13 @@
  */
 package org.kuali.module.purap.web.struts.form;
 
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.uidraw.KeyLabelPair;
-import org.kuali.module.purap.bo.PurchasingItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
+import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
+import org.kuali.module.purap.bo.PurchasingItem;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 
 /**
@@ -28,6 +31,8 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
  */
 public class PurchaseOrderForm extends PurchasingFormBase {
 
+    private PurchaseOrderVendorStipulation newPurchaseOrderVendorStipulationLine;
+
     /**
      * Constructs a PurchaseOrderForm instance and sets up the appropriately casted document. 
      */
@@ -35,6 +40,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         super();
         setDocument(new PurchaseOrderDocument());
         this.setNewPurchasingItemLine(setupNewPurchasingItemLine());
+        setNewPurchaseOrderVendorStipulationLine(new PurchaseOrderVendorStipulation());
     }
 
     /**
@@ -79,6 +85,25 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     @Override
     public PurchasingItem setupNewPurchasingItemLine() {
         return new PurchaseOrderItem();
+    }
+
+    public PurchaseOrderVendorStipulation getAndResetNewPurchaseOrderVendorStipulationLine() {
+        PurchaseOrderVendorStipulation aPurchaseOrderVendorStipulationLine = getNewPurchaseOrderVendorStipulationLine();
+        setNewPurchaseOrderVendorStipulationLine(new PurchaseOrderVendorStipulation());
+
+        aPurchaseOrderVendorStipulationLine.setPurchaseOrderIdentifier(getPurchaseOrderDocument().getIdentifier());
+        aPurchaseOrderVendorStipulationLine.setVendorStipulationAuthorEmployeeIdentifier(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+        aPurchaseOrderVendorStipulationLine.setVendorStipulationCreateDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
+
+        return aPurchaseOrderVendorStipulationLine;
+    }
+
+    public PurchaseOrderVendorStipulation getNewPurchaseOrderVendorStipulationLine() {
+        return newPurchaseOrderVendorStipulationLine;
+    }
+
+    public void setNewPurchaseOrderVendorStipulationLine(PurchaseOrderVendorStipulation newPurchaseOrderVendorStipulationLine) {
+        this.newPurchaseOrderVendorStipulationLine = newPurchaseOrderVendorStipulationLine;
     }
     
     

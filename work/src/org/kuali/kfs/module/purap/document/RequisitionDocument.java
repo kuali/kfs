@@ -23,6 +23,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
+
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.exceptions.ValidationException;
@@ -50,22 +51,22 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public class RequisitionDocument extends PurchasingDocumentBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionDocument.class);
 
-	private String requisitionOrganizationReference1Text;
-	private String requisitionOrganizationReference2Text;
-	private String requisitionOrganizationReference3Text;
-	private String alternate1VendorName;
-	private String alternate2VendorName;
-	private String alternate3VendorName;
-	private String alternate4VendorName;
-	private String alternate5VendorName;
-	private KualiDecimal organizationAutomaticPurchaseOrderLimit;
+    private String requisitionOrganizationReference1Text;
+    private String requisitionOrganizationReference2Text;
+    private String requisitionOrganizationReference3Text;
+    private String alternate1VendorName;
+    private String alternate2VendorName;
+    private String alternate3VendorName;
+    private String alternate4VendorName;
+    private String alternate5VendorName;
+    private KualiDecimal organizationAutomaticPurchaseOrderLimit;
 
     private DateTimeService dateTimeService;
 
-	/**
-	 * Default constructor.
-	 */
-	public RequisitionDocument() {
+    /**
+     * Default constructor.
+     */
+    public RequisitionDocument() {
         super();
         
         SourceDocumentReference sourceDocumentReference = new SourceDocumentReference();
@@ -109,7 +110,8 @@ public class RequisitionDocument extends PurchasingDocumentBase {
         this.setRequestorPersonName(currentUser.getUniversalUser().getPersonName());
         this.setRequestorPersonEmailAddress(currentUser.getUniversalUser().getPersonEmailAddress());
         this.setRequestorPersonPhoneNumber(PhoneNumberUtils.formatNumberIfPossible(currentUser.getUniversalUser().getPersonLocalPhoneNumber()));
-        
+
+// FIXME this is setting the APO amount in the wrong field
         // Set the purchaseOrderTotalLimit
         if (ObjectUtils.isNull(getPurchaseOrderTotalLimit())) {
             KualiDecimal purchaseOrderTotalLimit = SpringServiceLocator.getRequisitionService().getApoLimit(
@@ -310,9 +312,9 @@ public class RequisitionDocument extends PurchasingDocumentBase {
 //      setupRequisition(newReq);
       
     
-	}
+    }
 
-	/**
+    /**
      * @see org.kuali.core.document.DocumentBase#handleRouteStatusChange()
      */
     @Override
@@ -416,194 +418,194 @@ public class RequisitionDocument extends PurchasingDocumentBase {
     }
 
     // SETTERS AND GETTERS
-	/**
-	 * Gets the requisitionOrganizationReference1Text attribute.
-	 * 
-	 * @return Returns the requisitionOrganizationReference1Text
-	 * 
-	 */
-	public String getRequisitionOrganizationReference1Text() { 
-		return requisitionOrganizationReference1Text;
-	}
+    /**
+     * Gets the requisitionOrganizationReference1Text attribute.
+     * 
+     * @return Returns the requisitionOrganizationReference1Text
+     * 
+     */
+    public String getRequisitionOrganizationReference1Text() { 
+        return requisitionOrganizationReference1Text;
+    }
 
-	/**
-	 * Sets the requisitionOrganizationReference1Text attribute.
-	 * 
-	 * @param requisitionOrganizationReference1Text The requisitionOrganizationReference1Text to set.
-	 * 
-	 */
-	public void setRequisitionOrganizationReference1Text(String requisitionOrganizationReference1Text) {
-		this.requisitionOrganizationReference1Text = requisitionOrganizationReference1Text;
-	}
-
-
-	/**
-	 * Gets the requisitionOrganizationReference2Text attribute.
-	 * 
-	 * @return Returns the requisitionOrganizationReference2Text
-	 * 
-	 */
-	public String getRequisitionOrganizationReference2Text() { 
-		return requisitionOrganizationReference2Text;
-	}
-
-	/**
-	 * Sets the requisitionOrganizationReference2Text attribute.
-	 * 
-	 * @param requisitionOrganizationReference2Text The requisitionOrganizationReference2Text to set.
-	 * 
-	 */
-	public void setRequisitionOrganizationReference2Text(String requisitionOrganizationReference2Text) {
-		this.requisitionOrganizationReference2Text = requisitionOrganizationReference2Text;
-	}
+    /**
+     * Sets the requisitionOrganizationReference1Text attribute.
+     * 
+     * @param requisitionOrganizationReference1Text The requisitionOrganizationReference1Text to set.
+     * 
+     */
+    public void setRequisitionOrganizationReference1Text(String requisitionOrganizationReference1Text) {
+        this.requisitionOrganizationReference1Text = requisitionOrganizationReference1Text;
+    }
 
 
-	/**
-	 * Gets the requisitionOrganizationReference3Text attribute.
-	 * 
-	 * @return Returns the requisitionOrganizationReference3Text
-	 * 
-	 */
-	public String getRequisitionOrganizationReference3Text() { 
-		return requisitionOrganizationReference3Text;
-	}
+    /**
+     * Gets the requisitionOrganizationReference2Text attribute.
+     * 
+     * @return Returns the requisitionOrganizationReference2Text
+     * 
+     */
+    public String getRequisitionOrganizationReference2Text() { 
+        return requisitionOrganizationReference2Text;
+    }
 
-	/**
-	 * Sets the requisitionOrganizationReference3Text attribute.
-	 * 
-	 * @param requisitionOrganizationReference3Text The requisitionOrganizationReference3Text to set.
-	 * 
-	 */
-	public void setRequisitionOrganizationReference3Text(String requisitionOrganizationReference3Text) {
-		this.requisitionOrganizationReference3Text = requisitionOrganizationReference3Text;
-	}
-
-
-
-	/**
-	 * Gets the alternate1VendorName attribute.
-	 * 
-	 * @return Returns the alternate1VendorName
-	 * 
-	 */
-	public String getAlternate1VendorName() { 
-		return alternate1VendorName;
-	}
-
-	/**
-	 * Sets the alternate1VendorName attribute.
-	 * 
-	 * @param alternate1VendorName The alternate1VendorName to set.
-	 * 
-	 */
-	public void setAlternate1VendorName(String alternate1VendorName) {
-		this.alternate1VendorName = alternate1VendorName;
-	}
+    /**
+     * Sets the requisitionOrganizationReference2Text attribute.
+     * 
+     * @param requisitionOrganizationReference2Text The requisitionOrganizationReference2Text to set.
+     * 
+     */
+    public void setRequisitionOrganizationReference2Text(String requisitionOrganizationReference2Text) {
+        this.requisitionOrganizationReference2Text = requisitionOrganizationReference2Text;
+    }
 
 
-	/**
-	 * Gets the alternate2VendorName attribute.
-	 * 
-	 * @return Returns the alternate2VendorName
-	 * 
-	 */
-	public String getAlternate2VendorName() { 
-		return alternate2VendorName;
-	}
+    /**
+     * Gets the requisitionOrganizationReference3Text attribute.
+     * 
+     * @return Returns the requisitionOrganizationReference3Text
+     * 
+     */
+    public String getRequisitionOrganizationReference3Text() { 
+        return requisitionOrganizationReference3Text;
+    }
 
-	/**
-	 * Sets the alternate2VendorName attribute.
-	 * 
-	 * @param alternate2VendorName The alternate2VendorName to set.
-	 * 
-	 */
-	public void setAlternate2VendorName(String alternate2VendorName) {
-		this.alternate2VendorName = alternate2VendorName;
-	}
-
-
-	/**
-	 * Gets the alternate3VendorName attribute.
-	 * 
-	 * @return Returns the alternate3VendorName
-	 * 
-	 */
-	public String getAlternate3VendorName() { 
-		return alternate3VendorName;
-	}
-
-	/**
-	 * Sets the alternate3VendorName attribute.
-	 * 
-	 * @param alternate3VendorName The alternate3VendorName to set.
-	 * 
-	 */
-	public void setAlternate3VendorName(String alternate3VendorName) {
-		this.alternate3VendorName = alternate3VendorName;
-	}
+    /**
+     * Sets the requisitionOrganizationReference3Text attribute.
+     * 
+     * @param requisitionOrganizationReference3Text The requisitionOrganizationReference3Text to set.
+     * 
+     */
+    public void setRequisitionOrganizationReference3Text(String requisitionOrganizationReference3Text) {
+        this.requisitionOrganizationReference3Text = requisitionOrganizationReference3Text;
+    }
 
 
-	/**
-	 * Gets the alternate4VendorName attribute.
-	 * 
-	 * @return Returns the alternate4VendorName
-	 * 
-	 */
-	public String getAlternate4VendorName() { 
-		return alternate4VendorName;
-	}
 
-	/**
-	 * Sets the alternate4VendorName attribute.
-	 * 
-	 * @param alternate4VendorName The alternate4VendorName to set.
-	 * 
-	 */
-	public void setAlternate4VendorName(String alternate4VendorName) {
-		this.alternate4VendorName = alternate4VendorName;
-	}
+    /**
+     * Gets the alternate1VendorName attribute.
+     * 
+     * @return Returns the alternate1VendorName
+     * 
+     */
+    public String getAlternate1VendorName() { 
+        return alternate1VendorName;
+    }
 
-
-	/**
-	 * Gets the alternate5VendorName attribute.
-	 * 
-	 * @return Returns the alternate5VendorName
-	 * 
-	 */
-	public String getAlternate5VendorName() { 
-		return alternate5VendorName;
-	}
-
-	/**
-	 * Sets the alternate5VendorName attribute.
-	 * 
-	 * @param alternate5VendorName The alternate5VendorName to set.
-	 * 
-	 */
-	public void setAlternate5VendorName(String alternate5VendorName) {
-		this.alternate5VendorName = alternate5VendorName;
-	}
+    /**
+     * Sets the alternate1VendorName attribute.
+     * 
+     * @param alternate1VendorName The alternate1VendorName to set.
+     * 
+     */
+    public void setAlternate1VendorName(String alternate1VendorName) {
+        this.alternate1VendorName = alternate1VendorName;
+    }
 
 
-	/**
-	 * Gets the organizationAutomaticPurchaseOrderLimit attribute.
-	 * 
-	 * @return Returns the organizationAutomaticPurchaseOrderLimit
-	 * 
-	 */
-	public KualiDecimal getOrganizationAutomaticPurchaseOrderLimit() { 
-		return organizationAutomaticPurchaseOrderLimit;
-	}
+    /**
+     * Gets the alternate2VendorName attribute.
+     * 
+     * @return Returns the alternate2VendorName
+     * 
+     */
+    public String getAlternate2VendorName() { 
+        return alternate2VendorName;
+    }
 
-	/**
-	 * Sets the organizationAutomaticPurchaseOrderLimit attribute.
-	 * 
-	 * @param organizationAutomaticPurchaseOrderLimit The organizationAutomaticPurchaseOrderLimit to set.
-	 * 
-	 */
-	public void setOrganizationAutomaticPurchaseOrderLimit(KualiDecimal organizationAutomaticPurchaseOrderLimit) {
-		this.organizationAutomaticPurchaseOrderLimit = organizationAutomaticPurchaseOrderLimit;
-	}
+    /**
+     * Sets the alternate2VendorName attribute.
+     * 
+     * @param alternate2VendorName The alternate2VendorName to set.
+     * 
+     */
+    public void setAlternate2VendorName(String alternate2VendorName) {
+        this.alternate2VendorName = alternate2VendorName;
+    }
 
-	}
+
+    /**
+     * Gets the alternate3VendorName attribute.
+     * 
+     * @return Returns the alternate3VendorName
+     * 
+     */
+    public String getAlternate3VendorName() { 
+        return alternate3VendorName;
+    }
+
+    /**
+     * Sets the alternate3VendorName attribute.
+     * 
+     * @param alternate3VendorName The alternate3VendorName to set.
+     * 
+     */
+    public void setAlternate3VendorName(String alternate3VendorName) {
+        this.alternate3VendorName = alternate3VendorName;
+    }
+
+
+    /**
+     * Gets the alternate4VendorName attribute.
+     * 
+     * @return Returns the alternate4VendorName
+     * 
+     */
+    public String getAlternate4VendorName() { 
+        return alternate4VendorName;
+    }
+
+    /**
+     * Sets the alternate4VendorName attribute.
+     * 
+     * @param alternate4VendorName The alternate4VendorName to set.
+     * 
+     */
+    public void setAlternate4VendorName(String alternate4VendorName) {
+        this.alternate4VendorName = alternate4VendorName;
+    }
+
+
+    /**
+     * Gets the alternate5VendorName attribute.
+     * 
+     * @return Returns the alternate5VendorName
+     * 
+     */
+    public String getAlternate5VendorName() { 
+        return alternate5VendorName;
+    }
+
+    /**
+     * Sets the alternate5VendorName attribute.
+     * 
+     * @param alternate5VendorName The alternate5VendorName to set.
+     * 
+     */
+    public void setAlternate5VendorName(String alternate5VendorName) {
+        this.alternate5VendorName = alternate5VendorName;
+    }
+
+
+    /**
+     * Gets the organizationAutomaticPurchaseOrderLimit attribute.
+     * 
+     * @return Returns the organizationAutomaticPurchaseOrderLimit
+     * 
+     */
+    public KualiDecimal getOrganizationAutomaticPurchaseOrderLimit() { 
+        return organizationAutomaticPurchaseOrderLimit;
+    }
+
+    /**
+     * Sets the organizationAutomaticPurchaseOrderLimit attribute.
+     * 
+     * @param organizationAutomaticPurchaseOrderLimit The organizationAutomaticPurchaseOrderLimit to set.
+     * 
+     */
+    public void setOrganizationAutomaticPurchaseOrderLimit(KualiDecimal organizationAutomaticPurchaseOrderLimit) {
+        this.organizationAutomaticPurchaseOrderLimit = organizationAutomaticPurchaseOrderLimit;
+    }
+
+    }
 

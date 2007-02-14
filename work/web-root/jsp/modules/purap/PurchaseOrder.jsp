@@ -17,29 +17,32 @@
 <%@ taglib tagdir="/WEB-INF/tags/purap" prefix="purap"%>
 
 <kul:documentPage showDocumentInfo="true"
-	documentTypeName="KualiPurchaseOrderDocument"
-	htmlFormAction="purapPurchaseOrder" renderMultipart="true"
-	showTabButtons="true">
+    documentTypeName="KualiPurchaseOrderDocument"
+    htmlFormAction="purapPurchaseOrder" renderMultipart="true"
+    showTabButtons="true">
 
-	<kul:hiddenDocumentFields excludePostingYear="true" />
+    <kul:hiddenDocumentFields excludePostingYear="true" />
 
     <purap:hiddenPurapFields />
     <!-- TODO move this to where? -->
     <html:hidden property="document.requisitionIdentifier" />
 
-	<kul:documentOverview editingMode="${KualiForm.editingMode}"
-		includePostingYear="true"
+    <kul:documentOverview editingMode="${KualiForm.editingMode}"
+        includePostingYear="true"
         postingYearAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" >
 
         <purap:purapDocumentDetail
-	    	documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}"
-	    	purchaseOrder="true"
-	    	detailSectionLabel="Purchase Order Detail" />
-	</kul:documentOverview>
+            documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}"
+            purchaseOrder="true"
+            detailSectionLabel="Purchase Order Detail" />
+    </kul:documentOverview>
 
     <purap:vendor
         documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" 
         displayPurchaseOrderFields="true" />
+
+    <purap:stipulationsAndInfo
+        documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" />
 
     <!-- purap:items
         documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}/ -->
@@ -54,17 +57,17 @@
     <purap:additional
         documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" />
 
-	<purap:statushistory 
-		documentAttributes="${DataDictionary.PurchaseOrderStatusHistory.attributes}" />
+    <purap:statushistory 
+        documentAttributes="${DataDictionary.PurchaseOrderStatusHistory.attributes}" />
 
-	<kul:notes />
+    <kul:notes />
 
-	<kul:adHocRecipients />
+    <kul:adHocRecipients />
 
-	<kul:routeLog />
+    <kul:routeLog />
 
-	<kul:panelFooter />
+    <kul:panelFooter />
 
-	<kul:documentControls transactionalDocument="true" />
+    <kul:documentControls transactionalDocument="true" />
 
 </kul:documentPage>

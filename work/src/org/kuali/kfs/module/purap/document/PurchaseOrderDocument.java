@@ -30,11 +30,11 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.PaymentTermType;
 import org.kuali.module.purap.bo.PurchaseOrderVendorChoice;
+import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.bo.RecurringPaymentFrequency;
 import org.kuali.module.purap.bo.ShippingPaymentTerms;
 import org.kuali.module.purap.bo.ShippingTitle;
 import org.kuali.module.purap.bo.SourceDocumentReference;
-import org.kuali.module.purap.bo.VendorAddress;
 import org.kuali.module.purap.bo.VendorDetail;
 
 /**
@@ -76,12 +76,16 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private ShippingTitle vendorShippingTitle;
     private ShippingPaymentTerms vendorShippingPaymentTerms;
     private RecurringPaymentFrequency recurringPaymentFrequency;
+    
+    //COLLECTIONS
+    private List<PurchaseOrderVendorStipulation> purchaseOrderVendorStipulations;
 
     /**
 	 * Default constructor.
 	 */
 	public PurchaseOrderDocument() {
         super();
+        this.purchaseOrderVendorStipulations = new TypedArrayList( PurchaseOrderVendorStipulation.class );
     }
 
     public void populatePurchaseOrderFromRequisition(RequisitionDocument requisitionDocument) {
@@ -178,8 +182,8 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         if (sourceDocumentReferences.size()>= 1){
             Integer sourceDocumentReferenceGeneratedId = sourceDocumentReferences.get(0).getSourceDocumentReferenceGeneratedIdentifier();
             sourceDocumentReference.setSourceDocumentReferenceGeneratedIdentifier(sourceDocumentReferences.get(0).getSourceDocumentReferenceGeneratedIdentifier());
-        }
-      
+    }
+
         sourceDocumentReference.setSourceFinancialDocumentTypeCode("PO");
         // This line is giving this error:
         
@@ -202,6 +206,13 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
      */
     public void initiateDocument() {
 
+    }
+
+    public PurchaseOrderVendorStipulation getPurchaseOrderVendorStipulation(int index) {
+        while (getPurchaseOrderVendorStipulations().size() <= index) {
+            getPurchaseOrderVendorStipulations().add(new PurchaseOrderVendorStipulation());
+        }
+        return (PurchaseOrderVendorStipulation)purchaseOrderVendorStipulations.get(index);
     }
 
     /**
@@ -470,9 +481,18 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.vendorShippingTitle = vendorShippingTitle;
     }
 
+    public List getPurchaseOrderVendorStipulations() {
+        return purchaseOrderVendorStipulations;
+    }
+    
     public String getStatusChange() {
         return statusChange;
     }
+
+    public void setPurchaseOrderVendorStipulations(List purchaseOrderVendorStipulations) {
+        this.purchaseOrderVendorStipulations = purchaseOrderVendorStipulations;
+    }
+
 
     public void setStatusChange(String statusChange) {
         this.statusChange = statusChange;
@@ -506,7 +526,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         }
         return vendorNumber;
     }
-    
     /**
      * Sets the alternateVendorNumber attribute value.
      * @param alternateVendorNumber The vendorNumber to set.

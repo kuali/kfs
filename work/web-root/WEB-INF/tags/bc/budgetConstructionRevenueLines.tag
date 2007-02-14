@@ -22,7 +22,7 @@
 	value="${DataDictionary['KualiBudgetConstructionDocument'].attributes}" />
 --%>
 
-<kul:tab tabTitle="Revenue" defaultOpen="true" tabErrorKey="${Constants.BUDGET_CONSTRUCTION_REVENUE_TAB_ERRORS}">
+<kul:tab tabTitle="Revenue" defaultOpen="false" tabErrorKey="${Constants.BUDGET_CONSTRUCTION_REVENUE_TAB_ERRORS}">
 <div class="tab-container" align=center>
 
 		<table>

@@ -28,6 +28,7 @@ import org.kuali.core.document.DocumentHeader;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.chart.bo.Account;
@@ -61,11 +62,15 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
 */
     private String financialObjectTypeCode;
 
-    private Collection<PendingBudgetConstructionGeneralLedger> pendingBudgetConstructionGeneralLedgerRevenue;
-    private Collection<PendingBudgetConstructionGeneralLedger> pendingBudgetConstructionGeneralLedgerExpenditure;
+//    private List<PendingBudgetConstructionGeneralLedger> pendingBudgetConstructionGeneralLedgerRevenue;
+//    private List<PendingBudgetConstructionGeneralLedger> pendingBudgetConstructionGeneralLedgerExpenditure;
+    private List pendingBudgetConstructionGeneralLedgerRevenue;
+    private List pendingBudgetConstructionGeneralLedgerExpenditure;
     
     public BudgetConstructionDocument(){
         super();
+        pendingBudgetConstructionGeneralLedgerExpenditure = new TypedArrayList(PendingBudgetConstructionGeneralLedger.class);
+        pendingBudgetConstructionGeneralLedgerRevenue = new TypedArrayList(PendingBudgetConstructionGeneralLedger.class);
 /*
         budgetConstructionAccountSelect = new ArrayList();
 */
@@ -76,7 +81,7 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
  * move stuff from constructor to here so as to get out of fred's way
  * initiateDocument would be called from BudgetConstructionAction
  */
-    public void initiateDocument(BudgetConstructionHeader budgetConstructionHeader) {
+    public void initiateDocument() {
 
         
         Map fieldValues = new HashMap();
@@ -84,15 +89,19 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
 //        fieldValues.put("FIN_COA_CD", "BA");
 //        fieldValues.put("ACCOUNT_NBR", "6044906");
 //        fieldValues.put("SUB_ACCT_NBR", "-----");
-        fieldValues.put("UNIV_FISCAL_YR", budgetConstructionHeader.getUniversityFiscalYear());
-        fieldValues.put("FIN_COA_CD", budgetConstructionHeader.getChartOfAccountsCode());
-        fieldValues.put("ACCOUNT_NBR", budgetConstructionHeader.getAccountNumber());
-        fieldValues.put("SUB_ACCT_NBR", budgetConstructionHeader.getSubAccountNumber());
+//        fieldValues.put("UNIV_FISCAL_YR", budgetConstructionHeader.getUniversityFiscalYear());
+//        fieldValues.put("FIN_COA_CD", budgetConstructionHeader.getChartOfAccountsCode());
+//        fieldValues.put("ACCOUNT_NBR", budgetConstructionHeader.getAccountNumber());
+//        fieldValues.put("SUB_ACCT_NBR", budgetConstructionHeader.getSubAccountNumber());
+        fieldValues.put("UNIV_FISCAL_YR", getUniversityFiscalYear());
+        fieldValues.put("FIN_COA_CD", getChartOfAccountsCode());
+        fieldValues.put("ACCOUNT_NBR", getAccountNumber());
+        fieldValues.put("SUB_ACCT_NBR", getSubAccountNumber());
         
         
         fieldValues.put("FIN_OBJ_TYP_CD", "IN");
         
-        pendingBudgetConstructionGeneralLedgerRevenue = SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(PendingBudgetConstructionGeneralLedger.class, fieldValues, "FIN_OBJECT_CD", true);
+        pendingBudgetConstructionGeneralLedgerRevenue = (ArrayList) SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(PendingBudgetConstructionGeneralLedger.class, fieldValues, "FIN_OBJECT_CD", true);
         if (LOG.isDebugEnabled()) {
             LOG.debug("pendingBudgetConstructionGeneralLedgerRevenue is: "+pendingBudgetConstructionGeneralLedgerRevenue);
         }
@@ -100,7 +109,7 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
         fieldValues.remove("FIN_OBJ_TYP_CD");
         fieldValues.put("FIN_OBJ_TYP_CD", "EX");
 
-        pendingBudgetConstructionGeneralLedgerExpenditure = SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(PendingBudgetConstructionGeneralLedger.class, fieldValues, "FIN_OBJECT_CD", true);
+        pendingBudgetConstructionGeneralLedgerExpenditure = (ArrayList) SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(PendingBudgetConstructionGeneralLedger.class, fieldValues, "FIN_OBJECT_CD", true);
         if (LOG.isDebugEnabled()) {
             LOG.debug("pendingBudgetConstructionGeneralLedgerExpenditure is: "+pendingBudgetConstructionGeneralLedgerExpenditure);
         }
@@ -455,19 +464,19 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
 //        return managedLists;
     }
 
-    public Collection<PendingBudgetConstructionGeneralLedger> getPendingBudgetConstructionGeneralLedgerRevenue() {
+    public List getPendingBudgetConstructionGeneralLedgerRevenue() {
         return pendingBudgetConstructionGeneralLedgerRevenue;
     }
 
-    public void setPendingBudgetConstructionGeneralLedgerRevenue(Collection<PendingBudgetConstructionGeneralLedger> pendingBudgetConstructionGeneralLedgerRevenue) {
+    public void setPendingBudgetConstructionGeneralLedgerRevenue(List pendingBudgetConstructionGeneralLedgerRevenue) {
         this.pendingBudgetConstructionGeneralLedgerRevenue = pendingBudgetConstructionGeneralLedgerRevenue;
     }
 
-    public Collection<PendingBudgetConstructionGeneralLedger> getPendingBudgetConstructionGeneralLedgerExpenditure() {
+    public List<PendingBudgetConstructionGeneralLedger> getPendingBudgetConstructionGeneralLedgerExpenditure() {
         return pendingBudgetConstructionGeneralLedgerExpenditure;
     }
 
-    public void setPendingBudgetConstructionGeneralLedgerExpenditure(Collection<PendingBudgetConstructionGeneralLedger> pendingBudgetConstructionGeneralLedgerExpenditure) {
+    public void setPendingBudgetConstructionGeneralLedgerExpenditure(List<PendingBudgetConstructionGeneralLedger> pendingBudgetConstructionGeneralLedgerExpenditure) {
         this.pendingBudgetConstructionGeneralLedgerExpenditure = pendingBudgetConstructionGeneralLedgerExpenditure;
     }
 

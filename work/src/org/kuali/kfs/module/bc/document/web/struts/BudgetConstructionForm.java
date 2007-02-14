@@ -18,8 +18,11 @@ package org.kuali.module.budget.web.struts.form;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
+import org.kuali.module.budget.bo.BudgetConstructionMonthly;
 import org.kuali.module.budget.dao.ojb.BudgetConstructionDaoOjb;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
 import org.kuali.core.util.SpringServiceLocator;
@@ -27,19 +30,16 @@ import org.kuali.core.util.SpringServiceLocator;
 
 public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionForm.class);
-
-    BudgetConstructionDaoOjb bcHeaderDao;
-    String chartOfAccountsCode = "BA";
-    String accountNumber = "6044906" ;
-    String subAccountNumber = "-----";
-    Integer universityFiscalYear = new Integer(2008);
     
-
+//    private BudgetConstructionMonthly budgetConstructionMonthly; 
+    
     public BudgetConstructionForm() {
         super();
+        setDocument(new BudgetConstructionDocument());
+//        setBudgetConstructionMonthly(new BudgetConstructionMonthly());
+//        getBudgetConstructionMonthly().setDocumentNumber("5678");
         LOG.debug("creating BudgetConstructionForm");
-//        setDocument(new BudgetConstructionDocument());
-
+/**
         bcHeaderDao = new BudgetConstructionDaoOjb();
         BudgetConstructionHeader budgetConstructionHeader = bcHeaderDao.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
         Map fieldValues = new HashMap();
@@ -49,12 +49,36 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
         fieldValues.put("ACCOUNT_NBR", budgetConstructionHeader.getAccountNumber());
         fieldValues.put("SUB_ACCT_NBR", budgetConstructionHeader.getSubAccountNumber());
 
-//        BudgetConstructionDocument budgetConstructionDocument = new BudgetConstructionDocument();
         BudgetConstructionDocument budgetConstructionDocument = (BudgetConstructionDocument) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(BudgetConstructionDocument.class, fieldValues);
-//      BudgetConstructionDocument budgetConstructionDocument = (BudgetConstructionDocument) getDocumentService().getByDocumentHeaderId("258750");
         setDocument(budgetConstructionDocument);
         
         budgetConstructionDocument.initiateDocument(budgetConstructionHeader);
+**/
+    }
+    
+    public BudgetConstructionDocument getBudgetConstructionDocument(){
+        return (BudgetConstructionDocument) getDocument();
     }
 
+    public void setBudgetConstructionDocument(BudgetConstructionDocument budgetConstructionDocument){
+        setDocument(budgetConstructionDocument);
+    }
+
+    /**
+     * Gets the budgetConstructionMonthly attribute. 
+     * @return Returns the budgetConstructionMonthly.
+     */
+//    public BudgetConstructionMonthly getBudgetConstructionMonthly() {
+//        return budgetConstructionMonthly;
+//    }
+
+    /**
+     * Sets the budgetConstructionMonthly attribute value.
+     * @param budgetConstructionMonthly The budgetConstructionMonthly to set.
+     */
+//    public void setBudgetConstructionMonthly(BudgetConstructionMonthly budgetConstructionMonthly) {
+//        this.budgetConstructionMonthly = budgetConstructionMonthly;
+//    }
+
+   
 }

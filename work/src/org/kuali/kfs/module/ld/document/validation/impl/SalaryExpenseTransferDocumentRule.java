@@ -895,5 +895,8 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
         }
 
     }
-
+    public boolean validatePendingSalaryTransfer(String employeeId) {
+        return true;
+    }
+        
 }

@@ -84,9 +84,9 @@ public class LaborReportServiceTest extends KualiTestBase {
         originEntryGroupService = (OriginEntryGroupService) beanFactory.getBean("glOriginEntryGroupService");
         businessObjectService = (BusinessObjectService) beanFactory.getBean("businessObjectService");
         
-        laborReportService = (LaborReportService) beanFactory.getBean("laborReportServiceForUnitTesting");
+        // laborReportService = (LaborReportService) beanFactory.getBean("laborReportServiceForUnitTesting");
         // in order to generate PDF reports, please uncomment the statement below
-        // laborReportService = (LaborReportService) beanFactory.getBean("laborReportService");
+        laborReportService = (LaborReportService) beanFactory.getBean("laborReportService");
         
         kualiConfigurationService = (KualiConfigurationService) beanFactory.getBean("kualiConfigurationService");
         verifyTransaction = (VerifyTransaction) beanFactory.getBean("glVerifyTransaction");

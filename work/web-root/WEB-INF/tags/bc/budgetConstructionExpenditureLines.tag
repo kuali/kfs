@@ -23,7 +23,7 @@
 <c:set var="budgetConstructionAttributes"
 	value="${DataDictionary['KualiBudgetConstructionDocument'].attributes}" />
 --%>
-<c:set var="pbglExpenditureAttributes" value="${DataDictionary.PendingBudgetConstructionGeneralLedgerExpenditure.attributes}" />
+<c:set var="pbglExpenditureAttributes" value="${DataDictionary.PendingBudgetConstructionGeneralLedger.attributes}" />
 
 
 <kul:tab tabTitle="Expenditure" defaultOpen="false" tabErrorKey="${Constants.BUDGET_CONSTRUCTION_EXPENDITURE_TAB_ERRORS}">
@@ -71,7 +71,7 @@
                   <kul:htmlControlAttribute attributeEntry="${pbglExpenditureAttributes.financialBeginningBalanceLineAmount}" property="document.pendingBudgetConstructionGeneralLedgerExpenditure[${ctr}].financialBeginningBalanceLineAmount" readOnly="true"/>
               </span></div></td>
               <td valign=top nowrap><div align="right"><span>
-                  <kul:htmlControlAttribute attributeEntry="${pbglExpenditureAttributes.accountLineAnnualBalanceAmount}" property="document.pendingBudgetConstructionGeneralLedgerExpenditure[${ctr}].accountLineAnnualBalanceAmount" readOnly="true"/>
+                  <kul:htmlControlAttribute attributeEntry="${pbglExpenditureAttributes.accountLineAnnualBalanceAmount}" property="document.pendingBudgetConstructionGeneralLedgerExpenditure[${ctr}].accountLineAnnualBalanceAmount" styleClass="amount" readOnly="false"/>
               </span></div></td>
 	              <td><div align=center>
 	                   <html:image src="images/tinybutton-view.gif" styleClass="tinybutton" property="methodToCall.performMonthlyBudget.line${ctr}" title="View Month" alt="View Month"/>

@@ -17,11 +17,13 @@ package org.kuali.module.budget.service;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.SortedSet;
 
 import static org.kuali.core.util.SpringServiceLocator.getLockService;
 import static org.kuali.core.util.SpringServiceLocator.getBusinessObjectService;
 import org.kuali.Constants.BudgetConstructionConstants.LockStatus;
+import org.kuali.core.document.DocumentHeader;
 import org.kuali.module.budget.bo.BudgetConstructionFundingLock;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.BudgetConstructionPosition;
@@ -47,6 +49,7 @@ public class LockServiceTest extends KualiTestBase {
     public void testOne() {
 
         LockService lockService;
+        DocumentHeader docHeader;
         BudgetConstructionDaoOjb bcHeaderDao;
         BudgetConstructionHeader bcHeader;
         BudgetConstructionHeader bcHeaderTwo;
@@ -73,6 +76,7 @@ public class LockServiceTest extends KualiTestBase {
         String pUIdTwo = "6162502038"; //KHUNTLEY
         boolean posExist = false;
         boolean hdrExist = false;
+        boolean docHdrExist = false;
         boolean bcafExist = false;
 
         
@@ -81,6 +85,18 @@ public class LockServiceTest extends KualiTestBase {
         // do some setup and initialize the state of things
         lockService = getLockService();
         bcHeaderDao = new BudgetConstructionDaoOjb();
+        
+        docHeader = null;
+        Map dockey = new HashMap();
+        dockey.put("documentNumber", fdocNumber);
+        docHeader = (DocumentHeader) getBusinessObjectService().findByPrimaryKey(DocumentHeader.class, dockey);
+        if (docHeader == null){
+            docHeader = new DocumentHeader();
+            docHeader.setDocumentNumber(fdocNumber);
+            getBusinessObjectService().save(docHeader);
+        } else {
+            docHdrExist = true;
+        }
 
         bcHeader = null;
         bcHeader = bcHeaderDao.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
@@ -328,6 +344,9 @@ public class LockServiceTest extends KualiTestBase {
         if (!hdrExist) {
             bcHeader = bcHeaderDao.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
             bcHeaderDao.getPersistenceBrokerTemplate().delete(bcHeader);
+        }
+        if (!docHdrExist){
+            getBusinessObjectService().delete(docHeader);
         }
         if (!posExist) {
             bcPosition = bcHeaderDao.getByPrimaryId(positionNumber, universityFiscalYear);

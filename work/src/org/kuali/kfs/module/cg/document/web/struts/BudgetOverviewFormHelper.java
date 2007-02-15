@@ -332,6 +332,11 @@ public class BudgetOverviewFormHelper {
             modularAdjustmentAgencyRequest = budgetModularPeriod.getModularVarianceAmount();
             adjustedDirectCostsAgencyRequest = budgetModularPeriod.getBudgetAdjustedModularDirectCostAmount();
         }
+        
+        // if modular is in invalid mode then adjustedDirectCostsAgencyRequest == null, to avoid NPE we check it.
+        if (adjustedDirectCostsAgencyRequest == null) {
+            adjustedDirectCostsAgencyRequest = new KualiInteger(0);
+        }
     }
 
     /**

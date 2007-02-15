@@ -42,7 +42,7 @@ import org.kuali.test.WithTestSpringContext;
 public class LockServiceTest extends KualiTestBase {
 
     private boolean runTests() { // change this to return false to prevent running tests
-        return true;
+        return false;
     }
 
     @TestsWorkflowViaDatabase

@@ -32,7 +32,7 @@
           &nbsp
         </c:when>
         <c:otherwise>
-          ${person.personRole.personRoleDescription}
+          ${fn:substring(person.personRole.personRoleDescription, 0, 16)}
         </c:otherwise>
       </c:choose>
     </c:set>
@@ -43,12 +43,12 @@
           false
         </c:when>
         <c:otherwise>
-          ${KualiForm.anchor-1 eq status.index}
+          ${KualiForm.anchor eq status.index}
         </c:otherwise>
       </c:choose>
     </c:set>
     
-    <kul:tab tabTitle="${personName}" tabDescription="${personRoleDescription}" defaultOpen="${defaultOpen}" transparentBackground="${status.index eq 0}" tabErrorKey="document.routingFormPersonnel[${status.index}]*" tabAuditKey="document.routingFormPersonnel[${status.index}]*">
+    <kul:tab tabTitle="${personName}" tabDescription="${personRoleDescription}" defaultOpen="${defaultOpen}" transparentBackground="${status.index eq 0}" tabErrorKey="document.routingFormPersonnel[${status.index}]*">
       <html:hidden property="document.routingFormPersonnel[${status.index}].personSystemIdentifier" />
       <html:hidden property="document.routingFormPersonnel[${status.index}].routingFormPersonSequenceNumber" />
       <html:hidden property="document.routingFormPersonnel[${status.index}].chartOfAccountsCode" />

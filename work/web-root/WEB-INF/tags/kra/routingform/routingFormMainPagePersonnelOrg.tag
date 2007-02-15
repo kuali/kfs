@@ -138,7 +138,7 @@
                   <td><div align="center"><span class="infoline">
                     <kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].personCreditPercent" attributeEntry="${routingFormPersonnel.personCreditPercent}" readOnly="${viewOnly}"/>
                   </span></div></td>
-                  <td><div align="center"><html:image property="methodToCall.headerTab.headerDispatch.save.navigateTo.personnel.anchor${status.index+1}" src="images/tinybutton-view.gif" styleClass="tinybutton" alt="view person line"/></div></td>
+                  <td><div align="center"><html:image property="methodToCall.headerTab.headerDispatch.save.navigateTo.personnel.anchor${status.index}" src="images/tinybutton-view.gif" styleClass="tinybutton" alt="view person line"/></div></td>
                   <td><div align=center><html:image property="methodToCall.deletePersonLine.line${status.index}.anchor${currentTabIndex}" src="images/tinybutton-delete1.gif" styleClass="tinybutton" alt="delete person line"/></div></td>
                 </tr>
               </c:forEach>

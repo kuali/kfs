@@ -59,12 +59,12 @@ public class MonthlyBudgetAction extends KualiAction {
         // parse out the important strings from our methodToCall parameter
 //        String fullParameter = (String) request.getAttribute(Constants.METHOD_TO_CALL_ATTRIBUTE);
         
-        String monthlyParmKey = request.getParameter("monthlyParmKey");
-        Properties parameters = (Properties) GlobalVariables.getUserSession().retrieveObject(monthlyParmKey);
+        String bcMonthParmsKey = request.getParameter("bcMonthParmsKey");
+        Properties parameters = (Properties) GlobalVariables.getUserSession().retrieveObject(bcMonthParmsKey);
         if (parameters == null){
             return mapping.findForward(Constants.MAPPING_PORTAL);
         }
-        GlobalVariables.getUserSession().removeObject(monthlyParmKey);
+        GlobalVariables.getUserSession().removeObject(bcMonthParmsKey);
 
         String tacct = parameters.getProperty("accountNumber");
         

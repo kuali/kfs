@@ -195,10 +195,11 @@ public class BudgetConstructionAction extends KualiDocumentActionBase {
         parameters.put("financialObjectTypeCode", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditure().get(selectedIndex).getFinancialObjectTypeCode());
 //        request.setAttribute("accountNumber", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditure().get(selectedIndex).getAccountNumber());
         
-        String monthlyParmKey = GlobalVariables.getUserSession().addObject(parameters);
+//        String bcMonthParmsKey = "bcMonthParmsKey"; 
+        GlobalVariables.getUserSession().addObject("bcMonthParmsKey",parameters);
         Properties parms = new Properties();
         parms.put("methodToCall", "view");
-        parms.put("monthlyParmKey",monthlyParmKey);
+        parms.put("bcMonthParmsKey","bcMonthParmsKey");
 
 
         String lookupUrl = UrlFactory.parameterizeUrl("/" + "budgetMonthlyBudget.do", parms);

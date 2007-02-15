@@ -69,7 +69,12 @@
                 <summary>Chart Of Accounts Code</summary>
             </attributeReference>
 
-            <attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode"/>
+            <attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
+            	<label>Proposal Organization Code</label>
+            	<shortLabel>Proposal Org Code</shortLabel>
+            	
+            	<summary>Proposal Organization Code</summary>
+            </attributeReference>
 
             <attributeReference name="proposalNumber" sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="proposalNumber"/>
 
@@ -83,7 +88,7 @@
                     <checkbox />
                 </control>
 
-                <summary>proposalPrimaryOrganizationIndicator</summary>
+                <summary>Proposal Primary Organization Indicator</summary>
                 <description>proposalPrimaryOrganizationIndicator description...</description>
 			</attribute>
 

@@ -13,7 +13,8 @@ public class RoutingFormDueDateType extends PersistableBusinessObjectBase {
 
 	private String documentNumber;
 	private String dueDateTypeCode;
-	private boolean yesNoIndicator;
+    
+    private DueDateType dueDateType;
 
 	/**
 	 * Default constructor.
@@ -63,29 +64,27 @@ public class RoutingFormDueDateType extends PersistableBusinessObjectBase {
 		this.dueDateTypeCode = dueDateTypeCode;
 	}
 
+    /**
+     * Gets the dueDateType attribute.
+     * 
+     * @return Returns the dueDateType
+     * 
+     */
+	public DueDateType getDueDateType() {
+        return dueDateType;
+    }
 
-	/**
-	 * Gets the yesNoIndicator attribute.
-	 * 
-	 * @return Returns the yesNoIndicator
-	 * 
-	 */
-	public boolean isYesNoIndicator() { 
-		return yesNoIndicator;
-	}
+    /**
+     * Sets the dueDateType attribute.
+     * 
+     * @param dueDateType The dueDateType to set.
+     * 
+     */
+    public void setDueDateType(DueDateType dueDateType) {
+        this.dueDateType = dueDateType;
+    }
 
-	/**
-	 * Sets the yesNoIndicator attribute.
-	 * 
-	 * @param yesNoIndicator The yesNoIndicator to set.
-	 * 
-	 */
-	public void setYesNoIndicator(boolean yesNoIndicator) {
-		this.yesNoIndicator = yesNoIndicator;
-	}
-
-
-	/**
+    /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {

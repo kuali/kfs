@@ -767,9 +767,6 @@
 	<field-descriptor name="routingFormDueTime" column="RF_DUE_TM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="routingFormRequiredCopyText" column="RF_REQ_CPY_TXT" jdbc-type="VARCHAR"/>
 	<field-descriptor name="routingFormSubmitDate" column="RF_SUBMT_DT" jdbc-type="DATE"/>
-	<reference-descriptor name="routingFormDueDateType" class-ref="org.kuali.module.kra.routingform.bo.RoutingFormDueDateType" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="routingFormDueDateTypeCode" />
-	</reference-descriptor>
     <reference-descriptor name="agency" class-ref="org.kuali.module.cg.bo.Agency" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="agencyNumber" />
     </reference-descriptor>
@@ -1111,5 +1108,7 @@
 	<field-descriptor name="dueDateTypeCode" column="DUE_DT_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="yesNoIndicator" column="YES_NO_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<reference-descriptor name="dueDateType" class-ref="org.kuali.module.kra.routingform.bo.DueDateType" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="dueDateTypeCode" />
+	</reference-descriptor>
 </class-descriptor>

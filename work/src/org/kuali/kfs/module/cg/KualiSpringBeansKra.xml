@@ -194,7 +194,7 @@
 		</property>
 	</bean>
 
-	<bean id="routingFormDueDateService" class="org.kuali.module.kra.routingform.service.impl.RoutingFormDueDateServiceImpl">
+	<bean id="dueDateTypeService" class="org.kuali.module.kra.routingform.service.impl.DueDateTypeServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>

@@ -14,7 +14,6 @@
                     <inquiryFields>
                         <field attributeName="documentNumber" />
                         <field attributeName="dueDateTypeCode" />
-                        <field attributeName="yesNoIndicator" />
                     </inquiryFields>
                 </inquirySection>
             </inquirySections>  
@@ -34,13 +33,11 @@
             <lookupFields>
                 <lookupField attributeName="documentNumber" required="false" />
                 <lookupField attributeName="dueDateTypeCode" required="false" />
-                <lookupField attributeName="yesNoIndicator" required="false" />
             </lookupFields>
 
             <resultFields>
                 <field attributeName="documentNumber" />
                 <field attributeName="dueDateTypeCode" />
-                <field attributeName="yesNoIndicator" />
             </resultFields>
         </lookup>
 
@@ -77,20 +74,6 @@
 			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-            <attribute name="yesNoIndicator" forceUppercase="true">
-                <label>Yes No Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>yesNoIndicator</summary>
-                <description>yesNoIndicator description...</description>
-			</attribute>
 
         </attributes>
     </businessObject>

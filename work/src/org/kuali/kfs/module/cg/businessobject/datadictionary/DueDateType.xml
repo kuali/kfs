@@ -12,10 +12,9 @@
             <inquirySections>
                 <inquirySection title="Header Text">
                     <inquiryFields>
-                        <field attributeName="approvalLeadTime" />
-                        <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
                         <field attributeName="dueDateDescription" />
                         <field attributeName="dueDateTypeCode" />
+                        <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
                     </inquiryFields>
                 </inquirySection>
             </inquirySections>  
@@ -33,21 +32,23 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="approvalLeadTime" required="false" />
-                <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
                 <lookupField attributeName="dueDateDescription" required="false" />
                 <lookupField attributeName="dueDateTypeCode" required="false" />
+                <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false">
+                    <defaultValue>Y</defaultValue>
+                </lookupField>
             </lookupFields>
 
             <resultFields>
-                <field attributeName="approvalLeadTime" />
-                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
                 <field attributeName="dueDateDescription" />
                 <field attributeName="dueDateTypeCode" />
+                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
             </resultFields>
         </lookup>
 
         <attributes>
+
+            <attributeReference name="dataObjectMaintenanceCodeActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
 
             <attribute name="approvalLeadTime" forceUppercase="true">
                 <label>Approval Lead Time</label>
@@ -64,21 +65,7 @@
                 <description>approvalLeadTime description...</description>
 			</attribute>
 
-            <attribute name="dataObjectMaintenanceCodeActiveIndicator" forceUppercase="true">
-                <label>Data Object Maintenance Code Active Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>dataObjectMaintenanceCodeActiveIndicator</summary>
-                <description>dataObjectMaintenanceCodeActiveIndicator description...</description>
-			</attribute>
-
-            <attribute name="dueDateDescription" forceUppercase="true">
+            <attribute name="dueDateDescription" forceUppercase="false">
                 <label>Due Date Description</label>
                 <shortLabel>Description</shortLabel>
 

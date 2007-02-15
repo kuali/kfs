@@ -820,9 +820,9 @@
 	<field-descriptor name="purapDocumentIdentifier" column="REQS_ID" jdbc-type="INTEGER" index="true"/>
 	<field-descriptor name="oldStatusCode" column="OLD_REQS_STAT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="newStatusCode" column="NEW_REQS_STAT_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="noteIdentifier" column="DOC_NTE_ID" jdbc-type="INTEGER"/>
 	<field-descriptor name="statusHistoryTimestamp" column="REQS_STATHST_TS" jdbc-type="TIMESTAMP"/>
 	<field-descriptor name="statusHistoryUserIdentifier" column="REQS_STATHST_USR_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="noteIdentifier" column="NTE_ID" jdbc-type="BIGINT"/>
     <reference-descriptor name="oldStatus" class-ref="org.kuali.module.purap.bo.RequisitionStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="oldStatusCode" />
     </reference-descriptor>
@@ -1196,9 +1196,9 @@
 	<field-descriptor name="paymentRequestIdentifier" column="PMT_RQST_ID" jdbc-type="INTEGER" index="true"/>
 	<field-descriptor name="oldPaymentRequestStatusCode" column="OLD_PMT_RQST_STAT_CD" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="newPaymentRequestStatusCode" column="NEW_PMT_RQST_STAT_CD" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="documentNoteIdentifier" column="DOC_NTE_ID" jdbc-type="INTEGER"/>
 	<field-descriptor name="paymentRequestStatusHistoryTimestamp" column="PMT_RQST_STATHST_TS" jdbc-type="TIMESTAMP"/>
 	<field-descriptor name="paymentRequestStatusHistoryUserIdentifier" column="PMT_RQST_STATHST_USR_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="noteIdentifier" column="NTE_ID" jdbc-type="BIGINT"/>
 	<reference-descriptor name="oldPaymentRequestStatus" class-ref="org.kuali.module.purap.bo.PaymentRequestStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="oldPaymentRequestStatusCode" />
 	</reference-descriptor>
@@ -1245,9 +1245,9 @@
 	<field-descriptor name="creditMemoIdentifier" column="CRDT_MEMO_ID" jdbc-type="INTEGER" index="true"/>
 	<field-descriptor name="creditMemoOldStatusCode" column="CRDT_MEMO_OLD_STAT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="creditMemoNewStatusCode" column="CRDT_MEMO_NEW_STAT_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="documentNoteIdentifier" column="DOC_NTE_ID" jdbc-type="INTEGER"/>
 	<field-descriptor name="creditMemoStatusHistoryTimestamp" column="CRDT_MEMO_STATHST_TS" jdbc-type="TIMESTAMP"/>
 	<field-descriptor name="creditMemoStatusHistoryUserIdentifier" column="CRDT_MEMO_STATHST_USR_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="noteIdentifier" column="NTE_ID" jdbc-type="BIGINT"/>
     <reference-descriptor name="oldCreditMemoStatus" class-ref="org.kuali.module.purap.bo.CreditMemoStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="creditMemoOldStatusCode" />
     </reference-descriptor>
@@ -1526,9 +1526,9 @@
 	<field-descriptor name="documentHeaderIdentifier" column="DOC_HDR_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="oldStatusCode" column="OLD_PO_STAT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="newStatusCode" column="NEW_PO_STAT_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="noteIdentifier" column="PO_NTE_ID" jdbc-type="INTEGER"/>
 	<field-descriptor name="statusHistoryTimestamp" column="PO_STATHST_TS" jdbc-type="TIMESTAMP"/>
 	<field-descriptor name="statusHistoryUserIdentifier" column="PO_STATHST_USR_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="noteIdentifier" column="NTE_ID" jdbc-type="BIGINT"/>
 	<!-- reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.document.PurchaseOrderDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="purchaseOrderIdentifier" />
 	</reference-descriptor -->
@@ -1950,7 +1950,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.Attachment" table="SH_ATT_T">
-	<field-descriptor name="noteIdentifier" column="NTE_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="noteIdentifier" column="NTE_ID" jdbc-type="BIGINT" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="attachmentMimeTypeCode" column="ATT_MIME_TYP_CD" jdbc-type="VARCHAR"/>

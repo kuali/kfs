@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.kra.routingform.bo.DueDateType">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Due Date Type Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="approvalLeadTime" />
+                        <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+                        <field attributeName="dueDateDescription" />
+                        <field attributeName="dueDateTypeCode" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Due Date Type Lookup</title>
+
+            <instructions>Lookup a Due Date Type</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="dueDateTypeCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="approvalLeadTime" required="false" />
+                <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
+                <lookupField attributeName="dueDateDescription" required="false" />
+                <lookupField attributeName="dueDateTypeCode" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="approvalLeadTime" />
+                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+                <field attributeName="dueDateDescription" />
+                <field attributeName="dueDateTypeCode" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="approvalLeadTime" forceUppercase="true">
+                <label>Approval Lead Time</label>
+                <shortLabel>Time</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>approvalLeadTime</summary>
+                <description>approvalLeadTime description...</description>
+			</attribute>
+
+            <attribute name="dataObjectMaintenanceCodeActiveIndicator" forceUppercase="true">
+                <label>Data Object Maintenance Code Active Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>dataObjectMaintenanceCodeActiveIndicator</summary>
+                <description>dataObjectMaintenanceCodeActiveIndicator description...</description>
+			</attribute>
+
+            <attribute name="dueDateDescription" forceUppercase="true">
+                <label>Due Date Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>dueDateDescription</summary>
+                <description>dueDateDescription description...</description>
+			</attribute>
+
+            <attribute name="dueDateTypeCode" forceUppercase="true">
+                <label>Due Date Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>dueDateTypeCode</summary>
+                <description>dueDateTypeCode description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

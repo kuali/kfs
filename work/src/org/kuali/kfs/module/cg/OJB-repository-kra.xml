@@ -763,7 +763,6 @@
 	<field-descriptor name="agencyShippingInstructionsDescription" column="AGNCY_SHIP_INSTRC_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="agencyStateCode" column="AGNCY_ST_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="agencyZipCode" column="AGNCY_ZIP_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="routingFormDueDateTypeCode" column="RF_DUEDT_TYP_CD" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="routingFormDueDate" column="RF_DUE_DT" jdbc-type="DATE"/>
 	<field-descriptor name="routingFormDueTime" column="RF_DUE_TM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="routingFormRequiredCopyText" column="RF_REQ_CPY_TXT" jdbc-type="VARCHAR"/>
@@ -826,13 +825,13 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.kra.routingform.bo.RoutingFormDueDateType" table="ER_RF_DDT_TYP_T">
-	<field-descriptor name="routingFormDueDateTypeCode" column="RF_DUEDT_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+<class-descriptor class="org.kuali.module.kra.routingform.bo.DueDateType" table="ER_DUE_DT_TYP_T">
+	<field-descriptor name="dueDateTypeCode" column="DUE_DT_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="dataObjectMaintenanceCodeActiveIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="routingFormApprovalLeadTime" column="RF_APRV_LEAD_TM" jdbc-type="INTEGER"/>
-	<field-descriptor name="routingFormDueDateDescription" column="RF_DUEDT_DESC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="approvalLeadTime" column="APRV_LEAD_TM" jdbc-type="INTEGER"/>
+	<field-descriptor name="dueDateDescription" column="DUE_DT_DESC" jdbc-type="VARCHAR"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.routingform.bo.Purpose" table="ER_PRPS_T">
@@ -1105,4 +1104,12 @@
 	<reference-descriptor name="question" class-ref="org.kuali.module.kra.routingform.bo.QuestionType" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="questionTypeCode" />
 	</reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.kra.routingform.bo.RoutingFormDueDateType" table="ER_RF_DUE_DT_TYP_T">
+	<field-descriptor name="documentNumber" column="RDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="dueDateTypeCode" column="DUE_DT_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="yesNoIndicator" column="YES_NO_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>

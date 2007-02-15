@@ -1,97 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
 <!DOCTYPE dictionaryEntry PUBLIC
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.kra.routingform.bo.RoutingFormDueDateType">
-        <customAttributeEnabled>false</customAttributeEnabled> 
+        <customAttributeEnabled>false</customAttributeEnabled>
 
         <inquiry>
-            <title>Due Date Type Inquiry</title>
-
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="routingFormDueDateDescription" />
-                <field attributeName="routingFormDueDateTypeCode" />
-                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
-            </inquiryFields></inquirySection></inquirySections>
+            <title>Routing Form Due Date Type Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="documentNumber" />
+                        <field attributeName="dueDateTypeCode" />
+                        <field attributeName="yesNoIndicator" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
         </inquiry>
 
         <lookup>
-            <title>Due Date Type Lookup</title>
+            <title>Routing Form Due Date Type Lookup</title>
 
-            <instructions>Look up a Due Date Type</instructions>
+            <instructions>Lookup a Routing Form Due Date Type</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="routingFormDueDateTypeCode" />
+                    <sortAttribute attributeName="dueDateTypeCode" />
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="routingFormDueDateDescription" required="false" />
-                <lookupField attributeName="routingFormDueDateTypeCode" required="false" />
-                <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false">
-                    <defaultValue>Y</defaultValue>
-                </lookupField>
+                <lookupField attributeName="documentNumber" required="false" />
+                <lookupField attributeName="dueDateTypeCode" required="false" />
+                <lookupField attributeName="yesNoIndicator" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="routingFormDueDateDescription" />
-                <field attributeName="routingFormDueDateTypeCode" />
-                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+                <field attributeName="documentNumber" />
+                <field attributeName="dueDateTypeCode" />
+                <field attributeName="yesNoIndicator" />
             </resultFields>
         </lookup>
 
         <attributes>
 
-            <attributeReference name="dataObjectMaintenanceCodeActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+            <attribute name="documentNumber" forceUppercase="true">
+                <label>Document Number</label>
+                <shortLabel>Number</shortLabel>
 
-            <attribute name="routingFormApprovalLeadTime" forceUppercase="true">
-                <label>Approval Lead Time</label>
-                <shortLabel>Time</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>routingFormApprovalLeadTime</summary>
-                <description>routingFormApprovalLeadTime description...</description>
-			</attribute>
-
-            <attribute name="routingFormDueDateDescription" forceUppercase="false">
-                <label>Due Date Description</label>
-                <shortLabel>Description</shortLabel>
-
-                <maxLength>20</maxLength>
+                <maxLength>14</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="22" />
+                    <text size="16" />
                 </control>
 
-                <summary>routingFormDueDateDescription</summary>
-                <description>routingFormDueDateDescription description...</description>
+                <summary>documentNumber</summary>
+                <description>documentNumber description...</description>
 			</attribute>
 
-            <attribute name="routingFormDueDateTypeCode" forceUppercase="true">
+            <attribute name="dueDateTypeCode" forceUppercase="true">
                 <label>Due Date Type Code</label>
                 <shortLabel>Code</shortLabel>
 
@@ -102,11 +72,25 @@
                     <text size="4" />
                 </control>
 
-                <summary>routingFormDueDateTypeCode</summary>
-                <description>routingFormDueDateTypeCode description...</description>
+                <summary>dueDateTypeCode</summary>
+                <description>dueDateTypeCode description...</description>
 			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+            <attribute name="yesNoIndicator" forceUppercase="true">
+                <label>Yes No Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>yesNoIndicator</summary>
+                <description>yesNoIndicator description...</description>
+			</attribute>
 
         </attributes>
     </businessObject>

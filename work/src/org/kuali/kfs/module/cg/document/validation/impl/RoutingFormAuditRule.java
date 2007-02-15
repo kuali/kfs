@@ -17,13 +17,19 @@ package org.kuali.module.kra.routingform.rules;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.kuali.Constants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.cg.bo.ProjectDirector;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
@@ -136,8 +142,10 @@ public class RoutingFormAuditRule {
             if (KraConstants.PERSON_ROLE_CODE_PD.equals(person.getPersonRoleCode())) {
                 projectDirectorCount++;
                 
-                /* TODO KULERA-816: Following line has to be replaced with an appropriate workgroup call. */
-                if (false) {
+                Map fieldValues = new HashMap();
+                fieldValues.put(PropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, person.getPersonSystemIdentifier());
+                ProjectDirector projectDirector = (ProjectDirector) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(ProjectDirector.class, fieldValues);
+                if (projectDirector == null) {
                     valid = false;
                     auditErrors.add(new AuditError("document.routingFormPersonnel[" + i + "].personSystemIdentifier", KraKeyConstants.AUDIT_MAIN_PAGE_PERSON_NOT_PD, "mainpage.anchor2"));
                 }

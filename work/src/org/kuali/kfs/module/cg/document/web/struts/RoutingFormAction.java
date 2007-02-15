@@ -72,6 +72,7 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
     public ActionForward researchrisks(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         RoutingForm routingForm = (RoutingForm) form;
+        SpringServiceLocator.getPersistenceService().retrieveReferenceObject(routingForm.getRoutingFormDocument(), "routingFormResearchRisks");
         routingForm.setTabStates(new ArrayList());
         return mapping.findForward("researchrisks");
     }
@@ -79,6 +80,7 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
     public ActionForward projectdetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         RoutingForm routingForm = (RoutingForm) form;
+        SpringServiceLocator.getPersistenceService().retrieveReferenceObject(routingForm.getRoutingFormDocument(), "routingFormQuestions");
         routingForm.setTabStates(new ArrayList());
         return mapping.findForward("projectdetails");
     }
@@ -127,6 +129,8 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
     }
 
     public ActionForward permissions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        RoutingForm routingForm = (RoutingForm) form;
+        SpringServiceLocator.getPersistenceService().retrieveReferenceObject(routingForm.getRoutingFormDocument(), "routingFormPersonnel");
         return mapping.findForward("permissions");
     }
 

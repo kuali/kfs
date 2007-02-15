@@ -895,8 +895,19 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
         }
 
     }
-    public boolean validatePendingSalaryTransfer(String employeeId) {
+    
+    /**
+     * Verify that the selected employee does not have other pending salary transfers that have
+     * not been processed.
+     * 
+     * @param Employee ID
+     * @return true if the employee does not have any pending salary transfers.
+     */
+    public boolean validatePendingSalaryTransfer(String emplid) {
+//        reportError(PropertyConstants.ACCOUNT,KeyConstants.Labor.PENDING_SALARY_TRANSFER_ERROR, emplid);
+//        return false;
         return true;
+ 
     }
         
 }

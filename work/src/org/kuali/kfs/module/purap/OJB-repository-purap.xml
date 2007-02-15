@@ -1949,6 +1949,20 @@
 	</reference-descriptor>
 </class-descriptor>
 
+<class-descriptor class="org.kuali.module.purap.bo.Attachment" table="SH_ATT_T">
+	<field-descriptor name="noteIdentifier" column="NTE_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="attachmentMimeTypeCode" column="ATT_MIME_TYP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="attachmentFileName" column="ATT_FL_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="attachmentIdentifier" column="ATT_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="attachmentFileSize" column="ATT_FL_SZ" jdbc-type="BIGINT"/>
+	<field-descriptor name="attachmentTypeCode" column="ATT_TYP_CD" jdbc-type="VARCHAR"/>
+	<reference-descriptor name="note" class-ref="org.kuali.module.purap.bo.Note" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="noteIdentifier" />
+	</reference-descriptor>
+</class-descriptor>
+
 <class-descriptor class="org.kuali.module.purap.bo.CampusParameter" table="PUR_AP_CMP_PARM_T">
 	<field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>

@@ -19,8 +19,11 @@ import java.util.List;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.purap.bo.StatusHistory;
+import org.kuali.module.purap.bo.PurchaseOrderStatusHistory;
+import org.kuali.module.purap.bo.RequisitionStatusHistory;
+import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.PurapService;
 
 public class PurapServiceImpl implements PurapService {
@@ -93,10 +96,15 @@ public class PurapServiceImpl implements PurapService {
         }
 
         String oldStatus = document.getStatusCode();
-        StatusHistory statusHistory = new StatusHistory(oldStatus, newStatus);
-        
         List statusHistories = document.getStatusHistories();
-        statusHistories.add(statusHistory);
+        if( document instanceof RequisitionDocument ) {
+            RequisitionStatusHistory statusHistory = new RequisitionStatusHistory(oldStatus, newStatus);
+            statusHistories.add(statusHistory);
+        } else if ( document instanceof PurchaseOrderDocument ) {
+            PurchaseOrderStatusHistory statusHistory = new PurchaseOrderStatusHistory(oldStatus, newStatus);
+            statusHistories.add(statusHistory);
+        }        
+        
         document.setStatusHistories(statusHistories);
 
         success = true;

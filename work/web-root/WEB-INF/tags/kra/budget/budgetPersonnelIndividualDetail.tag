@@ -74,8 +74,8 @@
 			                <html:hidden property="document.budget.personFromList[${listIndex}].user.personName" />
 			                <html:hidden property="document.budget.personFromList[${listIndex}].user.employeeStatusCode" />
 			                <html:hidden property="document.budget.personFromList[${listIndex}].user.employeeTypeCode" />
-			                <html:hidden property="document.budget.personFromList[${listIndex}].user.emplid" />
-			                <html:hidden property="document.budget.personFromList[${listIndex}].user.deptid" />
+			                <html:hidden property="document.budget.personFromList[${listIndex}].user.personUniversalIdentifier" />
+			                <html:hidden property="document.budget.personFromList[${listIndex}].user.primaryDepartmentCode" />
 			                <html:hidden property="document.budget.personFromList[${listIndex}].user.personUserIdentifier" />
 			                <html:hidden property="document.budget.personFromList[${listIndex}].user.personEmailAddress" />
 			                <html:hidden property="document.budget.personFromList[${listIndex}].user.personFirstName" />

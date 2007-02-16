@@ -428,8 +428,6 @@
     <field-descriptor name="budgetCostShareSequenceNumber" column="BDGT_INST_CST_SHR_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
     <field-descriptor name="budgetPeriodSequenceNumber" column="BDGT_PRD_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
     <field-descriptor name="budgetCostShareAmount" column="BDGT_INST_CST_SHR_AMT" jdbc-type="BIGINT" conversion="org.kuali.core.util.OjbKualiIntegerFieldConversion" />
-    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 </class-descriptor>

@@ -17,14 +17,13 @@ package org.kuali.module.kra.routingform.rules;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.document.Document;
+import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
@@ -271,13 +270,12 @@ public class RoutingFormAuditRule {
             for(i = 0; i < projectTypes.length; i++) {
                 projectTypesString += projectTypes[i];
                 if (projectTypes.length != i+1) {
-                    projectTypesString += ",";
+                    projectTypesString += "$";
                 }
             }
             
-            String[] projectTypesValid = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValues("KraDevelopmentGroup", "KraRoutingFormProjectTypesValid");
-            List<String> projectTypesValidList = Arrays.asList(projectTypesValid);
-            if (!projectTypesValidList.contains(projectTypesString)) {
+            KualiParameterRule activeRule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(KraConstants.KRA_ADMIN_GROUP_NAME, "KraRoutingFormProjectTypesValid");
+            if (activeRule.failsRule(projectTypesString)) {
                 valid = false;
                 auditErrors.add(new AuditError("document.routingFormProjectTypes", KraKeyConstants.AUDIT_MAIN_PAGE_PROJECT_TYPE_INVALID, "mainpage.anchor3"));
             }

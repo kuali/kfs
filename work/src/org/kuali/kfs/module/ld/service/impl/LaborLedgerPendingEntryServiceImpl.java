@@ -16,13 +16,14 @@
 package org.kuali.module.labor.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ojb.broker.query.Criteria;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.PendingLedgerEntry;
 import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,16 +49,13 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
         
         Map fieldValues = new HashMap();
         fieldValues.put("emplid", emplid);
-        List pendingEntries = new ArrayList();
         PendingLedgerEntry pendingEntry = new PendingLedgerEntry();
-        pendingEntries = (List) businessObjectService.findMatching(PendingLedgerEntry.class, fieldValues);
-        
+        Collection<PendingLedgerEntry> pendingEntries = businessObjectService.findMatching(PendingLedgerEntry.class, fieldValues);
+
         // When the financial Document Approved Code equals 'X' it means the pending labor ledger transaction has been processed
-        for (int count = 0; count < pendingEntries.size(); count++) {
-            pendingEntry = (PendingLedgerEntry) pendingEntries.get(count);
-            if ((pendingEntry.getFinancialDocumentApprovedCode() != null) && (pendingEntry.getFinancialDocumentApprovedCode().trim().equals("X"))) 
+        for (PendingLedgerEntry pendingLedgerEntry : pendingEntries)
+            if ((pendingLedgerEntry.getFinancialDocumentApprovedCode() == null) || (!pendingLedgerEntry.getFinancialDocumentApprovedCode().trim().equals("X"))) 
                 return true;
-        }
         return false;
     }
 }

@@ -61,20 +61,28 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         return processCustomAddAccountingLineBusinessRules(accountingDocument, accountingLine);
     }
     
-    /** Account must be valid.
-      * Object code must be valid.
-      * Object code must be a labor object code.
-             Object code must exist in the ld_labor_obj_t table.
-             The field finobj_frngslry_cd for the object code in the ld_labor_obj_t table must have a value of "S".
-      * Sub-account, if specified, must be valid for account.
-      * Sub-object, if specified, must be valid for account and object code.
-      * Enforce the A21-report-related business rules for the "SAVE" action.
-      * Position must be valid for fiscal year. FIS enforces this by a direct lookup of the PeopleSoft HRMS position data table. Kuali cannot do this. (See issue 12.)
-      * Amount must not be zero. 
+    /** 
+     * The following criteria will be validated here:
+     * Account must be valid.
+     * Object code must be valid.
+     * Object code must be a labor object code.
+            Object code must exist in the ld_labor_obj_t table.
+            The field finobj_frngslry_cd for the object code in the ld_labor_obj_t table must have a value of "S".
+     * Sub-account, if specified, must be valid for account.
+     * Sub-object, if specified, must be valid for account and object code.
+     * Enforce the A21-report-related business rules for the "SAVE" action.
+     * Position must be valid for fiscal year. FIS enforces this by a direct lookup of the PeopleSoft HRMS position data table. Kuali cannot do this. (See issue 12.)
+     * Employee ID exists.
+     * Employee does not have pending salary transfers.
+     * Amount must not be zero. 
      * 
-     * @see org.kuali.module.financial.rules.AccountingDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.AccountingDocument,
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
      *      org.kuali.core.bo.AccountingLine)
-     */
+     *      
+     * @param TransactionalDocument
+     * @param AccountingLine
+     * @return
+   */
     @Override
     protected boolean processCustomAddAccountingLineBusinessRules(AccountingDocument accountingDocument, AccountingLine accountingLine) {
 
@@ -98,10 +106,21 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
             return false;
         }            
             
-        // Save the employee ID in all accounting related lines
+        // Validate that an employee ID is enterred.
         SalaryExpenseTransferDocument salaryExpenseTransferDocument = (SalaryExpenseTransferDocument)accountingDocument;
+        String emplid = salaryExpenseTransferDocument.getEmplid();
+        if ((emplid == null) || (emplid.trim().length() == 0)) {
+            reportError(Constants.EMPLOYEE_LOOKUP_ERRORS,KeyConstants.Labor.MISSING_EMPLOYEE_ID, emplid);
+            return false;
+        }
+        
+        // Make sure the employye does not have any pending salary transfers
+        if (!validatePendingSalaryTransfer(emplid))
+            return false;
+        
+        // Save the employee ID in all accounting related lines       
         ExpenseTransferAccountingLine salaryExpenseTransferAccountingLine = (ExpenseTransferAccountingLine)accountingLine;
-        salaryExpenseTransferAccountingLine.setEmplid(salaryExpenseTransferDocument.getEmplid()); 
+        salaryExpenseTransferAccountingLine.setEmplid(emplid); 
         
         return true;
     }
@@ -905,14 +924,13 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
      * @return true if the employee does not have any pending salary transfers.
      */
     public boolean validatePendingSalaryTransfer(String emplid) {
-        System.out.println("Testing emplid:" + emplid);
         
         // We must not have any pending labor ledger entries
         if (SpringServiceLocator.getLaborLedgerPendingEntryService().hasPendingLaborLedgerEntry(emplid)) {
            reportError(Constants.EMPLOYEE_LOOKUP_ERRORS,KeyConstants.Labor.PENDING_SALARY_TRANSFER_ERROR, emplid);
            return false;
         }      
-        System.out.println("LOOKS GOOD!");
         return true;
+ 
     }
 }

@@ -165,7 +165,7 @@
                 <description>Subcontractor City</description>
             </attribute>
 
-            <attributeReference name="subcontractorStateCode" sourceClassName="org.kuali.core.bo.State" sourceAttributeName="postalStateCode">
+            <attributeReference name="subcontractorStateCode" sourceClassName="org.kuali.kfs.bo.State" sourceAttributeName="postalStateCode">
                 <label>State Code</label>
                 <shortLabel>State</shortLabel>
 
@@ -196,7 +196,7 @@
                 <description>Subcontractor ZIP Code</description>
             </attribute>
 
-            <attributeReference name="subcontractorCountryCode" sourceClassName="org.kuali.core.bo.State" sourceAttributeName="postalStateCode">
+            <attributeReference name="subcontractorCountryCode" sourceClassName="org.kuali.kfs.bo.State" sourceAttributeName="postalStateCode">
                 <label>Country Code</label>
                 <shortLabel>Country</shortLabel>
 

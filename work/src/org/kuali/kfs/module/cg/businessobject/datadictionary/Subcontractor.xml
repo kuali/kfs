@@ -165,24 +165,17 @@
                 <description>Subcontractor City</description>
             </attribute>
 
-            <attribute name="subcontractorStateCode" forceUppercase="true">
+            <attributeReference name="subcontractorStateCode" sourceClassName="org.kuali.core.bo.State" sourceAttributeName="postalStateCode">
                 <label>State Code</label>
                 <shortLabel>State</shortLabel>
 
                 <maxLength>2</maxLength>
 
-                <validationPattern>
-                    <alpha />
-                </validationPattern>
                 <required>true</required>
-
-                <control>
-                    <text size="2" />
-                </control>
 
                 <summary>State Code</summary>
                 <description>Subcontractor State Code</description>
-            </attribute>
+            </attributeReference>
 
             <attribute name="subcontractorZipCode" forceUppercase="false">
                 <label>ZIP Code</label>
@@ -203,24 +196,17 @@
                 <description>Subcontractor ZIP Code</description>
             </attribute>
 
-            <attribute name="subcontractorCountryCode" forceUppercase="false">
+            <attributeReference name="subcontractorCountryCode" sourceClassName="org.kuali.core.bo.State" sourceAttributeName="postalStateCode">
                 <label>Country Code</label>
                 <shortLabel>Country</shortLabel>
 
                 <maxLength>15</maxLength>
 
-                <validationPattern>
-                    <alphaNumeric allowWhitespace="true" />
-                </validationPattern>
                 <required>true</required>
-
-                <control>
-                    <text size="15" />
-                </control>
 
                 <summary>Country Code</summary>
                 <description>Subcontractor Country Code</description>
-            </attribute>
+            </attributeReference>
 
             <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
 

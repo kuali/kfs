@@ -18,7 +18,9 @@ package org.kuali.module.cg.bo;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.core.bo.Country;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.bo.State;
 
 /**
  * 
@@ -34,6 +36,9 @@ public class Subcontractor extends PersistableBusinessObjectBase {
     private String subcontractorZipCode;
     private String subcontractorCountryCode;
     private boolean active;
+    
+    private State state;
+    private Country country;
     
     /**
      * Default no-arg constructor.
@@ -223,6 +228,22 @@ public class Subcontractor extends PersistableBusinessObjectBase {
         LinkedHashMap m = new LinkedHashMap();
         m.put("subcontractorNumber", this.getSubcontractorNumber());
         return m;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
     }
 
 }

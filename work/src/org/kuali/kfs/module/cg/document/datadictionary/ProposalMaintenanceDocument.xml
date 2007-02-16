@@ -145,7 +145,7 @@
             
             <maintainableSection title="Research Risks">
                 <maintainableItems>
-                    <maintainableCollection name="proposalResearchRisks" businessObjectClass="org.kuali.module.cg.bo.ProposalResearchRisk">
+                    <maintainableCollection name="proposalResearchRisks" businessObjectClass="org.kuali.module.cg.bo.ProposalResearchRisk" includeAddLine="false">
                         <maintainableField name="researchRiskType.researchRiskTypeDescription" readOnly="true" />
                         <maintainableField name="isActive" required="false" />
                         <!-- hidden fields -->

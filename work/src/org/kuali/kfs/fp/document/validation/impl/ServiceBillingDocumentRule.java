@@ -20,50 +20,48 @@ import static org.kuali.module.financial.rules.ServiceBillingDocumentRuleConstan
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.PropertyConstants;
-import org.kuali.core.bo.AccountingLine;
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.document.AccountingDocument;
 
 /**
  * Business rule(s) applicable to Service Billing documents. They differ from {@link InternalBillingDocumentRule} by not routing for
  * fiscal officer approval. Instead, they route straight to final, by a formal pre-agreement between the service provider and the
  * department being billed, based on the service provider's ability to provide documentation for all transactions. These agreements
  * are configured in the Service Billing Control table by workgroup and income account number. This class enforces those agreements.
- * 
- * 
  */
 public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
 
     /**
-     * @see TransactionalDocumentRuleBase#accountIsAccessible(TransactionalDocument, AccountingLine)
+     * @see FinancialDocumentRuleBase#accountIsAccessible(FinancialDocument, AccountingLine)
      */
     @Override
-    protected boolean accountIsAccessible(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
-        KualiWorkflowDocument workflowDocument = transactionalDocument.getDocumentHeader().getWorkflowDocument();
+    protected boolean accountIsAccessible(AccountingDocument financialDocument, AccountingLine accountingLine) {
+        KualiWorkflowDocument workflowDocument = financialDocument.getDocumentHeader().getWorkflowDocument();
 
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
             // The use from hasAccessibleAccountingLines() is not important for SB, which routes straight to final.
             return accountingLine.isTargetAccountingLine() || ServiceBillingDocumentRuleUtil.serviceBillingIncomeAccountIsAccessible(accountingLine, null);
         }
-        return super.accountIsAccessible(transactionalDocument, accountingLine);
+        return super.accountIsAccessible(financialDocument, accountingLine);
     }
 
     /**
-     * @see TransactionalDocumentRuleBase#checkAccountingLineAccountAccessibility(org.kuali.core.document.TransactionalDocument,
-     *      org.kuali.core.bo.AccountingLine, org.kuali.module.financial.rules.TransactionalDocumentRuleBase.AccountingLineAction)
+     * @see FinancialDocumentRuleBase#checkAccountingLineAccountAccessibility(org.kuali.core.document.FinancialDocument,
+     *      org.kuali.core.bo.AccountingLine, org.kuali.module.financial.rules.FinancialDocumentRuleBase.AccountingLineAction)
      */
     @Override
-    protected boolean checkAccountingLineAccountAccessibility(TransactionalDocument transactionalDocument, AccountingLine accountingLine, AccountingLineAction action) {
+    protected boolean checkAccountingLineAccountAccessibility(AccountingDocument financialDocument, AccountingLine accountingLine, AccountingLineAction action) {
         // Duplicate code from accountIsAccessible() to avoid unnecessary calls to SB control and Workgroup services.
-        KualiWorkflowDocument workflowDocument = transactionalDocument.getDocumentHeader().getWorkflowDocument();
+        KualiWorkflowDocument workflowDocument = financialDocument.getDocumentHeader().getWorkflowDocument();
 
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
             return accountingLine.isTargetAccountingLine() || ServiceBillingDocumentRuleUtil.serviceBillingIncomeAccountIsAccessible(accountingLine, action);
         }
-        if (!super.accountIsAccessible(transactionalDocument, accountingLine)) {
+        if (!super.accountIsAccessible(financialDocument, accountingLine)) {
             GlobalVariables.getErrorMap().putError(PropertyConstants.ACCOUNT_NUMBER, action.accessibilityErrorKey, accountingLine.getAccountNumber(), GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier());
             return false;
         }
@@ -81,11 +79,10 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
     /**
      * Sets extra accounting line field in explicit GLPE. IB doesn't have this field.
      * 
-     * @see TransactionalDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument, AccountingLine,
+     * @see FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(FinancialDocument, AccountingLine,
      *      GeneralLedgerPendingEntry)
      */
-    @Override
-    protected void customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
+    protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument financialDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
         String description = accountingLine.getFinancialDocumentLineDescription();
         if (StringUtils.isNotBlank(description)) {
             explicitEntry.setTransactionLedgerEntryDescription(description);
@@ -95,15 +92,15 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
     /**
      * further restricts to income/expense object type codes
      * 
-     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.TransactionalDocument,
+     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
     @Override
-    public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
+    public boolean isDebit(AccountingDocument financialDocument, AccountingLine accountingLine) {
         if (!isIncome(accountingLine) && !isExpense(accountingLine)) {
             throw new IllegalStateException(IsDebitUtils.isDebitCalculationIllegalStateExceptionMessage);
         }
 
-        return super.isDebit(transactionalDocument, accountingLine);
+        return super.isDebit(financialDocument, accountingLine);
     }
 }

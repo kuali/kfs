@@ -20,16 +20,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.financial.bo.CreditCardDetail;
 import org.kuali.module.financial.document.CreditCardReceiptDocument;
 
 /**
  * This class is the struts form for Credit Card Receipt document.
- * 
- * 
  */
-public class CreditCardReceiptForm extends KualiTransactionalDocumentFormBase {
+public class CreditCardReceiptForm extends KualiAccountingDocumentFormBase {
     private CreditCardDetail newCreditCardReceipt;
 
     /**

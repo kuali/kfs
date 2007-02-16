@@ -15,14 +15,15 @@
  */
 package org.kuali.test.fixtures;
 
-import static org.kuali.Constants.GL_DEBIT_CODE;
 import static org.kuali.Constants.GL_CREDIT_CODE;
+import static org.kuali.Constants.GL_DEBIT_CODE;
 
-import org.kuali.core.bo.AccountingLine;
-import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.bo.TargetAccountingLine;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.document.TransactionalDocument;
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.bo.TargetAccountingLine;
+import org.kuali.kfs.document.AccountingDocument;
 
 public enum AccountingLineFixture {
     LINE( 2004, 1, "BL", "1031400", "AC", "ADV", "5000", "SSS", "KUL", "Y", "IN", "ONE", "01", "1", "blah", GL_DEBIT_CODE, "2.50"),
@@ -171,13 +172,13 @@ public enum AccountingLineFixture {
         return createAccountingLine(TargetAccountingLine.class);
     }
 
-    public void addAsSourceTo(TransactionalDocument document)
+    public void addAsSourceTo(AccountingDocument document)
         throws IllegalAccessException, InstantiationException
     {
         document.addSourceAccountingLine(createAccountingLine(SourceAccountingLine.class, document.getDocumentNumber(), document.getPostingYear(), document.getNextSourceLineNumber()));
     }
     
-    public void addAsTargetTo(TransactionalDocument document)
+    public void addAsTargetTo(AccountingDocument document)
         throws IllegalAccessException, InstantiationException
     {
         document.addTargetAccountingLine(createAccountingLine(TargetAccountingLine.class, document.getDocumentNumber(), document.getPostingYear(), document.getNextTargetLineNumber()));

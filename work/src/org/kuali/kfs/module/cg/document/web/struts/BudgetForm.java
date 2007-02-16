@@ -33,7 +33,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.web.uidraw.KeyLabelPair;
+import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetAdHocOrg;
 import org.kuali.module.kra.budget.bo.BudgetAdHocPermission;

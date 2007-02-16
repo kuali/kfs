@@ -19,8 +19,8 @@ import static org.kuali.core.util.SpringServiceLocator.getAccountingPeriodServic
 import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
 import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
 import static org.kuali.core.util.SpringServiceLocator.getTransactionalDocumentDictionaryService;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.saveDocument;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testGetNewDocument_byDocumentClass;
+import static org.kuali.module.financial.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
+import static org.kuali.module.financial.document.AccountingDocumentTestUtils.saveDocument;
 import static org.kuali.test.fixtures.AccountingLineFixture.LINE7;
 import static org.kuali.test.fixtures.UserNameFixture.CSWINSON;
 import static org.kuali.test.fixtures.UserNameFixture.HSCHREIN;
@@ -34,13 +34,14 @@ import java.util.List;
 
 import junit.framework.Assert;
 
-import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.bo.TargetAccountingLine;
+import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.financial.bo.DisbursementVoucherNonResidentAlienTax;
 import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
 import org.kuali.test.DocumentTestUtils;
@@ -72,7 +73,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
         DisbursementVoucherDocument dvParameter = (DisbursementVoucherDocument) getDocumentParameterFixture();
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) getDocumentParameterFixture();
         document.getDvPayeeDetail().setDisbVchrPayeeIdNumber("1234");
-        document.convertIntoCopy();
+        document.toCopy();
 
         // the dvParameter doc number needs to be resynced
         dvParameter.setDocumentNumber(document.getDocumentNumber());
@@ -203,7 +204,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
     }
 
     private <T extends Document> void assertMatch(T document1, T document2) {
-        TransactionalDocumentTestUtils.assertMatch(document1, document2);
+        AccountingDocumentTestUtils.assertMatch(document1, document2);
         DisbursementVoucherDocument d1 = (DisbursementVoucherDocument) document1;
         DisbursementVoucherDocument d2 = (DisbursementVoucherDocument) document2;
 
@@ -233,55 +234,34 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
         List<TargetAccountingLine> targetLines = generateTargetAccountingLines();
         int expectedSourceTotal = sourceLines.size();
         int expectedTargetTotal = targetLines.size();
-        TransactionalDocumentTestUtils.testAddAccountingLine(DocumentTestUtils.createDocument(getDocumentService(), DOCUMENT_CLASS), sourceLines, targetLines, expectedSourceTotal, expectedTargetTotal);
+        AccountingDocumentTestUtils.testAddAccountingLine(DocumentTestUtils.createDocument(getDocumentService(), DOCUMENT_CLASS), sourceLines, targetLines, expectedSourceTotal, expectedTargetTotal);
     }
 
     public final void testGetNewDocument() throws Exception {
         testGetNewDocument_byDocumentClass(DOCUMENT_CLASS, getDocumentService());
     }
 
-    public final void testConvertIntoCopy_invalidYear() throws Exception {
-        TransactionalDocumentTestUtils.testConvertIntoCopy_invalidYear(buildDocument(), getAccountingPeriodService());
-    }
-
     public final void testConvertIntoCopy_copyDisallowed() throws Exception {
-        TransactionalDocumentTestUtils.testConvertIntoCopy_copyDisallowed(buildDocument(), getDataDictionaryService());
+        AccountingDocumentTestUtils.testConvertIntoCopy_copyDisallowed(buildDocument(), getDataDictionaryService());
 
-    }
-
-    public final void testConvertIntoErrorCorrection_documentAlreadyCorrected() throws Exception {
-        TransactionalDocumentTestUtils.testConvertIntoErrorCorrection_documentAlreadyCorrected(buildDocument(), getTransactionalDocumentDictionaryService());
-    }
-
-    public final void testConvertIntoErrorCorrection_errorCorrectionDisallowed() throws Exception {
-        TransactionalDocumentTestUtils.testConvertIntoErrorCorrection_errorCorrectionDisallowed(buildDocument(), getDataDictionaryService());
-    }
-
-    public final void testConvertIntoErrorCorrection_invalidYear() throws Exception {
-        TransactionalDocumentTestUtils.testConvertIntoErrorCorrection_invalidYear(buildDocument(), getTransactionalDocumentDictionaryService(), getAccountingPeriodService());
-    }
-
-    @TestsWorkflowViaDatabase
-    public final void testConvertIntoErrorCorrection() throws Exception {
-        TransactionalDocumentTestUtils.testConvertIntoErrorCorrection(buildDocument(), getExpectedPrePeCount(), getDocumentService(), getTransactionalDocumentDictionaryService());
     }
 
     @TestsWorkflowViaDatabase
     public final void testRouteDocument() throws Exception {
-        TransactionalDocumentTestUtils.testRouteDocument(buildDocument(), getDocumentService());
+        AccountingDocumentTestUtils.testRouteDocument(buildDocument(), getDocumentService());
     }
 
     @TestsWorkflowViaDatabase
     public final void testSaveDocument() throws Exception {
         // get document parameter
-        TransactionalDocument document = buildDocument();
+        AccountingDocument document = buildDocument();
         document.prepareForSave();
 
         // save
         saveDocument(document, getDocumentService());
 
         // retrieve
-        TransactionalDocument result = (TransactionalDocument) getDocumentService().getByDocumentHeaderId(document.getDocumentNumber());
+        AccountingDocument result = (AccountingDocument) getDocumentService().getByDocumentHeaderId(document.getDocumentNumber());
         // verify
         assertMatch(document, result);
 
@@ -289,7 +269,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
 
     @TestsWorkflowViaDatabase
     public final void testConvertIntoCopy() throws Exception {
-        TransactionalDocumentTestUtils.testConvertIntoCopy(buildDocument(), getDocumentService(), getExpectedPrePeCount());
+        AccountingDocumentTestUtils.testConvertIntoCopy(buildDocument(), getDocumentService(), getExpectedPrePeCount());
     }
 
     // test util methods

@@ -20,6 +20,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.Constants;
+import org.kuali.core.document.AmountTotaling;
+import org.kuali.core.document.Copyable;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.CurrencyFormatter;
@@ -32,10 +34,8 @@ import org.kuali.module.gl.util.SufficientFundsItem;
  * eventually post transactions to the G/L. It integrates with workflow. Since a Cash Receipt is a one sided transactional document,
  * only accepting funds into the university, the accounting line data will be held in the source accounting line data structure
  * only.
- * 
- * 
  */
-public class CashReceiptDocument extends CashReceiptFamilyBase {
+public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyable, AmountTotaling {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashReceiptDocument.class);
 
     public static final String CHECK_ENTRY_DETAIL = "individual";
@@ -297,7 +297,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase {
      * @return KualiDecimal
      */
     @Override
-    public KualiDecimal getSumTotalAmount() {
+    public KualiDecimal getTotalDollarAmount() {
         KualiDecimal sumTotalAmount = getTotalCoinAmount().add(getTotalCheckAmount()).add(getTotalCashAmount());
         return sumTotalAmount;
     }
@@ -308,7 +308,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase {
      * @return String
      */
     public String getCurrencyFormattedSumTotalAmount() {
-        return (String) new CurrencyFormatter().format(getSumTotalAmount());
+        return (String) new CurrencyFormatter().format(getTotalDollarAmount());
     }
 
     /**

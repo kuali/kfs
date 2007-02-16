@@ -29,10 +29,10 @@ import static org.kuali.PropertyConstants.POSITION_NUMBER;
 import static org.kuali.PropertyConstants.PROJECT_CODE;
 import static org.kuali.PropertyConstants.SUB_ACCOUNT_NUMBER;
 
-import org.kuali.core.bo.AccountingLine;
-import org.kuali.core.bo.AccountingLineParserBase;
-import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.bo.TargetAccountingLine;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.AccountingLineParserBase;
+import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.bo.TargetAccountingLine;
 
 /**
  * Extended class for parsing serialized <code>AccountingLine</code>s for <code>TransactionalDocument</code>s

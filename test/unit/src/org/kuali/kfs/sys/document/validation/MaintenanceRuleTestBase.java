@@ -27,8 +27,10 @@ import org.kuali.core.maintenance.rules.MaintenanceDocumentRule;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
+
 import static org.kuali.core.util.SpringServiceLocator.getDictionaryValidationService;
 import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
+
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;

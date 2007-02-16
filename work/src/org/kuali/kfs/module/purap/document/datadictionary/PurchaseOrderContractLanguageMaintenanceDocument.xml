@@ -24,7 +24,7 @@
         <maintainableClass>org.kuali.module.purap.maintenance.PurchaseOrderContractLanguageMaintainableImpl</maintainableClass>
         <businessRulesClass>org.kuali.module.purap.rules.PurchaseOrderContractLanguageRule</businessRulesClass>
 
-        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
                 <workgroups>

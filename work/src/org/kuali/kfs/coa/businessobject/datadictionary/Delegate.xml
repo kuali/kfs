@@ -93,7 +93,7 @@
             </attributeReference>
 
             <attributeReference name="financialDocumentTypeCode" 
-            					sourceClassName="org.kuali.core.document.DocumentType" 
+            					sourceClassName="org.kuali.core.bo.DocumentType" 
             					sourceAttributeName="financialDocumentTypeCode" />
 
             <attributeReference name="accountDelegateSystemId" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier">

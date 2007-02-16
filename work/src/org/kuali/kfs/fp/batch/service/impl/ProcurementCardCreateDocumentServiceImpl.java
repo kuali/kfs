@@ -49,6 +49,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.TimestampFormatter;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.kfs.rules.AccountingLineRuleUtil;
 import org.kuali.module.financial.bo.ProcurementCardHolder;
 import org.kuali.module.financial.bo.ProcurementCardSourceAccountingLine;
 import org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine;
@@ -56,7 +57,6 @@ import org.kuali.module.financial.bo.ProcurementCardTransaction;
 import org.kuali.module.financial.bo.ProcurementCardTransactionDetail;
 import org.kuali.module.financial.bo.ProcurementCardVendor;
 import org.kuali.module.financial.document.ProcurementCardDocument;
-import org.kuali.module.financial.rules.AccountingLineRuleUtil;
 import org.kuali.module.financial.service.ProcurementCardCreateDocumentService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -281,7 +281,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
                 String truncatedMessage = " ... TRUNCATED.";
                 errorText = errorText.substring(0, documentExplanationMaxLength - truncatedMessage.length()) + truncatedMessage;
             }
-            pcardDocument.setExplanation(errorText);
+            pcardDocument.getDocumentHeader().setExplanation(errorText);
         }
         catch (WorkflowException e) {
             LOG.error("Error creating pcdo documents: " + e.getMessage());

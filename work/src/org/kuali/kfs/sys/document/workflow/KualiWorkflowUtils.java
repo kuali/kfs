@@ -33,11 +33,12 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
-import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.util.FieldUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.UrlFactory;
+import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.bo.TargetAccountingLine;
+import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.workflow.attribute.WorkflowLookupableImpl;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -84,6 +85,30 @@ public class KualiWorkflowUtils {
     public static final String PROJECT_CODE_DOC_TYPE = "KualiProjectCodeMaintenanceDocument";
      public static final String KRA_BUDGET_DOC_TYPE = "KualiBudgetDocument";
     public static final String SIMPLE_MAINTENANCE_DOC_TYPE = "KualiSimpleMaintenanceDocument";
+    
+    public class RouteLevels {
+
+        public static final int ADHOC = 0;
+        public static final int EXCEPTION = -1;
+        public static final int ORG_REVIEW = 1;
+        
+    }
+    
+    public class RouteLevelNames {
+
+        public static final String ACCOUNT_REVIEW = "Account Review";
+        public static final String ORG_REVIEW = "Org Review";
+        public static final String EMPLOYEE_INDICATOR = "Employee Indicator";
+        public static final String TAX_CONTROL_CODE = "Tax Control Code";
+        public static final String ALIEN_INDICATOR = "Alien Indicator";
+        public static final String PAYMENT_REASON = "Payment Reason";
+        public static final String PAYMENT_REASON_CAMPUS = "Payment Reason+Campus Code";
+        public static final String CAMPUS_CODE = "Campus Code";
+        public static final String ALIEN_INDICATOR_PAYMENT_REASON = "Alien Indicator+Payment Reason";
+        public static final String PAYMENT_METHOD = "Payment Method";
+        public static final String ACCOUNT_REVIEW_FULL_EDIT = "Account Review Full Edit";
+        
+    }
 
     public static final Set SOURCE_LINE_ONLY_DOCUMENT_TYPES = new HashSet();
     static {
@@ -153,7 +178,7 @@ public class KualiWorkflowUtils {
      * TODO: remove this method when we upgrade to workflow 2.2 - the problem that this helps with is as follows:
      * StandardWorkflowEngine is not currently setting up the DocumentContent on the RouteContext object. Instead that's being
      * handled by the RequestsNode which, in the case of the BudgetAdjustmentDocument, we never pass through before hitting the
-     * first split. So, in that particular case, we have to reference an attribute that gives us the xml string and translate that
+     * first split . So, in that particular case, we have to reference an attribute that gives us the xml string and translate that
      * to a dom document ourselves.
      * 
      * @param xmlDocumentContent
@@ -170,14 +195,14 @@ public class KualiWorkflowUtils {
     }
 
     /**
-     * This method uses the TransactionalDocumentDataDictionaryService to get the name of the source accounting line class for a
+     * This method uses the AccountingDocument to get the name of the source accounting line class for a
      * given workflow documentTypeName. It is intended for use by our workflow attributes when building xpath expressions
      * 
      * @param documentTypeName the document type name to use when querying the TransactionalDocumentDataDictionaryService
      * @return the name of the source accounting line class associated with the specified workflow document type name
      */
-    public static final String getSourceAccountingLineClassName(String documentTypeName) {
-        Class sourceAccountingLineClass = SpringServiceLocator.getTransactionalDocumentDictionaryService().getSourceAccountingLineClass(documentTypeName);
+    public static final String getSourceAccountingLineClassName(AccountingDocument document) {
+        Class sourceAccountingLineClass = document.getSourceAccountingLineClass();
         String sourceAccountingLineClassName = null;
         if (sourceAccountingLineClass != null) {
             sourceAccountingLineClassName = sourceAccountingLineClass.getName();
@@ -189,14 +214,14 @@ public class KualiWorkflowUtils {
     }
 
     /**
-     * This method uses the TransactionalDocumentDataDictionaryService to get the name of the target accounting line class for a
+     * This method uses the AccountingDocument to get the name of the target accounting line class for a
      * given workflow documentTypeName. It is intended for use by our workflow attributes when building xpath expressions
      * 
      * @param documentTypeName the document type name to use when querying the TransactionalDocumentDataDictionaryService
      * @return the name of the target accounting line class associated with the specified workflow document type name
      */
-    public static final String getTargetAccountingLineClassName(String documentTypeName) {
-        Class targetAccountingLineClass = SpringServiceLocator.getTransactionalDocumentDictionaryService().getTargetAccountingLineClass(documentTypeName);
+    public static final String getTargetAccountingLineClassName(AccountingDocument document) {
+        Class targetAccountingLineClass = document.getTargetAccountingLineClass();
         String targetAccountingLineClassName = null;
         if (targetAccountingLineClass != null) {
             targetAccountingLineClassName = targetAccountingLineClass.getName();
@@ -250,7 +275,7 @@ public class KualiWorkflowUtils {
      * 
      * @param field The kuali field that we need to derive a help url for. @ return Returns the help url for the field.
      */
-    public static String getHelpUrl(org.kuali.core.web.uidraw.Field field) {
+    public static String getHelpUrl(org.kuali.core.web.ui.Field field) {
         Properties params = new Properties();
         params.put(Constants.DISPATCH_REQUEST_PARAMETER, "getAttributeHelpText");
         params.put(Constants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, field.getBusinessObjectClassName());
@@ -276,7 +301,7 @@ public class KualiWorkflowUtils {
                 edu.iu.uis.eden.lookupable.Field field = row.getField(0);
                 if (edu.iu.uis.eden.lookupable.Field.TEXT.equals(field.getFieldType())) {
                     try {
-                        org.kuali.core.web.uidraw.Field kualiField = FieldUtils.getPropertyField(Class.forName(businessObjectClassName), field.getPropertyName(), false);
+                        org.kuali.core.web.ui.Field kualiField = FieldUtils.getPropertyField(Class.forName(businessObjectClassName), field.getPropertyName(), false);
                         field.setFieldLabel(kualiField.getFieldLabel());
                         field.setFieldHelpUrl(KualiWorkflowUtils.getHelpUrl(kualiField));
                     }
@@ -312,7 +337,7 @@ public class KualiWorkflowUtils {
             throw new IllegalArgumentException("Method parameter 'workflowPropertyKey' was passed a NULL or blank value.");
         }
         List chartFields = new ArrayList();
-        org.kuali.core.web.uidraw.Field field;
+        org.kuali.core.web.ui.Field field;
         field = FieldUtils.getPropertyField(propertyClass, boPropertyName, false);
         chartFields.add(new Field(field.getFieldLabel(), KualiWorkflowUtils.getHelpUrl(field), Field.TEXT, false, workflowPropertyKey, 
                         field.getPropertyValue(), field.getFieldValidValues(), null, workflowPropertyKey));
@@ -341,7 +366,7 @@ public class KualiWorkflowUtils {
         if (StringUtils.isBlank(workflowPropertyKey)) {
             throw new IllegalArgumentException("Method parameter 'workflowPropertyKey' was passed a NULL or blank value.");
         }
-        org.kuali.core.web.uidraw.Field field;
+        org.kuali.core.web.ui.Field field;
         field = FieldUtils.getPropertyField(propertyClass, boPropertyName, false);
         
         //  build the quickFinder/lookupableName info

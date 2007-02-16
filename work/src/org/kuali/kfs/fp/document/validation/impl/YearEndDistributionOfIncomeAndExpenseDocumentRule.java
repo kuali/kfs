@@ -16,15 +16,13 @@
 
 package org.kuali.module.financial.rules;
 
-import org.kuali.core.bo.AccountingLine;
-import org.kuali.core.document.TransactionalDocument;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.financial.document.YearEndDocumentUtil;
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 /**
  * Business rules applicable to <code>YearEndDistributionOfIncomeAndExpenseDocument</code>
- * 
- * 
  */
 public class YearEndDistributionOfIncomeAndExpenseDocumentRule extends DistributionOfIncomeAndExpenseDocumentRule {
 
@@ -35,13 +33,13 @@ public class YearEndDistributionOfIncomeAndExpenseDocumentRule extends Distribut
      * <li> fiscal year = previous fiscal year
      * </ol>
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.core.document.TransactionalDocument,
-     *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
+     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument,
+     *      org.kuali.kfs.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     @Override
-    protected void customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
-        super.customizeExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, explicitEntry);
-        YearEndDocumentUtil.customizeExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, explicitEntry);
+    protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
+        super.customizeExplicitGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry);
+        YearEndDocumentUtil.customizeExplicitGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry);
     }
 
 }

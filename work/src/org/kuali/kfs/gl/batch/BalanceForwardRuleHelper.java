@@ -18,9 +18,9 @@ package org.kuali.module.gl.batch.closing.year.service.impl.helper;
 import java.sql.Date;
 
 import org.kuali.Constants;
-import org.kuali.core.bo.Options;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.bo.Options;
 import org.kuali.module.chart.bo.PriorYearAccount;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.bo.codes.BalanceTyp;

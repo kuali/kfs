@@ -22,7 +22,7 @@
         <customAttributeEnabled>false</customAttributeEnabled>
 
         <attributes>
-            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.document.DocumentHeader" sourceAttributeName="documentNumber" />
+            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber" />
 
             <attribute name="financialDocumentDepositLineNumber">
                 <label>Deposit Number</label>

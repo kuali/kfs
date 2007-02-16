@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.web.uidraw.KeyLabelPair;
+import org.kuali.core.web.ui.KeyLabelPair;
 
 public class SearchOperatorsFinder extends KeyValuesBase {
 

@@ -43,8 +43,6 @@ import com.lowagie.text.pdf.PdfWriter;
 
 /**
  * Implementation of service for handling creation of the cover sheet of the <code>{@link CashReceiptDocument}</code>
- * 
- * 
  */
 public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetService {
     private static Log LOG = LogFactory.getLog(CashReceiptCoverSheetService.class);
@@ -160,7 +158,7 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
             populatedCoverSheet.setField(DOCUMENT_NUMBER_FIELD, document.getDocumentNumber());
             populatedCoverSheet.setField(INITIATOR_FIELD, document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());
             populatedCoverSheet.setField(CREATED_DATE_FIELD, document.getDocumentHeader().getWorkflowDocument().getCreateDate().toString());
-            populatedCoverSheet.setField(AMOUNT_FIELD, document.getSumTotalAmount().toString());
+            populatedCoverSheet.setField(AMOUNT_FIELD, document.getTotalDollarAmount().toString());
             populatedCoverSheet.setField(ORG_DOC_NUMBER_FIELD, document.getDocumentHeader().getOrganizationDocumentNumber());
             populatedCoverSheet.setField(CAMPUS_FIELD, document.getCampusLocationCode());
             if (document.getDepositDate() != null) {
@@ -176,7 +174,7 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
                 populatedCoverSheet.setField(DEPOSIT_DATE_FIELD, document.getDepositDate().toString());
             }
             populatedCoverSheet.setField(DESCRIPTION_FIELD, document.getDocumentHeader().getFinancialDocumentDescription());
-            populatedCoverSheet.setField(EXPLANATION_FIELD, document.getExplanation());
+            populatedCoverSheet.setField(EXPLANATION_FIELD, document.getDocumentHeader().getExplanation());
             populatedCoverSheet.setField(CHECKS_FIELD, document.getTotalCheckAmount().toString());
             populatedCoverSheet.setField(CURRENCY_FIELD, document.getTotalCashAmount().toString());
             populatedCoverSheet.setField(COIN_FIELD, document.getTotalCoinAmount().toString());

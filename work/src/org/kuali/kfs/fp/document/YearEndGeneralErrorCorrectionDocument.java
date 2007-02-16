@@ -23,8 +23,6 @@ package org.kuali.module.financial.document;
  * are the source lines, to lines are the target lines. This document is exactly the same as the non-<code>{@link YearEndDocument}</code>
  * version except that it has slightly different routing and that it only allows posting to the year end accounting period for a
  * year.
- * 
- * 
  */
 public class YearEndGeneralErrorCorrectionDocument extends GeneralErrorCorrectionDocument implements YearEndDocument {
 

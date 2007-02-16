@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2006 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kfs.bo.TargetAccountingLine">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <attributes>
+            <attributeReference name="balanceTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="code">
+                <required>false</required>
+            </attributeReference>
+
+            <attribute name="referenceNumber" forceUppercase="true">
+                <label>Reference Number</label>
+                <shortLabel>Ref Number</shortLabel>
+
+                <maxLength>14</maxLength>
+
+                <validationPattern>
+                    <alphaNumeric />
+                </validationPattern>
+                <required>false</required>
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    The transaction number on the deposit slip assigned by the bank.
+                </description>
+            </attribute>
+
+            <attributeReference name="sequenceNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="transactionEntrySequenceId">
+                <required>false</required>
+            </attributeReference>
+
+            <attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
+                <required>true</required>
+                <description>The code that identifies the "object" of accounting for a transaction, expressed as a 4-digit numeric text, including leading zeros. For Search Criteria, select the Help for the Object Code search.</description>
+
+            </attributeReference>
+
+            <attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
+                <required>true</required>
+            </attributeReference>
+
+            <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId">
+                <required>false</required>
+            </attributeReference>
+
+            <attribute name="organizationReferenceId" forceUppercase="true">
+                <label>Organization Reference Id</label>
+                <shortLabel>Org Ref Id</shortLabel>
+
+                <maxLength>8</maxLength>
+
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+                <required>false</required>
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The identifier of an Organization which has been associated with the Account Line.</description>
+            </attribute>
+
+            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+                <required>true</required>
+                <control>
+                    <!-- text size="2" /-->
+                    <!-- If we want to go back to the drop-down list, then use this:-->
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.SimpleChartValuesFinder" />
+                </control>
+
+                <description>The code that identifies the Chart of Accounts for an Account. Kuali accommodates more than one Chart of Accounts.</description>
+
+            </attributeReference>
+
+            <attributeReference name="postingYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
+                <required>true</required>
+            </attributeReference>
+
+            <attribute name="referenceOriginCode" forceUppercase="true">
+                <label>Reference Origin Code</label>
+                <shortLabel>Ref Origin Code</shortLabel>
+
+                <maxLength>2</maxLength>
+
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+                <required>false</required>
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    The system code for the system from which the original encumbering transaction came, selected from a pulldown list.
+                </description>
+            </attribute>
+
+            <attribute name="overrideCode" forceUppercase="true">
+                <label>Override Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+                <required>false</required>
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    The system code for the type of override in an Accounting Line, selected from a pulldown list.
+                </description>
+            </attribute>
+
+            <attributeReference name="amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <required>true</required>
+                <description>The total dollar amount of check or batch of checks.</description>
+            </attributeReference>
+
+            <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
+			    <label>Sub-Account Code</label>
+			    <shortLabel>Sub-Account</shortLabel>
+                <required>false</required>
+                <description>The identifier to further partition the financial activity of an Account, expressed as a 5-character code</description>
+
+            </attributeReference>
+
+            <attribute name="referenceTypeCode" forceUppercase="true">
+                <label>Reference Type Code</label>
+                <shortLabel>Ref Type Code</shortLabel>
+
+                <maxLength>4</maxLength>
+
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+                <required>false</required>
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    The system code for the type of the system from which the original encumbering transaction came, selected from a pulldown list.
+                </description>
+            </attribute>
+
+            <attributeReference name="projectCode" sourceClassName="org.kuali.module.chart.bo.ProjectCode" sourceAttributeName="code">
+                <required>false</required>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The title of the project.</description>
+
+            </attributeReference>
+
+            <attributeReference name="financialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode">
+                <required>false</required>
+                <description>The code that partitions the Object Code into a greater amount of detail. SubObject Code acquire most of the attributes of the official Object Code to which they report, including Object Type and Object SubType.</description>
+            </attributeReference>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber">
+                <required>false</required>
+            </attributeReference>
+
+            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber">
+                <required>false</required>
+            </attributeReference>
+
+            <attribute name="debitCreditCode" forceUppercase="true">
+                <label>Credit or Debit Code</label>
+                <shortLabel>Credit/Debit</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <validationPattern>
+                    <charset validChars="DC" />
+                </validationPattern>
+                <required>false</required>
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>If it's a "C" then this accounting line is a credit, if it's a "D", then it's a debit.</description>
+            </attribute>
+
+            <attribute name="encumbranceUpdateCode" forceUppercase="true">
+                <label>Encumbrance Update Code</label>
+                <shortLabel>Encumbrance Update</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <validationPattern>
+                    <alpha />
+                </validationPattern>
+                <required>false</required>
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    The system code for the type of encumbrance update in an Accounting Line, selected from a pulldown list.
+                </description>
+            </attribute>
+
+            <attributeReference name="objectTypeCode" sourceClassName="org.kuali.module.chart.bo.ObjectType" sourceAttributeName="code">
+                <required>false</required>
+            </attributeReference>
+
+            <attribute name="budgetYear" forceUppercase="true">
+                <label>Budget Year</label>
+                <shortLabel>Budget Year</shortLabel>
+
+                <maxLength>4</maxLength>
+
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+                <required>false</required>
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The Budget Year associated with the Account Line. Its calendar span is defined by the implementing institution.</description>
+            </attribute>
+
+            <attribute name="accountExpiredOverride">
+                <label>Account Expired Override</label>
+                <shortLabel>Expired Override</shortLabel>
+
+                <maxLength>1</maxLength>
+                <required>true</required>
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>This override indicates that the user has explicitly decided to use an account even though it has expired.</description>
+            </attribute>
+
+            <attribute name="objectBudgetOverride">
+                <label>Object Non-Budgeted Override</label>
+                <shortLabel>Non-Budgeted Override</shortLabel>
+
+                <maxLength>1</maxLength>
+                <required>true</required>
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>This override indicates that the user has explicitly decided to use a non budgeted object code even though presence control is on for the account.</description>
+            </attribute>
+
+            <attribute name="financialDocumentLineDescription">
+                <label>Line Description</label>
+                <shortLabel>Line Desc</shortLabel>
+
+                <maxLength>40</maxLength>
+                <required>false</required>
+                <control>
+                    <text size="40" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>A free-form text field that describes the purpose or function of the Accounting Line.</description>
+            </attribute>
+        </attributes>
+
+        <collections>
+            <collection name="extendedAttributeValues">
+                <label>Extended Attribute Values</label>
+                <shortLabel>Values</shortLabel>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </collection>
+        </collections>
+    </businessObject>
+</dictionaryEntry>

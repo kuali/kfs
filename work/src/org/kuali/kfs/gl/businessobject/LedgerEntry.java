@@ -118,7 +118,7 @@ public class LedgerEntry {
 
         return ledgerEntry;
     }
-
+    
     /**
      * Gets the balanceType attribute.
      * 

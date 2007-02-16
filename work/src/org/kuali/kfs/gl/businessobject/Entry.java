@@ -20,12 +20,12 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
+import org.kuali.core.bo.DocumentType;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.bo.Options;
-import org.kuali.core.bo.OriginationCode;
-import org.kuali.core.document.DocumentType;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.bo.Options;
+import org.kuali.kfs.bo.OriginationCode;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.Chart;

@@ -29,8 +29,8 @@ import java.util.StringTokenizer;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
+import org.kuali.core.bo.DocumentType;
 import org.kuali.core.bo.FinancialSystemParameter;
-import org.kuali.core.document.DocumentType;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentTypeService;
@@ -247,7 +247,7 @@ public class ScrubberProcess {
 
         // generate the scrubber status summary report
         if (reportOnlyMode) {
-            reportService.generateOnlineScrubberStatisticsReport(group.getId(), runDate, scrubberReport, scrubberReportErrors,documentNumber);
+            reportService.generateOnlineScrubberStatisticsReport( group.getId(), runDate, scrubberReport, scrubberReportErrors,documentNumber);
         }
         else {
             reportService.generateBatchScrubberStatisticsReport(runDate, scrubberReport, scrubberReportErrors);

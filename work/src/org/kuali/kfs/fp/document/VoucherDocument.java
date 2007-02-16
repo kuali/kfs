@@ -17,13 +17,12 @@ package org.kuali.module.financial.document;
 
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.document.AccountingDocument;
 
 /**
  * Interface for voucher type documents that require debit/credit support
- * 
- * 
  */
-public interface VoucherDocument extends TransactionalDocument {
+public interface VoucherDocument extends AccountingDocument {
 
     /**
      * This method retrieves the reversal date associated with this document.
@@ -54,13 +53,4 @@ public interface VoucherDocument extends TransactionalDocument {
      * @return KualiDecimal
      */
     public KualiDecimal getCreditTotal();
-
-    /**
-     * This method determines the "total" for the voucher document. If the selected balance type is an offset generation, then the
-     * total is calculated by subtracting the debit accounting lines from the credit accounting lines. Otherwise, the total is just
-     * the sum of all accounting line amounts.
-     * 
-     * @return KualiDecimal the total of the voucher document.
-     */
-    public KualiDecimal getTotal();
 }

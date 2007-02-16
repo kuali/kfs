@@ -20,11 +20,11 @@ import java.util.Date;
 import java.util.HashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.PostalZipCode;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.bo.PostalZipCode;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.bo.OrganizationExtension;

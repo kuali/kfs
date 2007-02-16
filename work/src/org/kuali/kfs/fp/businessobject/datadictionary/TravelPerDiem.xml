@@ -40,7 +40,7 @@
 
             <lookupFields>
                 <lookupField attributeName="fiscalYear" required="false">
-                    <defaultValueFinderClass>org.kuali.core.lookup.valueFinder.FiscalYearFinder</defaultValueFinderClass>
+                    <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.FiscalYearFinder</defaultValueFinderClass>
                 </lookupField>
                 <lookupField attributeName="perDiemCountryName" required="false" />
             </lookupFields>

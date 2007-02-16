@@ -15,25 +15,11 @@
  */
 package org.kuali.module.purap.rules;
 
-import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.module.financial.rules.TransactionalDocumentRuleBase;
+import org.kuali.core.rules.TransactionalDocumentRuleBase;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 
 public class PurchasingAccountsPayableDocumentRuleBase extends TransactionalDocumentRuleBase {
-
-    /*
-     * THIS IS BAD...WE DO NOT NEED THIS METHOD AND SHOULD NOT HAVE TO IMPLEMENT IT
-     */
-    public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-    /**
-     * for now we are just ignoring accounting line errors
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.TransactionalDocument)
-     */
-    protected boolean isAccountingLinesRequiredNumberForRoutingMet(TransactionalDocument transactionalDocument) {
-        return true;
-    }
 
 }

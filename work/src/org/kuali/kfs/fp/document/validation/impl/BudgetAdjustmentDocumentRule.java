@@ -47,14 +47,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
-import org.kuali.core.bo.AccountingLine;
-import org.kuali.core.bo.Options;
-import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.document.Document;
-import org.kuali.core.document.FinancialDocument;
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.InfrastructureException;
-import org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
@@ -63,47 +57,52 @@ import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.format.CurrencyFormatter;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.bo.Options;
+import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
+import org.kuali.kfs.rules.AccountingDocumentRuleBase;
+import org.kuali.kfs.rules.AccountingLineRuleUtil;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine;
 import org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine;
 import org.kuali.module.financial.bo.BudgetAdjustmentTargetAccountingLine;
 import org.kuali.module.financial.document.BudgetAdjustmentDocument;
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 /**
  * Business rule(s) applicable to Budget Adjustment Card document.
- * 
- * 
  */
-public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase implements GenerateGeneralLedgerDocumentPendingEntriesRule {
+public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase implements GenerateGeneralLedgerDocumentPendingEntriesRule<AccountingDocument> {
 
     private static final String INCOME_STREAM_CHART_ACCOUNT_DELIMITER = "|";
 
     /**
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
     @Override
-    protected boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
+    protected boolean processCustomAddAccountingLineBusinessRules(AccountingDocument FinancialDocument, AccountingLine accountingLine) {
         boolean allow = true;
         BudgetAdjustmentAccountingLine budgetAccountingLine = (BudgetAdjustmentAccountingLine) accountingLine;
 
         LOG.debug("validating accounting line # " + accountingLine.getSequenceNumber());
 
         /* if they have entered a base amount for line, verify it can be adjusted for the posting year */
-        if (budgetAccountingLine.getBaseBudgetAdjustmentAmount().isNonZero() && !SpringServiceLocator.getFiscalYearFunctionControlService().isBaseAmountChangeAllowed(((BudgetAdjustmentDocument) transactionalDocument).getPostingYear())) {
+        if (budgetAccountingLine.getBaseBudgetAdjustmentAmount().isNonZero() && !SpringServiceLocator.getFiscalYearFunctionControlService().isBaseAmountChangeAllowed(((BudgetAdjustmentDocument) FinancialDocument).getPostingYear())) {
             GlobalVariables.getErrorMap().putError(PropertyConstants.BASE_BUDGET_ADJUSTMENT_AMOUNT, KeyConstants.ERROR_DOCUMENT_BA_BASE_AMOUNT_CHANGE_NOT_ALLOWED);
             allow = false;
         }
 
         LOG.debug("beginning monthly lines validation ");
-        allow = allow && validateMonthlyLines(transactionalDocument, accountingLine);
+        allow = allow && validateMonthlyLines(FinancialDocument, accountingLine);
 
         LOG.debug("beginning object code validation ");
-        allow = allow && validateObjectCode(transactionalDocument, accountingLine);
+        allow = allow && validateObjectCode(FinancialDocument, accountingLine);
 
         LOG.debug("beginning account number validation ");
-        allow = allow && validateAccountNumber(transactionalDocument, accountingLine);
+        allow = allow && validateAccountNumber(FinancialDocument, accountingLine);
 
         LOG.debug("end validating accounting line, has errors: " + allow);
 
@@ -111,7 +110,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
     }
 
     /**
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -119,7 +118,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
         BudgetAdjustmentDocument baDocument = (BudgetAdjustmentDocument) document;
 
         if (isValid) {
-            isValid = isValid && isAllAccountingLinesMatchingBudgetYear((TransactionalDocument) document);
+            isValid = isValid && isAllAccountingLinesMatchingBudgetYear((AccountingDocument) document);
             isValid = isValid && validateFundGroupAdjustmentRestrictions(baDocument);
         }
 
@@ -132,11 +131,11 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
      * BB, CB, and MB balance types. Up to 14 entries per line can be created. Along with this, the BA will create TOF entries if
      * needed to move funding.
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processGenerateGeneralLedgerPendingEntries(org.kuali.core.document.TransactionalDocument,
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processGenerateGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
-    public boolean processGenerateGeneralLedgerPendingEntries(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+    public boolean processGenerateGeneralLedgerPendingEntries(AccountingDocument FinancialDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
 
         // determine if we are on increase or decrease side
@@ -153,21 +152,21 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
         /* Create Base Budget GLPE if base amount != 0 */
         if (budgetAccountingLine.getBaseBudgetAdjustmentAmount().isNonZero()) {
             GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
-            populateExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, sequenceHelper, explicitEntry);
+            populateExplicitGeneralLedgerPendingEntry(FinancialDocument, accountingLine, sequenceHelper, explicitEntry);
 
             /* D/C code is empty for BA, set correct balance type, correct amount */
             explicitEntry.setTransactionDebitCreditCode("");
             explicitEntry.setFinancialBalanceTypeCode(Constants.BALANCE_TYPE_BASE_BUDGET);
             explicitEntry.setTransactionLedgerEntryAmount(budgetAccountingLine.getBaseBudgetAdjustmentAmount().multiply(amountSign).kualiDecimalValue());
             // set fiscal period, if next fiscal year set to 01, else leave to current period
-            if (currentFiscalYear.equals(transactionalDocument.getPostingYear() - 1)) {
+            if (currentFiscalYear.equals(FinancialDocument.getPostingYear() - 1)) {
                 explicitEntry.setUniversityFiscalPeriodCode(MONTH_1_PERIOD_CODE);
             }
 
-            customizeExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, explicitEntry);
+            customizeExplicitGeneralLedgerPendingEntry(FinancialDocument, accountingLine, explicitEntry);
             
             // add the new explicit entry to the document now
-            transactionalDocument.getGeneralLedgerPendingEntries().add(explicitEntry);
+            FinancialDocument.getGeneralLedgerPendingEntries().add(explicitEntry);
 
             // increment the sequence counter
             sequenceHelper.increment();
@@ -176,70 +175,70 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
         /* Create Current Budget GLPE if current amount != 0 */
         if (budgetAccountingLine.getCurrentBudgetAdjustmentAmount().isNonZero()) {
             GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
-            populateExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, sequenceHelper, explicitEntry);
+            populateExplicitGeneralLedgerPendingEntry(FinancialDocument, accountingLine, sequenceHelper, explicitEntry);
 
             /* D/C code is empty for BA, set correct balance type, correct amount */
             explicitEntry.setTransactionDebitCreditCode("");
             explicitEntry.setFinancialBalanceTypeCode(Constants.BALANCE_TYPE_CURRENT_BUDGET);
             explicitEntry.setTransactionLedgerEntryAmount(budgetAccountingLine.getCurrentBudgetAdjustmentAmount().multiply(amountSign));
             // set fiscal period, if next fiscal year set to 01, else leave to current period
-            if (currentFiscalYear.equals(transactionalDocument.getPostingYear() - 1)) {
+            if (currentFiscalYear.equals(FinancialDocument.getPostingYear() - 1)) {
                 explicitEntry.setUniversityFiscalPeriodCode("01");
             }
 
-            customizeExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, explicitEntry);
+            customizeExplicitGeneralLedgerPendingEntry(FinancialDocument, accountingLine, explicitEntry);
             
             // add the new explicit entry to the document now
-            transactionalDocument.getGeneralLedgerPendingEntries().add(explicitEntry);
+            FinancialDocument.getGeneralLedgerPendingEntries().add(explicitEntry);
 
             // create montly lines (MB)
             if (budgetAccountingLine.getFinancialDocumentMonth1LineAmount().isNonZero()) {
                 sequenceHelper.increment();
-                createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, MONTH_1_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth1LineAmount().multiply(amountSign));
+                createMonthlyBudgetGLPE(FinancialDocument, accountingLine, sequenceHelper, MONTH_1_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth1LineAmount().multiply(amountSign));
             }
             if (budgetAccountingLine.getFinancialDocumentMonth2LineAmount().isNonZero()) {
                 sequenceHelper.increment();
-                createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, MONTH_2_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth2LineAmount().multiply(amountSign));
+                createMonthlyBudgetGLPE(FinancialDocument, accountingLine, sequenceHelper, MONTH_2_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth2LineAmount().multiply(amountSign));
             }
             if (budgetAccountingLine.getFinancialDocumentMonth3LineAmount().isNonZero()) {
                 sequenceHelper.increment();
-                createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, MONTH_3_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth3LineAmount().multiply(amountSign));
+                createMonthlyBudgetGLPE(FinancialDocument, accountingLine, sequenceHelper, MONTH_3_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth3LineAmount().multiply(amountSign));
             }
             if (budgetAccountingLine.getFinancialDocumentMonth4LineAmount().isNonZero()) {
                 sequenceHelper.increment();
-                createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, MONTH_4_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth4LineAmount().multiply(amountSign));
+                createMonthlyBudgetGLPE(FinancialDocument, accountingLine, sequenceHelper, MONTH_4_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth4LineAmount().multiply(amountSign));
             }
             if (budgetAccountingLine.getFinancialDocumentMonth5LineAmount().isNonZero()) {
                 sequenceHelper.increment();
-                createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, MONTH_5_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth5LineAmount().multiply(amountSign));
+                createMonthlyBudgetGLPE(FinancialDocument, accountingLine, sequenceHelper, MONTH_5_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth5LineAmount().multiply(amountSign));
             }
             if (budgetAccountingLine.getFinancialDocumentMonth6LineAmount().isNonZero()) {
                 sequenceHelper.increment();
-                createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, MONTH_6_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth6LineAmount().multiply(amountSign));
+                createMonthlyBudgetGLPE(FinancialDocument, accountingLine, sequenceHelper, MONTH_6_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth6LineAmount().multiply(amountSign));
             }
             if (budgetAccountingLine.getFinancialDocumentMonth7LineAmount().isNonZero()) {
                 sequenceHelper.increment();
-                createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, MONTH_7_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth7LineAmount().multiply(amountSign));
+                createMonthlyBudgetGLPE(FinancialDocument, accountingLine, sequenceHelper, MONTH_7_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth7LineAmount().multiply(amountSign));
             }
             if (budgetAccountingLine.getFinancialDocumentMonth8LineAmount().isNonZero()) {
                 sequenceHelper.increment();
-                createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, MONTH_8_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth8LineAmount().multiply(amountSign));
+                createMonthlyBudgetGLPE(FinancialDocument, accountingLine, sequenceHelper, MONTH_8_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth8LineAmount().multiply(amountSign));
             }
             if (budgetAccountingLine.getFinancialDocumentMonth9LineAmount().isNonZero()) {
                 sequenceHelper.increment();
-                createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, MONTH_9_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth9LineAmount().multiply(amountSign));
+                createMonthlyBudgetGLPE(FinancialDocument, accountingLine, sequenceHelper, MONTH_9_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth9LineAmount().multiply(amountSign));
             }
             if (budgetAccountingLine.getFinancialDocumentMonth10LineAmount().isNonZero()) {
                 sequenceHelper.increment();
-                createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, MONTH_10_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth10LineAmount().multiply(amountSign));
+                createMonthlyBudgetGLPE(FinancialDocument, accountingLine, sequenceHelper, MONTH_10_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth10LineAmount().multiply(amountSign));
             }
             if (budgetAccountingLine.getFinancialDocumentMonth11LineAmount().isNonZero()) {
                 sequenceHelper.increment();
-                createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, MONTH_11_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth11LineAmount().multiply(amountSign));
+                createMonthlyBudgetGLPE(FinancialDocument, accountingLine, sequenceHelper, MONTH_11_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth11LineAmount().multiply(amountSign));
             }
             if (budgetAccountingLine.getFinancialDocumentMonth12LineAmount().isNonZero()) {
                 sequenceHelper.increment();
-                createMonthlyBudgetGLPE(transactionalDocument, accountingLine, sequenceHelper, MONTH_12_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth12LineAmount().multiply(amountSign));
+                createMonthlyBudgetGLPE(FinancialDocument, accountingLine, sequenceHelper, MONTH_12_PERIOD_CODE, budgetAccountingLine.getFinancialDocumentMonth12LineAmount().multiply(amountSign));
             }
         }
 
@@ -249,15 +248,15 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
     /**
      * Helper method for creating monthly buget pending entry lines.
      * 
-     * @param transactionalDocument
+     * @param FinancialDocument
      * @param sequenceHelper
      * @param fiscalPeriod
      * @param monthAmount
      * @return boolean
      */
-    private void createMonthlyBudgetGLPE(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, String fiscalPeriod, KualiDecimal monthAmount) {
+    private void createMonthlyBudgetGLPE(AccountingDocument FinancialDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, String fiscalPeriod, KualiDecimal monthAmount) {
         GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
-        populateExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, sequenceHelper, explicitEntry);
+        populateExplicitGeneralLedgerPendingEntry(FinancialDocument, accountingLine, sequenceHelper, explicitEntry);
 
         /* D/C code is empty for BA, set correct balance type, correct amount */
         explicitEntry.setTransactionDebitCreditCode("");
@@ -265,10 +264,10 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
         explicitEntry.setTransactionLedgerEntryAmount(monthAmount);
         explicitEntry.setUniversityFiscalPeriodCode(fiscalPeriod);
 
-        customizeExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, explicitEntry);
+        customizeExplicitGeneralLedgerPendingEntry(FinancialDocument, accountingLine, explicitEntry);
         
         // add the new explicit entry to the document now
-        transactionalDocument.getGeneralLedgerPendingEntries().add(explicitEntry);
+        FinancialDocument.getGeneralLedgerPendingEntries().add(explicitEntry);
     }
 
     /**
@@ -279,9 +278,9 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
      * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
-    public boolean processGenerateDocumentGeneralLedgerPendingEntries(FinancialDocument financialDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        TransactionalDocument transactionalDocument = (TransactionalDocument) financialDocument;
-        BudgetAdjustmentDocument baDocument = (BudgetAdjustmentDocument) transactionalDocument;
+    public boolean processGenerateDocumentGeneralLedgerPendingEntries(AccountingDocument financialDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        AccountingDocument FinancialDocument = (AccountingDocument) financialDocument;
+        BudgetAdjustmentDocument baDocument = (BudgetAdjustmentDocument) FinancialDocument;
 
         boolean success = true;
 
@@ -317,7 +316,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
 
                     // ////////////////// first create current budget entry/////////////////////////////////////////
                     GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
-                    populateExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, sequenceHelper, explicitEntry);
+                    populateExplicitGeneralLedgerPendingEntry(FinancialDocument, accountingLine, sequenceHelper, explicitEntry);
 
                     /* override and set object type to income */
                     Options options = SpringServiceLocator.getOptionsService().getCurrentYearOptions();
@@ -329,14 +328,14 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
                     explicitEntry.setTransactionLedgerEntryAmount(streamAmount);
 
                     // set fiscal period, if next fiscal year set to 01, else leave to current period
-                    if (currentFiscalYear.equals(transactionalDocument.getPostingYear() - 1)) {
+                    if (currentFiscalYear.equals(FinancialDocument.getPostingYear() - 1)) {
                         explicitEntry.setUniversityFiscalPeriodCode(MONTH_1_PERIOD_CODE);
                     }
 
-                    customizeExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, explicitEntry);
+                    customizeExplicitGeneralLedgerPendingEntry(FinancialDocument, accountingLine, explicitEntry);
                     
                     // add the new explicit entry to the document now
-                    transactionalDocument.getGeneralLedgerPendingEntries().add(explicitEntry);
+                    FinancialDocument.getGeneralLedgerPendingEntries().add(explicitEntry);
 
                     // increment the sequence counter
                     sequenceHelper.increment();
@@ -346,7 +345,7 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
                     /* set amount in line so Debit/Credit code can be set correctly */
                     accountingLine.setAmount(streamAmount);
                     explicitEntry = new GeneralLedgerPendingEntry();
-                    populateExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, sequenceHelper, explicitEntry);
+                    populateExplicitGeneralLedgerPendingEntry(FinancialDocument, accountingLine, sequenceHelper, explicitEntry);
 
                     /* override and set object type to transfer */
                     explicitEntry.setFinancialObjectTypeCode(options.getFinancialObjectTypeTransferIncomeCode());
@@ -355,21 +354,21 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
                     explicitEntry.setFinancialDocumentTypeCode(getTransferDocumentType());
 
                     // set fiscal period, if next fiscal year set to 01, else leave to current period
-                    if (currentFiscalYear.equals(transactionalDocument.getPostingYear() - 1)) {
+                    if (currentFiscalYear.equals(FinancialDocument.getPostingYear() - 1)) {
                         explicitEntry.setUniversityFiscalPeriodCode(MONTH_1_PERIOD_CODE);
                     }
 
                     // add the new explicit entry to the document now
-                    transactionalDocument.getGeneralLedgerPendingEntries().add(explicitEntry);
+                    FinancialDocument.getGeneralLedgerPendingEntries().add(explicitEntry);
 
-                    customizeExplicitGeneralLedgerPendingEntry(transactionalDocument, accountingLine, explicitEntry);
+                    customizeExplicitGeneralLedgerPendingEntry(FinancialDocument, accountingLine, explicitEntry);
 
                     // increment the sequence counter
                     sequenceHelper.increment();
 
                     // ////////////////// now create actual TOF offset //////////////////////////////////////////////
                     GeneralLedgerPendingEntry offsetEntry = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(explicitEntry);
-                    success &= processOffsetGeneralLedgerPendingEntry(transactionalDocument, sequenceHelper, accountingLine, explicitEntry, offsetEntry);
+                    success &= processOffsetGeneralLedgerPendingEntry(FinancialDocument, sequenceHelper, accountingLine, explicitEntry, offsetEntry);
 
                     // increment the sequence counter
                     sequenceHelper.increment();
@@ -385,11 +384,11 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
      * Validates the total of the monthly amount fields (if not 0) equals the current budget amount. If current budget is 0, then
      * total of monthly fields must be 0.
      * 
-     * @param transactionalDocument
+     * @param FinancialDocument
      * @param accountingLine
      * @return boolean
      */
-    public boolean validateMonthlyLines(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
+    public boolean validateMonthlyLines(AccountingDocument FinancialDocument, AccountingLine accountingLine) {
         BudgetAdjustmentAccountingLine budgetAdjustmentAccountingLine = (BudgetAdjustmentAccountingLine) accountingLine;
 
         boolean validMonthlyLines = true;
@@ -407,11 +406,11 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
      * Retrieves the fund group and sub fund group for each accounting line. Then verifies that the codes associated with the
      * 'Budget Adjustment Restriction Code' field are met.
      * 
-     * @param transactionalDocument
+     * @param FinancialDocument
      * @return boolean
      */
-    public boolean validateFundGroupAdjustmentRestrictions(TransactionalDocument transactionalDocument) {
-        BudgetAdjustmentDocument baDocument = (BudgetAdjustmentDocument) transactionalDocument;
+    public boolean validateFundGroupAdjustmentRestrictions(AccountingDocument FinancialDocument) {
+        BudgetAdjustmentDocument baDocument = (BudgetAdjustmentDocument) FinancialDocument;
         ErrorMap errors = GlobalVariables.getErrorMap();
 
         boolean isAdjustmentAllowed = true;
@@ -541,12 +540,12 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
     /**
      * Checks object codes restrictions, including restrictions in parameters table.
      * 
-     * @param transactionalDocument
+     * @param FinancialDocument
      * @param accountingLine
      * @return boolean
      */
-    public boolean validateObjectCode(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
-        BudgetAdjustmentDocument baDocument = (BudgetAdjustmentDocument) transactionalDocument;
+    public boolean validateObjectCode(AccountingDocument FinancialDocument, AccountingLine accountingLine) {
+        BudgetAdjustmentDocument baDocument = (BudgetAdjustmentDocument) FinancialDocument;
         ErrorMap errors = GlobalVariables.getErrorMap();
 
         boolean objectCodeAllowed = true;
@@ -565,8 +564,8 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
     /**
      * Checks account number restrictions, including restrictions in parameters table.
      */
-    public boolean validateAccountNumber(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
-        BudgetAdjustmentDocument baDocument = (BudgetAdjustmentDocument) transactionalDocument;
+    public boolean validateAccountNumber(AccountingDocument FinancialDocument, AccountingLine accountingLine) {
+        BudgetAdjustmentDocument baDocument = (BudgetAdjustmentDocument) FinancialDocument;
         BudgetAdjustmentAccountingLine budgetAccountingLine = (BudgetAdjustmentAccountingLine) accountingLine;
         ErrorMap errors = GlobalVariables.getErrorMap();
 
@@ -593,11 +592,11 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
     /**
      * Override needed to check the current, base, and monthly amounts.
      * 
-     * @see org.kuali.core.rule.AccountingLineRule#isAmountValid(org.kuali.core.document.TransactionalDocument,
+     * @see org.kuali.core.rule.AccountingLineRule#isAmountValid(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
     @Override
-    public boolean isAmountValid(TransactionalDocument document, AccountingLine accountingLine) {
+    public boolean isAmountValid(AccountingDocument document, AccountingLine accountingLine) {
         boolean amountValid = true;
 
         BudgetAdjustmentAccountingLine budgetAccountingLine = (BudgetAdjustmentAccountingLine) accountingLine;
@@ -636,11 +635,11 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
      * Base Expense Adjustments on increase side Total of Current Income Adjustments - Base Current Adjustments on Descrease side
      * must equal Total of Current Income Adjustments - Base Current Adjustments on increase side
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.TransactionalDocument)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.FinancialDocument)
      */
     @Override
-    protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
-        BudgetAdjustmentDocument baDocument = (BudgetAdjustmentDocument) transactionalDocument;
+    protected boolean isDocumentBalanceValid(AccountingDocument FinancialDocument) {
+        BudgetAdjustmentDocument baDocument = (BudgetAdjustmentDocument) FinancialDocument;
         ErrorMap errors = GlobalVariables.getErrorMap();
 
         boolean balanced = true;
@@ -728,12 +727,12 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
      * BA document does not have to have source accounting lines. In the case of setting up a budget for a new account, only targets
      * line (increase section) are setup.
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isSourceAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.TransactionalDocument)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isSourceAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.FinancialDocument)
      */
     @Override
-    protected boolean isSourceAccountingLinesRequiredNumberForRoutingMet(TransactionalDocument transactionalDocument) {
+    protected boolean isSourceAccountingLinesRequiredNumberForRoutingMet(AccountingDocument FinancialDocument) {
         // check that both source and target are not empty, in which case is an error
-        if (transactionalDocument.getSourceAccountingLines().isEmpty() && transactionalDocument.getTargetAccountingLines().isEmpty()) {
+        if (FinancialDocument.getSourceAccountingLines().isEmpty() && FinancialDocument.getTargetAccountingLines().isEmpty()) {
             GlobalVariables.getErrorMap().putError(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_NO_ACCOUNTING_LINES);
             return false;
         }
@@ -746,20 +745,20 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
      * BA document does not have to have source accounting lines. In the case of closing out an account, only source lines (decrease
      * section) are setup.
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isTargetAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.TransactionalDocument)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isTargetAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.FinancialDocument)
      */
     @Override
-    protected boolean isTargetAccountingLinesRequiredNumberForRoutingMet(TransactionalDocument transactionalDocument) {
+    protected boolean isTargetAccountingLinesRequiredNumberForRoutingMet(AccountingDocument FinancialDocument) {
         return true;
     }
 
     /**
-     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.TransactionalDocument,
+     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
-    public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
+    public boolean isDebit(AccountingDocument FinancialDocument, AccountingLine accountingLine) {
         try {
-            return IsDebitUtils.isDebitConsideringType(this, transactionalDocument, accountingLine);
+            return IsDebitUtils.isDebitConsideringType(this, FinancialDocument, accountingLine);
         }
         catch (IllegalStateException e) {
             // for all accounting lines except the transfer lines, the line amount will be 0 and this exception will be thrown
@@ -768,17 +767,17 @@ public class BudgetAdjustmentDocumentRule extends TransactionalDocumentRuleBase 
     }
 
     /**
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isAccountingLineTotalsUnchanged(org.kuali.core.document.TransactionalDocument)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isAccountingLineTotalsUnchanged(org.kuali.core.document.FinancialDocument)
      */
     @Override
-    protected boolean isAccountingLineTotalsUnchanged(TransactionalDocument transactionalDocument) {
+    protected boolean isAccountingLineTotalsUnchanged(AccountingDocument FinancialDocument) {
         boolean isUnchanged = true;
 
-        BudgetAdjustmentDocument persistedDocument = (BudgetAdjustmentDocument) retrievePersistedDocument(transactionalDocument);
-        BudgetAdjustmentDocument currentDocument = (BudgetAdjustmentDocument) transactionalDocument;
+        BudgetAdjustmentDocument persistedDocument = (BudgetAdjustmentDocument) retrievePersistedDocument(FinancialDocument);
+        BudgetAdjustmentDocument currentDocument = (BudgetAdjustmentDocument) FinancialDocument;
 
         if (persistedDocument == null) {
-            handleNonExistentDocumentWhenApproving(transactionalDocument);
+            handleNonExistentDocumentWhenApproving(FinancialDocument);
         }
         else {
             // retrieve the persisted totals

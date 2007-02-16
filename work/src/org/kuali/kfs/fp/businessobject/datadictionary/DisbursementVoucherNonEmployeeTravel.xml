@@ -142,7 +142,7 @@
                 <required>true</required>
 
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CountryValuesFinder" />
+                    <select valuesFinderClass="org.kuali.kfs.lookup.keyvalues.CountryValuesFinder" />
                 </control>
 
                 <summary>
@@ -232,7 +232,7 @@
                 <required>true</required>
 
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CountryValuesFinder" />
+                    <select valuesFinderClass="org.kuali.kfs.lookup.keyvalues.CountryValuesFinder" />
                 </control>
 
                 <summary>
@@ -250,7 +250,7 @@
                 <required>false</required>
 
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.TravelPerDiemCategoryValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.TravelPerDiemCategoryValuesFinder" />
                 </control>
 
                 <summary>

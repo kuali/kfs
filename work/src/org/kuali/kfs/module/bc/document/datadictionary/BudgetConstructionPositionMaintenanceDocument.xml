@@ -23,7 +23,7 @@
         <businessObjectClass>org.kuali.module.budget.bo.BudgetConstructionPosition</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
         <preRulesCheckClass>org.kuali.module.budget.rules.BudgetConstructionPositionPreRules</preRulesCheckClass>
-        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
                 <workgroups>

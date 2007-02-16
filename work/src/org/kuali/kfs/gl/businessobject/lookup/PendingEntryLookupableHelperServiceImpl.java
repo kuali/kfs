@@ -32,11 +32,11 @@ import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.comparator.BeanPropertyComparator;
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.gl.bo.UniversityDate;
-import org.kuali.module.gl.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.gl.web.Constant;
 import org.kuali.module.gl.web.inquirable.InquirableFinancialDocument;
 

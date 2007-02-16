@@ -15,15 +15,13 @@
  */
 package org.kuali.module.financial.web.struts.form;
 
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.financial.document.GeneralErrorCorrectionDocument;
 
 /**
  * This class is the Struts specific form object that works in conjunction with the pojo utilities to build the UI.
- * 
- * 
  */
-public class GeneralErrorCorrectionForm extends KualiTransactionalDocumentFormBase {
+public class GeneralErrorCorrectionForm extends KualiAccountingDocumentFormBase {
     private static final long serialVersionUID = 1L;
 
     /**

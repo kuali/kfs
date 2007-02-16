@@ -15,35 +15,37 @@
  */
 package org.kuali.module.financial.document;
 
+import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
+import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
+import static org.kuali.core.util.SpringServiceLocator.getTransactionalDocumentDictionaryService;
+import static org.kuali.module.financial.document.AccountingDocumentTestUtils.approveDocument;
+import static org.kuali.module.financial.document.AccountingDocumentTestUtils.routeDocument;
+import static org.kuali.module.financial.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
+import static org.kuali.test.fixtures.AccountingLineFixture.LINE2;
+import static org.kuali.test.fixtures.AccountingLineFixture.LINE3;
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import static org.kuali.test.fixtures.UserNameFixture.RJWEISS;
+import static org.kuali.test.fixtures.UserNameFixture.RORENFRO;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.KeyConstants;
-import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.DocumentAuthorizationException;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
-import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
-import static org.kuali.core.util.SpringServiceLocator.getTransactionalDocumentDictionaryService;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.approveDocument;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.routeDocument;
-import static org.kuali.module.financial.document.TransactionalDocumentTestUtils.testGetNewDocument_byDocumentClass;
+import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.bo.TargetAccountingLine;
+import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.TestsWorkflowViaDatabase;
 import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.fixtures.AccountingLineFixture;
-import static org.kuali.test.fixtures.AccountingLineFixture.LINE2;
-import static org.kuali.test.fixtures.AccountingLineFixture.LINE3;
 import org.kuali.test.fixtures.UserNameFixture;
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
-import static org.kuali.test.fixtures.UserNameFixture.RJWEISS;
-import static org.kuali.test.fixtures.UserNameFixture.RORENFRO;
 import org.kuali.test.suite.AnnotationTestSuite;
 import org.kuali.test.suite.CrossSectionSuite;
 
@@ -83,8 +85,8 @@ public class InternalBillingDocumentTest extends KualiTestBase {
 
     @TestsWorkflowViaDatabase
     public final void testApprove_addAccessibleAccount_ChangingTotals() throws Exception {
-        TransactionalDocument retrieved;
-        TransactionalDocument original;
+        AccountingDocument retrieved;
+        AccountingDocument original;
         String docId;
 
         // switch user to WESPRICE, build and route document with
@@ -97,7 +99,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         // switch user to another user, add accountingLines for accounts not
         // controlled by this user
         changeCurrentUser(getTestUserName());
-        retrieved = (TransactionalDocument) getDocumentService().getByDocumentHeaderId(docId);
+        retrieved = (AccountingDocument) getDocumentService().getByDocumentHeaderId(docId);
         retrieved.addSourceAccountingLine(getSourceAccountingLineAccessibleAccount());
         retrieved.addTargetAccountingLine(getTargetAccountingLineAccessibleAccount());
 
@@ -120,8 +122,8 @@ public class InternalBillingDocumentTest extends KualiTestBase {
     public final void testApprove_addInaccessibleAccount_sourceLine() throws Exception {
         // switch user to WESPRICE, build and route document with
         // accountingLines
-        TransactionalDocument original;
-        TransactionalDocument retrieved;
+        AccountingDocument original;
+        AccountingDocument retrieved;
         String docId;
 
         changeCurrentUser(getInitialUserName());
@@ -132,7 +134,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         // switch user to AHORNICK, add sourceAccountingLine for account not controlled by this user
         // (and add a balancing targetAccountingLine for an accessible account)
         changeCurrentUser(getTestUserName());
-        retrieved = (TransactionalDocument) getDocumentService().getByDocumentHeaderId(docId);
+        retrieved = (AccountingDocument) getDocumentService().getByDocumentHeaderId(docId);
         retrieved.addSourceAccountingLine(getSourceAccountingLineInaccessibleAccount());
         retrieved.addTargetAccountingLine(getTargetAccountingLineAccessibleAccount());
 
@@ -154,8 +156,8 @@ public class InternalBillingDocumentTest extends KualiTestBase {
 
     @TestsWorkflowViaDatabase
     public final void testApprove_addInaccessibleAccount_targetLine() throws Exception {
-        TransactionalDocument retrieved;
-        TransactionalDocument original;
+        AccountingDocument retrieved;
+        AccountingDocument original;
         String docId;
 
         // switch user to WESPRICE, build and route document with
@@ -169,7 +171,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         // controlled by this user
         // (and add a balancing sourceAccountingLine for an accessible account)
         changeCurrentUser(getTestUserName());
-        retrieved = (TransactionalDocument) getDocumentService().getByDocumentHeaderId(docId);
+        retrieved = (AccountingDocument) getDocumentService().getByDocumentHeaderId(docId);
         retrieved.addTargetAccountingLine(getTargetAccountingLineInaccessibleAccount());
         retrieved.addSourceAccountingLine(getSourceAccountingLineAccessibleAccount());
 
@@ -193,8 +195,8 @@ public class InternalBillingDocumentTest extends KualiTestBase {
     public final void testApprove_deleteAccessibleAccount() throws Exception {
         // switch user to WESPRICE, build and route document with
         // accountingLines
-        TransactionalDocument retrieved;
-        TransactionalDocument original;
+        AccountingDocument retrieved;
+        AccountingDocument original;
         String docId;
 
         changeCurrentUser(getInitialUserName());
@@ -206,7 +208,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         // controlled by this user
         // (and delete matching targetAccountingLine, for balance)
         changeCurrentUser(getTestUserName());
-        retrieved = (TransactionalDocument) getDocumentService().getByDocumentHeaderId(docId);
+        retrieved = (AccountingDocument) getDocumentService().getByDocumentHeaderId(docId);
         deleteSourceAccountingLine(retrieved, 0);
         deleteTargetAccountingLine(retrieved, 0);
 
@@ -230,8 +232,8 @@ public class InternalBillingDocumentTest extends KualiTestBase {
     public final void testApprove_deleteInaccessibleAccount_sourceLine() throws Exception {
         // switch user to WESPRICE, build and route document with
         // accountingLines
-        TransactionalDocument retrieved;
-        TransactionalDocument original;
+        AccountingDocument retrieved;
+        AccountingDocument original;
         String docId;
 
         changeCurrentUser(getInitialUserName());
@@ -243,7 +245,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         // not controlled by this user
         // (and delete matching accessible targetLine, for balance)
         changeCurrentUser(getTestUserName());
-        retrieved = (TransactionalDocument) getDocumentService().getByDocumentHeaderId(docId);
+        retrieved = (AccountingDocument) getDocumentService().getByDocumentHeaderId(docId);
         deleteSourceAccountingLine(retrieved, 1);
         deleteTargetAccountingLine(retrieved, 0);
 
@@ -265,8 +267,8 @@ public class InternalBillingDocumentTest extends KualiTestBase {
 
     @TestsWorkflowViaDatabase
     public final void testApprove_deleteInaccessibleAccount_targetLine() throws Exception {
-        TransactionalDocument retrieved;
-        TransactionalDocument original;
+        AccountingDocument retrieved;
+        AccountingDocument original;
         String docId;
 
         // switch user to WESPRICE, build and route document with
@@ -279,7 +281,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         // switch user to AHORNICK, delete targetAccountingLine for accounts not controlled by this user
         // (and delete matching accessible sourceLine, for balance)
         changeCurrentUser(getTestUserName());
-        retrieved = (TransactionalDocument) getDocumentService().getByDocumentHeaderId(docId);
+        retrieved = (AccountingDocument) getDocumentService().getByDocumentHeaderId(docId);
         deleteTargetAccountingLine(retrieved, 1);
         deleteSourceAccountingLine(retrieved, 0);
 
@@ -303,8 +305,8 @@ public class InternalBillingDocumentTest extends KualiTestBase {
     public final void testApprove_deleteLastAccessibleAccount() throws Exception {
         // switch user to WESPRICE, build and route document with
         // accountingLines
-        TransactionalDocument retrieved;
-        TransactionalDocument original;
+        AccountingDocument retrieved;
+        AccountingDocument original;
         String docId;
 
         changeCurrentUser(getInitialUserName());
@@ -314,7 +316,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
 
         // switch user to AHORNICK, delete all accountingLines for that user
         changeCurrentUser(getTestUserName());
-        retrieved = (TransactionalDocument) getDocumentService().getByDocumentHeaderId(docId);
+        retrieved = (AccountingDocument) getDocumentService().getByDocumentHeaderId(docId);
         deleteSourceAccountingLine(retrieved, 2);
         deleteSourceAccountingLine(retrieved, 0);
 
@@ -343,8 +345,8 @@ public class InternalBillingDocumentTest extends KualiTestBase {
     public final void testApprove_updateAccessibleAccount() throws Exception {
         // switch user to WESPRICE, build and route document with
         // accountingLines
-        TransactionalDocument retrieved;
-        TransactionalDocument original;
+        AccountingDocument retrieved;
+        AccountingDocument original;
         String docId;
 
         changeCurrentUser(getInitialUserName());
@@ -356,7 +358,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         // controlled by this user
         // (and delete update targetAccountingLine, for balance)
         changeCurrentUser(getTestUserName());
-        retrieved = (TransactionalDocument) getDocumentService().getByDocumentHeaderId(docId);
+        retrieved = (AccountingDocument) getDocumentService().getByDocumentHeaderId(docId);
 
         // make sure totals don't change
         KualiDecimal originalSourceLineAmt = retrieved.getSourceAccountingLine(0).getAmount();
@@ -387,8 +389,8 @@ public class InternalBillingDocumentTest extends KualiTestBase {
 
     @TestsWorkflowViaDatabase
     public final void testApprove_updateInaccessibleAccount_sourceLine() throws Exception {
-        TransactionalDocument retrieved;
-        TransactionalDocument original;
+        AccountingDocument retrieved;
+        AccountingDocument original;
         String docId;
 
         // switch user to WESPRICE, build and route document with
@@ -402,7 +404,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         // not controlled by this user
         // (and update matching accessible targetLine, for balance)
         changeCurrentUser(getTestUserName());
-        retrieved = (TransactionalDocument) getDocumentService().getByDocumentHeaderId(docId);
+        retrieved = (AccountingDocument) getDocumentService().getByDocumentHeaderId(docId);
         updateSourceAccountingLine(retrieved, 1, "3.14");
         updateTargetAccountingLine(retrieved, 0, "3.14");
 
@@ -426,8 +428,8 @@ public class InternalBillingDocumentTest extends KualiTestBase {
     public final void testApprove_updateInaccessibleAccount_targetLine() throws Exception {
         // switch user to WESPRICE, build and route document with
         // accountingLines
-        TransactionalDocument retrieved;
-        TransactionalDocument original;
+        AccountingDocument retrieved;
+        AccountingDocument original;
         String docId;
 
         changeCurrentUser(getInitialUserName());
@@ -439,7 +441,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         // not controlled by this user
         // (and update matching accessible sourceLine, for balance)
         changeCurrentUser(getTestUserName());
-        retrieved = (TransactionalDocument) getDocumentService().getByDocumentHeaderId(docId);
+        retrieved = (AccountingDocument) getDocumentService().getByDocumentHeaderId(docId);
         updateTargetAccountingLine(retrieved, 1, "2.81");
         updateSourceAccountingLine(retrieved, 0, "2.81");
 
@@ -465,7 +467,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         List<TargetAccountingLine> targetLines = generateTargetAccountingLines();
         int expectedSourceTotal = sourceLines.size();
         int expectedTargetTotal = targetLines.size();
-        TransactionalDocumentTestUtils.testAddAccountingLine(DocumentTestUtils.createDocument(getDocumentService(), DOCUMENT_CLASS), sourceLines, targetLines, expectedSourceTotal, expectedTargetTotal);
+        AccountingDocumentTestUtils.testAddAccountingLine(DocumentTestUtils.createDocument(getDocumentService(), DOCUMENT_CLASS), sourceLines, targetLines, expectedSourceTotal, expectedTargetTotal);
     }
 
 
@@ -474,36 +476,36 @@ public class InternalBillingDocumentTest extends KualiTestBase {
     }
 
     public final void testConvertIntoCopy_copyDisallowed() throws Exception {
-        TransactionalDocumentTestUtils.testConvertIntoCopy_copyDisallowed(buildDocument(), getDataDictionaryService());
+        AccountingDocumentTestUtils.testConvertIntoCopy_copyDisallowed(buildDocument(), getDataDictionaryService());
 
     }
 
     public final void testConvertIntoErrorCorrection_documentAlreadyCorrected() throws Exception {
-        TransactionalDocumentTestUtils.testConvertIntoErrorCorrection_documentAlreadyCorrected(buildDocument(), getTransactionalDocumentDictionaryService());
+        AccountingDocumentTestUtils.testConvertIntoErrorCorrection_documentAlreadyCorrected(buildDocument(), getTransactionalDocumentDictionaryService());
     }
 
     public final void testConvertIntoErrorCorrection_errorCorrectionDisallowed() throws Exception {
-        TransactionalDocumentTestUtils.testConvertIntoErrorCorrection_errorCorrectionDisallowed(buildDocument(), getDataDictionaryService());
+        AccountingDocumentTestUtils.testConvertIntoErrorCorrection_errorCorrectionDisallowed(buildDocument(), getDataDictionaryService());
     }
 
     @TestsWorkflowViaDatabase
     public final void testConvertIntoErrorCorrection() throws Exception {
-        TransactionalDocumentTestUtils.testConvertIntoErrorCorrection(buildDocument(), getExpectedPrePeCount(), getDocumentService(), getTransactionalDocumentDictionaryService());
+        AccountingDocumentTestUtils.testConvertIntoErrorCorrection(buildDocument(), getExpectedPrePeCount(), getDocumentService(), getTransactionalDocumentDictionaryService());
     }
 
     @TestsWorkflowViaDatabase
     public final void testRouteDocument() throws Exception {
-        TransactionalDocumentTestUtils.testRouteDocument(buildDocument(), getDocumentService());
+        AccountingDocumentTestUtils.testRouteDocument(buildDocument(), getDocumentService());
     }
 
     @TestsWorkflowViaDatabase
     public final void testSaveDocument() throws Exception {
-        TransactionalDocumentTestUtils.testSaveDocument(buildDocument(), getDocumentService());
+        AccountingDocumentTestUtils.testSaveDocument(buildDocument(), getDocumentService());
     }
 
     @TestsWorkflowViaDatabase
     public final void testConvertIntoCopy() throws Exception {
-        TransactionalDocumentTestUtils.testConvertIntoCopy(buildDocument(), getDocumentService(), getExpectedPrePeCount());
+        AccountingDocumentTestUtils.testConvertIntoCopy(buildDocument(), getDocumentService(), getExpectedPrePeCount());
     }
 
 
@@ -543,24 +545,24 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         return document;
     }
 
-    private void updateSourceAccountingLine(TransactionalDocument document, int index, String newAmount) {
+    private void updateSourceAccountingLine(AccountingDocument document, int index, String newAmount) {
         SourceAccountingLine sourceLine = document.getSourceAccountingLine(index);
         sourceLine.setAmount(new KualiDecimal(newAmount));
     }
 
-    private void updateTargetAccountingLine(TransactionalDocument document, int index, String newAmount) {
+    private void updateTargetAccountingLine(AccountingDocument document, int index, String newAmount) {
         TargetAccountingLine targetLine = document.getTargetAccountingLine(index);
         targetLine.setAmount(new KualiDecimal(newAmount));
     }
 
 
-    private void deleteSourceAccountingLine(TransactionalDocument document, int index) {
+    private void deleteSourceAccountingLine(AccountingDocument document, int index) {
         List sourceLines = document.getSourceAccountingLines();
         sourceLines.remove(index);
         document.setSourceAccountingLines(sourceLines);
     }
 
-    private void deleteTargetAccountingLine(TransactionalDocument document, int index) {
+    private void deleteTargetAccountingLine(AccountingDocument document, int index) {
         List targetLines = document.getTargetAccountingLines();
         targetLines.remove(index);
         document.setTargetAccountingLines(targetLines);

@@ -18,11 +18,11 @@ package org.kuali.module.kra.routingform.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.bo.Country;
-import org.kuali.core.bo.PostalZipCode;
-import org.kuali.core.bo.State;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.KualiInteger;
+import org.kuali.kfs.bo.Country;
+import org.kuali.kfs.bo.PostalZipCode;
+import org.kuali.kfs.bo.State;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;

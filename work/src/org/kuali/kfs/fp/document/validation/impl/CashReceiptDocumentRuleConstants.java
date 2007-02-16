@@ -15,13 +15,15 @@
  */
 package org.kuali.module.financial.rules;
 
+import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants;
+
 
 /**
  * Holds constants for cash receipts document.
  * 
  * 
  */
-public interface CashReceiptDocumentRuleConstants extends TransactionalDocumentRuleBaseConstants {
+public interface CashReceiptDocumentRuleConstants extends AccountingDocumentRuleBaseConstants {
     // Security grouping constants used to do application parameter lookups
     public static final String KUALI_TRANSACTION_PROCESSING_CASH_RECEIPT_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.CashReceiptDocument";
 

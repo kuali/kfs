@@ -18,7 +18,9 @@ package org.kuali.module.financial.service;
 import java.sql.Timestamp;
 
 import org.kuali.core.util.KualiDecimal;
+
 import static org.kuali.core.util.SpringServiceLocator.*;
+
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;

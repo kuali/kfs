@@ -18,14 +18,13 @@ package org.kuali.module.kra.document;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.document.DocumentBase;
+import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.SpringServiceLocator;
 
 /**
  * Research Administration Document Base
- * 
- * 
  */
-public abstract class ResearchDocumentBase extends DocumentBase implements ResearchDocument {
+public abstract class ResearchDocumentBase extends TransactionalDocumentBase implements ResearchDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ResearchDocumentBase.class);
 
     /**
@@ -35,16 +34,7 @@ public abstract class ResearchDocumentBase extends DocumentBase implements Resea
         super();
     }
     
-    @Override
-    public String getExplanation() {
-        return this.getDocumentHeader().getExplanation();
-    }
-    
-    @Override
-    public void setExplanation(String explanation) {
-        this.getDocumentHeader().setExplanation(explanation);
-    }
-    
+  
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

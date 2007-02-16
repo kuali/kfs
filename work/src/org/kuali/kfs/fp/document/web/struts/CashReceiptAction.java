@@ -28,18 +28,18 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
-import org.kuali.core.rule.event.AddCheckEvent;
-import org.kuali.core.rule.event.DeleteCheckEvent;
-import org.kuali.core.rule.event.UpdateCheckEvent;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.Timer;
 import org.kuali.core.util.WebUtils;
-import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
 import org.kuali.module.financial.document.CashReceiptDocument;
+import org.kuali.module.financial.rule.event.AddCheckEvent;
+import org.kuali.module.financial.rule.event.DeleteCheckEvent;
+import org.kuali.module.financial.rule.event.UpdateCheckEvent;
 import org.kuali.module.financial.rules.CashReceiptDocumentRuleUtil;
 import org.kuali.module.financial.service.CashReceiptCoverSheetService;
 import org.kuali.module.financial.service.CashReceiptService;
@@ -51,7 +51,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 /**
  * 
  */
-public class CashReceiptAction extends KualiTransactionalDocumentActionBase {
+public class CashReceiptAction extends KualiAccountingDocumentActionBase {
     /**
      * Adds handling for check updates
      * 

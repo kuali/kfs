@@ -15,16 +15,13 @@
  */
 package org.kuali.module.financial.web.struts.form;
 
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocument;
 
 /**
  * This class is the action form for Distribution of Income and Expense.
- * 
- * 
  */
-
-public class DistributionOfIncomeAndExpenseForm extends KualiTransactionalDocumentFormBase {
+public class DistributionOfIncomeAndExpenseForm extends KualiAccountingDocumentFormBase {
     /**
      * Constructs a DistributionOfIncomeAndExpenseForm.java.
      */

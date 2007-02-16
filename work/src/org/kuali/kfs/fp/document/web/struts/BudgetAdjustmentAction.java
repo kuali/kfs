@@ -23,18 +23,16 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.KeyConstants;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.module.financial.document.BudgetAdjustmentDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class handles specific Actions requests for the BudgetAdjustment.
- * 
- * 
  */
-public class BudgetAdjustmentAction extends KualiTransactionalDocumentActionBase {
+public class BudgetAdjustmentAction extends KualiAccountingDocumentActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetAdjustmentAction.class);
 
     /**

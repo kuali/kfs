@@ -20,7 +20,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.bo.Country;
+import org.kuali.kfs.bo.Country;
 
 /**
  * 

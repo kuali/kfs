@@ -15,13 +15,13 @@
  */
 package org.kuali.module.financial.rules;
 
+import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants;
+
 
 /**
  * Holds constants for transfer of funds document.
- * 
- * 
  */
-public interface TransferOfFundsDocumentRuleConstants extends TransactionalDocumentRuleBaseConstants {
+public interface TransferOfFundsDocumentRuleConstants extends AccountingDocumentRuleBaseConstants {
     // Security grouping constants used to do application parameter lookups
     public static final String KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.TransferOfFundsDocument";
 

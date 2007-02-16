@@ -18,9 +18,9 @@ package org.kuali.module.cg.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.Country;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.bo.State;
+import org.kuali.kfs.bo.Country;
+import org.kuali.kfs.bo.State;
 
 /**
  * 

@@ -27,7 +27,7 @@ import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
+import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.module.financial.bo.AdvanceDepositDetail;
 import org.kuali.module.financial.document.AdvanceDepositDocument;
 import org.kuali.module.financial.rules.AdvanceDepositDocumentRuleUtil;
@@ -35,10 +35,8 @@ import org.kuali.module.financial.web.struts.form.AdvanceDepositForm;
 
 /**
  * This is the action class for the Advance Deposit document.
- * 
- * 
  */
-public class AdvanceDepositAction extends KualiTransactionalDocumentActionBase {
+public class AdvanceDepositAction extends KualiAccountingDocumentActionBase {
     /**
      * Adds handling for advance deposit detail amount updates.
      * 

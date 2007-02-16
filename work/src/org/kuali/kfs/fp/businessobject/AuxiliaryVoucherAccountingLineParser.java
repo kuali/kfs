@@ -33,10 +33,10 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
-import org.kuali.core.bo.AccountingLineParserBase;
-import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.exceptions.AccountingLineParserException;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.bo.AccountingLineParserBase;
+import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.exceptions.AccountingLineParserException;
 
 /**
  * <code>AuxiliaryVocherDocument</code> accounting line parser

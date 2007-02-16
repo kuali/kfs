@@ -21,8 +21,6 @@ import org.kuali.core.util.SpringServiceLocator;
 
 /**
  * Year End version of the <code>BudgetAdjustmentDocument</code>
- * 
- * 
  */
 public class YearEndBudgetAdjustmentDocument extends BudgetAdjustmentDocument implements YearEndDocument {
 

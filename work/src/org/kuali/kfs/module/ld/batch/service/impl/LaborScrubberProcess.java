@@ -29,8 +29,8 @@ import java.util.StringTokenizer;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
+import org.kuali.core.bo.DocumentType;
 import org.kuali.core.bo.FinancialSystemParameter;
-import org.kuali.core.document.DocumentType;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentTypeService;
@@ -44,17 +44,19 @@ import org.kuali.module.chart.service.OffsetDefinitionService;
 import org.kuali.module.financial.exceptions.InvalidFlexibleOffsetException;
 import org.kuali.module.financial.service.FlexibleOffsetAccountService;
 import org.kuali.module.gl.GLConstants;
+
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.dao.UniversityDateDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
+import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.ReportService;
 import org.kuali.module.gl.service.ScrubberValidator;
 import org.kuali.module.gl.service.impl.scrubber.DemergerReportData;
-import org.kuali.module.gl.service.impl.scrubber.ScrubberReportData;
 import org.kuali.module.gl.util.Message;
+import org.kuali.module.gl.service.impl.scrubber.ScrubberReportData;
 import org.kuali.module.gl.util.ObjectHelper;
 import org.kuali.module.gl.util.OriginEntryStatistics;
 import org.kuali.module.gl.util.StringHelper;
@@ -67,6 +69,8 @@ import org.springframework.util.StringUtils;
  * This class has the logic for the scrubber. It is required because the scrubber process needs instance variables. Instance
  * variables in a spring service are shared between all code calling the service. This will make sure each run of the scrubber has
  * it's own instance variables instead of being shared.
+ * 
+ * 
  */
 public class LaborScrubberProcess {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborScrubberProcess.class);
@@ -98,14 +102,13 @@ public class LaborScrubberProcess {
     private UniversityDate universityRunDate;
     private String offsetString;
 
-    /*
-     * These fields are used to control whether the job was run before some set time, if so, the rundate of the job will be set to
-     * 11:59 PM of the previous day
+    /* These fields are used to control whether the job was run before some set time,
+     * if so, the rundate of the job will be set to 11:59 PM of the previous day
      */
     private Integer cutoffHour;
     private Integer cutoffMinute;
     private Integer cutoffSecond;
-
+    
     /* These are the output groups */
     private OriginEntryGroup validGroup;
     private OriginEntryGroup errorGroup;
@@ -151,11 +154,11 @@ public class LaborScrubberProcess {
 
         parameters = kualiConfigurationService.getParametersByGroup(GLConstants.GL_SCRUBBER_GROUP);
         rules = kualiConfigurationService.getRulesByGroup(GLConstants.GL_SCRUBBER_GROUP);
-
+        
         cutoffHour = null;
         cutoffMinute = null;
         cutoffSecond = null;
-
+        
         initCutoffTime();
     }
 
@@ -164,21 +167,21 @@ public class LaborScrubberProcess {
      * 
      * @param group
      */
-    public void scrubGroupReportOnly(OriginEntryGroup group, String documentNumber) {
+    public void scrubGroupReportOnly(OriginEntryGroup group,String documentNumber) {
         LOG.debug("scrubGroupReportOnly() started");
 
-        scrubEntries(group, documentNumber);
+        scrubEntries(group,documentNumber);
     }
 
     public void scrubEntries() {
-        scrubEntries(null, null);
+        scrubEntries(null,null);
     }
 
     /**
      * Scrub all entries that need it in origin entry. Put valid scrubbed entries in a scrubber valid group, put errors in a
      * scrubber error group, and transactions with an expired account in the scrubber expired account group.
      */
-    public void scrubEntries(OriginEntryGroup group, String documentNumber) {
+    public void scrubEntries(OriginEntryGroup group,String documentNumber) {
         LOG.debug("scrubEntries() started");
 
         // We are in report only mode if we pass a group to this method.
@@ -221,9 +224,8 @@ public class LaborScrubberProcess {
 
         // generate the reports based on the origin entries to be processed by scrubber
         if (reportOnlyMode) {
-            reportService.generateScrubberLedgerSummaryReportOnline(runDate, group, documentNumber);
-        }
-        else {
+            reportService.generateScrubberLedgerSummaryReportOnline(runDate, group,documentNumber);
+        } else {
             reportService.generateScrubberLedgerSummaryReportBatch(runDate, groupsToScrub);
         }
 
@@ -246,7 +248,7 @@ public class LaborScrubberProcess {
 
         // generate the scrubber status summary report
         if (reportOnlyMode) {
-            reportService.generateOnlineScrubberStatisticsReport(group.getId(), runDate, scrubberReport, scrubberReportErrors, documentNumber);
+            reportService.generateOnlineScrubberStatisticsReport(group.getId(), runDate, scrubberReport, scrubberReportErrors,documentNumber);
         }
         else {
             reportService.generateBatchScrubberStatisticsReport(runDate, scrubberReport, scrubberReportErrors);
@@ -258,11 +260,10 @@ public class LaborScrubberProcess {
         }
 
         // Run the reports
-        if (reportOnlyMode) {
+        if ( reportOnlyMode ) {
             // Run transaction list
-            reportService.generateScrubberTransactionsOnline(runDate, group, documentNumber);
-        }
-        else {
+            reportService.generateScrubberTransactionsOnline(runDate, group,documentNumber);
+        } else {
             // Run bad balance type report and removed transaction report
             reportService.generateScrubberBadBalanceTypeListingReport(runDate, groupsToScrub);
 
@@ -439,8 +440,9 @@ public class LaborScrubberProcess {
     }
 
     /**
-     * This will process a group of origin entries. The COBOL code was refactored a lot to get this so there isn't a 1 to 1 section
-     * of Cobol relating to this.
+     * This will process a group of origin entries.
+     * 
+     * The COBOL code was refactored a lot to get this so there isn't a 1 to 1 section of Cobol relating to this.
      * 
      * @param originEntryGroup Group to process
      */
@@ -528,7 +530,11 @@ public class LaborScrubberProcess {
                 KualiParameterRule costShareEncDocTypeCodes = getRule(GLConstants.GlScrubberGroupRules.COST_SHARE_ENC_DOC_TYPE_CODES);
                 KualiParameterRule costShareFiscalPeriodCodes = getRule(GLConstants.GlScrubberGroupRules.COST_SHARE_FISCAL_PERIOD_CODES);
 
-                if (costShareObjectTypeCodes.succeedsRule(scrubbedEntry.getFinancialObjectTypeCode()) && costShareEncBalanceTypeCodes.succeedsRule(scrubbedEntry.getFinancialBalanceTypeCode()) && scrubbedEntry.getAccount().isForContractsAndGrants() && Constants.COST_SHARE.equals(subAccountTypeCode) && costShareEncFiscalPeriodCodes.succeedsRule(scrubbedEntry.getUniversityFiscalPeriodCode()) && costShareEncDocTypeCodes.succeedsRule(scrubbedEntry.getFinancialDocumentTypeCode().trim())) {
+                if (costShareObjectTypeCodes.succeedsRule(scrubbedEntry.getFinancialObjectTypeCode()) && 
+                        costShareEncBalanceTypeCodes.succeedsRule(scrubbedEntry.getFinancialBalanceTypeCode()) && 
+                        scrubbedEntry.getAccount().isForContractsAndGrants() && Constants.COST_SHARE.equals(subAccountTypeCode) && 
+                        costShareEncFiscalPeriodCodes.succeedsRule(scrubbedEntry.getUniversityFiscalPeriodCode()) && 
+                        costShareEncDocTypeCodes.succeedsRule(scrubbedEntry.getFinancialDocumentTypeCode().trim())) {
                     TransactionError te1 = generateCostShareEncumbranceEntries(scrubbedEntry);
                     if (te1 != null) {
                         List errors = new ArrayList();
@@ -540,7 +546,12 @@ public class LaborScrubberProcess {
                     }
                 }
 
-                if (costShareObjectTypeCodes.succeedsRule(scrubbedEntry.getFinancialObjectTypeCode()) && scrubbedEntry.getOption().getActualFinancialBalanceTypeCd().equals(scrubbedEntry.getFinancialBalanceTypeCode()) && scrubbedEntry.getAccount().isForContractsAndGrants() && Constants.COST_SHARE.equals(subAccountTypeCode) && costShareFiscalPeriodCodes.succeedsRule(scrubbedEntry.getUniversityFiscalPeriodCode()) && costShareEncDocTypeCodes.succeedsRule(scrubbedEntry.getFinancialDocumentTypeCode().trim())) {
+                if (costShareObjectTypeCodes.succeedsRule(scrubbedEntry.getFinancialObjectTypeCode()) && 
+                        scrubbedEntry.getOption().getActualFinancialBalanceTypeCd().equals(scrubbedEntry.getFinancialBalanceTypeCode()) && 
+                        scrubbedEntry.getAccount().isForContractsAndGrants() && 
+                        Constants.COST_SHARE.equals(subAccountTypeCode) && 
+                        costShareFiscalPeriodCodes.succeedsRule(scrubbedEntry.getUniversityFiscalPeriodCode()) && 
+                        costShareEncDocTypeCodes.succeedsRule(scrubbedEntry.getFinancialDocumentTypeCode().trim())) {
                     if (scrubbedEntry.isDebit()) {
                         scrubCostShareAmount = scrubCostShareAmount.subtract(transactionAmount);
                     }
@@ -655,7 +666,9 @@ public class LaborScrubberProcess {
     }
 
     /**
-     * 3000-COST-SHARE to 3100-READ-OFSD in the cobol Generate Cost Share Entries
+     * 3000-COST-SHARE to 3100-READ-OFSD in the cobol
+     * 
+     * Generate Cost Share Entries
      * 
      * @param scrubbedEntry
      */
@@ -868,6 +881,7 @@ public class LaborScrubberProcess {
 
     /**
      * Get all the transaction descriptions from the param table
+     * 
      */
     private void setDescriptions() {
         offsetDescription = kualiConfigurationService.getPropertyString(KeyConstants.MSG_GENERATED_OFFSET);
@@ -879,6 +893,7 @@ public class LaborScrubberProcess {
 
     /**
      * Generate the flag for the end of specific descriptions. This will be used in the demerger step
+     * 
      */
     private void setOffsetString() {
 
@@ -894,6 +909,7 @@ public class LaborScrubberProcess {
     /**
      * Generate the offset message with the flag at the end
      * 
+     * 
      * @return Offset message
      */
     private String getOffsetMessage() {
@@ -903,7 +919,9 @@ public class LaborScrubberProcess {
     }
 
     /**
-     * Lines 4694 - 4798 of the Pro Cobol listing on Confluence Generate capitalization entries if necessary
+     * Lines 4694 - 4798 of the Pro Cobol listing on Confluence
+     * 
+     * Generate capitalization entries if necessary
      * 
      * @param scrubbedEntry
      * @return null if no error, message if error
@@ -971,7 +989,9 @@ public class LaborScrubberProcess {
     }
 
     /**
-     * Lines 4855 - 4979 of the Pro Cobol listing on Confluence Generate the plant indebtedness entries
+     * Lines 4855 - 4979 of the Pro Cobol listing on Confluence
+     * 
+     * Generate the plant indebtedness entries
      * 
      * @param scrubbedEntry
      * @return null if no error, message if error
@@ -986,7 +1006,9 @@ public class LaborScrubberProcess {
         KualiParameterRule objectSubTypeCodes = getRule(GLConstants.GlScrubberGroupRules.PLANT_INDEBTEDNESS_OBJ_SUB_TYPE_CODES);
         KualiParameterRule subFundGroupCodes = getRule(GLConstants.GlScrubberGroupRules.PLANT_INDEBTEDNESS_SUB_FUND_GROUP_CODES);
 
-        if (scrubbedEntry.getFinancialBalanceTypeCode().equals(scrubbedEntry.getOption().getActualFinancialBalanceTypeCd()) && subFundGroupCodes.succeedsRule(scrubbedEntry.getAccount().getSubFundGroupCode()) && objectSubTypeCodes.succeedsRule(scrubbedEntry.getFinancialObject().getFinancialObjectSubTypeCode())) {
+        if (scrubbedEntry.getFinancialBalanceTypeCode().equals(scrubbedEntry.getOption().getActualFinancialBalanceTypeCd()) && 
+                subFundGroupCodes.succeedsRule(scrubbedEntry.getAccount().getSubFundGroupCode()) && 
+                objectSubTypeCodes.succeedsRule(scrubbedEntry.getFinancialObject().getFinancialObjectSubTypeCode())) {
 
             plantIndebtednessEntry.setTransactionLedgerEntryDescription(Constants.PLANT_INDEBTEDNESS_ENTRY_DESCRIPTION);
 
@@ -1016,7 +1038,7 @@ public class LaborScrubberProcess {
                 flexibleOffsetAccountService.updateOffset(plantIndebtednessEntry);
             }
             catch (InvalidFlexibleOffsetException e) {
-                LOG.error("processPlantIndebtedness() Flexible Offset Exception (1)", e);
+                LOG.error("processPlantIndebtedness() Flexible Offset Exception (1)",e);
                 LOG.debug("processPlantIndebtedness() Plant Indebtedness Flexible Offset Error: " + e.getMessage());
                 return e.getMessage();
             }
@@ -1037,7 +1059,10 @@ public class LaborScrubberProcess {
             plantIndebtednessEntry.setAccountNumber(scrubbedEntry.getAccountNumber());
             plantIndebtednessEntry.setSubAccountNumber(scrubbedEntry.getSubAccountNumber());
 
-            if (scrubbedEntry.getChartOfAccountsCode().equals(scrubbedEntry.getAccount().getOrganization().getChartOfAccountsCode()) && scrubbedEntry.getAccount().getOrganizationCode().equals(scrubbedEntry.getAccount().getOrganizationCode()) && scrubbedEntry.getAccountNumber().equals(scrubbedEntry.getAccount().getAccountNumber()) && scrubbedEntry.getChartOfAccountsCode().equals(scrubbedEntry.getAccount().getChartOfAccountsCode())) {
+            if (scrubbedEntry.getChartOfAccountsCode().equals(scrubbedEntry.getAccount().getOrganization().getChartOfAccountsCode()) &&
+                    scrubbedEntry.getAccount().getOrganizationCode().equals(scrubbedEntry.getAccount().getOrganizationCode()) && 
+                    scrubbedEntry.getAccountNumber().equals(scrubbedEntry.getAccount().getAccountNumber()) && 
+                    scrubbedEntry.getChartOfAccountsCode().equals(scrubbedEntry.getAccount().getChartOfAccountsCode())) {
                 plantIndebtednessEntry.setAccountNumber(scrubbedEntry.getAccount().getOrganization().getCampusPlantAccountNumber());
                 plantIndebtednessEntry.setChartOfAccountsCode(scrubbedEntry.getAccount().getOrganization().getCampusPlantChartCode());
             }
@@ -1073,7 +1098,7 @@ public class LaborScrubberProcess {
                 flexibleOffsetAccountService.updateOffset(plantIndebtednessEntry);
             }
             catch (InvalidFlexibleOffsetException e) {
-                LOG.error("processPlantIndebtedness() Flexible Offset Exception (2)", e);
+                LOG.error("processPlantIndebtedness() Flexible Offset Exception (2)",e);
                 LOG.debug("processPlantIndebtedness() Plant Indebtedness Flexible Offset Error: " + e.getMessage());
                 return e.getMessage();
             }
@@ -1086,7 +1111,9 @@ public class LaborScrubberProcess {
     }
 
     /**
-     * Lines 4799 to 4839 of the Pro Cobol list of the scrubber on Confluence Generate the liability entries
+     * Lines 4799 to 4839 of the Pro Cobol list of the scrubber on Confluence
+     * 
+     * Generate the liability entries
      * 
      * @param scrubbedEntry
      * @return null if no error, message if error
@@ -1183,13 +1210,16 @@ public class LaborScrubberProcess {
     }
 
     /**
-     * 3200-COST-SHARE-ENC to 3200-CSE-EXIT in the COBOL The purpose of this method is to generate a "Cost Share Encumbrance"
-     * transaction for the current transaction and its offset. The cost share chart and account for current transaction are obtained
-     * from the CA_A21_SUB_ACCT_T table. This method calls the method SET-OBJECT-2004 to get the Cost Share Object Code. It then
-     * writes out the cost share transaction. Next it read the GL_OFFSET_DEFN_T table for the offset object code that corresponds to
-     * the cost share object code. In addition to the object code it needs to get subobject code. It then reads the CA_OBJECT_CODE_T
-     * table to make sure the offset object code found in the GL_OFFSET_DEFN_T is valid and to get the object type code associated
-     * with this object code. It writes out the offset transaction and returns.
+     * 3200-COST-SHARE-ENC to 3200-CSE-EXIT in the COBOL
+     * 
+     * The purpose of this method is to generate a "Cost Share Encumbrance" transaction for the current transaction and its offset.
+     * 
+     * The cost share chart and account for current transaction are obtained from the CA_A21_SUB_ACCT_T table. This method calls the
+     * method SET-OBJECT-2004 to get the Cost Share Object Code. It then writes out the cost share transaction. Next it read the
+     * GL_OFFSET_DEFN_T table for the offset object code that corresponds to the cost share object code. In addition to the object
+     * code it needs to get subobject code. It then reads the CA_OBJECT_CODE_T table to make sure the offset object code found in
+     * the GL_OFFSET_DEFN_T is valid and to get the object type code associated with this object code. It writes out the offset
+     * transaction and returns.
      * 
      * @param scrubbedEntry
      */
@@ -1329,38 +1359,35 @@ public class LaborScrubberProcess {
 
         boolean done = false;
         String originEntryObjectCode = originEntry.getFinancialObjectCode();
-
+        
         // IU Specific Rules
 
-        if ((!done) && ("BENF".equals(originEntryObjectLevelCode) && ("9956".equals(originEntryObjectCode) || 5700 > Integer.valueOf(originEntryObjectCode).intValue()))) { // BENEFITS
+        if ( (! done) && ("BENF".equals(originEntryObjectLevelCode) && ("9956".equals(originEntryObjectCode) || 5700 > Integer.valueOf(originEntryObjectCode).intValue()))) { // BENEFITS
             originEntryObjectCode = "9956"; // TRSFRS_OF_FUNDS_FRINGE_BENF
             done = true;
         }
 
-        if ((!done) && ("FINA".equals(originEntryObjectLevelCode) && ("9954".equals(originEntryObjectCode) || "5400".equals(originEntryObjectCode)))) {
+        if ( (! done) && ("FINA".equals(originEntryObjectLevelCode) && ("9954".equals(originEntryObjectCode) || "5400".equals(originEntryObjectCode)))) {
             // STUDENT_FINANCIAL_AID - TRSFRS_OF_FUNDS_FEE_REM - GRADUATE_FEE_REMISSIONS
             originEntryObjectCode = "9954"; // TRSFRS_OF_FUNDS_CAPITAL
             done = true;
         }
 
         // General rules
-        if (!done) {
+        if ( ! done ) {
             FinancialSystemParameter param = parameters.get(GLConstants.GlScrubberGroupParameters.COST_SHARE_LEVEL_OBJECT_PREFIX + originEntryObjectLevelCode);
-            if (param == null) {
+            if ( param == null ) {
                 param = getParameter(GLConstants.GlScrubberGroupParameters.COST_SHARE_LEVEL_OBJECT_DEFAULT);
-                if (param == null) {
+                if ( param == null ) {
                     throw new IllegalArgumentException("Missing " + GLConstants.GL_SCRUBBER_GROUP + "/" + GLConstants.GlScrubberGroupParameters.COST_SHARE_LEVEL_OBJECT_DEFAULT + " parameter in system parameters table");
-                }
-                else {
+                } else {
                     originEntryObjectCode = param.getFinancialSystemParameterText();
                 }
-            }
-            else {
-                if (param.getFinancialSystemParameterText() == null) {
+            } else {
+                if ( param.getFinancialSystemParameterText() == null ) {
                     // Don't do anything with the object code
-                }
-                else {
-                    originEntryObjectCode = param.getFinancialSystemParameterText();
+                } else {
+                    originEntryObjectCode = param.getFinancialSystemParameterText();                    
                 }
             }
 
@@ -1381,8 +1408,9 @@ public class LaborScrubberProcess {
     /**
      * The purpose of this method is to build the actual offset transaction. It does this by performing the following steps: 1.
      * Getting the offset object code and offset subobject code from the GL Offset Definition Table. 2. For the offset object code
-     * it needs to get the associated object type, object subtype, and object active code. This code is 3000-OFFSET to
-     * SET-OBJECT-2004 in the Cobol
+     * it needs to get the associated object type, object subtype, and object active code.
+     * 
+     * This code is 3000-OFFSET to SET-OBJECT-2004 in the Cobol
      * 
      * @param scrubbedEntry
      */
@@ -1426,7 +1454,7 @@ public class LaborScrubberProcess {
                 offsetKey.append(offsetDefinition.getFinancialObjectCode());
 
                 putTransactionError(offsetEntry, kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OFFSET_DEFINITION_OBJECT_CODE_NOT_FOUND), offsetKey.toString(), Message.TYPE_FATAL);
-
+                
                 createOutputEntry(offsetEntry, errorGroup);
                 scrubberReport.incrementErrorRecordWritten();
                 return false;
@@ -1498,17 +1526,16 @@ public class LaborScrubberProcess {
      */
     private void createOutputEntry(LaborOriginEntry entry, OriginEntryGroup group) {
         // Write the entry if we aren't running in report only mode.
-        if (reportOnlyMode) {
-            // If the group is null don't write it because the error and expired groups aren't created in reportOnlyMode
-            if (group != null) {
-                entry.setGroup(group);
-                laborOriginEntryService.save(entry);
-            }
-        }
-        else {
+        if ( reportOnlyMode ) {
+            // If the group is null don't write it because the error and expired groups aren't created in reportOnlyMode 
+            if ( group != null ) {
             entry.setGroup(group);
             laborOriginEntryService.save(entry);
         }
+        } else {
+            entry.setGroup(group);
+            laborOriginEntryService.save(entry);
+    }
     }
 
     /**
@@ -1619,15 +1646,15 @@ public class LaborScrubberProcess {
             message = m;
         }
     }
-
+    
     protected void setCutoffTimeForPreviousDay(int hourOfDay, int minuteOfDay, int secondOfDay) {
         this.cutoffHour = hourOfDay;
         this.cutoffMinute = minuteOfDay;
         this.cutoffSecond = secondOfDay;
-
+        
         LOG.info("Setting cutoff time to hour: " + hourOfDay + ", minute: " + minuteOfDay + ", second: " + secondOfDay);
     }
-
+    
     protected void setCutoffTime(String cutoffTime) {
         if (!StringUtils.hasText(cutoffTime)) {
             LOG.debug("Cutoff time is blank");
@@ -1637,16 +1664,16 @@ public class LaborScrubberProcess {
             cutoffTime = cutoffTime.trim();
             LOG.debug("Cutoff time value found: " + cutoffTime);
             StringTokenizer st = new StringTokenizer(cutoffTime, ":", false);
-
+            
             try {
                 String hourStr = st.nextToken();
                 String minuteStr = st.nextToken();
                 String secondStr = st.nextToken();
-
+                
                 int hourInt = Integer.parseInt(hourStr, 10);
                 int minuteInt = Integer.parseInt(minuteStr, 10);
                 int secondInt = Integer.parseInt(secondStr, 10);
-
+                
                 if (hourInt < 0 || hourInt > 23 || minuteInt < 0 || minuteInt > 59 || secondInt < 0 || secondInt > 59) {
                     throw new IllegalArgumentException("Cutoff time must be in the format \"HH:mm:ss\", where HH, mm, ss are defined in the java.text.SimpleDateFormat class.  In particular, 0 <= hour <= 23, 0 <= minute <= 59, and 0 <= second <= 59");
                 }
@@ -1657,17 +1684,21 @@ public class LaborScrubberProcess {
             }
         }
     }
-
-
+    
+    
     public void unsetCutoffTimeForPreviousDay() {
         this.cutoffHour = null;
         this.cutoffMinute = null;
         this.cutoffSecond = null;
     }
-
+    
     /**
-     * This method modifies the run date if it is before the cutoff time specified by calling the setCutoffTimeForPreviousDay
-     * method. See https://test.kuali.org/jira/browse/KULRNE-70 This method is public to facilitate unit testing
+     * This method modifies the run date if it is before the cutoff time specified by calling
+     * the setCutoffTimeForPreviousDay method.
+     * 
+     * See https://test.kuali.org/jira/browse/KULRNE-70
+     * 
+     * This method is public to facilitate unit testing
      * 
      * @param currentDate
      * @return
@@ -1675,7 +1706,7 @@ public class LaborScrubberProcess {
     public java.sql.Date calculateRunDate(java.util.Date currentDate) {
         Calendar currentCal = Calendar.getInstance();
         currentCal.setTime(currentDate);
-
+        
         if (isCurrentDateBeforeCutoff(currentCal)) {
             // time to set the date to the previous day's last minute/second
             currentCal.add(Calendar.DAY_OF_MONTH, -1);
@@ -1689,12 +1720,12 @@ public class LaborScrubberProcess {
         }
         return new java.sql.Date(currentDate.getTime());
     }
-
+    
     protected boolean isCurrentDateBeforeCutoff(Calendar currentCal) {
         if (cutoffHour != null && cutoffMinute != null && cutoffSecond != null) {
             // if cutoff date is not properly defined
             // 24 hour clock (i.e. hour is 0 - 23)
-
+            
             // clone the calendar so we get the same month, day, year
             // then change the hour, minute, second fields
             // then see if the cutoff is before or after
@@ -1704,13 +1735,13 @@ public class LaborScrubberProcess {
             cutoffTime.set(Calendar.MINUTE, cutoffMinute);
             cutoffTime.set(Calendar.SECOND, cutoffSecond);
             cutoffTime.set(Calendar.MILLISECOND, 0);
-
+            
             return currentCal.before(cutoffTime);
         }
         // if cutoff date is not properly defined, then it is considered to be after the cutoff
         return false;
     }
-
+    
     protected void initCutoffTime() {
         FinancialSystemParameter cutoffParam = parameters.get(GLConstants.GlScrubberGroupParameters.SCRUBBER_CUTOFF_TIME);
         String cutoffTime = null;

@@ -28,7 +28,7 @@
 	<field-descriptor name="budgetLockUserIdentifier" column="BDGT_LOCK_USR_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="budgetTransactionLockUserIdentifier" column="BDGT_TRNLCK_USR_ID" jdbc-type="VARCHAR"/>
 
-    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
 		<foreignkey field-ref="documentNumber" />
 	</reference-descriptor>
 
@@ -87,7 +87,7 @@
 
 <!-- need relationship for budgetLockUserIdentifier -->
 
-	<reference-descriptor name="financialDocument" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+	<reference-descriptor name="financialDocument" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="documentNumber" />
 	</reference-descriptor>
 	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -401,7 +401,7 @@
 	<field-descriptor name="iuDefaultObjectCode" column="IU_DFLT_OBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="iuPositionType" column="IU_POSITION_TYPE" jdbc-type="VARCHAR"/>
 	<field-descriptor name="positionLockUserIdentifier" column="POS_LOCK_USR_ID" jdbc-type="VARCHAR"/>
-    <reference-descriptor name="universityFiscal" class-ref="org.kuali.core.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
     <reference-descriptor name="responsibilityCenter" class-ref="org.kuali.module.chart.bo.ResponsibilityCenter" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -2595,7 +2595,7 @@
         <foreignkey field-ref="financialSubObjectCode"/>
     </reference-descriptor>
 	<reference-descriptor name="universityFiscal"
-		class-ref="org.kuali.core.bo.Options" auto-retrieve="true"
+		class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true"
 		auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="universityFiscalYear" />
 	</reference-descriptor>
@@ -2617,7 +2617,7 @@
 	<field-descriptor name="csfTimePercent" column="POS_CSF_TM_PCT" jdbc-type="DECIMAL"/>
 	<field-descriptor name="csfFundingStatusCode" column="POS_CSF_FNDSTAT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="csfDeleteCode" column="POS_CSF_DELETE_CD" jdbc-type="VARCHAR"/>
-	<reference-descriptor name="universityFiscal" class-ref="org.kuali.core.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+	<reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
 	<reference-descriptor name="financialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">

@@ -32,9 +32,8 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.Constants.CashDrawerConstants;
-import org.kuali.core.authorization.DocumentAuthorizer;
-
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.document.authorization.DocumentAuthorizer;
 import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;

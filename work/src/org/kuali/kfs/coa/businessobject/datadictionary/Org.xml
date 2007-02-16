@@ -280,7 +280,7 @@
                 <required>true</required>
 
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.OrgTypeValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.OrgTypeValuesFinder" />
                 </control>
 
                 <summary>Organization Type</summary>
@@ -318,7 +318,7 @@
                 <shortLabel>Plant Chart</shortLabel>
                 <required>false</required>
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
                 </control>
                 <summary>
                     <![CDATA[&nbsp;]]>
@@ -532,7 +532,7 @@
                 <shortLabel>Chart Code</shortLabel>
                 <required>false</required>
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
                 </control>
                 <summary>
                     <![CDATA[&nbsp;]]>

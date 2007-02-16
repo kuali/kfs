@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.kfs.bo.Options</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+
+        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>KualiOptionsMaintenanceDocument</documentTypeName>
+        <documentTypeCode>SOPT</documentTypeCode>
+
+        <label>System Options Maintenance Document</label>
+        <shortLabel>SystemOptionsMaintenanceDocument</shortLabel>
+
+        <summary>SystemOptionsMaintenanceDocument</summary>
+        <description>Document used to create or update Options</description>
+        <help securityGroupName="Kuali.Other.Help" parameterName="OTHER_HELP_SYSTEM_OPTIONS" />
+
+        <allowsCopy>true</allowsCopy>
+
+        <lockingKeys>
+            <field attributeName="universityFiscalYear" />
+        </lockingKeys>
+
+        <defaultExistenceChecks>
+            <reference attributeName="universityFinChartOfAcct" attributeToHighlightOnFail="universityFinChartOfAcctCd" displayFieldName="Chart of Accounts" />
+            <reference attributeName="objectType" attributeToHighlightOnFail="finObjectTypeIncomecashCode" displayFieldName="Income/Cash Object Type" />
+            <reference attributeName="finObjTypeExpenditureexp" attributeToHighlightOnFail="finObjTypeExpenditureexpCd" displayFieldName="Expenditure/Expense Object Type" />
+            <reference attributeName="finObjTypeExpendNotExp" attributeToHighlightOnFail="finObjTypeExpendNotExpCode" displayFieldName="Expenditure Not Expense Object Type" />
+            <reference attributeName="finObjTypeExpNotExpend" attributeToHighlightOnFail="finObjTypeExpNotExpendCode" displayFieldName="Expense Not Expenditure Object Type" />
+
+            <reference attributeName="financialObjectTypeAssets" attributeToHighlightOnFail="financialObjectTypeAssetsCd" displayFieldName="Assets Object Type" />
+            <reference attributeName="finObjectTypeLiabilities" attributeToHighlightOnFail="finObjectTypeLiabilitiesCode" displayFieldName="Liabilities Object Type" />
+            <reference attributeName="finObjectTypeFundBalance" attributeToHighlightOnFail="finObjectTypeFundBalanceCd" displayFieldName="Fund Balance Object Type" />
+            <reference attributeName="finObjTypeIncomeNotCash" attributeToHighlightOnFail="finObjTypeIncomeNotCashCd" displayFieldName="Income Not Cash Object Type" />
+            <reference attributeName="finObjTypeCshNotIncome" attributeToHighlightOnFail="finObjTypeCshNotIncomeCd" displayFieldName="Cash Not Income Object Type" />
+            <reference attributeName="actualFinancialBalanceType" attributeToHighlightOnFail="actualFinancialBalanceTypeCd" displayFieldName="Actuals Balance Type" />
+            <reference attributeName="budgetCheckingBalanceType" attributeToHighlightOnFail="budgetCheckingBalanceTypeCd" displayFieldName="Budget Checking Balance Type" />
+            <reference attributeName="extrnlEncumFinBalanceTyp" attributeToHighlightOnFail="extrnlEncumFinBalanceTypCd" displayFieldName="External Encumbrance Balance Type" />
+            <reference attributeName="intrnlEncumFinBalanceTyp" attributeToHighlightOnFail="intrnlEncumFinBalanceTypCd" displayFieldName="Internal Encumbrance Balance Type" />
+            <reference attributeName="preencumbranceFinBalType" attributeToHighlightOnFail="preencumbranceFinBalTypeCd" displayFieldName="Pre-Encumbrance Balance Type" />
+            <reference attributeName="eliminationsFinBalanceType" attributeToHighlightOnFail="eliminationsFinBalanceTypeCd" displayFieldName="Eliminations Balance Type" />
+        </defaultExistenceChecks>
+
+        <maintainableSections>
+            <maintainableSection title="Edit System Options">
+                <maintainableItems>
+                    <maintainableField name="universityFiscalYear" required="true" />
+                    <maintainableField name="universityFiscalYearName" required="true" />
+                    <maintainableField name="universityFiscalYearStartYr" required="true" />
+                    <maintainableField name="universityFiscalYearStartMo" required="true" />
+                    <maintainableField name="financialBeginBalanceLoadInd" required="true" />
+                    <maintainableField name="budgetCheckingOptionsCode" required="true" />
+                    <maintainableField name="universityFinChartOfAcctCd" required="true" />
+                    <maintainableField name="actualFinancialBalanceTypeCd" required="true" />
+                    <maintainableField name="budgetCheckingBalanceTypeCd" required="true" />
+                    <maintainableField name="extrnlEncumFinBalanceTypCd" required="true" />
+                    <maintainableField name="intrnlEncumFinBalanceTypCd" required="true" />
+                    <maintainableField name="preencumbranceFinBalTypeCd" required="true" />
+                    <maintainableField name="eliminationsFinBalanceTypeCd" required="true" />
+                    <maintainableField name="finObjTypeExpenditureexpCd" required="true" />
+                    <maintainableField name="finObjTypeExpendNotExpCode" required="true" />
+                    <maintainableField name="finObjTypeExpNotExpendCode" required="true" />
+                    <maintainableField name="finObjectTypeIncomecashCode" required="true" />
+                    <maintainableField name="finObjTypeIncomeNotCashCd" required="true" />
+                    <maintainableField name="finObjTypeCshNotIncomeCd" required="true" />
+                    <maintainableField name="financialObjectTypeAssetsCd" required="true" />
+                    <maintainableField name="finObjectTypeLiabilitiesCode" required="true" />
+                    <maintainableField name="finObjectTypeFundBalanceCd" required="true" />
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>

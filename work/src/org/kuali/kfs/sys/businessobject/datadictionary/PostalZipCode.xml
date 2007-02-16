@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2006 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kfs.bo.PostalZipCode">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Postal Code Inquiry</title>
+
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+                <field attributeName="postalZipCode" />
+                <field attributeName="postalStateCode" />
+                <field attributeName="postalCityName" />
+                <field attributeName="buildingCode" />
+                <field attributeName="buildingRoomNumber" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Postal Code Lookup</title>
+
+            <instructions>Lookup a Postal Code</instructions>
+
+            <defaultSort attributeName="postalZipCode" sortAscending="true" />
+
+            <lookupFields>
+
+                <lookupField attributeName="postalZipCode" required="false" />
+                <lookupField attributeName="postalStateCode" required="false" />
+                <lookupField attributeName="postalCityName" required="false" />
+                <lookupField attributeName="buildingCode" required="false" />
+                <lookupField attributeName="buildingRoomNumber" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="postalZipCode" />
+                <field attributeName="postalStateCode" />
+                <field attributeName="postalCityName" />
+                <field attributeName="buildingCode" />
+                <field attributeName="buildingRoomNumber" />
+            </resultFields>
+        </lookup>
+        
+        <titleAttribute>postalZipCode</titleAttribute>
+        
+        <attributes>
+
+            <attribute name="postalZipCode" forceUppercase="true">
+                <label>Postal Code</label>
+                <shortLabel>Zip</shortLabel>
+
+                <maxLength>11</maxLength>
+                <validationPattern>
+                    <zipcode />
+                </validationPattern>
+                <required>true</required>
+
+                <control>
+                    <text size="15" />
+                </control>
+
+                <summary>Postal Code</summary>
+                <description>Postal Code either in 5-4 format or just 5 digits</description>
+            </attribute>
+
+            <attributeReference name="postalStateCode" sourceClassName="org.kuali.kfs.bo.State" sourceAttributeName="postalStateCode">
+                <label>State</label>
+                <shortLabel>State</shortLabel>
+                <required>true</required>
+                <summary>State</summary>
+                <description>Postal State Code</description>
+            </attributeReference>
+
+            <attribute name="postalCityName" forceUppercase="true">
+                <label>City Name</label>
+                <shortLabel>City Name</shortLabel>
+
+                <maxLength>30</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="35" />
+                </control>
+
+                <summary>City Name</summary>
+                <description>City Name</description>
+            </attribute>
+            <attribute name="buildingCode" forceUppercase="true">
+                <label>Building Code</label>
+                <shortLabel>Building</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>Building Code</summary>
+                <description>Building Code</description>
+            </attribute>
+            <attribute name="buildingRoomNumber" forceUppercase="false">
+                <label>Building Room Number</label>
+                <shortLabel>Building Room Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern>
+                    <anyCharacter allowWhitespace="true" />
+                </validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Building Room Number</summary>
+                <description>Building Room Number</description>
+            </attribute>
+            <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

@@ -17,7 +17,7 @@ package org.kuali.module.gl.web.lookupable;
 
 import java.util.List;
 
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.test.WithTestSpringContext;
 
 /**

@@ -20,36 +20,35 @@ import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.KeyConstants.CashReceipt;
 import org.kuali.core.document.Document;
-import org.kuali.core.document.FinancialDocument;
-import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
+import org.kuali.kfs.rules.AccountingDocumentRuleUtil;
 import org.kuali.module.financial.bo.AdvanceDepositDetail;
 import org.kuali.module.financial.document.AdvanceDepositDocument;
 import org.kuali.module.financial.document.CashReceiptFamilyBase;
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
-import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
+
+import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 
 /**
  * Business rules applicable to Advance Deposit documents.
- * 
- * 
  */
-public class AdvanceDepositDocumentRule extends CashReceiptFamilyRule implements GenerateGeneralLedgerDocumentPendingEntriesRule {
+public class AdvanceDepositDocumentRule extends CashReceiptFamilyRule implements GenerateGeneralLedgerDocumentPendingEntriesRule<AccountingDocument> {
     /**
      * For Advance Deposit documents, the document is balanced if the sum total of advance deposits equals the sum total of the
      * accounting lines.
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.TransactionalDocument)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.FinancialDocument)
      */
     @Override
-    protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
-        AdvanceDepositDocument ad = (AdvanceDepositDocument) transactionalDocument;
+    protected boolean isDocumentBalanceValid(AccountingDocument financialDocument) {
+        AdvanceDepositDocument ad = (AdvanceDepositDocument) financialDocument;
 
         // make sure the document is in balance
-        boolean isValid = ad.getSourceTotal().equals(ad.getSumTotalAmount());
+        boolean isValid = ad.getSourceTotal().equals(ad.getTotalDollarAmount());
 
         if (!isValid) {
             GlobalVariables.getErrorMap().putError(PropertyConstants.NEW_ADVANCE_DEPOSIT, KeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_OUT_OF_BALANCE);
@@ -141,7 +140,7 @@ public class AdvanceDepositDocumentRule extends CashReceiptFamilyRule implements
      * 
      * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
-    public boolean processGenerateDocumentGeneralLedgerPendingEntries(FinancialDocument financialDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+    public boolean processGenerateDocumentGeneralLedgerPendingEntries(AccountingDocument financialDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
         final AdvanceDepositDocument advanceDepositDocument = ((AdvanceDepositDocument) financialDocument);
         if (advanceDepositDocument.isBankCashOffsetEnabled()) {
@@ -150,12 +149,12 @@ public class AdvanceDepositDocumentRule extends CashReceiptFamilyRule implements
                 detail.refreshReferenceObject(PropertyConstants.FINANCIAL_DOCUMENT_BANK_ACCOUNT);
 
                 GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
-                if (!TransactionalDocumentRuleUtil.populateBankOffsetGeneralLedgerPendingEntry(detail.getFinancialDocumentBankAccount(), detail.getFinancialDocumentAdvanceDepositAmount(), advanceDepositDocument, advanceDepositDocument.getPostingYear(), sequenceHelper, bankOffsetEntry, Constants.ADVANCE_DEPOSITS_LINE_ERRORS)) {
+                if (!AccountingDocumentRuleUtil.populateBankOffsetGeneralLedgerPendingEntry(detail.getFinancialDocumentBankAccount(), detail.getFinancialDocumentAdvanceDepositAmount(), advanceDepositDocument, advanceDepositDocument.getPostingYear(), sequenceHelper, bankOffsetEntry, Constants.ADVANCE_DEPOSITS_LINE_ERRORS)) {
                     success = false;
                     continue; // An unsuccessfully populated bank offset entry may contain invalid relations, so don't add it at
                     // all.
                 }
-                bankOffsetEntry.setTransactionLedgerEntryDescription(TransactionalDocumentRuleUtil.formatProperty(KeyConstants.AdvanceDeposit.DESCRIPTION_GLPE_BANK_OFFSET, displayedDepositNumber++));
+                bankOffsetEntry.setTransactionLedgerEntryDescription(AccountingDocumentRuleUtil.formatProperty(KeyConstants.AdvanceDeposit.DESCRIPTION_GLPE_BANK_OFFSET, displayedDepositNumber++));
                 advanceDepositDocument.getGeneralLedgerPendingEntries().add(bankOffsetEntry);
                 sequenceHelper.increment();
 

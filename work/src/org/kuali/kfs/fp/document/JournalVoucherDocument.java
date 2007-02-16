@@ -25,11 +25,14 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.AccountingLineBase;
-import org.kuali.core.bo.AccountingLineParser;
-import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.document.AmountTotaling;
+import org.kuali.core.document.Copyable;
+import org.kuali.core.document.Correctable;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.bo.AccountingLineBase;
+import org.kuali.kfs.bo.AccountingLineParser;
+import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.bo.JournalVoucherAccountingLineParser;
 import org.kuali.module.gl.util.SufficientFundsItem;
@@ -41,10 +44,8 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * eventually post transactions to the G/L. It integrates with workflow and contains a single group of accounting lines. The Journal
  * Voucher is unique in that we only make use of one accounting line list: the source accounting lines seeing as a JV only records
  * accounting lines as debits or credits.
- * 
- * 
  */
-public class JournalVoucherDocument extends TransactionalDocumentBase implements VoucherDocument {
+public class JournalVoucherDocument extends AccountingDocumentBase implements VoucherDocument, Copyable, Correctable, AmountTotaling {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(JournalVoucherDocument.class);
 
     // document specific attributes
@@ -194,7 +195,7 @@ public class JournalVoucherDocument extends TransactionalDocumentBase implements
      * 
      * @return KualiDecimal the total of the JV document.
      */
-    public KualiDecimal getTotal() {
+    public KualiDecimal getTotalDollarAmount() {
 
         KualiDecimal total = new KualiDecimal(0);
         AccountingLineBase al = null;
@@ -225,19 +226,12 @@ public class JournalVoucherDocument extends TransactionalDocumentBase implements
     }
 
     /**
-     * Overrides to call super, and then makes sure this is an error correction. If it is an error correction, it calls the JV
-     * specific error correction helper method.
-     * 
-     * @see org.kuali.core.document.TransactionalDocumentBase#performConversion(int)
+     * @see org.kuali.module.financial.document.FinancialDocumentBase#toErrorCorrection()
      */
     @Override
-    protected void performConversion(int operation) throws WorkflowException {
-        super.performConversion(operation);
-
-        // process special for error corrections
-        if (ERROR_CORRECTING == operation) {
-            processJournalVoucherErrorCorrections();
-        }
+    public void toErrorCorrection() throws WorkflowException {
+        super.toErrorCorrection();
+        processJournalVoucherErrorCorrections();
     }
 
     /**

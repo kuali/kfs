@@ -21,10 +21,10 @@
 <dictionaryEntry>
     <maintenanceDocument>
         <businessObjectClass>org.kuali.module.chart.bo.Account</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiAccountMaintainableImpl</maintainableClass>
+        <maintainableClass>org.kuali.module.chart.maintenance.KualiAccountMaintainableImpl</maintainableClass>
         <businessRulesClass>org.kuali.module.chart.rules.AccountRule</businessRulesClass>
         <preRulesCheckClass>org.kuali.module.chart.rules.AccountPreRules</preRulesCheckClass>
-        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
@@ -85,7 +85,7 @@
                     <maintainableField name="organizationCode" required="true" />
                     <maintainableField name="accountPhysicalCampusCode" required="true" />
                     <maintainableField name="accountEffectiveDate" required="true">
-                        <defaultValueFinderClass>org.kuali.core.lookup.valueFinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
+                        <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
                     </maintainableField>
                     <maintainableField name="accountExpirationDate" required="false" />
                     <maintainableField name="accountZipCode" required="true" />

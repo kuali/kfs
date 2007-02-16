@@ -32,7 +32,7 @@
         <attributes>
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
                 </control>
             </attributeReference>
 
@@ -80,7 +80,7 @@
                 <label>ICR Chart</label>
                 <shortLabel>ICR Chart</shortLabel>
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
                 </control>
 
                 <summary>ICR Chart</summary>
@@ -105,7 +105,7 @@
                 <label>Cost Sharing Chart of Accounts Code</label>
                 <shortLabel>Cost Sharting Chart Code</shortLabel>
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
                 </control>
                 <summary>Cost Sharing Chart of Accounts Code</summary>
                 <description>Cost Sharing Chart of Accounts Code</description>

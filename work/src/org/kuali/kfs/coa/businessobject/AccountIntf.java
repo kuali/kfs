@@ -20,9 +20,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.core.bo.PostalZipCode;
-import org.kuali.core.bo.State;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.kfs.bo.PostalZipCode;
+import org.kuali.kfs.bo.State;
 import org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode;
 import org.kuali.module.chart.bo.codes.SufficientFundsCode;
 

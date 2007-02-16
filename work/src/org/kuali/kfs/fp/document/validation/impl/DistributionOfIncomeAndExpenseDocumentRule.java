@@ -17,31 +17,30 @@ package org.kuali.module.financial.rules;
 
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
-import org.kuali.core.bo.AccountingLine;
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.module.chart.bo.ObjectCode;
 
 /**
  * This class holds document specific business rules for the Distribution of Income and Expense. It overrides methods in the base
  * rule class to apply specific checks.
- * 
- * 
  */
-public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDocumentRuleBase implements DistributionOfIncomeAndExpenseDocumentRuleConstants {
+public class DistributionOfIncomeAndExpenseDocumentRule extends AccountingDocumentRuleBase implements DistributionOfIncomeAndExpenseDocumentRuleConstants {
 
     /**
-     * @see IsDebitUtils#isDebitConsideringSectionAndTypePositiveOnly(TransactionalDocumentRuleBase, TransactionalDocument,
+     * @see IsDebitUtils#isDebitConsideringSectionAndTypePositiveOnly(FinancialDocumentRuleBase, FinancialDocument,
      *      AccountingLine)
      * 
-     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.TransactionalDocument,
+     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
-    public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
-        return IsDebitUtils.isDebitConsideringSectionAndTypePositiveOnly(this, transactionalDocument, accountingLine);
+    public boolean isDebit(AccountingDocument FinancialDocument, AccountingLine accountingLine) {
+        return IsDebitUtils.isDebitConsideringSectionAndTypePositiveOnly(this, FinancialDocument, accountingLine);
     }
 
     /**
@@ -97,10 +96,10 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends TransactionalDoc
      * The DI allows one sided documents for correcting - so if one side is empty, the other side must have at least two lines in
      * it. The balancing rules take care of validation of amounts.
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.TransactionalDocument)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.FinancialDocument)
      */
     @Override
-    protected boolean isAccountingLinesRequiredNumberForRoutingMet(TransactionalDocument transactionalDocument) {
-        return isOptionalOneSidedDocumentAccountingLinesRequiredNumberForRoutingMet(transactionalDocument);
+    protected boolean isAccountingLinesRequiredNumberForRoutingMet(AccountingDocument financialDocument) {
+        return isOptionalOneSidedDocumentAccountingLinesRequiredNumberForRoutingMet(financialDocument);
     }
 }

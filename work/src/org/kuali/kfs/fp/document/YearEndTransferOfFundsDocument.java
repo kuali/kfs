@@ -20,9 +20,6 @@ package org.kuali.module.financial.document;
 /**
  * Year End version of the <code>TransferOfFundsDocument</code> functionally the only difference is the accounting period code
  * used on the glpe entries
- * 
- * @see TransferOfFundsDocument
- * 
  */
 public class YearEndTransferOfFundsDocument extends TransferOfFundsDocument implements YearEndDocument {
 

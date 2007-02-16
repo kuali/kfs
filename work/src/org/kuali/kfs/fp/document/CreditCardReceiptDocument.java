@@ -19,10 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.Constants;
-import org.kuali.core.bo.AccountingLineParser;
+import org.kuali.core.document.AmountTotaling;
+import org.kuali.core.document.Copyable;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.format.CurrencyFormatter;
+import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.module.financial.bo.BasicFormatWithLineDescriptionAccountingLineParser;
 import org.kuali.module.financial.bo.CreditCardDetail;
 
@@ -31,10 +33,8 @@ import org.kuali.module.financial.bo.CreditCardDetail;
  * eventually post transactions to the G/L. It integrates with workflow. Since a Credit Card Receipt is a one sided transactional
  * document, only accepting funds into the university, the accounting line data will be held in the source accounting line data
  * structure only.
- * 
- * 
  */
-public class CreditCardReceiptDocument extends CashReceiptFamilyBase {
+public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements Copyable, AmountTotaling {
     // holds details about each credit card receipt
     private List<CreditCardDetail> creditCardReceipts = new ArrayList<CreditCardDetail>();
 
@@ -177,7 +177,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase {
      * @return KualiDecimal
      */
     @Override
-    public KualiDecimal getSumTotalAmount() {
+    public KualiDecimal getTotalDollarAmount() {
         return this.totalCreditCardAmount;
     }
 

@@ -18,12 +18,12 @@ package org.kuali.module.gl.web.optionfinder;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.bo.Options;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.lookup.valueFinder.ValueFinder;
-import org.kuali.core.service.OptionsService;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.web.uidraw.KeyLabelPair;
+import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kfs.bo.Options;
+import org.kuali.kfs.service.OptionsService;
 
 /**
  * This class...

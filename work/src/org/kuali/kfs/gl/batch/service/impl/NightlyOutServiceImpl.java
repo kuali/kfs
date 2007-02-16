@@ -20,11 +20,11 @@ import java.util.Iterator;
 
 import org.kuali.Constants;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.module.gl.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.gl.service.NightlyOutService;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;

@@ -248,7 +248,7 @@
                 <shortLabel>Dflt Chrt</shortLabel>
             </attributeReference>
 
-            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.document.DocumentHeader" sourceAttributeName="documentNumber" />
+            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber" />
 
             <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
                 <label>Default Sub-Account</label>

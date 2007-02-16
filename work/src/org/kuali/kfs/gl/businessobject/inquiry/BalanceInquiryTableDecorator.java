@@ -22,8 +22,8 @@ import javax.servlet.jsp.PageContext;
 
 import org.displaytag.decorator.TableDecorator;
 import org.displaytag.properties.MediaTypeEnum;
-import org.kuali.core.web.uidraw.Column;
-import org.kuali.core.web.uidraw.ResultRow;
+import org.kuali.core.web.ui.Column;
+import org.kuali.core.web.ui.ResultRow;
 
 /**
  */

@@ -188,7 +188,7 @@
                 <maxLength>40</maxLength>
 
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CountryValuesFinder" />
+                    <select valuesFinderClass="org.kuali.kfs.lookup.keyvalues.CountryValuesFinder" />
                 </control>
 
                 <summary>personCountryCode</summary>
@@ -411,7 +411,7 @@
                 <maxLength>2</maxLength>
 
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.StateValuesFinder" />
+                    <select valuesFinderClass="org.kuali.kfs.lookup.keyvalues.StateValuesFinder" />
                 </control>
 
                 <summary>personStateCode</summary>

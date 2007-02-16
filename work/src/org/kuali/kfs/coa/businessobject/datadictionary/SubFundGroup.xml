@@ -128,7 +128,7 @@
                 <maxLength>1</maxLength>
                 <required>true</required>
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.SubFundGroupTypeValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.SubFundGroupTypeValuesFinder" />
                 </control>
 
                 <summary>The associated Type Code</summary>
@@ -157,7 +157,7 @@
                  <label>Default Account Restricted Status Code</label>
                  <shortLabel>DefaultRstrcStatCd</shortLabel>
                  <control>
-                     <select valuesFinderClass="org.kuali.core.lookup.keyvalues.RestrictedStatusValuesFinder" />
+                     <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.RestrictedStatusValuesFinder" />
                  </control>
                  <summary>
                      <![CDATA[&nbsp;]]>
@@ -188,7 +188,7 @@
                                 sourceClassName="org.kuali.module.chart.bo.FundGroup" 
                                 sourceAttributeName="fundGroupBudgetAdjustmentRestrictionLevelCode" >
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.BudgetAdjustmentSubFundRestrictionsValuesFinder"/>
+                    <select valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.BudgetAdjustmentSubFundRestrictionsValuesFinder"/>
                 </control>
             </attributeReference>    
 

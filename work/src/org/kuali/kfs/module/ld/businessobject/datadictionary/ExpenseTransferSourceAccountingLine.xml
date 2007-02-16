@@ -17,7 +17,7 @@
 <!DOCTYPE dictionaryEntry PUBLIC
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../core/datadictionary/dataDictionary-1_0.dtd"
-    [<!ENTITY accountingLineBaseAttributes SYSTEM "../../../core/datadictionary/entity/AccountingLineBaseAttributes.xml">]>
+    [<!ENTITY accountingLineBaseAttributes SYSTEM "../../../kfs/entities/AccountingLineBaseAttributes.xml">]>
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine">
         <customAttributeEnabled>false</customAttributeEnabled>

@@ -117,7 +117,7 @@
                 <required>true</required>
 
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CreditCardTypeValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.CreditCardTypeValuesFinder" />
                 </control>
 
                 <summary><![CDATA[&nbsp;]]></summary>
@@ -132,7 +132,7 @@
                 <required>true</required>
 
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
                 </control>
 
                 <summary><![CDATA[&nbsp;]]></summary>
@@ -188,7 +188,7 @@
                 <required>true</required>
 
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
                 </control>
 
                 <summary>

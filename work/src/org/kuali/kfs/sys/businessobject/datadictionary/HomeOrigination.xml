@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kfs.bo.HomeOrigination">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>Home Origination Inquiry</title>
+
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+                <field attributeName="finSystemHomeOriginationCode" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Home Origination Lookup</title>
+
+            <instructions>Lookup a Home Origination</instructions>
+
+            <defaultSort attributeName="finSystemHomeOriginationCode" sortAscending="true" />
+
+            <lookupFields>
+                <lookupField attributeName="finSystemHomeOriginationCode" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="finSystemHomeOriginationCode" />
+
+            </resultFields>
+        </lookup>
+
+       <titleAttribute>finSystemHomeOriginationCode</titleAttribute>
+
+        <attributes>
+			<attributeReference name="finSystemHomeOriginationCode" sourceClassName="org.kuali.kfs.bo.OriginationCode" sourceAttributeName="financialSystemOriginationCode" >
+
+                <label>Home Origination Code</label>
+                <shortLabel>Home Orig Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                
+                <required>true</required>
+
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>Home Origination Code</summary>
+                <description>The code uniquely identify a Home Origination.</description>
+            </attributeReference>
+
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>
+

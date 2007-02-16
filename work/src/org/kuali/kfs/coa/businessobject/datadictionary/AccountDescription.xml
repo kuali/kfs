@@ -88,7 +88,7 @@
                 </validationPattern>
 
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CampusValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.CampusValuesFinder" />
                 </control>
 
                 <summary>Campus Code that the Building belongs to.</summary>

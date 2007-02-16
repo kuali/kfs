@@ -24,7 +24,7 @@ import org.kuali.Constants;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.web.uidraw.KeyLabelPair;
+import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.module.purap.bo.PurchaseOrderVendorChoice;
 
 /**

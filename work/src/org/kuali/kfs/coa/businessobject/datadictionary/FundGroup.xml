@@ -125,7 +125,7 @@
 
                 <required>true</required>
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.BudgetAdjustmentFundRestrictionsValuesFinder"/>
+                    <select valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.BudgetAdjustmentFundRestrictionsValuesFinder"/>
                 </control>
 
                 <summary>Budget Adjustment Restriction Code</summary>

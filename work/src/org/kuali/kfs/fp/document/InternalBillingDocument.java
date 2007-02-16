@@ -20,10 +20,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.Constants;
-import org.kuali.core.bo.AccountingLineParser;
-import org.kuali.core.bo.AccountingLineParserBase;
-import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.document.AmountTotaling;
+import org.kuali.core.document.Copyable;
+import org.kuali.core.document.Correctable;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.bo.AccountingLineParser;
+import org.kuali.kfs.bo.AccountingLineParserBase;
+import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.module.financial.bo.InternalBillingItem;
 
 
@@ -31,10 +34,8 @@ import org.kuali.module.financial.bo.InternalBillingItem;
  * This is the business object that represents the InternalBillingDocument in Kuali. This is a transactional document that will
  * eventually post transactions to the G/L. It integrates with workflow and also contains two groupings of accounting lines: Expense
  * and Income.
- * 
- * 
  */
-public class InternalBillingDocument extends TransactionalDocumentBase {
+public class InternalBillingDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling{
 
     private List items;
     private Integer nextItemLineNumber;

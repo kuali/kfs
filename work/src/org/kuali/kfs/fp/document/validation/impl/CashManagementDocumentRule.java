@@ -29,26 +29,28 @@ import org.kuali.PropertyConstants;
 import org.kuali.Constants.DocumentStatusCodes.CashReceipt;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
-import org.kuali.core.document.FinancialDocument;
-import org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
+import org.kuali.core.rules.GeneralLedgerPostingDocumentRuleBase;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
+import org.kuali.kfs.rules.AccountingDocumentRuleUtil;
 import org.kuali.module.financial.bo.BankAccount;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.bo.Deposit;
 import org.kuali.module.financial.bo.DepositCashReceiptControl;
 import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.module.financial.document.CashReceiptDocument;
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 /**
  * Business rule(s) applicable to Cash Management Document.
  * 
  * 
  */
-public class CashManagementDocumentRule extends FinancialDocumentRuleBase implements GenerateGeneralLedgerDocumentPendingEntriesRule {
+public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRuleBase implements GenerateGeneralLedgerDocumentPendingEntriesRule<AccountingDocument> {
     private static final Logger LOG = Logger.getLogger(CashManagementDocumentRule.class);
 
     /**
@@ -221,7 +223,7 @@ public class CashManagementDocumentRule extends FinancialDocumentRuleBase implem
      * 
      * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
-    public boolean processGenerateDocumentGeneralLedgerPendingEntries(FinancialDocument financialDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+    public boolean processGenerateDocumentGeneralLedgerPendingEntries(AccountingDocument financialDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
         final CashManagementDocument cashManagementDocument = ((CashManagementDocument) financialDocument);
         if (cashManagementDocument.isBankCashOffsetEnabled()) {
@@ -233,7 +235,7 @@ public class CashManagementDocumentRule extends FinancialDocumentRuleBase implem
                 deposit.refreshReferenceObject(PropertyConstants.BANK_ACCOUNT);
 
                 GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
-                if (!TransactionalDocumentRuleUtil.populateBankOffsetGeneralLedgerPendingEntry(deposit.getBankAccount(), deposit.getDepositAmount(), cashManagementDocument, universityFiscalYear, sequenceHelper, bankOffsetEntry, Constants.CASH_MANAGEMENT_DEPOSIT_ERRORS)) {
+                if (!AccountingDocumentRuleUtil.populateBankOffsetGeneralLedgerPendingEntry(deposit.getBankAccount(), deposit.getDepositAmount(), cashManagementDocument, universityFiscalYear, sequenceHelper, bankOffsetEntry, Constants.CASH_MANAGEMENT_DEPOSIT_ERRORS)) {
                     success = false;
                     continue; // An unsuccessfully populated bank offset entry may contain invalid relations, so don't add it at
                                 // all.
@@ -265,7 +267,7 @@ public class CashManagementDocumentRule extends FinancialDocumentRuleBase implem
             assertThat(Constants.DepositConstants.DEPOSIT_TYPE_INTERIM.equals(deposit.getDepositTypeCode()), deposit.getDepositTypeCode());
             descriptionKey = KeyConstants.CashManagement.DESCRIPTION_GLPE_BANK_OFFSET_INTERIM;
         }
-        return TransactionalDocumentRuleUtil.formatProperty(descriptionKey, interimDepositNumber);
+        return AccountingDocumentRuleUtil.formatProperty(descriptionKey, interimDepositNumber);
     }
 
     /**

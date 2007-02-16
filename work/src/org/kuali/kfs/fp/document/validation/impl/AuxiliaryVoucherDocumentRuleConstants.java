@@ -15,13 +15,15 @@
  */
 package org.kuali.module.financial.rules;
 
+import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants;
+
 
 /**
  * Holds constants for <code>{@link org.kuali.module.financial.document.AuxiliaryVoucherDocument}</code> business rules.
  * 
  * 
  */
-public interface AuxiliaryVoucherDocumentRuleConstants extends TransactionalDocumentRuleBaseConstants {
+public interface AuxiliaryVoucherDocumentRuleConstants extends AccountingDocumentRuleBaseConstants {
     // Security grouping constants used to do application parameter lookups
     public static final String AUXILIARY_VOUCHER_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.AuxiliaryVoucherDocument";
 

@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.kuali.PropertyConstants;
 import org.kuali.core.document.DocumentBase;
+import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
@@ -37,7 +38,7 @@ import org.kuali.module.gl.service.ScrubberService;
 /**
  * 
  */
-public class CorrectionDocument extends DocumentBase {
+public class CorrectionDocument extends TransactionalDocumentBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionDocument.class);
 
     private String correctionTypeCode; // CorrectionDocumentService.CORRECTION_TYPE_MANUAL or

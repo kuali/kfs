@@ -24,12 +24,12 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.Constants;
-import org.kuali.core.bo.Country;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.bo.PostalZipCode;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.UrlFactory;
+import org.kuali.kfs.bo.Country;
+import org.kuali.kfs.bo.PostalZipCode;
 
 /**
  * 

@@ -15,8 +15,8 @@
  */
 package org.kuali.module.financial.util;
 
-import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.test.WithTestSpringContext;
 
 @WithTestSpringContext

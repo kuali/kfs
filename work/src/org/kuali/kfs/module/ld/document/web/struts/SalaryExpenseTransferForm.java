@@ -17,14 +17,8 @@ package org.kuali.module.labor.web.struts.form;
 
 import static org.kuali.core.util.SpringServiceLocator.getUniversalUserService;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 
 /**

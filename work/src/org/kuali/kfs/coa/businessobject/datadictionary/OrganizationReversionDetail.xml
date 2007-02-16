@@ -55,7 +55,7 @@
                 <shortLabel>Category</shortLabel>
                 <required>true</required>
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.OrganizationReversionCategoryValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.OrganizationReversionCategoryValuesFinder" />
                 </control>
             </attributeReference>
 
@@ -80,7 +80,7 @@
                 <maxLength>2</maxLength>
                 <required>true</required>
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.OrganizationReversionCodeValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.OrganizationReversionCodeValuesFinder" />
                 </control>
                 <summary>
                     <![CDATA[&nbsp;]]>

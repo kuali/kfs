@@ -16,13 +16,12 @@
 package org.kuali.module.kra.document;
 
 import org.kuali.core.document.Document;
+import org.kuali.core.document.TransactionalDocument;
 
 
 /**
  * Research Administration Document Interface
- * 
- * 
  */
-public interface ResearchDocument extends Document {
+public interface ResearchDocument extends TransactionalDocument {
     public void initialize();
 }

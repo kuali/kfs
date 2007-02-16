@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import org.kuali.PropertyConstants;
-import org.kuali.core.bo.SourceAccountingLine;
+import org.kuali.kfs.bo.SourceAccountingLine;
 
 
 /**

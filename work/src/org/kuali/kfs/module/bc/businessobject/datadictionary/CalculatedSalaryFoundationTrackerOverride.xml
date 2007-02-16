@@ -98,7 +98,7 @@
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
                 <required>true</required>
 			  <control>
-				 <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+				 <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
 			  </control>
                 <description>Chart of Accounts Code for the override.</description>
             </attributeReference>

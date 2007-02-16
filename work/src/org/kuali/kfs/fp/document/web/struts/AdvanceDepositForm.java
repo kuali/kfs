@@ -20,16 +20,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.financial.bo.AdvanceDepositDetail;
 import org.kuali.module.financial.document.AdvanceDepositDocument;
 
 /**
  * This class is the struts form for Advance Deposit document.
- * 
- * 
  */
-public class AdvanceDepositForm extends KualiTransactionalDocumentFormBase {
+public class AdvanceDepositForm extends KualiAccountingDocumentFormBase {
     private AdvanceDepositDetail newAdvanceDeposit;
 
     /**

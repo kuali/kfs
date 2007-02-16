@@ -28,15 +28,14 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
-import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.WebUtils;
-import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeExpense;
 import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel;
 import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant;
@@ -52,11 +51,8 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class handles Actions for the DisbursementVoucher.
- * 
- * 
  */
-public class DisbursementVoucherAction extends KualiTransactionalDocumentActionBase {
-
+public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherAction.class);
 
 

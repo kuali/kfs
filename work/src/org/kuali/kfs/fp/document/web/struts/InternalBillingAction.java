@@ -15,6 +15,8 @@
  */
 package org.kuali.module.financial.web.struts.action;
 
+import static org.kuali.core.util.SpringServiceLocator.getDictionaryValidationService;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,21 +25,14 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
-import static org.kuali.core.util.SpringServiceLocator.getDictionaryValidationService;
-import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
+import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.module.financial.bo.InternalBillingItem;
 import org.kuali.module.financial.web.struts.form.InternalBillingForm;
 
 /**
  * This class handles Actions for InternalBilling.
- * 
- * 
  */
-
-
-public class InternalBillingAction extends KualiTransactionalDocumentActionBase {
+public class InternalBillingAction extends KualiAccountingDocumentActionBase {
 
     /**
      * Adds a new InternalBillingItem from the Form to the Document if valid. This method is called reflectively from KualiAction.

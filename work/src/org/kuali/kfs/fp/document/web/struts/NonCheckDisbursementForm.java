@@ -15,15 +15,13 @@
  */
 package org.kuali.module.financial.web.struts.form;
 
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.financial.document.NonCheckDisbursementDocument;
 
 /**
  * This class is the action form for Non-Check Disbursement.
- * 
- * 
  */
-public class NonCheckDisbursementForm extends KualiTransactionalDocumentFormBase {
+public class NonCheckDisbursementForm extends KualiAccountingDocumentFormBase {
 
     /**
      * NonCheckDisbursementForm default constructor

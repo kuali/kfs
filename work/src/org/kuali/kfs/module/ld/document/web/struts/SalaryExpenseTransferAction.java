@@ -24,15 +24,15 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.Constants;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 import org.kuali.module.labor.rules.event.EmployeeIdChangedEventBase;
 import org.kuali.module.labor.web.struts.form.SalaryExpenseTransferForm;
-import org.kuali.Constants;
 
 /**
  * This class extends the parent KualiTransactionalDocumentActionBase class, which contains all common action methods. Since the SEP
@@ -41,9 +41,9 @@ import org.kuali.Constants;
  */
 public class SalaryExpenseTransferAction extends LaborDocumentActionBase {
 
-    @Override
-    protected void processAccountingLineOverrides(KualiTransactionalDocumentFormBase transForm) {
-
+    @Override         
+    protected void processAccountingLineOverrides(KualiAccountingDocumentFormBase transForm) {
+        
         if (transForm.hasDocumentId()) {
 
             // Save the employee ID in all source and target accounting lines.
@@ -52,7 +52,7 @@ public class SalaryExpenseTransferAction extends LaborDocumentActionBase {
             List<ExpenseTransferAccountingLine> accountingLines = new ArrayList();
             accountingLines.addAll((List<ExpenseTransferAccountingLine>) salaryExpenseTransferDocument.getSourceAccountingLines());
             accountingLines.addAll((List<ExpenseTransferAccountingLine>) salaryExpenseTransferDocument.getTargetAccountingLines());
-
+           
             for (ExpenseTransferAccountingLine line : accountingLines) {
                 line.setEmplid(salaryExpenseTransferDocument.getEmplid());
             }
@@ -66,8 +66,7 @@ public class SalaryExpenseTransferAction extends LaborDocumentActionBase {
         boolean rulePassed = runRule(salaryExpenseTransferForm, new EmployeeIdChangedEventBase(salaryExpenseTransferForm.getDocument()));
 
         return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-
+}
     private boolean runRule(SalaryExpenseTransferForm salaryExpenseTransferFormForm, KualiDocumentEventBase event) {
         // check any business rules
 

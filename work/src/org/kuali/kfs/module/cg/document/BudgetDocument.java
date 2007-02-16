@@ -24,7 +24,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.PropertyConstants;
-import org.kuali.core.bo.AccountingLineBase;
 import org.kuali.core.bo.user.AuthenticationUserId;
 
 import org.kuali.core.bo.user.UniversalUser;
@@ -36,6 +35,7 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.workflow.DocumentInitiator;
 import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
+import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetAdHocOrg;

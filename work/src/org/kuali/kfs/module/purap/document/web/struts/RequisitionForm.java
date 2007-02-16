@@ -16,7 +16,7 @@
 package org.kuali.module.purap.web.struts.form;
 
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.uidraw.KeyLabelPair;
+import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.module.purap.bo.PurchasingItem;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.document.RequisitionDocument;

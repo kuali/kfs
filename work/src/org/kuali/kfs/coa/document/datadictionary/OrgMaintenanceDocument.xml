@@ -89,7 +89,7 @@
                     <maintainableField name="organizationStateCode" required="true" readOnly="true" />
                     <maintainableField name="organizationCountryCode" required="true" />
                     <maintainableField name="organizationBeginDate" required="true">
-                        <defaultValueFinderClass>org.kuali.core.lookup.valueFinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
+                        <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
                     </maintainableField>
                     <maintainableField name="organizationEndDate" />
                     <maintainableField name="reportsToChartOfAccountsCode" required="true" />

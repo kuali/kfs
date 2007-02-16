@@ -39,7 +39,8 @@ import static org.kuali.PropertyConstants.OVERRIDE_CODE;
 import static org.kuali.PropertyConstants.PROJECT_CODE;
 import static org.kuali.PropertyConstants.SUB_ACCOUNT_NUMBER;
 
-import org.kuali.core.bo.AccountingLineParserBase;
+import org.kuali.kfs.bo.AccountingLineParserBase;
+
 
 /**
  * <code>BudgetAdjustmentDocument</code> accounting line parser

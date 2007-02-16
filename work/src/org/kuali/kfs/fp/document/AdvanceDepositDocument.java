@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.Constants;
+import org.kuali.core.document.Copyable;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.format.CurrencyFormatter;
@@ -29,10 +30,8 @@ import org.kuali.module.financial.bo.AdvanceDepositDetail;
  * eventually post transactions to the G/L. It integrates with workflow. Since an Advance Deposit document is a one sided
  * transactional document, only accepting funds into the university, the accounting line data will be held in the source accounting
  * line data structure only.
- * 
- * 
  */
-public class AdvanceDepositDocument extends CashReceiptFamilyBase {
+public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Copyable  {
     // holds details about each advance deposit
     private List<AdvanceDepositDetail> advanceDeposits = new ArrayList<AdvanceDepositDetail>();
 
@@ -169,7 +168,7 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase {
      * @return KualiDecimal
      */
     @Override
-    public KualiDecimal getSumTotalAmount() {
+    public KualiDecimal getTotalDollarAmount() {
         return this.totalAdvanceDepositAmount;
     }
 

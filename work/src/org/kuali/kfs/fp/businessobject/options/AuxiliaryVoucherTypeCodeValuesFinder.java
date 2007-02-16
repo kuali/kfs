@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.kuali.Constants;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.web.uidraw.KeyLabelPair;
+import org.kuali.core.web.ui.KeyLabelPair;
 
 /**
  * <code>{@link KeyValuesBase}</code> class that handles

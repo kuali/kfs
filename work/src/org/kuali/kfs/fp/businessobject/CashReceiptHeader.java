@@ -31,7 +31,6 @@ import org.kuali.PropertyConstants;
 public class CashReceiptHeader extends PersistableBusinessObjectBase {
 
     private String documentNumber;
-    private String explanation;
     private Integer nextCheckSequenceId;
     private Integer nextCreditCardCashReceiptLineNumber;
     private Integer nextCreditCardCashieringDocumentLineNumber;
@@ -70,28 +69,6 @@ public class CashReceiptHeader extends PersistableBusinessObjectBase {
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
     }
-
-
-    /**
-     * Gets the explanation attribute.
-     * 
-     * @return Returns the explanation
-     * 
-     */
-    public String getExplanation() {
-        return explanation;
-    }
-
-    /**
-     * Sets the explanation attribute.
-     * 
-     * @param explanation The explanation to set.
-     * 
-     */
-    public void setExplanation(String explanation) {
-        this.explanation = explanation;
-    }
-
 
     /**
      * Gets the nextCheckSequenceId attribute.

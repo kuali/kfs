@@ -92,7 +92,7 @@
                 <control>
                     <!-- text size="2" /-->
                     <!-- If we want to go back to the drop-down list, then use this:-->
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
                 </control>
 
                 <summary>Chart of Accounts Code</summary>
@@ -111,7 +111,7 @@
                 <control>
                     <!-- text size="2" /-->
                     <!-- If we want to go back to the drop-down list, then use this:-->
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
                 </control>
 
                 <summary>Organization Code</summary>

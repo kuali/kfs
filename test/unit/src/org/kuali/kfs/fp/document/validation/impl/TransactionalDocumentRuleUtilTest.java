@@ -22,6 +22,7 @@ import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEm
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.rules.AccountingDocumentRuleUtil;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.document.JournalVoucherDocument;
@@ -165,7 +166,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
             balanceType = getBalanceTypService().getBalanceTypByCode(btStr);
         }
         assertGlobalErrorMapEmpty();
-        boolean result = TransactionalDocumentRuleUtil.isValidBalanceType(balanceType,"code");
+        boolean result = AccountingDocumentRuleUtil.isValidBalanceType(balanceType,"code");
         if (expected) {
             assertGlobalErrorMapEmpty();
         }
@@ -208,7 +209,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
      */
     protected void testIsValidOpenAccountingPeriod(AccountingPeriod period, boolean expected) {
         assertGlobalErrorMapEmpty();
-        boolean result = TransactionalDocumentRuleUtil.isValidOpenAccountingPeriod(period, JournalVoucherDocument.class, PropertyConstants.ACCOUNTING_PERIOD, DOES_NOT_MATTER);
+        boolean result = AccountingDocumentRuleUtil.isValidOpenAccountingPeriod(period, JournalVoucherDocument.class, PropertyConstants.ACCOUNTING_PERIOD, DOES_NOT_MATTER);
         if (expected) {
             assertGlobalErrorMapEmpty();
         }
@@ -255,7 +256,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
      */
     protected void testIsValidReversalDate(java.sql.Date reversalDate, boolean expected) {
         assertGlobalErrorMapEmpty();
-        boolean result = TransactionalDocumentRuleUtil.isValidReversalDate(reversalDate, getErrorPropertyName());
+        boolean result = AccountingDocumentRuleUtil.isValidReversalDate(reversalDate, getErrorPropertyName());
         if (expected) {
             assertGlobalErrorMapEmpty();
         }

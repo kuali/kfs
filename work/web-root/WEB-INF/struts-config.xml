@@ -21,10 +21,12 @@
         <form-bean name="QuestionPromptForm" type="org.kuali.core.web.struts.form.QuestionPromptForm" />
         <form-bean name="LookupForm" type="org.kuali.core.web.struts.form.LookupForm" />
         <form-bean name="InquiryForm" type="org.kuali.core.web.struts.form.InquiryForm" />
-        <form-bean name="KualiBalanceInquiryReportMenuForm" type="org.kuali.core.web.struts.form.KualiBalanceInquiryReportMenuForm" />
         <form-bean name="KualiMaintenanceForm" type="org.kuali.core.web.struts.form.KualiMaintenanceForm" />
         <form-bean name="KualiHelpForm" type="org.kuali.core.web.struts.form.KualiHelpForm" />
         <form-bean name="KualiForm" type="org.kuali.core.web.struts.form.KualiForm" />
+
+        <!--  KFS Core Bean Definitions -->
+        <form-bean name="KualiBalanceInquiryReportMenuForm" type="org.kuali.kfs.web.struts.form.KualiBalanceInquiryReportMenuForm" />
 
         <!--  Financial Module Bean Definitions -->
         <form-bean name="DepositWizardForm" type="org.kuali.module.financial.web.struts.form.DepositWizardForm" />
@@ -135,7 +137,7 @@
             <forward name="basic" path="/jsp/core/KualiMaintenanceDocument.jsp" />
         </action>
 
-        <action path="/balanceInquiryReportMenu" name="KualiBalanceInquiryReportMenuForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.core.web.struts.action.KualiBalanceInquiryReportMenuAction">
+        <action path="/balanceInquiryReportMenu" name="KualiBalanceInquiryReportMenuForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.kfs.web.struts.action.KualiBalanceInquiryReportMenuAction">
             <forward name="basic" path="/jsp/core/KualiBalanceInquiryReportMenu.jsp" />
         </action>
 
@@ -148,7 +150,7 @@
             <forward name="dvPerDiemLinks" path="/jsp/modules/financial/DisbursementVoucherTravelPerDiemLinks.jsp" />
         </action>
 
-        <action path="/loadObjectInfo" parameter="methodToCall" scope="request" type="org.kuali.core.web.struts.action.LoadObjectInfoAction">
+        <action path="/loadObjectInfo" parameter="methodToCall" scope="request" type="org.kuali.kfs.web.struts.action.LoadObjectInfoAction">
             <forward name="chart" path="/jsp/xmlhttp/chart.jsp" />
             <forward name="account" path="/jsp/xmlhttp/account.jsp" />
             <forward name="subAccount" path="/jsp/xmlhttp/subAccount.jsp" />

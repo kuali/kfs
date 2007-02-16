@@ -80,7 +80,7 @@
                 <required>true</required>
             </attributeReference>
 
-            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.document.DocumentHeader" sourceAttributeName="documentNumber" />
+            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber" />
         </attributes>
     </businessObject>
 </dictionaryEntry>

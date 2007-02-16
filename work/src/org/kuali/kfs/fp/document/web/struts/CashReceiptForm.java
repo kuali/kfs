@@ -26,7 +26,7 @@ import org.kuali.Constants.DocumentStatusCodes.CashReceipt;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.format.SimpleBooleanFormatter;
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
@@ -35,11 +35,8 @@ import org.kuali.module.financial.document.CashReceiptDocument;
 
 /**
  * This class is the action form for Cash Receipts.
- * 
- * 
  */
-
-public class CashReceiptForm extends KualiTransactionalDocumentFormBase {
+public class CashReceiptForm extends KualiAccountingDocumentFormBase {
     private static final long serialVersionUID = 1L;
     private static final String CAN_PRINT_COVERSHEET_SIG_STR = "isCoverSheetPrintingAllowed";
     private Check newCheck;

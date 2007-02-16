@@ -15,14 +15,13 @@
  */
 package org.kuali.module.financial.web.struts.form;
 
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.financial.document.PreEncumbranceDocument;
 
 /**
  * This class is the Struts specific form object that works in conjunction with the pojo utilities to build the UI.
- * 
  */
-public class PreEncumbranceForm extends KualiTransactionalDocumentFormBase {
+public class PreEncumbranceForm extends KualiAccountingDocumentFormBase {
     private static final long serialVersionUID = 1L;
 
     /**

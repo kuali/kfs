@@ -23,11 +23,11 @@ import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.bo.AccountingLine;
-import org.kuali.core.bo.AccountingLineBase;
-import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.bo.TargetAccountingLine;
-import org.kuali.core.document.TransactionalDocument;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.AccountingLineBase;
+import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.bo.TargetAccountingLine;
+import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.financial.document.TransferOfFundsDocument;
 import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.KualiTestBase;
@@ -44,7 +44,7 @@ public class AccountingLineServiceTest extends KualiTestBase {
 
     private SourceAccountingLine sline;
     private TargetAccountingLine tline;
-    private TransactionalDocument document;
+    private AccountingDocument document;
 
     @TestsWorkflowViaDatabase
     @Override

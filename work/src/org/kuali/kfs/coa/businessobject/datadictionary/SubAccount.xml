@@ -226,7 +226,7 @@
                 <shortLabel>CostShareCOACode</shortLabel>
                 <required>false</required>
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
                 </control>
                 <summary>
                     <![CDATA[&nbsp;]]>
@@ -277,7 +277,7 @@
                 <shortLabel>IcrCoaCd</shortLabel>
                 <required>false</required>
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
                 </control>
                 <summary>
                     <![CDATA[&nbsp;]]>
@@ -304,7 +304,7 @@
                 <shortLabel>ICRTypeCd</shortLabel>
                 <required>false</required>
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ICRTypeValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ICRTypeValuesFinder" />
                 </control>
                 <summary>
                     <![CDATA[&nbsp;]]>

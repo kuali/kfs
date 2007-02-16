@@ -15,17 +15,15 @@
  */
 package org.kuali.module.financial.web.struts.form;
 
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.financial.document.TransferOfFundsDocument;
 
 /**
  * This class is the form class for the Transfer of Funds document. This method extends the parent
  * KualiTransactionalDocumentFormBase class which contains all of the common form methods and form attributes needed by the Transfer
  * of Funds document. It adds a new method which is a convenience method for getting at the Transfer of Funds document easier.
- * 
- * 
  */
-public class TransferOfFundsForm extends KualiTransactionalDocumentFormBase {
+public class TransferOfFundsForm extends KualiAccountingDocumentFormBase {
     private static final long serialVersionUID = 1L;
 
     /**

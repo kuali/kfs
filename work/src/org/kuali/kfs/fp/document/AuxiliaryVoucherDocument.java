@@ -27,14 +27,17 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
-import org.kuali.core.bo.AccountingLineBase;
-import org.kuali.core.bo.AccountingLineParser;
-import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.document.AmountTotaling;
+import org.kuali.core.document.Copyable;
+import org.kuali.core.document.Correctable;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.bo.AccountingLineBase;
+import org.kuali.kfs.bo.AccountingLineParser;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.module.financial.bo.AuxiliaryVoucherAccountingLineParser;
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -42,10 +45,8 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * This is the business object that represents the AuxiliaryVoucherDocument in Kuali. This is a transactional document that will
  * eventually post transactions to the G/L. It integrates with workflow and also contains two groupings of accounting lines: Expense
  * and target. Expense is the expense and target is the income lines.
- * 
- * 
  */
-public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implements VoucherDocument {
+public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements VoucherDocument, Copyable, Correctable, AmountTotaling {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AuxiliaryVoucherDocument.class);
 
     private String typeCode = ADJUSTMENT_DOC_TYPE;
@@ -177,7 +178,7 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
      * 
      * @return KualiDecimal
      */
-    public KualiDecimal getTotal() {
+    public KualiDecimal getTotalDollarAmount() {
         KualiDecimal total = new KualiDecimal(0);
 
         total = getCreditTotal().subtract(getDebitTotal());
@@ -240,38 +241,11 @@ public class AuxiliaryVoucherDocument extends TransactionalDocumentBase implemen
     }
 
     /**
-     * Checks for a reason why this document should not be copied or error corrected. This is overriden to remove posting year check
-     * per KULEDOCS-1543.
-     * 
-     * @param actionGerund describes the action, "copying" or "error-correction"
-     * @param ddAllows whether the DataDictionary allows this kind of copying for this document
-     * @return a reason not to copy this document, or null if there is no reason
+     * @see org.kuali.module.financial.document.FinancialDocumentBase#toCopy()
      */
     @Override
-    protected String getNullOrReasonNotToCopy(String actionGerund, boolean ddAllows) {
-
-        if (!ddAllows) {
-            return this.getClass().getName() + " does not support document-level " + actionGerund;
-        }
-
-        // posting year not checked per KULEDOCS-1543.
-
-        return null; // no reason not to copy
-    }
-    /**
-     * Overrides to call super, and then makes sure this is an error correction. If it is an error correction, it calls the AV
-     * specific error correction helper method.
-     * 
-     * @see org.kuali.core.document.TransactionalDocumentBase#performConversion(int)
-     */
-    @Override
-    protected void performConversion(int operation) throws WorkflowException {
-        super.performConversion(operation);
-
-        // process special for error corrections
-        if (ERROR_CORRECTING == operation) {
-            processAuxiliaryVoucherErrorCorrections();
-        }
+    public void toCopy() throws WorkflowException {
+        processAuxiliaryVoucherErrorCorrections();
     }
 
     /**

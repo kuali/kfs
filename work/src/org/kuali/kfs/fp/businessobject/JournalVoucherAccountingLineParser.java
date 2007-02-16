@@ -36,8 +36,8 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
-import org.kuali.core.bo.SourceAccountingLine;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.bo.SourceAccountingLine;
 
 /**
  * <code>JournalVoucherDocument</code> accounting line parser

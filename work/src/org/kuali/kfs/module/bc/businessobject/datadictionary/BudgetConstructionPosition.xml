@@ -252,7 +252,7 @@
                 <validationPattern><anyCharacter /></validationPattern>
 
  				<control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.BudgetConstructionPositionEffectiveStatusValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.budget.lookup.keyvalues.BudgetConstructionPositionEffectiveStatusValuesFinder" />
                 </control>
 
                 <summary>Position Effective Status </summary>
@@ -327,7 +327,7 @@
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.BudgetConstructionPositionRegularTemporaryValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.budget.lookup.keyvalues.BudgetConstructionPositionRegularTemporaryValuesFinder" />
                 </control>
 
                 <summary>Position Regular Temporary</summary>
@@ -373,7 +373,7 @@
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                   <select valuesFinderClass="org.kuali.core.lookup.keyvalues.BudgetConstructionPositionStatusValuesFinder" />
+                   <select valuesFinderClass="org.kuali.module.budget.lookup.keyvalues.BudgetConstructionPositionStatusValuesFinder" />
                 </control>
 
                 <summary>Position Status </summary>

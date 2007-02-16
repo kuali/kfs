@@ -23,9 +23,9 @@ import java.util.Map;
 
 import org.kuali.Constants;
 import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.batch.poster.EncumbranceCalculator;
 import org.kuali.module.gl.bo.Encumbrance;
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.service.EncumbranceService;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.util.OJBUtility;

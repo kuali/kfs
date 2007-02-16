@@ -74,7 +74,7 @@
                 <required>true</required>
             </attributeReference>
 
-            <attributeReference name="financialDocumentTypeCode" sourceClassName="org.kuali.core.document.DocumentType" sourceAttributeName="financialDocumentTypeCode">
+            <attributeReference name="financialDocumentTypeCode" sourceClassName="org.kuali.core.bo.DocumentType" sourceAttributeName="financialDocumentTypeCode">
                 <required>true</required>
             </attributeReference>
             

@@ -23,7 +23,7 @@ import java.util.SortedSet;
 import static org.kuali.core.util.SpringServiceLocator.getLockService;
 import static org.kuali.core.util.SpringServiceLocator.getBusinessObjectService;
 import org.kuali.Constants.BudgetConstructionConstants.LockStatus;
-import org.kuali.core.document.DocumentHeader;
+import org.kuali.core.bo.DocumentHeader;
 import org.kuali.module.budget.bo.BudgetConstructionFundingLock;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.BudgetConstructionPosition;

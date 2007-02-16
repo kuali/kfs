@@ -17,7 +17,7 @@ package org.kuali.module.labor.bo;
 
 import java.math.BigDecimal;
 
-import org.kuali.core.bo.AccountingLine;
+import org.kuali.kfs.bo.AccountingLine;
 
 public interface ExpenseTransferAccountingLine extends AccountingLine {
 

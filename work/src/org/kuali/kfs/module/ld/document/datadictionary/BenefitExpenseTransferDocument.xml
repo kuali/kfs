@@ -36,13 +36,6 @@
         <label>Benefit Expense Transfer Document</label>
         <shortLabel>BTDoc</shortLabel>
         
-        <attributes>
-            <attributeReference name="explanation" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="documentExplanation">            
-            	<required>true</required>
-            </attributeReference>
-        </attributes>
-        
-        
         <summary>
             <![CDATA[&nbsp;]]>
         </summary>
@@ -52,9 +45,5 @@
         <help securityGroupName="Kuali.FinancialTransactionProcessing.TransferOfFundsDocument" parameterName="FINANCIAL_HELP_TRANSFER_OF_FUNDS_DOCUMENT" />
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>true</allowsErrorCorrection>
-        
-        <sourceAccountingLineClass>org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine</sourceAccountingLineClass>        
-        <targetAccountingLineClass>org.kuali.module.labor.bo.ExpenseTransferTargetAccountingLine</targetAccountingLineClass>        
-        
     </transactionalDocument>
 </dictionaryEntry>

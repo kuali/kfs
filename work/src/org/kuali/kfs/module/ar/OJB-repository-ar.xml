@@ -57,7 +57,7 @@
         <foreignkey field-ref="processingOrganizationCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="organizationRemitToState" class-ref="org.kuali.core.bo.State" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="organizationRemitToState" class-ref="org.kuali.kfs.bo.State" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="organizationRemitToStateCode" />
     </reference-descriptor>
 

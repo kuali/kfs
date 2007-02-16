@@ -25,7 +25,7 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.bo.SufficientFundBalances;
 import org.kuali.module.gl.dao.SufficientFundsDao;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;

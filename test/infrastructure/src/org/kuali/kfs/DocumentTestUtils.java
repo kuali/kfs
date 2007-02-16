@@ -15,10 +15,10 @@
  */
 package org.kuali.test;
 
+import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.bo.DocumentNote;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
-import org.kuali.core.document.DocumentHeader;
-import org.kuali.core.document.DocumentNote;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
@@ -72,7 +72,7 @@ public class DocumentTestUtils {
     }
     public static <D extends Document> D createDocument(DocumentService documentService,Class<D> docmentClass) throws WorkflowException {
         D document = (D)documentService.getNewDocument(docmentClass);
-        document.setExplanation("unit test created document");
+        document.getDocumentHeader().setExplanation("unit test created document");
 
         DocumentHeader documentHeader = document.getDocumentHeader();
         documentHeader.setFinancialDocumentDescription("unit test created document");

@@ -17,13 +17,9 @@ package org.kuali.module.labor.bo;
 
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 import org.kuali.PropertyConstants;
-import org.kuali.core.bo.AccountingLine;
-import org.kuali.core.bo.TargetAccountingLine;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.KualiInteger;
+import org.kuali.kfs.bo.TargetAccountingLine;
 
 
 /**

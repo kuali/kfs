@@ -15,16 +15,14 @@
  */
 package org.kuali.module.financial.web.struts.form;
 
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.financial.document.BudgetAdjustmentDocument;
 
 /**
  * This class is the form class for the ProcurementCard document. This method extends the parent KualiTransactionalDocumentFormBase
  * class which contains all of the common form methods and form attributes needed by the Procurment Card document.
- * 
- * 
  */
-public class BudgetAdjustmentForm extends KualiTransactionalDocumentFormBase {
+public class BudgetAdjustmentForm extends KualiAccountingDocumentFormBase {
 
     /**
      * Constructs a BudgetAdjustmentForm instance and sets up the appropriately casted document. Also, the

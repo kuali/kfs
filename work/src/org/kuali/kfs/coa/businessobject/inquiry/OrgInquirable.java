@@ -20,10 +20,10 @@ import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.inquiry.KualiInquirableImpl;
-import org.kuali.core.web.uidraw.Column;
-import org.kuali.core.web.uidraw.Field;
-import org.kuali.core.web.uidraw.Row;
-import org.kuali.core.web.uidraw.Section;
+import org.kuali.core.web.ui.Column;
+import org.kuali.core.web.ui.Field;
+import org.kuali.core.web.ui.Row;
+import org.kuali.core.web.ui.Section;
 import org.kuali.module.chart.bo.Org;
 
 public class OrgInquirable extends KualiInquirableImpl {

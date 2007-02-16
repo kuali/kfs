@@ -62,7 +62,7 @@
 
             <lookupFields>
                 <lookupField attributeName="universityFiscalYear" required="true">
-                    <defaultValueFinderClass>org.kuali.core.lookup.valueFinder.FiscalYearFinder</defaultValueFinderClass>
+                    <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.FiscalYearFinder</defaultValueFinderClass>
                 </lookupField>
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
                 <lookupField attributeName="financialObjectCode" required="false" />
@@ -217,7 +217,7 @@
                 </validationPattern>
                 <required>true</required>
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" script="setReportsToChartOfAccpimtsCode();" />
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" script="setReportsToChartOfAccpimtsCode();" />
                 </control>
 
                 <summary>
@@ -335,7 +335,7 @@
                 <required>true</required>
                 <control><text size="1"/>
                 <!-- 
-                        <select valuesFinderClass="org.kuali.core.lookup.keyvalues.BudgetAggregationCodeValuesFinder" />
+                        <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.BudgetAggregationCodeValuesFinder" />
                 -->
 				</control>                <summary>
                     <![CDATA[&nbsp;]]>
@@ -369,7 +369,7 @@
 				<required>true</required>
 
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.FederalFundedCodeValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.FederalFundedCodeValuesFinder" />
                 </control>
 
                 <summary>

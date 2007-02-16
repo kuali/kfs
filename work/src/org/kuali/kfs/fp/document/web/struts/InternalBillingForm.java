@@ -15,17 +15,14 @@
  */
 package org.kuali.module.financial.web.struts.form;
 
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.financial.bo.InternalBillingItem;
 import org.kuali.module.financial.document.InternalBillingDocument;
 
 /**
  * This class is the action form for Internal Billing.
- * 
- * 
  */
-
-public class InternalBillingForm extends KualiTransactionalDocumentFormBase {
+public class InternalBillingForm extends KualiAccountingDocumentFormBase {
     private static final long serialVersionUID = 1L;
     private InternalBillingItem newItem;
 

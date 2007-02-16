@@ -126,13 +126,7 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
                 // checkCorrectWildcards makes sure that the wildcard is appropriate for the sub account number
                 // we allow any string of only dashes to be a valid value for the sub acct, but to bypass validation, it must be equal to Constants.DASHES_SUB_ACCOUNT_NUMBER
                 if (isWildcard(subAccountNumber) || StringUtils.equals(subAccountNumber, Constants.DASHES_SUB_ACCOUNT_NUMBER)) {
-                    
-                }
-                else if (StringUtils.containsOnly(subAccountNumber, "-")) {
-                    String subAccountDesc = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(newIcrAutomatedEntry.getClass(), Constants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME);
-                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(Constants.MAINTENANCE_NEW_MAINTAINABLE + Constants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME, 
-                            KeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_INVALID_DASH_STRING, new String[] {subAccountDesc, Constants.DASHES_SUB_ACCOUNT_NUMBER, Integer.toString(Constants.DASHES_SUB_ACCOUNT_NUMBER.length())});
-                    success &= false;
+    
                 }
                 else {
                     // there should be no wildcards if the code gets in there, so we should not have to worry about removing wildcards from pkMap
@@ -154,9 +148,7 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
                     // there should be no wildcards if the code gets in there, so we should not have to worry about removing wildcards from pkMap
                     Map pkMap = new HashMap();
                     pkMap.put(Constants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
-                    if (!isWildcard(chartOfAccountsCode)) {
-                        pkMap.put(Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
-                    }
+                    pkMap.put(Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
                     pkMap.put(Constants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, financialObjectCode);
                     success &= checkExistenceFromTable(ObjectCode.class, pkMap, Constants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME,
                             SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrClazz, Constants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME));
@@ -169,19 +161,11 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
                 if (isWildcard(financialSubObjectCode) || StringUtils.equals(financialSubObjectCode, Constants.DASHES_SUB_OBJECT_CODE)) {
     
                 }
-                else if (StringUtils.containsOnly(financialSubObjectCode, "-")) {
-                    String subObjectDesc = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(newIcrAutomatedEntry.getClass(), Constants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME);
-                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(Constants.MAINTENANCE_NEW_MAINTAINABLE + Constants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME, 
-                            KeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_INVALID_DASH_STRING, new String[] {subObjectDesc, Constants.DASHES_SUB_OBJECT_CODE, Integer.toString(Constants.DASHES_SUB_OBJECT_CODE.length())});
-                    success &= false;
-                }
                 else {
                     // there should be no wildcards if the code gets in there, so we should not have to worry about removing wildcards from pkMap
                     Map pkMap = new HashMap();
                     pkMap.put(Constants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
-                    if (!isWildcard(chartOfAccountsCode)) {
-                        pkMap.put(Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
-                    }
+                    pkMap.put(Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
                     pkMap.put(Constants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
                     pkMap.put(Constants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, financialObjectCode);
                     pkMap.put(Constants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME, financialSubObjectCode);
@@ -370,36 +354,11 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
         String financialObjectCode = icrAutomatedEntry.getFinancialObjectCode();
         String financialSubObjectCode = icrAutomatedEntry.getFinancialSubObjectCode();
 
-        boolean success = true;
-        
-        if (isWildcard(chartOfAccountsCode)) {
-            if (isWildcard(financialObjectCode)) {
-                if (StringUtils.equals(chartOfAccountsCode, financialObjectCode)) {
-                    
-                }
-                else {
-                    success = false;
-                    String chartDesc = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrAutomatedEntry.getClass(), Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
-                    String objectDesc = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrAutomatedEntry.getClass(), Constants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME);
-                    String subObjectDesc = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrAutomatedEntry.getClass(), Constants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME);
-                    
-                    String groupDesc = chartDesc + ", " + objectDesc + ", and " + subObjectDesc;
-                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(Constants.MAINTENANCE_NEW_MAINTAINABLE + Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, 
-                            KeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_WILDCARDS_MUST_MATCH, new String[] {groupDesc, subObjectDesc});
-                }
-            }
-            else {
-                // chart code is wildcard, obj code is not
-                if (isWildcard(financialSubObjectCode)) {
-                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(Constants.MAINTENANCE_NEW_MAINTAINABLE + Constants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME, 
-                            KeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_SUB_OBJECT_MUST_NOT_BE_WILDCARD);
-                    success = false;
-                }
-            }
-        }
-        else {
-            if (isWildcard(financialObjectCode) || isWildcard(financialSubObjectCode)) {
-                success = false;
+        if (isWildcard(chartOfAccountsCode) || isWildcard(financialObjectCode) || isWildcard(financialSubObjectCode)) {
+            // these should never be null
+            boolean success = chartOfAccountsCode.equals(financialObjectCode) && 
+                    (chartOfAccountsCode.equals(financialSubObjectCode) || StringUtils.containsOnly(financialSubObjectCode, "-"));
+            if (!success) {
                 String chartDesc = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrAutomatedEntry.getClass(), Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
                 String objectDesc = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrAutomatedEntry.getClass(), Constants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME);
                 String subObjectDesc = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrAutomatedEntry.getClass(), Constants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME);
@@ -408,9 +367,10 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
                 GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(Constants.MAINTENANCE_NEW_MAINTAINABLE + Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, 
                         KeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_WILDCARDS_MUST_MATCH, new String[] {groupDesc, subObjectDesc});
             }
+            return success;
         }
         // if no wildcards in this group, then this check is fine
-        return success;
+        return true;
     }
     
     protected boolean isWildcard(String fieldValue) {

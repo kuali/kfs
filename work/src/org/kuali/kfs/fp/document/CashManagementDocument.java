@@ -24,9 +24,9 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.Constants.DepositConstants;
-import org.kuali.core.document.FinancialDocumentBase;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.bo.Deposit;
 import org.kuali.PropertyConstants;
@@ -36,7 +36,7 @@ import org.kuali.PropertyConstants;
  * 
  * 
  */
-public class CashManagementDocument extends FinancialDocumentBase {
+public class CashManagementDocument extends AccountingDocumentBase {
     private static final long serialVersionUID = 7475843770851900297L;
     private static Logger LOG = Logger.getLogger(CashManagementDocument.class);
 

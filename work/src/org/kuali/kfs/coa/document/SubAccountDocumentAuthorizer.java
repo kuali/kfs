@@ -16,12 +16,12 @@
 package org.kuali.module.chart.document;
 
 import org.kuali.Constants;
-import org.kuali.core.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.UniversalUser;
 
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.document.MaintenanceDocumentAuthorizerBase;
+import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
+import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiGroupService;

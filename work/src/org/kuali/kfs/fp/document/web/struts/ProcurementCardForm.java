@@ -25,20 +25,18 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
-import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.kfs.bo.TargetAccountingLine;
+import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine;
 import org.kuali.module.financial.document.ProcurementCardDocument;
 
 /**
  * This class is the form class for the ProcurementCard document. This method extends the parent KualiTransactionalDocumentFormBase
  * class which contains all of the common form methods and form attributes needed by the Procurment Card document.
- * 
- * 
  */
-public class ProcurementCardForm extends KualiTransactionalDocumentFormBase {
+public class ProcurementCardForm extends KualiAccountingDocumentFormBase {
     private static final long serialVersionUID = 1L;
     private List newTargetLines;
 

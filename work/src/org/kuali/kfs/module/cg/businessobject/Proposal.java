@@ -28,11 +28,11 @@ import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.module.cg.lookup.valueFinder.NextProposalNumberFinder;
 import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganization;
 import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
-import org.kuali.module.cg.lookup.valueFinder.NextProposalNumberFinder;
 
 /**
  * 

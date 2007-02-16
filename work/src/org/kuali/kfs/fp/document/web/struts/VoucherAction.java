@@ -28,17 +28,18 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
-import org.kuali.core.bo.AccountingLine;
-import org.kuali.core.bo.SourceAccountingLine;
+import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.format.CurrencyFormatter;
-import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
+import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.financial.bo.VoucherAccountingLineHelper;
 import org.kuali.module.financial.bo.VoucherAccountingLineHelperBase;
 import org.kuali.module.financial.document.VoucherDocument;
@@ -50,21 +51,17 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * This class piggy backs on all of the functionality in the KualiTransactionalDocumentActionBase but is necessary for this document
  * type. Vouchers are unique in that they define several fields that aren't typically used by the other financial transaction
  * processing eDocs (i.e. external system fields, object type override, credit and debit amounts).
- * 
- * 
  */
-public class VoucherAction extends KualiTransactionalDocumentActionBase {
+public class VoucherAction extends KualiAccountingDocumentActionBase {
     // used to determine which way the change balance type action is switching
     // these are local constants only used within this action class
     // these should not be used outside of this class
 
     /**
-     * We want to keep the bad data for the voucher.
-     * 
-     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#revertAccountingLine(org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase,
-     *      int, org.kuali.core.bo.AccountingLine, org.kuali.core.bo.AccountingLine)
+     *  We want to keep the bad data for the voucher.
      */
-    protected boolean revertAccountingLine(KualiTransactionalDocumentFormBase transForm, int revertIndex, AccountingLine originalLine, AccountingLine brokenLine) {
+    @Override
+    protected boolean revertAccountingLine(KualiAccountingDocumentFormBase transForm, int revertIndex, AccountingLine originalLine, AccountingLine brokenLine) {
         boolean reverted = super.revertAccountingLine(transForm, revertIndex, originalLine, brokenLine);
 
         if (reverted) {
@@ -89,10 +86,9 @@ public class VoucherAction extends KualiTransactionalDocumentActionBase {
     /**
      * Overrides to call super, and then to repopulate the credit/debit amounts b/c the credit/debit code might change during a
      * voucher error correction.
-     * 
-     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#correct(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#correct(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
+    @Override
     public ActionForward correct(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.correct(mapping, form, request, response);
 
@@ -107,10 +103,9 @@ public class VoucherAction extends KualiTransactionalDocumentActionBase {
     /**
      * Overrides parent to first populate the new source line with the correct debit or credit value, then it calls the parent's
      * implementation.
-     * 
-     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#insertSourceLine(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.module.financial.web.struts.action.KualiFinancialDocumentActionBase#insertSourceLine(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
+    @Override
     public ActionForward insertSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         // cast the form to the right pojo
         VoucherForm voucherForm = (VoucherForm) form;
@@ -134,10 +129,9 @@ public class VoucherAction extends KualiTransactionalDocumentActionBase {
 
     /**
      * Overrides parent to remove the associated helper line also, and then it call the parent's implementation.
-     * 
-     * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#deleteSourceLine(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.module.financial.web.struts.action.KualiFinancialDocumentActionBase#deleteSourceLine(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
+    @Override
     public ActionForward deleteSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         // cast the form to the right pojo
         VoucherForm voucherForm = (VoucherForm) form;
@@ -285,7 +279,7 @@ public class VoucherAction extends KualiTransactionalDocumentActionBase {
         if (question == null) { // question hasn't been asked
             String currencyFormattedDebitTotal = (String) new CurrencyFormatter().format(avDoc.getDebitTotal());
             String currencyFormattedCreditTotal = (String) new CurrencyFormatter().format(avDoc.getCreditTotal());
-            String currencyFormattedTotal = (String) new CurrencyFormatter().format(avDoc.getTotal());
+            String currencyFormattedTotal = (String) new CurrencyFormatter().format(((AmountTotaling) avDoc).getTotalDollarAmount());
             String message = "";
             message = StringUtils.replace(kualiConfiguration.getPropertyString(KeyConstants.QUESTION_ROUTE_OUT_OF_BALANCE_JV_DOC), "{0}", currencyFormattedDebitTotal);
             message = StringUtils.replace(message, "{1}", currencyFormattedCreditTotal);

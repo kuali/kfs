@@ -167,7 +167,7 @@
     <required>true</required>
 
     <control>
-        <select valuesFinderClass="org.kuali.core.lookup.keyvalues.BuildingValuesFinder"/>
+        <select valuesFinderClass="org.kuali.kfs.lookup.keyvalues.BuildingValuesFinder"/>
     </control>
 
     <summary>deliveryBuildingName</summary>

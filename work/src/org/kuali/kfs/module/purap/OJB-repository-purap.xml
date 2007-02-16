@@ -155,10 +155,10 @@
 	<reference-descriptor name="vendorAddressType" class-ref="org.kuali.module.purap.bo.AddressType" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="vendorAddressTypeCode" />
 	</reference-descriptor>
-	<reference-descriptor name="vendorState" class-ref="org.kuali.core.bo.State" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="vendorState" class-ref="org.kuali.kfs.bo.State" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="vendorStateCode" />
 	</reference-descriptor>
-	<reference-descriptor name="vendorCountry" class-ref="org.kuali.core.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="vendorCountryCode" />
 	</reference-descriptor>
 	<collection-descriptor name="vendorDefaultAddresses" proxy="false" element-class-ref="org.kuali.module.purap.bo.VendorDefaultAddress" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
@@ -192,10 +192,10 @@
 	<reference-descriptor name="vendorContactType" class-ref="org.kuali.module.purap.bo.ContactType" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="vendorContactTypeCode" />
 	</reference-descriptor>
-	<reference-descriptor name="vendorState" class-ref="org.kuali.core.bo.State" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="vendorState" class-ref="org.kuali.kfs.bo.State" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="vendorStateCode" />
 	</reference-descriptor>
-	<reference-descriptor name="vendorCountry" class-ref="org.kuali.core.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="vendorCountryCode" />
 	</reference-descriptor>
     <collection-descriptor name="vendorContactPhoneNumbers" element-class-ref="org.kuali.module.purap.bo.VendorContactPhoneNumber" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
@@ -683,7 +683,7 @@
 	<field-descriptor name="purchaseOrderAutomaticIndicator" column="PO_AUTO_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 
     <!-- COMMON TO ALL DOCUMENTS -->
-    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
 
@@ -934,7 +934,7 @@
 	<field-descriptor name="alternateVendorName" column="ALTRNT_VNDR_NM" jdbc-type="VARCHAR"/>
 
     <!-- COMMON TO ALL DOCUMENTS -->
-    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
 
@@ -1057,7 +1057,7 @@
 	<reference-descriptor name="creditMemo" class-ref="org.kuali.module.purap.bo.CreditMemoItem" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="creditMemoIdentifier" />
 	</reference-descriptor>
-	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="documentHeaderIdentifier" />
 	</reference-descriptor>
 	<reference-descriptor name="vendorDetail" class-ref="org.kuali.module.purap.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -1837,7 +1837,7 @@
 	<reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.document.PurchaseOrderDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="purchaseOrderIdentifier" />
 	</reference-descriptor>
-	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="documentHeaderIdentifier" />
 	</reference-descriptor>
 	<reference-descriptor name="capitalAssetManagementStatus" class-ref="org.kuali.module.purap.bo.CapitalAssetManagementStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -2003,7 +2003,7 @@
     <!-- TODO: remove following field from here, BO, and database after workflow API to retrieve this is implemented -->
     <field-descriptor name="documentFinalDate" column="TEMP_DOC_FNL_DT" jdbc-type="DATE" />
 
-    <collection-descriptor name="notes" element-class-ref="org.kuali.core.document.DocumentNote" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <collection-descriptor name="notes" element-class-ref="org.kuali.core.bo.DocumentNote" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="finDocNotePostedDttmStamp" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>

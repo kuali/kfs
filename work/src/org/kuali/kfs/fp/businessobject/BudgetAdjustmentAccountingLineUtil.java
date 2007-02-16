@@ -17,9 +17,9 @@ package org.kuali.module.financial.bo;
 
 import java.util.Map;
 
-import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
+import org.kuali.kfs.bo.AccountingLine;
 
 
 /**

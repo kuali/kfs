@@ -17,7 +17,7 @@ package org.kuali.core.service;
 
 import static org.kuali.core.util.SpringServiceLocator.getHomeOriginationService;
 
-import org.kuali.core.bo.HomeOrigination;
+import org.kuali.kfs.bo.HomeOrigination;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 

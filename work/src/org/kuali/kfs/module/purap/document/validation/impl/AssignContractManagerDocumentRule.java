@@ -20,14 +20,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
+import org.kuali.core.rules.TransactionalDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.financial.rules.TransactionalDocumentRuleBase;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
@@ -101,12 +102,4 @@ public class AssignContractManagerDocumentRule extends TransactionalDocumentRule
         LOG.debug("validateContractManagerCodes(): leaving method.");
         return isValid;
     }
-    
-    // TODO: this method has to be here because we're extending the TransactionalDocumentRuleBase:
-    //   is this the best way to do it?
-    public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
-//        return IsDebitUtils.isDebitConsideringSectionAndTypePositiveOnly(this, transactionalDocument, accountingLine);
-        return false;
-    }
-
 }

@@ -29,7 +29,8 @@ import static org.kuali.PropertyConstants.REFERENCE_NUMBER;
 import static org.kuali.PropertyConstants.REFERENCE_ORIGIN_CODE;
 import static org.kuali.PropertyConstants.SUB_ACCOUNT_NUMBER;
 
-import org.kuali.core.bo.AccountingLineParserBase;
+import org.kuali.kfs.bo.AccountingLineParserBase;
+
 
 /**
  * <code>GeneralErrorCorrectionDocument</code> accounting line parser

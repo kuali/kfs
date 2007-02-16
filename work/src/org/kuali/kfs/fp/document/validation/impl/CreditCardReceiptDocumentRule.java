@@ -22,19 +22,19 @@ import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.document.Document;
-import org.kuali.core.document.FinancialDocument;
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.ApplicationParameterException;
-import org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
+import org.kuali.kfs.rules.AccountingDocumentRuleUtil;
 import org.kuali.module.financial.bo.BankAccount;
 import org.kuali.module.financial.document.CashReceiptFamilyBase;
 import org.kuali.module.financial.document.CreditCardReceiptDocument;
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 import static org.kuali.Constants.DOCUMENT_PROPERTY_NAME;
 import static org.kuali.KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_TOTAL_INVALID;
@@ -42,22 +42,20 @@ import static org.kuali.PropertyConstants.CREDIT_CARD_RECEIPTS_TOTAL;
 
 /**
  * Business rules applicable to Credit Card Receipt documents.
- * 
- * 
  */
-public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule implements GenerateGeneralLedgerDocumentPendingEntriesRule {
+public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule implements GenerateGeneralLedgerDocumentPendingEntriesRule<AccountingDocument> {
     /**
      * For Credit Card Receipt documents, the document is balanced if the sum total of credit card receipts equals the sum total of
      * the accounting lines.
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.TransactionalDocument)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.FinancialDocument)
      */
     @Override
-    protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
-        CreditCardReceiptDocument ccr = (CreditCardReceiptDocument) transactionalDocument;
+    protected boolean isDocumentBalanceValid(AccountingDocument FinancialDocument) {
+        CreditCardReceiptDocument ccr = (CreditCardReceiptDocument) FinancialDocument;
 
         // make sure the document is in balance
-        boolean isValid = ccr.getSourceTotal().equals(ccr.getSumTotalAmount());
+        boolean isValid = ccr.getSourceTotal().equals(ccr.getTotalDollarAmount());
 
         if (!isValid) {
             GlobalVariables.getErrorMap().putError(PropertyConstants.NEW_CREDIT_CARD_RECEIPT, KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_OUT_OF_BALANCE);
@@ -129,7 +127,7 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule impleme
      * 
      * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
-    public boolean processGenerateDocumentGeneralLedgerPendingEntries(FinancialDocument financialDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+    public boolean processGenerateDocumentGeneralLedgerPendingEntries(AccountingDocument financialDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
         CreditCardReceiptDocument ccrDoc = (CreditCardReceiptDocument) financialDocument;
         if (ccrDoc.isBankCashOffsetEnabled()) {
@@ -137,11 +135,11 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule impleme
             // todo: what if the total is 0? e.g., 5 minus 5, should we generate a 0 amount GLPE and offset? I think the other rules
             // combine to prevent a 0 total, though.
             GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
-            success &= TransactionalDocumentRuleUtil.populateBankOffsetGeneralLedgerPendingEntry(getOffsetBankAccount(), depositTotal, ccrDoc, ccrDoc.getPostingYear(), sequenceHelper, bankOffsetEntry, Constants.CREDIT_CARD_RECEIPTS_LINE_ERRORS);
+            success &= AccountingDocumentRuleUtil.populateBankOffsetGeneralLedgerPendingEntry(getOffsetBankAccount(), depositTotal, ccrDoc, ccrDoc.getPostingYear(), sequenceHelper, bankOffsetEntry, Constants.CREDIT_CARD_RECEIPTS_LINE_ERRORS);
             // An unsuccessfully populated bank offset entry may contain invalid relations, so don't add it at all if not
             // successful.
             if (success) {
-                bankOffsetEntry.setTransactionLedgerEntryDescription(TransactionalDocumentRuleUtil.formatProperty(KeyConstants.CreditCardReceipt.DESCRIPTION_GLPE_BANK_OFFSET));
+                bankOffsetEntry.setTransactionLedgerEntryDescription(AccountingDocumentRuleUtil.formatProperty(KeyConstants.CreditCardReceipt.DESCRIPTION_GLPE_BANK_OFFSET));
                 ccrDoc.getGeneralLedgerPendingEntries().add(bankOffsetEntry);
                 sequenceHelper.increment();
 

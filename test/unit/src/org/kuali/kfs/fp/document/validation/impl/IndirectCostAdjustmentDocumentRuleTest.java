@@ -16,28 +16,27 @@
 package org.kuali.module.financial.rules;
 
 
-import org.kuali.core.bo.AccountingLine;
-import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.bo.TargetAccountingLine;
-import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
 import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
 import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
 import static org.kuali.core.util.SpringServiceLocator.getDocumentTypeService;
-import org.kuali.module.financial.document.IndirectCostAdjustmentDocument;
 import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.NEGATIVE;
 import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.POSITIVE;
-import org.kuali.test.WithTestSpringContext;
-import org.kuali.test.KualiTestBase;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.bo.TargetAccountingLine;
+import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.module.financial.document.IndirectCostAdjustmentDocument;
+import org.kuali.test.KualiTestBase;
+import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class tests the <code>{@link IndirectCostAdjustmentDocument}</code>'s rules and PE generation. This is not currently
- * implemented properly. When we get to building this document, we would need to extend TransactionalDocumentRuleTestBase. For now
+ * implemented properly. When we get to building this document, we would need to extend AccountingDocumentRuleTestBase. For now
  * it contains commented out old fixtures code that will need to be fitted to the new xml based fixtures framework.
- * 
- * 
  */
 @WithTestSpringContext(session = KHUNTLEY)
 public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
@@ -64,10 +63,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_source_income_positveAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(accountingDocument, SourceAccountingLine.class, POSITIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -76,10 +75,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_source_income_negativeAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(accountingDocument, SourceAccountingLine.class, NEGATIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -89,10 +88,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      */
     public void testIsDebit_source_income_zeroAmount() throws Exception {
 
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(accountingDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -101,10 +100,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_source_expense_positveAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(accountingDocument, SourceAccountingLine.class, POSITIVE);
 
-        assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -113,10 +112,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_source_expense_negativeAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(accountingDocument, SourceAccountingLine.class, NEGATIVE);
 
-        assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -125,10 +124,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_source_expense_zeroAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(accountingDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -137,10 +136,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_source_asset_positveAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(accountingDocument, SourceAccountingLine.class, POSITIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -149,10 +148,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_source_asset_negativeAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(accountingDocument, SourceAccountingLine.class, NEGATIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -161,10 +160,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_source_asset_zeroAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(accountingDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -173,10 +172,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_source_liability_positveAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(accountingDocument, SourceAccountingLine.class, POSITIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -185,10 +184,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_source_liability_negativeAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(accountingDocument, SourceAccountingLine.class, NEGATIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -197,10 +196,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_source_liability_zeroAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(accountingDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -209,10 +208,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_target_income_positveAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, TargetAccountingLine.class, POSITIVE);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(accountingDocument, TargetAccountingLine.class, POSITIVE);
 
-        assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -221,10 +220,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_target_income_negativeAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, TargetAccountingLine.class, NEGATIVE);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(accountingDocument, TargetAccountingLine.class, NEGATIVE);
 
-        assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -234,10 +233,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      */
     public void testIsDebit_target_income_zeroAmount() throws Exception {
 
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, TargetAccountingLine.class, KualiDecimal.ZERO);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(accountingDocument, TargetAccountingLine.class, KualiDecimal.ZERO);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -246,10 +245,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_target_expense_positveAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, TargetAccountingLine.class, POSITIVE);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(accountingDocument, TargetAccountingLine.class, POSITIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -258,10 +257,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_target_expense_negativeAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, TargetAccountingLine.class, NEGATIVE);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(accountingDocument, TargetAccountingLine.class, NEGATIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -270,10 +269,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_target_expense_zeroAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, TargetAccountingLine.class, KualiDecimal.ZERO);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(accountingDocument, TargetAccountingLine.class, KualiDecimal.ZERO);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -282,10 +281,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_target_asset_positveAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, TargetAccountingLine.class, POSITIVE);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(accountingDocument, TargetAccountingLine.class, POSITIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -294,10 +293,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_target_asset_negativeAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, TargetAccountingLine.class, NEGATIVE);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(accountingDocument, TargetAccountingLine.class, NEGATIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -306,10 +305,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_target_asset_zeroAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, TargetAccountingLine.class, KualiDecimal.ZERO);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(accountingDocument, TargetAccountingLine.class, KualiDecimal.ZERO);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -318,10 +317,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_target_liability_positveAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, TargetAccountingLine.class, POSITIVE);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(accountingDocument, TargetAccountingLine.class, POSITIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -330,10 +329,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_target_liability_negativeAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, TargetAccountingLine.class, NEGATIVE);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(accountingDocument, TargetAccountingLine.class, NEGATIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -342,10 +341,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_target_liability_zeroAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, TargetAccountingLine.class, KualiDecimal.ZERO);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(accountingDocument, TargetAccountingLine.class, KualiDecimal.ZERO);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -354,10 +353,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_errorCorrection_source_income_positveAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(accountingDocument, SourceAccountingLine.class, POSITIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -366,10 +365,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_errorCorrection_source_income_negativeAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(accountingDocument, SourceAccountingLine.class, NEGATIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -379,10 +378,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      */
     public void testIsDebit_errorCorrection_source_income_zeroAmount() throws Exception {
 
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(accountingDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -391,10 +390,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_errorCorrection_source_expense_positveAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(accountingDocument, SourceAccountingLine.class, POSITIVE);
 
-        assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -403,10 +402,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_errorCorrection_source_expense_negativeAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(accountingDocument, SourceAccountingLine.class, NEGATIVE);
 
-        assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -415,10 +414,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_errorCorrection_source_expense_zeroAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(accountingDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -427,10 +426,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_errorCorrection_source_asset_positveAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(accountingDocument, SourceAccountingLine.class, POSITIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -439,10 +438,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_errorCorrection_source_asset_negativeAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(accountingDocument, SourceAccountingLine.class, NEGATIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -451,10 +450,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_errorCorrection_source_asset_zeroAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(accountingDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -463,10 +462,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_errorCorrection_source_liability_positveAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, SourceAccountingLine.class, POSITIVE);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(accountingDocument, SourceAccountingLine.class, POSITIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -475,10 +474,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_errorCorrection_source_liability_negativeAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, SourceAccountingLine.class, NEGATIVE);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(accountingDocument, SourceAccountingLine.class, NEGATIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -487,10 +486,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_errorCorrection_source_liability_zeroAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(accountingDocument, SourceAccountingLine.class, KualiDecimal.ZERO);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -499,10 +498,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_errorCorrection_target_income_positveAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, TargetAccountingLine.class, POSITIVE);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(accountingDocument, TargetAccountingLine.class, POSITIVE);
 
-        assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertFalse(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -511,10 +510,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_errorCorrection_target_income_negativeAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, TargetAccountingLine.class, NEGATIVE);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(accountingDocument, TargetAccountingLine.class, NEGATIVE);
 
-        assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebit(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -524,10 +523,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      */
     public void testIsDebit_errorCorrection_target_income_zeroAmount() throws Exception {
 
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(transactionalDocument, TargetAccountingLine.class, KualiDecimal.ZERO);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getIncomeLine(accountingDocument, TargetAccountingLine.class, KualiDecimal.ZERO);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -536,10 +535,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_errorCorrection_target_expense_positveAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, TargetAccountingLine.class, POSITIVE);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(accountingDocument, TargetAccountingLine.class, POSITIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -548,10 +547,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_errorCorrection_target_expense_negativeAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, TargetAccountingLine.class, NEGATIVE);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(accountingDocument, TargetAccountingLine.class, NEGATIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -560,10 +559,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_errorCorrection_target_expense_zeroAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(transactionalDocument, TargetAccountingLine.class, KualiDecimal.ZERO);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getExpenseLine(accountingDocument, TargetAccountingLine.class, KualiDecimal.ZERO);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -572,10 +571,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_errorCorrection_target_asset_positveAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, TargetAccountingLine.class, POSITIVE);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(accountingDocument, TargetAccountingLine.class, POSITIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -584,10 +583,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_errorCorrection_target_asset_negativeAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, TargetAccountingLine.class, NEGATIVE);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(accountingDocument, TargetAccountingLine.class, NEGATIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -596,10 +595,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_errorCorrection_target_asset_zeroAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(transactionalDocument, TargetAccountingLine.class, KualiDecimal.ZERO);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getAssetLine(accountingDocument, TargetAccountingLine.class, KualiDecimal.ZERO);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -608,10 +607,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_errorCorrection_target_liability_positveAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, TargetAccountingLine.class, POSITIVE);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(accountingDocument, TargetAccountingLine.class, POSITIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -620,10 +619,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_errorCorrection_target_liability_negativeAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, TargetAccountingLine.class, NEGATIVE);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(accountingDocument, TargetAccountingLine.class, NEGATIVE);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /**
@@ -632,10 +631,10 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * @throws Exception
      */
     public void testIsDebit_errorCorrection_target_liability_zeroAmount() throws Exception {
-        TransactionalDocument transactionalDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
-        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(transactionalDocument, TargetAccountingLine.class, KualiDecimal.ZERO);
+        AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(getDocumentService(), IndirectCostAdjustmentDocument.class);
+        AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(accountingDocument, TargetAccountingLine.class, KualiDecimal.ZERO);
 
-        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), transactionalDocument, accountingLine));
+        assertTrue(IsDebitTestUtils.isDebitIllegalStateException(getDocumentTypeService(), getDataDictionaryService(), accountingDocument, accountingLine));
     }
 
     /*
@@ -643,9 +642,9 @@ public class IndirectCostAdjustmentDocumentRuleTest extends KualiTestBase {
      * this document. This should be put into the new xml fixtures framework though.
      * 
      * public void fixturesDefault() { addFixture( KualiRuleTestCase.ACCOUNT, "1912610" ); addFixture(
-     * KualiRuleTestCase.BALANCE_TYPE, TransactionalDocumentRuleBase.BALANCE_TYPE_CODE.ACTUAL ); addFixture(
+     * KualiRuleTestCase.BALANCE_TYPE, AccountingDocumentRuleBase.BALANCE_TYPE_CODE.ACTUAL ); addFixture(
      * KualiRuleTestCase.CHART, "UA" ); addFixture( KualiRuleTestCase.OBJECT_TYPE_CODE,
-     * TransactionalDocumentRuleBase.OBJECT_TYPE_CODE.CASH_NOT_INCOME ); addFixture( KualiRuleTestCase.POSTING_YEAR, new Integer(
+     * AccountingDocumentRuleBase.OBJECT_TYPE_CODE.CASH_NOT_INCOME ); addFixture( KualiRuleTestCase.POSTING_YEAR, new Integer(
      * 2005 ) ); addFixture( KualiRuleTestCase.PROJECT, "BOB" ); addFixture( KualiRuleTestCase.SUBACCOUNT, "BEER" ); }
      * 
      * public void fixturesPartiallyLoadedDoc() throws Exception { List sourceLines = new ArrayList(); List targetLines = new

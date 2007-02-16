@@ -21,24 +21,23 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.bo.TargetAccountingLine;
-import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.PropertyConstants;
+import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.bo.TargetAccountingLine;
+import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.module.financial.bo.ProcurementCardHolder;
 import org.kuali.module.financial.bo.ProcurementCardSourceAccountingLine;
 import org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine;
 import org.kuali.module.financial.bo.ProcurementCardTransactionDetail;
-import org.kuali.PropertyConstants;
 
 /**
  * This is the Procurement Card Document Class. The procurement cards distributes expenses from clearing accounts. It is a two-sided
  * document, but only target lines are displayed because source lines cannot be changed. Transaction, Card, and Vendor information
  * are associated with the document to help better distribute the expense.
- * 
- * 
  */
-public class ProcurementCardDocument extends TransactionalDocumentBase {
+public class ProcurementCardDocument extends AccountingDocumentBase implements AmountTotaling {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardDocument.class);
 
     private ProcurementCardHolder procurementCardHolder;
@@ -181,6 +180,22 @@ public class ProcurementCardDocument extends TransactionalDocumentBase {
         }
 
         return targetAccountingLines;
+    }
+
+    /**
+     * @see org.kuali.kfs.document.AccountingDocumentBase#getSourceAccountingLineClass()
+     */
+    @Override
+    public Class getSourceAccountingLineClass() {
+        return ProcurementCardSourceAccountingLine.class;
+    }
+
+    /**
+     * @see org.kuali.kfs.document.AccountingDocumentBase#getTargetAccountingLineClass()
+     */
+    @Override
+    public Class getTargetAccountingLineClass() {
+        return ProcurementCardTargetAccountingLine.class;
     }
 
     /**

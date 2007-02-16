@@ -16,8 +16,8 @@
 package org.kuali.module.kra.budget.rules;
 
 import org.kuali.core.document.Document;
-import org.kuali.core.rule.DocumentRuleBase;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
+import org.kuali.core.rules.DocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.module.kra.document.ResearchDocument;
 

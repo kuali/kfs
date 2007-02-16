@@ -28,9 +28,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
-import org.kuali.core.bo.AccountingLine;
 import org.kuali.core.document.Document;
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.ReferentialIntegrityException;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
@@ -38,9 +36,12 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.rules.AccountingDocumentRuleBase;
+import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.financial.bo.OffsetAccount;
-import org.kuali.module.financial.rules.TransactionalDocumentRuleBase;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.bo.PendingLedgerEntry;
@@ -51,13 +52,13 @@ import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
  * 
  * 
  */
-public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRuleBase {
+public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBase {
 
     public SalaryExpenseTransferDocumentRule() {
     }   
     
-    protected boolean AddAccountingLineBusinessRules(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
-        return processCustomAddAccountingLineBusinessRules(transactionalDocument, accountingLine);
+    protected boolean AddAccountingLineBusinessRules(AccountingDocument accountingDocument, AccountingLine accountingLine) {
+        return processCustomAddAccountingLineBusinessRules(accountingDocument, accountingLine);
     }
     
     /** Account must be valid.
@@ -71,11 +72,11 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
       * Position must be valid for fiscal year. FIS enforces this by a direct lookup of the PeopleSoft HRMS position data table. Kuali cannot do this. (See issue 12.)
       * Amount must not be zero. 
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
+     * @see org.kuali.module.financial.rules.AccountingDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.AccountingDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
     @Override
-    protected boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
+    protected boolean processCustomAddAccountingLineBusinessRules(AccountingDocument accountingDocument, AccountingLine accountingLine) {
 
         // Retrieve the Fringe or Salary Code for the object code in the ld_labor_obj_t table. 
         // It must have a value of "S".
@@ -98,7 +99,7 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
         }            
             
         // Save the employee ID in all accounting related lines
-        SalaryExpenseTransferDocument salaryExpenseTransferDocument = (SalaryExpenseTransferDocument)transactionalDocument;
+        SalaryExpenseTransferDocument salaryExpenseTransferDocument = (SalaryExpenseTransferDocument)accountingDocument;
         ExpenseTransferAccountingLine salaryExpenseTransferAccountingLine = (ExpenseTransferAccountingLine)accountingLine;
         salaryExpenseTransferAccountingLine.setEmplid(salaryExpenseTransferDocument.getEmplid()); 
         
@@ -302,26 +303,26 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
      * Overriding hook into generate general ledger pending entries, but calling a method
      * to generate labor ledger pending entries.
      * 
-     * @see org.kuali.core.rule.GenerateGeneralLedgerPendingEntriesRule#processGenerateGeneralLedgerPendingEntries(org.kuali.core.document.TransactionalDocument, org.kuali.core.bo.AccountingLine, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     * @see org.kuali.core.rule.GenerateGeneralLedgerPendingEntriesRule#processGenerateGeneralLedgerPendingEntries(org.kuali.core.document.AccountingDocument, org.kuali.core.bo.AccountingLine, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
     @Override
-    public boolean processGenerateGeneralLedgerPendingEntries(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {        
-        return processGenerateLaborLedgerPendingEntries(transactionalDocument, accountingLine, sequenceHelper);
+    public boolean processGenerateGeneralLedgerPendingEntries(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {        
+        return processGenerateLaborLedgerPendingEntries(accountingDocument, accountingLine, sequenceHelper);
     }
 
     /**
      * This method is the starting point for creating labor ledger pending entries.
      *  
-     * @param transactionalDocument
+     * @param accountingDocument
      * @param accountingLine
      * @param sequenceHelper
      * @return
      */
-    public boolean processGenerateLaborLedgerPendingEntries(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper){
+    public boolean processGenerateLaborLedgerPendingEntries(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper){
         boolean success = true;
     
         PendingLedgerEntry originalEntry = new PendingLedgerEntry();
-        success &= processOriginalLaborLedgerPendingEntry(transactionalDocument, sequenceHelper, accountingLine, originalEntry);
+        success &= processOriginalLaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, originalEntry);
 
         // increment the sequence counter
         sequenceHelper.increment();
@@ -332,28 +333,28 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
         return true;
     }
         
-    protected boolean processOriginalLaborLedgerPendingEntry(TransactionalDocument transactionalDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry originalEntry) {        
+    protected boolean processOriginalLaborLedgerPendingEntry(AccountingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry originalEntry) {        
         
         boolean success = true;
         
         // populate the entry
-        populateOriginalLaborLedgerPendingEntry(transactionalDocument, accountingLine, sequenceHelper, originalEntry);
+        populateOriginalLaborLedgerPendingEntry(accountingDocument, accountingLine, sequenceHelper, originalEntry);
 
         // hook for children documents to implement document specific LLPE field mappings
-        customizeOriginalLaborLedgerPendingEntry(transactionalDocument, accountingLine, originalEntry);
+        customizeOriginalLaborLedgerPendingEntry(accountingDocument, accountingLine, originalEntry);
 
         // add the new entry to the document now
-        ((SalaryExpenseTransferDocument)transactionalDocument).getLaborLedgerPendingEntries().add(originalEntry);
+        ((SalaryExpenseTransferDocument)accountingDocument).getLaborLedgerPendingEntries().add(originalEntry);
 
         return success;
     }
 
-    protected boolean customizeOriginalLaborLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, PendingLedgerEntry originalEntry) {
+    protected boolean customizeOriginalLaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, PendingLedgerEntry originalEntry) {
         return true;
     }
 
  
-    protected void populateOriginalLaborLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry originalEntry) {        
+    protected void populateOriginalLaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry originalEntry) {        
 
         //TODO: Need to find out why there number of fields on the spec does not match with the number of fields
         // specified in the PendingLedgerEntry class.
@@ -370,17 +371,17 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
             accountingLine.refreshReferenceObject("objectCode");
         }
         originalEntry.setFinancialObjectTypeCode(accountingLine.getObjectCode().getFinancialObjectTypeCode());
-        originalEntry.setFinancialDocumentTypeCode(SpringServiceLocator.getDocumentTypeService().getDocumentTypeCodeByClass(transactionalDocument.getClass()));
+        originalEntry.setFinancialDocumentTypeCode(SpringServiceLocator.getDocumentTypeService().getDocumentTypeCodeByClass(accountingDocument.getClass()));
         originalEntry.setFinancialSystemOriginationCode(SpringServiceLocator.getHomeOriginationService().getHomeOrigination().getFinSystemHomeOriginationCode());
         originalEntry.setDocumentNumber(accountingLine.getDocumentNumber());
         originalEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
-        originalEntry.setTransactionLedgerEntryDescription(getEntryValue(accountingLine.getFinancialDocumentLineDescription(), transactionalDocument.getDocumentHeader().getFinancialDocumentDescription()));
+        originalEntry.setTransactionLedgerEntryDescription(getEntryValue(accountingLine.getFinancialDocumentLineDescription(), accountingDocument.getDocumentHeader().getFinancialDocumentDescription()));
         originalEntry.setTransactionLedgerEntryAmount(getGeneralLedgerPendingEntryAmountForAccountingLine(accountingLine));
         originalEntry.setTransactionDebitCreditCode( accountingLine.isSourceAccountingLine() ? Constants.GL_CREDIT_CODE : Constants.GL_DEBIT_CODE);
         Timestamp transactionTimestamp = new Timestamp(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
         originalEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
         originalEntry.setTransactionPostingDate(new java.sql.Date(transactionTimestamp.getTime()));
-        originalEntry.setOrganizationDocumentNumber(transactionalDocument.getDocumentHeader().getOrganizationDocumentNumber());
+        originalEntry.setOrganizationDocumentNumber(accountingDocument.getDocumentHeader().getOrganizationDocumentNumber());
         originalEntry.setProjectCode(getEntryValue(accountingLine.getProjectCode(), GENERAL_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING));
         originalEntry.setOrganizationReferenceId(accountingLine.getOrganizationReferenceId());
         originalEntry.setFinancialDocumentReversalDate(null);
@@ -398,154 +399,154 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
         // originalEntry.setBudgetYearFundingSourceCode(budgetYearFundingSourceCode);
     }
     
-    protected boolean processA21LaborLedgerPendingEntry(TransactionalDocument transactionalDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry a21Entry) {        
+    protected boolean processA21LaborLedgerPendingEntry(AccountingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry a21Entry) {        
 
         boolean success = true;
         
         // populate the entry
-        populateA21LaborLedgerPendingEntry(transactionalDocument, accountingLine, sequenceHelper, a21Entry);
+        populateA21LaborLedgerPendingEntry(accountingDocument, accountingLine, sequenceHelper, a21Entry);
 
         // hook for children documents to implement document specific LLPE field mappings
-        customizeA21LaborLedgerPendingEntry(transactionalDocument, accountingLine, a21Entry);
+        customizeA21LaborLedgerPendingEntry(accountingDocument, accountingLine, a21Entry);
 
         // add the new entry to the document now
-        ((SalaryExpenseTransferDocument)transactionalDocument).getLaborLedgerPendingEntries().add(a21Entry);
+        ((SalaryExpenseTransferDocument)accountingDocument).getLaborLedgerPendingEntries().add(a21Entry);
 
         return success;
     }
 
-    protected boolean customizeA21LaborLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, PendingLedgerEntry a21Entry) {
+    protected boolean customizeA21LaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, PendingLedgerEntry a21Entry) {
         return true;
     }
 
-    protected void populateA21LaborLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry a21Entry) {        
+    protected void populateA21LaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry a21Entry) {        
     }
 
-    protected boolean processA21RevLaborLedgerPendingEntry(TransactionalDocument transactionalDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry a21RevEntry) {        
+    protected boolean processA21RevLaborLedgerPendingEntry(AccountingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry a21RevEntry) {        
 
         boolean success = true;
         
         // populate the entry
-        populateA21RevLaborLedgerPendingEntry(transactionalDocument, accountingLine, sequenceHelper, a21RevEntry);
+        populateA21RevLaborLedgerPendingEntry(accountingDocument, accountingLine, sequenceHelper, a21RevEntry);
 
         // hook for children documents to implement document specific LLPE field mappings
-        customizeA21RevLaborLedgerPendingEntry(transactionalDocument, accountingLine, a21RevEntry);
+        customizeA21RevLaborLedgerPendingEntry(accountingDocument, accountingLine, a21RevEntry);
 
         // add the new entry to the document now
-        ((SalaryExpenseTransferDocument)transactionalDocument).getLaborLedgerPendingEntries().add(a21RevEntry);
+        ((SalaryExpenseTransferDocument)accountingDocument).getLaborLedgerPendingEntries().add(a21RevEntry);
         
         return success;
     }
 
-    protected boolean customizeA21RevLaborLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, PendingLedgerEntry a21RevEntry) {
+    protected boolean customizeA21RevLaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, PendingLedgerEntry a21RevEntry) {
         return true;
     }
 
-    protected void populateA21RevLaborLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry a21RevEntry) {        
+    protected void populateA21RevLaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry a21RevEntry) {        
     }
 
-    protected boolean processBenefitLaborLedgerPendingEntry(TransactionalDocument transactionalDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry benefitEntry) {        
+    protected boolean processBenefitLaborLedgerPendingEntry(AccountingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry benefitEntry) {        
 
         boolean success = true;
         
         // populate the entry
-        populateBenefitLaborLedgerPendingEntry(transactionalDocument, accountingLine, sequenceHelper, benefitEntry);
+        populateBenefitLaborLedgerPendingEntry(accountingDocument, accountingLine, sequenceHelper, benefitEntry);
 
         // hook for children documents to implement document specific LLPE field mappings
-        customizeBenefitLaborLedgerPendingEntry(transactionalDocument, accountingLine, benefitEntry);
+        customizeBenefitLaborLedgerPendingEntry(accountingDocument, accountingLine, benefitEntry);
 
         // add the new entry to the document now
-        ((SalaryExpenseTransferDocument)transactionalDocument).getLaborLedgerPendingEntries().add(benefitEntry);
+        ((SalaryExpenseTransferDocument)accountingDocument).getLaborLedgerPendingEntries().add(benefitEntry);
 
         return success;
     }
 
-    protected boolean customizeBenefitLaborLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, PendingLedgerEntry benefitEntry) {
+    protected boolean customizeBenefitLaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, PendingLedgerEntry benefitEntry) {
         return true;
     }
 
-    protected void populateBenefitLaborLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry benefitEntry) {        
+    protected void populateBenefitLaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry benefitEntry) {        
     }
 
-    protected boolean processBenefitA21LaborLedgerPendingEntry(TransactionalDocument transactionalDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry benefitA21Entry) {        
+    protected boolean processBenefitA21LaborLedgerPendingEntry(AccountingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry benefitA21Entry) {        
 
         boolean success = true;
         
         // populate the entry
-        populateBenefitA21LaborLedgerPendingEntry(transactionalDocument, accountingLine, sequenceHelper, benefitA21Entry);
+        populateBenefitA21LaborLedgerPendingEntry(accountingDocument, accountingLine, sequenceHelper, benefitA21Entry);
 
         // hook for children documents to implement document specific LLPE field mappings
-        customizeBenefitA21LaborLedgerPendingEntry(transactionalDocument, accountingLine, benefitA21Entry);
+        customizeBenefitA21LaborLedgerPendingEntry(accountingDocument, accountingLine, benefitA21Entry);
 
         // add the new entry to the document now
-        ((SalaryExpenseTransferDocument)transactionalDocument).getLaborLedgerPendingEntries().add(benefitA21Entry);
+        ((SalaryExpenseTransferDocument)accountingDocument).getLaborLedgerPendingEntries().add(benefitA21Entry);
 
         return success;
     }
 
-    protected boolean customizeBenefitA21LaborLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, PendingLedgerEntry benefitA21Entry) {
+    protected boolean customizeBenefitA21LaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, PendingLedgerEntry benefitA21Entry) {
         return true;
     }
 
-    protected void populateBenefitA21LaborLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry benefitA21Entry) {        
+    protected void populateBenefitA21LaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry benefitA21Entry) {        
     }
 
-    protected boolean processBenefitA21RevLaborLedgerPendingEntry(TransactionalDocument transactionalDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry benefitA21RevEntry) {        
+    protected boolean processBenefitA21RevLaborLedgerPendingEntry(AccountingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry benefitA21RevEntry) {        
 
         boolean success = true;
         
         // populate the entry
-        populateBenefitA21RevLaborLedgerPendingEntry(transactionalDocument, accountingLine, sequenceHelper, benefitA21RevEntry);
+        populateBenefitA21RevLaborLedgerPendingEntry(accountingDocument, accountingLine, sequenceHelper, benefitA21RevEntry);
 
         // hook for children documents to implement document specific LLPE field mappings
-        customizeBenefitA21RevLaborLedgerPendingEntry(transactionalDocument, accountingLine, benefitA21RevEntry);
+        customizeBenefitA21RevLaborLedgerPendingEntry(accountingDocument, accountingLine, benefitA21RevEntry);
 
         // add the new entry to the document now
-        ((SalaryExpenseTransferDocument)transactionalDocument).getLaborLedgerPendingEntries().add(benefitA21RevEntry);
+        ((SalaryExpenseTransferDocument)accountingDocument).getLaborLedgerPendingEntries().add(benefitA21RevEntry);
 
         return success;
     }
 
-    protected boolean customizeBenefitA21RevLaborLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, PendingLedgerEntry benefitA21RevEntry) {
+    protected boolean customizeBenefitA21RevLaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, PendingLedgerEntry benefitA21RevEntry) {
         return true;
     }
 
-    protected void populateBenefitA21RevLaborLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry benefitA21RevEntry) {        
+    protected void populateBenefitA21RevLaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry benefitA21RevEntry) {        
     }
 
-    protected boolean processBenefitClearingLaborLedgerPendingEntry(TransactionalDocument transactionalDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry benefitClearingEntry) {        
+    protected boolean processBenefitClearingLaborLedgerPendingEntry(AccountingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry benefitClearingEntry) {        
 
         boolean success = true;
         
         // populate the entry
-        populateBenefitClearingLaborLedgerPendingEntry(transactionalDocument, accountingLine, sequenceHelper, benefitClearingEntry);
+        populateBenefitClearingLaborLedgerPendingEntry(accountingDocument, accountingLine, sequenceHelper, benefitClearingEntry);
 
         // hook for children documents to implement document specific LLPE field mappings
-        customizeBenefitClearingLaborLedgerPendingEntry(transactionalDocument, accountingLine, benefitClearingEntry);
+        customizeBenefitClearingLaborLedgerPendingEntry(accountingDocument, accountingLine, benefitClearingEntry);
 
         // add the new entry to the document now
-        ((SalaryExpenseTransferDocument)transactionalDocument).getLaborLedgerPendingEntries().add(benefitClearingEntry);
+        ((SalaryExpenseTransferDocument)accountingDocument).getLaborLedgerPendingEntries().add(benefitClearingEntry);
 
         return success;
     }
 
-    protected boolean customizeBenefitClearingLaborLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, PendingLedgerEntry benefitClearingEntry) {
+    protected boolean customizeBenefitClearingLaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, PendingLedgerEntry benefitClearingEntry) {
         return true;
     }
 
-    protected void populateBenefitClearingLaborLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry benefitClearingEntry) {        
+    protected void populateBenefitClearingLaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry benefitClearingEntry) {        
     }
 
     /**
      * This is responsible for properly negating the sign on an accounting line's amount when its associated document is an error
      * correction.
      * 
-     * @param transactionalDocument
+     * @param accountingDocument
      * @param accountingLine
      */
-    private final void handleDocumentErrorCorrection(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
+    private final void handleDocumentErrorCorrection(AccountingDocument accountingDocument, AccountingLine accountingLine) {
         // If the document corrects another document, make sure the accounting line has the correct sign.
-        if ((null == transactionalDocument.getDocumentHeader().getFinancialDocumentInErrorNumber() && accountingLine.getAmount().isNegative()) || (null != transactionalDocument.getDocumentHeader().getFinancialDocumentInErrorNumber() && accountingLine.getAmount().isPositive())) {
+        if ((null == accountingDocument.getDocumentHeader().getFinancialDocumentInErrorNumber() && accountingLine.getAmount().isNegative()) || (null != accountingDocument.getDocumentHeader().getFinancialDocumentInErrorNumber() && accountingLine.getAmount().isPositive())) {
             accountingLine.setAmount(accountingLine.getAmount().multiply(new KualiDecimal(1)));
         }
     }
@@ -576,13 +577,13 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
     }
     
 
-    public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
+    public boolean isDebit(AccountingDocument accountingDocument, AccountingLine accountingLine) {
         boolean isDebit = false;
         if (accountingLine.isSourceAccountingLine()) {
-            isDebit = IsDebitUtils.isDebitConsideringNothingPositiveOnly(this, transactionalDocument, accountingLine);
+            isDebit = IsDebitUtils.isDebitConsideringNothingPositiveOnly(this, accountingDocument, accountingLine);
         }
         else if (accountingLine.isTargetAccountingLine()) {
-            isDebit = !IsDebitUtils.isDebitConsideringNothingPositiveOnly(this, transactionalDocument, accountingLine);
+            isDebit = !IsDebitUtils.isDebitConsideringNothingPositiveOnly(this, accountingDocument, accountingLine);
         }
         else {
             throw new IllegalStateException(IsDebitUtils.isInvalidLineTypeIllegalArgumentExceptionMessage);
@@ -591,7 +592,7 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
         return isDebit;
     }
 
-    public boolean isCredit(AccountingLine accountingLine, TransactionalDocument transactionalDocument) {
+    public boolean isCredit(AccountingLine accountingLine, AccountingDocument accountingDocument) {
         return false;
     }
  
@@ -637,12 +638,12 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
          * 
          * 
          * @param rule
-         * @param transactionalDocument
+         * @param accountingDocument
          * @param accountingLine
          * @return boolean
          * 
          */
-        static boolean isDebitConsideringType(TransactionalDocumentRuleBase rule, TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
+        static boolean isDebitConsideringType(AccountingDocumentRuleBase rule, AccountingDocument accountingDocument, AccountingLine accountingLine) {
 
             KualiDecimal amount = accountingLine.getAmount();
             // zero amounts are not allowed
@@ -688,16 +689,16 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
          * </ol>
          * 
          * @param rule
-         * @param transactionalDocument
+         * @param accountingDocument
          * @param accountingLine
          * @return boolean
          */
-        static boolean isDebitConsideringNothingPositiveOnly(TransactionalDocumentRuleBase rule, TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
+        static boolean isDebitConsideringNothingPositiveOnly(AccountingDocumentRuleBase rule, AccountingDocument accountingDocument, AccountingLine accountingLine) {
 
             boolean isDebit = false;
             KualiDecimal amount = accountingLine.getAmount();
             // non error correction
-            if (!isErrorCorrection(transactionalDocument)) {
+            if (!isErrorCorrection(accountingDocument)) {
                 boolean isPositiveAmount = amount.isPositive();
                 // isDebit if income/liability/expense/asset and line amount is positive
                 if (isPositiveAmount && (rule.isIncomeOrLiability(accountingLine) || rule.isExpenseOrAsset(accountingLine))) {
@@ -745,12 +746,12 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
          * 
          * 
          * @param rule
-         * @param transactionalDocument
+         * @param accountingDocument
          * @param accountingLine
          * @return boolean
          * 
          */
-        static boolean isDebitConsideringSection(TransactionalDocumentRuleBase rule, TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
+        static boolean isDebitConsideringSection(AccountingDocumentRuleBase rule, AccountingDocument accountingDocument, AccountingLine accountingLine) {
 
             KualiDecimal amount = accountingLine.getAmount();
             // zero amounts are not allowed
@@ -812,16 +813,16 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
          * </ol>
          * 
          * @param rule
-         * @param transactionalDocument
+         * @param accountingDocument
          * @param accountingLine
          * @return boolean
          */
-        static boolean isDebitConsideringSectionAndTypePositiveOnly(TransactionalDocumentRuleBase rule, TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
+        static boolean isDebitConsideringSectionAndTypePositiveOnly(AccountingDocumentRuleBase rule, AccountingDocument accountingDocument, AccountingLine accountingLine) {
 
             boolean isDebit = false;
             KualiDecimal amount = accountingLine.getAmount();
             // non error correction
-            if (!isErrorCorrection(transactionalDocument)) {
+            if (!isErrorCorrection(accountingDocument)) {
                 boolean isPositiveAmount = amount.isPositive();
                 // only allow amount >0
                 if (!isPositiveAmount) {
@@ -869,10 +870,10 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
          * throws an <code>IllegalStateException</code> if the document is an error correction. otherwise does nothing
          * 
          * @param rule
-         * @param transactionalDocument
+         * @param accountingDocument
          */
-        static void disallowErrorCorrectionDocumentCheck(TransactionalDocumentRuleBase rule, TransactionalDocument transactionalDocument) {
-            if (isErrorCorrection(transactionalDocument)) {
+        static void disallowErrorCorrectionDocumentCheck(AccountingDocumentRuleBase rule, AccountingDocument accountingDocument) {
+            if (isErrorCorrection(accountingDocument)) {
                 throw new IllegalStateException(isErrorCorrectionIllegalStateExceptionMessage);
             }
         }
@@ -880,13 +881,13 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
         /**
          * Convience method for determine if a document is an error correction document.
          * 
-         * @param transactionalDocument
+         * @param accountingDocument
          * @return true if document is an error correct
          */
-        static boolean isErrorCorrection(TransactionalDocument transactionalDocument) {
+        static boolean isErrorCorrection(AccountingDocument accountingDocument) {
             boolean isErrorCorrection = false;
 
-            String correctsDocumentId = transactionalDocument.getDocumentHeader().getFinancialDocumentInErrorNumber();
+            String correctsDocumentId = accountingDocument.getDocumentHeader().getFinancialDocumentInErrorNumber();
             if (StringUtils.isNotBlank(correctsDocumentId)) {
                 isErrorCorrection = true;
             }
@@ -913,7 +914,5 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
         }      
         System.out.println("LOOKS GOOD!");
         return true;
- 
     }
-        
 }

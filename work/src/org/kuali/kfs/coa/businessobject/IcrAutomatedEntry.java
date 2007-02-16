@@ -19,9 +19,9 @@ package org.kuali.module.chart.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.bo.Options;
 import org.kuali.core.util.KualiPercent;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.bo.Options;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 
 /**

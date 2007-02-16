@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.format.SimpleBooleanFormatter;
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeExpense;
 import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant;
 import org.kuali.module.financial.bo.TravelPerDiem;
@@ -31,10 +31,8 @@ import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
 
 /**
  * This class is the action form for the Disbursement Voucher.
- * 
- * 
  */
-public class DisbursementVoucherForm extends KualiTransactionalDocumentFormBase {
+public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
     private static final long serialVersionUID = 1L;
 
     private DisbursementVoucherNonEmployeeExpense newNonEmployeeExpenseLine;

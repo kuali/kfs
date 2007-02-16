@@ -64,7 +64,7 @@
 
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
                 </control>
                 <summary>Chart Of Accounts Code</summary>
             </attributeReference>
@@ -72,7 +72,7 @@
             <attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
             	<label>Proposal Organization Code</label>
             	<shortLabel>Proposal Org Code</shortLabel>
-            	
+
             	<summary>Proposal Organization Code</summary>
             </attributeReference>
 

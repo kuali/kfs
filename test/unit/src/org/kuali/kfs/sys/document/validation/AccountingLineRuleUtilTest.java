@@ -33,9 +33,10 @@ import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEm
 
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
-import org.kuali.core.bo.AccountingLine;
-import org.kuali.core.bo.AccountingLineOverride;
-import org.kuali.core.bo.SourceAccountingLine;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.AccountingLineOverride;
+import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.rules.AccountingLineRuleUtil;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.test.KualiTestBase;

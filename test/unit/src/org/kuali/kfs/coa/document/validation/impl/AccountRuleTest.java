@@ -24,12 +24,12 @@ import java.util.Calendar;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.KeyConstants;
-import org.kuali.core.bo.Options;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.bo.Options;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.test.WithTestSpringContext;

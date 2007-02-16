@@ -16,8 +16,9 @@
 package org.kuali.module.labor.document;
 
 import org.kuali.Constants;
-import org.kuali.core.bo.AccountingLineParser;
-import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.kfs.bo.AccountingLineParser;
+import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
+import org.kuali.module.labor.bo.ExpenseTransferTargetAccountingLine;
 import org.kuali.module.labor.bo.LaborLedgerAccountingLineParser;
 
 /**
@@ -67,5 +68,21 @@ public class BenefitExpenseTransferDocument extends LaborDocument {
     public AccountingLineParser getAccountingLineParser() {
         return new LaborLedgerAccountingLineParser();        
     }    
+    
+    /**
+     * @see org.kuali.kfs.document.AccountingDocumentBase#getSourceAccountingLineClass()
+     */
+    @Override
+    public Class getSourceAccountingLineClass() {
+        return ExpenseTransferSourceAccountingLine.class;
+    }
+
+    /**
+     * @see org.kuali.kfs.document.AccountingDocumentBase#getTargetAccountingLineClass()
+     */
+    @Override
+    public Class getTargetAccountingLineClass() {
+        return ExpenseTransferTargetAccountingLine.class;
+    }
 }
 

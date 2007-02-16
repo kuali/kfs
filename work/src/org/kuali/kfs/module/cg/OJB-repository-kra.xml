@@ -260,7 +260,7 @@
         <foreignkey field-id-ref="1" />
     </reference-descriptor>
 
-    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
 
@@ -715,7 +715,7 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
-    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.document.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
     
@@ -1037,13 +1037,13 @@
 	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
-    <reference-descriptor name="personState" class-ref="org.kuali.core.bo.State" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="personState" class-ref="org.kuali.kfs.bo.State" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="personStateCode" />
     </reference-descriptor>
-    <reference-descriptor name="personZip" class-ref="org.kuali.core.bo.PostalZipCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="personZip" class-ref="org.kuali.kfs.bo.PostalZipCode" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="personZipCode" />
     </reference-descriptor>    
-    <reference-descriptor name="personCountry" class-ref="org.kuali.core.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="personCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="personCountryCode" />
     </reference-descriptor>
     <reference-descriptor name="personRole" class-ref="org.kuali.module.kra.routingform.bo.PersonRole" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -1102,7 +1102,6 @@
 		<foreignkey field-ref="questionTypeCode" />
 	</reference-descriptor>
 </class-descriptor>
-
 <class-descriptor class="org.kuali.module.kra.routingform.bo.RoutingFormDueDateType" table="ER_RF_DUE_DT_TYP_T">
 	<field-descriptor name="documentNumber" column="RDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="dueDateTypeCode" column="DUE_DT_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>

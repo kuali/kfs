@@ -129,7 +129,7 @@
                 </validationPattern>
                 <required>true</required>
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.FiscalPeriodValuesFinder" />
+                    <select valuesFinderClass="org.kuali.kfs.lookup.keyvalues.FiscalPeriodValuesFinder" />
                 </control>
 
                 <summary>universityFiscalPeriodCode summary...</summary>

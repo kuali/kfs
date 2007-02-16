@@ -15,7 +15,7 @@
  */
 package org.kuali.test.fixtures;
 
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 
 public enum GeneralLedgerPendingEntryFixture {
     EXPECTED_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE("UA", "1912201", "BEER", "D", "AC", "TF", "TE", "9900", false, "KUL"),

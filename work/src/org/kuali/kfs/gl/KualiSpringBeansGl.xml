@@ -703,27 +703,6 @@
 		</property>
 	</bean>
 
-	<bean id="generalLedgerPendingEntryService" class="org.kuali.module.gl.service.impl.GeneralLedgerPendingEntryServiceImpl">
-		<property name="generalLedgerPendingEntryDao">
-			<ref bean="generalLedgerPendingEntryDao" />
-		</property>
-		<property name="kualiRuleService">
-			<ref bean="kualiRuleService" />
-		</property>
-		<property name="chartService">
-			<ref bean="chartService" />
-		</property>
-		<property name="optionsService">
-			<ref bean="optionsService" />
-		</property>
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
-		</property>
-		<property name="balanceTypeService">
-			<ref bean="balanceTypService" />
-		</property>
-	</bean>
-
 	<bean id="glEntryService" class="org.kuali.module.gl.service.impl.EntryServiceImpl">
 		<property name="entryDao">
 			<ref bean="glEntryDao" />
@@ -959,19 +938,7 @@
 		</property>
 	</bean>
 
-	<bean id="generalLedgerPendingEntryDao" class="org.kuali.module.gl.dao.ojb.GeneralLedgerPendingEntryDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
-		</property>
-	</bean>
-
-	<bean id="glOptionsDao" class="org.kuali.core.dao.ojb.OptionsDaoOjb">
+	<bean id="glOptionsDao" class="org.kuali.kfs.dao.ojb.OptionsDaoOjb">
 		<property name="jcdAlias">
 			<value>dataSource</value>
 		</property>

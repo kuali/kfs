@@ -51,7 +51,7 @@
 
         <attributes>
 
-            <attributeReference name="financialSystemOriginationCode" sourceClassName="org.kuali.core.bo.OriginationCode" sourceAttributeName="financialSystemOriginationCode">
+            <attributeReference name="financialSystemOriginationCode" sourceClassName="org.kuali.kfs.bo.OriginationCode" sourceAttributeName="financialSystemOriginationCode">
                 <label>Financial System Origination Code</label>
                 <shortLabel>Code</shortLabel>
                 <summary>Financial System Origination Code</summary>

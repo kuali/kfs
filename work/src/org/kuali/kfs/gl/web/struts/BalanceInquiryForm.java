@@ -28,11 +28,11 @@ import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.lookup.Lookupable;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.form.LookupForm;
-import org.kuali.core.web.uidraw.Field;
-import org.kuali.core.web.uidraw.Row;
+import org.kuali.core.web.ui.Field;
+import org.kuali.core.web.ui.Row;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.Entry;
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 /**
  * This class is the action form for balance inquiries.

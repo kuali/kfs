@@ -24,7 +24,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
+import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.module.financial.bo.CreditCardDetail;
 import org.kuali.module.financial.document.CreditCardReceiptDocument;
 import org.kuali.module.financial.rules.CreditCardReceiptDocumentRuleUtil;
@@ -32,10 +32,8 @@ import org.kuali.module.financial.web.struts.form.CreditCardReceiptForm;
 
 /**
  * This is the action class for the CreditCardReceiptDocument.
- * 
- * 
  */
-public class CreditCardReceiptAction extends KualiTransactionalDocumentActionBase {
+public class CreditCardReceiptAction extends KualiAccountingDocumentActionBase {
     /**
      * Adds handling for credit card receipt amount updates.
      * 

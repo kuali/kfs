@@ -22,9 +22,9 @@ import java.util.Map;
 
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.web.uidraw.Field;
-import org.kuali.core.web.uidraw.Row;
-import org.kuali.core.web.uidraw.Section;
+import org.kuali.core.web.ui.Field;
+import org.kuali.core.web.ui.Row;
+import org.kuali.core.web.ui.Section;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 
 /**

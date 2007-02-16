@@ -16,7 +16,6 @@
 package org.kuali.module.budget.document;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -24,18 +23,14 @@ import java.util.Map;
 
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.DocumentHeader;
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.bo.SubAccount;
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 public class BudgetConstructionDocument extends TransactionalDocumentBase {
 
@@ -430,24 +425,6 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
      */
     public void setSubAccount(SubAccount subAccount) {
         this.subAccount = subAccount;
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.document.Document#getExplanation()
-     */
-    @Override
-    public String getExplanation() {
-        return documentHeader.getExplanation();
-    }
-
-    /**
-     * 
-     * @see org.kuali.core.document.Document#setExplanation(java.lang.String)
-     */
-    @Override
-    public void setExplanation(String explanation) {
-        documentHeader.setExplanation(explanation);
     }
 
     /**

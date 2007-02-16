@@ -29,23 +29,22 @@ import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRul
 import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRuleConstants.TRANSACTION_LEDGER_ENTRY_DESCRIPTION_DELIMITER;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.AccountingLine;
-import org.kuali.core.bo.SourceAccountingLine;
-import org.kuali.core.bo.TargetAccountingLine;
 import org.kuali.core.datadictionary.BusinessObjectEntry;
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.bo.TargetAccountingLine;
+import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 /**
  * Business rule(s) applicable to <code>{@link org.kuali.module.financial.document.GeneralErrorCorrectionDocument}</code>
  * instances.
- * 
- * 
  */
-public class GeneralErrorCorrectionDocumentRule extends TransactionalDocumentRuleBase {
+public class GeneralErrorCorrectionDocumentRule extends AccountingDocumentRuleBase {
 
     /**
      * Convenience method for accessing the most-likely requested security grouping
@@ -74,7 +73,7 @@ public class GeneralErrorCorrectionDocumentRule extends TransactionalDocumentRul
      * @param accountingLine
      * @return boolean pass or fail
      */
-    private boolean processGenericAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
+    private boolean processGenericAccountingLineBusinessRules(AccountingDocument document, AccountingLine accountingLine) {
         boolean retval = true;
 
         ObjectCode objectCode = accountingLine.getObjectCode();
@@ -89,13 +88,13 @@ public class GeneralErrorCorrectionDocumentRule extends TransactionalDocumentRul
     }
 
     /**
-     * @see IsDebitUtils#isDebitConsideringSectionAndTypePositiveOnly(TransactionalDocumentRuleBase, TransactionalDocument,
+     * @see IsDebitUtils#isDebitConsideringSectionAndTypePositiveOnly(FinancialDocumentRuleBase, FinancialDocument,
      *      AccountingLine)
      * 
-     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.TransactionalDocument,
+     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
-    public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
+    public boolean isDebit(AccountingDocument transactionalDocument, AccountingLine accountingLine) {
         return IsDebitUtils.isDebitConsideringSectionAndTypePositiveOnly(this, transactionalDocument, accountingLine);
     }
 
@@ -103,21 +102,21 @@ public class GeneralErrorCorrectionDocumentRule extends TransactionalDocumentRul
      * The GEC allows one sided documents for correcting - so if one side is empty, the other side must have at least two lines in
      * it. The balancing rules take care of validation of amounts.
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#isAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.TransactionalDocument)
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.FinancialDocument)
      */
     @Override
-    protected boolean isAccountingLinesRequiredNumberForRoutingMet(TransactionalDocument transactionalDocument) {
+    protected boolean isAccountingLinesRequiredNumberForRoutingMet(AccountingDocument transactionalDocument) {
         return isOptionalOneSidedDocumentAccountingLinesRequiredNumberForRoutingMet(transactionalDocument);
     }
 
     /**
      * Overrides to call super and then GEC specific accounting line rules.
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
     @Override
-    public boolean processCustomAddAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
+    public boolean processCustomAddAccountingLineBusinessRules(AccountingDocument document, AccountingLine accountingLine) {
         boolean retval = true;
         retval = super.processCustomAddAccountingLineBusinessRules(document, accountingLine);
         if (retval) {
@@ -130,11 +129,11 @@ public class GeneralErrorCorrectionDocumentRule extends TransactionalDocumentRul
     /**
      * Overrides to call super and then GEC specific accounting line rules.
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomReviewAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomReviewAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
     @Override
-    public boolean processCustomReviewAccountingLineBusinessRules(TransactionalDocument document, AccountingLine accountingLine) {
+    public boolean processCustomReviewAccountingLineBusinessRules(AccountingDocument document, AccountingLine accountingLine) {
         boolean retval = true;
 
         retval = super.processCustomReviewAccountingLineBusinessRules(document, accountingLine);
@@ -146,11 +145,10 @@ public class GeneralErrorCorrectionDocumentRule extends TransactionalDocumentRul
     }
 
     /**
-     * @see TransactionalDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument, AccountingLine,
+     * @see FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(FinancialDocument, AccountingLine,
      *      GeneralLedgerPendingEntry)
      */
-    @Override
-    protected void customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
+    protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
         explicitEntry.setTransactionLedgerEntryDescription(buildTransactionLedgerEntryDescriptionUsingRefOriginAndRefDocNumber(transactionalDocument, accountingLine));
 
         // Clearing fields that are already handled by the parent algorithm - we don't actually want
@@ -169,7 +167,7 @@ public class GeneralErrorCorrectionDocumentRule extends TransactionalDocumentRul
      * @param transactionalDocument
      * @return String
      */
-    private String buildTransactionLedgerEntryDescriptionUsingRefOriginAndRefDocNumber(TransactionalDocument transactionalDocument, AccountingLine line) {
+    private String buildTransactionLedgerEntryDescriptionUsingRefOriginAndRefDocNumber(AccountingDocument transactionalDocument, AccountingLine line) {
         String description = "";
         description = line.getReferenceOriginCode() + "-" + line.getReferenceNumber();
 

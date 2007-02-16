@@ -28,13 +28,14 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
-import org.kuali.core.bo.SourceAccountingLine;
+import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.format.CurrencyFormatter;
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubObjCd;
@@ -49,10 +50,8 @@ import org.kuali.module.financial.document.VoucherDocument;
  * a debit and credit column for amount entry. New accounting lines use specific credit and debit amount fields b/c the new line is
  * explicitly known; however, already existing accounting lines need to exist within a list with ordering that matches the
  * accounting lines source list.
- * 
- * 
  */
-public class VoucherForm extends KualiTransactionalDocumentFormBase {
+public class VoucherForm extends KualiAccountingDocumentFormBase {
     private List accountingPeriods;
     private KualiDecimal newSourceLineDebit;
     private KualiDecimal newSourceLineCredit;
@@ -329,7 +328,7 @@ public class VoucherForm extends KualiTransactionalDocumentFormBase {
      * @return String
      */
     public String getCurrencyFormattedTotal() {
-        return (String) new CurrencyFormatter().format(getVoucherDocument().getTotal());
+        return (String) new CurrencyFormatter().format(((AmountTotaling) getVoucherDocument()).getTotalDollarAmount());
     }
 
     /**
@@ -355,7 +354,7 @@ public class VoucherForm extends KualiTransactionalDocumentFormBase {
             AccountingPeriod ap = new AccountingPeriod();
             ap.setUniversityFiscalPeriodCode(getSelectedPostingPeriodCode());
             ap.setUniversityFiscalYear(getSelectedPostingYear());
-            getTransactionalDocument().setAccountingPeriod(ap);
+            getFinancialDocument().setAccountingPeriod(ap);
         }
     }
 

@@ -41,7 +41,7 @@
         </inquiry>
 
         <attributes>
-            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.document.DocumentHeader" sourceAttributeName="documentNumber" />
+            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber" />
 
             <attributeReference name="financialDocumentTransactionLineNumber" sourceClassName="org.kuali.module.financial.bo.ProcurementCardTransactionDetail" sourceAttributeName="financialDocumentTransactionLineNumber" />
 

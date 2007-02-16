@@ -26,9 +26,9 @@ import org.kuali.PropertyConstants;
 import org.kuali.Constants.CashDrawerConstants;
 import org.kuali.Constants.DepositConstants;
 import org.kuali.Constants.DocumentStatusCodes;
-import org.kuali.core.authorization.DocumentAuthorizer;
+import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.DocumentHeader;
+import org.kuali.core.document.authorization.DocumentAuthorizer;
 import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
@@ -36,6 +36,7 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.financial.bo.Bank;
 import org.kuali.module.financial.bo.BankAccount;
 import org.kuali.module.financial.bo.CashDrawer;
@@ -49,7 +50,6 @@ import org.kuali.module.financial.exceptions.InvalidCashReceiptState;
 import org.kuali.module.financial.service.CashDrawerService;
 import org.kuali.module.financial.service.CashManagementService;
 import org.kuali.module.financial.web.struts.form.CashDrawerStatusCodeFormatter;
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -291,7 +291,7 @@ public class CashManagementServiceImpl implements CashManagementService {
         KualiDecimal total = KualiDecimal.ZERO;
         for (Iterator i = selectedCashReceipts.iterator(); i.hasNext();) {
             CashReceiptDocument crDoc = (CashReceiptDocument) i.next();
-            total = total.add(crDoc.getSumTotalAmount());
+            total = total.add(crDoc.getTotalDollarAmount());
         }
         deposit.setDepositAmount(total);
 

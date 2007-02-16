@@ -23,7 +23,7 @@
 
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 
-	<kul:hiddenDocumentFields />
+    <kul:hiddenDocumentFields isTransactionalDocument="false" />
 
     <purap:assignContractManager />
 

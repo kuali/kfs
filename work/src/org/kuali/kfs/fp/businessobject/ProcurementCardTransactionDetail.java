@@ -22,10 +22,10 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.AccountingLineBase;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.PropertyConstants;
 
 /**

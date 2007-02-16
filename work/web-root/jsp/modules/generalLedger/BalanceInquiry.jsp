@@ -143,7 +143,7 @@
 								<c:when test="${column.formatter.implementationClass == 'org.kuali.core.web.format.CurrencyFormatter'}">
 		
 									<display:column class="numbercell" sortable="true" media="${(status.index < 11) ? 'all' : 'csv excel xml'}"
-										decorator="org.kuali.core.web.uidraw.FormatAwareDecorator"
+										decorator="org.kuali.core.web.ui.FormatAwareDecorator"
 										title="${column.columnTitle}" comparator="${column.comparator}">
 										
 										<c:choose>
@@ -168,7 +168,7 @@
 										<c:when test="${column.propertyURL != \"\"}">
 		
 											<display:column class="infocell" sortable="${column.sortable}"
-												decorator="org.kuali.core.web.uidraw.FormatAwareDecorator"
+												decorator="org.kuali.core.web.ui.FormatAwareDecorator"
 												title="${column.columnTitle}" media="${(status.index < 11) ? 'all' : 'csv excel xml'}"
 												comparator="${column.comparator}">
 		
@@ -182,7 +182,7 @@
 										<c:otherwise>
 											
 											<display:column class="infocell" sortable="${column.sortable}"
-												decorator="org.kuali.core.web.uidraw.FormatAwareDecorator"
+												decorator="org.kuali.core.web.ui.FormatAwareDecorator"
 												title="${column.columnTitle}" media="${(status.index < 11) ? 'all' : 'csv excel xml'}"
 												comparator="${column.comparator}">
 												

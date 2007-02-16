@@ -66,7 +66,7 @@
 
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
                 </control>
             </attributeReference>
 
@@ -75,7 +75,7 @@
                 <shortLabel>Repts to Cht</shortLabel>
                 <required>true</required>
 				<control>
-					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.ChartValuesFinder" />
+					<select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
 				</control>
                 <description>The Chart for the Reports To organization.</description>
             </attributeReference>

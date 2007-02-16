@@ -25,7 +25,7 @@
 
         <businessRulesClass>org.kuali.module.chart.rules.ProjectCodeRule</businessRulesClass>
 
-        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
                 <workgroups>

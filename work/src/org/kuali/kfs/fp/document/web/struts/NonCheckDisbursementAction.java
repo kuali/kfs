@@ -15,13 +15,12 @@
  */
 package org.kuali.module.financial.web.struts.action;
 
-import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
+import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
+
 
 /**
  * Action class for <code>{@link org.kuali.module.financial.document.NonCheckDisbursementDocument}</code> It doesn't do anything
  * because it doesn't need to.
- * 
- * 
  */
-public class NonCheckDisbursementAction extends KualiTransactionalDocumentActionBase {
+public class NonCheckDisbursementAction extends KualiAccountingDocumentActionBase {
 }

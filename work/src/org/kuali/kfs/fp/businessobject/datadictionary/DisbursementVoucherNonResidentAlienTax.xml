@@ -65,16 +65,16 @@
 
                 <required>true</required>
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.TaxIncomeClassValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.TaxIncomeClassValuesFinder" />
                 </control>
                 <description>The description of the Income Class for the Nonresident Alien (NRA) Tax. Select one from the pulldown list.</description>
             </attributeReference>
 
-            <attributeReference name="postalCountryCode" sourceClassName="org.kuali.core.bo.Country" sourceAttributeName="postalCountryCode">
+            <attributeReference name="postalCountryCode" sourceClassName="org.kuali.kfs.bo.Country" sourceAttributeName="postalCountryCode">
             
             	<required>false</required>
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CountryValuesFinder" />
+                    <select valuesFinderClass="org.kuali.kfs.lookup.keyvalues.CountryValuesFinder" />
                 </control>
                 <description>The code that identifies the country of residence for the Nonresident Alien (NRA) Tax</description>
 
@@ -136,7 +136,7 @@
                 <description>The code to specify that the Nonresident Alien (NRA) Tax is "grossed up" to the original Account, expressed as "Yes" or "No".</description>
             </attribute>
 
-            <attributeReference name="referenceFinancialDocumentNumber" sourceClassName="org.kuali.core.document.DocumentHeader" sourceAttributeName="documentNumber">
+            <attributeReference name="referenceFinancialDocumentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber">
                 <label>Reference Doc</label>
                 <shortLabel>Ref Doc</shortLabel>
                 <description>A free-form text field that identifies a reference document for the Nonresident Alien (NRA) Tax.</description>

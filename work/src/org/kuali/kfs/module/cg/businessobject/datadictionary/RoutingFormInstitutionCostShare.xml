@@ -93,7 +93,7 @@
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.SimpleChartValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.SimpleChartValuesFinder" />
                 </control>
 
                 <summary>chartOfAccountsCode</summary>

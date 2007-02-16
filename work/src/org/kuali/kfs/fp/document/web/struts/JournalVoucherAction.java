@@ -29,9 +29,9 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
-import org.kuali.core.authorization.DocumentAuthorizer;
-import org.kuali.core.bo.SourceAccountingLine;
+import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Document;
+import org.kuali.core.document.authorization.DocumentAuthorizer;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
@@ -39,6 +39,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.bo.VoucherAccountingLineHelper;
 import org.kuali.module.financial.bo.VoucherAccountingLineHelperBase;
@@ -53,8 +54,6 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * This class piggy backs on all of the functionality in the KualiTransactionalDocumentActionBase but is necessary for this document
  * type. The Journal Voucher is unique in that it defines several fields that aren't typically used by the other financial
  * transaction processing eDocs (i.e. external system fields, object type override, credit and debit amounts).
- * 
- * 
  */
 public class JournalVoucherAction extends VoucherAction {
 
@@ -113,7 +112,7 @@ public class JournalVoucherAction extends VoucherAction {
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         // process the question but we need to make sure there are lines and then check to see if it's not balanced
         VoucherDocument vDoc = ((VoucherForm) form).getVoucherDocument();
-        if (vDoc.getSourceAccountingLines().size() > 0 && vDoc.getTotal().compareTo(Constants.ZERO) != 0) {
+        if (vDoc.getSourceAccountingLines().size() > 0 && ((AmountTotaling) vDoc).getTotalDollarAmount().compareTo(Constants.ZERO) != 0) {
             // it's not in "balance"
             ActionForward returnForward = processRouteOutOfBalanceDocumentConfirmationQuestion(mapping, form, request, response);
 
@@ -510,7 +509,7 @@ public class JournalVoucherAction extends VoucherAction {
         if (question == null) { // question hasn't been asked
             String currencyFormattedDebitTotal = (String) new CurrencyFormatter().format(jvDoc.getDebitTotal());
             String currencyFormattedCreditTotal = (String) new CurrencyFormatter().format(jvDoc.getCreditTotal());
-            String currencyFormattedTotal = (String) new CurrencyFormatter().format(jvDoc.getTotal());
+            String currencyFormattedTotal = (String) new CurrencyFormatter().format(jvDoc.getTotalDollarAmount());
             String message = "";
             jvDoc.refreshReferenceObject(PropertyConstants.BALANCE_TYPE);
             if (jvDoc.getBalanceType().isFinancialOffsetGenerationIndicator()) {

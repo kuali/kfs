@@ -24,7 +24,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
-import org.kuali.core.bo.Building;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
@@ -33,13 +32,14 @@ import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.bo.Building;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.IcrAutomatedEntry;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.gl.service.BalanceService;
-import org.kuali.module.gl.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 
 /**

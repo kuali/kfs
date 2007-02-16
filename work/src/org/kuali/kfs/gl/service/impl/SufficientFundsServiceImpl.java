@@ -23,12 +23,14 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
-import org.kuali.core.bo.Options;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.OptionsService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.bo.Options;
+import org.kuali.kfs.document.GeneralLedgerPostingDocument;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.service.AccountService;
@@ -39,7 +41,6 @@ import org.kuali.module.gl.bo.SufficientFundRebuild;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.SufficientFundBalancesDao;
 import org.kuali.module.gl.dao.SufficientFundsDao;
-import org.kuali.module.gl.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.gl.service.SufficientFundRebuildService;
 import org.kuali.module.gl.service.SufficientFundsService;
 import org.kuali.module.gl.service.SufficientFundsServiceConstants;
@@ -103,7 +104,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
      * 
      * @see org.kuali.module.gl.service.SufficientFundsService#checkSufficientFunds(org.kuali.core.document.FinancialDocument)
      */
-    public List<SufficientFundsItem> checkSufficientFunds(TransactionalDocument document) {
+    public List<SufficientFundsItem> checkSufficientFunds(GeneralLedgerPostingDocument document) {
         LOG.debug("checkSufficientFunds() started");
 
         return checkSufficientFunds((List<? extends Transaction>) document.getPendingLedgerEntriesForSufficientFundsChecking());

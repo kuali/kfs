@@ -25,8 +25,8 @@ import org.kuali.core.authorization.AuthorizationConstants;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
-import org.kuali.core.document.DocumentAuthorizerBase;
 import org.kuali.core.document.TransactionalDocument;
+import org.kuali.core.document.authorization.DocumentAuthorizerBase;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 
 public class CorrectionDocumentAuthorizer extends DocumentAuthorizerBase {

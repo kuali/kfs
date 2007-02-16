@@ -18,9 +18,10 @@ package org.kuali.module.purap.document;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.module.purap.bo.SourceDocumentReference;
 import org.kuali.module.purap.bo.Status;
 import org.kuali.module.purap.bo.StatusHistory;
@@ -28,9 +29,8 @@ import org.kuali.module.purap.bo.VendorDetail;
 
 /**
  * Purchasing-Accounts Payable Document Base
- * 
  */
-public abstract class PurchasingAccountsPayableDocumentBase extends TransactionalDocumentBase implements PurchasingAccountsPayableDocument {
+public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDocumentBase implements PurchasingAccountsPayableDocument, AmountTotaling {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchasingAccountsPayableDocumentBase.class);
 
     // SHARED FIELDS BETWEEN REQUISITION, PURCHASE ORDER, PAYMENT REQUEST, AND CREDIT MEMO
@@ -53,8 +53,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends Transactiona
         this.statusHistories = new TypedArrayList( StatusHistory.class );
     }
     
-    // OVERRIDEN METHODS
-    @Override
     public KualiDecimal getTotalDollarAmount() {
         //FIXME get real total
 //        return Constants.ZERO;
@@ -178,11 +176,10 @@ public abstract class PurchasingAccountsPayableDocumentBase extends Transactiona
     public void setVendorDetail(VendorDetail vendorDetail) {
         this.vendorDetail = vendorDetail;
     }
-    
+
     public List<SourceDocumentReference> getSourceDocumentReferences() {
         return sourceDocumentReferences;
-    }
-
+}
     public void setSourceDocumentReferences(List<SourceDocumentReference> sourceDocumentReferences) {
         this.sourceDocumentReferences = sourceDocumentReferences;
     }

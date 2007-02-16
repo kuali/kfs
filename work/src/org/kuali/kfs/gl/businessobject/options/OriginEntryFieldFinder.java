@@ -24,7 +24,7 @@ import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.web.uidraw.KeyLabelPair;
+import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.PropertyConstants;
 
 public class OriginEntryFieldFinder extends KeyValuesBase {

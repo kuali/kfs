@@ -15,13 +15,15 @@
  */
 package org.kuali.module.financial.rules;
 
+import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants;
+
 
 /**
  * Holds constants for <code>{@link org.kuali.module.financial.document.GeneralErrorCorrectionDocument}</code> business rules.
  * 
  * 
  */
-public interface GeneralErrorCorrectionDocumentRuleConstants extends TransactionalDocumentRuleBaseConstants {
+public interface GeneralErrorCorrectionDocumentRuleConstants extends AccountingDocumentRuleBaseConstants {
     // Security grouping constants used to do application parameter lookups
     public static final String GENERAL_ERROR_CORRECTION_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.GeneralErrorCorrectionDocument";
 

@@ -20,8 +20,8 @@ import java.util.List;
 
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.chart.service.AccountService;
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.service.ScrubberValidator;

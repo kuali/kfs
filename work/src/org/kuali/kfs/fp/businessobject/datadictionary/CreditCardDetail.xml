@@ -22,8 +22,8 @@
         <customAttributeEnabled>false</customAttributeEnabled>
 
         <attributes>
-            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.document.DocumentHeader" sourceAttributeName="documentNumber" />
-            <attributeReference name="financialDocumentTypeCode" sourceClassName="org.kuali.core.document.DocumentType" sourceAttributeName="financialDocumentTypeCode" />
+            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber" />
+            <attributeReference name="financialDocumentTypeCode" sourceClassName="org.kuali.core.bo.DocumentType" sourceAttributeName="financialDocumentTypeCode" />
             <attribute name="financialDocumentColumnTypeCode" forceUppercase="true">
                 <label>Column Type Code</label>
                 <shortLabel>Col Type Code</shortLabel>
@@ -74,7 +74,7 @@
                 <shortLabel>Date</shortLabel>
                 <required>true</required>
             </attributeReference>
-            <attributeReference name="creditCardDepositReferenceNumber" sourceClassName="org.kuali.core.document.DocumentHeader" sourceAttributeName="documentNumber">
+            <attributeReference name="creditCardDepositReferenceNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber">
                 <label>Credit Card Reference Number</label>
                 <shortLabel>Ref Nbr</shortLabel>
                 <maxLength>10</maxLength>

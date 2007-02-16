@@ -27,10 +27,10 @@ import org.kuali.PropertyConstants;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
-import org.kuali.core.util.comparator.BeanPropertyComparator;
-import org.kuali.core.web.uidraw.Field;
-import org.kuali.core.web.uidraw.Row;
-import org.kuali.module.gl.service.GeneralLedgerPendingEntryService;
+import org.kuali.core.util.BeanPropertyComparator;
+import org.kuali.core.web.ui.Field;
+import org.kuali.core.web.ui.Row;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.gl.web.Constant;
 
 public abstract class AbstractGLLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {

@@ -106,7 +106,7 @@
                 <required>true</required>
 
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CountryValuesFinder" />
+                    <select valuesFinderClass="org.kuali.kfs.lookup.keyvalues.CountryValuesFinder" />
                 </control>
 
                 <summary>
@@ -178,7 +178,7 @@
                 <required>true</required>
 
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CurrencyTypeValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.CurrencyTypeValuesFinder" />
                 </control>
 
                 <summary>
@@ -250,7 +250,7 @@
                 <required>false</required>
 
                 <control>
-                    <radio valuesFinderClass="org.kuali.core.lookup.keyvalues.BankAccountTypeValuesFinder" />
+                    <radio valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.BankAccountTypeValuesFinder" />
                 </control>
 
                 <summary>

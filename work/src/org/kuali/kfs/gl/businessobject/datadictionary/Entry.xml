@@ -63,7 +63,7 @@
 
             <lookupFields>
                 <lookupField attributeName="universityFiscalYear" required="true">
-                    <defaultValueFinderClass>org.kuali.core.lookup.valueFinder.FiscalYearFinder</defaultValueFinderClass>
+                    <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.FiscalYearFinder</defaultValueFinderClass>
                 </lookupField>
 
                 <lookupField attributeName="chartOfAccountsCode" required="true" />
@@ -211,7 +211,7 @@
                 <description>The code corresponding to the system which created the General Ledger entry, e.g., 01 = Kuali Financial System (KFS).</description>
             </attribute>
 
-            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.document.DocumentHeader" sourceAttributeName="documentNumber">
+            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber">
                 <description>The system generated Document Number attached to the accounting transaction. Used for tracking purposes.</description>
             </attributeReference>
 

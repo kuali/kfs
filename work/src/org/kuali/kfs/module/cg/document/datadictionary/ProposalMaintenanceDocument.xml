@@ -24,7 +24,7 @@
         <maintainableClass>org.kuali.module.cg.maintenance.ProposalMaintainableImpl</maintainableClass>
         <businessRulesClass>org.kuali.module.cg.rules.ProposalRule</businessRulesClass>
         <!--preRulesCheckClass>org.kuali.module.chart.rules.AccountPreRules</preRulesCheckClass-->
-        <documentAuthorizerClass>org.kuali.core.document.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
@@ -134,7 +134,6 @@
                         <maintainableField name="proposalSubcontractorAmount">
 							<defaultValue>0.00</defaultValue>
 						</maintainableField>
-						<maintainableField name="versionNumber" />
                         <summaryFields>
                             <summaryField name="subcontractor.subcontractorName" />
                             <summaryField name="proposalSubcontractorAmount" />

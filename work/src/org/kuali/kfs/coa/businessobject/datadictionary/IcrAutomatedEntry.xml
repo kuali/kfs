@@ -219,7 +219,7 @@
                 </validationPattern>
                 <required>true</required>
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.DebitCreditValuesFinder" />
+                    <select valuesFinderClass="org.kuali.kfs.lookup.keyvalues.DebitCreditValuesFinder" />
                 </control>
                 <summary>Object Type Debit Credit Code</summary>
                 <description>The unique code indicating that the object type is a credit or a debit.</description>

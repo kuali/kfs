@@ -31,7 +31,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.PropertyConstants;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.OptionsService;
+import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.gl.OracleSpecific;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.bo.Transaction;

@@ -23,11 +23,11 @@ import java.util.Properties;
 
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
-import org.kuali.core.bo.Options;
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.LookupService;
-import org.kuali.core.service.OptionsService;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.bo.Options;
+import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.web.Constant;
 

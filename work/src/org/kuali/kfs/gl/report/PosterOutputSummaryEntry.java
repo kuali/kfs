@@ -110,7 +110,7 @@ public class PosterOutputSummaryEntry implements Comparable {
 
         return getKey().compareTo(tempPosterOutputSummaryEntry.getKey());
     }
-
+    
     public static PosterOutputSummaryEntry buildPosterOutputSummaryEntry(Object[] entrySummary) {
         PosterOutputSummaryEntry posterOutputSummaryEntry = new PosterOutputSummaryEntry();
         int indexOfField = 0;

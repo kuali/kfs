@@ -15,53 +15,49 @@
  */
 package org.kuali.module.budget.dao.ojb;
 
-import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.math.*;
-import java.lang.*;
 
-import org.kuali.module.budget.dao.*;
-import org.kuali.module.budget.bo.*;
-import org.kuali.module.budget.document.*;
-import org.kuali.module.financial.bo.FiscalYearFunctionControl;
-import org.kuali.module.financial.bo.FunctionControlCode;
-import org.kuali.core.dao.DocumentHeaderDao;
-import org.kuali.core.dao.DocumentDao;
-import org.kuali.core.document.DocumentHeader;
-import org.kuali.core.document.*;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryByCriteria;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.Constants;
+import org.kuali.PropertyConstants;
 import org.kuali.Constants.BudgetConstructionConstants;
 import org.kuali.Constants.ParameterValues;
-import org.kuali.PropertyConstants;
-import org.kuali.core.util.*;
-import org.kuali.module.gl.GLConstants.*;
-import org.kuali.module.gl.bo.Balance;
-import org.kuali.module.chart.bo.*;
-
-import org.apache.ojb.broker.query.*;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
-import org.apache.log4j.*;
-
-//  we need this so we can create a document
-import org.kuali.core.document.Document;
+import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.dao.DocumentDao;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
-import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.util.SpringServiceLocator.*;
-import edu.iu.uis.eden.exception.WorkflowException;
-import org.kuali.core.exceptions.*;
+import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.module.budget.bo.BudgetConstructionAccountOrganizationHierarchy;
+import org.kuali.module.budget.bo.BudgetConstructionAccountReports;
+import org.kuali.module.budget.bo.BudgetConstructionHeader;
+import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
+import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
+import org.kuali.module.budget.bo.CalculatedSalaryFoundationTrackerOverride;
+import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
+import org.kuali.module.budget.dao.GenesisDao;
+import org.kuali.module.budget.document.BudgetConstructionDocument;
+import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.chart.bo.Org;
+import org.kuali.module.financial.bo.FiscalYearFunctionControl;
+import org.kuali.module.financial.bo.FunctionControlCode;
+import org.kuali.module.gl.GLConstants.ColumnNames;
+import org.kuali.module.gl.bo.Balance;
+import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
-import org.kuali.core.bo.*;
-import org.kuali.core.datadictionary.*;
-import org.kuali.module.chart.service.*;
+import edu.iu.uis.eden.exception.WorkflowException;
 
 
 public class GenesisDaoOjb extends PersistenceBrokerDaoSupport 
@@ -485,7 +481,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         //  field list when we only need a few fields.
         if (GLUpdatesAllowed)
         {
-          getAndStoreCurrentGLBCHeaderCandidates(BaseYear);
+        getAndStoreCurrentGLBCHeaderCandidates(BaseYear);
         }
         //  we also have to read CSF for any accounts with no base budget in GL BALANCE
         //  but which pay people in budgeted positions
@@ -494,8 +490,8 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
           getCSFCandidateDocumentKeys(BaseYear);
           getCSFOverrideDeletedKeys(BaseYear);
           getCSFOverrideCandidateDocumentKeys(BaseYear);
-          getAndStoreCurrentCSFBCHeaderCandidates(BaseYear);
-        }
+        getAndStoreCurrentCSFBCHeaderCandidates(BaseYear);
+    }
         //  now we have to read the newly created documents (after workflow is
         //  finished with them, and change the status flag to correspond to the
         //  budget construction "untouched" status
@@ -546,6 +542,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                         wex.getMessage()));
                 documentsSkippedinNTS = documentsSkippedinNTS+1;
                 continue;
+
             }
             documentsCSFCreatedinNTS = documentsCSFCreatedinNTS+1;
             documentsCreatedinNTS = documentsCreatedinNTS+1;

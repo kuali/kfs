@@ -26,19 +26,18 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
-import org.kuali.core.bo.AccountingLineParser;
-
+import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.DocumentHeader;
-import org.kuali.core.document.TransactionalDocumentBase;
-import org.kuali.core.lookup.keyvalues.DisbursementVoucherDocumentationLocationValuesFinder;
-import org.kuali.core.lookup.keyvalues.PaymentMethodValuesFinder;
+import org.kuali.core.document.Copyable;
 import org.kuali.core.rules.RulesUtils;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.bo.AccountingLineParser;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.financial.bo.BasicFormatWithLineDescriptionAccountingLineParser;
 import org.kuali.module.financial.bo.DisbursementVoucherDocumentationLocation;
@@ -49,16 +48,17 @@ import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceDetail;
 import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant;
 import org.kuali.module.financial.bo.DisbursementVoucherWireTransfer;
 import org.kuali.module.financial.bo.Payee;
+import org.kuali.module.financial.lookup.keyvalues.DisbursementVoucherDocumentationLocationValuesFinder;
+import org.kuali.module.financial.lookup.keyvalues.PaymentMethodValuesFinder;
 import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
 import org.kuali.module.financial.service.FlexibleOffsetAccountService;
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
- * 
+ * This is the business object that represents the DisbursementVoucher document in Kuali.
  */
-public class DisbursementVoucherDocument extends TransactionalDocumentBase {
+public class DisbursementVoucherDocument extends AccountingDocumentBase implements Copyable {
     private Integer finDocNextRegistrantLineNbr;
     private String disbVchrContactPersonName;
     private String disbVchrContactPhoneNumber;
@@ -817,8 +817,8 @@ public class DisbursementVoucherDocument extends TransactionalDocumentBase {
      * @see org.kuali.core.document.TransactionalDocumentBase#convertIntoCopy()
      */
     @Override
-    public void convertIntoCopy() throws WorkflowException {
-        super.convertIntoCopy();
+    public void toCopy() throws WorkflowException {
+        super.toCopy();
         initiateDocument();
 
         // clear fields

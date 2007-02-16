@@ -18,7 +18,7 @@ package org.kuali.module.purap.web.struts.form;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.web.uidraw.KeyLabelPair;
+import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.bo.PurchasingItem;
@@ -86,17 +86,17 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     public PurchasingItem setupNewPurchasingItemLine() {
         return new PurchaseOrderItem();
     }
-
+    
     public PurchaseOrderVendorStipulation getAndResetNewPurchaseOrderVendorStipulationLine() {
         PurchaseOrderVendorStipulation aPurchaseOrderVendorStipulationLine = getNewPurchaseOrderVendorStipulationLine();
         setNewPurchaseOrderVendorStipulationLine(new PurchaseOrderVendorStipulation());
-
+    
         aPurchaseOrderVendorStipulationLine.setPurchaseOrderIdentifier(getPurchaseOrderDocument().getIdentifier());
         aPurchaseOrderVendorStipulationLine.setVendorStipulationAuthorEmployeeIdentifier(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
         aPurchaseOrderVendorStipulationLine.setVendorStipulationCreateDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
 
         return aPurchaseOrderVendorStipulationLine;
-    }
+}
 
     public PurchaseOrderVendorStipulation getNewPurchaseOrderVendorStipulationLine() {
         return newPurchaseOrderVendorStipulationLine;

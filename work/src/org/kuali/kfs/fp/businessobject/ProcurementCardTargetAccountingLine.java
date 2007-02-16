@@ -15,7 +15,8 @@
  */
 package org.kuali.module.financial.bo;
 
-import org.kuali.core.bo.TargetAccountingLine;
+import org.kuali.kfs.bo.TargetAccountingLine;
+
 
 
 /**

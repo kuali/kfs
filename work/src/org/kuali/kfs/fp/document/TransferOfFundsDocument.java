@@ -16,7 +16,10 @@
 package org.kuali.module.financial.document;
 
 import org.kuali.Constants;
-import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.document.AmountTotaling;
+import org.kuali.core.document.Copyable;
+import org.kuali.core.document.Correctable;
+import org.kuali.kfs.document.AccountingDocumentBase;
 
 /**
  * The Transfer of Funds (TF) document is used to transfer funds (cash) between accounts. There are two kinds of transfer
@@ -25,10 +28,8 @@ import org.kuali.core.document.TransactionalDocumentBase;
  * fund group for principal and interest payments on bonds. Non-mandatory transfers are allocations of unrestricted cash between
  * fund groups which are not required either by the terms of a loan or by other external agreements. These transfers are the most
  * commonly used throughout the university.
- * 
- * 
  */
-public class TransferOfFundsDocument extends TransactionalDocumentBase {
+public class TransferOfFundsDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling{
     private static final long serialVersionUID = -3871133713027969492L;
 
     /**

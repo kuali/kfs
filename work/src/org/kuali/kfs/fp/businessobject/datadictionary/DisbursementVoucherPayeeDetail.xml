@@ -29,7 +29,7 @@
 
             <attributeReference name="disbVchrPaymentReasonCode" sourceClassName="org.kuali.module.financial.bo.PaymentReasonCode" sourceAttributeName="code">
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.PaymentReasonValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.PaymentReasonValuesFinder" />
                 </control>
                 <description>The description of the reason for the document Payment. Select one from the pulldown list.</description>
             </attributeReference>
@@ -47,7 +47,7 @@
                 <required>true</required>
 
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.PayeeTypeValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.PayeeTypeValuesFinder" />
                 </control>
 
                 <summary>

@@ -54,7 +54,7 @@
                 <required>true</required>
 
                 <control>
-                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.TravelPrePaidExpenseTypeValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.financial.lookup.keyvalues.TravelPrePaidExpenseTypeValuesFinder" />
                 </control>
 
                 <summary>

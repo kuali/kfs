@@ -15,50 +15,39 @@
  */
 package org.kuali.module.labor.rules;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
-import org.kuali.KeyConstants;
-import org.kuali.PropertyConstants;
-import org.kuali.core.bo.AccountingLine;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.util.ErrorMap;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.financial.rules.TransactionalDocumentRuleBase;
-import org.kuali.module.gl.bo.GeneralLedgerPendingEntry;
-import org.kuali.module.labor.bo.LaborObject;
-import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 
 /**
  * Business rule(s) applicable to Benefit Expense Transfer documents.
  * 
  * 
  */
-public class BenefitExpenseTransferDocumentRule extends TransactionalDocumentRuleBase {
+public class BenefitExpenseTransferDocumentRule extends AccountingDocumentRuleBase {
 
     public BenefitExpenseTransferDocumentRule() {
     }   
     
-    protected boolean AddAccountingLineBusinessRules(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
-        return processCustomAddAccountingLineBusinessRules(transactionalDocument, accountingLine);
+    protected boolean AddAccountingLineBusinessRules(AccountingDocument accountingDocument, AccountingLine accountingLine) {
+        return processCustomAddAccountingLineBusinessRules(accountingDocument, accountingLine);
     }
     
 
     /**
      * Set attributes of an offset pending entry according to rules specific to TransferOfFundsDocument.
      * 
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#customizeOffsetGeneralLedgerPendingEntry(org.kuali.core.document.TransactionalDocument,
+     * @see org.kuali.module.financial.rules.AccountingDocumentRuleBase#customizeOffsetGeneralLedgerPendingEntry(org.kuali.core.document.AccountingDocument,
      *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry,
      *      org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     @Override
-    protected boolean customizeOffsetGeneralLedgerPendingEntry(TransactionalDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+    protected boolean customizeOffsetGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
         //offsetEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL);
         return true;
     }
@@ -71,22 +60,22 @@ public class BenefitExpenseTransferDocumentRule extends TransactionalDocumentRul
      * <li> target lines have the oposite debit/credit codes as the source lines
      * </ol>
      * 
-     * @see IsDebitUtils#isDebitConsideringNothingPositiveOnly(TransactionalDocumentRuleBase, TransactionalDocument, AccountingLine)
+     * @see IsDebitUtils#isDebitConsideringNothingPositiveOnly(AccountingDocumentRuleBase, AccountingDocument, AccountingLine)
      * 
-     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.TransactionalDocument,
+     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.AccountingDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
-    public boolean isDebit(TransactionalDocument transactionalDocument, AccountingLine accountingLine) {
+    public boolean isDebit(AccountingDocument accountingDocument, AccountingLine accountingLine) {
         // only allow income or expense
         /*if (!isIncome(accountingLine) && !isExpense(accountingLine)) {
             throw new IllegalStateException(IsDebitUtils.isDebitCalculationIllegalStateExceptionMessage);
         }
         boolean isDebit = false;
         if (accountingLine.isSourceAccountingLine()) {
-            isDebit = IsDebitUtils.isDebitConsideringNothingPositiveOnly(this, transactionalDocument, accountingLine);
+            isDebit = IsDebitUtils.isDebitConsideringNothingPositiveOnly(this, accountingDocument, accountingLine);
         }
         else if (accountingLine.isTargetAccountingLine()) {
-            isDebit = !IsDebitUtils.isDebitConsideringNothingPositiveOnly(this, transactionalDocument, accountingLine);
+            isDebit = !IsDebitUtils.isDebitConsideringNothingPositiveOnly(this, accountingDocument, accountingLine);
         }
         else {
             throw new IllegalStateException(IsDebitUtils.isInvalidLineTypeIllegalArgumentExceptionMessage);
@@ -101,15 +90,15 @@ public class BenefitExpenseTransferDocumentRule extends TransactionalDocumentRul
     /**
      * Overrides to check balances across mandator transfers and non-mandatory transfers. Also checks balances across fund groups.
      * 
-     * @see TransactionalDocumentRuleBase#isDocumentBalanceValid(TransactionalDocument)
+     * @see AccountingDocumentRuleBase#isDocumentBalanceValid(AccountingDocument)
      */
     @Override
-    protected boolean isDocumentBalanceValid(TransactionalDocument transactionalDocument) {
+    protected boolean isDocumentBalanceValid(AccountingDocument accountingDocument) {
         
         /*
-        boolean isValid = super.isDocumentBalanceValid(transactionalDocument);
+        boolean isValid = super.isDocumentBalanceValid(accountingDocument);
 
-        TransferOfFundsDocument tofDoc = (TransferOfFundsDocument) transactionalDocument;
+        TransferOfFundsDocument tofDoc = (TransferOfFundsDocument) accountingDocument;
         // make sure accounting lines balance across mandatory and non-mandatory transfers
         if (isValid) {
             isValid = isMandatoryTransferTotalAndNonMandatoryTransferTotalBalanceValid(tofDoc);
@@ -289,5 +278,10 @@ public class BenefitExpenseTransferDocumentRule extends TransactionalDocumentRul
         }*/
 
         return true;
+    }
+
+    public boolean isCredit(AccountingLine accountingLine, AccountingDocument financialDocument) {
+        // TODO Auto-generated method stub
+        return false;
     }
 }

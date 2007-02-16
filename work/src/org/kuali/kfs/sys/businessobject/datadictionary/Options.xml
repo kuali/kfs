@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kfs.bo.Options">
+        <customAttributeEnabled>false</customAttributeEnabled>
+
+        <inquiry>
+            <title>System Options Inquiry</title>
+
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+                <field attributeName="universityFiscalYear" />
+                <field attributeName="universityFiscalYearName" />
+                <field attributeName="universityFiscalYearStartYr" />
+                <field attributeName="universityFiscalYearStartMo" />
+                <field attributeName="financialBeginBalanceLoadInd" />
+                <field attributeName="budgetCheckingOptionsCode" />
+                <field attributeName="universityFinChartOfAcctCd" />
+                <field attributeName="actualFinancialBalanceTypeCd" />
+                <field attributeName="budgetCheckingBalanceTypeCd" />
+                <field attributeName="extrnlEncumFinBalanceTypCd" />
+                <field attributeName="intrnlEncumFinBalanceTypCd" />
+                <field attributeName="preencumbranceFinBalTypeCd" />
+                <field attributeName="eliminationsFinBalanceTypeCd" />
+                <field attributeName="finObjTypeExpenditureexpCd" />
+                <field attributeName="finObjTypeExpendNotExpCode" />
+                <field attributeName="finObjTypeExpNotExpendCode" />
+                <field attributeName="finObjectTypeIncomecashCode" />
+                <field attributeName="finObjTypeIncomeNotCashCd" />
+                <field attributeName="finObjTypeCshNotIncomeCd" />
+                <field attributeName="financialObjectTypeAssetsCd" />
+                <field attributeName="finObjectTypeLiabilitiesCode" />
+                <field attributeName="finObjectTypeFundBalanceCd" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>System Options Lookup</title>
+
+            <instructions>Lookup a System Options</instructions>
+
+            <defaultSort attributeName="universityFiscalYear" sortAscending="true" />
+
+            <lookupFields>
+                <lookupField attributeName="universityFiscalYear" required="false">
+                    <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.FiscalYearFinder</defaultValueFinderClass>
+                </lookupField>
+                <lookupField attributeName="universityFinChartOfAcctCd" required="false" />
+                <lookupField attributeName="actualFinancialBalanceTypeCd" required="false" />
+                <lookupField attributeName="budgetCheckingBalanceTypeCd" required="false" />
+                <lookupField attributeName="extrnlEncumFinBalanceTypCd" required="false" />
+                <lookupField attributeName="intrnlEncumFinBalanceTypCd" required="false" />
+                <lookupField attributeName="preencumbranceFinBalTypeCd" required="false" />
+                <lookupField attributeName="eliminationsFinBalanceTypeCd" required="false" />
+                <lookupField attributeName="finObjTypeExpenditureexpCd" required="false" />
+                <lookupField attributeName="finObjTypeExpendNotExpCode" required="false" />
+                <lookupField attributeName="finObjTypeExpNotExpendCode" required="false" />
+                <lookupField attributeName="finObjectTypeIncomecashCode" required="false" />
+                <lookupField attributeName="finObjTypeIncomeNotCashCd" required="false" />
+                <lookupField attributeName="finObjTypeCshNotIncomeCd" required="false" />
+                <lookupField attributeName="financialObjectTypeAssetsCd" required="false" />
+                <lookupField attributeName="finObjectTypeLiabilitiesCode" required="false" />
+                <lookupField attributeName="finObjectTypeFundBalanceCd" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="universityFiscalYear" />
+                <field attributeName="universityFiscalYearName" />
+                <field attributeName="universityFiscalYearStartYr" />
+                <field attributeName="universityFiscalYearStartMo" />
+                <field attributeName="financialBeginBalanceLoadInd" />
+                <field attributeName="budgetCheckingOptionsCode" />
+                <field attributeName="universityFinChartOfAcctCd" />
+                <field attributeName="actualFinancialBalanceTypeCd" />
+                <field attributeName="budgetCheckingBalanceTypeCd" />
+                <field attributeName="extrnlEncumFinBalanceTypCd" />
+                <field attributeName="intrnlEncumFinBalanceTypCd" />
+                <field attributeName="preencumbranceFinBalTypeCd" />
+                <field attributeName="eliminationsFinBalanceTypeCd" />
+                <field attributeName="finObjTypeExpenditureexpCd" />
+                <field attributeName="finObjTypeExpendNotExpCode" />
+                <field attributeName="finObjTypeExpNotExpendCode" />
+                <field attributeName="finObjectTypeIncomecashCode" />
+                <field attributeName="finObjTypeIncomeNotCashCd" />
+                <field attributeName="finObjTypeCshNotIncomeCd" />
+                <field attributeName="financialObjectTypeAssetsCd" />
+                <field attributeName="finObjectTypeLiabilitiesCode" />
+                <field attributeName="finObjectTypeFundBalanceCd" />
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>universityFiscalYear</titleAttribute>
+
+        <attributes>
+            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
+                <label>Fiscal Year</label>
+                <shortLabel>FY</shortLabel>
+                <required>true</required>
+                <summary>University Fiscal Year</summary>
+                <description>Indicates what fiscal year this options applies to.</description>
+            </attributeReference>
+
+            <attribute name="universityFiscalYearName" forceUppercase="true">
+                <label>Fiscal Year Name</label>
+                <shortLabel>Year Name</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>Fiscal Year Name</summary>
+                <description>The name of the fiscal year in format like: 2005-2006</description>
+            </attribute>
+
+            <attribute name="universityFiscalYearStartYr" forceUppercase="true">
+                <label>Fiscal Year Start Year</label>
+                <shortLabel>Start Year</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>Fiscal Year Start Year</summary>
+                <description>Fiscal Year Start Year.</description>
+            </attribute>
+
+            <attribute name="universityFiscalYearStartMo" forceUppercase="true">
+                <label>Fiscal Year Start Month</label>
+                <shortLabel>Start Month</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>Fiscal Year Start Month</summary>
+                <description>Fiscal Year Start Month.</description>
+            </attribute>
+
+
+            <attributeReference name="financialBeginBalanceLoadInd" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+                <label>Beginning Balances Loaded Indicator</label>
+                <shortLabel>Begin Bal. Loaded Ind</shortLabel>
+                <required>true</required>
+                <summary>Beginning Balances Loaded Indicator</summary>
+                <description>Beginning Balances Loaded Indicator</description>
+            </attributeReference>
+
+            <attributeReference name="budgetCheckingOptionsCode" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean">
+                <label>Budget Checking Options Code</label>
+                <shortLabel>Budget Option Code</shortLabel>
+                <required>true</required>
+                <summary>Budget Checking Options Code</summary>
+                <description>Budget Checking Options Code</description>
+            </attributeReference>
+
+            <attributeReference name="universityFinChartOfAcctCd" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+                <required>true</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
+                </control>
+
+            </attributeReference>
+
+            <attribute name="actualFinancialBalanceTypeCd" forceUppercase="true">
+                <label>Actual Balance Type</label>
+                <shortLabel>Actual Balance Type</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <alphaNumeric />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>Actual Balance Type</summary>
+                <description>Actual Balance Type</description>
+            </attribute>
+
+            <attribute name="extrnlEncumFinBalanceTypCd" forceUppercase="true">
+                <label>External Encumbrance Balance Type</label>
+                <shortLabel>External Encumbrance Balance Type</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <alphaNumeric />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>External Encumbrance Balance Type</summary>
+                <description>External Encumbrance Balance Type</description>
+            </attribute>
+
+            <attribute name="intrnlEncumFinBalanceTypCd" forceUppercase="true">
+                <label>Internal Encumbrance Balance Type</label>
+                <shortLabel>Internal Encumbrance Balance Type</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <alphaNumeric />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>Internal Encumbrance Balance Type</summary>
+                <description>Internal Encumbrance Balance Type</description>
+            </attribute>
+
+            <attribute name="preencumbranceFinBalTypeCd" forceUppercase="true">
+                <label>Pre-Encumbrance Balance Type</label>
+                <shortLabel>Pre-Encumbrance Balance Type</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <alphaNumeric />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>Pre-Encumbrance Balance Type</summary>
+                <description>Pre-Encumbrance Balance Type</description>
+            </attribute>
+
+            <attribute name="eliminationsFinBalanceTypeCd" forceUppercase="true">
+                <label>Eliminations Balance Type</label>
+                <shortLabel>Eliminations Balance Type</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <alphaNumeric />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>Eliminations Balance Type</summary>
+                <description>Eliminations Balance Type</description>
+            </attribute>
+
+            <attribute name="budgetCheckingBalanceTypeCd" forceUppercase="true">
+                <label>Budget Checking Balance Type</label>
+                <shortLabel>Budget Checking Balance Type</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <alphaNumeric />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>Budget Checking Balance Type</summary>
+                <description>Budget Checking Balance Type</description>
+            </attribute>
+
+            <attribute name="finObjTypeExpenditureexpCd" forceUppercase="true">
+                <label>Expenditure/Expense Object Type</label>
+                <shortLabel>Expenditure/Expense Object Type</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <alphaNumeric />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>Expenditure/Expense Object Type</summary>
+                <description>Expenditure/Expense Object Type</description>
+            </attribute>
+
+            <attribute name="finObjTypeExpendNotExpCode" forceUppercase="true">
+                <label>Expenditure Not Expense Object Type</label>
+                <shortLabel>Expenditure Not Expense Object Type</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <alphaNumeric />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>Expenditure Not Expense Object Type</summary>
+                <description>Expenditure Not Expense Object Type</description>
+            </attribute>
+
+            <attribute name="finObjTypeExpNotExpendCode" forceUppercase="true">
+                <label>Expense Not Expenditure Object Type</label>
+                <shortLabel>Expense Not Expenditure Object Type</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <alphaNumeric />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>Expense Not Expenditure Object Type</summary>
+                <description>Expense Not Expenditure Object Type</description>
+            </attribute>
+
+            <attribute name="finObjectTypeIncomecashCode" forceUppercase="true">
+                <label>Income/Cash Object Type</label>
+                <shortLabel>Income/Cash Object Type</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <alphaNumeric />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>Income/Cash Object Type</summary>
+                <description>Income/Cash Object Type</description>
+            </attribute>
+
+            <attribute name="finObjTypeIncomeNotCashCd" forceUppercase="true">
+                <label>Income Not Cash Object Type</label>
+                <shortLabel>Income Not Cash Object Type</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <alphaNumeric />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>Income Not Cash Object Type</summary>
+                <description>Income Not Cash Object Type</description>
+            </attribute>
+
+            <attribute name="finObjTypeCshNotIncomeCd" forceUppercase="true">
+                <label>Cash Not Income Object Type</label>
+                <shortLabel>Cash Not Income Object Type</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <alphaNumeric />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>Cash Not Income Object Type</summary>
+                <description>Cash Not Income Object Type</description>
+            </attribute>
+
+            <attribute name="financialObjectTypeAssetsCd" forceUppercase="true">
+                <label>Assets Object Type</label>
+                <shortLabel>Assets Object Type</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <alphaNumeric />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>Assets Object Type</summary>
+                <description>Assets Object Type</description>
+            </attribute>
+
+            <attribute name="finObjectTypeLiabilitiesCode" forceUppercase="true">
+                <label>Liabilities Object Type</label>
+                <shortLabel>Liabilities Object Type</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <alphaNumeric />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>Liabilities Object Type</summary>
+                <description>Liabilities Object Type</description>
+            </attribute>
+
+            <attribute name="finObjectTypeFundBalanceCd" forceUppercase="true">
+                <label>Fund Balance Object Type</label>
+                <shortLabel>Fund Balance Object Type</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern>
+                    <alphaNumeric />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <text size="2" />
+                </control>
+
+                <summary>Fund Balance Object Type</summary>
+                <description>Fund Balance Object Type.</description>
+            </attribute>
+
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

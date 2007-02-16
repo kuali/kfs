@@ -15,6 +15,8 @@
  */
 package org.kuali.module.gl.bo;
 
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+
 /**
  * This class...
  * 

@@ -22,16 +22,16 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.document.Document;
-import org.kuali.core.lookup.keyvalues.PaymentReasonValuesFinder;
 import org.kuali.core.rules.PreRulesContinuationBase;
 import org.kuali.core.rules.RulesUtils;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.web.uidraw.KeyLabelPair;
+import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel;
 import org.kuali.module.financial.bo.DisbursementVoucherWireTransfer;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
+import org.kuali.module.financial.lookup.keyvalues.PaymentReasonValuesFinder;
 
 /**
  * Checks warnings and prompt conditions for dv document.

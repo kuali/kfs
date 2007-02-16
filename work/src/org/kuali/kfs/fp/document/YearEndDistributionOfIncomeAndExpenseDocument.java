@@ -20,8 +20,6 @@ package org.kuali.module.financial.document;
 /**
  * Year End version of the <code>DistributionOfIncomeAndExpenseDocument</code> the only functional difference between the YearEnd
  * version and the non-yearEnd version of a document is the glpe's generation.
- * 
- * 
  */
 public class YearEndDistributionOfIncomeAndExpenseDocument extends DistributionOfIncomeAndExpenseDocument implements YearEndDocument {
 

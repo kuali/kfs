@@ -27,7 +27,7 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CreditCardDetail;
 import org.kuali.module.financial.document.CreditCardReceiptDocument;
 
-import static org.kuali.module.financial.rules.TransactionalDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
+import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 import static org.kuali.module.financial.rules.CreditCardReceiptDocumentRuleConstants.CREDIT_CARD_RECEIPT_PREFIX;
 
 /**
@@ -89,7 +89,7 @@ public class CreditCardReceiptDocumentRuleUtil {
     public static boolean areCashTotalsInvalid(CreditCardReceiptDocument ccrDocument) {
         String documentEntryName = ccrDocument.getDocumentHeader().getWorkflowDocument().getDocumentType();
 
-        boolean isInvalid = isTotalInvalid(ccrDocument, ccrDocument.getSumTotalAmount(), documentEntryName, PropertyConstants.CREDIT_CARD_RECEIPTS_TOTAL);
+        boolean isInvalid = isTotalInvalid(ccrDocument, ccrDocument.getTotalDollarAmount(), documentEntryName, PropertyConstants.CREDIT_CARD_RECEIPTS_TOTAL);
 
         return isInvalid;
     }

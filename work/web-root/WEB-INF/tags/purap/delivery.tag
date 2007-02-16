@@ -47,7 +47,7 @@
                     	onchange="submitForm()"
                     	readOnly="${true}"/>&nbsp;
                     <c:if test="${notOtherDelBldg}">
-                    	<kul:lookup boClassName="org.kuali.core.bo.Building" 
+                    	<kul:lookup boClassName="org.kuali.kfs.bo.Building" 
                     		fieldConversions="buildingName:document.deliveryBuildingName,campusCode:document.deliveryCampusCode,buildingStreetAddress:document.deliveryBuildingLine1Address,buildingAddressCityName:document.deliveryCityName,buildingAddressStateCode:document.deliveryStateCode,buildingAddressZipCode:document.deliveryPostalCode"/>
                     </c:if>
                 </td>           

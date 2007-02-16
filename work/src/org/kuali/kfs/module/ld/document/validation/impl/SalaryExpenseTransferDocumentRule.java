@@ -904,8 +904,14 @@ public class SalaryExpenseTransferDocumentRule extends TransactionalDocumentRule
      * @return true if the employee does not have any pending salary transfers.
      */
     public boolean validatePendingSalaryTransfer(String emplid) {
-//        reportError(PropertyConstants.ACCOUNT,KeyConstants.Labor.PENDING_SALARY_TRANSFER_ERROR, emplid);
-//        return false;
+        System.out.println("Testing emplid:" + emplid);
+        
+        // We must not have any pending labor ledger entries
+        if (SpringServiceLocator.getLaborLedgerPendingEntryService().hasPendingLaborLedgerEntry(emplid)) {
+           reportError(Constants.EMPLOYEE_LOOKUP_ERRORS,KeyConstants.Labor.PENDING_SALARY_TRANSFER_ERROR, emplid);
+           return false;
+        }      
+        System.out.println("LOOKS GOOD!");
         return true;
  
     }

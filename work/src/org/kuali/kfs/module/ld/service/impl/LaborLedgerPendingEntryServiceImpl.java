@@ -15,9 +15,12 @@
  */
 package org.kuali.module.labor.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.ojb.broker.query.Criteria;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.labor.bo.PendingLedgerEntry;
@@ -28,16 +31,33 @@ import org.springframework.transaction.annotation.Transactional;
 public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEntryService {
 
     private BusinessObjectService businessObjectService;
-        
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
     public boolean hasPendingLaborLedgerEntry(Account account) {
         Map fieldValues = new HashMap();
         fieldValues.put("chartOfAccountsCode", account.getChartOfAccountsCode());
         fieldValues.put("accountNumber", account.getAccountNumber());
-       
+
         return businessObjectService.countMatching(PendingLedgerEntry.class, fieldValues) > 0;
+    }
+
+    public boolean hasPendingLaborLedgerEntry(String emplid) {
+        
+        Map fieldValues = new HashMap();
+        fieldValues.put("emplid", emplid);
+        List pendingEntries = new ArrayList();
+        PendingLedgerEntry pendingEntry = new PendingLedgerEntry();
+        pendingEntries = (List) businessObjectService.findMatching(PendingLedgerEntry.class, fieldValues);
+        
+        // When the financial Document Approved Code equals 'X' it means the pending labor ledger transaction has been processed
+        for (int count = 0; count < pendingEntries.size(); count++) {
+            pendingEntry = (PendingLedgerEntry) pendingEntries.get(count);
+            if ((pendingEntry.getFinancialDocumentApprovedCode() != null) && (pendingEntry.getFinancialDocumentApprovedCode().trim().equals("X"))) 
+                return true;
+        }
+        return false;
     }
 }

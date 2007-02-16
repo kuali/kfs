@@ -36,4 +36,13 @@ public interface LaborLedgerPendingEntryService {
      */
     
     public boolean hasPendingLaborLedgerEntry(Account account);
+ 
+    /**
+     * 
+     * This method checks that the given employee has any labor ledger entries?
+     * 
+     * @param emplid 
+     * @return
+     */    
+    public boolean hasPendingLaborLedgerEntry(String emplid);
 }

@@ -15,7 +15,7 @@
  */
 package org.kuali.module.labor.web.struts.form;
 
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.labor.document.LaborDocument;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 
@@ -23,7 +23,7 @@ import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
  * This class is a base class for Labor Forms.
  * 
  */
-public class LaborDocumentFormBase extends KualiTransactionalDocumentFormBase {
+public class LaborDocumentFormBase extends KualiAccountingDocumentFormBase {
 
     public LaborDocumentFormBase() {
         super();        

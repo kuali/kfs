@@ -72,6 +72,17 @@ public interface AccountingDocument extends GeneralLedgerPostingDocument {
      */
     public Class getTargetAccountingLineClass();
     
+    /*
+     * @return Name of the document's source accounting lines
+     */
+    public String getSourceAccountingLineEntryName();
+
+
+    /*
+     * @return Name of the document's target accounting lines
+     */
+    public String getTargetAccountingLineEntryName();
+    
     /**
      * Retrieves the next line sequence number for an accounting line in the Source accounting line section on a transactional
      * document.

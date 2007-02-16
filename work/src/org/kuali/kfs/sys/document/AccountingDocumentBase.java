@@ -270,7 +270,14 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
         return new AccountingLineParserBase();
     }
     
-    
+    public String getSourceAccountingLineEntryName() {
+        return this.getSourceAccountingLineClass().getName();
+    }
+
+    public String getTargetAccountingLineEntryName() {
+        return this.getTargetAccountingLineClass().getName();
+    }
+
     /**
      * @see org.kuali.module.gl.document.GeneralLedgerPostingDocumentBase#toCopy()
      */

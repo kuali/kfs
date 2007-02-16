@@ -87,8 +87,13 @@ It's followed by 0 or more rows for the accounting lines that have already been 
 <c:set var="dataDictionaryEntryName" value="${capitalSourceOrTarget}AccountingLine"/>
 <c:set var="totalName" value="currencyFormatted${capitalSourceOrTarget}Total"/>
 <c:if test="${empty accountingLineAttributes}">
-    <dd:evalNameToMap mapName="DataDictionary.${KualiForm.docTypeName}.${sourceOrTarget}AccountingLineEntryName" returnVar="accountingLineEntryName"/>
-    <c:set var="accountingLineAttributes" value="${DataDictionary[accountingLineEntryName].attributes}" />
+    <c:if test="${isSource}">
+        <c:set var="accountingLineAttributes" value="${DataDictionary[KualiForm.document.sourceAccountingLineEntryName].attributes}" />
+    </c:if>
+    <c:if test="${!isSource}">
+            <c:set var="accountingLineAttributes" value="${DataDictionary[KualiForm.document.targetAccountingLineEntryName].attributes}" />
+    </c:if>
+
 </c:if>  
 <c:set var="hasActionsColumn" value="${empty editingMode['viewOnly']}"/>
 

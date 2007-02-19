@@ -45,9 +45,12 @@ public class PurchasingActionBase extends KualiTransactionalDocumentActionBase {
         PurchasingFormBase baseForm = (PurchasingFormBase) form;
         PurchasingDocumentBase document = (PurchasingDocumentBase)baseForm.getDocument();
         BusinessObjectService businessObjectService = SpringServiceLocator.getBusinessObjectService();
+        String refreshCaller = baseForm.getRefreshCaller();
         
         //Set a few fields on the delivery tag in a data-dependent manner (KULPURAP-260).
-        if (!(Constants.KUALI_LOOKUPABLE_IMPL.equals(baseForm.getRefreshCaller())) && (ObjectUtils.isNotNull(document.isDeliveryBuildingOther()))) {
+        if (!( ObjectUtils.nullSafeEquals( refreshCaller, Constants.KUALI_LOOKUPABLE_IMPL ) ||
+               ObjectUtils.nullSafeEquals( refreshCaller, Constants.KUALI_USER_LOOKUPABLE_IMPL ) ) && 
+             ( ObjectUtils.isNotNull( document.isDeliveryBuildingOther() ) ) ) {
             if (document.isDeliveryBuildingOther()) {
                 document.setDeliveryBuildingName("Other");
                 document.setDeliveryBuildingCode("OTH");

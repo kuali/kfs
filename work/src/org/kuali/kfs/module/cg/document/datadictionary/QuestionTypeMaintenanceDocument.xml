@@ -52,7 +52,7 @@
                 <maintainableItems>
                     <maintainableField name="questionTypeCode" required="true" />
                     <maintainableField name="questionTypeDescription" required="true" />
-                    <maintainableField name="questionTypeSortNumber" required="false" />
+                    <maintainableField name="questionTypeSortNumber" required="true" />
                     <maintainableField name="questionTypeWorkgroupName" required="false" />
                     <maintainableField name="questionTypeNotificationValue" required="false" />
 					<maintainableField name="dataObjectMaintenanceCodeActiveIndicator" required="true">

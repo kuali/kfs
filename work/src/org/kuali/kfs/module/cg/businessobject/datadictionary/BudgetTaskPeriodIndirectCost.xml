@@ -134,17 +134,6 @@
                 <description>Manual MTDC Amount</description>
             </attribute>
 
-            <attribute name="budgetPurposeCode">
-                <label>Purpose Code</label>
-                <maxLength>255</maxLength>
-                <control>
-                    <text size="10" />
-                </control>
-                <summary>Purpose Code</summary>
-                <description>Purpose Code</description>
-            </attribute>
-
-
         </attributes>
     </businessObject>
 </dictionaryEntry>

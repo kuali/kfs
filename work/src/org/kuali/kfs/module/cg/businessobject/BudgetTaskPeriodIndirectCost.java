@@ -33,9 +33,6 @@ public class BudgetTaskPeriodIndirectCost extends PersistableBusinessObjectBase 
     private KualiDecimal budgetManualIndirectCostRate; // BDGT_MAN_IDC_RT
     private KualiInteger budgetManualMtdcAmount; // BDGT_MAN_MTDC_AMT
 
-    // We will need to remove this, since this is properly storedin the parent IDC object.
-    private String budgetPurposeCode; // BDGT_PRPS_CD
-
     private BudgetTask task; // BudgetTask associated with this taskPeriodLine.
     private BudgetPeriod period; // BudgetPeriod associated with this taskPeriodLine.
 
@@ -184,26 +181,6 @@ public class BudgetTaskPeriodIndirectCost extends PersistableBusinessObjectBase 
      */
     public void setBudgetManualMtdcAmount(KualiInteger budgetManualMtdcAmount) {
         this.budgetManualMtdcAmount = budgetManualMtdcAmount;
-    }
-
-    /**
-     * Gets the budgetPurposeCode attribute.
-     * 
-     * @return Returns the budgetPurposeCode
-     * 
-     */
-    public String getBudgetPurposeCode() {
-        return budgetPurposeCode;
-    }
-
-    /**
-     * Sets the budgetPurposeCode attribute.
-     * 
-     * @param budgetPurposeCode The budgetPurposeCode to set.
-     * 
-     */
-    public void setBudgetPurposeCode(String budgetPurposeCode) {
-        this.budgetPurposeCode = budgetPurposeCode;
     }
 
     /**

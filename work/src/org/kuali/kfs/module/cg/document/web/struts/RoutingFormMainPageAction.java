@@ -231,15 +231,16 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
 
         String refreshCaller = request.getParameter(Constants.REFRESH_CALLER);
         // check to see if we are coming back from a lookup
-        if (Constants.KUALI_LOOKUPABLE_IMPL.equals(refreshCaller)) {
+        if (Constants.KUALI_LOOKUPABLE_IMPL.equals(refreshCaller) ||
+                Constants.KUALI_USER_LOOKUPABLE_IMPL.equals(refreshCaller)) {
             if (request.getParameter("document.routingFormAgency.agencyNumber") != null) {
                 // coming back from an Agency lookup - Agency selected
                 routingFormDocument.setRoutingFormAgencyToBeNamedIndicator(false);
             }
             else if ("true".equals(request.getParameter("document.routingFormAgencyToBeNamedIndicator"))) {
                 // coming back from Agency lookup - To Be Named selected
-                routingFormDocument.getRoutingFormAgency().getAgency().setFullName(null);
-                routingFormDocument.getRoutingFormAgency().refresh();
+                routingFormDocument.getRoutingFormAgency().setAgencyNumber(null);
+                routingFormDocument.getRoutingFormAgency().refreshReferenceObject("agency");
             }
             else if (request.getParameter("document.agencyFederalPassThroughNumber") != null) {
                 // coming back from Agency Federal Pass Through lookup - Agency selected
@@ -250,8 +251,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
                 routingFormDocument.setAgencyFederalPassThroughNumber(null);
                 routingFormDocument.refreshReferenceObject("federalPassThroughAgency");
             }
-        } else if (Constants.KUALI_USER_LOOKUPABLE_IMPL.equals(refreshCaller)) {
-            if (request.getParameter("newRoutingFormPerson.personSystemIdentifier") != null) {
+            else if (request.getParameter("newRoutingFormPerson.personSystemIdentifier") != null) {
                 RoutingFormPersonnel newRoutingFormPerson = routingForm.getNewRoutingFormPerson();
 
                 // coming back from new Person lookup - person selected. Unset TBN indicated and set chart / org.

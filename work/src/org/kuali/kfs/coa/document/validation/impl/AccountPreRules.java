@@ -199,19 +199,6 @@ public class AccountPreRules extends MaintenancePreRulesBase {
                 newAccount.setAccountEffectiveDate(ts);
             }
         }
-        // On new Accounts acct_state_cd is defaulted to the value of "IN"
-        // TODO: this is not needed any more, is in maintdoc xml defaults
-        if (StringUtils.isBlank(copyAccount.getAccountStateCode())) {
-            String defaultStateCode = configService.getApplicationParameterValue(CHART_MAINTENANCE_EDOC, DEFAULT_STATE_CODE);
-            newAccount.setAccountStateCode(defaultStateCode);
-        }
-
-        // if the account type code is left blank it will default to NA.
-        // TODO: this is not needed any more, is in maintdoc xml defaults
-        if (StringUtils.isBlank(copyAccount.getAccountTypeCode())) {
-            String defaultAccountTypeCode = configService.getApplicationParameterValue(CHART_MAINTENANCE_EDOC, DEFAULT_ACCOUNT_TYPE_CODE);
-            newAccount.setAccountTypeCode(defaultAccountTypeCode);
-        }
     }
 
     // lookup state and city from populated zip, set the values on the form

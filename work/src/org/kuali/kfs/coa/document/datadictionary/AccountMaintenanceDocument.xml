@@ -96,7 +96,9 @@
                     <maintainableField name="accountStreetAddress" required="true" />
                     <maintainableField name="accountOffCampusIndicator" required="false" />
                     <maintainableField name="accountClosedIndicator" required="false" />
-                    <maintainableField name="accountTypeCode" required="true" />
+                    <maintainableField name="accountTypeCode" required="true">
+                    	<defaultValue>NA</defaultValue>
+                    </maintainableField>
                     <maintainableField name="subFundGroupCode" required="true" webUILeaveFieldFunction="onblur_subFundGroup" webUILeaveFieldCallbackFunction="checkRestrictedStatusCode_Callback" />
                     <!--  comment programCode out if not in use at your institution -->
                     <maintainableField name="programCode" required="false" />

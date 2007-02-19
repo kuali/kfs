@@ -137,6 +137,7 @@
                 <shortLabel>Not. Group</shortLabel>
 
                 <maxLength>30</maxLength>
+                <required>false</required>
 
                 <control>
                     <text size="32" />

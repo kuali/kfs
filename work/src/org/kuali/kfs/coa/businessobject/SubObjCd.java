@@ -33,6 +33,24 @@ public class SubObjCd extends PersistableBusinessObjectBase {
     public SubObjCd() {
 
     }
+    /**
+     * 
+     * Constructs an active SubObjCd.java with the given primary key.
+     * 
+     * @param universityFiscalYear
+     * @param chartOfAccountsCode
+     * @param accountNumber
+     * @param financialObjectCode
+     * @param financialSubObjectCode
+     */
+    public SubObjCd(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode) {
+        this.universityFiscalYear = universityFiscalYear;
+        this.chartOfAccountsCode = chartOfAccountsCode;
+        this.accountNumber = accountNumber;
+        this.financialObjectCode = financialObjectCode;
+        this.financialSubObjectCode = financialSubObjectCode;
+        this.financialSubObjectActiveIndicator = true;
+    }
 
     private String chartOfAccountsCode;
     private String accountNumber;

@@ -606,7 +606,7 @@
 <class-descriptor class="org.kuali.module.purap.document.RequisitionDocument" table="PUR_REQS_T">
 	<field-descriptor name="identifier" column="REQS_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="REQS_ID"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="documentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 	<field-descriptor name="fundingSourceCode" column="FND_SRC_CD" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="requisitionSourceCode" column="REQS_SRC_CD" jdbc-type="VARCHAR" index="true"/>
@@ -842,7 +842,7 @@
 <class-descriptor class="org.kuali.module.purap.document.PurchaseOrderDocument" table="PUR_PO_T">
 	<field-descriptor name="identifier" column="PO_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="PO_ID"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="documentNumber" column="DOC_HDR_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="postingYear" column="PO_ENCUM_FSCL_YR" jdbc-type="INTEGER"/>
 	<field-descriptor name="requisitionIdentifier" column="REQS_ID" jdbc-type="INTEGER"/>
@@ -1033,7 +1033,7 @@
 	<field-descriptor name="creditMemoIdentifier" column="CRDT_MEMO_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="CRDT_MEMO_ID"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="documentHeaderIdentifier" column="DOC_HDR_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="documentHeaderIdentifier" column="FDOC_NBR" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER" index="true"/>
 	<field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER" index="true"/>
 	<field-descriptor name="vendorAddressGeneratedIdentifier" column="VNDR_ADDR_GNRTD_ID" jdbc-type="INTEGER" index="true"/>
@@ -1102,7 +1102,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="paymentRequestStatusCode" column="PMT_RQST_STAT_CD" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="documentHeaderIdentifier" column="DOC_HDR_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="documentHeaderIdentifier" column="FDOC_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="purchaseOrderNumber" column="PO_NBR" jdbc-type="INTEGER" index="true"/>
 	<field-descriptor name="purchaseOrderEncumbranceFiscalYear" column="PO_ENCUM_FSCL_YR" jdbc-type="INTEGER"/>
 	<field-descriptor name="purchaseOrderClassificationTypeDescription" column="PO_CLSIF_TYP_DESC" jdbc-type="VARCHAR"/>
@@ -1523,7 +1523,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="purapDocumentIdentifier" column="PO_ID" jdbc-type="INTEGER" index="true"/>
-	<field-descriptor name="documentHeaderIdentifier" column="DOC_HDR_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="documentHeaderIdentifier" column="FDOC_NBR" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="oldStatusCode" column="OLD_PO_STAT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="newStatusCode" column="NEW_PO_STAT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="statusHistoryTimestamp" column="PO_STATHST_TS" jdbc-type="TIMESTAMP"/>
@@ -1826,7 +1826,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="purchaseOrderIdentifier" column="PO_ID" jdbc-type="INTEGER" index="true"/>
-	<field-descriptor name="documentHeaderIdentifier" column="DOC_HDR_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="documentHeaderIdentifier" column="FDOC_NBR" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="capitalAssetManagementStatusCode" column="CM_STAT_CD" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="capitalAssetManagementTypeIndicator" column="CM_TYP_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="capitalAssetManagementSystemIdentifier" column="CM_SYS_ID" jdbc-type="INTEGER"/>

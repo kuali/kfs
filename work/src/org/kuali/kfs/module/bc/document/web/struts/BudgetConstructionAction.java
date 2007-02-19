@@ -33,6 +33,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiDocumentActionBase;
+import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
@@ -48,7 +49,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * need to figure out if this should extend KualiAction, KualiDocumentActionBase or
  * KualiTransactionDocumentActionBase
  */
-public class BudgetConstructionAction extends KualiDocumentActionBase {
+public class BudgetConstructionAction extends KualiTransactionalDocumentActionBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SalarySettingAction.class);
     
     /**

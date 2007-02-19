@@ -24,7 +24,9 @@
     transactionalDocument="false"
 	>
 
-	<kul:hiddenDocumentFields />
+	<kul:hiddenDocumentFields
+		isFinancialDocument="true"
+		isTransactionalDocument="false" />
 
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <%--
@@ -33,6 +35,7 @@
         includePostingYearRefresh="true"
         postingYearAttributes="${DataDictionary.KualiBudgetAdjustmentDocument.attributes}" />
 --%>
+    <bc:systemInformation />
 
     <bc:budgetConstructionRevenueLines />
 

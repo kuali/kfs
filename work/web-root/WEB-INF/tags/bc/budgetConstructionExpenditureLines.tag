@@ -51,37 +51,39 @@
 				</th>
 			</tr>
 
-            <logic:iterate indexId="ctr" name="KualiForm" property="document.pendingBudgetConstructionGeneralLedgerExpenditure" id="currentLine">
-            <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditure[${ctr}].documentNumber" />
-            <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditure[${ctr}].universityFiscalYear" />
-            <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditure[${ctr}].chartOfAccountsCode" />
-            <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditure[${ctr}].accountNumber" />
-            <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditure[${ctr}].subAccountNumber" />
-            <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditure[${ctr}].financialBalanceTypeCode" />
-            <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditure[${ctr}].financialObjectTypeCode" />
-            <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditure[${ctr}].versionNumber" />
+			<c:forEach items="${KualiForm.document.pendingBudgetConstructionGeneralLedgerExpenditure}" var="item" varStatus="status" >
+
+
+            <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditure[${status.index}].documentNumber"/>
+            <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditure[${status.index}].universityFiscalYear"/>
+            <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditure[${status.index}].chartOfAccountsCode"/>
+            <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditure[${status.index}].accountNumber"/>
+            <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditure[${status.index}].subAccountNumber"/>
+            <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditure[${status.index}].financialBalanceTypeCode"/>
+            <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditure[${status.index}].financialObjectTypeCode"/>
+            <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditure[${status.index}].versionNumber"/>
             <tr>
               <td valign=top nowrap><div align="left"><span>
-                  <kul:htmlControlAttribute attributeEntry="${pbglExpenditureAttributes.financialObjectCode}" property="document.pendingBudgetConstructionGeneralLedgerExpenditure[${ctr}].financialObjectCode" readOnly="true"/>
+                  <kul:htmlControlAttribute attributeEntry="${pbglExpenditureAttributes.financialObjectCode}" property="document.pendingBudgetConstructionGeneralLedgerExpenditure[${status.index}].financialObjectCode" readOnly="true"/>
               </span></div></td>
               <td valign=top nowrap><div align="left"><span>
-                  <kul:htmlControlAttribute attributeEntry="${pbglExpenditureAttributes.financialSubObjectCode}" property="document.pendingBudgetConstructionGeneralLedgerExpenditure[${ctr}].financialSubObjectCode" readOnly="true"/>
+                  <kul:htmlControlAttribute attributeEntry="${pbglExpenditureAttributes.financialSubObjectCode}" property="document.pendingBudgetConstructionGeneralLedgerExpenditure[${status.index}].financialSubObjectCode" readOnly="true"/>
               </span></div></td>
               <td valign=top nowrap><div align="right"><span>
-                  <kul:htmlControlAttribute attributeEntry="${pbglExpenditureAttributes.financialBeginningBalanceLineAmount}" property="document.pendingBudgetConstructionGeneralLedgerExpenditure[${ctr}].financialBeginningBalanceLineAmount" readOnly="true"/>
+                  <kul:htmlControlAttribute attributeEntry="${pbglExpenditureAttributes.financialBeginningBalanceLineAmount}" property="document.pendingBudgetConstructionGeneralLedgerExpenditure[${status.index}].financialBeginningBalanceLineAmount" readOnly="true"/>
               </span></div></td>
               <td valign=top nowrap><div align="right"><span>
-                  <kul:htmlControlAttribute attributeEntry="${pbglExpenditureAttributes.accountLineAnnualBalanceAmount}" property="document.pendingBudgetConstructionGeneralLedgerExpenditure[${ctr}].accountLineAnnualBalanceAmount" styleClass="amount" readOnly="false"/>
+                  <kul:htmlControlAttribute attributeEntry="${pbglExpenditureAttributes.accountLineAnnualBalanceAmount}" property="document.pendingBudgetConstructionGeneralLedgerExpenditure[${status.index}].accountLineAnnualBalanceAmount" styleClass="amount" readOnly="false"/>
               </span></div></td>
 	              <td><div align=center>
-	                   <html:image src="images/tinybutton-view.gif" styleClass="tinybutton" property="methodToCall.performMonthlyBudget.line${ctr}" title="View Month" alt="View Month"/>
+	                   <html:image src="images/tinybutton-view.gif" styleClass="tinybutton" property="methodToCall.performMonthlyBudget.line${status.index}" title="View Month" alt="View Month"/>
 <%--
 	                   methodToCall.headerTab.headerDispatch.savePersonnel.navigateTo.parameters.x
 --%>			
 	              </div></td>
 	              <td></td>
             </tr>
-            </logic:iterate>
+			</c:forEach>
 <%--
 			<c:forEach items="${KualiForm.document.pendingBudgetConstructionGeneralLedgerExpenditure}" var="item" >
 				<tr>

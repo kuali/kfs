@@ -29,8 +29,10 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.module.cg.lookup.valueFinder.NextProposalNumberFinder;
+import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganization;
+import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
 import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 
@@ -104,8 +106,8 @@ public class Proposal extends PersistableBusinessObjectBase {
         this.setProposalStatusCode(PROPOSAL_CODE);
 
         //Values coming from RoutingFormDocument (ER_RF_DOC_T)
-        this.setProposalProjectTitle(routingFormDocument.getRoutingFormProjectTitle().substring(0, 250));
-        this.setProposalPurposeCode(routingFormDocument.getRoutingFormPurposeCode());
+        this.setProposalProjectTitle(routingFormDocument.getRoutingFormProjectTitle().length() > 250 ? routingFormDocument.getRoutingFormProjectTitle().substring(0, 250) : routingFormDocument.getRoutingFormProjectTitle());
+        this.setProposalPurposeCode("A");
         this.setProposalAwardTypeCode("N");
         this.setGrantNumber(routingFormDocument.getGrantNumber());
         this.setCfdaNumber(routingFormDocument.getRoutingFormCatalogOfFederalDomesticAssistanceNumber());
@@ -130,6 +132,26 @@ public class Proposal extends PersistableBusinessObjectBase {
             this.getProposalSubcontractors().add(new ProposalSubcontractor(newProposalNumber, routingFormSubcontractor));
         }
 
+        //Get the RF Primary Project Director
+        RoutingFormPersonnel projectDirector = null;
+
+        for (RoutingFormPersonnel routingFormPerson : routingFormDocument.getRoutingFormPersonnel()) {
+            if (KraConstants.PERSON_ROLE_CODE_PD.equals(routingFormPerson.getPersonRoleCode())) {
+                projectDirector = routingFormPerson;
+                
+                this.getProposalProjectDirectors().add(new ProposalProjectDirector(projectDirector, newProposalNumber, true));
+                
+                ProposalOrganization projectDirectorOrganization = new ProposalOrganization();
+                projectDirectorOrganization.setProposalNumber(newProposalNumber);
+                projectDirectorOrganization.setChartOfAccountsCode(projectDirector.getChartOfAccountsCode());
+                projectDirectorOrganization.setOrganizationCode(projectDirector.getOrganizationCode());
+                projectDirectorOrganization.setProposalPrimaryOrganizationIndicator(true);
+                
+                this.getProposalOrganizations().add(projectDirectorOrganization);
+                break;
+            }
+        }
+        
         for (RoutingFormOrganization routingFormOrganization : routingFormDocument.getRoutingFormOrganizations()) {
             //construct a new ProposalOrganization using the current RoutingFormOrganization as a template.
             ProposalOrganization proposalOrganization = new ProposalOrganization(newProposalNumber, routingFormOrganization);
@@ -142,12 +164,7 @@ public class Proposal extends PersistableBusinessObjectBase {
         
         //Can't do yet?
         this.setProposalSubmissionDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
-        //can't do Project Director until RoutingFormPersonnel is done.
-        /**
-          - er.er_rf_prjdr_t.person_unvl_id - person_unvl_id
-          - er.er_rf_prjdr_t.prpsl_prm_pjd_ind - prpsl_prmprjdr_ind
-        */
-        
+
     }
     
     /**

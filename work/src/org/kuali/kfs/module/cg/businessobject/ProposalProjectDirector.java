@@ -19,6 +19,7 @@ package org.kuali.module.cg.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
 
 /**
  * 
@@ -39,6 +40,16 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase {
 
     }
 
+    /**
+     * Default constructor.
+     */
+    public ProposalProjectDirector(RoutingFormPersonnel routingFormProjectDirector, Long proposalNumber, boolean primaryProjectDirector) {
+        this.setProposalNumber(proposalNumber);
+        this.setPersonUniversalIdentifier(routingFormProjectDirector.getPersonSystemIdentifier());
+        this.setProposalPrimaryProjectDirectorIndicator(primaryProjectDirector);
+    }
+
+    
     /**
      * Gets the personUniversalIdentifier attribute.
      * 

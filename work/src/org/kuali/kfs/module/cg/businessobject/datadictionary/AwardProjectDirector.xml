@@ -90,8 +90,8 @@
 			</attribute>
 
             <attribute name="personUniversalIdentifier" forceUppercase="true">
-                <label>Person Universal Identifier</label>
-                <shortLabel>Identifier</shortLabel>
+                <label>Project Director ID</label>
+                <shortLabel>Proj Dir ID</shortLabel>
 
                 <maxLength>10</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>

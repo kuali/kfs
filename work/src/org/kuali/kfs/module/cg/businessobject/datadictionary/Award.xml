@@ -86,6 +86,7 @@
                 <lookupField attributeName="financialSystemWorkgroupId" required="false" />
                 <lookupField attributeName="awardPurpose" required="false" />
 				<lookupField attributeName="awardSubcontractors.subcontractorNumber" required="false" />
+				<lookupField attributeName="awardProjectDirectors.personUniversalIdentifier" required="false" />
 				<lookupField attributeName="awardOrganizations.organizationCode" required="false" />
                 <lookupField attributeName="awardAccounts.accountNumber" required="false" />
             </lookupFields>
@@ -117,6 +118,11 @@
             
             <attributeReference name="awardSubcontractors.subcontractorNumber" sourceClassName="org.kuali.module.cg.bo.AwardSubcontractor" sourceAttributeName="awardSubcontractorNumber">
 				<summary>Award Subcontractor Number</summary>
+   				<description>Insert desc here...</description>
+            </attributeReference>
+			
+            <attributeReference name="awardProjectDirectors.personUniversalIdentifier" sourceClassName="org.kuali.module.cg.bo.AwardProjectDirector" sourceAttributeName="personUniversalIdentifier">
+				<summary>Award Project Director ID</summary>
    				<description>Insert desc here...</description>
             </attributeReference>
 			

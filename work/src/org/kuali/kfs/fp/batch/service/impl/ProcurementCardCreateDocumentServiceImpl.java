@@ -276,8 +276,8 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
                 errorText = StringUtils.replace(errorText, messages[i] + ".", "", countMatches);
             }
             // In case errorText is still too long, truncate it and indicate so.
-            int documentExplanationMaxLength = dataDictionaryService.getAttributeMaxLength(AttributeReferenceDummy.class.getName(), PropertyConstants.DOCUMENT_EXPLANATION);
-            if (errorText.length() > documentExplanationMaxLength) {
+            Integer documentExplanationMaxLength = dataDictionaryService.getAttributeMaxLength(AttributeReferenceDummy.class.getName(), PropertyConstants.DOCUMENT_EXPLANATION);
+            if (documentExplanationMaxLength != null && errorText.length() > documentExplanationMaxLength.intValue()) {
                 String truncatedMessage = " ... TRUNCATED.";
                 errorText = errorText.substring(0, documentExplanationMaxLength - truncatedMessage.length()) + truncatedMessage;
             }

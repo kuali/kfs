@@ -28,7 +28,6 @@ import org.kuali.PropertyConstants;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.InfrastructureException;
-import org.kuali.core.exceptions.UnknownDocumentIdException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
@@ -37,7 +36,6 @@ import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.service.CashReceiptService;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.iu.uis.eden.exception.DocumentNotFoundException;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 @Transactional
@@ -189,11 +187,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
                 UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
 
                 workflowDocument = getWorkflowDocumentService().createWorkflowDocument(documentHeaderId, user);
-            }
-            catch (DocumentNotFoundException e) {
-                throw new UnknownDocumentIdException("no document found for documentHeaderId '" + docHeader.getDocumentNumber() + "'", e);
-            }
-            catch (WorkflowException e) {
+            } catch (WorkflowException e) {
                 throw new InfrastructureException("unable to retrieve workflow document for documentHeaderId '" + docHeader.getDocumentNumber() + "'", e);
             }
 

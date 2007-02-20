@@ -24,14 +24,13 @@ import javax.xml.xpath.XPath;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.workflow.KualiWorkflowUtils;
 
+import edu.iu.uis.eden.engine.RouteContext;
 import edu.iu.uis.eden.exception.EdenUserNotFoundException;
 import edu.iu.uis.eden.routeheader.DocumentContent;
 import edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue;
 import edu.iu.uis.eden.routetemplate.AbstractRoleAttribute;
-import edu.iu.uis.eden.routetemplate.InitiatorRoleAttribute;
 import edu.iu.uis.eden.routetemplate.ResolvedQualifiedRole;
 import edu.iu.uis.eden.routetemplate.Role;
-import edu.iu.uis.eden.routetemplate.RouteContext;
 import edu.iu.uis.eden.user.WorkflowUserId;
 
 public class ResearchProjectDirectorRoleAttribute extends AbstractRoleAttribute {

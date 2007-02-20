@@ -47,6 +47,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import edu.iu.uis.eden.WorkflowServiceErrorImpl;
+import edu.iu.uis.eden.engine.RouteContext;
 import edu.iu.uis.eden.exception.EdenUserNotFoundException;
 import edu.iu.uis.eden.lookupable.Field;
 import edu.iu.uis.eden.lookupable.Row;
@@ -55,7 +56,6 @@ import edu.iu.uis.eden.plugin.attributes.WorkflowAttribute;
 import edu.iu.uis.eden.routeheader.DocumentContent;
 import edu.iu.uis.eden.routetemplate.ResolvedQualifiedRole;
 import edu.iu.uis.eden.routetemplate.Role;
-import edu.iu.uis.eden.routetemplate.RouteContext;
 import edu.iu.uis.eden.user.AuthenticationUserId;
 import edu.iu.uis.eden.user.UserId;
 import edu.iu.uis.eden.util.Utilities;
@@ -412,12 +412,12 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
                 }
                 else {
                     if (!KualiWorkflowUtils.isTargetLineOnly(docTypeName)) {
-                        NodeList sourceLineNodes = (NodeList) xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.getSourceAccountingLineClassName((AccountingDocument) docContent.getDocument())), docContent.getDocument(), XPathConstants.NODESET);
+                        NodeList sourceLineNodes = (NodeList) xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.getSourceAccountingLineClassName(docTypeName)), docContent.getDocument(), XPathConstants.NODESET);
                         String totalDollarAmount = String.valueOf(calculateTotalDollarAmount(xpath, sourceLineNodes));
                         fiscalOfficers.addAll(getFiscalOfficerCriteria(xpath, sourceLineNodes, roleName, totalDollarAmount));
                     }
                     if (!KualiWorkflowUtils.isSourceLineOnly(docTypeName)) {
-                        NodeList targetLineNodes = (NodeList) xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.getTargetAccountingLineClassName((AccountingDocument) docContent.getDocument())), docContent.getDocument(), XPathConstants.NODESET);
+                        NodeList targetLineNodes = (NodeList) xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.getTargetAccountingLineClassName(docTypeName)), docContent.getDocument(), XPathConstants.NODESET);
                         String totalDollarAmount = String.valueOf(calculateTotalDollarAmount(xpath, targetLineNodes));
                         fiscalOfficers.addAll(getFiscalOfficerCriteria(xpath, targetLineNodes, roleName, totalDollarAmount));
                     }

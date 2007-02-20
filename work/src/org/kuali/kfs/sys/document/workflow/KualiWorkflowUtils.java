@@ -44,9 +44,9 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
 import edu.iu.uis.eden.doctype.DocumentType;
+import edu.iu.uis.eden.engine.RouteContext;
 import edu.iu.uis.eden.lookupable.Field;
 import edu.iu.uis.eden.lookupable.Row;
-import edu.iu.uis.eden.routetemplate.RouteContext;
 import edu.iu.uis.eden.routetemplate.xmlrouting.WorkflowFunctionResolver;
 import edu.iu.uis.eden.routetemplate.xmlrouting.WorkflowNamespaceContext;
 
@@ -195,41 +195,67 @@ public class KualiWorkflowUtils {
     }
 
     /**
-     * This method uses the AccountingDocument to get the name of the source accounting line class for a
-     * given workflow documentTypeName. It is intended for use by our workflow attributes when building xpath expressions
+     * This method uses the document type name to get the AccountingDocument implementation class from the data dictionary,
+     * creates a new instance and uses the getSourceAccountingLine method to get the name of the source accounting line class.
+     * It is intended for use by our workflow attributes when building xpath expressions
      * 
      * @param documentTypeName the document type name to use when querying the TransactionalDocumentDataDictionaryService
      * @return the name of the source accounting line class associated with the specified workflow document type name
      */
-    public static final String getSourceAccountingLineClassName(AccountingDocument document) {
-        Class sourceAccountingLineClass = document.getSourceAccountingLineClass();
-        String sourceAccountingLineClassName = null;
-        if (sourceAccountingLineClass != null) {
-            sourceAccountingLineClassName = sourceAccountingLineClass.getName();
+    public static final String getSourceAccountingLineClassName(String documentTypeName) {
+        Class documentClass = SpringServiceLocator.getDataDictionaryService().getDocumentClassByTypeName(documentTypeName);
+        if (!AccountingDocument.class.isAssignableFrom(documentClass)) {
+            throw new IllegalArgumentException("getSourceAccountingLineClassName method of KualiWorkflowUtils requires a documentTypeName String that corresponds to a class that implments AccountingDocument");
         }
-        else {
-            sourceAccountingLineClassName = SourceAccountingLine.class.getName();
+        try {
+            Class sourceAccountingLineClass = ((AccountingDocument)documentClass.newInstance()).getSourceAccountingLineClass();
+            String sourceAccountingLineClassName = null;
+            if (sourceAccountingLineClass != null) {
+                sourceAccountingLineClassName = sourceAccountingLineClass.getName();
+            }
+            else {
+                sourceAccountingLineClassName = SourceAccountingLine.class.getName();
+            }
+            return sourceAccountingLineClassName;
         }
-        return sourceAccountingLineClassName;
+        catch (InstantiationException e) {
+            throw new RuntimeException("getSourceAccountingLineClassName method of KualiWorkflowUtils caught InstantiationException while try to create instance of class: " + documentClass);
+        }
+        catch (IllegalAccessException e) {
+            throw new RuntimeException("getSourceAccountingLineClassName method of KualiWorkflowUtils caught IllegalAccessException while try to create instance of class: " + documentClass);
+        }
     }
 
     /**
-     * This method uses the AccountingDocument to get the name of the target accounting line class for a
-     * given workflow documentTypeName. It is intended for use by our workflow attributes when building xpath expressions
+     * This method uses the document type name to get the AccountingDocument implementation class from the data dictionary,
+     * creates a new instance and uses the getTargetAccountingLine method to get the name of the target accounting line class.
+     * It is intended for use by our workflow attributes when building xpath expressions
      * 
      * @param documentTypeName the document type name to use when querying the TransactionalDocumentDataDictionaryService
      * @return the name of the target accounting line class associated with the specified workflow document type name
      */
-    public static final String getTargetAccountingLineClassName(AccountingDocument document) {
-        Class targetAccountingLineClass = document.getTargetAccountingLineClass();
-        String targetAccountingLineClassName = null;
-        if (targetAccountingLineClass != null) {
-            targetAccountingLineClassName = targetAccountingLineClass.getName();
+    public static final String getTargetAccountingLineClassName(String documentTypeName) {
+        Class documentClass = SpringServiceLocator.getDataDictionaryService().getDocumentClassByTypeName(documentTypeName);
+        if (!AccountingDocument.class.isAssignableFrom(documentClass)) {
+            throw new IllegalArgumentException("getTargetAccountingLineClassName method of KualiWorkflowUtils requires a documentTypeName String that corresponds to a class that implments AccountingDocument");
         }
-        else {
-            targetAccountingLineClassName = TargetAccountingLine.class.getName();
+        try {
+            Class targetAccountingLineClass = ((AccountingDocument)documentClass.newInstance()).getTargetAccountingLineClass();
+            String targetAccountingLineClassName = null;
+            if (targetAccountingLineClass != null) {
+                targetAccountingLineClassName = targetAccountingLineClass.getName();
+            }
+            else {
+                targetAccountingLineClassName = TargetAccountingLine.class.getName();
+            }
+            return targetAccountingLineClassName;
         }
-        return targetAccountingLineClassName;
+        catch (InstantiationException e) {
+            throw new RuntimeException("getTargetAccountingLineClassName method of KualiWorkflowUtils caught InstantiationException while try to create instance of class: " + documentClass);
+        }
+        catch (IllegalAccessException e) {
+            throw new RuntimeException("getTargetAccountingLineClassName method of KualiWorkflowUtils caught IllegalAccessException while try to create instance of class: " + documentClass);
+        }
     }
 
     /**

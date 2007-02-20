@@ -29,10 +29,10 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine;
 import org.kuali.module.financial.document.BudgetAdjustmentDocument;
 
+import edu.iu.uis.eden.engine.RouteContext;
 import edu.iu.uis.eden.engine.RouteHelper;
 import edu.iu.uis.eden.engine.node.SplitNode;
 import edu.iu.uis.eden.engine.node.SplitResult;
-import edu.iu.uis.eden.routetemplate.RouteContext;
 
 /**
  * Checks for conditions on a Budget Adjustment document that allow auto-approval by the initiator. If these conditions are not met,

@@ -44,11 +44,11 @@ import org.w3c.dom.NodeList;
 
 import edu.iu.uis.eden.WorkflowServiceErrorImpl;
 import edu.iu.uis.eden.doctype.DocumentType;
+import edu.iu.uis.eden.engine.RouteContext;
 import edu.iu.uis.eden.lookupable.Field;
 import edu.iu.uis.eden.lookupable.Row;
 import edu.iu.uis.eden.plugin.attributes.WorkflowAttribute;
 import edu.iu.uis.eden.routeheader.DocumentContent;
-import edu.iu.uis.eden.routetemplate.RouteContext;
 import edu.iu.uis.eden.routetemplate.RuleExtension;
 import edu.iu.uis.eden.routetemplate.RuleExtensionValue;
 import edu.iu.uis.eden.util.Utilities;
@@ -414,13 +414,13 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
                     }
                     else {
                         if (KualiWorkflowUtils.isSourceLineOnly(docType.getName())) {
-                            xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getSourceAccountingLineClassName((AccountingDocument) docContent.getDocument())).append("/account").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
+                            xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getSourceAccountingLineClassName(docType.getName())).append("/account").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
                         }
                         else if (KualiWorkflowUtils.isTargetLineOnly(docType.getName())) {
-                            xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getTargetAccountingLineClassName((AccountingDocument) docContent.getDocument())).append("/account").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
+                            xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getTargetAccountingLineClassName(docType.getName())).append("/account").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
                         }
                         else {
-                            xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getSourceAccountingLineClassName((AccountingDocument) docContent.getDocument())).append("/account").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).append(" | ").append(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getTargetAccountingLineClassName((AccountingDocument) docContent.getDocument())).append("/account").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
+                            xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getSourceAccountingLineClassName(docType.getName())).append("/account").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).append(" | ").append(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getTargetAccountingLineClassName(docType.getName())).append("/account").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
                         }
                     }
                     nodes = (NodeList) xpath.evaluate(xpathExp, docContent.getDocument(), XPathConstants.NODESET);
@@ -462,15 +462,15 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
                     return null;
                 }
                 else if (KualiWorkflowUtils.isSourceLineOnly(docType.getName())) {
-                    xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getSourceAccountingLineClassName((AccountingDocument) docContent.getDocument())).append("/overrideCode").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
+                    xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getSourceAccountingLineClassName(docType.getName())).append("/overrideCode").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
                     break;
                 }
                 else if (KualiWorkflowUtils.isTargetLineOnly(docType.getName())) {
-                    xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getTargetAccountingLineClassName((AccountingDocument) docContent.getDocument())).append("/overrideCode").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
+                    xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getTargetAccountingLineClassName(docType.getName())).append("/overrideCode").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
                     break;
                 }
                 else if (docType.getName().equals("KualiFinancialDocument")) {
-                    xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getSourceAccountingLineClassName((AccountingDocument) docContent.getDocument())).append("/overrideCode").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).append(" | ").append(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getTargetAccountingLineClassName((AccountingDocument) docContent.getDocument())).append("/overrideCode").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
+                    xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getSourceAccountingLineClassName(docType.getName())).append("/overrideCode").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).append(" | ").append(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getTargetAccountingLineClassName(docType.getName())).append("/overrideCode").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
                     break;
                 }
                 else {
@@ -511,13 +511,13 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
                 return null;
             }
             else if (KualiWorkflowUtils.isSourceLineOnly(docType.getName())) {
-                xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getSourceAccountingLineClassName((AccountingDocument) docContent.getDocument())).append("/amount/value").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
+                xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getSourceAccountingLineClassName(docType.getName())).append("/amount/value").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
             }
             else if (KualiWorkflowUtils.isTargetLineOnly(docType.getName())) {
-                xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getTargetAccountingLineClassName((AccountingDocument) docContent.getDocument())).append("/amount/value").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
+                xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getTargetAccountingLineClassName(docType.getName())).append("/amount/value").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
             }
             else {
-                xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getSourceAccountingLineClassName((AccountingDocument) docContent.getDocument())).append("/amount/value").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).append(" | ").append(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getTargetAccountingLineClassName((AccountingDocument) docContent.getDocument())).append("/amount/value").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
+                xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getSourceAccountingLineClassName(docType.getName())).append("/amount/value").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).append(" | ").append(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getTargetAccountingLineClassName(docType.getName())).append("/amount/value").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
             }
             String value = xpath.evaluate(new StringBuffer("sum(").append(xpathExp).append(")").toString(), docContent.getDocument());
             if (value == null) {

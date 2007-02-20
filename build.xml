@@ -23,9 +23,6 @@
 				<equals arg1="${use.p6spy}" arg2="true" />
 			</and>
 		</condition>
-		<condition property="dist.workflow.local">
-			<equals arg1="${is.local.workflow.build}" arg2="true" />
-		</condition>
 		<echo message="Loaded properties in ${user.home}/${ant.project.name}-build.properties" />
 	</target>
 
@@ -62,10 +59,7 @@
 			<equals arg1="${is.local.build}" arg2="true" />
 		</condition>
 		<condition property="base.cas.url" value="${local.environment.url}">
-			<equals arg1="${is.local.cas.build}" arg2="true" />
-		</condition>
-		<condition property="base.workflow.url" value="${local.environment.url}">
-			<equals arg1="${is.local.workflow.build}" arg2="true" />
+			<equals arg1="${is.local.build}" arg2="true" />
 		</condition>
 		<condition property="base.application.url" value="${prod.environment.url}">
 			<or>
@@ -85,28 +79,10 @@
 				<equals arg1="${build.environment}" arg2="gl" />
 			</or>
 		</condition>
-		<condition property="base.workflow.url" value="${prod.environment.url}">
-			<or>
-				<equals arg1="${build.environment}" arg2="ptd" />
-				<equals arg1="${build.environment}" arg2="gl" />
-			</or>
-		</condition>
 		<property name="base.application.url" value="${test.environment.url}" />
 		<property name="base.htdocs.url" value="${test.environment.url}" />
 		<property name="htdocs.url" value="${base.htdocs.url}${ant.project.name}/${build.environment}/" />
 		<property name="base.cas.url" value="${test.environment.url}" />
-		<property name="base.workflow.url" value="${test.environment.url}" />
-		<condition property="local.plugin.classes" value="${local.plugin.classes.token}">
-			<equals arg1="${is.local.build}" arg2="true" />
-		</condition>
-		<property name="local.plugin.classes" value="" />
-		<condition property="local.plugin.lib" value="${local.plugin.lib.token}">
-			<equals arg1="${is.local.build}" arg2="true" />
-		</condition>
-		<property name="local.plugin.lib" value="" />
-		<condition property="driver.class" value="${p6spy.driver.class}">
-			<equals arg1="${use.p6spy.local}" arg2="true"/>
-		</condition>
 		<property name="driver.class" value="${oracle.driver.class}" />
 		<condition property="appenders" value="INFO, LogFile, StdOut">
 			<equals arg1="${is.local.build}" arg2="true" />
@@ -124,7 +100,7 @@
 			<equals arg1="${is.local.build}" arg2="true" />			
 		</condition>
 		<property name="scheduler.spring.jobstore.properties" value="${scheduler.spring.jdbc.jobstore.properties}" />
-		<filterset id="external.config.filterset">
+		<filterset id="general.filterset">
 			<filter token="settings-root-directory" value="${settings.root.directory}" />
 			<filter token="security-root-directory" value="${security.root.directory}" />			
 			<filter token="log4j-settings-file" value="${settings.directory}/${log4j.settings.file}" />
@@ -134,13 +110,7 @@
 			<filter token="staging-directory" value="${staging.directory}" />
 			<filter token="attachments-directory" value="${attachments.directory}" />
 			<filter token="reports-directory" value="${reports.directory}" />
-			<filter token="plugin-deploy-root-directory" value="${plugin.deploy.root.directory}" />
-			<filter token="local-plugin-classes" value="${local.plugin.classes}"/>
-			<filter token="local-plugin-lib" value="${local.plugin.lib}"/>
 			<filter token="workflow-web-authentication-filter" value="${workflow.web.authentication.filter}" />
-		</filterset>
-		<filterset id="general.filterset">
-			<filterset refid="external.config.filterset" />
 			<filter token="application" value="${ant.project.name}" />
 			<filter token="institution" value="${institution}" />
 			<filter token="environment" value="${build.environment}" />
@@ -150,8 +120,7 @@
 			<filter token="htdocs-logs-url" value="${htdocs.url}logs/" />
 			<filter token="htdocs-staging-url" value="${htdocs.url}staging/" />
 			<filter token="cas-url" value="${base.cas.url}${ant.project.name}-${build.environment}/cas" />
-			<filter token="base-workflow-url" value="${base.workflow.url}" />
-			<filter token="workflow-url" value="${base.workflow.url}${workflow.application}-${build.environment}" />
+			<filter token="workflow-url" value="${base.application.url}${ant.project.name}-${build.environment}/${workflow.application}" />
 			<filter token="externalizable-static-content-url" value="${externalizable.static.content.url}" />
 			<filter token="web-authentication-filter" value="${web.authentication.filter}" />
 			<filter token="web-authentication-service" value="${web.authentication.service}" />
@@ -171,12 +140,7 @@
 			<filter token="institution-spring-beans-import" value="${institution.spring.beans.import}" />
 			<filter token="scheduler-spring-beans-import" value="${scheduler.spring.beans.import}" />
 			<filter token="scheduler-spring-jobstore-properties" value="${scheduler.spring.jobstore.properties}" />
-			<filter token="variable-ojb-properties" value="${application.ojb.properties}" />
-			<filter token="use-auto-commit" value="1" />
-		</filterset>
-		<filterset id="plugin.filterset">
-			<filter token="variable-ojb-properties" value="${plugin.ojb.properties}" />
-			<filter token="use-auto-commit" value="0" />
+			<filter token="transaction-timeout" value="${transaction.timeout}"/>
 		</filterset>
 	</target>
 	
@@ -188,6 +152,8 @@
 		<path id="compile.tests.classpath">
 			<path refid="compile.source.classpath" />
 			<fileset dir="${test.lib.directory}" includes="*.jar" />
+			<pathelement location="${build.workflow.appserver.directory}/classes"/>
+			<fileset dir="${build.workflow.appserver.directory}" includes="*.jar"/>
 		</path>
 		<patternset id="non.java.resources">
 			<include name="**/*.properties" />
@@ -225,7 +191,6 @@
 		<delete file="${lib.directory}/${log4j.library}" />
 		<delete dir="${war.directory}" />
 		<delete dir="${test.directory}" />
-		<delete dir="${plugin.directory}" />
 		<delete>
 			<fileset dir="." includes="*.war" />
 		</delete>
@@ -267,19 +232,9 @@
 		<delete failonerror="false">
 			<fileset dir="${appserver.lib.dir}" includes="${workflow.appserver.library.list}" />
 		</delete>
-		<delete failonerror="false">
-			<fileset dir="${appserver.localhost.dir}" includes="${workflow.application}-*" />
-		</delete>
-		<delete failonerror="false" includeemptydirs="true">
-			<fileset dir="${appserver.deploy.dir}" includes="${workflow.application}-*/**" />
-		</delete>
-		<delete file="${workflow.usr.directory}/workflow.xml" />
-		<delete dir="${plugin.deploy.directory}" failonerror="false" />
+		<delete dir="${workflow.embedded.webapp.directory}" failonerror="false"/>
 	</target>
 	
-	<!-- wrapper based on naming convention required by workflow build script -->
-	<target name="clean-plugin" depends="clean"/>
-
 	<target name="filter-project-log4j" unless="use.p6spy.local" depends="init-filter-sets">
 		<copy file="${build.appserver.directory}/${log4j.library}" todir="${lib.directory}"/>
 	</target>
@@ -329,16 +284,12 @@
 		</copy>
 	</target>
 	
-	<target name="filter-workflow-local" if="dist.workflow.local" depends="init-filter-sets">
+	<target name="filter-workflow-local" depends="init-filter-sets">
 		<copy todir="${appserver.classes.dir}" overwrite="true">
 			<fileset dir="${build.workflow.appserver.directory}" includes="${workflow.appserver.classes.list}" />
 		</copy>
 		<copy todir="${appserver.lib.dir}" overwrite="true">
 			<fileset dir="${build.workflow.appserver.directory}" includes="${workflow.appserver.library.list}" />
-		</copy>
-		<copy todir="${workflow.usr.directory}" overwrite="true">
-			<fileset dir="${build.workflow.usr.directory}" />
-			<filterset refid="general.filterset" />
 		</copy>
 	</target>
 
@@ -371,31 +322,6 @@
 			<fileset dir="${source.directory}">
 				<patternset refid="non.java.resources" />
 			</fileset>
-		</copy>
-	</target>
-	
-	<target name="make-plugin-remote" depends="init-make-references,filter-project">
-		<copy todir="${plugin.classes.directory}">
-			<fileset dir="${war.classes.directory}" />
-		</copy>
-	</target>
-
-	<target name="make-plugin" depends="init-project-properties">
-		<copy todir="${plugin.lib.directory}">
-			<fileset dir="${lib.directory}" excludes="${workflow.exclude.library.list}" />
-		</copy>
-		<copy file="${build.tokenized.resources.directory}/${ojb.properties.file}" todir="${plugin.classes.directory}" overwrite="true">
-			<filterset refid="plugin.filterset" />
-		</copy>
-		<copy file="${build.tokenized.resources.directory}/${ojb.repository.file}" todir="${plugin.classes.directory}" overwrite="true">
-			<filterset refid="plugin.filterset" />
-		</copy>
-		<copy file="${build.workflow.directory}/plugin/workflow.xml" todir="${plugin.metainf.directory}"/>
-	</target>
-	
-	<target name="make-plugin-local" depends="init-project-properties">
-		<copy todir="${plugin.classes.directory}">
-			<fileset dir="${source.directory}" includes="**/*repository*" />
 		</copy>
 	</target>
 	
@@ -444,7 +370,7 @@
 			<formatter type="xml" />
 			<batchtest todir="${test.xml.results.directory}">
 				<fileset dir="${test.source.directory}">
-					<include name="**/*Test.java" />
+					<include name="${tests.includes}" />
 					<exclude name="**/TransactionalDocumentRuleTest.java" />
 					<exclude name="**/${test.spring.shutdown}.java" />
 				</fileset>
@@ -462,26 +388,17 @@
 	</target>
 	
 	<target name="dist" depends="make-source">
+		<unzip dest="${war.directory}" src="${build.workflow.appserver.directory}/workflow-embedded-content.zip"/>
 		<copy todir="${war.directory}">
 			<fileset dir="${webroot.directory}" excludes="WEB-INF/classes/**/**" />
 		</copy>
 		<jar jarfile="${ant.project.name}-${build.environment}.war" basedir="${war.directory}" compress="false" />
 	</target>
 
-	<target name="dist-plugin" depends="make-source,make-plugin-remote,make-plugin">
-		<zip destfile="en-plugins.zip" basedir="${plugin.directory}" />
+	<target name="dist-workflow-local" depends="filter-workflow-local">
+		<unzip dest="${webroot.directory}" src="${build.workflow.appserver.directory}/workflow-embedded-content.zip"/>
 	</target>
 
-	<target name="dist-workflow-local" if="dist.workflow.local" depends="filter-workflow-local,make-plugin,make-plugin-local">
-		<ant target="update-war">
-			<property name="source.war.directory" value="${build.workflow.appserver.directory}" />
-			<property name="application" value="${workflow.application}" />
-		</ant>
-		<copy todir="${plugin.deploy.directory}">
-			<fileset dir="${plugin.directory}" excludes="**/*.jar"/>
-		</copy>
-	</target>
-	
 	<target name="dist-package" depends="init-package-directories">
 		<copy todir="${packaging.distribution.directory}">
 			<fileset dir="${basedir}" includes="${packaged.build.properties.files}" />
@@ -507,7 +424,6 @@
 	<target name="update-workflow" depends="init-project-properties">
 		<property name="${workflow.application}.workflow.environment" value="${build.environment}" />
 		<property name="${workflow.application}.tomcat5.home" value="${appserver.home}" />
-		<property name="${workflow.application}.plugin.dir" value="${basedir}" />
 		<property name="${workflow.application}.institution" value="${ant.project.name}" />
 		<property name="${workflow.application}.src.dist.loc" value="${workflow.project.directory}/dist" />
 		<propertyset id="en-properties">
@@ -515,35 +431,14 @@
 		  <mapper type="glob" from="${workflow.application}.*" to="*"/>
 		</propertyset>
 		<ant dir="${workflow.project.directory}" target="clean" inheritall="false"/>
-		<ant dir="${workflow.project.directory}" target="dist" inheritall="false">
+		<ant dir="${workflow.project.directory}" target="dist-embedded-web-content" inheritall="false">
 			<propertyset refid="en-properties" />
 		</ant>
-		<copy file="${workflow.project.directory}/${workflow.application}-${build.environment}.war" todir="${build.workflow.appserver.directory}" overwrite="true" />
+		<copy file="${workflow.project.directory}/dist/workflow-embedded-content.zip" todir="${build.workflow.appserver.directory}" overwrite="true" />
 		<ant dir="${workflow.project.directory}" target="dist-client-not-iu" inheritall="false">
 			<propertyset refid="${workflow.application}-properties" />
 		</ant>
 		<copy file="${workflow.project.directory}/dist/workflow-client-${workflow.version}.jar" todir="${lib.directory}" overwrite="true" />
-		<!--<ant dir="${workflow.project.directory}" target="bundle-workflow" inheritall="false">
-			<propertyset refid="${workflow.application}-properties" />
-		</ant>
-		<copy file="${workflow.project.directory}/dist/workflow_${workflow.version}.zip" tofile="${dependencies.project.directory}/workflow-${workflow.version}-src.zip" overwrite="true"/>
-		<ant dir="${workflow.project.directory}" target="clean" inheritall="false"/>
-		<ant dir="${workflow.project.directory}" target="javadoc" inheritall="false">
-			<propertyset refid="${workflow.application}-properties" />
-		</ant>
-		<zip destfile="${dependencies.project.directory}/workflow-${workflow.version}-doc.zip" basedir="${workflow.project.directory}/dist/api" />-->
-	</target>
-	
-	<target name="update-war">
-		<property name="temp.directory" value="temp" />
-		<mkdir dir="${temp.directory}"/>
-		<unjar src="${source.war.directory}/${application}-dev.war" dest="${temp.directory}" />
-		<copy file="${source.war.directory}/${tomcat.context.file}" todir="${temp.directory}/META-INF" overwrite="true">
-			<filterset refid="general.filterset" />
-		</copy>
-		<replaceregexp file="${temp.directory}/WEB-INF/classes/META-INF/workflow.xml" match="\bdev\b" replace="${build.environment}" byline="true" flags="g" />
-		<jar jarfile="${appserver.deploy.dir}/${application}-${build.environment}.war" basedir="${temp.directory}"  />
-		<delete dir="${temp.directory}" />
 	</target>
 	
 	<target name="help" description="Describe public targets">

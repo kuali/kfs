@@ -409,7 +409,7 @@ public class BudgetDocument extends ResearchDocumentBase {
         KualiDocumentXmlMaterializer xmlWrapper = new KualiDocumentXmlMaterializer();
         xmlWrapper.setDocument(this);
         xmlWrapper.setKualiTransactionalDocumentInformation(transInfo);
-        documentHeader.getWorkflowDocument().getRouteHeader().getDocumentContent().setApplicationContent(generateDocumentContent());
+        documentHeader.getWorkflowDocument().setApplicationContent(generateDocumentContent());
     }
     
     public String generateDocumentContent() {

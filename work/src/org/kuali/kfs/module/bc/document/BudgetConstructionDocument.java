@@ -52,23 +52,16 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
     private UniversalUser budgetLockUser;
     private UniversalUser budgetTransactionLockUser;
     private Org organizationLevelOrganization;
-/*    
-    private List budgetConstructionAccountSelect;
-*/
-    private String financialObjectTypeCode;
 
-//    private List<PendingBudgetConstructionGeneralLedger> pendingBudgetConstructionGeneralLedgerRevenue;
-//    private List<PendingBudgetConstructionGeneralLedger> pendingBudgetConstructionGeneralLedgerExpenditure;
-    private List pendingBudgetConstructionGeneralLedgerRevenue;
-    private List pendingBudgetConstructionGeneralLedgerExpenditure;
+    private List pendingBudgetConstructionGeneralLedgerRevenueLines;
+    private List pendingBudgetConstructionGeneralLedgerExpenditureLines;
     
     public BudgetConstructionDocument(){
         super();
-        pendingBudgetConstructionGeneralLedgerExpenditure = new TypedArrayList(PendingBudgetConstructionGeneralLedger.class);
-        pendingBudgetConstructionGeneralLedgerRevenue = new TypedArrayList(PendingBudgetConstructionGeneralLedger.class);
-/*
-        budgetConstructionAccountSelect = new ArrayList();
-*/
+//        setPendingBudgetConstructionGeneralLedgerExpenditureLines(new ArrayList());
+//        setPendingBudgetConstructionGeneralLedgerRevenueLines(new ArrayList());
+        setPendingBudgetConstructionGeneralLedgerExpenditureLines(new TypedArrayList(PendingBudgetConstructionGeneralLedger.class));
+        setPendingBudgetConstructionGeneralLedgerRevenueLines(new TypedArrayList(PendingBudgetConstructionGeneralLedger.class));
     }
     
 /**
@@ -96,17 +89,17 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
         
         fieldValues.put("FIN_OBJ_TYP_CD", "IN");
         
-        pendingBudgetConstructionGeneralLedgerRevenue = (ArrayList) SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(PendingBudgetConstructionGeneralLedger.class, fieldValues, "FIN_OBJECT_CD", true);
+        pendingBudgetConstructionGeneralLedgerRevenueLines = (ArrayList) SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(PendingBudgetConstructionGeneralLedger.class, fieldValues, "FIN_OBJECT_CD", true);
         if (LOG.isDebugEnabled()) {
-            LOG.debug("pendingBudgetConstructionGeneralLedgerRevenue is: "+pendingBudgetConstructionGeneralLedgerRevenue);
+            LOG.debug("pendingBudgetConstructionGeneralLedgerRevenue is: "+pendingBudgetConstructionGeneralLedgerRevenueLines);
         }
         
         fieldValues.remove("FIN_OBJ_TYP_CD");
         fieldValues.put("FIN_OBJ_TYP_CD", "EX");
 
-        pendingBudgetConstructionGeneralLedgerExpenditure = (ArrayList) SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(PendingBudgetConstructionGeneralLedger.class, fieldValues, "FIN_OBJECT_CD", true);
+        pendingBudgetConstructionGeneralLedgerExpenditureLines = (ArrayList) SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(PendingBudgetConstructionGeneralLedger.class, fieldValues, "FIN_OBJECT_CD", true);
         if (LOG.isDebugEnabled()) {
-            LOG.debug("pendingBudgetConstructionGeneralLedgerExpenditure is: "+pendingBudgetConstructionGeneralLedgerExpenditure);
+            LOG.debug("pendingBudgetConstructionGeneralLedgerExpenditure is: "+pendingBudgetConstructionGeneralLedgerExpenditureLines);
         }
         
     }
@@ -355,26 +348,6 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
         this.budgetLockUser = budgetLockUser;
     }
 
-    /**
-     * Gets the budgetConstructionAccountSelect list.
-     * 
-     * @return Returns the budgetConstructionAccountSelect list
-     * 
-     */
-/*    public List getBudgetConstructionAccountSelect() {
-        return budgetConstructionAccountSelect;
-    }
-*/
-    /**
-     * Sets the budgetConstructionAccountSelect list.
-     * 
-     * @param budgetConstructionAccountSelect The budgetConstructionAccountSelect list to set.
-     * 
-     */
-/*    public void setBudgetConstructionAccountSelect(List budgetConstructionAccountSelect) {
-        this.budgetConstructionAccountSelect = budgetConstructionAccountSelect;
-    }
-*/
     public UniversalUser getBudgetTransactionLockUser() {
         budgetTransactionLockUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(budgetTransactionLockUserIdentifier, budgetTransactionLockUser);
         return budgetTransactionLockUser;
@@ -432,29 +405,31 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
      */
     @Override
     public List buildListOfDeletionAwareLists() {
-        return new ArrayList();
-//        List managedLists = super.buildListOfDeletionAwareLists();
+//        return new ArrayList();
+        List managedLists = super.buildListOfDeletionAwareLists();
 
+        managedLists.add(getPendingBudgetConstructionGeneralLedgerRevenueLines());
+        managedLists.add(getPendingBudgetConstructionGeneralLedgerExpenditureLines());
 //        managedLists.add(getSourceAccountingLines());
 //        managedLists.add(getTargetAccountingLines());
 
-//        return managedLists;
+        return managedLists;
     }
 
-    public List getPendingBudgetConstructionGeneralLedgerRevenue() {
-        return pendingBudgetConstructionGeneralLedgerRevenue;
+    public List<PendingBudgetConstructionGeneralLedger> getPendingBudgetConstructionGeneralLedgerRevenueLines() {
+        return pendingBudgetConstructionGeneralLedgerRevenueLines;
     }
 
-    public void setPendingBudgetConstructionGeneralLedgerRevenue(List pendingBudgetConstructionGeneralLedgerRevenue) {
-        this.pendingBudgetConstructionGeneralLedgerRevenue = pendingBudgetConstructionGeneralLedgerRevenue;
+    public void setPendingBudgetConstructionGeneralLedgerRevenueLines(List pendingBudgetConstructionGeneralLedgerRevenueLines) {
+        this.pendingBudgetConstructionGeneralLedgerRevenueLines = pendingBudgetConstructionGeneralLedgerRevenueLines;
     }
 
-    public List<PendingBudgetConstructionGeneralLedger> getPendingBudgetConstructionGeneralLedgerExpenditure() {
-        return pendingBudgetConstructionGeneralLedgerExpenditure;
+    public List<PendingBudgetConstructionGeneralLedger> getPendingBudgetConstructionGeneralLedgerExpenditureLines() {
+        return pendingBudgetConstructionGeneralLedgerExpenditureLines;
     }
 
-    public void setPendingBudgetConstructionGeneralLedgerExpenditure(List<PendingBudgetConstructionGeneralLedger> pendingBudgetConstructionGeneralLedgerExpenditure) {
-        this.pendingBudgetConstructionGeneralLedgerExpenditure = pendingBudgetConstructionGeneralLedgerExpenditure;
+    public void setPendingBudgetConstructionGeneralLedgerExpenditureLines(List pendingBudgetConstructionGeneralLedgerExpenditureLines) {
+        this.pendingBudgetConstructionGeneralLedgerExpenditureLines = pendingBudgetConstructionGeneralLedgerExpenditureLines;
     }
 
     /**

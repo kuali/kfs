@@ -32,25 +32,35 @@
 		<foreignkey field-ref="documentNumber" />
 	</reference-descriptor>
 
-<!-- remove for now, need to add some of this back in and add the BC reports to tables
-	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-		<foreignkey field-ref="chartOfAccountsCode" />
-	</reference-descriptor>
 	<reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="accountNumber" />
-	</reference-descriptor>
-	<reference-descriptor name="organizationLevelOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-		<foreignkey field-ref="organizationLevelChartOfAccountsCode" />
-		<foreignkey field-ref="organizationLevelOrganizationCode" />
 	</reference-descriptor>
 	<reference-descriptor name="subAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="accountNumber" />
 		<foreignkey field-ref="subAccountNumber" />
 	</reference-descriptor>
+
+<!-- remove for now, need to add some of this back in and add the BC reports to tables
+	<reference-descriptor name="organizationLevelOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="organizationLevelChartOfAccountsCode" />
+		<foreignkey field-ref="organizationLevelOrganizationCode" />
+	</reference-descriptor>
+
+	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="chartOfAccountsCode" />
+	</reference-descriptor>
 -->
-    <collection-descriptor name="pendingBudgetConstructionGeneralLedgerExpenditure" proxy="true" element-class-ref="org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <collection-descriptor name="pendingBudgetConstructionGeneralLedgerRevenueLines" proxy="true" element-class-ref="org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="financialObjectCode" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+		<inverse-foreignkey field-ref="universityFiscalYear" />
+		<inverse-foreignkey field-ref="chartOfAccountsCode" />
+		<inverse-foreignkey field-ref="accountNumber" />
+		<inverse-foreignkey field-ref="subAccountNumber" />
+    </collection-descriptor>
+    <collection-descriptor name="pendingBudgetConstructionGeneralLedgerExpenditureLines" proxy="true" element-class-ref="org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="financialObjectCode" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
 		<inverse-foreignkey field-ref="universityFiscalYear" />
@@ -59,16 +69,6 @@
 		<inverse-foreignkey field-ref="subAccountNumber" />
     </collection-descriptor>
 
-<!-- leave out for now should probably remove permanantly
-	<collection-descriptor name="budgetConstructionAccountSelect" element-class-ref="org.kuali.module.budget.bo.BudgetConstructionAccountSelect" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<orderby name="personUniversalIdentifier" sort="ASC" />
-		<inverse-foreignkey field-ref="documentNumber" />
-		<inverse-foreignkey field-ref="universityFiscalYear" />
-		<inverse-foreignkey field-ref="chartOfAccountsCode" />
-		<inverse-foreignkey field-ref="accountNumber" />
-		<inverse-foreignkey field-ref="subAccountNumber" />
-	</collection-descriptor>
--->
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.budget.bo.BudgetConstructionHeader" table="LD_BCNSTR_HDR_T">

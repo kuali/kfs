@@ -19,6 +19,8 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="kul" %>
 
 <c:set var="documentAttributes" value="${DataDictionary.KualiBudgetConstructionDocument.attributes}" />
+<c:set var="accountAttributes" value="${DataDictionary.Account.attributes}" />
+<c:set var="subFundGroupAttributes" value="${DataDictionary.SubFundGroup.attributes}" />
 
 <kul:tab tabTitle="System Information" defaultOpen="true" tabErrorKey="${Constants.BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS}">
 <div class="tab-container" align=center>
@@ -29,7 +31,7 @@
 		    <tr>
 		      <kul:htmlAttributeHeaderCell
 		          labelFor="document.universityFiscalYear"
-		          attributeEntry="${documentAttributes.universityFiscalYear}"
+		          literalLabel="Fiscal Year:"
 		          horizontal="true"
 		          />
 		      <td></td>
@@ -37,6 +39,88 @@
 		      	<kul:htmlControlAttribute property="document.universityFiscalYear" attributeEntry="${documentAttributes.universityFiscalYear}" readOnly="${true}"/>
 		      </td>
 		      <td>
+		      </td>
+            </tr>
+		    <tr>
+		      <kul:htmlAttributeHeaderCell
+		          labelFor="document.accountNumber"
+		          literalLabel="Chart/Account:"
+		          horizontal="true"
+		          />
+		      <td align="center" valign="middle">
+		      	<kul:htmlControlAttribute
+		      		property="document.chartOfAccountsCode"
+		      		attributeEntry="${documentAttributes.chartOfAccountsCode}"
+		      		readOnly="true"
+		      		readOnlyBody="true">
+		      		<kul:inquiry
+					    boClassName="org.kuali.module.chart.bo.Chart"
+					    keyValues="chartOfAccountsCode=${KualiForm.document.chartOfAccountsCode}"
+					    render="true">
+				    	<html:hidden write="true" property="document.chartOfAccountsCode" />
+					</kul:inquiry>
+		      		
+		      	</kul:htmlControlAttribute>
+		      </td>
+		      <td align="center" valign="middle">
+		      	<kul:htmlControlAttribute
+		      		property="document.accountNumber"
+		      		attributeEntry="${documentAttributes.accountNumber}"
+		      		readOnly="true"
+		      		readOnlyBody="true">
+		      		<kul:inquiry
+					    boClassName="org.kuali.module.chart.bo.Account"
+					    keyValues="chartOfAccountsCode=${KualiForm.document.chartOfAccountsCode}&amp;accountNumber=${KualiForm.document.accountNumber}"
+					    render="true">
+				    	<html:hidden write="true" property="document.accountNumber" />
+					</kul:inquiry>
+		      		
+		      	</kul:htmlControlAttribute>
+		      </td>
+		      <td align="center" valign="middle">
+		      	<kul:htmlControlAttribute property="document.account.accountName" attributeEntry="${accountAttributes.accountName}" readOnly="${true}"/>
+		      </td>
+            </tr>
+		    <tr>
+		      <kul:htmlAttributeHeaderCell
+		          labelFor="document.subAccountNumber"
+		          literalLabel="Sub-Account:"
+		          horizontal="true"
+		          />
+		      <td>
+		      </td>
+		      <td align="center" valign="middle">
+		      	<kul:htmlControlAttribute property="document.subAccountNumber" attributeEntry="${documentAttributes.subAccountNumber}" readOnly="${true}"/>
+		      </td>
+		      <td align="center" valign="middle">
+		      	<kul:htmlControlAttribute property="document.subAccount.subAccountName" attributeEntry="${DataDictionary.SubAccount.attributes.subAccountName}" readOnly="${true}"/>
+		      </td>
+            </tr>
+		    <tr>
+		      <kul:htmlAttributeHeaderCell
+		          labelFor="document.account.subFundGroupCode"
+		          literalLabel="Sub-Fund Group:"
+		          horizontal="true"
+		          />
+		      <td>
+		      </td>
+		      <td align="center" valign="middle">
+		      	<kul:htmlControlAttribute
+		      		property="document.account.subFundGroupCode"
+		      		attributeEntry="${DataDictionary.Account.attributes.subFundGroupCode}"
+		      		readOnly="true"
+		      		readOnlyBody="true">
+		      		<kul:inquiry
+					    boClassName="org.kuali.module.chart.bo.SubFundGroup"
+					    keyValues="subFundGroupCode=${KualiForm.document.account.subFundGroupCode}"
+					    render="true">
+				    	<html:hidden write="true" property="document.account.subFundGroupCode" />
+					</kul:inquiry>
+		      		
+		      	</kul:htmlControlAttribute>
+		      </td>
+		      <td align="center" valign="middle">
+		      	<kul:htmlControlAttribute property="document.account.subFundGroup.subFundGroupDescription" attributeEntry="${DataDictionary.SubFundGroup.attributes.subfundGroupDescription}" readOnly="${true}"/>
 		      </td>
             </tr>
 

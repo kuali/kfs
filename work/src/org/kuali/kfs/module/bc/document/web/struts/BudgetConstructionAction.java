@@ -185,15 +185,15 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
         Properties parameters = new Properties();
 //        parameters.put("methodToCall", "view");
-        parameters.put("documentNumber", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditure().get(selectedIndex).getDocumentNumber());
-        parameters.put("universityFiscalYear", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditure().get(selectedIndex).getUniversityFiscalYear().toString());
-        parameters.put("chartOfAccountsCode", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditure().get(selectedIndex).getChartOfAccountsCode());
-        parameters.put("accountNumber", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditure().get(selectedIndex).getAccountNumber());
-        parameters.put("subAccountNumber", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditure().get(selectedIndex).getSubAccountNumber());
-        parameters.put("financialObjectCode", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditure().get(selectedIndex).getFinancialObjectCode());
-        parameters.put("financialSubObjectCode", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditure().get(selectedIndex).getFinancialSubObjectCode());
-        parameters.put("financialBalanceTypeCode", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditure().get(selectedIndex).getFinancialBalanceTypeCode());
-        parameters.put("financialObjectTypeCode", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditure().get(selectedIndex).getFinancialObjectTypeCode());
+        parameters.put("documentNumber", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(selectedIndex).getDocumentNumber());
+        parameters.put("universityFiscalYear", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(selectedIndex).getUniversityFiscalYear().toString());
+        parameters.put("chartOfAccountsCode", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(selectedIndex).getChartOfAccountsCode());
+        parameters.put("accountNumber", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(selectedIndex).getAccountNumber());
+        parameters.put("subAccountNumber", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(selectedIndex).getSubAccountNumber());
+        parameters.put("financialObjectCode", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(selectedIndex).getFinancialObjectCode());
+        parameters.put("financialSubObjectCode", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(selectedIndex).getFinancialSubObjectCode());
+        parameters.put("financialBalanceTypeCode", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(selectedIndex).getFinancialBalanceTypeCode());
+        parameters.put("financialObjectTypeCode", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(selectedIndex).getFinancialObjectTypeCode());
 //        request.setAttribute("accountNumber", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditure().get(selectedIndex).getAccountNumber());
         
 //        String bcMonthParmsKey = "bcMonthParmsKey"; 

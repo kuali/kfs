@@ -40,7 +40,7 @@
 					Request
 				</th>
 			</tr>
-			<c:forEach items="${KualiForm.document.pendingBudgetConstructionGeneralLedgerRevenue}" var="item" >
+			<c:forEach items="${KualiForm.document.pendingBudgetConstructionGeneralLedgerRevenueLines}" var="item" >
 				<tr>
 					<td>${item.financialObjectCode}</td>
 					<td>${item.financialSubObjectCode}</td>

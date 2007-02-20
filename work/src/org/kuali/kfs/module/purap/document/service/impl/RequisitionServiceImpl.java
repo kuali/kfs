@@ -76,7 +76,7 @@ public class RequisitionServiceImpl implements RequisitionService {
     }
     
 // TODO we need a generic changeStatus method for all document status changes. where should it go? 
-//    public void changeRequisitionStatus(Long docHeaderId, String statusCode, String networkId) {
+//    public void changeRequisitionStatus(String docHeaderId, String statusCode, String networkId) {
 //        LOG.debug("changeRequisitionStatus() Doc ID : " + docHeaderId);
 //        Requisition r  = requisitionService.getRequisitionByDocumentId(docHeaderId);
 //        LOG.debug("changeRequisitionStatus() - VERSION: " + r.getVersion());
@@ -99,7 +99,7 @@ public class RequisitionServiceImpl implements RequisitionService {
 //        requisitionService.saveRequisitionEnroute(r, u);
 //    }
 
-//    public void disapproveRequisition(Long docHeaderId, String level, String networkId) {
+//    public void disapproveRequisition(String docHeaderId, String level, String networkId) {
 //        if(RoutingService.REQ_CONTENT_NODE_NAME.equalsIgnoreCase(level)){
 //            //disapproved content
 //            changeRequisitionStatus(docHeaderId, EpicConstants.REQ_STAT_DAPRVD_CONTENT, networkId);
@@ -122,7 +122,7 @@ public class RequisitionServiceImpl implements RequisitionService {
 //    }
 //        
 //   
-//    public boolean failsSeparationOfDuties(Long docHeaderId, String networkId, String approverId, int approvals) {
+//    public boolean failsSeparationOfDuties(String docHeaderId, String networkId, String approverId, int approvals) {
 //        LOG.debug("failsSeparationOfDuties() ");
 //        boolean fails = false;
 //        Requisition r = requisitionService.getRequisitionByDocumentId(docHeaderId);
@@ -283,7 +283,7 @@ public class RequisitionServiceImpl implements RequisitionService {
       return "";
     }
 //   
-//    public PurchaseOrder createAPO(Long docHeaderId, String networkId) {
+//    public PurchaseOrder createAPO(String docHeaderId, String networkId) {
 //        LOG.debug("createAPO() started");
 //        Requisition r = requisitionService.getRequisitionByDocumentId(docHeaderId);
 //        User initiator = r.getDocumentHeader().getInitiatorUser();

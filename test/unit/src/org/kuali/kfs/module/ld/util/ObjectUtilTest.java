@@ -15,10 +15,12 @@
  */
 package org.kuali.module.labor.util;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 
 import junit.framework.TestCase;
@@ -38,7 +40,7 @@ public class ObjectUtilTest  extends TestCase {
         propertyList.clear();
         propertyList.add("street");
         ObjectUtil.buildObject(targetAddress, sourceAddress, propertyList);
-        assertEquals(targetAddress.getStreet(), sourceAddress.getStreet());
+        assertEquals(sourceAddress.getStreet(), targetAddress.getStreet());
         assertFalse(targetAddress.equals(sourceAddress));
         
         targetAddress = new SimpleAddress(null, null, null, 9999);
@@ -95,6 +97,23 @@ public class ObjectUtilTest  extends TestCase {
         assertEquals(address.getZip(), propertyMap.get("zip"));
     }
     
+    public void testBuildPropertyMapWithBlankValues() throws Exception{
+        SimpleAddress address = new SimpleAddress("", "", null, 1000);
+        
+        List<String> propertyList = new ArrayList<String>();
+        propertyList.add("street");
+        propertyList.add("city");
+        propertyList.add("state");
+        propertyList.add("zip");
+
+        Map propertyMap = ObjectUtil.buildPropertyMap(address, propertyList);
+        assertEquals(null, propertyMap.get("street"));
+        assertEquals(null, propertyMap.get("city"));
+        assertEquals(null, propertyMap.get("state"));
+        assertEquals(address.getZip(), propertyMap.get("zip"));
+        assertEquals(1, propertyMap.size());       
+    }
+    
     public void testConvertLineToBusinessObjectBasedOnDeliminatorAndKeyList() throws Exception{
         String delim = ";";
         String line = "1000 Main Street" + delim + "Source City" +delim + "Kuali" + delim + "10000";
@@ -116,16 +135,30 @@ public class ObjectUtilTest  extends TestCase {
     
     public void testConvertLineToBusinessObjectBasedOnDeliminatorAndKeyString() throws Exception{
         String delim = ";";
-        String line = "1000 Main Street" + delim + "Source City" +delim + "Kuali" + delim + "10000";
-        String fieldNames = "street" + delim + "city" + delim + "state" + delim + "zip";
+        String line = "1000 Main Street" + delim + "Source City" +delim + "Kuali" + delim + "10000" + delim ;
+        String fieldNames = "street" + delim + "city" + delim + "state" + delim + "zip" + delim ;
         
         SimpleAddress address = new SimpleAddress();
         ObjectUtil.convertLineToBusinessObject(address, line, delim, fieldNames);
         
-        assertEquals(address.getStreet(), "1000 Main Street");
-        assertEquals(address.getCity(), "Source City");
-        assertEquals(address.getState(), "Kuali");
-        assertEquals(address.getZip(), new Integer(10000));        
+        assertEquals("1000 Main Street", address.getStreet());
+        assertEquals("Source City", address.getCity());
+        assertEquals("Kuali", address.getState());
+        assertEquals(new Integer(10000), address.getZip());        
+    }
+    
+    public void testConvertLineToBusinessObjectAtCompressedFormat() throws Exception{
+        String delim = ";";
+        String line = "" + delim + "" +delim + "" + delim + "" + delim ;
+        String fieldNames = "street" + delim + "city" + delim + "state" + delim + "zip" + delim;
+        
+        SimpleAddress address = new SimpleAddress(null, null, null, null);
+        ObjectUtil.convertLineToBusinessObject(address, line, delim, fieldNames);
+        
+        assertEquals("", address.getStreet());
+        assertEquals("", address.getCity());
+        assertEquals("", address.getState());
+        assertEquals(null, address.getZip());        
     }
     
     public void testConvertLineToBusinessObjectBasedOnFieldLength() throws Exception{
@@ -141,9 +174,54 @@ public class ObjectUtilTest  extends TestCase {
         SimpleAddress address = new SimpleAddress();
         ObjectUtil.convertLineToBusinessObject(address, line, fieldLength, propertyList);
         
-        assertEquals(address.getStreet(), "Street");
-        assertEquals(address.getCity(), "City");
-        assertEquals(address.getState(), "State");
-        assertEquals(address.getZip(), new Integer(10000));        
+        assertEquals("Street", address.getStreet());
+        assertEquals("City", address.getCity());
+        assertEquals("State", address.getState());
+        assertEquals(new Integer(10000), address.getZip());        
+    }
+    
+    public void testSplit() throws Exception{
+        String delim = ";";
+        String line = "" + delim + "" +delim + "" + delim + "" + delim;
+
+        List<String> tokens = ObjectUtil.split(line, delim);        
+        assertEquals(4, tokens.size());
+        
+        line = delim + line;
+        tokens = ObjectUtil.split(line, delim);        
+        assertEquals(5, tokens.size());
+    }
+    
+    public void testValueOfInteger() throws Exception{       
+        String integerType = "Integer";
+        String[] value = {"-100", "0", "100", "", "12.9", "bad value"};
+        String[] expected = {"-100", "0", "100", null, null, null};         
+        for(int i=0; i<value.length; i++){
+            String tempvalue = expected[i];
+            Integer expectedValue = tempvalue != null ? Integer.valueOf(expected[i]) : null; 
+            assertEquals(expectedValue, ObjectUtil.valueOf(integerType, value[i]));
+        }
+    }
+    
+    public void testValueOfKualiDecimal() throws Exception{       
+        String type = "KualiDecimal";
+        String[] value = {"-100.00", "0", "100", "100.00", "", "bad value"};
+        String[] expected = {"-100", "0", "100", "100", null, null};        
+        for(int i=0; i<value.length; i++){
+            String tempvalue = expected[i];
+            KualiDecimal expectedValue = tempvalue != null ? new KualiDecimal(expected[i]) : null;
+            assertEquals(expectedValue, ObjectUtil.valueOf(type, value[i]));
+        }
+    }
+    
+    public void testValueOfDate() throws Exception{       
+        String type = "Date";
+        String[] value = {"2000-1-1", "2000/1/1", "1/1/2000", "", "bad value"};
+        String[] expected = {"2000-1-1", null, null, null, null};        
+        for(int i=0; i<value.length; i++){
+            String tempvalue = expected[i];
+            Date expectedValue = tempvalue != null ? Date.valueOf(expected[i]) : null;
+            assertEquals(expectedValue, ObjectUtil.valueOf(type, value[i]));
+        }
     }
 }

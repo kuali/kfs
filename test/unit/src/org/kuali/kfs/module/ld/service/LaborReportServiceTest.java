@@ -33,6 +33,7 @@ import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.gl.batch.poster.VerifyTransaction;
 import org.kuali.module.gl.bo.OriginEntryGroup;
@@ -68,7 +69,8 @@ public class LaborReportServiceTest extends KualiTestBase {
     private LaborReportService laborReportService;
     private BusinessObjectService businessObjectService;
     private KualiConfigurationService kualiConfigurationService;
-    private VerifyTransaction verifyTransaction;
+    private VerifyTransaction laborPosterTransactionValidator;
+    private PersistenceService persistenceService;
 
     public void setUp() throws Exception {
         super.setUp();
@@ -83,13 +85,14 @@ public class LaborReportServiceTest extends KualiTestBase {
         laborOriginEntryService = (LaborOriginEntryService) beanFactory.getBean("laborOriginEntryService");
         originEntryGroupService = (OriginEntryGroupService) beanFactory.getBean("glOriginEntryGroupService");
         businessObjectService = (BusinessObjectService) beanFactory.getBean("businessObjectService");
+        persistenceService = (PersistenceService) beanFactory.getBean("persistenceService");
         
         // laborReportService = (LaborReportService) beanFactory.getBean("laborReportServiceForUnitTesting");
         // in order to generate PDF reports, please uncomment the statement below
         laborReportService = (LaborReportService) beanFactory.getBean("laborReportService");
         
         kualiConfigurationService = (KualiConfigurationService) beanFactory.getBean("kualiConfigurationService");
-        verifyTransaction = (VerifyTransaction) beanFactory.getBean("glVerifyTransaction");
+        laborPosterTransactionValidator = (VerifyTransaction) beanFactory.getBean("laborPosterTransactionValidator");
 
         reportsDirectory = kualiConfigurationService.getPropertyString(Constants.REPORTS_DIRECTORY_KEY);
 
@@ -163,6 +166,8 @@ public class LaborReportServiceTest extends KualiTestBase {
         businessObjectService.save(getInputDataList("generatePosterStatisticsReport.testData", numberOfTestData, group1));
         groups.add(group2);
         businessObjectService.save(getInputDataList("generatePosterStatisticsReport.testData", numberOfTestData, group2));
+        
+        persistenceService.getPersistenceBroker().clearCache();
 
         Map<Transaction, List<Message>> errorMap = this.getErrorMap(groups);
         laborReportService.generatePosterStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_STATISTICS, reportsDirectory, today);
@@ -183,21 +188,12 @@ public class LaborReportServiceTest extends KualiTestBase {
         for (Iterator<LaborOriginEntry> entry = laborOriginEntryService.getEntriesByGroups(groups); entry.hasNext();) {
             LaborOriginEntry originEntry = entry.next();
 
-            List<Message> errors = this.validateEntry(originEntry);
+            List<Message> errors = laborPosterTransactionValidator.verifyTransaction(originEntry);;
             if (!errors.isEmpty()) {
                 errorMap.put(originEntry, errors);
             }
         }
         return errorMap;
-    }
-
-    private List<Message> validateEntry(LaborOriginEntry originEntry) {
-        List<Message> errors = new ArrayList<Message>();
-        List<String> errorMessages = verifyTransaction.verifyTransaction(originEntry);
-        for (String error : errorMessages) {
-            errors.add(new Message(error, 1));
-        }
-        return errors;
     }
 
     private List getInputDataList(String propertyKeyPrefix, int numberOfInputData, OriginEntryGroup group) {
@@ -208,6 +204,7 @@ public class LaborReportServiceTest extends KualiTestBase {
             ObjectUtil.populateBusinessObject(inputData, properties, propertyKey, fieldNames, deliminator);
             inputData.setEntryGroupId(group.getId());
             inputData.setGroup(group);
+            inputData.setVersionNumber(new Long(1));
             inputDataList.add(inputData);
         }
         return inputDataList;

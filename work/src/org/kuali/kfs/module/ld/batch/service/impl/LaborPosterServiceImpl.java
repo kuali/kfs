@@ -62,7 +62,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
     private LaborReportService reportService;
     private DateTimeService dateTimeService;
-    private VerifyTransaction verifyTransaction;
+    private VerifyTransaction laborPosterTransactionValidator;
     private KualiConfigurationService kualiConfigurationService;
 
     private PostTransaction laborLedgerEntryPoster;
@@ -153,12 +153,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
     // validate the given entry, and generate an error list if the entry cannot meet the business rules
     private List<Message> validateEntry(LaborOriginEntry originEntry) {
-        List<Message> errors = new ArrayList<Message>();        
-        List<String> errorMessages = verifyTransaction.verifyTransaction(originEntry);        
-        for(String error : errorMessages){
-            errors.add(new Message(error, 1));
-        }        
-        return errors;
+        return laborPosterTransactionValidator.verifyTransaction(originEntry);               
     }
 
     // post the processed entry into the approperiate group, either valid or invalid group
@@ -339,10 +334,10 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     }
 
     /**
-     * Sets the verifyTransaction attribute value.
-     * @param verifyTransaction The verifyTransaction to set.
+     * Sets the laborPosterTransactionValidator attribute value.
+     * @param laborPosterTransactionValidator The laborPosterTransactionValidator to set.
      */
-    public void setVerifyTransaction(VerifyTransaction verifyTransaction) {
-        this.verifyTransaction = verifyTransaction;
+    public void setLaborPosterTransactionValidator(VerifyTransaction laborPosterTransactionValidator) {
+        this.laborPosterTransactionValidator = laborPosterTransactionValidator;
     }
 }

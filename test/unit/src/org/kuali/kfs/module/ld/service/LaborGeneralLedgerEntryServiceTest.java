@@ -67,10 +67,10 @@ public class LaborGeneralLedgerEntryServiceTest extends KualiTestBase {
         Map fieldValues = ObjectUtil.buildPropertyMap(expected1, keyFieldList);
 
         businessObjectService.deleteMatching(LaborGeneralLedgerEntry.class, fieldValues);
-        assertEquals(businessObjectService.countMatching(LaborGeneralLedgerEntry.class, fieldValues), 0);
+        assertEquals(0, businessObjectService.countMatching(LaborGeneralLedgerEntry.class, fieldValues));
 
         laborGeneralLedgerEntryService.save(input1);
-        assertEquals(businessObjectService.countMatching(LaborGeneralLedgerEntry.class, fieldValues), 1);
+        assertEquals(1, businessObjectService.countMatching(LaborGeneralLedgerEntry.class, fieldValues));
 
         LaborGeneralLedgerEntry input2 = new LaborGeneralLedgerEntry();
         ObjectUtil.populateBusinessObject(input2, properties, "save.testData2", fieldNames, deliminator);
@@ -91,14 +91,14 @@ public class LaborGeneralLedgerEntryServiceTest extends KualiTestBase {
         businessObjectService.deleteMatching(LaborGeneralLedgerEntry.class, fieldValues);
 
         Integer maxSeqNumber = laborGeneralLedgerEntryService.getMaxSequenceNumber(input1);
-        assertEquals(maxSeqNumber, Integer.valueOf(0));
+        assertEquals(Integer.valueOf(0), maxSeqNumber);
 
         LaborGeneralLedgerEntry LaborGeneralLedgerEntryExpected1 = new LaborGeneralLedgerEntry();
         String expectedSeqNumber1 = properties.getProperty("maxSeqNumber.expected1");
 
         laborGeneralLedgerEntryService.save(input1);
         maxSeqNumber = laborGeneralLedgerEntryService.getMaxSequenceNumber(input1);
-        assertEquals(maxSeqNumber, Integer.valueOf(expectedSeqNumber1));
+        assertEquals(Integer.valueOf(expectedSeqNumber1), maxSeqNumber);
 
         LaborGeneralLedgerEntry input2 = new LaborGeneralLedgerEntry();
         ObjectUtil.populateBusinessObject(input2, properties, "maxSeqNumber.testData2", fieldNames, deliminator);
@@ -108,9 +108,9 @@ public class LaborGeneralLedgerEntryServiceTest extends KualiTestBase {
 
         laborGeneralLedgerEntryService.save(input2);
         maxSeqNumber = laborGeneralLedgerEntryService.getMaxSequenceNumber(input1);
-        assertEquals(maxSeqNumber, Integer.valueOf(expectedSeqNumber2));
+        assertEquals(Integer.valueOf(expectedSeqNumber2), maxSeqNumber);
 
         maxSeqNumber = laborGeneralLedgerEntryService.getMaxSequenceNumber(input2);
-        assertEquals(maxSeqNumber, Integer.valueOf(expectedSeqNumber2));
+        assertEquals(Integer.valueOf(expectedSeqNumber2), maxSeqNumber);
     }
 }

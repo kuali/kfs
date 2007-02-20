@@ -122,7 +122,7 @@
 	                    	<html:hidden property="document.budget.budgetAdHocPermissionItem[${status.index}].user.personUserIdentifier" />
 	                    </td>
 	                    <td>${person.user.campusCode}<html:hidden property="document.budget.budgetAdHocPermissionItem[${status.index}].user.campusCode" /></td>
-	                    <td>${person.orgCode}<html:hidden property="document.budget.budgetAdHocPermissionItem[${status.index}].user.deptid" /></td>
+	                    <td>${person.orgCode}<html:hidden property="document.budget.budgetAdHocPermissionItem[${status.index}].user.primaryDepartmentCode" /></td>
 	                    <td>
 	                    	<c:if test="${displayReadOnly}"><html:hidden property="document.budget.budgetAdHocPermissionItem[${status.index}].budgetPermissionCode" /></c:if>
 	                    	<kul:htmlControlAttribute property="document.budget.budgetAdHocPermissionItem[${status.index}].budgetPermissionCode" attributeEntry="${budgetAdHocPermissionAttributes.budgetPermissionCode}" readOnly="${displayReadOnly}"/>

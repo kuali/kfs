@@ -7,9 +7,7 @@ workflow-crypto.properties
 PluginSpringDataSource.xml
 JndiSpringDataSource.xml
 SpringDataSourceResources.xml
-OJB.properties
 META-INF
-OJB-repository.xml
 SpringConfigurationResources.xml
 SpringBeans.xml
 SpringWebDataSource.xml

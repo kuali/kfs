@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE descriptor-repository SYSTEM "repository.dtd" [
+<!ENTITY core SYSTEM "org/kuali/core/OJB-repository.xml">
+<!ENTITY kfs SYSTEM "org/kuali/kfs/OJB-repository-kfs.xml">
+<!ENTITY ar SYSTEM "org/kuali/module/ar/OJB-repository-ar.xml">
+<!ENTITY budget SYSTEM "org/kuali/module/budget/OJB-repository-budget.xml">
+<!ENTITY cams SYSTEM "org/kuali/module/cams/OJB-repository-cams.xml">
+<!ENTITY cg SYSTEM "org/kuali/module/cg/OJB-repository-cg.xml">
+<!ENTITY chart SYSTEM "org/kuali/module/chart/OJB-repository-chart.xml">
+<!ENTITY financial SYSTEM "org/kuali/module/financial/OJB-repository-financial.xml">
+<!ENTITY gl SYSTEM "org/kuali/module/gl/OJB-repository-gl.xml">
+<!ENTITY kra SYSTEM "org/kuali/module/kra/OJB-repository-kra.xml">
+<!ENTITY labor SYSTEM "org/kuali/module/labor/OJB-repository-labor.xml">
+<!ENTITY purap SYSTEM "org/kuali/module/purap/OJB-repository-purap.xml">
+]>
+<descriptor-repository version="1.0">
+    &core;
+    &kfs;
+    &ar;
+    &budget;
+    &cams;
+    &cg;
+    &chart;
+    &financial;
+    &gl;
+    &kra;
+    &labor;
+    &purap;
+    <jdbc-connection-descriptor jcd-alias="dataSource" default-connection="true" platform="Oracle9i" jdbc-level="3.0" useAutoCommit="0">
+        <sequence-manager className="org.apache.ojb.broker.util.sequence.SequenceManagerNextValImpl" />
+		<object-cache class="org.apache.ojb.broker.cache.ObjectCachePerBrokerImpl" />
+    </jdbc-connection-descriptor>
+</descriptor-repository>

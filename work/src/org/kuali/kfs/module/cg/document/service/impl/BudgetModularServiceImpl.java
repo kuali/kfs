@@ -22,8 +22,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetModular;
@@ -40,6 +42,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetModularServiceImpl.class);
 
+    private PersistenceService persistenceService;
     private BudgetNonpersonnelService budgetNonpersonnelService;
     private ModularAgencyHelper modularAgencyHelper;
 
@@ -303,6 +306,9 @@ public class BudgetModularServiceImpl implements BudgetModularService {
                 modularBudget.getBudgetModularPeriods().add(currentModularPeriod);
             }
 
+            List updateObject = new ArrayList();
+            updateObject.add("nonpersonnelObjectCode");
+            persistenceService.retrieveReferenceObjects(budget.getNonpersonnelItems(), updateObject);
             KualiInteger actualDirectCostAmountTotal = new BudgetNonpersonnelFormHelper(new Integer(0), period.getBudgetPeriodSequenceNumber(), nonpersonnelCategories, budget.getNonpersonnelItems(), true).getNonpersonnelAgencyTotal();
 
             KualiInteger actualDirectCostAmountLessExcluded = new BudgetNonpersonnelFormHelper(new Integer(0), period.getBudgetPeriodSequenceNumber(), nonpersonnelCategories, budget.getNonpersonnelItems(), false).getNonpersonnelAgencyTotal();
@@ -443,6 +449,14 @@ public class BudgetModularServiceImpl implements BudgetModularService {
      */
     public void setBudgetNonpersonnelService(BudgetNonpersonnelService budgetNonpersonnelService) {
         this.budgetNonpersonnelService = budgetNonpersonnelService;
+    }
+    
+    /**
+     * Sets the persistenceService attribute value.
+     * @param persistenceService The persistenceService to set.
+     */
+    public void setPersistenceService(PersistenceService persistenceService) {
+        this.persistenceService = persistenceService;
     }
 
     /**

@@ -45,4 +45,12 @@ public interface LaborLedgerPendingEntryService {
      * @return
      */    
     public boolean hasPendingLaborLedgerEntry(String emplid);
+    
+    /**
+     * 
+     * This method clears cancelled/disapproved entries to clear pending labor entries
+     * 
+     * @return
+     */    
+    public boolean clearCancelledPendingLaborLedgerEntries();
 }

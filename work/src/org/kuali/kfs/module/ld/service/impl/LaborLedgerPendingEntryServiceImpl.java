@@ -46,7 +46,7 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
     }
 
     public boolean hasPendingLaborLedgerEntry(String emplid) {
-        
+
         Map fieldValues = new HashMap();
         fieldValues.put("emplid", emplid);
         PendingLedgerEntry pendingEntry = new PendingLedgerEntry();
@@ -54,8 +54,48 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
 
         // When the financial Document Approved Code equals 'X' it means the pending labor ledger transaction has been processed
         for (PendingLedgerEntry pendingLedgerEntry : pendingEntries)
-            if ((pendingLedgerEntry.getFinancialDocumentApprovedCode() == null) || (!pendingLedgerEntry.getFinancialDocumentApprovedCode().trim().equals("X"))) 
+            if ((pendingLedgerEntry.getFinancialDocumentApprovedCode() == null) || (!pendingLedgerEntry.getFinancialDocumentApprovedCode().trim().equals("X")))
                 return true;
         return false;
+    }
+
+    public boolean clearCancelledPendingLaborLedgerEntries() {
+
+        // Insert an entry into fp_cancelled_docs_mt by copying columns from fp_doc_header_t 
+        
+   /*     SELECT  USERENV('SESSIONID'), fs_origin_cd, fdoc_nbr
+        FROM fp_doc_header_t 
+        WHERE fdoc_status_cd = 'C';
+*/
+
+        // Delete from gl_pending_entry_t
+        
+/*        DELETE  gl_pending_entry_t
+        WHERE ROWID IN
+        (SELECT p.ROWID
+        FROM gl_pending_entry_t p, fp_cancelled_docs_mt c
+        WHERE (p.fs_origin_cd = c.fs_origin_cd 
+        AND p.fdoc_nbr = c.fdoc_nbr) 
+        AND c.SESID = USERENV('SESSIONID'));
+*/    
+       // Delete from ld_pnd_ldgr_entr_t
+    
+/*      DELETE  ld_pnd_ldgr_entr_t
+        WHERE ROWID IN
+        (SELECT p.ROWID
+        FROM ld_pnd_ldgr_entr_t p, fp_cancelled_docs_mt c
+        WHERE (p.fs_origin_cd = c.fs_origin_cd 
+        AND p.fdoc_nbr = c.fdoc_nbr) 
+        AND c.SESID = USERENV('SESSIONID'));
+*/
+    //DELETE  from fp_cancelled_docs_mt
+
+     //   WHERE SESID = USERENV('SESSIONID');
+
+
+        
+        
+        
+        return true;
     }
 }

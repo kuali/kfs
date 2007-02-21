@@ -52,7 +52,7 @@
                 <maintainableItems>
                     <maintainableField name="deliveryRequiredDateReasonCode" required="true" />
                     <maintainableField name="deliveryRequiredDateReasonDescription" required="true" />
-                    <maintainableField name="dataObjectMaintenanceCodeActiveIndicator" />
+                    <maintainableField name="active" />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

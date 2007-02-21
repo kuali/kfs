@@ -27,7 +27,7 @@
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="carrierCode" />
                 <field attributeName="carrierDescription" />
-                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+                <field attributeName="active" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -45,7 +45,7 @@
             <lookupFields>
                 <lookupField attributeName="carrierCode" required="false" />
                 <lookupField attributeName="carrierDescription" required="false" />
-                <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" >
+                <lookupField attributeName="active" required="false" >
                 	<defaultValue>Y</defaultValue>
                 </lookupField>
             </lookupFields>
@@ -53,7 +53,7 @@
             <resultFields>
                 <field attributeName="carrierCode" />
                 <field attributeName="carrierDescription" />
-                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+                <field attributeName="active" />
             </resultFields>
         </lookup>
 
@@ -91,7 +91,7 @@
                 <description>carrierDescription description...</description>
 			</attribute>
 
-            <attributeReference name="dataObjectMaintenanceCodeActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 

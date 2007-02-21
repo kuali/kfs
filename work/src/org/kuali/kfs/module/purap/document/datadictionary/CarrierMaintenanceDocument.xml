@@ -52,7 +52,7 @@
                 <maintainableItems>
                     <maintainableField name="carrierCode" required="true" />
                     <maintainableField name="carrierDescription" required="true"/>
-                    <maintainableField name="dataObjectMaintenanceCodeActiveIndicator" >
+                    <maintainableField name="active" >
                        	<defaultValue>true</defaultValue>
                     </maintainableField>
                     <maintainableField name="versionNumber" />

@@ -27,7 +27,7 @@ public class DeliveryRequiredDateReason extends PersistableBusinessObjectBase {
 
 	private String deliveryRequiredDateReasonCode;
 	private String deliveryRequiredDateReasonDescription;
-	private boolean dataObjectMaintenanceCodeActiveIndicator;
+	private boolean active;
 
 	/**
 	 * Default constructor.
@@ -77,28 +77,23 @@ public class DeliveryRequiredDateReason extends PersistableBusinessObjectBase {
 		this.deliveryRequiredDateReasonDescription = deliveryRequiredDateReasonDescription;
 	}
 
-
 	/**
-	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
-	 * 
-	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator
-	 * 
-	 */
-	public boolean getDataObjectMaintenanceCodeActiveIndicator() { 
-		return dataObjectMaintenanceCodeActiveIndicator;
-	}
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
 
-	/**
-	 * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
-	 * 
-	 * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
-	 * 
-	 */
-	public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
-		this.dataObjectMaintenanceCodeActiveIndicator = dataObjectMaintenanceCodeActiveIndicator;
-	}
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
-	/**
+    /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {

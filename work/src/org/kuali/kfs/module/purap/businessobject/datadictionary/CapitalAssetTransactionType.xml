@@ -28,7 +28,7 @@
                 <field attributeName="capitalAssetTransactionTypeCode" />
                 <field attributeName="capitalAssetTransactionTypeDescription" />
                 <field attributeName="capitalAssetTransactionTypeServiceIndicator" />
-                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+                <field attributeName="active" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -47,14 +47,14 @@
                 <lookupField attributeName="capitalAssetTransactionTypeCode" required="false" />
                 <lookupField attributeName="capitalAssetTransactionTypeDescription" required="false" />
                 <lookupField attributeName="capitalAssetTransactionTypeServiceIndicator" required="false" />
-                <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
+                <lookupField attributeName="active" required="false" />
             </lookupFields>
 
             <resultFields>
                 <field attributeName="capitalAssetTransactionTypeCode" />
                 <field attributeName="capitalAssetTransactionTypeDescription" />
                 <field attributeName="capitalAssetTransactionTypeServiceIndicator" />
-                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+                <field attributeName="active" />
             </resultFields>
         </lookup>
 
@@ -106,7 +106,7 @@
                 <description>capitalAssetTransactionTypeServiceIndicator description...</description>
 			</attribute>
 
-            <attributeReference name="dataObjectMaintenanceCodeActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 

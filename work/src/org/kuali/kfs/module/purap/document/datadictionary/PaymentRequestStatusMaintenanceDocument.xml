@@ -52,7 +52,7 @@
                 <maintainableItems>
                     <maintainableField name="paymentRequestStatusCode" required="true" />
                     <maintainableField name="paymentRequestStatusDescription" required="true" />
-                    <maintainableField name="dataObjectMaintenanceCodeActiveIndicator" />
+                    <maintainableField name="active" />
                     <maintainableField name="versionNumber" />       
                 </maintainableItems>
             </maintainableSection>

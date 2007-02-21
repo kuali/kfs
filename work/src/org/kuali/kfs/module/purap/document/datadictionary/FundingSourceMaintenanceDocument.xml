@@ -52,7 +52,7 @@
                 <maintainableItems>
                     <maintainableField name="fundingSourceCode" required="true" />
                 	<maintainableField name="fundingSourceDescription" required="true" />
-                	<maintainableField name="dataObjectMaintenanceCodeActiveIndicator" />
+                	<maintainableField name="active" />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

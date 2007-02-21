@@ -27,7 +27,7 @@ public class Status extends PersistableBusinessObjectBase {
 
 	private String statusCode;
 	private String statusDescription;
-	private boolean dataObjectMaintenanceCodeActiveIndicator;
+	private boolean active;
     protected String ojbConcreteClass; // attribute needed for OJB polymorphism - do not alter!
 
 	/**
@@ -78,24 +78,20 @@ public class Status extends PersistableBusinessObjectBase {
     }
 
     /**
-	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
-	 * 
-	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator
-	 * 
-	 */
-	public boolean getDataObjectMaintenanceCodeActiveIndicator() { 
-		return dataObjectMaintenanceCodeActiveIndicator;
-	}
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
 
-	/**
-	 * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
-	 * 
-	 * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
-	 * 
-	 */
-	public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
-		this.dataObjectMaintenanceCodeActiveIndicator = dataObjectMaintenanceCodeActiveIndicator;
-	}
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
     /**
      * Gets the ojbConcreteClass attribute. 

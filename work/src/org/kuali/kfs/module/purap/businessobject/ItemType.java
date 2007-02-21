@@ -27,7 +27,7 @@ public class ItemType extends PersistableBusinessObjectBase {
 
 	private String itemTypeCode;
 	private String itemTypeDescription;
-	private boolean dataObjectMaintenanceCodeActiveIndicator;
+	private boolean active;
     private boolean quantityBasedGeneralLedgerIndicator;
     private boolean itemTypeAboveTheLineIndicator;
     
@@ -79,26 +79,21 @@ public class ItemType extends PersistableBusinessObjectBase {
 		this.itemTypeDescription = itemTypeDescription;
 	}
 
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
 
-	/**
-	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
-	 * 
-	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator
-	 * 
-	 */
-	public boolean getDataObjectMaintenanceCodeActiveIndicator() { 
-		return dataObjectMaintenanceCodeActiveIndicator;
-	}
-
-	/**
-	 * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
-	 * 
-	 * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
-	 * 
-	 */
-	public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
-		this.dataObjectMaintenanceCodeActiveIndicator = dataObjectMaintenanceCodeActiveIndicator;
-	}
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
     /**
      * Gets the itemTypeAboveTheLineIndicator attribute. 

@@ -52,7 +52,7 @@
                 <maintainableItems>
                     <maintainableField name="statusCode" required="true" />
                     <maintainableField name="statusDescription" required="true" />
-                	<maintainableField name="dataObjectMaintenanceCodeActiveIndicator" />
+                	<maintainableField name="active" />
                 	<maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

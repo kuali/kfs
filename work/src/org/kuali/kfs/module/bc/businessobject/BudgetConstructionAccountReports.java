@@ -37,6 +37,7 @@ public class BudgetConstructionAccountReports extends PersistableBusinessObjectB
     private Chart chartOfAccounts;
 	private Org reportsToOrganization;
 	private Chart reportsToChartOfAccounts;
+    private BudgetConstructionOrganizationReports budgetConstructionOrganizationReports;
 
 	/**
 	 * Default constructor.
@@ -210,6 +211,23 @@ public class BudgetConstructionAccountReports extends PersistableBusinessObjectB
 	}
 
 	/**
+     * Gets the budgetConstructionOrganizationReports attribute. 
+     * @return Returns the budgetConstructionOrganizationReports.
+     */
+    public BudgetConstructionOrganizationReports getBudgetConstructionOrganizationReports() {
+        return budgetConstructionOrganizationReports;
+    }
+
+    /**
+     * Sets the budgetConstructionOrganizationReports attribute value.
+     * @param budgetConstructionOrganizationReports The budgetConstructionOrganizationReports to set.
+     * @deprecated
+     */
+    public void setBudgetConstructionOrganizationReports(BudgetConstructionOrganizationReports budgetConstructionOrganizationReports) {
+        this.budgetConstructionOrganizationReports = budgetConstructionOrganizationReports;
+    }
+
+    /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {

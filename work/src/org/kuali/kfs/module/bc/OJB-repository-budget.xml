@@ -41,6 +41,10 @@
 		<foreignkey field-ref="accountNumber" />
 		<foreignkey field-ref="subAccountNumber" />
 	</reference-descriptor>
+	<reference-descriptor name="budgetConstructionAccountReports" class-ref="org.kuali.module.budget.bo.BudgetConstructionAccountReports" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="accountNumber" />
+	</reference-descriptor>
 
 <!-- remove for now, need to add some of this back in and add the BC reports to tables
 	<reference-descriptor name="organizationLevelOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -665,6 +669,10 @@
 	</reference-descriptor>
 	<reference-descriptor name="reportsToChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="reportsToChartOfAccountsCode" />
+	</reference-descriptor>
+	<reference-descriptor name="budgetConstructionOrganizationReports" class-ref="org.kuali.module.budget.bo.BudgetConstructionOrganizationReports" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="reportsToChartOfAccountsCode" />
+		<foreignkey field-ref="reportsToOrganizationCode" />
 	</reference-descriptor>
 </class-descriptor>
 

@@ -26,6 +26,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.module.budget.bo.BudgetConstructionAccountReports;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
@@ -52,9 +53,12 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
     private UniversalUser budgetLockUser;
     private UniversalUser budgetTransactionLockUser;
     private Org organizationLevelOrganization;
+    private BudgetConstructionAccountReports budgetConstructionAccountReports;
 
     private List pendingBudgetConstructionGeneralLedgerRevenueLines;
     private List pendingBudgetConstructionGeneralLedgerExpenditureLines;
+
+    private Integer previousUniversityFiscalYear;
     
     public BudgetConstructionDocument(){
         super();
@@ -86,7 +90,7 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
         fieldValues.put("ACCOUNT_NBR", getAccountNumber());
         fieldValues.put("SUB_ACCT_NBR", getSubAccountNumber());
         
-        
+        // this needs to do query FIN_OBJ_TYP_CD IN ('IN','IC','IN') or equivalent
         fieldValues.put("FIN_OBJ_TYP_CD", "IN");
         
         pendingBudgetConstructionGeneralLedgerRevenueLines = (ArrayList) SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(PendingBudgetConstructionGeneralLedger.class, fieldValues, "FIN_OBJECT_CD", true);
@@ -94,6 +98,7 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
             LOG.debug("pendingBudgetConstructionGeneralLedgerRevenue is: "+pendingBudgetConstructionGeneralLedgerRevenueLines);
         }
         
+        // this needs to do query FIN_OBJ_TYP_CD IN ('EE','ES','EX') or equivalent
         fieldValues.remove("FIN_OBJ_TYP_CD");
         fieldValues.put("FIN_OBJ_TYP_CD", "EX");
 
@@ -122,6 +127,7 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
+        setPreviousUniversityFiscalYear(universityFiscalYear-1);
     }
 
 
@@ -398,6 +404,42 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
      */
     public void setSubAccount(SubAccount subAccount) {
         this.subAccount = subAccount;
+    }
+
+    /**
+     * Gets the previousUniversityFiscalYear attribute. 
+     * @return Returns the previousUniversityFiscalYear.
+     */
+    public Integer getPreviousUniversityFiscalYear() {
+        if (previousUniversityFiscalYear== null){
+            this.previousUniversityFiscalYear = this.getUniversityFiscalYear()-1;
+        }
+        return previousUniversityFiscalYear;
+    }
+
+    /**
+     * Sets the previousUniversityFiscalYear attribute value.
+     * @param previousUniversityFiscalYear The previousUniversityFiscalYear to set.
+     */
+    public void setPreviousUniversityFiscalYear(Integer previousUniversityFiscalYear) {
+        this.previousUniversityFiscalYear = previousUniversityFiscalYear;
+    }
+
+    /**
+     * Gets the budgetConstructionAccountReports attribute. 
+     * @return Returns the budgetConstructionAccountReports.
+     */
+    public BudgetConstructionAccountReports getBudgetConstructionAccountReports() {
+        return budgetConstructionAccountReports;
+    }
+
+    /**
+     * Sets the budgetConstructionAccountReports attribute value.
+     * @param budgetConstructionAccountReports The budgetConstructionAccountReports to set.
+     * @deprecated
+     */
+    public void setBudgetConstructionAccountReports(BudgetConstructionAccountReports budgetConstructionAccountReports) {
+        this.budgetConstructionAccountReports = budgetConstructionAccountReports;
     }
 
     /**

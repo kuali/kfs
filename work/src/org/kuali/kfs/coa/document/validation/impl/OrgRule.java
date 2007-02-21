@@ -449,10 +449,13 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
                 String topLevelOrgTypeCode = rule.getParameterText();
                 List<Org> topLevelOrgs = orgService.getActiveOrgsByType( topLevelOrgTypeCode );
                 if ( !topLevelOrgs.isEmpty() ) {
-                    putFieldError( "organizationTypeCode", 
-                            KeyConstants.ERROR_DOCUMENT_ORGMAINT_ONLY_ONE_TOP_LEVEL_ORG,
-                            topLevelOrgs.get(0).getChartOfAccountsCode()+"-"+topLevelOrgs.get(0).getOrganizationCode() );
-                    success = false;
+                    // is the new org in the topLevelOrgs list?  If not, then there's an error; if so, we're editing the top level org
+                    if (!topLevelOrgs.contains(newOrg)) {
+                        putFieldError( "organizationTypeCode", 
+                                KeyConstants.ERROR_DOCUMENT_ORGMAINT_ONLY_ONE_TOP_LEVEL_ORG,
+                                topLevelOrgs.get(0).getChartOfAccountsCode()+"-"+topLevelOrgs.get(0).getOrganizationCode() );
+                        success = false;
+                    }
                 }
             }
         }
@@ -462,7 +465,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
     }
 
     // check that defaultAccount is present unless
-    // ( (orgType = U or C) and ( document is a "create new" ))
+    // ( (orgType = U or C) and ( document is a "create new" or "edit" ))
 
     protected boolean checkDefaultAccountNumber(MaintenanceDocument document) {
 
@@ -479,7 +482,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
                 exemptOrganizationTypeCode = true;
             }
         }
-        if (missingDefaultAccountNumber && (!exemptOrganizationTypeCode || !document.isNew())) {
+        if (missingDefaultAccountNumber && (!exemptOrganizationTypeCode || (!document.isNew() && !document.isEdit()))) {
             putFieldError("organizationDefaultAccountNumber", KeyConstants.ERROR_DOCUMENT_ORGMAINT_DEFAULT_ACCOUNT_NUMBER_REQUIRED);
             success &= false;
         }

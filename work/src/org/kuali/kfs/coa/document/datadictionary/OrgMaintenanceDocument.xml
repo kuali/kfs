@@ -59,7 +59,6 @@
             <reference attributeName="responsibilityCenter" activeIndicatorAttributeName="responsibilityCenterActiveIndicator" attributeToHighlightOnFail="responsibilityCenterCode" />
             <reference attributeName="organizationPhysicalCampus" attributeToHighlightOnFail="organizationPhysicalCampusCode" />
             <reference attributeName="organizationType" attributeToHighlightOnFail="organizationTypeCode" />
-            <reference attributeName="organizationDefaultAccount" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="organizationDefaultAccountNumber" />
             <reference attributeName="postalZip" attributeToHighlightOnFail="organizationZipCode" />
             <reference attributeName="organizationCountry" attributeToHighlightOnFail="organizationCountryCode" />
             <!-- need to prevent validation for case where reports-to org cites the current organization
@@ -81,7 +80,7 @@
                     <maintainableField name="responsibilityCenterCode" required="true" />
                     <maintainableField name="organizationPhysicalCampusCode" required="true" />
                     <maintainableField name="organizationTypeCode" required="true" />
-                    <maintainableField name="organizationDefaultAccountNumber" required="true" />
+                    <maintainableField name="organizationDefaultAccountNumber" required="false" />
                     <maintainableField name="organizationZipCode" required="true" webUILeaveFieldFunction="updateLocation" webUILeaveFieldCallbackFunction="updateLocation_Callback"/>
                     <maintainableField name="organizationLine1Address" required="true" />
                     <maintainableField name="organizationLine2Address" required="false" />

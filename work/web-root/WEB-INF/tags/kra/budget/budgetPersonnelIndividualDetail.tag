@@ -49,9 +49,9 @@
 	          <kul:tab 
 	          	tabTitle="${fn:substring(personName, 0, 22)}" 
 	          	tabDescription="${(not empty person.role) ? fn:substring(person.role, 0, 16) : ' '}" 
-	          	leftSideMultiboxPropertyName="${!viewOnly ? 'deleteValues' : null}" 
-	          	leftSideMultiboxPropertyValue="${listIndex}" 
-	          	leftSideMultiboxDisabled="${person.personProjectDirectorIndicator}" 
+	          	leftSideHtmlProperty="document.budget.personFromList[${listIndex}].delete" 
+	          	leftSideHtmlAttribute="${budgetUserAttributes.delete}" 
+	          	leftSideHtmlDisabled="${person.personProjectDirectorIndicator or viewOnly}" 
 	          	defaultOpen="false" transparentBackground="${firstInList}" 
 	          	tabErrorKey="document.budget.personFromList[${listIndex}]*" 
 	          	auditCluster="personnelAuditErrors"
@@ -190,7 +190,7 @@
 		                  <tr>
 	                      <th colspan="5" class="bord-l-b"><div align="right">Base Salary:</div></th>
 	                      <td colspan="4" class="datacell">
-	                        <kul:htmlControlAttribute property="document.budget.personFromList[${listIndex}].baseSalary" attributeEntry="${budgetUserAttributes.baseSalary}" readOnly="${viewOnly}" />
+	                        <kul:htmlControlAttribute property="document.budget.personFromList[${listIndex}].baseSalary" attributeEntry="${budgetUserAttributes.baseSalary}" readOnly="${viewOnly}" styleClass="amount"/>
  				                  <html:hidden property="document.budget.personFromList[${listIndex}].budgetSalaryFiscalYear" />
 	                      </td>
 		                    <th class="bord-l-b"><div align="right">Justification for rate change:</div></th>

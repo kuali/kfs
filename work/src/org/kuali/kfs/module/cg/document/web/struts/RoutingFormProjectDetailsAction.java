@@ -73,7 +73,7 @@ public class RoutingFormProjectDetailsAction extends RoutingFormAction {
         RoutingFormDocument routingFormDocument = routingForm.getRoutingFormDocument();
         RoutingFormInstitutionCostShare routingFormInstitutionCostShare = routingForm.getNewRoutingFormInstitutionCostShare();
 
-        routingFormDocument.addRoutingFormInstitutionCostShare(routingFormInstitutionCostShare);
+        routingFormDocument.addRoutingFormInstitutionCostShare(routingFormInstitutionCostShare, false);
         
         routingForm.setNewRoutingFormInstitutionCostShare(new RoutingFormInstitutionCostShare());
         return mapping.findForward(Constants.MAPPING_BASIC);

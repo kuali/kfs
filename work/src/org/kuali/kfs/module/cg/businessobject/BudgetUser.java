@@ -70,6 +70,7 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
     private String previousAppointmentTypeCode;
     private String previousSecondaryAppointmentTypeCode;
     private String secondaryAppointmentTypeCode;
+    private boolean delete;
 
     /**
      * Constructs a BudgetUser.java.
@@ -618,5 +619,13 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
 
     public void setPreviousSecondaryAppointmentTypeCode(String previousSecondaryAppointmentTypeCode) {
         this.previousSecondaryAppointmentTypeCode = previousSecondaryAppointmentTypeCode;
+    }
+
+    public boolean isDelete() {
+        return delete;
+    }
+
+    public void setDelete(boolean delete) {
+        this.delete = delete;
     }
 }

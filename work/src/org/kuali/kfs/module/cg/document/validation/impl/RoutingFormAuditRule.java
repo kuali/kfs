@@ -138,7 +138,7 @@ public class RoutingFormAuditRule {
                 auditErrors.add(new AuditError("document.routingFormPersonnel[" + i + "].personSystemIdentifier", KraKeyConstants.AUDIT_MAIN_PAGE_PERSON_REQUIRED, "mainpage.anchor2"));
             }
             
-            if (KraConstants.PERSON_ROLE_CODE_PD.equals(person.getPersonRoleCode())) {
+            if (person.isProjectDirector()) {
                 projectDirectorCount++;
                 
                 Map fieldValues = new HashMap();

@@ -18,6 +18,7 @@
 <c:set var="routingFormPersonnel" value="${DataDictionary.RoutingFormPersonnel.attributes}" />
 <c:set var="routingFormOrganizationCreditPercent" value="${DataDictionary.RoutingFormOrganizationCreditPercent.attributes}" />
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
+<c:set var="budgetLinked" value="${KualiForm.editingMode['budgetLinked']}"/>
 
 <kul:tab tabTitle="Personnel and Units/Orgs" defaultOpen="true" tabErrorKey="newRoutingFormPerson*,document.routingFormPersonnel*,newRoutingFormOrganizationCreditPercent*,document.routingFormOrganizationCreditPercent*" auditCluster="mainPageAuditErrors" tabAuditKey="document.routingFormPersonnel*,document.routingFormOrganizationCreditPercent*">
 
@@ -88,6 +89,7 @@
               </c:if>
               
               <c:forEach items = "${KualiForm.document.routingFormPersonnel}" var="person" varStatus="status"  >
+                <c:set var="isProjectDirector" value="${person.projectDirector}" />
                 <tr>
    	              <html:hidden property="document.routingFormPersonnel[${status.index}].personSystemIdentifier" />
    	              <html:hidden property="document.routingFormPersonnel[${status.index}].routingFormPersonSequenceNumber" />
@@ -116,11 +118,16 @@
                     <c:if test="${empty person.personSystemIdentifier && !person.personToBeNamedIndicator}">(select)</c:if>
 		    	    <c:if test="${person.personToBeNamedIndicator}">TO BE NAMED</c:if>
                     <c:if test="${!viewOnly}">
-                      <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:document.routingFormPersonnel[${status.index}].personSystemIdentifier,personName:document.routingFormPersonnel[${status.index}].user.personName" extraButtonSource="images/buttonsmall_namelater.gif" extraButtonParams="&document.routingFormPersonnel[${status.index}].personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
+                      <c:choose>
+                        <c:when test="${budgetLinked and isProjectDirector }" />
+                        <c:otherwise>
+                          <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:document.routingFormPersonnel[${status.index}].personSystemIdentifier,personName:document.routingFormPersonnel[${status.index}].user.personName" extraButtonSource="images/buttonsmall_namelater.gif" extraButtonParams="&document.routingFormPersonnel[${status.index}].personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
+                        </c:otherwise>
+                      </c:choose>
                     </c:if>
                   </td>
-                  <td><kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].personRoleCode" attributeEntry="${routingFormPersonnel.personRoleCode}" readOnly="${viewOnly}"/></td>
-                  <td><kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].personRoleText" attributeEntry="${routingFormPersonnel.personRoleText}" readOnly="${viewOnly}"/></td>
+                  <td><kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].personRoleCode" attributeEntry="${routingFormPersonnel.personRoleCode}" readOnly="${viewOnly or (budgetLinked and isProjectDirector)}"/></td>
+                  <td><kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].personRoleText" attributeEntry="${routingFormPersonnel.personRoleText}" readOnly="${viewOnly or (budgetLinked and isProjectDirector)}"/></td>
                   <td>
                     <c:choose>
                       <c:when test="${person.chartOfAccountsCode ne null and person.organizationCode ne null}">
@@ -129,7 +136,12 @@
                       <c:otherwise>(select)</c:otherwise>
                     </c:choose>
                     <c:if test="${!viewOnly}">
-                      <kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:document.routingFormPersonnel[${status.index}].chartOfAccountsCode,organizationCode:document.routingFormPersonnel[${status.index}].organizationCode" anchor="${currentTabIndex}" />
+                      <c:choose>
+                        <c:when test="${budgetLinked and isProjectDirector }" />
+                        <c:otherwise>
+                          <kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:document.routingFormPersonnel[${status.index}].chartOfAccountsCode,organizationCode:document.routingFormPersonnel[${status.index}].organizationCode" anchor="${currentTabIndex}" />
+                        </c:otherwise>
+                      </c:choose>
                     </c:if>
                   </td>
                   <td><div align="center"><span class="infoline">

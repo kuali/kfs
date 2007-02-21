@@ -138,15 +138,23 @@ public class BudgetPersonnelAction extends BudgetAction {
     public ActionForward deletePersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         List personnel = budgetForm.getBudgetDocument().getBudget().getPersonnel();
-        String[] deleteIndexes = budgetForm.getDeleteValues();
-        if (deleteIndexes != null && deleteIndexes.length > 0) {
-            for (int i = deleteIndexes.length - 1; i > -1; i--) {
-                if (deleteIndexes[i] != null) {
-                    personnel.remove(Integer.parseInt(deleteIndexes[i]));
-                }
+
+        for (Iterator i = personnel.iterator(); i.hasNext(); ) {
+            BudgetUser budgetUser = (BudgetUser)i.next();
+            if (budgetUser.isDelete()) {
+                i.remove();
             }
         }
-        budgetForm.setDeleteValues(new String[personnel.size()]);
+        
+//        String[] deleteIndexes = budgetForm.getDeleteValues();
+//        if (deleteIndexes != null && deleteIndexes.length > 0) {
+//            for (int i = deleteIndexes.length - 1; i > -1; i--) {
+//                if (deleteIndexes[i] != null) {
+//                    personnel.remove(Integer.parseInt(deleteIndexes[i]));
+//                }
+//            }
+//        }
+//        budgetForm.setDeleteValues(new String[personnel.size()]);
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }

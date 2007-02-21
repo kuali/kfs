@@ -58,6 +58,11 @@ public class RoutingFormTemplateAction extends RoutingFormAction {
         // Clear Research Risks
         routingFormDoc.setRoutingFormResearchRisks(new ArrayList<RoutingFormResearchRisk>());
         
+        // Clear Link to Budget if it exists.
+        routingForm.getRoutingFormDocument().setRoutingFormBudgetNumber(null);
+        routingForm.getRoutingFormDocument().getRoutingFormBudget().setRoutingFormBudgetMinimumPeriodNumber(null);
+        routingForm.getRoutingFormDocument().getRoutingFormBudget().setRoutingFormBudgetMaximumPeriodNumber(null);
+        
         SpringServiceLocator.getRoutingFormProjectDetailsService().reconcileOtherProjectDetailsQuestions(routingFormDoc);
 
         // Check if delivery address to be copied over

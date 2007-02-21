@@ -24,10 +24,12 @@
 <%@ taglib tagdir="/WEB-INF/tags/kra" prefix="kra" %>
 
 <%@ attribute name="editingMode" required="true" description="used to decide editability of overview fields" type="java.util.Map"%>
-<c:set var="readOnly" value="${empty editingMode['fullEntry']}" />
 <c:set var="docHeaderAttributes" value="${DataDictionary.DocumentHeader.attributes}" />
 <c:set var="subcontractorAttributes" value="${DataDictionary.RoutingFormSubcontractor.attributes}" />
 <c:set var="cgSubcontractorAttributes" value="${DataDictionary.Subcontractor.attributes}" />
+<c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
+<c:set var="budgetLinked" value="${KualiForm.editingMode['budgetLinked']}" />
+
 
 <kul:tab tabTitle="Subcontracts" defaultOpen="false" tabErrorKey="document.routingFormSubcontractor*" >
 
@@ -41,8 +43,10 @@
         <th width="50">&nbsp;</th>
         <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${cgSubcontractorAttributes.subcontractorName}" skipHelpUrl="true" useShortLabel="false" noColon="true" /></div></th>
         <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${subcontractorAttributes.routingFormSubcontractorAmount}" skipHelpUrl="true" useShortLabel="true" noColon="true" /></div></th>
-        <th>Action</th>
+        <c:if test="${not readOnly and not budgetLinked}"><th>Action</th></c:if>
       </tr>
+
+<c:if test="${not readOnly and not budgetLinked}">
       <tr>
         <th scope="row">add:</th>
         <td class="infoline">
@@ -64,7 +68,7 @@
           </div>
         </td>
       </tr>
-
+</c:if>
       <c:forEach items = "${KualiForm.document.routingFormSubcontractors}" var="routingFormSubcontractor" varStatus="status"  >
         <tr>
           <th scope="row">
@@ -79,26 +83,30 @@
             <div align="center">
               <c:if test="${ empty routingFormSubcontractor.subcontractor.subcontractorName }">(select)</c:if>
               <html:hidden property="document.routingFormSubcontractor[${status.index}].subcontractor.subcontractorName" write="true" />
-              <kul:lookup boClassName="org.kuali.module.cg.bo.Subcontractor" lookupParameters="document.routingFormSubcontractor[${status.index}].subcontractor.subcontractorName:subcontractorName,document.routingFormSubcontractor[${status.index}].routingFormSubcontractorNumber:subcontractorNumber" fieldConversions="subcontractorName:document.routingFormSubcontractor[${status.index}].subcontractor.subcontractorName,subcontractorNumber:document.routingFormSubcontractor[${status.index}].routingFormSubcontractorNumberr" tabindexOverride="5100" anchor="${currentTabIndex}" />
+              <c:if test="${not readOnly and not budgetLinked}">
+                <kul:lookup boClassName="org.kuali.module.cg.bo.Subcontractor" lookupParameters="document.routingFormSubcontractor[${status.index}].subcontractor.subcontractorName:subcontractorName,document.routingFormSubcontractor[${status.index}].routingFormSubcontractorNumber:subcontractorNumber" fieldConversions="subcontractorName:document.routingFormSubcontractor[${status.index}].subcontractor.subcontractorName,subcontractorNumber:document.routingFormSubcontractor[${status.index}].routingFormSubcontractorNumber" tabindexOverride="5100" anchor="${currentTabIndex}" />
+              </c:if>
             </div>
           </td>
           <td>
             <div align="right">
-              <kul:htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].routingFormSubcontractorAmount" attributeEntry="${subcontractorAttributes.routingFormSubcontractorAmount}" styleClass="amount" />
+              <kul:htmlControlAttribute property="document.routingFormSubcontractor[${status.index}].routingFormSubcontractorAmount" attributeEntry="${subcontractorAttributes.routingFormSubcontractorAmount}" styleClass="amount" readOnly="${readOnly or budgetLinked}" />
             </div>
           </td>
+          <c:if test="${not readOnly and not budgetLinked}">
           <td>
             <div align=center>
               <html:image property="methodToCall.deleteRoutingFormSubcontractor.line${status.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-delete1.gif" alt="delete subcontractor"/>
             </div>
           </td>
+          </c:if>
         </tr>
       </c:forEach>
 
       <tr>
         <td colspan="2" class="total-line"  scope="row">&nbsp;</td>
         <td class="total-line"><strong> Total: <fmt:formatNumber value="${KualiForm.document.totalSubcontractorAmount}" type="currency" /></strong></td>
-        <td class="total-line">&nbsp;</td>
+        <c:if test="${not readOnly and not budgetLinked}"><td class="total-line">&nbsp;</td></c:if>
       </tr>
     </table>
   </div>

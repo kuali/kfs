@@ -129,7 +129,7 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
         }
     }
 
-    private Proposal getProposal() {
+    public Proposal getProposal() {
         return (Proposal) getBusinessObject();
     }
 

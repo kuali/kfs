@@ -19,6 +19,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.kra.routingform.bo.ResearchRiskType;
+import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 
 public class ProposalResearchRisk extends PersistableBusinessObjectBase {
     
@@ -28,6 +29,18 @@ public class ProposalResearchRisk extends PersistableBusinessObjectBase {
     
     private Proposal proposal;
     private ResearchRiskType researchRiskType;
+    
+    public ProposalResearchRisk() {
+        super();
+    }
+    
+    public ProposalResearchRisk(Long proposalNumber, RoutingFormResearchRisk routingFormResearchRisk) {
+        this.proposalNumber = proposalNumber;
+        this.researchRiskTypeCode = routingFormResearchRisk.getResearchRiskTypeCode();
+        this.isActive = 
+            routingFormResearchRisk.getResearchRiskStudies() != null && routingFormResearchRisk.getResearchRiskStudies().size() > 0 || routingFormResearchRisk.getResearchRiskDescription() != null;
+        this.researchRiskType = routingFormResearchRisk.getResearchRiskType();
+    }
     
     @Override
     protected LinkedHashMap toStringMapper() {

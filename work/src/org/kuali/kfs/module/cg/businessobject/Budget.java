@@ -707,7 +707,7 @@ public class Budget extends PersistableBusinessObjectBase {
     /**
      * @return Returns the institutionCostShareItems.
      */
-    public List getInstitutionCostShareItems() {
+    public List<BudgetInstitutionCostShare> getInstitutionCostShareItems() {
         return institutionCostShareItems;
     }
 
@@ -823,7 +823,7 @@ public class Budget extends PersistableBusinessObjectBase {
     /**
      * @return Returns the thirdPartyCostShareItems.
      */
-    public List getThirdPartyCostShareItems() {
+    public List<BudgetThirdPartyCostShare> getThirdPartyCostShareItems() {
         return thirdPartyCostShareItems;
     }
 

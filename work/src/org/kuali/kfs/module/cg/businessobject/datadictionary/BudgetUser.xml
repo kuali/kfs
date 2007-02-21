@@ -345,7 +345,11 @@
                 <summary>Employee Type</summary>
                 <description>Employee Type</description>
             </attributeReference>
+
+            <attributeReference name="delete" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean" />
+
         </attributes>
+
         
         <objectLabel>Budget User/Personnel</objectLabel>
     </businessObject>

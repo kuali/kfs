@@ -16,15 +16,15 @@
 
 package org.kuali.module.kra.routingform.bo;
 
-import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
+import org.kuali.PropertyConstants;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
-import org.kuali.PropertyConstants;
 
 /**
  * 
@@ -36,7 +36,7 @@ public class RoutingFormInstitutionCostShare extends PersistableBusinessObjectBa
 	private String accountNumber;
 	private String chartOfAccountsCode;
 	private String organizationCode;
-	private KualiDecimal routingFormCostShareAmount;
+	private KualiInteger routingFormCostShareAmount;
 	private String routingFormCostShareDescription;
 
     private Account account;
@@ -161,7 +161,7 @@ public class RoutingFormInstitutionCostShare extends PersistableBusinessObjectBa
 	 * @return Returns the routingFormCostShareAmount
 	 * 
 	 */
-	public KualiDecimal getRoutingFormCostShareAmount() { 
+	public KualiInteger getRoutingFormCostShareAmount() { 
 		return routingFormCostShareAmount;
 	}
 
@@ -171,7 +171,7 @@ public class RoutingFormInstitutionCostShare extends PersistableBusinessObjectBa
 	 * @param routingFormCostShareAmount The routingFormCostShareAmount to set.
 	 * 
 	 */
-	public void setRoutingFormCostShareAmount(KualiDecimal routingFormCostShareAmount) {
+	public void setRoutingFormCostShareAmount(KualiInteger routingFormCostShareAmount) {
 		this.routingFormCostShareAmount = routingFormCostShareAmount;
 	}
 

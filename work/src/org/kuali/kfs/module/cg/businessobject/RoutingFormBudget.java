@@ -289,5 +289,17 @@ public class RoutingFormBudget extends PersistableBusinessObjectBase {
         m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return m;
     }
+    
+    public void resetRoutingFormBudgetData() {
+        this.setRoutingFormBudgetDirectAmount(KualiInteger.ZERO);
+        this.setRoutingFormBudgetIndirectCostAmount(KualiInteger.ZERO);
+        this.setRoutingFormBudgetTotalDirectAmount(KualiInteger.ZERO);
+        this.setRoutingFormBudgetTotalIndirectCostAmount(KualiInteger.ZERO);
+        this.setRoutingFormBudgetStartDate(null);
+        this.setRoutingFormBudgetEndDate(null);
+        this.setRoutingFormBudgetTotalStartDate(null);
+        this.setRoutingFormBudgetTotalEndDate(null);
+
+    }
 
 }

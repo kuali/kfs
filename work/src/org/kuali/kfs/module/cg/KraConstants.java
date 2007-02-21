@@ -150,4 +150,8 @@ public class KraConstants extends JstlConstants {
     public static final String PROJECT_TYPE_OTHER = "O";
     public static final String PURPOSE_RESEARCH = "R";
     public static final String PURPOSE_OTHER = "O";
+
+    public static class AuthorizationConstants extends org.kuali.core.authorization.AuthorizationConstants.EditMode {
+        public static final String BUDGET_LINKED = "budgetLinked";
+    }
 }

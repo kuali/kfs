@@ -124,6 +124,7 @@ public class KraKeyConstants {
     public static final String ERROR_ACCOUNT_ALREADY_EXISTS_ON_RF = "error.account.already.exists.on.rf";
     public static final String ERROR_ORG_NOT_FOUND = "error.org.not.found";
     public static final String ERROR_SUBCONTRACTOR_NOT_FOUND = "error.subcontractor.not.found";
+    public static final String ERROR_SUBCONTRACTOR_NOT_SELECTED = "error.subcontractor.not.selected";
     public static final String ERROR_SUBCONTRACTOR_ALREADY_EXISTS_ON_RF = "error.subcontractor.already.exists.on.rf";
     public static final String ERROR_FRINGE_RATE_TOO_LARGE = "error.fringeRate.tooLarge";
     public static final String ERROR_KEYWORD_MISSING = "error.keyword.missing";
@@ -143,5 +144,8 @@ public class KraKeyConstants {
     public static final String ERROR_BUDGET_ALREADY_LINKED = "error.budget.already.linked";
     public static final String ERROR_DOCUMENT_NUMBER_NOT_BUDGET_DOCUMENT = "error.document.number.not.budget";
     public static final String ERROR_DOCUMENT_NUMBER_NOT_EXIST = "error.document.number.not.exist";
+    
+    //Global Messages
+    public static final Object BUDGET_OVERRIDE = "document.budget.override";
     
 }

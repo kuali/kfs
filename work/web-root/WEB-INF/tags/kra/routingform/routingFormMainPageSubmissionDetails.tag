@@ -21,6 +21,7 @@
 <c:set var="routingFormKeywordAttributes" value="${DataDictionary.RoutingFormKeyword.attributes}" />
 <c:set var="contractGrantProposalAttributes" value="${DataDictionary.ContractGrantProposal.attributes}" />
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
+<c:set var="budgetLinked" value="${KualiForm.editingMode['budgetLinked']}"/>
 
 <kul:tab tabTitle="Submission Details" defaultOpen="true" tabErrorKey="newRoutingFormKeyword*,document.contractGrantProposal*,document.projectAbstract,document.routingFormProjectTitle,document.routingFormBudget*" auditCluster="mainPageAuditErrors" tabAuditKey="document.routingFormBudget*,document.submissionTypeCode,document.previousFederalIdentifier,document.routingFormPurposeCode,document.researchTypeCode,document.routingFormOtherPurposeDescription,document.routingFormProjectTitle,document.projectAbstract,document.routingFormProjectTypes*,document.projectTypeOtherDescription,document.routingFormPriorGrantNumber,document.grantNumber">
 
@@ -133,7 +134,7 @@
                     <html:hidden property="purposes[${status.index}].purposeDescription" />
                     <label>
                       <c:choose>
-                        <c:when test="${!viewOnly}">
+                        <c:when test="${!viewOnly and !budgetLinked}">
                           <html:radio property="document.routingFormPurposeCode" value="${purpose.purposeCode}" disabled="${viewOnly}"/>
                         </c:when>
                         <c:when test="${KualiForm.document.routingFormPurposeCode eq purpose.purposeCode}"> Yes </c:when>
@@ -217,22 +218,22 @@
               </tr>
               <tr>
                 <th scope="row"><div align="right">Current Period:</div></th>
-                <td><div align="center"><kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetDirectAmount" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetDirectAmount}" readOnly="${viewOnly}"/></div></td>
-                <td><div align="center"><kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetIndirectCostAmount" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetIndirectCostAmount}" readOnly="${viewOnly}"/></div></td>
+                <td><div align="center"><kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetDirectAmount" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetDirectAmount}" readOnly="${viewOnly or budgetLinked}"/></div></td>
+                <td><div align="center"><kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetIndirectCostAmount" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetIndirectCostAmount}" readOnly="${viewOnly or budgetLinked}"/></div></td>
                 <td><div align="right">$ ${KualiForm.document.routingFormBudget.routingFormBudgetDirectAmount + KualiForm.document.routingFormBudget.routingFormBudgetIndirectCostAmount} </div></td>
-                <td><div align="center"><kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetStartDate" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetStartDate}" datePicker="true" readOnly="${viewOnly}"/></div></td>
-                <td><div align="center"><kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetEndDate" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetEndDate}" datePicker="true" readOnly="${viewOnly}"/></div>
+                <td><div align="center"><kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetStartDate" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetStartDate}" datePicker="true" readOnly="${viewOnly or budgetLinked}"/></div></td>
+                <td><div align="center"><kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetEndDate" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetEndDate}" datePicker="true" readOnly="${viewOnly or budgetLinked}"/></div>
                   <kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetMinimumPeriodNumber" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetMinimumPeriodNumber}" />
                   <kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetMaximumPeriodNumber" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetMaximumPeriodNumber}" />
                 </td>
               </tr>
               <tr>
                 <th scope="row"><div align="right">Total Periods:</div></th>
-                <td><div align="center"><kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetTotalDirectAmount" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetTotalDirectAmount}" readOnly="${viewOnly}"/></div></td>
-                <td><div align="center"><kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetTotalIndirectCostAmount" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetTotalIndirectCostAmount}" readOnly="${viewOnly}"/></div></td>
+                <td><div align="center"><kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetTotalDirectAmount" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetTotalDirectAmount}" readOnly="${viewOnly or budgetLinked}"/></div></td>
+                <td><div align="center"><kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetTotalIndirectCostAmount" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetTotalIndirectCostAmount}" readOnly="${viewOnly or budgetLinked}"/></div></td>
                 <td><div align="right">$ ${KualiForm.document.routingFormBudget.routingFormBudgetTotalDirectAmount + KualiForm.document.routingFormBudget.routingFormBudgetTotalIndirectCostAmount} </div></td>
-                <td><div align="center"><kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetTotalStartDate" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetTotalStartDate}" datePicker="true" readOnly="${viewOnly}"/></div></td>
-                <td><div align="center"><kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetTotalEndDate" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetTotalEndDate}" datePicker="true" readOnly="${viewOnly}"/></div></td>
+                <td><div align="center"><kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetTotalStartDate" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetTotalStartDate}" datePicker="true" readOnly="${viewOnly or budgetLinked}"/></div></td>
+                <td><div align="center"><kul:htmlControlAttribute property="document.routingFormBudget.routingFormBudgetTotalEndDate" attributeEntry="${routingFormBudgetAttributes.routingFormBudgetTotalEndDate}" datePicker="true" readOnly="${viewOnly or budgetLinked}"/></div></td>
               </tr>
             </table>
 

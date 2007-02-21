@@ -240,19 +240,28 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                 errorMap.putError("routingFormSubcontractorAmount", KraKeyConstants.ERROR_INVALID_AMOUNT_POSITIVE_ONLY);
             }
 
-            if (subcontractor.getSubcontractor() == null) {
-                //subcontractor doesn't exist
-                valid = false;
-                errorMap.putError("routingFormSubcontractorAmount", KraKeyConstants.ERROR_SUBCONTRACTOR_NOT_FOUND);
-            } else {
-                if (!subcontractors.contains(subcontractor.getSubcontractor())) {
-                    subcontractors.add(subcontractor.getSubcontractor());
-                } else {
-                    //subcontractor already exists on RF
+            if (subcontractor.getRoutingFormSubcontractorNumber() != null) {
+
+                if (subcontractor.getSubcontractor() == null) {
+                    // subcontractor doesn't exist
                     valid = false;
-                    errorMap.putError("routingFormSubcontractorAmount", KraKeyConstants.ERROR_SUBCONTRACTOR_ALREADY_EXISTS_ON_RF);
+                    errorMap.putError("routingFormSubcontractorAmount", KraKeyConstants.ERROR_SUBCONTRACTOR_NOT_FOUND);
                 }
+                else {
+                    if (!subcontractors.contains(subcontractor.getSubcontractor())) {
+                        subcontractors.add(subcontractor.getSubcontractor());
+                    }
+                    else {
+                        // subcontractor already exists on RF
+                        valid = false;
+                        errorMap.putError("routingFormSubcontractorAmount", KraKeyConstants.ERROR_SUBCONTRACTOR_ALREADY_EXISTS_ON_RF);
+                    }
+                }
+            } else {
+                valid = false;
+                errorMap.putError("routingFormSubcontractorAmount", KraKeyConstants.ERROR_SUBCONTRACTOR_NOT_SELECTED);
             }
+
             errorMap.removeFromErrorPath("routingFormSubcontractor[" + i++ + "]");
         }
         return valid;

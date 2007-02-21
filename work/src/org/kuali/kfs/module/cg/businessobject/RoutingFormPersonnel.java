@@ -25,6 +25,8 @@ import org.kuali.kfs.bo.PostalZipCode;
 import org.kuali.kfs.bo.State;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
+import org.kuali.module.kra.KraConstants;
+import org.kuali.module.kra.budget.bo.BudgetUser;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 
 /**
@@ -63,7 +65,7 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
     private PostalZipCode personZip;
     private Country personCountry;
     private PersonRole personRole;
-    private RoutingFormDocument routingFormDocument;
+//    private RoutingFormDocument routingFormDocument;
     private UniversalUser user;
     
 	/**
@@ -73,6 +75,24 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
 
 	}
 
+    /**
+     * Default constructor.
+     */
+    public RoutingFormPersonnel(BudgetUser budgetUser, String documentNumber, String personRoleCode) {
+        this.documentNumber = documentNumber;
+        this.personRoleCode = personRoleCode;
+        this.personSystemIdentifier = budgetUser.getPersonSystemIdentifier();
+        
+        
+        this.chartOfAccountsCode = budgetUser.getFiscalCampusCode();
+        this.organizationCode = budgetUser.getPrimaryDepartmentCode();
+        this.personPrefixText = budgetUser.getPersonNamePrefixText();
+        this.personSuffixText = budgetUser.getPersonNameSuffixText();;
+        this.personRoleText = budgetUser.getRole();
+        this.personToBeNamedIndicator = budgetUser.getPersonSystemIdentifier() == null;
+    }
+
+    
 	/**
 	 * Gets the documentNumber attribute.
 	 * 
@@ -635,24 +655,24 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
     public void setPersonRole(PersonRole personRole) {
         this.personRole = personRole;
     }
-    
-    /**
-     * Gets the routingFormDocument attribute. 
-     * @return Returns the routingFormDocument.
-     */
-    public RoutingFormDocument getRoutingFormDocument() {
-        return routingFormDocument;
-    }
-
-    /**
-     * Sets the routingFormDocument attribute value.
-     * @param routingFormDocument The routingFormDocument to set.
-     * @deprecated
-     */
-    public void setRoutingFormDocument(RoutingFormDocument routingFormDocument) {
-        this.routingFormDocument = routingFormDocument;
-    }
-    
+//    
+//    /**
+//     * Gets the routingFormDocument attribute. 
+//     * @return Returns the routingFormDocument.
+//     */
+//    public RoutingFormDocument getRoutingFormDocument() {
+//        return routingFormDocument;
+//    }
+//
+//    /**
+//     * Sets the routingFormDocument attribute value.
+//     * @param routingFormDocument The routingFormDocument to set.
+//     * @deprecated
+//     */
+//    public void setRoutingFormDocument(RoutingFormDocument routingFormDocument) {
+//        this.routingFormDocument = routingFormDocument;
+//    }
+//    
     /**
      * Gets the user attribute. 
      * @return Returns the user.
@@ -713,6 +733,9 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
         m.put("documentNumber", this.documentNumber);
         return m;
     }
-    
+
+    public boolean isProjectDirector() {
+        return KraConstants.PERSON_ROLE_CODE_PD.equals(this.getPersonRoleCode());
+    }
     
 }

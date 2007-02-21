@@ -33,6 +33,7 @@ import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganization;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
+import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 
@@ -114,7 +115,7 @@ public class Proposal extends PersistableBusinessObjectBase {
         this.setProposalFellowName(routingFormDocument.getRoutingFormFellowFullName());
         this.setProposalFederalPassThroughIndicator(routingFormDocument.getRoutingFormFederalPassThroughIndicator());
         this.setFederalPassThroughAgencyNumber(routingFormDocument.getAgencyFederalPassThroughNumber());
-        
+
         //Values coming from Routing Form Budget BO (ER_RF_BDGT_T)
         RoutingFormBudget routingFormBudget = routingFormDocument.getRoutingFormBudget();
         this.setProposalBeginningDate(routingFormBudget.getRoutingFormBudgetStartDate());
@@ -136,9 +137,9 @@ public class Proposal extends PersistableBusinessObjectBase {
         RoutingFormPersonnel projectDirector = null;
 
         for (RoutingFormPersonnel routingFormPerson : routingFormDocument.getRoutingFormPersonnel()) {
-            if (KraConstants.PERSON_ROLE_CODE_PD.equals(routingFormPerson.getPersonRoleCode())) {
+            if (routingFormPerson.isProjectDirector()) {
                 projectDirector = routingFormPerson;
-                
+
                 this.getProposalProjectDirectors().add(new ProposalProjectDirector(projectDirector, newProposalNumber, true));
                 
                 ProposalOrganization projectDirectorOrganization = new ProposalOrganization();
@@ -151,15 +152,19 @@ public class Proposal extends PersistableBusinessObjectBase {
                 break;
             }
         }
-        
+
         for (RoutingFormOrganization routingFormOrganization : routingFormDocument.getRoutingFormOrganizations()) {
             //construct a new ProposalOrganization using the current RoutingFormOrganization as a template.
             ProposalOrganization proposalOrganization = new ProposalOrganization(newProposalNumber, routingFormOrganization);
-            
+
             //check to see if the list or ProposalOrganizations already contains an entry with this key; add it to the list if it does not.
             if (!ObjectUtils.collectionContainsObjectWithIdentitcalKey(this.getProposalOrganizations(), proposalOrganization)) {
                 this.getProposalOrganizations().add(proposalOrganization);
             }
+        }
+
+        for (RoutingFormResearchRisk routingFormResearchRisk : routingFormDocument.getRoutingFormResearchRisks()) {
+            this.getProposalResearchRisks().add(new ProposalResearchRisk(newProposalNumber, routingFormResearchRisk));
         }
         
         //Can't do yet?

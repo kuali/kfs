@@ -17,19 +17,31 @@ package org.kuali.module.kra.routingform.document;
 
 import java.util.Map;
 
-
+import org.kuali.KeyConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.DocumentAuthorizerBase;
-import org.kuali.module.kra.budget.document.BudgetDocument;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.module.kra.KraConstants;
+import org.kuali.module.kra.KraKeyConstants;
 
 public class RoutingFormDocumentAuthorizer extends DocumentAuthorizerBase {
 
     @Override
     public Map getEditMode(Document d, UniversalUser u) {
         // TODO Auto-generated method stub
-        return super.getEditMode(d, u);
+        
+        Map editModes = super.getEditMode(d, u);
+        
+        RoutingFormDocument rfd = (RoutingFormDocument)d;
+        if (rfd.getRoutingFormBudgetNumber() != null) {
+            editModes.put(KraConstants.AuthorizationConstants.BUDGET_LINKED, "TRUE");
+            if (!GlobalVariables.getMessageList().contains(KraKeyConstants.BUDGET_OVERRIDE))
+                GlobalVariables.getMessageList().add(0, KraKeyConstants.BUDGET_OVERRIDE);
+        }
+        
+        return editModes;
     }
 
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {

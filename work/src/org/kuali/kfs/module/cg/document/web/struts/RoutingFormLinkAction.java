@@ -73,9 +73,10 @@ public class RoutingFormLinkAction extends RoutingFormAction {
             routingForm.getRoutingFormDocument().setRoutingFormBudgetNumber(budgetDocumentHeaderId);
             routingForm.getRoutingFormDocument().getRoutingFormBudget().setRoutingFormBudgetMinimumPeriodNumber(linkedPeriods.get(0).getBudgetPeriod().getBudgetPeriodSequenceNumber());
             routingForm.getRoutingFormDocument().getRoutingFormBudget().setRoutingFormBudgetMaximumPeriodNumber(linkedPeriods.get(linkedPeriods.size() - 1).getBudgetPeriod().getBudgetPeriodSequenceNumber());
+
             
             //service method to link budget data
-            SpringServiceLocator.getRoutingFormService().linkImportBudgetDataToRoutingForm(routingForm.getRoutingFormDocument(), routingForm.getRoutingFormDocument().getRoutingFormBudgetNumber());
+            SpringServiceLocator.getRoutingFormService().linkImportBudgetDataToRoutingForm(routingForm.getRoutingFormDocument(), routingForm.getRoutingFormDocument().getRoutingFormBudgetNumber(), routingForm.getPeriodBudgetOverviewFormHelpers());
 
             //save the new budget data into the RF
             super.save(mapping, form, request, response);
@@ -86,7 +87,7 @@ public class RoutingFormLinkAction extends RoutingFormAction {
                 
                 super.load(mapping, form, request, response);
                 //return to the main page
-                return mapping.findForward("mainpage");
+                return super.mainpage(mapping, form, request, response);
             }
         }
 
@@ -114,6 +115,26 @@ public class RoutingFormLinkAction extends RoutingFormAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    public ActionForward deleteBudget(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        RoutingForm routingForm = (RoutingForm)form;
+
+        Integer subcontractorNextSequenceNumber = routingForm.getRoutingFormDocument().getSubcontractorNextSequenceNumber();
+        Integer institutionCostShareNextSequenceNumber = routingForm.getRoutingFormDocument().getInstitutionCostShareNextSequenceNumber();
+        Integer otherCostShareNextSequenceNumber = routingForm.getRoutingFormDocument().getOtherCostShareNextSequenceNumber();
+
+        
+        super.load(mapping, form, request, response);
+
+        routingForm.getRoutingFormDocument().setRoutingFormBudgetNumber(null);
+        routingForm.getRoutingFormDocument().getRoutingFormBudget().setRoutingFormBudgetMinimumPeriodNumber(null);
+        routingForm.getRoutingFormDocument().getRoutingFormBudget().setRoutingFormBudgetMaximumPeriodNumber(null);
+
+        super.save(mapping, form, request, response);
+        
+        return super.mainpage(mapping, form, request, response);
+    }
+
+    
     /**
      * This method...
      * @param routingForm

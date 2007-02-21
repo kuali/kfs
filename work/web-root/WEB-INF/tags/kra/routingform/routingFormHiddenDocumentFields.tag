@@ -32,6 +32,9 @@
     <c:choose>
       <c:when test="${includeRoutingFormMainPage}">
         <html:hidden property="document.routingFormBudgetNumber" />
+        <html:hidden property="document.institutionCostShareNextSequenceNumber" />
+        <html:hidden property="document.otherCostShareNextSequenceNumber" />
+        <html:hidden property="document.subcontractorNextSequenceNumber" />
       </c:when>
       <c:otherwise>
         <html:hidden property="document.documentHeader.financialDocumentDescription" />

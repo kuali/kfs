@@ -51,6 +51,13 @@
                   <html:image property="methodToCall.loadBudget.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-loadbudget1.gif" alt="load budget"/>
                 </td>
               </tr>
+              <tr>
+                <th>&nbsp;</th>
+                <td colspan="3" align=left valign=middle nowrap >
+                  <html:image property="methodToCall.deleteBudget.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-loadbudget1.gif" alt="delete budget link"/>
+                </td>
+              </tr>
+              
             </table>
             <br/>
 

@@ -19,6 +19,7 @@
 <c:set var="routingFormAgencyAttributes" value="${DataDictionary.RoutingFormAgency.attributes}" />
 <c:set var="cfdaAttributes" value="${DataDictionary.CatalogOfFederalDomesticAssistanceReference.attributes}" />
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
+<c:set var="budgetLinked" value="${KualiForm.editingMode['budgetLinked']}" />
 
 <kul:tab tabTitle="Agency/Delivery Info" defaultOpen="true" tabErrorKey="document.routingFormAgency*,document.federalPassThroughAgency*" auditCluster="mainPageAuditErrors" tabAuditKey="document.routingFormAgency*">
 
@@ -37,7 +38,7 @@
 			    	<html:hidden write="true" property="document.routingFormAgency.agency.fullName"/>
 			    	<c:if test="${empty KualiForm.document.routingFormAgency.agencyNumber && !KualiForm.document.routingFormAgencyToBeNamedIndicator}">(select)</c:if>
   			    	<c:if test="${KualiForm.document.routingFormAgencyToBeNamedIndicator}">TO BE NAMED</c:if>
-			    	<c:if test="${!viewOnly}">
+			    	<c:if test="${!viewOnly and !budgetLinked}">
 			    		<kul:lookup boClassName="org.kuali.module.cg.bo.Agency" lookupParameters="document.routingFormAgency.agencyNumber:agencyNumber,document.routingFormAgency.agency.fullName:fullName" fieldConversions="agencyNumber:document.routingFormAgency.agencyNumber,fullName:document.routingFormAgency.agency.fullName" extraButtonSource="images/buttonsmall_namelater.gif" extraButtonParams="&document.routingFormAgencyToBeNamedIndicator=true" anchor="${currentTabIndex}" />
                 	</c:if>
                 </td>
@@ -53,11 +54,11 @@
                   	<html:hidden property="document.agencyFederalPassThroughNotAvailableIndicator" />
 			    	<html:hidden property="document.agencyFederalPassThroughNumber" /> 
 			    	<html:hidden write="true" property="document.federalPassThroughAgency.fullName" /> 
-	    			<c:if test="${empty KualiForm.document.agencyFederalPassThroughNumber && !KualiForm.document.agencyFederalPassThroughNotAvailableIndicator}">(select)</c:if>
+	    			<c:if test="${empty KualiForm.document.agencyFederalPassThroughNumber && !KualiForm.document.agencyFederalPassThroughNotAvailableIndicator and !viewOnly and !budgetLinked}">(select)</c:if>
   			    	<c:if test="${KualiForm.document.agencyFederalPassThroughNotAvailableIndicator}">Unknown</c:if>
-	    	    	<c:if test="${!viewOnly}">
+	    	    	<c:if test="${!viewOnly and !budgetLinked}">
 	    			    <kul:lookup boClassName="org.kuali.module.cg.bo.Agency" fieldConversions="agencyNumber:document.agencyFederalPassThroughNumber,fullName:document.federalPassThroughAgency.fullName" extraButtonSource="images/buttonsmall_namelater.gif" extraButtonParams="&document.agencyFederalPassThroughNotAvailableIndicator=true" anchor="${currentTabIndex}" />
-	    			</c:if>
+	    			</c:if>&nbsp;
                 </td>
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.routingFormDueDateTypeCode}" skipHelpUrl="true" /></th>
 
@@ -106,7 +107,7 @@
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAttributes.routingFormAnnouncementNumber}" skipHelpUrl="true" useShortLabel="true" /></th>
 
                 <td colspan="4" align=left valign=middle >
-                	<kul:htmlControlAttribute property="document.routingFormAnnouncementNumber" attributeEntry="${routingFormAttributes.routingFormAnnouncementNumber}" readOnly="${viewOnly}"/>
+                	<kul:htmlControlAttribute property="document.routingFormAnnouncementNumber" attributeEntry="${routingFormAttributes.routingFormAnnouncementNumber}" readOnly="${viewOnly or budgetLinked}"/>
                 </td>
               </tr>
             </table>

@@ -23,6 +23,10 @@
 	
 <kra-rf:routingFormHiddenDocumentFields />
 
+  <html:hidden property="document.institutionCostShareNextSequenceNumber" />
+  <html:hidden property="document.otherCostShareNextSequenceNumber" />
+  <html:hidden property="document.subcontractorNextSequenceNumber" />
+
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 
 	<kra-rf:routingFormProjectDetailsCostShare editingMode="${KualiForm.editingMode}" />
@@ -39,4 +43,7 @@
 
           </tr>
         </tbody></table>
+        
+          <kul:documentControls transactionalDocument="false" suppressRoutingControls="true" viewOnly="${KualiForm.editingMode['viewOnly']}" />
+        
 </kul:documentPage>

@@ -182,7 +182,7 @@
   	<div align="right">
 			<c:choose>
 				<c:when test="${KualiForm.document.budget.indirectCost.budgetBaseCode eq 'MN'}">
-				  <kul:htmlControlAttribute property="document.budget.indirectCost.budgetTaskPeriodIndirectCostItem[${ctr}].budgetManualMtdcAmount" attributeEntry="${budgetTaskPeriodIndirectCostAttributes.budgetManualMtdcAmount}" readOnly="${viewOnly}"/>
+				  <kul:htmlControlAttribute property="document.budget.indirectCost.budgetTaskPeriodIndirectCostItem[${ctr}].budgetManualMtdcAmount" attributeEntry="${budgetTaskPeriodIndirectCostAttributes.budgetManualMtdcAmount}" readOnly="${viewOnly}" styleClass="amount"/>
 				</c:when>
 				<c:otherwise>
 					<fmt:formatNumber value="${taskPeriodLine.baseCost}" type="currency" currencySymbol="$" maxFractionDigits="0" />
@@ -195,7 +195,7 @@
   	<div align="right">
 			<c:choose>
 				<c:when test="${KualiForm.document.budget.indirectCost.budgetManualRateIndicator eq 'Y'}">
-				  <kul:htmlControlAttribute property="document.budget.indirectCost.budgetTaskPeriodIndirectCostItem[${ctr}].budgetManualIndirectCostRate" attributeEntry="${budgetTaskPeriodIndirectCostAttributes.budgetManualIndirectCostRate}" readOnly="${viewOnly}"/>%
+				  <kul:htmlControlAttribute property="document.budget.indirectCost.budgetTaskPeriodIndirectCostItem[${ctr}].budgetManualIndirectCostRate" attributeEntry="${budgetTaskPeriodIndirectCostAttributes.budgetManualIndirectCostRate}" readOnly="${viewOnly}" styleClass="amount"/>%
 				</c:when>
 				<c:otherwise>
           ${taskPeriodLine.indirectCostRate}%

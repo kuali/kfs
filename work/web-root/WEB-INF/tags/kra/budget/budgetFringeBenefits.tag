@@ -47,10 +47,10 @@
   <tr>
     <td><html:hidden property="document.budget.fringeRate[${ctr}].documentNumber" /> <html:hidden property="document.budget.fringeRate[${ctr}].institutionAppointmentTypeCode" /> <html:hidden property="document.budget.fringeRate[${ctr}].objectId"/> <html:hidden property="document.budget.fringeRate[${ctr}].versionNumber" /> <html:hidden property="document.budget.fringeRate[${ctr}].budgetLastUpdateTimestamp" /> <html:hidden property="document.budget.fringeRate[${ctr}].appointmentType.appointmentTypeCode" /> <html:hidden property="document.budget.fringeRate[${ctr}].appointmentType.appointmentTypeDescription" /> <html:hidden property="document.budget.fringeRate[${ctr}].appointmentType.fringeRateAmount" /> <html:hidden property="document.budget.fringeRate[${ctr}].appointmentType.costShareFringeRateAmount" /> ${fringeRatesLine.appointmentType.appointmentTypeDescription} ( ${fringeRatesLine.appointmentType.appointmentTypeCode} ) </td>
     <td><div align="center">${fringeRatesLine.appointmentType.fringeRateAmount}%</div></td>
-    <td nowrap="nowrap"><div align="center"><kul:htmlControlAttribute property="document.budget.fringeRate[${ctr}].contractsAndGrantsFringeRateAmount" attributeEntry="${budgetFringeRateAttributes.contractsAndGrantsFringeRateAmount}" readOnly="${viewOnly}"/>%</div></td>
+    <td nowrap="nowrap"><div align="center"><kul:htmlControlAttribute property="document.budget.fringeRate[${ctr}].contractsAndGrantsFringeRateAmount" attributeEntry="${budgetFringeRateAttributes.contractsAndGrantsFringeRateAmount}" readOnly="${viewOnly}" styleClass="amount"/>%</div></td>
     <th width="20">&nbsp;</th>
     <td><div align="center">${fringeRatesLine.appointmentType.costShareFringeRateAmount}%</div></td>
-    <td nowrap="nowrap"><div align="center"><kul:htmlControlAttribute property="document.budget.fringeRate[${ctr}].institutionCostShareFringeRateAmount" attributeEntry="${budgetFringeRateAttributes.institutionCostShareFringeRateAmount}" readOnly="${viewOnly}"/>%</div></td>
+    <td nowrap="nowrap"><div align="center"><kul:htmlControlAttribute property="document.budget.fringeRate[${ctr}].institutionCostShareFringeRateAmount" attributeEntry="${budgetFringeRateAttributes.institutionCostShareFringeRateAmount}" readOnly="${viewOnly}" styleClass="amount"/>%</div></td>
   </tr>
   </logic:iterate>
   <!---  END ITERATE OVER THE APPOINTMENTS -->

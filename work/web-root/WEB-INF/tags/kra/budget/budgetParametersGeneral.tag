@@ -70,14 +70,14 @@
     	</c:if>
     </td>
     <th scope="row" ><div align="right">* ${budgetAttributes.budgetPersonnelInflationRate.label}:</div></th>
-    <td  nowrap="nowrap"><kul:htmlControlAttribute property="document.budget.budgetPersonnelInflationRate" attributeEntry="${budgetAttributes.budgetPersonnelInflationRate}" readOnly="${viewOnly}" tabindexOverride="5080" /> % (Range: 0 - 11.00)</td>
+    <td  nowrap="nowrap"><kul:htmlControlAttribute property="document.budget.budgetPersonnelInflationRate" attributeEntry="${budgetAttributes.budgetPersonnelInflationRate}" readOnly="${viewOnly}" tabindexOverride="5080"  styleClass="amount"/> % (Range: 0 - 11.00)</td>
   </tr>
   
   <tr>
     <th scope="row" ><div align="right">${budgetAttributes.budgetName.label}:</div></th>
     <td><kul:htmlControlAttribute property="document.budget.budgetName" attributeEntry="${budgetAttributes.budgetName}" readOnly="${viewOnly}" tabindexOverride="5010" /></td>
     <th scope="row" ><div align="right">* ${budgetAttributes.budgetNonpersonnelInflationRate.label}:</div></th>
-    <td  nowrap="nowrap"><kul:htmlControlAttribute property="document.budget.budgetNonpersonnelInflationRate" attributeEntry="${budgetAttributes.budgetNonpersonnelInflationRate}" readOnly="${viewOnly}" tabindexOverride="5090" /> % (Range: 0 - 11.00)</td>
+    <td  nowrap="nowrap"><kul:htmlControlAttribute property="document.budget.budgetNonpersonnelInflationRate" attributeEntry="${budgetAttributes.budgetNonpersonnelInflationRate}" readOnly="${viewOnly}" tabindexOverride="5090"  styleClass="amount"/> % (Range: 0 - 11.00)</td>
   </tr>
   
   <tr>

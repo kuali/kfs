@@ -138,13 +138,13 @@
                     </div></td>
                   </c:if>  
                   <td class="infoline" align="right">
-                    <div align="center"><kul:htmlControlAttribute property="newNonpersonnel[${i}].agencyRequestAmount" attributeEntry="${budgetNonpersonnel.agencyRequestAmount}" />
+                    <div align="center"><kul:htmlControlAttribute property="newNonpersonnel[${i}].agencyRequestAmount" attributeEntry="${budgetNonpersonnel.agencyRequestAmount}" styleClass="amount" />
                   </div></td>
                   <td class="infoline" align="right">
-                    <div align="center"><kul:htmlControlAttribute property="newNonpersonnel[${i}].budgetInstitutionCostShareAmount" attributeEntry="${budgetNonpersonnel.budgetInstitutionCostShareAmount}" disabled="${! KualiForm.document.budget.institutionCostShareIndicator}" />
+                    <div align="center"><kul:htmlControlAttribute property="newNonpersonnel[${i}].budgetInstitutionCostShareAmount" attributeEntry="${budgetNonpersonnel.budgetInstitutionCostShareAmount}" disabled="${! KualiForm.document.budget.institutionCostShareIndicator}" styleClass="amount" />
                     </div></td>
                   <td class="infoline" align="right">
-                    <div align="center"><kul:htmlControlAttribute property="newNonpersonnel[${i}].budgetThirdPartyCostShareAmount" attributeEntry="${budgetNonpersonnel.budgetThirdPartyCostShareAmount}" disabled="${! KualiForm.document.budget.budgetThirdPartyCostShareIndicator}" />
+                    <div align="center"><kul:htmlControlAttribute property="newNonpersonnel[${i}].budgetThirdPartyCostShareAmount" attributeEntry="${budgetNonpersonnel.budgetThirdPartyCostShareAmount}" disabled="${! KualiForm.document.budget.budgetThirdPartyCostShareIndicator}" styleClass="amount" />
                     </div></td>
                   <td class="infoline"><div align="center"><html:image property="methodToCall.insertNonpersonnelLine.anchor${currentTabIndex}.line${i}" src="images/tinybutton-add1.gif" styleClass="tinybutton" alt="add nonpersonnel line"/></div></td>
                 </tr>
@@ -227,13 +227,13 @@
                           </div></td>
                       </c:if>
                           <td class="datacell">
-                            <div align="center"><kul:htmlControlAttribute property="document.budget.nonpersonnelItem[${ctr}].agencyRequestAmount" attributeEntry="${budgetNonpersonnel.agencyRequestAmount}" readOnly="${viewOnly}" />
+                            <div align="center"><kul:htmlControlAttribute property="document.budget.nonpersonnelItem[${ctr}].agencyRequestAmount" attributeEntry="${budgetNonpersonnel.agencyRequestAmount}" readOnly="${viewOnly}" styleClass="amount" />
                           </div></td>
                           <td class="datacell">
-                            <div align="center"><kul:htmlControlAttribute property="document.budget.nonpersonnelItem[${ctr}].budgetInstitutionCostShareAmount" attributeEntry="${budgetNonpersonnel.budgetInstitutionCostShareAmount}" disabled="${! KualiForm.document.budget.institutionCostShareIndicator}"  readOnly="${viewOnly}"/>
+                            <div align="center"><kul:htmlControlAttribute property="document.budget.nonpersonnelItem[${ctr}].budgetInstitutionCostShareAmount" attributeEntry="${budgetNonpersonnel.budgetInstitutionCostShareAmount}" disabled="${! KualiForm.document.budget.institutionCostShareIndicator}"  readOnly="${viewOnly}" styleClass="amount"/>
                           </div></td>
                           <td class="datacell">
-                            <div align="center"><kul:htmlControlAttribute property="document.budget.nonpersonnelItem[${ctr}].budgetThirdPartyCostShareAmount" attributeEntry="${budgetNonpersonnel.budgetThirdPartyCostShareAmount}" disabled="${! KualiForm.document.budget.budgetThirdPartyCostShareIndicator}"  readOnly="${viewOnly}"/>
+                            <div align="center"><kul:htmlControlAttribute property="document.budget.nonpersonnelItem[${ctr}].budgetThirdPartyCostShareAmount" attributeEntry="${budgetNonpersonnel.budgetThirdPartyCostShareAmount}" disabled="${! KualiForm.document.budget.budgetThirdPartyCostShareIndicator}"  readOnly="${viewOnly}" styleClass="amount"/>
                             </div></td>
                           <c:if test="${! viewOnly }">
                             <td class="datacell-nowrap" align="center">

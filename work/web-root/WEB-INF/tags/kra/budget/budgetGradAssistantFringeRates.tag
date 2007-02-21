@@ -65,22 +65,22 @@
     <td><div align="center"> $ 
     <c:choose> 
     <c:when test="${i eq 1}"> 
-    <kul:htmlControlAttribute property="document.budget.graduateAssistantRate[${ctr}].campusMaximumPeriod${i}Rate" attributeEntry="${budgetGraduateFringeRateAttributes.campusMaximumPeriod1Rate}" readOnly="${viewOnly}"/> 
+    <kul:htmlControlAttribute property="document.budget.graduateAssistantRate[${ctr}].campusMaximumPeriod${i}Rate" attributeEntry="${budgetGraduateFringeRateAttributes.campusMaximumPeriod1Rate}" readOnly="${viewOnly}" styleClass="amount"/> 
     </c:when> 
     <c:when test="${i eq 2}"> 
-    <kul:htmlControlAttribute property="document.budget.graduateAssistantRate[${ctr}].campusMaximumPeriod${i}Rate" attributeEntry="${budgetGraduateFringeRateAttributes.campusMaximumPeriod2Rate}" readOnly="${viewOnly}"/> 
+    <kul:htmlControlAttribute property="document.budget.graduateAssistantRate[${ctr}].campusMaximumPeriod${i}Rate" attributeEntry="${budgetGraduateFringeRateAttributes.campusMaximumPeriod2Rate}" readOnly="${viewOnly}" styleClass="amount"/> 
     </c:when> 
     <c:when test="${i eq 3}"> 
-    <kul:htmlControlAttribute property="document.budget.graduateAssistantRate[${ctr}].campusMaximumPeriod${i}Rate" attributeEntry="${budgetGraduateFringeRateAttributes.campusMaximumPeriod3Rate}" readOnly="${viewOnly}"/> 
+    <kul:htmlControlAttribute property="document.budget.graduateAssistantRate[${ctr}].campusMaximumPeriod${i}Rate" attributeEntry="${budgetGraduateFringeRateAttributes.campusMaximumPeriod3Rate}" readOnly="${viewOnly}" styleClass="amount"/> 
     </c:when> 
     <c:when test="${i eq 4}"> 
-    <kul:htmlControlAttribute property="document.budget.graduateAssistantRate[${ctr}].campusMaximumPeriod${i}Rate" attributeEntry="${budgetGraduateFringeRateAttributes.campusMaximumPeriod4Rate}" readOnly="${viewOnly}"/> 
+    <kul:htmlControlAttribute property="document.budget.graduateAssistantRate[${ctr}].campusMaximumPeriod${i}Rate" attributeEntry="${budgetGraduateFringeRateAttributes.campusMaximumPeriod4Rate}" readOnly="${viewOnly}" styleClass="amount"/> 
     </c:when> 
     <c:when test="${i eq 5}"> 
-    <kul:htmlControlAttribute property="document.budget.graduateAssistantRate[${ctr}].campusMaximumPeriod${i}Rate" attributeEntry="${budgetGraduateFringeRateAttributes.campusMaximumPeriod5Rate}" readOnly="${viewOnly}"/> 
+    <kul:htmlControlAttribute property="document.budget.graduateAssistantRate[${ctr}].campusMaximumPeriod${i}Rate" attributeEntry="${budgetGraduateFringeRateAttributes.campusMaximumPeriod5Rate}" readOnly="${viewOnly}" styleClass="amount"/> 
     </c:when> 
     <c:when test="${i eq 6}"> 
-    <kul:htmlControlAttribute property="document.budget.graduateAssistantRate[${ctr}].campusMaximumPeriod${i}Rate" attributeEntry="${budgetGraduateFringeRateAttributes.campusMaximumPeriod6Rate}" readOnly="${viewOnly}"/> 
+    <kul:htmlControlAttribute property="document.budget.graduateAssistantRate[${ctr}].campusMaximumPeriod${i}Rate" attributeEntry="${budgetGraduateFringeRateAttributes.campusMaximumPeriod6Rate}" readOnly="${viewOnly}" styleClass="amount"/> 
     </c:when> 
     </c:choose> 
     </div></td>

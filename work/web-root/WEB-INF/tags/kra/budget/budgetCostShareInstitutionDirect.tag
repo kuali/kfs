@@ -296,7 +296,7 @@
 					<logic:iterate id="period" name="KualiForm" property="document.budget.periods" indexId="ctr">
 						<td class="infoline">
 							<div align="center">
-								<html:text property="newInstitutionCostShare.budgetPeriodCostShareItem[${ctr}].budgetCostShareAmount" size="5" />
+								<html:text property="newInstitutionCostShare.budgetPeriodCostShareItem[${ctr}].budgetCostShareAmount" size="5" styleClass="amount" />
 							</div>
 						</td>
 					</logic:iterate>
@@ -366,7 +366,7 @@
 							<td class="datacell">
 								<div align="center">
 									<kul:htmlControlAttribute property="document.budget.institutionCostShareItem[${rowctr}].budgetPeriodCostShareItem[${colctr}].budgetCostShareAmount"
-										attributeEntry="${budgetPeriodInstitutionCostShareAttributes.budgetCostShareAmount}" readOnly="${viewOnly}" />
+										attributeEntry="${budgetPeriodInstitutionCostShareAttributes.budgetCostShareAmount}" readOnly="${viewOnly}" styleClass="amount" />
 								</div>
 							</td>
 						</logic:iterate>

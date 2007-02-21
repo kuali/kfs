@@ -65,37 +65,37 @@
                       
                       <td class="datacell">
                         <div align="center">
-                          <kul:htmlControlAttribute property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].agencyFullTimeEquivalentPercent" attributeEntry="${userAppointmentTaskPeriodAttributes.agencyFullTimeEquivalentPercent}" readOnly="${viewOnly}" />%
+                          <kul:htmlControlAttribute property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].agencyFullTimeEquivalentPercent" attributeEntry="${userAppointmentTaskPeriodAttributes.agencyFullTimeEquivalentPercent}" readOnly="${viewOnly}" styleClass="amount" />%
                         </div>
                       </td>
                           
                       <td class="datacell">
                         <div align="center">
-                          <kul:htmlControlAttribute property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].agencySalaryAmount" attributeEntry="${userAppointmentTaskPeriodAttributes.agencySalaryAmount}" readOnly="${viewOnly}" />
+                          <kul:htmlControlAttribute property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].agencySalaryAmount" attributeEntry="${userAppointmentTaskPeriodAttributes.agencySalaryAmount}" readOnly="${viewOnly}" styleClass="amount" />
                         </div>
                       </td>
                       
                       <td class="datacell">
                         <div align="center">
-                          <kul:htmlControlAttribute property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].agencyHealthInsuranceAmount" attributeEntry="${userAppointmentTaskPeriodAttributes.agencyHealthInsuranceAmount}" readOnly="${viewOnly}" />
+                          <kul:htmlControlAttribute property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].agencyHealthInsuranceAmount" attributeEntry="${userAppointmentTaskPeriodAttributes.agencyHealthInsuranceAmount}" readOnly="${viewOnly}" styleClass="amount" />
                         </div>
                       </td>
                       
                       <td class="datacell" nowrap="nowrap">
                         <div align="center">
-                          <kul:htmlControlAttribute property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].institutionFullTimeEquivalentPercent" disabled="${! KualiForm.document.budget.institutionCostShareIndicator}" attributeEntry="${userAppointmentTaskPeriodAttributes.institutionFullTimeEquivalentPercent}" readOnly="${viewOnly}" />%
+                          <kul:htmlControlAttribute property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].institutionFullTimeEquivalentPercent" disabled="${! KualiForm.document.budget.institutionCostShareIndicator}" attributeEntry="${userAppointmentTaskPeriodAttributes.institutionFullTimeEquivalentPercent}" readOnly="${viewOnly}" styleClass="amount" />%
                         </div>
                       </td>
       
                       <td class="datacell">
                         <div align="center">
-                          <kul:htmlControlAttribute property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].institutionSalaryAmount" disabled="${! KualiForm.document.budget.institutionCostShareIndicator}" attributeEntry="${userAppointmentTaskPeriodAttributes.institutionSalaryAmount}" readOnly="${viewOnly}" />
+                          <kul:htmlControlAttribute property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].institutionSalaryAmount" disabled="${! KualiForm.document.budget.institutionCostShareIndicator}" attributeEntry="${userAppointmentTaskPeriodAttributes.institutionSalaryAmount}" readOnly="${viewOnly}" styleClass="amount" />
                         </div>
                       </td>
                       
                       <td class="datacell">
                         <div align="center">
-                          <kul:htmlControlAttribute property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].institutionHealthInsuranceAmount" disabled="${! KualiForm.document.budget.institutionCostShareIndicator}" attributeEntry="${userAppointmentTaskPeriodAttributes.institutionHealthInsuranceAmount}" readOnly="${viewOnly}" />
+                          <kul:htmlControlAttribute property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].institutionHealthInsuranceAmount" disabled="${! KualiForm.document.budget.institutionCostShareIndicator}" attributeEntry="${userAppointmentTaskPeriodAttributes.institutionHealthInsuranceAmount}" readOnly="${viewOnly}" styleClass="amount" />
                         </div>
                       </td>
                       
@@ -174,19 +174,19 @@
 
                     <td class="datacell">
                       <div align="center">
-                        <kul:htmlControlAttribute property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].userCreditHoursNumber" attributeEntry="${userAppointmentTaskPeriodAttributes.userCreditHoursNumber}" readOnly="${viewOnly}" />
+                        <kul:htmlControlAttribute property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].userCreditHoursNumber" attributeEntry="${userAppointmentTaskPeriodAttributes.userCreditHoursNumber}" readOnly="${viewOnly}" styleClass="amount" />
                       </div>
                     </td>
                     
                     <td colspan="2" class="datacell">
                       <div align="center">
-                        <kul:htmlControlAttribute property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].userCreditHourAmount" attributeEntry="${userAppointmentTaskPeriodAttributes.userCreditHourAmount}" readOnly="${viewOnly}" />
+                        <kul:htmlControlAttribute property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].userCreditHourAmount" attributeEntry="${userAppointmentTaskPeriodAttributes.userCreditHourAmount}" readOnly="${viewOnly}" styleClass="amount" />
                       </div>
                     </td>
                     
                     <td colspan="2" class="datacell">
                       <div align="center">
-                        <kul:htmlControlAttribute property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].userMiscellaneousFeeAmount" attributeEntry="${userAppointmentTaskPeriodAttributes.userMiscellaneousFeeAmount}" readOnly="${viewOnly}" />
+                        <kul:htmlControlAttribute property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].userMiscellaneousFeeAmount" attributeEntry="${userAppointmentTaskPeriodAttributes.userMiscellaneousFeeAmount}" readOnly="${viewOnly}" styleClass="amount" />
                       </div>
                     </td>
                     
@@ -196,13 +196,13 @@
                     
                     <td class="datacell">
                       <div align="center">
-                        <kul:htmlControlAttribute property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].agencyRequestedFeesAmount" attributeEntry="${userAppointmentTaskPeriodAttributes.agencyRequestedFeesAmount}" readOnly="${viewOnly}" />
+                        <kul:htmlControlAttribute property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].agencyRequestedFeesAmount" attributeEntry="${userAppointmentTaskPeriodAttributes.agencyRequestedFeesAmount}" readOnly="${viewOnly}" styleClass="amount" />
                       </div>
                     </td>
                     
                     <td class="datacell">
                       <div align="center">
-                        <kul:htmlControlAttribute property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].institutionRequestedFeesAmount" disabled="${! KualiForm.document.budget.institutionCostShareIndicator}" attributeEntry="${userAppointmentTaskPeriodAttributes.institutionRequestedFeesAmount}" readOnly="${viewOnly}" />
+                        <kul:htmlControlAttribute property="document.budget.personFromList[${personListIndex}].userAppointmentTask[${userAppointmentTaskIndex}].userAppointmentTaskPeriod[${userAppointmentTaskPeriodIndex}].institutionRequestedFeesAmount" disabled="${! KualiForm.document.budget.institutionCostShareIndicator}" attributeEntry="${userAppointmentTaskPeriodAttributes.institutionRequestedFeesAmount}" readOnly="${viewOnly}" styleClass="amount" />
                       </div>
                     </td>
                   </tr>

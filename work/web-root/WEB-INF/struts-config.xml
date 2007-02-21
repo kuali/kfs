@@ -160,6 +160,7 @@
             <forward name="organization" path="/jsp/xmlhttp/organization.jsp" />
             <forward name="objectType" path="/jsp/xmlhttp/objectType.jsp" />
             <forward name="user" path="/jsp/xmlhttp/user.jsp" />
+            <forward name="userObject" path="/jsp/xmlhttp/userObject.jsp" />
             <forward name="originationCode" path="/jsp/xmlhttp/originationCode.jsp" />
             <forward name="documentType" path="/jsp/xmlhttp/documentType.jsp" />
             <forward name="bank" path="/jsp/xmlhttp/bank.jsp" />

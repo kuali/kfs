@@ -112,9 +112,6 @@
 	</bean>
 
 	<bean id="budgetModularService" class="org.kuali.module.kra.budget.service.impl.BudgetModularServiceImpl">
-		<property name="persistenceService">
-			<ref bean="persistenceService" />
-		</property>
 		<property name="budgetNonpersonnelService">
 			<ref bean="budgetNonpersonnelService" />
 		</property>

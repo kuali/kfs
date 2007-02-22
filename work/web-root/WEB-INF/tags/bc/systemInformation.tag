@@ -36,8 +36,8 @@
 		    <td colspan="4" class="subhead">
 			<span class="subhead-left">System Information</span>
 		    </td>
-	    </tr>
-	    <tr>
+		</tr>
+		<tr>
 	      <kul:htmlAttributeHeaderCell
 	          labelFor="document.previousUniversityFiscalYear"
 	          literalLabel="Fiscal Year:"
@@ -49,7 +49,7 @@
 	      </td>
 	      <td>
 	      </td>
-           </tr>
+		</tr>
 	    <tr>
 	      <kul:htmlAttributeHeaderCell
 	          labelFor="document.accountNumber"
@@ -87,7 +87,7 @@
 	      <td align="center" valign="middle">
 	      	<kul:htmlControlAttribute property="document.account.accountName" attributeEntry="${accountAttributes.accountName}" readOnly="${true}"/>
 	      </td>
-           </tr>
+		</tr>
 	    <tr>
 	      <kul:htmlAttributeHeaderCell
 	          labelFor="document.subAccountNumber"
@@ -294,6 +294,63 @@
 			<span class="subhead-left">Approval Level Data</span>
 		    </td>
 	    </tr>
+	    <tr>
+	   	  <kul:htmlAttributeHeaderCell
+	          labelFor="document.organizationLevelCode"
+	          literalLabel="Current Level::"
+	          horizontal="true"
+	          />
+	      <td align="center" valign="middle">
+	      	<kul:htmlControlAttribute property="document.organizationLevelCode" attributeEntry="${documentAttributes.organizationLevelCode}" readOnly="${true}"/>
+	      </td>
+	      <td></td>
+	      <td align="center" valign="middle">
+		  	<c:if test="${document.organizationLevelCode == 0}">
+				Account Level Approval Access
+		  	</c:if>
+	      </td>
+		</tr>
+	    <tr>
+	      <kul:htmlAttributeHeaderCell
+	          labelFor="document.organizationLevelOrganizationCode"
+	          literalLabel="Level Chart/Org:"
+	          horizontal="true"
+	          />
+	      <td align="center" valign="middle">
+	      	<kul:htmlControlAttribute
+	      		property="document.organizationLevelChartOfAccountsCode"
+	      		attributeEntry="${documentAttributes.organizationLevelChartOfAccountsCode}"
+	      		readOnly="true"
+	      		readOnlyBody="true">
+	      		<kul:inquiry
+				    boClassName="org.kuali.module.chart.bo.Chart"
+				    keyValues="chartOfAccountsCode=${KualiForm.document.organizationLevelChartOfAccountsCode}"
+				    render="true">
+			    	<html:hidden write="true" property="document.organizationLevelChartOfAccountsCode" />
+				</kul:inquiry>
+	      	</kul:htmlControlAttribute>
+	      </td>
+	      <td align="center" valign="middle">
+	      	<kul:htmlControlAttribute
+	      		property="document.organizationLevelOrganizationCode"
+	      		attributeEntry="${documentAttributes.organizationLevelOrganizationCode}"
+	      		readOnly="true"
+	      		readOnlyBody="true">
+	      		<kul:inquiry
+				    boClassName="org.kuali.module.budget.bo.BudgetConstructionOrganizationReports"
+				    keyValues="chartOfAccountsCode=${KualiForm.document.organizationLevelChartOfAccountsCode}&amp;organizationCode=${KualiForm.document.organizationLevelOrganizationCode}"
+				    render="true">
+			    	<html:hidden write="true" property="document.organizationLevelOrganizationCode" />
+				</kul:inquiry>
+	      	</kul:htmlControlAttribute>
+	      </td>
+	      <td align="center" valign="middle">
+	      	<kul:htmlControlAttribute property="document.organizationLevelOrganization.organizationName" attributeEntry="${orgAttributes.organizationName}" readOnly="${true}"/>
+	      </td>
+		</tr>
+
+
+
     	<tr>
 		    <td colspan="4" class="subhead">
 			<span class="subhead-left">Controls</span>

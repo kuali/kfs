@@ -27,7 +27,7 @@ public class RecurringPaymentType extends PersistableBusinessObjectBase {
 
 	private String recurringPaymentTypeCode;
 	private String recurringPaymentTypeDescription;
-    private boolean dataObjectMaintenanceCodeActiveIndicator;
+    private boolean active;
     
 	/**
 	 * Default constructor.
@@ -77,20 +77,21 @@ public class RecurringPaymentType extends PersistableBusinessObjectBase {
 		this.recurringPaymentTypeDescription = recurringPaymentTypeDescription;
 	}
 
+
     /**
-     * Gets the dataObjectMaintenanceCodeActiveIndicator attribute. 
-     * @return Returns the dataObjectMaintenanceCodeActiveIndicator.
+     * Gets the active attribute. 
+     * @return Returns the active.
      */
-    public boolean isDataObjectMaintenanceCodeActiveIndicator() {
-        return dataObjectMaintenanceCodeActiveIndicator;
+    public boolean isActive() {
+        return active;
     }
 
     /**
-     * Sets the dataObjectMaintenanceCodeActiveIndicator attribute value.
-     * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
+     * Sets the active attribute value.
+     * @param active The active to set.
      */
-    public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
-        this.dataObjectMaintenanceCodeActiveIndicator = dataObjectMaintenanceCodeActiveIndicator;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**

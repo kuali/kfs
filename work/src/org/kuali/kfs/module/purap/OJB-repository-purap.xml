@@ -385,7 +385,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="vendorTypeDescription" column="VNDR_TYP_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="dataObjectMaintenanceCodeActiveIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="vendorTaxNumberRequiredIndicator" column="VNDR_TAX_NBR_REQ_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="vendorTypeChangeAllowedIndicator" column="VNDR_TYP_CHG_ALLW_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="vendorAddressTypeRequiredCode" column="VNDR_ADDR_TYP_REQ_CD" jdbc-type="VARCHAR"/>
@@ -400,7 +400,7 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="vendorStipulationName" column="VNDR_STPLTN_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="vendorStipulationDescription" column="VNDR_STPLTN_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="dataObjectMaintenanceCodeActiveIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.VendorContactPhoneNumber" table="PUR_VNDR_CNTCT_PHN_NBR_T">
@@ -421,7 +421,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="vendorInactiveReasonDescription" column="VNDR_INACTV_REAS_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="dataObjectMaintenanceCodeActiveIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <!--  End Vendor tables  -->
@@ -770,7 +770,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="requisitionSourceDescription" column="REQS_SRC_DESC" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="dataObjectMaintenanceCodeActiveIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.RequisitionStatus" table="PUR_REQS_STAT_T">
@@ -786,7 +786,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="purchaseOrderCostSourceDescription" column="PO_CST_SRC_DESC" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="dataObjectMaintenanceCodeActiveIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.DeliveryRequiredDateReason" table="PUR_DLVY_REQ_DT_REAS_T">
@@ -802,7 +802,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="purchaseOrderTransmissionMethodDescription" column="PO_TRNS_MTHD_DESC" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="dataObjectMaintenanceCodeActiveIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.RecurringPaymentType" table="PUR_AP_RECUR_PMT_TYP_T">
@@ -810,7 +810,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="recurringPaymentTypeDescription" column="RECUR_PMT_TYP_DESC" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="dataObjectMaintenanceCodeActiveIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.RequisitionStatusHistory" table="PUR_REQS_STAT_HIST_T">
@@ -1169,7 +1169,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="purchaseOrderVendorChoiceDescription" column="PO_VNDR_CHC_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="dataObjectMaintenanceCodeActiveIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.RecurringPaymentFrequency" table="PUR_AP_RECUR_PMT_FREQ_T">
@@ -1177,7 +1177,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="recurringPaymentFrequencyDescription" column="RECUR_PMT_FREQ_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="dataObjectMaintenanceCodeActiveIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterialStatusHistory" table="PUR_PO_RSTRC_MTRL_STATHST_T">
@@ -1220,7 +1220,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="vendorShippingSpecialConditionDescription" column="VNDR_SHP_SPCL_COND_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="dataObjectMaintenanceCodeActiveIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.AutoApproveExclude" table="AP_AUTO_APRV_EXCL_T">
@@ -1335,7 +1335,7 @@
 	<field-descriptor name="campusCode" column="CMP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="purchaseOrderContractLanguageDescription" column="PO_CONTR_LANG_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="contractLanguageCreateDate" column="CONTR_LANG_CRTE_DT" jdbc-type="DATE"/>
-	<field-descriptor name="dataObjectMaintenanceCodeActiveIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.PurchaseOrderItemCapitalAsset" table="PUR_PO_ITM_CPTL_AST_T">
@@ -1368,7 +1368,7 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="vendorShippingPaymentTermsDescription" column="VNDR_SHP_PMT_TERM_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="vendorShippingPaymentTermsPayIndicator" column="VNDR_SHP_PMT_TERM_PAY_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="dataObjectMaintenanceCodeActiveIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.ShippingTitle" table="PUR_SHP_TTL_T">
@@ -1376,7 +1376,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="vendorShippingTitleDescription" column="VNDR_SHP_TTL_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="dataObjectMaintenanceCodeActiveIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.SupplierDiversity" table="PUR_SUPP_DVRST_T">
@@ -1384,7 +1384,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="vendorSupplierDiversityDescription" column="VNDR_SUPP_DVRST_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="dataObjectMaintenanceCodeActiveIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.PaymentRequestThresholdNotToExceed" table="AP_PMT_RQST_THRS_NO_EXCD_T">
@@ -1588,7 +1588,7 @@
 	<field-descriptor name="restrictedMaterialDescription" column="RSTRC_MTRL_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="restrictedMaterialDefaultDescription" column="RSTRC_MTRL_DFLT_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="restrictedMaterialWorkgroupName" column="RSTRC_MTRL_WRKGRP_NM" jdbc-type="VARCHAR"/>
-	<field-descriptor name="dataObjectMaintenanceCodeActiveIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterial" table="PUR_PO_RSTRC_MTRL_T">
@@ -1661,7 +1661,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="purchaseOrderQuoteStatusDescription" column="PO_QT_STAT_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="dataObjectMaintenanceCodeActiveIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.ElectronicInvoiceHeaderInformation" table="AP_ELCTRNC_INV_HDR_INFO_T">
@@ -1985,9 +1985,9 @@
 	<reference-descriptor name="assignContractManagerDocument" class-ref="org.kuali.module.purap.document.AssignContractManagerDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="documentNumber" />
 	</reference-descriptor>
-    <reference-descriptor name="requisition" class-ref="org.kuali.module.purap.document.RequisitionDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="requisitionIdentifier" />
-    </reference-descriptor>
+	<reference-descriptor name="requisition" class-ref="org.kuali.module.purap.document.RequisitionDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="requisitionIdentifier" />
+	</reference-descriptor>
 	<reference-descriptor name="contractManager" class-ref="org.kuali.module.purap.bo.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="contractManagerCode" />
 	</reference-descriptor>	
@@ -2015,7 +2015,6 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 </class-descriptor>
-
 <class-descriptor class="org.kuali.module.purap.bo.SourceDocumentReference" table="PUR_SRC_DOC_REF_T">
 	<field-descriptor name="sourceDocumentReferenceGeneratedIdentifier" column="SRC_DOC_REF_GNRTD_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="SRC_DOC_REF_GNRTD_ID"/>
 	<field-descriptor name="sourceDocumentIdentifier" column="SRC_DOC_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>

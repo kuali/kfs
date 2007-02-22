@@ -29,7 +29,7 @@ public class RestrictedMaterial extends PersistableBusinessObjectBase {
 	private String restrictedMaterialDescription;
 	private String restrictedMaterialDefaultDescription;
 	private String restrictedMaterialWorkgroupName;
-	private boolean dataObjectMaintenanceCodeActiveIndicator;
+	private boolean active;
 
 	/**
 	 * Default constructor.
@@ -121,28 +121,23 @@ public class RestrictedMaterial extends PersistableBusinessObjectBase {
 		this.restrictedMaterialWorkgroupName = restrictedMaterialWorkgroupName;
 	}
 
-
 	/**
-	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
-	 * 
-	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator
-	 * 
-	 */
-	public boolean getDataObjectMaintenanceCodeActiveIndicator() { 
-		return dataObjectMaintenanceCodeActiveIndicator;
-	}
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
 
-	/**
-	 * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
-	 * 
-	 * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
-	 * 
-	 */
-	public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
-		this.dataObjectMaintenanceCodeActiveIndicator = dataObjectMaintenanceCodeActiveIndicator;
-	}
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
-	/**
+    /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {

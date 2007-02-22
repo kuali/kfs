@@ -54,7 +54,7 @@
                     <maintainableField name="restrictedMaterialDescription" required="true" />
                     <maintainableField name="restrictedMaterialDefaultDescription" required="true" />
                     <maintainableField name="restrictedMaterialWorkgroupName" required="true" />
-                    <maintainableField name="dataObjectMaintenanceCodeActiveIndicator" />
+                    <maintainableField name="active" />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

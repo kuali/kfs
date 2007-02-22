@@ -52,7 +52,7 @@
                 <maintainableItems>
                     <maintainableField name="recurringPaymentFrequencyCode" required="true" />
                 	<maintainableField name="recurringPaymentFrequencyDescription" required="true" />
-                	<maintainableField name="dataObjectMaintenanceCodeActiveIndicator" />
+                	<maintainableField name="active" />
                 	<maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

@@ -28,7 +28,7 @@
                 <field attributeName="campusCode" />
                 <field attributeName="purchaseOrderContractLanguageDescription" />
                 <field attributeName="contractLanguageCreateDate" />
-                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+                <field attributeName="active" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -48,14 +48,14 @@
                 <lookupField attributeName="campusCode" required="false" noLookup="true"/>
                 <lookupField attributeName="purchaseOrderContractLanguageDescription" required="false" />
                 <lookupField attributeName="contractLanguageCreateDate" required="false" />
-                <lookupField attributeName="dataObjectMaintenanceCodeActiveIndicator" required="false" />
+                <lookupField attributeName="active" required="false" />
             </lookupFields>
 
             <resultFields>
                 <field attributeName="campusCode" />
                 <field attributeName="purchaseOrderContractLanguageDescription" />
                 <field attributeName="contractLanguageCreateDate" />
-                <field attributeName="dataObjectMaintenanceCodeActiveIndicator" />
+                <field attributeName="active" />
             </resultFields>
         </lookup>
 
@@ -103,7 +103,7 @@
                 <description>The create date of the Contract Language</description>
             </attributeReference>
 
-            <attributeReference name="dataObjectMaintenanceCodeActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
             

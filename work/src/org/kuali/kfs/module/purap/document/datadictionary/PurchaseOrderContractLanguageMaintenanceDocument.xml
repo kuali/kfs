@@ -55,7 +55,7 @@
                     <maintainableField name="purchaseOrderContractLanguageIdentifier"/>
                 	<maintainableField name="campusCode" required="true"/>
                 	<maintainableField name="purchaseOrderContractLanguageDescription" required="true"/>
-                    <maintainableField name="dataObjectMaintenanceCodeActiveIndicator" />
+                    <maintainableField name="active" />
                     <maintainableField name="contractLanguageCreateDate" readOnly="true"/>
                 </maintainableItems>
             </maintainableSection>

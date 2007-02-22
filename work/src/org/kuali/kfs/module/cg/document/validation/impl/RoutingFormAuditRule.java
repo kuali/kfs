@@ -35,6 +35,7 @@ import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
 import org.kuali.module.kra.routingform.bo.RoutingFormProjectType;
+import org.kuali.module.kra.routingform.bo.RoutingFormQuestion;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.util.AuditCluster;
 import org.kuali.module.kra.util.AuditError;
@@ -57,10 +58,30 @@ public class RoutingFormAuditRule {
         boolean valid = true;
         
         valid &= processRoutingFormMainPageAuditChecks(routingFormDocument);
+        valid &= processRoutingFormProjectDetailsAuditChecks(routingFormDocument);
         
         return valid;
     }
     
+    private static boolean processRoutingFormProjectDetailsAuditChecks(RoutingFormDocument routingFormDocument) {
+        boolean valid = true;
+        
+        List<AuditError> auditErrors = new ArrayList<AuditError>();
+        
+        for (RoutingFormQuestion routingFormQuestion : routingFormDocument.getRoutingFormQuestions()) {
+            if (routingFormQuestion.getYesNoIndicator() == null) {
+                valid = false;
+            }
+        }
+        
+        if (!valid) {
+            auditErrors.add(new AuditError("document.budget.audit.modular.consortium", KraKeyConstants.AUDIT_OTHER_PROJECT_DETAILS_NOT_SELECTED, "projectdetails.anchor1"));
+            GlobalVariables.getAuditErrorMap().put("projectDetailsAuditErrors", new AuditCluster("Project Details", auditErrors));
+        }
+        
+        return valid;
+    }
+
     /**
      * Runs audit mode business rule checks on a Main Page.
      * 

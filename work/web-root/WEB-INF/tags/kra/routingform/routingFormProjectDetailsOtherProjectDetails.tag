@@ -27,7 +27,7 @@
 <c:set var="readOnly" value="${empty editingMode['fullEntry']}" />
 <c:set var="routingFormQuestionAttributes" value="${DataDictionary.RoutingFormQuestion.attributes}" />
 
-<kul:tab tabTitle="Other Project Details" defaultOpen="false" transparentBackground="false" tabErrorKey="*">
+<kul:tab tabTitle="Other Project Details" defaultOpen="false" transparentBackground="false" tabAuditKey="document.budget.audit.modular.consortium" auditCluster="projectDetailsAuditErrors" >
 	<div class="tab-container" align="center" id="G4" style="">
 		<div class="h2-container"><h2>Other Project Details</h2></div>
 		<table cellpadding=0 cellspacing="0" summary="">
@@ -36,8 +36,8 @@
         		<tr>
               		<td width="20%" class="nobord">
               			<div align="center">
-              				<html:radio property="document.routingFormQuestion[${questionStatus.index}].yesNoIndicator" value="Y"/> yes
-              				<html:radio property="document.routingFormQuestion[${questionStatus.index}].yesNoIndicator" value="N"/> no
+              				<label><html:radio property="document.routingFormQuestion[${questionStatus.index}].yesNoIndicator" value="Y"/> yes</label>
+              				<label><html:radio property="document.routingFormQuestion[${questionStatus.index}].yesNoIndicator" value="N"/> no</label>
               			</div>
               		</td>
               		<td class="nobord">

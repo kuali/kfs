@@ -39,10 +39,4 @@ public class AssignContractManagerAction extends KualiTransactionalDocumentActio
         ((AssignContractManagerDocument) kualiDocumentFormBase.getDocument()).populateDocumentWithRequisitions();
     }
 
-    @Override
-    protected void loadDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
-        super.loadDocument(kualiDocumentFormBase);
-        ((AssignContractManagerDocument) kualiDocumentFormBase.getDocument()).populateDocumentWithRequisitions();
-    }
-    
 }

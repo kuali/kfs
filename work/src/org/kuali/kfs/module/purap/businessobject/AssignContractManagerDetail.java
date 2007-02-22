@@ -18,6 +18,7 @@ package org.kuali.module.purap.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.module.purap.document.AssignContractManagerDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.PropertyConstants;
 
@@ -32,6 +33,7 @@ public class AssignContractManagerDetail extends PersistableBusinessObjectBase {
 
     private RequisitionDocument requisition;
     private ContractManager contractManager;
+    private AssignContractManagerDocument assignContractManagerDocument;
     
 	/**
 	 * Default constructor.
@@ -40,7 +42,14 @@ public class AssignContractManagerDetail extends PersistableBusinessObjectBase {
 
 	}
 
-	/**
+    public AssignContractManagerDetail(AssignContractManagerDocument acmDocument, RequisitionDocument requisitionDocument) {
+        this.documentNumber = acmDocument.getDocumentNumber();
+        this.assignContractManagerDocument = acmDocument;
+        this.requisition = requisitionDocument;
+        this.requisitionIdentifier = requisitionDocument.getIdentifier();
+    }
+
+    /**
 	 * Gets the documentNumber attribute.
 	 * 
 	 * @return Returns the documentNumber
@@ -146,6 +155,14 @@ public class AssignContractManagerDetail extends PersistableBusinessObjectBase {
             m.put("requisitionIdentifier", this.requisitionIdentifier.toString());
         }
         return m;
+    }
+
+    public AssignContractManagerDocument getAssignContractManagerDocument() {
+        return assignContractManagerDocument;
+    }
+
+    public void setAssignContractManagerDocument(AssignContractManagerDocument assignContractManagerDocument) {
+        this.assignContractManagerDocument = assignContractManagerDocument;
     }    
     
 }

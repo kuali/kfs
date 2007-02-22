@@ -1982,9 +1982,12 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="contractManagerCode" column="CONTR_MGR_CD" jdbc-type="INTEGER"/>
-	<reference-descriptor name="requisition" class-ref="org.kuali.module.purap.document.RequisitionDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="requisitionIdentifier" />
+	<reference-descriptor name="assignContractManagerDocument" class-ref="org.kuali.module.purap.document.AssignContractManagerDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="documentNumber" />
 	</reference-descriptor>
+    <reference-descriptor name="requisition" class-ref="org.kuali.module.purap.document.RequisitionDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="requisitionIdentifier" />
+    </reference-descriptor>
 	<reference-descriptor name="contractManager" class-ref="org.kuali.module.purap.bo.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="contractManagerCode" />
 	</reference-descriptor>	
@@ -2012,6 +2015,7 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 </class-descriptor>
+
 <class-descriptor class="org.kuali.module.purap.bo.SourceDocumentReference" table="PUR_SRC_DOC_REF_T">
 	<field-descriptor name="sourceDocumentReferenceGeneratedIdentifier" column="SRC_DOC_REF_GNRTD_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="SRC_DOC_REF_GNRTD_ID"/>
 	<field-descriptor name="sourceDocumentIdentifier" column="SRC_DOC_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>

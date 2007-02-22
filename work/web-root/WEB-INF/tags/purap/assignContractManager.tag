@@ -31,73 +31,64 @@
         </div>
 
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Assign A Contract Manager">
-			<c:if test="${empty KualiForm.document.unassignedRequisitions}">
+			<c:if test="${empty KualiForm.document.assignContractManagerDetails}">
 		        <th align=right valign=middle class="bord-l-b">
 		            <div align="center"><br>There are no unassigned requisitions.<br></div>
 		        </th>
 			</c:if>
-			<c:if test="${!empty KualiForm.document.unassignedRequisitions}">
+			<c:if test="${!empty KualiForm.document.assignContractManagerDetails}">
 	            <tr>
-	            	<!-- Contract Manager -->
 	                <th align=center valign=middle class="bord-l-b">
 	                    Contract Manager
 	                </th>
-	            	<!-- Req Number -->
 	                <th align=center valign=middle class="bord-l-b">
 	                    Req Number
 	                </th>
-	            	<!-- Delivery Campus -->
 	                <th align=center valign=middle class="bord-l-b">
 	                    Delivery Campus
 	                </th>
-	            	<!-- Vendor Name -->
 	                <th align=center valign=middle class="bord-l-b">
 	                    Vendor Name
 	                </th>
-	            	<!-- General Desc -->
 	                <th align=center valign=middle class="bord-l-b">
 	                    General Desc
 	                </th>
-	            	<!-- Total -->
 	                <th align=center valign=middle class="bord-l-b">
 	                    Total
 	                </th>
-	            	<!-- Doc Create Date -->
 	                <th align=center valign=middle class="bord-l-b">
 	                    Create Date
 	                </th>
-	            	<!-- First Item Description -->
 	                <th align=center valign=middle class="bord-l-b">
 	                    First Item Description
 	                </th>
-	            	<!-- First Object Code -->
 	                <th align=center valign=middle class="bord-l-b">
 	                    First Object Code
 	                </th>
 	            </tr>
 	
-		        <logic:iterate id="requisitions" name="KualiForm" property="document.unassignedRequisitions" indexId="ctr">
+		        <logic:iterate id="acmDetail" name="KualiForm" property="document.assignContractManagerDetails" indexId="ctr">
 		            <tr>
 		                <td align=left valign=middle class="datacell">
-		                    <kul:htmlControlAttribute property="document.unassignedRequisition[${ctr}].contractManagerCode" attributeEntry="${requisitionAttributes.contractManagerCode}" readOnly="${readOnly}" />
+		                    <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].contractManagerCode" attributeEntry="${requisitionAttributes.contractManagerCode}" readOnly="${readOnly}" />
 					        <c:if test="${!readOnly}" >
-		                        <kul:lookup boClassName="org.kuali.module.purap.bo.ContractManager" fieldConversions="contractManagerCode:document.unassignedRequisition[${ctr}].contractManagerCode" /></div>
+		                        <kul:lookup boClassName="org.kuali.module.purap.bo.ContractManager" fieldConversions="contractManagerCode:document.assignContractManagerDetail[${ctr}].contractManagerCode" /></div>
 					        </c:if>
 		                </td>
 		                <td align=left valign=middle class="datacell">
-		                    <kul:htmlControlAttribute property="document.unassignedRequisition[${ctr}].identifier" attributeEntry="${requisitionAttributes.identifier}" readOnly="true" />
+		                    <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.identifier" attributeEntry="${requisitionAttributes.identifier}" readOnly="true" />
 		                </td>
 		                <td align=left valign=middle class="datacell">
-		                    <kul:htmlControlAttribute property="document.unassignedRequisition[${ctr}].deliveryCampusCode" attributeEntry="${requisitionAttributes.deliveryCampusCode}" readOnly="true" />
+		                    <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.deliveryCampusCode" attributeEntry="${requisitionAttributes.deliveryCampusCode}" readOnly="true" />
 		                </td>
 		                <td align=left valign=middle class="datacell">
-		                    <kul:htmlControlAttribute property="document.unassignedRequisition[${ctr}].vendorName" attributeEntry="${requisitionAttributes.vendorName}" readOnly="true" />
+		                    <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.vendorName" attributeEntry="${requisitionAttributes.vendorName}" readOnly="true" />
 		                </td>
 		                <td align=left valign=middle class="datacell">
-		                    <kul:htmlControlAttribute property="document.unassignedRequisition[${ctr}].documentHeader.financialDocumentDescription" attributeEntry="${requisitionAttributes.documentHeader.financialDocumentDescription}" readOnly="true" />
+		                    <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.documentHeader.financialDocumentDescription" attributeEntry="${requisitionAttributes.documentHeader.financialDocumentDescription}" readOnly="true" />
 		                </td>
 		                <td align=left valign=middle class="datacell">
-		                    <kul:htmlControlAttribute property="document.unassignedRequisition[${ctr}].documentHeader.financialDocumentTotalAmount" attributeEntry="${requisitionAttributes.documentHeader.financialDocumentTotalAmount}" readOnly="true" />
+		                    <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.documentHeader.financialDocumentTotalAmount" attributeEntry="${requisitionAttributes.documentHeader.financialDocumentTotalAmount}" readOnly="true" />
 		                </td>
 		                <td align=left valign=middle class="datacell">
 		                    Create Date
@@ -108,7 +99,7 @@
 		                <td align=left valign=middle class="datacell">
 		                    1st Item Obj Code
 		                </td>
-		                <html:hidden property="document.unassignedRequisition[${ctr}].identifier" />
+		                <html:hidden property="document.assignContractManagerDetail[${ctr}].requisitionIdentifier" />
 		            </tr>
 		        </logic:iterate>
 			</c:if>

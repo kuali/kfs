@@ -36,6 +36,9 @@ public class PurapConstants {
     public static final String VENDOR_LOOKUPABLE_IMPL = "vendorLookupable";
     public static final String DASH = "-";
     public static final String VENDOR_HEADER_ATTR = "vendorHeader";
+    public static final String DOC_ADHOC_NODE_NAME = "Adhoc Routing";
+    public static final String ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING = "Unable to save the contract manager for the following Requisitions: ";
+
     //Vendor Tax Types
     public static final String TAX_TYPE_FEIN = "FEIN";
     public static final String TAX_TYPE_SSN = "SSN";

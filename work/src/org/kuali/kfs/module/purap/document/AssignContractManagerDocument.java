@@ -27,13 +27,19 @@ import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.AssignContractManagerDetail;
 
+import edu.iu.uis.eden.EdenConstants;
+import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
+import edu.iu.uis.eden.exception.WorkflowException;
+
 public class AssignContractManagerDocument extends TransactionalDocumentBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssignContractManagerDocument.class);
 
+    private String documentNumber;
     private String financialDocumentStatusCode;
     private String financialDocumentDescription;
     private KualiDecimal financialDocumentTotalAmount;
@@ -45,9 +51,7 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
 
     private List notes;
 
-    private List<AssignContractManagerDetail> assignContractManagerDetails = new ArrayList();;
-    
-    private List<RequisitionDocument> unassignedRequisitions = new ArrayList(); // Not in the database.
+    private List<AssignContractManagerDetail> assignContractManagerDetails = new ArrayList();
     
     /**
 	 * Default constructor.
@@ -56,17 +60,11 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
         super();
 	}
 
-    public RequisitionDocument getUnassignedRequisition(int index) {
-        while (getUnassignedRequisitions().size() <= index) {
-            getUnassignedRequisitions().add(new RequisitionDocument());
+    public AssignContractManagerDetail getAssignContractManagerDetail(int index) {
+        while (assignContractManagerDetails.size() <= index) {
+            assignContractManagerDetails.add(new AssignContractManagerDetail());
         }
-        return (RequisitionDocument) getUnassignedRequisitions().get(index);
-    }
-    
-    @Override
-    public void processAfterRetrieve() {
-        this.populateDocumentWithRequisitions();
-        super.processAfterRetrieve();
+        return (AssignContractManagerDetail) assignContractManagerDetails.get(index);
     }
 
     /**
@@ -78,10 +76,12 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
 
         Map fieldValues = new HashMap();
         fieldValues.put(PurapPropertyConstants.STATUS_CODE, PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN);
-        List unassignedRequisitions = new ArrayList(SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(RequisitionDocument.class, 
+        List<RequisitionDocument> unassignedRequisitions = new ArrayList(SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(RequisitionDocument.class, 
                 fieldValues, PurapPropertyConstants.REQUISITION_ID, true));
 
-        this.setUnassignedRequisitions(unassignedRequisitions);
+        for (RequisitionDocument req : unassignedRequisitions) {
+            assignContractManagerDetails.add(new AssignContractManagerDetail(this, req));
+        }
         LOG.debug("populateDocumentWithRequisitions() Leaving method.");
     }
     
@@ -92,61 +92,68 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
         super.handleRouteStatusChange();
         
         if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+            boolean isSuccess = true;
+            StringBuffer failedReqs = new StringBuffer();
             for (Iterator iter = this.getAssignContractManagerDetails().iterator(); iter.hasNext();) {
                 AssignContractManagerDetail detail = (AssignContractManagerDetail) iter.next();
                 
-                // Get the requisition for this AssignContractManagerDetail.
-                RequisitionDocument req = detail.getRequisition();
+                if (ObjectUtils.isNotNull(detail.getContractManagerCode())) {
+                    // Get the requisition for this AssignContractManagerDetail.
+                    RequisitionDocument req = SpringServiceLocator.getRequisitionService().getRequisitionById(detail.getRequisitionIdentifier());
 
-                // If the ContractManagerCode of the saved req is not null it means that another
-                //   AssignContractManagerDocument already assigned the contract manager.
-                //   If so we won't assign it here but will send an fyi to the initiator of this document.
-                if (ObjectUtils.isNotNull(req.getContractManagerCode()) &&
-                  req.getStatusCode().equals(PurapConstants.RequisitionStatuses.CLOSED) && 
-                  !req.getContractManagerCode().equals(detail.getContractManagerCode())) {
-                    // TODO: send a workflow fyi here.
+                    if (ObjectUtils.isNull(req.getContractManagerCode()) &&
+                            req.getStatusCode().equals(PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN)) { 
+                        //only update REQ if code is empty and status is correct
+                        req.setContractManagerCode(detail.getContractManagerCode());
+                        SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(req, PurapConstants.RequisitionStatuses.CLOSED);
+                        SpringServiceLocator.getRequisitionService().save(req);
+                        PurchaseOrderDocument poDocument = SpringServiceLocator.getPurchaseOrderService().createPurchaseOrderDocument(req);
+
+                    }
+                    else {
+                        //only send FYI to initiator if code that was already set doesn't match code this doc was trying to set
+                        if (req.getContractManagerCode().compareTo(detail.getContractManagerCode()) != 0) {
+                            // TODO: can we route back to initiator
+                            isSuccess = false;
+                            failedReqs.append(req.getIdentifier() + ", ");
+                        }
+                    }
                 }
 
-                if (ObjectUtils.isNull(req.getContractManagerCode())) {
-                    req.setContractManagerCode(detail.getContractManagerCode());                    
-                    SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(req, PurapConstants.RequisitionStatuses.CLOSED);
-                    SpringServiceLocator.getRequisitionService().save(req);
-                    // TODO:  what do we do if the save fails for one or more reqs in the list?                    
-                    PurchaseOrderDocument poDocument = SpringServiceLocator.getPurchaseOrderService().createPurchaseOrderDocument(req);
+            }// endfor
+
+            if (!isSuccess) {
+                failedReqs.deleteCharAt(failedReqs.lastIndexOf(","));
+                KualiWorkflowDocument workflowDoc = this.getDocumentHeader().getWorkflowDocument();
+                String currentNodeName = null;
+                try {
+                    currentNodeName = PurapConstants.DOC_ADHOC_NODE_NAME;
+                    if (!(EdenConstants.ROUTE_HEADER_INITIATED_CD.equals(workflowDoc.getRouteHeader().getDocRouteStatus()))) {
+                        if (this.getCurrentRouteNodeName(workflowDoc) != null) {
+                            currentNodeName = this.getCurrentRouteNodeName(workflowDoc);
+                        }
+                    }
+                    workflowDoc.appSpecificRouteDocumentToUser(EdenConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, 0, 
+                            PurapConstants.ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING + failedReqs, 
+                            new NetworkIdVO(workflowDoc.getInitiatorNetworkId()), "Initiator", true);
+                }
+                catch (WorkflowException e) {
+                    // TODO do something
                 }
             }
         }
         LOG.debug("handleRouteStatusChange() Leaving method.");
     }
-    
-    @Override
-    public void prepareForSave() {
-        LOG.debug("prepareForSave() Entering method.");
 
-        this.setUserAssignedRequisitions(this.getUnassignedRequisitions());
 
-        LOG.debug("prepareForSave() Leaving method.");
-        super.prepareForSave();
-    }
-
-    public void setUserAssignedRequisitions(List unassignedRequisitions) {
-        LOG.debug("setUserAssignedRequisitions(): Entering method.");
-        List assignedRequisitions = this.getAssignContractManagerDetails();
-        
-        for (Iterator iter=unassignedRequisitions.iterator(); iter.hasNext();) {
-            RequisitionDocument req = (RequisitionDocument) iter.next();
-            
-            if (ObjectUtils.isNotNull(req.getContractManagerCode())) {
-            // User filled in the Contract Manager Code and it was validated in the Rules class.
-                AssignContractManagerDetail detail = new AssignContractManagerDetail();
-                detail.setContractManagerCode(req.getContractManagerCode());
-                detail.setDocumentNumber(req.getDocumentNumber());
-                detail.setRequisitionIdentifier(req.getIdentifier());
-                assignedRequisitions.add(detail);
-            }
+    private String getCurrentRouteNodeName(KualiWorkflowDocument wd) throws WorkflowException {
+        String[] nodeNames = wd.getNodeNames();
+        if ((nodeNames == null) || (nodeNames.length == 0)) {
+            return null;
         }
-        this.assignContractManagerDetails = assignedRequisitions;
-        LOG.debug("setUserAssignedRequisitions(): Leaving method.");
+        else {
+            return nodeNames[0];
+        }
     }
 
     public List getAssignContractManagerDetails() {
@@ -155,14 +162,6 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
 
     public void setAssignContractManagerDetails(List assignContractManagerDetails) {
         this.assignContractManagerDetails = assignContractManagerDetails;
-    }
-
-    public List getUnassignedRequisitions() {
-        return unassignedRequisitions;
-    }
-
-    public void setUnassignedRequisitions(List unassignedRequisitions) {
-        this.unassignedRequisitions = unassignedRequisitions;
     }
 
     public Date getDocumentFinalDate() {
@@ -227,6 +226,14 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
 
     public void setOrganizationDocumentNumber(String organizationDocumentNumber) {
         this.organizationDocumentNumber = organizationDocumentNumber;
+    }
+
+    public String getDocumentNumber() {
+        return documentNumber;
+    }
+
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
 }

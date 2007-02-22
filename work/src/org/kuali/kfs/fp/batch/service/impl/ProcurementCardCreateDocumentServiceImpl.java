@@ -36,7 +36,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
-import org.kuali.core.bo.AttributeReferenceDummy;
+import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.rule.event.SaveOnlyDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
@@ -276,7 +276,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
                 errorText = StringUtils.replace(errorText, messages[i] + ".", "", countMatches);
             }
             // In case errorText is still too long, truncate it and indicate so.
-            Integer documentExplanationMaxLength = dataDictionaryService.getAttributeMaxLength(AttributeReferenceDummy.class.getName(), PropertyConstants.DOCUMENT_EXPLANATION);
+            Integer documentExplanationMaxLength = dataDictionaryService.getAttributeMaxLength(DocumentHeader.class.getName(), PropertyConstants.EXPLANATION);
             if (documentExplanationMaxLength != null && errorText.length() > documentExplanationMaxLength.intValue()) {
                 String truncatedMessage = " ... TRUNCATED.";
                 errorText = errorText.substring(0, documentExplanationMaxLength - truncatedMessage.length()) + truncatedMessage;

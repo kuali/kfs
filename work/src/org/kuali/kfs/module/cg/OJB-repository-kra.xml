@@ -760,6 +760,7 @@
 	<field-descriptor name="agencyShippingInstructionsDescription" column="AGNCY_SHIP_INSTRC_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="agencyStateCode" column="AGNCY_ST_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="agencyZipCode" column="AGNCY_ZIP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="routingFormDueDateTypeCode" column="RF_DUE_DT_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="routingFormDueDate" column="RF_DUE_DT" jdbc-type="DATE"/>
 	<field-descriptor name="routingFormDueTime" column="RF_DUE_TM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="routingFormRequiredCopyText" column="RF_REQ_CPY_TXT" jdbc-type="VARCHAR"/>

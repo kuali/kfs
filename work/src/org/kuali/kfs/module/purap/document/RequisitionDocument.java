@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.document.Copyable;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
@@ -47,7 +48,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 /**
  * Requisition Document
  */
-public class RequisitionDocument extends PurchasingDocumentBase {
+public class RequisitionDocument extends PurchasingDocumentBase implements Copyable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionDocument.class);
 
 	private String requisitionOrganizationReference1Text;

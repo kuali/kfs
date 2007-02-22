@@ -20,10 +20,10 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 
 import org.apache.ojb.broker.PersistenceBroker;
+import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.chart.bo.Campus;
 
 /**
  * 

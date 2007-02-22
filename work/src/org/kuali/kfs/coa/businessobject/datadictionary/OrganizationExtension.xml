@@ -90,7 +90,7 @@
         		<validationPattern><anyCharacter maxLength="2" /></validationPattern>
         		
 				<control>
-					<select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.CampusValuesFinder" />
+					<select valuesFinderClass="org.kuali.core.lookup.keyvalues.CampusValuesFinder" />
 				</control>
 
         		<summary><![CDATA[&nbsp;]]></summary>

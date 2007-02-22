@@ -112,7 +112,7 @@
         <foreignkey field-ref="accountTypeCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="accountPhysicalCampus" class-ref="org.kuali.module.chart.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="accountPhysicalCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="accountPhysicalCampusCode" />
     </reference-descriptor>
 
@@ -282,27 +282,6 @@
         <foreignkey field-ref="accountRestrictedStatusCode" />
     </reference-descriptor>
    
-</class-descriptor>
-
-<class-descriptor class="org.kuali.module.chart.bo.Campus" table="SH_CAMPUS_T">
-    <field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="campusName" column="CAMPUS_NM" jdbc-type="VARCHAR" />
-    <field-descriptor name="campusShortName" column="CAMPUS_SHRT_NM" jdbc-type="VARCHAR" />
-    <field-descriptor name="campusTypeCode" column="CAMPUS_TYP_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-
-    <reference-descriptor name="campusType" class-ref="org.kuali.module.chart.bo.CampusType" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="campusTypeCode" />
-    </reference-descriptor>
-</class-descriptor>
-
-<class-descriptor class="org.kuali.module.chart.bo.CampusType" table="SH_CMP_TYP_T">
-	<field-descriptor name="campusTypeCode" column="CAMPUS_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="dataObjectMaintenanceCodeActiveIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="campusTypeName" column="CMP_TYP_NM" jdbc-type="VARCHAR"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.chart.bo.AccountGuideline" table="CA_ACCT_GDLNPRPS_T">
@@ -766,7 +745,7 @@
     <reference-descriptor name="responsibilityCenter" class-ref="org.kuali.module.chart.bo.ResponsibilityCenter" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="responsibilityCenterCode" />
     </reference-descriptor>
-    <reference-descriptor name="organizationPhysicalCampus" class-ref="org.kuali.module.chart.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="organizationPhysicalCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="organizationPhysicalCampusCode" />
     </reference-descriptor>
     <reference-descriptor name="organizationType" class-ref="org.kuali.module.chart.bo.OrgType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -1037,7 +1016,7 @@
         <foreignkey field-ref="accountTypeCode" />
     </reference-descriptor>
 
-    <reference-descriptor name="accountPhysicalCampus" class-ref="org.kuali.module.chart.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <reference-descriptor name="accountPhysicalCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="accountPhysicalCampusCode" />
     </reference-descriptor>
 
@@ -1716,7 +1695,7 @@
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
-    <reference-descriptor name="organizationPhysicalCampus" class-ref="org.kuali.module.chart.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="organizationPhysicalCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="organizationPhysicalCampusCode" />
     </reference-descriptor>
     <reference-descriptor name="reportsToOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -1803,7 +1782,7 @@
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
-    <reference-descriptor name="hrmsIuCampus" class-ref="org.kuali.module.chart.bo.Campus" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="hrmsIuCampus" class-ref="org.kuali.core.bo.Campus" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="hrmsIuCampusCode" />
     </reference-descriptor>
 </class-descriptor>

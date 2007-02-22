@@ -22,13 +22,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.PropertyConstants;
+import org.kuali.core.bo.Campus;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference;
-import org.kuali.module.chart.bo.Campus;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.document.ResearchDocumentBase;
 import org.kuali.module.kra.routingform.bo.ContractGrantProposal;
@@ -179,16 +179,16 @@ public class RoutingFormDocument extends ResearchDocumentBase {
                     if (proposalCreateRule.succeedsRule(routingFormProjectType.getProjectTypeCode())) {
                         createProposal = true;
                         break;
-                    }
-                }
+            }
+        }
                 
                 if (createProposal) {
                     Long newProposalNumber = SpringServiceLocator.getProposalService().createAndRouteProposalMaintenanceDocument(this);
 
                     this.getContractGrantProposal().setProposalNumber(newProposalNumber);
                     SpringServiceLocator.getBusinessObjectService().save(this.getContractGrantProposal());
-                }
-                
+    }
+
             }
         }
     }
@@ -1335,16 +1335,17 @@ public class RoutingFormDocument extends ResearchDocumentBase {
                     institutionCostShare.setRoutingFormCostShareAmount(institutionCostShare.getRoutingFormCostShareAmount().add(routingFormInstitutionCostShare.getRoutingFormCostShareAmount()));
                     
                     return;
-                }
-            }
         }
-        
+    }
+        }
+
         routingFormInstitutionCostShare.setDocumentNumber(this.getDocumentNumber());
         Integer nextSequenceNumber = this.getInstitutionCostShareNextSequenceNumber();
         routingFormInstitutionCostShare.setRoutingFormCostShareSequenceNumber(nextSequenceNumber);
         this.setInstitutionCostShareNextSequenceNumber(++nextSequenceNumber);
         getRoutingFormInstitutionCostShares().add(routingFormInstitutionCostShare);
     }
+
     
     /**
      * 

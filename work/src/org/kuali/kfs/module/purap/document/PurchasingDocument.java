@@ -18,9 +18,9 @@ package org.kuali.module.purap.document;
 import java.sql.Date;
 import java.util.List;
 
+import org.kuali.core.bo.Campus;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Campus;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.purap.bo.DeliveryRequiredDateReason;

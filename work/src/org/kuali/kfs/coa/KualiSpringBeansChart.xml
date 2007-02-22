@@ -373,9 +373,9 @@
 		</property>
 	</bean>
 
-	<bean id="workflow-org.kuali.module.chart.bo.Campus-Lookupable" parent="workflowLookupable" singleton="false">
+	<bean id="workflow-org.kuali.core.bo.Campus-Lookupable" parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
-			<value>org.kuali.module.chart.bo.Campus</value>
+			<value>org.kuali.core.bo.Campus</value>
 		</property>
 	</bean>
 

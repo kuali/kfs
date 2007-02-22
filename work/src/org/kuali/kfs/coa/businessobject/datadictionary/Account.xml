@@ -254,9 +254,9 @@
                 <description>An additional attribute to describe the purpose of an Account</description>
             </attributeReference>
 
-            <attributeReference name="accountPhysicalCampusCode" sourceClassName="org.kuali.module.chart.bo.Campus" sourceAttributeName="campusCode">
+            <attributeReference name="accountPhysicalCampusCode" sourceClassName="org.kuali.core.bo.Campus" sourceAttributeName="campusCode">
                 <control>
-                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.CampusValuesFinder" />
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CampusValuesFinder" />
                 </control>
                 <description>The code for the physical campus of the institution on which the Account is located.</description>
 

@@ -90,7 +90,7 @@
                 <description>Project Director Name</description>
             </attributeReference>
 
-			<attributeReference name="universalUser.campusCode" sourceClassName="org.kuali.module.chart.bo.Campus" sourceAttributeName="campusCode">
+			<attributeReference name="universalUser.campusCode" sourceClassName="org.kuali.core.bo.Campus" sourceAttributeName="campusCode">
 			</attributeReference>
 
             <attributeReference name="universalUser.primaryDepartmentCode" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="primaryDepartmentCode">

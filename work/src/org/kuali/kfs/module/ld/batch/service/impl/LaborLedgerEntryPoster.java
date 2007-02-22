@@ -24,7 +24,9 @@ import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.service.LaborLedgerEntryService;
 import org.kuali.module.labor.util.ObjectUtil;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class LaborLedgerEntryPoster implements PostTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerEntryPoster.class);
     public static final String DESTINATION_NAME = "LD_LEDGER_ENTRY_T";

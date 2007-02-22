@@ -65,8 +65,6 @@ public class LaborLedgerEntryServiceTest extends KualiTestBase {
         LedgerEntry expected1 = new LedgerEntry();
         ObjectUtil.populateBusinessObject(expected1, properties, "save.expected1", fieldNames, deliminator);
         Map fieldValues = ObjectUtil.buildPropertyMap(expected1, keyFieldList);
-        System.out.println(fieldValues);
-        System.out.println(input1);
 
         businessObjectService.deleteMatching(LedgerEntry.class, fieldValues);
         assertEquals(0, businessObjectService.countMatching(LedgerEntry.class, fieldValues));

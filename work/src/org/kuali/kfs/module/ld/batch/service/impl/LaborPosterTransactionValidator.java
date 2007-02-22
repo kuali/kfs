@@ -23,10 +23,12 @@ import org.kuali.module.gl.batch.poster.VerifyTransaction;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.util.Message;
 import org.kuali.module.labor.rules.TransactionFieldValidator;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class...
  */
+@Transactional
 public class LaborPosterTransactionValidator implements VerifyTransaction {
     private KualiConfigurationService kualiConfigurationService;
 

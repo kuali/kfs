@@ -15,7 +15,7 @@
  */
 package org.kuali.module.labor.service;
 
-import static org.kuali.module.gl.bo.OriginEntrySource.MAIN_POSTER_VALID;
+import static org.kuali.module.gl.bo.OriginEntrySource.LABOR_MAIN_POSTER_VALID;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -71,8 +71,8 @@ public class LaborOriginEntryServiceTest extends KualiTestBase {
         businessObjectService = (BusinessObjectService) beanFactory.getBean("businessObjectService");
 
         Date today = ((DateTimeService) beanFactory.getBean("dateTimeService")).getCurrentSqlDate();
-        group1 = originEntryGroupService.createGroup(today, MAIN_POSTER_VALID, false, false, false);
-        group2 = originEntryGroupService.createGroup(today, MAIN_POSTER_VALID, false, false, false);
+        group1 = originEntryGroupService.createGroup(today, LABOR_MAIN_POSTER_VALID, false, false, false);
+        group2 = originEntryGroupService.createGroup(today, LABOR_MAIN_POSTER_VALID, false, false, false);
 
         LaborOriginEntry cleanup = new LaborOriginEntry();
         ObjectUtil.populateBusinessObject(cleanup, properties, "dataCleanup", fieldNames, deliminator);

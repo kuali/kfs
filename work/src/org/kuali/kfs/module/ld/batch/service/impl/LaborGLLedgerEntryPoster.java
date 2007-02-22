@@ -31,10 +31,12 @@ import org.kuali.module.labor.bo.PendingLedgerEntry;
 import org.kuali.module.labor.service.LaborGeneralLedgerEntryService;
 import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 import org.kuali.module.labor.util.ObjectUtil;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class...
  */
+@Transactional
 public class LaborGLLedgerEntryPoster implements PostTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborGLLedgerEntryPoster.class);
     public static final String DESTINATION_NAME = "LD_LABOR_GL_ENTRY_T";

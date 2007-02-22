@@ -23,6 +23,7 @@ import java.util.List;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
@@ -33,6 +34,7 @@ import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganization;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
+import org.kuali.module.kra.routingform.bo.RoutingFormProjectType;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
@@ -108,14 +110,23 @@ public class Proposal extends PersistableBusinessObjectBase {
 
         //Values coming from RoutingFormDocument (ER_RF_DOC_T)
         this.setProposalProjectTitle(routingFormDocument.getRoutingFormProjectTitle().length() > 250 ? routingFormDocument.getRoutingFormProjectTitle().substring(0, 250) : routingFormDocument.getRoutingFormProjectTitle());
-        this.setProposalPurposeCode("A");
-        this.setProposalAwardTypeCode("N");
+        this.setProposalPurposeCode(routingFormDocument.getRoutingFormPurposeCode());
         this.setGrantNumber(routingFormDocument.getGrantNumber());
         this.setCfdaNumber(routingFormDocument.getRoutingFormCatalogOfFederalDomesticAssistanceNumber());
         this.setProposalFellowName(routingFormDocument.getRoutingFormFellowFullName());
         this.setProposalFederalPassThroughIndicator(routingFormDocument.getRoutingFormFederalPassThroughIndicator());
         this.setFederalPassThroughAgencyNumber(routingFormDocument.getAgencyFederalPassThroughNumber());
 
+        //There could be multiple types on the RF, but only one of them will pass this rule, and that's the one that should be used to populate the Proposal field.
+        KualiParameterRule proposalCreateRule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(KraConstants.KRA_ADMIN_GROUP_NAME, "KraRoutingFormCreateProposalProjectTypes");
+        for (RoutingFormProjectType routingFormProjectType : routingFormDocument.getRoutingFormProjectTypes()) {
+            if (proposalCreateRule.succeedsRule(routingFormProjectType.getProjectTypeCode())) {
+                this.setProposalAwardTypeCode(routingFormProjectType.getProjectTypeCode());
+                break;
+            }
+        }
+        
+        
         //Values coming from Routing Form Budget BO (ER_RF_BDGT_T)
         RoutingFormBudget routingFormBudget = routingFormDocument.getRoutingFormBudget();
         this.setProposalBeginningDate(routingFormBudget.getRoutingFormBudgetStartDate());
@@ -134,11 +145,9 @@ public class Proposal extends PersistableBusinessObjectBase {
         }
 
         //Get the RF Primary Project Director
-        RoutingFormPersonnel projectDirector = null;
-
         for (RoutingFormPersonnel routingFormPerson : routingFormDocument.getRoutingFormPersonnel()) {
             if (routingFormPerson.isProjectDirector()) {
-                projectDirector = routingFormPerson;
+                RoutingFormPersonnel projectDirector = routingFormPerson;
 
                 this.getProposalProjectDirectors().add(new ProposalProjectDirector(projectDirector, newProposalNumber, true));
                 
@@ -167,7 +176,6 @@ public class Proposal extends PersistableBusinessObjectBase {
             this.getProposalResearchRisks().add(new ProposalResearchRisk(newProposalNumber, routingFormResearchRisk));
         }
         
-        //Can't do yet?
         this.setProposalSubmissionDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
 
     }

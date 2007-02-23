@@ -749,7 +749,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
     }
 
     public HashMap getAppointmentTypeMappings() {
-        if (appointmentTypeMappings == null) {
+//        if (appointmentTypeMappings == null) {
             appointmentTypeMappings = new HashMap();
 
             // using Arrays.asList(String[]).toString() so I can easily check from elsewhere whether or not a particular appointment
@@ -762,7 +762,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
             appointmentTypeMappings.put(KraConstants.GRADUATE_ASSISTANT, Arrays.asList(kualiConfigurationService.getApplicationParameterValues(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.KRA_BUDGET_PERSONNEL_GRADUATE_RESEARCH_ASSISTANT_APPOINTMENT_TYPES)).toString());
             appointmentTypeMappings.put(KraConstants.ACADEMIC_SUMMER, kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.KRA_BUDGET_PERSONNEL_SUMMER_GRID_APPOINTMENT_TYPE));
             appointmentTypeMappings.put(KraConstants.ACADEMIC_YEAR, kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.KRA_BUDGET_PERSONNEL_ACADEMIC_YEAR_APPOINTMENT_TYPE));
-        }
+//        }
         return appointmentTypeMappings;
     }
 

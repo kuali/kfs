@@ -100,7 +100,7 @@ public class GenesisTest {
       LOG.info("\nDocument creation started: "+String.format("%tT",
               dateTimeService.getCurrentDate()));
       genesisTestService.genesisDocumentStep(BaseYear);
-      genesisDao.createNewBCDocuments(BaseYear);
+ //     genesisDao.createNewBCDocuments(BaseYear);
       LOG.info("\nDocument creation ended: "+
                String.format("%tT",dateTimeService.getCurrentDate()));
       genesisTestService.genesisFinalStep(BaseYear);

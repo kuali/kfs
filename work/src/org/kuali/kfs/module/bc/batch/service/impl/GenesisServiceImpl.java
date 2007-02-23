@@ -16,6 +16,7 @@
 package org.kuali.module.budget.service.impl;
 
 import org.kuali.Constants;
+import org.kuali.Constants.*;
 import org.kuali.module.budget.dao.GenesisDao;
 import org.kuali.module.budget.service.GenesisService;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,6 +49,37 @@ public class GenesisServiceImpl implements GenesisService {
           genesisDao.clearHangingBCLocks(currentFiscalYear);
       }
 
+      /*
+       *   here are some flag value routines
+       */
+    
+      public Boolean CSFUpdatesAllowed(Integer BaseYear)
+      {
+          Boolean ReturnValue = new Boolean(false);
+          Integer RequestYear = BaseYear + 1;
+          ReturnValue =
+          (genesisDao.getBudgetConstructionControlFlag(RequestYear,
+                       BudgetConstructionConstants.BUDGET_CONSTRUCTION_GENESIS_RUNNING))||
+          ((genesisDao.getBudgetConstructionControlFlag(RequestYear,
+                       BudgetConstructionConstants.BUDGET_CONSTRUCTION_ACTIVE))&&
+           (genesisDao.getBudgetConstructionControlFlag(RequestYear,
+                       BudgetConstructionConstants.CSF_UPDATES_OK)));            
+          return ReturnValue;
+      }
+      
+      public Boolean GLUpdatesAllowed(Integer BaseYear)
+      {
+          Boolean ReturnValue = new Boolean(false);
+          Integer RequestYear = BaseYear + 1;
+          ReturnValue =
+          (genesisDao.getBudgetConstructionControlFlag(RequestYear,
+                       BudgetConstructionConstants.BUDGET_CONSTRUCTION_GENESIS_RUNNING))||
+          ((genesisDao.getBudgetConstructionControlFlag(RequestYear,
+                       BudgetConstructionConstants.BUDGET_CONSTRUCTION_ACTIVE))&&
+           (genesisDao.getBudgetConstructionControlFlag(BaseYear,
+                       BudgetConstructionConstants.BASE_BUDGET_UPDATES_OK)));            
+          return ReturnValue;
+      }
       
       public final void stepBudgetConstructionGLLoad (Integer universityFiscalYear)
       {
@@ -158,7 +190,9 @@ public class GenesisServiceImpl implements GenesisService {
     {
         genesisDao.setControlFlagsAtTheStartOfGenesis(BaseYear);
         genesisDao.clearDBForGenesis(BaseYear);
-        genesisDao.primeNewBCHeadersDocumentCreation(BaseYear);
+//        genesisDao.primeNewBCHeadersDocumentCreation(BaseYear);
+        genesisDao.createNewBCDocumentsFromGLCSF(BaseYear,
+                GLUpdatesAllowed(BaseYear), CSFUpdatesAllowed(BaseYear));
     }
     
     public void genesisFinalStep (Integer BaseYear)

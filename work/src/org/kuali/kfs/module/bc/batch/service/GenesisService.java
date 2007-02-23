@@ -20,7 +20,12 @@ import java.util.*;
  *   budget module to build a new budget for the coming fiscal year
  */
 public interface GenesisService {
-   /*
+    /*
+     * these routines indicate which actions are allowed in genesis
+     */ 
+    public Boolean CSFUpdatesAllowed(Integer BaseYear);
+    public Boolean GLUpdatesAllowed(Integer BaseYear);
+    /*
      * build the budget construction GL table from the BALANCE_TYPE_BASE_BUDGET rows in 
      * GL table
     */ 

@@ -55,6 +55,11 @@ public interface GenesisDao {
    public void updateToPBGL(Integer currentFiscalYear);
    
    // document creation
+   //@@TODO:  the first two are non-transactional, and are "deprecated"
    public void createNewBCDocuments(Integer currentFiscalYear);
    public void primeNewBCHeadersDocumentCreation(Integer currentFiscalYear);
+   // create document with embedded workflow
+   public void createNewBCDocumentsFromGLCSF(Integer BaseYear,
+                                             Boolean GLUpdatesAllowed,
+                                             Boolean CSFUpdatesAllowed);
 }

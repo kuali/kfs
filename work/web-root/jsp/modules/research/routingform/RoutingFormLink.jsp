@@ -29,7 +29,7 @@
 
 	<div id="workarea" >
 
-  <kul:tabTop tabTitle="Budget Link" defaultOpen="true" tabErrorKey="document.routingFormBudgetNumber">
+  <kul:tabTop tabTitle="Budget Link" defaultOpen="true" tabErrorKey="document.routingFormBudgetNumber*">
   
           <div class="tab-container" align="center">
             <div class="h2-container">
@@ -48,13 +48,11 @@
               <tr>
                 <th>&nbsp;</th>
                 <td colspan="3" align=left valign=middle nowrap >
-                  <html:image property="methodToCall.loadBudget.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-loadbudget1.gif" alt="load budget"/>
-                </td>
-              </tr>
-              <tr>
-                <th>&nbsp;</th>
-                <td colspan="3" align=left valign=middle nowrap >
-                  <html:image property="methodToCall.deleteBudget.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-loadbudget1.gif" alt="delete budget link"/>
+                  <html:image property="methodToCall.loadBudget.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-loadbud.gif" alt="load budget"/>
+                  &nbsp;
+                  <c:if test="${not empty KualiForm.periodBudgetOverviewFormHelpers}">
+                    <html:image property="methodToCall.deleteBudget.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-delbudlink.gif" alt="delete budget link"/>
+                  </c:if>
                 </td>
               </tr>
               
@@ -91,7 +89,15 @@
                       
                       <td class="datacell">
                         <div align="right">
-                          <html:hidden property="periodBudgetOverviewFormHelper[${status.index}].totalDirectCostsAgencyRequest" write="true" />
+                          <html:hidden property="periodBudgetOverviewFormHelper[${status.index}].overviewShowModular"/>
+                          <c:choose>
+                            <c:when test="${periodBudgetOverviewFormHelper.overviewShowModular}">
+                              <html:hidden property="periodBudgetOverviewFormHelper[${status.index}].adjustedDirectCostsAgencyRequest" write="true" />
+                            </c:when>
+                            <c:otherwise>
+                              <html:hidden property="periodBudgetOverviewFormHelper[${status.index}].totalDirectCostsAgencyRequest" write="true" /> 
+                            </c:otherwise>
+                          </c:choose>
                         </div>
                       </td>
                       
@@ -123,7 +129,16 @@
                       
                       <td class="infoline">
                         <div align="right">
-                          <b><fmt:formatNumber value="${KualiForm.summaryBudgetOverviewFormHelper.totalDirectCostsAgencyRequest}" type="currency" currencySymbol="" maxFractionDigits="0" /></b>
+                          <c:choose>
+                            <c:when test="${KualiForm.summaryBudgetOverviewFormHelper.overviewShowModular}">
+                              <c:set var="agencyRequestAmount" value="${KualiForm.summaryBudgetOverviewFormHelper.adjustedDirectCostsAgencyRequest}" />
+                            </c:when>
+                            <c:otherwise>
+                              <c:set var="agencyRequestAmount" value="${KualiForm.summaryBudgetOverviewFormHelper.totalDirectCostsAgencyRequest}" />
+                            </c:otherwise>
+                          </c:choose>
+                        
+                          <b><fmt:formatNumber value="${agencyRequestAmount}" type="currency" currencySymbol="" maxFractionDigits="0" /></b>
                         </div>
                       </td>
                       
@@ -145,7 +160,7 @@
                     <tr>
                       <td colspan="74" class="infoline" height="30">
                       <div align="center">
-                        <html:image property="methodToCall.linkBudget.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-loadbudget1.gif" alt="link selected periods"/>
+                        <html:image property="methodToCall.linkBudget.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-linkselperiods.gif" alt="link selected periods"/>
                       </div></td>
                     </tr>
                   </table>

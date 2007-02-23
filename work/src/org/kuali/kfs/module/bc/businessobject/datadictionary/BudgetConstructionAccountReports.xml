@@ -26,9 +26,9 @@
             <title>Budget Construction Account Reports Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="chartOfAccounts.codeAndDescription" />
                 <field attributeName="accountNumber" />
-                <field attributeName="reportsToChartOfAccountsCode" />
+                <field attributeName="reportsToChartOfAccounts.codeAndDescription" />
                 <field attributeName="reportsToOrganizationCode" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
@@ -70,6 +70,19 @@
                 </control>
             </attributeReference>
 
+           <attributeReference name="chartOfAccounts.codeAndDescription" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="codeAndDescription">
+                <label>Chart Code</label>
+                <shortLabel>Chart Code</shortLabel>
+                <required>false</required>
+                <control>
+                    <hidden />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Chart Code and Description</description>
+            </attributeReference>
+
             <attributeReference name="reportsToChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
                 <label>Reports To Chart</label>
                 <shortLabel>Repts to Cht</shortLabel>
@@ -77,6 +90,19 @@
 				<control>
 					<select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
 				</control>
+                <description>The Chart for the Reports To organization.</description>
+            </attributeReference>
+
+           <attributeReference name="reportsToChartOfAccounts.codeAndDescription" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="codeAndDescription">
+                <label>Reports To Chart</label>
+                <shortLabel>Repts to Cht</shortLabel>
+                <required>false</required>
+                <control>
+                    <hidden />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
                 <description>The Chart for the Reports To organization.</description>
             </attributeReference>
 

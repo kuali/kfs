@@ -26,7 +26,7 @@
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="universityFiscalYear" />
-                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="chartOfAccounts.codeAndDescription" />
                 <field attributeName="accountNumber" />
                 <field attributeName="subAccountNumber" />
                 <field attributeName="financialObjectCode" />
@@ -87,6 +87,8 @@
             </resultFields>
         </lookup>
 
+        <titleAttribute>emplid</titleAttribute>
+        
         <attributes>
 
             <attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
@@ -103,6 +105,18 @@
                 <description>Chart of Accounts Code for the override.</description>
             </attributeReference>
 
+           <attributeReference name="chartOfAccounts.codeAndDescription" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="codeAndDescription">
+                <label>Chart Code</label>
+                <shortLabel>Chart Code</shortLabel>
+                <required>false</required>
+                <control>
+                    <hidden />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Chart Code and Description</description>
+            </attributeReference>
 
             <attribute name="csfAmount" forceUppercase="true">
                 <label>CSF Amount</label>

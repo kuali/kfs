@@ -25,9 +25,9 @@
             <title>Budget Construction Organization Reports Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="chartOfAccounts.codeAndDescription" />
                 <field attributeName="organizationCode" />
-                <field attributeName="reportsToChartOfAccountsCode" />
+                <field attributeName="reportsToChartOfAccounts.codeAndDescription" />
                 <field attributeName="reportsToOrganizationCode" />
                 <field attributeName="responsibilityCenterCode" />
             </inquiryFields></inquirySection></inquirySections>
@@ -69,7 +69,20 @@
                     <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
                 </control>
             </attributeReference>
-
+            
+           <attributeReference name="chartOfAccounts.codeAndDescription" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="codeAndDescription">
+                <label>Chart Code</label>
+                <shortLabel>Chart Code</shortLabel>
+                <required>false</required>
+                <control>
+                    <hidden />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Chart Code and Description</description>
+            </attributeReference>
+            
             <attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
                 <required>true</required>
             </attributeReference>
@@ -84,6 +97,21 @@
                 <description>The Chart for the Reports To organization.</description>
             </attributeReference>
 
+
+           <attributeReference name="reportsToChartOfAccounts.codeAndDescription" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="codeAndDescription">
+                <label>Reports To Chart</label>
+                <shortLabel>Repts to Cht</shortLabel>
+                <required>false</required>
+                <control>
+                    <hidden />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The Chart for the Reports To organization.</description>
+            </attributeReference>
+
+ 
             <attributeReference name="reportsToOrganizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
                 <label>Reports To Organization</label>
                 <shortLabel>Rpts To Org</shortLabel>

@@ -558,12 +558,10 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
         testRouteDocumentRule_processRouteDocument(createDocumentUnbalanced(), false);
     }
 
-    @RelatesTo(RelatesTo.JiraIssue.KULRNE4308)
     public void testProcessGenerateGeneralLedgerPendingEntries_validTargetExpense() throws Exception {
         testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument(), EXPENSE_LINE.createTargetAccountingLine(), EXPECTED_EXPLICIT_TARGET_PENDING_ENTRY_FOR_EXPENSE, EXPECTED_OFFSET_TARGET_PENDING_ENTRY);
     }
     
-    @RelatesTo(RelatesTo.JiraIssue.KULRNE4308)
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpense() throws Exception {
 
         testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument(), EXPENSE_LINE.createSourceAccountingLine(), EXPECTED_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE, EXPECTED_OFFSET_SOURCE_PENDING_ENTRY);
@@ -590,7 +588,7 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
         targetLine.setAmount(balance);
         targetLine.refresh();
         List<TargetAccountingLine> targetLines = new ArrayList<TargetAccountingLine>();
-        targetLines.add(targetLine);
+        targetLines.add(targetLine); 
 
         doc.setSourceAccountingLines(sourceLines);
         doc.setTargetAccountingLines(targetLines);

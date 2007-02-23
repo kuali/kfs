@@ -140,7 +140,15 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         // Save the employee ID in all accounting related lines       
         ExpenseTransferAccountingLine salaryExpenseTransferAccountingLine = (ExpenseTransferAccountingLine)accountingLine;
         salaryExpenseTransferAccountingLine.setEmplid(emplid); 
-        
+
+        // Validate the accounting period
+        fieldValues.clear();
+        fieldValues.put("universityFiscalPeriodCode", salaryExpenseTransferAccountingLine.getPayrollEndDateFiscalPeriodCode());
+        AccountingPeriod accountingPeriod = new AccountingPeriod();        
+        if (SpringServiceLocator.getBusinessObjectService().countMatching(AccountingPeriod.class, fieldValues) == 0) {
+            reportError(PropertyConstants.ACCOUNT,KeyConstants.Labor.INVALID_PAY_PERIOD, emplid);
+            return false;
+        }
         return true;
     }
     

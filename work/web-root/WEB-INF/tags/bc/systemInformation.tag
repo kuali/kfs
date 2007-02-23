@@ -305,8 +305,8 @@
 	      </td>
 	      <td></td>
 	      <td align="center" valign="middle">
-		  	<c:if test="${document.organizationLevelCode == 0}">
-				Account Level Approval Access
+		  	<c:if test="${KualiForm.document.organizationLevelCode == 0}">
+				Account Level Update Access
 		  	</c:if>
 	      </td>
 		</tr>

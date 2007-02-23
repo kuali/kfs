@@ -76,7 +76,15 @@
                   <kul:htmlControlAttribute attributeEntry="${pbglExpenditureAttributes.accountLineAnnualBalanceAmount}" property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].accountLineAnnualBalanceAmount" styleClass="amount" readOnly="false"/>
               </span></div></td>
 	              <td><div align=center>
-	                   <html:image src="images/tinybutton-view.gif" styleClass="tinybutton" property="methodToCall.performMonthlyBudget.line${status.index}" title="View Month" alt="View Month"/>
+					<c:choose>
+						<c:when test="${empty item.budgetConstructionMonthly}" > 
+	                   		<html:image src="images/tinybutton-createnew.gif" styleClass="tinybutton" property="methodToCall.performMonthlyBudget.line${status.index}" title="View Month" alt="View Month"/>
+						</c:when> 
+						<c:otherwise> 
+	                   		<html:image src="images/tinybutton-edit1.gif" styleClass="tinybutton" property="methodToCall.performMonthlyBudget.line${status.index}" title="View Month" alt="View Month"/>
+						</c:otherwise> 
+					</c:choose> 
+
 <%--
 	                   methodToCall.headerTab.headerDispatch.savePersonnel.navigateTo.parameters.x
 --%>			

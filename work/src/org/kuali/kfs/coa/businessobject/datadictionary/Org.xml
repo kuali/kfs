@@ -770,6 +770,8 @@
         <relationships>
             <relationship objectAttributeName="organizationManagerUniversal" >
                 <primitiveAttribute sourceName="organizationManagerUniversalId" targetName="personUniversalIdentifier" />
+				<supportAttribute sourceName="organizationManagerUniversal.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
+				<supportAttribute sourceName="organizationManagerUniversal.personName" targetName="personName" />
             </relationship>
         </relationships>
 

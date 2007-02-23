@@ -193,6 +193,8 @@
         <relationships>
             <relationship objectAttributeName="accountDelegate" >
                 <primitiveAttribute sourceName="accountDelegateSystemId" targetName="personUniversalIdentifier" />
+				<supportAttribute sourceName="accountDelegate.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
+				<supportAttribute sourceName="accountDelegate.personName" targetName="personName" />
             </relationship>
         </relationships>
 

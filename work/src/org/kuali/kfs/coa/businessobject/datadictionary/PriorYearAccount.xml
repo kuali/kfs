@@ -1027,14 +1027,20 @@
         <relationships>
             <relationship objectAttributeName="accountFiscalOfficerUser" >
                 <primitiveAttribute sourceName="accountFiscalOfficerSystemIdentifier" targetName="personUniversalIdentifier" />
+				<supportAttribute sourceName="accountFiscalOfficerUser.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
+				<supportAttribute sourceName="accountFiscalOfficerUser.personName" targetName="personName" />
             </relationship>
 
             <relationship objectAttributeName="accountSupervisoryUser" >
                 <primitiveAttribute sourceName="accountsSupervisorySystemsIdentifier" targetName="personUniversalIdentifier" />
+				<supportAttribute sourceName="accountSupervisoryUser.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
+				<supportAttribute sourceName="accountSupervisoryUser.personName" targetName="personName" />
             </relationship>
 
             <relationship objectAttributeName="accountManagerUser" >
                 <primitiveAttribute sourceName="accountManagerSystemIdentifier" targetName="personUniversalIdentifier" />
+				<supportAttribute sourceName="accountManagerUser.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
+				<supportAttribute sourceName="accountManagerUser.personName" targetName="personName" />
             </relationship>
 
             <relationship objectAttributeName="accountGuideline" >

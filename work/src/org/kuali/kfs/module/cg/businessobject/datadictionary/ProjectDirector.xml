@@ -121,6 +121,8 @@
         <relationships>
             <relationship objectAttributeName="universalUser" >
                 <primitiveAttribute sourceName="personUniversalIdentifier" targetName="personUniversalIdentifier" />
+				<supportAttribute sourceName="universalUser.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
+				<supportAttribute sourceName="universalUser.personName" targetName="personName" />
             </relationship>
         </relationships>
         

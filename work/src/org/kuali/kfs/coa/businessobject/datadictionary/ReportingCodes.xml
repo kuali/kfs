@@ -164,6 +164,8 @@
         <relationships>
             <relationship objectAttributeName="universalUser" >
                 <primitiveAttribute sourceName="financialReportingCodeMgrId" targetName="personUniversalIdentifier" />
+				<supportAttribute sourceName="universalUser.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
+				<supportAttribute sourceName="universalUser.personName" targetName="personName" />
             </relationship>
         </relationships>
 

@@ -191,6 +191,8 @@
         <relationships>
             <relationship objectAttributeName="projectManagerUniversal" >
                 <primitiveAttribute sourceName="projectManagerUniversalId" targetName="personUniversalIdentifier" />
+				<supportAttribute sourceName="projectManagerUniversal.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
+				<supportAttribute sourceName="projectManagerUniversal.personName" targetName="personName" />
             </relationship>
         </relationships>
 

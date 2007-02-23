@@ -388,6 +388,8 @@
         <relationships>
             <relationship objectAttributeName="finCoaManagerUniversal" >
                 <primitiveAttribute sourceName="finCoaManagerUniversalId" targetName="personUniversalIdentifier" />
+				<supportAttribute sourceName="finCoaManagerUniversal.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
+				<supportAttribute sourceName="finCoaManagerUniversal.personName" targetName="personName" />
             </relationship>
         </relationships>
 

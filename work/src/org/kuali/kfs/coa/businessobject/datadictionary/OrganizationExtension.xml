@@ -275,10 +275,14 @@
         <relationships>
             <relationship objectAttributeName="hrmsPersonnelApproverUniversal" >
                 <primitiveAttribute sourceName="hrmsPersonnelApproverUniversalId" targetName="personUniversalIdentifier" />
+				<supportAttribute sourceName="hrmsPersonnelApproverUniversal.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
+				<supportAttribute sourceName="hrmsPersonnelApproverUniversal.personName" targetName="personName" />
             </relationship>
 
             <relationship objectAttributeName="fiscalApproverUniversal" >
                 <primitiveAttribute sourceName="fiscalApproverUniversalId" targetName="personUniversalIdentifier" />
+				<supportAttribute sourceName="fiscalApproverUniversal.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
+				<supportAttribute sourceName="fiscalApproverUniversal.personName" targetName="personName" />
             </relationship>
         </relationships>
 		<objectLabel>Organization Extension</objectLabel>

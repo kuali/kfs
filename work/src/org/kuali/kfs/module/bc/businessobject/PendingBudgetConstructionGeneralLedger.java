@@ -16,7 +16,9 @@
 
 package org.kuali.module.budget.bo;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
@@ -49,7 +51,7 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
 	private KualiDecimal financialBeginningBalanceLineAmount;
 
     private BudgetConstructionHeader budgetConstructionHeader;
-    private BudgetConstructionMonthly budgetConstructionMonthly;
+//    private BudgetConstructionMonthly budgetConstructionMonthly;
 	private ObjectCode financialObject;
 	private Chart chartOfAccounts;
 	private Account account;
@@ -58,11 +60,14 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
     private BalanceTyp balanceType;
     private ObjectType objectType;
     private LaborObject laborObject;
+
+    private List budgetConstructionMonthly;
     
 	/**
 	 * Default constructor.
 	 */
 	public PendingBudgetConstructionGeneralLedger() {
+        budgetConstructionMonthly = new ArrayList();
 
 	}
 
@@ -303,7 +308,7 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
 	 * @return Returns the budgetConstructionMonthly
 	 * 
 	 */
-	public BudgetConstructionMonthly getBudgetConstructionMonthly() { 
+	public List<BudgetConstructionMonthly> getBudgetConstructionMonthly() { 
 		return budgetConstructionMonthly;
 	}
 
@@ -313,7 +318,7 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
 	 * @param budgetConstructionMonthly The budgetConstructionMonthly to set.
 	 * @deprecated
 	 */
-	public void setBudgetConstructionMonthly(BudgetConstructionMonthly budgetConstructionMonthly) {
+	public void setBudgetConstructionMonthly(List<BudgetConstructionMonthly> budgetConstructionMonthly) {
 		this.budgetConstructionMonthly = budgetConstructionMonthly;
 	}
 

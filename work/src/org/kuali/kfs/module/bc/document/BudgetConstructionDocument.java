@@ -17,6 +17,7 @@ package org.kuali.module.budget.document;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -105,6 +106,10 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
         pendingBudgetConstructionGeneralLedgerExpenditureLines = (ArrayList) SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(PendingBudgetConstructionGeneralLedger.class, fieldValues, "FIN_OBJECT_CD", true);
         if (LOG.isDebugEnabled()) {
             LOG.debug("pendingBudgetConstructionGeneralLedgerExpenditure is: "+pendingBudgetConstructionGeneralLedgerExpenditureLines);
+        }
+        Iterator<PendingBudgetConstructionGeneralLedger> iter = pendingBudgetConstructionGeneralLedgerExpenditureLines.iterator();
+        while (iter.hasNext()){
+            iter.next().refreshReferenceObject("budgetConstructionMonthly");
         }
         
     }

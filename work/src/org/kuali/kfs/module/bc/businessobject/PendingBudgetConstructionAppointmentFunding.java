@@ -65,9 +65,10 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     private BudgetConstructionPosition budgetConstructionPosition;
     private BudgetConstructionAdministrativePost budgetConstructionAdministrativePost;
     private BudgetConstructionAccountReports budgetConstructionAccountReports;
-    private BudgetConstructionCalculatedSalaryFoundationTracker bcnCalculatedSalaryFoundationTracker;
+//    private BudgetConstructionCalculatedSalaryFoundationTracker bcnCalculatedSalaryFoundationTracker;
     private BudgetConstructionIntendedIncumbent budgetConstructionIntendedIncumbent;
     
+    private List bcnCalculatedSalaryFoundationTracker;
     private List budgetConstructionSalaryFunding;
     private List budgetConstructionAppointmentFundingReason;
     
@@ -76,12 +77,13 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
 	 */
 	public PendingBudgetConstructionAppointmentFunding() {
         budgetConstructionSalaryFunding = new ArrayList();
+        bcnCalculatedSalaryFoundationTracker = new ArrayList();
 
 	}
     
     public KualiDecimal getPercentChange() {
         try {
-            return (appointmentRequestedAmount.subtract(bcnCalculatedSalaryFoundationTracker.getCsfAmount())).divide(bcnCalculatedSalaryFoundationTracker.getCsfAmount()).multiply(new KualiDecimal(100));
+            return (appointmentRequestedAmount.subtract(((BudgetConstructionCalculatedSalaryFoundationTracker) bcnCalculatedSalaryFoundationTracker.get(0)).getCsfAmount())).divide(((BudgetConstructionCalculatedSalaryFoundationTracker) bcnCalculatedSalaryFoundationTracker.get(0)).getCsfAmount()).multiply(new KualiDecimal(100));
         } catch (NullPointerException npe) {
             return null;
         }
@@ -757,7 +759,7 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
      * Gets the bcnCalculatedSalaryFoundationTracker attribute. 
      * @return Returns the bcnCalculatedSalaryFoundationTracker.
      */
-    public BudgetConstructionCalculatedSalaryFoundationTracker getBcnCalculatedSalaryFoundationTracker() {
+    public List<BudgetConstructionCalculatedSalaryFoundationTracker> getBcnCalculatedSalaryFoundationTracker() {
         return bcnCalculatedSalaryFoundationTracker;
     }
 
@@ -766,7 +768,7 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
      * @param bcnCalculatedSalaryFoundationTracker The bcnCalculatedSalaryFoundationTracker to set.
      * @deprecated
      */
-    public void setBcnCalculatedSalaryFoundationTracker(BudgetConstructionCalculatedSalaryFoundationTracker bcnCalculatedSalaryFoundationTracker) {
+    public void setBcnCalculatedSalaryFoundationTracker(List<BudgetConstructionCalculatedSalaryFoundationTracker> bcnCalculatedSalaryFoundationTracker) {
         this.bcnCalculatedSalaryFoundationTracker = bcnCalculatedSalaryFoundationTracker;
     }
 

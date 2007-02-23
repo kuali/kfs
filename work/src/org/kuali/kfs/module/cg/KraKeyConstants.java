@@ -145,6 +145,8 @@ public class KraKeyConstants {
     public static final String ERROR_BUDGET_ALREADY_LINKED = "error.budget.already.linked";
     public static final String ERROR_DOCUMENT_NUMBER_NOT_BUDGET_DOCUMENT = "error.document.number.not.budget";
     public static final String ERROR_DOCUMENT_NUMBER_NOT_EXIST = "error.document.number.not.exist";
+    public static final String ERROR_SELECTED_PERIODS_CONSECUTIVE = "error.selected.periods.consecutive";
+    public static final String ERROR_AT_LEAST_ONE_PERIOD = "error.at.least.one.period";
     
     //Global Messages
     public static final Object BUDGET_OVERRIDE = "document.budget.override";

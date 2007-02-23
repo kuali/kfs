@@ -96,17 +96,26 @@ public class RoutingFormServiceImpl implements RoutingFormService {
                 routingFormBudget.setRoutingFormBudgetTotalStartDate(periodOverview.getBudgetPeriod().getBudgetPeriodBeginDate());
             }
             routingFormBudget.setRoutingFormBudgetTotalEndDate(periodOverview.getBudgetPeriod().getBudgetPeriodEndDate());
-            routingFormBudget.setRoutingFormBudgetTotalDirectAmount(routingFormBudget.getRoutingFormBudgetTotalDirectAmount().add(periodOverview.getTotalDirectCostsAgencyRequest()));
             routingFormBudget.setRoutingFormBudgetTotalIndirectCostAmount(routingFormBudget.getRoutingFormBudgetTotalIndirectCostAmount().add(periodOverview.getTotalIndirectCostsAgencyRequest()));
+            
+            if(!periodOverview.isOverviewShowModular()) {
+                routingFormBudget.setRoutingFormBudgetTotalDirectAmount(routingFormBudget.getRoutingFormBudgetTotalDirectAmount().add(periodOverview.getTotalDirectCostsAgencyRequest()));
+            } else {
+                routingFormBudget.setRoutingFormBudgetTotalDirectAmount(routingFormBudget.getRoutingFormBudgetTotalDirectAmount().add(periodOverview.getAdjustedDirectCostsAgencyRequest()));
+            }
             
             if (periodOverview.isSelected()) {
                 if (routingFormBudget.getRoutingFormBudgetStartDate() == null) {
                     routingFormBudget.setRoutingFormBudgetStartDate(periodOverview.getBudgetPeriod().getBudgetPeriodBeginDate());
                 }
                 routingFormBudget.setRoutingFormBudgetEndDate(periodOverview.getBudgetPeriod().getBudgetPeriodEndDate());
-                routingFormBudget.setRoutingFormBudgetDirectAmount(routingFormBudget.getRoutingFormBudgetDirectAmount().add(periodOverview.getTotalDirectCostsAgencyRequest()));
                 routingFormBudget.setRoutingFormBudgetIndirectCostAmount(routingFormBudget.getRoutingFormBudgetIndirectCostAmount().add(periodOverview.getTotalIndirectCostsAgencyRequest()));
-
+                
+                if(!periodOverview.isOverviewShowModular()) {                
+                    routingFormBudget.setRoutingFormBudgetDirectAmount(routingFormBudget.getRoutingFormBudgetDirectAmount().add(periodOverview.getTotalDirectCostsAgencyRequest()));
+                } else {
+                    routingFormBudget.setRoutingFormBudgetDirectAmount(routingFormBudget.getRoutingFormBudgetDirectAmount().add(periodOverview.getAdjustedDirectCostsAgencyRequest()));
+                }
             }
         }
         

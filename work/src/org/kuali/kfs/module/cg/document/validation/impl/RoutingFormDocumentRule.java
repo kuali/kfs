@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.KeyConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
@@ -429,7 +430,19 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
         errorMap.addToErrorPath("document");
         
         try {
+            DictionaryValidationService dictionaryValidationService = SpringServiceLocator.getDictionaryValidationService();
+            dictionaryValidationService.validateDocument(routingFormDocument);
+            
             //see if the Budget Document Header ID is valid
+            
+            //This stinks, but it has to be done since Workflow uses Longs for document number.
+            try {
+                new Long(routingFormDocument.getRoutingFormBudgetNumber());
+            } catch (NumberFormatException e){
+                errorMap.putError("routingFormBudgetNumber", KraKeyConstants.ERROR_DOCUMENT_NUMBER_NOT_BUDGET_DOCUMENT, new String[] {routingFormDocument.getRoutingFormBudgetNumber()});
+                return false;
+            }
+            
             if (documentService.documentExists(routingFormDocument.getRoutingFormBudgetNumber())) {
                 Document document = documentService.getByDocumentHeaderId(routingFormDocument.getRoutingFormBudgetNumber());
                 if (BudgetDocument.class.isAssignableFrom(document.getClass())) {
@@ -467,14 +480,14 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                     for (int i = 0; i < selectedBudgetPeriods.length; i++){
                         if (i != 0 && Integer.valueOf(selectedBudgetPeriods[i]) != nextPeriodNumberShouldBe) { //first time
                             valid = false;
-                            errorMap.putError("selectedBudgetPeriods[" + i + "]", KraKeyConstants.ERROR_DOCUMENT_NUMBER_NOT_EXIST);
+                            errorMap.putError("routingFormBudgetNumber1", KraKeyConstants.ERROR_SELECTED_PERIODS_CONSECUTIVE);
                             break;
                         }
                         nextPeriodNumberShouldBe = Integer.valueOf(selectedBudgetPeriods[i]) + 1;
                     }
                 } else {
                     valid = false;
-                    errorMap.putError("routingFormBudgetNumber", KraKeyConstants.ERROR_DOCUMENT_NUMBER_NOT_EXIST);
+                    errorMap.putError("routingFormBudgetNumber1", KraKeyConstants.ERROR_AT_LEAST_ONE_PERIOD);
                 }
             }
         } catch (WorkflowException e) {

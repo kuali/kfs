@@ -95,6 +95,7 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
 
     public ActionForward link(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         RoutingForm routingForm = (RoutingForm)form;
+        routingForm.setTabStates(new ArrayList());
         
         if (routingForm.getRoutingFormDocument().getRoutingFormBudgetNumber() != null) {
             new RoutingFormLinkAction().setupBudgetPeriodData(routingForm);

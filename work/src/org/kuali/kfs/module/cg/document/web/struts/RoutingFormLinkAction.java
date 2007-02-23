@@ -110,6 +110,8 @@ public class RoutingFormLinkAction extends RoutingFormAction {
             boolean isBudgetValidForLink = SpringServiceLocator.getKualiRuleService().applyRules(new RoutingFormBudgetLinkEvent(routingForm.getRoutingFormDocument(), null, false, false));
             if (isBudgetValidForLink) {
                 setupBudgetPeriodData(routingForm);
+            } else {
+                routingForm.setPeriodBudgetOverviewFormHelpers(null);
             }
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -187,6 +189,9 @@ public class RoutingFormLinkAction extends RoutingFormAction {
      */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        RoutingForm routingForm = (RoutingForm)form;
+        routingForm.setPeriodBudgetOverviewFormHelpers(null);
+        
         return super.load(mapping, form, request, response);
     }
 }

@@ -79,7 +79,7 @@
 
                 <maxLength>5</maxLength>
                 <validationPattern>
-                    <alphaNumeric exactLength="5" />
+                    <alphaNumeric />
                 </validationPattern>
                 <required>true</required>
                 <control>
@@ -196,7 +196,7 @@
                 <description>Subcontractor ZIP Code</description>
             </attribute>
 
-            <attributeReference name="subcontractorCountryCode" sourceClassName="org.kuali.kfs.bo.State" sourceAttributeName="postalStateCode">
+            <attributeReference name="subcontractorCountryCode" sourceClassName="org.kuali.kfs.bo.Country" sourceAttributeName="postalCountryCode">
                 <label>Country Code</label>
                 <shortLabel>Country</shortLabel>
 

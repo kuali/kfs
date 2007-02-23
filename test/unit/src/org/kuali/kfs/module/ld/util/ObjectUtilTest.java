@@ -25,7 +25,7 @@ import org.kuali.module.labor.bo.LaborOriginEntry;
 
 import junit.framework.TestCase;
 
-public class ObjectUtilTest  extends TestCase {
+public class ObjectUtilTest extends TestCase {
     
     public void testBuildObject() throws Exception{
         SimpleAddress targetAddress = null;
@@ -152,12 +152,12 @@ public class ObjectUtilTest  extends TestCase {
         String line = "" + delim + "" +delim + "" + delim + "" + delim ;
         String fieldNames = "street" + delim + "city" + delim + "state" + delim + "zip" + delim;
         
-        SimpleAddress address = new SimpleAddress(null, null, null, null);
+        SimpleAddress address = new SimpleAddress("", "", "", null);
         ObjectUtil.convertLineToBusinessObject(address, line, delim, fieldNames);
         
-        assertEquals(null, address.getStreet());
-        assertEquals(null, address.getCity());
-        assertEquals(null, address.getState());
+        assertEquals("", address.getStreet());
+        assertEquals("", address.getCity());
+        assertEquals("", address.getState());
         assertEquals(null, address.getZip());        
     }
     

@@ -101,10 +101,10 @@ public class GenesisTest {
               dateTimeService.getCurrentDate()));
       genesisTestService.genesisDocumentStep(BaseYear);
  //     genesisDao.createNewBCDocuments(BaseYear);
-      LOG.info("\nDocument creation ended: "+
-               String.format("%tT",dateTimeService.getCurrentDate()));
-      genesisTestService.genesisFinalStep(BaseYear);
-      LOG.info(String.format("\ngenesis ended %tT",dateTimeService.getCurrentDate()));
+ //     LOG.info("\nDocument creation ended: "+
+ //              String.format("%tT",dateTimeService.getCurrentDate()));
+ //     genesisTestService.genesisFinalStep(BaseYear);
+ //     LOG.info(String.format("\ngenesis ended %tT",dateTimeService.getCurrentDate()));
   }
   
   private static void bcUpdateStep(Integer BaseYear)
@@ -141,15 +141,15 @@ public class GenesisTest {
       //
       // create the proxy BC headers
       /*
-      genesisTestService.clearDBForGenesis(2009);
-      LOG.info("\nDocument creation started: "+String.format("%tT",dateTimeService.getCurrentDate()));
-      genesisTestService.createProxyBCHeadersTransactional(2009);
-      LOG.info("\nProxy documents created: "+String.format("%tT",dateTimeService.getCurrentDate()));
+ //     genesisTestService.clearDBForGenesis(2009);
+ //     LOG.info("\nDocument creation started: "+String.format("%tT",dateTimeService.getCurrentDate()));
+ //     genesisTestService.createProxyBCHeadersTransactional(2009);
+ //     LOG.info("\nProxy documents created: "+String.format("%tT",dateTimeService.getCurrentDate()));
       */
       // create the real BC documents based on the proxies
       /*
-      genesisDao.createNewBCDocuments(2009);
-      LOG.info("\nDocument creation ended: "+String.format("%tT",dateTimeService.getCurrentDate()));
+ //     genesisDao.createNewBCDocuments(2009);
+//      LOG.info("\nDocument creation ended: "+String.format("%tT",dateTimeService.getCurrentDate()));
       */
      // try running the hierarchy creation
      //  genesisTestService.testChartCreation();  

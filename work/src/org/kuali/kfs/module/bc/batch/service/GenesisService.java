@@ -23,8 +23,8 @@ public interface GenesisService {
     /*
      * these routines indicate which actions are allowed in genesis
      */ 
-    public Boolean CSFUpdatesAllowed(Integer BaseYear);
-    public Boolean GLUpdatesAllowed(Integer BaseYear);
+    public boolean CSFUpdatesAllowed(Integer BaseYear);
+    public boolean GLUpdatesAllowed(Integer BaseYear);
     /*
      * build the budget construction GL table from the BALANCE_TYPE_BASE_BUDGET rows in 
      * GL table

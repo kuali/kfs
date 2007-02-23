@@ -169,7 +169,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     public boolean getBudgetConstructionControlFlag(Integer universityFiscalYear, String FlagID)
     {
         /*  return true if a flag is on, false if it is not */
-        String Result;
+        Boolean Result;
         Criteria criteriaID = new Criteria();
         criteriaID.addEqualTo(Constants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME,
                                          universityFiscalYear);
@@ -180,8 +180,8 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         Iterator Results = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(
                              queryID);
         // TODO@ we need to create an exception, put a try around this block, and log errors
-        Result = (String) ((Object[]) Results.next()) [0];
-        return (Result.compareTo(Constants.ParameterValues.YES) == 0);
+        Result = (Boolean) ((Object[]) Results.next()) [0];
+        return Result.booleanValue();
             
     }
     
@@ -321,6 +321,8 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
      */
     public void clearDBForGenesis(Integer BaseYear)
     {
+        //  the calling order is important because of referential integrity in the 
+        //  data base
         clearBothYearsPBGL(BaseYear);
         clearBothYearsHeaders(BaseYear);
     }
@@ -441,7 +443,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                 Constants.BudgetConstructionConstants.ESTIMATED_BUDGET_CONSTRUCTION_DOCUMENT_COUNT);
     private Collection<BudgetConstructionHeader> newBCDocumentSource;
     // these routines are used to merge CSF and CSF Override
-    private HashMap<String,String[]> CSFTrackerKeys;
+    private HashMap<String,String[]> CSFTrackerKeys = new HashMap<String,String[]>();
     // this saves our document numbers so we can update the status codes at the end
     // of the route process--we want this to be FIFO, so workflow flows undisturbed
     // (ulitmately, as will everything else, to the sea)
@@ -463,8 +465,8 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
  //
  // this is the new document creation mechanism that works with embedded workflow
     public void createNewBCDocumentsFromGLCSF (Integer BaseYear,
-                                               Boolean GLUpdatesAllowed,
-                                               Boolean CSFUpdatesAllowed)
+                                               boolean GLUpdatesAllowed,
+                                               boolean CSFUpdatesAllowed)
     {
         if ((!GLUpdatesAllowed)&&(!CSFUpdatesAllowed))
         {
@@ -482,6 +484,11 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         if (GLUpdatesAllowed)
         {
         getAndStoreCurrentGLBCHeaderCandidates(BaseYear);
+        //@@TODO:  added this in hopes of solving the memory problem
+        //         (we probably can't clear the cache if we have an iterator in a loop)
+        // (02/23/2007)  this failed--the workflow thread is way behind ours, and we
+        //               killed it after it had only processed 16 of 73 documents.
+        // getPersistenceBrokerTemplate().clearCache();
         }
         //  we also have to read CSF for any accounts with no base budget in GL BALANCE
         //  but which pay people in budgeted positions
@@ -491,10 +498,14 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
           getCSFOverrideDeletedKeys(BaseYear);
           getCSFOverrideCandidateDocumentKeys(BaseYear);
         getAndStoreCurrentCSFBCHeaderCandidates(BaseYear);
+        //@@TODO:  added this in hopes of solving the memory problem
+        //         (we probably can't clear the cache if we have an iterator in a loop)
+        // getPersistenceBrokerTemplate().clearCache();
     }
         //  now we have to read the newly created documents (after workflow is
         //  finished with them, and change the status flag to correspond to the
         //  budget construction "untouched" status
+        //@@TODO:  we need a delay here--we cannot do this until workflow is finished
         storeBudgetConstructionDocumentsInitialStatus();
     }
 

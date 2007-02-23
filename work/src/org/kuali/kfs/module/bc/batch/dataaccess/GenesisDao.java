@@ -60,6 +60,6 @@ public interface GenesisDao {
    public void primeNewBCHeadersDocumentCreation(Integer currentFiscalYear);
    // create document with embedded workflow
    public void createNewBCDocumentsFromGLCSF(Integer BaseYear,
-                                             Boolean GLUpdatesAllowed,
-                                             Boolean CSFUpdatesAllowed);
+                                             boolean GLUpdatesAllowed,
+                                             boolean CSFUpdatesAllowed);
 }

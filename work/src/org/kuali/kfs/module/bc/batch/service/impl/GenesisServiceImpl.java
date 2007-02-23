@@ -53,11 +53,10 @@ public class GenesisServiceImpl implements GenesisService {
        *   here are some flag value routines
        */
     
-      public Boolean CSFUpdatesAllowed(Integer BaseYear)
+      public boolean CSFUpdatesAllowed(Integer BaseYear)
       {
-          Boolean ReturnValue = new Boolean(false);
           Integer RequestYear = BaseYear + 1;
-          ReturnValue =
+          boolean ReturnValue =
           (genesisDao.getBudgetConstructionControlFlag(RequestYear,
                        BudgetConstructionConstants.BUDGET_CONSTRUCTION_GENESIS_RUNNING))||
           ((genesisDao.getBudgetConstructionControlFlag(RequestYear,
@@ -67,11 +66,10 @@ public class GenesisServiceImpl implements GenesisService {
           return ReturnValue;
       }
       
-      public Boolean GLUpdatesAllowed(Integer BaseYear)
+      public boolean GLUpdatesAllowed(Integer BaseYear)
       {
-          Boolean ReturnValue = new Boolean(false);
           Integer RequestYear = BaseYear + 1;
-          ReturnValue =
+          boolean ReturnValue =
           (genesisDao.getBudgetConstructionControlFlag(RequestYear,
                        BudgetConstructionConstants.BUDGET_CONSTRUCTION_GENESIS_RUNNING))||
           ((genesisDao.getBudgetConstructionControlFlag(RequestYear,

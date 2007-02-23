@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="work/src"/>
-	<classpathentry kind="src" path="test/src"/>
+	<classpathentry output="test/classes" kind="src" path="test/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/antlr-2.7.4.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/axis-1.2.jar"/>

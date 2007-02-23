@@ -325,6 +325,7 @@ public class BudgetParametersAction extends BudgetAction {
                 else if (request.getParameter("document.budget.budgetProjectDirectorSystemId") != null) {
                     // Coming back from project director lookup - project director selected
                     budgetForm.getBudgetDocument().getBudget().setProjectDirectorToBeNamedIndicator(false);
+                    budgetForm.getBudgetDocument().getBudget().refreshReferenceObject("projectDirector");
                 }
                 else if ("true".equals(request.getParameter("document.budget.projectDirectorToBeNamedIndicator"))) {
                     // Coming back from project director lookup - Name Later selected

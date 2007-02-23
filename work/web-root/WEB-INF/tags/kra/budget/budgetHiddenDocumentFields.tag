@@ -53,11 +53,14 @@
     
     <c:if test="${!excludeBudgetParameteres}">
       <html:hidden property="document.budget.projectDirector.universalUser.personName" />
+      <html:hidden property="document.budget.projectDirector.universalUser.personUniversalIdentifier"/>
+      <html:hidden property="document.budget.projectDirector.personUniversalIdentifier"/>
       <html:hidden property="document.budget.budgetAgencyNumber" />
       <html:hidden property="document.budget.budgetAgency.fullName" />
 
       <html:hidden property="document.budget.budgetPersonnelInflationRate" />
       <html:hidden property="document.budget.budgetNonpersonnelInflationRate" />
+      
       
       <html:hidden property="document.budget.agencyModularIndicator" />
       

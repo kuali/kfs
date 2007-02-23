@@ -61,9 +61,18 @@
 	    			</c:if>&nbsp;
                 </td>
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.routingFormDueDateTypeCode}" skipHelpUrl="true" /></th>
-
                 <td colspan="2" align=left valign=middle >
-                	<kul:htmlControlAttribute property="document.routingFormAgency.routingFormDueDateTypeCode" attributeEntry="${routingFormAgencyAttributes.routingFormDueDateTypeCode}" readOnly="${viewOnly}"/>
+                  <c:forEach items="${KualiForm.document.routingFormAgency.routingFormDueDateTypes}" var="routingFormDueDateType" varStatus="status">
+                    <html:hidden property="document.routingFormAgency.routingFormDueDateTypes[${status.index}].documentNumber" />
+                    <html:hidden property="document.routingFormAgency.routingFormDueDateTypes[${status.index}].dueDateTypeCode" />
+                    <html:hidden property="document.routingFormAgency.routingFormDueDateTypes[${status.index}].versionNumber" />
+                    <html:hidden property="document.routingFormAgency.routingFormDueDateTypes[${status.index}].dueDateType.dueDateDescription" />
+	              </c:forEach>
+                  <html:select property="document.routingFormAgency.routingFormDueDateTypeCode" disabled="${viewOnly}">
+                    <html:option value="">select:</html:option>
+                    <c:set var="routingFormDueDateTypes" value="${KualiForm.document.routingFormAgency.routingFormDueDateTypes}"/>
+                    <html:options collection="routingFormDueDateTypes" property="dueDateTypeCode" labelProperty="dueDateType.dueDateDescription"/>
+                  </html:select>
                 </td>
 
               </tr>

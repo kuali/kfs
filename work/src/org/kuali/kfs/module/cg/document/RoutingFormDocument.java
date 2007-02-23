@@ -163,6 +163,8 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 
     public void initialize() {
         this.setRoutingFormCreateDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
+        
+        SpringServiceLocator.getDueDateTypeService().setupRoutingFormDueDateTypes(this);
     }
 
     @Override

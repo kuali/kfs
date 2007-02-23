@@ -411,7 +411,8 @@
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <select valuesFinderClass="org.kuali.module.kra.routingform.lookup.keyvalues.DueDateTypeValuesFinder" />
+                    <!-- valuesFinderClass not used because this refers to RoutingFormDueDateType -->
+                    <text size="2" />
                 </control>
 
                 <summary>routingFormDueDateTypeCode</summary>

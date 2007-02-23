@@ -18,10 +18,12 @@ package org.kuali.module.kra.routingform.bo;
 
 import java.sql.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.module.cg.bo.Agency;
 import org.kuali.PropertyConstants;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.util.TypedArrayList;
+import org.kuali.module.cg.bo.Agency;
 
 /**
  * 
@@ -53,14 +55,14 @@ public class RoutingFormAgency extends PersistableBusinessObjectBase {
 	private String routingFormRequiredCopyText;
 	private Date routingFormSubmitDate;
 
-    private RoutingFormDueDateType routingFormDueDateType;
+    private List<RoutingFormDueDateType> routingFormDueDateTypes;
     private Agency agency;
     
 	/**
 	 * Default constructor.
 	 */
 	public RoutingFormAgency() {
-
+        routingFormDueDateTypes = new TypedArrayList(RoutingFormDueDateType.class);
 	}
 
 	/**
@@ -564,21 +566,12 @@ public class RoutingFormAgency extends PersistableBusinessObjectBase {
 		this.routingFormSubmitDate = routingFormSubmitDate;
 	}
 
-    /**
-     * Gets the routingFormDueDateType attribute. 
-     * @return Returns the routingFormDueDateType.
-     */
-    public RoutingFormDueDateType getRoutingFormDueDateType() {
-        return routingFormDueDateType;
+    public List<RoutingFormDueDateType> getRoutingFormDueDateTypes() {
+        return routingFormDueDateTypes;
     }
 
-    /**
-     * Sets the routingFormDueDateType attribute value.
-     * @param routingFormDueDateType The routingFormDueDateType to set.
-     * @deprecated
-     */
-    public void setRoutingFormDueDateType(RoutingFormDueDateType routingFormDueDateType) {
-        this.routingFormDueDateType = routingFormDueDateType;
+    public void setRoutingFormDueDateTypes(List<RoutingFormDueDateType> routingFormDueDateTypes) {
+        this.routingFormDueDateTypes = routingFormDueDateTypes;
     }
 
     /**

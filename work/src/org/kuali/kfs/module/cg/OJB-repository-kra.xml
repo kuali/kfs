@@ -765,6 +765,10 @@
 	<field-descriptor name="routingFormDueTime" column="RF_DUE_TM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="routingFormRequiredCopyText" column="RF_REQ_CPY_TXT" jdbc-type="VARCHAR"/>
 	<field-descriptor name="routingFormSubmitDate" column="RF_SUBMT_DT" jdbc-type="DATE"/>
+
+    <collection-descriptor name="routingFormDueDateTypes" proxy="true" element-class-ref="org.kuali.module.kra.routingform.bo.RoutingFormDueDateType" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
     <reference-descriptor name="agency" class-ref="org.kuali.module.cg.bo.Agency" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="agencyNumber" />
     </reference-descriptor>

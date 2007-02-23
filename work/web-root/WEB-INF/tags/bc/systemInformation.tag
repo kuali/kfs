@@ -23,11 +23,11 @@
 <c:set var="subFundGroupAttributes" value="${DataDictionary.SubFundGroup.attributes}" />
 <c:set var="orgAttributes" value="${DataDictionary.Org.attributes}" />
 <c:set var="orgVals" value="${KualiForm.document.account.organization}" />
-<c:set var="orgProps" value="document.account.organization" />
+<c:set var="orgPropString" value="document.account.organization" />
 <c:set var="accountRptsAttributes" value="${DataDictionary.BudgetConstructionAccountReports.attributes}" />
 <c:set var="orgRptsAttributes" value="${DataDictionary.BudgetConstructionOrganizationReports.attributes}" />
 <c:set var="orgRptsVals" value="${KualiForm.document.budgetConstructionAccountReports.budgetConstructionOrganizationReports}" />
-<c:set var="orgRptsProps" value="document.budgetConstructionAccountReports.budgetConstructionOrganizationReports" />
+<c:set var="orgRptsPropString" value="document.budgetConstructionAccountReports.budgetConstructionOrganizationReports" />
 
 <kul:tab tabTitle="System Information" defaultOpen="true" tabErrorKey="${Constants.BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS}">
 <div class="tab-container" align=center>
@@ -47,8 +47,7 @@
 	      <td align="center" valign="middle">
 	      	<kul:htmlControlAttribute property="document.previousUniversityFiscalYear" attributeEntry="${documentAttributes.universityFiscalYear}" readOnly="${true}"/>
 	      </td>
-	      <td>
-	      </td>
+	      <td>&nbsp;</td>
 		</tr>
 	    <tr>
 	      <kul:htmlAttributeHeaderCell
@@ -94,23 +93,21 @@
 	          literalLabel="Sub-Account:"
 	          horizontal="true"
 	          />
-	      <td>
-	      </td>
+	      <td>&nbsp;</td>
 	      <td align="center" valign="middle">
 	      	<kul:htmlControlAttribute property="document.subAccountNumber" attributeEntry="${documentAttributes.subAccountNumber}" readOnly="${true}"/>
 	      </td>
 	      <td align="center" valign="middle">
 	      	<kul:htmlControlAttribute property="document.subAccount.subAccountName" attributeEntry="${DataDictionary.SubAccount.attributes.subAccountName}" readOnly="${true}"/>
 	      </td>
-           </tr>
+		</tr>
 	    <tr>
 	      <kul:htmlAttributeHeaderCell
 	          labelFor="document.account.subFundGroupCode"
 	          literalLabel="Sub-Fund Group:"
 	          horizontal="true"
 	          />
-	      <td>
-	      </td>
+	      <td>&nbsp;</td>
 	      <td align="center" valign="middle">
 	      	<kul:htmlControlAttribute
 	      		property="document.account.subFundGroupCode"
@@ -128,15 +125,14 @@
 	      <td align="center" valign="middle">
 	      	<kul:htmlControlAttribute property="document.account.subFundGroup.subFundGroupDescription" attributeEntry="${DataDictionary.SubFundGroup.attributes.subfundGroupDescription}" readOnly="${true}"/>
 	      </td>
-           </tr>
+		</tr>
 	    <tr>
 	      <kul:htmlAttributeHeaderCell
 	          labelFor="document.account.organizationCode"
 	          literalLabel="Org:"
 	          horizontal="true"
 	          />
-	      <td>
-	      </td>
+	      <td>&nbsp;</td>
 	      <td align="center" valign="middle">
 	      	<kul:htmlControlAttribute
 	      		property="document.account.organizationCode"
@@ -177,7 +173,7 @@
 	      </td>
 	      <td align="center" valign="middle">
 	      	<kul:htmlControlAttribute
-	      		property="${orgProps}.reportsToOrganizationCode"
+	      		property="${orgPropString}.reportsToOrganizationCode"
 	      		attributeEntry="${orgAttributes.reportsToOrganizationCode}"
 	      		readOnly="true"
 	      		readOnlyBody="true">
@@ -185,12 +181,12 @@
 				    boClassName="org.kuali.module.chart.bo.Org"
 				    keyValues="chartOfAccountsCode=${orgVals.reportsToChartOfAccountsCode}&amp;organizationCode=${orgVals.reportsToOrganizationCode}"
 				    render="true">
-			    	<html:hidden write="true" property="${orgProps}.reportsToOrganizationCode" />
+			    	<html:hidden write="true" property="${orgPropString}.reportsToOrganizationCode" />
 				</kul:inquiry>
 	      	</kul:htmlControlAttribute>
 	      </td>
 	      <td align="center" valign="middle">
-	      	<kul:htmlControlAttribute property="${orgProps}.reportsToOrganization.organizationName" attributeEntry="${organizationAttributes.organizationName}" readOnly="${true}"/>
+	      	<kul:htmlControlAttribute property="${orgPropString}.reportsToOrganization.organizationName" attributeEntry="${organizationAttributes.organizationName}" readOnly="${true}"/>
 	      </td>
 		</tr>
     	<tr>
@@ -204,12 +200,11 @@
 	          literalLabel="Fiscal Year:"
 	          horizontal="true"
 	          />
-	      <td></td>
+	      <td>&nbsp;</td>
 	      <td align="center" valign="middle">
 	      	<kul:htmlControlAttribute property="document.universityFiscalYear" attributeEntry="${documentAttributes.universityFiscalYear}" readOnly="${true}"/>
 	      </td>
-	      <td>
-	      </td>
+	      <td>&nbsp;</td>
         </tr>
 		<tr>
 	      <kul:htmlAttributeHeaderCell
@@ -271,7 +266,7 @@
 	      </td>
 	      <td align="center" valign="middle">
 	      	<kul:htmlControlAttribute
-	      		property="${orgRptsProps}.reportsToOrganizationCode"
+	      		property="${orgRptsPropString}.reportsToOrganizationCode"
 	      		attributeEntry="${orgRptsAttributes.reportsToOrganizationCode}"
 	      		readOnly="true"
 	      		readOnlyBody="true">
@@ -279,12 +274,12 @@
 				    boClassName="org.kuali.module.budget.bo.BudgetConstructionOrganizationReports"
 				    keyValues="chartOfAccountsCode=${orgRptsVals.reportsToChartOfAccountsCode}&amp;organizationCode=${orgRptsVals.reportsToOrganizationCode}"
 				    render="true">
-			    	<html:hidden write="true" property="${orgRptsProps}.reportsToOrganizationCode" />
+			    	<html:hidden write="true" property="${orgRptsPropString}.reportsToOrganizationCode" />
 				</kul:inquiry>
 	      	</kul:htmlControlAttribute>
 	      </td>
 	      <td align="center" valign="middle">
-	      	<kul:htmlControlAttribute property="${orgRptsProps}.reportsToOrganization.organizationName" attributeEntry="${organizationAttributes.organizationName}" readOnly="${true}"/>
+	      	<kul:htmlControlAttribute property="${orgRptsPropString}.reportsToOrganization.organizationName" attributeEntry="${organizationAttributes.organizationName}" readOnly="${true}"/>
 	      </td>
 		</tr>
 
@@ -303,7 +298,7 @@
 	      <td align="center" valign="middle">
 	      	<kul:htmlControlAttribute property="document.organizationLevelCode" attributeEntry="${documentAttributes.organizationLevelCode}" readOnly="${true}"/>
 	      </td>
-	      <td></td>
+	      <td>&nbsp;</td>
 	      <td align="center" valign="middle">
 		  	<c:if test="${KualiForm.document.organizationLevelCode == 0}">
 				Account Level Update Access

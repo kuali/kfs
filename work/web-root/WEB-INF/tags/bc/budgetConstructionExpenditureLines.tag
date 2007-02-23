@@ -78,10 +78,10 @@
 	              <td><div align=center>
 					<c:choose>
 						<c:when test="${empty item.budgetConstructionMonthly}" > 
-	                   		<html:image src="images/tinybutton-createnew.gif" styleClass="tinybutton" property="methodToCall.performMonthlyBudget.line${status.index}" title="View Month" alt="View Month"/>
+	                   		<html:image src="images/tinybutton-createnew.gif" styleClass="tinybutton" property="methodToCall.performMonthlyBudget.line${status.index}" title="Create Month" alt="Create Month"/>
 						</c:when> 
 						<c:otherwise> 
-	                   		<html:image src="images/tinybutton-edit1.gif" styleClass="tinybutton" property="methodToCall.performMonthlyBudget.line${status.index}" title="View Month" alt="View Month"/>
+	                   		<html:image src="images/tinybutton-edit1.gif" styleClass="tinybutton" property="methodToCall.performMonthlyBudget.line${status.index}" title="Edit Month" alt="Edit Month"/>
 						</c:otherwise> 
 					</c:choose> 
 

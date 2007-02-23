@@ -65,7 +65,7 @@
             <maintainableSection title="Proposal Maintenance">
                 <maintainableItems>
                     <maintainableField name="proposalNumber" required="true" readOnly="true" >
-                        <defaultValueFinderClass>org.kuali.module.cg.lookup.valueFinder.NextProposalNumberFinder</defaultValueFinderClass>
+                        <defaultValueFinderClass>org.kuali.module.cg.lookup.valuefinder.NextProposalNumberFinder</defaultValueFinderClass>
                     </maintainableField>
                     <maintainableField name="proposalStatusCode" required="true" />
                     <maintainableField name="agencyNumber" required="true" />

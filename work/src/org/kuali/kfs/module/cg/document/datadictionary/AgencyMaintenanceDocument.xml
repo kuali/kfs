@@ -55,7 +55,7 @@
             <maintainableSection title="Edit Agency">
                 <maintainableItems>
                     <maintainableField name="agencyNumber" required="true" readOnly="true" >
-                           <defaultValueFinderClass>org.kuali.module.cg.lookup.valueFinder.NextAgencyNumberFinder</defaultValueFinderClass>
+                           <defaultValueFinderClass>org.kuali.module.cg.lookup.valuefinder.NextAgencyNumberFinder</defaultValueFinderClass>
                     </maintainableField>
                     <maintainableField name="reportingName" required="true" />
                     <maintainableField name="fullName" required="true" />

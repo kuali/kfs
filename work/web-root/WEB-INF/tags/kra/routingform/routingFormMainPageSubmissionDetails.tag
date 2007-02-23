@@ -75,14 +75,16 @@
                   </c:forEach>
                   <table width="100%" cellspacing="0" cellpadding="0" class="nobord">
                     <tr>
-				      <td class="nobord" width="50%" valign="top">
-					    <c:set var="roundedEndIndex"><fmt:formatNumber value="${fn:length(KualiForm.projectTypes) / 2 - 1}" maxFractionDigits="0"/></c:set>
-					    <kra-rf:routingFormMainPageSubmissionDetailsProjectTypes begin="0" end="${roundedEndIndex}"/>
-                      </td>
-					  <td class="nobord" width="50%" valign="top">
-					    <c:set var="roundedBeginIndex"><fmt:formatNumber value="${fn:length(KualiForm.projectTypes) / 2}" maxFractionDigits="0"/></c:set>
-					    <kra-rf:routingFormMainPageSubmissionDetailsProjectTypes begin="${roundedBeginIndex}" end="${fn:length(KualiForm.projectTypes)}"/>
-                      </td>
+                      <c:if test="${fn:length(KualiForm.projectTypes) != 0}">
+				        <td class="nobord" width="50%" valign="top">
+					      <c:set var="roundedEndIndex"><fmt:formatNumber value="${fn:length(KualiForm.projectTypes) / 2 - 1}" maxFractionDigits="0"/></c:set>
+					      <kra-rf:routingFormMainPageSubmissionDetailsProjectTypes begin="0" end="${roundedEndIndex}"/>
+                        </td>
+					    <td class="nobord" width="50%" valign="top">
+					      <c:set var="roundedBeginIndex"><fmt:formatNumber value="${fn:length(KualiForm.projectTypes) / 2}" maxFractionDigits="0"/></c:set>
+					      <kra-rf:routingFormMainPageSubmissionDetailsProjectTypes begin="${roundedBeginIndex}" end="${fn:length(KualiForm.projectTypes)}"/>
+                        </td>
+                      </c:if>
                     </tr>
 				  </table>
                       </td>

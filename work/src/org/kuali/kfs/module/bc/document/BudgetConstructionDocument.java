@@ -107,10 +107,10 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
         if (LOG.isDebugEnabled()) {
             LOG.debug("pendingBudgetConstructionGeneralLedgerExpenditure is: "+pendingBudgetConstructionGeneralLedgerExpenditureLines);
         }
-        Iterator<PendingBudgetConstructionGeneralLedger> iter = pendingBudgetConstructionGeneralLedgerExpenditureLines.iterator();
-        while (iter.hasNext()){
-            iter.next().refreshReferenceObject("budgetConstructionMonthly");
-        }
+//        Iterator<PendingBudgetConstructionGeneralLedger> iter = pendingBudgetConstructionGeneralLedgerExpenditureLines.iterator();
+//        while (iter.hasNext()){
+//            iter.next().refreshReferenceObject("budgetConstructionMonthly");
+//        }
         
     }
 

@@ -13,3 +13,4 @@ SpringBeans.xml
 SpringWebDataSource.xml
 SpringWebBeans.xml
 SpringSchedulerBeans.xml
+OJB-repository.xml

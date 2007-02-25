@@ -95,6 +95,14 @@
 			<available file="${institution.spring.beans.file}" />
 		</condition>
 		<property name="institution.spring.beans.import" value="" />
+		<condition property="institution.ojb.repository.import" value="${institution.ojb.repository.import.value}">
+			<available file="${institution.ojb.repository.file}" />
+		</condition>
+		<condition property="institution.ojb.repository.import.ref" value="${institution.ojb.repository.import.ref.value}">
+			<available file="${institution.ojb.repository.file}" />
+		</condition>
+		<property name="institution.ojb.repository.import" value="" />
+		<property name="institution.ojb.repository.import.ref" value="" />
 		<property name="scheduler.spring.beans.import" value="" />
 		<condition property="scheduler.spring.jobstore.properties" value="${scheduler.spring.ram.jobstore.properties}">
 			<equals arg1="${is.local.build}" arg2="true" />			
@@ -138,6 +146,8 @@
 			<filter token="mail-relay-server" value="${mail.relay.server}" />
 			<filter token="batch-mailing-list" value="${batch.mailing.list}" />
 			<filter token="institution-spring-beans-import" value="${institution.spring.beans.import}" />
+			<filter token="institution-ojb-repository-import" value="${institution.ojb.repository.import}" />
+			<filter token="institution-ojb-repository-import-ref" value="${institution.ojb.repository.import.ref}" />
 			<filter token="scheduler-spring-beans-import" value="${scheduler.spring.beans.import}" />
 			<filter token="scheduler-spring-jobstore-properties" value="${scheduler.spring.jobstore.properties}" />
 			<filter token="transaction-timeout" value="${transaction.timeout}"/>

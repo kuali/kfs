@@ -24,6 +24,8 @@
 <kul:tabTop tabTitle="Monthly Budget Construction" defaultOpen="true" tabErrorKey="${Constants.BUDGET_CONSTRUCTION_MONTHLY_BUDGET_ERRORS}">
 <div class="tab-container" align=center>
 		<table>
+    <html:hidden property="returnAnchor" />
+    <html:hidden property="returnFormKey" />
 			<tr>
 				<td>PBGL Key</td>
 				<c:if test="${pbgl != null}">

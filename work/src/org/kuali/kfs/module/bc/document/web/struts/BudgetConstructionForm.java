@@ -31,7 +31,8 @@ import org.kuali.core.util.SpringServiceLocator;
 public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionForm.class);
     
-//    private BudgetConstructionMonthly budgetConstructionMonthly; 
+//    private BudgetConstructionMonthly budgetConstructionMonthly;
+    private String returnedTabStates;
     
     public BudgetConstructionForm() {
         super();
@@ -62,6 +63,22 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
 
     public void setBudgetConstructionDocument(BudgetConstructionDocument budgetConstructionDocument){
         setDocument(budgetConstructionDocument);
+    }
+
+    /**
+     * Gets the returnedTabStates attribute. 
+     * @return Returns the returnedTabStates.
+     */
+    public String getReturnedTabStates() {
+        return returnedTabStates;
+    }
+
+    /**
+     * Sets the returnedTabStates attribute value.
+     * @param returnedTabStates The returnedTabStates to set.
+     */
+    public void setReturnedTabStates(String returnedTabStates) {
+        this.returnedTabStates = returnedTabStates;
     }
 
     /**

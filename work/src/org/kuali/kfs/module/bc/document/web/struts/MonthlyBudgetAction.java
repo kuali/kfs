@@ -59,37 +59,37 @@ public class MonthlyBudgetAction extends KualiAction {
         // parse out the important strings from our methodToCall parameter
 //        String fullParameter = (String) request.getAttribute(Constants.METHOD_TO_CALL_ATTRIBUTE);
         
-        String bcMonthParmsKey = request.getParameter("bcMonthParmsKey");
-        Properties parameters = (Properties) GlobalVariables.getUserSession().retrieveObject(bcMonthParmsKey);
-        if (parameters == null){
-            return mapping.findForward(Constants.MAPPING_PORTAL);
-        }
-        GlobalVariables.getUserSession().removeObject(bcMonthParmsKey);
+//        String bcMonthParmsKey = request.getParameter("bcMonthParmsKey");
+//        Properties parameters = (Properties) GlobalVariables.getUserSession().retrieveObject(bcMonthParmsKey);
+//        if (parameters == null){
+//            return mapping.findForward(Constants.MAPPING_PORTAL);
+//        }
+//        GlobalVariables.getUserSession().removeObject(bcMonthParmsKey);
 
-        String tacct = parameters.getProperty("accountNumber");
+        String tacct = request.getParameter("accountNumber");
         
         Map fieldValues = new HashMap();
-        fieldValues.put("documentNumber", parameters.getProperty("documentNumber"));
-        fieldValues.put("universityFiscalYear", parameters.getProperty("universityFiscalYear"));
-        fieldValues.put("chartOfAccountsCode", parameters.getProperty("chartOfAccountsCode"));
-        fieldValues.put("accountNumber", parameters.getProperty("accountNumber"));
-        fieldValues.put("subAccountNumber", parameters.getProperty("subAccountNumber"));
-        fieldValues.put("financialObjectCode", parameters.getProperty("financialObjectCode"));
-        fieldValues.put("financialSubObjectCode", parameters.getProperty("financialSubObjectCode"));
-        fieldValues.put("financialBalanceTypeCode", parameters.getProperty("financialBalanceTypeCode"));
-        fieldValues.put("financialObjectTypeCode", parameters.getProperty("financialObjectTypeCode"));
+        fieldValues.put("documentNumber", request.getParameter("documentNumber"));
+        fieldValues.put("universityFiscalYear", request.getParameter("universityFiscalYear"));
+        fieldValues.put("chartOfAccountsCode", request.getParameter("chartOfAccountsCode"));
+        fieldValues.put("accountNumber", request.getParameter("accountNumber"));
+        fieldValues.put("subAccountNumber", request.getParameter("subAccountNumber"));
+        fieldValues.put("financialObjectCode", request.getParameter("financialObjectCode"));
+        fieldValues.put("financialSubObjectCode", request.getParameter("financialSubObjectCode"));
+        fieldValues.put("financialBalanceTypeCode", request.getParameter("financialBalanceTypeCode"));
+        fieldValues.put("financialObjectTypeCode", request.getParameter("financialObjectTypeCode"));
         BudgetConstructionMonthly budgetConstructionMonthly = (BudgetConstructionMonthly) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(BudgetConstructionMonthly.class,fieldValues);
         if (budgetConstructionMonthly == null){
             budgetConstructionMonthly = new BudgetConstructionMonthly();
-            budgetConstructionMonthly.setDocumentNumber(parameters.getProperty("documentNumber"));
-            budgetConstructionMonthly.setUniversityFiscalYear(Integer.parseInt(parameters.getProperty("universityFiscalYear")));
-            budgetConstructionMonthly.setChartOfAccountsCode(parameters.getProperty("chartOfAccountsCode"));
-            budgetConstructionMonthly.setAccountNumber(parameters.getProperty("accountNumber"));
-            budgetConstructionMonthly.setSubAccountNumber(parameters.getProperty("subAccountNumber"));
-            budgetConstructionMonthly.setFinancialObjectCode(parameters.getProperty("financialObjectCode"));
-            budgetConstructionMonthly.setFinancialSubObjectCode(parameters.getProperty("financialSubObjectCode"));
-            budgetConstructionMonthly.setFinancialBalanceTypeCode(parameters.getProperty("financialBalanceTypeCode"));
-            budgetConstructionMonthly.setFinancialObjectTypeCode(parameters.getProperty("financialObjectTypeCode"));
+            budgetConstructionMonthly.setDocumentNumber(request.getParameter("documentNumber"));
+            budgetConstructionMonthly.setUniversityFiscalYear(Integer.parseInt(request.getParameter("universityFiscalYear")));
+            budgetConstructionMonthly.setChartOfAccountsCode(request.getParameter("chartOfAccountsCode"));
+            budgetConstructionMonthly.setAccountNumber(request.getParameter("accountNumber"));
+            budgetConstructionMonthly.setSubAccountNumber(request.getParameter("subAccountNumber"));
+            budgetConstructionMonthly.setFinancialObjectCode(request.getParameter("financialObjectCode"));
+            budgetConstructionMonthly.setFinancialSubObjectCode(request.getParameter("financialSubObjectCode"));
+            budgetConstructionMonthly.setFinancialBalanceTypeCode(request.getParameter("financialBalanceTypeCode"));
+            budgetConstructionMonthly.setFinancialObjectTypeCode(request.getParameter("financialObjectTypeCode"));
             budgetConstructionMonthly.refreshReferenceObject("pendingBudgetConstructionGeneralLedger");
         }
         monthlyBudgetForm.setBudgetConstructionMonthly(budgetConstructionMonthly);
@@ -111,8 +111,14 @@ public class MonthlyBudgetAction extends KualiAction {
         BudgetConstructionMonthly budgetConstructionMonthly = monthlyBudgetForm.getBudgetConstructionMonthly(); 
 
         Properties parameters = new Properties();
-        parameters.put("methodToCall", "returnFromMonthly");
-        parameters.put("documentNumber", budgetConstructionMonthly.getDocumentNumber());
+        parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, "refresh");
+        parameters.put(Constants.DOC_FORM_KEY, monthlyBudgetForm.getReturnFormKey());
+        parameters.put("anchor", monthlyBudgetForm.getReturnAnchor());
+        
+        
+//        parameters.put("documentNumber", budgetConstructionMonthly.getDocumentNumber());
+//        parameters.put("anchor", monthlyBudgetForm.getReturnAnchor());
+//        parameters.put("tabStates", monthlyBudgetForm.getReturnFormKey());
             
         String lookupUrl = UrlFactory.parameterizeUrl("/" + "budgetBudgetConstruction.do", parameters);
         return new ActionForward(lookupUrl, true);

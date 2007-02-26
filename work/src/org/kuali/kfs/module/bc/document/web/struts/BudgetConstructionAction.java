@@ -16,7 +16,10 @@
 package org.kuali.module.budget.web.struts.action;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -25,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -35,6 +39,7 @@ import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiDocumentActionBase;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.dao.ojb.BudgetConstructionDaoOjb;
@@ -184,7 +189,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
         Properties parameters = new Properties();
-//        parameters.put("methodToCall", "view");
+        parameters.put("methodToCall", "view");
         parameters.put("documentNumber", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(selectedIndex).getDocumentNumber());
         parameters.put("universityFiscalYear", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(selectedIndex).getUniversityFiscalYear().toString());
         parameters.put("chartOfAccountsCode", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(selectedIndex).getChartOfAccountsCode());
@@ -194,20 +199,28 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         parameters.put("financialSubObjectCode", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(selectedIndex).getFinancialSubObjectCode());
         parameters.put("financialBalanceTypeCode", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(selectedIndex).getFinancialBalanceTypeCode());
         parameters.put("financialObjectTypeCode", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(selectedIndex).getFinancialObjectTypeCode());
+
+        // anchor, if it exists
+        if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
+            parameters.put("returnAnchor", ((KualiForm) form).getAnchor());
+        }
+
+        parameters.put("returnFormKey", GlobalVariables.getUserSession().addObject(form));
+            
 //        request.setAttribute("accountNumber", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditure().get(selectedIndex).getAccountNumber());
         
 //        String bcMonthParmsKey = "bcMonthParmsKey"; 
-        GlobalVariables.getUserSession().addObject("bcMonthParmsKey",parameters);
-        Properties parms = new Properties();
-        parms.put("methodToCall", "view");
-        parms.put("bcMonthParmsKey","bcMonthParmsKey");
+//        GlobalVariables.getUserSession().addObject("bcMonthParmsKey",parameters);
+//        Properties parms = new Properties();
+//        parms.put("methodToCall", "view");
+//        parms.put("bcMonthParmsKey","bcMonthParmsKey");
 
 
-        String lookupUrl = UrlFactory.parameterizeUrl("/" + "budgetMonthlyBudget.do", parms);
-//        String lookupUrl = UrlFactory.parameterizeUrl("/" + "budgetMonthlyBudget.do", parameters);
+//        String lookupUrl = UrlFactory.parameterizeUrl("/" + "budgetMonthlyBudget.do", parms);
+        String lookupUrl = UrlFactory.parameterizeUrl("/" + "budgetMonthlyBudget.do", parameters);
         return new ActionForward(lookupUrl, true);
     }
-
+    
     public ActionForward returnFromMonthly(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
@@ -222,11 +235,39 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         GlobalVariables.getUserSession().setWorkflowDocument(workflowDoc);
         
         // for now, this populates pbgl revenue-expenditure lines
-        // we need to changeover to using accountinglines instead
         budgetConstructionDocument.initiateDocument();
 
         return mapping.findForward(Constants.MAPPING_BASIC);
         
     }
+
+    /**
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
+        
+        // this needs to be changed to look at the refresh caller
+
+        // do specific refresh stuff here based on refreshCaller parameter
+        // typical refresh callers would be monthlyBudget or salarySetting
+        // need to look at optmistic locking problems since we will be storing the values in the form before hand
+        // this locking problem may workout if we store first then put the form in session
+
+        // for now, this re-populates pbgl revenue-expenditure lines
+        // and rehooks the budgetConstructionMonthly referenced objects
+        // we should be able to just refresh needed references by itereating the current set of expenditure lines???
+        budgetConstructionForm.getBudgetConstructionDocument().initiateDocument();
+
+//        probably don't want this since BC has no adhoc routing
+//        super.refresh(mapping, form, request, response);
+
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
 }
+    
 

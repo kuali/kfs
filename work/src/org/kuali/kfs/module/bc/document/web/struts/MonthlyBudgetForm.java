@@ -15,6 +15,9 @@
  */
 package org.kuali.module.budget.web.struts.form;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.module.budget.bo.BudgetConstructionMonthly;
 
@@ -23,6 +26,8 @@ public class MonthlyBudgetForm extends KualiForm {
     
     private BudgetConstructionMonthly budgetConstructionMonthly;
     private String docTypeName;
+    private String returnAnchor;
+    private String returnFormKey;
 
     public MonthlyBudgetForm(){
         super();
@@ -61,6 +66,38 @@ public class MonthlyBudgetForm extends KualiForm {
      */
     public void setDocTypeName(String docTypeName) {
         this.docTypeName = docTypeName;
+    }
+
+    /**
+     * Gets the returnAnchor attribute. 
+     * @return Returns the returnAnchor.
+     */
+    public String getReturnAnchor() {
+        return returnAnchor;
+    }
+
+    /**
+     * Sets the returnAnchor attribute value.
+     * @param returnAnchor The returnAnchor to set.
+     */
+    public void setReturnAnchor(String returnAnchor) {
+        this.returnAnchor = returnAnchor;
+    }
+
+    /**
+     * Gets the returnTabStates attribute. 
+     * @return Returns the returnTabStates.
+     */
+    public String getReturnFormKey() {
+        return returnFormKey;
+    }
+
+    /**
+     * Sets the returnTabStates attribute value.
+     * @param returnTabStates The returnTabStates to set.
+     */
+    public void setReturnFormKey(String returnTabStates) {
+        this.returnFormKey = returnTabStates;
     }
     
     

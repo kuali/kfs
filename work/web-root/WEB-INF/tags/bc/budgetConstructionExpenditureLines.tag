@@ -64,6 +64,7 @@
             <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].versionNumber"/>
             <tr>
               <td valign=top nowrap><div align="left"><span>
+              	  <a name="expenditureexistingLineLineAnchor${status.index}"></a>
                   <kul:htmlControlAttribute attributeEntry="${pbglExpenditureAttributes.financialObjectCode}" property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].financialObjectCode" readOnly="true"/>
               </span></div></td>
               <td valign=top nowrap><div align="left"><span>
@@ -78,10 +79,10 @@
 	              <td><div align=center>
 					<c:choose>
 						<c:when test="${empty item.budgetConstructionMonthly}" > 
-	                   		<html:image src="images/tinybutton-createnew.gif" styleClass="tinybutton" property="methodToCall.performMonthlyBudget.line${status.index}" title="Create Month" alt="Create Month"/>
+	                   		<html:image src="images/tinybutton-createnew.gif" styleClass="tinybutton" property="methodToCall.performMonthlyBudget.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" title="Create Month" alt="Create Month"/>
 						</c:when> 
 						<c:otherwise> 
-	                   		<html:image src="images/tinybutton-edit1.gif" styleClass="tinybutton" property="methodToCall.performMonthlyBudget.line${status.index}" title="Edit Month" alt="Edit Month"/>
+	                   		<html:image src="images/tinybutton-edit1.gif" styleClass="tinybutton" property="methodToCall.performMonthlyBudget.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" title="Edit Month" alt="Edit Month"/>
 						</c:otherwise> 
 					</c:choose> 
 

@@ -29,7 +29,8 @@ public class RoutingFormProjectType extends PersistableBusinessObjectBase {
 
 	private String projectTypeCode;
 	private String documentNumber;
-
+    private boolean projectTypeSelectedIndicator;
+    
     private ProjectType projectType;
     
 	/**
@@ -88,7 +89,22 @@ public class RoutingFormProjectType extends PersistableBusinessObjectBase {
 		this.documentNumber = documentNumber;
 	}
 
+    /**
+     * Gets the projectTypeSelectedIndicator attribute. 
+     * @return Returns the projectTypeSelectedIndicator.
+     */
+    public boolean isProjectTypeSelectedIndicator() {
+        return projectTypeSelectedIndicator;
+    }
 
+    /**
+     * Sets the projectTypeSelectedIndicator attribute value.
+     * @param projectTypeSelectedIndicator The projectTypeSelectedIndicator to set.
+     */
+    public void setProjectTypeSelectedIndicator(boolean projectTypeSelectedIndicator) {
+        this.projectTypeSelectedIndicator = projectTypeSelectedIndicator;
+    }
+    
     /**
      * Gets the projectType attribute. 
      * @return Returns the projectType.

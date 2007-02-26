@@ -19,7 +19,9 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiInteger;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.PostalZipCode;
 import org.kuali.kfs.bo.State;
@@ -735,7 +737,10 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
     }
 
     public boolean isProjectDirector() {
-        return KraConstants.PERSON_ROLE_CODE_PD.equals(this.getPersonRoleCode());
+       KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+       final String PERSON_ROLE_CODE_PD = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_ADMIN_GROUP_NAME, "KraRoutingFormPersonRoleCodeProjectDirector");
+        
+       return PERSON_ROLE_CODE_PD.equals(this.getPersonRoleCode());
     }
     
 }

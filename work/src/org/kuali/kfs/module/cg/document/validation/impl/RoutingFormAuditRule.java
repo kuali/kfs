@@ -24,6 +24,7 @@ import java.util.Map;
 import org.kuali.PropertyConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.KualiParameterRule;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
@@ -148,8 +149,9 @@ public class RoutingFormAuditRule {
      * @return
      */
     private static boolean processRoutingFormMainPagePersonnelUnitsAuditChecks(List<AuditError> auditErrors, RoutingFormDocument routingFormDocument) {
+        final String PERSON_ROLE_CODE_OTHER = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "KraRoutingFormPersonRoleCodeOther");;
+        
         boolean valid = true;
-
         int projectDirectorCount = 0;
         
         int i = 0;
@@ -174,7 +176,7 @@ public class RoutingFormAuditRule {
             if (ObjectUtils.isNull(person.getPersonRoleCode())) {
                 valid = false;
                 auditErrors.add(new AuditError("document.routingFormPersonnel[" + i + "].personRoleCode", KraKeyConstants.AUDIT_MAIN_PAGE_PERSON_ROLE_CODE_REQUIRED, "mainpage.anchor2"));
-            } else if (KraConstants.PERSON_ROLE_CODE_OTHER.equals(person.getPersonRoleCode()) && ObjectUtils.isNull(person.getPersonRoleText())) {
+            } else if (PERSON_ROLE_CODE_OTHER.equals(person.getPersonRoleCode()) && ObjectUtils.isNull(person.getPersonRoleText())) {
                 valid = false;
                 auditErrors.add(new AuditError("document.routingFormPersonnel[" + i + "].personRoleText", KraKeyConstants.AUDIT_MAIN_PAGE_PERSON_ROLE_TEXT_REQUIRED, "mainpage.anchor2"));
             }
@@ -235,6 +237,12 @@ public class RoutingFormAuditRule {
      * @return
      */
     private static boolean processRoutingFormMainPageSubmissionDetailsAuditChecks(List<AuditError> auditErrors, RoutingFormDocument routingFormDocument) {
+        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+        final String PROJECT_TYPE_NEW = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "KraRoutingFormProjectTypeNew");
+        final String PROJECT_TYPE_TIME_EXTENTION = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "KraRoutingFormProjectTypeTimeExtention");
+        final String PROJECT_TYPE_BUDGET_REVISION_ACTIVE = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "KraRoutingFormProjectTypeBudgetRevisionActive");
+        final String PROJECT_TYPE_BUDGET_REVISION_PENDING = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "KraRoutingFormProjectTypeBudgetRevisionPending");
+        
         boolean valid = true;
         
         if (ObjectUtils.isNull(routingFormDocument.getSubmissionTypeCode())) {
@@ -263,13 +271,13 @@ public class RoutingFormAuditRule {
             for(RoutingFormProjectType routingFormProjectType : routingFormDocument.getRoutingFormProjectTypes()) {
                 projectTypes[i] = routingFormProjectType.getProjectTypeCode();
                 
-                if (routingFormProjectType.getProjectTypeCode().equals(KraConstants.PROJECT_TYPE_NEW)) {
+                if (routingFormProjectType.getProjectTypeCode().equals(PROJECT_TYPE_NEW)) {
                     projectTypeNew = true;
-                } else if (routingFormProjectType.getProjectTypeCode().equals(KraConstants.PROJECT_TYPE_TIME_EXTENTION)) {
+                } else if (routingFormProjectType.getProjectTypeCode().equals(PROJECT_TYPE_TIME_EXTENTION)) {
                     projectTypeTimeExtention = true;
-                } else if (routingFormProjectType.getProjectTypeCode().equals(KraConstants.PROJECT_TYPE_BUDGET_REVISION_ACTIVE)) {
+                } else if (routingFormProjectType.getProjectTypeCode().equals(PROJECT_TYPE_BUDGET_REVISION_ACTIVE)) {
                     projectTypeBudgetRevisionActive = true;
-                } else if (routingFormProjectType.getProjectTypeCode().equals(KraConstants.PROJECT_TYPE_BUDGET_REVISION_PENDING)) {
+                } else if (routingFormProjectType.getProjectTypeCode().equals(PROJECT_TYPE_BUDGET_REVISION_PENDING)) {
                     projectTypeBudgetRevisionPending = true;
                 } else if (routingFormProjectType.getProjectTypeCode().equals(KraConstants.PROJECT_TYPE_OTHER)) {
                     projectTypeOther = true;

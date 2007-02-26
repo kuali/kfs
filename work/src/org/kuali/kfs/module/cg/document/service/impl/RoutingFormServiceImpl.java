@@ -22,8 +22,10 @@ import java.util.Map;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
@@ -75,6 +77,9 @@ public class RoutingFormServiceImpl implements RoutingFormService {
     }
     
     public void linkImportBudgetDataToRoutingForm(RoutingFormDocument routingFormDocument, String budgetDocumentHeaderId, List<BudgetOverviewFormHelper> periodOverviews) throws WorkflowException {
+        
+        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+        final String PERSON_ROLE_CODE_PD = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "KraRoutingFormPersonRoleCodeProjectDirector");       
         
         Integer minPeriod = routingFormDocument.getRoutingFormBudget().getRoutingFormBudgetMinimumPeriodNumber();
         Integer maxPeriod = routingFormDocument.getRoutingFormBudget().getRoutingFormBudgetMaximumPeriodNumber();
@@ -141,7 +146,7 @@ public class RoutingFormServiceImpl implements RoutingFormService {
         for (BudgetUser budgetUser : budget.getPersonnel()) {
             if (budgetUser.isPersonProjectDirectorIndicator()) {
                 //Get Project Director from Budget
-                RoutingFormPersonnel routingFormProjectDirector = new RoutingFormPersonnel(budgetUser, routingFormDocument.getDocumentNumber(), KraConstants.PERSON_ROLE_CODE_PD);
+                RoutingFormPersonnel routingFormProjectDirector = new RoutingFormPersonnel(budgetUser, routingFormDocument.getDocumentNumber(), PERSON_ROLE_CODE_PD);
                 routingFormProjectDirector.setPersonCreditPercent(new KualiInteger(100));
                 routingFormProjectDirector.setPersonFinancialAidPercent(new KualiInteger(100));
                 routingFormProjectDirector.refreshNonUpdateableReferences();

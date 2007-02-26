@@ -140,13 +140,8 @@ public class KraConstants extends JstlConstants {
     // Study Review Statuses
     public static final String RESEARCH_RISK_STUDY_REVIEW_EXEMPT = "X";
     
-    public static final String PERSON_ROLE_CODE_PD = "P";
-    public static final String PERSON_ROLE_CODE_OTHER = "O";
+    // Following are used in tags on Main Page.
     public static final String SUBMISSION_TYPE_CHANGE = "C";
-    public static final String PROJECT_TYPE_NEW = "N";
-    public static final String PROJECT_TYPE_TIME_EXTENTION = "T";
-    public static final String PROJECT_TYPE_BUDGET_REVISION_ACTIVE = "A";
-    public static final String PROJECT_TYPE_BUDGET_REVISION_PENDING = "P";
     public static final String PROJECT_TYPE_OTHER = "O";
     public static final String PURPOSE_RESEARCH = "C";
     public static final String PURPOSE_OTHER = "F";

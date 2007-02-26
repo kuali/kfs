@@ -738,7 +738,7 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
 
     public boolean isProjectDirector() {
        KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
-       final String PERSON_ROLE_CODE_PD = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_ADMIN_GROUP_NAME, "KraRoutingFormPersonRoleCodeProjectDirector");
+       final String PERSON_ROLE_CODE_PD = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "KraRoutingFormPersonRoleCodeProjectDirector");
         
        return PERSON_ROLE_CODE_PD.equals(this.getPersonRoleCode());
     }

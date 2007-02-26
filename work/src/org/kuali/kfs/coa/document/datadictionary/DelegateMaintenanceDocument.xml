@@ -21,7 +21,7 @@
 <dictionaryEntry>
     <maintenanceDocument>
         <businessObjectClass>org.kuali.module.chart.bo.Delegate</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiDelegateMaintainableImpl</maintainableClass>
+        <maintainableClass>org.kuali.module.chart.maintenance.KualiDelegateMaintainableImpl</maintainableClass>
 
         <businessRulesClass>org.kuali.module.chart.rules.DelegateRule</businessRulesClass>
         <preRulesCheckClass>org.kuali.module.chart.rules.DelegatePreRules</preRulesCheckClass>

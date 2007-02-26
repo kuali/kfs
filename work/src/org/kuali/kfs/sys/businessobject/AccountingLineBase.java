@@ -40,15 +40,9 @@ import org.kuali.PropertyConstants;
 /**
  * This is the generic class which contains all the elements on a typical line of accounting elements. These are all the accounting
  * items necessary to create a pending entry to the G/L. All transaction documents will use this business object inherently.
- * 
- * 
  */
 public abstract class AccountingLineBase extends PersistableBusinessObjectBase implements Serializable, AccountingLine {
     private static Logger LOG = Logger.getLogger(AccountingLineBase.class);
-
-    //
-    // Note: if you add any new instance fields here, you must add handling for them in the copyFrom and isLike methods
-    //
 
     private String documentNumber;
     private Integer sequenceNumber; // relative to the grouping of acctng lines

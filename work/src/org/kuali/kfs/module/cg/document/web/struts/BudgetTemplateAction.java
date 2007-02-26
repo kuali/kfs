@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.document.Copyable;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.budget.bo.BudgetAdHocOrg;
 import org.kuali.module.kra.budget.bo.BudgetAdHocPermission;
@@ -31,11 +32,8 @@ import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 
 /**
  * This class handles Actions for the Budget Template page.
- * 
- * 
  */
 public class BudgetTemplateAction extends BudgetAction {
-
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetTemplateAction.class);
 
     /**
@@ -55,22 +53,22 @@ public class BudgetTemplateAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
 
-        BudgetDocument copyDoc = (BudgetDocument) budgetDoc.copy();
+        ((Copyable) budgetDoc).toCopy();
         
-//      Check if ad-hoc permissions to be copied over
+        // Check if ad-hoc permissions to be copied over
         if (!budgetForm.isIncludeAdHocPermissions()) {
-            copyDoc.getBudget().setAdHocPermissions(new ArrayList<BudgetAdHocPermission>());
-            copyDoc.getBudget().setAdHocOrgs(new ArrayList<BudgetAdHocOrg>());
+            budgetDoc.getBudget().setAdHocPermissions(new ArrayList<BudgetAdHocPermission>());
+            budgetDoc.getBudget().setAdHocOrgs(new ArrayList<BudgetAdHocOrg>());
         }
         
-//      Check if budget fringe rates to be copied over
+        // Check if budget fringe rates to be copied over
         if (!budgetForm.isIncludeBudgetIdcRates()) {
-            copyDoc.getBudget().getIndirectCost().setBudgetManualRateIndicator("N");
-            SpringServiceLocator.getBudgetIndirectCostService().setupIndirectCostRates(copyDoc.getBudget());
+            budgetDoc.getBudget().getIndirectCost().setBudgetManualRateIndicator("N");
+            SpringServiceLocator.getBudgetIndirectCostService().setupIndirectCostRates(budgetDoc.getBudget());
         }
         
-        budgetForm.setBudgetDocument(copyDoc);
-        budgetForm.setDocId(copyDoc.getDocumentNumber());
+        budgetForm.setBudgetDocument(budgetDoc);
+        budgetForm.setDocId(budgetDoc.getDocumentNumber());
 
         budgetForm.getBudgetDocument().setCleanseBudgetOnSave(false);
         super.save(mapping, form, request, response);

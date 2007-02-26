@@ -17,14 +17,15 @@ package org.kuali.module.kra.document;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.document.DocumentBase;
+import org.kuali.core.document.Copyable;
 import org.kuali.core.document.TransactionalDocumentBase;
-import org.kuali.core.util.SpringServiceLocator;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * Research Administration Document Base
  */
-public abstract class ResearchDocumentBase extends TransactionalDocumentBase implements ResearchDocument {
+public abstract class ResearchDocumentBase extends TransactionalDocumentBase implements ResearchDocument, Copyable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ResearchDocumentBase.class);
 
     /**
@@ -34,7 +35,15 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase imp
         super();
     }
     
-  
+    /**
+     * Overridden to note clear and add notes.
+     * @see org.kuali.core.document.DocumentBase#toCopy()
+     */
+    @Override
+    public void toCopy() throws WorkflowException, IllegalStateException {
+       super.setNewDocumentHeader();
+    }
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

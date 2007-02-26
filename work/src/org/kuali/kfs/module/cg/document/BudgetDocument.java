@@ -23,15 +23,18 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.user.AuthenticationUserId;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
+import org.kuali.core.document.DocumentBase;
 import org.kuali.core.exceptions.IllegalObjectStateException;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.core.web.format.FormatException;
 import org.kuali.core.workflow.DocumentInitiator;
 import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
@@ -55,6 +58,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * 
  */
 public class BudgetDocument extends ResearchDocumentBase {
+    private static final Logger LOG = Logger.getLogger(BudgetDocument.class);
 
     private static final long serialVersionUID = -3561859858801995441L;
     private Integer budgetTaskNextSequenceNumber;
@@ -272,17 +276,6 @@ public class BudgetDocument extends ResearchDocumentBase {
      */
     public void setNonpersonnelNextSequenceNumber(Integer nonpersonnelNextSequenceNumber) {
         this.nonpersonnelNextSequenceNumber = nonpersonnelNextSequenceNumber;
-    }
-
-    /**
-     * TODO Well, since there isn't a common name for the primary id property accross objects, we have to do this clumsily.
-     * Eventually everything will be taken care of in the inherited class.
-     * 
-     */
-    public Document copy() throws WorkflowException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        Document copyDoc = super.copy();
-        ObjectUtils.setObjectPropertyDeep(((BudgetDocument) copyDoc).getBudget(), PropertyConstants.DOCUMENT_NUMBER, String.class, copyDoc.getDocumentNumber());
-        return copyDoc;
     }
 
     /**

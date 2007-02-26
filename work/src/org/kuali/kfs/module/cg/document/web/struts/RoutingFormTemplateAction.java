@@ -24,6 +24,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
+import org.kuali.core.document.Copyable;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
@@ -80,10 +81,10 @@ public class RoutingFormTemplateAction extends RoutingFormAction {
             // Clear approvers
         }
         
-        RoutingFormDocument copyDoc = (RoutingFormDocument) routingFormDoc.copy();
+       ((Copyable) routingFormDoc).toCopy();
         
-        routingForm.setDocument(copyDoc);
-        routingForm.setDocId(copyDoc.getDocumentNumber());
+        routingForm.setDocument(routingFormDoc);
+        routingForm.setDocId(routingFormDoc.getDocumentNumber());
 
         super.save(mapping, form, request, response);
         super.load(mapping, form, request, response);

@@ -112,7 +112,11 @@
 		</property>
 	</bean>
 	
-	<bean id="phoneNumberService" class="org.kuali.module.purap.service.impl.PhoneNumberServiceImpl"/>
+	<bean id="phoneNumberService" class="org.kuali.module.purap.service.impl.PhoneNumberServiceImpl">
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService"/>
+		</property>
+	</bean>
 
 	<bean id="purchaseOrderDao" class="org.kuali.module.purap.dao.ojb.PurchaseOrderDaoOjb">
 		<property name="jcdAlias">

@@ -40,8 +40,6 @@ import org.kuali.module.purap.web.struts.form.PurchaseOrderForm;
  */
 public class PurchaseOrderAction extends PurchasingActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderAction.class);
-    
-    private PhoneNumberService phoneNumberService;
 
     /**
      * @see org.kuali.core.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
@@ -70,6 +68,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         if (StringUtils.isNotEmpty(newStipulation)) {
             poForm.getNewPurchaseOrderVendorStipulationLine().setVendorStipulationDescription(newStipulation);
         }
+        PhoneNumberService phoneNumberService = SpringServiceLocator.getPhoneNumberService();
 
         // Format phone numbers
         document.setInstitutionContactPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getInstitutionContactPhoneNumber()));    

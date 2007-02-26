@@ -510,6 +510,9 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
             if (KualiWorkflowUtils.isMaintenanceDocument(docType)) {
                 return null;
             }
+            else if (KualiWorkflowUtils.KRA_BUDGET_DOC_TYPE.equalsIgnoreCase(docType.getName())) {
+                return null;
+            }
             else if (KualiWorkflowUtils.isSourceLineOnly(docType.getName())) {
                 xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getSourceAccountingLineClassName(docType.getName())).append("/amount/value").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
             }

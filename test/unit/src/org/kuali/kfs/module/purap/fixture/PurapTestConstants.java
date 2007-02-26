@@ -25,8 +25,11 @@ import org.kuali.module.purap.bo.VendorShippingSpecialCondition;
 import org.kuali.module.purap.bo.VendorSupplierDiversity;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.module.purap.service.PhoneNumberService;
 
 class PurapTestConstants {
+    
+    public static PhoneNumberService phoneNumberService;
     
     static final Integer FY_2007 = new Integer("2007");
     
@@ -49,5 +52,11 @@ class PurapTestConstants {
         static VendorAddress VA  = new VendorAddress();
         static VendorContract VC  = new VendorContract();
         static VendorShippingSpecialCondition VSSC = new VendorShippingSpecialCondition();
+    }
+    
+    static class FaxNumbers {
+        static String fax = "123 456-7890";
+        static String defaultFormat = phoneNumberService.formatNumberIfPossible( fax );
+        static String shortFax = "123 456 789";
     }
 }

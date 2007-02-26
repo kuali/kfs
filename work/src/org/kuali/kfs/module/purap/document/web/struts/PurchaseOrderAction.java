@@ -31,7 +31,7 @@ import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.bo.VendorDetail;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.util.PhoneNumberUtils;
+import org.kuali.module.purap.service.PhoneNumberService;
 import org.kuali.module.purap.web.struts.form.PurchaseOrderForm;
 
 /**
@@ -40,6 +40,8 @@ import org.kuali.module.purap.web.struts.form.PurchaseOrderForm;
  */
 public class PurchaseOrderAction extends PurchasingActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderAction.class);
+    
+    private PhoneNumberService phoneNumberService;
 
     /**
      * @see org.kuali.core.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
@@ -70,9 +72,9 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         }
 
         // Format phone numbers
-        document.setInstitutionContactPhoneNumber(PhoneNumberUtils.formatNumberIfPossible(document.getInstitutionContactPhoneNumber()));    
-        document.setRequestorPersonPhoneNumber(PhoneNumberUtils.formatNumberIfPossible(document.getRequestorPersonPhoneNumber()));    
-        document.setDeliveryToPhoneNumber(PhoneNumberUtils.formatNumberIfPossible(document.getDeliveryToPhoneNumber()));    
+        document.setInstitutionContactPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getInstitutionContactPhoneNumber()));    
+        document.setRequestorPersonPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getRequestorPersonPhoneNumber()));    
+        document.setDeliveryToPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getDeliveryToPhoneNumber()));    
  
         return super.refresh(mapping, form, request, response);
     }

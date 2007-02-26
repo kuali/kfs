@@ -32,7 +32,7 @@ import org.kuali.module.purap.bo.VendorAddress;
 import org.kuali.module.purap.bo.VendorContract;
 import org.kuali.module.purap.bo.VendorDetail;
 import org.kuali.module.purap.document.RequisitionDocument;
-import org.kuali.module.purap.util.PhoneNumberUtils;
+import org.kuali.module.purap.service.PhoneNumberService;
 import org.kuali.module.purap.web.struts.form.RequisitionForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -43,6 +43,8 @@ import edu.iu.uis.eden.exception.WorkflowException;
  */
 public class RequisitionAction extends PurchasingActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionAction.class);
+    
+    private PhoneNumberService phoneNumberService;
 
     /**
      * Do initialization for a new requisition
@@ -66,12 +68,12 @@ public class RequisitionAction extends PurchasingActionBase {
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         RequisitionForm rqForm = (RequisitionForm) form;
         RequisitionDocument document = (RequisitionDocument) rqForm.getDocument();
-        BusinessObjectService businessObjectService = SpringServiceLocator.getBusinessObjectService();
+        this.phoneNumberService = SpringServiceLocator.getPhoneNumberService();
 
-        // Format phone numbers
-        document.setInstitutionContactPhoneNumber(PhoneNumberUtils.formatNumberIfPossible(document.getInstitutionContactPhoneNumber()));    
-        document.setRequestorPersonPhoneNumber(PhoneNumberUtils.formatNumberIfPossible(document.getRequestorPersonPhoneNumber()));    
-        document.setDeliveryToPhoneNumber(PhoneNumberUtils.formatNumberIfPossible(document.getDeliveryToPhoneNumber()));    
+        // Format phone numbers        
+        document.setInstitutionContactPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getInstitutionContactPhoneNumber()));    
+        document.setRequestorPersonPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getRequestorPersonPhoneNumber()));    
+        document.setDeliveryToPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getDeliveryToPhoneNumber()));    
 
         return super.refresh(mapping, form, request, response);
     }

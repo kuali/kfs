@@ -33,9 +33,11 @@ import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
-import org.kuali.module.purap.util.PhoneNumberUtils;
+import org.kuali.module.purap.service.PhoneNumberService;
 
 public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
+    
+    private PhoneNumberService phoneNumberService;
     
     /**
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
@@ -137,7 +139,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
         if (ObjectUtils.isNotNull(document.getVendorHeaderGeneratedIdentifier()) &&
               document.getPurchaseOrderTransmissionMethodCode().equals(PurapConstants.POTransmissionMethods.FAX)) {
             if (ObjectUtils.isNull(document.getVendorFaxNumber()) ||
-                  ! PhoneNumberUtils.isValidPhoneNumber(document.getVendorFaxNumber())  ) {
+                  ! phoneNumberService.isValidPhoneNumber(document.getVendorFaxNumber())  ) {
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.REQUISITION_VENDOR_FAX_NUMBER, 
                   PurapKeyConstants.ERROR_FAX_NUMBER_PO_TRANSMISSION_TYPE);
                 valid &= false;

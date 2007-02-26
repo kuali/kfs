@@ -28,7 +28,7 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.document.RequisitionDocument;
-import org.kuali.module.purap.util.PhoneNumberUtils;
+import org.kuali.module.purap.service.impl.PhoneNumberServiceImpl;
 
 public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
 

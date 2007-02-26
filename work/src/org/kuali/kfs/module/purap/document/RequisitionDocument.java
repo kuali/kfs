@@ -24,7 +24,6 @@ import java.util.Date;
 import java.util.Map;
 
 import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.DateTimeService;
@@ -41,7 +40,7 @@ import org.kuali.module.purap.bo.BillingAddress;
 import org.kuali.module.purap.bo.SourceDocumentReference;
 import org.kuali.module.purap.bo.VendorContract;
 import org.kuali.module.purap.bo.VendorDetail;
-import org.kuali.module.purap.util.PhoneNumberUtils;
+import org.kuali.module.purap.service.PhoneNumberService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -62,6 +61,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 	private KualiDecimal organizationAutomaticPurchaseOrderLimit;
 
     private DateTimeService dateTimeService;
+    private PhoneNumberService phoneNumberService;
 
 	/**
 	 * Default constructor.
@@ -109,7 +109,8 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setDeliveryCampusCode(currentUser.getUniversalUser().getCampusCode());
         this.setRequestorPersonName(currentUser.getUniversalUser().getPersonName());
         this.setRequestorPersonEmailAddress(currentUser.getUniversalUser().getPersonEmailAddress());
-        this.setRequestorPersonPhoneNumber(PhoneNumberUtils.formatNumberIfPossible(currentUser.getUniversalUser().getPersonLocalPhoneNumber()));
+        this.phoneNumberService = SpringServiceLocator.getPhoneNumberService();
+        this.setRequestorPersonPhoneNumber(phoneNumberService.formatNumberIfPossible(currentUser.getUniversalUser().getPersonLocalPhoneNumber()));
         
 // FIXME this is setting the APO amount in the wrong field
         // Set the purchaseOrderTotalLimit

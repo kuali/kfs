@@ -381,7 +381,7 @@ public class BudgetOverviewFormHelper {
      * @return whether overview page should show modular or not
      */
     private boolean isOverviewShowModular(Integer currentTaskNumber, Budget budget) {
-        return budget.isAgencyModularIndicator() && currentTaskNumber.equals(KraConstants.TASK_SUMMATION);
+        return budget.isAgencyModularIndicator() && (currentTaskNumber.equals(KraConstants.TASK_SUMMATION) || budget.getTasks().size() == 1);
     }
 
     /**

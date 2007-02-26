@@ -141,12 +141,21 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         ExpenseTransferAccountingLine salaryExpenseTransferAccountingLine = (ExpenseTransferAccountingLine)accountingLine;
         salaryExpenseTransferAccountingLine.setEmplid(emplid); 
 
-        // Validate the accounting period
+        // Validate the accounting year
         fieldValues.clear();
-        fieldValues.put("universityFiscalPeriodCode", salaryExpenseTransferAccountingLine.getPayrollEndDateFiscalPeriodCode());
+        fieldValues.put("universityFiscalYear", salaryExpenseTransferAccountingLine.getPayrollEndDateFiscalYear());
         AccountingPeriod accountingPeriod = new AccountingPeriod();        
         if (SpringServiceLocator.getBusinessObjectService().countMatching(AccountingPeriod.class, fieldValues) == 0) {
-            reportError(PropertyConstants.ACCOUNT,KeyConstants.Labor.INVALID_PAY_PERIOD, emplid);
+            reportError(PropertyConstants.ACCOUNT,KeyConstants.Labor.INVALID_PAY_YEAR, emplid);
+            return false;
+        }
+        
+        // Validate the accounting period code
+        fieldValues.clear();
+        fieldValues.put("universityFiscalPeriodCode", salaryExpenseTransferAccountingLine.getPayrollEndDateFiscalPeriodCode());
+        accountingPeriod = new AccountingPeriod();        
+        if (SpringServiceLocator.getBusinessObjectService().countMatching(AccountingPeriod.class, fieldValues) == 0) {
+            reportError(PropertyConstants.ACCOUNT,KeyConstants.Labor.INVALID_PAY_PERIOD_CODE, emplid);
             return false;
         }
         return true;

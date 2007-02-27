@@ -28,9 +28,7 @@ import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.PhoneNumberService;
 
 class PurapTestConstants {
-    
-    public static PhoneNumberService phoneNumberService;
-    
+       
     static final Integer FY_2007 = new Integer("2007");
     
     @SuppressWarnings("deprecation")
@@ -56,7 +54,7 @@ class PurapTestConstants {
     
     static class FaxNumbers {
         static String fax = "123 456-7890";
-        static String defaultFormat = phoneNumberService.formatNumberIfPossible( fax );
+        static String defaultFormat = "123-456-7890";
         static String shortFax = "123 456 789";
     }
 }

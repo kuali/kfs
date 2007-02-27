@@ -896,22 +896,18 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean checkFiscalOfficerIsValidKualiUser(String fiscalOfficerUserId) {
         boolean result = true;
-        UniversalUser fiscalOfficer = null;
         try {
-           fiscalOfficer=getUniversalUserService().getUniversalUser(fiscalOfficerUserId);
-         }
-         catch (UserNotFoundException e) {
-             result = false;
-             putFieldError("accountFiscalOfficerUser.personUserIdentifier",KeyConstants.ERROR_DOCUMENT_ACCOUNT_FISCAL_OFFICER_MUST_EXIST);
-         }
-        
-        if (fiscalOfficer!=null && !fiscalOfficer.isActiveForModule( ChartUser.MODULE_ID ) ) {
-            result=false;
-            putFieldError("accountFiscalOfficerUser.personUserIdentifier",KeyConstants.ERROR_DOCUMENT_ACCOUNT_FISCAL_OFFICER_MUST_BE_KUALI_USER);
+            UniversalUser fiscalOfficer = getUniversalUserService().getUniversalUser(fiscalOfficerUserId);
+            if (fiscalOfficer != null && !fiscalOfficer.isActiveForModule(ChartUser.MODULE_ID)) {
+                result = false;
+                putFieldError("accountFiscalOfficerUser.personUserIdentifier", KeyConstants.ERROR_DOCUMENT_ACCOUNT_FISCAL_OFFICER_MUST_BE_KUALI_USER);
+            }
         }
-        
-        return result;
-        
+        catch (UserNotFoundException e) {
+            result = false;
+        }
+
+        return result;        
     }
     
     /**

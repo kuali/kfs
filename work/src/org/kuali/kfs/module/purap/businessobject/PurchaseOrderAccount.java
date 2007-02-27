@@ -29,7 +29,8 @@ import org.kuali.module.chart.bo.SubAccount;
  */
 public class PurchaseOrderAccount extends PersistableBusinessObjectBase {
 
-	private Integer purchaseOrderAccountIdentifier;
+    private String documentNumber;
+    private Integer purchaseOrderAccountIdentifier;
 	private Integer purchaseOrderItemIdentifier;
 	private String chartOfAccountsCode;
 	private String accountNumber;
@@ -54,6 +55,22 @@ public class PurchaseOrderAccount extends PersistableBusinessObjectBase {
 	}
 
 	/**
+     * Gets the documentNumber attribute. 
+     * @return Returns the documentNumber.
+     */
+    public String getDocumentNumber() {
+        return documentNumber;
+    }
+
+    /**
+     * Sets the documentNumber attribute value.
+     * @param documentNumber The documentNumber to set.
+     */
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
+    }
+
+    /**
 	 * Gets the purchaseOrderAccountIdentifier attribute.
 	 * 
 	 * @return Returns the purchaseOrderAccountIdentifier
@@ -362,6 +379,7 @@ public class PurchaseOrderAccount extends PersistableBusinessObjectBase {
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      
+        m.put("documentNumber", this.documentNumber);
         if (this.purchaseOrderAccountIdentifier != null) {
             m.put("purchaseOrderAccountIdentifier", this.purchaseOrderAccountIdentifier.toString());
         }

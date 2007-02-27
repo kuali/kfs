@@ -25,7 +25,8 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class PurchaseOrderItemCapitalAsset extends PersistableBusinessObjectBase {
 
-	private Integer purchaseOrderItemCapitalAssetIdentifier;
+    private String documentNumber;
+    private Integer purchaseOrderItemCapitalAssetIdentifier;
 	private Integer purchaseOrderItemIdentifier;
 	private Long capitalAssetNumber;
 
@@ -39,6 +40,22 @@ public class PurchaseOrderItemCapitalAsset extends PersistableBusinessObjectBase
 	}
 
 	/**
+     * Gets the documentNumber attribute. 
+     * @return Returns the documentNumber.
+     */
+    public String getDocumentNumber() {
+        return documentNumber;
+    }
+
+    /**
+     * Sets the documentNumber attribute value.
+     * @param documentNumber The documentNumber to set.
+     */
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
+    }
+
+    /**
 	 * Gets the purchaseOrderItemCapitalAssetIdentifier attribute.
 	 * 
 	 * @return Returns the purchaseOrderItemCapitalAssetIdentifier
@@ -125,6 +142,7 @@ public class PurchaseOrderItemCapitalAsset extends PersistableBusinessObjectBase
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
+        m.put("documentNumber", this.documentNumber);
         if (this.purchaseOrderItemCapitalAssetIdentifier != null) {
             m.put("purchaseOrderItemCapitalAssetIdentifier", this.purchaseOrderItemCapitalAssetIdentifier.toString());
         }

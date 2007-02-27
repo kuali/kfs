@@ -27,8 +27,8 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
  */
 public class PurchaseOrderVendorQuote extends PersistableBusinessObjectBase {
 
-	private Integer purchaseOrderVendorQuoteIdentifier;
-	private Integer purchaseOrderIdentifier;
+    private String documentNumber;
+    private Integer purchaseOrderVendorQuoteIdentifier;
 	private Integer vendorHeaderGeneratedIdentifier;
 	private Integer vendorDetailAssignedIdentifier;
 	private String vendorName;
@@ -60,6 +60,22 @@ public class PurchaseOrderVendorQuote extends PersistableBusinessObjectBase {
 	}
 
 	/**
+     * Gets the documentNumber attribute. 
+     * @return Returns the documentNumber.
+     */
+    public String getDocumentNumber() {
+        return documentNumber;
+    }
+
+    /**
+     * Sets the documentNumber attribute value.
+     * @param documentNumber The documentNumber to set.
+     */
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
+    }
+
+    /**
 	 * Gets the purchaseOrderVendorQuoteIdentifier attribute.
 	 * 
 	 * @return Returns the purchaseOrderVendorQuoteIdentifier
@@ -78,28 +94,6 @@ public class PurchaseOrderVendorQuote extends PersistableBusinessObjectBase {
 	public void setPurchaseOrderVendorQuoteIdentifier(Integer purchaseOrderVendorQuoteIdentifier) {
 		this.purchaseOrderVendorQuoteIdentifier = purchaseOrderVendorQuoteIdentifier;
 	}
-
-
-	/**
-	 * Gets the purchaseOrderIdentifier attribute.
-	 * 
-	 * @return Returns the purchaseOrderIdentifier
-	 * 
-	 */
-	public Integer getPurchaseOrderIdentifier() { 
-		return purchaseOrderIdentifier;
-	}
-
-	/**
-	 * Sets the purchaseOrderIdentifier attribute.
-	 * 
-	 * @param purchaseOrderIdentifier The purchaseOrderIdentifier to set.
-	 * 
-	 */
-	public void setPurchaseOrderIdentifier(Integer purchaseOrderIdentifier) {
-		this.purchaseOrderIdentifier = purchaseOrderIdentifier;
-	}
-
 
 	/**
 	 * Gets the vendorHeaderGeneratedIdentifier attribute.
@@ -540,6 +534,7 @@ public class PurchaseOrderVendorQuote extends PersistableBusinessObjectBase {
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      
+        m.put("documentNumber", this.documentNumber);
         if (this.purchaseOrderVendorQuoteIdentifier != null) {
             m.put("purchaseOrderVendorQuoteIdentifier", this.purchaseOrderVendorQuoteIdentifier.toString());
         }

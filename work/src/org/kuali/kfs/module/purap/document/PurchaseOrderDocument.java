@@ -70,7 +70,10 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private String alternateVendorName;
     private String statusChange;
     private String statusChangeNote;
-
+    private boolean purchaseOrderCurrentIndicator;
+    private boolean pendingActionIndicator;
+    private Date purchaseOrderFirstTransmissionDate;
+    
     private PurchaseOrderVendorChoice purchaseOrderVendorChoice;
     private PaymentTermType vendorPaymentTerms;
     private ShippingTitle vendorShippingTitle;
@@ -506,6 +509,53 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.statusChangeNote = statusChangeNote;
     }
 
+    /**
+     * Gets the pendingActionIndicator attribute. 
+     * @return Returns the pendingActionIndicator.
+     */
+    public boolean isPendingActionIndicator() {
+        return pendingActionIndicator;
+    }
+
+    /**
+     * Sets the pendingActionIndicator attribute value.
+     * @param pendingActionIndicator The pendingActionIndicator to set.
+     */
+    public void setPendingActionIndicator(boolean pendingActionIndicator) {
+        this.pendingActionIndicator = pendingActionIndicator;
+    }
+
+    /**
+     * Gets the purchaseOrderCurrentIndicator attribute. 
+     * @return Returns the purchaseOrderCurrentIndicator.
+     */
+    public boolean isPurchaseOrderCurrentIndicator() {
+        return purchaseOrderCurrentIndicator;
+    }
+
+    /**
+     * Sets the purchaseOrderCurrentIndicator attribute value.
+     * @param purchaseOrderCurrentIndicator The purchaseOrderCurrentIndicator to set.
+     */
+    public void setPurchaseOrderCurrentIndicator(boolean purchaseOrderCurrentIndicator) {
+        this.purchaseOrderCurrentIndicator = purchaseOrderCurrentIndicator;
+    }
+
+    /**
+     * Gets the purchaseOrderFirstTransmissionDate attribute. 
+     * @return Returns the purchaseOrderFirstTransmissionDate.
+     */
+    public Date getPurchaseOrderFirstTransmissionDate() {
+        return purchaseOrderFirstTransmissionDate;
+    }
+
+    /**
+     * Sets the purchaseOrderFirstTransmissionDate attribute value.
+     * @param purchaseOrderFirstTransmissionDate The purchaseOrderFirstTransmissionDate to set.
+     */
+    public void setPurchaseOrderFirstTransmissionDate(Date purchaseOrderFirstTransmissionDate) {
+        this.purchaseOrderFirstTransmissionDate = purchaseOrderFirstTransmissionDate;
+    }    
     
     /**
      * Gets the alternateVendorNumber attribute. 

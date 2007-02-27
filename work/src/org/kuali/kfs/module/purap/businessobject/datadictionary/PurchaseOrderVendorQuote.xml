@@ -25,7 +25,6 @@
             <title>Purchase Order Vendor Quote Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="purchaseOrderIdentifier" />
                 <field attributeName="purchaseOrderQuoteAwardDate" />
                 <field attributeName="purchaseOrderQuotePriceExpirationDate" />
                 <field attributeName="purchaseOrderQuoteRankNumber" />
@@ -55,12 +54,11 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="purchaseOrderIdentifier" />
+                    <sortAttribute attributeName="purchaseOrderVendorQuoteIdentifier" />
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="purchaseOrderIdentifier" required="false" />
                 <lookupField attributeName="purchaseOrderQuoteAwardDate" required="false" />
                 <lookupField attributeName="purchaseOrderQuotePriceExpirationDate" required="false" />
                 <lookupField attributeName="purchaseOrderQuoteRankNumber" required="false" />
@@ -83,7 +81,6 @@
             </lookupFields>
 
             <resultFields>
-                <field attributeName="purchaseOrderIdentifier" />
                 <field attributeName="purchaseOrderQuoteAwardDate" />
                 <field attributeName="purchaseOrderQuotePriceExpirationDate" />
                 <field attributeName="purchaseOrderQuoteRankNumber" />
@@ -108,22 +105,7 @@
 
         <attributes>
 
-            <attribute name="purchaseOrderIdentifier" forceUppercase="true">
-                <label>Purchase Order Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>9</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="11" />
-                </control>
-
-                <summary>purchaseOrderIdentifier</summary>
-                <description>purchaseOrderIdentifier description...</description>
-			</attribute>
-
-            <attribute name="purchaseOrderQuoteAwardDate" forceUppercase="true">
+             <attribute name="purchaseOrderQuoteAwardDate" forceUppercase="true">
                 <label>Purchase Order Quote Award Date</label>
                 <shortLabel>Date</shortLabel>
 

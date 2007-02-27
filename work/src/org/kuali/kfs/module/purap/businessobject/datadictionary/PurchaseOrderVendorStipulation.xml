@@ -25,8 +25,7 @@
             <title>Purchase Order Vendor Stipulation Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="purchaseOrderIdentifier" />
-                <field attributeName="purchaseOrderVendorStipulationIdentifier" />
+                 <field attributeName="purchaseOrderVendorStipulationIdentifier" />
                 <field attributeName="vendorStipulationAuthorEmployeeIdentifier" />
                 <field attributeName="vendorStipulationCreateDate" />
                 <field attributeName="vendorStipulationDescription" />
@@ -45,7 +44,6 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="purchaseOrderIdentifier" required="false" />
                 <lookupField attributeName="purchaseOrderVendorStipulationIdentifier" required="false" />
                 <lookupField attributeName="vendorStipulationAuthorEmployeeIdentifier" required="false" />
                 <lookupField attributeName="vendorStipulationCreateDate" required="false" />
@@ -53,7 +51,6 @@
             </lookupFields>
 
             <resultFields>
-                <field attributeName="purchaseOrderIdentifier" />
                 <field attributeName="purchaseOrderVendorStipulationIdentifier" />
                 <field attributeName="vendorStipulationAuthorEmployeeIdentifier" />
                 <field attributeName="vendorStipulationCreateDate" />
@@ -62,21 +59,6 @@
         </lookup>
 
         <attributes>
-
-            <attribute name="purchaseOrderIdentifier" forceUppercase="true">
-                <label>Purchase Order Identifier</label>
-                <shortLabel>PO Identifier</shortLabel>
-
-                <maxLength>9</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="11" />
-                </control>
-
-                <summary>purchaseOrderIdentifier</summary>
-                <description>purchaseOrderIdentifier description...</description>
-			</attribute>
 
             <attribute name="purchaseOrderVendorStipulationIdentifier" forceUppercase="true">
                 <label>Purchase Order Vendor Stipulation Identifier</label>

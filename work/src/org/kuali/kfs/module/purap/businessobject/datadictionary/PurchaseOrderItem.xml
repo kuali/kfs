@@ -46,8 +46,7 @@
                 <field attributeName="itemUnitOfMeasureCode" />
                 <field attributeName="itemUnitPrice" />
                 <field attributeName="purchaseOrderCommodityCd" />
-                <field attributeName="purchaseOrderIdentifier" />
-                <field attributeName="itemIdentifier" />
+                 <field attributeName="itemIdentifier" />
                 <field attributeName="requisitionLineIdentifier" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
@@ -85,7 +84,6 @@
                 <lookupField attributeName="itemUnitOfMeasureCode" required="false" />
                 <lookupField attributeName="itemUnitPrice" required="false" />
                 <lookupField attributeName="purchaseOrderCommodityCd" required="false" />
-                <lookupField attributeName="purchaseOrderIdentifier" required="false" />
                 <lookupField attributeName="itemIdentifier" required="false" />
                 <lookupField attributeName="requisitionLineIdentifier" required="false" />
             </lookupFields>
@@ -112,7 +110,6 @@
                 <field attributeName="itemUnitOfMeasureCode" />
                 <field attributeName="itemUnitPrice" />
                 <field attributeName="purchaseOrderCommodityCd" />
-                <field attributeName="purchaseOrderIdentifier" />
                 <field attributeName="itemIdentifier" />
                 <field attributeName="requisitionLineIdentifier" />
             </resultFields>
@@ -431,21 +428,6 @@
 
                 <summary>purchaseOrderCommodityCd</summary>
                 <description>purchaseOrderCommodityCd description...</description>
-			</attribute>
-
-            <attribute name="purchaseOrderIdentifier" forceUppercase="true">
-                <label>Purchase Order Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>9</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="11" />
-                </control>
-
-                <summary>purchaseOrderIdentifier</summary>
-                <description>purchaseOrderIdentifier description...</description>
 			</attribute>
 
             <attribute name="itemIdentifier" forceUppercase="true">

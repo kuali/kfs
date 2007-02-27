@@ -27,8 +27,8 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
  */
 public class PurchaseOrderVendorStipulation extends PersistableBusinessObjectBase {
 
-	private Integer purchaseOrderVendorStipulationIdentifier;
-	private Integer purchaseOrderIdentifier;
+    private String documentNumber;
+    private Integer purchaseOrderVendorStipulationIdentifier;
 	private String vendorStipulationDescription;
 	private String vendorStipulationAuthorEmployeeIdentifier;
 	private Date vendorStipulationCreateDate;
@@ -36,6 +36,22 @@ public class PurchaseOrderVendorStipulation extends PersistableBusinessObjectBas
     private PurchaseOrderDocument purchaseOrder;
 
     public PurchaseOrderVendorStipulation() {
+    }
+
+    /**
+     * Gets the documentNumber attribute. 
+     * @return Returns the documentNumber.
+     */
+    public String getDocumentNumber() {
+        return documentNumber;
+    }
+
+    /**
+     * Sets the documentNumber attribute value.
+     * @param documentNumber The documentNumber to set.
+     */
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
     /**
@@ -57,28 +73,6 @@ public class PurchaseOrderVendorStipulation extends PersistableBusinessObjectBas
 	public void setPurchaseOrderVendorStipulationIdentifier(Integer purchaseOrderVendorStipulationIdentifier) {
 		this.purchaseOrderVendorStipulationIdentifier = purchaseOrderVendorStipulationIdentifier;
 	}
-
-
-	/**
-	 * Gets the purchaseOrderIdentifier attribute.
-	 * 
-	 * @return Returns the purchaseOrderIdentifier
-	 * 
-	 */
-	public Integer getPurchaseOrderIdentifier() { 
-		return purchaseOrderIdentifier;
-	}
-
-	/**
-	 * Sets the purchaseOrderIdentifier attribute.
-	 * 
-	 * @param purchaseOrderIdentifier The purchaseOrderIdentifier to set.
-	 * 
-	 */
-	public void setPurchaseOrderIdentifier(Integer purchaseOrderIdentifier) {
-		this.purchaseOrderIdentifier = purchaseOrderIdentifier;
-	}
-
 
 	/**
 	 * Gets the vendorStipulationDescription attribute.
@@ -168,6 +162,7 @@ public class PurchaseOrderVendorStipulation extends PersistableBusinessObjectBas
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
+        m.put("documentNumber", this.documentNumber);
         if (this.purchaseOrderVendorStipulationIdentifier != null) {
             m.put("purchaseOrderVendorStipulationIdentifier", this.purchaseOrderVendorStipulationIdentifier.toString());
         }

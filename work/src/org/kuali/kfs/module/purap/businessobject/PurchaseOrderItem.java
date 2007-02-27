@@ -16,6 +16,8 @@
 
 package org.kuali.module.purap.bo;
 
+import java.util.LinkedHashMap;
+
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 
@@ -24,7 +26,7 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
  */
 public class PurchaseOrderItem extends PurchasingItemBase {
 
-	private Integer purchaseOrderIdentifier;
+    private String documentNumber;
 	private KualiDecimal itemOrderedQuantity;
 	private KualiDecimal itemInvoicedTotalQuantity;
 	private KualiDecimal itemInvoicedTotalAmount;
@@ -205,19 +207,31 @@ public class PurchaseOrderItem extends PurchasingItemBase {
     }
 
     /**
-     * Gets the purchaseOrderIdentifier attribute. 
-     * @return Returns the purchaseOrderIdentifier.
+     * Gets the documentNumber attribute. 
+     * @return Returns the documentNumber.
      */
-    public Integer getPurchaseOrderIdentifier() {
-        return purchaseOrderIdentifier;
+    public String getDocumentNumber() {
+        return documentNumber;
     }
 
     /**
-     * Sets the purchaseOrderIdentifier attribute value.
-     * @param purchaseOrderIdentifier The purchaseOrderIdentifier to set.
+     * Sets the documentNumber attribute value.
+     * @param documentNumber The documentNumber to set.
      */
-    public void setPurchaseOrderIdentifier(Integer purchaseOrderIdentifier) {
-        this.purchaseOrderIdentifier = purchaseOrderIdentifier;
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
+
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();      
+        m.put("documentNumber", this.documentNumber);
+        if (this.getItemIdentifier() != null) {
+            m.put("itemIdentifier", this.getItemIdentifier().toString());
+        }
+        return m;
+    }    
     
 }

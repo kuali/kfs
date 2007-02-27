@@ -48,6 +48,7 @@
         <lockingKeys>
             <field attributeName="chartOfAccountsCode" />
             <field attributeName="accountNumber" />
+            <field attributeName="financialDocumentTypeCode" />
             <field attributeName="accountDelegateSystemId" />
         </lockingKeys>
 

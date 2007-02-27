@@ -42,6 +42,7 @@ import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
+import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.dao.ojb.BudgetConstructionDaoOjb;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
 import org.kuali.module.budget.web.struts.form.BudgetConstructionForm;
@@ -207,16 +208,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         parameters.put("returnFormKey", GlobalVariables.getUserSession().addObject(form));
             
-//        request.setAttribute("accountNumber", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditure().get(selectedIndex).getAccountNumber());
-        
-//        String bcMonthParmsKey = "bcMonthParmsKey"; 
-//        GlobalVariables.getUserSession().addObject("bcMonthParmsKey",parameters);
-//        Properties parms = new Properties();
-//        parms.put("methodToCall", "view");
-//        parms.put("bcMonthParmsKey","bcMonthParmsKey");
-
-
-//        String lookupUrl = UrlFactory.parameterizeUrl("/" + "budgetMonthlyBudget.do", parms);
         String lookupUrl = UrlFactory.parameterizeUrl("/" + "budgetMonthlyBudget.do", parameters);
         return new ActionForward(lookupUrl, true);
     }
@@ -249,26 +240,33 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
         
-        // this needs to be changed to look at the refresh caller
-        String refreshCaller = request.getParameter(Constants.REFRESH_CALLER);
-
         // do specific refresh stuff here based on refreshCaller parameter
         // typical refresh callers would be monthlyBudget or salarySetting
         // need to look at optmistic locking problems since we will be storing the values in the form before hand
         // this locking problem may workout if we store first then put the form in session
+        String refreshCaller = request.getParameter(Constants.REFRESH_CALLER);
 
         // for now, this re-populates pbgl revenue-expenditure lines
         // and rehooks the budgetConstructionMonthly referenced objects
-        // we should be able to just refresh needed references by itereating the current set of expenditure lines???
+        // we should be able to just refresh needed references by iterating the current set of expenditure lines???
 
         if (refreshCaller.equalsIgnoreCase("MonthlyBudget")){
-            budgetConstructionForm.getBudgetConstructionDocument().initiateDocument();
+            
+            // do things specific to returning from MonthlyBudget
+
+            // need to get current state of monthly budgets
+            for (PendingBudgetConstructionGeneralLedger line :
+                budgetConstructionForm.getBudgetConstructionDocument().getPendingBudgetConstructionGeneralLedgerExpenditureLines()){
+
+                line.refreshReferenceObject("budgetConstructionMonthly");
+            }
+            for (PendingBudgetConstructionGeneralLedger line :
+                budgetConstructionForm.getBudgetConstructionDocument().getPendingBudgetConstructionGeneralLedgerRevenueLines()){
+
+                line.refreshReferenceObject("budgetConstructionMonthly");
+            }
         }
 
-//        probably don't want this since BC has no adhoc routing
-//        super.refresh(mapping, form, request, response);
-
-        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 

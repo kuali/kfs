@@ -44,11 +44,6 @@ public class MonthlyBudgetAction extends KualiAction {
         ActionForward forward = super.execute(mapping, form, request, response);
 
         MonthlyBudgetForm monthlyBudgetForm = (MonthlyBudgetForm) form;
-//        String tacct = (String)request.getAttribute("accountNumber");
-//        if (tacct == null){
-//            tacct = "9999999";
-//        }
-//        monthlyBudgetForm.getBudgetConstructionMonthly().setAccountNumber(tacct);
         return forward;
     }
     
@@ -56,18 +51,8 @@ public class MonthlyBudgetAction extends KualiAction {
         
         MonthlyBudgetForm monthlyBudgetForm = (MonthlyBudgetForm) form;
         
-        // parse out the important strings from our methodToCall parameter
-//        String fullParameter = (String) request.getAttribute(Constants.METHOD_TO_CALL_ATTRIBUTE);
-        
-//        String bcMonthParmsKey = request.getParameter("bcMonthParmsKey");
-//        Properties parameters = (Properties) GlobalVariables.getUserSession().retrieveObject(bcMonthParmsKey);
-//        if (parameters == null){
-//            return mapping.findForward(Constants.MAPPING_PORTAL);
-//        }
-//        GlobalVariables.getUserSession().removeObject(bcMonthParmsKey);
-
-        String tacct = request.getParameter("accountNumber");
-        
+        // explicitly use the url parms to get the record from DB 
+        // this will eventually be changed to use struts populated form instance fields
         Map fieldValues = new HashMap();
         fieldValues.put("documentNumber", request.getParameter("documentNumber"));
         fieldValues.put("universityFiscalYear", request.getParameter("universityFiscalYear"));
@@ -95,13 +80,6 @@ public class MonthlyBudgetAction extends KualiAction {
         monthlyBudgetForm.setBudgetConstructionMonthly(budgetConstructionMonthly);
 
 
-//        String tacct = request.getParameter("accountNumber");
-//        String tacct = (String)request.getAttribute("accountNumber");
-        if (tacct == null){
-            tacct = "9999999";
-        }
-//        monthlyBudgetForm.getBudgetConstructionMonthly().setAccountNumber(tacct);
-//        monthlyBudgetForm.getBudgetConstructionMonthly().setDocumentNumber("0101");
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 

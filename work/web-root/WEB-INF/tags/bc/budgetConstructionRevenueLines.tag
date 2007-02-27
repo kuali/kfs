@@ -14,13 +14,10 @@
  limitations under the License.
 --%>
 <%@ taglib prefix="c" uri="/tlds/c.tld" %>
+<%@ taglib uri="/tlds/struts-html.tld" prefix="html"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="kul" %>
 
-<%-- needed? --%>
-<%--
-<c:set var="budgetConstructionAttributes"
-	value="${DataDictionary['KualiBudgetConstructionDocument'].attributes}" />
---%>
+<c:set var="pbglRevenueAttributes" value="${DataDictionary.PendingBudgetConstructionGeneralLedger.attributes}" />
 
 <kul:tab tabTitle="Revenue" defaultOpen="false" tabErrorKey="${Constants.BUDGET_CONSTRUCTION_REVENUE_TAB_ERRORS}">
 <div class="tab-container" align=center>
@@ -39,15 +36,59 @@
 				<th>
 					Request
 				</th>
+				<th>
+					Month?
+				</th>
+				<th>
+					Action
+				</th>
 			</tr>
-			<c:forEach items="${KualiForm.document.pendingBudgetConstructionGeneralLedgerRevenueLines}" var="item" >
-				<tr>
-					<td>${item.financialObjectCode}</td>
-					<td>${item.financialSubObjectCode}</td>
-					<td>${item.financialBeginningBalanceLineAmount}</td>
-					<td>${item.accountLineAnnualBalanceAmount}</td>
-				</tr>
+			<c:forEach items="${KualiForm.document.pendingBudgetConstructionGeneralLedgerRevenueLines}" var="item" varStatus="status" >
+
+            <html:hidden property="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].documentNumber"/>
+            <html:hidden property="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].universityFiscalYear"/>
+            <html:hidden property="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].chartOfAccountsCode"/>
+            <html:hidden property="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].accountNumber"/>
+            <html:hidden property="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].subAccountNumber"/>
+            <html:hidden property="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].financialBalanceTypeCode"/>
+            <html:hidden property="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].financialObjectTypeCode"/>
+            <html:hidden property="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].versionNumber"/>
+            <tr>
+              <td valign=top nowrap><div align="left"><span>
+              	  <a name="revenueexistingLineLineAnchor${status.index}"></a>
+                  <kul:htmlControlAttribute attributeEntry="${pbglRevenueAttributes.financialObjectCode}" property="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].financialObjectCode" readOnly="true"/>
+              </span></div></td>
+              <td valign=top nowrap><div align="left"><span>
+                  <kul:htmlControlAttribute attributeEntry="${pbglRevenueAttributes.financialSubObjectCode}" property="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].financialSubObjectCode" readOnly="true"/>
+              </span></div></td>
+              <td valign=top nowrap><div align="right"><span>
+                  <kul:htmlControlAttribute attributeEntry="${pbglRevenueAttributes.financialBeginningBalanceLineAmount}" property="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].financialBeginningBalanceLineAmount" readOnly="true"/>
+              </span></div></td>
+              <td valign=top nowrap><div align="right"><span>
+                  <kul:htmlControlAttribute attributeEntry="${pbglRevenueAttributes.accountLineAnnualBalanceAmount}" property="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].accountLineAnnualBalanceAmount" styleClass="amount" readOnly="false"/>
+              </span></div></td>
+	              <td><div align=center>
+					<c:choose>
+						<c:when test="${empty item.budgetConstructionMonthly}" > 
+	                   		<html:image src="images/tinybutton-createnew.gif" styleClass="tinybutton" property="methodToCall.performMonthlyBudget.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" title="Create Month" alt="Create Month"/>
+						</c:when> 
+						<c:otherwise> 
+	                   		<html:image src="images/tinybutton-edit1.gif" styleClass="tinybutton" property="methodToCall.performMonthlyBudget.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" title="Edit Month" alt="Edit Month"/>
+						</c:otherwise> 
+					</c:choose> 
+	              </div></td>
+	              <td></td>
+            </tr>
 			</c:forEach>
+			<tr>
+				<th align=right colspan=2>
+					Revenue Totals
+				</th>
+				<td>0</td>
+				<td>0</td>
+				<td></td>
+				<td></td>
+			</tr>
 		</table>
 
 </div>

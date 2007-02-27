@@ -250,6 +250,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
         
         // this needs to be changed to look at the refresh caller
+        String refreshCaller = request.getParameter(Constants.REFRESH_CALLER);
 
         // do specific refresh stuff here based on refreshCaller parameter
         // typical refresh callers would be monthlyBudget or salarySetting
@@ -259,7 +260,10 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         // for now, this re-populates pbgl revenue-expenditure lines
         // and rehooks the budgetConstructionMonthly referenced objects
         // we should be able to just refresh needed references by itereating the current set of expenditure lines???
-        budgetConstructionForm.getBudgetConstructionDocument().initiateDocument();
+
+        if (refreshCaller.equalsIgnoreCase("MonthlyBudget")){
+            budgetConstructionForm.getBudgetConstructionDocument().initiateDocument();
+        }
 
 //        probably don't want this since BC has no adhoc routing
 //        super.refresh(mapping, form, request, response);

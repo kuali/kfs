@@ -114,6 +114,7 @@ public class MonthlyBudgetAction extends KualiAction {
         parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, "refresh");
         parameters.put(Constants.DOC_FORM_KEY, monthlyBudgetForm.getReturnFormKey());
         parameters.put("anchor", monthlyBudgetForm.getReturnAnchor());
+        parameters.put(Constants.REFRESH_CALLER, "MonthlyBudget");
         
         
 //        parameters.put("documentNumber", budgetConstructionMonthly.getDocumentNumber());

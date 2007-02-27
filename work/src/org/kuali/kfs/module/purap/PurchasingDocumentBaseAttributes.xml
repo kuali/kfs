@@ -602,8 +602,8 @@
 </attributeReference>
 
 <attributeReference name="vendorRestrictedIndicator" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="hiddenIndicator">
-    <label>Vendor Restricted Indicator</label>
-    <shortLabel>Indicator</shortLabel>
+    <label>Restricted Indicator</label>
+    <shortLabel>Restricted</shortLabel>
   	
     <summary>vendorRestrictedIndicator</summary>
     <description>vendorRestrictedIndicator description...</description>

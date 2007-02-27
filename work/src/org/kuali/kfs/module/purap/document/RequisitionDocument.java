@@ -100,7 +100,8 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setStatusCode( PurapConstants.RequisitionStatuses.IN_PROCESS );
         this.setPurchaseOrderCostSourceCode( PurapConstants.POCostSources.ESTIMATE );
         this.setPurchaseOrderTransmissionMethodCode( PurapConstants.POTransmissionMethods.FAX );
-        
+
+        // set the default funding source
         this.setFundingSourceCode(getKualiConfigurationService().getApplicationParameterValue("PurapAdminGroup","PURAP.REQUISITION_DEFAULT_FUNDING_SOURCE"));
 
         ChartUser currentUser = (ChartUser)GlobalVariables.getUserSession().getUniversalUser().getModuleUser( ChartUser.MODULE_ID );
@@ -112,15 +113,8 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.phoneNumberService = SpringServiceLocator.getPhoneNumberService();
         this.setRequestorPersonPhoneNumber(phoneNumberService.formatNumberIfPossible(currentUser.getUniversalUser().getPersonLocalPhoneNumber()));
         
-// FIXME this is setting the APO amount in the wrong field
-        // Set the purchaseOrderTotalLimit
-        if (ObjectUtils.isNull(getPurchaseOrderTotalLimit())) {
-            KualiDecimal purchaseOrderTotalLimit = SpringServiceLocator.getRequisitionService().getApoLimit(
-              this.getVendorContractGeneratedIdentifier(), this.getChartOfAccountsCode(), this.getOrganizationCode());
-            if (ObjectUtils.isNotNull(purchaseOrderTotalLimit)) {
-                this.setPurchaseOrderTotalLimit(purchaseOrderTotalLimit);
-            }
-        }
+        // set the APO limit
+        this.setOrganizationAutomaticPurchaseOrderLimit(SpringServiceLocator.getRequisitionService().getApoLimit(this.getVendorContractGeneratedIdentifier(), this.getChartOfAccountsCode(), this.getOrganizationCode()));
 
         BillingAddress billingAddress = new BillingAddress();
         billingAddress.setBillingCampusCode(this.getDeliveryCampusCode());
@@ -225,14 +219,13 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         vendorContract.setVendorContractGeneratedIdentifier(this.getVendorContractGeneratedIdentifier());
         Map keys = SpringServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(vendorContract);
         vendorContract = (VendorContract) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(VendorContract.class, keys);
-      if (!(vendorContract != null && 
-          today.after(vendorContract.getVendorContractBeginningDate()) && 
-          today.before(vendorContract.getVendorContractEndDate()))) {
+        if (!(vendorContract != null && 
+                today.after(vendorContract.getVendorContractBeginningDate()) && 
+                today.before(vendorContract.getVendorContractEndDate()))) {
             activeContract = false;
         }
 
-      VendorDetail vendorDetail = SpringServiceLocator.getVendorService().getVendorDetail(this.getVendorHeaderGeneratedIdentifier(), 
-          this.getVendorDetailAssignedIdentifier());
+        VendorDetail vendorDetail = SpringServiceLocator.getVendorService().getVendorDetail(this.getVendorHeaderGeneratedIdentifier(), this.getVendorDetailAssignedIdentifier());
         if (!(vendorDetail != null && vendorDetail.isActiveIndicator())) {
             activeVendor = false;
         }
@@ -247,7 +240,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             }
         }
 
-//    TODO  WAIT ON ITEM LOGIC  (CHRIS AND DAVID SHOULD FIX THIS HERE)
+// TODO WAIT ON ITEM LOGIC (CHRIS AND DAVID SHOULD FIX THIS HERE)
 //      if (EpicConstants.REQ_SOURCE_B2B.equals(req.getSource().getCode())) {
 //        if (!activeContract) {
 //          LOG.debug("copy() B2B contract has expired; don't allow copy.");
@@ -309,8 +302,9 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 //        }
 //      }
 
-      // get the contacts, supplier diversity list and APO limit 
+      //TODO check this: get the contacts, supplier diversity list and APO limit 
 //      setupRequisition(newReq);
+        this.setOrganizationAutomaticPurchaseOrderLimit(SpringServiceLocator.getRequisitionService().getApoLimit(this.getVendorContractGeneratedIdentifier(), this.getChartOfAccountsCode(), this.getOrganizationCode()));
       
     
 	}
@@ -326,7 +320,9 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         // DOCUMENT PROCESSED
         if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             
+            String requisitionStatus = PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN;
             if (SpringServiceLocator.getRequisitionService().isAutomaticPurchaseOrderAllowed(this)) {
+                requisitionStatus = PurapConstants.RequisitionStatuses.CLOSED;
                 PurchaseOrderDocument poDocument = SpringServiceLocator.getPurchaseOrderService().createPurchaseOrderDocument(this);
                 //TODO how do we override the doc initiator?
                 try {
@@ -337,37 +333,21 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
                     throw new RuntimeException("Error routing PO document: " + e.getMessage());
                 }
             }
-            else {
-                SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN);
-                SpringServiceLocator.getRequisitionService().save(this);
-            }
+            SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, requisitionStatus);
+            SpringServiceLocator.getRequisitionService().save(this);
         }
         // DOCUMENT DISAPPROVED
         else if (this.getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
             // TODO set REQ status to disapproved - based on route level
+//            SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, ??);
+//            SpringServiceLocator.getRequisitionService().save(this);
         }
         // DOCUMENT CANCELED
         else if (this.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
-            // TODO EPIC did nothing; is that right?
+            SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, PurapConstants.RequisitionStatuses.CANCELLED);
+            SpringServiceLocator.getRequisitionService().save(this);
         }
 
-//        if (EdenConstants.ROUTE_HEADER_PROCESSED_CD.equals(routeHeader.getDocRouteStatus())) {
-//            if (getRequisitionPostProcessorService().isAPO(routeHeader.getRouteHeaderId(), getLastUserId(routeHeader))) {
-//                PurchaseOrder po = getRequisitionPostProcessorService().createAPO(routeHeader.getRouteHeaderId(), getLastUserId(routeHeader));
-//                //getRequisitionPostProcessorService().routeAPO(po, getLastUserId(routeHeader));
-//            } else {
-//                //set req to buyer assign
-//                getRequisitionPostProcessorService().changeRequisitionStatus(routeHeader.getRouteHeaderId(), EpicConstants.REQ_STAT_AWAIT_CONTRACT_MANAGER_ASSGN, getLastUserId(routeHeader));
-//            }
-//        } else if (EdenConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(routeHeader.getDocRouteStatus())) {
-//            //set EPIC status to disapproved - based on route level
-//            LOG.info("doRouteStatusChange() Route Status is " + EdenConstants.ROUTE_HEADER_DISAPPROVED_LABEL + " - Epic document with doc ID " + 
-//              routeHeader.getRouteHeaderId() + " has had workflow document disapproved by " + getLastUserId(routeHeader));
-//            getRequisitionPostProcessorService().disapproveRequisition(routeHeader.getRouteHeaderId(), routeHeader.getCurrentRouteLevelName(),getLastUserId(routeHeader));
-//        } else if (EdenConstants.ROUTE_HEADER_CANCEL_CD.equals(routeHeader.getDocRouteStatus())) {
-//          LOG.info("doRouteStatusChange() Route Status is " + EdenConstants.ROUTE_HEADER_CANCEL_LABEL + " - Epic document with doc ID " + 
-//              routeHeader.getRouteHeaderId() + " has had workflow document cancelled by " + getLastUserId(routeHeader));
-//        }
 
     }
 

@@ -250,7 +250,7 @@
 
             <attribute name="itemRestrictedIndicator" forceUppercase="true">
                 <label>Item Restricted Indicator</label>
-                <shortLabel>Indicator</shortLabel>
+                <shortLabel>Restricted</shortLabel>
 
                 <maxLength>1</maxLength>
 

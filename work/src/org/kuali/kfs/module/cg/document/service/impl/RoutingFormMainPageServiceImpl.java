@@ -29,8 +29,6 @@ public class RoutingFormMainPageServiceImpl implements RoutingFormMainPageServic
     
     public void initializeRoutingFormMainPage(RoutingForm routingForm) {
         routingForm.setProjectTypes(projectTypeService.getProjectTypes());
-        routingForm.setSubmissionTypes(submissionTypeService.getSubmissionTypes());
-        routingForm.setPurposes(purposeService.getPurposes());
     }
 
     public ProjectTypeService getProjectTypeService() {

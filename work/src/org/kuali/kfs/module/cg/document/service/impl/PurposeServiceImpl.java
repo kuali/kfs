@@ -25,6 +25,9 @@ import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.kra.routingform.bo.Purpose;
+import org.kuali.module.kra.routingform.bo.RoutingFormPurpose;
+import org.kuali.module.kra.routingform.bo.RoutingFormSubmissionType;
+import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.service.PurposeService;
 
 public class PurposeServiceImpl implements PurposeService {
@@ -43,6 +46,19 @@ public class PurposeServiceImpl implements PurposeService {
         return new ArrayList(col);
     }
 
+    /**
+     * @see org.kuali.module.kra.routingform.service.PurposeService#setupRoutingFormPurposes(org.kuali.module.kra.routingform.document.RoutingFormDocument)
+     */
+    public void setupRoutingFormPurposes(RoutingFormDocument routingFormDocument) {
+        List<Purpose> purposes = getPurposes();
+        List<RoutingFormPurpose> routingFormPurposes = new ArrayList<RoutingFormPurpose>();
+        for (Purpose purpose : purposes) {
+            routingFormPurposes.add(new RoutingFormPurpose(routingFormDocument.getDocumentNumber(), purpose));
+        }
+
+        routingFormDocument.setRoutingFormPurposes(routingFormPurposes);
+    }
+    
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }

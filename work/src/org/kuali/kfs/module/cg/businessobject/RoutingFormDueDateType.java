@@ -36,6 +36,11 @@ public class RoutingFormDueDateType extends PersistableBusinessObjectBase {
 
 	}
 
+    /**
+     * Constructs a RoutingFormDueDateType.
+     * @param documentNumber
+     * @param dueDateType
+     */
     public RoutingFormDueDateType(String documentNumber, DueDateType dueDateType) {
         this();
         this.documentNumber = documentNumber;

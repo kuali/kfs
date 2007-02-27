@@ -561,7 +561,7 @@
                 <maxLength>1</maxLength>
 
                 <control>
-                    <select valuesFinderClass="org.kuali.module.kra.routingform.lookup.keyvalues.ResearchTypeCodeValuesFinder" />
+                    <text size="1" />
                 </control>
 
                 <summary>researchTypeCode</summary>

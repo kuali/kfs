@@ -16,16 +16,19 @@
 package org.kuali.module.kra.routingform.web.struts.form;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.datadictionary.DocumentEntry;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.web.struts.form.BudgetOverviewFormHelper;
 import org.kuali.module.kra.document.ResearchDocument;
 import org.kuali.module.kra.routingform.bo.ProjectType;
-import org.kuali.module.kra.routingform.bo.Purpose;
 import org.kuali.module.kra.routingform.bo.RoutingFormAdHocOrg;
 import org.kuali.module.kra.routingform.bo.RoutingFormAdHocPerson;
 import org.kuali.module.kra.routingform.bo.RoutingFormAdHocWorkgroup;
@@ -37,7 +40,6 @@ import org.kuali.module.kra.routingform.bo.RoutingFormOtherCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
 import org.kuali.module.kra.routingform.bo.RoutingFormProjectType;
 import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
-import org.kuali.module.kra.routingform.bo.SubmissionType;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.web.struts.form.ResearchDocumentFormBase;
 
@@ -51,9 +53,7 @@ public class RoutingForm extends ResearchDocumentFormBase {
     private RoutingFormOrganizationCreditPercent newRoutingFormOrganizationCreditPercent;
     private List<String> selectedRoutingFormProjectTypes;
     
-    private List<SubmissionType> submissionTypes;
     private List<ProjectType> projectTypes;
-    private List<Purpose> purposes;
     
     //Project Details 
     private RoutingFormInstitutionCostShare newRoutingFormInstitutionCostShare;
@@ -77,13 +77,13 @@ public class RoutingForm extends ResearchDocumentFormBase {
     private RoutingFormAdHocOrg newAdHocOrg;
     private RoutingFormAdHocWorkgroup newAdHocWorkgroup;
     
+    private Map systemParametersMap;
+    
     public RoutingForm() {
         super();
        
         selectedRoutingFormProjectTypes = new ArrayList();
-        submissionTypes = new TypedArrayList(SubmissionType.class);
         projectTypes = new TypedArrayList(ProjectType.class);
-        purposes = new TypedArrayList(Purpose.class);
         
         DataDictionary dataDictionary = SpringServiceLocator.getDataDictionaryService().getDataDictionary();
         DocumentEntry budgetDocumentEntry = dataDictionary.getDocumentEntry(org.kuali.module.kra.routingform.document.RoutingFormDocument.class);
@@ -197,22 +197,6 @@ public class RoutingForm extends ResearchDocumentFormBase {
         this.projectTypes = projectTypes;
     }
     
-    public List<Purpose> getPurposes() {
-        return purposes;
-    }
-    
-    public void setPurposes(List<Purpose> purposes) {
-        this.purposes = purposes;
-    }
-    
-    public List<SubmissionType> getSubmissionTypes() {
-        return submissionTypes;
-    }
-    
-    public void setSubmissionTypes(List<SubmissionType> submissionTypes) {
-        this.submissionTypes = submissionTypes;
-    }
-    
     public RoutingFormOrganization getNewRoutingFormOrganization() {
         return newRoutingFormOrganization;
     }
@@ -322,5 +306,20 @@ public class RoutingForm extends ResearchDocumentFormBase {
      */
     public void setNewAdHocWorkgroup(RoutingFormAdHocWorkgroup newAdHocWorkgroup) {
         this.newAdHocWorkgroup = newAdHocWorkgroup;
+    }
+
+    /**
+     * Lazy gets the systemParametersMap attribute. Use it on a jsp or tag as such: ${KualiForm.systemParametersMap[KraConstants.foobar]}
+     * @return Returns the systemParametersMap.
+     */
+    public Map getSystemParametersMap() {
+        if (systemParametersMap == null) {
+            systemParametersMap = new HashMap();
+            
+            KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
+            //systemParametersMap.put("KraRoutingFormPersonRoleCodeProjectDirector", kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "KraRoutingFormPersonRoleCodeProjectDirector"));
+        }
+        
+        return systemParametersMap;
     }
 }

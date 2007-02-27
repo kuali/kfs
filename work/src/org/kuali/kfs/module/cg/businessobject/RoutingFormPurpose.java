@@ -14,12 +14,26 @@ public class RoutingFormPurpose extends PersistableBusinessObjectBase {
 	private String documentNumber;
 	private String purposeCode;
 
+    private Purpose purpose;
+    
 	/**
 	 * Default constructor.
 	 */
 	public RoutingFormPurpose() {
 
 	}
+    
+    /**
+     * Constructs a RoutingFormPurpose.
+     * @param documentNumber
+     * @param purpose
+     */
+    public RoutingFormPurpose(String documentNumber, Purpose purpose) {
+        this();
+        this.documentNumber = documentNumber;
+        this.purposeCode = purpose.getPurposeCode();
+        this.purpose = purpose;
+    }
 
 	/**
 	 * Gets the documentNumber attribute.
@@ -62,6 +76,21 @@ public class RoutingFormPurpose extends PersistableBusinessObjectBase {
 		this.purposeCode = purposeCode;
 	}
 
+    /**
+     * Gets the purpose attribute.
+     * @return Returns the purpose
+     */
+    public Purpose getPurpose() {
+        return purpose;
+    }
+
+    /**
+     * Sets the purpose attribute.
+     * @param purpose The purpose to set.
+     */
+    public void setPurpose(Purpose purpose) {
+        this.purpose = purpose;
+    }
 
 	/**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()

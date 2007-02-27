@@ -14,6 +14,8 @@ public class RoutingFormResearchTypeCode extends PersistableBusinessObjectBase {
 	private String documentNumber;
 	private String researchTypeCode;
 
+    private ResearchTypeCode researchType;
+    
 	/**
 	 * Default constructor.
 	 */
@@ -21,6 +23,18 @@ public class RoutingFormResearchTypeCode extends PersistableBusinessObjectBase {
 
 	}
 
+    /**
+     * Constructs a RoutingFormResearchTypeCode.
+     * @param documentNumber
+     * @param researchType
+     */
+    public RoutingFormResearchTypeCode(String documentNumber, ResearchTypeCode researchType) {
+        this();
+        this.documentNumber = documentNumber;
+        this.researchTypeCode = researchType.getResearchTypeCode();
+        this.researchType = researchType;
+    }
+    
 	/**
 	 * Gets the documentNumber attribute.
 	 * 
@@ -62,6 +76,21 @@ public class RoutingFormResearchTypeCode extends PersistableBusinessObjectBase {
 		this.researchTypeCode = researchTypeCode;
 	}
 
+    /**
+     * Gets the researchType attribute.
+     * @return Returns the researchType
+     */
+    public ResearchTypeCode getResearchType() {
+        return researchType;
+    }
+
+    /**
+     * Sets the researchType attribute.
+     * @param researchType The researchType to set.
+     */
+    public void setResearchType(ResearchTypeCode researchType) {
+        this.researchType = researchType;
+    }
 
 	/**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()

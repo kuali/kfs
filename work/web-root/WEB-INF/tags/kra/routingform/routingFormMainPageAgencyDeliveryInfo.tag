@@ -68,7 +68,11 @@
                     <html:hidden property="document.routingFormAgency.routingFormDueDateTypes[${status.index}].versionNumber" />
                     <html:hidden property="document.routingFormAgency.routingFormDueDateTypes[${status.index}].dueDateType.dueDateDescription" />
 	              </c:forEach>
-                  <html:select property="document.routingFormAgency.routingFormDueDateTypeCode" disabled="${viewOnly}">
+                  <kul:checkErrors keyMatch="document.routingFormAgency.routingFormDueDateTypeCode" auditMatch="document.routingFormAgency.routingFormDueDateTypeCode"/>
+				  <c:if test="${hasErrors==true}">
+				    <c:set var="routingFormDueDateTypeCodeTextStyle" value="background-color: red"/>
+				  </c:if>
+                  <html:select property="document.routingFormAgency.routingFormDueDateTypeCode" style="${routingFormDueDateTypeCodeTextStyle}" disabled="${viewOnly}">
                     <html:option value="">select:</html:option>
                     <c:set var="routingFormDueDateTypes" value="${KualiForm.document.routingFormAgency.routingFormDueDateTypes}"/>
                     <html:options collection="routingFormDueDateTypes" property="dueDateTypeCode" labelProperty="dueDateType.dueDateDescription"/>

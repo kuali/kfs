@@ -46,10 +46,13 @@ import org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent;
 import org.kuali.module.kra.routingform.bo.RoutingFormOtherCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
 import org.kuali.module.kra.routingform.bo.RoutingFormProjectType;
+import org.kuali.module.kra.routingform.bo.RoutingFormPurpose;
 import org.kuali.module.kra.routingform.bo.RoutingFormQuestion;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
+import org.kuali.module.kra.routingform.bo.RoutingFormResearchTypeCode;
 import org.kuali.module.kra.routingform.bo.RoutingFormStatus;
 import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
+import org.kuali.module.kra.routingform.bo.RoutingFormSubmissionType;
 import org.kuali.module.kra.routingform.bo.SubmissionType;
 
 /**
@@ -126,6 +129,9 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private List<RoutingFormOrganizationCreditPercent> routingFormOrganizationCreditPercents;
     private List<RoutingFormQuestion> routingFormQuestions;
     private List<RoutingFormOrganization> routingFormOrganizations;
+    private List<RoutingFormSubmissionType> routingFormSubmissionTypes;
+    private List<RoutingFormResearchTypeCode> routingFormResearchTypeCodes;
+    private List<RoutingFormPurpose> routingFormPurposes;
     private List<RoutingFormProjectType> routingFormProjectTypes;
     
     private List<RoutingFormAdHocPerson> routingFormAdHocPeople;
@@ -154,6 +160,9 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         routingFormOrganizationCreditPercents = new TypedArrayList(RoutingFormOrganizationCreditPercent.class);
         routingFormQuestions = new ArrayList<RoutingFormQuestion>();
         routingFormOrganizations = new ArrayList<RoutingFormOrganization>();
+        routingFormSubmissionTypes = new TypedArrayList(RoutingFormSubmissionType.class);
+        routingFormResearchTypeCodes = new TypedArrayList(RoutingFormResearchTypeCode.class);
+        routingFormPurposes = new TypedArrayList(RoutingFormPurpose.class);
         routingFormProjectTypes = new TypedArrayList(RoutingFormProjectType.class);
         
         routingFormAdHocPeople = new ArrayList<RoutingFormAdHocPerson>();
@@ -165,6 +174,9 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         this.setRoutingFormCreateDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
         
         SpringServiceLocator.getDueDateTypeService().setupRoutingFormDueDateTypes(this);
+        SpringServiceLocator.getSubmissionTypeService().setupRoutingFormSubmissionTypes(this);
+        SpringServiceLocator.getPurposeService().setupRoutingFormPurposes(this);
+        SpringServiceLocator.getResearchTypeCodeService().setupRoutingFormResearchTypeCodes(this);
     }
 
     @Override
@@ -1675,10 +1687,66 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         this.routingFormOrganizations = routingFormOrganizations;
     }
     
+    /**
+     * Gets the routingFormPurposes attribute. 
+     * @return Returns the routingFormPurposes.
+     */
+    public List<RoutingFormPurpose> getRoutingFormPurposes() {
+        return routingFormPurposes;
+    }
+
+    /**
+     * Sets the routingFormPurposes attribute value.
+     * @param routingFormPurposes The routingFormPurposes to set.
+     */
+    public void setRoutingFormPurposes(List<RoutingFormPurpose> routingFormPurposes) {
+        this.routingFormPurposes = routingFormPurposes;
+    }
+
+    /**
+     * Gets the routingFormResearchTypeCodes attribute. 
+     * @return Returns the routingFormResearchTypeCodes.
+     */
+    public List<RoutingFormResearchTypeCode> getRoutingFormResearchTypeCodes() {
+        return routingFormResearchTypeCodes;
+    }
+
+    /**
+     * Sets the routingFormResearchTypeCodes attribute value.
+     * @param routingFormResearchTypeCodes The routingFormResearchTypeCodes to set.
+     */
+    public void setRoutingFormResearchTypeCodes(List<RoutingFormResearchTypeCode> routingFormResearchTypeCodes) {
+        this.routingFormResearchTypeCodes = routingFormResearchTypeCodes;
+    }
+
+    /**
+     * Gets the routingFormSubmissionTypes attribute. 
+     * @return Returns the routingFormSubmissionTypes.
+     */
+    public List<RoutingFormSubmissionType> getRoutingFormSubmissionTypes() {
+        return routingFormSubmissionTypes;
+    }
+
+    /**
+     * Sets the routingFormSubmissionTypes attribute value.
+     * @param routingFormSubmissionTypes The routingFormSubmissionTypes to set.
+     */
+    public void setRoutingFormSubmissionTypes(List<RoutingFormSubmissionType> routingFormSubmissionTypes) {
+        this.routingFormSubmissionTypes = routingFormSubmissionTypes;
+    }
+
+    /**
+     * Gets the routingFormProjectTypes attribute. 
+     * @return Returns the routingFormProjectTypes.
+     */
     public List<RoutingFormProjectType> getRoutingFormProjectTypes() {
         return routingFormProjectTypes;
     }
 
+    /**
+     * Sets the routingFormProjectTypes attribute value.
+     * @param routingFormProjectTypes The routingFormProjectTypes to set.
+     */
     public void setRoutingFormProjectTypes(List<RoutingFormProjectType> routingFormProjectTypes) {
         this.routingFormProjectTypes = routingFormProjectTypes;
     }

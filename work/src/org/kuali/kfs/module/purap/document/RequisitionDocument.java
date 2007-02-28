@@ -72,7 +72,9 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         SourceDocumentReference sourceDocumentReference = new SourceDocumentReference();
         
         sourceDocumentReference.setSourceDocumentIdentifier(this.getIdentifier());
-        sourceDocumentReference.setSourceFinancialDocumentTypeCode("REQ");
+        String documentTypeName = SpringServiceLocator.getDataDictionaryService().getDocumentTypeNameByClass(this.getClass());
+        String documentTypeCode = SpringServiceLocator.getDataDictionaryService().getDocumentTypeCodeByTypeName(documentTypeName);
+        sourceDocumentReference.setSourceFinancialDocumentTypeCode(documentTypeCode);
         // This line is giving this error:
         /*
         javax.servlet.ServletException: OJB operation; SQL []; ORA-01400: cannot insert NULL into ("KULDEV"."PUR_SRC_DOC_REF_T"."SRC_DOC_OBJ_ID")

@@ -133,7 +133,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
             return false;
         }
         
-        // Make sure the employye does not have any pending salary transfers
+        // Make sure the employee does not have any pending salary transfers
         if (!validatePendingSalaryTransfer(emplid))
             return false;
         

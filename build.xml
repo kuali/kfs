@@ -247,13 +247,6 @@
 			<fileset dir="${appserver.lib.dir}" includes="${workflow.appserver.library.list}" />
 		</delete>
 		<delete dir="${workflow.embedded.webapp.directory}" failonerror="false"/>
-		<!-- todo: remove -->
-		<delete failonerror="false">
-			<fileset dir="${appserver.localhost.dir}" includes="${workflow.application}-*" />
-		</delete>
-		<delete failonerror="false" includeemptydirs="true">
-		    <fileset dir="${appserver.deploy.dir}" includes="${workflow.application}-*/**" />
-		</delete>
 	</target>
 	
 	<target name="filter-project-log4j" unless="use.p6spy.local" depends="init-filter-sets">

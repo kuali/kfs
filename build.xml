@@ -5,14 +5,12 @@
 		<copy file="${metainf.directory}/${tomcat.context.file}" tofile="${appserver.localhost.dir}/${ant.project.name}-${build.environment}.xml" overwrite="true" />
 	</target>
 
+	<target name="test-local" depends="dist-local,make-tests,test" description="Run all unit tests and format results"/>
+
 	<target name="echo-properties" depends="init-filter-sets" description="Print all build properties that have been set">
 		<echoproperties />
 	</target>
 	
-	<target name="dist-test-local" depends="dist-local,make-tests" description="Prepare local configuration and tokenized resources and compile tests on a development workstation" />
-	
-	<target name="test-local" depends="init-project-properties,test" description="Run all unit tests and format results"/>
-
 	<target name="clean" depends="clean-project,clean-local,clean-workflow-local" description="Remove all build output" />
 
 	<target name="init-user-properties">
@@ -83,6 +81,9 @@
 		<property name="base.htdocs.url" value="${test.environment.url}" />
 		<property name="htdocs.url" value="${base.htdocs.url}${ant.project.name}/${build.environment}/" />
 		<property name="base.cas.url" value="${test.environment.url}" />
+		<condition property="driver.class" value="${p6spy.driver.class}">
+			<equals arg1="${use.p6spy.local}" arg2="true"/>
+		</condition>
 		<property name="driver.class" value="${oracle.driver.class}" />
 		<condition property="appenders" value="INFO, LogFile, StdOut">
 			<equals arg1="${is.local.build}" arg2="true" />
@@ -498,14 +499,12 @@
 			or make a change that you want to apply to the application workflow plugin
 			- tomcat should not be running when you are executing this target
 			
-			echo-properties: executes ant echoproperties task, thereby printing out all the properties that have been set
-
-			dist-test-local: runs dist-local and make-tests to prepare for running the tests locally without disturbing cas and workflow, if they
-			are running in tomcat locally
-			
 			test-local: runs all project tests and generates results
-			- you should run dist-test-local before running this target, if the criteria listed above for runinng dist-local are met
-			- if you are running cas or workflow locally, you need to start tomcat after running dist-test-local and before running this target
+             - criteria for running dist-local must be met before running this target
+			- you can customize the set of tests that run by modifying the value of tests.includes in ${user.home}\${ant.project.name}-build.propertie
+			- tomcat should not be running when you execute this target
+			
+			echo-properties: executes ant echoproperties task, thereby printing out all the properties that have been set
 			
 			clean: removes all build output
 		</echo>

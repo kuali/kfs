@@ -15,8 +15,10 @@
  */
 package org.kuali.module.budget.document.authorization;
 
+import org.kuali.core.document.authorization.DocumentAuthorizerBase;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 
-public class BudgetConstructionDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
-
+//public class BudgetConstructionDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
+public class BudgetConstructionDocumentAuthorizer extends DocumentAuthorizerBase {
+    
 }

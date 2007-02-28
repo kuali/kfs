@@ -117,7 +117,13 @@
 			<ref bean="kualiConfigurationService"/>
 		</property>
 	</bean>
-
+	
+	<bean id="taxNumberService" class="org.kuali.module.purap.service.impl.TaxNumberServiceImpl">
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService"/>
+		</property>
+	</bean>
+	
 	<bean id="purchaseOrderDao" class="org.kuali.module.purap.dao.ojb.PurchaseOrderDaoOjb">
 		<property name="jcdAlias">
 			<value>dataSource</value>

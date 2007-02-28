@@ -36,7 +36,7 @@
           </c:choose>
           &nbsp;&nbsp;${projectType.projectTypeDescription}
         </label>
-        <c:if test="${projectType.projectTypeCode eq KraConstants.PROJECT_TYPE_OTHER}">
+        <c:if test="${projectType.projectTypeCode eq KualiForm.systemParametersMap[KraConstants.PROJECT_TYPE_OTHER]}">
           &nbsp;<kul:htmlControlAttribute property="document.projectTypeOtherDescription" attributeEntry="${routingFormAttributes.projectTypeOtherDescription}" readOnly="${viewOnly}"/>
         </c:if>
       </td>

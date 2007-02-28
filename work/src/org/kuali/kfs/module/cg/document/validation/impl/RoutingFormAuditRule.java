@@ -242,6 +242,10 @@ public class RoutingFormAuditRule {
         final String PROJECT_TYPE_TIME_EXTENTION = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "KraRoutingFormProjectTypeTimeExtention");
         final String PROJECT_TYPE_BUDGET_REVISION_ACTIVE = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "KraRoutingFormProjectTypeBudgetRevisionActive");
         final String PROJECT_TYPE_BUDGET_REVISION_PENDING = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "KraRoutingFormProjectTypeBudgetRevisionPending");
+        final String SUBMISSION_TYPE_CHANGE = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.SUBMISSION_TYPE_CHANGE);
+        final String PROJECT_TYPE_OTHER = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.PROJECT_TYPE_OTHER);
+        final String PURPOSE_RESEARCH = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.PURPOSE_RESEARCH);
+        final String PURPOSE_OTHER = kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.PURPOSE_OTHER);
         
         boolean valid = true;
         
@@ -249,7 +253,7 @@ public class RoutingFormAuditRule {
             valid = false;
             auditErrors.add(new AuditError("document.submissionTypeCode", KraKeyConstants.AUDIT_MAIN_PAGE_SUBMISSION_TYPE_REQUIRED, "mainpage.anchor3"));
         }
-        if (KraConstants.SUBMISSION_TYPE_CHANGE.equals(routingFormDocument.getSubmissionTypeCode()) && ObjectUtils.isNull(routingFormDocument.getPreviousFederalIdentifier())) {
+        if (SUBMISSION_TYPE_CHANGE.equals(routingFormDocument.getSubmissionTypeCode()) && ObjectUtils.isNull(routingFormDocument.getPreviousFederalIdentifier())) {
             valid = false;
             auditErrors.add(new AuditError("document.previousFederalIdentifier", KraKeyConstants.AUDIT_MAIN_PAGE_SUBMISSION_TYPE_FEDID_REQUIRED, "mainpage.anchor3"));
         }
@@ -279,7 +283,7 @@ public class RoutingFormAuditRule {
                     projectTypeBudgetRevisionActive = true;
                 } else if (routingFormProjectType.getProjectTypeCode().equals(PROJECT_TYPE_BUDGET_REVISION_PENDING)) {
                     projectTypeBudgetRevisionPending = true;
-                } else if (routingFormProjectType.getProjectTypeCode().equals(KraConstants.PROJECT_TYPE_OTHER)) {
+                } else if (routingFormProjectType.getProjectTypeCode().equals(PROJECT_TYPE_OTHER)) {
                     projectTypeOther = true;
                     
                     if (ObjectUtils.isNull(routingFormDocument.getProjectTypeOtherDescription())) {
@@ -326,12 +330,12 @@ public class RoutingFormAuditRule {
             auditErrors.add(new AuditError("document.routingFormPurposeCode", KraKeyConstants.AUDIT_MAIN_PAGE_PURPOSE_REQUIRED, "mainpage.anchor3"));
         }
 
-        if (KraConstants.PURPOSE_RESEARCH.equals(routingFormDocument.getRoutingFormPurposeCode()) && ObjectUtils.isNull(routingFormDocument.getResearchTypeCode())) {
+        if (PURPOSE_RESEARCH.equals(routingFormDocument.getRoutingFormPurposeCode()) && ObjectUtils.isNull(routingFormDocument.getResearchTypeCode())) {
             valid = false;
             auditErrors.add(new AuditError("document.researchTypeCode", KraKeyConstants.AUDIT_MAIN_PAGE_PURPOSE_RESEARCH_TYPE_REQUIRED, "mainpage.anchor3"));
         }
         
-        if (KraConstants.PURPOSE_OTHER.equals(routingFormDocument.getRoutingFormPurposeCode()) && ObjectUtils.isNull(routingFormDocument.getRoutingFormOtherPurposeDescription())) {
+        if (PURPOSE_OTHER.equals(routingFormDocument.getRoutingFormPurposeCode()) && ObjectUtils.isNull(routingFormDocument.getRoutingFormOtherPurposeDescription())) {
             valid = false;
             auditErrors.add(new AuditError("document.routingFormOtherPurposeDescription", KraKeyConstants.AUDIT_MAIN_PAGE_PURPOSE_OTHER_REQUIRED, "mainpage.anchor3"));
         }

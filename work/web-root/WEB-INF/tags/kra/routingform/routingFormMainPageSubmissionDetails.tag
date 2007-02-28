@@ -52,7 +52,7 @@
                       </c:choose>
 		              ${routingFormSubmissionType.submissionType.submissionTypeDescription}
 		            </label>
-		            <c:if test="${routingFormSubmissionType.submissionTypeCode eq KraConstants.SUBMISSION_TYPE_CHANGE}">
+		            <c:if test="${routingFormSubmissionType.submissionTypeCode eq KualiForm.systemParametersMap[KraConstants.SUBMISSION_TYPE_CHANGE]}">
 		              &nbsp;<kul:htmlControlAttribute property="document.previousFederalIdentifier" attributeEntry="${routingFormAttributes.previousFederalIdentifier}" readOnly="${viewOnly}"/>
 		            </c:if>
                   <br>
@@ -149,7 +149,7 @@
 		              ${routingFormPurpose.purpose.purposeDescription}
 		            </label>
 		            <c:choose>
-		              <c:when test="${routingFormPurpose.purposeCode eq KraConstants.PURPOSE_RESEARCH}">
+		              <c:when test="${routingFormPurpose.purposeCode eq KualiForm.systemParametersMap[KraConstants.PURPOSE_RESEARCH]}">
 		                <c:forEach items="${KualiForm.document.routingFormResearchTypeCodes}" var="routingFormResearchTypeCode" varStatus="status"> 
 		                  <html:hidden property="document.routingFormResearchTypeCodes[${status.index}].documentNumber" /> 
 		                  <html:hidden property="document.routingFormResearchTypeCodes[${status.index}].researchTypeCode" /> 
@@ -166,7 +166,7 @@
 		                  <html:options collection="routingFormResearchTypeCodes" property="researchTypeCode" labelProperty="researchType.researchTypeDescription"/> 
 		                </html:select>
 		              </c:when>
-		              <c:when test="${routingFormPurpose.purposeCode eq KraConstants.PURPOSE_OTHER}">
+		              <c:when test="${routingFormPurpose.purposeCode eq KualiForm.systemParametersMap[KraConstants.PURPOSE_OTHER]}">
 		                &nbsp;<kul:htmlControlAttribute property="document.routingFormOtherPurposeDescription" attributeEntry="${routingFormAttributes.routingFormOtherPurposeDescription}" readOnly="${viewOnly}"/>
 		              </c:when>
 		            </c:choose>

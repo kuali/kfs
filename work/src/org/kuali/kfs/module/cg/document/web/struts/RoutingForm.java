@@ -317,7 +317,10 @@ public class RoutingForm extends ResearchDocumentFormBase {
             systemParametersMap = new HashMap();
             
             KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
-            //systemParametersMap.put("KraRoutingFormPersonRoleCodeProjectDirector", kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "KraRoutingFormPersonRoleCodeProjectDirector"));
+            systemParametersMap.put(KraConstants.SUBMISSION_TYPE_CHANGE, kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.SUBMISSION_TYPE_CHANGE));
+            systemParametersMap.put(KraConstants.PROJECT_TYPE_OTHER, kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.PROJECT_TYPE_OTHER));
+            systemParametersMap.put(KraConstants.PURPOSE_RESEARCH, kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.PURPOSE_RESEARCH));
+            systemParametersMap.put(KraConstants.PURPOSE_OTHER, kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.PURPOSE_OTHER));
         }
         
         return systemParametersMap;

@@ -141,10 +141,10 @@ public class KraConstants extends JstlConstants {
     public static final String RESEARCH_RISK_STUDY_REVIEW_EXEMPT = "X";
     
     // Following are used in tags on Main Page.
-    public static final String SUBMISSION_TYPE_CHANGE = "C";
-    public static final String PROJECT_TYPE_OTHER = "O";
-    public static final String PURPOSE_RESEARCH = "C";
-    public static final String PURPOSE_OTHER = "F";
+    public static final String SUBMISSION_TYPE_CHANGE = "KraRoutingFormSubmissionTypeChange";
+    public static final String PROJECT_TYPE_OTHER = "KraRoutingFormProjectTypeOther";
+    public static final String PURPOSE_RESEARCH = "KraRoutingFormPurposeResearch";
+    public static final String PURPOSE_OTHER = "KraRoutingFormPurposeOther";
 
     public static class AuthorizationConstants extends org.kuali.core.authorization.AuthorizationConstants.EditMode {
         public static final String BUDGET_LINKED = "budgetLinked";

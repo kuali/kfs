@@ -15,6 +15,7 @@
  */
 package org.kuali.module.labor.rules;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
@@ -172,8 +173,9 @@ public class TransactionFieldValidator {
     }
 
     public Message checkTransactionDebitCreditCode(Transaction transaction) {
+        String[] validDebitCreditCode = {Constants.GL_BUDGET_CODE, Constants.GL_CREDIT_CODE, Constants.GL_DEBIT_CODE};
         String debitCreditCode = transaction.getTransactionDebitCreditCode();
-        if (StringUtils.isEmpty(debitCreditCode)) {
+        if (!ArrayUtils.contains(validDebitCreditCode, debitCreditCode)) {
             return buildErrorMessage(KeyConstants.ERROR_DEDIT_CREDIT_CODE_NOT_BE_NULL, Message.TYPE_FATAL);
         } 
         return null;

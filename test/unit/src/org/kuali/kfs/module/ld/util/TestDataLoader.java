@@ -31,7 +31,7 @@ import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
 import org.kuali.module.labor.bo.PendingLedgerEntry;
 import org.kuali.module.labor.service.LaborGeneralLedgerEntryService;
-import org.kuali.module.labor.util.testobject.PendingLedgerEntryForTest;
+import org.kuali.module.labor.util.testobject.PendingLedgerEntryForTesting;
 import org.springframework.beans.factory.BeanFactory;
 
 public class TestDataLoader {
@@ -76,7 +76,7 @@ public class TestDataLoader {
         int count = 0;
         for (int i = 1; i <= numberOfInputData; i++) {
             String propertyKey = propertyKeyPrefix + i;
-            PendingLedgerEntryForTest inputData = new PendingLedgerEntryForTest();
+            PendingLedgerEntryForTesting inputData = new PendingLedgerEntryForTesting();
             ObjectUtil.populateBusinessObject(inputData, properties, propertyKey, fieldLength, keyFieldList);
             
             if(businessObjectService.countMatching(PendingLedgerEntry.class, inputData.getPrimaryKeyMap())<=0){
@@ -92,7 +92,7 @@ public class TestDataLoader {
         List inputDataList = new ArrayList();
         for (int i = 1; i <= numberOfInputData; i++) {
             String propertyKey = propertyKeyPrefix + i;
-            PendingLedgerEntryForTest inputData = new PendingLedgerEntryForTest();
+            PendingLedgerEntryForTesting inputData = new PendingLedgerEntryForTesting();
             ObjectUtil.populateBusinessObject(inputData, properties, propertyKey, fieldLength, keyFieldList);
             
             if(!inputDataList.contains(inputData)){

@@ -104,9 +104,6 @@ public class LaborReportServiceTest extends KualiTestBase {
         LaborOriginEntry cleanup = new LaborOriginEntry();
         ObjectUtil.populateBusinessObject(cleanup, properties, "dataCleanup", fieldNames, deliminator);
         fieldValues = ObjectUtil.buildPropertyMap(cleanup, Arrays.asList(StringUtils.split(fieldNames, deliminator)));
-        fieldValues.remove(PropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER);
-        fieldValues.remove(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        fieldValues.remove(PropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE);
         businessObjectService.deleteMatching(LaborOriginEntry.class, fieldValues);
     }
 

@@ -33,6 +33,7 @@ import org.kuali.module.purap.bo.VendorDetail;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.document.PurchasingDocumentBase;
 import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.module.purap.service.PhoneNumberService;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
 
 /**
@@ -44,8 +45,14 @@ public class PurchasingActionBase extends KualiTransactionalDocumentActionBase {
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase baseForm = (PurchasingFormBase) form;
         PurchasingDocumentBase document = (PurchasingDocumentBase)baseForm.getDocument();
-        BusinessObjectService businessObjectService = SpringServiceLocator.getBusinessObjectService();
         String refreshCaller = baseForm.getRefreshCaller();
+        BusinessObjectService businessObjectService = SpringServiceLocator.getBusinessObjectService();        
+        PhoneNumberService phoneNumberService = SpringServiceLocator.getPhoneNumberService();
+        
+        // Format phone numbers        
+        document.setInstitutionContactPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getInstitutionContactPhoneNumber()));    
+        document.setRequestorPersonPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getRequestorPersonPhoneNumber()));    
+        document.setDeliveryToPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getDeliveryToPhoneNumber()));
         
         //Set a few fields on the delivery tag in a data-dependent manner (KULPURAP-260).
         if (!( ObjectUtils.nullSafeEquals( refreshCaller, Constants.KUALI_LOOKUPABLE_IMPL ) ||

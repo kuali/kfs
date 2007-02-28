@@ -31,8 +31,10 @@ import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.bo.VendorDetail;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.PhoneNumberService;
 import org.kuali.module.purap.web.struts.form.PurchaseOrderForm;
+import org.kuali.module.purap.web.struts.form.RequisitionForm;
 
 /**
  * This class handles specific Actions requests for the Requisition.
@@ -67,14 +69,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         String newStipulation = request.getParameter("document.vendorStipulationDescription");
         if (StringUtils.isNotEmpty(newStipulation)) {
             poForm.getNewPurchaseOrderVendorStipulationLine().setVendorStipulationDescription(newStipulation);
-        }
-        PhoneNumberService phoneNumberService = SpringServiceLocator.getPhoneNumberService();
-
-        // Format phone numbers
-        document.setInstitutionContactPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getInstitutionContactPhoneNumber()));    
-        document.setRequestorPersonPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getRequestorPersonPhoneNumber()));    
-        document.setDeliveryToPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getDeliveryToPhoneNumber()));    
- 
+        }    
         return super.refresh(mapping, form, request, response);
     }
 

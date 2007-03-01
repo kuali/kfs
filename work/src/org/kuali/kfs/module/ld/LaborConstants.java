@@ -51,6 +51,13 @@ public class LaborConstants {
         public static final String SELECT = "select";
     }
     
+    public static class DestinationNames{
+        public static final String LEDGER_BALANCE = "LD_LEDGER_BALANCE_T";
+        public static final String LEDGER_ENRTY   = "LD_LEDGER_ENTRY_T";
+        public static final String LABOR_GL_ENTRY = "LD_LABOR_GL_ENTRY_T";
+        public static final String ORIGN_ENTRY    = "LD_ORIGIN_ENTRY_T";
+    }
+    
     public static List<String> consolidationAttributesOfOriginEntry() {
         List<String> consolidationAttributes = new ArrayList<String>();
 

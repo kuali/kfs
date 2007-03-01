@@ -190,8 +190,8 @@
         <property name="laborLedgerEntryPoster">
             <ref bean="laborLedgerEntryPoster" />
         </property>
-        <property name="laborBalancePoster">
-            <ref bean="laborBalancePoster" />
+        <property name="laborLedgerBalancePoster">
+            <ref bean="laborLedgerBalancePoster" />
         </property>
         <property name="laborGLLedgerEntryPoster">
             <ref bean="laborGLLedgerEntryPoster" />
@@ -213,7 +213,7 @@
         </property>
     </bean>
 
-    <bean id="laborBalancePoster" class="org.kuali.module.labor.batch.poster.impl.LaborBalancePoster">
+    <bean id="laborLedgerBalancePoster" class="org.kuali.module.labor.batch.poster.impl.LaborLedgerBalancePoster">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
         </property>

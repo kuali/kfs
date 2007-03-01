@@ -18,6 +18,7 @@ package org.kuali.module.labor.service.impl;
 import static org.kuali.module.gl.bo.OriginEntrySource.LABOR_MAIN_POSTER_ERROR;
 import static org.kuali.module.gl.bo.OriginEntrySource.LABOR_MAIN_POSTER_VALID;
 import static org.kuali.module.gl.bo.OriginEntrySource.LABOR_SCRUBBER_VALID;
+import static org.kuali.module.labor.LaborConstants.DestinationNames.ORIGN_ENTRY;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -29,8 +30,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.kuali.Constants;
-import org.kuali.KeyConstants;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.module.gl.batch.poster.PostTransaction;
@@ -40,6 +39,7 @@ import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.util.Message;
 import org.kuali.module.gl.util.Summary;
+import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.LaborConstants.OperationType;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.service.LaborOriginEntryService;
@@ -66,13 +66,12 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     private KualiConfigurationService kualiConfigurationService;
 
     private PostTransaction laborLedgerEntryPoster;
-    private PostTransaction laborBalancePoster;
+    private PostTransaction laborLedgerBalancePoster;
     private PostTransaction laborGLLedgerEntryPoster;
 
     private String reportsDirectory;
     private final static int STEP = 1;
     private final static int LINE_INTERVAL = 2;
-    private final static String ORIGN_ENTRY_TABLE = "Labor_Origin_Entry_T";
 
     // TODO: need to be put into application parameter table
     public final static String[] OBJECTS_NOT_PROCESSED = { "5760" };
@@ -122,9 +121,13 @@ public class LaborPosterServiceImpl implements LaborPosterService {
                 
                 // post the current origin entry as a valid origin entry, ledger entry and ledger balance
                 postAsProcessedOriginEntry(originEntry, validGroup, runDate);
-                postAsLaborLedgerEntry(originEntry, runDate, reportSummary);
-                updateLaborLedgerBalance(originEntry, runDate, reportSummary);       
-
+                
+                String operationOnLedgerEntry = postAsLaborLedgerEntry(originEntry, runDate);
+                this.updateReportSummary(reportSummary, laborLedgerEntryPoster.getDestinationName(), operationOnLedgerEntry, STEP, 0);
+                
+                String operationOnLedgerBalance = updateLaborLedgerBalance(originEntry, runDate);       
+                this.updateReportSummary(reportSummary, laborLedgerBalancePoster.getDestinationName(), operationOnLedgerBalance, STEP, 0);
+                
                 numberOfOriginEntry++;
             }
             
@@ -132,7 +135,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
             entryGroup.setProcess(Boolean.FALSE);
             originEntryGroupService.save(entryGroup);
         }
-        updateReportSummary(reportSummary, ORIGN_ENTRY_TABLE, OperationType.SELECT, numberOfOriginEntry, 0);
+        this.updateReportSummary(reportSummary, ORIGN_ENTRY, OperationType.SELECT, numberOfOriginEntry, 0);
         reportService.generatePosterStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_STATISTICS, reportsDirectory, runDate);
         
         reportService.generatePosterInputSummaryReport(postingGroups, ReportRegistry.LABOR_POSTER_INPUT, reportsDirectory, runDate);
@@ -164,15 +167,13 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     }
 
     // post the given entry to the labor entry table
-    private void postAsLaborLedgerEntry(LaborOriginEntry originEntry, Date postDate, List<Summary> reportSummary) {
-        String operationType = laborLedgerEntryPoster.post(originEntry, 0, postDate);
-        this.updateReportSummary(reportSummary, laborLedgerEntryPoster.getDestinationName(), operationType, STEP, 0);
+    private String postAsLaborLedgerEntry(LaborOriginEntry originEntry, Date postDate) {
+        return laborLedgerEntryPoster.post(originEntry, 0, postDate);
     }
 
     // update the labor ledger balance for the given entry
-    private void updateLaborLedgerBalance(LaborOriginEntry originEntry, Date postDate, List<Summary> reportSummary) {
-        String operationType = laborBalancePoster.post(originEntry, 0, postDate);
-        this.updateReportSummary(reportSummary, laborBalancePoster.getDestinationName(), operationType, STEP, 0);
+    private String updateLaborLedgerBalance(LaborOriginEntry originEntry, Date postDate) {
+        return laborLedgerBalancePoster.post(originEntry, 0, postDate);
     }
 
     // post the valid origin entries in the given group into General Ledger
@@ -194,7 +195,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
             
             numberOfOriginEntry++;
         }
-        updateReportSummary(reportSummary, ORIGN_ENTRY_TABLE, OperationType.SELECT, numberOfOriginEntry, 0);
+        updateReportSummary(reportSummary, ORIGN_ENTRY, OperationType.SELECT, numberOfOriginEntry, 0);
         reportService.generatePosterStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_GL_SUMMARY, reportsDirectory, runDate);
     }
 
@@ -222,7 +223,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
         reportSummary.add(new Summary(reportSummary.size() + LINE_INTERVAL, "", 0));
 
-        destination = laborBalancePoster.getDestinationName();
+        destination = laborLedgerBalancePoster.getDestinationName();
         reportSummary.addAll(buildDefualtReportSummary(destination, reportSummary.size() + LINE_INTERVAL));
 
         return reportSummary;
@@ -286,11 +287,11 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     }
 
     /**
-     * Sets the laborBalancePoster attribute value.
-     * @param laborBalancePoster The laborBalancePoster to set.
+     * Sets the laborLedgerBalancePoster attribute value.
+     * @param laborLedgerBalancePoster The laborLedgerBalancePoster to set.
      */
-    public void setLaborBalancePoster(PostTransaction laborBalancePoster) {
-        this.laborBalancePoster = laborBalancePoster;
+    public void setLaborLedgerBalancePoster(PostTransaction laborLedgerBalancePoster) {
+        this.laborLedgerBalancePoster = laborLedgerBalancePoster;
     }
 
     /**

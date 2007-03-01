@@ -28,9 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class LaborLedgerEntryPoster implements PostTransaction {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerEntryPoster.class);
-    public static final String DESTINATION_NAME = "LD_LEDGER_ENTRY_T";
-    
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerEntryPoster.class);    
     private LaborLedgerEntryService laborLedgerEntryService;
 
     /**
@@ -52,7 +50,7 @@ public class LaborLedgerEntryPoster implements PostTransaction {
      * @see org.kuali.module.gl.batch.poster.PostTransaction#getDestinationName()
      */
     public String getDestinationName() {
-        return DESTINATION_NAME;
+        return LaborConstants.DestinationNames.LEDGER_ENRTY;
     }
 
     /**

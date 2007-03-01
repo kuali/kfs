@@ -33,6 +33,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.UrlFactory;
@@ -178,12 +179,34 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         
     }
 
+    /**
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // TODO Auto-generated method stub
+        //return super.save(mapping, form, request, response);
+        BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
+        BudgetConstructionDocument bcDocument = (BudgetConstructionDocument) budgetConstructionForm.getDocument();
+        DocumentService documentService = SpringServiceLocator.getDocumentService();
+        
+        // TODO for now just do trivial save eventually need to add validation, routelog stuff, etc
+        documentService.updateDocument(bcDocument);
+
+        // TODO this should eventually be set to return to AccountSelect
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
     public ActionForward performMonthlyBudget(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         final String docNumber;
         
-        // do validate, save, etc first then goto the monthly screen or redisplay if errors
+        // TODO do validate, save, etc first then goto the monthly screen or redisplay if errors
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
         BudgetConstructionDocument bcDocument = (BudgetConstructionDocument) budgetConstructionForm.getDocument();
+        DocumentService documentService = SpringServiceLocator.getDocumentService();
+        
+        // TODO for now just save, need to fixup QueryCustomizer for PBGL first
+        //documentService.updateDocument(bcDocument);
         
         int selectedIndex = this.getSelectedLine(request);
 

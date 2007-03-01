@@ -41,9 +41,10 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Default constructor.
+     * Constructor from RoutingFormDocument.
      */
     public ProposalProjectDirector(RoutingFormPersonnel routingFormProjectDirector, Long proposalNumber, boolean primaryProjectDirector) {
+        // todo: not set proposalNumber?  Doesn't OJB do this automatically?
         this.setProposalNumber(proposalNumber);
         this.setPersonUniversalIdentifier(routingFormProjectDirector.getPersonSystemIdentifier());
         this.setProposalPrimaryProjectDirectorIndicator(primaryProjectDirector);

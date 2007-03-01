@@ -121,7 +121,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
 
         if (!FringeOrSalaryCode.equals("S")) {
             LOG.info("FringeOrSalaryCode not equal S");
-              reportError(PropertyConstants.ACCOUNT, KeyConstants.Labor.FRINGE_OR_SALARY_CODE_MISSING_ERROR, accountingLine.getAccountNumber());
+              reportError(PropertyConstants.ACCOUNT, KeyConstants.Labor.INVALID_SALARY_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
             return false;
         }            
             

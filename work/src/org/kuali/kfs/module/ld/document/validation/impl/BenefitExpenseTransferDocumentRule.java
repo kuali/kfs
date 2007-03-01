@@ -15,14 +15,26 @@
  */
 package org.kuali.module.labor.rules;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.kuali.Constants;
+import org.kuali.KeyConstants;
+import org.kuali.PropertyConstants;
+import org.kuali.core.util.ErrorMap;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
+import org.kuali.module.chart.bo.AccountingPeriod;
+import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
+import org.kuali.module.labor.bo.LaborObject;
+import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 
 /**
  * Business rule(s) applicable to Benefit Expense Transfer documents.
@@ -36,6 +48,102 @@ public class BenefitExpenseTransferDocumentRule extends AccountingDocumentRuleBa
     
     protected boolean AddAccountingLineBusinessRules(AccountingDocument accountingDocument, AccountingLine accountingLine) {
         return processCustomAddAccountingLineBusinessRules(accountingDocument, accountingLine);
+    }
+    
+    /** 
+     * The following criteria will be validated here:
+     * Account must be valid.
+     * Object code must be valid.
+     * Object code must be a labor object code.
+            Object code must exist in the ld_labor_obj_t table.
+            The field finobj_frngslry_cd for the object code in the ld_labor_obj_t table must have a value of "S".
+     * Sub-account, if specified, must be valid for account.
+     * Sub-object, if specified, must be valid for account and object code.
+     * Enforce the A21-report-related business rules for the "SAVE" action.
+     * Position must be valid for fiscal year. FIS enforces this by a direct lookup of the PeopleSoft HRMS position data table. Kuali cannot do this. (See issue 12.)
+     * Employee ID exists.
+     * Employee does not have pending salary transfers.
+     * Amount must not be zero. 
+     * --------------------------------------------------------------------------------------------------------
+     * Only fringe benefit labor object codes are allowed on this document.
+     * The document must have at least one “FROM” segment and one “TO” segment.
+     * The total amount on the “FROM” side must equal the total amount on the “TO” side.
+     * Transfers cannot be made between two different fringe benefit labor object codes. Only the “Account” and “Amount” fields may be edited in the “TO” zone.
+     * The Justification field is required and should include as much pertinent detail as possible.
+     * The Fiscal Year field on this eDoc is used differently as compared to other TP documents. In the Benefit Transfer document, this field is used to load the appropriate data onto the Labor Ledger Balance screen.
+     * Pending Ledger Entries are created immediately as part of the routing process. In addition to creating pending entries with a balance type of “AC” the Benefit Transfer document requires that a pending entry be created with a balance type of “A2”.
+     * Only allow a transfer of benefit dollars up to the amount that already exist in the labor ledger detail for a given pay period.
+     * Check must exist that verifies the “TO” account accepts fringes. If no benefits allowed provide error message. Allow an override flag to allow the fringe to be transferred to the account.
+     * Allow a negative amount to be moved from one account to another but do not allow a negative amount to be created when the balance is positive.
+
+
+     * 
+     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.TransactionalDocument,
+     *      org.kuali.core.bo.AccountingLine)
+     *      
+     * @param TransactionalDocument
+     * @param AccountingLine
+     * @return
+   */
+    @Override
+    protected boolean processCustomAddAccountingLineBusinessRules(AccountingDocument accountingDocument, AccountingLine accountingLine) {
+
+        // Retrieve the labor object code to make sure it is fringe. 
+        // It must have a value of "F".
+        
+        ErrorMap errorMap = GlobalVariables.getErrorMap();
+        Map fieldValues = new HashMap();
+        fieldValues.put("financialObjectCode", accountingLine.getFinancialObjectCode().toString());
+        ArrayList laborObjects = (ArrayList) SpringServiceLocator.getBusinessObjectService().findMatching(LaborObject.class, fieldValues);
+        if (laborObjects.size() == 0) {
+            reportError(PropertyConstants.ACCOUNT, KeyConstants.Labor.LABOR_OBJECT_MISSING_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
+            return false;
+        }
+        LaborObject laborObject = (LaborObject) laborObjects.get(0);    
+        String FringeOrSalaryCode = laborObject.getFinancialObjectFringeOrSalaryCode();
+
+        if (!FringeOrSalaryCode.equals("F")) {
+            LOG.info("FringeOrSalaryCode not equal F");
+              reportError(PropertyConstants.ACCOUNT, KeyConstants.Labor.INVALID_FRINGE_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
+            return false;
+        }            
+        
+        // Transfers cannot be made between two different fringe benefit labor object codes. Only the “Account” and “Amount” fields may be edited in the “TO” zone.
+            
+        // Validate that an employee ID is enterred.
+        SalaryExpenseTransferDocument salaryExpenseTransferDocument = (SalaryExpenseTransferDocument)accountingDocument;
+        String emplid = salaryExpenseTransferDocument.getEmplid();
+        if ((emplid == null) || (emplid.trim().length() == 0)) {
+            reportError(Constants.EMPLOYEE_LOOKUP_ERRORS,KeyConstants.Labor.MISSING_EMPLOYEE_ID, emplid);
+            return false;
+        }
+        
+        // Make sure the employee does not have any pending salary transfers
+//        if (!validatePendingSalaryTransfer(emplid))
+  //          return false;
+        
+        // Save the employee ID in all accounting related lines       
+        ExpenseTransferAccountingLine salaryExpenseTransferAccountingLine = (ExpenseTransferAccountingLine)accountingLine;
+        salaryExpenseTransferAccountingLine.setEmplid(emplid); 
+
+        // Validate the accounting year
+        fieldValues.clear();
+        fieldValues.put("universityFiscalYear", salaryExpenseTransferAccountingLine.getPayrollEndDateFiscalYear());
+        AccountingPeriod accountingPeriod = new AccountingPeriod();        
+        if (SpringServiceLocator.getBusinessObjectService().countMatching(AccountingPeriod.class, fieldValues) == 0) {
+            reportError(PropertyConstants.ACCOUNT,KeyConstants.Labor.INVALID_PAY_YEAR, emplid);
+            return false;
+        }
+        
+        // Validate the accounting period code
+        fieldValues.clear();
+        fieldValues.put("universityFiscalPeriodCode", salaryExpenseTransferAccountingLine.getPayrollEndDateFiscalPeriodCode());
+        accountingPeriod = new AccountingPeriod();        
+        if (SpringServiceLocator.getBusinessObjectService().countMatching(AccountingPeriod.class, fieldValues) == 0) {
+            reportError(PropertyConstants.ACCOUNT,KeyConstants.Labor.INVALID_PAY_PERIOD_CODE, emplid);
+            return false;
+        }
+        return true;
     }
     
 
@@ -65,24 +173,7 @@ public class BenefitExpenseTransferDocumentRule extends AccountingDocumentRuleBa
      * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.AccountingDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
-    public boolean isDebit(AccountingDocument accountingDocument, AccountingLine accountingLine) {
-        // only allow income or expense
-        /*if (!isIncome(accountingLine) && !isExpense(accountingLine)) {
-            throw new IllegalStateException(IsDebitUtils.isDebitCalculationIllegalStateExceptionMessage);
-        }
-        boolean isDebit = false;
-        if (accountingLine.isSourceAccountingLine()) {
-            isDebit = IsDebitUtils.isDebitConsideringNothingPositiveOnly(this, accountingDocument, accountingLine);
-        }
-        else if (accountingLine.isTargetAccountingLine()) {
-            isDebit = !IsDebitUtils.isDebitConsideringNothingPositiveOnly(this, accountingDocument, accountingLine);
-        }
-        else {
-            throw new IllegalStateException(IsDebitUtils.isInvalidLineTypeIllegalArgumentExceptionMessage);
-        }
-
-        return isDebit;*/
-        
+    public boolean isDebit(AccountingDocument accountingDocument, AccountingLine accountingLine) {           
         return true;
     }
 
@@ -94,25 +185,7 @@ public class BenefitExpenseTransferDocumentRule extends AccountingDocumentRuleBa
      */
     @Override
     protected boolean isDocumentBalanceValid(AccountingDocument accountingDocument) {
-        
-        /*
-        boolean isValid = super.isDocumentBalanceValid(accountingDocument);
-
-        TransferOfFundsDocument tofDoc = (TransferOfFundsDocument) accountingDocument;
-        // make sure accounting lines balance across mandatory and non-mandatory transfers
-        if (isValid) {
-            isValid = isMandatoryTransferTotalAndNonMandatoryTransferTotalBalanceValid(tofDoc);
-        }
-
-        // make sure accounting lines for a TOF balance across agency and clearing fund groups - IU specific
-        if (isValid) {
-            isValid = isFundGroupsBalanceValid(tofDoc);
-        }
-
-        return isValid;
-        */
-        
-        return true;
+         return true;
     }
     
 
@@ -180,78 +253,7 @@ public class BenefitExpenseTransferDocumentRule extends AccountingDocumentRuleBa
         return isValid;    
     }
     
-    /**
-     * This is a helper method that wraps the fund group balancing check. This check can be configured by updating the APC that is
-     * associated with this check. See the document's specification for details.
-     * 
-     * @param tofDoc
-     * @return boolean
-     */
-    /*private boolean isFundGroupsBalanceValid(TransferOfFundsDocument tofDoc) {
-        String[] fundGroupCodes = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValues(KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING, APPLICATION_PARAMETER.FUND_GROUP_BALANCING_SET);
-        return isFundGroupSetBalanceValid(tofDoc, fundGroupCodes);
-    }*/
-
-    /**
-     * This method checks the sum of all of the "From" accounting lines with mandatory transfer object codes against the sum of all
-     * of the "To" accounting lines with mandatory transfer object codes. In addition, it does the same, but for accounting lines
-     * with non-mandatory transfer object code. This is to enforce the rule that the document must balance within the object code
-     * object sub-type codes of mandatory transfers and non-mandatory transfers.
-     * 
-     * @param tofDoc
-     * @return True if they balance; false otherwise.
-     */
-    /*private boolean isMandatoryTransferTotalAndNonMandatoryTransferTotalBalanceValid(TransferOfFundsDocument tofDoc) {
-        List lines = new ArrayList();
-
-        lines.addAll(tofDoc.getSourceAccountingLines());
-        lines.addAll(tofDoc.getTargetAccountingLines());
-
-        // sum the from lines.
-        KualiDecimal mandatoryTransferFromAmount = new KualiDecimal(0);
-        KualiDecimal nonMandatoryTransferFromAmount = new KualiDecimal(0);
-        KualiDecimal mandatoryTransferToAmount = new KualiDecimal(0);
-        KualiDecimal nonMandatoryTransferToAmount = new KualiDecimal(0);
-
-        for (Iterator i = lines.iterator(); i.hasNext();) {
-            AccountingLine line = (AccountingLine) i.next();
-            String objectSubTypeCode = line.getObjectCode().getFinancialObjectSubTypeCode();
-
-            if (isNonMandatoryTransfersSubType(objectSubTypeCode)) {
-                if (line.isSourceAccountingLine()) {
-                    nonMandatoryTransferFromAmount = nonMandatoryTransferFromAmount.add(line.getAmount());
-                }
-                else {
-                    nonMandatoryTransferToAmount = nonMandatoryTransferToAmount.add(line.getAmount());
-                }
-            }
-            else if (isMandatoryTransfersSubType(objectSubTypeCode)) {
-                if (line.isSourceAccountingLine()) {
-                    mandatoryTransferFromAmount = mandatoryTransferFromAmount.add(line.getAmount());
-                }
-                else {
-                    mandatoryTransferToAmount = mandatoryTransferToAmount.add(line.getAmount());
-                }
-            }
-        }
-
-        // check that the amounts balance across mandatory transfers and
-        // non-mandatory transfers
-        boolean isValid = true;
-
-        if (mandatoryTransferFromAmount.compareTo(mandatoryTransferToAmount) != 0) {
-            isValid = false;
-            GlobalVariables.getErrorMap().putError("document.sourceAccountingLines", KeyConstants.ERROR_DOCUMENT_TOF_MANDATORY_TRANSFERS_DO_NOT_BALANCE);
-        }
-
-        if (nonMandatoryTransferFromAmount.compareTo(nonMandatoryTransferToAmount) != 0) {
-            isValid = false;
-            GlobalVariables.getErrorMap().putError("document.sourceAccountingLines", KeyConstants.ERROR_DOCUMENT_TOF_NON_MANDATORY_TRANSFERS_DO_NOT_BALANCE);
-        }
-
-        return isValid;
-    }*/
-
+    
     /**
      * Overrides the parent to make sure that the chosen object code's object sub-type code is either Mandatory Transfer or
      * Non-Mandatory Transfer. This is called by the parent's processAddAccountingLine() method.
@@ -263,20 +265,7 @@ public class BenefitExpenseTransferDocumentRule extends AccountingDocumentRuleBa
      */
     @Override
     public boolean isObjectSubTypeAllowed(AccountingLine accountingLine) {
-        /*accountingLine.refreshReferenceObject("objectCode");
-        String objectSubTypeCode = accountingLine.getObjectCode().getFinancialObjectSubTypeCode();
-
-        // make sure a object sub type code exists for this object code
-        if (StringUtils.isBlank(objectSubTypeCode)) {
-            GlobalVariables.getErrorMap().putError("financialObjectCode", KeyConstants.ERROR_DOCUMENT_TOF_OBJECT_SUB_TYPE_IS_NULL, accountingLine.getFinancialObjectCode());
-            return false;
-        }
-
-        if (!isMandatoryTransfersSubType(objectSubTypeCode) && !isNonMandatoryTransfersSubType(objectSubTypeCode)) {
-            GlobalVariables.getErrorMap().putError("financialObjectCode", KeyConstants.ERROR_DOCUMENT_TOF_OBJECT_SUB_TYPE_NOT_MANDATORY_OR_NON_MANDATORY_TRANSFER, new String[] { accountingLine.getObjectCode().getFinancialObjectSubType().getFinancialObjectSubTypeName(), accountingLine.getFinancialObjectCode() });
-            return false;
-        }*/
-
+   
         return true;
     }
 

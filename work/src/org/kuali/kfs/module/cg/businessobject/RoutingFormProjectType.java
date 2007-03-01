@@ -41,6 +41,18 @@ public class RoutingFormProjectType extends PersistableBusinessObjectBase {
 	}
 
     /**
+     * Constructs a RoutingFormProjectType.
+     * @param documentNumber
+     * @param projectType
+     */
+    public RoutingFormProjectType(String documentNumber, ProjectType projectType) {
+        this();
+        this.documentNumber = documentNumber;
+        this.projectTypeCode = projectType.getProjectTypeCode();
+        this.projectType = projectType;
+    }
+    
+    /**
      * Constructs with projectTypeCode argument.
      * @param projectTypeCode
      */

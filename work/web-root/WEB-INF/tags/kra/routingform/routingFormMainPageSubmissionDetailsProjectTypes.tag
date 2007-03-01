@@ -19,24 +19,19 @@
 <%@ attribute name="end" required="true" %>
 
 <c:set var="routingFormAttributes" value="${DataDictionary.KualiRoutingFormDocument.attributes}" />
+<c:set var="routingFormProjectTypeAttributes" value="${DataDictionary.RoutingFormProjectType.attributes}" />
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
 
 <table width="100%" cellpadding="0" cellspacing="0" class="nobord">
-  <c:forEach items="${KualiForm.projectTypes}" var="projectType" varStatus="status" begin="${begin}" end="${end}">
+  <c:forEach items="${KualiForm.document.routingFormProjectTypes}" var="routingFormProjectType" varStatus="status" begin="${begin}" end="${end}">
     <tr>
       <td class="nobord">
         <label>
-          <c:choose>
-            <c:when test="${!viewOnly}">
-              <html:multibox property="selectedRoutingFormProjectTypesMultiboxFix(${projectType.projectTypeCode})" value="${projectType.projectTypeCode}"/>
-            </c:when>
-            <%-- Following line has a problem until KULERA-835 addressed. --%>
-    		<c:when test="${fn:contains(KualiForm.selectedRoutingFormProjectTypes, projectType.projectTypeCode)}"> Yes </c:when>
-    		<c:otherwise> No </c:otherwise>
-          </c:choose>
-          &nbsp;&nbsp;${projectType.projectTypeDescription}
+          <kul:htmlControlAttribute property="document.routingFormProjectTypes[${status.index}].projectTypeSelectedIndicator" attributeEntry="${routingFormProjectTypeAttributes.projectTypeSelectedIndicator}" readOnly="${viewOnly}"/>
+          <%-- Need to expicitly reference description because kul:htmlControlAttribute doesn't fine it withing a referenceObject. --%>
+          ${routingFormProjectType.projectType.projectTypeDescription}
         </label>
-        <c:if test="${projectType.projectTypeCode eq KualiForm.systemParametersMap[KraConstants.PROJECT_TYPE_OTHER]}">
+        <c:if test="${routingFormProjectType.projectTypeCode eq KualiForm.systemParametersMap[KraConstants.PROJECT_TYPE_OTHER]}">
           &nbsp;<kul:htmlControlAttribute property="document.projectTypeOtherDescription" attributeEntry="${routingFormAttributes.projectTypeOtherDescription}" readOnly="${viewOnly}"/>
         </c:if>
       </td>

@@ -24,11 +24,9 @@ import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.web.struts.form.BudgetOverviewFormHelper;
 import org.kuali.module.kra.document.ResearchDocument;
-import org.kuali.module.kra.routingform.bo.ProjectType;
 import org.kuali.module.kra.routingform.bo.RoutingFormAdHocOrg;
 import org.kuali.module.kra.routingform.bo.RoutingFormAdHocPerson;
 import org.kuali.module.kra.routingform.bo.RoutingFormAdHocWorkgroup;
@@ -38,7 +36,6 @@ import org.kuali.module.kra.routingform.bo.RoutingFormOrganization;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent;
 import org.kuali.module.kra.routingform.bo.RoutingFormOtherCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
-import org.kuali.module.kra.routingform.bo.RoutingFormProjectType;
 import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.web.struts.form.ResearchDocumentFormBase;
@@ -51,9 +48,6 @@ public class RoutingForm extends ResearchDocumentFormBase {
     private RoutingFormKeyword newRoutingFormKeyword;
     private RoutingFormPersonnel newRoutingFormPerson;
     private RoutingFormOrganizationCreditPercent newRoutingFormOrganizationCreditPercent;
-    private List<String> selectedRoutingFormProjectTypes;
-    
-    private List<ProjectType> projectTypes;
     
     //Project Details 
     private RoutingFormInstitutionCostShare newRoutingFormInstitutionCostShare;
@@ -82,9 +76,6 @@ public class RoutingForm extends ResearchDocumentFormBase {
     public RoutingForm() {
         super();
        
-        selectedRoutingFormProjectTypes = new ArrayList();
-        projectTypes = new TypedArrayList(ProjectType.class);
-        
         DataDictionary dataDictionary = SpringServiceLocator.getDataDictionaryService().getDataDictionary();
         DocumentEntry budgetDocumentEntry = dataDictionary.getDocumentEntry(org.kuali.module.kra.routingform.document.RoutingFormDocument.class);
         this.setHeaderNavigationTabs(budgetDocumentEntry.getHeaderTabNavigation());
@@ -157,44 +148,6 @@ public class RoutingForm extends ResearchDocumentFormBase {
 
     public void setNewRoutingFormOrganizationCreditPercent(RoutingFormOrganizationCreditPercent newRoutingFormOrganizationCreditPercent) {
         this.newRoutingFormOrganizationCreditPercent = newRoutingFormOrganizationCreditPercent;
-    }
-
-    public String[] getSelectedRoutingFormProjectTypes() {
-        return selectedRoutingFormProjectTypes.toArray(new String[selectedRoutingFormProjectTypes.size()]);
-    }
-    
-    /**
-     * This is a work around for a problem with html:multibox. See KULERA-835 for details. Essentially it appears that
-     * in Kuali html:multibox doesn't handle string arrays correctly. It only handles the first element of a string array.
-     * @param projectTypeCode
-     * @return
-     */
-    public String[] getSelectedRoutingFormProjectTypesMultiboxFix(String projectTypeCode) {
-        List<RoutingFormProjectType> routingFormProjectTypes = this.getRoutingFormDocument().getRoutingFormProjectTypes();
-        
-        for(RoutingFormProjectType routingFormProjectType : routingFormProjectTypes) {
-            if (routingFormProjectType.getProjectTypeCode().equals(projectTypeCode)) {
-                return new String[] {projectTypeCode};
-            }
-        }
-        
-        // don't pass String[0], JSPs don't like that (exception)
-        return new String[] {""};
-    }
-
-    /**
-     * @see org.kuali.module.kra.routingform.web.struts.form.RoutingForm#getSelectedRoutingFormProjectTypesMultiboxFix(String)
-     */
-    public void setSelectedRoutingFormProjectTypesMultiboxFix(String trash, String[] selectedRoutingFormProjectTypes) {
-        this.selectedRoutingFormProjectTypes.add(selectedRoutingFormProjectTypes[0]);
-    }
-
-    public List<ProjectType> getProjectTypes() {
-        return projectTypes;
-    }
-    
-    public void setProjectTypes(List<ProjectType> projectTypes) {
-        this.projectTypes = projectTypes;
     }
     
     public RoutingFormOrganization getNewRoutingFormOrganization() {

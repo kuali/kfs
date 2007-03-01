@@ -175,6 +175,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         
         SpringServiceLocator.getDueDateTypeService().setupRoutingFormDueDateTypes(this);
         SpringServiceLocator.getSubmissionTypeService().setupRoutingFormSubmissionTypes(this);
+        SpringServiceLocator.getProjectTypeService().setupRoutingFormProjectType(this);
         SpringServiceLocator.getPurposeService().setupRoutingFormPurposes(this);
         SpringServiceLocator.getResearchTypeCodeService().setupRoutingFormResearchTypeCodes(this);
     }

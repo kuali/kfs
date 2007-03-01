@@ -16,10 +16,8 @@
 package org.kuali.module.kra.routingform.web.struts.action;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,7 +26,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
@@ -39,29 +36,13 @@ import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
-import org.kuali.module.kra.routingform.bo.RoutingFormProjectType;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.rules.event.RunRoutingFormAuditEvent;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
-import org.kuali.module.kra.web.struts.form.ResearchDocumentFormBase;
-
-import edu.iu.uis.eden.clientapp.IDocHandler;
 
 public class RoutingFormMainPageAction extends RoutingFormAction {
     
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RoutingFormMainPageAction.class);
-
-    /**
-     * Necessary to override so that RoutingFormMainPage has properly initialized data upon initiated documents.
-     * @see org.kuali.module.kra.web.struts.action.ResearchDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        SpringServiceLocator.getRoutingFormMainPageService().initializeRoutingFormMainPage((RoutingForm) form);
-        
-        return super.docHandler(mapping, form, request, response);
-    }
 
     /**
      * When a person is added to the list.
@@ -209,7 +190,6 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         }
         
         retrieveMainPageReferenceObjects(routingFormDocument);
-        handleProjectTypeCodesSelection(routingForm.getSelectedRoutingFormProjectTypes(), routingFormDocument.getDocumentNumber(), routingFormDocument.getRoutingFormProjectTypes());
         
         return super.save(mapping, form, request, response);
     }
@@ -333,37 +313,6 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
             }
         }
         return personIndex;
-    }
-    
-    /**
-     * Takes string array of selected project types and does two things:
-     * <ul>
-     * <li>Filters them correctly into RoutingFormDocument.getRoutingFormProjectType</li>
-     * <li>Removes items from RoutingFormDocument.getRoutingFormProjectType that don't exist anymore. Unfortunatly HTML checkboxes don't tell us when they have been unchecked. Note that routingFormProjectTypes will need to be a DeletionAwareList in order for this to work.</li>
-     * </ul>
-     * This is done so that the documents' project types may still properly fill in hidden variables (version#) via JSP but at the
-     * same time a user may multiselect/-deselect items via checkboxes. 
-     * @param documentNumber
-     * @param selectedRoutingFormProjectTypes
-     * @param routingFormProjectTypes
-     */
-    private void handleProjectTypeCodesSelection(String[] selectedRoutingFormProjectTypes, String documentNumber, List<RoutingFormProjectType> routingFormProjectTypes) {
-        for(int i = 0; i < selectedRoutingFormProjectTypes.length; i++) {
-            if (!routingFormProjectTypes.contains(new RoutingFormProjectType(selectedRoutingFormProjectTypes[i]))) {
-                RoutingFormProjectType routingFormProjectType = new RoutingFormProjectType();
-                routingFormProjectType.setProjectTypeCode(selectedRoutingFormProjectTypes[i]);
-                routingFormProjectType.setDocumentNumber(documentNumber);
-                routingFormProjectTypes.add(routingFormProjectType);
-            }
-        }
-        
-        List selectedRoutingFormProjectTypesList = Arrays.asList(selectedRoutingFormProjectTypes);
-        for(int i = routingFormProjectTypes.size()-1; i >= 0 ; i--) {
-            RoutingFormProjectType routingFormProjectType = routingFormProjectTypes.get(i);
-            if (!selectedRoutingFormProjectTypesList.contains(routingFormProjectType.getProjectTypeCode())) {
-                routingFormProjectTypes.remove(i);
-            }
-        }
     }
     
     /**

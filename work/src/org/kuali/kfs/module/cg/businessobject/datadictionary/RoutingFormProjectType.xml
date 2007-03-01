@@ -92,11 +92,11 @@
                 <maxLength>1</maxLength>
 
                 <control>
-                    <radio valuesFinderClass="org.kuali.core.lookup.keyvalues.IndicatorYNNullValuesFinder" />
+                    <checkbox />
                 </control>
 
-                <summary>yesNoIndicator</summary>
-                <description>yesNoIndicator description...</description>
+                <summary>projectTypeSelectedIndicator</summary>
+                <description>projectTypeSelectedIndicator description...</description>
 			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

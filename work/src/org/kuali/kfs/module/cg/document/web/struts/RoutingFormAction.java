@@ -51,8 +51,6 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
         RoutingForm routingForm = (RoutingForm) form;
         routingForm.setTabStates(new ArrayList());
         
-        SpringServiceLocator.getRoutingFormMainPageService().initializeRoutingFormMainPage(routingForm);
-        
         return mapping.findForward("mainpage");
     }
     

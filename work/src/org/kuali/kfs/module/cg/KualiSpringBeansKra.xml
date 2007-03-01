@@ -200,18 +200,6 @@
 		</property>
 	</bean>
 
-	<bean id="routingFormMainPageService" class="org.kuali.module.kra.routingform.service.impl.RoutingFormMainPageServiceImpl">
-		<property name="projectTypeService">
-			<ref bean="projectTypeService" />
-		</property>
-		<property name="submissionTypeService">
-			<ref bean="submissionTypeService" />
-		</property>
-		<property name="purposeService">
-			<ref bean="purposeService" />
-		</property>
-	</bean>
-
 	<bean id="personRoleService" class="org.kuali.module.kra.routingform.service.impl.PersonRoleServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />

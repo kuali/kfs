@@ -301,7 +301,7 @@
 			</attribute>
 
             <attribute name="personLine2Address" forceUppercase="true">
-                <label>Street 1</label>
+                <label>Street 2</label>
                 <shortLabel>Address</shortLabel>
 
                 <maxLength>40</maxLength>

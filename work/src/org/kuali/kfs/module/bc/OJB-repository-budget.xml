@@ -63,7 +63,12 @@
 		<inverse-foreignkey field-ref="chartOfAccountsCode" />
 		<inverse-foreignkey field-ref="accountNumber" />
 		<inverse-foreignkey field-ref="subAccountNumber" />
+		
+		<query-customizer class="org.kuali.module.budget.dao.ojb.OjbPBGLQueryCustomizer">
+			<attribute attribute-name="REVENUE" attribute-value="TRUE" />
+		</query-customizer>
     </collection-descriptor>
+    
     <collection-descriptor name="pendingBudgetConstructionGeneralLedgerExpenditureLines" proxy="true" element-class-ref="org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="financialObjectCode" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
@@ -71,6 +76,10 @@
 		<inverse-foreignkey field-ref="chartOfAccountsCode" />
 		<inverse-foreignkey field-ref="accountNumber" />
 		<inverse-foreignkey field-ref="subAccountNumber" />
+		
+		<query-customizer class="org.kuali.module.budget.dao.ojb.OjbPBGLQueryCustomizer">
+			<attribute attribute-name="REVENUE" attribute-value="FALSE" />
+		</query-customizer>
     </collection-descriptor>
 
 </class-descriptor>

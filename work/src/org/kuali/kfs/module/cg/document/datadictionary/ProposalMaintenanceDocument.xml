@@ -58,7 +58,8 @@
             <reference attributeName="proposalPurpose" activeIndicatorAttributeName="rowActiveIndicator" attributeToHighlightOnFail="proposalPurposeCode" />
             <reference attributeName="federalPassThroughAgency" activeIndicatorAttributeName="historicalIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="federalPassThroughAgencyNumber" />
             <reference attributeName="cfda" activeIndicatorAttributeName="cfdaStatusCode" attributeToHighlightOnFail="cfdaNumber" />
-            <!-- when collections support: reference attributeName="proposalProjectDirectors.projectDirector.universalUser" attributeToHighlightOnFail="projectDirector.universalUser.personUserIdentifier" / -->
+			<reference collection="proposalProjectDirectors" attributeName="projectDirector" attributeToHighlightOnFail="personUniversalIdentifier" />
+			<reference collection="proposalSubcontractors" attributeName="subcontractor" activeIndicatorAttributeName="active" attributeToHighlightOnFail="subcontractorNumber" />
         </defaultExistenceChecks>
 
         <maintainableSections>

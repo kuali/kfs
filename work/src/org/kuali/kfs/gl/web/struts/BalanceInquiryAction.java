@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -40,6 +41,7 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.ui.Field;
+import org.kuali.core.web.ui.ResultRow;
 import org.kuali.core.web.ui.Row;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.util.ObjectHelper;
@@ -107,7 +109,7 @@ public class BalanceInquiryAction extends KualiAction {
         }
 
         Collection displayList = new ArrayList();
-        Collection resultTable = new ArrayList();
+        List<ResultRow> resultTable = new ArrayList<ResultRow>();
 
         kualiLookupable.validateSearchParameters(lookupForm.getFields());
 

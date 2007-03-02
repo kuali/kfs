@@ -73,7 +73,7 @@
                 <required>true</required>
 
                 <control>
-                    <text size="70" />
+                    <workflowWorkgroup size="72" />
                 </control>
 
                 <summary>Workgroup Name</summary>

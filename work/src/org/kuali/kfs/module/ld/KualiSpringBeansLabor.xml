@@ -43,15 +43,27 @@
 		</property>
 	</bean>
 
+	<bean id="laborLedgerPendingEntryDao" class="org.kuali.module.labor.dao.ojb.LaborLedgerPendingEntryDaoOjb">
+		<property name="jcdAlias">
+			<value>dataSource</value>
+		</property>
+	</bean>
+
     <!--  Section 1: Spring Beans for Business Objects -->
 
 	<bean id="laborUserService" class="org.kuali.module.labor.service.impl.LaborUserServiceImpl" parent="kualiModuleUserServiceBase">
 	</bean>
-	
-		<bean id="laborLedgerPendingEntryService" class="org.kuali.module.labor.service.impl.LaborLedgerPendingEntryServiceImpl">
+		
+	<bean id="laborLedgerPendingEntryService" class="org.kuali.module.labor.service.impl.LaborLedgerPendingEntryServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
+		<property name="laborLedgerPendingEntryDao">
+			<ref bean="laborLedgerPendingEntryDao" />
+		</property>
+		<property name="kualiRuleService">
+			<ref bean="kualiRuleService" />
+		</property>	
 	</bean>
 	
     <bean id="laborGeneralLedgerEntryService" class="org.kuali.module.labor.service.impl.LaborGeneralLedgerEntryServiceImpl">

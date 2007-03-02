@@ -15,12 +15,11 @@
  */
 package org.kuali.module.labor.rules;
 
-import static org.kuali.Constants.BALANCE_TYPE_ACTUAL;
 import static org.kuali.Constants.BALANCE_TYPE_A21;
+import static org.kuali.Constants.BALANCE_TYPE_ACTUAL;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -41,22 +40,22 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
-import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.financial.bo.OffsetAccount;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.bo.PendingLedgerEntry;
-import org.kuali.module.labor.bo.PositionObjectBenefit;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
+import org.kuali.module.labor.rule.GenerateLaborLedgerBenefitClearingPendingEntriesRule;
+import org.kuali.module.labor.rule.GenerateLaborLedgerPendingEntriesRule;
 
 /**
  * Business rule(s) applicable to Salary Expense Transfer documents.
  * 
  * 
  */
-public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBase {
+public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBase implements GenerateLaborLedgerPendingEntriesRule<AccountingDocument>, GenerateLaborLedgerBenefitClearingPendingEntriesRule<AccountingDocument>{
 
     // LLPE Constants
     public static final class LABOR_LEDGER_PENDING_ENTRY_CODE {
@@ -73,6 +72,8 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         public static final int LLPE_DESCRIPTION_MAX_LENGTH = 40;
     }
 
+    public static final String LABOR_LEDGER_SALARY_CODE = "S";
+    
     public SalaryExpenseTransferDocumentRule() {
     }   
     
@@ -363,7 +364,6 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
     @Override
     public boolean processGenerateGeneralLedgerPendingEntries(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {        
         return true;
-        //return processGenerateLaborLedgerPendingEntries(accountingDocument, accountingLine, sequenceHelper);
     }
 
     /**
@@ -378,6 +378,9 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
     public boolean processGenerateLaborLedgerPendingEntries(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper){
         boolean success = true;
 
+        LOG.info("started processGenerateLaborLedgerPendingEntries");
+        
+        /*
         ExpenseTransferAccountingLine al = (ExpenseTransferAccountingLine)accountingLine;
         Collection<PositionObjectBenefit> positionObjectBenefits;
         
@@ -403,9 +406,8 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         PendingLedgerEntry a21RevEntry = (PendingLedgerEntry) ObjectUtils.deepCopy(defaultEntry);
         success &= processA21RevLaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, a21RevEntry);
 
-        //TODO: Figure out how to determine what exactly is a salary object code
         //if AL object code is a salary object code
-        if(true){
+        if( al.getLaborObject().getFinancialObjectFringeOrSalaryCode().equals( LABOR_LEDGER_SALARY_CODE ) ){
             //get benefits
             positionObjectBenefits = SpringServiceLocator.getLaborPositionObjectBenefitService().getPositionObjectBenefits(al.getPayrollEndDateFiscalYear(), al.getChartOfAccountsCode(), al.getFinancialObjectCode());            
             
@@ -437,7 +439,18 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
             }
             
         }                    
+        */
+        
+        LOG.info("completed processGenerateLaborLedgerPendingEntries");
+        
+        return true;
+    }
 
+    public boolean processGenerateLaborLedgerBenefitClearingPendingEntries(AccountingDocument AccountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+
+        LOG.info("started processGenerateLaborLedgerBenefitClearingPendingEntries");
+        LOG.info("completed processGenerateLaborLedgerBenefitClearingPendingEntries");
+        
         return true;
     }
 
@@ -463,6 +476,44 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         }
         
         return success;
+    }
+
+    /**
+     * This method returns the accounting line's chart code if it accepts fringe benefits,
+     * otherwise the report to chart is returned.
+     *   
+     * @param accountingLine
+     * @return
+     */
+    private String getLaborLedgerPendingEntryBenefitChart(AccountingLine accountingLine){
+        String chart = null;
+        
+        if(accountingLine.getAccount().isAccountsFringesBnftIndicator()){
+            chart = accountingLine.getChartOfAccountsCode();
+        }else{
+            chart = accountingLine.getAccount().getReportsToChartOfAccountsCode();
+        }
+        
+        return chart;
+    }
+
+    /**
+     * This method returns the accounting line's account number if it accepts fringe benefits,
+     * otherwise the report to account number is returned.
+     *   
+     * @param accountingLine
+     * @return
+     */
+    private String getLaborLedgerPendingEntryBenefitAccount(AccountingLine accountingLine){
+        String accountNumber = null;
+
+        if(accountingLine.getAccount().isAccountsFringesBnftIndicator()){
+            accountNumber = accountingLine.getAccountNumber();
+        }else{
+            accountNumber = accountingLine.getAccount().getReportsToAccountNumber();
+        }
+
+        return accountNumber;
     }
 
     /**
@@ -668,8 +719,8 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         benefitEntry.setUniversityFiscalPeriodCode(null);
         
         //special handling
-        benefitEntry.setChartOfAccountsCode(accountingLine.getChartOfAccountsCode());
-        benefitEntry.setAccountNumber(accountingLine.getAccountNumber());
+        benefitEntry.setChartOfAccountsCode( getLaborLedgerPendingEntryBenefitChart(accountingLine) );
+        benefitEntry.setAccountNumber( getLaborLedgerPendingEntryBenefitAccount(accountingLine) );
 
         //set benefit amount and fringe object code
         benefitEntry.setTransactionLedgerEntryAmount(benefitAmount);
@@ -720,8 +771,8 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         benefitA21Entry.setUniversityFiscalPeriodCode(null);
         
         //special handling
-        benefitA21Entry.setChartOfAccountsCode(accountingLine.getChartOfAccountsCode());
-        benefitA21Entry.setAccountNumber(accountingLine.getAccountNumber());
+        benefitA21Entry.setChartOfAccountsCode( getLaborLedgerPendingEntryBenefitChart(accountingLine) );
+        benefitA21Entry.setAccountNumber( getLaborLedgerPendingEntryBenefitAccount(accountingLine) );
 
         //set benefit amount and fringe object code
         benefitA21Entry.setTransactionLedgerEntryAmount(benefitAmount);
@@ -768,12 +819,14 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
     }
 
     protected void populateBenefitA21RevLaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry benefitA21RevEntry, KualiDecimal benefitAmount, String fringeBenefitObjectCode) {        
-        benefitA21RevEntry.setUniversityFiscalYear(null);
-        benefitA21RevEntry.setUniversityFiscalPeriodCode(null);
+        ExpenseTransferAccountingLine al = (ExpenseTransferAccountingLine)accountingLine;
+
+        benefitA21RevEntry.setUniversityFiscalYear(al.getPayrollEndDateFiscalYear());
+        benefitA21RevEntry.setUniversityFiscalPeriodCode(al.getPayrollEndDateFiscalPeriodCode());
         
         //special handling
-        benefitA21RevEntry.setChartOfAccountsCode(accountingLine.getChartOfAccountsCode());
-        benefitA21RevEntry.setAccountNumber(accountingLine.getAccountNumber());
+        benefitA21RevEntry.setChartOfAccountsCode( getLaborLedgerPendingEntryBenefitChart(accountingLine) );
+        benefitA21RevEntry.setAccountNumber( getLaborLedgerPendingEntryBenefitAccount(accountingLine) );
 
         //set benefit amount and fringe object code
         benefitA21RevEntry.setTransactionLedgerEntryAmount(benefitAmount);
@@ -799,12 +852,12 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         benefitA21RevEntry.setReferenceFinancialDocumentTypeCode(null);        
     }
 
-    protected boolean processBenefitClearingLaborLedgerPendingEntry(AccountingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry benefitClearingEntry) {        
+    protected boolean processBenefitClearingLaborLedgerPendingEntry(AccountingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry benefitClearingEntry, String fringeBenefitObjectCode) {        
 
         boolean success = true;
         
         // populate the entry
-        populateBenefitClearingLaborLedgerPendingEntry(accountingDocument, accountingLine, sequenceHelper, benefitClearingEntry);
+        populateBenefitClearingLaborLedgerPendingEntry(accountingDocument, accountingLine, sequenceHelper, benefitClearingEntry, fringeBenefitObjectCode);
 
         // hook for children documents to implement document specific LLPE field mappings
         customizeBenefitClearingLaborLedgerPendingEntry(accountingDocument, accountingLine, benefitClearingEntry);
@@ -819,9 +872,41 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         return true;
     }
 
-    protected void populateBenefitClearingLaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry benefitClearingEntry) {        
-    }
+    protected void populateBenefitClearingLaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry benefitClearingEntry, String fringeBenefitObjectCode) {        
 
+        ExpenseTransferAccountingLine al = (ExpenseTransferAccountingLine)accountingLine;
+        
+        benefitClearingEntry.setUniversityFiscalYear(null);
+        benefitClearingEntry.setUniversityFiscalPeriodCode(null);
+        
+        //special handling
+        benefitClearingEntry.setChartOfAccountsCode( "UA" );
+        benefitClearingEntry.setAccountNumber( "9712700" );
+
+        //set benefit amount and fringe object code
+        //benefitClearingEntry.setTransactionLedgerEntryAmount();
+        //benefitClearingEntry.setFinancialObjectCode();        
+                
+        benefitClearingEntry.setSubAccountNumber(LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_ACCOUNT_NUMBER);        
+        benefitClearingEntry.setFinancialSubObjectCode(LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_OBJECT_CODE);
+        benefitClearingEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_A21);
+        benefitClearingEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));            
+        benefitClearingEntry.setTransactionDebitCreditCode( accountingLine.isSourceAccountingLine() ? Constants.GL_DEBIT_CODE : Constants.GL_CREDIT_CODE);
+        Timestamp transactionTimestamp = new Timestamp(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
+        benefitClearingEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
+        benefitClearingEntry.setProjectCode(getEntryValue(accountingLine.getProjectCode(), LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING));
+        benefitClearingEntry.setOrganizationReferenceId(accountingLine.getOrganizationReferenceId());
+        benefitClearingEntry.setPositionNumber(LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_POSITION_NUMBER);
+        benefitClearingEntry.setEmplid(LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_EMPL_ID);
+        benefitClearingEntry.setPayrollEndDateFiscalYear( ((ExpenseTransferAccountingLine)accountingLine).getPayrollEndDateFiscalYear() );
+        benefitClearingEntry.setPayrollEndDateFiscalPeriodCode( ((ExpenseTransferAccountingLine)accountingLine).getPayrollEndDateFiscalPeriodCode() );
+        benefitClearingEntry.setTransactionTotalHours( ((ExpenseTransferAccountingLine)accountingLine).getPayrollTotalHours() );
+        
+        benefitClearingEntry.setReferenceFinancialSystemOriginationCode(null);
+        benefitClearingEntry.setReferenceFinancialDocumentNumber(null);
+        benefitClearingEntry.setReferenceFinancialDocumentTypeCode(null);        
+    }
+    
     /**
      * This is responsible for properly negating the sign on an accounting line's amount when its associated document is an error
      * correction.

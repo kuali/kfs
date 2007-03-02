@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.labor.bo.PendingLedgerEntry;
+import org.kuali.module.labor.document.LaborDocument;
 
 /**
  * This interface defines methods that a LaborLedgerPendingEntry Service must provide
@@ -53,4 +54,13 @@ public interface LaborLedgerPendingEntryService {
      * @return
      */    
     public boolean clearCancelledPendingLaborLedgerEntries();
+    
+    /**
+     * 
+     * This method generates labor ledger pending entries.
+     * 
+     * @param document
+     * @return
+     */
+    public boolean generateLaborLedgerPendingEntries(LaborDocument document);
 }

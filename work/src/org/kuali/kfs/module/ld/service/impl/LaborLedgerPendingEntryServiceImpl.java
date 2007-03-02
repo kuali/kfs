@@ -15,22 +15,33 @@
  */
 package org.kuali.module.labor.service.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.KualiRuleService;
+import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.chart.bo.Account;
-import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.PendingLedgerEntry;
+import org.kuali.module.labor.dao.LaborLedgerPendingEntryDao;
+import org.kuali.module.labor.document.LaborDocument;
+import org.kuali.module.labor.rules.event.GenerateLaborLedgerBenefitClearingPendingEntriesEvent;
+import org.kuali.module.labor.rules.event.GenerateLaborLedgerPendingEntriesEvent;
 import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEntryService {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerPendingEntryServiceImpl.class);
 
+    private LaborLedgerPendingEntryDao laborLedgerPendingEntryDao;
+    private KualiRuleService kualiRuleService;
+    
     private BusinessObjectService businessObjectService;
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -98,4 +109,94 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
         
         return true;
     }
+
+    /**
+     * Invokes generateEntries method on the salary expense transfer document.
+     * 
+     * @param document - document whose pending entries need generated
+     * @return whether the business rules succeeded
+     */
+    public boolean generateLaborLedgerPendingEntries(LaborDocument document) {
+        boolean success = true;
+
+        // we must clear them first before creating new ones
+        document.getLaborLedgerPendingEntries().clear();
+
+        LOG.info("deleting existing ll pending ledger entries for document " + document.getDocumentNumber());
+        delete(document.getDocumentNumber());
+
+        LOG.info("generating ll pending ledger entries for document " + document.getDocumentNumber());
+        GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();        
+        AccountingDocument transactionalDocument = (AccountingDocument) document;
+        
+        //process accounting lines, generate labor ledger pending entries
+        List sourceAccountingLines = transactionalDocument.getSourceAccountingLines();
+        if (sourceAccountingLines != null) {
+            for (Iterator iter = sourceAccountingLines.iterator(); iter.hasNext();) {
+                success &= processLaborLedgerPendingEntryForAccountingLine(transactionalDocument, sequenceHelper, iter);
+            }
+        }
+
+        List targetAccountingLines = transactionalDocument.getTargetAccountingLines();
+        if (targetAccountingLines != null) {
+            for (Iterator iter = targetAccountingLines.iterator(); iter.hasNext();) {
+                success &= processLaborLedgerPendingEntryForAccountingLine(transactionalDocument, sequenceHelper, iter);
+            }
+        }
+
+        //compare source and target accounting lines, and generate benefit clearing liens as needed
+        success &= processGenerateLaborLedgerBenefitClearingEntries(transactionalDocument, sequenceHelper);
+        
+        // doc specific pending entries generation
+        //GenerateLaborLedgerDocumentPendingEntriesEvent event = new GenerateLaborLedgerDocumentPendingEntriesEvent(document, sequenceHelper);
+        //success &= kualiRuleService.applyRules(event);
+        return success;
+    }
+
+    /**
+     * This method handles generically taking an accounting line, doing a deep copy on it so that we have a new instance without
+     * reference to the original (won't affect the tran doc's acct lines), performing a retrieveNonKeyFields on the line to make
+     * sure it's populated properly, and then calling the rule framework driven GLPE generation code.
+     * 
+     * @param document
+     * @param sequenceHelper
+     * @param iter
+     * @return whether the business rules succeeded
+     */
+    private boolean processLaborLedgerPendingEntryForAccountingLine(AccountingDocument document, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, Iterator iter) {
+        LOG.debug("processLaborLedgerPendingEntryForAccountingLine() started");
+        boolean success = true;
+
+        AccountingLine accountingLine = (AccountingLine) iter.next();
+
+        GenerateLaborLedgerPendingEntriesEvent event = new GenerateLaborLedgerPendingEntriesEvent(document, accountingLine, sequenceHelper);
+        success &= kualiRuleService.applyRules(event);
+        sequenceHelper.increment(); // increment for the next line
+        return success;
+    }
+
+    private boolean processGenerateLaborLedgerBenefitClearingEntries(AccountingDocument document, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        LOG.debug("processLaborLedgerPendingEntryForAccountingLine() started");
+        boolean success = true;
+
+        GenerateLaborLedgerBenefitClearingPendingEntriesEvent event = new GenerateLaborLedgerBenefitClearingPendingEntriesEvent(document, sequenceHelper);
+        success &= kualiRuleService.applyRules(event);
+        sequenceHelper.increment(); // increment for the next line
+        return success;
+    }
+
+    public void delete(String documentHeaderId) {
+        LOG.debug("delete() started");
+
+        this.laborLedgerPendingEntryDao.delete(documentHeaderId);
+    }
+
+    public void setLaborLedgerPendingEntryDao(LaborLedgerPendingEntryDao laborLedgerPendingEntryDao) {
+        this.laborLedgerPendingEntryDao = laborLedgerPendingEntryDao;
+    }
+
+    public void setKualiRuleService(KualiRuleService kualiRuleService) {
+        this.kualiRuleService = kualiRuleService;
+    }
+
 }

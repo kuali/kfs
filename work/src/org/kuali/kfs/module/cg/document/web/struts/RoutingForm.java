@@ -260,6 +260,14 @@ public class RoutingForm extends ResearchDocumentFormBase {
     public void setNewAdHocWorkgroup(RoutingFormAdHocWorkgroup newAdHocWorkgroup) {
         this.newAdHocWorkgroup = newAdHocWorkgroup;
     }
+    
+    /**
+     * Gets the two column size of routingFormProjectTypes, zero based. The result will be rounded up so that the left column has an additional element for odd sized lists.
+     * @return half size of routingFormProjectTypes, rounded up, zero based
+     */
+    public int  getRoutingFormProjectTypesSizeByTwoColumns() {
+        return new Double(Math.ceil(getRoutingFormDocument().getRoutingFormProjectTypes().size() / 2.0)).intValue() - 1;
+    }
 
     /**
      * Lazy gets the systemParametersMap attribute. Use it on a jsp or tag as such: ${KualiForm.systemParametersMap[KraConstants.foobar]}

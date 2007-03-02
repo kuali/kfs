@@ -76,12 +76,10 @@
                     <tr>
                       <c:if test="${fn:length(KualiForm.document.routingFormProjectTypes) != 0}">
 				        <td class="nobord" width="50%" valign="top">
-					      <c:set var="roundedEndIndex"><fmt:formatNumber value="${fn:length(KualiForm.document.routingFormProjectTypes) / 2 - 1}" maxFractionDigits="0"/></c:set>
-					      <kra-rf:routingFormMainPageSubmissionDetailsProjectTypes begin="0" end="${roundedEndIndex}"/>
+					      <kra-rf:routingFormMainPageSubmissionDetailsProjectTypes begin="0" end="${KualiForm.routingFormProjectTypesSizeByTwoColumns}"/>
                         </td>
 					    <td class="nobord" width="50%" valign="top">
-					      <c:set var="roundedBeginIndex"><fmt:formatNumber value="${fn:length(KualiForm.document.routingFormProjectTypes) / 2}" maxFractionDigits="0"/></c:set>
-					      <kra-rf:routingFormMainPageSubmissionDetailsProjectTypes begin="${roundedBeginIndex}" end="${fn:length(KualiForm.document.routingFormProjectTypes)}"/>
+					      <kra-rf:routingFormMainPageSubmissionDetailsProjectTypes begin="${KualiForm.routingFormProjectTypesSizeByTwoColumns + 1}" end="${fn:length(KualiForm.document.routingFormProjectTypes)}"/>
                         </td>
                       </c:if>
                     </tr>

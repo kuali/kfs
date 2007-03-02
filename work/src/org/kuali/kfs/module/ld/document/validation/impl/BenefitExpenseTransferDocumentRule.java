@@ -17,24 +17,18 @@ package org.kuali.module.labor.rules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
-import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.LaborObject;
-import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 
 /**
  * Business rule(s) applicable to Benefit Expense Transfer documents.
@@ -107,40 +101,28 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
               reportError(PropertyConstants.ACCOUNT, KeyConstants.Labor.INVALID_FRINGE_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
             return false;
         }            
-        
-        // Transfers cannot be made between two different fringe benefit labor object codes. Only the “Account” and “Amount” fields may be edited in the “TO” zone.
-            
-        // Validate that an employee ID is enterred.
-        SalaryExpenseTransferDocument salaryExpenseTransferDocument = (SalaryExpenseTransferDocument)accountingDocument;
-        String emplid = salaryExpenseTransferDocument.getEmplid();
-        if ((emplid == null) || (emplid.trim().length() == 0)) {
-            reportError(Constants.EMPLOYEE_LOOKUP_ERRORS,KeyConstants.Labor.MISSING_EMPLOYEE_ID, emplid);
-            return false;
-        }
-        
+                                  
         // Make sure the employee does not have any pending salary transfers
 //        if (!validatePendingSalaryTransfer(emplid))
   //          return false;
         
-        // Save the employee ID in all accounting related lines       
-        ExpenseTransferAccountingLine salaryExpenseTransferAccountingLine = (ExpenseTransferAccountingLine)accountingLine;
-        salaryExpenseTransferAccountingLine.setEmplid(emplid); 
-
+        ExpenseTransferAccountingLine benefitExpenseTransferAccountingLine = (ExpenseTransferAccountingLine)accountingLine;
+        
         // Validate the accounting year
         fieldValues.clear();
-        fieldValues.put("universityFiscalYear", salaryExpenseTransferAccountingLine.getPayrollEndDateFiscalYear());
+        fieldValues.put("universityFiscalYear", benefitExpenseTransferAccountingLine.getPayrollEndDateFiscalYear());
         AccountingPeriod accountingPeriod = new AccountingPeriod();        
         if (SpringServiceLocator.getBusinessObjectService().countMatching(AccountingPeriod.class, fieldValues) == 0) {
-            reportError(PropertyConstants.ACCOUNT,KeyConstants.Labor.INVALID_PAY_YEAR, emplid);
+            reportError(PropertyConstants.ACCOUNT,KeyConstants.Labor.INVALID_PAY_YEAR);
             return false;
         }
         
         // Validate the accounting period code
         fieldValues.clear();
-        fieldValues.put("universityFiscalPeriodCode", salaryExpenseTransferAccountingLine.getPayrollEndDateFiscalPeriodCode());
+        fieldValues.put("universityFiscalPeriodCode", benefitExpenseTransferAccountingLine.getPayrollEndDateFiscalPeriodCode());
         accountingPeriod = new AccountingPeriod();        
         if (SpringServiceLocator.getBusinessObjectService().countMatching(AccountingPeriod.class, fieldValues) == 0) {
-            reportError(PropertyConstants.ACCOUNT,KeyConstants.Labor.INVALID_PAY_PERIOD_CODE, emplid);
+            reportError(PropertyConstants.ACCOUNT,KeyConstants.Labor.INVALID_PAY_PERIOD_CODE);
             return false;
         }
         return true;

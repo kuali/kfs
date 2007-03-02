@@ -52,7 +52,7 @@ public class MonthlyBudgetAction extends KualiAction {
         MonthlyBudgetForm monthlyBudgetForm = (MonthlyBudgetForm) form;
         
         // explicitly use the url parms to get the record from DB 
-        // this will eventually be changed to use struts populated form instance fields
+        // this may eventually be changed to use struts populated form instance fields
         Map fieldValues = new HashMap();
         fieldValues.put("documentNumber", request.getParameter("documentNumber"));
         fieldValues.put("universityFiscalYear", request.getParameter("universityFiscalYear"));
@@ -86,19 +86,17 @@ public class MonthlyBudgetAction extends KualiAction {
     public ActionForward returnToDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         MonthlyBudgetForm monthlyBudgetForm = (MonthlyBudgetForm) form;
-        BudgetConstructionMonthly budgetConstructionMonthly = monthlyBudgetForm.getBudgetConstructionMonthly(); 
+        BudgetConstructionMonthly budgetConstructionMonthly = monthlyBudgetForm.getBudgetConstructionMonthly();
+        
+        // TODO validate and store monthly changes
 
+        // setup the return parms for the document and anchor
         Properties parameters = new Properties();
         parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, "refresh");
         parameters.put(Constants.DOC_FORM_KEY, monthlyBudgetForm.getReturnFormKey());
         parameters.put("anchor", monthlyBudgetForm.getReturnAnchor());
         parameters.put(Constants.REFRESH_CALLER, "MonthlyBudget");
         
-        
-//        parameters.put("documentNumber", budgetConstructionMonthly.getDocumentNumber());
-//        parameters.put("anchor", monthlyBudgetForm.getReturnAnchor());
-//        parameters.put("tabStates", monthlyBudgetForm.getReturnFormKey());
-            
         String lookupUrl = UrlFactory.parameterizeUrl("/" + "budgetBudgetConstruction.do", parameters);
         return new ActionForward(lookupUrl, true);
     }

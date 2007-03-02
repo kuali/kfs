@@ -166,10 +166,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         // KualiDocumentFormBase.populate() needs this updated in the session
         GlobalVariables.getUserSession().setWorkflowDocument(workflowDoc);
         
-        // for now, this populates pbgl revenue-expenditure lines
-        // we need to changeover to using accountinglines instead
-        budgetConstructionDocument.initiateDocument();
-        
 // from kualiDocumentActionBase.loadDocument()
 //        kualiDocumentFormBase.setDocument(doc);
 //        KualiWorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
@@ -206,7 +202,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         DocumentService documentService = SpringServiceLocator.getDocumentService();
         
         // TODO for now just save, need to fixup QueryCustomizer for PBGL first
-        //documentService.updateDocument(bcDocument);
+        documentService.updateDocument(bcDocument);
         
         int selectedIndex = this.getSelectedLine(request);
 
@@ -248,9 +244,6 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         // KualiDocumentFormBase.populate() needs this updated in the session
         GlobalVariables.getUserSession().setWorkflowDocument(workflowDoc);
         
-        // for now, this populates pbgl revenue-expenditure lines
-        budgetConstructionDocument.initiateDocument();
-
         return mapping.findForward(Constants.MAPPING_BASIC);
         
     }

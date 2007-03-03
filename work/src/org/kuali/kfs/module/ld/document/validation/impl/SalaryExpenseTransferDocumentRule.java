@@ -20,6 +20,7 @@ import static org.kuali.Constants.BALANCE_TYPE_ACTUAL;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -46,6 +47,7 @@ import org.kuali.module.financial.bo.OffsetAccount;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.bo.PendingLedgerEntry;
+import org.kuali.module.labor.bo.PositionObjectBenefit;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 import org.kuali.module.labor.rule.GenerateLaborLedgerBenefitClearingPendingEntriesRule;
 import org.kuali.module.labor.rule.GenerateLaborLedgerPendingEntriesRule;
@@ -354,7 +356,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         
         return isValid;    
     }
-    
+        
     /**
      * Overriding hook into generate general ledger pending entries, but calling a method
      * to generate labor ledger pending entries.
@@ -379,8 +381,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         boolean success = true;
 
         LOG.info("started processGenerateLaborLedgerPendingEntries");
-        
-        /*
+                
         ExpenseTransferAccountingLine al = (ExpenseTransferAccountingLine)accountingLine;
         Collection<PositionObjectBenefit> positionObjectBenefits;
         
@@ -391,10 +392,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         //Generate orig entry
         PendingLedgerEntry originalEntry = (PendingLedgerEntry) ObjectUtils.deepCopy(defaultEntry);
         success &= processOriginalLaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, originalEntry);
-    
-        // increment the sequence counter
-        sequenceHelper.increment();
-        
+            
         //if the AL's pay FY and period do not match the University fiscal year and period
         if( isAccountingLinePayFYPeriodMatchesUniversityPayFYPeriod(accountingDocument, accountingLine) ){    
             //Generate A21
@@ -405,9 +403,14 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         //Generate A21 rev
         PendingLedgerEntry a21RevEntry = (PendingLedgerEntry) ObjectUtils.deepCopy(defaultEntry);
         success &= processA21RevLaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, a21RevEntry);
-
+        
+        //retrieve the labor object if null
+        if( ObjectUtils.isNull(al.getLaborObject()) ){
+            al.refreshReferenceObject("laborObject");    
+        }
+        
         //if AL object code is a salary object code
-        if( al.getLaborObject().getFinancialObjectFringeOrSalaryCode().equals( LABOR_LEDGER_SALARY_CODE ) ){
+        if( StringUtils.equals(al.getLaborObject().getFinancialObjectFringeOrSalaryCode(), LABOR_LEDGER_SALARY_CODE) ){
             //get benefits
             positionObjectBenefits = SpringServiceLocator.getLaborPositionObjectBenefitService().getPositionObjectBenefits(al.getPayrollEndDateFiscalYear(), al.getChartOfAccountsCode(), al.getFinancialObjectCode());            
             
@@ -438,8 +441,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
                 success &= processBenefitA21RevLaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, benefitA21RevEntry, benefitAmount, fringeBenefitObjectCode);                
             }
             
-        }                    
-        */
+        }                            
         
         LOG.info("completed processGenerateLaborLedgerPendingEntries");
         
@@ -564,7 +566,22 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         return true;
     }
 
- 
+    /**
+     * 
+     * This method gets the next sequence number and increments.
+     * 
+     * @param sequenceHelper
+     * @return
+     */
+    private Integer getNextSequenceNumber(GeneralLedgerPendingEntrySequenceHelper sequenceHelper){
+
+         //get sequence number and increment
+        Integer next = sequenceHelper.getSequenceCounter();
+        sequenceHelper.increment();
+        
+        return next;
+    }
+    
     protected void populateOriginalLaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry originalEntry) {        
 
         originalEntry.setUniversityFiscalYear(null);
@@ -575,7 +592,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         originalEntry.setFinancialObjectCode(accountingLine.getFinancialObjectCode());
         originalEntry.setFinancialSubObjectCode(getEntryValue(accountingLine.getFinancialSubObjectCode(), LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_OBJECT_CODE));
         originalEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL); // this is the default that most documents use
-        originalEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
+        originalEntry.setTransactionLedgerEntrySequenceNumber(getNextSequenceNumber(sequenceHelper));
         originalEntry.setTransactionLedgerEntryAmount(getGeneralLedgerPendingEntryAmountForAccountingLine(accountingLine));
         originalEntry.setTransactionDebitCreditCode( accountingLine.isSourceAccountingLine() ? Constants.GL_CREDIT_CODE : Constants.GL_DEBIT_CODE);
         Timestamp transactionTimestamp = new Timestamp(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
@@ -626,7 +643,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         a21Entry.setFinancialObjectCode(accountingLine.getFinancialObjectCode());
         a21Entry.setFinancialSubObjectCode(getEntryValue(accountingLine.getFinancialSubObjectCode(), LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_OBJECT_CODE));
         a21Entry.setFinancialBalanceTypeCode(BALANCE_TYPE_A21);
-        a21Entry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
+        a21Entry.setTransactionLedgerEntrySequenceNumber(getNextSequenceNumber(sequenceHelper));
         a21Entry.setTransactionLedgerEntryAmount(getGeneralLedgerPendingEntryAmountForAccountingLine(accountingLine));
         a21Entry.setTransactionDebitCreditCode( accountingLine.isSourceAccountingLine() ? Constants.GL_DEBIT_CODE : Constants.GL_CREDIT_CODE);
         Timestamp transactionTimestamp = new Timestamp(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
@@ -676,7 +693,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         a21RevEntry.setFinancialObjectCode(accountingLine.getFinancialObjectCode());
         a21RevEntry.setFinancialSubObjectCode(getEntryValue(accountingLine.getFinancialSubObjectCode(), LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_OBJECT_CODE));
         a21RevEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_A21);
-        a21RevEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
+        a21RevEntry.setTransactionLedgerEntrySequenceNumber(getNextSequenceNumber(sequenceHelper));
         a21RevEntry.setTransactionLedgerEntryAmount(getGeneralLedgerPendingEntryAmountForAccountingLine(accountingLine));
         a21RevEntry.setTransactionDebitCreditCode( accountingLine.isSourceAccountingLine() ? Constants.GL_CREDIT_CODE : Constants.GL_DEBIT_CODE);
         Timestamp transactionTimestamp = new Timestamp(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
@@ -729,7 +746,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         benefitEntry.setSubAccountNumber(getEntryValue(accountingLine.getSubAccountNumber(), LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_ACCOUNT_NUMBER));        
         benefitEntry.setFinancialSubObjectCode(LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_OBJECT_CODE);
         benefitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL);
-        benefitEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));            
+        benefitEntry.setTransactionLedgerEntrySequenceNumber(getNextSequenceNumber(sequenceHelper));            
         benefitEntry.setTransactionDebitCreditCode( accountingLine.isSourceAccountingLine() ? Constants.GL_CREDIT_CODE : Constants.GL_DEBIT_CODE);
         Timestamp transactionTimestamp = new Timestamp(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
         benefitEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
@@ -781,7 +798,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         benefitA21Entry.setSubAccountNumber(getEntryValue(accountingLine.getSubAccountNumber(), LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_ACCOUNT_NUMBER));        
         benefitA21Entry.setFinancialSubObjectCode(LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_OBJECT_CODE);
         benefitA21Entry.setFinancialBalanceTypeCode(BALANCE_TYPE_A21);
-        benefitA21Entry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));            
+        benefitA21Entry.setTransactionLedgerEntrySequenceNumber(getNextSequenceNumber(sequenceHelper));            
         benefitA21Entry.setTransactionDebitCreditCode( accountingLine.isSourceAccountingLine() ? Constants.GL_DEBIT_CODE : Constants.GL_CREDIT_CODE);
         Timestamp transactionTimestamp = new Timestamp(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
         benefitA21Entry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
@@ -835,7 +852,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         benefitA21RevEntry.setSubAccountNumber(getEntryValue(accountingLine.getSubAccountNumber(), LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_ACCOUNT_NUMBER));        
         benefitA21RevEntry.setFinancialSubObjectCode(LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_OBJECT_CODE);
         benefitA21RevEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_A21);
-        benefitA21RevEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));            
+        benefitA21RevEntry.setTransactionLedgerEntrySequenceNumber(getNextSequenceNumber(sequenceHelper));            
         benefitA21RevEntry.setTransactionDebitCreditCode( accountingLine.isSourceAccountingLine() ? Constants.GL_DEBIT_CODE : Constants.GL_CREDIT_CODE);
         Timestamp transactionTimestamp = new Timestamp(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
         benefitA21RevEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
@@ -890,7 +907,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         benefitClearingEntry.setSubAccountNumber(LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_ACCOUNT_NUMBER);        
         benefitClearingEntry.setFinancialSubObjectCode(LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_OBJECT_CODE);
         benefitClearingEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_A21);
-        benefitClearingEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));            
+        benefitClearingEntry.setTransactionLedgerEntrySequenceNumber(getNextSequenceNumber(sequenceHelper));            
         benefitClearingEntry.setTransactionDebitCreditCode( accountingLine.isSourceAccountingLine() ? Constants.GL_DEBIT_CODE : Constants.GL_CREDIT_CODE);
         Timestamp transactionTimestamp = new Timestamp(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
         benefitClearingEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));

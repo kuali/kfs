@@ -147,9 +147,6 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
         //compare source and target accounting lines, and generate benefit clearing liens as needed
         success &= processGenerateLaborLedgerBenefitClearingEntries(transactionalDocument, sequenceHelper);
         
-        // doc specific pending entries generation
-        //GenerateLaborLedgerDocumentPendingEntriesEvent event = new GenerateLaborLedgerDocumentPendingEntriesEvent(document, sequenceHelper);
-        //success &= kualiRuleService.applyRules(event);
         return success;
     }
 
@@ -171,7 +168,6 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
 
         GenerateLaborLedgerPendingEntriesEvent event = new GenerateLaborLedgerPendingEntriesEvent(document, accountingLine, sequenceHelper);
         success &= kualiRuleService.applyRules(event);
-        sequenceHelper.increment(); // increment for the next line
         return success;
     }
 
@@ -181,7 +177,6 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
 
         GenerateLaborLedgerBenefitClearingPendingEntriesEvent event = new GenerateLaborLedgerBenefitClearingPendingEntriesEvent(document, sequenceHelper);
         success &= kualiRuleService.applyRules(event);
-        sequenceHelper.increment(); // increment for the next line
         return success;
     }
 

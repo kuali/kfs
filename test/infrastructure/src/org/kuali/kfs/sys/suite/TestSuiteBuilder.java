@@ -96,6 +96,11 @@ public class TestSuiteBuilder {
             try {
                 classes.add(Class.forName(name).asSubclass(TestCase.class));
             }
+            catch (ClassCastException e) {
+                // Ignore this class.
+                // Its name ends with Test but it doesn't extend TestCase, so it's not really a test class.
+                // E.g., production class GenesisTest is put in build/test/classes by build.xml make-tests target.
+            }
             catch (ClassNotFoundException e) {
                 throw new AssertionError(e); // impossible because the .class file was under a classloader directory
             }

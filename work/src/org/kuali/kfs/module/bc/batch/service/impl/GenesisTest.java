@@ -100,11 +100,10 @@ public class GenesisTest {
       LOG.info("\nDocument creation started: "+String.format("%tT",
               dateTimeService.getCurrentDate()));
       genesisTestService.genesisDocumentStep(BaseYear);
- //     genesisDao.createNewBCDocuments(BaseYear);
- //     LOG.info("\nDocument creation ended: "+
- //              String.format("%tT",dateTimeService.getCurrentDate()));
- //     genesisTestService.genesisFinalStep(BaseYear);
- //     LOG.info(String.format("\ngenesis ended %tT",dateTimeService.getCurrentDate()));
+      LOG.info("\nDocument creation ended: "+
+               String.format("%tT",dateTimeService.getCurrentDate()));
+      genesisTestService.genesisFinalStep(BaseYear);
+      LOG.info(String.format("\ngenesis ended %tT",dateTimeService.getCurrentDate()));
   }
   
   private static void bcUpdateStep(Integer BaseYear)
@@ -132,7 +131,7 @@ public class GenesisTest {
       //   these are the current run configurations (to change when workflow is embedded)
       //   for
       //   genesis
-      genesisStep(2009);
+      genesisStep(2007);
       //   budget construction update
       // bcUpdateStep(2009);
       //

@@ -22,6 +22,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.Constants;
+import org.kuali.Constants.BudgetConstructionConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.TransactionalDocumentBase;
@@ -478,6 +480,30 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
     public void setPendingBudgetConstructionGeneralLedgerExpenditureLines(List pendingBudgetConstructionGeneralLedgerExpenditureLines) {
         this.pendingBudgetConstructionGeneralLedgerExpenditureLines = pendingBudgetConstructionGeneralLedgerExpenditureLines;
     }
+    
+    /**
+     *   the budget construction document never appears in anyone's in-box
+     *   budget construction controls access by a "pull-up/push-down" mechanism instead
+     *   but, a budget construction document is routed so that the routing hierarchy
+     *   can be used to trace who has modified the document
+     *   we override the routine below from Document
+     *   we record the processed document state.  a budget construction document will
+     *   never be "cancelled" or "disapproved"
+     * @see org.kuali.core.document.Document#handleRouteStatusChange()
+     */
+    @Override
+    public void handleRouteStatusChange() {
+        if (getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
+            getDocumentHeader().setFinancialDocumentStatusCode(Constants.DocumentStatusCodes.ENROUTE);
+        }
+        /*  the status below is comparable to "approved" status for other documents */
+        if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
+            getDocumentHeader().setFinancialDocumentStatusCode(
+                Constants.BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_INITIAL_STATUS);
+        }
+        LOG.info("Status is: " + getDocumentHeader().getFinancialDocumentStatusCode());
+    }
+
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()

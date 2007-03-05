@@ -178,6 +178,8 @@ public class GenesisServiceImpl implements GenesisService {
     {
         genesisDao.setControlFlagsAtTheStartOfGenesis(BaseYear);
         genesisDao.clearDBForGenesis(BaseYear);
+        genesisDao.createNewBCDocumentsFromGLCSF(BaseYear,
+                GLUpdatesAllowed(BaseYear), CSFUpdatesAllowed(BaseYear));
         genesisDao.createChartForNextBudgetCycle();
         genesisDao.initialLoadToPBGL(BaseYear);
         genesisDao.rebuildOrganizationHierarchy(BaseYear);

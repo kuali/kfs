@@ -46,6 +46,7 @@ import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
 import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
 import org.kuali.module.budget.bo.CalculatedSalaryFoundationTrackerOverride;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
+import org.kuali.module.budget.bo.BudgetConstructionMonthly;
 import org.kuali.module.budget.dao.GenesisDao;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
 import org.kuali.module.chart.bo.Account;
@@ -357,7 +358,15 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
 
     private void clearBaseYearPBGL(Integer BaseYear)
     {
-        // remove rows from the base year
+        // the order here is mandated by referential integrity
+        // remove rows from the base year from budget construction months
+        Criteria mnCriteriaID = new Criteria();
+        mnCriteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                BaseYear);
+        QueryByCriteria mnQueryID =
+            new QueryByCriteria(BudgetConstructionMonthly.class,mnCriteriaID);
+        getPersistenceBrokerTemplate().deleteByQuery(mnQueryID);
+        // remove rows from the basse year from budget construction general ledger
         Criteria criteriaID = new Criteria();
         criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
                 BaseYear);
@@ -378,6 +387,11 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
 
     private void clearPBGL()
     {
+        // the order here is mandated by referential integrity
+        QueryByCriteria mnQueryId =
+            new QueryByCriteria(BudgetConstructionMonthly.class,
+                                QueryByCriteria.CRITERIA_SELECT_ALL);
+        getPersistenceBrokerTemplate().deleteByQuery(mnQueryId);
         QueryByCriteria queryId = 
             new QueryByCriteria(PendingBudgetConstructionGeneralLedger.class,
                                 QueryByCriteria.CRITERIA_SELECT_ALL);
@@ -387,6 +401,14 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     private void clearRequestYearPBGL(Integer BaseYear)
     {
         Integer RequestYear = BaseYear + 1;
+        // the order here is mandated by referential integrity
+        // remove rows from the request year from budget construction months
+        Criteria mnCriteriaID = new Criteria();
+        mnCriteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                RequestYear);
+        QueryByCriteria mnQueryID =
+            new QueryByCriteria(BudgetConstructionMonthly.class,mnCriteriaID);
+        getPersistenceBrokerTemplate().deleteByQuery(mnQueryID);
         // remove rows from the request year
         Criteria criteriaID = new Criteria();
         criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
@@ -506,7 +528,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         //  finished with them, and change the status flag to correspond to the
         //  budget construction "untouched" status
         //@@TODO:  we need a delay here--we cannot do this until workflow is finished
-        storeBudgetConstructionDocumentsInitialStatus();
+        // storeBudgetConstructionDocumentsInitialStatus();
     }
 
     //  here are the private methods that go with it      

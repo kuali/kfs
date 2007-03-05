@@ -334,7 +334,8 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
 
         Collection<LaborOriginEntry> entryCollection = new ArrayList<LaborOriginEntry>();
         LaborLedgerUnitOfWork laborLedgerUnitOfWork = new LaborLedgerUnitOfWork();
-
+        
+        int count = 0;
         Iterator<Object[]> consolidatedEntries = laborOriginEntryDao.getConsolidatedEntriesByGroup(group);
         while (consolidatedEntries.hasNext()) {
             LaborOriginEntry laborOriginEntry = new LaborOriginEntry();
@@ -342,9 +343,11 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
             ObjectUtil.buildObject(laborOriginEntry, oneEntry, LaborConstants.consolidationAttributesOfOriginEntry());
 
             if (laborLedgerUnitOfWork.canContain(laborOriginEntry)) {
+                System.out.println("canContain" + (count++));
                 laborLedgerUnitOfWork.addEntryIntoUnit(laborOriginEntry);
             }
             else {
+                System.out.println("canNotContain" + (count++));
                 laborLedgerUnitOfWork.resetLaborLedgerUnitOfWork(laborOriginEntry);
                 entryCollection.add(laborLedgerUnitOfWork.getWorkingEntry());
             }

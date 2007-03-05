@@ -51,7 +51,6 @@ public class LaborOriginEntryServiceTest extends KualiTestBase {
     private OriginEntryGroup group1, group2;
     private Map fieldValues;
 
-    private BeanFactory beanFactory;
     private LaborOriginEntryService laborOriginEntryService;
     private OriginEntryGroupService originEntryGroupService;
     private BusinessObjectService businessObjectService;
@@ -65,7 +64,7 @@ public class LaborOriginEntryServiceTest extends KualiTestBase {
         fieldNames = properties.getProperty("fieldNames");
         deliminator = properties.getProperty("deliminator");
 
-        beanFactory = SpringServiceLocator.getBeanFactory();
+        BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
         laborOriginEntryService = (LaborOriginEntryService) beanFactory.getBean("laborOriginEntryService");
         originEntryGroupService = (OriginEntryGroupService) beanFactory.getBean("glOriginEntryGroupService");
         businessObjectService = (BusinessObjectService) beanFactory.getBean("businessObjectService");

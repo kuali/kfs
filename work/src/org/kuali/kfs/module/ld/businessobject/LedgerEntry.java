@@ -120,7 +120,7 @@ public class LedgerEntry extends Entry {
 	 * Default constructor.
 	 */
 	public LedgerEntry() {
-
+	    super();
 	}
 
 	/**

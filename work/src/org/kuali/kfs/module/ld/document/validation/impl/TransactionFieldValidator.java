@@ -36,7 +36,10 @@ public class TransactionFieldValidator {
 
     public Message checkUniversityFiscalYear(Transaction transaction) {
         Integer fiscalYear = transaction.getUniversityFiscalYear();
-        if (fiscalYear == null || transaction.getOption() == null) {
+        if (fiscalYear == null) {
+            return buildErrorMessage(KeyConstants.ERROR_UNIV_FISCAL_YR_NOT_FOUND, Message.TYPE_FATAL);
+        }
+        else if (transaction.getOption() == null) {
             return buildErrorMessage(KeyConstants.ERROR_UNIV_FISCAL_YR_NOT_FOUND, fiscalYear.toString(), Message.TYPE_FATAL);
         }
         return null;
@@ -142,7 +145,7 @@ public class TransactionFieldValidator {
 
     public Message checkUniversityFiscalPeriodCode(Transaction transaction) {
         String fiscalPeriodCode = transaction.getUniversityFiscalPeriodCode();
-        if (StringUtils.isEmpty(fiscalPeriodCode)) {
+        if (StringUtils.isBlank(fiscalPeriodCode)) {
             return buildErrorMessage(KeyConstants.ERROR_ACCOUNTING_PERIOD_NOT_FOUND, fiscalPeriodCode, Message.TYPE_FATAL);
         }
         return null;

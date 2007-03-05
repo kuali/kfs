@@ -165,9 +165,9 @@ public class ObjectUtilTest extends TestCase {
         SimpleAddress address = new SimpleAddress("", "", "", null);
         ObjectUtil.convertLineToBusinessObject(address, line, delim, fieldNames);
         
-        assertEquals("", address.getStreet());
-        assertEquals("", address.getCity());
-        assertEquals("", address.getState());
+        assertEquals(null, address.getStreet());
+        assertEquals(null, address.getCity());
+        assertEquals(null, address.getState());
         assertEquals(null, address.getZip());        
     }
     

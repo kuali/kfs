@@ -16,19 +16,18 @@
 package org.kuali.module.labor.util.testobject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.PropertyConstants;
-import org.kuali.module.labor.bo.PendingLedgerEntry;
+import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.util.ObjectUtil;
 
-public class PendingLedgerEntryForTesting extends PendingLedgerEntry{
+public class LedgerBalanceForTesting extends LedgerBalance {
     
     @ Override
-    public boolean equals(Object otherPendingLedgerEntry){
-        return ObjectUtil.compareObject(this, otherPendingLedgerEntry, getPrimaryKeyList());
+    public boolean equals(Object otherLedgerBalance){
+        return ObjectUtil.compareObject(this, otherLedgerBalance, getPrimaryKeyList());
     }
     
     public Map getPrimaryKeyMap() {
@@ -37,9 +36,16 @@ public class PendingLedgerEntryForTesting extends PendingLedgerEntry{
     
     public List<String> getPrimaryKeyList(){
         List<String> primaryKeyList = new ArrayList<String>();
-        primaryKeyList.add(PropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE);
-        primaryKeyList.add(PropertyConstants.DOCUMENT_NUMBER);
-        primaryKeyList.add(PropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER);
+        primaryKeyList.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        primaryKeyList.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        primaryKeyList.add(PropertyConstants.ACCOUNT_NUMBER);
+        primaryKeyList.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
+        primaryKeyList.add(PropertyConstants.FINANCIAL_OBJECT_CODE);
+        primaryKeyList.add(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        primaryKeyList.add(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
+        primaryKeyList.add(PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
+        primaryKeyList.add(PropertyConstants.POSITION_NUMBER);
+        primaryKeyList.add(PropertyConstants.EMPLID);
         return primaryKeyList;
     }
 }

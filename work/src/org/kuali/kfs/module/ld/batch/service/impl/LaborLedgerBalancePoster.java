@@ -18,7 +18,9 @@ package org.kuali.module.labor.batch.poster.impl;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import org.kuali.Constants;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.labor.LaborConstants;
@@ -39,7 +41,7 @@ public class LaborLedgerBalancePoster implements PostTransaction {
      */
     public String post(Transaction transaction, int mode, Date postDate) {
         String operationType = LaborConstants.OperationType.INSERT;
-        LedgerBalance ledgerBalance = new LedgerBalance();
+        LedgerBalance ledgerBalance = new LedgerBalance();       
         ObjectUtil.buildObject(ledgerBalance, transaction);
 
         LedgerBalance tempLedgerBalance = (LedgerBalance) businessObjectService.retrieve(ledgerBalance);
@@ -47,7 +49,11 @@ public class LaborLedgerBalancePoster implements PostTransaction {
             ledgerBalance = tempLedgerBalance;
             operationType = LaborConstants.OperationType.UPDATE;
         }
-        ledgerBalance.addAmount(transaction.getUniversityFiscalPeriodCode(), transaction.getTransactionLedgerEntryAmount());
+        String debitCreditCode = transaction.getTransactionDebitCreditCode();
+        KualiDecimal amount = transaction.getTransactionLedgerEntryAmount();
+        amount = debitCreditCode.equals(Constants.GL_CREDIT_CODE) ? amount.negated() : amount;
+        
+        ledgerBalance.addAmount(transaction.getUniversityFiscalPeriodCode(), amount);
         ledgerBalance.setTransactionDateTimeStamp(new Timestamp(postDate.getTime()));
 
         businessObjectService.save(ledgerBalance);

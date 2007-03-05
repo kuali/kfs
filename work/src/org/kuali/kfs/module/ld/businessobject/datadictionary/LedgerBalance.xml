@@ -27,11 +27,11 @@
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="accountLineAnnualBalanceAmount" />
                 <field attributeName="accountNumber" />
-                <field attributeName="beginningBalanceAccountAmount" />
+                <field attributeName="financialBeginningBalanceLineAmount" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="emplid" />
                 <field attributeName="financialBalanceTypeCode" />
-                <field attributeName="financialBeginningBalanceLineAmount" />
+                <field attributeName="contractsGrantsBeginningBalanceAmount" />
                 <field attributeName="financialObjectCode" />
                 <field attributeName="financialObjectTypeCode" />
                 <field attributeName="financialSubObjectCode" />
@@ -71,11 +71,11 @@
             <lookupFields>
                 <lookupField attributeName="accountLineAnnualBalanceAmount" required="false" />
                 <lookupField attributeName="accountNumber" required="false" />
-                <lookupField attributeName="beginningBalanceAccountAmount" required="false" />
+                <lookupField attributeName="financialBeginningBalanceLineAmount" required="false" />
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
                 <lookupField attributeName="emplid" required="false" />
                 <lookupField attributeName="financialBalanceTypeCode" required="false" />
-                <lookupField attributeName="financialBeginningBalanceLineAmount" required="false" />
+                <lookupField attributeName="contractsGrantsBeginningBalanceAmount" required="false" />
                 <lookupField attributeName="financialObjectCode" required="false" />
                 <lookupField attributeName="financialObjectTypeCode" required="false" />
                 <lookupField attributeName="financialSubObjectCode" required="false" />
@@ -101,11 +101,11 @@
             <resultFields>
                 <field attributeName="accountLineAnnualBalanceAmount" />
                 <field attributeName="accountNumber" />
-                <field attributeName="beginningBalanceAccountAmount" />
+                <field attributeName="financialBeginningBalanceLineAmount" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="emplid" />
                 <field attributeName="financialBalanceTypeCode" />
-                <field attributeName="financialBeginningBalanceLineAmount" />
+                <field attributeName="contractsGrantsBeginningBalanceAmount" />
                 <field attributeName="financialObjectCode" />
                 <field attributeName="financialObjectTypeCode" />
                 <field attributeName="financialSubObjectCode" />
@@ -161,7 +161,7 @@
                 <description>accountNumber description...</description>
 			</attribute>
 
-            <attribute name="beginningBalanceAccountAmount" forceUppercase="true">
+            <attribute name="contractsGrantsBeginningBalanceAmount" forceUppercase="true">
                 <label>Beginning Balance Account Amount</label>
                 <shortLabel>Amount</shortLabel>
 

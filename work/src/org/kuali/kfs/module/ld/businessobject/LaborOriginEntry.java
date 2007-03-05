@@ -80,8 +80,7 @@ public class LaborOriginEntry extends OriginEntry {
      * Default constructor.
      */
     public LaborOriginEntry(GeneralLedgerPendingEntry glpe) {
-        super();
-        
+        super();        
     }
     
     public LaborOriginEntry(String financialDocumentTypeCode, String financialSystemOriginationCode) {

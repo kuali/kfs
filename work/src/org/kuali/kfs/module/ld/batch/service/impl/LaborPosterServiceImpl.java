@@ -88,7 +88,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     public void postMainEntries() {
         Date runDate = dateTimeService.getCurrentSqlDate();
 
-        OriginEntryGroup validGroup = originEntryGroupService.createGroup(runDate, LABOR_MAIN_POSTER_VALID, true, true, false);
+        OriginEntryGroup validGroup = originEntryGroupService.createGroup(runDate, LABOR_MAIN_POSTER_VALID, true, false, false);
         OriginEntryGroup invalidGroup = originEntryGroupService.createGroup(runDate, LABOR_MAIN_POSTER_ERROR, false, true, false);
 
         this.postLaborLedgerEntries(validGroup, invalidGroup, runDate);
@@ -97,11 +97,11 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
     // post the qualified origin entries into Labor Ledger tables
     private void postLaborLedgerEntries(OriginEntryGroup validGroup, OriginEntryGroup invalidGroup, Date runDate) {
-        Collection<OriginEntryGroup> postingGroups = originEntryGroupService.getGroupsToPost(LABOR_SCRUBBER_VALID);
         Map<Transaction, List<Message>> errorMap = new HashMap<Transaction, List<Message>>();
-        List<Summary> reportSummary = this.buildReportSummaryForLaborLedgerPosting();
-
+        List<Summary> reportSummary = this.buildReportSummaryForLaborLedgerPosting();       
         int numberOfOriginEntry = 0;
+        
+        Collection<OriginEntryGroup> postingGroups = originEntryGroupService.getGroupsToPost(LABOR_SCRUBBER_VALID);
         for (OriginEntryGroup entryGroup : postingGroups) {
             for (Iterator<LaborOriginEntry> entries = laborOriginEntryService.getEntriesByGroup(entryGroup); entries.hasNext();) {
                 LaborOriginEntry originEntry = entries.next();
@@ -122,11 +122,11 @@ public class LaborPosterServiceImpl implements LaborPosterService {
                 // post the current origin entry as a valid origin entry, ledger entry and ledger balance
                 postAsProcessedOriginEntry(originEntry, validGroup, runDate);
                 
-                String operationOnLedgerEntry = postAsLaborLedgerEntry(originEntry, runDate);
-                this.updateReportSummary(reportSummary, laborLedgerEntryPoster.getDestinationName(), operationOnLedgerEntry, STEP, 0);
+                String operationOnLedgerEntry = postAsLedgerEntry(originEntry, runDate);
+                updateReportSummary(reportSummary, laborLedgerEntryPoster.getDestinationName(), operationOnLedgerEntry, STEP, 0);
                 
-                String operationOnLedgerBalance = updateLaborLedgerBalance(originEntry, runDate);       
-                this.updateReportSummary(reportSummary, laborLedgerBalancePoster.getDestinationName(), operationOnLedgerBalance, STEP, 0);
+                String operationOnLedgerBalance = updateLedgerBalance(originEntry, runDate);       
+                updateReportSummary(reportSummary, laborLedgerBalancePoster.getDestinationName(), operationOnLedgerBalance, STEP, 0);
                 
                 numberOfOriginEntry++;
             }
@@ -134,8 +134,8 @@ public class LaborPosterServiceImpl implements LaborPosterService {
             // reset the process flag of the group so that it cannot be handled any more
             entryGroup.setProcess(Boolean.FALSE);
             originEntryGroupService.save(entryGroup);
-        }
-        this.updateReportSummary(reportSummary, ORIGN_ENTRY, OperationType.SELECT, numberOfOriginEntry, 0);
+        }        
+        updateReportSummary(reportSummary, ORIGN_ENTRY, OperationType.SELECT, numberOfOriginEntry, 0);
         reportService.generatePosterStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_STATISTICS, reportsDirectory, runDate);
         
         reportService.generatePosterInputSummaryReport(postingGroups, ReportRegistry.LABOR_POSTER_INPUT, reportsDirectory, runDate);
@@ -167,12 +167,12 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     }
 
     // post the given entry to the labor entry table
-    private String postAsLaborLedgerEntry(LaborOriginEntry originEntry, Date postDate) {
+    private String postAsLedgerEntry(LaborOriginEntry originEntry, Date postDate) {
         return laborLedgerEntryPoster.post(originEntry, 0, postDate);
     }
 
     // update the labor ledger balance for the given entry
-    private String updateLaborLedgerBalance(LaborOriginEntry originEntry, Date postDate) {
+    private String updateLedgerBalance(LaborOriginEntry originEntry, Date postDate) {
         return laborLedgerBalancePoster.post(originEntry, 0, postDate);
     }
 

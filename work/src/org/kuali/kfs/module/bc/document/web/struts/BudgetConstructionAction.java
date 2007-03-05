@@ -42,6 +42,7 @@ import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.dao.ojb.BudgetConstructionDaoOjb;
@@ -201,33 +202,33 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         BudgetConstructionDocument bcDocument = (BudgetConstructionDocument) budgetConstructionForm.getDocument();
         DocumentService documentService = SpringServiceLocator.getDocumentService();
         
-        // TODO for now just save, need to fixup QueryCustomizer for PBGL first
+        // TODO for now just save
         documentService.updateDocument(bcDocument);
         
-        int selectedIndex = this.getSelectedLine(request);
+        PendingBudgetConstructionGeneralLedger pbglLine = bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(this.getSelectedLine(request));
 
 
         String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
         Properties parameters = new Properties();
-        parameters.put("methodToCall", "view");
-        parameters.put("documentNumber", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(selectedIndex).getDocumentNumber());
-        parameters.put("universityFiscalYear", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(selectedIndex).getUniversityFiscalYear().toString());
-        parameters.put("chartOfAccountsCode", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(selectedIndex).getChartOfAccountsCode());
-        parameters.put("accountNumber", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(selectedIndex).getAccountNumber());
-        parameters.put("subAccountNumber", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(selectedIndex).getSubAccountNumber());
-        parameters.put("financialObjectCode", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(selectedIndex).getFinancialObjectCode());
-        parameters.put("financialSubObjectCode", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(selectedIndex).getFinancialSubObjectCode());
-        parameters.put("financialBalanceTypeCode", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(selectedIndex).getFinancialBalanceTypeCode());
-        parameters.put("financialObjectTypeCode", bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(selectedIndex).getFinancialObjectTypeCode());
+        parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, BCConstants.MONTHLY_BUDGET_METHOD);
+        parameters.put("documentNumber", pbglLine.getDocumentNumber());
+        parameters.put("universityFiscalYear", pbglLine.getUniversityFiscalYear().toString());
+        parameters.put("chartOfAccountsCode", pbglLine.getChartOfAccountsCode());
+        parameters.put("accountNumber", pbglLine.getAccountNumber());
+        parameters.put("subAccountNumber", pbglLine.getSubAccountNumber());
+        parameters.put("financialObjectCode", pbglLine.getFinancialObjectCode());
+        parameters.put("financialSubObjectCode", pbglLine.getFinancialSubObjectCode());
+        parameters.put("financialBalanceTypeCode", pbglLine.getFinancialBalanceTypeCode());
+        parameters.put("financialObjectTypeCode", pbglLine.getFinancialObjectTypeCode());
 
         // anchor, if it exists
         if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
-            parameters.put("returnAnchor", ((KualiForm) form).getAnchor());
+            parameters.put(BCConstants.RETURN_ANCHOR, ((KualiForm) form).getAnchor());
         }
 
-        parameters.put("returnFormKey", GlobalVariables.getUserSession().addObject(form));
+        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form));
             
-        String lookupUrl = UrlFactory.parameterizeUrl("/" + "budgetMonthlyBudget.do", parameters);
+        String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.MONTHLY_BUDGET_ACTION, parameters);
         return new ActionForward(lookupUrl, true);
     }
     
@@ -266,7 +267,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         // and rehooks the budgetConstructionMonthly referenced objects
         // we should be able to just refresh needed references by iterating the current set of expenditure lines???
 
-        if (refreshCaller.equalsIgnoreCase("MonthlyBudget")){
+        if (refreshCaller.equalsIgnoreCase(BCConstants.MONTHLY_BUDGET_REFRESH_CALLER)){
             
             // do things specific to returning from MonthlyBudget
 

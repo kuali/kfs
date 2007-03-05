@@ -30,6 +30,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
+import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.bo.BudgetConstructionMonthly;
 import org.kuali.module.budget.web.struts.form.MonthlyBudgetForm;
 
@@ -51,30 +52,29 @@ public class MonthlyBudgetAction extends KualiAction {
         
         MonthlyBudgetForm monthlyBudgetForm = (MonthlyBudgetForm) form;
         
-        // explicitly use the url parms to get the record from DB 
-        // this may eventually be changed to use struts populated form instance fields
+        // use the passed url parms to get the record from DB 
         Map fieldValues = new HashMap();
-        fieldValues.put("documentNumber", request.getParameter("documentNumber"));
-        fieldValues.put("universityFiscalYear", request.getParameter("universityFiscalYear"));
-        fieldValues.put("chartOfAccountsCode", request.getParameter("chartOfAccountsCode"));
-        fieldValues.put("accountNumber", request.getParameter("accountNumber"));
-        fieldValues.put("subAccountNumber", request.getParameter("subAccountNumber"));
-        fieldValues.put("financialObjectCode", request.getParameter("financialObjectCode"));
-        fieldValues.put("financialSubObjectCode", request.getParameter("financialSubObjectCode"));
-        fieldValues.put("financialBalanceTypeCode", request.getParameter("financialBalanceTypeCode"));
-        fieldValues.put("financialObjectTypeCode", request.getParameter("financialObjectTypeCode"));
+        fieldValues.put("documentNumber", monthlyBudgetForm.getDocumentNumber());
+        fieldValues.put("universityFiscalYear", monthlyBudgetForm.getUniversityFiscalYear());
+        fieldValues.put("chartOfAccountsCode", monthlyBudgetForm.getChartOfAccountsCode());
+        fieldValues.put("accountNumber", monthlyBudgetForm.getAccountNumber());
+        fieldValues.put("subAccountNumber", monthlyBudgetForm.getSubAccountNumber());
+        fieldValues.put("financialObjectCode", monthlyBudgetForm.getFinancialObjectCode());
+        fieldValues.put("financialSubObjectCode", monthlyBudgetForm.getFinancialSubObjectCode());
+        fieldValues.put("financialBalanceTypeCode", monthlyBudgetForm.getFinancialBalanceTypeCode());
+        fieldValues.put("financialObjectTypeCode", monthlyBudgetForm.getFinancialObjectTypeCode());
         BudgetConstructionMonthly budgetConstructionMonthly = (BudgetConstructionMonthly) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(BudgetConstructionMonthly.class,fieldValues);
         if (budgetConstructionMonthly == null){
             budgetConstructionMonthly = new BudgetConstructionMonthly();
-            budgetConstructionMonthly.setDocumentNumber(request.getParameter("documentNumber"));
-            budgetConstructionMonthly.setUniversityFiscalYear(Integer.parseInt(request.getParameter("universityFiscalYear")));
-            budgetConstructionMonthly.setChartOfAccountsCode(request.getParameter("chartOfAccountsCode"));
-            budgetConstructionMonthly.setAccountNumber(request.getParameter("accountNumber"));
-            budgetConstructionMonthly.setSubAccountNumber(request.getParameter("subAccountNumber"));
-            budgetConstructionMonthly.setFinancialObjectCode(request.getParameter("financialObjectCode"));
-            budgetConstructionMonthly.setFinancialSubObjectCode(request.getParameter("financialSubObjectCode"));
-            budgetConstructionMonthly.setFinancialBalanceTypeCode(request.getParameter("financialBalanceTypeCode"));
-            budgetConstructionMonthly.setFinancialObjectTypeCode(request.getParameter("financialObjectTypeCode"));
+            budgetConstructionMonthly.setDocumentNumber(monthlyBudgetForm.getDocumentNumber());
+            budgetConstructionMonthly.setUniversityFiscalYear(monthlyBudgetForm.getUniversityFiscalYear());
+            budgetConstructionMonthly.setChartOfAccountsCode(monthlyBudgetForm.getChartOfAccountsCode());
+            budgetConstructionMonthly.setAccountNumber(monthlyBudgetForm.getAccountNumber());
+            budgetConstructionMonthly.setSubAccountNumber(monthlyBudgetForm.getSubAccountNumber());
+            budgetConstructionMonthly.setFinancialObjectCode(monthlyBudgetForm.getFinancialObjectCode());
+            budgetConstructionMonthly.setFinancialSubObjectCode(monthlyBudgetForm.getFinancialSubObjectCode());
+            budgetConstructionMonthly.setFinancialBalanceTypeCode(monthlyBudgetForm.getFinancialBalanceTypeCode());
+            budgetConstructionMonthly.setFinancialObjectTypeCode(monthlyBudgetForm.getFinancialObjectTypeCode());
             budgetConstructionMonthly.refreshReferenceObject("pendingBudgetConstructionGeneralLedger");
         }
         monthlyBudgetForm.setBudgetConstructionMonthly(budgetConstructionMonthly);
@@ -92,12 +92,12 @@ public class MonthlyBudgetAction extends KualiAction {
 
         // setup the return parms for the document and anchor
         Properties parameters = new Properties();
-        parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, "refresh");
+        parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, BCConstants.BC_DOCUMENT_REFRESH_METHOD);
         parameters.put(Constants.DOC_FORM_KEY, monthlyBudgetForm.getReturnFormKey());
-        parameters.put("anchor", monthlyBudgetForm.getReturnAnchor());
-        parameters.put(Constants.REFRESH_CALLER, "MonthlyBudget");
+        parameters.put(Constants.ANCHOR, monthlyBudgetForm.getReturnAnchor());
+        parameters.put(Constants.REFRESH_CALLER, BCConstants.MONTHLY_BUDGET_REFRESH_CALLER);
         
-        String lookupUrl = UrlFactory.parameterizeUrl("/" + "budgetBudgetConstruction.do", parameters);
+        String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_DOCUMENT_ACTION, parameters);
         return new ActionForward(lookupUrl, true);
     }
     

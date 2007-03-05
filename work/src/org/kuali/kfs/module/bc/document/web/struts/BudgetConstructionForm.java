@@ -31,30 +31,10 @@ import org.kuali.core.util.SpringServiceLocator;
 public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionForm.class);
     
-//    private BudgetConstructionMonthly budgetConstructionMonthly;
-    private String returnedTabStates;
-    
     public BudgetConstructionForm() {
         super();
         setDocument(new BudgetConstructionDocument());
-//        setBudgetConstructionMonthly(new BudgetConstructionMonthly());
-//        getBudgetConstructionMonthly().setDocumentNumber("5678");
         LOG.debug("creating BudgetConstructionForm");
-/**
-        bcHeaderDao = new BudgetConstructionDaoOjb();
-        BudgetConstructionHeader budgetConstructionHeader = bcHeaderDao.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
-        Map fieldValues = new HashMap();
-        fieldValues.put("FDOC_NBR", budgetConstructionHeader.getDocumentNumber());
-        fieldValues.put("UNIV_FISCAL_YR", budgetConstructionHeader.getUniversityFiscalYear());
-        fieldValues.put("FIN_COA_CD", budgetConstructionHeader.getChartOfAccountsCode());
-        fieldValues.put("ACCOUNT_NBR", budgetConstructionHeader.getAccountNumber());
-        fieldValues.put("SUB_ACCT_NBR", budgetConstructionHeader.getSubAccountNumber());
-
-        BudgetConstructionDocument budgetConstructionDocument = (BudgetConstructionDocument) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(BudgetConstructionDocument.class, fieldValues);
-        setDocument(budgetConstructionDocument);
-        
-        budgetConstructionDocument.initiateDocument(budgetConstructionHeader);
-**/
     }
     
     public BudgetConstructionDocument getBudgetConstructionDocument(){
@@ -64,38 +44,6 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
     public void setBudgetConstructionDocument(BudgetConstructionDocument budgetConstructionDocument){
         setDocument(budgetConstructionDocument);
     }
-
-    /**
-     * Gets the returnedTabStates attribute. 
-     * @return Returns the returnedTabStates.
-     */
-    public String getReturnedTabStates() {
-        return returnedTabStates;
-    }
-
-    /**
-     * Sets the returnedTabStates attribute value.
-     * @param returnedTabStates The returnedTabStates to set.
-     */
-    public void setReturnedTabStates(String returnedTabStates) {
-        this.returnedTabStates = returnedTabStates;
-    }
-
-    /**
-     * Gets the budgetConstructionMonthly attribute. 
-     * @return Returns the budgetConstructionMonthly.
-     */
-//    public BudgetConstructionMonthly getBudgetConstructionMonthly() {
-//        return budgetConstructionMonthly;
-//    }
-
-    /**
-     * Sets the budgetConstructionMonthly attribute value.
-     * @param budgetConstructionMonthly The budgetConstructionMonthly to set.
-     */
-//    public void setBudgetConstructionMonthly(BudgetConstructionMonthly budgetConstructionMonthly) {
-//        this.budgetConstructionMonthly = budgetConstructionMonthly;
-//    }
 
    
 }

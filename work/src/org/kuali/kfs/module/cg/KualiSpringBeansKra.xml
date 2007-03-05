@@ -183,7 +183,7 @@
 		</property>
 	</bean>
 
-	<bean id="budgetPermissionsService" class="org.kuali.module.kra.service.impl.BudgetPermissionsServiceImpl">
+	<bean id="researchDocumentPermissionsService" class="org.kuali.module.kra.service.impl.ResearchDocumentPermissionsServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>

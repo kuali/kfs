@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.bo.BudgetAdHocOrg;
 import org.kuali.module.kra.bo.BudgetAdHocPermission;
 import org.kuali.module.kra.bo.BudgetAdHocWorkgroup;
@@ -135,6 +136,32 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase imp
             this.getAdHocWorkgroups().add(new BudgetAdHocWorkgroup());
         }
         return this.getAdHocWorkgroups().get(index);
+    }
+    
+    /**
+     * Build the xml to use when generating the workflow org routing report.
+     * 
+     * @param List<BudgetAdHocOrg> orgs
+     * @param boolean encloseContent - whether the generated xml should be enclosed within a <documentContent> tag
+     * @return String
+     */
+    public String buildAdhocOrgReportXml(String permissionTypeCode, boolean encloseContent) {
+        StringBuffer xml = new StringBuffer();
+        if (encloseContent) {
+            xml.append("<documentContent>");
+        }
+        List<BudgetAdHocOrg> orgs = SpringServiceLocator.getResearchDocumentPermissionsService().getBudgetAdHocOrgs(this.getDocumentNumber(), permissionTypeCode);
+        for (BudgetAdHocOrg org: orgs) {
+            xml.append("<chartOrg><chartOfAccountsCode>");
+            xml.append(org.getFiscalCampusCode());
+            xml.append("</chartOfAccountsCode><organizationCode>");
+            xml.append(org.getPrimaryDepartmentCode());
+            xml.append("</organizationCode></chartOrg>");
+        }
+        if (encloseContent) {
+            xml.append("</documentContent>");
+        }
+        return xml.toString();
     }
 
     /**

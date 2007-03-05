@@ -519,30 +519,4 @@ public class BudgetDocument extends ResearchDocumentBase {
         }
         return xml.toString();
     }
-    
-    /**
-     * Build the xml to use when generating the workflow org routing report.
-     * 
-     * @param List<BudgetAdHocOrg> orgs
-     * @param boolean encloseContent - whether the generated xml should be enclosed within a <documentContent> tag
-     * @return String
-     */
-    public String buildAdhocOrgReportXml(String permissionTypeCode, boolean encloseContent) {
-        StringBuffer xml = new StringBuffer();
-        if (encloseContent) {
-            xml.append("<documentContent>");
-        }
-        List<BudgetAdHocOrg> orgs = SpringServiceLocator.getBudgetPermissionsService().getBudgetAdHocOrgs(this.getDocumentNumber(), permissionTypeCode);
-        for (BudgetAdHocOrg org: orgs) {
-            xml.append("<chartOrg><chartOfAccountsCode>");
-            xml.append(org.getFiscalCampusCode());
-            xml.append("</chartOfAccountsCode><organizationCode>");
-            xml.append(org.getPrimaryDepartmentCode());
-            xml.append("</organizationCode></chartOrg>");
-        }
-        if (encloseContent) {
-            xml.append("</documentContent>");
-        }
-        return xml.toString();
-    }
 }

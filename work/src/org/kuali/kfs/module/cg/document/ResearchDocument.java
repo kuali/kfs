@@ -18,6 +18,7 @@ package org.kuali.module.kra.document;
 import java.util.List;
 
 import org.kuali.core.document.TransactionalDocument;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.bo.BudgetAdHocOrg;
 import org.kuali.module.kra.bo.BudgetAdHocPermission;
 import org.kuali.module.kra.bo.BudgetAdHocWorkgroup;
@@ -31,4 +32,5 @@ public interface ResearchDocument extends TransactionalDocument {
     public List<BudgetAdHocPermission> getAdHocPermissions();
     public List<BudgetAdHocOrg> getAdHocOrgs();
     public List<BudgetAdHocWorkgroup> getAdHocWorkgroups();
+    public String buildAdhocOrgReportXml(String permissionTypeCode, boolean encloseContent);
 }

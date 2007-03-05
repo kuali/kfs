@@ -38,6 +38,7 @@
 		</property>
 		<property name="dataDictionaryPackages">
 			<list>
+				<value>org.kuali.module.kra.datadictionary</value>
 				<value>org.kuali.module.kra.budget.datadictionary</value>
 				<value>org.kuali.module.kra.routingform.datadictionary</value>
 			</list>
@@ -182,7 +183,7 @@
 		</property>
 	</bean>
 
-	<bean id="budgetPermissionsService" class="org.kuali.module.kra.budget.service.impl.BudgetPermissionsServiceImpl">
+	<bean id="budgetPermissionsService" class="org.kuali.module.kra.service.impl.BudgetPermissionsServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>

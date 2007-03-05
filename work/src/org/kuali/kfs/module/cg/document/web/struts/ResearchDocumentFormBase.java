@@ -17,14 +17,21 @@ package org.kuali.module.kra.web.struts.form;
 
 import org.kuali.core.datadictionary.HeaderNavigation;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.module.kra.bo.BudgetAdHocOrg;
+import org.kuali.module.kra.bo.BudgetAdHocPermission;
 import org.kuali.module.kra.document.ResearchDocument;
 
 public abstract class ResearchDocumentFormBase extends KualiDocumentFormBase {
+    
+    private BudgetAdHocPermission newAdHocPermission;
+    private BudgetAdHocOrg newAdHocOrg;
+    private String newAdHocWorkgroupPermissionCode;
 
     public ResearchDocumentFormBase() {
-        // TODO Auto-generated constructor stub
+        newAdHocPermission = new BudgetAdHocPermission();
+        newAdHocOrg = new BudgetAdHocOrg();
     }
-
+    
     abstract public ResearchDocument getResearchDocument();
     
     public void disableHeaderNavigation(String headerTabNavigateTo) {
@@ -45,5 +52,47 @@ public abstract class ResearchDocumentFormBase extends KualiDocumentFormBase {
                 return;
             }
         }
+    }
+    
+    /**
+     * Gets the newAdHocPermission attribute.
+     * 
+     * @return Returns the newAdHocPermission.
+     */
+    public BudgetAdHocPermission getNewAdHocPermission() {
+        return newAdHocPermission;
+    }
+
+    /**
+     * Sets the newAdHocPermission attribute value.
+     * 
+     * @param newAdHocPermission The newAdHocPermission to set.
+     */
+    public void setNewAdHocPermission(BudgetAdHocPermission newAdHocPermission) {
+        this.newAdHocPermission = newAdHocPermission;
+    }
+    
+    /**
+     * Gets the newAdHocOrg attribute. 
+     * @return Returns the newAdHocOrg.
+     */
+    public BudgetAdHocOrg getNewAdHocOrg() {
+        return newAdHocOrg;
+    }
+
+    /**
+     * Sets the newAdHocOrg attribute value.
+     * @param newAdHocOrg The newAdHocOrg to set.
+     */
+    public void setNewAdHocOrg(BudgetAdHocOrg newAdHocOrg) {
+        this.newAdHocOrg = newAdHocOrg;
+    }
+
+    public String getNewAdHocWorkgroupPermissionCode() {
+        return newAdHocWorkgroupPermissionCode;
+    }
+
+    public void setNewAdHocWorkgroupPermissionCode(String newAdHocWorkgroupPermissionCode) {
+        this.newAdHocWorkgroupPermissionCode = newAdHocWorkgroupPermissionCode;
     }
 }

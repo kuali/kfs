@@ -34,9 +34,9 @@ import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.module.kra.bo.BudgetAdHocOrg;
+import org.kuali.module.kra.bo.BudgetAdHocPermission;
 import org.kuali.module.kra.budget.bo.Budget;
-import org.kuali.module.kra.budget.bo.BudgetAdHocOrg;
-import org.kuali.module.kra.budget.bo.BudgetAdHocPermission;
 import org.kuali.module.kra.budget.bo.BudgetFringeRate;
 import org.kuali.module.kra.budget.bo.BudgetGraduateAssistantRate;
 import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
@@ -73,9 +73,6 @@ public class BudgetForm extends ResearchDocumentFormBase {
     private BudgetFringeRate newFringeRate;
     private BudgetGraduateAssistantRate newGraduateAssistantRate;
     
-    private BudgetAdHocPermission newAdHocPermission;
-    private BudgetAdHocOrg newAdHocOrg;
-    private String newAdHocWorkgroupPermissionCode;
     private UniversalUser initiator;
 
     private String[] deleteValues = new String[50];
@@ -126,8 +123,6 @@ public class BudgetForm extends ResearchDocumentFormBase {
         newPersonnel = new BudgetUser();
         newFringeRate = new BudgetFringeRate();
         newGraduateAssistantRate = new BudgetGraduateAssistantRate();
-        newAdHocPermission = new BudgetAdHocPermission();
-        newAdHocOrg = new BudgetAdHocOrg();
         initiator = new UniversalUser();
         setDocument(new BudgetDocument());
         newInstitutionCostShare = new BudgetInstitutionCostShare();
@@ -351,48 +346,6 @@ public class BudgetForm extends ResearchDocumentFormBase {
             getNewNonpersonnelList().add(new BudgetNonpersonnel());
         }
         return (BudgetNonpersonnel) getNewNonpersonnelList().get(index);
-    }
-
-    /**
-     * Gets the newAdHocPermission attribute.
-     * 
-     * @return Returns the newAdHocPermission.
-     */
-    public BudgetAdHocPermission getNewAdHocPermission() {
-        return newAdHocPermission;
-    }
-
-    /**
-     * Sets the newAdHocPermission attribute value.
-     * 
-     * @param newAdHocPermission The newAdHocPermission to set.
-     */
-    public void setNewAdHocPermission(BudgetAdHocPermission newAdHocPermission) {
-        this.newAdHocPermission = newAdHocPermission;
-    }
-    
-    /**
-     * Gets the newAdHocOrg attribute. 
-     * @return Returns the newAdHocOrg.
-     */
-    public BudgetAdHocOrg getNewAdHocOrg() {
-        return newAdHocOrg;
-    }
-
-    /**
-     * Sets the newAdHocOrg attribute value.
-     * @param newAdHocOrg The newAdHocOrg to set.
-     */
-    public void setNewAdHocOrg(BudgetAdHocOrg newAdHocOrg) {
-        this.newAdHocOrg = newAdHocOrg;
-    }
-
-    public String getNewAdHocWorkgroupPermissionCode() {
-        return newAdHocWorkgroupPermissionCode;
-    }
-
-    public void setNewAdHocWorkgroupPermissionCode(String newAdHocWorkgroupPermissionCode) {
-        this.newAdHocWorkgroupPermissionCode = newAdHocWorkgroupPermissionCode;
     }
 
     /**

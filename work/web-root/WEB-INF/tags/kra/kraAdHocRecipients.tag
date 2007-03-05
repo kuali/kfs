@@ -106,11 +106,11 @@
                     	</c:if>
                 	</tr>
 				</c:if>
-				<c:forEach items="${KualiForm.document.budget.adHocPermissions}" var="person" varStatus="status">
+				<c:forEach items="${KualiForm.document.adHocPermissions}" var="person" varStatus="status">
 					<tr>
 	                    <td class="datacell center">
 	                    	<div align=center>
-	                    		<html:select property="document.budget.budgetAdHocPermissionItem[${status.index}].actionRequested" value="${Constants.WORKFLOW_FYI_REQUEST}" disabled="true">
+	                    		<html:select property="document.budgetAdHocPermissionItem[${status.index}].actionRequested" value="${Constants.WORKFLOW_FYI_REQUEST}" disabled="true">
   		                    		<c:set var="actionRequestCodes" value="${KualiForm.adHocActionRequestCodes}"/>
 	    		            		<html:options collection="actionRequestCodes" property="key" labelProperty="value" />
 	  			        		</html:select>
@@ -119,18 +119,21 @@
 	                    </td>
 	                    <td class="datacell center">
 	                    	<div align=left>${person.user.personUserIdentifier}</div>
-	                    	<html:hidden property="document.budget.budgetAdHocPermissionItem[${status.index}].user.personUserIdentifier" />
+	                    	<html:hidden property="document.budgetAdHocPermissionItem[${status.index}].user.personUserIdentifier" />
+	                    	<html:hidden property="document.budgetAdHocPermissionItem[${status.index}].user.personUniversalIdentifier" />
+	                    	<html:hidden property="document.budgetAdHocPermissionItem[${status.index}].user.personFirstName" />
+	                    	<html:hidden property="document.budgetAdHocPermissionItem[${status.index}].user.personLastName" />
 	                    </td>
-	                    <td>${person.user.campusCode}<html:hidden property="document.budget.budgetAdHocPermissionItem[${status.index}].user.campusCode" /></td>
-	                    <td>${person.orgCode}<html:hidden property="document.budget.budgetAdHocPermissionItem[${status.index}].user.primaryDepartmentCode" /></td>
+	                    <td>${person.user.campusCode}<html:hidden property="document.budgetAdHocPermissionItem[${status.index}].user.campusCode" /></td>
+	                    <td>${person.orgCode}<html:hidden property="document.budgetAdHocPermissionItem[${status.index}].user.primaryDepartmentCode" /></td>
 	                    <td>
-	                    	<c:if test="${displayReadOnly}"><html:hidden property="document.budget.budgetAdHocPermissionItem[${status.index}].budgetPermissionCode" /></c:if>
-	                    	<kul:htmlControlAttribute property="document.budget.budgetAdHocPermissionItem[${status.index}].budgetPermissionCode" attributeEntry="${budgetAdHocPermissionAttributes.budgetPermissionCode}" readOnly="${displayReadOnly}"/>
-							<html:hidden property="document.budget.budgetAdHocPermissionItem[${status.index}].personSystemIdentifier" />
-							<html:hidden property="document.budget.budgetAdHocPermissionItem[${status.index}].addedByPerson" />
-							<html:hidden property="document.budget.budgetAdHocPermissionItem[${status.index}].personAddedTimestamp" />
-							<html:hidden property="document.budget.budgetAdHocPermissionItem[${status.index}].objectId" />
-							<html:hidden property="document.budget.budgetAdHocPermissionItem[${status.index}].versionNumber" />
+	                    	<c:if test="${displayReadOnly}"><html:hidden property="document.budgetAdHocPermissionItem[${status.index}].budgetPermissionCode" /></c:if>
+	                    	<kul:htmlControlAttribute property="document.budgetAdHocPermissionItem[${status.index}].budgetPermissionCode" attributeEntry="${budgetAdHocPermissionAttributes.budgetPermissionCode}" readOnly="${displayReadOnly}"/>
+							<html:hidden property="document.budgetAdHocPermissionItem[${status.index}].personSystemIdentifier" />
+							<html:hidden property="document.budgetAdHocPermissionItem[${status.index}].addedByPerson" />
+							<html:hidden property="document.budgetAdHocPermissionItem[${status.index}].personAddedTimestamp" />
+							<html:hidden property="document.budgetAdHocPermissionItem[${status.index}].objectId" />
+							<html:hidden property="document.budgetAdHocPermissionItem[${status.index}].versionNumber" />
 						</td>
 						<c:if test="${not displayReadOnly}">
 		                    <td class="datacell center"><div align=center>
@@ -205,7 +208,7 @@
 				</tr>
 				</c:if>
 				
-				<c:forEach items="${KualiForm.document.budget.adHocOrgs}" var="org" varStatus="status">
+				<c:forEach items="${KualiForm.document.adHocOrgs}" var="org" varStatus="status">
 					<tr>
 						<td class="datacell center">
 	                    	<div align=center>
@@ -215,17 +218,17 @@
 	  			        		</html:select>
 	  			        		(upon completion)
 	  			        	</div>
-	  			        	<html:hidden property="document.budget.budgetAdHocOrgItem[${status.index}].fiscalCampusCode" />
-							<html:hidden property="document.budget.budgetAdHocOrgItem[${status.index}].primaryDepartmentCode" />
-							<html:hidden property="document.budget.budgetAdHocOrgItem[${status.index}].addedByPerson" />
-							<html:hidden property="document.budget.budgetAdHocOrgItem[${status.index}].personAddedTimestamp" />
-							<html:hidden property="document.budget.budgetAdHocOrgItem[${status.index}].objectId" />
-							<html:hidden property="document.budget.budgetAdHocOrgItem[${status.index}].versionNumber" />
+	  			        	<html:hidden property="document.budgetAdHocOrgItem[${status.index}].fiscalCampusCode" />
+							<html:hidden property="document.budgetAdHocOrgItem[${status.index}].primaryDepartmentCode" />
+							<html:hidden property="document.budgetAdHocOrgItem[${status.index}].addedByPerson" />
+							<html:hidden property="document.budgetAdHocOrgItem[${status.index}].personAddedTimestamp" />
+							<html:hidden property="document.budgetAdHocOrgItem[${status.index}].objectId" />
+							<html:hidden property="document.budgetAdHocOrgItem[${status.index}].versionNumber" />
 	                    </td>
 						<td colspan="3">${org.fiscalCampusCode}/${org.primaryDepartmentCode}</td>
 						<td>
-							<c:if test="${displayReadOnly}"><html:hidden property="document.budget.budgetAdHocOrgItem[${status.index}].budgetPermissionCode" /></c:if>
-							<kul:htmlControlAttribute property="document.budget.budgetAdHocOrgItem[${status.index}].budgetPermissionCode" attributeEntry="${budgetAdHocPermissionAttributes.budgetPermissionCode}" readOnly="${displayReadOnly}"/>
+							<c:if test="${displayReadOnly}"><html:hidden property="document.budgetAdHocOrgItem[${status.index}].budgetPermissionCode" /></c:if>
+							<kul:htmlControlAttribute property="document.budgetAdHocOrgItem[${status.index}].budgetPermissionCode" attributeEntry="${budgetAdHocPermissionAttributes.budgetPermissionCode}" readOnly="${displayReadOnly}"/>
 						</td>
 						<c:if test="${not displayReadOnly}">
 						<td>
@@ -295,11 +298,11 @@
                     	</c:if>
                 	</tr>
 				</c:if>
-                <c:forEach items="${KualiForm.document.budget.adHocWorkgroups}" var="workgroup" varStatus="status">
+                <c:forEach items="${KualiForm.document.adHocWorkgroups}" var="workgroup" varStatus="status">
 					<tr>
 	                    <td class="datacell center">
 	                    	<div align=center>
-	                    		<html:select property="document.budget.budgetAdHocWorkgroupItem[${status.index}].actionRequested" value="${Constants.WORKFLOW_FYI_REQUEST}" disabled="true">
+	                    		<html:select property="document.budgetAdHocWorkgroupItem[${status.index}].actionRequested" value="${Constants.WORKFLOW_FYI_REQUEST}" disabled="true">
   		                    		<c:set var="actionRequestCodes" value="${KualiForm.adHocActionRequestCodes}"/>
 	    		            		<html:options collection="actionRequestCodes" property="key" labelProperty="value" />
 	  			        		</html:select>
@@ -308,19 +311,19 @@
 	                    </td>
 	                    <td colspan="3" class="datacell center">
 	                    	<div align=left>${workgroup.workgroupName}</div>
-	                    	<html:hidden property="document.budget.budgetAdHocWorkgroupItem[${status.index}].workgroupName" />
+	                    	<html:hidden property="document.budgetAdHocWorkgroupItem[${status.index}].workgroupName" />
 	                    </td>
 	                    <td>
-	                    	<c:if test="${displayReadOnly}"><html:hidden property="document.budget.budgetAdHocWorkgroupItem[${status.index}].budgetPermissionCode" /></c:if>
-	                    	<kul:htmlControlAttribute property="document.budget.budgetAdHocWorkgroupItem[${status.index}].budgetPermissionCode" attributeEntry="${budgetAdHocPermissionAttributes.budgetPermissionCode}" readOnly="${displayReadOnly}"/>
-	                    	<html:hidden property="document.budget.budgetAdHocWorkgroupItem[${status.index}].addedByPerson" />
-							<html:hidden property="document.budget.budgetAdHocWorkgroupItem[${status.index}].personAddedTimestamp" />
-							<html:hidden property="document.budget.budgetAdHocWorkgroupItem[${status.index}].objectId" />
-							<html:hidden property="document.budget.budgetAdHocWorkgroupItem[${status.index}].versionNumber" />
+	                    	<c:if test="${displayReadOnly}"><html:hidden property="document.budgetAdHocWorkgroupItem[${status.index}].budgetPermissionCode" /></c:if>
+	                    	<kul:htmlControlAttribute property="document.budgetAdHocWorkgroupItem[${status.index}].budgetPermissionCode" attributeEntry="${budgetAdHocPermissionAttributes.budgetPermissionCode}" readOnly="${displayReadOnly}"/>
+	                    	<html:hidden property="document.budgetAdHocWorkgroupItem[${status.index}].addedByPerson" />
+							<html:hidden property="document.budgetAdHocWorkgroupItem[${status.index}].personAddedTimestamp" />
+							<html:hidden property="document.budgetAdHocWorkgroupItem[${status.index}].objectId" />
+							<html:hidden property="document.budgetAdHocWorkgroupItem[${status.index}].versionNumber" />
 						</td>
 						<c:if test="${not displayReadOnly}">
 		                    <td class="datacell center"><div align=center>
-                            	<html:image property="methodToCall.delete.line${status.index}" src="images/tinybutton-delete1.gif" alt="delete" styleClass="tinybutton"/></div>
+                            	<html:image property="methodToCall.deleteWorkgroup.line${status.index}" src="images/tinybutton-delete1.gif" alt="delete" styleClass="tinybutton"/></div>
 	                    	</td>
 	                    </c:if>
 	                </tr>

@@ -214,54 +214,6 @@ public class RoutingForm extends ResearchDocumentFormBase {
     }
     
     /**
-     * Gets the newAdHocPerson attribute. 
-     * @return Returns the newAdHocPerson.
-     */
-    public RoutingFormAdHocPerson getNewAdHocPerson() {
-        return newAdHocPerson;
-    }
-
-    /**
-     * Sets the newAdHocPerson attribute value.
-     * @param newAdHocPerson The newAdHocPerson to set.
-     */
-    public void setNewAdHocPerson(RoutingFormAdHocPerson newAdHocPerson) {
-        this.newAdHocPerson = newAdHocPerson;
-    }
-
-    /**
-     * Gets the newAdHocOrg attribute. 
-     * @return Returns the newAdHocOrg.
-     */
-    public RoutingFormAdHocOrg getNewAdHocOrg() {
-        return newAdHocOrg;
-    }
-
-    /**
-     * Sets the newAdHocOrg attribute value.
-     * @param newAdHocOrg The newAdHocOrg to set.
-     */
-    public void setNewAdHocOrg(RoutingFormAdHocOrg newAdHocOrg) {
-        this.newAdHocOrg = newAdHocOrg;
-    }
-
-    /**
-     * Gets the newAdHocWorkgroup attribute. 
-     * @return Returns the newAdHocWorkgroup.
-     */
-    public RoutingFormAdHocWorkgroup getNewAdHocWorkgroup() {
-        return newAdHocWorkgroup;
-    }
-
-    /**
-     * Sets the newAdHocWorkgroup attribute value.
-     * @param newAdHocWorkgroup The newAdHocWorkgroup to set.
-     */
-    public void setNewAdHocWorkgroup(RoutingFormAdHocWorkgroup newAdHocWorkgroup) {
-        this.newAdHocWorkgroup = newAdHocWorkgroup;
-    }
-    
-    /**
      * Gets the two column size of routingFormProjectTypes, zero based. The result will be rounded up so that the left column has an additional element for odd sized lists.
      * @return half size of routingFormProjectTypes, rounded up, zero based
      */

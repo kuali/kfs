@@ -40,8 +40,8 @@ import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
 import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.module.kra.KraConstants;
+import org.kuali.module.kra.bo.BudgetAdHocOrg;
 import org.kuali.module.kra.budget.bo.Budget;
-import org.kuali.module.kra.budget.bo.BudgetAdHocOrg;
 import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
@@ -351,6 +351,10 @@ public class BudgetDocument extends ResearchDocumentBase {
     @Override
     public List buildListOfDeletionAwareLists() {
         List list = new ArrayList();
+        
+        list.add(this.getAdHocPermissions());
+        list.add(this.getAdHocOrgs()); 
+        list.add(this.getAdHocWorkgroups());
             
         Budget budget = this.getBudget();
             list.add(budget.getTasks());
@@ -367,10 +371,7 @@ public class BudgetDocument extends ResearchDocumentBase {
             list.add(budget.getInstitutionCostShareItems());
 
             list.add(budget.getInstitutionCostSharePersonnelItems());
-            list.add(budget.getAdHocPermissions());
-            list.add(budget.getAdHocOrgs()); 
-            list.add(budget.getAdHocWorkgroups());
-
+            
             if (budget.getIndirectCost() != null && budget.getIndirectCost().getBudgetTaskPeriodIndirectCostItems() != null) {
                 list.add(budget.getIndirectCost().getBudgetTaskPeriodIndirectCostItems());
             } else {
@@ -409,8 +410,8 @@ public class BudgetDocument extends ResearchDocumentBase {
         List referenceObjects = new ArrayList();
         referenceObjects.add("personnel");
         referenceObjects.add("institutionCostShareItems");
-        referenceObjects.add("adHocOrgs");
         SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(budget, referenceObjects);
+        this.refreshReferenceObject("adHocOrgs");
         
         StringBuffer xml = new StringBuffer("<documentContent>");
         xml.append(buildProjectDirectorReportXml(false));
@@ -505,7 +506,7 @@ public class BudgetDocument extends ResearchDocumentBase {
         if (encloseContent) {
             xml.append("<documentContent>");
         }
-        List<BudgetAdHocOrg> orgs = this.getBudget().getAdHocOrgs();
+        List<BudgetAdHocOrg> orgs = this.getAdHocOrgs();
         for (BudgetAdHocOrg org: orgs) {
             xml.append("<chartOrg><chartOfAccountsCode>");
             xml.append(org.getFiscalCampusCode());

@@ -25,7 +25,9 @@
 	
 	<kra-rf:routingFormHiddenDocumentFields />
 	
-	<kra-rf:routingFormAdHocPermissions />
+	<kra:kraAdHocRecipients />
+	
+	<%-- <kra-rf:routingFormAdHocPermissions /> --%>
 	
 	<kra-rf:routingFormDefaultPermissions />
 	

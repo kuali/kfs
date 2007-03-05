@@ -15,8 +15,12 @@
  */
 package org.kuali.module.kra.document;
 
-import org.kuali.core.document.Document;
+import java.util.List;
+
 import org.kuali.core.document.TransactionalDocument;
+import org.kuali.module.kra.bo.BudgetAdHocOrg;
+import org.kuali.module.kra.bo.BudgetAdHocPermission;
+import org.kuali.module.kra.bo.BudgetAdHocWorkgroup;
 
 
 /**
@@ -24,4 +28,7 @@ import org.kuali.core.document.TransactionalDocument;
  */
 public interface ResearchDocument extends TransactionalDocument {
     public void initialize();
+    public List<BudgetAdHocPermission> getAdHocPermissions();
+    public List<BudgetAdHocOrg> getAdHocOrgs();
+    public List<BudgetAdHocWorkgroup> getAdHocWorkgroups();
 }

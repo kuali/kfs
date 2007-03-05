@@ -107,11 +107,15 @@ public class BudgetParametersAction extends BudgetAction {
         referenceObjects.add("thirdPartyCostShareItems");
         referenceObjects.add("institutionCostShareItems");
         referenceObjects.add("institutionCostSharePersonnelItems");
-        referenceObjects.add("adHocPermissions");
-        referenceObjects.add("adHocOrgs");
-        referenceObjects.add("adHocWorkgroups");
-
+        
         SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(budgetForm.getBudgetDocument().getBudget(), referenceObjects);
+        
+        List docReferenceObjects = new ArrayList();
+        docReferenceObjects.add("adHocPermissions");
+        docReferenceObjects.add("adHocOrgs");
+        docReferenceObjects.add("adHocWorkgroups");
+        
+        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(budgetForm.getBudgetDocument(), docReferenceObjects);
 
         if (budgetForm.getBudgetDocument().getBudget().isAgencyModularIndicator()) {
             if (ObjectUtils.isNull(budgetForm.getBudgetDocument().getBudget().getModularBudget())) {

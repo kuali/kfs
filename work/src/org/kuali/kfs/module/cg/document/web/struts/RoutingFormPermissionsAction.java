@@ -15,6 +15,8 @@
  */
 package org.kuali.module.kra.routingform.web.struts.action;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,6 +29,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.KraKeyConstants;
+import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.module.kra.routingform.bo.RoutingFormAdHocOrg;
 import org.kuali.module.kra.routingform.bo.RoutingFormAdHocPerson;
 import org.kuali.module.kra.routingform.bo.RoutingFormAdHocWorkgroup;
@@ -40,26 +43,26 @@ import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
  */
 public class RoutingFormPermissionsAction extends RoutingFormAction {
     
-    public ActionForward insertAdHocPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        RoutingForm routingForm = (RoutingForm) form;
-        RoutingFormDocument document = routingForm.getRoutingFormDocument();
-
-        RoutingFormAdHocPerson adHocPerson = (RoutingFormAdHocPerson) routingForm.getNewAdHocPerson();
-
-        // check if person is valid
-         boolean rulePassed = true; // SpringServiceLocator.getKualiRuleService().applyRules(new AddAdHocRoutePersonEvent(document, (AdHocRoutePerson) budgetForm.getNewAdHocRoutePerson()));
-        
-        if (rulePassed) {
-            UniversalUser user = SpringServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(adHocPerson.getPersonSystemIdentifier()));
-            adHocPerson.setUser(user);
-            adHocPerson.setPersonAddedTimestamp(SpringServiceLocator.getDateTimeService().getCurrentTimestamp());
-            adHocPerson.setAddedByPerson(SpringServiceLocator.getWebAuthenticationService().getNetworkId(request));
-            routingForm.getRoutingFormDocument().getRoutingFormAdHocPeople().add(adHocPerson);
-            routingForm.setNewAdHocPerson(new RoutingFormAdHocPerson());
-        }
-
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
+//    public ActionForward insertAdHocPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//        RoutingForm routingForm = (RoutingForm) form;
+//        RoutingFormDocument document = routingForm.getRoutingFormDocument();
+//
+//        RoutingFormAdHocPerson adHocPerson = (RoutingFormAdHocPerson) routingForm.getNewAdHocPerson();
+//
+//        // check if person is valid
+//         boolean rulePassed = true; // SpringServiceLocator.getKualiRuleService().applyRules(new AddAdHocRoutePersonEvent(document, (AdHocRoutePerson) budgetForm.getNewAdHocRoutePerson()));
+//        
+//        if (rulePassed) {
+//            UniversalUser user = SpringServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(adHocPerson.getPersonSystemIdentifier()));
+//            adHocPerson.setUser(user);
+//            adHocPerson.setPersonAddedTimestamp(SpringServiceLocator.getDateTimeService().getCurrentTimestamp());
+//            adHocPerson.setAddedByPerson(SpringServiceLocator.getWebAuthenticationService().getNetworkId(request));
+//            routingForm.getRoutingFormDocument().getAdHocPermissions().add(adHocPerson);
+//            routingForm.setNewAdHocPerson(new RoutingFormAdHocPerson());
+//        }
+//
+//        return mapping.findForward(Constants.MAPPING_BASIC);
+//    }
     
     /**
      * This method will add a new ad-hoc org to the list.
@@ -71,43 +74,43 @@ public class RoutingFormPermissionsAction extends RoutingFormAction {
      * @return ActionForward
      * @throws Exception
      */
-    public ActionForward insertAdHocOrg(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-
-        RoutingForm routingForm = (RoutingForm) form;
-
-        if (routingForm.getNewAdHocOrg().getFiscalCampusCode() == null) {
-            // Add page error.
-            GlobalVariables.getErrorMap().putError("newAdHocOrg", KraKeyConstants.ERROR_NO_ORG_SELECTED, new String[] {});
-        }
-        else {
-            RoutingFormAdHocOrg newAdHocOrg = routingForm.getNewAdHocOrg();
-            newAdHocOrg.setPersonAddedTimestamp(SpringServiceLocator.getDateTimeService().getCurrentTimestamp());
-            newAdHocOrg.setAddedByPerson(SpringServiceLocator.getWebAuthenticationService().getNetworkId(request));
-            routingForm.getRoutingFormDocument().getRoutingFormAdHocOrgs().add(newAdHocOrg);
-            routingForm.setNewAdHocOrg(new RoutingFormAdHocOrg());
-        }
-
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
+//    public ActionForward insertAdHocOrg(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+//
+//        RoutingForm routingForm = (RoutingForm) form;
+//
+//        if (routingForm.getNewAdHocOrg().getFiscalCampusCode() == null) {
+//            // Add page error.
+//            GlobalVariables.getErrorMap().putError("newAdHocOrg", KraKeyConstants.ERROR_NO_ORG_SELECTED, new String[] {});
+//        }
+//        else {
+//            RoutingFormAdHocOrg newAdHocOrg = routingForm.getNewAdHocOrg();
+//            newAdHocOrg.setPersonAddedTimestamp(SpringServiceLocator.getDateTimeService().getCurrentTimestamp());
+//            newAdHocOrg.setAddedByPerson(SpringServiceLocator.getWebAuthenticationService().getNetworkId(request));
+//            routingForm.getRoutingFormDocument().getRoutingFormAdHocOrgs().add(newAdHocOrg);
+//            routingForm.setNewAdHocOrg(new RoutingFormAdHocOrg());
+//        }
+//
+//        return mapping.findForward(Constants.MAPPING_BASIC);
+//    }
     
-    public ActionForward insertAdHocWorkgroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        RoutingForm routingForm = (RoutingForm) form;
-        RoutingFormDocument document = routingForm.getRoutingFormDocument();
-
-        RoutingFormAdHocWorkgroup adHocWorkgroup = (RoutingFormAdHocWorkgroup) routingForm.getNewAdHocWorkgroup();
-
-        // check if person is valid
-         boolean rulePassed = true; // SpringServiceLocator.getKualiRuleService().applyRules(new AddAdHocRoutePersonEvent(document, (AdHocRoutePerson) budgetForm.getNewAdHocRoutePerson()));
-        
-        if (rulePassed) {
-            adHocWorkgroup.setPersonAddedTimestamp(SpringServiceLocator.getDateTimeService().getCurrentTimestamp());
-            adHocWorkgroup.setAddedByPerson(SpringServiceLocator.getWebAuthenticationService().getNetworkId(request));
-            routingForm.getRoutingFormDocument().getRoutingFormAdHocWorkgroups().add(adHocWorkgroup);
-            routingForm.setNewAdHocWorkgroup(new RoutingFormAdHocWorkgroup());
-        }
-
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
+//    public ActionForward insertAdHocWorkgroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//        RoutingForm routingForm = (RoutingForm) form;
+//        RoutingFormDocument document = routingForm.getRoutingFormDocument();
+//
+//        RoutingFormAdHocWorkgroup adHocWorkgroup = (RoutingFormAdHocWorkgroup) routingForm.getNewAdHocWorkgroup();
+//
+//        // check if person is valid
+//         boolean rulePassed = true; // SpringServiceLocator.getKualiRuleService().applyRules(new AddAdHocRoutePersonEvent(document, (AdHocRoutePerson) budgetForm.getNewAdHocRoutePerson()));
+//        
+//        if (rulePassed) {
+//            adHocWorkgroup.setPersonAddedTimestamp(SpringServiceLocator.getDateTimeService().getCurrentTimestamp());
+//            adHocWorkgroup.setAddedByPerson(SpringServiceLocator.getWebAuthenticationService().getNetworkId(request));
+//            routingForm.getRoutingFormDocument().getRoutingFormAdHocWorkgroups().add(adHocWorkgroup);
+//            routingForm.setNewAdHocWorkgroup(new RoutingFormAdHocWorkgroup());
+//        }
+//
+//        return mapping.findForward(Constants.MAPPING_BASIC);
+//    }
     
     /**
      * This method will remove the selected ad-hoc person from the list.
@@ -119,10 +122,10 @@ public class RoutingFormPermissionsAction extends RoutingFormAction {
      * @return ActionForward
      * @throws Exception
      */
-    public ActionForward deleteAdHocPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        ((RoutingForm) form).getRoutingFormDocument().getRoutingFormAdHocPeople().remove(getLineToDelete(request));
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
+//    public ActionForward deleteAdHocPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+//        ((RoutingForm) form).getRoutingFormDocument().getRoutingFormAdHocPeople().remove(getLineToDelete(request));
+//        return mapping.findForward(Constants.MAPPING_BASIC);
+//    }
     
     /**
      * This method will remove the selected ad-hoc org from the list.
@@ -134,10 +137,10 @@ public class RoutingFormPermissionsAction extends RoutingFormAction {
      * @return ActionForward
      * @throws Exception
      */
-    public ActionForward deleteAdHocOrg(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        ((RoutingForm) form).getRoutingFormDocument().getRoutingFormAdHocOrgs().remove(getLineToDelete(request));
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
+//    public ActionForward deleteAdHocOrg(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+//        ((RoutingForm) form).getRoutingFormDocument().getRoutingFormAdHocOrgs().remove(getLineToDelete(request));
+//        return mapping.findForward(Constants.MAPPING_BASIC);
+//    }
     
     /**
      * This method will remove the selected ad-hoc person from the list.
@@ -149,14 +152,28 @@ public class RoutingFormPermissionsAction extends RoutingFormAction {
      * @return ActionForward
      * @throws Exception
      */
-    public ActionForward deleteAdHocWorkgroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        ((RoutingForm) form).getRoutingFormDocument().getRoutingFormAdHocWorkgroups().remove(getLineToDelete(request));
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
+//    public ActionForward deleteAdHocWorkgroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+//        ((RoutingForm) form).getRoutingFormDocument().getRoutingFormAdHocWorkgroups().remove(getLineToDelete(request));
+//        return mapping.findForward(Constants.MAPPING_BASIC);
+//    }
     
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        this.load(mapping, form, request, response);
-        return super.save(mapping, form, request, response);
+
+        RoutingForm routingForm = (RoutingForm) form;
+
+        List adHocPermissions = routingForm.getRoutingFormDocument().getAdHocPermissions();
+        List adHocOrgs = routingForm.getRoutingFormDocument().getAdHocOrgs();
+        List adHocWorkgroups = routingForm.getRoutingFormDocument().getAdHocWorkgroups();
+        
+        this.load(mapping, routingForm, request, response);
+
+        routingForm.getRoutingFormDocument().setAdHocPermissions(adHocPermissions);
+        routingForm.getRoutingFormDocument().setAdHocOrgs(adHocOrgs);
+        routingForm.getRoutingFormDocument().setAdHocWorkgroups(adHocWorkgroups);
+        
+        ActionForward forward = super.save(mapping, routingForm, request, response);
+        
+        return forward;
     }
 }

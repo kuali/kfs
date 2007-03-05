@@ -179,18 +179,6 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
-    <collection-descriptor name="adHocPermissions" proxy="true" element-class-ref="org.kuali.module.kra.budget.bo.BudgetAdHocPermission" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <inverse-foreignkey field-ref="documentNumber" />
-    </collection-descriptor>
-    
-    <collection-descriptor name="adHocOrgs" proxy="true" element-class-ref="org.kuali.module.kra.budget.bo.BudgetAdHocOrg" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <inverse-foreignkey field-ref="documentNumber" />
-    </collection-descriptor>
-    
-    <collection-descriptor name="adHocWorkgroups" proxy="true" element-class-ref="org.kuali.module.kra.budget.bo.BudgetAdHocWorkgroup" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <inverse-foreignkey field-ref="documentNumber" />
-    </collection-descriptor>
-
     <collection-descriptor name="budgetIndirectCostLookups" proxy="true" element-class-ref="org.kuali.module.kra.budget.bo.BudgetIndirectCostLookup" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="documentNumber"/>
     </collection-descriptor>
@@ -259,6 +247,18 @@
     <reference-descriptor name="budget" class-ref="org.kuali.module.kra.budget.bo.Budget" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-id-ref="1" />
     </reference-descriptor>
+    
+    <collection-descriptor name="adHocPermissions" proxy="true" element-class-ref="org.kuali.module.kra.bo.BudgetAdHocPermission" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
+    
+    <collection-descriptor name="adHocOrgs" proxy="true" element-class-ref="org.kuali.module.kra.bo.BudgetAdHocOrg" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
+    
+    <collection-descriptor name="adHocWorkgroups" proxy="true" element-class-ref="org.kuali.module.kra.bo.BudgetAdHocWorkgroup" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
 
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="documentNumber" />
@@ -322,7 +322,7 @@
     </collection-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.kra.budget.bo.BudgetAdHocPermission" table="ER_BDGT_ADHOC_PRMSN_T">
+<class-descriptor class="org.kuali.module.kra.bo.BudgetAdHocPermission" table="ER_BDGT_ADHOC_PRMSN_T">
     <field-descriptor name="documentNumber" column="RDOC_NBR" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="personSystemIdentifier" column="PERSON_SYS_ID" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
@@ -335,7 +335,7 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.kra.budget.bo.BudgetAdHocOrg" table="ER_BDGT_ADHOC_ORG_T">
+<class-descriptor class="org.kuali.module.kra.bo.BudgetAdHocOrg" table="ER_BDGT_ADHOC_ORG_T">
     <field-descriptor name="documentNumber" column="RDOC_NBR" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="fiscalCampusCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="primaryDepartmentCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" />
@@ -346,7 +346,7 @@
     <field-descriptor name="personAddedTimestamp" column="PRSN_ADD_TS" jdbc-type="TIMESTAMP" />
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.kra.budget.bo.BudgetAdHocWorkgroup" table="ER_BDGT_ADHOC_WKGRP_T">
+<class-descriptor class="org.kuali.module.kra.bo.BudgetAdHocWorkgroup" table="ER_BDGT_ADHOC_WKGRP_T">
     <field-descriptor name="documentNumber" column="RDOC_NBR" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="workgroupName" column="WKGRP_ID" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
@@ -746,6 +746,18 @@
     
     <collection-descriptor name="routingFormQuestions" proxy="true" element-class-ref="org.kuali.module.kra.routingform.bo.RoutingFormQuestion" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="question.questionTypeSortNumber" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
+    
+    <collection-descriptor name="adHocPermissions" proxy="true" element-class-ref="org.kuali.module.kra.bo.BudgetAdHocPermission" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
+    
+    <collection-descriptor name="adHocOrgs" proxy="true" element-class-ref="org.kuali.module.kra.bo.BudgetAdHocOrg" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
+    
+    <collection-descriptor name="adHocWorkgroups" proxy="true" element-class-ref="org.kuali.module.kra.bo.BudgetAdHocWorkgroup" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 </class-descriptor>

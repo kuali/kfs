@@ -30,8 +30,8 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.module.kra.KraConstants;
-import org.kuali.module.kra.budget.bo.BudgetAdHocPermission;
-import org.kuali.module.kra.budget.service.BudgetPermissionsService;
+import org.kuali.module.kra.bo.BudgetAdHocPermission;
+import org.kuali.module.kra.service.BudgetPermissionsService;
 
 /**
  * DocumentAuthorizer class for KRA Budget Documents.

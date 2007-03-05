@@ -52,9 +52,13 @@
     </c:if>
     
     <c:if test="${!excludeBudgetParameteres}">
-      <html:hidden property="document.budget.projectDirector.universalUser.personName" />
-      <html:hidden property="document.budget.projectDirector.universalUser.personUniversalIdentifier"/>
-      <html:hidden property="document.budget.projectDirector.personUniversalIdentifier"/>
+      
+      <c:if test="${!document.budget.projectDirectorToBeNamedIndicator }">
+        <html:hidden property="document.budget.projectDirector.universalUser.personName" />
+        <html:hidden property="document.budget.projectDirector.universalUser.personUniversalIdentifier"/>
+        <html:hidden property="document.budget.projectDirector.personUniversalIdentifier"/>
+      </c:if>
+      
       <html:hidden property="document.budget.budgetAgencyNumber" />
       <html:hidden property="document.budget.budgetAgency.fullName" />
 

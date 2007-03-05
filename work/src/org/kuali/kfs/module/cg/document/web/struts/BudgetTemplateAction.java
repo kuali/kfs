@@ -25,8 +25,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.module.kra.budget.bo.BudgetAdHocOrg;
-import org.kuali.module.kra.budget.bo.BudgetAdHocPermission;
+import org.kuali.module.kra.bo.BudgetAdHocOrg;
+import org.kuali.module.kra.bo.BudgetAdHocPermission;
 import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 
@@ -57,8 +57,8 @@ public class BudgetTemplateAction extends BudgetAction {
         
         // Check if ad-hoc permissions to be copied over
         if (!budgetForm.isIncludeAdHocPermissions()) {
-            budgetDoc.getBudget().setAdHocPermissions(new ArrayList<BudgetAdHocPermission>());
-            budgetDoc.getBudget().setAdHocOrgs(new ArrayList<BudgetAdHocOrg>());
+            budgetDoc.setAdHocPermissions(new ArrayList<BudgetAdHocPermission>());
+            budgetDoc.setAdHocOrgs(new ArrayList<BudgetAdHocOrg>());
         }
         
         // Check if budget fringe rates to be copied over

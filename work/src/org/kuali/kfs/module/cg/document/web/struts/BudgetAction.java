@@ -38,8 +38,8 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.KraKeyConstants;
-import org.kuali.module.kra.budget.bo.BudgetAdHocPermission;
-import org.kuali.module.kra.budget.bo.BudgetAdHocWorkgroup;
+import org.kuali.module.kra.bo.BudgetAdHocPermission;
+import org.kuali.module.kra.bo.BudgetAdHocWorkgroup;
 import org.kuali.module.kra.budget.rules.event.EnterModularEvent;
 import org.kuali.module.kra.budget.rules.event.RunAuditEvent;
 import org.kuali.module.kra.budget.web.struts.form.BudgetCostShareFormHelper;
@@ -92,8 +92,8 @@ public class BudgetAction extends ResearchDocumentActionBase {
         Object buttonClicked = request.getParameter(Constants.QUESTION_CLICKED_BUTTON);
 
         if ((Constants.DOCUMENT_DELETE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-            budgetForm.setAdHocRoutePersons(convertToAdHocRoutePersons(budgetForm.getBudgetDocument().getBudget().getAdHocPermissions()));
-            budgetForm.setAdHocRouteWorkgroups(convertToAdHocRouteWorkgroups(budgetForm.getBudgetDocument().getBudget().getAdHocWorkgroups()));
+            budgetForm.setAdHocRoutePersons(convertToAdHocRoutePersons(budgetForm.getBudgetDocument().getAdHocPermissions()));
+            budgetForm.setAdHocRouteWorkgroups(convertToAdHocRouteWorkgroups(budgetForm.getBudgetDocument().getAdHocWorkgroups()));
             return super.route(mapping, form, request, response);
         }
         

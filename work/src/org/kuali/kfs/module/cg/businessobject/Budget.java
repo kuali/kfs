@@ -28,6 +28,9 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.cg.bo.ProjectDirector;
+import org.kuali.module.kra.bo.BudgetAdHocOrg;
+import org.kuali.module.kra.bo.BudgetAdHocPermission;
+import org.kuali.module.kra.bo.BudgetAdHocWorkgroup;
 import org.kuali.PropertyConstants;
 
 /**
@@ -75,9 +78,6 @@ public class Budget extends PersistableBusinessObjectBase {
     private List institutionCostShareItems;
     private List thirdPartyCostShareItems;
     private List institutionCostSharePersonnelItems;
-    private List<BudgetAdHocPermission> adHocPermissions;
-    private List<BudgetAdHocOrg> adHocOrgs;
-    private List<BudgetAdHocWorkgroup> adHocWorkgroups;
 
     private BudgetIndirectCost indirectCost;
 
@@ -102,9 +102,6 @@ public class Budget extends PersistableBusinessObjectBase {
         institutionCostShareItems = new ArrayList();
         thirdPartyCostShareItems = new ArrayList();
         institutionCostSharePersonnelItems = new ArrayList();
-        adHocPermissions = new ArrayList<BudgetAdHocPermission>();
-        adHocOrgs = new ArrayList<BudgetAdHocOrg>();
-        adHocWorkgroups = new ArrayList<BudgetAdHocWorkgroup>();
         budgetIndirectCostLookups = new ArrayList<BudgetIndirectCostLookup>();
 
     }
@@ -926,88 +923,6 @@ public class Budget extends PersistableBusinessObjectBase {
      */
     public void setInstitutionCostSharePersonnelItems(List institutionCostSharePersonnelItems) {
         this.institutionCostSharePersonnelItems = institutionCostSharePersonnelItems;
-    }
-
-
-    /**
-     * Gets the adHocPermissions attribute.
-     * 
-     * @return Returns the adHocPermissions.
-     */
-    public List<BudgetAdHocPermission> getAdHocPermissions() {
-        return adHocPermissions;
-    }
-
-    /**
-     * Sets the adHocPermissions attribute value.
-     * 
-     * @param adHocPermissions The adHocPermissions to set.
-     */
-    public void setAdHocPermissions(List<BudgetAdHocPermission> adHocPermissions) {
-        this.adHocPermissions = adHocPermissions;
-    }
-    
-    /**
-     * Gets the BudgetAdHocPermission item at given index.
-     * 
-     * @param index
-     * @return BudgetAdHocPermission
-     */
-    public BudgetAdHocPermission getBudgetAdHocPermissionItem(int index) {
-        while (this.getAdHocPermissions().size() <= index) {
-            this.getAdHocPermissions().add(new BudgetAdHocPermission());
-        }
-        return this.getAdHocPermissions().get(index);
-    }
-        
-    /**
-     * Gets the adHocOrgs attribute. 
-     * @return Returns the adHocOrgs.
-     */
-    public List<BudgetAdHocOrg> getAdHocOrgs() {
-        return adHocOrgs;
-    }
-
-    /**
-     * Sets the adHocOrgs attribute value.
-     * @param adHocOrgs The adHocOrgs to set.
-     */
-    public void setAdHocOrgs(List<BudgetAdHocOrg> adHocOrgs) {
-        this.adHocOrgs = adHocOrgs;
-    }
-    
-    /**
-     * Gets the BudgetAdHocOrg item at given index.
-     * 
-     * @param index
-     * @return BudgetAdHocOrg
-     */
-    public BudgetAdHocOrg getBudgetAdHocOrgItem(int index) {
-        while (this.getAdHocOrgs().size() <= index) {
-            this.getAdHocOrgs().add(new BudgetAdHocOrg());
-        }
-        return this.getAdHocOrgs().get(index);
-    }
-
-    public List<BudgetAdHocWorkgroup> getAdHocWorkgroups() {
-        return adHocWorkgroups;
-    }
-
-    public void setAdHocWorkgroups(List<BudgetAdHocWorkgroup> adHocWorkgroups) {
-        this.adHocWorkgroups = adHocWorkgroups;
-    }
-    
-    /**
-     * Gets the BudgetAdHocWorkgroup item at given index.
-     * 
-     * @param index
-     * @return BudgetAdHocWorkgroup
-     */
-    public BudgetAdHocWorkgroup getBudgetAdHocWorkgroupItem(int index) {
-        while (this.getAdHocWorkgroups().size() <= index) {
-            this.getAdHocWorkgroups().add(new BudgetAdHocWorkgroup());
-        }
-        return this.getAdHocWorkgroups().get(index);
     }
 
     public Date getDefaultNextPeriodBeginDate() {

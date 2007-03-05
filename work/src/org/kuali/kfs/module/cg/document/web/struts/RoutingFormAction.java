@@ -16,6 +16,7 @@
 package org.kuali.module.kra.routingform.web.struts.action;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -129,7 +130,12 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
 
     public ActionForward permissions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         RoutingForm routingForm = (RoutingForm) form;
-        SpringServiceLocator.getPersistenceService().retrieveReferenceObject(routingForm.getRoutingFormDocument(), "routingFormPersonnel");
+        List referenceObjects = new ArrayList();
+        referenceObjects.add("routingFormPersonnel");
+        referenceObjects.add("adHocPermissions");
+        referenceObjects.add("adHocOrgs");
+        referenceObjects.add("adHocWorkgroups");
+        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(routingForm.getRoutingFormDocument(), referenceObjects);
         return mapping.findForward("permissions");
     }
 

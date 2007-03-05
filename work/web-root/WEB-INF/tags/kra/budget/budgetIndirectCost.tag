@@ -254,6 +254,7 @@
           <th ><div align="right">&nbsp;Subtotal: </div></th>
           <td align="right" class="infoline"><div align="right"><b>
           	<fmt:formatNumber value="${KualiForm.budgetIndirectCostFormHelper.taskTotals[totalsIter].totalDirectCost}" type="currency" currencySymbol="$" maxFractionDigits="0" />
+          	<html:hidden property="budgetIndirectCostFormHelper.taskTotals[${totalsIter}].totalDirectCost"/>
           </b></div></td>
           <td align="right" class="infoline"><div align="right"><b>
           	<fmt:formatNumber value="${KualiForm.budgetIndirectCostFormHelper.taskTotals[totalsIter].baseCost}" type="currency" currencySymbol="$" maxFractionDigits="0" />

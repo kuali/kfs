@@ -31,18 +31,8 @@
 		</condition>
 		<echo message="Loaded properties in ./build.properties and set dependent properties" />
 	</target>
-
-	<target name="init-institution-override-properties" if="load.institution.override.properties" depends="init-project-properties">
-		<property file="${build.institution.overrides.file}" />
-		<echo message="Loaded properties in ${build.institution.overrides.file}" />
-	</target>
-
-	<target name="init-institution-default-properties" depends="init-institution-override-properties">
-		<property file="${build.institution.defaults.file}" />
-		<echo message="Loaded properties in ${build.institution.defaults.file}" />
-	</target>
-
-	<target name="init-filter-sets" depends="init-institution-default-properties">
+	
+	<target name="init-logic-based-properties" depends="init-project-properties">
 		<tstamp>
 			<format property="project.cvs.tag" pattern="MM/dd/yyyy hh:mm aa" />
 		</tstamp>
@@ -81,6 +71,8 @@
 		<property name="base.htdocs.url" value="${test.environment.url}" />
 		<property name="htdocs.url" value="${base.htdocs.url}${ant.project.name}/${build.environment}/" />
 		<property name="base.cas.url" value="${test.environment.url}" />
+		<property name="application.url" value="${base.application.url}${ant.project.name}-${build.environment}" />
+		<property name="cas.url" value="${base.cas.url}${ant.project.name}-${build.environment}/cas" />
 		<condition property="driver.class" value="${p6spy.driver.class}">
 			<equals arg1="${use.p6spy.local}" arg2="true"/>
 		</condition>
@@ -108,7 +100,20 @@
 		<condition property="scheduler.spring.jobstore.properties" value="${scheduler.spring.ram.jobstore.properties}">
 			<equals arg1="${is.local.build}" arg2="true" />			
 		</condition>
-		<property name="scheduler.spring.jobstore.properties" value="${scheduler.spring.jdbc.jobstore.properties}" />
+		<property name="scheduler.spring.jobstore.properties" value="${scheduler.spring.jdbc.jobstore.properties}" />		
+	</target>
+
+	<target name="init-institution-override-properties" if="load.institution.override.properties" depends="init-logic-based-properties">
+		<property file="${build.institution.overrides.file}" />
+		<echo message="Loaded properties in ${build.institution.overrides.file}" />
+	</target>
+
+	<target name="init-institution-default-properties" depends="init-institution-override-properties">
+		<property file="${build.institution.defaults.file}" />
+		<echo message="Loaded properties in ${build.institution.defaults.file}" />
+	</target>
+
+	<target name="init-filter-sets" depends="init-institution-default-properties">
 		<filterset id="general.filterset">
 			<filter token="settings-root-directory" value="${settings.root.directory}" />
 			<filter token="security-root-directory" value="${security.root.directory}" />			
@@ -124,11 +129,11 @@
 			<filter token="institution" value="${institution}" />
 			<filter token="environment" value="${build.environment}" />
 			<filter token="version" value="${project.cvs.tag}" />
-			<filter token="application-url" value="${base.application.url}${ant.project.name}-${build.environment}" />
+			<filter token="application-url" value="${application.url}" />
 			<filter token="htdocs-url" value="${htdocs.url}" />
 			<filter token="htdocs-logs-url" value="${htdocs.url}logs/" />
 			<filter token="htdocs-staging-url" value="${htdocs.url}staging/" />
-			<filter token="cas-url" value="${base.cas.url}${ant.project.name}-${build.environment}/cas" />
+			<filter token="cas-url" value="${cas.url}" />
 			<filter token="workflow-url" value="${base.application.url}${ant.project.name}-${build.environment}/${workflow.application}" />
 			<filter token="externalizable-static-content-url" value="${externalizable.static.content.url}" />
 			<filter token="web-authentication-filter" value="${web.authentication.filter}" />

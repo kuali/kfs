@@ -41,6 +41,8 @@
                 <field attributeName="paymentRequestItemIdentifier" />
                 <field attributeName="purchaseOrderCommodityCode" />
                 <field attributeName="purchaseOrderItemUnitPrice" />
+                <field attributeName="itemOutstandingInvoiceQuantity" />
+                <field attributeName="itemOutstandingInvoiceAmount" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -72,6 +74,8 @@
                 <lookupField attributeName="paymentRequestItemIdentifier" required="false" />
                 <lookupField attributeName="purchaseOrderCommodityCode" required="false" />
                 <lookupField attributeName="purchaseOrderItemUnitPrice" required="false" />
+                <lookupField attributeName="itemOutstandingInvoiceQuantity" required="false" />
+                <lookupField attributeName="itemOutstandingInvoiceAmount" required="false" />
             </lookupFields>
 
             <resultFields>
@@ -91,6 +95,8 @@
                 <field attributeName="paymentRequestItemIdentifier" />
                 <field attributeName="purchaseOrderCommodityCode" />
                 <field attributeName="purchaseOrderItemUnitPrice" />
+                <field attributeName="itemOutstandingInvoiceQuantity" />
+                <field attributeName="itemOutstandingInvoiceAmount" />
             </resultFields>
         </lookup>
 
@@ -174,7 +180,7 @@
                 <label>Item Description</label>
                 <shortLabel>Description</shortLabel>
 
-                <maxLength>500</maxLength>
+                <maxLength>4000</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
@@ -348,6 +354,36 @@
 
                 <summary>versionNumber</summary>
                 <description>versionNumber description...</description>
+			</attribute>
+
+            <attribute name="itemOutstandingInvoiceQuantity" forceUppercase="true">
+                <label>Item Outstanding Invoice Quantity</label>
+                <shortLabel>Quantity</shortLabel>
+
+                <maxLength>11</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="13" />
+                </control>
+
+                <summary>itemOutstandingInvoiceQuantity</summary>
+                <description>itemOutstandingInvoiceQuantity description...</description>
+			</attribute>
+
+            <attribute name="itemOutstandingInvoiceAmount" forceUppercase="true">
+                <label>Item Outstanding Invoice Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>itemOutstandingInvoiceAmount</summary>
+                <description>itemOutstandingInvoiceAmount description...</description>
 			</attribute>
 
         </attributes>

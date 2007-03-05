@@ -1105,10 +1105,9 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="paymentRequestStatusCode" column="PMT_RQST_STAT_CD" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="documentHeaderIdentifier" column="FDOC_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="purchaseOrderNumber" column="PO_NBR" jdbc-type="INTEGER" index="true"/>
+	<field-descriptor name="purchaseOrderIdentifier" column="PO_ID" jdbc-type="INTEGER" index="true"/>
 	<field-descriptor name="purchaseOrderEncumbranceFiscalYear" column="PO_ENCUM_FSCL_YR" jdbc-type="INTEGER"/>
 	<field-descriptor name="purchaseOrderClassificationTypeDescription" column="PO_CLSIF_TYP_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="requisitionNumber" column="REQS_NBR" jdbc-type="INTEGER"/>
 	<field-descriptor name="invoiceDate" column="INV_DT" jdbc-type="DATE"/>
 	<field-descriptor name="invoiceNumber" column="INV_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="vendorInvoiceAmount" column="VNDR_INV_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
@@ -1127,16 +1126,17 @@
 	<field-descriptor name="paymentSpecialHandlingInstructionLine1Text" column="PMT_SPCL_HANDLG_INSTRC_LN1_TXT" jdbc-type="VARCHAR"/>
 	<field-descriptor name="paymentSpecialHandlingInstructionLine2Text" column="PMT_SPCL_HANDLG_INSTRC_LN2_TXT" jdbc-type="VARCHAR"/>
 	<field-descriptor name="paymentSpecialHandlingInstructionLine3Text" column="PMT_SPCL_HANDLG_INSTRC_LN3_TXT" jdbc-type="VARCHAR"/>
+	<field-descriptor name="paymentPaidDate" column="PMT_PD_DT" jdbc-type="DATE"/>
+	<field-descriptor name="paymentRequestElectronicInvoiceIndicator" column="PMT_RQST_ELCTRNC_INV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
 	<field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER"/>
 	<field-descriptor name="vendorName" column="VNDR_NM" jdbc-type="VARCHAR"/>
-	<field-descriptor name="vendorRemitLine1Address" column="VNDR_RMT_LN1_ADDR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="vendorRemitLine2Address" column="VNDR_RMT_LN2_ADDR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="vendorRemitLine3Address" column="VNDR_RMT_LN3_ADDR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="vendorRemitCityName" column="VNDR_RMT_CTY_NM" jdbc-type="VARCHAR"/>
-	<field-descriptor name="vendorRemitStateCode" column="VNDR_RMT_ST_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="vendorRemitPostalCode" column="VNDR_RMT_PSTL_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="vendorRemitCountryCode" column="VNDR_RMT_CNTRY_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="vendorLine1Address" column="VNDR_LN1_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="vendorLine2Address" column="VNDR_LN2_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="vendorCityName" column="VNDR_CTY_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="vendorStateCode" column="VNDR_ST_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="vendorPostalCode" column="VNDR_PSTL_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="vendorCountryCode" column="VNDR_CNTRY_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="paymentExtractedDate" column="PMT_EXTRT_DT" jdbc-type="DATE"/>
 	<field-descriptor name="accountsPayableProcessorIdentifier" column="AP_PRCSR_ID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="accountsPayableRequestCancelIdentifier" column="AP_RQST_CNCL_ID" jdbc-type="VARCHAR"/>
@@ -1515,8 +1515,10 @@
 	<field-descriptor name="itemExtendedPrice" column="ITM_EXTND_PRC" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="capitalAssetTransactionTypeCode" column="CPTL_AST_TRN_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="itemCapitalAssetNoteText" column="ITM_CPTL_AST_NTE_TXT" jdbc-type="VARCHAR"/>
-	<field-descriptor name="purchaseOrderCommodityCode" column="PO_COMDTY_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="purchaseOrderCommodityCode" column="PO_CMDTY_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="itemAssignedToTradeInIndicator" column="ITM_ASND_TO_TRADE_IN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="itemOutstandingInvoiceQuantity" column="ITM_OSTND_INV_QTY" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+    <field-descriptor name="itemOutstandingInvoiceAmount" column="ITM_OSTND_INV_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" /> 
 	<reference-descriptor name="paymentRequest" class-ref="org.kuali.module.purap.bo.PaymentRequest" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="paymentRequestIdentifier" />
 	</reference-descriptor>

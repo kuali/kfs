@@ -43,7 +43,9 @@ public class PaymentRequestItem extends PersistableBusinessObjectBase {
 	private String itemCapitalAssetNoteText;
 	private String purchaseOrderCommodityCode;
 	private boolean itemAssignedToTradeInIndicator;
-
+    private KualiDecimal itemOutstandingInvoiceQuantity;
+    private KualiDecimal itemOutstandingInvoiceAmount;
+    
     private PaymentRequest paymentRequest;
 
 	/**
@@ -388,7 +390,38 @@ public class PaymentRequestItem extends PersistableBusinessObjectBase {
 		this.itemAssignedToTradeInIndicator = itemAssignedToTradeInIndicator;
 	}
 
+    /**
+     * Gets the itemOutstandingInvoiceAmount attribute. 
+     * @return Returns the itemOutstandingInvoiceAmount.
+     */
+    public KualiDecimal getItemOutstandingInvoiceAmount() {
+        return itemOutstandingInvoiceAmount;
+    }
 
+    /**
+     * Sets the itemOutstandingInvoiceAmount attribute value.
+     * @param itemOutstandingInvoiceAmount The itemOutstandingInvoiceAmount to set.
+     */
+    public void setItemOutstandingInvoiceAmount(KualiDecimal itemOutstandingInvoiceAmount) {
+        this.itemOutstandingInvoiceAmount = itemOutstandingInvoiceAmount;
+    }
+
+    /**
+     * Gets the itemOutstandingInvoiceQuantity attribute. 
+     * @return Returns the itemOutstandingInvoiceQuantity.
+     */
+    public KualiDecimal getItemOutstandingInvoiceQuantity() {
+        return itemOutstandingInvoiceQuantity;
+    }
+
+    /**
+     * Sets the itemOutstandingInvoiceQuantity attribute value.
+     * @param itemOutstandingInvoiceQuantity The itemOutstandingInvoiceQuantity to set.
+     */
+    public void setItemOutstandingInvoiceQuantity(KualiDecimal itemOutstandingInvoiceQuantity) {
+        this.itemOutstandingInvoiceQuantity = itemOutstandingInvoiceQuantity;
+    }
+    
 	/**
 	 * Gets the paymentRequest attribute.
 	 * 

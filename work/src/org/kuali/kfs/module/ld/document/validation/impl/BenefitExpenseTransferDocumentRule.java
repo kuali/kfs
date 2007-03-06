@@ -16,7 +16,9 @@
 package org.kuali.module.labor.rules;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.KeyConstants;
@@ -29,6 +31,8 @@ import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.LaborObject;
+import org.kuali.module.labor.bo.PositionObjectBenefit;
+import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 
 /**
  * Business rule(s) applicable to Benefit Expense Transfer documents.
@@ -48,22 +52,19 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
      * The following criteria will be validated here:
      * Account must be valid.
      * Object code must be valid.
-     * Object code must be a labor object code.
-            Object code must exist in the ld_labor_obj_t table.
-            The field finobj_frngslry_cd for the object code in the ld_labor_obj_t table must have a value of "S".
+     * Object code must be a labor object code. The object code must exist in the ld_labor_obj_t table.
+     * The field finobj_frngslry_cd for the object code in the ld_labor_obj_t table must have a value of "F".
      * Sub-account, if specified, must be valid for account.
      * Sub-object, if specified, must be valid for account and object code.
-     * Enforce the A21-report-related business rules for the "SAVE" action.
      * Position must be valid for fiscal year. FIS enforces this by a direct lookup of the PeopleSoft HRMS position data table. Kuali cannot do this. (See issue 12.)
-     * Employee ID exists.
-     * Employee does not have pending salary transfers.
      * Amount must not be zero. 
      * --------------------------------------------------------------------------------------------------------
-     * Only fringe benefit labor object codes are allowed on this document.
+  ** * Only fringe benefit labor object codes are allowed on this document.
      * The document must have at least one “FROM” segment and one “TO” segment.
-     * The total amount on the “FROM” side must equal the total amount on the “TO” side.
-     * Transfers cannot be made between two different fringe benefit labor object codes. Only the “Account” and “Amount” fields may be edited in the “TO” zone.
-     * The Justification field is required and should include as much pertinent detail as possible.
+  ** * The total amount on the “FROM” side must equal the total amount on the “TO” side.
+     * Transfers cannot be made between two different fringe benefit labor object codes. 
+     * Only the “Account” and “Amount” fields may be edited in the “TO” zone.
+   ! * The Justification field is required and should include as much pertinent detail as possible.
      * The Fiscal Year field on this eDoc is used differently as compared to other TP documents. In the Benefit Transfer document, this field is used to load the appropriate data onto the Labor Ledger Balance screen.
      * Pending Ledger Entries are created immediately as part of the routing process. In addition to creating pending entries with a balance type of “AC” the Benefit Transfer document requires that a pending entry be created with a balance type of “A2”.
      * Only allow a transfer of benefit dollars up to the amount that already exist in the labor ledger detail for a given pay period.
@@ -81,7 +82,28 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
    */
     @Override
     protected boolean processCustomAddAccountingLineBusinessRules(AccountingDocument accountingDocument, AccountingLine accountingLine) {
+        
+        AccountingDocument benefitDoc = (AccountingDocument) accountingDocument;
+        List<AccountingLine> accountingLines = new ArrayList();
+        Collection<PositionObjectBenefit> positionObjectBenefits;
 
+        //set source and target accounting lines
+        accountingLines.addAll(benefitDoc.getSourceAccountingLines());
+        accountingLines.addAll(benefitDoc.getTargetAccountingLines());        
+        
+        for (AccountingLine lines : accountingLines){
+            if (accountingLine.getFinancialObjectCode() != null) {
+                if (accountingLine.getFinancialObjectCode() != lines.getFinancialObjectCode()) {
+                    System.out.println("Good Caught it");
+                    reportError(PropertyConstants.ACCOUNT, KeyConstants.Labor.LABOR_OBJECT_MISSING_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
+                }
+            }            
+        }
+
+        System.out.println("Current Acct: " + accountingLine.getFinancialObjectCode());   
+
+                
+//        accountingDocument.getTargetAccountingLine(0);
         // Retrieve the labor object code to make sure it is fringe. 
         // It must have a value of "F".
         
@@ -89,16 +111,20 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         Map fieldValues = new HashMap();
         fieldValues.put("financialObjectCode", accountingLine.getFinancialObjectCode().toString());
         ArrayList laborObjects = (ArrayList) SpringServiceLocator.getBusinessObjectService().findMatching(LaborObject.class, fieldValues);
+        
+        // Check if the object code is labor related
         if (laborObjects.size() == 0) {
             reportError(PropertyConstants.ACCOUNT, KeyConstants.Labor.LABOR_OBJECT_MISSING_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
             return false;
         }
+        
+        // Check for fringe status
         LaborObject laborObject = (LaborObject) laborObjects.get(0);    
         String FringeOrSalaryCode = laborObject.getFinancialObjectFringeOrSalaryCode();
 
         if (!FringeOrSalaryCode.equals("F")) {
             LOG.info("FringeOrSalaryCode not equal F");
-              reportError(PropertyConstants.ACCOUNT, KeyConstants.Labor.INVALID_FRINGE_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
+            reportError(PropertyConstants.ACCOUNT, KeyConstants.Labor.INVALID_FRINGE_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
             return false;
         }            
                                   

@@ -46,7 +46,7 @@ public class AssignContractManagerDetail extends PersistableBusinessObjectBase {
         this.documentNumber = acmDocument.getDocumentNumber();
         this.assignContractManagerDocument = acmDocument;
         this.requisition = requisitionDocument;
-        this.requisitionIdentifier = requisitionDocument.getIdentifier();
+        this.requisitionIdentifier = requisitionDocument.getPurapDocumentIdentifier();
     }
 
     /**

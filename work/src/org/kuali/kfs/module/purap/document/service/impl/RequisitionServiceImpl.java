@@ -144,7 +144,7 @@ public class RequisitionServiceImpl implements RequisitionService {
         KualiDecimal apoLimit = getApoLimit(requisition.getVendorContractGeneratedIdentifier(),
           requisition.getChartOfAccountsCode(), requisition.getOrganizationCode());
 
-        LOG.debug("isAPO() reqId = " + requisition.getIdentifier() + "; apoLimit = " + apoLimit + "; reqTotal = " + reqTotal);
+        LOG.debug("isAPO() reqId = " + requisition.getPurapDocumentIdentifier() + "; apoLimit = " + apoLimit + "; reqTotal = " + reqTotal);
         if (apoLimit == null) {
             return "APO limit is empty.";
         }

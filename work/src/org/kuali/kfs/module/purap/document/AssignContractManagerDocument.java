@@ -77,7 +77,7 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
         Map fieldValues = new HashMap();
         fieldValues.put(PurapPropertyConstants.STATUS_CODE, PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN);
         List<RequisitionDocument> unassignedRequisitions = new ArrayList(SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(RequisitionDocument.class, 
-                fieldValues, PurapPropertyConstants.REQUISITION_ID, true));
+                fieldValues, PurapPropertyConstants.PURAP_DOC_ID, true));
 
         for (RequisitionDocument req : unassignedRequisitions) {
             assignContractManagerDetails.add(new AssignContractManagerDetail(this, req));
@@ -115,7 +115,7 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
                         if (req.getContractManagerCode().compareTo(detail.getContractManagerCode()) != 0) {
                             // TODO: can we route back to initiator
                             isSuccess = false;
-                            failedReqs.append(req.getIdentifier() + ", ");
+                            failedReqs.append(req.getPurapDocumentIdentifier() + ", ");
                         }
                     }
                 }

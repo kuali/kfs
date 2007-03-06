@@ -76,7 +76,7 @@
 					        </c:if>
 		                </td>
 		                <td align=left valign=middle class="datacell">
-		                    <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.identifier" attributeEntry="${requisitionAttributes.identifier}" readOnly="true" />
+		                    <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.purapDocumentIdentifier" attributeEntry="${requisitionAttributes.purapDocumentIdentifier}" readOnly="true" />
 		                </td>
 		                <td align=left valign=middle class="datacell">
 		                    <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.deliveryCampusCode" attributeEntry="${requisitionAttributes.deliveryCampusCode}" readOnly="true" />

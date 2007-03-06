@@ -17,6 +17,7 @@ package org.kuali.module.purap.dao.ojb;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
+import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.dao.RequisitionDao;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
@@ -42,7 +43,7 @@ public class RequisitionDaoOjb extends PersistenceBrokerDaoSupport implements Re
 
     public RequisitionDocument getRequisitionById(Integer id) {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("identifier", id);
+        criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
 
         RequisitionDocument r = (RequisitionDocument) getPersistenceBrokerTemplate().getObjectByQuery(
             new QueryByCriteria(RequisitionDocument.class, criteria));

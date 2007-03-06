@@ -55,8 +55,8 @@ public class RequisitionForm extends PurchasingFormBase {
      * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo1()
      */
     public KeyLabelPair getAdditionalDocInfo1() {
-        if (ObjectUtils.isNotNull(this.getRequisitionDocument().getIdentifier())) {
-            return new KeyLabelPair("DataDictionary.KualiRequisitionDocument.attributes.identifier", ((RequisitionDocument)this.getDocument()).getIdentifier().toString());
+        if (ObjectUtils.isNotNull(this.getRequisitionDocument().getPurapDocumentIdentifier())) {
+            return new KeyLabelPair("DataDictionary.KualiRequisitionDocument.attributes.identifier", ((RequisitionDocument)this.getDocument()).getPurapDocumentIdentifier().toString());
         } else {
             return new KeyLabelPair("DataDictionary.KualiRequisitionDocument.attributes.identifier", "Not Available");
         }

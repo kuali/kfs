@@ -611,7 +611,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.document.RequisitionDocument" table="PUR_REQS_T">
-	<field-descriptor name="identifier" column="REQS_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="REQS_ID"/>
+	<field-descriptor name="purapDocumentIdentifier" column="REQS_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="REQS_ID"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
@@ -850,7 +850,7 @@
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="identifier" column="PO_ID" jdbc-type="INTEGER"/>
+	<field-descriptor name="purapDocumentIdentifier" column="PO_ID" jdbc-type="INTEGER"/>
 	<field-descriptor name="requisitionIdentifier" column="REQS_ID" jdbc-type="INTEGER"/>
 	<field-descriptor name="requisitionSourceCode" column="REQS_SRC_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="statusCode" column="PO_STAT_CD" jdbc-type="VARCHAR" index="true"/>
@@ -1032,11 +1032,12 @@
     <!-- reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterialStatusHistory" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderIdentifier" />
     </reference-descriptor -->
-    <!-- collection-descriptor name="sourceDocumentReferences" proxy="true" element-class-ref="org.kuali.module.purap.bo.SourceDocumentReference" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+    <collection-descriptor name="sourceDocumentReferences" proxy="true" element-class-ref="org.kuali.module.purap.bo.SourceDocumentReference" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
         <orderby name="sourceDocumentReferenceGeneratedIdentifier" sort="ASC" />
         <orderby name="sourceDocumentIdentifier" sort="ASC" />
         <inverse-foreignkey field-ref="sourceDocumentIdentifier" />
-    </collection-descriptor -->
+    </collection-descriptor>
+    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.CreditMemo" table="AP_CRDT_MEMO_T">

@@ -34,7 +34,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchasingAccountsPayableDocumentBase.class);
 
     // SHARED FIELDS BETWEEN REQUISITION, PURCHASE ORDER, PAYMENT REQUEST, AND CREDIT MEMO
-    private Integer identifier;
+    private Integer purapDocumentIdentifier;
     private String statusCode;
     private Integer vendorHeaderGeneratedIdentifier;
     private Integer vendorDetailAssignedIdentifier;
@@ -72,7 +72,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      
-        m.put("identifier", this.identifier);
+        m.put("purapDocumentIdentifier", this.purapDocumentIdentifier);
         return m;
     }
 
@@ -138,12 +138,12 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         this.vendorCustomerNumber = vendorCustomerNumber;
     }
 
-    public Integer getIdentifier() {
-        return identifier;
+    public Integer getPurapDocumentIdentifier() {
+        return purapDocumentIdentifier;
     }
 
-    public void setIdentifier(Integer identifier) {
-        this.identifier = identifier;
+    public void setPurapDocumentIdentifier(Integer identifier) {
+        this.purapDocumentIdentifier = identifier;
     }
 
     public Status getStatus() {

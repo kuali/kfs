@@ -76,7 +76,7 @@ public class PurapPropertyConstants {
     public static final String VENDOR_CONTRACT_ORGANIZATION_CODE = "organizationCode";
     
     // Purchase Order & Requisition
-    public static final String REQUISITION_ID = "identifier";
+    public static final String PURAP_DOC_ID = "purapDocumentIdentifier";
     public static final String RECURRING_PAYMENT_TYPE_CODE = "recurringPaymentTypeCode";
     public static final String PURCHASE_ORDER_BEGIN_DATE = "purchaseOrderBeginDate";
     public static final String PURCHASE_ORDER_END_DATE = "purchaseOrderEndDate";

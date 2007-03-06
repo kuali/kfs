@@ -61,8 +61,8 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo1()
      */
     public KeyLabelPair getAdditionalDocInfo1() {
-        if (ObjectUtils.isNotNull(this.getPurchaseOrderDocument().getIdentifier())) {
-            return new KeyLabelPair("DataDictionary.KualiPurchaseOrderDocument.attributes.identifier", ((PurchaseOrderDocument)this.getDocument()).getIdentifier().toString());
+        if (ObjectUtils.isNotNull(this.getPurchaseOrderDocument().getPurapDocumentIdentifier())) {
+            return new KeyLabelPair("DataDictionary.KualiPurchaseOrderDocument.attributes.identifier", ((PurchaseOrderDocument)this.getDocument()).getPurapDocumentIdentifier().toString());
         } else {
             return new KeyLabelPair("DataDictionary.KualiPurchaseOrderDocument.attributes.identifier", "Not Available");
         }

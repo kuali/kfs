@@ -21,7 +21,7 @@
 <%@ taglib tagdir="/WEB-INF/tags/dd" prefix="dd"%>
 
 <%-- PURCHASING ACCOUNTS PAYABLE DOCUMENT FIELDS --%>
-<html:hidden property="document.identifier" />
+<html:hidden property="document.purapDocumentIdentifier" />
 <html:hidden property="document.statusCode" />
 <html:hidden property="document.vendorHeaderGeneratedIdentifier" />
 <html:hidden property="document.vendorDetailAssignedIdentifier" />

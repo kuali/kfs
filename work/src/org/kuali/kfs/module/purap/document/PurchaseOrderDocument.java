@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.TypedArrayList;
@@ -143,7 +145,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.setRequestorPersonEmailAddress(requisitionDocument.getRequestorPersonEmailAddress());
         this.setRequestorPersonName(requisitionDocument.getRequestorPersonName());
         this.setRequestorPersonPhoneNumber(requisitionDocument.getRequestorPersonPhoneNumber());
-        this.setRequisitionIdentifier(requisitionDocument.getIdentifier());
+        this.setRequisitionIdentifier(requisitionDocument.getPurapDocumentIdentifier());
         this.setPurchaseOrderTotalLimit(requisitionDocument.getPurchaseOrderTotalLimit());
         this.setPurchaseOrderTransmissionMethodCode(requisitionDocument.getPurchaseOrderTransmissionMethodCode());
         this.setVendorCityName(requisitionDocument.getVendorCityName());
@@ -174,7 +176,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
 //        this.setItems(items);
         
       // TODO Naser This is the code Naser is working on
- 
+ /*
         SourceDocumentReference sourceDocumentReference = new SourceDocumentReference();
         Integer ReqId = this.getRequisitionIdentifier();
         // The following code is assuming that any PO has one and only one requisition:
@@ -185,9 +187,11 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         if (sourceDocumentReferences.size()>= 1){
             Integer sourceDocumentReferenceGeneratedId = sourceDocumentReferences.get(0).getSourceDocumentReferenceGeneratedIdentifier();
             sourceDocumentReference.setSourceDocumentReferenceGeneratedIdentifier(sourceDocumentReferences.get(0).getSourceDocumentReferenceGeneratedIdentifier());
-    }
-
-        sourceDocumentReference.setSourceFinancialDocumentTypeCode("PO");
+        }
+        String documentTypeName = SpringServiceLocator.getDataDictionaryService().getDocumentTypeNameByClass(this.getClass());
+        String documentTypeCode = SpringServiceLocator.getDataDictionaryService().getDocumentTypeCodeByTypeName(documentTypeName);
+        sourceDocumentReference.setSourceFinancialDocumentTypeCode(documentTypeCode);
+       // sourceDocumentReference.setSourceFinancialDocumentTypeCode("PO");
         // This line is giving this error:
         
         //javax.servlet.ServletException: OJB operation; SQL []; ORA-01400: cannot insert NULL into ("KULDEV"."PUR_SRC_DOC_REF_T"."SRC_DOC_OBJ_ID")
@@ -197,7 +201,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         //sourceDocumentReferences = new TypedArrayList(SourceDocumentReference.class);
         sourceDocumentReferences.add(sourceDocumentReference);
         this.setSourceDocumentReferences(sourceDocumentReferences);
-     
+     */
     }
 
     public void refreshAllReferences() {
@@ -609,4 +613,39 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.setAlternateVendorNumber(vendorDetail.getVendorHeaderGeneratedIdentifier() + PurapConstants.DASH + vendorDetail.getVendorDetailAssignedIdentifier());
         this.setAlternateVendorName(vendorDetail.getVendorName());
     }
+    
+    @Override
+    public void afterInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+            super.afterInsert(persistenceBroker);
+            
+            //TODO Naser This is the code Naser is working on
+            
+            SourceDocumentReference sourceDocumentReference = new SourceDocumentReference();
+            Integer ReqId = this.getRequisitionIdentifier();
+            // The following code is assuming that any PO has one and only one requisition:
+            Map fieldValues = new HashMap();
+            fieldValues.put(PurapPropertyConstants.SOURCE_DOCUMENT_IDENTIFIER, this.getRequisitionIdentifier());
+            List<SourceDocumentReference> sourceDocumentReferences = new ArrayList(SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(SourceDocumentReference.class,  
+                    fieldValues, PurapPropertyConstants.SOURCE_DOCUMENT_IDENTIFIER, true));
+            if (sourceDocumentReferences.size()>= 1){
+                Integer sourceDocumentReferenceGeneratedId = sourceDocumentReferences.get(0).getSourceDocumentReferenceGeneratedIdentifier();
+                sourceDocumentReference.setSourceDocumentReferenceGeneratedIdentifier(sourceDocumentReferences.get(0).getSourceDocumentReferenceGeneratedIdentifier());
+            }
+            String documentTypeName = SpringServiceLocator.getDataDictionaryService().getDocumentTypeNameByClass(this.getClass());
+            String documentTypeCode = SpringServiceLocator.getDataDictionaryService().getDocumentTypeCodeByTypeName(documentTypeName);
+            sourceDocumentReference.setSourceFinancialDocumentTypeCode(documentTypeCode);
+           // sourceDocumentReference.setSourceFinancialDocumentTypeCode("PO");
+            // This line is giving this error:
+            
+            //javax.servlet.ServletException: OJB operation; SQL []; ORA-01400: cannot insert NULL into ("KULDEV"."PUR_SRC_DOC_REF_T"."SRC_DOC_OBJ_ID")
+            // ; nested exception is java.sql.SQLException: ORA-01400: cannot insert NULL into ("KULDEV"."PUR_SRC_DOC_REF_T"."SRC_DOC_OBJ_ID")
+            String objID = this.getObjectId();
+            sourceDocumentReference.setSourceDocumentObjectIdentifier(this.getObjectId());
+            
+           // sourceDocumentReference.setSourceDocumentObjectIdentifier("POObjectID");
+            //sourceDocumentReferences = new TypedArrayList(SourceDocumentReference.class);
+            sourceDocumentReferences.add(sourceDocumentReference);
+            this.setSourceDocumentReferences(sourceDocumentReferences);
+    }        
+            
 }

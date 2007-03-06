@@ -59,9 +59,9 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
 
     public void setVendorCustomerNumber(String vendorCustomerNumber);
 
-    public Integer getIdentifier();
+    public Integer getPurapDocumentIdentifier();
 
-    public void setIdentifier(Integer identifier);
+    public void setPurapDocumentIdentifier(Integer identifier);
 
     public Status getStatus();
 

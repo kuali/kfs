@@ -24,18 +24,10 @@
 
 		<table>
 			<tr>
-				<th>
-					Object
-				</th>
-				<th>
-					Sub-Object
-				</th>
-				<th>
-					Base
-				</th>
-				<th>
-					Request
-				</th>
+				<kul:htmlAttributeHeaderCell attributeEntry="${pbglRevenueAttributes.financialObjectCode}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${pbglRevenueAttributes.financialSubObjectCode}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${pbglRevenueAttributes.financialBeginningBalanceLineAmount}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${pbglRevenueAttributes.accountLineAnnualBalanceAmount}" />
 				<th>
 					Month?
 				</th>

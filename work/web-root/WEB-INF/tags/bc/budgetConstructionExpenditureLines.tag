@@ -30,17 +30,12 @@
 
 		<table>
 			<tr>
+				<kul:htmlAttributeHeaderCell attributeEntry="${pbglExpenditureAttributes.financialObjectCode}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${pbglExpenditureAttributes.financialSubObjectCode}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${pbglExpenditureAttributes.financialBeginningBalanceLineAmount}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${pbglExpenditureAttributes.accountLineAnnualBalanceAmount}" />
 				<th>
-					Object
-				</th>
-				<th>
-					Sub-Object
-				</th>
-				<th>
-					Base
-				</th>
-				<th>
-					Request
+					% Change
 				</th>
 				<th>
 					Month?
@@ -75,21 +70,27 @@
               <td valign=top nowrap><div align="right"><span>
                   <kul:htmlControlAttribute attributeEntry="${pbglExpenditureAttributes.accountLineAnnualBalanceAmount}" property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].accountLineAnnualBalanceAmount" styleClass="amount" readOnly="false"/>
               </span></div></td>
-	              <td><div align=center>
-					<c:choose>
-						<c:when test="${empty item.budgetConstructionMonthly}" > 
-	                   		<html:image src="images/tinybutton-createnew.gif" styleClass="tinybutton" property="methodToCall.performMonthlyBudget.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" title="Create Month" alt="Create Month"/>
-						</c:when> 
-						<c:otherwise> 
-	                   		<html:image src="images/tinybutton-edit1.gif" styleClass="tinybutton" property="methodToCall.performMonthlyBudget.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" title="Edit Month" alt="Edit Month"/>
-						</c:otherwise> 
-					</c:choose> 
+              <td valign=top nowrap><div align="right"><span>
+				<c:if test="${!empty item.financialBeginningBalanceLineAmount}">
+					${item.percentChange}
+				</c:if>
+				&nbsp;
+              </span></div></td>
+			  <td><div align=center>
+				<c:choose>
+					<c:when test="${empty item.budgetConstructionMonthly}" > 
+						<html:image src="images/tinybutton-createnew.gif" styleClass="tinybutton" property="methodToCall.performMonthlyBudget.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" title="Create Month" alt="Create Month"/>
+					</c:when> 
+					<c:otherwise> 
+						<html:image src="images/tinybutton-edit1.gif" styleClass="tinybutton" property="methodToCall.performMonthlyBudget.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" title="Edit Month" alt="Edit Month"/>
+					</c:otherwise> 
+				</c:choose> 
 
 <%--
 	                   methodToCall.headerTab.headerDispatch.savePersonnel.navigateTo.parameters.x
 --%>			
-	              </div></td>
-	              <td></td>
+			  </div></td>
+	          <td></td>
             </tr>
 			</c:forEach>
 			<tr>
@@ -98,6 +99,7 @@
 				</th>
 				<td>0</td>
 				<td>0</td>
+				<td></td>
 				<td></td>
 				<td></td>
 			</tr>

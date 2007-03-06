@@ -1751,7 +1751,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         }
        
         //if the user entered something set line number to that
-        if(itemLinePosition>1&&itemLinePosition<items.size()) {
+        if(itemLinePosition>0&&itemLinePosition<items.size()) {
             itemLinePosition = item.getItemLineNumber() - 1;
         }
         

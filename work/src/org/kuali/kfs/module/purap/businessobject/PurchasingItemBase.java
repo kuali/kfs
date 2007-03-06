@@ -18,10 +18,12 @@ package org.kuali.module.purap.bo;
 
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.bo.TargetAccountingLine;
 
 /**
  * 
@@ -43,7 +45,9 @@ public class PurchasingItemBase extends PersistableBusinessObjectBase implements
 	private String externalOrganizationB2bProductTypeName;
 	private boolean itemAssignedToTradeInIndicator;
     private KualiDecimal extendedPrice; //not currently in DB
-
+    
+    private List<PurApAccountingLine> accountingLines;
+    
 	private CapitalAssetTransactionType capitalAssetTransactionType;
 	private ItemType itemType;
 
@@ -53,6 +57,7 @@ public class PurchasingItemBase extends PersistableBusinessObjectBase implements
 	public PurchasingItemBase() {
 	    //TODO: Chris - default itemType (should probably get this from spring or Constants file)
         itemTypeCode = "ITEM";
+        accountingLines = new TypedArrayList(PurApAccountingLineBase.class);
 	}
 
 	/**
@@ -400,6 +405,65 @@ public class PurchasingItemBase extends PersistableBusinessObjectBase implements
      */
     public void setExtendedPrice(KualiDecimal extendedPrice) {
         this.extendedPrice = extendedPrice;
+    }
+    
+    /**
+     * Gets the accountingLines attribute. 
+     * @return Returns the accountingLines.
+     */
+    public List<PurApAccountingLine> getAccountingLines() {
+        return accountingLines;
+    }
+
+    /**
+     * Sets the accountingLines attribute value.
+     * @param accountingLines The accountingLines to set.
+     */
+    public void setAccountingLines(List<PurApAccountingLine> accountingLines) {
+        this.accountingLines = accountingLines;
+    }
+
+    /**
+     * This implementation is coupled tightly with some underlying issues that the Struts PojoProcessor plugin has with how objects
+     * get instantiated within lists. The first three lines are required otherwise when the PojoProcessor tries to automatically
+     * inject values into the list, it will get an index out of bounds error if the instance at an index is being called and prior
+     * instances at indices before that one are not being instantiated. So changing the code below will cause adding lines to break
+     * if you add more than one item to the list.
+     * 
+     * @see org.kuali.core.document.FinancialDocument#getTargetAccountingLine(int)
+     */
+    public PurApAccountingLine getAccountingLine(int index) {
+        while (getAccountingLines().size() <= index) {
+            try {
+                getAccountingLines().add((PurApAccountingLine)getAccountingLineClass().newInstance());
+            }
+            catch (InstantiationException e) {
+                throw new RuntimeException("Unable to get class");
+            }
+            catch (IllegalAccessException e) {
+                throw new RuntimeException("Unable to get class");
+            }
+            catch (NullPointerException e) {
+                throw new RuntimeException("Can't instantiate Purchasing Account from base");
+            }
+        }
+        return (PurApAccountingLine) getAccountingLines().get(index);
+    }
+
+    public Class getAccountingLineClass() {
+        return null;
+    }
+    
+    /**
+     * @see org.kuali.core.document.DocumentBase#buildListOfDeletionAwareLists()
+     */
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+
+        managedLists.add(getAccountingLines());
+
+        return managedLists;
     }
 
     /**

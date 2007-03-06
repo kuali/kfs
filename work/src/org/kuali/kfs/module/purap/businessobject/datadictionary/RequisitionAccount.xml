@@ -32,8 +32,8 @@
                 <field attributeName="financialSubObjectCode" />
                 <field attributeName="organizationReferenceId" />
                 <field attributeName="projectCode" />
-                <field attributeName="requisitionAccountIdentifier" />
-                <field attributeName="requisitionItemIdentifier" />
+                <field attributeName="accountIdentifier" />
+                <field attributeName="itemIdentifier" />
                 <field attributeName="subAccountNumber" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
@@ -57,8 +57,8 @@
                 <lookupField attributeName="financialSubObjectCode" required="false" />
                 <lookupField attributeName="organizationReferenceId" required="false" />
                 <lookupField attributeName="projectCode" required="false" />
-                <lookupField attributeName="requisitionAccountIdentifier" required="false" />
-                <lookupField attributeName="requisitionItemIdentifier" required="false" />
+                <lookupField attributeName="accountIdentifier" required="false" />
+                <lookupField attributeName="itemIdentifier" required="false" />
                 <lookupField attributeName="subAccountNumber" required="false" />
             </lookupFields>
 
@@ -70,8 +70,8 @@
                 <field attributeName="financialSubObjectCode" />
                 <field attributeName="organizationReferenceId" />
                 <field attributeName="projectCode" />
-                <field attributeName="requisitionAccountIdentifier" />
-                <field attributeName="requisitionItemIdentifier" />
+                <field attributeName="accountIdentifier" />
+                <field attributeName="itemIdentifier" />
                 <field attributeName="subAccountNumber" />
             </resultFields>
         </lookup>
@@ -183,7 +183,7 @@
                 <description>projectCode description...</description>
 			</attribute>
 
-            <attribute name="requisitionAccountIdentifier" forceUppercase="true">
+            <attribute name="accountIdentifier" forceUppercase="true">
                 <label>Requisition Account Identifier</label>
                 <shortLabel>Identifier</shortLabel>
 
@@ -198,7 +198,7 @@
                 <description>requisitionAccountIdentifier description...</description>
 			</attribute>
 
-            <attribute name="requisitionItemIdentifier" forceUppercase="true">
+            <attribute name="itemIdentifier" forceUppercase="true">
                 <label>Requisition Item Identifier</label>
                 <shortLabel>Identifier</shortLabel>
 

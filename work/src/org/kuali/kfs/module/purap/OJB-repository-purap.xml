@@ -603,6 +603,11 @@
 	<reference-descriptor name="itemType" class-ref="org.kuali.module.purap.bo.ItemType" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="itemTypeCode" />
 	</reference-descriptor>
+    <collection-descriptor name="accountingLines" proxy="true" element-class-ref="org.kuali.module.purap.bo.RequisitionAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="chartOfAccount" sort="ASC" />
+        <orderby name="account" sort="ASC" />
+        <inverse-foreignkey field-ref="itemIdentifier" />
+	</collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.document.RequisitionDocument" table="PUR_REQS_T">
@@ -1544,10 +1549,10 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.RequisitionAccount" table="PUR_REQS_ACCT_T">
-	<field-descriptor name="requisitionAccountIdentifier" column="REQS_ACCT_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="REQS_ACCT_ID"/>
+	<field-descriptor name="accountIdentifier" column="REQS_ACCT_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="REQS_ACCT_ID"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="requisitionItemIdentifier" column="REQS_ITM_ID" jdbc-type="INTEGER" index="true"/>
+	<field-descriptor name="itemIdentifier" column="REQS_ITM_ID" jdbc-type="INTEGER" index="true"/>
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" index="true"/>
@@ -1557,7 +1562,7 @@
 	<field-descriptor name="organizationReferenceId" column="ORG_REFERENCE_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="accountLinePercent" column="ACLN_PCT" jdbc-type="INTEGER"/>
     <reference-descriptor name="requisitionItem" class-ref="org.kuali.module.purap.bo.RequisitionItem" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="requisitionItemIdentifier" />
+		<foreignkey field-ref="itemIdentifier" />
 	</reference-descriptor>
 	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />

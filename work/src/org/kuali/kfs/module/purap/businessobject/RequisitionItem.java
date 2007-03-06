@@ -53,7 +53,11 @@ public class RequisitionItem extends PurchasingItemBase {
 	 * Default constructor.
 	 */
 	public RequisitionItem() {
-        
+        //try adding an account for fun
+//        RequisitionAccount ra = new RequisitionAccount();
+//        ra.setAccountLinePercent(new Integer(99));
+//        ra.setBudgetYear("2006");
+//        getAccountingLines().add(ra);
 	}
 
     /**
@@ -129,6 +133,15 @@ public class RequisitionItem extends PurchasingItemBase {
             return new KualiDecimal("0");
         }
         return new KualiDecimal(this.getItemUnitPrice().multiply(new BigDecimal(this.getItemQuantity().toString())).toString());
+    }
+
+    /**
+     * @see org.kuali.module.purap.bo.PurchasingItemBase#getAccountingLineClass()
+     */
+    @Override
+    public Class getAccountingLineClass() {
+        // TODO Auto-generated method stub
+        return RequisitionAccount.class;
     }
 
     

@@ -18,9 +18,13 @@ package org.kuali.module.labor.bo;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.text.ParseException;
 
+import org.kuali.KeyConstants;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.DocumentType;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.OriginationCode;
 import org.kuali.module.chart.bo.Account;
@@ -31,11 +35,15 @@ import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.Transaction;
+import org.kuali.module.gl.exception.LoadException;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class LaborOriginEntry extends OriginEntry {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborOriginEntry.class);
+    private static String SPACES = "                                                                                                              ";
+    
 
     private String positionNumber;
     private Date transactionPostingDate;
@@ -97,7 +105,12 @@ public class LaborOriginEntry extends OriginEntry {
     }
 
     public LaborOriginEntry(String line) {
-        super(line);
+        try {
+            setFromTextFile(line, 0);
+        }
+            catch (LoadException e) {
+                LOG.error("OriginEntry() Error loading line", e);
+            }
      
     }
     
@@ -785,6 +798,261 @@ public class LaborOriginEntry extends OriginEntry {
         return m;
     }
     */
+ 
+    public String getLine() {
+        StringBuffer sb = new StringBuffer();
+        if (universityFiscalYear == null) {
+            sb.append("    ");
+        }
+        else {
+            sb.append(universityFiscalYear);
+        }
+
+        sb.append(getField(2, chartOfAccountsCode));
+        sb.append(getField(7, accountNumber));
+        sb.append(getField(5, subAccountNumber));
+        sb.append(getField(4, financialObjectCode));
+        sb.append(getField(3, financialSubObjectCode));
+        sb.append(getField(2, financialBalanceTypeCode));
+        sb.append(getField(2, financialObjectTypeCode));
+        sb.append(getField(2, universityFiscalPeriodCode));
+        sb.append(getField(4, financialDocumentTypeCode));
+        sb.append(getField(2, financialSystemOriginationCode));
+        sb.append(getField(14, documentNumber));
+
+        // This is the cobol code for transaction sequence numbers.
+        // 3025 019280 IF TRN-ENTR-SEQ-NBR OF GLEN-RECORD NOT NUMERIC
+        // 3026 019290 MOVE ZEROES TO TRN-ENTR-SEQ-NBR OF GLEN-RECORD
+        // 3027 019300 END-IF
+        // 3028 019310 IF TRN-ENTR-SEQ-NBR OF GLEN-RECORD = SPACES
+        // 3029 019320 MOVE ZEROES
+        // 3030 019330 TO TRN-ENTR-SEQ-NBR OF ALT-GLEN-RECORD
+        // 3031 019340 ELSE
+        // 3032 019350 MOVE TRN-ENTR-SEQ-NBR OF GLEN-RECORD
+        // 3033 019360 TO TRN-ENTR-SEQ-NBR OF ALT-GLEN-RECORD
+        // 3034 019370 END-IF
+
+        if (transactionLedgerEntrySequenceNumber == null) {
+            sb.append("00000");
+        }
+        else {
+            // Format to a length of 5
+            String seqNum = transactionLedgerEntrySequenceNumber.toString();
+            while (5 > seqNum.length()) {
+                seqNum = "0" + seqNum;
+            }
+            sb.append(seqNum);
+        }
+        
+        
+        //Labor Specified fields
+               
+        sb.append(getField(8, positionNumber));
+        sb.append(getField(10, projectCode));
+        sb.append(getField(40, transactionLedgerEntryDescription));
+        
+        //The length of Labor's transactionLedgerEntryAmount is 19
+        //GL's transactionLedgerEntryAmount is 17
+        if (transactionLedgerEntryAmount == null) {
+            sb.append("                   ");
+        }
+        else {
+            String a = transactionLedgerEntryAmount.toString();
+            sb.append("                   ".substring(0, 19 - a.length()));
+            sb.append(a);
+        }
+        
+        sb.append(getField(1, transactionDebitCreditCode));
+        sb.append(formatDate(transactionDate));
+        sb.append(getField(10, organizationDocumentNumber));
+        sb.append(getField(8, organizationReferenceId));
+        sb.append(getField(4, referenceFinancialDocumentTypeCode));
+        sb.append(getField(2, referenceFinancialSystemOriginationCode));
+        sb.append(getField(14, referenceFinancialDocumentNumber));
+        sb.append(formatDate(financialDocumentReversalDate));
+        sb.append(getField(1, transactionEncumbranceUpdateCode));
+        
+        
+        sb.append(formatDate(transactionPostingDate));
+        sb.append(formatDate(payPeriodEndDate));
+        
+        if (transactionTotalHours == null){
+            sb.append("   ");
+        } else {
+            sb.append(getField(9, transactionTotalHours.toString()));
+        }
+        
+        if (payrollEndDateFiscalYear == null){
+            sb.append("   ");
+        } else {
+            sb.append(getField(4, payrollEndDateFiscalYear.toString()));
+        }
+        
+       
+        sb.append(getField(2, payrollEndDateFiscalPeriodCode));
+        sb.append(getField(11, emplid));
+        
+        if (employeeRecord == null){
+            sb.append("   ");
+        } else {
+            sb.append(getField(3, employeeRecord.toString()));
+        }
+        
+        sb.append(getField(3, earnCode));
+        sb.append(getField(3, payGroup));
+        sb.append(getField(4, salaryAdministrationPlan));
+        sb.append(getField(3, grade));
+        sb.append(getField(10, runIdentifier));
+        sb.append(getField(2, laborLedgerOriginalChartOfAccountsCode));
+        sb.append(getField(7, laborLedgerOriginalAccountNumber));
+        sb.append(getField(5, laborLedgerOriginalSubAccountNumber));
+        
+        if (laborLedgerOriginalFinancialObject == null){
+            sb.append("    ");
+        } else {
+            sb.append(getField(4, laborLedgerOriginalFinancialObject.toString()));
+        }
+        if (laborLedgerOriginalFinancialSubObject == null){
+            sb.append("   ");
+        } else {
+            sb.append(getField(3, laborLedgerOriginalFinancialSubObject.toString()));
+        }
+        
+        sb.append(getField(3, hrmsCompany));
+        sb.append(getField(5, setid));
+        
+        //TODO: Ask to Sterling about Pad. 
+        // pad to full length of 173 chars.
+        /*while (173 > sb.toString().length()) {
+            sb.append(' ');
+        }*/
+        
+        return sb.toString();
+      
+        
+    }
+    
+    
+    
+    public void setFromTextFile(String line, int lineNumber) throws LoadException {
+
+        // Just in case
+        line = line + SPACES;
+
+        if (!"    ".equals(line.substring(0, 4))) {
+            try {
+                setUniversityFiscalYear(new Integer(line.substring(0, 4)));
+            }
+            catch (NumberFormatException e) {
+                GlobalVariables.getErrorMap().putError("fileUpload", KeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "University Fiscal Year" });
+                throw new LoadException("Invalid university fiscal year");
+            }
+
+        }
+        else {
+            setUniversityFiscalYear(null);
+        }
+
+        setChartOfAccountsCode(getValue(line, 4, 6));
+        setAccountNumber(getValue(line, 6, 13));
+        setSubAccountNumber(getValue(line, 13, 18));
+        setFinancialObjectCode(getValue(line, 18, 22));
+        setFinancialSubObjectCode(getValue(line, 22, 25));
+        setFinancialBalanceTypeCode(getValue(line, 25, 27));
+        setFinancialObjectTypeCode(getValue(line, 27, 29));
+        setUniversityFiscalPeriodCode(getValue(line, 29, 31));
+        setFinancialDocumentTypeCode(getValue(line, 31, 35));
+        setFinancialSystemOriginationCode(getValue(line, 35, 37));
+        setDocumentNumber(getValue(line, 37, 51));
+        if (!"     ".equals(line.substring(51, 56)) && !"00000".equals(line.substring(51, 56))) {
+            try {
+                setTransactionLedgerEntrySequenceNumber(new Integer(line.substring(51, 56).trim()));
+        }
+            catch (NumberFormatException e) {
+                GlobalVariables.getErrorMap().putError("fileUpload", KeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Sequence Number" });
+                throw new LoadException("Invalid sequence number");
+            }
+        }
+        else {
+            setTransactionLedgerEntrySequenceNumber(null);
+        }
+        
+        setPositionNumber(getValue(line, 56, 64));
+        setProjectCode(getValue(line, 64, 74));
+        setTransactionLedgerEntryDescription(getValue(line, 74, 114));
+        
+        try {
+            setTransactionLedgerEntryAmount(new KualiDecimal(getValue(line, 114, 133).trim()));
+            
+        }
+        catch (NumberFormatException e) {
+            //TODO: change the error constants 
+            GlobalVariables.getErrorMap().putError("fileUpload", KeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Transaction Ledger Entry Amount" });
+            throw new LoadException("Invalid Entry Amount");
+        }
+        
+        setTransactionDebitCreditCode(getValue(line, 133, 134));
+        
+        try {
+            setTransactionDate(parseDate(getValue(line, 134, 144), false));
+        }
+        catch (ParseException e) {
+            //TODO: change the error constants 
+            GlobalVariables.getErrorMap().putError("fileUpload", KeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Transaction Date" });
+            throw new LoadException("Invalid Transaction Date");
+        }
+        
+                
+        setOrganizationDocumentNumber(getValue(line, 144, 154));
+        setOrganizationReferenceId(getValue(line, 154, 162));
+        setReferenceFinancialDocumentTypeCode(getValue(line, 162, 166));
+        setReferenceFinancialSystemOriginationCode(getValue(line, 166, 168));
+        setReferenceFinancialDocumentNumber(getValue(line, 168, 182));
+        
+        
+        
+        setTransactionEncumbranceUpdateCode(getValue(line, 192, 193));
+        
+        try {
+            setTransactionPostingDate(parseDate(getValue(line, 193, 203), false));
+        }
+        catch (ParseException e) {
+            //TODO: change the error constants 
+            GlobalVariables.getErrorMap().putError("fileUpload", KeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Transaction Date" });
+            throw new LoadException("Invalid Transaction Date");
+        }
+        
+        try {
+            setPayPeriodEndDate(parseDate(getValue(line, 203, 213), false));
+        }
+        catch (ParseException e) {
+            //TODO: change the error constants 
+            GlobalVariables.getErrorMap().putError("fileUpload", KeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Transaction Date" });
+            throw new LoadException("Invalid Transaction Date");
+        }
+        
+        setTransactionTotalHours(new BigDecimal(getValue(line, 213, 222)));
+        setPayrollEndDateFiscalYear(new Integer(getValue(line, 222, 226)));
+        setPayrollEndDateFiscalPeriodCode(getValue(line, 226, 228));
+        setEmplid(getValue(line, 228, 239));
+        setEmployeeRecord(new Integer(getValue(line, 239, 242)));
+        setEarnCode(getValue(line, 242, 245));
+        setPayGroup(getValue(line, 245, 248));
+        setSalaryAdministrationPlan(getValue(line, 248, 252));
+        setGrade(getValue(line, 252, 255));
+        setRunIdentifier(getValue(line, 255, 265));
+        setLaborLedgerOriginalChartOfAccountsCode(getValue(line, 265, 267));
+        setLaborLedgerOriginalAccountNumber(getValue(line, 267, 274));
+        setLaborLedgerOriginalSubAccountNumber(getValue(line, 274, 279));
+        setLaborLedgerOriginalFinancialObjectCode(getValue(line, 279, 283));
+        setLaborLedgerOriginalFinancialSubObjectCode(getValue(line, 283, 286));
+        //TODO: is COMPANY HrmsCompany? 
+        setHrmsCompany(getValue(line, 286, 289));
+        setSetid(getValue(line, 289, 294));
+        
+    }
+    
+    
     
 }
 

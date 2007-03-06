@@ -277,26 +277,26 @@
     <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="awardBeginningDate" column="CGAWD_BEG_DT" jdbc-type="TIMESTAMP" />
-    <field-descriptor name="awardEndingDate" column="CGAWD_END_DT" jdbc-type="TIMESTAMP" />
+    <field-descriptor name="awardBeginningDate" column="CGAWD_BEG_DT" jdbc-type="DATE" />
+    <field-descriptor name="awardEndingDate" column="CGAWD_END_DT" jdbc-type="DATE" />
     <field-descriptor name="awardTotalAmount" column="CGAWD_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="awardAddendumNumber" column="CGAWD_ADDENDUM_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="awardAllocatedUniversityComputingServicesAmount" column="CGAWD_ALOC_UCS_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="agencyAwardNumber" column="CG_AGENCY_AWD_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="federalPassThroughFundedAmount" column="CG_FEDPT_FND_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
-    <field-descriptor name="awardEntryDate" column="CGAWD_ENTRY_DT" jdbc-type="TIMESTAMP" />
+    <field-descriptor name="awardEntryDate" column="CGAWD_ENTRY_DT" jdbc-type="DATE" />
     <field-descriptor name="agencyFuture1Amount" column="CG_AGENCY_FUT1_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="agencyFuture2Amount" column="CG_AGENCY_FUT2_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="agencyFuture3Amount" column="CG_AGENCY_FUT3_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="awardDocumentNumber" column="CGAWD_DOC_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="awardLastUpdateDate" column="CGAWD_LST_UPDT_DT" jdbc-type="TIMESTAMP" />
+    <field-descriptor name="awardLastUpdateDate" column="CGAWD_LST_UPDT_DT" jdbc-type="DATE" />
     <field-descriptor name="federalPassThroughIndicator" column="CG_FEDPT_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <field-descriptor name="oldProposalNumber" column="CG_OLD_PRPSL_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="awardDirectCostAmount" column="CGAWD_DRCT_CST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="awardIndirectCostAmount" column="CGAWD_INDR_CST_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="federalFundedAmount" column="CG_FED_FNDED_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="awardCreateTimestamp" column="CGAWD_CREATE_TS" jdbc-type="TIMESTAMP" />
-    <field-descriptor name="awardClosingDate" column="CGAWD_CLOSING_DT" jdbc-type="TIMESTAMP" />
+    <field-descriptor name="awardClosingDate" column="CGAWD_CLOSING_DT" jdbc-type="DATE" />
     <field-descriptor name="proposalAwardTypeCode" column="CGPRPSL_AWD_TYP_CD" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="financialSystemWorkgroupId" column="FS_WORK_GRP_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="awardStatusCode" column="CGAWD_STAT_CD" jdbc-type="VARCHAR" index="true" />

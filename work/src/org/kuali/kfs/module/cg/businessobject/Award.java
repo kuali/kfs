@@ -16,6 +16,7 @@
 
 package org.kuali.module.cg.bo;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -30,26 +31,26 @@ import org.kuali.core.util.KualiDecimal;
 public class Award extends PersistableBusinessObjectBase {
 
     private Long proposalNumber;
-    private Timestamp awardBeginningDate;
-    private Timestamp awardEndingDate;
+    private Date awardBeginningDate;
+    private Date awardEndingDate;
     private KualiDecimal awardTotalAmount;
     private String awardAddendumNumber;
     private KualiDecimal awardAllocatedUniversityComputingServicesAmount;
     private String agencyAwardNumber;
     private KualiDecimal federalPassThroughFundedAmount;
-    private Timestamp awardEntryDate;
+    private Date awardEntryDate;
     private KualiDecimal agencyFuture1Amount;
     private KualiDecimal agencyFuture2Amount;
     private KualiDecimal agencyFuture3Amount;
     private String awardDocumentNumber;
-    private Timestamp awardLastUpdateDate;
+    private Date awardLastUpdateDate;
     private boolean federalPassThroughIndicator;
     private String oldProposalNumber;
     private KualiDecimal awardDirectCostAmount;
     private KualiDecimal awardIndirectCostAmount;
     private KualiDecimal federalFundedAmount;
     private Timestamp awardCreateTimestamp;
-    private Timestamp awardClosingDate;
+    private Date awardClosingDate;
     private String proposalAwardTypeCode;
     private String financialSystemWorkgroupId;
     private String awardStatusCode;
@@ -113,7 +114,7 @@ public class Award extends PersistableBusinessObjectBase {
      * @return Returns the awardBeginningDate
      * 
      */
-    public Timestamp getAwardBeginningDate() {
+    public Date getAwardBeginningDate() {
         return awardBeginningDate;
     }
 
@@ -123,7 +124,7 @@ public class Award extends PersistableBusinessObjectBase {
      * @param awardBeginningDate The awardBeginningDate to set.
      * 
      */
-    public void setAwardBeginningDate(Timestamp awardBeginningDate) {
+    public void setAwardBeginningDate(Date awardBeginningDate) {
         this.awardBeginningDate = awardBeginningDate;
     }
 
@@ -134,7 +135,7 @@ public class Award extends PersistableBusinessObjectBase {
      * @return Returns the awardEndingDate
      * 
      */
-    public Timestamp getAwardEndingDate() {
+    public Date getAwardEndingDate() {
         return awardEndingDate;
     }
 
@@ -144,7 +145,7 @@ public class Award extends PersistableBusinessObjectBase {
      * @param awardEndingDate The awardEndingDate to set.
      * 
      */
-    public void setAwardEndingDate(Timestamp awardEndingDate) {
+    public void setAwardEndingDate(Date awardEndingDate) {
         this.awardEndingDate = awardEndingDate;
     }
 
@@ -260,7 +261,7 @@ public class Award extends PersistableBusinessObjectBase {
      * @return Returns the awardEntryDate
      * 
      */
-    public Timestamp getAwardEntryDate() {
+    public Date getAwardEntryDate() {
         return awardEntryDate;
     }
 
@@ -270,7 +271,7 @@ public class Award extends PersistableBusinessObjectBase {
      * @param awardEntryDate The awardEntryDate to set.
      * 
      */
-    public void setAwardEntryDate(Timestamp awardEntryDate) {
+    public void setAwardEntryDate(Date awardEntryDate) {
         this.awardEntryDate = awardEntryDate;
     }
 
@@ -365,7 +366,7 @@ public class Award extends PersistableBusinessObjectBase {
      * @return Returns the awardLastUpdateDate
      * 
      */
-    public Timestamp getAwardLastUpdateDate() {
+    public Date getAwardLastUpdateDate() {
         return awardLastUpdateDate;
     }
 
@@ -375,7 +376,7 @@ public class Award extends PersistableBusinessObjectBase {
      * @param awardLastUpdateDate The awardLastUpdateDate to set.
      * 
      */
-    public void setAwardLastUpdateDate(Timestamp awardLastUpdateDate) {
+    public void setAwardLastUpdateDate(Date awardLastUpdateDate) {
         this.awardLastUpdateDate = awardLastUpdateDate;
     }
 
@@ -512,7 +513,7 @@ public class Award extends PersistableBusinessObjectBase {
      * @return Returns the awardClosingDate
      * 
      */
-    public Timestamp getAwardClosingDate() {
+    public Date getAwardClosingDate() {
         return awardClosingDate;
     }
 
@@ -522,7 +523,7 @@ public class Award extends PersistableBusinessObjectBase {
      * @param awardClosingDate The awardClosingDate to set.
      * 
      */
-    public void setAwardClosingDate(Timestamp awardClosingDate) {
+    public void setAwardClosingDate(Date awardClosingDate) {
         this.awardClosingDate = awardClosingDate;
     }
 

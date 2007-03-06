@@ -15,15 +15,12 @@
  */
 package org.kuali.module.purap.document;
 
-import java.util.LinkedHashMap;
-
-import org.kuali.core.util.SpringServiceLocator;
 
 /**
  * Accounts Payable Document Base
  * 
  */
-public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPayableDocumentBase implements PurchasingDocument {
+public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPayableDocumentBase implements AccountsPayableDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsPayableDocumentBase.class);
 
 }

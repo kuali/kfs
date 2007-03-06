@@ -38,7 +38,7 @@ import org.kuali.module.purap.bo.SourceDocumentReference;
 import org.kuali.module.purap.bo.VendorDetail;
 
 /**
- * Requisition Document
+ * Purchase Order Document
  */
 public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderDocument.class);

@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 
-<%@ taglib tagdir="/WEB-INF/tags" prefix="kul" %>
+<%@ include file="/jsp/core/tldHeader.jsp"%>
 
 <kul:tab tabTitle="Default Permissions" defaultOpen="false">
 	<div class="tab-container" align=center>
@@ -29,26 +29,24 @@
             	<th>Role</th>
             	<th width="12%">Type</th>
             </tr>
-            <%-- %>
             <c:forEach items="${KualiForm.document.routingFormPersonnel}" var="person" varStatus="status">
-            	<c:if test="${person.personRoleCode == 'M' || person.personRoleCode == 'N'}">
+				<c:if test="${!person.personToBeNamedIndicator && person.personRoleCode == 'M' || person.personRoleCode == 'N'}">
             		<tr>
-            			<td>${person.user.personName}</td>
-            			<td>${person.chartOfAccountsCode}</td>
-            			<td>${person.organizationCode}</td>
-            			<td>${person.personRole.personRoleDescription}</td>
-            			<td>Read</td>
+            			<td>${person.user.personName}&nbsp;</td>
+            			<td>${person.chartOfAccountsCode}&nbsp;</td>
+            			<td>${person.organizationCode}&nbsp;</td>
+            			<td>${person.personRole.personRoleDescription}&nbsp;</td>
+            			<td>
+            				Read
+            				<html:hidden property="document.routingFormPersonnel[${status.index}].personRoleCode" />
+            				<html:hidden property="document.routingFormPersonnel[${status.index}].user.personName" />
+            				<html:hidden property="document.routingFormPersonnel[${status.index}].chartOfAccountsCode" />
+            				<html:hidden property="document.routingFormPersonnel[${status.index}].organizationCode" />
+            				<html:hidden property="document.routingFormPersonnel[${status.index}].personRole.personRoleDescription" />
+            			</td>
             		</tr>
             	</c:if>
             </c:forEach>
-            --%>
-            <tr>
-            			<td>Joe User</td>
-            			<td>BL</td>
-            			<td>VPIT</td>
-            			<td>Contact Person</td>
-            			<td>Read</td>
-            </tr>
         </table>
 	</div>
 </kul:tab>

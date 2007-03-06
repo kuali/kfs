@@ -18,6 +18,8 @@
 <%@ taglib uri="/tlds/struts-logic.tld" prefix="logic" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="kul" %>
 
+<%@ attribute name="adHocType" required="false" %>
+<%@ attribute name="excludeActionRequested" required="false" %>
 <%@ attribute name="editingMode" required="false" type="java.util.Map"%>
 
 <%-- derive displayReadOnly value --%>
@@ -26,14 +28,23 @@
 <c:set var="budgetAdHocOrgAttributes" value="${DataDictionary.BudgetAdHocOrg.attributes}" />
 <c:set var="budgetAdHocWorkgroupAttributes" value="${DataDictionary.BudgetAdHocWorkgroup.attributes}" />
 
+<c:choose>
+	<c:when test="${excludeActionRequested}">
+		<c:set var="numCols" value="5" />
+	</c:when>
+	<c:otherwise>
+		<c:set var="numCols" value="6" />
+	</c:otherwise>
+</c:choose>
+
 <c:if test="${!empty editingMode['viewOnly']}" >
     <c:set var="displayReadOnly" value="true" />
 </c:if>
 
-	<kul:tabTop tabTitle="Ad Hoc Recipients" defaultOpen="false" tabErrorKey="${Constants.AD_HOC_ROUTE_ERRORS}">
-    	<div class="tab-container" align=center>     
+	<kul:tabTop tabTitle="Ad Hoc ${adHocType}" defaultOpen="false" tabErrorKey="${Constants.AD_HOC_ROUTE_ERRORS}">
+    	<div class="tab-container" align=center>
 			<div class="h2-container">
-				<h2>Ad Hoc Recipients</h2>
+				<h2>Ad Hoc ${adHocType}</h2>
 			</div>
             <table cellpadding="0" cellspacing="0" class="datatable" summary="view/edit ad hoc recipients">
 			  	<%-- first do the persons --%>
@@ -45,13 +56,15 @@
 	    		  	</tr>    
 			  	</kul:displayIfErrors>
               	<tr>
-                	<td colspan=6 class="tab-subhead">Person Requests:</td>
+                	<td colspan="${numCols}" class="tab-subhead">Ad Hoc Person ${adHocType}:</td>
               	</tr>
 	          	<tr>
-                  	<kul:htmlAttributeHeaderCell
-                      attributeEntry="${DataDictionary.AdHocRoutePerson.attributes.actionRequested}"
-                      scope="col"
-                      />
+	          		<c:if test="${!excludeActionRequested}">
+                  		<kul:htmlAttributeHeaderCell
+                      	attributeEntry="${DataDictionary.AdHocRoutePerson.attributes.actionRequested}"
+                      	scope="col"
+                      	/>
+                    </c:if>
                   	<kul:htmlAttributeHeaderCell
                       attributeEntry="${DataDictionary.AdHocRoutePerson.attributes.id}"
                       scope="col"
@@ -79,6 +92,7 @@
               	</tr>
 				<c:if test="${!displayReadOnly}">
                 	<tr>
+                		<c:if test="${!excludeActionRequested}">
                     	<td class="infoline">
                     		<div align=center>
                         		<html:hidden property="newAdHocRoutePerson.type"/>
@@ -88,6 +102,7 @@
 	  			        		</html:select> (upon completion)
 	  			        	</div>
                     	</td>
+                    	</c:if>
                     	<td class="infoline">
                         	<kul:htmlControlAttribute property="newAdHocRoutePerson.id" attributeEntry="${DataDictionary.AdHocRoutePerson.attributes.id}" readOnly="${displayReadOnly}" />
                         	<kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser"  fieldConversions="personUserIdentifier:newAdHocRoutePerson.id" />
@@ -108,6 +123,7 @@
 				</c:if>
 				<c:forEach items="${KualiForm.document.adHocPermissions}" var="person" varStatus="status">
 					<tr>
+						<c:if test="${!excludeActionRequested}">
 	                    <td class="datacell center">
 	                    	<div align=center>
 	                    		<html:select property="document.budgetAdHocPermissionItem[${status.index}].actionRequested" value="${Constants.WORKFLOW_FYI_REQUEST}" disabled="true">
@@ -117,6 +133,7 @@
 	  			        		(upon completion)
 	  			        	</div>
 	                    </td>
+	                    </c:if>
 	                    <td class="datacell center">
 	                    	<div align=left>${person.user.personUserIdentifier}</div>
 	                    	<html:hidden property="document.budgetAdHocPermissionItem[${status.index}].user.personUserIdentifier" />
@@ -151,13 +168,15 @@
 	    		  	</tr>    
 			  	</kul:displayIfErrors>
                 <tr>
-					<td colspan=6 class="tab-subhead">Ad Hoc Org Requests:</td>
+					<td colspan="${numCols}" class="tab-subhead">Ad Hoc Org ${adHocType}:</td>
 				</tr>
 				<tr>
+					<c:if test="${!excludeActionRequested}">
 					<kul:htmlAttributeHeaderCell
                       	attributeEntry="${DataDictionary.AdHocRoutePerson.attributes.actionRequested}"
                       	scope="col"
                     />
+                    </c:if>
 					<kul:htmlAttributeHeaderCell
                     	literalLabel="* Chart/Org"
                     	scope="col"
@@ -173,6 +192,7 @@
 				
 				<c:if test="${not displayReadOnly}">
 				<tr>
+					<c:if test="${!excludeActionRequested}">
 					<td class="infoline">
 	                    <div align=center>
 	                    	<html:select property="newAdHocRouteOrg.actionRequested" value="${Constants.WORKFLOW_FYI_REQUEST}" disabled="true">
@@ -182,6 +202,7 @@
 	  			        	(upon completion)
 	  			      	</div>
 	                </td>
+	                </c:if>
 					<td nowrap class="infoline" colspan="3">
 						<c:choose>
 							<c:when test="${empty KualiForm.newAdHocOrg.fiscalCampusCode}">(select by org)</c:when>
@@ -210,6 +231,7 @@
 				
 				<c:forEach items="${KualiForm.document.adHocOrgs}" var="org" varStatus="status">
 					<tr>
+						<c:if test="${!excludeActionRequested}">
 						<td class="datacell center">
 	                    	<div align=center>
 	                    		<html:select property="newAdHocRouteOrg.actionRequested" value="${Constants.WORKFLOW_FYI_REQUEST}" disabled="true">
@@ -218,17 +240,18 @@
 	  			        		</html:select>
 	  			        		(upon completion)
 	  			        	</div>
-	  			        	<html:hidden property="document.budgetAdHocOrgItem[${status.index}].fiscalCampusCode" />
+	                    </td>
+	                    </c:if>
+						<td colspan="3">${org.fiscalCampusCode}/${org.primaryDepartmentCode}</td>
+						<td>
+							<c:if test="${displayReadOnly}"><html:hidden property="document.budgetAdHocOrgItem[${status.index}].budgetPermissionCode" /></c:if>
+							<kul:htmlControlAttribute property="document.budgetAdHocOrgItem[${status.index}].budgetPermissionCode" attributeEntry="${budgetAdHocPermissionAttributes.budgetPermissionCode}" readOnly="${displayReadOnly}"/>
+							<html:hidden property="document.budgetAdHocOrgItem[${status.index}].fiscalCampusCode" />
 							<html:hidden property="document.budgetAdHocOrgItem[${status.index}].primaryDepartmentCode" />
 							<html:hidden property="document.budgetAdHocOrgItem[${status.index}].addedByPerson" />
 							<html:hidden property="document.budgetAdHocOrgItem[${status.index}].personAddedTimestamp" />
 							<html:hidden property="document.budgetAdHocOrgItem[${status.index}].objectId" />
 							<html:hidden property="document.budgetAdHocOrgItem[${status.index}].versionNumber" />
-	                    </td>
-						<td colspan="3">${org.fiscalCampusCode}/${org.primaryDepartmentCode}</td>
-						<td>
-							<c:if test="${displayReadOnly}"><html:hidden property="document.budgetAdHocOrgItem[${status.index}].budgetPermissionCode" /></c:if>
-							<kul:htmlControlAttribute property="document.budgetAdHocOrgItem[${status.index}].budgetPermissionCode" attributeEntry="${budgetAdHocPermissionAttributes.budgetPermissionCode}" readOnly="${displayReadOnly}"/>
 						</td>
 						<c:if test="${not displayReadOnly}">
 						<td>
@@ -248,13 +271,15 @@
 	    		  	</tr>    
 			  	</kul:displayIfErrors>
 		      	<tr>
-                	<td colspan=6 class="tab-subhead">Ad Hoc Workgroup Requests:</td>
+                	<td colspan="${numCols}" class="tab-subhead">Ad Hoc Workgroup ${adHocType}:</td>
               	</tr>
 	          	<tr>
+	          		<c:if test="${!excludeActionRequested}">
                   	<kul:htmlAttributeHeaderCell
                       attributeEntry="${DataDictionary.AdHocRouteWorkgroup.attributes.actionRequested}"
                       scope="col"
-                      />
+                    />
+                    </c:if>
                   	<kul:htmlAttributeHeaderCell
                       attributeEntry="${DataDictionary.AdHocRouteWorkgroup.attributes.id}"
                       scope="col"
@@ -273,6 +298,7 @@
               	</tr>
 				<c:if test="${!displayReadOnly}">
                 	<tr>
+                		<c:if test="${!excludeActionRequested}">
                     	<td class="infoline">
                     		<div align=center>
                         		<html:hidden property="newAdHocRouteWorkgroup.type"/>
@@ -282,6 +308,7 @@
   			            		</html:select> (upon completion)
   			            	</div>
                     	</td>
+                    	</c:if>
                     	<td class="infoline" colspan="3">
                         	<kul:htmlControlAttribute property="newAdHocRouteWorkgroup.id" attributeEntry="${DataDictionary.AdHocRouteWorkgroup.attributes.id}" readOnly="${displayReadOnly}" />
                         	<kul:workflowWorkgroupLookup fieldConversions="workgroupId:newAdHocRouteWorkgroup.id" />
@@ -300,6 +327,7 @@
 				</c:if>
                 <c:forEach items="${KualiForm.document.adHocWorkgroups}" var="workgroup" varStatus="status">
 					<tr>
+						<c:if test="${!excludeActionRequested}">
 	                    <td class="datacell center">
 	                    	<div align=center>
 	                    		<html:select property="document.budgetAdHocWorkgroupItem[${status.index}].actionRequested" value="${Constants.WORKFLOW_FYI_REQUEST}" disabled="true">
@@ -309,6 +337,7 @@
 	  			        		(upon completion)
 	  			        	</div>
 	                    </td>
+	                    </c:if>
 	                    <td colspan="3" class="datacell center">
 	                    	<div align=left>${workgroup.workgroupName}</div>
 	                    	<html:hidden property="document.budgetAdHocWorkgroupItem[${status.index}].workgroupName" />

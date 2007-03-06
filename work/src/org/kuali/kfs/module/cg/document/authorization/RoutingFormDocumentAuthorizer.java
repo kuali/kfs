@@ -64,6 +64,8 @@ public class RoutingFormDocumentAuthorizer extends ResearchDocumentAuthorizer {
             }
         }
         
+        // TODO Check default org permissions - project director, cost sharing orgs.  Need to set up routing first.
+        
         permissionCode = getPermissionCodeByPrecedence(permissionCode, getAdHocEditMode(routingFormDocument, u));
         Map editModes = finalizeEditMode(routingFormDocument, permissionCode);
         

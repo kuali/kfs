@@ -59,6 +59,7 @@
             </lookupFields>
 
             <resultFields>
+            	<field attributeName="organizationReversionViewer" />
                 <field attributeName="universityFiscalYear" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="organizationCode" />
@@ -71,9 +72,18 @@
 
             </resultFields>
         </lookup>
+        
+        <titleAttribute>organizationReversionViewer</titleAttribute>
 
         <attributes>
-        
+        	<attribute name="organizationReversionViewer">
+        		<label>View</label>
+        		<maxLength>100</maxLength>
+        		<required>false</required>
+        		<control><hidden /></control>
+        		<summary><![CDATA[&nbsp;]]></summary>
+        		<description>An attribute dummy for a label to appear in the search results.</description>
+        	</attribute>
         
             <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
                 <required>true</required>

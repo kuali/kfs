@@ -405,4 +405,15 @@ public class OrganizationReversion extends PersistableBusinessObjectBase {
     public void setOrganization(Org organization) {
         this.organization = organization;
     }
+    
+    /**
+     * 
+     * This method (a hack by any other name...) returns a string so that an
+     * organization reversion can have a link to view its own inquiry page
+     * after a look up
+     * @return the String "View Organization Reversion"
+     */
+    public String getOrganizationReversionViewer() {
+        return "View Organization Reversion";
+    }
 }

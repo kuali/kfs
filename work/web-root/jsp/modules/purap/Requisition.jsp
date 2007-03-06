@@ -33,7 +33,11 @@
 	    	documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}"
 	    	detailSectionLabel="Requisition Detail" />
     </kul:documentOverview>
-
+	
+	<purap:viewRelatedDocuments
+	    	documentAttributes="${DataDictionary.SourceDocumentReference.attributes}"
+	    	/>
+	
     <purap:vendor
         documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}"
         displayRequisitionFields="true" />

@@ -23,6 +23,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.exceptions.ValidationException;
@@ -67,24 +69,27 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 	 */
 	public RequisitionDocument() {
         super();
-        
+        /*
         SourceDocumentReference sourceDocumentReference = new SourceDocumentReference();
         
         sourceDocumentReference.setSourceDocumentIdentifier(this.getIdentifier());
         String documentTypeName = SpringServiceLocator.getDataDictionaryService().getDocumentTypeNameByClass(this.getClass());
         String documentTypeCode = SpringServiceLocator.getDataDictionaryService().getDocumentTypeCodeByTypeName(documentTypeName);
         sourceDocumentReference.setSourceFinancialDocumentTypeCode(documentTypeCode);
+        */
         // This line is giving this error:
         /*
         javax.servlet.ServletException: OJB operation; SQL []; ORA-01400: cannot insert NULL into ("KULDEV"."PUR_SRC_DOC_REF_T"."SRC_DOC_OBJ_ID")
         ; nested exception is java.sql.SQLException: ORA-01400: cannot insert NULL into ("KULDEV"."PUR_SRC_DOC_REF_T"."SRC_DOC_OBJ_ID")
         */
         //sourceDocumentReference.setSourceDocumentObjectIdentifier(this.getObjectId());
+        /*
+        String ObjID = this.getObjectId();
         sourceDocumentReference.setSourceDocumentObjectIdentifier("objectID");
         sourceDocumentReferences = new TypedArrayList(SourceDocumentReference.class);
         sourceDocumentReferences.add(sourceDocumentReference);
 
-      
+      */
         
     }
 
@@ -198,7 +203,8 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 
         ChartUser currentUser = (ChartUser)GlobalVariables.getUserSession().getUniversalUser().getModuleUser( ChartUser.MODULE_ID );
 
-        this.setIdentifier(null);
+        this.setPurapDocumentIdentifier(null);
+        //TODO what about id in items?
 
         // Set req status to INPR.
         this.setStatusCode(PurapConstants.RequisitionStatuses.IN_PROCESS);
@@ -245,9 +251,9 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             this.setVendorDetailAssignedIdentifier(null);
             this.setVendorContractGeneratedIdentifier(null);
         }
-        if (!activeContract) {
+            if (!activeContract) {
             this.setVendorContractGeneratedIdentifier(null);
-        }
+            }
 
         // These fields should not be set in this method; force to be null
         this.setVendorNoteText(null);
@@ -262,9 +268,9 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         //TODO WAIT ON ITEM LOGIC (CHRIS AND DAVID SHOULD FIX THIS HERE)
         //TODO what about id in items?  do we need to null them out?
 
-        //Trade In and Discount Items are only available for B2B. If the Requisition
-        //doesn't currently contain trade in and discount, we should add them in 
-        //here (KULAPP 1715)
+      //Trade In and Discount Items are only available for B2B. If the Requisition
+      //doesn't currently contain trade in and discount, we should add them in 
+      //here (KULAPP 1715)
 //      if (! EpicConstants.REQ_SOURCE_B2B.equals(req.getSource().getCode())) {
 //        boolean containsFullOrderDiscount = req.containsFullOrderDiscount();
 //        //If the po has not contained full order discount item, create and
@@ -286,7 +292,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 //      }
 
         this.setOrganizationAutomaticPurchaseOrderLimit(SpringServiceLocator.getRequisitionService().getApoLimit(this.getVendorContractGeneratedIdentifier(), this.getChartOfAccountsCode(), this.getOrganizationCode()));
-
+      
         this.refreshAllReferences();
 	}
 
@@ -327,6 +333,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, PurapConstants.RequisitionStatuses.CANCELLED);
             SpringServiceLocator.getRequisitionService().save(this);
         }
+
 
     }
 
@@ -565,6 +572,29 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 	public void setOrganizationAutomaticPurchaseOrderLimit(KualiDecimal organizationAutomaticPurchaseOrderLimit) {
 		this.organizationAutomaticPurchaseOrderLimit = organizationAutomaticPurchaseOrderLimit;
 	}
-
-	}
+	
+    @Override
+    public void afterInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+            super.afterInsert(persistenceBroker);
+            SourceDocumentReference sourceDocumentReference = new SourceDocumentReference();
+            
+            sourceDocumentReference.setSourceDocumentIdentifier(this.getPurapDocumentIdentifier());
+            String documentTypeName = SpringServiceLocator.getDataDictionaryService().getDocumentTypeNameByClass(this.getClass());
+            String documentTypeCode = SpringServiceLocator.getDataDictionaryService().getDocumentTypeCodeByTypeName(documentTypeName);
+            sourceDocumentReference.setSourceFinancialDocumentTypeCode(documentTypeCode);
+            // This line is giving this error:
+            /*
+            javax.servlet.ServletException: OJB operation; SQL []; ORA-01400: cannot insert NULL into ("KULDEV"."PUR_SRC_DOC_REF_T"."SRC_DOC_OBJ_ID")
+            ; nested exception is java.sql.SQLException: ORA-01400: cannot insert NULL into ("KULDEV"."PUR_SRC_DOC_REF_T"."SRC_DOC_OBJ_ID")
+            */
+            String ObjID = this.getObjectId();
+            sourceDocumentReference.setSourceDocumentObjectIdentifier(this.getObjectId());
+            //String ObjID = this.getObjectId();
+           // sourceDocumentReference.setSourceDocumentObjectIdentifier("objectID");
+            sourceDocumentReferences = new TypedArrayList(SourceDocumentReference.class);
+            sourceDocumentReferences.add(sourceDocumentReference);
+           // String ObjID = this.getObjectId();
+            
+     }   
+}
 

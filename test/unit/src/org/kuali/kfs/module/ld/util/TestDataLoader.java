@@ -15,6 +15,9 @@
  */
 package org.kuali.module.labor.util;
 
+import static org.kuali.module.gl.bo.OriginEntrySource.LABOR_SCRUBBER_VALID;
+
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,13 +27,20 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.Transaction;
+import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
+import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.bo.PendingLedgerEntry;
 import org.kuali.module.labor.service.LaborGeneralLedgerEntryService;
+import org.kuali.module.labor.service.LaborOriginEntryService;
+import org.kuali.module.labor.service.LaborPosterService;
 import org.kuali.module.labor.util.testobject.PendingLedgerEntryForTesting;
 import org.springframework.beans.factory.BeanFactory;
 
@@ -39,16 +49,19 @@ public class TestDataLoader {
     private String fieldNames;
     private String fieldLength;
     private String deliminator;
-
+    
     private List<String> keyFieldList;
     private List<String> fieldLengthList;
 
     private static BeanFactory beanFactory;
     private BusinessObjectService businessObjectService;
+    private OriginEntryGroupService originEntryGroupService;
+    private LaborOriginEntryService laborOriginEntryService;
+    private PersistenceService persistenceService;
 
     public TestDataLoader() {
         String messageFileName = "test/src/org/kuali/module/labor/testdata/message.properties";
-        String propertiesFileName = "test/src/org/kuali/module/labor/testdata/laborPendingEntry.properties";
+        String propertiesFileName = "test/src/org/kuali/module/labor/testdata/laborTransaction.properties";
 
         properties = (new TestDataGenerator(propertiesFileName, messageFileName)).getProperties();
         fieldNames = properties.getProperty("fieldNames");
@@ -61,12 +74,32 @@ public class TestDataLoader {
         SpringServiceLocator.initializeDDGeneratorApplicationContext();
         beanFactory = SpringServiceLocator.getBeanFactory();
         businessObjectService = (BusinessObjectService) beanFactory.getBean("businessObjectService");
+
+        laborOriginEntryService = (LaborOriginEntryService) beanFactory.getBean("laborOriginEntryService");
+        originEntryGroupService = (OriginEntryGroupService) beanFactory.getBean("glOriginEntryGroupService");
+        persistenceService = (PersistenceService) beanFactory.getBean("persistenceService");
     }
 
-    public int loadData() {
+    public int loadTransactionIntoPendingEntryTable() {
         int numberOfInputData = Integer.valueOf(properties.getProperty("numOfData"));
         int[] fieldLength = this.getFieldLength(fieldLengthList);
         return this.loadInputData("data", numberOfInputData, keyFieldList, fieldLength);
+    }
+
+    public int loadTransactionIntoOriginEntryTable() {
+        int numberOfInputData = Integer.valueOf(properties.getProperty("numOfData"));
+           
+        Date today = ((DateTimeService) beanFactory.getBean("dateTimeService")).getCurrentSqlDate();
+        OriginEntryGroup groupToPost = originEntryGroupService.createGroup(today, LABOR_SCRUBBER_VALID, true, true, false);
+
+        int[] fieldLength = this.getFieldLength(fieldLengthList);
+        List<LaborOriginEntry> originEntries = this.loadInputData(LaborOriginEntry.class, "data", numberOfInputData, keyFieldList, fieldLength);
+        for(LaborOriginEntry entry : originEntries){
+            entry.setEntryGroupId(groupToPost.getId());
+        }
+        
+        businessObjectService.save(originEntries);       
+        return originEntries.size();
     }
 
     private int loadInputData(String propertyKeyPrefix, int numberOfInputData, List<String> keyFieldList, int[] fieldLength) {
@@ -84,15 +117,18 @@ public class TestDataLoader {
         return count;
     }
 
-    private List<PendingLedgerEntry> getInputDataList(String propertyKeyPrefix, int numberOfInputData, List<String> keyFieldList, int[] fieldLength) {
+    private List loadInputData(Class clazz, String propertyKeyPrefix, int numberOfInputData, List<String> keyFieldList, int[] fieldLength) {
         List inputDataList = new ArrayList();
         for (int i = 1; i <= numberOfInputData; i++) {
             String propertyKey = propertyKeyPrefix + i;
-            PendingLedgerEntryForTesting inputData = new PendingLedgerEntryForTesting();
-            ObjectUtil.populateBusinessObject(inputData, properties, propertyKey, fieldLength, keyFieldList);
+            try {
+                Object inputData = clazz.newInstance();
+                ObjectUtil.populateBusinessObject(inputData, properties, propertyKey, fieldLength, keyFieldList);
 
-            if (!inputDataList.contains(inputData)) {
                 inputDataList.add(inputData);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return inputDataList;
@@ -108,7 +144,7 @@ public class TestDataLoader {
 
     public static void main(String[] args) {
         TestDataLoader testDataLoader = new TestDataLoader();
-        int numOfData = testDataLoader.loadData();
+        int numOfData = testDataLoader.loadTransactionIntoOriginEntryTable();
         System.out.println("Number of Data Loaded = " + numOfData);
         System.exit(0);
     }

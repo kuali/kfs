@@ -50,7 +50,17 @@ public class RoutingFormDocumentAuthorizer extends ResearchDocumentAuthorizer {
         // Check personnel
         for (RoutingFormPersonnel person : routingFormDocument.getRoutingFormPersonnel()) {
             if (u.getPersonUniversalIdentifier().equals(person.getPersonSystemIdentifier())) {
-                
+                person.refresh();
+                String role = person.getPersonRole().getPersonRoleCode();
+                if (KraConstants.PROJECT_DIRECTOR_CODE.equals(role)
+                        || KraConstants.CO_PROJECT_DIRECTOR_CODE.equals(role)) {
+                    permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.FULL_ENTRY);
+                    return finalizeEditMode(routingFormDocument, permissionCode);
+                }
+                if (KraConstants.CONTACT_PERSON_ADMINISTRATIVE_CODE.equals(role)
+                        || KraConstants.CONTACT_PERSON_PROPOSAL_CODE.equals(role)) {
+                    permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.VIEW_ONLY);
+                }
             }
         }
         

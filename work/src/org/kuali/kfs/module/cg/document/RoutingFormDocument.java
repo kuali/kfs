@@ -1540,6 +1540,9 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         list.add(this.getRoutingFormOrganizations());
         list.add(this.getRoutingFormOrganizationCreditPercents());
         list.add(this.getRoutingFormProjectTypes());
+        list.add(this.getAdHocOrgs());
+        list.add(this.getAdHocPermissions());
+        list.add(this.getAdHocWorkgroups());
         
         return list;
     }

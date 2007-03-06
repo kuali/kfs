@@ -145,6 +145,12 @@ public class KraConstants extends JstlConstants {
     public static final String PROJECT_TYPE_OTHER = "KraRoutingFormProjectTypeOther";
     public static final String PURPOSE_RESEARCH = "KraRoutingFormPurposeResearch";
     public static final String PURPOSE_OTHER = "KraRoutingFormPurposeOther";
+    
+    // Role Codes
+    public static final String PROJECT_DIRECTOR_CODE = "P";
+    public static final String CO_PROJECT_DIRECTOR_CODE = "C";
+    public static final String CONTACT_PERSON_ADMINISTRATIVE_CODE = "M";
+    public static final String CONTACT_PERSON_PROPOSAL_CODE = "N";
 
     public static class AuthorizationConstants extends org.kuali.core.authorization.AuthorizationConstants.EditMode {
         public static final String BUDGET_LINKED = "budgetLinked";

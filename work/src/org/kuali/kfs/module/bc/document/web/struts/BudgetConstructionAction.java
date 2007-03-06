@@ -144,7 +144,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         BudgetConstructionDaoOjb bcHeaderDao;
         String chartOfAccountsCode = "BA";
-        String accountNumber = "6044906" ;
+        String accountNumber = "6044900" ;
         String subAccountNumber = "-----";
         Integer universityFiscalYear = new Integer(2008);
 

@@ -37,8 +37,8 @@ public class Subcontractor extends PersistableBusinessObjectBase {
     private String subcontractorCountryCode;
     private boolean active;
     
-    private State state;
-    private Country country;
+    private State subcontractorState;
+    private Country subcontractorCountry;
     
     /**
      * Default no-arg constructor.
@@ -230,20 +230,40 @@ public class Subcontractor extends PersistableBusinessObjectBase {
         return m;
     }
 
-    public Country getCountry() {
-        return country;
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    public Country getSubcontractorCountry() {
+        return subcontractorCountry;
     }
 
-    public void setCountry(Country country) {
-        this.country = country;
+    /**
+     * 
+     * This method...
+     * @param country
+     */
+    public void setSubcontractorCountry(Country country) {
+        this.subcontractorCountry = country;
     }
 
-    public State getState() {
-        return state;
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    public State getSubcontractorState() {
+        return subcontractorState;
     }
 
-    public void setState(State state) {
-        this.state = state;
+    /**
+     * 
+     * This method...
+     * @param state
+     */
+    public void setSubcontractorState(State state) {
+        this.subcontractorState = state;
     }
 
 }

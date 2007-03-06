@@ -26,10 +26,8 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.bo.AddressType;
 import org.kuali.module.purap.bo.OrganizationParameter;
 import org.kuali.module.purap.bo.VendorContract;
-import org.kuali.module.purap.bo.VendorContractOrganization;
 import org.kuali.module.purap.bo.VendorDetail;
 import org.kuali.module.purap.dao.RequisitionDao;
 import org.kuali.module.purap.document.RequisitionDocument;
@@ -75,30 +73,6 @@ public class RequisitionServiceImpl implements RequisitionService {
         return purchaseOrderTotalLimit;
     }
     
-// TODO we need a generic changeStatus method for all document status changes. where should it go? 
-//    public void changeRequisitionStatus(String docHeaderId, String statusCode, String networkId) {
-//        LOG.debug("changeRequisitionStatus() Doc ID : " + docHeaderId);
-//        Requisition r  = requisitionService.getRequisitionByDocumentId(docHeaderId);
-//        LOG.debug("changeRequisitionStatus() - VERSION: " + r.getVersion());
-//        LOG.debug("changeRequisitionStatus() - To Status: " + statusCode);
-//        User u = null;
-//        try {
-//            u = userService.getUserByNetworkId(networkId);
-//        } catch (UserAccountInvalidException e) {
-//            e.printStackTrace();
-//        }
-//        RequisitionStatus status = (RequisitionStatus)referenceService.getCode("RequisitionStatus", statusCode);
-//        requisitionService.saveRequisitionStatusHistoryChange(r.getId(), r.getStatus(), status, u); 
-//        r.setStatus(status);
-//        //set APO Limit
-//        if(EpicConstants.REQ_STAT_AWAIT_CONTRACT_MANAGER_ASSGN.equals(statusCode)){
-//            BigDecimal apoLimit = requisitionService.getApoLimit(r.getVendorContractGeneratedId(),
-//                r.getFinancialChartOfAccountsCode(), r.getOrganizationCode());
-//            r.setAutomaticPurchaseOrderLimit(apoLimit);
-//        }
-//        requisitionService.saveRequisitionEnroute(r, u);
-//    }
-
 //    public void disapproveRequisition(String docHeaderId, String level, String networkId) {
 //        if(RoutingService.REQ_CONTENT_NODE_NAME.equalsIgnoreCase(level)){
 //            //disapproved content
@@ -218,8 +192,6 @@ public class RequisitionServiceImpl implements RequisitionService {
             return "Vendor was not selected from the vendor database.";
         }
         else {
-// TODO why is the reference null?  shouldn't it have the vendorDetail in the REQ??
-//            VendorDetail vendorDetail = requisition.getVendorDetail();
             VendorDetail vendorDetail = new VendorDetail();
             vendorDetail.setVendorHeaderGeneratedIdentifier(requisition.getVendorHeaderGeneratedIdentifier());
             vendorDetail.setVendorDetailAssignedIdentifier(requisition.getVendorDetailAssignedIdentifier());
@@ -227,10 +199,12 @@ public class RequisitionServiceImpl implements RequisitionService {
             if (vendorDetail == null) {
                 return "Error retrieving vendor from the database.";
             }
-            //TODO don't set if ind is null
-//            requisition.setVendorRestrictedIndicator(vendorDetail.getVendorRestrictedIndicator());
-            // TODO save REQ
-            // requisitionService.saveRequisitionEnroute(r, u);
+            Boolean vendorRestricted = vendorDetail.getVendorRestrictedIndicator();
+            if (vendorRestricted != requisition.getVendorRestrictedIndicator()) {
+                // restricted status of vendor has changed; save new status to requisition 
+                requisition.setVendorRestrictedIndicator(vendorDetail.getVendorRestrictedIndicator());
+                save(requisition);
+            }
             if (requisition.getVendorRestrictedIndicator()) {
                 return "Selected vendor is marked as restricted.";
             }
@@ -280,25 +254,8 @@ public class RequisitionServiceImpl implements RequisitionService {
 //        return "Requisition is set to encumber next fiscal year and approval is not within APO allowed date range.";
 //      }
 
-      return "";
+        return "";
     }
-//   
-//    public PurchaseOrder createAPO(String docHeaderId, String networkId) {
-//        LOG.debug("createAPO() started");
-//        Requisition r = requisitionService.getRequisitionByDocumentId(docHeaderId);
-//        User initiator = r.getDocumentHeader().getInitiatorUser();
-//        User u = null;
-//        try {
-//            u = userService.getUserByNetworkId(initiator.getNetworkId(),true);
-//        } catch (UserAccountInvalidException e) {
-//            e.printStackTrace();
-//        }
-//       
-//        PurchaseOrder po = purchaseOrderService.createAutomaticPurchaseOrder(docHeaderId, EpicConstants.APO_CONTRACT_MANAGER, u);
-//        purchaseOrderService.savePurchaseOrder(po, u, false);
-//        routingService.routePurchaseOrder(po, u);
-//        return po;
-//    }
     
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;    

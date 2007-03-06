@@ -29,7 +29,6 @@ import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
@@ -200,7 +199,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         ChartUser currentUser = (ChartUser)GlobalVariables.getUserSession().getUniversalUser().getModuleUser( ChartUser.MODULE_ID );
 
         this.setIdentifier(null);
-        //TODO what about id in items?
 
         // Set req status to INPR.
         this.setStatusCode(PurapConstants.RequisitionStatuses.IN_PROCESS);
@@ -242,32 +240,13 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             }
         }
 
-// TODO WAIT ON ITEM LOGIC (CHRIS AND DAVID SHOULD FIX THIS HERE)
-//      if (EpicConstants.REQ_SOURCE_B2B.equals(req.getSource().getCode())) {
-//        if (!activeContract) {
-//          LOG.debug("copy() B2B contract has expired; don't allow copy.");
-//          throw new PurError("Requisition # " + req.getId() + " uses an expired contract and cannot be copied.");
-//        }
-//        if (!activeVendor) {
-//          LOG.debug("copy() B2B vendor is inactive; don't allow copy.");
-//          throw new PurError("Requisition # " + req.getId() + " uses an inactive vendor and cannot be copied.");
-//        }
-//      }
-//DO THIS OPPOSITE...IF INACTIVE, CLEAR OUT IDS
-//      if (activeVendor) {
-//        newReq.setVendorHeaderGeneratedId(req.getVendorHeaderGeneratedId());
-//        newReq.setVendorDetailAssignedId(req.getVendorDetailAssignedId());
-//        if (activeContract) {
-//          newReq.setVendorContract(req.getVendorContract());
-//        }
-//      }
-      
         if (!activeVendor) {
             this.setVendorHeaderGeneratedIdentifier(null);
             this.setVendorDetailAssignedIdentifier(null);
-            if (!activeContract) {
-                this.setVendorContract(null);
-            }
+            this.setVendorContractGeneratedIdentifier(null);
+        }
+        if (!activeContract) {
+            this.setVendorContractGeneratedIdentifier(null);
         }
 
         // These fields should not be set in this method; force to be null
@@ -280,10 +259,12 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setPurchaseOrderAutomaticIndicator(false);
         this.setStatusHistories(null);
       
-//TODO DAVID AND CHRIS SHOULD FIX THIS
-      //Trade In and Discount Items are only available for B2B. If the Requisition
-      //doesn't currently contain trade in and discount, we should add them in 
-      //here (KULAPP 1715)
+        //TODO WAIT ON ITEM LOGIC (CHRIS AND DAVID SHOULD FIX THIS HERE)
+        //TODO what about id in items?  do we need to null them out?
+
+        //Trade In and Discount Items are only available for B2B. If the Requisition
+        //doesn't currently contain trade in and discount, we should add them in 
+        //here (KULAPP 1715)
 //      if (! EpicConstants.REQ_SOURCE_B2B.equals(req.getSource().getCode())) {
 //        boolean containsFullOrderDiscount = req.containsFullOrderDiscount();
 //        //If the po has not contained full order discount item, create and
@@ -304,11 +285,9 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 //        }
 //      }
 
-      //TODO check this: get the contacts, supplier diversity list and APO limit 
-//      setupRequisition(newReq);
         this.setOrganizationAutomaticPurchaseOrderLimit(SpringServiceLocator.getRequisitionService().getApoLimit(this.getVendorContractGeneratedIdentifier(), this.getChartOfAccountsCode(), this.getOrganizationCode()));
-      
-    
+
+        this.refreshAllReferences();
 	}
 
 	/**
@@ -321,10 +300,9 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 
         // DOCUMENT PROCESSED
         if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-            
-            String requisitionStatus = PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN;
+            String newRequisitionStatus = PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN;
             if (SpringServiceLocator.getRequisitionService().isAutomaticPurchaseOrderAllowed(this)) {
-                requisitionStatus = PurapConstants.RequisitionStatuses.CLOSED;
+                newRequisitionStatus = PurapConstants.RequisitionStatuses.CLOSED;
                 PurchaseOrderDocument poDocument = SpringServiceLocator.getPurchaseOrderService().createPurchaseOrderDocument(this);
                 //TODO how do we override the doc initiator?
                 try {
@@ -335,7 +313,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
                     throw new RuntimeException("Error routing PO document: " + e.getMessage());
                 }
             }
-            SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, requisitionStatus);
+            SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, newRequisitionStatus);
             SpringServiceLocator.getRequisitionService().save(this);
         }
         // DOCUMENT DISAPPROVED
@@ -349,7 +327,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, PurapConstants.RequisitionStatuses.CANCELLED);
             SpringServiceLocator.getRequisitionService().save(this);
         }
-
 
     }
 

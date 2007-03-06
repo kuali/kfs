@@ -155,6 +155,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         this.refreshReferenceObject("chartOfAccounts");
         this.refreshReferenceObject("organization");
         this.refreshReferenceObject("deliveryCampus");
+        this.refreshReferenceObject("vendorContract");
     }
 
     /**

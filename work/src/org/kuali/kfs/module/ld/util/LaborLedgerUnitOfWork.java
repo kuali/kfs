@@ -18,6 +18,7 @@ package org.kuali.module.labor.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.util.KualiDecimal;
@@ -63,7 +64,13 @@ public class LaborLedgerUnitOfWork {
 
         if (laborOriginEntry != null) {
             ObjectUtil.buildObject(workingEntry, laborOriginEntry, this.getKeyFields());
-            workingEntry.setTransactionLedgerEntryAmount(laborOriginEntry.getTransactionLedgerEntryAmount());
+            
+            boolean creditIndicator = Constants.GL_CREDIT_CODE.equals(laborOriginEntry.getTransactionDebitCreditCode());
+            KualiDecimal entryAmount = laborOriginEntry.getTransactionLedgerEntryAmount();
+            KualiDecimal unitAmount = creditIndicator ? entryAmount.negated() : entryAmount;
+            
+            workingEntry.setTransactionLedgerEntryAmount(unitAmount);
+            workingEntry.setTransactionDebitCreditCode(laborOriginEntry.getTransactionDebitCreditCode());
             numOfMember = 1;
         }
     }
@@ -77,11 +84,14 @@ public class LaborLedgerUnitOfWork {
         if (this.hasSameKey(laborOriginEntry)) {
             KualiDecimal unitAmount = workingEntry.getTransactionLedgerEntryAmount();
             KualiDecimal entryAmount = laborOriginEntry.getTransactionLedgerEntryAmount();
+            
+            String unitDebitCreditCode = workingEntry.getTransactionDebitCreditCode();
+            String entryDebitCreditCode = laborOriginEntry.getTransactionDebitCreditCode();
 
             // if the input entry has a "credit" code , then subtract its amount from the unit total amount
             boolean creditIndicator = Constants.GL_CREDIT_CODE.equals(laborOriginEntry.getTransactionDebitCreditCode());
             unitAmount = creditIndicator ? unitAmount.subtract(entryAmount) : unitAmount.add(entryAmount);
-
+            
             workingEntry.setTransactionLedgerEntryAmount(unitAmount);
             numOfMember++;
 

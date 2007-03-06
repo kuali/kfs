@@ -26,7 +26,7 @@ public enum ReportRegistry {
     LABOR_POSTER_ERROR("poster_main_error_list", "Main Poster Error Transaction Listing"),
     LABOR_POSTER_OUTPUT("poster_output", "Poster Output Summary"),
     LABOR_POSTER_OUTPUT_BY_SINGLE_GROUP("poster_output_single_group", "Poster Output Summary"),
-    LABOR_POSTER_GL_SUMMARY("poster_gl_summary", "Poster General Ledger Summary");
+    LABOR_POSTER_GL_SUMMARY("poster_gl_summary", "Poster Labor General Ledger Summary");
     
     private String reportFilename;
     private String reportTitle;

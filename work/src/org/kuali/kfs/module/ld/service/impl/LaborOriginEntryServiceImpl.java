@@ -343,11 +343,9 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
             ObjectUtil.buildObject(laborOriginEntry, oneEntry, LaborConstants.consolidationAttributesOfOriginEntry());
 
             if (laborLedgerUnitOfWork.canContain(laborOriginEntry)) {
-                System.out.println("canContain" + (count++));
                 laborLedgerUnitOfWork.addEntryIntoUnit(laborOriginEntry);
             }
             else {
-                System.out.println("canNotContain" + (count++));
                 laborLedgerUnitOfWork.resetLaborLedgerUnitOfWork(laborOriginEntry);
                 entryCollection.add(laborLedgerUnitOfWork.getWorkingEntry());
             }

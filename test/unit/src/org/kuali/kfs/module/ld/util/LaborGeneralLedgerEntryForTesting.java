@@ -27,8 +27,8 @@ import org.kuali.module.labor.util.ObjectUtil;
 public class LaborGeneralLedgerEntryForTesting extends LaborGeneralLedgerEntry {
     
     @ Override
-    public boolean equals(Object otherLedgerEntry){
-        return ObjectUtil.compareObject(this, otherLedgerEntry, LaborConstants.consolidationAttributesOfOriginEntry());
+    public boolean equals(Object otherEntry){
+        return ObjectUtil.compareObject(this, otherEntry, LaborConstants.consolidationAttributesOfOriginEntry());
     }
     
     public Map getPrimaryKeyMap() {

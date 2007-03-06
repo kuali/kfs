@@ -145,7 +145,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
     // determine if the given origin entry need to be posted
     private boolean isPostableEntry(LaborOriginEntry originEntry) {
-        if (originEntry.getTransactionLedgerEntryAmount().isZero()) {
+        if (originEntry.getTransactionLedgerEntryAmount() == null || originEntry.getTransactionLedgerEntryAmount().isZero()) {
             return false;
         }
         else if (ArrayUtils.contains(OBJECTS_NOT_PROCESSED, originEntry.getFinancialObjectCode())) {

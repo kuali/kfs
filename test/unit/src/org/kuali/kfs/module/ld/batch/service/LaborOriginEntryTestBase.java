@@ -47,7 +47,7 @@ public class LaborOriginEntryTestBase extends KualiTestBase {
     protected UnitTestSqlDao unitTestSqlDao = null;
     protected OriginEntryGroupService originEntryGroupService = null;
     protected LaborOriginEntryService laborOriginEntryService = null;
-    
+
     protected OriginEntryDao originEntryDao = null;
     protected LaborOriginEntryDao laborOriginEntryDao = null;
     protected KualiConfigurationService kualiConfigurationService = null;
@@ -67,15 +67,15 @@ public class LaborOriginEntryTestBase extends KualiTestBase {
 
         dateTimeService = (ConfigurableDateService) beanFactory.getBean("testDateTimeService");
         date = dateTimeService.getCurrentDate();
-        
+
         // Other objects needed for the tests
         persistenceService = (PersistenceService) beanFactory.getBean("persistenceService");
         unitTestSqlDao = (UnitTestSqlDao) beanFactory.getBean("glUnitTestSqlDao");
         laborOriginEntryService = (LaborOriginEntryService) beanFactory.getBean("laborOriginEntryService");
-        
+
         originEntryDao = (OriginEntryDao) beanFactory.getBean("glOriginEntryDao");
         laborOriginEntryDao = (LaborOriginEntryDao) beanFactory.getBean("laborOriginEntryDao");
-        
+
         originEntryGroupService = (OriginEntryGroupService) beanFactory.getBean("glOriginEntryGroupService");
         kualiConfigurationService = (KualiConfigurationService) beanFactory.getBean("kualiConfigurationService");
 
@@ -157,9 +157,9 @@ public class LaborOriginEntryTestBase extends KualiTestBase {
 
         List groups = unitTestSqlDao.sqlSelect("select * from gl_origin_entry_grp_t order by origin_entry_grp_src_cd");
         assertEquals("Number of groups is wrong", groupCount, groups.size());
-        
+
         Collection c = laborOriginEntryDao.testingLaborGetAllEntries();
-        
+
 
         // This is for debugging purposes - change to true for output
         if (true) {

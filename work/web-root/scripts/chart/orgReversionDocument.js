@@ -18,18 +18,28 @@ function updateObjectName( objField ) {
     var detailElPrefix = findElPrefix( objField.name );
     var elPrefix = findElPrefix( detailElPrefix );
 	var fiscalYear = getElementValue( elPrefix + ".universityFiscalYear" );
-	var chartCode = getElementValue( elPrefix + ".chartOfAccountsCode" );
-	var objectCode = objField.value.toUpperCase().trim();
+	var coaCode = getElementValue( elPrefix + ".chartOfAccountsCode" );
+	var objectCode = getElementValue( objField.name );
 	var nameFieldName = detailElPrefix + ".organizationReversionObject.financialObjectCodeName";
-	if ( fiscalYear != "" && chartCode != "" && objectCode != "" ) {
-		loadKualiObjectWithCallback( function( responseText ) {
-			setRecipientValue( nameFieldName, responseText );
-		}, "object", fiscalYear, chartCode, objectCode, "", "", "", "" );
+	if ( fiscalYear != "" && coaCode != "" && objectCode != "" ) {
+		var dwrReply = {
+			callback:function(data) {
+			if ( data != null && typeof data == 'object' ) {
+				setRecipientValue( nameFieldName, data.financialObjectCodeName );
+			} else {
+				setRecipientValue( nameFieldName, wrapError( "object not found" ), true );			
+			} },
+			errorHandler:function( errorMessage ) { 
+				window.status = errorMessage;
+				setRecipientValue( nameFieldName, wrapError( "object not found" ), true );
+			}
+		};
+		ObjectCodeService.getByPrimaryId( fiscalYear, coaCode, objectCode, dwrReply );
 	} else if ( objectCode == "" ) {
 		clearRecipients( nameFieldName );
-	} else if ( chartCode == "" ) {
-		setRecipientValue(nameFieldName, 'chart code is empty');
+	} else if ( coaCode == "" ) {
+		setRecipientValue(nameFieldName, wrapError( 'chart code is empty' ), true );
 	} else if ( fiscalYear == "" ) {
-		setRecipientValue(nameFieldName, 'fiscal year is missing');	
+		setRecipientValue(nameFieldName, wrapError( 'fiscal year is missing' ), true );	
 	}
 }

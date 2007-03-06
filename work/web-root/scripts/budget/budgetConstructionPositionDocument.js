@@ -16,15 +16,22 @@
 function updateBCPositionFTE( bcPositionField ) {
 	// we want the base label 
     var elPrefix = findElPrefix( bcPositionField.name );
-	var positionStandardHoursDefault = getElementValue( elPrefix + ".positionStandardHoursDefault" ).trim();
-	var iuNormalWorkMonths = getElementValue( elPrefix + ".iuNormalWorkMonths" ).trim();
-	var iuPayMonths = getElementValue( elPrefix + ".iuPayMonths" ).trim();
-	
+	var positionStandardHoursDefault = getElementValue( elPrefix + ".positionStandardHoursDefault" );
+	var iuNormalWorkMonths = getElementValue( elPrefix + ".iuNormalWorkMonths" );
+	var iuPayMonths = getElementValue( elPrefix + ".iuPayMonths" );	
 	var positionFTEFieldName = elPrefix + ".positionFullTimeEquivalency";
+	
 	if ( positionStandardHoursDefault != "" && iuNormalWorkMonths != "" && iuPayMonths != "" ) {
-		loadKualiObjectWithCallback( function( responseText ) {
-			setRecipientValue( positionFTEFieldName, responseText );
-		}, "positionFTE", positionStandardHoursDefault, iuNormalWorkMonths, iuPayMonths, "", "", "", "" );
-	} else 
+		var dwrReply = {
+			callback:function( responseText ) {
+				setRecipientValue( positionFTEFieldName, responseText );
+			},
+			errorHandler:function( errorMessage ) { 
+				window.status = errorMessage;
+			}
+		};
+		BudgetConstructionPosition.getCalculatedBCPositionFTE( positionStandardHoursDefault, iuNormalWorkMonths, iuPayMonths, dwrReply );
+	} else {
 		clearRecipients( positionFTEFieldName );
+	}
 }

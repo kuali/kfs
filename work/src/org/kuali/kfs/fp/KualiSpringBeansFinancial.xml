@@ -267,4 +267,17 @@
 			<ref bean="kualiCodeService" />
 		</property>
 	</bean>
+	
+	<bean id="bankService" class="org.kuali.module.financial.service.impl.BankServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" /> 
+		</property>
+	</bean>
+
+	<bean id="bankAccountService" class="org.kuali.module.financial.service.impl.BankAccountServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" /> 
+		</property>
+	</bean>
+	
 </beans>

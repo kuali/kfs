@@ -15,20 +15,25 @@
  */
 function updateICR( acctField, callbackFunction ) {
 	var chartCode = getElementValue( findElPrefix( acctField.name ) + ".chartOfAccountsCode" );
-	if ( acctField.value.trim() != "" && chartCode != "" ) {
-		loadKualiObjectWithCallback( callbackFunction, "accountICR", chartCode, acctField.value.toUpperCase().trim(), "", "", "", "" );
+	var accountCode = getElementValue( acctField.name );
+	if ( accountCode != "" && chartCode != "" ) {
+		var dwrReply = {
+			callback:callbackFunction,
+			errorHandler:function( errorMessage ) { 
+				window.status = errorMessage;
+			}
+		};
+		AccountService.getByPrimaryIdWithCaching( chartCode, accountCode, dwrReply );
 	}
 }
 
-function updateICR_Callback( responseText ) {
-	var data = responseText.parseJSON();
-
+function updateICR_Callback( data ) {
 	// check if the current user has permissions to the ICR fields
 	if ( kualiElements["document.newMaintainableObject.a21SubAccount.financialIcrSeriesIdentifier"].type.toLowerCase() != "hidden" ) {
 		setElementValue( "document.newMaintainableObject.a21SubAccount.financialIcrSeriesIdentifier", data.financialIcrSeriesIdentifier );
-		setElementValue( "document.newMaintainableObject.a21SubAccount.indirectCostRecoveryChartOfAccountsCode", data.indirectCostRecoveryChartOfAccountsCode );
-		setElementValue( "document.newMaintainableObject.a21SubAccount.indirectCostRecoveryAccountNumber", data.indirectCostRecoveryAccountNumber );
-		setElementValue( "document.newMaintainableObject.a21SubAccount.offCampusCode", data.offCampusCode );
-		setElementValue( "document.newMaintainableObject.a21SubAccount.indirectCostRecoveryTypeCode", data.indirectCostRecoveryTypeCode );
+		setElementValue( "document.newMaintainableObject.a21SubAccount.indirectCostRecoveryChartOfAccountsCode", data.indirectCostRcvyFinCoaCode );
+		setElementValue( "document.newMaintainableObject.a21SubAccount.indirectCostRecoveryAccountNumber", data.indirectCostRecoveryAcctNbr );
+		setElementValue( "document.newMaintainableObject.a21SubAccount.offCampusCode", data.accountOffCampusIndicator );
+		setElementValue( "document.newMaintainableObject.a21SubAccount.indirectCostRecoveryTypeCode", data.acctIndirectCostRcvyTypeCd );
 	}
 }

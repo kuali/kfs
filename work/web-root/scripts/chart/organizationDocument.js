@@ -13,16 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-function updateLocation( orgField, callbackFunction ) {
-	var postalCode = getElementValue( findElPrefix( orgField.name ) + ".organizationZipCode" );
-	if ( orgField.value.trim() != "" && postalCode != "" ) {
-		loadKualiObjectWithCallback( callbackFunction, "orgLocation", postalCode, "", "", "", "", "" );
-	}
+function updateLocation( postalCodeField, callbackFunction ) {
+	var postalCode = getElementValue( postalCodeField.name );
+	if ( postalCode != "" ) {
+		var dwrReply = {
+			callback:callbackFunction,
+			errorHandler:function( errorMessage ) { 
+				setRecipientValue( "document.newMaintainableObject.organizationCityName", wrapError( "postal code not found" ), true );
+				clearRecipients( "document.newMaintainableObject.organizationStateCode" );
+			}
+		};
+		PostalZipCodeService.getByPrimaryId( postalCode, dwrReply );
+	}	
 }
 
-function updateLocation_Callback( responseText ) {
-	var data = responseText.parseJSON();
-
-	setRecipientValue( "document.newMaintainableObject.organizationCityName", data.organizationCityName );
-	setRecipientValue( "document.newMaintainableObject.organizationStateCode", data.organizationStateCode );
+function updateLocation_Callback( data ) {
+	setRecipientValue( "document.newMaintainableObject.organizationCityName", data.postalCityName );
+	setRecipientValue( "document.newMaintainableObject.organizationStateCode", data.postalStateCode );
 }

@@ -42,6 +42,9 @@ function checkAllOrNone() {
   }
 }
 </script>
+	<script type='text/javascript' src="dwr/interface/BankService.js"></script>
+	<script type='text/javascript' src="dwr/interface/BankAccountService.js"></script>
+	<script type='text/javascript' src="scripts/financial/objectInfo.js"></script>
 
 	<html:hidden property="cashDrawerVerificationUnit" />
 	<html:hidden property="cashManagementDocId" />

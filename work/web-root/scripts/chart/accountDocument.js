@@ -14,29 +14,28 @@
  * limitations under the License.
  */
 function onblur_subFundGroup( sfgField, callbackFunction ) {
-	if ( sfgField.value.trim() != "" ) {
-		loadKualiObjectWithCallback( callbackFunction, "subFundGroupObject", sfgField.value.trim().toUpperCase(), "accountRestrictedStatusCode", "", "", "", "" );
-	}
+    var subFundGroup = getElementValue(sfgField.name);
+
+    if (subFundGroup != '') {
+		var dwrReply = {
+			callback:callbackFunction,
+			errorHandler:function( errorMessage ) { 
+				window.status = errorMessage;
+			}
+		};
+		SubFundGroupService.getByPrimaryId( subFundGroup, dwrReply );
+    }
 }
 
 function onblur_accountRestrictedStatusCode( codeField, callbackFunction ) {
-	var sfg = getElementValue( findElPrefix( codeField.name ) + ".subFundGroupCode" );
-	if ( sfg.trim() != "" ) {
-		loadKualiObjectWithCallback( callbackFunction, "subFundGroupObject", sfg.trim().toUpperCase(), "accountRestrictedStatusCode", "", "", "", "" );
-	}
+	var subFundGroupFieldName = getElementValue( findElPrefix( codeField.name ) + ".subFundGroupCode" );
+	obblur_subFundGroup( subFundGroupFieldName, callbackFunction );
 }
 
-function checkRestrictedStatusCode_Callback( responseText ) {
-	var data = responseText.parseJSON();
-
-	if ( data.error == undefined ) {
-		if ( data.accountRestrictedStatusCode == "" ) {
-		} else {
-			if ( kualiElements["document.newMaintainableObject.accountRestrictedStatusCode"].type.toLowerCase() != "hidden" ) {
-				setElementValue( "document.newMaintainableObject.accountRestrictedStatusCode", data.accountRestrictedStatusCode );
-			}
+function checkRestrictedStatusCode_Callback( data ) {
+	if ( data.accountRestrictedStatusCode != "" ) {
+		if ( kualiElements["document.newMaintainableObject.accountRestrictedStatusCode"].type.toLowerCase() != "hidden" ) {
+			setElementValue( "document.newMaintainableObject.accountRestrictedStatusCode", data.accountRestrictedStatusCode );
 		}
-	} else {
-		status.message = data.error;
 	}
 }

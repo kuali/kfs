@@ -1,0 +1,87 @@
+<!--
+ Copyright 2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 1.0//EN" "http://www.getahead.ltd.uk/dwr/dwr10.dtd">
+
+<dwr>
+	<allow>
+	   	<convert converter="bean" match="org.kuali.module.chart.bo.Account">
+	   		<param name="include" value="chartOfAccountCode,accountNumber,accountName,accountTypeCode,subFundGroupCode,organizationCode,financialIcrSeriesIdentifier,indirectCostRcvyFinCoaCode,indirectCostRecoveryAcctNbr,accountOffCampusIndicator,acctIndirectCostRcvyTypeCd" />
+	   	</convert>
+	    <create creator="spring" javascript="AccountService">
+	    	<param name="beanName" value="accountService" />
+	    	<include method="getByPrimaryIdWithCaching" />
+	    </create>
+	   	<convert converter="bean" match="org.kuali.module.chart.bo.Chart">
+	   		<param name="include" value="chartOfAccountCode,finChartOfAccountDescription,reportsToChartOfAccountsCode,finChartOfAccountActiveIndicator" />
+	   	</convert>
+	    <create creator="spring" javascript="ChartService">
+	    	<param name="beanName" value="chartService" />
+	    	<include method="getByPrimaryId" />
+	    </create>
+	   	<convert converter="bean" match="org.kuali.module.chart.bo.SubAccount">
+	   		<param name="include" value="chartOfAccountCode,accountNumber,subAccountNumber,subAccountName,subAccountActiveIndicator" />
+	   	</convert>
+	    <create creator="spring" javascript="SubAccountService">
+	    	<param name="beanName" value="subAccountService" />
+	    	<include method="getByPrimaryId" />
+	    </create>
+	   	<convert converter="bean" match="org.kuali.module.chart.bo.ObjectType">
+	   		<param name="include" value="code,name,active" />
+	   	</convert>
+	   	<convert converter="bean" match="org.kuali.module.chart.bo.ObjLevel">
+	   		<param name="include" value="chartOfAccountCode,financialObjectLevelCode,financialObjectLevelName,financialObjectLevelShortNm,financialConsolidationObjectCode,financialObjectLevelActiveIndicator" />
+	   	</convert>
+	   	<convert converter="bean" match="org.kuali.module.chart.bo.ObjectCode">
+	   		<param name="include" value="chartOfAccountCode,financialObjectCode,universityFiscalYear,financialObjectCodeName,financialObjectCodeShortName,financialObjectActiveCode,financialObjectLevelCode,financialObjectLevel,financialObjectTypeCode,financialObjectSubTypeCode,financialObjectType" />
+	   	</convert>
+	    <create creator="spring" javascript="ObjectCodeService">
+	    	<param name="beanName" value="objectCodeService" />
+	    	<include method="getByPrimaryId" />
+	    </create>
+	    <create creator="spring" javascript="ObjectTypeService">
+	    	<param name="beanName" value="objectTypeService" />
+	    	<include method="getByPrimaryKey" />
+	    </create>
+	   	<convert converter="bean" match="org.kuali.module.chart.bo.SubObjCd">
+	   		<param name="include" value="universityFiscalYear,chartOfAccountCode,accountNumber,financialObjectCode,financialSubObjectCode,financialSubObjectCodeName,financialSubObjectCdshortNm,financialSubObjectActiveIndicator" />
+	   	</convert>
+	    <create creator="spring" javascript="SubObjectCodeService">
+	    	<param name="beanName" value="subObjectCodeService" />
+	    	<include method="getByPrimaryId" />
+	    </create>
+	   	<convert converter="bean" match="org.kuali.module.chart.bo.ProjectCode">
+	   		<param name="include" value="code,name,active,projectDescription,chartOfAccountsCode,organizationCode" />
+	   	</convert>
+	    <create creator="spring" javascript="ProjectCodeService">
+	    	<param name="beanName" value="projectCodeService" />
+	    	<include method="getByPrimaryId" />
+	    </create>
+	   	<convert converter="bean" match="org.kuali.module.chart.bo.SubFundGroup">
+	   		<param name="include" value="subFundGroupCode,subFundGroupDesc,subFundGroupTypeCode,fundGroupCode,accountRestrictedStatusCode" />
+	   	</convert>
+	    <create creator="spring" javascript="SubFundGroupService">
+	    	<param name="beanName" value="subFundGroupService" />
+	    	<include method="getByPrimaryId" />
+	    </create>
+	   	<convert converter="bean" match="org.kuali.module.chart.bo.Org">
+	   		<param name="include" value="organizationCode,organizationName,organizationStateCode,organizationZipCode,organizationCityName" />
+	   	</convert>
+	    <create creator="spring" javascript="OrganizationService">
+	    	<param name="beanName" value="organizationService" />
+	    	<include method="getByPrimaryIdWithCaching" />
+	    </create>
+	</allow>
+</dwr>

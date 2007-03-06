@@ -36,7 +36,7 @@
         <documentTypeName>KualiProposalMaintenanceDocument</documentTypeName>
         <documentTypeCode>PRPL</documentTypeCode>
 
-		<webScriptFile>cg/proposalDocument.js</webScriptFile>
+		<webScriptFile>scripts/cg/proposalDocument.js</webScriptFile>
 
         <label>Proposal Maintenance Document</label>
         <shortLabel>PrpslMaintDoc</shortLabel>

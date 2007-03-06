@@ -36,7 +36,8 @@
         <documentTypeCode>BCPS</documentTypeCode>
 
        
-        <webScriptFile>budget/budgetConstructionPositionDocument.js</webScriptFile>
+        <webScriptFile>dwr/interface/BudgetConstructionPosition.js</webScriptFile>
+        <webScriptFile>scripts/budget/budgetConstructionPositionDocument.js</webScriptFile>
         
         <label>Budget Construction Position Maintenance Document</label>
         <shortLabel>BC - BC Position Maint Doc</shortLabel>

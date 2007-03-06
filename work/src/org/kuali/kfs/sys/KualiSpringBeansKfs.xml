@@ -99,4 +99,11 @@
 			<ref bean="balanceTypService" />
 		</property>
 	</bean>
+
+	<bean id="postalZipCodeService" class="org.kuali.kfs.service.impl.PostalZipCodeServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" /> 
+		</property>
+	</bean>
+
 </beans>

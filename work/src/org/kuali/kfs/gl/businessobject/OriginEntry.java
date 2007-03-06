@@ -50,31 +50,31 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
 
     private Integer entryId;
     private Integer entryGroupId;
-    private String accountNumber;
-    private String documentNumber;
-    private String referenceFinancialDocumentNumber;
-    private String referenceFinancialDocumentTypeCode;
-    private Date financialDocumentReversalDate;
-    private String financialDocumentTypeCode;
-    private String financialBalanceTypeCode;
-    private String chartOfAccountsCode;
-    private String financialObjectTypeCode;
-    private String financialObjectCode;
-    private String financialSubObjectCode;
-    private String financialSystemOriginationCode;
-    private String referenceFinancialSystemOriginationCode;
-    private String organizationDocumentNumber;
-    private String organizationReferenceId;
-    private String projectCode;
-    private String subAccountNumber;
-    private Date transactionDate;
-    private String transactionDebitCreditCode;
-    private String transactionEncumbranceUpdateCode;
-    private Integer transactionLedgerEntrySequenceNumber;
-    private KualiDecimal transactionLedgerEntryAmount;
-    private String transactionLedgerEntryDescription;
-    private String universityFiscalPeriodCode;
-    private Integer universityFiscalYear;
+    protected String accountNumber;
+    protected String documentNumber;
+    protected String referenceFinancialDocumentNumber;
+    protected String referenceFinancialDocumentTypeCode;
+    protected Date financialDocumentReversalDate;
+    protected String financialDocumentTypeCode;
+    protected String financialBalanceTypeCode;
+    protected String chartOfAccountsCode;
+    protected String financialObjectTypeCode;
+    protected String financialObjectCode;
+    protected String financialSubObjectCode;
+    protected String financialSystemOriginationCode;
+    protected String referenceFinancialSystemOriginationCode;
+    protected String organizationDocumentNumber;
+    protected String organizationReferenceId;
+    protected String projectCode;
+    protected String subAccountNumber;
+    protected Date transactionDate;
+    protected String transactionDebitCreditCode;
+    protected String transactionEncumbranceUpdateCode;
+    protected Integer transactionLedgerEntrySequenceNumber;
+    protected KualiDecimal transactionLedgerEntryAmount;
+    protected String transactionLedgerEntryDescription;
+    protected String universityFiscalPeriodCode;
+    protected Integer universityFiscalYear;
     private String budgetYear;
     private boolean transactionScrubberOffsetGenerationIndicator;
 
@@ -214,7 +214,7 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
         setUniversityFiscalYear(t.getUniversityFiscalYear());
     }
 
-    private java.sql.Date parseDate(String sdate, boolean beLenientWithDates) throws ParseException {
+    protected java.sql.Date parseDate(String sdate, boolean beLenientWithDates) throws ParseException {
         if ((sdate == null) || (sdate.trim().length() == 0)) {
             return null;
         }
@@ -228,7 +228,7 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
             }
             }
 
-    private String formatDate(Date date) {
+    protected String formatDate(Date date) {
         if (date == null) {
             return "          ";
         }
@@ -238,7 +238,7 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
         }
     }
 
-    private String getValue(String line, int s, int e) {
+    protected String getValue(String line, int s, int e) {
         String v = line.substring(s, e);
         return StringUtils.trimTrailingWhitespace(v);
     }
@@ -325,7 +325,7 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
 
     private static String SPACES = "                                                                                                              ";
 
-    private String getField(int size, String value) {
+    protected String getField(int size, String value) {
         if (value == null) {
             return SPACES.substring(0, size);
         }

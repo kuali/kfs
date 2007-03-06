@@ -16,6 +16,8 @@
 
 package org.kuali.module.budget.bo;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -63,14 +65,30 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
 
     private List budgetConstructionMonthly;
     
+    private BigDecimal percentChange;
+    
 	/**
 	 * Default constructor.
 	 */
 	public PendingBudgetConstructionGeneralLedger() {
         budgetConstructionMonthly = new ArrayList();
+        percentChange = null;
 
 	}
 
+    public BigDecimal getPercentChange() {
+
+        if (financialBeginningBalanceLineAmount.isZero()){
+            return null;
+        } else {
+            BigDecimal diffRslt = (accountLineAnnualBalanceAmount.bigDecimalValue().setScale(4)).subtract(financialBeginningBalanceLineAmount.bigDecimalValue().setScale(4));
+            BigDecimal divRslt = diffRslt.divide((financialBeginningBalanceLineAmount.bigDecimalValue().setScale(4)),BigDecimal.ROUND_HALF_UP);
+            percentChange = divRslt.multiply(BigDecimal.valueOf(100)).setScale(2); 
+            return percentChange;
+        }
+    }
+    
+    
 	/**
 	 * Gets the documentNumber attribute.
 	 * 

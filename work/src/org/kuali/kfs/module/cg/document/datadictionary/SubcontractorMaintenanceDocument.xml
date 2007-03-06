@@ -23,6 +23,8 @@
         <businessObjectClass>org.kuali.module.cg.bo.Subcontractor</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
+		<businessRulesClass>org.kuali.module.cg.rules.SubcontractorRule</businessRulesClass>
+
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">

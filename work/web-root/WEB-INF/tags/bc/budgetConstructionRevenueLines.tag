@@ -16,6 +16,7 @@
 <%@ taglib prefix="c" uri="/tlds/c.tld" %>
 <%@ taglib uri="/tlds/struts-html.tld" prefix="html"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="kul" %>
+<%@ taglib uri="/tlds/fmt.tld" prefix="fmt" %>
 
 <c:set var="pbglRevenueAttributes" value="${DataDictionary.PendingBudgetConstructionGeneralLedger.attributes}" />
 
@@ -28,6 +29,7 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${pbglRevenueAttributes.financialSubObjectCode}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${pbglRevenueAttributes.financialBeginningBalanceLineAmount}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${pbglRevenueAttributes.accountLineAnnualBalanceAmount}" />
+				<kul:htmlAttributeHeaderCell attributeEntry="${pbglRevenueAttributes.percentChange}" />
 				<th>
 					Month?
 				</th>
@@ -59,6 +61,9 @@
               <td valign=top nowrap><div align="right"><span>
                   <kul:htmlControlAttribute attributeEntry="${pbglRevenueAttributes.accountLineAnnualBalanceAmount}" property="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].accountLineAnnualBalanceAmount" styleClass="amount" readOnly="false"/>
               </span></div></td>
+              <td valign=top nowrap><div align="right"><span>
+				  <fmt:formatNumber value="${item.percentChange}" type="number" groupingUsed="true" minFractionDigits="2" />&nbsp;
+              </span></div></td>
 	              <td><div align=center>
 					<c:choose>
 						<c:when test="${empty item.budgetConstructionMonthly}" > 
@@ -78,6 +83,7 @@
 				</th>
 				<td>0</td>
 				<td>0</td>
+				<td></td>
 				<td></td>
 				<td></td>
 			</tr>

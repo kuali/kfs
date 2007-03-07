@@ -16,6 +16,7 @@
 <%@ taglib prefix="c" uri="/tlds/c.tld" %>
 <%@ taglib uri="/tlds/struts-html.tld" prefix="html"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="kul" %>
+<%@ taglib uri="/tlds/fmt.tld" prefix="fmt" %>
 
 <%-- needed? --%>
 <%--
@@ -34,9 +35,7 @@
 				<kul:htmlAttributeHeaderCell attributeEntry="${pbglExpenditureAttributes.financialSubObjectCode}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${pbglExpenditureAttributes.financialBeginningBalanceLineAmount}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${pbglExpenditureAttributes.accountLineAnnualBalanceAmount}" />
-				<th>
-					% Change
-				</th>
+				<kul:htmlAttributeHeaderCell attributeEntry="${pbglExpenditureAttributes.percentChange}" />
 				<th>
 					Month?
 				</th>
@@ -71,10 +70,7 @@
                   <kul:htmlControlAttribute attributeEntry="${pbglExpenditureAttributes.accountLineAnnualBalanceAmount}" property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].accountLineAnnualBalanceAmount" styleClass="amount" readOnly="false"/>
               </span></div></td>
               <td valign=top nowrap><div align="right"><span>
-				<c:if test="${!empty item.financialBeginningBalanceLineAmount}">
-					${item.percentChange}
-				</c:if>
-				&nbsp;
+				  <fmt:formatNumber value="${item.percentChange}" type="number" groupingUsed="true" minFractionDigits="2" />&nbsp;
               </span></div></td>
 			  <td><div align=center>
 				<c:choose>

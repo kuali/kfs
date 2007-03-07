@@ -16,7 +16,7 @@
 -->
 <!DOCTYPE dictionaryEntry PUBLIC
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger">
         <customAttributeEnabled>false</customAttributeEnabled>
@@ -154,6 +154,20 @@
 
                 <summary>financialBeginningBalanceLineAmount</summary>
                 <description>financialBeginningBalanceLineAmount description...</description>
+			</attribute>
+
+            <attribute name="percentChange" forceUppercase="true">
+                <label>Percent Change</label>
+                <shortLabel>% Change</shortLabel>
+
+                <maxLength>6</maxLength>
+
+                <control>
+                    <text size="8" />
+                </control>
+
+                <summary>percentChange</summary>
+                <description>percentChange description...</description>
 			</attribute>
 
             <attribute name="documentNumber" forceUppercase="true">

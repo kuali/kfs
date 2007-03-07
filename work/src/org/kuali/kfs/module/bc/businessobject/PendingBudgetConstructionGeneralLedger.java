@@ -78,18 +78,25 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
 
     public BigDecimal getPercentChange() {
 
-        if (financialBeginningBalanceLineAmount.isZero()){
-            return null;
+        if (financialBeginningBalanceLineAmount == null || financialBeginningBalanceLineAmount.isZero()){
+            percentChange = null;
         } else {
             BigDecimal diffRslt = (accountLineAnnualBalanceAmount.bigDecimalValue().setScale(4)).subtract(financialBeginningBalanceLineAmount.bigDecimalValue().setScale(4));
             BigDecimal divRslt = diffRslt.divide((financialBeginningBalanceLineAmount.bigDecimalValue().setScale(4)),BigDecimal.ROUND_HALF_UP);
             percentChange = divRslt.multiply(BigDecimal.valueOf(100)).setScale(2); 
-            return percentChange;
         }
+        return percentChange;
     }
     
-    
 	/**
+     * Sets the percentChange attribute value.
+     * @param percentChange The percentChange to set.
+     */
+    public void setPercentChange(BigDecimal percentChange) {
+        this.percentChange = percentChange;
+    }
+
+    /**
 	 * Gets the documentNumber attribute.
 	 * 
 	 * @return Returns the documentNumber

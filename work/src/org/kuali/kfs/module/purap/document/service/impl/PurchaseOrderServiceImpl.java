@@ -158,7 +158,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public PurchaseOrderPostProcessorService convertDocTypeToService(String docTypeId) {
         PurchaseOrderPostProcessorService popp=null;
         String docType;
-        docType=(String)PurapConstants.PurchaseOrderDocTypeMap.docTypeMap.get(docTypeId);
+        docType=(String)PurapConstants.PURCHASE_ORDER_DOC_TYPE_MAP.get(docTypeId);
         if(StringUtils.isNotEmpty(docType)) {
             popp=(PurchaseOrderPostProcessorService)SpringServiceLocator.getBeanFactory().getBean(docType);
         }

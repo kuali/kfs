@@ -19,7 +19,6 @@
 <%@ taglib uri="/tlds/fmt.tld" prefix="fmt" %>
 <%@ taglib uri="/tlds/fn.tld" prefix="fn" %>
 
-
 <%@ taglib tagdir="/WEB-INF/tags" prefix="kul" %>
 <%@ taglib tagdir="/WEB-INF/tags/dd" prefix="dd" %>
 <%@ taglib tagdir="/WEB-INF/tags/kra" prefix="kra" %>

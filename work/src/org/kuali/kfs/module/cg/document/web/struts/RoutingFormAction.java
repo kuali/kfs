@@ -111,6 +111,8 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
     }
 
     public ActionForward notes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        RoutingForm routingForm = (RoutingForm) form;
+        routingForm.setTabStates(new ArrayList());
         return mapping.findForward("notes");
     }
 

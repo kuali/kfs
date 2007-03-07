@@ -47,7 +47,7 @@ import com.lowagie.text.pdf.PdfWriter;
 public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetService {
     private static Log LOG = LogFactory.getLog(CashReceiptCoverSheetService.class);
 
-    public static final String CR_COVERSHEET_TEMPLATE_RELATIVE_DIR = "templates/financial";
+    public static final String CR_COVERSHEET_TEMPLATE_RELATIVE_DIR = "static/help/templates/financial";
     public static final String CR_COVERSHEET_TEMPLATE_NM = "CashReceiptCoverSheetTemplate.pdf";
 
     private static final float LEFT_MARGIN = 45;

@@ -15,13 +15,18 @@
  */
 package org.kuali.module.purap.service.impl;
 
-import org.kuali.core.rule.event.SaveOnlyDocumentEvent;
+import org.kuali.core.bo.DocumentNote;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.document.Document;
+import org.kuali.core.exceptions.DocumentAuthorizationException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DocumentNoteService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.module.purap.dao.PurchaseOrderDao;
+import org.kuali.module.purap.document.PurchaseOrderCloseDocumentAuthorizer;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.PurchaseOrderService;
@@ -34,8 +39,33 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
     private DocumentService documentService;
+    private DocumentNoteService documentNoteService;
     private PurchaseOrderDao purchaseOrderDao;
     private WorkflowDocumentService workflowDocumentService;
+    
+    public void setBusinessObjectService(BusinessObjectService boService) {
+        this.businessObjectService = boService;    
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;    
+    }
+
+    public void setDocumentNoteService(DocumentNoteService documentNoteService) {
+        this.documentNoteService = documentNoteService;
+    }
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+
+    public void setPurchaseOrderDao(PurchaseOrderDao purchaseOrderDao) {
+        this.purchaseOrderDao = purchaseOrderDao;
+    }
+
+    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
+        this.workflowDocumentService = workflowDocumentService;
+    }
     
     public void save(PurchaseOrderDocument purchaseOrderDocument) {
         purchaseOrderDao.save(purchaseOrderDocument);
@@ -72,31 +102,51 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
         return poDocument;
     }
-
-
-
-    public void setBusinessObjectService(BusinessObjectService boService) {
-        this.businessObjectService = boService;    
+    
+    public void close( PurchaseOrderDocument document, String annotation ){
+        checkForNulls(document);
+        PurchaseOrderCloseDocumentAuthorizer authorizer = new PurchaseOrderCloseDocumentAuthorizer();
+        UniversalUser kualiUser = GlobalVariables.getUserSession().getUniversalUser();
+        if (!authorizer.getDocumentActionFlags(document, kualiUser).getCanClose()) {
+            throw buildAuthorizationException("close", document);
+        }
+        DocumentNote note = new DocumentNote();
+        
+        note.setDocumentNumber(document.getDocumentNumber());
+        note.setFinDocumentAuthorUniversalId(kualiUser.getPersonUniversalIdentifier());
+        //note.setFinDocumentAuthorUniversal(kualiUser);
+        note.setFinancialDocumentNoteText(annotation);
+        document.getDocumentHeader().addNote(note); // add to doc so it shows up on next post
+        try {
+            documentNoteService.save(note);
+        } catch (Exception e) {
+            //TODO: Handle failure to save note.
+        }
+        try {
+            documentService.prepareWorkflowDocument(document);
+        } catch (WorkflowException we) {
+            //TODO: Handle problem in preparing document for Workflow.
+        }
+        
+        //TODO: This needs to side-effect the PO table entries.
+        //workflowDocumentService.route(document.getDocumentHeader().getWorkflowDocument(), annotation,);
+        //workflowDocumentService.disapprove(document.getDocumentHeader().getWorkflowDocument(), annotation);
+        GlobalVariables.getUserSession().setWorkflowDocument(document.getDocumentHeader().getWorkflowDocument());
     }
-
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;    
+    
+    protected void checkForNulls(Document document) {
+        if (document == null) {
+            throw new IllegalArgumentException("invalid (null) document");
+        }
+        else if (document.getDocumentNumber() == null) {
+            throw new IllegalStateException("invalid (null) documentHeaderId");
+        }
     }
+    
+    private DocumentAuthorizationException buildAuthorizationException(String action, Document document) {
+        UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
 
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
+        return new DocumentAuthorizationException(currentUser.getPersonUserIdentifier(), action, document.getDocumentNumber());
     }
-
-    /**
-     * Sets the purchaseOrderDao attribute value.
-     * @param purchaseOrderDao The purchaseOrderDao to set.
-     */
-    public void setPurchaseOrderDao(PurchaseOrderDao purchaseOrderDao) {
-        this.purchaseOrderDao = purchaseOrderDao;
-    }
-
-    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
-        this.workflowDocumentService = workflowDocumentService;
-    }
-
+    
 }

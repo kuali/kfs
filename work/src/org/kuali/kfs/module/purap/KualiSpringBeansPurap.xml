@@ -89,6 +89,9 @@
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
+		<property name="documentNoteService">
+			<ref bean="documentNoteService" />
+		</property>
 		<property name="purchaseOrderDao">
 			<ref bean="purchaseOrderDao" />
 		</property>

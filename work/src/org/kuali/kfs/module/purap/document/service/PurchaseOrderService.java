@@ -24,6 +24,8 @@ public interface PurchaseOrderService {
 
     public void save(PurchaseOrderDocument purchaseOrderDocument);
     
+    public void close(PurchaseOrderDocument purchaseOrderDocument, String closingNoteText);
+    
     public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument);   
     
 }

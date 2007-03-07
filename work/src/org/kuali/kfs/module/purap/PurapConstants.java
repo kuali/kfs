@@ -80,6 +80,8 @@ public class PurapConstants {
         public static String ELECTRONIC = "ELEC";
     }
     
+    public static final String PURCHASE_ORDER_CLOSE_QUESTION = "DocClose";
+    
     public static int REQ_B2B_ALLOW_COPY_DAYS = 5;
     
     public static class RequisitionSources {

@@ -20,21 +20,15 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.util.Message;
+import org.springframework.beans.factory.BeanFactory;
 
 public class TransactionFieldValidator {
-    private KualiConfigurationService kualiConfigurationService;
-    
-    /**
-     * Constructs a TransactionFieldValidator.java.
-     * @param kualiConfigurationService
-     */
-    public TransactionFieldValidator(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
-    }
+    private static KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
 
-    public Message checkUniversityFiscalYear(Transaction transaction) {
+    public static Message checkUniversityFiscalYear(Transaction transaction) {
         Integer fiscalYear = transaction.getUniversityFiscalYear();
         if (fiscalYear == null) {
             return buildErrorMessage(KeyConstants.ERROR_UNIV_FISCAL_YR_NOT_FOUND, Message.TYPE_FATAL);
@@ -45,7 +39,7 @@ public class TransactionFieldValidator {
         return null;
     }
 
-    public Message checkChartOfAccountsCode(Transaction transaction) {
+    public static Message checkChartOfAccountsCode(Transaction transaction) {
         String chartOfAccountsCode = transaction.getChartOfAccountsCode();
         if (StringUtils.isBlank(chartOfAccountsCode) || transaction.getChart() == null) {
             return buildErrorMessage(KeyConstants.ERROR_CHART_NOT_FOUND, chartOfAccountsCode, Message.TYPE_FATAL);
@@ -57,17 +51,17 @@ public class TransactionFieldValidator {
         return null;
     }
 
-    public Message checkAccountNumber(Transaction transaction) {
+    public static Message checkAccountNumber(Transaction transaction) {
         String accountNumber = transaction.getAccountNumber();
         if (StringUtils.isBlank(accountNumber) || transaction.getAccount() == null) {
             String chartOfAccountsCode = transaction.getChartOfAccountsCode();
             String accountKey = chartOfAccountsCode + "-" + accountNumber;
-            return this.buildErrorMessage(KeyConstants.ERROR_ACCOUNT_NOT_FOUND, accountNumber, Message.TYPE_FATAL);
+            return buildErrorMessage(KeyConstants.ERROR_ACCOUNT_NOT_FOUND, accountNumber, Message.TYPE_FATAL);
         }
         return null;
     }
 
-    public Message checkSubAccountNumber(Transaction transaction) {
+    public static Message checkSubAccountNumber(Transaction transaction) {
         String subAccountNumber = transaction.getSubAccountNumber();
         String chartOfAccountsCode = transaction.getChartOfAccountsCode();
         String accountNumber = transaction.getAccountNumber();
@@ -89,10 +83,10 @@ public class TransactionFieldValidator {
         return null;
     }
 
-    public Message checkFinancialObjectCode(Transaction transaction) {
+    public static Message checkFinancialObjectCode(Transaction transaction) {
         String objectCode = transaction.getFinancialObjectCode();
         if (StringUtils.isBlank(objectCode)) {
-            return this.buildErrorMessage(KeyConstants.ERROR_OBJECT_CODE_EMPTY, Message.TYPE_FATAL);
+            return buildErrorMessage(KeyConstants.ERROR_OBJECT_CODE_EMPTY, Message.TYPE_FATAL);
         }
 
         Integer fiscalYear = transaction.getUniversityFiscalYear();
@@ -108,7 +102,7 @@ public class TransactionFieldValidator {
         return null;
     }
 
-    public Message checkFinancialSubObjectCode(Transaction transaction) {
+    public static Message checkFinancialSubObjectCode(Transaction transaction) {
         Integer fiscalYear = transaction.getUniversityFiscalYear();
         String chartOfAccountsCode = transaction.getChartOfAccountsCode();
         String objectCode = transaction.getFinancialObjectCode();
@@ -127,7 +121,7 @@ public class TransactionFieldValidator {
         return null;
     }
 
-    public Message checkFinancialBalanceTypeCode(Transaction transaction) {
+    public static Message checkFinancialBalanceTypeCode(Transaction transaction) {
         String balanceTypeCode = transaction.getFinancialBalanceTypeCode();
         if (StringUtils.isBlank(balanceTypeCode) || transaction.getBalanceType() == null) {
             return buildErrorMessage(KeyConstants.ERROR_BALANCE_TYPE_NOT_FOUND, balanceTypeCode, Message.TYPE_FATAL);
@@ -135,7 +129,7 @@ public class TransactionFieldValidator {
         return null;
     }
 
-    public Message checkFinancialObjectTypeCode(Transaction transaction) {
+    public static Message checkFinancialObjectTypeCode(Transaction transaction) {
         String objectTypeCode = transaction.getFinancialObjectTypeCode();
         if (StringUtils.isBlank(objectTypeCode) || transaction.getObjectType() == null) {
             return buildErrorMessage(KeyConstants.ERROR_OBJECT_TYPE_NOT_FOUND, objectTypeCode, Message.TYPE_FATAL);
@@ -143,7 +137,7 @@ public class TransactionFieldValidator {
         return null;
     }
 
-    public Message checkUniversityFiscalPeriodCode(Transaction transaction) {
+    public static Message checkUniversityFiscalPeriodCode(Transaction transaction) {
         String fiscalPeriodCode = transaction.getUniversityFiscalPeriodCode();
         if (StringUtils.isBlank(fiscalPeriodCode)) {
             return buildErrorMessage(KeyConstants.ERROR_ACCOUNTING_PERIOD_NOT_FOUND, fiscalPeriodCode, Message.TYPE_FATAL);
@@ -151,7 +145,7 @@ public class TransactionFieldValidator {
         return null;
     }
 
-    public Message checkFinancialDocumentTypeCode(Transaction transaction) {
+    public static Message checkFinancialDocumentTypeCode(Transaction transaction) {
         String documentTypeCode = transaction.getFinancialDocumentTypeCode();
         if (StringUtils.isBlank(documentTypeCode) || transaction.getDocumentType() == null) {
             return buildErrorMessage(KeyConstants.ERROR_DOCUMENT_TYPE_NOT_FOUND, documentTypeCode, Message.TYPE_FATAL);
@@ -159,7 +153,7 @@ public class TransactionFieldValidator {
         return null;
     }
 
-    public Message checkFinancialDocumentNumber(Transaction transaction) {
+    public static Message checkFinancialDocumentNumber(Transaction transaction) {
         String documentNumber = transaction.getDocumentNumber();
         if (StringUtils.isBlank(documentNumber)) {
             return buildErrorMessage(KeyConstants.ERROR_DOCUMENT_NUMBER_REQUIRED, Message.TYPE_FATAL);
@@ -167,7 +161,7 @@ public class TransactionFieldValidator {
         return null;
     }
 
-    public Message checkTransactionLedgerEntrySequenceNumber(Transaction transaction) {
+    public static Message checkTransactionLedgerEntrySequenceNumber(Transaction transaction) {
         Integer sequenceNumber = transaction.getTransactionLedgerEntrySequenceNumber();
         if (sequenceNumber == null) {
             return buildErrorMessage(KeyConstants.ERROR_SEQUENCE_NUMBER_NOT_BE_NULL, Message.TYPE_FATAL);
@@ -175,7 +169,7 @@ public class TransactionFieldValidator {
         return null;
     }
 
-    public Message checkTransactionDebitCreditCode(Transaction transaction) {
+    public static Message checkTransactionDebitCreditCode(Transaction transaction) {
         String[] validDebitCreditCode = {Constants.GL_BUDGET_CODE, Constants.GL_CREDIT_CODE, Constants.GL_DEBIT_CODE};
         String debitCreditCode = transaction.getTransactionDebitCreditCode();
         if (!ArrayUtils.contains(validDebitCreditCode, debitCreditCode)) {
@@ -184,7 +178,7 @@ public class TransactionFieldValidator {
         return null;
     }
 
-    public Message checkFinancialSystemOriginationCode(Transaction transaction) {
+    public static Message checkFinancialSystemOriginationCode(Transaction transaction) {
         String originationCode = transaction.getFinancialSystemOriginationCode();
         if (StringUtils.isBlank(originationCode)) {
             return buildErrorMessage(KeyConstants.ERROR_ORIGIN_CODE_NOT_FOUND, Message.TYPE_FATAL);
@@ -195,23 +189,23 @@ public class TransactionFieldValidator {
     /**
      * Build the error message with the message body and error type
      */
-    public Message buildErrorMessage(String errorMessageKey, int errorType) {
+    public static Message buildErrorMessage(String errorMessageKey, int errorType) {
         return buildErrorMessage(errorMessageKey, null, errorType);
     }
 
     /**
      * Build the error message with the message body, invalid value and error type
      */
-    public Message buildErrorMessage(String errorMessageKey, String invalidValue, int errorType) {
+    public static Message buildErrorMessage(String errorMessageKey, String invalidValue, int errorType) {
         String errorMessageBody = kualiConfigurationService.getPropertyString(errorMessageKey);
-        String errorMessage = this.formatErrorMessageBody(errorMessageBody, invalidValue);
+        String errorMessage = formatErrorMessageBody(errorMessageBody, invalidValue);
         return new Message(errorMessage, errorType);
     }
 
     /**
      * Format the error message body based on the given error message and invalid value
      */
-    public String formatErrorMessageBody(String errorMessageBody, String invalidValue) {
+    public static String formatErrorMessageBody(String errorMessageBody, String invalidValue) {
         String value = StringUtils.isBlank(invalidValue) ? "" : "[" + invalidValue + "]";
         return errorMessageBody + value;
     }

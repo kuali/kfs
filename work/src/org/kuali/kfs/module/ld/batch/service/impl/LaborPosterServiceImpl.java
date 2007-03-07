@@ -98,7 +98,8 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         
         Collection<OriginEntryGroup> postingGroups = originEntryGroupService.getGroupsToPost(LABOR_SCRUBBER_VALID);
         for (OriginEntryGroup entryGroup : postingGroups) {
-            for (Iterator<LaborOriginEntry> entries = laborOriginEntryService.getEntriesByGroup(entryGroup); entries.hasNext();) {
+            Iterator<LaborOriginEntry> entries = laborOriginEntryService.getEntriesByGroup(entryGroup);
+            while (entries != null && entries.hasNext()) {
                 LaborOriginEntry originEntry = entries.next();
 
                 // reject the entry that is not postable
@@ -130,6 +131,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
             entryGroup.setProcess(Boolean.FALSE);
             originEntryGroupService.save(entryGroup);
         }
+       
         updateReportSummary(reportSummary, ORIGN_ENTRY, OperationType.SELECT, numberOfOriginEntry, 0);
         reportService.generatePosterStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_STATISTICS, reportsDirectory, runDate);
         
@@ -178,9 +180,9 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         Map<Transaction, List<Message>> errorMap = new HashMap<Transaction, List<Message>>();
         
         int numberOfOriginEntry = 0;
-        for (Iterator<LaborOriginEntry> entries = laborOriginEntryService.getEntriesByGroup(validGroup, true); entries.hasNext();) {
-            LaborOriginEntry originEntry = entries.next();
-
+        Collection<LaborOriginEntry> entries = laborOriginEntryService.getConsolidatedEntryCollectionByGroup(validGroup);
+        for (LaborOriginEntry originEntry : entries) {
+            
             List<Message> errors = this.isPostableForLaborGLEntry(originEntry);
             if (!errors.isEmpty()) {
                 errorMap.put(originEntry, errors);

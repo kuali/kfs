@@ -331,7 +331,13 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
         if (!isConsolidated) {
             return this.getEntriesByGroup(group);
         }
-
+        return this.getConsolidatedEntryCollectionByGroup(group).iterator();
+    }
+    
+    /**
+     * @see org.kuali.module.labor.service.LaborOriginEntryService#getConsolidatedEntryCollectionByGroup(org.kuali.module.gl.bo.OriginEntryGroup, boolean)
+     */
+    public Collection<LaborOriginEntry> getConsolidatedEntryCollectionByGroup(OriginEntryGroup group) {
         Collection<LaborOriginEntry> entryCollection = new ArrayList<LaborOriginEntry>();
         LaborLedgerUnitOfWork laborLedgerUnitOfWork = new LaborLedgerUnitOfWork();
         
@@ -350,7 +356,7 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
                 entryCollection.add(laborLedgerUnitOfWork.getWorkingEntry());
             }
         }
-        return entryCollection.iterator();
+        return entryCollection;
     }
 
     /**

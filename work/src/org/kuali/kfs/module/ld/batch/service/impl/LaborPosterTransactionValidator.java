@@ -30,29 +30,25 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class LaborPosterTransactionValidator implements VerifyTransaction {
-    private KualiConfigurationService kualiConfigurationService;
-
     /**
      * @see org.kuali.module.gl.batch.poster.VerifyTransaction#verifyTransaction(org.kuali.module.gl.bo.Transaction)
      */
-    public List<Message> verifyTransaction(Transaction tranaction) {
-        TransactionFieldValidator fieldValidator = new TransactionFieldValidator(kualiConfigurationService);
-        
+    public List<Message> verifyTransaction(Transaction tranaction) {        
         List<Message> messageList = new ArrayList<Message>();
-        addMessageIntoList(messageList, fieldValidator.checkUniversityFiscalYear(tranaction));
-        addMessageIntoList(messageList, fieldValidator.checkChartOfAccountsCode(tranaction));
-        addMessageIntoList(messageList, fieldValidator.checkAccountNumber(tranaction));
-        addMessageIntoList(messageList, fieldValidator.checkSubAccountNumber(tranaction));
-        addMessageIntoList(messageList, fieldValidator.checkUniversityFiscalPeriodCode(tranaction));
-        addMessageIntoList(messageList, fieldValidator.checkFinancialBalanceTypeCode(tranaction));
-        addMessageIntoList(messageList, fieldValidator.checkFinancialObjectCode(tranaction));
-        addMessageIntoList(messageList, fieldValidator.checkFinancialSubObjectCode(tranaction));
-        addMessageIntoList(messageList, fieldValidator.checkFinancialObjectTypeCode(tranaction));
-        addMessageIntoList(messageList, fieldValidator.checkFinancialDocumentTypeCode(tranaction));
-        addMessageIntoList(messageList, fieldValidator.checkFinancialDocumentNumber(tranaction));
-        addMessageIntoList(messageList, fieldValidator.checkFinancialSystemOriginationCode(tranaction));
-        addMessageIntoList(messageList, fieldValidator.checkTransactionDebitCreditCode(tranaction));
-        addMessageIntoList(messageList, fieldValidator.checkTransactionLedgerEntrySequenceNumber(tranaction));
+        addMessageIntoList(messageList, TransactionFieldValidator.checkUniversityFiscalYear(tranaction));
+        addMessageIntoList(messageList, TransactionFieldValidator.checkChartOfAccountsCode(tranaction));
+        addMessageIntoList(messageList, TransactionFieldValidator.checkAccountNumber(tranaction));
+        addMessageIntoList(messageList, TransactionFieldValidator.checkSubAccountNumber(tranaction));
+        addMessageIntoList(messageList, TransactionFieldValidator.checkUniversityFiscalPeriodCode(tranaction));
+        addMessageIntoList(messageList, TransactionFieldValidator.checkFinancialBalanceTypeCode(tranaction));
+        addMessageIntoList(messageList, TransactionFieldValidator.checkFinancialObjectCode(tranaction));
+        addMessageIntoList(messageList, TransactionFieldValidator.checkFinancialSubObjectCode(tranaction));
+        addMessageIntoList(messageList, TransactionFieldValidator.checkFinancialObjectTypeCode(tranaction));
+        addMessageIntoList(messageList, TransactionFieldValidator.checkFinancialDocumentTypeCode(tranaction));
+        addMessageIntoList(messageList, TransactionFieldValidator.checkFinancialDocumentNumber(tranaction));
+        addMessageIntoList(messageList, TransactionFieldValidator.checkFinancialSystemOriginationCode(tranaction));
+        addMessageIntoList(messageList, TransactionFieldValidator.checkTransactionDebitCreditCode(tranaction));
+        addMessageIntoList(messageList, TransactionFieldValidator.checkTransactionLedgerEntrySequenceNumber(tranaction));
                 
         return messageList;
     }
@@ -61,13 +57,5 @@ public class LaborPosterTransactionValidator implements VerifyTransaction {
         if(message != null){
             messageList.add(message);
         }
-    }
-
-    /**
-     * Sets the kualiConfigurationService attribute value.
-     * @param kualiConfigurationService The kualiConfigurationService to set.
-     */
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
     }
 }

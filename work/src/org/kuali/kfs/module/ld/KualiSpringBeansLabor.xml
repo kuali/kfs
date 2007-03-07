@@ -237,9 +237,5 @@
         </property>
     </bean>
 
-    <bean id="laborPosterTransactionValidator" class="org.kuali.module.labor.batch.poster.impl.LaborPosterTransactionValidator">
-        <property name="kualiConfigurationService">
-            <ref bean="kualiConfigurationService" />
-        </property>
-    </bean>
+    <bean id="laborPosterTransactionValidator" class="org.kuali.module.labor.batch.poster.impl.LaborPosterTransactionValidator"/>
 </beans>

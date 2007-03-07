@@ -168,7 +168,15 @@ public interface LaborOriginEntryService {
      * @param isConsolidated the flag that indicates if return origin entries in either the consolidation manner or not
      * @return the origin entries that belong to the given group in either the consolidation manner or not
      */
-    public Iterator<LaborOriginEntry> getEntriesByGroup(OriginEntryGroup group, boolean isConsolidated);    
+    public Iterator<LaborOriginEntry> getEntriesByGroup(OriginEntryGroup group, boolean isConsolidated);  
+    
+    /**
+     * Get the origin entries that belong to the given group in either the consolidation manner or not
+     * @param group the given group
+     * @param isConsolidated the flag that indicates if return origin entries in either the consolidation manner or not
+     * @return the origin entries that belong to the given group in either the consolidation manner or not
+     */
+    public Collection<LaborOriginEntry> getConsolidatedEntryCollectionByGroup(OriginEntryGroup group); 
     
     /**
      * get the summarized information of the entries that belong to the given entry groups

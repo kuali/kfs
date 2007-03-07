@@ -148,10 +148,8 @@
                     <maintainableField name="contractControlAccountNumber" required="false" />
                     <maintainableField name="acctIndirectCostRcvyTypeCd" required="false" />
                     <maintainableField name="financialIcrSeriesIdentifier" required="false" >
-                      <overrideLookup>
                          <overrideLookupClass>org.kuali.module.chart.bo.IcrAutomatedEntry</overrideLookupClass>
                          <overrideFieldConversions>financialIcrSeriesIdentifier:financialIcrSeriesIdentifier</overrideFieldConversions>
-                      </overrideLookup>
                     </maintainableField>  
                     <maintainableField name="indirectCostRcvyFinCoaCode" required="false" />
                     <maintainableField name="indirectCostRecoveryAcctNbr" required="false" />

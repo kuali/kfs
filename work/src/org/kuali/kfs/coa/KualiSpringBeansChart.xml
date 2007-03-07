@@ -173,6 +173,9 @@
 		<property name="jcdAlias">
 			<value>dataSource</value>
 		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService"/>
+		</property>
 	</bean>
 
 	<bean id="chartDao" class="org.kuali.module.chart.dao.ojb.ChartDaoOjb">

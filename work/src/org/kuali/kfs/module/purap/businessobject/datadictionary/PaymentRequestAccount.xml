@@ -33,8 +33,8 @@
                 <field attributeName="financialSubObjectCode" />
                 <field attributeName="itemAccountTotalAmount" />
                 <field attributeName="organizationReferenceId" />
-                <field attributeName="paymentRequestAccountIdentifier" />
-                <field attributeName="paymentRequestItemIdentifier" />
+                <field attributeName="accountIdentifier" />
+                <field attributeName="itemIdentifier" />
                 <field attributeName="projectCode" />
                 <field attributeName="subAccountNumber" />
             </inquiryFields></inquirySection></inquirySections>
@@ -60,8 +60,8 @@
                 <lookupField attributeName="financialSubObjectCode" required="false" />
                 <lookupField attributeName="itemAccountTotalAmount" required="false" />
                 <lookupField attributeName="organizationReferenceId" required="false" />
-                <lookupField attributeName="paymentRequestAccountIdentifier" required="false" />
-                <lookupField attributeName="paymentRequestItemIdentifier" required="false" />
+                <lookupField attributeName="accountIdentifier" required="false" />
+                <lookupField attributeName="itemIdentifier" required="false" />
                 <lookupField attributeName="projectCode" required="false" />
                 <lookupField attributeName="subAccountNumber" required="false" />
             </lookupFields>
@@ -75,8 +75,8 @@
                 <field attributeName="financialSubObjectCode" />
                 <field attributeName="itemAccountTotalAmount" />
                 <field attributeName="organizationReferenceId" />
-                <field attributeName="paymentRequestAccountIdentifier" />
-                <field attributeName="paymentRequestItemIdentifier" />
+                <field attributeName="accountIdentifier" />
+                <field attributeName="itemIdentifier" />
                 <field attributeName="projectCode" />
                 <field attributeName="subAccountNumber" />
             </resultFields>
@@ -204,7 +204,7 @@
                 <description>organizationReferenceId description...</description>
 			</attribute>
 
-            <attribute name="paymentRequestAccountIdentifier" forceUppercase="true">
+            <attribute name="accountIdentifier" forceUppercase="true">
                 <label>Payment Request Account Identifier</label>
                 <shortLabel>Identifier</shortLabel>
 
@@ -215,11 +215,11 @@
                     <text size="12" />
                 </control>
 
-                <summary>paymentRequestAccountIdentifier</summary>
-                <description>paymentRequestAccountIdentifier description...</description>
+                <summary>accountIdentifier</summary>
+                <description>accountIdentifier description...</description>
 			</attribute>
 
-            <attribute name="paymentRequestItemIdentifier" forceUppercase="true">
+            <attribute name="itemIdentifier" forceUppercase="true">
                 <label>Payment Request Item Identifier</label>
                 <shortLabel>Identifier</shortLabel>
 
@@ -230,8 +230,8 @@
                     <text size="12" />
                 </control>
 
-                <summary>paymentRequestItemIdentifier</summary>
-                <description>paymentRequestItemIdentifier description...</description>
+                <summary>itemIdentifier</summary>
+                <description>itemIdentifier description...</description>
 			</attribute>
 
             <attribute name="projectCode" forceUppercase="true">

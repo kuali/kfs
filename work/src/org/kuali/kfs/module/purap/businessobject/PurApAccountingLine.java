@@ -15,6 +15,8 @@
  */
 package org.kuali.module.purap.bo;
 
+import java.math.BigDecimal;
+
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.SubAccount;
@@ -103,8 +105,8 @@ public interface PurApAccountingLine {
 
     public abstract void setOrganizationReferenceId(String organizationReferenceId);
 
-    public abstract Integer getAccountLinePercent();
+    public abstract BigDecimal getAccountLinePercent();
 
-    public abstract void setAccountLinePercent(Integer accountLinePercent);
+    public abstract void setAccountLinePercent(BigDecimal accountLinePercent);
 
 }

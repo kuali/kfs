@@ -62,7 +62,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
   ** * Only fringe benefit labor object codes are allowed on this document.
      * The document must have at least one “FROM” segment and one “TO” segment.
   ** * The total amount on the “FROM” side must equal the total amount on the “TO” side.
-     * Transfers cannot be made between two different fringe benefit labor object codes. 
+  ** * Transfers cannot be made between two different fringe benefit labor object codes. 
      * Only the “Account” and “Amount” fields may be edited in the “TO” zone.
    ! * The Justification field is required and should include as much pertinent detail as possible.
      * The Fiscal Year field on this eDoc is used differently as compared to other TP documents. In the Benefit Transfer document, this field is used to load the appropriate data onto the Labor Ledger Balance screen.
@@ -83,27 +83,23 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
     @Override
     protected boolean processCustomAddAccountingLineBusinessRules(AccountingDocument accountingDocument, AccountingLine accountingLine) {
         
+        //Transfers cannot be made between two different fringe benefit labor object codes. 
         AccountingDocument benefitDoc = (AccountingDocument) accountingDocument;
         List<AccountingLine> accountingLines = new ArrayList();
         Collection<PositionObjectBenefit> positionObjectBenefits;
-
-        //set source and target accounting lines
+        
         accountingLines.addAll(benefitDoc.getSourceAccountingLines());
         accountingLines.addAll(benefitDoc.getTargetAccountingLines());        
         
         for (AccountingLine lines : accountingLines){
             if (accountingLine.getFinancialObjectCode() != null) {
                 if (accountingLine.getFinancialObjectCode() != lines.getFinancialObjectCode()) {
-                    System.out.println("Good Caught it");
-                    reportError(PropertyConstants.ACCOUNT, KeyConstants.Labor.LABOR_OBJECT_MISSING_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
+                    reportError(PropertyConstants.ACCOUNT, KeyConstants.Labor.DISTINCT_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
+                    return false;
                 }
             }            
         }
 
-        System.out.println("Current Acct: " + accountingLine.getFinancialObjectCode());   
-
-                
-//        accountingDocument.getTargetAccountingLine(0);
         // Retrieve the labor object code to make sure it is fringe. 
         // It must have a value of "F".
         
@@ -127,11 +123,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
             reportError(PropertyConstants.ACCOUNT, KeyConstants.Labor.INVALID_FRINGE_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
             return false;
         }            
-                                  
-        // Make sure the employee does not have any pending salary transfers
-//        if (!validatePendingSalaryTransfer(emplid))
-  //          return false;
-        
+                                          
         ExpenseTransferAccountingLine benefitExpenseTransferAccountingLine = (ExpenseTransferAccountingLine)accountingLine;
         
         // Validate the accounting year
@@ -153,4 +145,4 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         }
         return true;
     }
-}
+    }

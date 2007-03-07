@@ -163,14 +163,6 @@ public class BudgetDocument extends ResearchDocumentBase {
     }
 
     /**
-     * @see org.kuali.core.document.Document#getDocumentTitle()
-     */
-    public String getDocumentTitle() {
-        // TODO Auto-generated method stub
-        return "BudgetDocument";
-    }
-
-    /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {

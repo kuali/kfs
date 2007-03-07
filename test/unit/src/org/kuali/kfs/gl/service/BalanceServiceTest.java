@@ -36,12 +36,15 @@ import org.kuali.test.WithTestSpringContext;
 @WithTestSpringContext
 public class BalanceServiceTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceServiceTest.class);
-    private final static String ACCOUNT_NUMBER = "999test";
-    private final static String CHART = "zx";
-
+    private final static String ACCOUNT_NUMBER = "6812735";
+    private final static String CHART = "UA";
+    private final static String SUB_ACCT_NUMBER = "sub";
+    private final static String SUB_OBJECT_CODE = "123";
+    
     private static String DELETE_BALANCES = "delete from GL_BALANCE_T where ";
     private static String RAW_BALANCES = "select * from GL_BALANCE_T where ";
-    private static String INSERT_BALANCE = "insert into GL_BALANCE_T(FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,UNIV_FISCAL_YR,FIN_SUB_OBJ_CD,FIN_OBJECT_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,FIN_BEG_BAL_LN_AMT,ACLN_ANNL_BAL_AMT) values('" + CHART + "','" + ACCOUNT_NUMBER + "','sub',";
+    private static String INSERT_BALANCE = "insert into GL_BALANCE_T(FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,UNIV_FISCAL_YR,FIN_SUB_OBJ_CD,FIN_OBJECT_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,FIN_BEG_BAL_LN_AMT,ACLN_ANNL_BAL_AMT) values('" + CHART + "','"
+                                 + ACCOUNT_NUMBER + "','" + SUB_ACCT_NUMBER + "',";
 
     private static boolean runOnce = true;
 
@@ -75,7 +78,7 @@ public class BalanceServiceTest extends KualiTestBase {
     }
 
     private void insertBalance(String objectTypeCode, String balanceTypeCode, String objectCode, KualiDecimal beginningAmount, KualiDecimal finalAmount) {
-        unitTestSqlDao.sqlCommand(INSERT_BALANCE + "'123','" + objectCode + "','" + balanceTypeCode + "','" + objectTypeCode + "'," + beginningAmount + "," + finalAmount + ")");
+        unitTestSqlDao.sqlCommand(INSERT_BALANCE + "'" + SUB_OBJECT_CODE + "','" + objectCode + "','" + balanceTypeCode + "','" + objectTypeCode + "'," + beginningAmount + "," + finalAmount + ")");
     }
 
     public void purgeTestData() {
@@ -93,7 +96,7 @@ public class BalanceServiceTest extends KualiTestBase {
 
         assertTrue("should net to zero when no rows exist", getBalanceService().fundBalanceWillNetToZero(account));
 
-        insertBalance("EE", "FF", "9899", new KualiDecimal(1.5), new KualiDecimal(2.5));
+        insertBalance("EE", "TR", "9899", new KualiDecimal(1.5), new KualiDecimal(2.5));
         results = unitTestSqlDao.sqlSelect(RAW_BALANCES);
         assertNotNull("List shouldn't be null", results);
         assertEquals("Should return 1 result", 1, results.size());
@@ -116,7 +119,7 @@ public class BalanceServiceTest extends KualiTestBase {
         String fundBalanceObjectCode = "9899"; // TODO - get this from Service? Or System Options?
         insertBalance("LI", "AC", "9899", new KualiDecimal(1.5), new KualiDecimal(2.5));
         assertFalse("should ignore 9899 balance", getBalanceService().hasAssetLiabilityFundBalanceBalances(account));
-        insertBalance("LI", "AC", "1234", new KualiDecimal(1.5), new KualiDecimal(2.5));
+        insertBalance("LI", "AC", "9900", new KualiDecimal(1.5), new KualiDecimal(2.5));
         assertTrue("expect nonzero balance for non-9899 balance", getBalanceService().hasAssetLiabilityFundBalanceBalances(account));
 
 

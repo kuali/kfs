@@ -98,7 +98,7 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
     private void initResearchRiskTypes() {
         List<ProposalResearchRisk> risks = getProposal().getProposalResearchRisks();
         AssertionUtils.assertThat(risks.isEmpty());
-        // todo: make an FS_PARM_T parameter for this and get it from KualiConfigurationService 
+        // no requirement to exclude any risk types (except inactive ones, which the service excludes anyway)
         final String[] riskTypeCodesToExclude = new String[0];
         List<ResearchRiskType> researchRiskTypes = SpringServiceLocator.getRoutingFormResearchRiskService().getResearchRiskTypes(riskTypeCodesToExclude);
         for (ResearchRiskType type : researchRiskTypes) {

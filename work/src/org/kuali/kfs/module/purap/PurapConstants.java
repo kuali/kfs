@@ -15,7 +15,7 @@
  */
 package org.kuali.module.purap;
 
-import org.kuali.core.util.KualiDecimal;
+import java.util.HashMap;
 
 /**
  * Holds constants for PURAP.
@@ -102,5 +102,13 @@ public class PurapConstants {
         public static String WAITING_FOR_VENDOR = "WVEN";
         public static String WAITING_FOR_DEPARTMENT = "WDPT";
         //TODO: Do we need the rest of these in here?  They're in a table (PUR_PO_STAT_T).
+    }
+    public static class  PurchaseOrderDocTypeMap  {
+        public static HashMap docTypeMap = new HashMap();
+        public PurchaseOrderDocTypeMap () {
+            //can we eliminate this and just add "serviceimpl" as a constant string that can be added before the boimpl call
+            docTypeMap.put("KualiPurchaseOrderCloseDocument", "CloseServiceImpl");
+            docTypeMap.put("KualiPurchaseOrderDocument", "");
+        }
     }
 }

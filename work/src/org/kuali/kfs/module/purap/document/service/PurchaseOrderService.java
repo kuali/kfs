@@ -28,4 +28,5 @@ public interface PurchaseOrderService {
     
     public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument);   
     
+    public PurchaseOrderPostProcessorService convertDocTypeToService(String documentTypeId);  
 }

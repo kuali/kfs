@@ -15,6 +15,7 @@
  */
 package org.kuali.module.purap.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.DocumentNote;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
@@ -24,11 +25,14 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentNoteService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.dao.PurchaseOrderDao;
 import org.kuali.module.purap.document.PurchaseOrderCloseDocumentAuthorizer;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.module.purap.service.PurchaseOrderPostProcessorService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -148,5 +152,17 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
         return new DocumentAuthorizationException(currentUser.getPersonUserIdentifier(), action, document.getDocumentNumber());
     }
-    
+    /**
+     * @see org.kuali.module.purap.service.PurchaseOrderService#convertDocTypeToService()
+     */
+    public PurchaseOrderPostProcessorService convertDocTypeToService(String docTypeId) {
+        PurchaseOrderPostProcessorService popp=null;
+        String docType;
+        docType=(String)PurapConstants.PurchaseOrderDocTypeMap.docTypeMap.get(docTypeId);
+        if(StringUtils.isNotEmpty(docType)) {
+            popp=(PurchaseOrderPostProcessorService)SpringServiceLocator.getBeanFactory().getBean(docType);
+        }
+        
+        return popp;
+    }
 }

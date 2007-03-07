@@ -99,7 +99,15 @@
             <ref bean="workflowDocumentService" />
         </property>
 	</bean>
-
+	
+	<!-- parent class, this is so we can override attributes if we add any later -->
+	<bean id="purchaseOrderPostProcessServiceBase" class="org.kuali.module.purap.service.impl.PurchaseOrderPostProcessorServiceBase" abstract="true">
+	</bean>
+	
+	<bean id="purchaseOrderPostProcessorCloseService" class="org.kuali.module.purap.service.impl.PurchaseOrderPostProcessorCloseServiceImpl" parent="purchaseOrderPostProcessServiceBase">
+	</bean>
+	
+	
 	<bean id="vendorDao" class="org.kuali.module.purap.dao.ojb.VendorDaoOjb">
 		<property name="jcdAlias">
 			<value>dataSource</value>

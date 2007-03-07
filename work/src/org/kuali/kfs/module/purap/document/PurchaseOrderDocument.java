@@ -38,6 +38,7 @@ import org.kuali.module.purap.bo.ShippingPaymentTerms;
 import org.kuali.module.purap.bo.ShippingTitle;
 import org.kuali.module.purap.bo.SourceDocumentReference;
 import org.kuali.module.purap.bo.VendorDetail;
+import org.kuali.module.purap.service.PurchaseOrderPostProcessorService;
 
 /**
  * Purchase Order Document
@@ -244,7 +245,13 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         else if (this.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
             // TODO code
         }
-
+        //additional processing
+        PurchaseOrderPostProcessorService popp = 
+            SpringServiceLocator.getPurchaseOrderService().convertDocTypeToService(getDocumentHeader().getWorkflowDocument().getDocumentType());
+        //null if defined as empty string in map
+        if(popp!=null){
+            popp.handleRouteStatusChange(this);
+        }
     }
 
     @Override

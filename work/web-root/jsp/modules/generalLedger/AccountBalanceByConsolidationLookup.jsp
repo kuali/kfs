@@ -51,7 +51,7 @@
 				<c:set var="ActionName" value="glModifiedInquiry.do" scope="request" />
 				<c:set var="IsLookupDisplay" value="true" scope="request" />
 
-				<%@ include file="/jsp/core/RowDisplay.jsp"%>
+				<kul:rowDisplay rows="${KualiForm.lookupable.rows}"/>
 
 				<tr align=center>
 					<td height="30" colspan=2 class="infoline"><html:image

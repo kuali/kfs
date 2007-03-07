@@ -15,6 +15,10 @@
  */
 package org.kuali.module.labor.service.impl;
 
+import static org.kuali.Constants.ParameterGroups.SYSTEM;
+import static org.kuali.Constants.SystemGroupParameterNames.LABOR_POSTER_BALANCE_TYPES_NOT_PROCESSED;
+import static org.kuali.Constants.SystemGroupParameterNames.LABOR_POSTER_OBJECT_CODES_NOT_PROCESSED;
+import static org.kuali.Constants.SystemGroupParameterNames.LABOR_POSTER_PERIOD_CODES_NOT_PROCESSED;
 import static org.kuali.module.gl.bo.OriginEntrySource.LABOR_MAIN_POSTER_ERROR;
 import static org.kuali.module.gl.bo.OriginEntrySource.LABOR_MAIN_POSTER_VALID;
 import static org.kuali.module.gl.bo.OriginEntrySource.LABOR_SCRUBBER_VALID;
@@ -69,18 +73,8 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     private PostTransaction laborLedgerBalancePoster;
     private PostTransaction laborGLLedgerEntryPoster;
 
-    private String reportsDirectory;
     private final static int STEP = 1;
     private final static int LINE_INTERVAL = 2;
-
-    // TODO: need to be put into application parameter table
-    public final static String[] OBJECTS_NOT_PROCESSED = { "5760" };
-    public final static String[] BALANCE_TYPES_NOT_PROCESSED = { "A2" };
-    public final static String[] PERIOD_CODES_NOT_PROCESSED = { Constants.CG_BEGINNING_BALANCE };
-
-    public void init() {
-        reportsDirectory = kualiConfigurationService.getPropertyString(Constants.REPORTS_DIRECTORY_KEY);
-    }
 
     /**
      * @see org.kuali.module.labor.service.LaborPosterService#postMainEntries()
@@ -97,6 +91,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
     // post the qualified origin entries into Labor Ledger tables
     private void postLaborLedgerEntries(OriginEntryGroup validGroup, OriginEntryGroup invalidGroup, Date runDate) {
+        String reportsDirectory = this.getReportsDirectory();
         Map<Transaction, List<Message>> errorMap = new HashMap<Transaction, List<Message>>();
         List<Summary> reportSummary = this.buildReportSummaryForLaborLedgerPosting();       
         int numberOfOriginEntry = 0;
@@ -134,7 +129,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
             // reset the process flag of the group so that it cannot be handled any more
             entryGroup.setProcess(Boolean.FALSE);
             originEntryGroupService.save(entryGroup);
-        }        
+        }
         updateReportSummary(reportSummary, ORIGN_ENTRY, OperationType.SELECT, numberOfOriginEntry, 0);
         reportService.generatePosterStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_STATISTICS, reportsDirectory, runDate);
         
@@ -148,7 +143,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         if (originEntry.getTransactionLedgerEntryAmount() == null || originEntry.getTransactionLedgerEntryAmount().isZero()) {
             return false;
         }
-        else if (ArrayUtils.contains(OBJECTS_NOT_PROCESSED, originEntry.getFinancialObjectCode())) {
+        else if (ArrayUtils.contains(this.getObjectsNotProcessed(), originEntry.getFinancialObjectCode())) {
             return false;
         }
         return true;
@@ -178,6 +173,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
     // post the valid origin entries in the given group into General Ledger
     private void postLaborGLEntries(OriginEntryGroup validGroup, Date runDate) {
+        String reportsDirectory = this.getReportsDirectory();
         List<Summary> reportSummary = this.buildReportSummaryForLaborGLPosting();
         Map<Transaction, List<Message>> errorMap = new HashMap<Transaction, List<Message>>();
         
@@ -202,11 +198,11 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     // determine if the given origin entry can be posted back to Labor GL entry
     private List<Message> isPostableForLaborGLEntry(LaborOriginEntry originEntry) {
         List<Message> errors = new ArrayList<Message>();
-        if (ArrayUtils.contains(PERIOD_CODES_NOT_PROCESSED, originEntry.getUniversityFiscalPeriodCode())) {
-            errors.add(new Message("Cannot process the PERIOD_CODES", 0));
+        if (ArrayUtils.contains(this.getPeriodCodesNotProcessed(), originEntry.getUniversityFiscalPeriodCode())) {
+            errors.add(new Message("Cannot process the PERIOD CODES", 0));
         }
-        else if (ArrayUtils.contains(BALANCE_TYPES_NOT_PROCESSED, originEntry.getFinancialBalanceTypeCode())) {
-            errors.add(new Message("Cannot process the BALANCE_TYPES", 0));
+        else if (ArrayUtils.contains(this.getBalanceTypesNotProcessed(), originEntry.getFinancialBalanceTypeCode())) {
+            errors.add(new Message("Cannot process the BALANCE TYPES", 0));
         }
         else if (originEntry.getTransactionLedgerEntryAmount().isZero()) {
             errors.add(new Message("Amount cannot be ZERO", 0));
@@ -268,6 +264,22 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         StringBuilder summaryDescription = new StringBuilder();
         summaryDescription.append("Number of ").append(destinationName).append(" records ").append(operationType).append(":");
         return summaryDescription;
+    }
+    
+    public String getReportsDirectory(){
+        return kualiConfigurationService.getPropertyString(Constants.REPORTS_DIRECTORY_KEY);
+    }
+
+    public String[] getBalanceTypesNotProcessed() {
+        return kualiConfigurationService.getApplicationParameterValues(SYSTEM, LABOR_POSTER_BALANCE_TYPES_NOT_PROCESSED);
+    }
+
+    public String[] getObjectsNotProcessed() {
+        return kualiConfigurationService.getApplicationParameterValues(SYSTEM, LABOR_POSTER_OBJECT_CODES_NOT_PROCESSED);
+    }
+
+    public String[] getPeriodCodesNotProcessed() {
+        return kualiConfigurationService.getApplicationParameterValues(SYSTEM, LABOR_POSTER_PERIOD_CODES_NOT_PROCESSED);
     }
 
     /**

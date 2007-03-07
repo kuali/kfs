@@ -177,7 +177,7 @@
         </property>
     </bean>
 	
-    <bean id="laborPosterService" class="org.kuali.module.labor.service.impl.LaborPosterServiceImpl" init-method="init">
+    <bean id="laborPosterService" class="org.kuali.module.labor.service.impl.LaborPosterServiceImpl">
         <property name="laborOriginEntryService">
             <ref bean="laborOriginEntryService" />
         </property>

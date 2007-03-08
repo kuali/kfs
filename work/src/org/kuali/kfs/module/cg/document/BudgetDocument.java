@@ -426,7 +426,16 @@ public class BudgetDocument extends ResearchDocumentBase {
         if (encloseContent) {
             xml.append("<documentContent>");
         }
-        BudgetUser projectDirector = this.getBudget().getProjectDirectorFromList();
+        BudgetUser projectDirector = null;
+        
+        for (Iterator iter = this.getBudget().getPersonnel().iterator(); iter.hasNext();) {
+            BudgetUser person = (BudgetUser) iter.next();
+            if (person.isPersonProjectDirectorIndicator()) {
+                projectDirector = person;
+                break;
+            }
+        }
+        
         if (ObjectUtils.isNotNull(projectDirector) && ObjectUtils.isNotNull(projectDirector.getUser())) {
             if (!this.getBudget().isProjectDirectorToBeNamedIndicator()) {
                 xml.append("<projectDirector>");

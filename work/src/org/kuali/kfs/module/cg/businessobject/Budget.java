@@ -142,21 +142,7 @@ public class Budget extends PersistableBusinessObjectBase {
     public void setProjectDirector(ProjectDirector projectDirector) {
         this.projectDirector = projectDirector;
     }
-    
-    /**
-     * Gets the project director from the personnel list as a BudgetUser
-     * 
-     * @return BudgetUser the project director
-     */
-    public BudgetUser getProjectDirectorFromList() {
-        for (Iterator iter = this.personnel.iterator(); iter.hasNext();) {
-            BudgetUser person = (BudgetUser) iter.next();
-            if (person.isPersonProjectDirectorIndicator()) {
-                return person;
-            }
-        }
-        return null;
-    }
+
 
     /**
      * @return Returns the budgetFederalPassThroughIndicator.

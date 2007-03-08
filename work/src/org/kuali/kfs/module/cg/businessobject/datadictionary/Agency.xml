@@ -161,12 +161,12 @@
 					This field identifies whether the Agency is active in the system or not.  
 					Agencies are typically marked as Active.  Examples of instances when an 
 					Agency may be marked Inactive include:
-						•	The agency has gone out of business (occurs frequently with 
+					- The agency has gone out of business (occurs frequently with 
 							commercial agencies);
-						•	The agency has reorganized and is renamed (occurs frequently 
+					- The agency has reorganized and is renamed (occurs frequently 
 							with federal agencies that are reorganized, such as Department 
 							of Health, Education and Welfare);
-						•	The agency has been purchased by a larger entity, or splits into 
+					- The agency has been purchased by a larger entity, or splits into 
 							smaller entities.
 					In instances when a change such as these occurs, the original Agency is 
 					marked Inactive, and a new Agency is added to the system with a new Agency 
@@ -221,7 +221,8 @@
 
         <relationships>
             <relationship objectAttributeName="agencyType" >
-                <primitiveAttribute sourceName="agencyType.name" targetName="name" />
+                <primitiveAttribute sourceName="agencyTypeCode" targetName="code" />
+                <supportAttribute sourceName="agencyType.name" targetName="name" />
             </relationship>
 		</relationships>
 

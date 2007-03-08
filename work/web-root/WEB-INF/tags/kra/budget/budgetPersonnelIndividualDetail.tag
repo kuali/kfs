@@ -53,7 +53,7 @@
 	          	leftSideHtmlAttribute="${budgetUserAttributes.delete}" 
 	          	leftSideHtmlDisabled="${person.personProjectDirectorIndicator or viewOnly}" 
 	          	defaultOpen="false" transparentBackground="${firstInList}" 
-	          	tabErrorKey="document.budget.personFromList[${listIndex}]*" 
+	          	tabErrorKey="document.budget.personFromList[${listIndex}]*,document.budget.personnel[${listIndex}]*" 
 	          	auditCluster="personnelAuditErrors"
 	          	tabAuditKey="document.budget.audit.personnel.${personId}*">
               <div class="tab-container" id="G02" style="" align="center">

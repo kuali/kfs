@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.KeyConstants;
+import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DictionaryValidationService;
@@ -36,6 +37,7 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.budget.document.BudgetDocument;
+import org.kuali.module.kra.budget.document.BudgetDocumentAuthorizer;
 import org.kuali.module.kra.budget.rules.ResearchDocumentRuleBase;
 import org.kuali.module.kra.document.ResearchDocument;
 import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
@@ -447,6 +449,16 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
                 Document document = documentService.getByDocumentHeaderId(routingFormDocument.getRoutingFormBudgetNumber());
                 if (BudgetDocument.class.isAssignableFrom(document.getClass())) {
                     BudgetDocument budgetDocument = (BudgetDocument)document;
+                    
+                    //see if this user can vew/modify the budget
+                    BudgetDocumentAuthorizer budgetDocumentAuthorizer = new BudgetDocumentAuthorizer();
+                    Map budgetAuthorizationsMap = budgetDocumentAuthorizer.getEditMode(budgetDocument, GlobalVariables.getUserSession().getUniversalUser());
+                    if ((!budgetAuthorizationsMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && !budgetAuthorizationsMap.containsKey(AuthorizationConstants.EditMode.VIEW_ONLY)) ||
+                            (budgetAuthorizationsMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && !budgetAuthorizationsMap.get(AuthorizationConstants.EditMode.FULL_ENTRY).equals("TRUE") && 
+                                    budgetAuthorizationsMap.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && !budgetAuthorizationsMap.get(AuthorizationConstants.EditMode.FULL_ENTRY).equals("TRUE"))) {
+                        errorMap.putError("routingFormBudgetNumber1", KraKeyConstants.ERROR_SELECTED_PERIODS_CONSECUTIVE);
+                        return false;
+                    }
                     
                     //see if this budget is already linked to another RF
                     Map<String, Object> fieldValues = new HashMap<String, Object>();

@@ -65,7 +65,7 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
 
     private List budgetConstructionMonthly;
     
-    private BigDecimal percentChange;
+    private KualiDecimal percentChange;
     
 	/**
 	 * Default constructor.
@@ -76,14 +76,19 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
 
 	}
 
-    public BigDecimal getPercentChange() {
+    /**
+     * 
+     * Gets(sets) the percentChange based on the current values of base and request amounts
+     * @return Returns percentChange
+     */
+    public KualiDecimal getPercentChange() {
 
         if (financialBeginningBalanceLineAmount == null || financialBeginningBalanceLineAmount.isZero()){
             percentChange = null;
         } else {
             BigDecimal diffRslt = (accountLineAnnualBalanceAmount.bigDecimalValue().setScale(4)).subtract(financialBeginningBalanceLineAmount.bigDecimalValue().setScale(4));
             BigDecimal divRslt = diffRslt.divide((financialBeginningBalanceLineAmount.bigDecimalValue().setScale(4)),BigDecimal.ROUND_HALF_UP);
-            percentChange = divRslt.multiply(BigDecimal.valueOf(100)).setScale(2); 
+            percentChange = new KualiDecimal(divRslt.multiply(BigDecimal.valueOf(100)).setScale(2)); 
         }
         return percentChange;
     }
@@ -91,8 +96,9 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
 	/**
      * Sets the percentChange attribute value.
      * @param percentChange The percentChange to set.
+     * @deprecated
      */
-    public void setPercentChange(BigDecimal percentChange) {
+    public void setPercentChange(KualiDecimal percentChange) {
         this.percentChange = percentChange;
     }
 

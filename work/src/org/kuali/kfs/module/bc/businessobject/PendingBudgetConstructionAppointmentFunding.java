@@ -72,6 +72,8 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     private List budgetConstructionSalaryFunding;
     private List budgetConstructionAppointmentFundingReason;
     
+    private KualiDecimal percentChange;
+    
 	/**
 	 * Default constructor.
 	 */
@@ -81,15 +83,40 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
 
 	}
     
+    /**
+     * 
+     * Gets(sets) the percentChange based on the current values of csf and request amounts
+     * Checks to see if a CSF object exists
+     * @return Returns percentChange
+     */
     public KualiDecimal getPercentChange() {
-        try {
-            return (appointmentRequestedAmount.subtract(((BudgetConstructionCalculatedSalaryFoundationTracker) bcnCalculatedSalaryFoundationTracker.get(0)).getCsfAmount())).divide(((BudgetConstructionCalculatedSalaryFoundationTracker) bcnCalculatedSalaryFoundationTracker.get(0)).getCsfAmount()).multiply(new KualiDecimal(100));
-        } catch (NullPointerException npe) {
-            return null;
-        }
+        
+        if (bcnCalculatedSalaryFoundationTracker.isEmpty()){
+            percentChange = null;
+        } else {
+            BudgetConstructionCalculatedSalaryFoundationTracker csfLine = (BudgetConstructionCalculatedSalaryFoundationTracker) bcnCalculatedSalaryFoundationTracker.get(0);
+
+            if (csfLine.getCsfAmount() == null || csfLine.getCsfAmount().isZero()){
+                percentChange = null;
+            } else {
+                BigDecimal diffRslt = (appointmentRequestedAmount.bigDecimalValue().setScale(4)).subtract(csfLine.getCsfAmount().bigDecimalValue().setScale(4));
+                BigDecimal divRslt = diffRslt.divide((csfLine.getCsfAmount().bigDecimalValue().setScale(4)),BigDecimal.ROUND_HALF_UP);
+                percentChange = new KualiDecimal(divRslt.multiply(BigDecimal.valueOf(100)).setScale(2)); 
+            }
+        }    
+        return percentChange;
     }
 
 	/**
+     * Sets the percentChange attribute value.
+     * @param percentChange The percentChange to set.
+     * @deprecated
+     */
+    public void setPercentChange(KualiDecimal percentChange) {
+        this.percentChange = percentChange;
+    }
+
+    /**
 	 * Gets the universityFiscalYear attribute.
 	 * 
 	 * @return Returns the universityFiscalYear

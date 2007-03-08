@@ -111,31 +111,44 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-    
-    /* TODO Keyword code isn't multi select yet. Following method probably has to change. */
+
+    /**
+     * When a keyword is added to the list.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward insertRoutingFormKeyword(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+        /* TODO KULERA-712: Keyword code isn't multi select yet. Method will probably change. */
         RoutingForm routingForm = (RoutingForm) form;
-        RoutingFormKeyword rfKeyword = routingForm.getNewRoutingFormKeyword();
+        RoutingFormKeyword routingFormKeyword = routingForm.getNewRoutingFormKeyword();
 
-        if(!rfKeyword.isEmpty()) {
-            routingForm.getRoutingFormDocument().addRoutingFormKeyword(rfKeyword);
-            
-            // use getters and setters on the form to reinitialize the properties on the form.                
+        if(!routingFormKeyword.isEmpty()) {
+            routingForm.getRoutingFormDocument().addRoutingFormKeyword(routingFormKeyword);
             routingForm.setNewRoutingFormKeyword(new RoutingFormKeyword());
         } else {
             /* TODO Following should be in rules class? */
-            // Display error to user.
             GlobalVariables.getErrorMap().addToErrorPath("newRoutingFormKeyword");
             GlobalVariables.getErrorMap().putError("newRoutingFormKeyword", KraKeyConstants.ERROR_KEYWORD_MISSING);
             GlobalVariables.getErrorMap().removeFromErrorPath("newRoutingFormKeyword");
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-
-    /* TODO Keyword code isn't multi select yet. Following method probably has to change. */
+    
+    /**
+     * When a keyword is deleted from the list.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward deleteRoutingFormKeyword(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+        /* TODO KULERA-712: Keyword code isn't multi select yet. Method will probably change. */
         RoutingForm routingForm = (RoutingForm) form;
 
         // Remove the item from the list.

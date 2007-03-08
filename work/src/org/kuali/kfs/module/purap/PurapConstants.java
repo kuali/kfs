@@ -17,8 +17,6 @@ package org.kuali.module.purap;
 
 import java.util.HashMap;
 
-import org.kuali.Constants.ParameterValues;
-
 /**
  * Holds constants for PURAP.
  * 
@@ -104,16 +102,36 @@ public class PurapConstants {
         public static String WAITING_FOR_VENDOR = "WVEN";
         public static String WAITING_FOR_DEPARTMENT = "WDPT";
         //TODO: Do we need the rest of these in here?  They're in a table (PUR_PO_STAT_T).
+        public static String CLOSED = "CLOS";
+    }
+
+	
+    public static class ItemTypeCodes {
+        // ITEM TYPES
+        public static String ITEM_TYPE_ITEM_CODE = "ITEM";
+        public static String ITEM_TYPE_FREIGHT_CODE = "FRHT";
+        public static String ITEM_TYPE_SHIP_AND_HAND_CODE = "SPHD";
+        public static String ITEM_TYPE_TRADE_IN_CODE = "TRDI";
+        public static String ITEM_TYPE_ORDER_DISCOUNT_CODE = "ORDS";        
     }
     
+    public static class PurchaseOrderDocTypes {
+        public static String PURCHASE_ORDER_REOPEN_DOCUMENT  = "KualiPurchaseOrderReopenDocument";
+        public static String PURCHASE_ORDER_CLOSE_DOCUMENT  = "KualiPurchaseOrderCloseDocument";
+        public static String PURCHASE_ORDER_DOCUMENT  = "KualiPurchaseOrderDocument";
+    }
+
     private static HashMap<String, String> purchaseOrderDocTypes()
     {
         HashMap<String,String> mapSLF; 
         mapSLF =  new HashMap<String,String>();
-        mapSLF.put("KualiPurchaseOrderCloseDocument", "CloseServiceImpl");
-        mapSLF.put("KualiPurchaseOrderDocument", "");
+        mapSLF.put(PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT, "purchaseOrderPostProcessorCloseService");
+        mapSLF.put(PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT, "purchaseOrderPostProcessorReopenService");
+        mapSLF.put(PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT, "");
         return mapSLF;
     }
     public final static HashMap<String,String> PURCHASE_ORDER_DOC_TYPE_MAP =
                         purchaseOrderDocTypes();
+
+    public static final String REOPEN_PO_QUESTION = "ReOpenPO";
 }

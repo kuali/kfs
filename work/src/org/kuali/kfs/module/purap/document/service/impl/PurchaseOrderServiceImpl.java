@@ -15,6 +15,8 @@
  */
 package org.kuali.module.purap.service.impl;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.DocumentNote;
 import org.kuali.core.bo.user.UniversalUser;
@@ -28,6 +30,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.module.purap.dao.PurchaseOrderDao;
 import org.kuali.module.purap.document.PurchaseOrderCloseDocumentAuthorizer;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
@@ -86,7 +89,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
         // get new document from doc service
         try {
-            poDocument = (PurchaseOrderDocument) documentService.getNewDocument(PurchaseOrderDocument.class);
+            poDocument = (PurchaseOrderDocument) documentService.getNewDocument(PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT);
             poDocument.populatePurchaseOrderFromRequisition(reqDocument);
             // TODO set other default info
             // TODO set initiator of document as contract manager (is that right?)
@@ -138,6 +141,29 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         GlobalVariables.getUserSession().setWorkflowDocument(document.getDocumentHeader().getWorkflowDocument());
     }
     
+    public void updateFlagsAndRoute(PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients) {
+        String oldDocNum = po.getDocumentNumber();
+        //PO row that is set to curr_ind to Y, set the pend_action to Y
+        po.setPurchaseOrderCurrentIndicator(true);
+        po.setPendingActionIndicator(true);
+        save(po);
+        try {
+            //call toCopy to give us a new documentHeader
+            po.toCopy(docType);
+            po.refreshNonUpdateableReferences();
+            documentService.routeDocument(po, annotation, adhocRoutingRecipients);
+            //update old po flags
+            PurchaseOrderDocument oldPo = (PurchaseOrderDocument)documentService.getByDocumentHeaderId(oldDocNum);
+            oldPo.setPurchaseOrderCurrentIndicator(false);
+            oldPo.setPendingActionIndicator(false);
+            save(oldPo);
+        }
+        catch (WorkflowException e) {
+            LOG.error("Error creating PO document: " + e.getMessage());
+            throw new RuntimeException("Error setting oldPendingCurrentIndicator on PO document: " + e.getMessage());            
+        }
+    }
+    
     protected void checkForNulls(Document document) {
         if (document == null) {
             throw new IllegalArgumentException("invalid (null) document");
@@ -151,7 +177,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
 
         return new DocumentAuthorizationException(currentUser.getPersonUserIdentifier(), action, document.getDocumentNumber());
-    }
+    } 
     /**
      * @see org.kuali.module.purap.service.PurchaseOrderService#convertDocTypeToService()
      */
@@ -162,7 +188,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         if(StringUtils.isNotEmpty(docType)) {
             popp=(PurchaseOrderPostProcessorService)SpringServiceLocator.getBeanFactory().getBean(docType);
         }
-        
+    
         return popp;
     }
 }

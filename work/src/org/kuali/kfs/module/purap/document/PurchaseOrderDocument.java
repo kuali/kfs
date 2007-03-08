@@ -25,7 +25,11 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
+import org.kuali.PropertyConstants;
+import org.kuali.core.document.Copyable;
+import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.module.purap.PurapConstants;
@@ -40,10 +44,12 @@ import org.kuali.module.purap.bo.SourceDocumentReference;
 import org.kuali.module.purap.bo.VendorDetail;
 import org.kuali.module.purap.service.PurchaseOrderPostProcessorService;
 
+import edu.iu.uis.eden.exception.WorkflowException;
+
 /**
  * Purchase Order Document
  */
-public class PurchaseOrderDocument extends PurchasingDocumentBase {
+public class PurchaseOrderDocument extends PurchasingDocumentBase implements Copyable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderDocument.class);
 
     private Date purchaseOrderCreateDate;
@@ -188,7 +194,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         if (sourceDocumentReferences.size()>= 1){
             Integer sourceDocumentReferenceGeneratedId = sourceDocumentReferences.get(0).getSourceDocumentReferenceGeneratedIdentifier();
             sourceDocumentReference.setSourceDocumentReferenceGeneratedIdentifier(sourceDocumentReferences.get(0).getSourceDocumentReferenceGeneratedIdentifier());
-        }
+    }
         String documentTypeName = SpringServiceLocator.getDataDictionaryService().getDocumentTypeNameByClass(this.getClass());
         String documentTypeCode = SpringServiceLocator.getDataDictionaryService().getDocumentTypeCodeByTypeName(documentTypeName);
         sourceDocumentReference.setSourceFinancialDocumentTypeCode(documentTypeCode);
@@ -637,13 +643,12 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
             if (sourceDocumentReferences.size()>= 1){
                 Integer sourceDocumentReferenceGeneratedId = sourceDocumentReferences.get(0).getSourceDocumentReferenceGeneratedIdentifier();
                 sourceDocumentReference.setSourceDocumentReferenceGeneratedIdentifier(sourceDocumentReferences.get(0).getSourceDocumentReferenceGeneratedIdentifier());
-            }
+}
             String documentTypeName = SpringServiceLocator.getDataDictionaryService().getDocumentTypeNameByClass(this.getClass());
             String documentTypeCode = SpringServiceLocator.getDataDictionaryService().getDocumentTypeCodeByTypeName(documentTypeName);
             sourceDocumentReference.setSourceFinancialDocumentTypeCode(documentTypeCode);
            // sourceDocumentReference.setSourceFinancialDocumentTypeCode("PO");
             // This line is giving this error:
-            
             //javax.servlet.ServletException: OJB operation; SQL []; ORA-01400: cannot insert NULL into ("KULDEV"."PUR_SRC_DOC_REF_T"."SRC_DOC_OBJ_ID")
             // ; nested exception is java.sql.SQLException: ORA-01400: cannot insert NULL into ("KULDEV"."PUR_SRC_DOC_REF_T"."SRC_DOC_OBJ_ID")
             String objID = this.getObjectId();
@@ -653,6 +658,24 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
             //sourceDocumentReferences = new TypedArrayList(SourceDocumentReference.class);
             sourceDocumentReferences.add(sourceDocumentReference);
             this.setSourceDocumentReferences(sourceDocumentReferences);
+    }
+
+    public void toCopy(String docType) throws WorkflowException {
+        TransactionalDocument newDoc = (TransactionalDocument) SpringServiceLocator.getDocumentService().getNewDocument(docType);
+        newDoc.getDocumentHeader().setFinancialDocumentDescription(getDocumentHeader().getFinancialDocumentDescription());
+        newDoc.getDocumentHeader().setOrganizationDocumentNumber(getDocumentHeader().getOrganizationDocumentNumber());
+
+        try {
+            ObjectUtils.setObjectPropertyDeep(this, PropertyConstants.DOCUMENT_NUMBER, documentNumber.getClass(), newDoc.getDocumentNumber());
+        }
+        catch (Exception e) {
+            LOG.error("Unable to set document number property in copied document " + e.getMessage());
+            throw new RuntimeException("Unable to set document number property in copied document " + e.getMessage());
+        }
+        
+        // replace current documentHeader with new documentHeader
+        setDocumentHeader(newDoc.getDocumentHeader());
+        
     }        
             
 }

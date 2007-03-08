@@ -702,10 +702,12 @@
     	<foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
+    <!-- 
     <collection-descriptor name="statusHistories" element-class-ref="org.kuali.module.purap.bo.RequisitionStatusHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
         <orderby name="statusHistoryIdentifier" sort="ASC" />
         <inverse-foreignkey field-ref="purapDocumentIdentifier" />
     </collection-descriptor>
+    -->
     <collection-descriptor name="items" proxy="true" element-class-ref="org.kuali.module.purap.bo.RequisitionItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="itemLineNumber" sort="ASC" />
         <inverse-foreignkey field-ref="purapDocumentIdentifier" />
@@ -1032,12 +1034,13 @@
     <!-- reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterialStatusHistory" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderIdentifier" />
     </reference-descriptor -->
+    <!-- 
     <collection-descriptor name="sourceDocumentReferences" proxy="true" element-class-ref="org.kuali.module.purap.bo.SourceDocumentReference" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
         <orderby name="sourceDocumentReferenceGeneratedIdentifier" sort="ASC" />
         <orderby name="sourceDocumentIdentifier" sort="ASC" />
         <inverse-foreignkey field-ref="sourceDocumentIdentifier" />
     </collection-descriptor>
-    
+    -->
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.CreditMemo" table="AP_CRDT_MEMO_T">

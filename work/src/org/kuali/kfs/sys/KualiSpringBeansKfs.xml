@@ -16,12 +16,13 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>	
+<!-- moved to kns
 	<bean id="accountingLineDao" class="org.kuali.kfs.dao.ojb.AccountingLineDaoOjb">
 		<property name="jcdAlias">
 			<value>dataSource</value>
 		</property>
 	</bean>
-	
+	 -->
 	<bean id="homeOriginationDao" class="org.kuali.kfs.dao.ojb.HomeOriginationDaoOjb">
 		<property name="jcdAlias">
 			<value>dataSource</value>
@@ -51,13 +52,13 @@
 			<ref bean="kualiConfigurationService" />
 		</property>
 	</bean>
-	
+<!-- moved to kns becuase of dependencies
 	<bean id="accountingLineService" class="org.kuali.kfs.service.impl.AccountingLineServiceImpl">
 		<property name="accountingLineDao">
 			<ref bean="accountingLineDao" />
 		</property>
 	</bean>
-	
+	 -->	
 	<bean id="homeOriginationService" class="org.kuali.kfs.service.impl.HomeOriginationServiceImpl">
 		<property name="homeOriginationDao">
 			<ref bean="homeOriginationDao" />

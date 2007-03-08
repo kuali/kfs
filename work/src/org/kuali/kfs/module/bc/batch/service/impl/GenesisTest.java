@@ -61,7 +61,7 @@ public class GenesisTest {
      SpringServiceLocator.initializeDDGeneratorApplicationContext();
      configService = 
             SpringServiceLocator.getKualiConfigurationService();
-     genesisDao = (GenesisDao) SpringServiceLocator.getBeanFactory().getBean("genesisDao");
+     genesisDao = (GenesisDao) SpringServiceLocator.getInstance().getApplicationContext().getBean("genesisDao");
   //    
      genesisTestService = SpringServiceLocator.getGenesisService();
      dateMakerTestService = 

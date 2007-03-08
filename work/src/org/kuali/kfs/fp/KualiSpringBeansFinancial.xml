@@ -96,11 +96,18 @@
 		</property>
 	</bean>
 
+<!-- moved to kns
 	<bean id="checkService" class="org.kuali.module.financial.service.impl.CheckServiceImpl">
 		<property name="checkDao">
 			<ref bean="checkDao" />
 		</property>
 	</bean>
+		<bean id="checkDao" class="org.kuali.module.financial.dao.ojb.CheckDaoOjb">
+		<property name="jcdAlias">
+			<value>dataSource</value>
+		</property>
+	</bean>
+ -->
 
 	<bean id="cashDrawerService" class="org.kuali.module.financial.service.impl.CashDrawerServiceImpl">
 		<property name="businessObjectService">
@@ -256,11 +263,6 @@
 		</property>
 	</bean>
 
-	<bean id="checkDao" class="org.kuali.module.financial.dao.ojb.CheckDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
 
 	<bean id="cashDetailTypeCodeService" class="org.kuali.module.financial.service.impl.CashDetailTypeCodeServiceImpl">
 		<property name="kualiCodeService">

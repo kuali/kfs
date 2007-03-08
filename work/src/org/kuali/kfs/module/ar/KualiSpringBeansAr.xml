@@ -43,6 +43,5 @@
 		</property>
 	</bean>
 
-	<bean id="arUserService" class="org.kuali.module.ar.service.impl.ArUserServiceImpl" parent="kualiModuleUserServiceBase">
-	</bean>
+	<bean id="arUserService" class="org.kuali.module.ar.service.impl.ArUserServiceImpl"  parent="kualiModuleUserServiceBase" />
 </beans>

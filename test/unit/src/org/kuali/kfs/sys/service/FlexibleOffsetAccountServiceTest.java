@@ -16,7 +16,6 @@
 package org.kuali.module.financial.service;
 
 import static org.kuali.core.util.SpringServiceLocator.getFlexibleOffsetAccountService;
-import static org.kuali.core.util.SpringServiceLocator.restoreServicesIfMocked;
 import static org.kuali.test.MockServiceUtils.mockConfigurationServiceForFlexibleOffsetEnabled;
 import static org.kuali.test.fixtures.OffsetAccountFixture.OFFSET_ACCOUNT1;
 import static org.kuali.test.util.KualiTestAssertionUtils.assertSparselyEqualBean;
@@ -59,7 +58,6 @@ public class FlexibleOffsetAccountServiceTest extends KualiTestBase {
         assertSame(getFlexibleOffsetAccountService(), getFlexibleOffsetAccountService());
         mockConfigurationServiceForFlexibleOffsetEnabled(true);
         assertEquals(true, getFlexibleOffsetAccountService().getEnabled());
-        restoreServicesIfMocked();
         mockConfigurationServiceForFlexibleOffsetEnabled(false);
         assertEquals(false, getFlexibleOffsetAccountService().getEnabled());
     }

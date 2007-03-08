@@ -970,12 +970,6 @@
 		</property>
 	</bean>
 
-	<bean id="universityDateDao" class="org.kuali.module.gl.dao.ojb.UniversityDateDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
-
 	<bean id="glExpenditureTransactionDao" class="org.kuali.module.gl.dao.ojb.ExpenditureTransactionDaoOjb">
 		<property name="jcdAlias">
 			<value>dataSource</value>

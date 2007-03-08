@@ -39,7 +39,7 @@ import org.springframework.beans.factory.BeanFactory;
  */
 public class OJBUtility {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OJBUtility.class);
-    private static BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
+    private static BeanFactory beanFactory = SpringServiceLocator.getInstance().getApplicationContext();
 
     public static final String LOOKUP_DAO = "lookupDao";
 

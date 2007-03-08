@@ -255,10 +255,12 @@ public class LaborScrubberProcess {
         }
 
         // run the demerger
-        if (!reportOnlyMode) {
+        
+       //TODO: Check
+       /* if (!reportOnlyMode) {
             performDemerger(errorGroup, validGroup);
         }
-
+*/
         // Run the reports
         if ( reportOnlyMode ) {
             // Run transaction list
@@ -269,137 +271,6 @@ public class LaborScrubberProcess {
 
             reportService.generateScrubberRemovedTransactions(runDate, errorGroup);
         }
-    }
-
-    /**
-     * The demerger process reads all of the documents in the error group, then moves all of the original entries for that document
-     * from the valid group to the error group. It does not move generated entries to the error group. Those are deleted. It also
-     * modifies the doc number and origin code of cost share transfers.
-     * 
-     * @param errorGroup
-     * @param validGroup
-     */
-    private void performDemerger(OriginEntryGroup errorGroup, OriginEntryGroup validGroup) {
-        LOG.debug("performDemerger() started");
-
-        // Without this step, the job fails with Optimistic Lock Exceptions
-        persistenceService.getPersistenceBroker().clearCache();
-
-        DemergerReportData demergerReport = new DemergerReportData();
-
-        OriginEntryStatistics eOes = laborOriginEntryService.getStatistics(errorGroup.getId());
-        demergerReport.setErrorTransactionsRead(eOes.getRowCount());
-
-        // Read all the documents from the error group and move all non-generated
-        // transactions for these documents from the valid group into the error group
-        Collection<LaborOriginEntry> errorDocuments = laborOriginEntryService.getDocumentsByGroup(errorGroup);
-        Iterator<LaborOriginEntry> i = errorDocuments.iterator();
-        while (i.hasNext()) {
-            LaborOriginEntry document = i.next();
-
-            // Get all the transactions for the document in the valid group
-            Integer lastId = -1;
-            Iterator<LaborOriginEntry> transactions = laborOriginEntryService.getEntriesByDocument(validGroup, document.getDocumentNumber(), document.getFinancialDocumentTypeCode(), document.getFinancialSystemOriginationCode());
-
-            while (transactions.hasNext()) {
-                LaborOriginEntry transaction = transactions.next();
-
-                String transactionType = getTransactionType(transaction);
-
-                if ("CE".equals(transactionType)) {
-                    demergerReport.incrementCostShareEncumbranceTransactionsBypassed();
-                    laborOriginEntryService.delete(transaction);
-                }
-                else if ("O".equals(transactionType)) {
-                    demergerReport.incrementOffsetTransactionsBypassed();
-                    laborOriginEntryService.delete(transaction);
-                }
-                else if ("C".equals(transactionType)) {
-                    demergerReport.incrementCapitalizationTransactionsBypassed();
-                    laborOriginEntryService.delete(transaction);
-                }
-                else if ("L".equals(transactionType)) {
-                    demergerReport.incrementLiabilityTransactionsBypassed();
-                    laborOriginEntryService.delete(transaction);
-                }
-                else if ("T".equals(transactionType)) {
-                    demergerReport.incrementTransferTransactionsBypassed();
-                    laborOriginEntryService.delete(transaction);
-                }
-                else if ("CS".equals(transactionType)) {
-                    demergerReport.incrementCostShareTransactionsBypassed();
-                    laborOriginEntryService.delete(transaction);
-                }
-                else {
-                    demergerReport.incrementErrorTransactionsSaved();
-                    transaction.setGroup(errorGroup);
-                    laborOriginEntryService.save(transaction);
-                }
-            }
-        }
-
-        // Read all the transactions in the error group and delete the generated ones
-        Iterator<LaborOriginEntry> ie = laborOriginEntryService.getEntriesByGroup(errorGroup);
-        while (ie.hasNext()) {
-            LaborOriginEntry transaction = ie.next();
-
-            String transactionType = getTransactionType(transaction);
-
-            if ("CE".equals(transactionType)) {
-                demergerReport.incrementCostShareEncumbranceTransactionsBypassed();
-                laborOriginEntryService.delete(transaction);
-            }
-            else if ("O".equals(transactionType)) {
-                demergerReport.incrementOffsetTransactionsBypassed();
-                laborOriginEntryService.delete(transaction);
-            }
-            else if ("C".equals(transactionType)) {
-                demergerReport.incrementCapitalizationTransactionsBypassed();
-                laborOriginEntryService.delete(transaction);
-            }
-            else if ("L".equals(transactionType)) {
-                demergerReport.incrementLiabilityTransactionsBypassed();
-                laborOriginEntryService.delete(transaction);
-            }
-            else if ("T".equals(transactionType)) {
-                demergerReport.incrementTransferTransactionsBypassed();
-                laborOriginEntryService.delete(transaction);
-            }
-            else if ("CS".equals(transactionType)) {
-                demergerReport.incrementCostShareTransactionsBypassed();
-                laborOriginEntryService.delete(transaction);
-            }
-        }
-
-        // Read all the transactions in the valid group and update the cost share transactions
-        Iterator<LaborOriginEntry> it = laborOriginEntryService.getEntriesByGroup(validGroup);
-        while (it.hasNext()) {
-            LaborOriginEntry transaction = it.next();
-            demergerReport.incrementValidTransactionsSaved();
-
-            String transactionType = getTransactionType(transaction);
-            if ("CS".equals(transactionType)) {
-                transaction.setFinancialDocumentTypeCode(Constants.TRANSFER_FUNDS);
-                transaction.setFinancialSystemOriginationCode(Constants.COST_SHARE);
-                StringBuffer docNbr = new StringBuffer("CSHR");
-
-                String desc = transaction.getTransactionLedgerEntryDescription();
-
-                docNbr.append(desc.substring(36, 38));
-                docNbr.append("/");
-                docNbr.append(desc.substring(38, 40));
-                transaction.setDocumentNumber(docNbr.toString());
-
-                transaction.setTransactionLedgerEntryDescription(desc.substring(0, 33));
-
-                laborOriginEntryService.save(transaction);
-            }
-        }
-
-        eOes = laborOriginEntryService.getStatistics(errorGroup.getId());
-        demergerReport.setErrorTransactionWritten(eOes.getRowCount());
-
-        reportService.generateScrubberDemergerStatisticsReports(runDate, demergerReport);
     }
 
     /**

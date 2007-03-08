@@ -73,21 +73,30 @@
                 <shortLabel>ID</shortLabel>
                 <required>true</required>
                 <summary>Universal ID</summary>
-                <description>Universal ID</description>
+                <description>
+					This field corresponds to the individual’s Universal ID.  This 
+					is a unique 9-digit number assigned to each individual who has 
+					a role at the university or is in a university system.
+				</description>
             </attributeReference>
 
             <attributeReference name="universalUser.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
                 <label>User ID</label>
                 <shortLabel>User ID</shortLabel>
                 <summary>User ID</summary>
-                <description>User ID</description>
+                <description>
+					This field lists the individual’s network ID.  This is typically an 
+					alphanumeric field up to 8 characters.
+				</description>
             </attributeReference>
 
             <attributeReference name="universalUser.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
                 <label>Project Director Name</label>
-                <shortLabel>Project Director Name</shortLabel>
+                <shortLabel>Proj Dir Name</shortLabel>
                 <summary>Project Director Name</summary>
-                <description>Project Director Name</description>
+                <description>
+					This is the full name of the Project Director.  The field is in LAST,FIRST MIDDLE format.
+				</description>
             </attributeReference>
 
 			<attributeReference name="universalUser.campusCode" sourceClassName="org.kuali.core.bo.Campus" sourceAttributeName="campusCode">
@@ -97,21 +106,23 @@
                 <label>Dept ID</label>
                 <shortLabel>Dept ID</shortLabel>
                 <summary>Dept ID</summary>
-                <description>Dept ID</description>
+                <description>
+                	This is the home organization of the individual as listed in the HRMS system.
+                </description>
             </attributeReference>
 
             <attributeReference name="universalUser.employeeStatusCode" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="employeeStatusCode">
                 <label>Employee Status</label>
-                <shortLabel>Employee Status</shortLabel>
+                <shortLabel>Empl Status</shortLabel>
                 <summary>Employee Status</summary>
-                <description>Employee Status</description>
+                <description>No description available at this time.</description>
             </attributeReference>
 
             <attributeReference name="universalUser.employeeTypeCode" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="employeeTypeCode">
                 <label>Employee Type</label>
-                <shortLabel>Employee Type</shortLabel>
+                <shortLabel>Empl Type</shortLabel>
                 <summary>Employee Type</summary>
-                <description>Employee Type</description>
+                <description>No description available at this time.</description>
             </attributeReference>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

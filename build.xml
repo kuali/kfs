@@ -275,6 +275,11 @@
 			<fileset dir="${build.tokenized.resources.directory}" includes="${tokenized.source.files}" />
 			<filterset refid="general.filterset" />
 		</copy>
+		<!-- hack to handle need to use tokenized settings in work/src/org/kuali/core/SpringBeans.xml -->
+		<copy file="${source.directory}/org/kuali/core/SpringBeans.xml" 
+			todir="${classes.directory}/org/kuali/core" overwrite="true">
+			<filterset refid="general.filterset" />
+		</copy>
 	</target>
 
 	<target name="filter-local" if="is.local.build" depends="init-filter-sets">

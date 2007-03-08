@@ -15,6 +15,9 @@
  */
 package org.kuali.module.labor.web.struts.form;
 
+import java.util.Map;
+
+import org.kuali.PropertyConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.module.labor.document.BenefitExpenseTransferDocument;
 
@@ -44,4 +47,15 @@ public class BenefitExpenseTransferForm extends LaborDocumentFormBase {
     public BenefitExpenseTransferDocument getBenefitExpenseTransferDocument() {
         return (BenefitExpenseTransferDocument) getDocument();
     }    
+    
+    /**
+     * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#getForcedReadOnlyFields()
+     */
+    @Override
+    public Map getForcedReadOnlyFields() {
+        Map map = super.getForcedReadOnlyFields(); 
+       map.put("financialObjectCode", Boolean.TRUE);
+       map.put("financialSubObjectCode", Boolean.TRUE);
+        return map;
+    }
 }

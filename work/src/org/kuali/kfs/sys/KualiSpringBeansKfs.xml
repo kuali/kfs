@@ -93,4 +93,13 @@
 		</property>
 	</bean>
 
+	<!-- KFS is not a module, so it needs to just use this initailizing bean to get it's OJB metadata loaded -->
+	<bean class="org.kuali.rice.OjbMetadataLoader">
+		<property name="repositoryDescriptors">
+			<list>
+				<value>classpath:org/kuali/kfs/OJB-repository-kfs.xml</value>
+			</list>
+		</property>
+	</bean>
+
 </beans>

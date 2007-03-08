@@ -41,6 +41,15 @@
 				<value>org.kuali.module.labor.datadictionary</value>
 			</list>
 		</property>
+		<property name="ojbMetadataLoader">
+			<bean class="org.kuali.rice.OjbMetadataLoader">
+				<property name="repositoryDescriptors">
+					<list>
+						<value>classpath:org/kuali/module/labor/OJB-repository-labor.xml</value>
+					</list>
+				</property>
+			</bean>
+		</property>
 	</bean>
 
 	<bean id="laborLedgerPendingEntryDao" class="org.kuali.module.labor.dao.ojb.LaborLedgerPendingEntryDaoOjb">

@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-
+<descriptor-repository version="1.0">
 <!-- 
 <class-descriptor class="org.kuali.module.chart.bo.codes.BudgetAggregationCode" table="FS_CODES_DESC_T">
     <field-descriptor name="code" column="CODE" jdbc-type="VARCHAR" primarykey="true" />
@@ -1817,3 +1817,4 @@
 	<field-descriptor name="subFundGroupTypeDescription" column="SUB_FND_GRP_TYP_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="subFundGroupTypeActiveIndicator" column="SUB_FND_GRP_TYP_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
+</descriptor-repository>

@@ -13,6 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
+<descriptor-repository version="1.0">
 <class-descriptor class="org.kuali.module.kra.budget.bo.NonpersonnelCategory" table="ER_NPRS_CTGRY_CD_T">
     <field-descriptor name="code" column="BDGT_NPRS_CTGRY_CD" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
@@ -1172,3 +1173,4 @@
 		<foreignkey field-ref="submissionTypeCode" />
 	</reference-descriptor>
 </class-descriptor>
+</descriptor-repository>

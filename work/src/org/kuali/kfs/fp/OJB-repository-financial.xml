@@ -13,6 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
+<descriptor-repository version="1.0">
 <!--  INTERNAL BILLING DOCUMENT MAPPINGS -->
 <class-descriptor class="org.kuali.module.financial.document.InternalBillingDocument" table="FP_INT_BILL_DOC_T">
     <!--  common transactional document base attributes -->
@@ -2271,3 +2272,4 @@
     <field-descriptor name="financialDocumentOtherCentAmount" column="FDOC_OTHR_CENT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="financialDocumentHundredCentAmount" column="FDOC_100_CENT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
 </class-descriptor>
+</descriptor-repository>

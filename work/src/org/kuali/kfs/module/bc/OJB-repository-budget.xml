@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-
+<descriptor-repository version="1.0">
 <class-descriptor class="org.kuali.module.budget.document.BudgetConstructionDocument" table="LD_BCNSTR_HDR_T">
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true"/>
@@ -2701,3 +2701,4 @@
         <foreignkey field-ref="hrmsCompany" />
     </reference-descriptor>
 </class-descriptor>
+</descriptor-repository>

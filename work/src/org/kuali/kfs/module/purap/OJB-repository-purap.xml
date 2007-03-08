@@ -13,6 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
+<descriptor-repository version="1.0">
 <!--  Start Vendor tables  -->
 <class-descriptor class="org.kuali.module.purap.bo.VendorHeader" table="PUR_VNDR_HDR_T">
 	<field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="VNDR_HDR_GNRTD_ID"/>
@@ -2043,3 +2044,4 @@
 		<foreignkey field-ref="sourceDocumentIdentifier"  />
 	</reference-descriptor>
 </class-descriptor>
+</descriptor-repository>

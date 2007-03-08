@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-
+<descriptor-repository version="1.0">
 <class-descriptor class="org.kuali.kfs.bo.Building" table="SH_BUILDING_T">
     <field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="buildingCode" column="BLDG_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
@@ -500,3 +500,4 @@
     </reference-descriptor>
 	
 </class-descriptor>
+</descriptor-repository>

@@ -41,6 +41,15 @@
 				<value>org.kuali.module.gl.datadictionary</value>
 			</list>
 		</property>
+		<property name="ojbMetadataLoader">
+			<bean class="org.kuali.rice.OjbMetadataLoader">
+				<property name="repositoryDescriptors">
+					<list>
+						<value>classpath:org/kuali/module/gl/OJB-repository-gl.xml</value>
+					</list>
+				</property>
+			</bean>
+		</property>
 	</bean>
 
 	<bean id="glUserService" class="org.kuali.module.gl.service.impl.GlUserServiceImpl" parent="kualiModuleUserServiceBase">

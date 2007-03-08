@@ -41,6 +41,15 @@
 				<value>org.kuali.module.ar.datadictionary</value>
 			</list>
 		</property>
+		<property name="ojbMetadataLoader">
+			<bean class="org.kuali.rice.OjbMetadataLoader">
+				<property name="repositoryDescriptors">
+					<list>
+						<value>classpath:org/kuali/module/ar/OJB-repository-ar.xml</value>
+					</list>
+				</property>
+			</bean>
+		</property>
 	</bean>
 
 	<bean id="arUserService" class="org.kuali.module.ar.service.impl.ArUserServiceImpl"  parent="kualiModuleUserServiceBase" />

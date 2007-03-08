@@ -13,6 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
+<descriptor-repository version="1.0">
 <class-descriptor class="org.kuali.module.labor.bo.PositionObjectBenefit" table="LD_LBR_OBJ_BENE_T">
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
@@ -1638,3 +1639,4 @@
         <foreignkey field-ref="entryGroupId" />
     </reference-descriptor>
 </class-descriptor>
+</descriptor-repository>

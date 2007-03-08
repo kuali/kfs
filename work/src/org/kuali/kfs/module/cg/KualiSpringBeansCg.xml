@@ -41,6 +41,15 @@
 				<value>org.kuali.module.cg.datadictionary</value>
 			</list>
 		</property>
+		<property name="ojbMetadataLoader">
+			<bean class="org.kuali.rice.OjbMetadataLoader">
+				<property name="repositoryDescriptors">
+					<list>
+						<value>classpath:org/kuali/module/cg/OJB-repository-cg.xml</value>
+					</list>
+				</property>
+			</bean>
+		</property>
 	</bean>
 
 	<bean id="cgUserService" class="org.kuali.module.cg.service.impl.CgUserServiceImpl" parent="kualiModuleUserServiceBase">

@@ -13,6 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
+<descriptor-repository version="1.0">
 <class-descriptor class="org.kuali.module.gl.bo.OriginEntry" table="GL_ORIGIN_ENTRY_T">
     <field-descriptor name="entryId" column="ORIGIN_ENTRY_ID" jdbc-type="INTEGER" primarykey="true" autoincrement="true" sequence-name="GL_ORIGIN_ENTRY_T_SEQ" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
@@ -832,3 +833,4 @@
     <field-descriptor name="pendingActual" column="PEND_ACTUAL" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
     <field-descriptor name="pendingEncumbrance" column="PEND_ENCUM" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
 </class-descriptor>
+</descriptor-repository>

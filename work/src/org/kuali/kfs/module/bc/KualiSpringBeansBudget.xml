@@ -41,6 +41,15 @@
 				<value>org.kuali.module.budget.datadictionary</value>
 			</list>
 		</property>
+		<property name="ojbMetadataLoader">
+			<bean class="org.kuali.rice.OjbMetadataLoader">
+				<property name="repositoryDescriptors">
+					<list>
+						<value>classpath:org/kuali/module/budget/OJB-repository-budget.xml</value>
+					</list>
+				</property>
+			</bean>
+		</property>
 	</bean>
 
 	<bean id="budgetUserService" class="org.kuali.module.budget.service.impl.BudgetUserServiceImpl" parent="kualiModuleUserServiceBase">

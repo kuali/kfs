@@ -41,6 +41,15 @@
 				<value>org.kuali.module.purap.datadictionary</value>
 			</list>
 		</property>
+		<property name="ojbMetadataLoader">
+			<bean class="org.kuali.rice.OjbMetadataLoader">
+				<property name="repositoryDescriptors">
+					<list>
+						<value>classpath:org/kuali/module/purap/OJB-repository-purap.xml</value>
+					</list>
+				</property>
+			</bean>
+		</property>
 	</bean>
 
 	<bean id="purapUserService" class="org.kuali.module.purap.service.impl.PurapUserServiceImpl" parent="kualiModuleUserServiceBase">

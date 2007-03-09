@@ -423,6 +423,7 @@
     <field-descriptor name="subcontractorContactFirstName" column="SUBCNR_CNTCT_F_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="subcontractorContactLastName" column="SUBCNR_CNTCT_L_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="subcontractorAuditHistoryText" column="SUBCN_AUDTHIST_TXT" jdbc-type="VARCHAR" />
+    <field-descriptor name="awardSubcontractorDescription" column="CGAWD_SUBCN_DESC" jdbc-type="VARCHAR" />
     <reference-descriptor name="subcontractor" class-ref="org.kuali.module.cg.bo.Subcontractor" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="subcontractorNumber" />
     </reference-descriptor>

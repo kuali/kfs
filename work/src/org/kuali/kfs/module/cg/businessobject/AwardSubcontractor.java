@@ -34,7 +34,8 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase {
     private String subcontractorContactFirstName;
     private String subcontractorContactLastName;
     private String subcontractorAuditHistoryText;
-
+    private String awardSubcontractorDescription;
+    
     private Subcontractor subcontractor;
 
     /**
@@ -211,6 +212,22 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase {
         this.subcontractorAuditHistoryText = subcontractorAuditHistoryText;
     }
 
+    /**
+     * Gets the awardSubcontractorDescription attribute. 
+     * @return Returns the awardSubcontractorDescription.
+     */
+    public String getAwardSubcontractorDescription() {
+        return awardSubcontractorDescription;
+    }
+
+    /**
+     * Sets the awardSubcontractorDescription attribute value.
+     * @param awardSubcontractorDescription The awardSubcontractorDescription to set.
+     */
+    public void setAwardSubcontractorDescription(String awardSubcontractorDescription) {
+        this.awardSubcontractorDescription = awardSubcontractorDescription;
+    }    
+    
     /**
      * @return Returns the subcontractor.
      */

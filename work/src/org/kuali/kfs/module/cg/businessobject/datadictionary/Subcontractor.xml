@@ -132,7 +132,9 @@
                 </control>
 
                 <summary>Subcontractor Address Line 1</summary>
-                <description>Subcontractor Address Line 1</description>
+                <description>
+					This is the street address or PO Box number for correspondence submitted to the agency.
+				</description>
             </attribute>
 
             <attribute name="subcontractorAddressLine2" forceUppercase="false">
@@ -150,7 +152,9 @@
                 </control>
 
                 <summary>Subcontractor Address Line 2</summary>
-                <description>Subcontractor Address Line 2</description>
+                <description>
+					This is an additional optional address line for the street address or PO Box number associated with the agency.
+				</description>
             </attribute>
 
             <attribute name="subcontractorCity" forceUppercase="false">

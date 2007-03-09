@@ -56,9 +56,9 @@ public class RequisitionForm extends PurchasingFormBase {
      */
     public KeyLabelPair getAdditionalDocInfo1() {
         if (ObjectUtils.isNotNull(this.getRequisitionDocument().getPurapDocumentIdentifier())) {
-            return new KeyLabelPair("DataDictionary.KualiRequisitionDocument.attributes.identifier", ((RequisitionDocument)this.getDocument()).getPurapDocumentIdentifier().toString());
+            return new KeyLabelPair("DataDictionary.KualiRequisitionDocument.attributes.purapDocumentIdentifier", ((RequisitionDocument)this.getDocument()).getPurapDocumentIdentifier().toString());
         } else {
-            return new KeyLabelPair("DataDictionary.KualiRequisitionDocument.attributes.identifier", "Not Available");
+            return new KeyLabelPair("DataDictionary.KualiRequisitionDocument.attributes.purapDocumentIdentifier", "Not Available");
         }
     }
 

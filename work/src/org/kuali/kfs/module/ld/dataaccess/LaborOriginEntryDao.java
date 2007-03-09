@@ -45,6 +45,13 @@ public interface LaborOriginEntryDao extends OriginEntryDao{
      * @return the origin entries that belong to the given group in either the consolidation manner
      */
     Iterator<Object[]> getConsolidatedEntriesByGroup(OriginEntryGroup group);
+
+    /**
+     * get the count of the origin entry collection in the given groups 
+     * @param groups the given groups
+     * @return the count of the origin entry collection in the given group
+     */
+    int getCountOfEntriesInGroups(Collection<OriginEntryGroup> groups);
     
     Collection<LaborOriginEntry> testingLaborGetAllEntries(); 
     

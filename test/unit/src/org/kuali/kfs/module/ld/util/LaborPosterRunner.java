@@ -28,7 +28,7 @@ public class LaborPosterRunner {
     private LaborPosterService laborPosterService;
 
     public LaborPosterRunner() {
-        SpringServiceLocator.initializeDDGeneratorApplicationContext();
+        SpringServiceLocator.initializeApplicationContext();
         laborPosterService = (LaborPosterService) SpringServiceLocator.getBeanFactory().getBean("laborPosterService");
     }
 

@@ -25,7 +25,6 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.PropertyConstants;
-import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.OriginEntryDao;
 import org.kuali.module.gl.dao.ojb.OriginEntryDaoOjb;
@@ -39,16 +38,16 @@ import org.kuali.module.labor.dao.LaborOriginEntryDao;
  */
 public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOriginEntryDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborOriginEntryDaoOjb.class);
-    
+
     /**
      * @see org.kuali.module.labor.dao.LaborOriginEntryDao#getEntriesByGroup(org.kuali.module.gl.bo.OriginEntryGroup)
      */
     public Iterator<LaborOriginEntry> getEntriesByGroup(OriginEntryGroup group) {
         LOG.debug("getEntriesByGroup() started");
-
+        
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PropertyConstants.ENTRY_GROUP_ID, group.getId());
-
+        
         QueryByCriteria query = QueryFactory.newQuery(this.getEntryClass(), criteria);
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
     }
@@ -58,10 +57,10 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
      */
     public Iterator<LaborOriginEntry> getEntriesByGroups(Collection<OriginEntryGroup> groups) {
         LOG.debug("getEntriesByGroups() started");
-        
+
         // extract the group ids of the given groups
         List<Integer> groupIds = new ArrayList<Integer>();
-        for(OriginEntryGroup group : groups){
+        for (OriginEntryGroup group : groups) {
             groupIds.add(group.getId());
         }
 
@@ -70,6 +69,27 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
 
         QueryByCriteria query = QueryFactory.newQuery(this.getEntryClass(), criteria);
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
+    }
+
+    /**
+     * @see org.kuali.module.labor.dao.LaborOriginEntryDao#getCountOfEntriesInGroups(java.util.Collection)
+     */
+    public int getCountOfEntriesInGroups(Collection<OriginEntryGroup> groups) {
+        LOG.debug("getCountOfEntriesInGroups() started");
+        
+        if(groups.size()==0) return 0;
+
+        // extract the group ids of the given groups
+        List<Integer> groupIds = new ArrayList<Integer>();
+        for (OriginEntryGroup group : groups) {
+            groupIds.add(group.getId());
+        }
+
+        Criteria criteria = new Criteria();
+        criteria.addIn(PropertyConstants.ENTRY_GROUP_ID, groupIds);
+
+        QueryByCriteria query = QueryFactory.newQuery(this.getEntryClass(), criteria);
+        return getPersistenceBrokerTemplate().getCount(query);
     }
 
     /**
@@ -102,7 +122,7 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
 
     private List<String> buildConsolidationAttributeList() {
         List<String> attributeList = this.buildGroupByList();
-        attributeList.add("sum(" + PropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")");        
+        attributeList.add("sum(" + PropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")");
         return attributeList;
     }
 
@@ -111,7 +131,7 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
         groupByList.remove(PropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT);
         return groupByList;
     }
-    
+
     public Collection<LaborOriginEntry> testingLaborGetAllEntries() {
         LOG.debug("testingGetAllEntries() started");
 
@@ -120,7 +140,7 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
         qbc.addOrderByAscending("entryGroupId");
         return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
-    
+
     public Iterator<LaborOriginEntry> getLaborEntriesByGroup(OriginEntryGroup oeg, int sort) {
         LOG.debug("getEntriesByGroup() started");
 
@@ -154,15 +174,17 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
             qbc.addOrderByAscending(PropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC);
             qbc.addOrderByAscending(PropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT);
             qbc.addOrderByAscending(PropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE);
-        } else if (sort == OriginEntryDao.SORT_REPORT ) {
+        }
+        else if (sort == OriginEntryDao.SORT_REPORT) {
             qbc.addOrderByAscending(PropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
             qbc.addOrderByAscending(PropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE);
             qbc.addOrderByAscending(PropertyConstants.DOCUMENT_NUMBER);
-            qbc.addOrderByAscending(PropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE);            
+            qbc.addOrderByAscending(PropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE);
             qbc.addOrderByAscending(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
             qbc.addOrderByAscending(PropertyConstants.ACCOUNT_NUMBER);
             qbc.addOrderByAscending(PropertyConstants.FINANCIAL_OBJECT_CODE);
-        } else if(sort == OriginEntryDao.SORT_LISTING_REPORT ) {
+        }
+        else if (sort == OriginEntryDao.SORT_LISTING_REPORT) {
             qbc.addOrderByAscending(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
             qbc.addOrderByAscending(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
             qbc.addOrderByAscending(PropertyConstants.ACCOUNT_NUMBER);
@@ -173,7 +195,7 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
             qbc.addOrderByAscending(PropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
             qbc.addOrderByAscending(PropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE);
             qbc.addOrderByAscending(PropertyConstants.DOCUMENT_NUMBER);
-            qbc.addOrderByAscending(PropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC);            
+            qbc.addOrderByAscending(PropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC);
         }
         else {
             qbc.addOrderByAscending(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
@@ -189,5 +211,5 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
         }
 
         return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
-    }  
+    }
 }

@@ -191,4 +191,11 @@ public interface LaborOriginEntryService {
      * @return a map of summarized information of poster input entries within the specified groups
      */    
     public Map<String,PosterOutputSummaryEntry> getPosterOutputSummaryByGroups(Collection<OriginEntryGroup> groups);
+    
+    /**
+     * get the count of the origin entry collection in the given groups 
+     * @param groups the given groups
+     * @return the count of the origin entry collection in the given group
+     */
+    public int getCountOfEntriesInGroups(Collection<OriginEntryGroup> groups);
 }

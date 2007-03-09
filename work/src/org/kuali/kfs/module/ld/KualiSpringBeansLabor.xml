@@ -247,4 +247,11 @@
     </bean>
 
     <bean id="laborPosterTransactionValidator" class="org.kuali.module.labor.batch.poster.impl.LaborPosterTransactionValidator"/>
+    
+	<bean id="laborPosterStep"
+		class="org.kuali.module.labor.batch.LaborPosterStep">
+		<property name="laborPosterService">
+			<ref bean="laborPosterService" />
+		</property>
+	</bean>    
 </beans>

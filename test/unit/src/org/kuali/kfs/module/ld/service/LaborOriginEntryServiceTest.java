@@ -167,6 +167,25 @@ public class LaborOriginEntryServiceTest extends KualiTestBase {
         outputSummary = laborOriginEntryService.getPosterOutputSummaryByGroups(groups);
         assertEquals(expectedNumber, outputSummary.size());
     }
+    
+    public void testGetCountOfEntriesInGroups() throws Exception {
+        int numberOfTestData = Integer.valueOf(properties.getProperty("getCountOfEntriesInGroups.numOfData"));
+        int expectedNumber = Integer.valueOf(properties.getProperty("getCountOfEntriesInGroups.expectedNumOfData"));
+
+        List<OriginEntryGroup> groups = new ArrayList<OriginEntryGroup>();
+        int count = laborOriginEntryService.getCountOfEntriesInGroups(groups);
+        assertEquals(0, count);
+
+        groups.add(group1);
+        businessObjectService.save(getInputDataList("getCountOfEntriesInGroups.testData", numberOfTestData, group1));
+        count = laborOriginEntryService.getCountOfEntriesInGroups(groups);
+        assertEquals(expectedNumber, count);
+
+        groups.add(group2);
+        businessObjectService.save(getInputDataList("getCountOfEntriesInGroups.testData", numberOfTestData, group2));
+        count = laborOriginEntryService.getCountOfEntriesInGroups(groups);
+        assertEquals(expectedNumber * 2, count);
+    }
 
     private List getInputDataList(String propertyKeyPrefix, int numberOfInputData, OriginEntryGroup group) {
         List inputDataList = new ArrayList();

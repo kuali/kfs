@@ -333,14 +333,15 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
         }
         return this.getConsolidatedEntryCollectionByGroup(group).iterator();
     }
-    
+
     /**
-     * @see org.kuali.module.labor.service.LaborOriginEntryService#getConsolidatedEntryCollectionByGroup(org.kuali.module.gl.bo.OriginEntryGroup, boolean)
+     * @see org.kuali.module.labor.service.LaborOriginEntryService#getConsolidatedEntryCollectionByGroup(org.kuali.module.gl.bo.OriginEntryGroup,
+     *      boolean)
      */
     public Collection<LaborOriginEntry> getConsolidatedEntryCollectionByGroup(OriginEntryGroup group) {
         Collection<LaborOriginEntry> entryCollection = new ArrayList<LaborOriginEntry>();
         LaborLedgerUnitOfWork laborLedgerUnitOfWork = new LaborLedgerUnitOfWork();
-        
+
         int count = 0;
         Iterator<Object[]> consolidatedEntries = laborOriginEntryDao.getConsolidatedEntriesByGroup(group);
         while (consolidatedEntries.hasNext()) {
@@ -397,6 +398,13 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
             }
         }
         return outputSummary;
+    }
+
+    /**
+     * @see org.kuali.module.labor.service.LaborOriginEntryService#getSizeOfEntriesInGroups(java.util.Collection)
+     */
+    public int getCountOfEntriesInGroups(Collection<OriginEntryGroup> groups) {
+        return laborOriginEntryDao.getCountOfEntriesInGroups(groups);
     }
 
     /**

@@ -54,8 +54,10 @@ public class BenefitExpenseTransferForm extends LaborDocumentFormBase {
     @Override
     public Map getForcedReadOnlyFields() {
         Map map = super.getForcedReadOnlyFields(); 
-       map.put("financialObjectCode", Boolean.TRUE);
-       map.put("financialSubObjectCode", Boolean.TRUE);
+     //  map.put("financialObjectCode", Boolean.TRUE);
+    //   map.put("financialSubObjectCode", Boolean.TRUE);
+    //  map.put("positionNumber", Boolean.TRUE);
+       
         return map;
     }
 }

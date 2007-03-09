@@ -63,7 +63,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
      * The document must have at least one “FROM” segment and one “TO” segment.
   ** * The total amount on the “FROM” side must equal the total amount on the “TO” side.
   ** * Transfers cannot be made between two different fringe benefit labor object codes. 
-     * Only the “Account” and “Amount” fields may be edited in the “TO” zone.
+  ?? * Only the “Account” and “Amount” fields may be edited in the “TO” zone.
    ! * The Justification field is required and should include as much pertinent detail as possible.
      * The Fiscal Year field on this eDoc is used differently as compared to other TP documents. In the Benefit Transfer document, this field is used to load the appropriate data onto the Labor Ledger Balance screen.
      * Pending Ledger Entries are created immediately as part of the routing process. In addition to creating pending entries with a balance type of “AC” the Benefit Transfer document requires that a pending entry be created with a balance type of “A2”.

@@ -701,15 +701,15 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
             projectDirector = new BudgetUser();
             if (!budget.isProjectDirectorToBeNamedIndicator()) {
                 // PD is a real person (not TBN)
-                projectDirector.setPersonSystemIdentifier(budget.getBudgetProjectDirectorSystemId());
+                projectDirector.setPersonUniversalIdentifier(budget.getBudgetProjectDirectorUniversalIdentifier());
                 projectDirector.refresh();
             }
             budgetDocument.addPersonnel(projectDirector);
         }
         else {
             // PD does exist in Personnel List already
-            String paramsPdUid = budget.getBudgetProjectDirectorSystemId() != null ? budget.getBudgetProjectDirectorSystemId() : "";
-            String personnelSysId = projectDirector.getPersonSystemIdentifier() != null ? projectDirector.getPersonSystemIdentifier() : "";
+            String paramsPdUid = budget.getBudgetProjectDirectorUniversalIdentifier() != null ? budget.getBudgetProjectDirectorUniversalIdentifier() : "";
+            String personnelSysId = projectDirector.getPersonUniversalIdentifier() != null ? projectDirector.getPersonUniversalIdentifier() : "";
             if (!(budget.isProjectDirectorToBeNamedIndicator() && StringUtils.isEmpty(personnelSysId)) && !paramsPdUid.equals(personnelSysId)) {
                 // PD from params is not the same as the PD from the Personnel List
 
@@ -722,7 +722,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
                     // PD from Params is not TBN
                     for (Iterator i = budget.getPersonnel().iterator(); i.hasNext() && !projectDirectorFound;) {
                         BudgetUser budgetUser = (BudgetUser) i.next();
-                        if (budgetUser.getPersonSystemIdentifier() != null && budgetUser.getPersonSystemIdentifier().equals(paramsPdUid)) {
+                        if (budgetUser.getPersonUniversalIdentifier() != null && budgetUser.getPersonUniversalIdentifier().equals(paramsPdUid)) {
                             projectDirector = budgetUser;
                             projectDirectorFound = true;
                         }
@@ -731,7 +731,7 @@ public class BudgetPersonnelServiceImpl implements BudgetPersonnelService {
                     if (!projectDirectorFound) {
                         // PD from params was not found in the existing Personnel list; need to create a new personnel entry
                         projectDirector = new BudgetUser();
-                        projectDirector.setPersonSystemIdentifier(paramsPdUid);
+                        projectDirector.setPersonUniversalIdentifier(paramsPdUid);
                         projectDirector.refresh();
                         budgetDocument.addPersonnel(projectDirector);
                     }

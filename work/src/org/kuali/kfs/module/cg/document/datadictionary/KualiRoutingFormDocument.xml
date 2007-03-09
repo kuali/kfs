@@ -317,8 +317,8 @@
                 <description>routingFormLastUpdateDate description...</description>
       </attribute>
 
-            <attribute name="routingFormLastUpdateSystemIdentifier" forceUppercase="true">
-                <label>Routing Form Last Update System Identifier</label>
+            <attribute name="routingFormLastUpdateUniversalIdentifier" forceUppercase="true">
+                <label>Routing Form Last Update Universal Identifier</label>
                 <shortLabel>Identifier</shortLabel>
 
                 <maxLength>12</maxLength>
@@ -328,8 +328,8 @@
                     <text size="14" />
                 </control>
 
-                <summary>routingFormLastUpdateSystemIdentifier</summary>
-                <description>routingFormLastUpdateSystemIdentifier description...</description>
+                <summary>routingFormLastUpdateUniversalIdentifier</summary>
+                <description>routingFormLastUpdateUniversalIdentifier description...</description>
       </attribute>
 
             <attribute name="routingFormLayDescription" forceUppercase="true">

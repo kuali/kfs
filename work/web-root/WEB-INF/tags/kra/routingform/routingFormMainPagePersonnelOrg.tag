@@ -54,12 +54,12 @@
                 </th>
                 <td class="infoline">
                   <html:hidden property="newRoutingFormPerson.personToBeNamedIndicator" />
-                  <html:hidden property="newRoutingFormPerson.personSystemIdentifier" />
+                  <html:hidden property="newRoutingFormPerson.personUniversalIdentifier" />
                   <html:hidden write="true" property="newRoutingFormPerson.user.personName"/>
-                  <c:if test="${empty KualiForm.newRoutingFormPerson.personSystemIdentifier && !KualiForm.newRoutingFormPerson.personToBeNamedIndicator}">(select)</c:if>
+                  <c:if test="${empty KualiForm.newRoutingFormPerson.personUniversalIdentifier && !KualiForm.newRoutingFormPerson.personToBeNamedIndicator}">(select)</c:if>
 		    	  <c:if test="${KualiForm.newRoutingFormPerson.personToBeNamedIndicator}">TO BE NAMED</c:if>
                   <c:if test="${!viewOnly}">
-                    <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:newRoutingFormPerson.personSystemIdentifier,personName:newRoutingFormPerson.user.personName" extraButtonSource="images/buttonsmall_namelater.gif" extraButtonParams="&newRoutingFormPerson.personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
+                    <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:newRoutingFormPerson.personUniversalIdentifier,personName:newRoutingFormPerson.user.personName" extraButtonSource="images/buttonsmall_namelater.gif" extraButtonParams="&newRoutingFormPerson.personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
                   </c:if>
                 </td>
                 <td class="infoline"><kul:htmlControlAttribute property="newRoutingFormPerson.personRoleCode" attributeEntry="${routingFormPersonnel.personRoleCode}" readOnly="${viewOnly}"/></td>
@@ -91,7 +91,7 @@
               <c:forEach items = "${KualiForm.document.routingFormPersonnel}" var="person" varStatus="status"  >
                 <c:set var="isProjectDirector" value="${person.projectDirector}" />
                 <tr>
-   	              <html:hidden property="document.routingFormPersonnel[${status.index}].personSystemIdentifier" />
+   	              <html:hidden property="document.routingFormPersonnel[${status.index}].personUniversalIdentifier" />
    	              <html:hidden property="document.routingFormPersonnel[${status.index}].routingFormPersonSequenceNumber" />
    	              <html:hidden property="document.routingFormPersonnel[${status.index}].chartOfAccountsCode" />
    	              <html:hidden property="document.routingFormPersonnel[${status.index}].organizationCode" />
@@ -115,13 +115,13 @@
                   <th scope="row"><div align="center">${status.index+1}</div></th>
                   <td>
                     <html:hidden write="true" property="document.routingFormPersonnel[${status.index}].user.personName" />
-                    <c:if test="${empty person.personSystemIdentifier && !person.personToBeNamedIndicator}">(select)</c:if>
+                    <c:if test="${empty person.personUniversalIdentifier && !person.personToBeNamedIndicator}">(select)</c:if>
 		    	    <c:if test="${person.personToBeNamedIndicator}">TO BE NAMED</c:if>
                     <c:if test="${!viewOnly}">
                       <c:choose>
                         <c:when test="${budgetLinked and isProjectDirector }" />
                         <c:otherwise>
-                          <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:document.routingFormPersonnel[${status.index}].personSystemIdentifier,personName:document.routingFormPersonnel[${status.index}].user.personName" extraButtonSource="images/buttonsmall_namelater.gif" extraButtonParams="&document.routingFormPersonnel[${status.index}].personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
+                          <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:document.routingFormPersonnel[${status.index}].personUniversalIdentifier,personName:document.routingFormPersonnel[${status.index}].user.personName" extraButtonSource="images/buttonsmall_namelater.gif" extraButtonParams="&document.routingFormPersonnel[${status.index}].personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
                         </c:otherwise>
                       </c:choose>
                     </c:if>

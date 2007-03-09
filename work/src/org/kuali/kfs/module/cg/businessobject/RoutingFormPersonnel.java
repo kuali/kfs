@@ -38,7 +38,7 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
 
 	private String documentNumber;
     private Integer routingFormPersonSequenceNumber;
-    private String personSystemIdentifier;
+    private String personUniversalIdentifier;
     private String chartOfAccountsCode;
 	private String organizationCode;
 	private KualiInteger personCreditPercent;
@@ -83,7 +83,7 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
     public RoutingFormPersonnel(BudgetUser budgetUser, String documentNumber, String personRoleCode) {
         this.documentNumber = documentNumber;
         this.personRoleCode = personRoleCode;
-        this.personSystemIdentifier = budgetUser.getPersonSystemIdentifier();
+        this.personUniversalIdentifier = budgetUser.getPersonUniversalIdentifier();
         
         
         this.chartOfAccountsCode = budgetUser.getFiscalCampusCode();
@@ -91,7 +91,7 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
         this.personPrefixText = budgetUser.getPersonNamePrefixText();
         this.personSuffixText = budgetUser.getPersonNameSuffixText();;
         this.personRoleText = budgetUser.getRole();
-        this.personToBeNamedIndicator = budgetUser.getPersonSystemIdentifier() == null;
+        this.personToBeNamedIndicator = budgetUser.getPersonUniversalIdentifier() == null;
     }
 
     
@@ -132,23 +132,23 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
     }    
     
     /**
-     * Gets the personSystemIdentifier attribute.
+     * Gets the personUniversalIdentifier attribute.
      * 
-     * @return Returns the personSystemIdentifier
+     * @return Returns the personUniversalIdentifier
      * 
      */
-    public String getPersonSystemIdentifier() { 
-        return personSystemIdentifier;
+    public String getPersonUniversalIdentifier() { 
+        return personUniversalIdentifier;
     }
 
     /**
-     * Sets the personSystemIdentifier attribute.
+     * Sets the personUniversalIdentifier attribute.
      * 
-     * @param personSystemIdentifier The personSystemIdentifier to set.
+     * @param personUniversalIdentifier The personUniversalIdentifier to set.
      * 
      */
-    public void setPersonSystemIdentifier(String personSystemIdentifier) {
-        this.personSystemIdentifier = personSystemIdentifier;
+    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
+        this.personUniversalIdentifier = personUniversalIdentifier;
     }
     
 	/**
@@ -729,8 +729,8 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      
-        if (this.personSystemIdentifier != null) {
-            m.put("personSystemIdentifier", this.personSystemIdentifier.toString());
+        if (this.personUniversalIdentifier != null) {
+            m.put("personUniversalIdentifier", this.personUniversalIdentifier.toString());
         }
         m.put("documentNumber", this.documentNumber);
         return m;

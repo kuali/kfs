@@ -157,11 +157,11 @@ public class BudgetParametersRule {
      */
     protected boolean isProjectDirectorValid(BudgetDocument budgetDocument) {
 
-        if (!StringUtils.isBlank(budgetDocument.getBudget().getBudgetProjectDirectorSystemId()) || budgetDocument.getBudget().isProjectDirectorToBeNamedIndicator()) {
+        if (!StringUtils.isBlank(budgetDocument.getBudget().getBudgetProjectDirectorUniversalIdentifier()) || budgetDocument.getBudget().isProjectDirectorToBeNamedIndicator()) {
             return true;
         }
 
-        GlobalVariables.getErrorMap().putError("budget.budgetProjectDirectorSystemId", KraKeyConstants.ERROR_MISSING, new String[] { dataDictionaryService.getAttributeLabel(Budget.class, "budgetProjectDirectorSystemId") });
+        GlobalVariables.getErrorMap().putError("budget.budgetProjectDirectorUniversalIdentifier", KraKeyConstants.ERROR_MISSING, new String[] { dataDictionaryService.getAttributeLabel(Budget.class, "budgetProjectDirectorUniversalIdentifier") });
 
         return false;
     }

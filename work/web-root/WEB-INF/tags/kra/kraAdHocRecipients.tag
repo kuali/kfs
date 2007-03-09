@@ -146,7 +146,7 @@
 	                    <td>
 	                    	<c:if test="${displayReadOnly}"><html:hidden property="document.budgetAdHocPermissionItem[${status.index}].budgetPermissionCode" /></c:if>
 	                    	<kul:htmlControlAttribute property="document.budgetAdHocPermissionItem[${status.index}].budgetPermissionCode" attributeEntry="${budgetAdHocPermissionAttributes.budgetPermissionCode}" readOnly="${displayReadOnly}"/>
-							<html:hidden property="document.budgetAdHocPermissionItem[${status.index}].personSystemIdentifier" />
+							<html:hidden property="document.budgetAdHocPermissionItem[${status.index}].personUniversalIdentifier" />
 							<html:hidden property="document.budgetAdHocPermissionItem[${status.index}].addedByPerson" />
 							<html:hidden property="document.budgetAdHocPermissionItem[${status.index}].personAddedTimestamp" />
 							<html:hidden property="document.budgetAdHocPermissionItem[${status.index}].objectId" />

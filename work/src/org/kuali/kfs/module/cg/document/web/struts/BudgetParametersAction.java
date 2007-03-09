@@ -326,7 +326,7 @@ public class BudgetParametersAction extends BudgetAction {
                     }
                     budget.setModularBudget(modularBudget);
                 }
-                else if (request.getParameter("document.budget.budgetProjectDirectorSystemId") != null) {
+                else if (request.getParameter("document.budget.budgetProjectDirectorUniversalIdentifier") != null) {
                     // Coming back from project director lookup - project director selected
                     budgetForm.getBudgetDocument().getBudget().setProjectDirectorToBeNamedIndicator(false);
                     budgetForm.getBudgetDocument().getBudget().refreshReferenceObject("projectDirector");
@@ -334,7 +334,7 @@ public class BudgetParametersAction extends BudgetAction {
                 else if ("true".equals(request.getParameter("document.budget.projectDirectorToBeNamedIndicator"))) {
                     // Coming back from project director lookup - Name Later selected
                     budgetForm.getBudgetDocument().getBudget().setProjectDirector(null);
-                    budgetForm.getBudgetDocument().getBudget().setBudgetProjectDirectorSystemId(null);
+                    budgetForm.getBudgetDocument().getBudget().setBudgetProjectDirectorUniversalIdentifier(null);
                 }
             }
         }

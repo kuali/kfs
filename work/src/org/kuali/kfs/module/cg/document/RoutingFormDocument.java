@@ -79,7 +79,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 	private String routingFormFellowLastName;
 	private String routingFormLayDescription;
 	private Date routingFormLastUpdateDate;
-	private Long routingFormLastUpdateSystemIdentifier;
+	private Long routingFormLastUpdateUniversalIdentifier;
 	private boolean routingFormOtherOrganizationIndicator;
 	private String routingFormOtherPurposeDescription;
 	private String routingFormOtherTypeDescription;
@@ -625,23 +625,23 @@ public class RoutingFormDocument extends ResearchDocumentBase {
 
 
 	/**
-	 * Gets the routingFormLastUpdateSystemIdentifier attribute.
+	 * Gets the routingFormLastUpdateUniversalIdentifier attribute.
 	 * 
-	 * @return Returns the routingFormLastUpdateSystemIdentifier
+	 * @return Returns the routingFormLastUpdateUniversalIdentifier
 	 * 
 	 */
-	public Long getRoutingFormLastUpdateSystemIdentifier() { 
-		return routingFormLastUpdateSystemIdentifier;
+	public Long getRoutingFormLastUpdateUniversalIdentifier() { 
+		return routingFormLastUpdateUniversalIdentifier;
 	}
 
 	/**
-	 * Sets the routingFormLastUpdateSystemIdentifier attribute.
+	 * Sets the routingFormLastUpdateUniversalIdentifier attribute.
 	 * 
-	 * @param routingFormLastUpdateSystemIdentifier The routingFormLastUpdateSystemIdentifier to set.
+	 * @param routingFormLastUpdateUniversalIdentifier The routingFormLastUpdateUniversalIdentifier to set.
 	 * 
 	 */
-	public void setRoutingFormLastUpdateSystemIdentifier(Long routingFormLastUpdateSystemIdentifier) {
-		this.routingFormLastUpdateSystemIdentifier = routingFormLastUpdateSystemIdentifier;
+	public void setRoutingFormLastUpdateUniversalIdentifier(Long routingFormLastUpdateUniversalIdentifier) {
+		this.routingFormLastUpdateUniversalIdentifier = routingFormLastUpdateUniversalIdentifier;
 	}
 
 

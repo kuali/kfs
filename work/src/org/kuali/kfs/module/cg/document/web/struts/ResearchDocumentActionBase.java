@@ -100,7 +100,7 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
         if (rulePassed) {
             BudgetAdHocPermission newAdHocPermission = researchForm.getNewAdHocPermission();
             UniversalUser user = SpringServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(adHocRoutePerson.getId()));
-            newAdHocPermission.setPersonSystemIdentifier(user.getPersonUniversalIdentifier());
+            newAdHocPermission.setPersonUniversalIdentifier(user.getPersonUniversalIdentifier());
             user.setPersonUserIdentifier(StringUtils.upperCase(user.getPersonUserIdentifier()));
             newAdHocPermission.setUser(user);
             newAdHocPermission.setPersonAddedTimestamp(SpringServiceLocator.getDateTimeService().getCurrentTimestamp());

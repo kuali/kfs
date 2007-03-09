@@ -48,7 +48,7 @@
                         <field attributeName="personToBeNamedIndicator" />
                         <field attributeName="personStateCode" />
                         <field attributeName="personSuffixText" />
-                        <field attributeName="personSystemIdentifier" />
+                        <field attributeName="personUniversalIdentifier" />
                         <field attributeName="personZipCode" />
                     </inquiryFields>
                 </inquirySection>
@@ -62,7 +62,7 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="personSystemIdentifier" />
+                    <sortAttribute attributeName="personUniversalIdentifier" />
                 </sortAttributes>
             </defaultSort>
 
@@ -88,7 +88,7 @@
                 <lookupField attributeName="personToBeNamedIndicator" required="false" />
                 <lookupField attributeName="personStateCode" required="false" />
                 <lookupField attributeName="personSuffixText" required="false" />
-                <lookupField attributeName="personSystemIdentifier" required="false" />
+                <lookupField attributeName="personUniversalIdentifier" required="false" />
                 <lookupField attributeName="personZipCode" required="false" />
             </lookupFields>
 
@@ -114,7 +114,7 @@
                 <field attributeName="personToBeNamedIndicator" />
                 <field attributeName="personStateCode" />
                 <field attributeName="personSuffixText" />
-                <field attributeName="personSystemIdentifier" />
+                <field attributeName="personUniversalIdentifier" />
                 <field attributeName="personZipCode" />
             </resultFields>
         </lookup>
@@ -433,8 +433,8 @@
                 <description>personSuffixText description...</description>
 			</attribute>
 
-            <attribute name="personSystemIdentifier" forceUppercase="true">
-                <label>Person System Identifier</label>
+            <attribute name="personUniversalIdentifier" forceUppercase="true">
+                <label>Person Universal Identifier</label>
                 <shortLabel>Identifier</shortLabel>
 
                 <maxLength>10</maxLength>
@@ -444,8 +444,8 @@
                     <text size="12" />
                 </control>
 
-                <summary>personSystemIdentifier</summary>
-                <description>personSystemIdentifier description...</description>
+                <summary>personUniversalIdentifier</summary>
+                <description>personUniversalIdentifier description...</description>
 			</attribute>
 
             <attribute name="personZipCode" forceUppercase="true">

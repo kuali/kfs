@@ -58,17 +58,17 @@
   <table cellpadding="0" cellspacing="0" class="datatable" summary=""> 
   
   <tr>
-    <th scope="row" ><div align="right">* ${budgetAttributes.budgetProjectDirectorSystemId.label}:</div></th>
+    <th scope="row" ><div align="right">* ${budgetAttributes.budgetProjectDirectorUniversalIdentifier.label}:</div></th>
     <td>
     	<html:hidden property="document.budget.projectDirectorToBeNamedIndicator"/>
-    	<html:hidden property="document.budget.budgetProjectDirectorSystemId" />
+    	<html:hidden property="document.budget.budgetProjectDirectorUniversalIdentifier" />
     	<html:hidden write="true" property="document.budget.projectDirector.universalUser.personName"/>
       <html:hidden property="document.budget.projectDirector.universalUser.personUniversalIdentifier"/>
       <html:hidden property="document.budget.projectDirector.personUniversalIdentifier"/>
-    	<c:if test="${empty KualiForm.document.budget.budgetProjectDirectorSystemId && !KualiForm.document.budget.projectDirectorToBeNamedIndicator}">(select)</c:if>
+    	<c:if test="${empty KualiForm.document.budget.budgetProjectDirectorUniversalIdentifier && !KualiForm.document.budget.projectDirectorToBeNamedIndicator}">(select)</c:if>
     	<c:if test="${KualiForm.document.budget.projectDirectorToBeNamedIndicator}">TO BE NAMED</c:if>
     	<c:if test="${!viewOnly}">
-	    	<kul:lookup boClassName="org.kuali.module.cg.bo.ProjectDirector" fieldConversions="universalUser.personUniversalIdentifier:document.budget.budgetProjectDirectorSystemId,universalUser.personName:document.budget.projectDirector.universalUser.personName," tabindexOverride="5000" extraButtonSource="images/buttonsmall_namelater.gif" extraButtonParams="&document.budget.projectDirectorToBeNamedIndicator=true" anchor="${currentTabIndex}" />
+	    	<kul:lookup boClassName="org.kuali.module.cg.bo.ProjectDirector" fieldConversions="universalUser.personUniversalIdentifier:document.budget.budgetProjectDirectorUniversalIdentifier,universalUser.personName:document.budget.projectDirector.universalUser.personName," tabindexOverride="5000" extraButtonSource="images/buttonsmall_namelater.gif" extraButtonParams="&document.budget.projectDirectorToBeNamedIndicator=true" anchor="${currentTabIndex}" />
     	</c:if>
     </td>
     <th scope="row" ><div align="right">* ${budgetAttributes.budgetPersonnelInflationRate.label}:</div></th>

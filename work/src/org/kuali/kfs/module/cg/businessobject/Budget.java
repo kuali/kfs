@@ -47,7 +47,7 @@ public class Budget extends PersistableBusinessObjectBase {
     private String budgetName;
     private boolean institutionCostShareIndicator;
     private String budgetProgramAnnouncementNumber;
-    private String budgetProjectDirectorSystemId;
+    private String budgetProjectDirectorUniversalIdentifier;
     private boolean budgetThirdPartyCostShareIndicator;
     private KualiDecimal budgetPersonnelInflationRate;
     private KualiDecimal budgetNonpersonnelInflationRate;
@@ -204,17 +204,17 @@ public class Budget extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @return Returns the budgetProjectDirectorSystemId.
+     * @return Returns the budgetProjectDirectorUniversalIdentifier.
      */
-    public String getBudgetProjectDirectorSystemId() {
-        return budgetProjectDirectorSystemId;
+    public String getBudgetProjectDirectorUniversalIdentifier() {
+        return budgetProjectDirectorUniversalIdentifier;
     }
 
     /**
-     * @param budgetProjectDirectorSystemId The budgetProjectDirectorSystemId to set.
+     * @param budgetProjectDirectorUniversalIdentifier The budgetProjectDirectorUniversalIdentifier to set.
      */
-    public void setBudgetProjectDirectorSystemId(String budgetProjectDirectorSystemId) {
-        this.budgetProjectDirectorSystemId = budgetProjectDirectorSystemId;
+    public void setBudgetProjectDirectorUniversalIdentifier(String budgetProjectDirectorUniversalIdentifier) {
+        this.budgetProjectDirectorUniversalIdentifier = budgetProjectDirectorUniversalIdentifier;
     }
 
     /**

@@ -49,7 +49,7 @@ public class RoutingFormDocumentAuthorizer extends ResearchDocumentAuthorizer {
         
         // Check personnel
         for (RoutingFormPersonnel person : routingFormDocument.getRoutingFormPersonnel()) {
-            if (u.getPersonUniversalIdentifier().equals(person.getPersonSystemIdentifier())) {
+            if (u.getPersonUniversalIdentifier().equals(person.getPersonUniversalIdentifier())) {
                 person.refresh();
                 String role = person.getPersonRole().getPersonRoleCode();
                 if (KraConstants.PROJECT_DIRECTOR_CODE.equals(role)

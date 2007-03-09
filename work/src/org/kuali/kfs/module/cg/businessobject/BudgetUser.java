@@ -50,8 +50,8 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
     private KualiDecimal baseSalary; // PRSN_BASE_SLRY
     private Integer budgetSalaryFiscalYear;
     private String role; //
-    private String personSystemIdentifier; // PERSON_SYS_ID
-    private UniversalUser user; // referenced object for PERSON_SYS_ID
+    private String personUniversalIdentifier;
+    private UniversalUser user;
     private String appointmentTypeCode; // Not present in the database - only for the convenience of the user interface
     private boolean personSeniorKeyIndicator;
     private boolean personSecretarialClericalIndicator;
@@ -95,7 +95,7 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
         this.primaryDepartmentCode = budgetUser.getPrimaryDepartmentCode();
         this.baseSalary = budgetUser.getBaseSalary();
         this.role = budgetUser.getRole();
-        this.personSystemIdentifier = budgetUser.getPersonSystemIdentifier();
+        this.personUniversalIdentifier = budgetUser.getPersonUniversalIdentifier();
         this.personNamePrefixText = budgetUser.getPersonNamePrefixText();
         this.personNameSuffixText = budgetUser.getPersonNameSuffixText();
         this.personSalaryJustificationText = budgetUser.getPersonSalaryJustificationText();
@@ -230,22 +230,22 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
 
 
     /**
-     * Gets the personSystemIdentifier attribute.
+     * Gets the personUniversalIdentifier attribute.
      * 
-     * @return Returns the personSystemIdentifier.
+     * @return Returns the personUniversalIdentifier.
      */
-    public String getPersonSystemIdentifier() {
-        return personSystemIdentifier;
+    public String getPersonUniversalIdentifier() {
+        return personUniversalIdentifier;
     }
 
 
     /**
-     * Sets the personSystemIdentifier attribute value.
+     * Sets the personUniversalIdentifier attribute value.
      * 
-     * @param personSystemIdentifier The personSystemIdentifier to set.
+     * @param personUniversalIdentifier The personUniversalIdentifier to set.
      */
-    public void setPersonSystemIdentifier(String personSystemIdentifier) {
-        this.personSystemIdentifier = personSystemIdentifier;
+    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
+        this.personUniversalIdentifier = personUniversalIdentifier;
     }
 
 
@@ -393,7 +393,7 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
      * Makes sure that copied fields between the referenced UniversalUser object and this object are properly synchronized.
      */
     public void synchronizeUserObject() {
-        if (this.getPersonSystemIdentifier() != null) {
+        if (this.getPersonUniversalIdentifier() != null) {
             this.refreshReferenceObject("user");
             if (this.user.getPersonBaseSalaryAmount() != null) {
                 this.baseSalary = this.user.getPersonBaseSalaryAmount();
@@ -443,7 +443,7 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
         LOG.info("  primaryDepartmentCode: (" + this.primaryDepartmentCode + ")");
         LOG.info("  baseSalary: (" + this.baseSalary + ")");
         LOG.info("  role: (" + this.role + ")");
-        LOG.info("  personSystemIdentifier: (" + this.personSystemIdentifier + ")");
+        LOG.info("  personUniversalIdentifier: (" + this.personUniversalIdentifier + ")");
         LOG.info("  appointmentTypeCode: (" + this.appointmentTypeCode + ")");
         LOG.info("  personSeniorKeyIndicator: (" + this.personSeniorKeyIndicator + ")");
         LOG.info("  personSecretarialClericalIndicator: (" + this.personSecretarialClericalIndicator + ")");

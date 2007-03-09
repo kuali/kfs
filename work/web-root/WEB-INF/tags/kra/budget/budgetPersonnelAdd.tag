@@ -65,16 +65,16 @@
 					              <td class="grid">
 					                <html:radio property="newPersonnelType" value="person" styleId="newPersonnelType.person" />
                           <label for="newPersonnelType.person">
-							              <c:if test="${empty KualiForm.newPersonnel.personSystemIdentifier}">
+							              <c:if test="${empty KualiForm.newPersonnel.personUniversalIdentifier}">
 							                name now
 							              </c:if>
 							              <html:hidden property="newPersonnel.user.personName" write="true" />
                           </label>
-						              <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:newPersonnel.personSystemIdentifier,personName:newPersonnel.user.personName,personBaseSalaryAmount:newPersonnel.baseSalary" />
+						              <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:newPersonnel.personUniversalIdentifier,personName:newPersonnel.user.personName,personBaseSalaryAmount:newPersonnel.baseSalary" />
 						              <html:hidden property="newPersonnel.documentNumber" />
 						              <html:hidden property="newPersonnel.budgetUserSequenceNumber" />
 						              <html:hidden property="newPersonnel.baseSalary" />
-						              <html:hidden property="newPersonnel.personSystemIdentifier" />
+						              <html:hidden property="newPersonnel.personUniversalIdentifier" />
 						              <br />
 						              <html:radio property="newPersonnelType" value="ToBeNamed" styleId="newPersonnelType.ToBeNamed" />
                           <label for="newPersonnelType.ToBeNamed">name later</label>

@@ -606,10 +606,10 @@ public class BudgetForm extends ResearchDocumentFormBase {
      */
     public KeyLabelPair getAdditionalDocInfo1() {
         if (this.getBudgetDocument().getBudget().isProjectDirectorToBeNamedIndicator()) {
-            return new KeyLabelPair("DataDictionary.Budget.attributes.budgetProjectDirectorSystemId", TO_BE_NAMED_LABEL);
+            return new KeyLabelPair("DataDictionary.Budget.attributes.budgetProjectDirectorUniversalIdentifier", TO_BE_NAMED_LABEL);
         }
         else if (this.getBudgetDocument().getBudget().getProjectDirector() != null) {
-            return new KeyLabelPair("DataDictionary.Budget.attributes.budgetProjectDirectorSystemId", this.getBudgetDocument().getBudget().getProjectDirector().getUniversalUser().getPersonName());
+            return new KeyLabelPair("DataDictionary.Budget.attributes.budgetProjectDirectorUniversalIdentifier", this.getBudgetDocument().getBudget().getProjectDirector().getUniversalUser().getPersonName());
         }
         return null;
     }

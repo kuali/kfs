@@ -289,9 +289,9 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
         for (RoutingFormPersonnel person : routingFormDocument.getRoutingFormPersonnel()) {
             errorMap.addToErrorPath("routingFormPersonnel[" + i + "]");
             
-            if (person.getPersonSystemIdentifier() == null && !person.isPersonToBeNamedIndicator()) {
+            if (person.getPersonUniversalIdentifier() == null && !person.isPersonToBeNamedIndicator()) {
                 valid = false;
-                errorMap.putError("personSystemIdentifier", KraKeyConstants.ERROR_PERSON_NOT_NAMED);
+                errorMap.putError("personUniversalIdentifier", KraKeyConstants.ERROR_PERSON_NOT_NAMED);
             }
             errorMap.removeFromErrorPath("routingFormPersonnel[" + i + "]");
             i++;

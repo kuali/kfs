@@ -159,18 +159,18 @@ public class RoutingFormAuditRule {
         for (RoutingFormPersonnel person : routingFormDocument.getRoutingFormPersonnel()) {
             if (person.isPersonToBeNamedIndicator()) {
                 valid = false;
-                auditErrors.add(new AuditError("document.routingFormPersonnel[" + i + "].personSystemIdentifier", KraKeyConstants.AUDIT_MAIN_PAGE_PERSON_REQUIRED, "mainpage.anchor2"));
+                auditErrors.add(new AuditError("document.routingFormPersonnel[" + i + "].personUniversalIdentifier", KraKeyConstants.AUDIT_MAIN_PAGE_PERSON_REQUIRED, "mainpage.anchor2"));
             }
             
             if (person.isProjectDirector()) {
                 projectDirectorCount++;
                 
                 Map fieldValues = new HashMap();
-                fieldValues.put(PropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, person.getPersonSystemIdentifier());
+                fieldValues.put(PropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, person.getPersonUniversalIdentifier());
                 ProjectDirector projectDirector = (ProjectDirector) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(ProjectDirector.class, fieldValues);
                 if (projectDirector == null) {
                     valid = false;
-                    auditErrors.add(new AuditError("document.routingFormPersonnel[" + i + "].personSystemIdentifier", KraKeyConstants.AUDIT_MAIN_PAGE_PERSON_NOT_PD, "mainpage.anchor2"));
+                    auditErrors.add(new AuditError("document.routingFormPersonnel[" + i + "].personUniversalIdentifier", KraKeyConstants.AUDIT_MAIN_PAGE_PERSON_NOT_PD, "mainpage.anchor2"));
                 }
             }
 
@@ -197,10 +197,10 @@ public class RoutingFormAuditRule {
         
         if(projectDirectorCount == 0) {
             valid = false;
-            auditErrors.add(new AuditError("document.routingFormPersonnel.personSystemIdentifier", KraKeyConstants.AUDIT_MAIN_PAGE_PD_REQUIRED, "mainpage.anchor2"));
+            auditErrors.add(new AuditError("document.routingFormPersonnel.personUniversalIdentifier", KraKeyConstants.AUDIT_MAIN_PAGE_PD_REQUIRED, "mainpage.anchor2"));
         } else if (projectDirectorCount > 1) {
             valid = false;
-            auditErrors.add(new AuditError("document.routingFormPersonnel.personSystemIdentifier", KraKeyConstants.AUDIT_MAIN_PAGE_ONLY_ONE_PD, "mainpage.anchor2"));
+            auditErrors.add(new AuditError("document.routingFormPersonnel.personUniversalIdentifier", KraKeyConstants.AUDIT_MAIN_PAGE_ONLY_ONE_PD, "mainpage.anchor2"));
         }
         
         i = 0;

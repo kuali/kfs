@@ -76,8 +76,8 @@
 			<c:if test="${!displayReadOnly}">
                	<tr>
                    	<td class="infoline">
-                       	<kul:htmlControlAttribute property="newAdHocPerson.personSystemIdentifier" attributeEntry="${routingFormAdHocPersonAttributes.personSystemIdentifier}" readOnly="${displayReadOnly}" />
-                       	<kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser"  fieldConversions="personUserIdentifier:newAdHocRoutePerson.personSystemIdentifier" />
+                       	<kul:htmlControlAttribute property="newAdHocPerson.personUniversalIdentifier" attributeEntry="${routingFormAdHocPersonAttributes.personUniversalIdentifier}" readOnly="${displayReadOnly}" />
+                       	<kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser"  fieldConversions="personUserIdentifier:newAdHocRoutePerson.personUniversalIdentifier" />
                    	</td>
                    	<td class="infoline"><div align=center>--</div></td>
                    	<td class="infoline"><div align=center>--</div></td>
@@ -104,7 +104,7 @@
                     <td>
                     	<c:if test="${displayReadOnly}"><html:hidden property="document.routingFormAdHocPerson[${status.index}].permissionCode" /></c:if>
                     	<kul:htmlControlAttribute property="document.routingFormAdHocPerson[${status.index}].permissionCode" attributeEntry="${routingFormAdHocPersonAttributes.permissionCode}" readOnly="${displayReadOnly}"/>
-						<html:hidden property="document.routingFormAdHocPerson[${status.index}].personSystemIdentifier" />
+						<html:hidden property="document.routingFormAdHocPerson[${status.index}].personUniversalIdentifier" />
 						<html:hidden property="document.routingFormAdHocPerson[${status.index}].addedByPerson" />
 						<html:hidden property="document.routingFormAdHocPerson[${status.index}].personAddedTimestamp" />
 						<html:hidden property="document.routingFormAdHocPerson[${status.index}].objectId" />

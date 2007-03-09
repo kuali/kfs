@@ -244,7 +244,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
                 routingFormDocument.setAgencyFederalPassThroughNumber(null);
                 routingFormDocument.refreshReferenceObject("federalPassThroughAgency");
             }
-            else if (request.getParameter("newRoutingFormPerson.personSystemIdentifier") != null) {
+            else if (request.getParameter("newRoutingFormPerson.personUniversalIdentifier") != null) {
                 RoutingFormPersonnel newRoutingFormPerson = routingForm.getNewRoutingFormPerson();
 
                 // coming back from new Person lookup - person selected. Unset TBN indicated and set chart / org.
@@ -253,7 +253,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
             }
             else if ("true".equals(request.getParameter("newRoutingFormPerson.personToBeNamedIndicator"))) {
                 // coming back from new Person lookup - Name Later selected
-                routingForm.getNewRoutingFormPerson().setPersonSystemIdentifier(null);
+                routingForm.getNewRoutingFormPerson().setPersonUniversalIdentifier(null);
                 routingForm.getNewRoutingFormPerson().refresh();
             } else {
                 // Must be related to personnel lookup, first find which item this relates to.
@@ -261,7 +261,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
                 
                 // Next do the regular clearing of appropriate fields. If the above enumeration didn't find an item
                 // we print a warn message at the end of this if block.
-                if (request.getParameter("document.routingFormPersonnel[" + personIndex + "].personSystemIdentifier") != null) {
+                if (request.getParameter("document.routingFormPersonnel[" + personIndex + "].personUniversalIdentifier") != null) {
                     RoutingFormPersonnel routingFormPersonnel = routingFormDocument.getRoutingFormPersonnel().get(personIndex);
                     
                     // coming back from Person lookup - Person selected. Unset TBN indicated and set chart / org.
@@ -270,7 +270,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
                 }
                 else if ("true".equals(request.getParameter("document.routingFormPersonnel[" + personIndex + "].personToBeNamedIndicator"))) {
                     // coming back from Person lookup - To Be Named selected
-                    routingFormDocument.getRoutingFormPersonnel().get(personIndex).setPersonSystemIdentifier(null);
+                    routingFormDocument.getRoutingFormPersonnel().get(personIndex).setPersonUniversalIdentifier(null);
                     routingFormDocument.getRoutingFormPersonnel().get(personIndex).refresh();
                 } else {
                     LOG.warn("Personnel lookup TBN reset code wasn't able to find person: personIndexStr=" + personIndex);
@@ -296,7 +296,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         // retrieve services and refresh UniversalUser objects (it's empty after returning from a kul:lookup)
         UniversalUserService universalUserService = SpringServiceLocator.getUniversalUserService();
         ChartUserService chartUserService = SpringServiceLocator.getChartUserService();
-        UniversalUser user =  universalUserService.updateUniversalUserIfNecessary(routingFormPersonnel.getPersonSystemIdentifier(), routingFormPersonnel.getUser());
+        UniversalUser user =  universalUserService.updateUniversalUserIfNecessary(routingFormPersonnel.getPersonUniversalIdentifier(), routingFormPersonnel.getUser());
         
         // set chart / org for new person
         routingFormPersonnel.setChartOfAccountsCode(chartUserService.getDefaultChartOfAccountsCode( (ChartUser)user.getModuleUser(ChartUser.MODULE_ID) ));

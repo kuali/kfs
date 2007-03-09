@@ -49,7 +49,7 @@
     </c:set>
     
     <kul:tab tabTitle="${personName}" tabDescription="${personRoleDescription}" defaultOpen="${defaultOpen}" transparentBackground="${status.index eq 0}" tabErrorKey="document.routingFormPersonnel[${status.index}]*">
-      <html:hidden property="document.routingFormPersonnel[${status.index}].personSystemIdentifier" />
+      <html:hidden property="document.routingFormPersonnel[${status.index}].personUniversalIdentifier" />
       <html:hidden property="document.routingFormPersonnel[${status.index}].routingFormPersonSequenceNumber" />
       <html:hidden property="document.routingFormPersonnel[${status.index}].chartOfAccountsCode" />
       <html:hidden property="document.routingFormPersonnel[${status.index}].organizationCode" />

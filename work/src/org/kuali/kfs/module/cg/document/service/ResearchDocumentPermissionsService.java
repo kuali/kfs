@@ -29,13 +29,13 @@ import org.kuali.module.kra.budget.bo.BudgetPermissionType;
 public interface ResearchDocumentPermissionsService {
     
     /**
-     * Retrieve the BudgetAdHocPermission for the given documentNumber and personSystemIdentifier.
+     * Retrieve the BudgetAdHocPermission for the given documentNumber and personUniversalIdentifier.
      * 
      * @param documentNumber
-     * @param personSystemIdentifier
+     * @param personUniversalIdentifier
      * @return BudgetAdHocPermission
      */
-    public BudgetAdHocPermission getBudgetAdHocPermission(String documentNumber, String personSystemIdentifier);
+    public BudgetAdHocPermission getBudgetAdHocPermission(String documentNumber, String personUniversalIdentifier);
     
     /**
      * Retrieve the ad-hoc orgs for the given documentNumber and budgetPermissionCode.

@@ -35,13 +35,13 @@
             <div align="center">
               <!-- TAB -->
               <c:choose>
-	              <c:when test="${empty person.personSystemIdentifier}">
+	              <c:when test="${empty person.personUniversalIdentifier}">
 	                <c:set var="personName" value="TO BE NAMED" />
 	                <c:set var="personId" value="-1" />
 	              </c:when>
 	              <c:otherwise>
 	                <c:set var="personName" value="${person.user.personName}" />
-	                <c:set var="personId" value="${person.personSystemIdentifier }"/>
+	                <c:set var="personId" value="${person.personUniversalIdentifier }"/>
 	              </c:otherwise>
               </c:choose>
 		    <c:set var="transparentBackground" value="false" />
@@ -65,7 +65,7 @@
 			                <html:hidden property="document.budget.personFromList[${listIndex}].budgetUserSequenceNumber" />
 			                <html:hidden property="document.budget.personFromList[${listIndex}].fiscalCampusCode" />
 			                <html:hidden property="document.budget.personFromList[${listIndex}].primaryDepartmentCode" />
-			                <html:hidden property="document.budget.personFromList[${listIndex}].personSystemIdentifier" />
+			                <html:hidden property="document.budget.personFromList[${listIndex}].personUniversalIdentifier" />
                       <html:hidden property="document.budget.personFromList[${listIndex}].personProjectDirectorIndicator" />
 			                <html:hidden property="document.budget.personFromList[${listIndex}].versionNumber" />
 			                <html:hidden property="document.budget.personFromList[${listIndex}].objectId" />

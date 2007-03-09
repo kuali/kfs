@@ -290,7 +290,7 @@
                 <description>Federal Pass Through Agency ...</description>
             </attributeReference>
 
-            <attributeReference name="budgetProjectDirectorSystemId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
+            <attributeReference name="budgetProjectDirectorUniversalIdentifier" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericSystemId">
                 <label>Project Director</label>
                 <shortLabel>Project Director</shortLabel>
 

@@ -87,9 +87,10 @@
 		</property>
 	</bean>
 
+
 	<bean id="postalZipCodeService" class="org.kuali.kfs.service.impl.PostalZipCodeServiceImpl">
 		<property name="businessObjectService">
-			<ref bean="businessObjectService" /> 
+			<ref bean="businessObjectService" />
 		</property>
 	</bean>
 
@@ -101,5 +102,85 @@
 			</list>
 		</property>
 	</bean>
+
+	<!-- Quartz stuff -->
+	<bean id="schedulerService" class="org.kuali.core.service.impl.SchedulerServiceImpl">
+		<property name="scheduleTriggerDescriptor" ref="scheduleJobTrigger" />
+		<property name="configurationService" ref="kualiConfigurationService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+	</bean>
+
+	<bean id="jobListener" class="org.kuali.core.batch.JobListener">
+		<property name="schedulerService" ref="schedulerService" />
+		<property name="configurationService" ref="kualiConfigurationService" />
+		<property name="mailService" ref="mailService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+	</bean>
+
+	<bean id="scheduledJobDescriptor" abstract="true" class="org.kuali.core.batch.JobDescriptor">
+		<property name="group" value="scheduled" />
+	</bean>
+
+	<bean id="unscheduledJobDescriptor" abstract="true" class="org.kuali.core.batch.JobDescriptor" />
+
+	<bean id="step" abstract="true">
+		<property name="configurationService" ref="kualiConfigurationService" />
+		<property name="dateTimeService" ref="dateTimeService" />
+	</bean>
+
+	<bean id="scheduleJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="scheduleStep" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="scheduleStep" parent="step" class="org.kuali.core.batch.ScheduleStep">
+		<property name="schedulerService" ref="schedulerService" />
+	</bean>
+
+	<bean id="trigger" abstract="true">
+		<property name="group" value="scheduled" />
+		<property name="dateTimeService" ref="dateTimeService" />
+	</bean>
+
+	<bean id="simpleTrigger" abstract="true" parent="trigger" class="org.kuali.core.batch.SimpleTriggerDescriptor" />
+
+	<bean id="cronTrigger" abstract="true" parent="trigger" class="org.kuali.core.batch.CronTriggerDescriptor" />
+
+	<bean id="scheduleJobTrigger" parent="cronTrigger">
+		<property name="jobName" value="scheduleJob" />
+		<property name="cronExpression" value="00 00 23 ? * *" />
+	</bean>
+
+	<bean id="purgeOldLookupResultsJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="purgeOldLookupResultsStep" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="purgeOldLookupResultsStep" class="org.kuali.core.batch.PurgeOldLookupResultsStep" parent="step">
+		<property name="lookupResultsService">
+			<ref bean="lookupResultsService" />
+		</property>
+	</bean>
+
+	<bean id="purgeDocumentContentsJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="corePurgeDocumentContentsStep" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="corePurgeDocumentContentsStep" class="org.kuali.core.batch.PurgeDocumentContentsStep" parent="step">
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
+	</bean>
+
 
 </beans>

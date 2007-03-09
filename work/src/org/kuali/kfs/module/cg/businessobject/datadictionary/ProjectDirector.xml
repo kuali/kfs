@@ -102,7 +102,7 @@
 			<attributeReference name="universalUser.campusCode" sourceClassName="org.kuali.core.bo.Campus" sourceAttributeName="campusCode">
 				<summary>Campus Code</summary>
 				<description>
-					
+					Insert desc here.
 				</description>
 			</attributeReference>
 

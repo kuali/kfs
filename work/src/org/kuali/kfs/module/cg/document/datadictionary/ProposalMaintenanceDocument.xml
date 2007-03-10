@@ -58,6 +58,7 @@
             <reference attributeName="proposalPurpose" activeIndicatorAttributeName="rowActiveIndicator" attributeToHighlightOnFail="proposalPurposeCode" />
             <reference attributeName="federalPassThroughAgency" activeIndicatorAttributeName="historicalIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="federalPassThroughAgencyNumber" />
             <reference attributeName="cfda" activeIndicatorAttributeName="cfdaStatusCode" attributeToHighlightOnFail="cfdaNumber" />
+            <reference collection="proposalOrganizations" attributeName="organization" activeIndicatorAttributeName="organizationActiveIndicator" attributeToHighlightOnFail="organizationCode" />
 			<reference collection="proposalProjectDirectors" attributeName="projectDirector" attributeToHighlightOnFail="personUniversalIdentifier" />
 			<reference collection="proposalSubcontractors" attributeName="subcontractor" activeIndicatorAttributeName="active" attributeToHighlightOnFail="subcontractorNumber" />
         </defaultExistenceChecks>

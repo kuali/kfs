@@ -68,7 +68,11 @@
                 <description>Universal identifier for the Project Director.</description>
             </attributeReference>
             
-            <attributeReference name="projectDirector.universalUser.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName"/>
+            <attributeReference name="projectDirector.universalUser.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
+                <control>
+                    <text size="40" />
+                </control>
+            </attributeReference>
 
             <attribute name="proposalNumber" forceUppercase="true">
                 <label>Proposal Number</label>

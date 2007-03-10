@@ -22,7 +22,9 @@ import org.apache.commons.collections.CollectionUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.bo.BusinessObject;
 import org.kuali.module.cg.bo.Proposal;
 import org.kuali.module.cg.bo.ProposalOrganization;
 import org.kuali.PropertyConstants;
@@ -39,7 +41,7 @@ public class ProposalRule extends MaintenanceDocumentRuleBase {
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         processCustomRouteDocumentBusinessRules(document);
-        return true; // save dispite error messages
+        return true; // save despite error messages
     }
 
     @Override
@@ -62,14 +64,6 @@ public class ProposalRule extends MaintenanceDocumentRuleBase {
                     success = false;
                 }
                 foundPrimary = true;
-            }
-            
-            po.refreshNonUpdateableReferences();
-            if (ObjectUtils.isNull(po.getOrganization())) {
-                // todo: add an attribute to some DD for the organization label? e.g., getFieldLabel(ProposalOrganization.class,
-                // PropertyConstants.ORGANIZATION)
-                putFieldError(propertyName, KeyConstants.ERROR_EXISTENCE, PropertyConstants.ORGANIZATION);
-                success = false;
             }
         }
         if (!foundPrimary) {

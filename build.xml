@@ -82,7 +82,7 @@
 		</condition>
 		<property name="appenders" value="INFO, LogFile" />
 		<condition property="scheduler.spring.beans.import" value="${scheduler.spring.beans.import.value}">
-			<equals arg1="${use.quartz.scheduling}" arg2="true" />
+			<not><equals arg1="${use.quartz.scheduling}" arg2="false" /></not>
 		</condition>
 		<condition property="institution.spring.beans.import" value="${institution.spring.beans.import.value}">
 			<available file="${institution.spring.beans.file}" />
@@ -324,8 +324,12 @@
 			</fileset>
 		</copy>
 	</target>
+	
+	<target name="turn-quartz-scheduling-off">
+		<property name="use.quartz.scheduling" value="false" />
+	</target>
 
-	<target name="make-tests" depends="init-make-references,filter-project">
+	<target name="make-tests" depends="turn-quartz-scheduling-off,init-make-references,filter-project">
 		<mkdir dir="${test.classes.directory}" />
 		<javac destdir="${test.classes.directory}" debug="true" deprecation="true" optimize="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
 			<classpath refid="compile.tests.classpath" />

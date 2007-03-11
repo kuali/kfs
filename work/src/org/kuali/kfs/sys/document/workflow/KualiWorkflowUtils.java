@@ -67,6 +67,7 @@ public class KualiWorkflowUtils {
     public static final String OLD_MAINTAINABLE_PREFIX = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "oldMaintainableObject/businessObject/";
     public static final String ACCOUNT_DOC_TYPE = "KualiAccountMaintenanceDocument";
     public static final String ACCOUNT_DEL_DOC_TYPE = "KualiAccountDelegateMaintenanceDocument";
+    public static final String ACCOUNT_DELEGATE_GLOBAL_DOC_TYPE = "KualiDelegateChangeDocument";
     public static final String SUB_ACCOUNT_DOC_TYPE = "KualiSubAccountMaintenanceDocument";
     public static final String SUB_OBJECT_DOC_TYPE = "KualiSubObjectMaintenanceDocument";
     public static final String INTERNAL_BILLING_DOC_TYPE = "KualiInternalBillingDocument";

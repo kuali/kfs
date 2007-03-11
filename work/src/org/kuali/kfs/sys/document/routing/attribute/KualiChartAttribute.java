@@ -264,6 +264,9 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
                 if (isReport) {
                     chartXPath = "wf:xstreamsafe('//report/chart')";
                 }
+                else if (KualiWorkflowUtils.ACCOUNT_DELEGATE_GLOBAL_DOC_TYPE.equals(docContent.getRouteContext().getDocument().getDocumentType().getName())) {
+                    chartXPath = "wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "accountChangeDetails/list/org.kuali.module.chart.bo.AccountChangeDetail/chartOfAccountsCode')";
+                }
                 //  this is the typical path during normal workflow operation
                 else { 
                     chartXPath = "wf:xstreamsafe('" + MAINTAINABLE_PREFIX + "chartOfAccountsCode')";

@@ -184,7 +184,7 @@ public class VoucherAction extends KualiAccountingDocumentActionBase {
                 selectedAccountingPeriod += voucherDocument.getPostingYear().toString();
             }
             else {
-                selectedAccountingPeriod += SpringServiceLocator.getDateTimeService().getCurrentFiscalYear().toString();
+                selectedAccountingPeriod += SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear().toString();
             }
             voucherForm.setSelectedAccountingPeriod(selectedAccountingPeriod);
         }

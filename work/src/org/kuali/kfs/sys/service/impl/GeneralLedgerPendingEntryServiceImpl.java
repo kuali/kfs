@@ -185,8 +185,7 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         // TODO Handle year end documents
 
         if ((glpe.getUniversityFiscalPeriodCode() == null) || (glpe.getUniversityFiscalYear() == null)) {
-            DateTimeService dateTimeService = SpringServiceLocator.getDateTimeService();
-            UniversityDate ud = dateTimeService.getCurrentUniversityDate();
+            UniversityDate ud = SpringServiceLocator.getUniversityDateService().getCurrentUniversityDate();
 
             glpe.setUniversityFiscalYear(ud.getUniversityFiscalYear());
             glpe.setUniversityFiscalPeriodCode(ud.getUniversityFiscalAccountingPeriod());

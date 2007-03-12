@@ -23,6 +23,7 @@ import org.kuali.KeyConstants;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.financial.bo.BankAccount;
@@ -173,7 +174,7 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
 
         // setup the map to search on
         Map pkMap = new HashMap();
-        pkMap.put("universityFiscalYear", getDateTimeService().getCurrentFiscalYear());
+        pkMap.put("universityFiscalYear", SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear());
         pkMap.put("chartOfAccountsCode", newBankAccount.getCashOffsetFinancialChartOfAccountCode());
         pkMap.put("accountNumber", newBankAccount.getCashOffsetAccountNumber());
         pkMap.put("financialObjectCode", newBankAccount.getCashOffsetObjectCode());

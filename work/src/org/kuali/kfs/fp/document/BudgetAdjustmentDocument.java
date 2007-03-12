@@ -116,7 +116,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
         // just set first allowed year. Note: allowedYears will never be empty because then
         // BudgetAdjustmentDocumentAuthorizer.canInitiate would have failed.
         List allowedYears = SpringServiceLocator.getKeyValuesService().getBudgetAdjustmentAllowedYears();
-        Integer currentYearParam = SpringServiceLocator.getDateTimeService().getCurrentFiscalYear();
+        Integer currentYearParam = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();
         
         FiscalYearFunctionControl fiscalYearFunctionControl = new FiscalYearFunctionControl();
         fiscalYearFunctionControl.setUniversityFiscalYear(currentYearParam);

@@ -29,7 +29,7 @@ public class FiscalYearFinder implements ValueFinder {
      * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
-        return SpringServiceLocator.getDateTimeService().getCurrentFiscalYear().toString();
+        return SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear().toString();
     }
 
 }

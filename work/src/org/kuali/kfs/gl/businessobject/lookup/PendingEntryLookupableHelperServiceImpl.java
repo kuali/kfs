@@ -34,6 +34,7 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.gl.bo.UniversityDate;
@@ -43,7 +44,6 @@ import org.kuali.module.gl.web.inquirable.InquirableFinancialDocument;
 public class PendingEntryLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PendingEntryLookupableHelperServiceImpl.class);
 
-    private DateTimeService dateTimeService;
     private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
     private KualiConfigurationService kualiConfigurationService;
 
@@ -116,7 +116,7 @@ public class PendingEntryLookupableHelperServiceImpl extends AbstractLookupableH
             }
         }
 
-        UniversityDate currentUniversityDate = dateTimeService.getCurrentUniversityDate();
+        UniversityDate currentUniversityDate = SpringServiceLocator.getUniversityDateService().getCurrentUniversityDate();
         String currentFiscalPeriodCode = currentUniversityDate.getUniversityFiscalAccountingPeriod();
         Integer currentFiscalYear = currentUniversityDate.getUniversityFiscalYear();
 
@@ -163,16 +163,7 @@ public class PendingEntryLookupableHelperServiceImpl extends AbstractLookupableH
 
         return new CollectionIncomplete(collection, new Long(collection.size()));
     }
-
-    /**
-     * Sets the dateTimeService attribute value.
-     * 
-     * @param dateTimeService The dateTimeService to set.
-     */
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
-    }
-
+    
     /**
      * Sets the generalLedgerPendingEntryService attribute value.
      * 

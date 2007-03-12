@@ -148,7 +148,7 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
         }
 
         BudgetAdjustmentAccountingLine budgetAccountingLine = (BudgetAdjustmentAccountingLine) accountingLine;
-        Integer currentFiscalYear = SpringServiceLocator.getDateTimeService().getCurrentFiscalYear();
+        Integer currentFiscalYear = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();
         /* Create Base Budget GLPE if base amount != 0 */
         if (budgetAccountingLine.getBaseBudgetAdjustmentAmount().isNonZero()) {
             GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
@@ -287,7 +287,7 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
         // check on-off tof flag
         boolean generateTransfer = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterIndicator(BUDGET_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING, GENERATE_TOF_GLPE_ENTRIES_PARM_NM);
         String transferObjectCode = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(BUDGET_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING, TRANSFER_OBJECT_CODE_PARM_NM);
-        Integer currentFiscalYear = SpringServiceLocator.getDateTimeService().getCurrentFiscalYear();
+        Integer currentFiscalYear = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();
 
         if (generateTransfer) {
             // map of income chart/accounts with balance as value

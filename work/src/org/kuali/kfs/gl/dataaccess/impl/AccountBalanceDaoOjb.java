@@ -46,7 +46,6 @@ import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements AccountBalanceDao, OracleSpecific {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceDaoOjb.class);
 
-    private DateTimeService dateTimeService;
     private OptionsService optionsService;
     static final private String OBJ_TYP_CD = "financialObject.financialObjectTypeCode";
 
@@ -144,7 +143,7 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
         // This is in a new object just to make each class smaller and easier to read
         try {
             Connection c = getPersistenceBroker(true).serviceConnectionManager().getConnection();
-            AccountBalanceConsolidation abc = new AccountBalanceConsolidation(this, optionsService, dateTimeService, c);
+            AccountBalanceConsolidation abc = new AccountBalanceConsolidation(this, optionsService, c);
 
             return abc.findAccountBalanceByConsolidationObjectTypes(objectTypes, universityFiscalYear, chartOfAccountsCode, accountNumber, isExcludeCostShare, isConsolidated, pendingEntriesCode);
         }
@@ -165,7 +164,7 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
         // This is in a new object just to make each class smaller and easier to read
         try {
             Connection c = getPersistenceBroker(true).serviceConnectionManager().getConnection();
-            AccountBalanceLevel abl = new AccountBalanceLevel(this, optionsService, dateTimeService, c);
+            AccountBalanceLevel abl = new AccountBalanceLevel(this, optionsService, c);
 
             return abl.findAccountBalanceByLevel(universityFiscalYear, chartOfAccountsCode, accountNumber, financialConsolidationObjectCode, isCostShareExcluded, isConsolidated, pendingEntriesCode);
         }
@@ -186,7 +185,7 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
         // This is in a new object just to make each class smaller and easier to read
         try {
             Connection c = getPersistenceBroker(true).serviceConnectionManager().getConnection();
-            AccountBalanceObject abo = new AccountBalanceObject(this, optionsService, dateTimeService, c);
+            AccountBalanceObject abo = new AccountBalanceObject(this, optionsService, c);
 
             return abo.findAccountBalanceByObject(universityFiscalYear, chartOfAccountsCode, accountNumber, financialObjectLevelCode, financialReportingSortCode, isCostShareExcluded, isConsolidated, pendingEntriesCode);
         }
@@ -328,10 +327,6 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
                 throw new RuntimeException("Unable to close connection: " + e.getMessage());
             }
         }
-    }
-
-    public void setDateTimeService(DateTimeService dts) {
-        dateTimeService = dts;
     }
 
     public void setOptionsService(OptionsService os) {

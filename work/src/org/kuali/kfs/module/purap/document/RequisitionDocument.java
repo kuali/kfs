@@ -61,7 +61,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 	private String alternate5VendorName;
 	private KualiDecimal organizationAutomaticPurchaseOrderLimit;
 
-    private DateTimeService dateTimeService;
     private PhoneNumberService phoneNumberService;
 
 	/**
@@ -213,13 +212,12 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setChartOfAccountsCode(currentUser.getChartOfAccountsCode());
         this.setOrganizationCode(currentUser.getOrganizationCode());
 
-        this.dateTimeService = SpringServiceLocator.getDateTimeService();
-        this.setPostingYear(dateTimeService.getCurrentFiscalYear());
+        this.setPostingYear(SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear());
 
         boolean activeVendor = true;
         boolean activeContract = true;
 
-        Date today = dateTimeService.getCurrentDate();
+        Date today = SpringServiceLocator.getDateTimeService().getCurrentDate();
 
         VendorContract vendorContract = new VendorContract();
         vendorContract.setVendorContractGeneratedIdentifier(this.getVendorContractGeneratedIdentifier());

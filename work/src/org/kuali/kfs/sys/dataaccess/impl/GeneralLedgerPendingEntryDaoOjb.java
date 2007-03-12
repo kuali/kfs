@@ -35,6 +35,7 @@ import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.dao.GeneralLedgerPendingEntryDao;
 import org.kuali.module.chart.bo.Account;
@@ -58,15 +59,8 @@ public class GeneralLedgerPendingEntryDaoOjb extends PersistenceBrokerDaoSupport
     private final static String CHART_FINANCIAL_CASH_OBJECT_CODE = "chart.financialCashObjectCode";
     private final static String OBJECT_TYPE_FIN_OBJECT_TYPE_DEBITCREDIT_CD = "objectType.finObjectTypeDebitcreditCd";
 
-    private DateTimeService dateTimeService;
     private KualiConfigurationService kualiConfigurationService;
 
-    /**
-     * 
-     */
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
-    }
 
     /**
      * 
@@ -563,7 +557,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PersistenceBrokerDaoSupport
     public Criteria buildCriteriaFromMap(Map fieldValues, Object businessObject) {
         Criteria criteria = new Criteria();
 
-        UniversityDate currentUniversityDate = dateTimeService.getCurrentUniversityDate();
+        UniversityDate currentUniversityDate = SpringServiceLocator.getUniversityDateService().getCurrentUniversityDate();
         String currentFiscalPeriodCode = currentUniversityDate.getUniversityFiscalAccountingPeriod();
         Integer currentFiscalYear = currentUniversityDate.getUniversityFiscalYear();
 

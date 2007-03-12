@@ -95,7 +95,7 @@ public abstract class AccountingLineBase extends PersistableBusinessObjectBase i
         subAccount = new SubAccount();
         subObjectCode = new SubObjCd();
         project = new ProjectCode();
-        postingYear = SpringServiceLocator.getDateTimeService().getCurrentFiscalYear();
+        postingYear = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();
         objectCode.setUniversityFiscalYear(postingYear);
         // all Financial Transaction Processing accounting lines (those extending from this) should use a balance type
         // of Actual, except for JV which allows a choice and PE which uses "PE"

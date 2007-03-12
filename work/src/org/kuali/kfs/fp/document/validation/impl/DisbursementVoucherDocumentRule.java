@@ -1371,7 +1371,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      */
     private WireCharge retrieveWireCharge() {
         WireCharge wireCharge = new WireCharge();
-        wireCharge.setUniversityFiscalYear(SpringServiceLocator.getDateTimeService().getCurrentFiscalYear());
+        wireCharge.setUniversityFiscalYear(SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear());
 
         wireCharge = (WireCharge) SpringServiceLocator.getBusinessObjectService().retrieve(wireCharge);
         if (wireCharge == null) {

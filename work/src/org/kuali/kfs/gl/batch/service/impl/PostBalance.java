@@ -21,6 +21,7 @@ import java.util.Iterator;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.gl.batch.poster.BalanceCalculator;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.bo.Balance;
@@ -34,7 +35,6 @@ public class PostBalance implements PostTransaction, BalanceCalculator {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostBalance.class);
 
     private BalanceDao balanceDao;
-    private DateTimeService dateTimeService;
 
     /**
      * 
@@ -132,7 +132,7 @@ public class PostBalance implements PostTransaction, BalanceCalculator {
         // update the balance amount of the cooresponding period
         String period = t.getUniversityFiscalPeriodCode();
         if (period == null) {
-            UniversityDate currentUniversityDate = dateTimeService.getCurrentUniversityDate();
+            UniversityDate currentUniversityDate = SpringServiceLocator.getUniversityDateService().getCurrentUniversityDate();
             period = currentUniversityDate.getUniversityFiscalAccountingPeriod();
         }
 
@@ -145,14 +145,5 @@ public class PostBalance implements PostTransaction, BalanceCalculator {
 
     public void setBalanceDao(BalanceDao bd) {
         balanceDao = bd;
-    }
-
-    /**
-     * Sets the dateTimeService attribute value.
-     * 
-     * @param dateTimeService The dateTimeService to set.
-     */
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
     }
 }

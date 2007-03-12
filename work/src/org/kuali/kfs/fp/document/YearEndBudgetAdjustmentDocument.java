@@ -35,7 +35,7 @@ public class YearEndBudgetAdjustmentDocument extends BudgetAdjustmentDocument im
      * set posting year to previous fiscal year
      */
     public void initiateDocument() {
-        Integer previousYearParam = new Integer(SpringServiceLocator.getDateTimeService().getCurrentFiscalYear().intValue() - 1);
+        Integer previousYearParam = new Integer(SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear().intValue() - 1);
         setPostingYear(previousYearParam);
     }
 }

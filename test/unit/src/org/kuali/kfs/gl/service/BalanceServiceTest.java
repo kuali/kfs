@@ -17,11 +17,11 @@ package org.kuali.module.financial.service;
 
 import static org.kuali.core.util.SpringServiceLocator.getBalanceService;
 import static org.kuali.core.util.SpringServiceLocator.getBeanFactory;
-import static org.kuali.core.util.SpringServiceLocator.getDateTimeService;
 
 import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.gl.dao.UnitTestSqlDao;
@@ -66,7 +66,7 @@ public class BalanceServiceTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         unitTestSqlDao = (UnitTestSqlDao) getBeanFactory().getBean("glUnitTestSqlDao");
-        Integer fiscalYear = getDateTimeService().getCurrentFiscalYear();
+        Integer fiscalYear = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();
 
         if (runOnce) {
             DELETE_BALANCES += "UNIV_FISCAL_YR=" + fiscalYear + " AND ACCOUNT_NBR='" + ACCOUNT_NUMBER + "'";

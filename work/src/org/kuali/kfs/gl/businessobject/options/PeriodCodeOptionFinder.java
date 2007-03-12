@@ -36,7 +36,7 @@ public class GLPeriodCodeOptionFinder extends KeyValuesBase implements ValueFind
      * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
-        UniversityDate ud = SpringServiceLocator.getDateTimeService().getCurrentUniversityDate();
+        UniversityDate ud = SpringServiceLocator.getUniversityDateService().getCurrentUniversityDate();
         return ud.getUniversityFiscalAccountingPeriod();
     }
 

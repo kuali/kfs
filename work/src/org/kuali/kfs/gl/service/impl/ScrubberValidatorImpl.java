@@ -29,6 +29,7 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.OriginationCode;
 import org.kuali.kfs.service.OriginationCodeService;
@@ -54,7 +55,6 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     private UniversityDateDao universityDateDao;
     private AccountService accountService;
     private OriginationCodeService originationCodeService;
-    private DateTimeService dateTimeService;
 
     public static final String DATE_FORMAT_STRING = "yyyy-MM-dd";
 
@@ -74,13 +74,13 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         UniversityDate today = null;
 
         if (entry.getUniversityFiscalYear() == null) {
-            today = dateTimeService.getCurrentUniversityDate();
+            today = SpringServiceLocator.getUniversityDateService().getCurrentUniversityDate();
             entry.setUniversityFiscalYear(today.getUniversityFiscalYear());
         }
 
         if (entry.getUniversityFiscalPeriodCode() == null) {
             if (today == null) {
-                today = dateTimeService.getCurrentUniversityDate();
+                today = SpringServiceLocator.getUniversityDateService().getCurrentUniversityDate();
             }
             entry.setUniversityFiscalPeriodCode(today.getUniversityFiscalAccountingPeriod());
         }
@@ -891,10 +891,4 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
     public void setOriginationCodeService(OriginationCodeService ocs) {
         originationCodeService = ocs;
     }
-
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
-    }
-
-
 }

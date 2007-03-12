@@ -55,6 +55,12 @@
 	<bean id="glUserService" class="org.kuali.module.gl.service.impl.GlUserServiceImpl" parent="kualiModuleUserServiceBase">
 	</bean>
 
+	<bean id="universityDateDao" class="org.kuali.module.gl.dao.ojb.UniversityDateDaoOjb">
+		<property name="jcdAlias">
+			<value>dataSource</value>
+		</property>
+	</bean>
+
 	<bean id="glBalanceLookupableHelperService" class="org.kuali.module.gl.web.lookupable.BalanceLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
@@ -155,9 +161,6 @@
 		<property name="postBalance">
 			<ref bean="glPostBalance" />
 		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
 	</bean>
 
 	<bean id="glCashBalanceLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
@@ -179,14 +182,8 @@
 		<property name="businessObjectMetaDataService">
 			<ref bean="businessObjectMetaDataService" />
 		</property>
-		<!--property name="dictionaryValidationService">
-			<ref bean="dictionaryValidationService" />
-			</property-->
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
-		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
 		</property>
 		<property name="generalLedgerPendingEntryService">
 			<ref bean="generalLedgerPendingEntryService" />
@@ -545,9 +542,6 @@
 		<property name="accountService">
 			<ref bean="accountService" />
 		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
 	</bean>
 
 	<bean id="glSufficientFundsSyncService" class="org.kuali.module.gl.service.impl.SufficientFundsSyncServiceImpl">
@@ -649,10 +643,6 @@
 		<property name="originEntryGroupService">
 			<ref bean="glOriginEntryGroupService" />
 		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
-
 		<property name="icrAutomatedEntryDao">
 			<ref bean="icrAutomatedEntryDao" />
 		</property>
@@ -697,10 +687,6 @@
 		<property name="originEntryGroupService">
 			<ref bean="glOriginEntryGroupService" />
 		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
-
 		<property name="objectCodeService">
 			<ref bean="objectCodeService" />
 		</property>
@@ -721,9 +707,6 @@
 	<bean id="glBalanceService" class="org.kuali.module.gl.service.impl.BalanceServiceImpl">
 		<property name="balanceDao">
 			<ref bean="glBalanceDao" />
-		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
 		</property>
 		<property name="optionsService">
 			<ref bean="optionsService" />
@@ -815,9 +798,6 @@
 	<bean id="glPostBalance" class="org.kuali.module.gl.batch.poster.impl.PostBalance">
 		<property name="balanceDao">
 			<ref bean="glBalanceDao" />
-		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
 		</property>
 	</bean>
 
@@ -918,9 +898,6 @@
 	</bean>
 
 	<bean id="glAccountBalanceDao" class="org.kuali.module.gl.dao.ojb.AccountBalanceDaoOjb">
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
 		<property name="optionsService">
 			<ref bean="optionsService" />
 		</property>
@@ -1077,9 +1054,6 @@
 	</bean>
 
 	<bean id="testDateTimeService" class="org.kuali.core.service.impl.ConfigurableDateTimeServiceImpl">
-	    <property name="universityDateDao">
-            <ref bean="universityDateDao" />
-        </property>
     </bean>
     
 	<bean id="glClearPendingEntriesForCancelledOrDisapprovedDocumentsJob" parent="scheduledJobDescriptor">

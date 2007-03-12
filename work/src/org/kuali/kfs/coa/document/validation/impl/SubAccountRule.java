@@ -387,7 +387,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         // existence check for Financial Series ID
         if (StringUtils.isNotEmpty(a21.getFinancialIcrSeriesIdentifier())) {
 
-            Integer fiscalYear = getDateTimeService().getCurrentFiscalYear();
+            Integer fiscalYear = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();
 
             Map fieldValues = new HashMap();
             fieldValues.put("financialIcrSeriesIdentifier", a21.getFinancialIcrSeriesIdentifier());

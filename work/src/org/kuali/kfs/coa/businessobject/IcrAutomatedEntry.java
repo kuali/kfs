@@ -34,7 +34,7 @@ public class IcrAutomatedEntry extends PersistableBusinessObjectBase {
      */
     public IcrAutomatedEntry() {
         // initialize the object fiscal year to the current fiscal year
-        universityFiscalYear = SpringServiceLocator.getDateTimeService().getCurrentFiscalYear();
+        universityFiscalYear = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();
     }
 
     private Integer universityFiscalYear;

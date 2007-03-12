@@ -79,7 +79,7 @@ public class CalculatedSalaryFoundationTrackerOverrideRule extends MaintenanceDo
 
         if ((ObjectUtils.isNotNull(newCalculatedSalaryFoundationTrackerOverride.getUniversityFiscalYear())) && (document.isNew())) {
 
-            Integer currentFiscalYear = dateTimeService.getCurrentFiscalYear();
+            Integer currentFiscalYear = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();
             Integer universityFiscalYear = newCalculatedSalaryFoundationTrackerOverride.getUniversityFiscalYear();
             if (!(universityFiscalYear.equals(currentFiscalYear))) {
                 putFieldError("universityFiscalYear", KeyConstants.ERROR_FISCAL_YEAR_NOT_CURRENT, "Fiscal Year");

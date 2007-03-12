@@ -38,7 +38,7 @@ public class TravelPerDiemCategoryValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
         Map criteria = new HashMap();
-        criteria.put("fiscalYear", SpringServiceLocator.getDateTimeService().getCurrentFiscalYear());
+        criteria.put("fiscalYear", SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear());
 
         List boList = (List) SpringServiceLocator.getKeyValuesService().findMatching(TravelPerDiem.class, criteria);
         List keyValues = new ArrayList();

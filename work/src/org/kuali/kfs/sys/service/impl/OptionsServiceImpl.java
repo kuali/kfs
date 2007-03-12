@@ -16,6 +16,7 @@
 package org.kuali.kfs.service.impl;
 
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.dao.OptionsDao;
 import org.kuali.kfs.service.OptionsService;
@@ -25,13 +26,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class OptionsServiceImpl implements OptionsService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OptionsServiceImpl.class);
 
-    private DateTimeService dateTimeService;
     private OptionsDao optionsDao;
 
     public Options getCurrentYearOptions() {
         LOG.debug("getCurrentYearOptions() started");
 
-        Integer fy = dateTimeService.getCurrentFiscalYear();
+        Integer fy = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();
         return optionsDao.getByPrimaryId(fy);
     }
 
@@ -39,10 +39,6 @@ public class OptionsServiceImpl implements OptionsService {
         LOG.debug("getOptions() started");
 
         return optionsDao.getByPrimaryId(universityFiscalYear);
-    }
-
-    public void setDateTimeService(DateTimeService dts) {
-        dateTimeService = dts;
     }
 
     public void setOptionsDao(OptionsDao od) {

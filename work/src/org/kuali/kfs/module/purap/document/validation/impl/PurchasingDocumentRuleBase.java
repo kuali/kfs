@@ -120,7 +120,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     boolean checkBeginDateBeforeEndDate(PurchasingDocument document) {
         boolean valid = true;
         DateTimeService dateTimeService = SpringServiceLocator.getDateTimeService();
-        int currentFiscalYear = dateTimeService.getCurrentFiscalYear();   
+        int currentFiscalYear = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();   
 
         Date beginDate = document.getPurchaseOrderBeginDate();
         Date endDate = document.getPurchaseOrderEndDate();

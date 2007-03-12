@@ -122,7 +122,7 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
      */
     public List getTravelPerDiemCategoryCodes() {
         Map criteria = new HashMap();
-        criteria.put("fiscalYear", SpringServiceLocator.getDateTimeService().getCurrentFiscalYear());
+        criteria.put("fiscalYear", SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear());
 
         return (List) SpringServiceLocator.getKeyValuesService().findMatching(TravelPerDiem.class, criteria);
     }

@@ -16,6 +16,13 @@
 -->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>	
+
+	<bean id="universityDateService" class="org.kuali.module.financial.service.impl.UniversityDateServiceImpl">
+		<property name="universityDateDao"><ref bean="universityDateDao" /></property>
+	</bean>
+
+
+
 	<bean id="homeOriginationDao" class="org.kuali.kfs.dao.ojb.HomeOriginationDaoOjb">
 		<property name="jcdAlias">
 			<value>dataSource</value>
@@ -38,9 +45,6 @@
 		<property name="jcdAlias">
 			<value>dataSource</value>
 		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
@@ -60,9 +64,6 @@
 	<bean id="optionsService" class="org.kuali.kfs.service.impl.OptionsServiceImpl">
 		<property name="optionsDao">
 			<ref bean="optionsDao" />
-		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
 		</property>
 	</bean>
 	

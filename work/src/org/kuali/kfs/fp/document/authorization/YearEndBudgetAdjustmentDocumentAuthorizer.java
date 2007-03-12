@@ -40,7 +40,7 @@ public class YearEndBudgetAdjustmentDocumentAuthorizer extends BudgetAdjustmentD
     @Override
     public void canInitiate(String documentTypeName, UniversalUser user) {
         List allowedYears = SpringServiceLocator.getKeyValuesService().getBudgetAdjustmentAllowedYears();
-        Integer previousPostingYear = new Integer(SpringServiceLocator.getDateTimeService().getCurrentFiscalYear().intValue() - 1);
+        Integer previousPostingYear = new Integer(SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear().intValue() - 1);
 
         // if previous fiscal year not active, BA document is not allowed to be initiated
         if (allowedYears == null || allowedYears.isEmpty()) {

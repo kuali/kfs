@@ -60,9 +60,6 @@
 	<!-- The following is temporary, only until SH_UNIV_DATE_T is corrected in the databse -->
 
 	<bean id="dateTimeService" class="org.kuali.core.service.impl.DateTimeServiceImpl">
-		<property name="universityDateDao">
-			<ref bean="universityDateDao" />
-		</property>
 	</bean>
 
 	<bean id="universityDateDao" class="org.kuali.module.gl.dao.ojb.UniversityDateDaoOjb" />
@@ -166,9 +163,6 @@
 	<bean id="budgetPersonnelService" class="org.kuali.module.kra.budget.service.impl.BudgetPersonnelServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
-		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
 		</property>
 		<property name="budgetFringeRateService">
 			<ref bean="budgetFringeRateService" />

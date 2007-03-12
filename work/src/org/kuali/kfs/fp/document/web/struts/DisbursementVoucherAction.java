@@ -556,7 +556,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
     private String retrieveWireChargeMessage() {
         String message = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KeyConstants.MESSAGE_DV_WIRE_CHARGE);
         WireCharge wireCharge = new WireCharge();
-        wireCharge.setUniversityFiscalYear(SpringServiceLocator.getDateTimeService().getCurrentFiscalYear());
+        wireCharge.setUniversityFiscalYear(SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear());
 
         wireCharge = (WireCharge) SpringServiceLocator.getBusinessObjectService().retrieve(wireCharge);
         Object[] args = { wireCharge.getDomesticChargeAmt(), wireCharge.getForeignChargeAmt() };

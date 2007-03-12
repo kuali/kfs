@@ -141,7 +141,7 @@ public class LedgerPostingDocumentBase extends TransactionalDocumentBase impleme
     public boolean getAllowsErrorCorrection() {
         boolean allowsCorrection = super.getAllowsErrorCorrection();
         
-        Integer fiscalYear = SpringServiceLocator.getDateTimeService().getCurrentFiscalYear();
+        Integer fiscalYear = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();
         if (!NumberUtils.equals(fiscalYear, getPostingYear())) {
             allowsCorrection = false;
         }

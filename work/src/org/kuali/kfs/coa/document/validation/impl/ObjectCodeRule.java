@@ -282,7 +282,7 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
     public boolean isValidYear(Integer year) {
         if (year==null) return false;
         int enteredYear = year.intValue();
-        int currentYear = dateTimeService.getCurrentFiscalYear().intValue();
+        int currentYear = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear().intValue();
         if ((enteredYear-currentYear) == 0 || (enteredYear-currentYear) == 1)
             return true;
         return false;

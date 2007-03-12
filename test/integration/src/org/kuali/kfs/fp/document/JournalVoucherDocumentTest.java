@@ -193,7 +193,6 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         assertNotNull(preCorrectId);
         assertNull(preCorrectCorrectsId);
 
-        assertEquals(1, preCorrectPECount);
         assertEquals(0, preCorrectNoteCount);
         assertEquals("F", preCorrectStatus);
         // do the copy

@@ -21,6 +21,7 @@ import org.kuali.core.service.PersistenceService;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.labor.service.LaborScrubberService;
 import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.suite.RelatesTo;
 
 
 @WithTestSpringContext
@@ -54,7 +55,8 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         date = c.getTime();
         dateTimeService.setCurrentDate(date);
     }
-
+    
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testMiscellaneousBlankFields() throws Exception {
 
         String[] stringInput = new String[] { "2007  6044900-----5300---ACEE07CHKDPDBLANKCHAR     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ", "2007BA       -----5300---ACEE07CHKDPDBLANKACCT     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ", "2007BA6044900-----    ---ACEE07CHKDPDBLANKOBJ      12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ", "2007BA6044900-----5300---ACEE07    PDBLANKDOCT     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ",
@@ -77,7 +79,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(stringInput);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCostShareEncumbrancesForPreEncumbrances() throws Exception {
 
         // Inputs.
@@ -99,7 +101,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
 
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCostShareEncumbrancesForInternalEncumbrances() throws Exception {
 
         String[] stringInput = new String[] { "2007BL4631618CS0014190---IEEX07PAYE01CSENCIE       00000THOMAS BUSEY/NEWEGG COMPUTERS                       40.72C2006-01-05          ----------                                      D                                ", "2007BL4631618CS0018000---IEAS07PAYE01CSENCIE       00000TP Generated Offset                                 40.72D2006-01-05          ----------                                      D                                " };
@@ -120,7 +122,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(stringInput);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCostShareEncumbrancesForExternalEncumbrances() throws Exception {
 
         String[] stringInput = new String[] { "2007BL4631601CS0011800---EXIN07EXENLGCSENCEX       00000225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00D2006-01-05          ----------                                      D                                ", "2007BL4631601CS0019041---EXLI07EXENLGCSENCEX       00000225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00C2006-01-05          ----------                                      D                                " };
@@ -138,7 +140,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(stringInput);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testNoCostShareEncumbrancesForCostShareEncumbrances() throws Exception {
 
         String[] stringInput = new String[] { "2007BL4631625CS0018000---CEAS07EXEN01NOCSENCE      00000TP Generated Offset                               1650.00C2006-01-05          ----------                                      D                                ", "2007BL4631625CS0014866---CEEX07EXEN01NOCSENCE      00000Correction to: 01-PU3355206                       1650.00D2006-01-05          ----------                                      D                                " };
@@ -149,7 +151,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         assertOriginEntries(4, output);
 
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testNoCostShareEncumbrancesForJournalVoucher() throws Exception {
 
         String[] input = new String[] { "2007BL4631618CS0014190---EXEX07JV  01NOCSENJV      00000THOMAS BUSEY/NEWEGG COMPUTERS                       40.72C2006-01-05          ----------                                      D                                ", "2007BL4631618CS0018000---EXAS07JV  01NOCSENJV      00000TP Generated Offset                                 40.72D2006-01-05          ----------                                      D                                " };
@@ -160,7 +162,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testNoCostShareEncumbrancesForBeginningBalances() throws Exception {
 
         String[] input = new String[] { "2007BL4631601CS0011800---EXINCBTOPSLGNOCSENCB      00000225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00D2006-01-05          ----------                                      D                                ", "2007BL4631601CS0019041---EXLICBTOPSLGNOCSENCB      00000225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00C2006-01-05          ----------                                      D                                " };
@@ -171,7 +173,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testNoCostShareEncumbrancesForActuals() throws Exception {
 
         String[] input = new String[] { "2007BL4631625CS0018000---ACAS07IB  01NOCSENAC      00000TP Generated Offset                               1650.00C2006-01-05          ----------                                      D                                ", "2007BL4631625CS0014866---ACEX07IB  01NOCSENAC      00000Correction to: 01-PU3355206                       1650.00D2006-01-05          ----------                                      D                                " };
@@ -183,7 +185,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testNoCostShareEncumbrancesForBudget() throws Exception {
 
         String[] input = new String[] { "2007BL4631618CS0014190---BBEX07GEC 01NOCSENBB      00000THOMAS BUSEY/NEWEGG COMPUTERS                       40.72 2006-01-05          ----------                                      D                                ", "2007BL4631618CS0018000---BBAS07GEC 01NOCSENBB      00000TP Generated Offset                                 40.72 2006-01-05          ----------                                      D                                " };
@@ -194,7 +196,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testNoCostShareForEncumbrancesNonExpenses() throws Exception {
 
         String[] input = new String[] { "2007BL4631601CS0011800---EXIN07TOPSLGNOCSENIN      00000225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00D2006-01-05          ----------                                      D                                ", "2007BL4631601CS0019041---EXLI07TOPSLGNOCSENIN      00000225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00C2006-01-05          ----------                                      D                                ", };
@@ -205,7 +207,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCostShareOther() throws Exception {
 
         String[] input = new String[] { "2007BL4631625CS0014000---ACEX07ID33EUCSHROTHER     00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                       ", "2007BL4631625CS0018000---ACAS07ID33EUCSHROTHER     00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                       " };
@@ -217,7 +219,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCostShareForLevelTrin() throws Exception {
 
         String[] input = new String[] { "2007BL4631618CS0019915---ACEX07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                       ", "2007BL4631618CS0019041---ACLI07DI  01CSHRTRIN      00000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                       " };
@@ -229,7 +231,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCostShareForLevelTrex() throws Exception {
 
         String[] input = new String[] { "2007BL4631601CS0019900---ACEX07CR  01CSHRTREX      00000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                       ", "2007BL4631601CS0018000---ACAS07CR  01CSHRTREX      00000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                       " };
@@ -241,7 +243,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCostShareForLevelTrav() throws Exception {
 
         String[] input = new String[] { "2007BL4631625CS0016000---ACEX07ID33EUCSHRTRAV      00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                       ", "2007BL4631625CS0018000---ACAS07ID33EUCSHRTRAV      00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                       " };
@@ -253,7 +255,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCostShareForLevelTran() throws Exception {
 
         String[] input = new String[] { "2007BL4631618CS0015199---ACEX07DI  01CSHRTRAN      00000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                       ", "2007BL4631618CS0019041---ACLI07DI  01CSHRTRAN      00000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                       " };
@@ -265,7 +267,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCostShareForLevelSaap() throws Exception {
 
         String[] input = new String[] { "2007BL4631601CS0012350---ACEX07CR  01CSHRSAAP      00000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                       ", "2007BL4631601CS0018000---ACAS07CR  01CSHRSAAP      00000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                       " };
@@ -277,7 +279,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCostShareForLevelResv() throws Exception {
 
         String[] input = new String[] { "2007BL4631625CS0017900---ACEX07ID33EUCSHRRESV      00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                       ", "2007BL4631625CS0018000---ACAS07ID33EUCSHRRESV      00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                       " };
@@ -289,7 +291,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCostShareForLevelPrsa() throws Exception {
 
         String[] input = new String[] { "2007BL4631618CS0012400---ACEX07DI  01CSHRPRSA      00000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                       ", "2007BL4631618CS0019041---ACLI07DI  01CSHRPRSA      00000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                       " };
@@ -301,7 +303,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCostShareForLevelPart() throws Exception {
 
         String[] input = new String[] { "2007BL4631601CS0012300---ACEX07CR  01CSHRPART      00000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                       ", "2007BL4631601CS0018000---ACAS07CR  01CSHRPART      00000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                       " };
@@ -313,7 +315,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCostShareForLevelIcoe() throws Exception {
 
         String[] input = new String[] { "2007BL4631625CS0015500---ACEX07ID33EUCSHRICOE      00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                       ", "2007BL4631625CS0018000---ACAS07ID33EUCSHRICOE      00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                       " };
@@ -325,7 +327,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCostShareForLevelHrco() throws Exception {
 
         String[] input = new String[] { "2007BL4631618CS0013000---ACEX07DI  01CSHRHRCO      00000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                       ", "2007BL4631618CS0019041---ACLI07DI  01CSHRHRCO      00000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                       " };
@@ -337,7 +339,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCostShareForLevelFina2() throws Exception {
 
         String[] input = new String[] { "2007BL4631601CS0015800---ACEX07CR  01CSHRFINA2     00000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                       ", "2007BL4631601CS0018000---ACAS07CR  01CSHRFINA2     00000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                       " };
@@ -349,7 +351,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCostShareForLevelFina1() throws Exception {
 
         String[] input = new String[] { "2007BL4631625CS0015400---ACEX07ID33EUCSHRFINA1     00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                       ", "2007BL4631625CS0018000---ACAS07ID33EUCSHRFINA1     00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                       " };
@@ -361,7 +363,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCostShareForLevelCori() throws Exception {
 
         String[] input = new String[] { "2007BL4631618CS0019912---ACEX07DI  01CSHRCORI      00000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                       ", "2007BL4631618CS0019041---ACLI07DI  01CSHRCORI      00000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                       " };
@@ -373,7 +375,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCostShareForLevelCore() throws Exception {
 
         String[] input = new String[] { "2007BL4631601CS0019951---ACEX07CR  01CSHRCORE      00000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                       ", "2007BL4631601CS0018000---ACAS07CR  01CSHRCORE      00000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                       " };
@@ -385,7 +387,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCostShareForLevelCap() throws Exception {
 
         String[] input = new String[] { "2007BL4631625CS0017000---ACEX07ID33EUCSHRCAP       00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                       ", "2007BL4631625CS0018000---ACAS07ID33EUCSHRCAP       00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                       " };
@@ -398,7 +400,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCostShareForLevelBisa() throws Exception {
 
         String[] input = new String[] { "2007BL4631618CS0012500---ACEX07DI  01CSHRBISA      00000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                       ", "2007BL4631618CS0019041---ACLI07DI  01CSHRBISA      00000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                       " };
@@ -410,7 +412,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCostShareForLevelBenf6() throws Exception {
         String[] input = new String[] { "2007BL4631625CS0015625---ACEX07ID33EUCSHRBENF6     00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                       ", "2007BL4631625CS0018000---ACAS07ID33EUCSHRBENF6     00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                       " };
 
@@ -421,7 +423,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCostShareForLevelBase() throws Exception {
 
         String[] input = new String[] { "2007BL4631618CS0015509---ACEX07DI  01CSHRBASE      00000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                       ", "2007BL4631618CS0019041---ACLI07DI  01CSHRBASE      00000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                       " };
@@ -433,7 +435,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCostShareForLevelAcsa() throws Exception {
 
         String[] input = new String[] { "2007BL4631601CS0012000---ACEX07CR  01CSHRACSA      00000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                       ", "2007BL4631601CS0018000---ACAS07CR  01CSHRACSA      00000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                       " };
@@ -445,7 +447,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testNoCostShareTransfersForCertainDocumentTypes() throws Exception {
 
         String[] input = new String[] { "2007BL4631618CS0015000---ACEX07JV  01NOCSHRJV      00000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                       ", "2007BL4631618CS0019041---ACLI07JV  01NOCSHRJV      00000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                       " };
@@ -456,7 +458,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testNoCostShareTransfersForBeginningBalanceTransactions() throws Exception {
 
         String[] input = new String[] { "2007BL4631601CS0015000---ACEXCBCR  01NOCSHRCB      00000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                       ", "2007BL4631601CS0018000---ACASCBCR  01NOCSHRCB      00000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                       " };
@@ -467,7 +469,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testNoCostShareTransfersForEncumbranceTransactions() throws Exception {
 
         String[] input = new String[] { "2007BL4631625CS0014110---EXEX07EXENEUNOCSHREX      00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                      D                                ", "2007BL4631625CS0018000---EXAS07EXENEUNOCSHREX      00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                      D                                " };
@@ -478,7 +480,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testNoCostShareTransfersForBudgetTransactions() throws Exception {
 
         String[] input = new String[] { "2007BL4631618CS0015000---BBEX07DI  01NOCSHRBB      00000Rite Quality Office Supplies Inc.                   94.35 2006-01-05          ----------                                                                       ", "2007BL4631618CS0019041---BBLI07DI  01NOCSHRBB      00000Rite Quality Office Supplies Inc.                   94.35 2006-01-05          ----------                                                                       " };
@@ -489,7 +491,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testNoCostShareTransfersForNonExpense() throws Exception {
 
         String[] input = new String[] { "2007BL4631601CS0011800---ACIN07CR  01NOCSHRIN      00000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                       ", "2007BL4631601CS0018000---ACAS07CR  01NOCSHRIN      00000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                       " };
@@ -500,7 +502,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testPlantIndebtedness() throws Exception {
 
         String[] input = new String[] { "2007BA9020204-----9100---ACLI07SB  01DEBTEDNES     00000Biology Stockroom                                   13.77D2006-01-05          ----------                                                                       ", "2007BA9020204-----8000---ACAS07SB  01DEBTEDNES     00000TP Generated Offset                                 13.77C2006-01-05          ----------                                                                       ", "2007BA9120657-----9120---ACLI07ST  EUDEBTEDNES     00000PAYROLL EXPENSE TRANSFERS                          620.00C2006-01-05          ----------                                                                       ", "2007BA9120657-----8000---ACAS07ST  EUDEBTEDNES     00000PAYROLL EXPENSE TRANSFERS                          620.00D2006-01-05          ----------                                                                       " };
@@ -515,7 +517,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testNoIndebtednessForObjectSubTypeP2() throws Exception {
 
         String[] input = new String[] { "2007BA9120657-----9100---ACLI07INV EUNODEBTP2      00000BALDWIN WALLACE COLLEGE                           3375.00C2006-01-05          ----------                                                                       ", "2007BA9120657-----8000---ACAS07INV EUNODEBTP2      00000TP Generated Offset                               3375.00D2006-01-05          ----------                                                                       " };
@@ -527,7 +529,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testNoIndebtednessForObjectSubTypeP1() throws Exception {
 
         String[] input = new String[] { "2007BL2231423-----9100---ACIN  CR  PLNODEBTP1      00000FRICKA FRACKA                                    45995.84C2006-01-05          ----------                                                                       ", "2007BL2231423-----8000---ACAS  CR  PLNODEBTP1      00000TP Generated Offset                              45995.84D2006-01-05          ----------                                                                       " };
@@ -538,7 +540,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testNoIndebtednessForEncumbranceEntries() throws Exception {
 
         String[] input = new String[] { "2007BA9021004-----9120---EXLI07TOPSEUNODEBTEX      00000PAYROLL EXPENSE TRANSFERS                          620.00C2006-01-05          ----------                                      D                                ", "2007BA9021004-----8000---EXAS07TOPSEUNODEBTEX      00000PAYROLL EXPENSE TRANSFERS                          620.00D2006-01-05          ----------                                      D                                " };
@@ -549,7 +551,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testNoIndebtednessForBudgetTransactions() throws Exception {
 
         String[] input = new String[] { "2007BA9020204-----9100---BBLI07SB  01NODEBTBB      00000Biology Stockroom                                   13.77 2006-01-05          ----------                                                                       ", "2007BA9020204-----8000---BBAS07SB  01NODEBTBB      00000TP Generated Offset                                 13.77 2006-01-05          ----------                                                                       " };
@@ -560,7 +562,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCapitalizationForObjectSubTypeCL() throws Exception {
 
         String[] input = new String[] { "2007BA6044900-----7099---ACEE07CD  PDCAPITALCL     00000214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05          ----------                                                                       ", "2007BA6044900-----8000---ACAS07CD  PDCAPITALCL     00000214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05          ----------                                                                       " };
@@ -571,7 +573,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCapitalizationForObjectSubTypeLR() throws Exception {
 
         String[] input = new String[] { "2007BA6044913-----7465---ACEE07GEC 01CAPITALLR     00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                       ", "2007BA6044913-----9041---ACLI07GEC 01CAPITALLR     00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                       " };
@@ -582,7 +584,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCapitalizationForObjectSubTypeLI() throws Exception {
 
         String[] input = new String[] { "2007BA6044906-----7100---ACEE07TOPS01CAPITALLI     00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                       ", "2007BA6044906-----9041---ACLI07TOPS01CAPITALLI     00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                       " };
@@ -593,7 +595,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCapitalizationForObjectSubTypeLE() throws Exception {
 
         String[] input = new String[] { "2007BA6044900-----7800---ACEE07CD  PDCAPITALLE     00000214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05          ----------                                                                       ", "2007BA6044900-----8000---ACAS07CD  PDCAPITALLE     00000214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05          ----------                                                                       " };
@@ -604,7 +606,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCapitalizationForObjectSubTypeLA() throws Exception {
 
         String[] input = new String[] { "2007BA6044913-----7200---ACEE07GEC 01CAPITALLA     00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                       ", "2007BA6044913-----9041---ACLI07GEC 01CAPITALLA     00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                       ", };
@@ -615,7 +617,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCapitalizationForObjectSubTypeEF() throws Exception {
 
         String[] input = new String[] { "2007BA6044906-----7400---ACEE07TOPS01CAPITALIF     00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                       ", "2007BA6044906-----9041---ACLI07TOPS01CAPITALIF     00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                       " };
@@ -626,7 +628,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCapitalizationForObjectSubTypeES() throws Exception {
 
         String[] input = new String[] { "2007BA6044900-----7098---ACEE07CD  PDCAPITALES     00000214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05          ----------                                                                       ", "2007BA6044900-----8000---ACAS07CD  PDCAPITALES     00000214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05          ----------                                                                       " };
@@ -637,7 +639,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCapitalizationForObjectSubTypeCF() throws Exception {
 
         String[] input = new String[] { "2007BA6044913-----7030---ACEE07GEC 01CAPITALCF     00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                       ", "2007BA6044913-----9041---ACLI07GEC 01CAPITALCF     00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                       " };
@@ -648,7 +650,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCapitalizationForObjectSubTypeCM() throws Exception {
 
         String[] input = new String[] { "2007BA6044906-----7000---ACEE07TOPS01CAPITALCM     00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                       ", "2007BA6044906-----9041---ACLI07TOPS01CAPITALCM     00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                       " };
@@ -659,7 +661,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCapitalizationForObjectSubTypeBF() throws Exception {
 
         String[] input = new String[] { "2007BA6044913-----7305---ACEE07GEC 01CAPITALBF     00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                       ", "2007BA6044913-----9041---ACLI07GEC 01CAPITALBF     00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                       " };
@@ -670,7 +672,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCapitalizationForObjectSubTypeBD() throws Exception {
 
         String[] input = new String[] { "2007BA6044906-----7300---ACEE07TOPS01CAPITALBD     00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                       ", "2007BA6044906-----9041---ACLI07TOPS01CAPITALBD     00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                       " };
@@ -681,7 +683,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testCapitalizationForObjectSubTypeAM() throws Exception {
 
         String[] input = new String[] { "2007BA6044900-----7677---ACEE07CD  PDCAPITALAM     00000214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05          ----------                                                                       ", "2007BA6044900-----8000---ACAS07CD  PDCAPITALAM     00000214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05          ----------                                                                       " };
@@ -692,7 +694,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testNoCapitalizationForCertainFiscalPeriods() throws Exception {
 
         String[] input = new String[] { "2007BA6044900-----7000---ACEECBCD  PDNOCAPCB       00000214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ACCDEFGHIJ----------12345678                                                               ", "2007BA6044900-----8000---ACASCBCD  PDNOCAPCB       00000214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05ABCDEFGHIG----------12345679                                                               " };
@@ -703,7 +705,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testNoCapitalizationForCertainDocumentTypes() throws Exception {
 
         String[] input = new String[] { "2007BA6044913-----7300---ACEE07TF  LGNOCAPTF       00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                       ", "2007BA6044913-----9041---ACLI07TF  LGNOCAPTF       00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                       " };
@@ -714,7 +716,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testNoCapitalizationForEncumbranceEntry() throws Exception {
 
         String[] input = new String[] { "2007BA6044906-----7300---EXEE07TOPSLGNOCAPEX       00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                      D                                ", "2007BA6044906-----9041---EXLI07TOPSLGNOCAPEX       00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                      D                                " };
@@ -725,7 +727,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testOffsetGenerationAcrossMultipleFiscalPeriods() throws Exception {
 
         String[] input = new String[] { "2007BL1031497-----4190---ACEX07GEC 01OFFSETPER     00000THOMAS BUSEY/NEWEGG COMPUTERS                       40.72C2006-01-05          ----------                                                                       ", "2007BL1031497-----8000---ACAS08GEC 01OFFSETPER     00000TP Generated Offset                                 40.72D2006-01-05          ----------                                                                       " };
@@ -736,7 +738,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testOffsetGenerationAcrossMultipleReversalDates() throws Exception {
 
         String[] input = new String[] { "2007BA6044913-----1800---ACIN07CR  01OFFSETREV     00000Poplars Garage Fees                                 20.00D2006-01-05          ----------                            2005-01-31                                 ", "2007BA6044913-----8000---ACAS07CR  01OFFSETREV     00000TP Generated Offset                                 20.00C2006-01-05          ----------                            2005-02-01                                 " };
@@ -836,7 +838,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
     // scrub(input);
     // assertOriginEntries(4,output);
     // }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testOffsetGenerationAcrossMultipleOriginCodes() throws Exception {
 
         String[] input = new String[] { "2007BA6044906-----4010---ACEX07DI  01OFFSETORG     00000OFFICE SUPPLY CHARGEBACKS                          294.64D2006-01-05          ----------                                                                       ", "2007BA6044906-----5000---ACEX07DI  EUOFFSETORG     00000OFFICE SUPPLY CHARGEBACKS                          294.64D2006-01-05          ----------                                                                       " };
@@ -884,7 +886,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
     // scrub(input);
     // assertOriginEntries(4,output);
     // }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testClosedAccount() throws Exception {
 
         String[] input = new String[] { "2007BA6044909-----1800---ACIN07CR  UBCLOSACCT      00000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                               ", "2007BA6044909-----8000---ACAS07CR  UBCLOSACCT      00000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                               " };
@@ -895,7 +897,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testExpiredAccountByDocumentType() throws Exception {
 
         String[] input = new String[] { "2007BL4631557-----4100---ACEX07LOCRLGEXPRACTLC     00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                               ", "2007BL4631557-----9041---ACLI07LOCRLGEXPRACTLC     00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                               " };
@@ -906,7 +908,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testExpiredAccountByBalanceType() throws Exception {
 
         String[] input = new String[] { "2007BL4131407-----4100---EXEX07TOPSLGEXPRACTEX     00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                      D                                        ", "2007BL4131407-----9041---EXLI07TOPSLGEXPRACTEX     00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                      D                                        " };
@@ -917,7 +919,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testExpiredAccountByOriginCode() throws Exception {
 
         String[] input = new String[] { "2007BL1031467-----5300---ACEE07DD  01EXPRACT01     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ", "2007BL1031467-----8000---ACAS07DD  01EXPRACT01     12345214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05ABCDEFGHIG----------12345679                                                                       ", };
@@ -928,7 +930,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testExpiredContractAndGrantAccount() throws Exception {
 
         String[] input = new String[] { "2007BL4131407-----4100---ACEX07TOPSLGEXPIRCGAC     00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                               ", "2007BL4131407-----9041---ACLI07TOPSLGEXPIRCGAC     00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                               " };
@@ -938,7 +940,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(input);
         assertOriginEntries(4, output);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testExpiredAccount() throws Exception {
 
         String[] input = new String[] { "2007BL1031467-----5300---ACEE07CD  PDEXPIRACCT     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ", "2007BL1031467-----8000---ACAS07CD  PDEXPIRACCT     12345214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05ABCDEFGHIG----------12345679                                                                       " };
@@ -951,7 +953,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
     }
 
     // ************************************************************** Tests for error conditions below.
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testInvalidEncumbranceUpdateCode() throws Exception {
 
         String[] inputTransactions = { "2007BL1031420-----4110---IEEX07PAYEEUINVALENCC     00000NOV-05 IMU Business Office          2224           241.75C2005-11-30          ----------                                      X                                        ", "2007BL1031420-----9892---IEAS07PAYEEUINVALENCC     00000NOV-05 IMU Business Office          2237           241.75D2005-11-30          ----------                                      X                                        " };
@@ -961,7 +963,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testBlankEncumbranceUpdateCodeOnEncumbranceRecord() throws Exception {
 
         String[] inputTransactions = { "2007BL1031400-----4100---PEEX07TF  01BLANKENCC     00000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                               ", "2007BL1031400-----9891---PEFB07TF  01BLANKENCC     00000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                               " };
@@ -971,7 +973,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testBlankReferenceDocumentNumberWithEncumbranceUpdateCodeOfR() throws Exception {
 
         String[] inputTransactions = { "2007BA6044900-----1599---EXIN07TOPSLGBLANKRDOC     00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------             CR  01                   R                                        ", "2007BA6044900-----9041---EXLI07TOPSLDBLANKRDOC     00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------             CR  01                   R                                        " };
@@ -981,7 +983,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testReferenceDocumentNumberPresentWithoutOtherFields() throws Exception {
 
         String[] inputTransactions = { "2007BA6044906-----5300---ACEE07CHKDPDLONERDOC      12345TEST KUALI SCRUBBER EDITS                         1445.00D2006-01-05ABCDEFGHIJ----------12345678      123456789                                                        ", "2007BA6044906-----8000---ACAS07CHKDPDLONERDOC      12345TEST KUALI SCRUBBER EDITS                         1445.00C2006-01-05ABCDEFGHIG----------12345678      123456789                                                        " };
@@ -991,7 +993,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testBlankReferenceOriginCodeWithEncumbranceUpdateCodeOfR() throws Exception {
 
         String[] inputTransactions = { "2007BL9120656-----5000---ACEX07INV EUBLANKRORG     00000BALDWIN WALLACE COLLEGE                           3375.00C2006-01-05          ----------        DI    123456789                                                        ", "2007BL9120656-----8000---ACAS07INV EUBLANKRORG     00000TP Generated Offset                               3375.00D2006-01-05          ----------        DI    123456789                                                        " };
@@ -1001,7 +1003,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testInvalidReferenceOriginCode() throws Exception {
 
         String[] inputTransactions = { "2007BL2231411-----2400---ACEX07ST  EUINVALRORG     00000PAYROLL EXPENSE TRANSFERS                          620.00C2006-01-05          ----------        CD  XX123456789                                                        ", "2007BL2231411-----8000---ACAS07ST  EUINVALRORG     00000PAYROLL EXPENSE TRANSFERS                          620.00D2006-01-05          ----------        CD  XX123456789                                                        " };
@@ -1011,7 +1013,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testBlankReferenceDocumentTypeWithEncumbranceUpdateCodeOfR() throws Exception {
 
         String[] inputTransactions = { "2007BL2231408-----4035---ACEX07SB  01BLANKRDTP     00000Biology Stockroom                                   13.77D2006-01-05          ----------            LG123456789                                                        ", "2007BL2231408-----8000---ACAS07SB  01BLANKRDTP     00000TP Generated Offset                                 13.77C2006-01-05          ----------            LG123456789                                                        " };
@@ -1021,7 +1023,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testInvalidReferenceDocumentType() throws Exception {
         String[] inputTransactions = { "2007BL1031497-----4190---ACEX07GEC 01INVALRDTP     00000THOMAS BUSEY/NEWEGG COMPUTERS                       40.72C2006-01-05          ----------        XXXXLG123456789                                                        ", "2007BL1031497-----8000---ACAS07GEC 01INVALRDTP     00000TP Generated Offset                                 40.72D2006-01-05          ----------        XXXXLG123456789                                                        " };
 
@@ -1030,7 +1032,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testInvalidProjectCode() throws Exception {
         String[] inputTransactions = { "2007BL9120656-----4035---ACEX07CR  01INVALPROJ     00000pymts recd 12/28/05                                 25.15C2006-01-05          XXXXXXXXX                                                                                ", "2007BL9120656-----8000---ACAS07CR  01INVALPROJ     00000TP Generated Offset                                 25.15D2006-01-05          XXXXXXXXX                                                                                " };
 
@@ -1039,7 +1041,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testInvalidTransactionDate() throws Exception {
         String[] inputTransactions = { "2007BL1031497-----4100---ACEX07PO  LGINVALDATE     00000Rite Quality Office Supplies Inc.                   43.42D2096-02-11          ----------                                                                               ", "2007BL1031497-----9892---ACFB07PO  LGINVALDATE     00000Rite Quality Office Supplies Inc.                   43.42C1006-12-23          ----------                                                                               " };
 
@@ -1048,7 +1050,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testInvalidDebitCreditCode() throws Exception {
         String[] inputTransactions = { "2007BL1031420-----4110---ACEX07ID33EUINVALDBCR     00000NOV-05 IMU Business Office          2224           241.75X2005-11-30          ----------                                                                               ", "2007BL1031420-----8000---ACAS07ID33EUINVALDBCR     00000NOV-05 IMU Business Office          2237           241.75X2005-11-30          ----------                                                                               " };
 
@@ -1057,7 +1059,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testDebitCreditCodeOnTransactionNotRequiringOffset() throws Exception {
         String[] inputTransactions = { "2007BL1031400-----4100---MBEX07BA  01WRONGDBCR     00000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                               ", "2007BL1031400-----1800---MBLI07BA  01WRONGDBCR     00000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                               " };
 
@@ -1066,7 +1068,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testBlankDebitCreditCodeOnTransactionRequiringOffset() throws Exception {
         String[] inputTransactions = { "2007BA6044913-----1470---ACIN07CR  01BLANKDBCR     00000Poplars Garage Fees                                 20.00 2006-01-05          ----------                                                                               ", "2007BA6044913-----8000---ACAS07CR  01BLANKDBCR     00000TP Generated Offset                                 20.00 2006-01-05          ----------                                                                               " };
         EntryHolder[] outputTransactions = { new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[0]), new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[1]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[0]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[1]) };
@@ -1074,7 +1076,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testBlankDocumentNumber() throws Exception {
         String[] inputTransactions = { "2007BL2231423-----1800---ACIN  CR  PL              00000FRICKA FRACKA                                    45995.84C2006-01-05          ----------                                                                               ", "2007BL2231423-----8000---ACAS  CR  PL              00000TP Generated Offset                              45995.84D2006-01-05          ----------                                                                               " };
 
@@ -1083,7 +1085,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testInvalidOriginCode() throws Exception {
         String[] inputTransactions = { "2007BA9120656-----5000---ACEX07INV XXINVALORIG     00000BALDWIN WALLACE COLLEGE                           3375.00C2006-01-05          ----------                                                                               ", };
 
@@ -1092,7 +1094,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testBlankOriginCode() throws Exception {
 
         String[] inputTransactions = { "2007BL2231411-----2400---ACEX07ST    BLANKORIG     00000PAYROLL EXPENSE TRANSFERS                          620.00C2006-01-05          ----------                                                                               ", };
@@ -1102,7 +1104,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testInvalidDocumentType() throws Exception {
         String[] inputTransactions = { "2007BL2231408-----4035---ACEX07XXX 01INVALDTYP     00000Biology Stockroom                                   13.77D2006-01-05          ----------                                                                               ", "2007BL2231408-----8000---ACAS07XXX 01INVALDTYP     00000TP Generated Offset                                 13.77C2006-01-05          ----------                                                                               " };
 
@@ -1111,7 +1113,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testBlankDocumentType() throws Exception {
         String[] inputTransactions = { "2007BA6044900-----8000---ACAS07    01BLANKDTYP     00000TP Generated Offset                               1650.00C2006-01-05          ----------                                                                               ", "2007BL6044900-----4866---ACEX07    01BLANKDTYP     00000Correction to: 01-PU3355206                       1650.00D2006-01-05          ----------                                                                               " };
 
@@ -1120,7 +1122,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testInvalidFiscalPeriod() throws Exception {
         String[] inputTransactions = { "2007BL1031497-----4190---ACEX14GEC 01INVALPER      00000THOMAS BUSEY/NEWEGG COMPUTERS                       40.72C2006-01-05          ----------                                                                               ", "2007BL1031497-----8000---ACASXXGEC 01INVALPER      00000TP Generated Offset                                 40.72D2006-01-05          ----------                                                                               " };
 
@@ -1129,7 +1131,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testClosedFiscalPeriod() throws Exception {
         String[] inputTransactions = { "2003BA9120656-----4035---ACEX01CR  01CLOSEPER      00000pymts recd 12/28/05                                 25.15C2006-01-05          ----------                                                                               ", "2003BA9120656-----8000---ACAS01CR  01CLOSEPER      00000TP Generated Offset                                 25.15D2006-01-05          ----------                                                                               " };
 
@@ -1138,7 +1140,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testInvalidObjectType() throws Exception {
         String[] inputTransactions = { "2007BL1031400-----4100---ACXX07PO  LGINVALOBTY     00000Rite Quality Office Supplies Inc.                   43.42D2006-01-05          ----------                                                                               ", "2007BL1031400-----9892---ACFB07PO  LGINVALOBTY     00000Rite Quality Office Supplies Inc.                   43.42C2006-01-05          ----------                                                                               " };
 
@@ -1147,7 +1149,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testInvalidBalanceType() throws Exception {
 
         String[] inputTransactions = { "2007BL1031420-----4110---XXEX07ID33EUINVALBALT     00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                               ", "2007BL1031420-----8000---ACAS07ID33EUINVALBALT     00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                               " };
@@ -1157,7 +1159,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testInvalidObjectCode() throws Exception {
         String[] inputTransactions = { "2007BL2231423-----XXXX---ACIN  CR  PLINVALOBJ      00000FRICKA FRACKA                                    45995.84C2006-01-05          ----------                                                                               ", "2007BL2231423-----8000---ACAS  CR  PLINVALOBJ      00000TP Generated Offset                              45995.84D2006-01-05          ----------                                                                               " };
 
@@ -1166,7 +1168,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testInactiveObjectCode() throws Exception {
         String[] inputTransactions = { "2007BL2231411-----2001---ACEX07INV EUINACTOBJ      00000BALDWIN WALLACE COLLEGE                           3375.00C2006-01-05          ----------                                                                               ", "2007BL2231411-----8000---ACAS07INV EUINACTOBJ      00000TP Generated Offset                               3375.00D2006-01-05          ----------                                                                               " };
 
@@ -1175,7 +1177,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testInvalidSubAccountNumber() throws Exception {
         String[] inputTransactions = { "2007BL2231408XXXX 4035---ACEX07SB  01INVALSACT     00000Biology Stockroom                                   13.77D2006-01-05          ----------                                                                               ", "2007BL2231408XXXX 8000---ACAS07SB  01INVALSACT     00000TP Generated Offset                                 13.77C2006-01-05          ----------                                                                               " };
 
@@ -1184,7 +1186,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testInactiveSubAccountNumber() throws Exception {
         String[] inputTransactions = { "2007BA6044900ARREC8000---ACAS07IB  01INACTSACT     00000TP Generated Offset                               1650.00C2006-01-05          ----------                                                                               ", "2007BL6044900ARREC4866---ACEX07IB  01INACTSACT     00000Correction to: 01-PU3355206                       1650.00D2006-01-05          ----------                                                                               " };
 
@@ -1193,7 +1195,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testInvalidAccountNumber() throws Exception {
         String[] inputTransactions = { "2007EA1234567-----4035---ACEX07CR  01INVALACCT     00000pymts recd 12/28/05                                 25.15C2006-01-05          ----------                                                                               ", "2007EA1234567-----8000---ACAS07CR  01INVALACCT     00000TP Generated Offset                                 25.15D2006-01-05          ----------                                                                               " };
 
@@ -1202,7 +1204,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testBlankAccountNumber() throws Exception {
         String[] inputTransactions = { "2007IN       -----5000---ACEX07PO  LGBLANKACCT     00000225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00D2006-01-05          ----------                                                                               ", "2007IN       -----9041---ACLI07PO  LGBLANKACCT     00000225050007 WILLIAMS DOTSON ASSOCIATES IN           1200.00C2006-01-05          ----------                                                                               " };
 
@@ -1211,7 +1213,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testInvalidChart() throws Exception {
         String[] inputTransactions = { "2007XX1031420-----4110---ACEX07ID33EUINVALCHAR     00000NOV-05 IMU Business Office          2224           241.75D2005-11-30          ----------                                                                               ", "2007XX1031420-----8000---ACAS07ID33EUINVALCHAR     00000NOV-05 IMU Business Office          2237           241.75C2005-11-30          ----------                                                                               " };
 
@@ -1220,7 +1222,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
-
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testInvalidFiscalYear() throws Exception {
         String[] inputTransactions = { "2020BA6044913-----1470---ACIN07CR  01INVALFISC     00000Poplars Garage Fees                                 20.00C2006-01-05          ----------                                                                               ", "2020BA6044913-----8000---ACAS07CR  01INVALFISC     00000TP Generated Offset                                 20.00D2006-01-05          ----------                                                                               " };
 
@@ -1235,6 +1237,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
      * 
      * @throws Exception
      */
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testClosedFiscalYear() throws Exception {
         String[] inputTransactions = { "2003BA6044906-----4100---ACEX07TOPSLGCLOSEFISC     00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                               ", "2003BA6044906-----9041---ACLI07TOPSLGCLOSEFISC     00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                               " };
 
@@ -1250,6 +1253,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
      * 
      * @throws Exception
      */
+    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testDefaultFiscalYear() throws Exception {
 
         String[] inputTransactions = { "    BA6044900-----5300---ACEE07CHKDPDBLANKFISC     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ", "    BA6044900-----8000---ACAS07CHKDPDBLANKFISC     12345214090047 EVERETT J PRESCOTT INC.                 1445.00C2006-01-05ABCDEFGHIG----------12345678                                                                       " };

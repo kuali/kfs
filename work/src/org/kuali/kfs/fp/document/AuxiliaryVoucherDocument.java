@@ -241,10 +241,11 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
     }
 
     /**
-     * @see org.kuali.module.financial.document.FinancialDocumentBase#toCopy()
+     * @see org.kuali.module.financial.document.FinancialDocumentBase#toErrorCorrection()
      */
     @Override
-    public void toCopy() throws WorkflowException {
+    public void toErrorCorrection() throws WorkflowException {
+        super.toErrorCorrection();
         processAuxiliaryVoucherErrorCorrections();
     }
 

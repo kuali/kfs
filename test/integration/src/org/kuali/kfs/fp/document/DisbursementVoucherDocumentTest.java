@@ -114,48 +114,6 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
 
     }
 
-    @TestsWorkflowViaDatabase
-    public final void testWorkflowRouting() throws Exception {
-        // save and route the document
-        Document document = buildDocument();
-        final String docId = document.getDocumentNumber();
-        getDocumentService().routeDocument(document, "routing test doc", null);
-
-        WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);
-
-        // the document should now be routed to VPUTMAN as Fiscal Officer
-        changeCurrentUser(VPUTMAN);
-        document = getDocumentService().getByDocumentHeaderId(docId);
-        assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(document, ACCOUNT_REVIEW));
-        assertTrue("Document should be enroute.", document.getDocumentHeader().getWorkflowDocument().stateIsEnroute());
-        assertTrue("VPUTMAN should have an approve request.", document.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
-        getDocumentService().approveDocument(document, "Test approving as VPUTMAN", null);
-
-        WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), ORG_REVIEW);
-        // now doc should be in Org Review routing to CSWINSON
-        changeCurrentUser(CSWINSON);
-        document = getDocumentService().getByDocumentHeaderId(docId);
-        assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(document, ORG_REVIEW));
-        assertTrue("CSWINSON should have an approve request.", document.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
-        getDocumentService().approveDocument(document, "Test approving as CSWINSON", null);
-
-        // this is going to skip a bunch of other routing and end up at campus code
-        WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), CAMPUS_CODE);
-
-        // doc should be in "Campus Code" routing to MYLARGE
-        changeCurrentUser(MYLARGE);
-        document = getDocumentService().getByDocumentHeaderId(docId);
-        assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(document, CAMPUS_CODE));
-        assertTrue("Should have an approve request.", document.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
-        getDocumentService().approveDocument(document, "Approve", null);
-
-        WorkflowTestUtils.waitForStatusChange(document.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
-
-        changeCurrentUser(VPUTMAN);
-        document = getDocumentService().getByDocumentHeaderId(docId);
-        assertTrue("Document should now be final.", document.getDocumentHeader().getWorkflowDocument().stateIsFinal());
-    }
-
     private int getExpectedPrePeCount() {
         return 2;
     }

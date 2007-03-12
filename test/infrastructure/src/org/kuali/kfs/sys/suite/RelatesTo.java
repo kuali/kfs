@@ -53,7 +53,8 @@ public @interface RelatesTo {
         KULRNE4303,
         KULRNE4307,
         KULRNE4308, KULLAB54,
-        KULRNE4462
+        KULRNE4462,
+        KULLAB96
         ;
         
         private final static Pattern PATTERN = Pattern.compile("(\\p{Alpha}+)(\\p{Digit}+)");

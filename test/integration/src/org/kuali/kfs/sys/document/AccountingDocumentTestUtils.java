@@ -407,8 +407,6 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
     }
 
     public static <T extends Document> void assertMatch(T document1, T document2) {
-        Assert.assertEquals(document1.getDocumentHeader().getFinancialDocumentDescription(), document2.getDocumentHeader().getFinancialDocumentDescription());
-        Assert.assertEquals(document1.getDocumentHeader().getExplanation(), document2.getDocumentHeader().getExplanation());
         Assert.assertEquals(document1.getDocumentNumber(), document2.getDocumentNumber());
         Assert.assertEquals(document1.getDocumentHeader().getWorkflowDocument().getDocumentType(), document2.getDocumentHeader().getWorkflowDocument().getDocumentType());
 

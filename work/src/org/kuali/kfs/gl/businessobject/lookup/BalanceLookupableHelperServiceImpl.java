@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.Constants;
-import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.batch.poster.BalanceCalculator;
@@ -43,7 +43,7 @@ public class BalanceLookupableHelperServiceImpl extends AbstractGLLookupableHelp
      * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
      */
     @Override
-    public String getInquiryUrl(PersistableBusinessObject bo, String propertyName) {
+    public String getInquiryUrl(BusinessObject bo, String propertyName) {
         return (new BalanceInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
 

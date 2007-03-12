@@ -23,7 +23,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.kuali.Constants;
-import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
@@ -50,7 +50,7 @@ public class AccountBalanceLookupableHelperServiceImpl extends AbstractGLLookupa
      * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
      */
     @Override
-    public String getInquiryUrl(PersistableBusinessObject bo, String propertyName) {
+    public String getInquiryUrl(BusinessObject bo, String propertyName) {
         return (new AccountBalanceInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
 

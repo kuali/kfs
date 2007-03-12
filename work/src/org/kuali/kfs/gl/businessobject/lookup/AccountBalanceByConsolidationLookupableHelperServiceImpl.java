@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
-import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.module.gl.GLConstants;
@@ -50,7 +50,7 @@ public class AccountBalanceByConsolidationLookupableHelperServiceImpl extends Ab
      * @return String url to inquiry
      */
     @Override
-    public String getInquiryUrl(PersistableBusinessObject bo, String propertyName) {
+    public String getInquiryUrl(BusinessObject bo, String propertyName) {
         return (new AccountBalanceByConsolidationInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
 

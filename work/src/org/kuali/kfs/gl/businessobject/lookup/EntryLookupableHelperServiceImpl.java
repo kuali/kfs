@@ -25,7 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
-import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
@@ -66,7 +66,7 @@ public class EntryLookupableHelperServiceImpl extends AbstractGLLookupableHelper
      * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
      */
     @Override
-    public String getInquiryUrl(PersistableBusinessObject businessObject, String propertyName) {
+    public String getInquiryUrl(BusinessObject businessObject, String propertyName) {
         if (PropertyConstants.DOCUMENT_NUMBER.equals(propertyName)) {
             if (businessObject instanceof Entry) {
                 Entry entry = (Entry) businessObject;

@@ -24,7 +24,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
-import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.util.BeanPropertyComparator;
@@ -54,7 +54,7 @@ public abstract class AbstractGLLookupableHelperServiceImpl extends AbstractLook
      *          maintenance links.
      */
     @Override
-    public String getActionUrls(PersistableBusinessObject bo) {
+    public String getActionUrls(BusinessObject bo) {
         return Constants.EMPTY_STRING;
     }
     

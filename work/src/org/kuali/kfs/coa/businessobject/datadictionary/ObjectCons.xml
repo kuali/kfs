@@ -48,6 +48,7 @@
                 <lookupField attributeName="finConsolidationObjectName" required="false" />
                 <lookupField attributeName="finConsolidationObjShortName" required="false" />
                 <lookupField attributeName="financialEliminationsObjectCode" required="false" />
+                <lookupField attributeName="finConsolidationObjActiveIndicator" required="false" />
             </lookupFields>
 
             <resultFields>

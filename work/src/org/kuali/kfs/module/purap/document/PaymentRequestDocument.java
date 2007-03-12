@@ -72,7 +72,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private Integer alternateVendorHeaderGeneratedIdentifier;
     private Integer alternateVendorDetailAssignedIdentifier;
 
-    private PaymentRequestStatusHistory paymentRequest;
     private PaymentRequestStatus paymentRequestStatus;
     private Campus processingCampus;
 
@@ -944,26 +943,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.alternateVendorDetailAssignedIdentifier = alternateVendorDetailAssignedIdentifier;
     }
 
-
-    /**
-     * Gets the paymentRequest attribute.
-     * 
-     * @return Returns the paymentRequest
-     * 
-     */
-    public PaymentRequestStatusHistory getPaymentRequest() { 
-        return paymentRequest;
-    }
-
-    /**
-     * Sets the paymentRequest attribute.
-     * 
-     * @param paymentRequest The paymentRequest to set.
-     * @deprecated
-     */
-    public void setPaymentRequest(PaymentRequestStatusHistory paymentRequest) {
-        this.paymentRequest = paymentRequest;
-    }
 
     /**
      * Gets the paymentRequestStatus attribute.

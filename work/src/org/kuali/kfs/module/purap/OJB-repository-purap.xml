@@ -1069,9 +1069,6 @@
 	<field-descriptor name="accountsPayableApprovalDate" column="AP_APRVL_DT" jdbc-type="DATE"/>
 	<field-descriptor name="itemMiscellaneousCreditDescription" column="ITM_MISC_CRDT_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="creditMemoExtractedDate" column="CRDT_MEMO_EXTRT_DT" jdbc-type="DATE"/>
-	<reference-descriptor name="creditMemo" class-ref="org.kuali.module.purap.bo.CreditMemoItem" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="creditMemoIdentifier" />
-	</reference-descriptor>
 	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="documentHeaderIdentifier" />
 	</reference-descriptor>
@@ -1157,9 +1154,12 @@
 	<field-descriptor name="originalVendorDetailAssignedIdentifier" column="ORIG_VNDR_DTL_ASND_ID" jdbc-type="INTEGER"/>
 	<field-descriptor name="alternateVendorHeaderGeneratedIdentifier" column="ALTRNT_VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
 	<field-descriptor name="alternateVendorDetailAssignedIdentifier" column="ALTRNT_VNDR_DTL_ASND_ID" jdbc-type="INTEGER"/>
-	<reference-descriptor name="paymentRequest" class-ref="org.kuali.module.purap.bo.PaymentRequestStatusHistory" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="paymentRequestIdentifier" />
-	</reference-descriptor>
+    <!-- 
+    <collection-descriptor name="statusHistories" element-class-ref="org.kuali.module.purap.bo.PaymentRequestStatusHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+        <orderby name="statusHistoryIdentifier" sort="ASC" />
+        <inverse-foreignkey field-ref="purapDocumentIdentifier" />
+    </collection-descriptor>
+    -->
 	<reference-descriptor name="paymentRequestStatus" class-ref="org.kuali.module.purap.bo.PaymentRequestStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="paymentRequestStatusCode" />
 	</reference-descriptor>
@@ -1844,9 +1844,6 @@
 	<field-descriptor name="capitalAssetManagementTypeIndicator" column="CM_TYP_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="capitalAssetManagementSystemIdentifier" column="CM_SYS_ID" jdbc-type="INTEGER"/>
 	<field-descriptor name="capitalAssetManagementComplexSystemDescription" column="CM_CMPLX_SYS_DESC" jdbc-type="VARCHAR"/>
-	<reference-descriptor name="capitalAssetManagementDocument" class-ref="org.kuali.module.purap.bo.CapitalAssetManagementItem" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="capitalAssetManagementDocumentIdentifier" />
-	</reference-descriptor>
 	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="documentHeaderIdentifier" />
 	</reference-descriptor>

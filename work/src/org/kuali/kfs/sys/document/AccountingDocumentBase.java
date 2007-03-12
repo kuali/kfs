@@ -20,6 +20,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.Constants;
+import org.kuali.KeyConstants;
+import org.kuali.core.exceptions.ValidationException;
+import org.kuali.core.rule.event.ApproveDocumentEvent;
+import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.core.rule.event.RouteDocumentEvent;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.kfs.bo.AccountingLineBase;
@@ -40,7 +46,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
     protected Integer nextTargetLineNumber;
     protected List sourceAccountingLines;
     protected List targetAccountingLines;
-    
+
     /**
      * Default constructor.
      */
@@ -51,7 +57,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
         setSourceAccountingLines(new ArrayList());
         setTargetAccountingLines(new ArrayList());
     }
-    
+
     /**
      * @see org.kuali.core.document.FinancialDocument#getSourceAccountingLines()
      */
@@ -269,7 +275,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
     public AccountingLineParser getAccountingLineParser() {
         return new AccountingLineParserBase();
     }
-    
+
     public String getSourceAccountingLineEntryName() {
         return this.getSourceAccountingLineClass().getName();
     }
@@ -295,10 +301,9 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
         super.toErrorCorrection();
         copyAccountingLines(true);
     }
-    
+
     /**
-     * Copies accounting lines but sets new document number and version
-     * If error correction, reverses line amount.
+     * Copies accounting lines but sets new document number and version If error correction, reverses line amount.
      */
     protected void copyAccountingLines(boolean isErrorCorrection) {
         if (getSourceAccountingLines() != null) {
@@ -335,6 +340,14 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
         managedLists.add(getTargetAccountingLines());
 
         return managedLists;
+    }
+
+    public void prepareForSave(KualiDocumentEvent event) {
+        super.prepareForSave(event);
+        if (!SpringServiceLocator.getGeneralLedgerPendingEntryService().generateGeneralLedgerPendingEntries(this)) {
+            logErrors();
+            throw new ValidationException("general ledger GLPE generation failed");
+        }
     }
 
 }

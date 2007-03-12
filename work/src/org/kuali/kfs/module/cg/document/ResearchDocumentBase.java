@@ -21,10 +21,13 @@ import java.util.List;
 
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.kra.bo.BudgetAdHocOrg;
 import org.kuali.module.kra.bo.BudgetAdHocPermission;
 import org.kuali.module.kra.bo.BudgetAdHocWorkgroup;
+import org.kuali.module.kra.service.ResearchDocumentService;
+import org.springframework.beans.BeansException;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -33,7 +36,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  */
 public abstract class ResearchDocumentBase extends TransactionalDocumentBase implements ResearchDocument, Copyable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ResearchDocumentBase.class);
-    
+
     private List<BudgetAdHocPermission> adHocPermissions;
     private List<BudgetAdHocOrg> adHocOrgs;
     private List<BudgetAdHocWorkgroup> adHocWorkgroups;
@@ -47,16 +50,17 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase imp
         adHocOrgs = new ArrayList<BudgetAdHocOrg>();
         adHocWorkgroups = new ArrayList<BudgetAdHocWorkgroup>();
     }
-    
+
     /**
      * Overridden to note clear and add notes.
+     * 
      * @see org.kuali.core.document.DocumentBase#toCopy()
      */
     @Override
     public void toCopy() throws WorkflowException, IllegalStateException {
-       super.setNewDocumentHeader();
+        super.setNewDocumentHeader();
     }
-    
+
     /**
      * Gets the adHocPermissions attribute.
      * 
@@ -65,7 +69,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase imp
     public List<BudgetAdHocPermission> getAdHocPermissions() {
         return adHocPermissions;
     }
-    
+
     /**
      * Sets the adHocPermissions attribute value.
      * 
@@ -74,7 +78,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase imp
     public void setAdHocPermissions(List<BudgetAdHocPermission> adHocPermissions) {
         this.adHocPermissions = adHocPermissions;
     }
-    
+
     /**
      * Gets the BudgetAdHocPermission item at given index.
      * 
@@ -87,9 +91,10 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase imp
         }
         return this.getAdHocPermissions().get(index);
     }
-        
+
     /**
-     * Gets the adHocOrgs attribute. 
+     * Gets the adHocOrgs attribute.
+     * 
      * @return Returns the adHocOrgs.
      */
     public List<BudgetAdHocOrg> getAdHocOrgs() {
@@ -98,12 +103,13 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase imp
 
     /**
      * Sets the adHocOrgs attribute value.
+     * 
      * @param adHocOrgs The adHocOrgs to set.
      */
     public void setAdHocOrgs(List<BudgetAdHocOrg> adHocOrgs) {
         this.adHocOrgs = adHocOrgs;
     }
-    
+
     /**
      * Gets the BudgetAdHocOrg item at given index.
      * 
@@ -124,7 +130,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase imp
     public void setAdHocWorkgroups(List<BudgetAdHocWorkgroup> adHocWorkgroups) {
         this.adHocWorkgroups = adHocWorkgroups;
     }
-    
+
     /**
      * Gets the BudgetAdHocWorkgroup item at given index.
      * 
@@ -137,7 +143,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase imp
         }
         return this.getAdHocWorkgroups().get(index);
     }
-    
+
     /**
      * Build the xml to use when generating the workflow org routing report.
      * 
@@ -151,7 +157,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase imp
             xml.append("<documentContent>");
         }
         List<BudgetAdHocOrg> orgs = SpringServiceLocator.getResearchDocumentPermissionsService().getBudgetAdHocOrgs(this.getDocumentNumber(), permissionTypeCode);
-        for (BudgetAdHocOrg org: orgs) {
+        for (BudgetAdHocOrg org : orgs) {
             xml.append("<chartOrg><chartOfAccountsCode>");
             xml.append(org.getFiscalCampusCode());
             xml.append("</chartOfAccountsCode><organizationCode>");
@@ -178,4 +184,18 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase imp
 
         return m;
     }
+
+    @Override
+    public void prepareForSave(KualiDocumentEvent event) {
+        super.prepareForSave(event);
+        try {
+            ((ResearchDocumentService) SpringServiceLocator.getBeanFactory().getBean("researchDocumentService")).prepareResearchDocumentForSave(this);
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Error preparing ResearchDocument for save", e);
+        }
+
+    }
+
+
 }

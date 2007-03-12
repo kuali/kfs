@@ -23,9 +23,15 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.Constants;
+import org.kuali.KeyConstants;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.exceptions.ValidationException;
+import org.kuali.core.rule.event.ApproveDocumentEvent;
+import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.core.rule.event.RouteDocumentEvent;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.service.SufficientFundsService;
@@ -148,6 +154,19 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
         super.toErrorCorrection();
         getGeneralLedgerPendingEntries().clear();
     }
-    
-    
+
+    @Override
+    public void prepareForSave(KualiDocumentEvent event) {
+        super.prepareForSave(event);
+        if (event instanceof RouteDocumentEvent || event instanceof ApproveDocumentEvent) {
+            // generate general ledger pending entries should be called prior to sufficient funds checking
+            List<SufficientFundsItem> sfItems = checkSufficientFunds();
+            if (!sfItems.isEmpty()) {
+                for (SufficientFundsItem sfItem : sfItems) {
+                    GlobalVariables.getErrorMap().putError(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.SufficientFunds.ERROR_INSUFFICIENT_FUNDS, new String[] { sfItem.getAccount().getChartOfAccountsCode(), sfItem.getAccount().getAccountNumber(), StringUtils.isNotBlank(sfItem.getSufficientFundsObjectCode()) ? sfItem.getSufficientFundsObjectCode() : Constants.NOT_AVAILABLE_STRING, sfItem.getAccountSufficientFundsCode() });
+                }
+                throw new ValidationException("Insufficient Funds on this Document:");
+            }
+        }
+    }
 }

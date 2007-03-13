@@ -31,13 +31,13 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.bo.VendorDetail;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.question.SingleConfirmationQuestion;
 import org.kuali.module.purap.web.struts.form.PurchaseOrderForm;
 
 /**
@@ -105,13 +105,18 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         // start in logic for confirming the PO Reopen
         if (question == null) {
             // ask question if not already asked
-            return this.performQuestionWithInput(mapping, form, request, response, PurapConstants.REOPEN_PO_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.QUESTION_REOPEN_PO_DOCUMENT), Constants.CONFIRMATION_QUESTION, "CreatePOReopenDocument", "");
+            return this.performQuestionWithInput(mapping, form, request, response, PurapConstants.PODocumentsStrings.REOPEN_PO_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.QUESTION_REOPEN_PO_DOCUMENT), Constants.CONFIRMATION_QUESTION, "CreatePOReopenDocument", "");
         } 
         else {
             Object buttonClicked = request.getParameter(Constants.QUESTION_CLICKED_BUTTON);
-            if ((PurapConstants.REOPEN_PO_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
+            if ((PurapConstants.PODocumentsStrings.REOPEN_PO_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
                 // if no button clicked just reload the doc
                 return mapping.findForward(Constants.MAPPING_BASIC);
+            }
+            else if ((PurapConstants.PODocumentsStrings.CONFIRM_REOPEN_QUESTION.equals(question)) && buttonClicked.equals(SingleConfirmationQuestion.OK)) {
+                // This is the case when the user clicks on "OK" in the end, after we inform the user that the reopen has been rerouted,
+                // so we'll redirect to the portal page ?
+                return mapping.findForward(Constants.MAPPING_PORTAL);
             }
             else {
                 // have to check length on value entered
@@ -130,17 +135,18 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                         // prevent a NPE by setting the reason to a blank string
                         reason = "";
                     }
-                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, PurapConstants.REOPEN_PO_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.QUESTION_REOPEN_PO_DOCUMENT), Constants.CONFIRMATION_QUESTION, "CreatePOReopenDocument", "", reason, KeyConstants.ERROR_DOCUMENT_DISAPPROVE_REASON_REQUIRED, Constants.QUESTION_REASON_ATTRIBUTE_NAME, new Integer(reasonLimit).toString());
+                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, PurapConstants.PODocumentsStrings.REOPEN_PO_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.QUESTION_REOPEN_PO_DOCUMENT), Constants.CONFIRMATION_QUESTION, "CreatePOReopenDocument", "", reason, KeyConstants.ERROR_DOCUMENT_DISAPPROVE_REASON_REQUIRED, Constants.QUESTION_REASON_ATTRIBUTE_NAME, new Integer(reasonLimit).toString());
                 } 
             }
         }
 
         PurchaseOrderDocument po = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
-        SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(po, "KualiPurchaseOrderReopenDocument", kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
-        
+        //SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(po, "KualiPurchaseOrderReopenDocument", kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
+        String documentTypeName = po.getDocumentHeader().getWorkflowDocument().getDocumentType();
+        SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(po, documentTypeName, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
         GlobalVariables.getMessageList().add(PurapKeyConstants.MESSAGE_ROUTE_REOPENED);
         kualiDocumentFormBase.setAnnotation("");
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.PODocumentsStrings.CONFIRM_REOPEN_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_ROUTE_REOPENED), PurapConstants.PODocumentsStrings.SINGLE_CONFIRMATION_QUESTION, Constants.ROUTE_METHOD, "");
     }
     
     /**

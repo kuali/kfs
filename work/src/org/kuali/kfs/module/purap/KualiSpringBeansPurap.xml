@@ -122,6 +122,9 @@
 	<bean id="purchaseOrderPostProcessorCloseService" class="org.kuali.module.purap.service.impl.PurchaseOrderPostProcessorCloseServiceImpl" parent="purchaseOrderPostProcessServiceBase">
 	</bean>
 	<bean id="purchaseOrderPostProcessorReopenService" class="org.kuali.module.purap.service.impl.PurchaseOrderPostProcessorReopenServiceImpl" parent="purchaseOrderPostProcessServiceBase">
+		<property name="purchaseOrderDao">
+			<ref bean="purchaseOrderDao" />
+		</property>	
 	</bean>
 	<bean id="purchaseOrderPostProcessorRetransmitService" class="org.kuali.module.purap.service.impl.PurchaseOrderPostProcessorRetransmitServiceImpl" parent="purchaseOrderPostProcessServiceBase">
 	</bean>
@@ -220,4 +223,5 @@
 		</property>
 	</bean>
 	
+	<bean id="singleConfirmationQuestion" class="org.kuali.module.purap.question.SingleConfirmationQuestion" singleton="false" />
 </beans>

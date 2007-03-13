@@ -77,6 +77,8 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
     }
 
     public static final String LABOR_LEDGER_SALARY_CODE = "S";
+    public static final String LABOR_LEDGER_CHART_OF_ACCOUNT_CODE = "UA";
+    public static final String LABOR_LEDGER_ACCOUNT_NUMBER = "9712700";
         
     public SalaryExpenseTransferDocumentRule() {
         super();        
@@ -1068,8 +1070,8 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         benefitClearingEntry.setUniversityFiscalPeriodCode(null);
         
         //special handling
-        benefitClearingEntry.setChartOfAccountsCode( "UA" );
-        benefitClearingEntry.setAccountNumber( "9712700" );
+        benefitClearingEntry.setChartOfAccountsCode( LABOR_LEDGER_CHART_OF_ACCOUNT_CODE );
+        benefitClearingEntry.setAccountNumber( LABOR_LEDGER_ACCOUNT_NUMBER );
                 
         benefitClearingEntry.setSubAccountNumber(LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_ACCOUNT_NUMBER);        
 
@@ -1087,9 +1089,9 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         benefitClearingEntry.setTransactionLedgerEntryAmount( amount.abs() );
 
         //special handling
-        String debitCreditCode = "C";
+        String debitCreditCode = Constants.GL_CREDIT_CODE;
         if( fromAmount.isGreaterThan(toAmount) ){
-            debitCreditCode = "D";
+            debitCreditCode = Constants.GL_DEBIT_CODE;
         }
         benefitClearingEntry.setTransactionDebitCreditCode( debitCreditCode );
         
@@ -1107,7 +1109,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         benefitClearingEntry.setReferenceFinancialDocumentTypeCode(null);                
                 
         //special handling
-        ObjectCode oc = SpringServiceLocator.getObjectCodeService().getByPrimaryId(ap.getUniversityFiscalYear(), "UA", bc.getPositionFringeBenefitObjectCode());
+        ObjectCode oc = SpringServiceLocator.getObjectCodeService().getByPrimaryId(ap.getUniversityFiscalYear(), LABOR_LEDGER_CHART_OF_ACCOUNT_CODE, bc.getPositionFringeBenefitObjectCode());
         benefitClearingEntry.setFinancialObjectTypeCode(oc.getFinancialObjectTypeCode());
         
         //defaults

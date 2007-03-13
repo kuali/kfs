@@ -228,6 +228,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             LOG.info("completePurchaseOrder() Unhandled Transmission Status: " + po.getPurchaseOrderTransmissionMethodCode() + " -- Defaulting Status to OPEN");
             purapService.updateStatusAndStatusHistory(po, PurapConstants.PurchaseOrderStatuses.OPEN);
             po.setPurchaseOrderInitialOpenDate(dateTimeService.getCurrentSqlDate());
+            po.setPurchaseOrderCurrentIndicator(true);
             this.save(po);
         }
 

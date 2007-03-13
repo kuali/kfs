@@ -22,5 +22,24 @@ package org.kuali.module.purap.document;
  */
 public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPayableDocumentBase implements AccountsPayableDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsPayableDocumentBase.class);
+    
+    //  NOT PERSISTED IN DB
+    private String vendorNumber;
+
+    /**
+     * Gets the vendorNumber attribute. 
+     * @return Returns the vendorNumber.
+     */
+    public String getVendorNumber() {
+        return vendorNumber;
+    }
+
+    /**
+     * Sets the vendorNumber attribute value.
+     * @param vendorNumber The vendorNumber to set.
+     */
+    public void setVendorNumber(String vendorNumber) {
+        this.vendorNumber = vendorNumber;
+    } 
 
 }

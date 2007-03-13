@@ -35,7 +35,10 @@
         
  	<purap:paymentRequestInit documentAttributes="${DataDictionary.KualiPaymentRequestDocument.attributes}"
  		 displayPaymentRequestInitFields="true" />
-
+	
+	<purap:vendor
+        documentAttributes="${DataDictionary.KualiPaymentRequestDocument.attributes}" 
+        displayPurchaseOrderFields="false" displayPaymentRequestFields="true"/>
 
     <kul:notes />
 

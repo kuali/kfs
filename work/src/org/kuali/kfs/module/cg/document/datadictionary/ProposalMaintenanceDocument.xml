@@ -80,7 +80,9 @@
                     <maintainableField name="proposalTotalAmount" readOnly="true" />
                     <maintainableField name="proposalSubmissionDate" required="true" />
                     <maintainableField name="proposalClosingDate" readOnly="true" />
-                    <maintainableField name="proposalAwardTypeCode" required="true" />
+                    <maintainableField name="proposalAwardTypeCode" required="true" >
+                        <defaultValue>N</defaultValue>
+                    </maintainableField>
                     <maintainableField name="proposalPurposeCode" required="true" />
                     <maintainableField name="grantNumber" />
                     <maintainableField name="proposalFederalPassThroughIndicator" />

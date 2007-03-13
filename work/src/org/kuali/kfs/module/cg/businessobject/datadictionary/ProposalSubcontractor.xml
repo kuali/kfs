@@ -72,6 +72,8 @@
 
 			<attributeReference name="proposalSubcontractorAmount"  sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
 				<description>Proposal Subcontractor Amount</description>
+				
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attributeReference>				
 
             <attribute name="proposalSubcontractorNumber" forceUppercase="true">

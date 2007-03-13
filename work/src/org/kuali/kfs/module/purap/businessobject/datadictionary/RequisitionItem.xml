@@ -238,7 +238,7 @@
                 <shortLabel>Quantity</shortLabel>
 
                 <maxLength>11</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+                <validationPattern><fixedPoint allowNegative="false" precision="11" scale="2" /></validationPattern>
 
                 <control>
                     <text size="13" />
@@ -296,7 +296,7 @@
                 <shortLabel>Price</shortLabel>
 
                 <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+                <validationPattern><fixedPoint allowNegative="false" precision="11" scale="2" /></validationPattern>
 
                 <control>
                     <text size="21" />

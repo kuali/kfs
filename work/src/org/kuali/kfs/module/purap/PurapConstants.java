@@ -134,6 +134,10 @@ public class PurapConstants {
         public static String ITEM_TYPE_ORDER_DISCOUNT_CODE = "ORDS";        
     }
     
+    //Item constants
+    public static int DOLLAR_AMOUNT_MIN_SCALE = 2;
+    public static int UNIT_PRICE_MAX_SCALE = 4;
+    
     public static class PurchaseOrderDocTypes {
         public static String PURCHASE_ORDER_REOPEN_DOCUMENT  = "KualiPurchaseOrderReopenDocument";
         public static String PURCHASE_ORDER_CLOSE_DOCUMENT  = "KualiPurchaseOrderCloseDocument";

@@ -23,7 +23,7 @@ import java.util.List;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.bo.TargetAccountingLine;
+import org.kuali.module.purap.PurapConstants;
 
 /**
  * 
@@ -213,7 +213,7 @@ public class PurchasingItemBase extends PersistableBusinessObjectBase implements
 	 * 
 	 */
 	public BigDecimal getItemUnitPrice() { 
-		return itemUnitPrice;
+        return itemUnitPrice;
 	}
 
 	/**
@@ -223,7 +223,14 @@ public class PurchasingItemBase extends PersistableBusinessObjectBase implements
 	 * 
 	 */
 	public void setItemUnitPrice(BigDecimal itemUnitPrice) {
-		this.itemUnitPrice = itemUnitPrice;
+		if(itemUnitPrice!=null) {
+            if(itemUnitPrice.scale()<PurapConstants.DOLLAR_AMOUNT_MIN_SCALE) {
+                itemUnitPrice = itemUnitPrice.setScale(PurapConstants.DOLLAR_AMOUNT_MIN_SCALE, BigDecimal.ROUND_HALF_EVEN);
+            } else if(itemUnitPrice.scale()>PurapConstants.DOLLAR_AMOUNT_MIN_SCALE) {
+                itemUnitPrice = itemUnitPrice.setScale(PurapConstants.UNIT_PRICE_MAX_SCALE, BigDecimal.ROUND_HALF_EVEN);
+            }
+        }
+        this.itemUnitPrice = itemUnitPrice;
 	}
 
 	/**
@@ -451,6 +458,7 @@ public class PurchasingItemBase extends PersistableBusinessObjectBase implements
     }
 
     public Class getAccountingLineClass() {
+        //TODO: throw uninstantiated error here?
         return null;
     }
     

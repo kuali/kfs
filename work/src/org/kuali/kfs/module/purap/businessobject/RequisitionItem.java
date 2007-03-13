@@ -18,8 +18,8 @@ package org.kuali.module.purap.bo;
 
 import java.math.BigDecimal;
 
-import org.kuali.Constants;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.document.RequisitionDocument;
 
 /**
@@ -132,7 +132,7 @@ public class RequisitionItem extends PurchasingItemBase {
         if((this.getItemQuantity()==null) || (this.getItemUnitPrice()==null)) {
             return new KualiDecimal("0");
         }
-        return new KualiDecimal(this.getItemUnitPrice().multiply(new BigDecimal(this.getItemQuantity().toString())).toString());
+        return new KualiDecimal(this.getItemUnitPrice().multiply(new BigDecimal(this.getItemQuantity().toString())).toString()).setScale(PurapConstants.DOLLAR_AMOUNT_MIN_SCALE);
     }
 
     /**

@@ -308,7 +308,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             if (SpringServiceLocator.getRequisitionService().isAutomaticPurchaseOrderAllowed(this)) {
                 newRequisitionStatus = PurapConstants.RequisitionStatuses.CLOSED;
                 PurchaseOrderDocument poDocument = SpringServiceLocator.getPurchaseOrderService().createPurchaseOrderDocument(this);
-                //TODO how do we override the doc initiator?
                 try {
                     poDocument = (PurchaseOrderDocument)SpringServiceLocator.getDocumentService().routeDocument(poDocument, null, null);
                 }

@@ -150,7 +150,7 @@ public class PurapConstants {
         mapSLF =  new HashMap<String,String>();
         mapSLF.put(PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT, "purchaseOrderPostProcessorCloseService");
         mapSLF.put(PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT, "purchaseOrderPostProcessorReopenService");
-        mapSLF.put(PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT, "");
+        mapSLF.put(PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT, "purchaseOrderPostProcessorService");
         return mapSLF;
     }
     public final static HashMap<String,String> PURCHASE_ORDER_DOC_TYPE_MAP =

@@ -237,25 +237,11 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
         LOG.debug("handleRouteStatusChange() started");
         super.handleRouteStatusChange();
 
-        // DOCUMENT PROCESSED
-        if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-            //is this the right status?
-            SpringServiceLocator.getPurapService().updateStatusAndStatusHistory(this, PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
-            SpringServiceLocator.getPurchaseOrderService().save(this);
-        }
-        // DOCUMENT DISAPPROVED
-        else if (this.getDocumentHeader().getWorkflowDocument().stateIsDisapproved()) {
-            // TODO code
-        }
-        // DOCUMENT CANCELED
-        else if (this.getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
-            // TODO code
-        }
-        //additional processing
+        // additional processing
         PurchaseOrderPostProcessorService popp = 
             SpringServiceLocator.getPurchaseOrderService().convertDocTypeToService(getDocumentHeader().getWorkflowDocument().getDocumentType());
-        //null if defined as empty string in map
-        if(popp!=null){
+        // null if defined as empty string in map
+        if (popp != null) {
             popp.handleRouteStatusChange(this);
         }
     }

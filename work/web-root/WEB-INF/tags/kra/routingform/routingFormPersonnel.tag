@@ -62,6 +62,7 @@
       <html:hidden property="document.routingFormPersonnel[${status.index}].versionNumber" />
       <html:hidden property="document.routingFormPersonnel[${status.index}].user.personName" />
       <html:hidden property="document.routingFormPersonnel[${status.index}].user.personFirstName" />
+      <html:hidden property="document.routingFormPersonnel[${status.index}].user.personMiddleName" />
       <html:hidden property="document.routingFormPersonnel[${status.index}].user.personLastName" />
       <html:hidden property="document.routingFormPersonnel[${status.index}].personRole.personRoleDescription" />
 
@@ -87,8 +88,8 @@
             <td><kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].personLine2Address" attributeEntry="${routingFormPersonnel.personLine2Address}" readOnly="${viewOnly}"/></td>
           </tr>
           <tr class="datatable">
-            <th align="right">Middle Name:</th>
-            <td>&nbsp</td>
+            <th align="right"><kul:htmlAttributeLabel attributeEntry="${universalUser.personMiddleName}" skipHelpUrl="true" readOnly="true"/></th>
+            <td><c:if test="${empty person.user.personMiddleName}">&nbsp</c:if>${person.user.personMiddleName}</td>
             <th align="right"><kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.personCityName}" skipHelpUrl="true"/></th>
             <td><kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].personCityName" attributeEntry="${routingFormPersonnel.personCityName}" readOnly="${viewOnly}"/></td>
           </tr>

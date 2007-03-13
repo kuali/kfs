@@ -22,7 +22,9 @@ import org.kuali.core.util.Timer;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.dao.UniversityDateDao;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class UniversityDateServiceImpl implements UniversityDateService {
 
     private static final Logger LOG = Logger.getLogger(UniversityDateServiceImpl.class);

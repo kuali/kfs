@@ -22,32 +22,9 @@ import org.kuali.module.purap.bo.PurchaseOrderContractLanguage;
 public class PurchaseOrderContractLanguageMaintainableImpl extends KualiMaintainableImpl {
 
     @Override
-    public void prepareForSave() {
-        // TODO Auto-generated method stub
-        super.prepareForSave();
-    }
-
-    @Override
-    public void saveBusinessObject() {
-        // TODO Auto-generated method stub
-        super.saveBusinessObject();
-    }
-    
-    @Override
-    public String getLockingRepresentation() {
-        // TODO Auto-generated method stub
-        return super.getLockingRepresentation();
-    }
-    
-    @Override
-    public void processAfterRetrieve() {
-        // TODO Auto-generated method stub
-        super.processAfterRetrieve();
-    }
-
-    @Override
     public void processAfterCopy() {
         PurchaseOrderContractLanguage pocl = (PurchaseOrderContractLanguage)super.getBusinessObject();
         pocl.setContractLanguageCreateDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
     }
+
 }

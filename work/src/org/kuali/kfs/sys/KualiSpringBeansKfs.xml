@@ -21,7 +21,15 @@
 		<property name="universityDateDao"><ref bean="universityDateDao" /></property>
 	</bean>
 
-
+	<bean id="accountingLineService" class="org.kuali.kfs.service.impl.AccountingLineServiceImpl">
+		<property name="accountingLineDao">
+			<bean class="org.kuali.kfs.dao.ojb.AccountingLineDaoOjb">
+				<property name="jcdAlias">
+					<value>dataSource</value>
+				</property>
+			</bean>
+		</property>
+	</bean>
 
 	<bean id="homeOriginationDao" class="org.kuali.kfs.dao.ojb.HomeOriginationDaoOjb">
 		<property name="jcdAlias">

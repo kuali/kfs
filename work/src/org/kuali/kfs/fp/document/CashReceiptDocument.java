@@ -16,17 +16,23 @@
 package org.kuali.module.financial.document;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.Constants;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
+import org.kuali.module.financial.rule.event.AddCheckEvent;
+import org.kuali.module.financial.rule.event.DeleteCheckEvent;
+import org.kuali.module.financial.rule.event.UpdateCheckEvent;
 import org.kuali.module.gl.util.SufficientFundsItem;
 
 /**
@@ -371,5 +377,108 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
         managedLists.add(getChecks());
 
         return managedLists;
+    }
+
+    @Override
+    public List generateSaveEvents() {
+        // 1. retrieve persisted checks for document
+        // 2. retrieve current checks from given document
+        // 3. compare, creating add/delete/update events as needed
+        // 4. apply rules as appropriate returned events
+        List persistedChecks = SpringServiceLocator.getCheckService().getByDocumentHeaderId(getDocumentNumber());
+        List currentChecks = getChecks();
+
+        List events = generateEvents(persistedChecks, currentChecks, Constants.EXISTING_CHECK_PROPERTY_NAME, this);
+
+        return events;
+    }
+    
+    /**
+     * Generates a List of instances of CheckEvent subclasses, one for each changed check in the union of the persistedLines and
+     * currentLines lists. Events in the list will be grouped in order by event-type (update, add, delete).
+     * 
+     * @param persistedChecks
+     * @param currentChecks
+     * @param errorPathPrefix
+     * @param crdoc
+     * @return List of CheckEvent subclass instances
+     */
+    private List generateEvents(List persistedChecks, List currentChecks, String errorPathPrefix, CashReceiptFamilyBase crdoc) {
+        List addEvents = new ArrayList();
+        List updateEvents = new ArrayList();
+        List deleteEvents = new ArrayList();
+
+        //
+        // generate events
+        Map persistedCheckMap = buildCheckMap(persistedChecks);
+
+        // (iterate through current lines to detect additions and updates, removing affected lines from persistedLineMap as we go
+        // so deletions can be detected by looking at whatever remains in persistedLineMap)
+        int index = 0;
+        for (Iterator i = currentChecks.iterator(); i.hasNext(); index++) {
+            Check currentCheck = (Check) i.next();
+            Integer key = currentCheck.getSequenceId();
+
+            Check persistedCheck = (Check) persistedCheckMap.get(key);
+            // if line is both current and persisted...
+            if (persistedCheck != null) {
+                // ...check for updates
+                if (!currentCheck.isLike(persistedCheck)) {
+                    UpdateCheckEvent updateEvent = new UpdateCheckEvent(errorPathPrefix, crdoc, currentCheck);
+                    updateEvents.add(updateEvent);
+                }
+                else {
+                    // do nothing, since this line hasn't changed
+                }
+
+                persistedCheckMap.remove(key);
+            }
+            else {
+                // it must be a new addition
+                AddCheckEvent addEvent = new AddCheckEvent(errorPathPrefix, crdoc, currentCheck);
+                addEvents.add(addEvent);
+            }
+        }
+
+        // detect deletions
+        for (Iterator i = persistedCheckMap.entrySet().iterator(); i.hasNext();) {
+            Map.Entry e = (Map.Entry) i.next();
+            Check persistedCheck = (Check) e.getValue();
+            DeleteCheckEvent deleteEvent = new DeleteCheckEvent(errorPathPrefix, crdoc, persistedCheck);
+            deleteEvents.add(deleteEvent);
+        }
+
+
+        //
+        // merge the lists
+        List lineEvents = new ArrayList();
+        lineEvents.addAll(updateEvents);
+        lineEvents.addAll(addEvents);
+        lineEvents.addAll(deleteEvents);
+
+        return lineEvents;
+    }
+    
+
+    /**
+     * @param checks
+     * @return Map containing Checks from the given List, indexed by their sequenceId
+     */
+    private Map buildCheckMap(List checks) {
+        Map checkMap = new HashMap();
+
+        for (Iterator i = checks.iterator(); i.hasNext();) {
+            Check check = (Check) i.next();
+            Integer sequenceId = check.getSequenceId();
+
+            Object oldCheck = checkMap.put(sequenceId, check);
+
+            // verify that sequence numbers are unique...
+            if (oldCheck != null) {
+                throw new IllegalStateException("sequence id collision detected for sequence id " + sequenceId);
+            }
+        }
+
+        return checkMap;
     }
 }

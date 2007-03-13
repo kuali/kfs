@@ -16,11 +16,14 @@
 package org.kuali.kfs.document;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
+import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rule.event.KualiDocumentEvent;
@@ -28,11 +31,17 @@ import org.kuali.core.rule.event.RouteDocumentEvent;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.AccountingLineParserBase;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
+import org.kuali.kfs.rule.event.AccountingLineEvent;
+import org.kuali.kfs.rule.event.AddAccountingLineEvent;
+import org.kuali.kfs.rule.event.DeleteAccountingLineEvent;
+import org.kuali.kfs.rule.event.ReviewAccountingLineEvent;
+import org.kuali.kfs.rule.event.UpdateAccountingLineEvent;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -350,4 +359,129 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
         }
     }
 
+    @Override
+    public List generateSaveEvents() {
+        List events = new ArrayList();
+
+        // foreach (source, target)
+        // 1. retrieve persisted accountingLines for document
+        // 2. retrieve current accountingLines from given document
+        // 3. compare, creating add/delete/update events as needed
+        // 4. apply rules as appropriate returned events
+        List persistedSourceLines = SpringServiceLocator.getAccountingLineService().getByDocumentHeaderId(getSourceAccountingLineClass(), getDocumentNumber());
+        List currentSourceLines = getSourceAccountingLines();
+
+        List sourceEvents = generateEvents(persistedSourceLines, currentSourceLines, Constants.DOCUMENT_PROPERTY_NAME + "." + Constants.EXISTING_SOURCE_ACCT_LINE_PROPERTY_NAME, this);
+        for (Iterator i = sourceEvents.iterator(); i.hasNext();) {
+            AccountingLineEvent sourceEvent = (AccountingLineEvent) i.next();
+            events.add(sourceEvent);
+        }
+
+        List persistedTargetLines = SpringServiceLocator.getAccountingLineService().getByDocumentHeaderId(getTargetAccountingLineClass(), getDocumentNumber());
+        List currentTargetLines = getTargetAccountingLines();
+
+        List targetEvents = generateEvents(persistedTargetLines, currentTargetLines, Constants.DOCUMENT_PROPERTY_NAME + "." + Constants.EXISTING_TARGET_ACCT_LINE_PROPERTY_NAME, this);
+        for (Iterator i = targetEvents.iterator(); i.hasNext();) {
+            AccountingLineEvent targetEvent = (AccountingLineEvent) i.next();
+            events.add(targetEvent);
+        }
+
+        return events;
+    }
+    
+    /**
+     * Generates a List of instances of AccountingLineEvent subclasses, one for each accountingLine in the union of the
+     * persistedLines and currentLines lists. Events in the list will be grouped in order by event-type (review, update, add,
+     * delete).
+     * 
+     * @param persistedLines
+     * @param currentLines
+     * @param errorPathPrefix
+     * @param document
+     * @return List of AccountingLineEvent subclass instances
+     */
+    private List generateEvents(List persistedLines, List currentLines, String errorPathPrefix, TransactionalDocument document) {
+        List addEvents = new ArrayList();
+        List updateEvents = new ArrayList();
+        List reviewEvents = new ArrayList();
+        List deleteEvents = new ArrayList();
+
+        //
+        // generate events
+        Map persistedLineMap = buildAccountingLineMap(persistedLines);
+
+        // (iterate through current lines to detect additions and updates, removing affected lines from persistedLineMap as we go
+        // so deletions can be detected by looking at whatever remains in persistedLineMap)
+        int index = 0;
+        for (Iterator i = currentLines.iterator(); i.hasNext(); index++) {
+            String indexedErrorPathPrefix = errorPathPrefix + "[" + index + "]";
+            AccountingLine currentLine = (AccountingLine) i.next();
+            Integer key = currentLine.getSequenceNumber();
+
+            AccountingLine persistedLine = (AccountingLine) persistedLineMap.get(key);
+            // if line is both current and persisted...
+            if (persistedLine != null) {
+                // ...check for updates
+                if (!currentLine.isLike(persistedLine)) {
+                    UpdateAccountingLineEvent updateEvent = new UpdateAccountingLineEvent(indexedErrorPathPrefix, document, persistedLine, currentLine);
+                    updateEvents.add(updateEvent);
+                }
+                else {
+                    ReviewAccountingLineEvent reviewEvent = new ReviewAccountingLineEvent(indexedErrorPathPrefix, document, currentLine);
+                    reviewEvents.add(reviewEvent);
+                }
+
+                persistedLineMap.remove(key);
+            }
+            else {
+                // it must be a new addition
+                AddAccountingLineEvent addEvent = new AddAccountingLineEvent(indexedErrorPathPrefix, document, currentLine);
+                addEvents.add(addEvent);
+            }
+        }
+
+        // detect deletions
+        for (Iterator i = persistedLineMap.entrySet().iterator(); i.hasNext();) {
+            // the deleted line is not displayed on the page, so associate the error with the whole group
+            String groupErrorPathPrefix = errorPathPrefix + Constants.ACCOUNTING_LINE_GROUP_SUFFIX;
+            Map.Entry e = (Map.Entry) i.next();
+            AccountingLine persistedLine = (AccountingLine) e.getValue();
+            DeleteAccountingLineEvent deleteEvent = new DeleteAccountingLineEvent(groupErrorPathPrefix, document, persistedLine, true);
+            deleteEvents.add(deleteEvent);
+        }
+
+
+        //
+        // merge the lists
+        List lineEvents = new ArrayList();
+        lineEvents.addAll(reviewEvents);
+        lineEvents.addAll(updateEvents);
+        lineEvents.addAll(addEvents);
+        lineEvents.addAll(deleteEvents);
+
+        return lineEvents;
+    }
+
+    
+    /**
+     * @param accountingLines
+     * @return Map containing accountingLines from the given List, indexed by their sequenceNumber
+     */
+    private Map buildAccountingLineMap(List accountingLines) {
+        Map lineMap = new HashMap();
+
+        for (Iterator i = accountingLines.iterator(); i.hasNext();) {
+            AccountingLine accountingLine = (AccountingLine) i.next();
+            Integer sequenceNumber = accountingLine.getSequenceNumber();
+
+            Object oldLine = lineMap.put(sequenceNumber, accountingLine);
+
+            // verify that sequence numbers are unique...
+            if (oldLine != null) {
+                throw new IllegalStateException("sequence number collision detected for sequence number " + sequenceNumber);
+            }
+        }
+
+        return lineMap;
+    }
 }

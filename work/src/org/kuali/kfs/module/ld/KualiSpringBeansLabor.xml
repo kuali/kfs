@@ -113,6 +113,18 @@
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
+
+	<bean id="laborBenefitsTypeService" class="org.kuali.module.labor.service.impl.LaborBenefitsTypeServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
+
+	<bean id="laborBenefitsCalculationService" class="org.kuali.module.labor.service.impl.LaborBenefitsCalculationServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+	</bean>
 	
     <!-- Section 2: Spring Beans for DAO -->
 

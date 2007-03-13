@@ -44,6 +44,8 @@ import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.financial.bo.OffsetAccount;
+import org.kuali.module.labor.bo.BenefitsCalculation;
+import org.kuali.module.labor.bo.BenefitsType;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.bo.PendingLedgerEntry;
@@ -75,8 +77,9 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
     }
 
     public static final String LABOR_LEDGER_SALARY_CODE = "S";
-    
+        
     public SalaryExpenseTransferDocumentRule() {
+        super();        
     }   
     
     protected boolean AddAccountingLineBusinessRules(AccountingDocument accountingDocument, AccountingLine accountingLine) {
@@ -197,8 +200,10 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         return isValid;        
     }
 
-    /**
-     * 
+    /** 
+     * This method checks if the total sum amount of the source accounting line
+     * matches the total sum amount of the target accounting line, return true if
+     * the totals match, false otherwise.
      * 
      * @param sourceLines
      * @param targetLines
@@ -236,7 +241,8 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
     }
     
     /**
-     * 
+     * This method calls other methods to check if all source and target accounting lines match between each set
+     * by pay fiscal year and pay period, returning true if the totals match, false otherwise.
      * 
      * @param sourceLines
      * @param targetLines
@@ -264,6 +270,13 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         return isValid;        
     }
 
+    /**
+     * This method returns a String that is a concatenation of pay fiscal year and pay period code.
+     * 
+     * @param payFiscalYear
+     * @param payPeriodCode
+     * @return
+     */
     private String createPayFYPeriodKey(Integer payFiscalYear, String payPeriodCode){
     
         StringBuffer payFYPeriodKey = new StringBuffer();
@@ -274,6 +287,13 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         return payFYPeriodKey.toString();
     }
     
+    /**
+     * This method sums the totals of each accounting line, making an entry in a map
+     * for each unique pay fiscal year and pay period.
+     * 
+     * @param accountingLines
+     * @return
+     */
     private Map sumAccountingLineAmountsByPayFYAndPayPeriod(List accountingLines){
         
         ExpenseTransferAccountingLine line = null; 
@@ -304,6 +324,17 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         return linesMap;        
     }
     
+    /**
+     * This method checks that the total amount of labor ledger accounting lines
+     * in the document's FROM section is equal to the total amount on the labor ledger
+     * accounting lines TO section for each unique combination of pay fiscal year and pay period.
+     * A value of true is returned if all amounts for each unique combination between source and target
+     * accounting lines match, false otherwise. 
+     *  
+     * @param sourceLinesMap
+     * @param targetLinesMap
+     * @return
+     */
     private boolean compareAccountingLineTotalsByPayFYAndPayPeriod(Map sourceLinesMap, Map targetLinesMap){
     
         boolean isValid = true;
@@ -323,6 +354,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
             if( targetLinesMap.containsKey( currentKey ) ){
                 targetLinesAmount = (KualiDecimal)targetLinesMap.get(currentKey);
 
+                //return false if the matching key values do not total each other
                 if ( sourceLinesAmount.compareTo(targetLinesAmount) != 0 ) {
                     isValid = false;                
                 }
@@ -344,6 +376,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
             if( sourceLinesMap.containsKey( currentKey ) ){
                 sourceLinesAmount = (KualiDecimal)sourceLinesMap.get(currentKey);
 
+                //return false if the matching key values do not total each other
                 if ( targetLinesAmount.compareTo(sourceLinesAmount) != 0 ) {
                     isValid = false;                                
                 }
@@ -358,8 +391,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
     }
         
     /**
-     * Overriding hook into generate general ledger pending entries, but calling a method
-     * to generate labor ledger pending entries.
+     * Overriding hook into generate general ledger pending entries, so no GL pending entries are created.
      * 
      * @see org.kuali.core.rule.GenerateGeneralLedgerPendingEntriesRule#processGenerateGeneralLedgerPendingEntries(org.kuali.core.document.AccountingDocument, org.kuali.core.bo.AccountingLine, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
@@ -442,15 +474,155 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
             }
             
         }                            
-        
+                                        
         LOG.info("completed processGenerateLaborLedgerPendingEntries");
         
         return true;
     }
-
-    public boolean processGenerateLaborLedgerBenefitClearingPendingEntries(AccountingDocument AccountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+    
+    /**
+     * This method generates benefit clearing and pending entries when the sum of the amount for the source accounting lines by benefit type
+     * does not match the sum of the amount for the target accountine lines by benefit type. 
+     * 
+     * @param AccountingDocument
+     * @param sequenceHelper
+     * @return
+     */
+    public boolean processGenerateLaborLedgerBenefitClearingPendingEntries(AccountingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
 
         LOG.info("started processGenerateLaborLedgerBenefitClearingPendingEntries");
+        
+        Collection<PositionObjectBenefit> positionObjectBenefits;
+        
+        Map sourceBenefitAmountSumByBenefitType = new HashMap();
+        Map targetBenefitAmountSumByBenefitType = new HashMap();
+
+        ExpenseTransferAccountingLine sourceAL = null;
+        ExpenseTransferAccountingLine targetAL = null;
+        
+        List sourceLines = new ArrayList();
+        List targetLines = new ArrayList();
+
+        //set source and target accounting lines
+        sourceLines.addAll(accountingDocument.getSourceAccountingLines());
+        targetLines.addAll(accountingDocument.getTargetAccountingLines());
+
+        Collection<BenefitsType> benefitsType;
+                
+        //retrieve all benefits type
+        benefitsType = SpringServiceLocator.getLaborBenefitsTypeService().getBenefitsType();
+        
+        KualiDecimal amount = new KualiDecimal(0);
+        
+        //loop through all source lines, and add to array where benefit type matches
+        for (BenefitsType bt : benefitsType){
+
+            for(int i = 0; i < sourceLines.size(); i++){
+               
+                sourceAL = (ExpenseTransferAccountingLine)sourceLines.get(i);
+                
+                //get related benefit objects
+                positionObjectBenefits = SpringServiceLocator.getLaborPositionObjectBenefitService().getPositionObjectBenefits(sourceAL.getPayrollEndDateFiscalYear(), sourceAL.getChartOfAccountsCode(), sourceAL.getFinancialObjectCode());
+            
+                //loop through all of this accounting lines benefit type objects, matching with the outer benefit object
+                for (PositionObjectBenefit pob : positionObjectBenefits){
+                    
+                    if( StringUtils.equals(pob.getFinancialObjectBenefitsTypeCode(), bt.getPositionBenefitTypeCode()) ){
+                        
+                        //take out existing amount and add to it, or store amount if not in the map yet
+                        if( sourceBenefitAmountSumByBenefitType.containsKey(pob.getFinancialObjectBenefitsTypeCode()) ){
+                            amount = (KualiDecimal)sourceBenefitAmountSumByBenefitType.get(pob.getFinancialObjectBenefitsTypeCode());
+                            amount = amount.add(sourceAL.getAmount());
+                        }else{
+                            amount = sourceAL.getAmount();
+                        }
+                        
+                        //add amount with object code key back into map
+                        sourceBenefitAmountSumByBenefitType.put(pob.getFinancialObjectBenefitsTypeCode(), amount);
+                    }
+                }
+            }
+             
+            for(int i = 0; i < targetLines.size(); i++){
+                    
+                targetAL = (ExpenseTransferAccountingLine)targetLines.get(i);                                        
+
+                //get related benefit objects
+                positionObjectBenefits = SpringServiceLocator.getLaborPositionObjectBenefitService().getPositionObjectBenefits(targetAL.getPayrollEndDateFiscalYear(), targetAL.getChartOfAccountsCode(), targetAL.getFinancialObjectCode());
+            
+                //loop through all of this accounting lines benefit type objects, matching with the outer benefit object
+                for (PositionObjectBenefit pob : positionObjectBenefits){
+               
+                        if( StringUtils.equals(pob.getFinancialObjectBenefitsTypeCode(), bt.getPositionBenefitTypeCode()) ){
+
+                            //take out existing amount and add to it, or store amount if not in the map yet
+                            if( targetBenefitAmountSumByBenefitType.containsKey(pob.getFinancialObjectBenefitsTypeCode()) ){
+                                amount = (KualiDecimal)targetBenefitAmountSumByBenefitType.get(pob.getFinancialObjectBenefitsTypeCode());
+                                amount = amount.add(targetAL.getAmount());                                
+                            }else{
+                                amount = targetAL.getAmount();
+                            }
+                            
+                            //add amount with object code key back into map
+                            targetBenefitAmountSumByBenefitType.put(pob.getFinancialObjectBenefitsTypeCode(), amount);
+                        }
+               }
+            }
+            
+            
+        }
+                
+        /*
+         * with arrays filled with amounts by benefit type, 
+         * generate benefit clearing entries for each benefit type with the amounts from target and source
+         */
+        KualiDecimal sourceBenefitAmount = new KualiDecimal(0);
+        KualiDecimal targetBenefitAmount = new KualiDecimal(0);
+        String currentKey = "";
+        Map.Entry entry = null;
+        
+        //Loop through source amounts
+        for(Iterator i=sourceBenefitAmountSumByBenefitType.entrySet().iterator(); i.hasNext();){
+            //initialize
+            entry = (Map.Entry)i.next();
+            currentKey = (String)entry.getKey();
+            sourceBenefitAmount = (KualiDecimal)entry.getValue();
+            
+            //if the target map has an entry for the current benefit type, process both amounts
+            if( targetBenefitAmountSumByBenefitType.containsKey( currentKey ) ){                
+                targetBenefitAmount = (KualiDecimal)targetBenefitAmountSumByBenefitType.get(currentKey);
+            }else{
+                targetBenefitAmount = new KualiDecimal(0);                
+            }            
+            
+            //only process if amounts are not the same
+            if(sourceBenefitAmount.equals(targetBenefitAmount) == false){
+                //process for each source amount and possibly a target amount
+                processBenefitClearingLaborLedgerPendingEntry(accountingDocument, sequenceHelper, currentKey, sourceBenefitAmount, targetBenefitAmount );
+            }
+        }
+        
+        //Loop through target amounts
+        for(Iterator i=targetBenefitAmountSumByBenefitType.entrySet().iterator(); i.hasNext();){
+            //initialize
+            entry = (Map.Entry)i.next();
+            currentKey = (String)entry.getKey();
+            targetBenefitAmount = (KualiDecimal)entry.getValue();
+            
+            //if the source map has an entry for the current benefit type, process both amounts
+            if( sourceBenefitAmountSumByBenefitType.containsKey( currentKey ) ){                
+                //Do nothing, we've already processed the case of both matching
+            }else{
+                sourceBenefitAmount = new KualiDecimal(0);
+                
+                //only process if amounts are not the same
+                if(sourceBenefitAmount.equals(targetBenefitAmount) == false){
+                    //process only the target amounts that don't match a source for completeness
+                    processBenefitClearingLaborLedgerPendingEntry(accountingDocument, sequenceHelper, currentKey, sourceBenefitAmount, targetBenefitAmount );
+                }
+            }                        
+        }                
+
         LOG.info("completed processGenerateLaborLedgerBenefitClearingPendingEntries");
         
         return true;
@@ -501,7 +673,6 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
 
     /**
      * This method returns the accounting line's account number if it accepts fringe benefits,
-     * otherwise the report to account number is returned.
      *   
      * @param accountingLine
      * @return
@@ -869,15 +1040,17 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         benefitA21RevEntry.setReferenceFinancialDocumentTypeCode(null);        
     }
 
-    protected boolean processBenefitClearingLaborLedgerPendingEntry(AccountingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry benefitClearingEntry, String fringeBenefitObjectCode) {        
+    protected boolean processBenefitClearingLaborLedgerPendingEntry(AccountingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, String benefitTypeCode, KualiDecimal fromAmount, KualiDecimal toAmount) {        
 
         boolean success = true;
         
+        PendingLedgerEntry benefitClearingEntry = new PendingLedgerEntry();
+        
         // populate the entry
-        populateBenefitClearingLaborLedgerPendingEntry(accountingDocument, accountingLine, sequenceHelper, benefitClearingEntry, fringeBenefitObjectCode);
+        populateBenefitClearingLaborLedgerPendingEntry(accountingDocument, sequenceHelper, benefitClearingEntry, benefitTypeCode, fromAmount, toAmount);
 
         // hook for children documents to implement document specific LLPE field mappings
-        customizeBenefitClearingLaborLedgerPendingEntry(accountingDocument, accountingLine, benefitClearingEntry);
+        customizeBenefitClearingLaborLedgerPendingEntry(accountingDocument, benefitClearingEntry, fromAmount, toAmount);
 
         // add the new entry to the document now
         ((SalaryExpenseTransferDocument)accountingDocument).getLaborLedgerPendingEntries().add(benefitClearingEntry);
@@ -885,43 +1058,65 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         return success;
     }
 
-    protected boolean customizeBenefitClearingLaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, PendingLedgerEntry benefitClearingEntry) {
+    protected boolean customizeBenefitClearingLaborLedgerPendingEntry(AccountingDocument accountingDocument, PendingLedgerEntry benefitClearingEntry, KualiDecimal fromAmount, KualiDecimal toAmount) {
         return true;
     }
 
-    protected void populateBenefitClearingLaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry benefitClearingEntry, String fringeBenefitObjectCode) {        
+    protected void populateBenefitClearingLaborLedgerPendingEntry(AccountingDocument accountingDocument,  GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry benefitClearingEntry, String benefitTypeCode, KualiDecimal fromAmount, KualiDecimal toAmount) {        
 
-        ExpenseTransferAccountingLine al = (ExpenseTransferAccountingLine)accountingLine;
-        
         benefitClearingEntry.setUniversityFiscalYear(null);
         benefitClearingEntry.setUniversityFiscalPeriodCode(null);
         
         //special handling
         benefitClearingEntry.setChartOfAccountsCode( "UA" );
         benefitClearingEntry.setAccountNumber( "9712700" );
-
-        //set benefit amount and fringe object code
-        //benefitClearingEntry.setTransactionLedgerEntryAmount();
-        //benefitClearingEntry.setFinancialObjectCode();        
                 
         benefitClearingEntry.setSubAccountNumber(LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_ACCOUNT_NUMBER);        
+
+        //special handling
+        AccountingPeriod ap = accountingDocument.getAccountingPeriod();
+        BenefitsCalculation bc = SpringServiceLocator.getLaborBenefitsCalculationService().getBenefitsCalculation(ap.getUniversityFiscalYear(), "UA", benefitTypeCode);
+        benefitClearingEntry.setFinancialObjectCode(bc.getPositionFringeBenefitObjectCode());        
+        
         benefitClearingEntry.setFinancialSubObjectCode(LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_OBJECT_CODE);
-        benefitClearingEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_A21);
+        benefitClearingEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL);
         benefitClearingEntry.setTransactionLedgerEntrySequenceNumber(getNextSequenceNumber(sequenceHelper));            
-        benefitClearingEntry.setTransactionDebitCreditCode( accountingLine.isSourceAccountingLine() ? Constants.GL_DEBIT_CODE : Constants.GL_CREDIT_CODE);
+        
+        //special handling, set the transaction amount to the absolute value of the from minus the to amount
+        KualiDecimal amount = fromAmount.subtract(toAmount);
+        benefitClearingEntry.setTransactionLedgerEntryAmount( amount.abs() );
+
+        //special handling
+        String debitCreditCode = "C";
+        if( fromAmount.isGreaterThan(toAmount) ){
+            debitCreditCode = "D";
+        }
+        benefitClearingEntry.setTransactionDebitCreditCode( debitCreditCode );
+        
         Timestamp transactionTimestamp = new Timestamp(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
         benefitClearingEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
-        benefitClearingEntry.setProjectCode(getEntryValue(accountingLine.getProjectCode(), LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING));
-        benefitClearingEntry.setOrganizationReferenceId(accountingLine.getOrganizationReferenceId());
+        benefitClearingEntry.setProjectCode(LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING);
+        benefitClearingEntry.setOrganizationReferenceId(null);
         benefitClearingEntry.setPositionNumber(LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_POSITION_NUMBER);
         benefitClearingEntry.setEmplid(LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_EMPL_ID);
-        benefitClearingEntry.setPayrollEndDateFiscalYear( ((ExpenseTransferAccountingLine)accountingLine).getPayrollEndDateFiscalYear() );
-        benefitClearingEntry.setPayrollEndDateFiscalPeriodCode( ((ExpenseTransferAccountingLine)accountingLine).getPayrollEndDateFiscalPeriodCode() );
-        benefitClearingEntry.setTransactionTotalHours( ((ExpenseTransferAccountingLine)accountingLine).getPayrollTotalHours() );
-        
+        benefitClearingEntry.setPayrollEndDateFiscalYear( ap.getUniversityFiscalYear() );
+        benefitClearingEntry.setPayrollEndDateFiscalPeriodCode( ap.getUniversityFiscalPeriodCode() );
+        benefitClearingEntry.setTransactionTotalHours( null );                     
         benefitClearingEntry.setReferenceFinancialSystemOriginationCode(null);
         benefitClearingEntry.setReferenceFinancialDocumentNumber(null);
-        benefitClearingEntry.setReferenceFinancialDocumentTypeCode(null);        
+        benefitClearingEntry.setReferenceFinancialDocumentTypeCode(null);                
+                
+        //special handling
+        ObjectCode oc = SpringServiceLocator.getObjectCodeService().getByPrimaryId(ap.getUniversityFiscalYear(), "UA", bc.getPositionFringeBenefitObjectCode());
+        benefitClearingEntry.setFinancialObjectTypeCode(oc.getFinancialObjectTypeCode());
+        
+        //defaults
+        benefitClearingEntry.setFinancialDocumentTypeCode(SpringServiceLocator.getDocumentTypeService().getDocumentTypeCodeByClass(accountingDocument.getClass()));
+        benefitClearingEntry.setFinancialSystemOriginationCode(SpringServiceLocator.getHomeOriginationService().getHomeOrigination().getFinSystemHomeOriginationCode());
+        benefitClearingEntry.setDocumentNumber(accountingDocument.getDocumentNumber());
+        benefitClearingEntry.setTransactionLedgerEntryDescription(accountingDocument.getDocumentHeader().getFinancialDocumentDescription());                
+        benefitClearingEntry.setOrganizationDocumentNumber(accountingDocument.getDocumentHeader().getOrganizationDocumentNumber());
+        benefitClearingEntry.setFinancialDocumentReversalDate(null); 
     }
     
     /**

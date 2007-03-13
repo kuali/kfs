@@ -24,12 +24,15 @@ import org.kuali.module.purap.document.RequisitionDocument;
 public interface PurchaseOrderService {
 
     public void save(PurchaseOrderDocument purchaseOrderDocument);
-    
+
     public void close(PurchaseOrderDocument purchaseOrderDocument, String closingNoteText);
     
     public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument);   
+
     public PurchaseOrderPostProcessorService convertDocTypeToService(String documentTypeId);  
-    
+
     public void updateFlagsAndRoute(PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients);
     
+    public void completePurchaseOrder(PurchaseOrderDocument po);
+
 }

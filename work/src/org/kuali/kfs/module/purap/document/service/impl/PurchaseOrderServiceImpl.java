@@ -35,6 +35,8 @@ import org.kuali.module.purap.dao.PurchaseOrderDao;
 import org.kuali.module.purap.document.PurchaseOrderCloseDocumentAuthorizer;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.module.purap.service.GeneralLedgerService;
+import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderPostProcessorService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,8 +49,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
-    private DocumentService documentService;
     private DocumentNoteService documentNoteService;
+    private DocumentService documentService;
+    private GeneralLedgerService generalLedgerService;
+    private PurapService purapService;
     private PurchaseOrderDao purchaseOrderDao;
     private WorkflowDocumentService workflowDocumentService;
     
@@ -66,6 +70,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+
+    public void setGeneralLedgerService(GeneralLedgerService generalLedgerService) {
+        this.generalLedgerService = generalLedgerService;
+    }
+    
+    public void setPurapService(PurapService purapService) {
+        this.purapService = purapService;
     }
 
     public void setPurchaseOrderDao(PurchaseOrderDao purchaseOrderDao) {
@@ -111,7 +123,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
         return poDocument;
     }
-    
+
     public void close( PurchaseOrderDocument document, String annotation ){
         checkForNulls(document);
         PurchaseOrderCloseDocumentAuthorizer authorizer = new PurchaseOrderCloseDocumentAuthorizer();
@@ -179,7 +191,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
 
         return new DocumentAuthorizationException(currentUser.getPersonUserIdentifier(), action, document.getDocumentNumber());
-    } 
+    }
+
     /**
      * @see org.kuali.module.purap.service.PurchaseOrderService#convertDocTypeToService()
      */
@@ -190,7 +203,33 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         if(StringUtils.isNotEmpty(docType)) {
             popp=(PurchaseOrderPostProcessorService)SpringServiceLocator.getBeanFactory().getBean(docType);
         }
-    
+        
         return popp;
     }
+
+    public void completePurchaseOrder(PurchaseOrderDocument po) {
+        LOG.debug("completePurchaseOrder() started");
+
+        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+
+        // create general ledger entries for this PO
+        generalLedgerService.generateEntriesApprovePo(po);
+
+        if (PurapConstants.POTransmissionMethods.PRINT.equals(po.getPurchaseOrderTransmissionMethodCode())) {
+            LOG.debug("completePurchaseOrder() Purchase Order Transmission Type is Print");
+            purapService.updateStatusAndStatusHistory(po, PurapConstants.PurchaseOrderStatuses.PENDING_PRINT);
+            this.save(po);
+            // TODO create PO print doc
+            // routingService.routePrintablePurchaseOrderFYI(po, u);
+        }
+        else {
+            LOG.info("completePurchaseOrder() Unhandled Transmission Status: " + po.getPurchaseOrderTransmissionMethodCode() + " -- Defaulting Status to OPEN");
+            purapService.updateStatusAndStatusHistory(po, PurapConstants.PurchaseOrderStatuses.OPEN);
+            po.setPurchaseOrderInitialOpenDate(dateTimeService.getCurrentSqlDate());
+            this.save(po);
+        }
+
+    }
+
+
 }

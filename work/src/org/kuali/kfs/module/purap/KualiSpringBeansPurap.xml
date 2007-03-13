@@ -88,6 +88,9 @@
 		</property>
 	</bean>
 
+    <bean id="generalLedgerService" class="org.kuali.module.purap.service.impl.GeneralLedgerServiceImpl">
+    </bean>
+
 	<bean id="purchaseOrderService" class="org.kuali.module.purap.service.impl.PurchaseOrderServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
@@ -101,6 +104,9 @@
 		<property name="documentNoteService">
 			<ref bean="documentNoteService" />
 		</property>
+        <property name="generalLedgerService">
+            <ref bean="generalLedgerService" />
+        </property>
 		<property name="purchaseOrderDao">
 			<ref bean="purchaseOrderDao" />
 		</property>

@@ -31,6 +31,7 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderDocTypes;
+import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.module.purap.dao.PurchaseOrderDao;
 import org.kuali.module.purap.document.PurchaseOrderCloseDocumentAuthorizer;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
@@ -170,6 +171,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             PurchaseOrderDocument oldPo = (PurchaseOrderDocument)documentService.getByDocumentHeaderId(oldDocNum);
             oldPo.setPurchaseOrderCurrentIndicator(false);
             oldPo.setPendingActionIndicator(false);
+            oldPo.setStatusCode(PurchaseOrderStatuses.CLOSED);
             save(oldPo);
         }
         catch (WorkflowException e) {

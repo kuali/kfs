@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="work/src"/>
-	<classpathentry output="test/classes" kind="src" path="test/src"/>
+	<classpathentry kind="src" output="test/classes" path="test/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/antlr-2.7.4.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/axis-1.2.jar"/>
@@ -41,6 +41,7 @@
 	<classpathentry kind="lib" path="build/configurationFiles/workflow/appserver/commons-cli-1.0.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-fileupload-1.1.1.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/workflow-client-2.3.1.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/xercesImpl-2.7.1.jar"/>
 	<classpathentry kind="var" path="TOMCAT_LIB_HOME/servlet-api.jar"/>
 	<classpathentry kind="lib" path="test/lib/Tidy-httpunit-1.6.jar"/>
 	<classpathentry kind="lib" path="test/lib/httpunit-1.6.jar"/>

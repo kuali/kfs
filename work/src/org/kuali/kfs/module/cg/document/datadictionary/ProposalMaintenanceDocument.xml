@@ -69,7 +69,7 @@
                     <maintainableField name="proposalNumber" required="true" readOnly="true" >
                         <defaultValueFinderClass>org.kuali.module.cg.lookup.valuefinder.NextProposalNumberFinder</defaultValueFinderClass>
                     </maintainableField>
-                    <maintainableField name="proposalStatusCode" required="true" >
+                    <maintainableField name="proposalStatusCode" required="true" webUILeaveFieldFunction="onblur_proposalStatusCode" >
                         <defaultValue>P</defaultValue>
                     </maintainableField>
                     <maintainableField name="agencyNumber" required="true" />

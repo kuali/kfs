@@ -21,6 +21,27 @@ function onblur_proposalIndirectCostAmount( indirectAmountField ) {
     updateProposalTotalAmount( findElPrefix( indirectAmountField.name ) + ".proposalDirectCostAmount", indirectAmountField.name );
 }
 
+function onblur_proposalStatusCode( proposalStatusCodeField ) {
+    var fieldName = proposalStatusCodeField.name;
+    if (valueChanged( fieldName )) {
+        var code = getElementValue( fieldName );
+        var rejectedName = findElPrefix( fieldName ) + ".proposalRejectedDate";
+        // if status changed to rejected or withdrawn
+        if (code == "R" || code == "W") {
+            // then default rejected date to today
+            if (getElementValue( rejectedName ) == "") {
+                setRecipientValue( rejectedName, today() );
+            }
+        }
+    }
+}
+
+function today() {
+    var now = new Date();
+    // Kuali's DateFormatter requires this format, regardless of Locale.
+    return (1 + now.getMonth()) + "/" + now.getDate() + "/" + now.getFullYear();
+}
+
 function updateProposalTotalAmount( directAmountFieldName, indirectAmountFieldName ) {
     var directAmount = getElementValue( directAmountFieldName );
     var indirectAmount = getElementValue( indirectAmountFieldName );

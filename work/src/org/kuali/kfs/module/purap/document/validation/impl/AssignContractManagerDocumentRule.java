@@ -21,14 +21,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.document.Document;
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
@@ -37,6 +34,7 @@ import org.kuali.module.purap.bo.ContractManager;
 import org.kuali.module.purap.document.AssignContractManagerDocument;
 
 public class AssignContractManagerDocumentRule extends TransactionalDocumentRuleBase {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssignContractManagerDocumentRule.class);
 
     /**
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)

@@ -15,7 +15,6 @@
  */
 package org.kuali.module.financial.rules;
 
-import static org.kuali.core.util.SpringServiceLocator.getDictionaryValidationService;
 import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.CAPITAL_OBJECT_SUB_TYPE_CODES;
 import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING;
 import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.RESTRICTED_FUND_GROUP_CODES;
@@ -191,7 +190,7 @@ public class InternalBillingDocumentRule extends AccountingDocumentRuleBase {
      * @param internalBillingDocument
      * @return whether any items were invalid
      */
-    private static boolean validateItems(InternalBillingDocument internalBillingDocument) {
+    private boolean validateItems(InternalBillingDocument internalBillingDocument) {
         boolean retval = true;
         for (int i = 0; i < internalBillingDocument.getItems().size(); i++) {
             String propertyName = Constants.DOCUMENT_PROPERTY_NAME + "." + PropertyConstants.ITEM + "[" + i + "]";

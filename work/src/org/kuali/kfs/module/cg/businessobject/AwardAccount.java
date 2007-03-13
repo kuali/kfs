@@ -48,7 +48,6 @@ public class AwardAccount extends PersistableBusinessObjectBase {
      * Gets the proposalNumber attribute.
      * 
      * @return Returns the proposalNumber
-     * 
      */
     public Long getProposalNumber() {
         return proposalNumber;
@@ -58,7 +57,6 @@ public class AwardAccount extends PersistableBusinessObjectBase {
      * Sets the proposalNumber attribute.
      * 
      * @param proposalNumber The proposalNumber to set.
-     * 
      */
     public void setProposalNumber(Long proposalNumber) {
         this.proposalNumber = proposalNumber;
@@ -69,7 +67,6 @@ public class AwardAccount extends PersistableBusinessObjectBase {
      * Gets the chartOfAccountsCode attribute.
      * 
      * @return Returns the chartOfAccountsCode
-     * 
      */
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
@@ -79,7 +76,6 @@ public class AwardAccount extends PersistableBusinessObjectBase {
      * Sets the chartOfAccountsCode attribute.
      * 
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
-     * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
@@ -90,7 +86,6 @@ public class AwardAccount extends PersistableBusinessObjectBase {
      * Gets the accountNumber attribute.
      * 
      * @return Returns the accountNumber
-     * 
      */
     public String getAccountNumber() {
         return accountNumber;
@@ -100,7 +95,6 @@ public class AwardAccount extends PersistableBusinessObjectBase {
      * Sets the accountNumber attribute.
      * 
      * @param accountNumber The accountNumber to set.
-     * 
      */
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
@@ -111,7 +105,6 @@ public class AwardAccount extends PersistableBusinessObjectBase {
      * Gets the personUniversalIdentifier attribute.
      * 
      * @return Returns the personUniversalIdentifier
-     * 
      */
     public String getPersonUniversalIdentifier() {
         return personUniversalIdentifier;
@@ -121,7 +114,6 @@ public class AwardAccount extends PersistableBusinessObjectBase {
      * Sets the personUniversalIdentifier attribute.
      * 
      * @param personUniversalIdentifier The personUniversalIdentifier to set.
-     * 
      */
     public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
         this.personUniversalIdentifier = personUniversalIdentifier;
@@ -132,7 +124,6 @@ public class AwardAccount extends PersistableBusinessObjectBase {
      * Gets the account attribute.
      * 
      * @return Returns the account
-     * 
      */
     public Account getAccount() {
         return account;
@@ -152,7 +143,6 @@ public class AwardAccount extends PersistableBusinessObjectBase {
      * Gets the chartOfAccounts attribute.
      * 
      * @return Returns the chartOfAccounts
-     * 
      */
     public Chart getChartOfAccounts() {
         return chartOfAccounts;
@@ -169,13 +159,22 @@ public class AwardAccount extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the personUniversal attribute.
+     * gets the project director attribute
      * 
-     * @return Returns the personUniversal
-     * 
+     * @return the projectDirector
      */
-    public ProjectDirector getPersonUniversal() {
+    public ProjectDirector getProjectDirector() {
         return projectDirector;
+    }
+
+    /**
+     * sets the project director attribute
+     * 
+     * @param projectDirector the projectDirector to set
+     * @deprecated
+     */
+    public void setProjectDirector(ProjectDirector projectDirector) {
+        this.projectDirector = projectDirector;
     }
 
     /**

@@ -18,12 +18,15 @@ package org.kuali.module.cg.bo;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.TypedArrayList;
 
 /**
  * 
@@ -33,7 +36,16 @@ public class Award extends PersistableBusinessObjectBase {
     private Long proposalNumber;
     private Date awardBeginningDate;
     private Date awardEndingDate;
+
+    /**
+     * This field is for write-only to the database via OJB, not the corresponding property of this BO.
+     * OJB uses reflection to read it, so the compiler warns because it doesn't know.
+     * @see #getProposalTotalAmount
+     * @see #setProposalTotalAmount
+     */
+    @SuppressWarnings({"UnusedDeclaration"})
     private KualiDecimal awardTotalAmount;
+    
     private String awardAddendumNumber;
     private KualiDecimal awardAllocatedUniversityComputingServicesAmount;
     private String agencyAwardNumber;
@@ -63,7 +75,7 @@ public class Award extends PersistableBusinessObjectBase {
     private String awardProjectTitle;
     private String awardCommentText;
     private String awardPurposeCode;
-    private List<ProjectDirector> awardProjectDirectors;
+    private List<AwardProjectDirector> awardProjectDirectors;
     private List<AwardAccount> awardAccounts;
     private List<AwardSubcontractor> awardSubcontractors;
     private List<AwardOrganization> awardOrganizations;
@@ -80,11 +92,14 @@ public class Award extends PersistableBusinessObjectBase {
     /**
      * Default constructor.
      */
+    @SuppressWarnings({"unchecked"})  // todo: generify TypedArrayList and rename to something appropriate like AlwaysGettableArrayList
+    
     public Award() {
-        awardProjectDirectors = new ArrayList<ProjectDirector>();
-        awardAccounts = new ArrayList<AwardAccount>();
-        awardSubcontractors = new ArrayList<AwardSubcontractor>();
-        awardOrganizations = new ArrayList<AwardOrganization>();
+        // Must use TypedArrayList because its get() method automatically grows the array for Struts.
+        awardProjectDirectors = new TypedArrayList(AwardProjectDirector.class);
+        awardAccounts = new TypedArrayList(AwardAccount.class);
+        awardSubcontractors = new TypedArrayList(AwardSubcontractor.class);
+        awardOrganizations = new TypedArrayList(AwardOrganization.class);
     }
 
     /**
@@ -157,17 +172,52 @@ public class Award extends PersistableBusinessObjectBase {
      * 
      */
     public KualiDecimal getAwardTotalAmount() {
-        return awardTotalAmount;
+        KualiDecimal direct = getAwardDirectCostAmount();
+        KualiDecimal indirect = getAwardIndirectCostAmount();
+        return ObjectUtils.isNull(direct) || ObjectUtils.isNull(indirect) ? null : direct.add(indirect);
     }
 
     /**
-     * Sets the awardTotalAmount attribute.
+     * Does nothing.  This property is determined by the direct and indirect cost amounts.
+     * This setter is here only because without it, the maintenance framework won't display this attribute.
      * 
      * @param awardTotalAmount The awardTotalAmount to set.
      * 
      */
     public void setAwardTotalAmount(KualiDecimal awardTotalAmount) {
-        this.awardTotalAmount = awardTotalAmount;
+        // do nothing
+    }
+
+    /**
+     * OJB calls this method as the first operation before this BO is inserted into the database.
+     * The database contains CGAWD_TOT_AMT, a denormalized column that
+     * Kuali does not use but needs to maintain with this method because OJB bypasses the getter.
+     * 
+     * @param persistenceBroker from OJB
+     * @throws PersistenceBrokerException
+     */
+    @Override
+    public void beforeInsert(PersistenceBroker persistenceBroker)
+        throws PersistenceBrokerException
+    {
+        super.beforeInsert(persistenceBroker);
+        awardTotalAmount = getAwardTotalAmount();
+    }
+
+    /**
+     * OJB calls this method as the first operation before this BO is updated to the database.
+     * The database contains CGAWD_TOT_AMT, a denormalized column that
+     * Kuali does not use but needs to maintain with this method because OJB bypasses the getter.
+     * 
+     * @param persistenceBroker from OJB
+     * @throws PersistenceBrokerException
+     */
+    @Override
+    public void beforeUpdate(PersistenceBroker persistenceBroker)
+        throws PersistenceBrokerException
+    {
+        super.beforeUpdate(persistenceBroker);
+        awardTotalAmount = getAwardTotalAmount();
     }
 
 
@@ -946,7 +996,7 @@ public class Award extends PersistableBusinessObjectBase {
      * @return Returns the awardProjectDirectors list
      * 
      */
-    public List<ProjectDirector> getAwardProjectDirectors() {
+    public List<AwardProjectDirector> getAwardProjectDirectors() {
         return awardProjectDirectors;
     }
 
@@ -956,7 +1006,7 @@ public class Award extends PersistableBusinessObjectBase {
      * @param awardProjectDirectors The awardProjectDirectors list to set.
      * 
      */
-    public void setAwardProjectDirectors(List<ProjectDirector> awardProjectDirectors) {
+    public void setAwardProjectDirectors(List<AwardProjectDirector> awardProjectDirectors) {
         this.awardProjectDirectors = awardProjectDirectors;
     }
 

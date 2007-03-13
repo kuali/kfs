@@ -224,7 +224,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cg.bo.ProposalSubcontractor" table="CG_PRPSL_SUBCN_T">
-    <field-descriptor name="proposalSubcontractorNumber" column="CGPRPSL_SUBCN_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" autoincrement="true" readlonly="true"/>
+    <field-descriptor name="proposalSubcontractorNumber" column="CGPRPSL_SUBCN_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" autoincrement="true" readonly="true"/>
     <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
     <field-descriptor name="subcontractorNumber" column="CG_SUBCNR_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
@@ -413,8 +413,8 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cg.bo.AwardSubcontractor" table="CG_AWD_SUBCN_T">
-    <field-descriptor name="awardSubcontractorAmendmentNumber" column="AWD_SUBCN_AMND_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="awardSubcontractorNumber" column="CGAWD_SUBCN_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="awardSubcontractorAmendmentNumber" column="AWD_SUBCN_AMND_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" autoincrement="true" readonly="true" />
+    <field-descriptor name="awardSubcontractorNumber" column="CGAWD_SUBCN_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" autoincrement="true" readonly="true" />
     <field-descriptor name="subcontractorNumber" column="CG_SUBCNR_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="proposalNumber" column="CGPRPSL_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />

@@ -125,10 +125,19 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @return Returns the personUniversal.
+     * @return the projectDirector.
      */
     public ProjectDirector getProjectDirector() {
         return projectDirector;
+    }
+
+    /**
+     * Sets the projectDirector.
+     * @param projectDirector the projectDirector to set
+     * @deprecated required by UniversalUserServiceImpl.isUniversalUserProperty() for PojoPropertyUtilsBean.getPropertyDescriptor()
+     */
+    public void setProjectDirector(ProjectDirector projectDirector) {
+        this.projectDirector = projectDirector;
     }
 
     /**

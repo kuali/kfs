@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument >
+        <businessObjectClass>org.kuali.module.cg.bo.Award</businessObjectClass>
+        <maintainableClass>org.kuali.module.cg.maintenance.AwardMaintainableImpl</maintainableClass>
+        <!-- businessRulesClass>org.kuali.module.cg.rules.ProposalRule</businessRulesClass -->
+        <!--preRulesCheckClass>org.kuali.module.chart.rules.AccountPreRules</preRulesCheckClass-->
+        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>KualiResearchAdminPostAwardMaintenanceDocument</documentTypeName>
+        <documentTypeCode>AWRD</documentTypeCode>
+
+		<!-- webScriptFile>cg/awardDocument.js</webScriptFile -->
+
+        <label>Award Maintenance Document</label>
+        <shortLabel>AwardMaintDoc</shortLabel>
+
+        <summary>Award maintenance document</summary>
+        <description>Document used to create or update Award objects</description>
+		<!--help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_ACCOUNT" /-->
+
+        <allowsCopy>true</allowsCopy>
+
+        <lockingKeys>
+            <field attributeName="proposalNumber" />
+        </lockingKeys>
+
+        <defaultExistenceChecks>
+            <reference attributeName="proposal" attributeToHighlightOnFail="proposalNumber" />
+			<reference attributeName="proposalAwardType" activeIndicatorAttributeName="rowActiveIndicator" attributeToHighlightOnFail="proposalAwardTypeCode" />
+			<reference attributeName="awardStatus" activeIndicatorAttributeName="rowActiveIndicator" attributeToHighlightOnFail="awardStatusCode" />
+            <reference attributeName="letterOfCreditFundGroup" activeIndicatorAttributeName="rowActiveIndicator" attributeToHighlightOnFail="letterOfCreditFundGroupCode" />
+            <reference attributeName="grantDescription" activeIndicatorAttributeName="grantDescriptionActiveCode" attributeToHighlightOnFail="grantDescriptionCode" />
+            <reference attributeName="agency" activeIndicatorAttributeName="historicalIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="agencyNumber" />
+            <reference attributeName="federalPassThroughAgency" activeIndicatorAttributeName="historicalIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="federalPassThroughAgencyNumber" />
+            <reference attributeName="awardPurpose" activeIndicatorAttributeName="rowActiveIndicator" attributeToHighlightOnFail="awardPurposeCode" />
+            
+			<reference collection="awardAccounts" attributeName="account" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="accountNumber" />
+			<!-- todo:uncomment when KULCG-223 is fixed -->
+			<!--reference collection="awardAccounts" attributeName="projectDirector" attributeToHighlightOnFail="personUniversalIdentifier" / -->
+			<reference collection="awardOrganizations" attributeName="organization" activeIndicatorAttributeName="organizationActiveIndicator" attributeToHighlightOnFail="organizationCode" />
+			<reference collection="awardProjectDirectors" attributeName="projectDirector" attributeToHighlightOnFail="personUniversalIdentifier" />
+			<reference collection="awardSubcontractors" attributeName="subcontractor" activeIndicatorAttributeName="active" attributeToHighlightOnFail="subcontractorNumber" />
+ 
+		</defaultExistenceChecks>
+
+        <maintainableSections>
+            <maintainableSection title="Award Maintenance">
+                <maintainableItems>
+                    <maintainableField name="proposalNumber" required="true"/>
+                    <maintainableField name="awardStatusCode" required="true">
+						<defaultValue>A</defaultValue>
+					</maintainableField>
+                    <maintainableField name="agencyNumber" required="true" />
+                    <maintainableField name="agency.fullName" readOnly="true" />
+                    <maintainableField name="awardProjectTitle" required="true" />
+                    <maintainableField name="awardBeginningDate" required="true" />
+                    <maintainableField name="awardEndingDate" required="true" />
+                    <maintainableField name="awardDirectCostAmount" required="true" />
+                    <maintainableField name="awardIndirectCostAmount" required="true" />
+                    <maintainableField name="awardTotalAmount" readOnly="true" />
+					<maintainableField name="agencyFuture1Amount" />
+					<maintainableField name="agencyFuture2Amount" />
+					<maintainableField name="agencyFuture3Amount" />
+                    <maintainableField name="awardEntryDate" required="true" />
+                    <maintainableField name="awardClosingDate" readOnly="true" />
+                    <maintainableField name="proposalAwardTypeCode" required="true" />
+					<maintainableField name="proposal.grantNumber" />
+					<maintainableField name="grantDescriptionCode" required="true" />
+                    <maintainableField name="awardPurposeCode" required="true" />
+                    <maintainableField name="federalFundedAmount" readOnly="true" />
+                    <maintainableField name="federalPassThroughIndicator" required="true" />
+                    <maintainableField name="federalPassThroughAgencyNumber" />
+					<maintainableField name="federalPassThroughFundedAmount" />
+                    <maintainableField name="awardAllocatedUniversityComputingServicesAmount" />
+                    <maintainableField name="awardAddendumNumber" />
+                    <maintainableField name="letterOfCreditFundGroupCode" />
+                    <maintainableField name="awardDocumentNumber" />
+                    <maintainableField name="financialSystemWorkgroupId" />
+                    <maintainableField name="agencyAnalystName" />
+                    <maintainableField name="analystTelephoneNumber" />
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+			
+			<maintainableSection title="Accounts">
+				<maintainableItems>
+					<maintainableCollection name="awardAccounts" businessObjectClass="org.kuali.module.cg.bo.AwardAccount">
+						<maintainableField name="chartOfAccountsCode" required="true" />
+						<maintainableField name="accountNumber" required="true" />
+						<maintainableField name="personUniversalIdentifier" required="true" />
+						<maintainableField name="projectDirector.universalUser.personName" required="false" readOnly="true" />
+						<!-- hidden fields -->
+						<maintainableField name="versionNumber" />
+						<summaryFields>
+							<summaryField name="projectDirector.universalUser.personName" />
+							<summaryField name="chartOfAccountsCode" />
+							<summaryField name="accountNumber" />
+						</summaryFields>
+					</maintainableCollection>
+				</maintainableItems>
+			</maintainableSection>
+			
+			<maintainableSection title="Project Directors">
+				<maintainableItems>
+					<maintainableCollection name="awardProjectDirectors" businessObjectClass="org.kuali.module.cg.bo.AwardProjectDirector">
+						<maintainableField name="personUniversalIdentifier" required="true" />
+						<maintainableField name="projectDirector.universalUser.personName" required="false" readOnly="true" />
+						<maintainableField name="awardPrimaryProjectDirectorIndicator" required="false" />
+						<maintainableField name="awardProjectDirectorProjectTitle" required="false" />
+						<!-- hidden fields -->
+						<maintainableField name="versionNumber" />
+						<summaryFields>
+							<summaryField name="projectDirector.universalUser.personName" />
+							<summaryField name="awardPrimaryProjectDirectorIndicator" />
+							<summaryField name="awardProjectDirectorProjectTitle" />
+						</summaryFields>
+					</maintainableCollection>
+				</maintainableItems>
+			</maintainableSection>
+			
+            <maintainableSection title="Organizations">
+                <maintainableItems>
+                    <maintainableCollection name="awardOrganizations" businessObjectClass="org.kuali.module.cg.bo.AwardOrganization" attributeToHighlightOnDuplicateKey="organizationCode">
+                        <maintainableField name="chartOfAccountsCode" required="true" />
+                        <maintainableField name="organizationCode" required="true" />
+                        <maintainableField name="awardPrimaryOrganizationIndicator" required="false" />
+                        <maintainableField name="versionNumber" />
+                        <summaryFields>
+                            <summaryField name="chartOfAccountsCode" />
+                            <summaryField name="organizationCode" />
+                            <summaryField name="awardPrimaryOrganizationIndicator" />
+                        </summaryFields>
+                    </maintainableCollection>
+                </maintainableItems>
+            </maintainableSection>
+
+			<maintainableSection title="Subcontractors">
+				<maintainableItems>
+					<maintainableCollection name="awardSubcontractors" businessObjectClass="org.kuali.module.cg.bo.AwardSubcontractor" attributeToHighlightOnDuplicateKey="subcontractorNumber">
+						<maintainableField name="subcontractorNumber" required="true" />
+						<maintainableField name="subcontractor.subcontractorName" readOnly="true" />
+						<maintainableField name="awardSubcontractorDescription" />
+						<maintainableField name="subcontractorAmount">
+							<defaultValue>0.00</defaultValue>
+						</maintainableField>
+						<summaryFields>
+							<summaryField name="subcontractor.subcontractorName" />
+							<summaryField name="subcontractorAmount" />
+						</summaryFields>
+					</maintainableCollection>
+				</maintainableItems>
+			</maintainableSection>
+            
+        </maintainableSections>
+		
+        <allowsNoteDelete>false</allowsNoteDelete>
+        <displayTopicFieldInNotes>true</displayTopicFieldInNotes>
+    </maintenanceDocument>
+</dictionaryEntry>

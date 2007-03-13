@@ -33,7 +33,8 @@
         postingYearAttributes="${DataDictionary.KualiPaymentRequestDocument.attributes}" />
 
         
- 
+ 	<purap:paymentRequestInit documentAttributes="${DataDictionary.KualiPaymentRequestDocument.attributes}"
+ 		 displayPaymentRequestInitFields="true" />
 
 
     <kul:notes />

@@ -203,7 +203,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         ChartUser currentUser = (ChartUser)GlobalVariables.getUserSession().getUniversalUser().getModuleUser( ChartUser.MODULE_ID );
 
         this.setPurapDocumentIdentifier(null);
-        //TODO what about id in items?
 
         // Set req status to INPR.
         this.setStatusCode(PurapConstants.RequisitionStatuses.IN_PROCESS);
@@ -249,9 +248,9 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             this.setVendorDetailAssignedIdentifier(null);
             this.setVendorContractGeneratedIdentifier(null);
         }
-            if (!activeContract) {
+        if (!activeContract) {
             this.setVendorContractGeneratedIdentifier(null);
-            }
+        }
 
         // These fields should not be set in this method; force to be null
         this.setVendorNoteText(null);

@@ -62,4 +62,12 @@ public interface GenesisDao {
    public void createNewBCDocumentsFromGLCSF(Integer BaseYear,
                                              boolean GLUpdatesAllowed,
                                              boolean CSFUpdatesAllowed);
+   
+   // budget construction position
+   // (this table depends on an institution's payroll, but it must be consstructed
+   //  before budget construction appointment funding because the latter has a 
+   //  referential integrity constraint on it.  so, we provide a method here that
+   //  each institution can implement in their genesisDao.)
+   public void createNewBCPosition(Integer BaseYear,
+                                   boolean PosSyncAllowed);
 }

@@ -41,12 +41,15 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.module.budget.bo.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.module.budget.bo.BudgetConstructionAccountReports;
+import org.kuali.module.budget.bo.BudgetConstructionCalculatedSalaryFoundationTracker;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
+import org.kuali.module.budget.bo.BudgetConstructionMonthly;
 import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
+import org.kuali.module.budget.bo.BudgetConstructionPosition;
 import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
 import org.kuali.module.budget.bo.CalculatedSalaryFoundationTrackerOverride;
+import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
-import org.kuali.module.budget.bo.BudgetConstructionMonthly;
 import org.kuali.module.budget.dao.GenesisDao;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
 import org.kuali.module.chart.bo.Account;
@@ -322,10 +325,100 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
      */
     public void clearDBForGenesis(Integer BaseYear)
     {
+        //  the order is important because of referenctial integrity in the database
+        clearBothYearsBCSF(BaseYear);
+        clearBothYearsPendingApptFunding(BaseYear);
+        clearBothYearsBCPosition(BaseYear);
         //  the calling order is important because of referential integrity in the 
-        //  data base
+        //  database
         clearBothYearsPBGL(BaseYear);
         clearBothYearsHeaders(BaseYear);
+    }
+
+    private void clearBaseYearBCSF(Integer BaseYear)
+    {
+        Criteria criteriaId = new Criteria();
+        criteriaId.addColumnEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                BaseYear);
+        QueryByCriteria queryId = 
+            new QueryByCriteria(BudgetConstructionCalculatedSalaryFoundationTracker.class,
+                    criteriaId);
+        getPersistenceBrokerTemplate().deleteByQuery(queryId);
+    }
+
+    private void clearBothYearsBCSF(Integer BaseYear)
+    {
+        Integer RequestYear = BaseYear+1;
+        Criteria criteriaId = new Criteria();
+        criteriaId.addBetween(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                              BaseYear,RequestYear);
+        QueryByCriteria queryId = 
+            new QueryByCriteria(BudgetConstructionCalculatedSalaryFoundationTracker.class,
+                                                      criteriaId);
+        getPersistenceBrokerTemplate().deleteByQuery(queryId);
+    }
+    
+    private void clearBCSF()
+    {
+        QueryByCriteria queryId = 
+            new QueryByCriteria(BudgetConstructionCalculatedSalaryFoundationTracker.class,
+                                QueryByCriteria.CRITERIA_SELECT_ALL);
+        getPersistenceBrokerTemplate().deleteByQuery(queryId);
+    }
+
+    private void clearBaseYearBCPosition(Integer BaseYear)
+    {
+        Criteria criteriaId = new Criteria();
+        criteriaId.addColumnEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                BaseYear);
+        QueryByCriteria queryId = 
+            new QueryByCriteria(BudgetConstructionPosition.class,
+                    criteriaId);
+        getPersistenceBrokerTemplate().deleteByQuery(queryId);
+    }
+
+    private void clearBothYearsBCPosition(Integer BaseYear)
+    {
+        Integer RequestYear = BaseYear+1;
+        Criteria criteriaId = new Criteria();
+        criteriaId.addBetween(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                              BaseYear,RequestYear);
+        QueryByCriteria queryId = 
+            new QueryByCriteria(BudgetConstructionPosition.class,
+                                                      criteriaId);
+        getPersistenceBrokerTemplate().deleteByQuery(queryId);
+    }
+    
+    private void clearBCPosition()
+    {
+        QueryByCriteria queryId = 
+            new QueryByCriteria(BudgetConstructionPosition.class,
+                                QueryByCriteria.CRITERIA_SELECT_ALL);
+        getPersistenceBrokerTemplate().deleteByQuery(queryId);
+    }
+    
+    private void clearRequestYearBCPosition(Integer BaseYear)
+    {
+        Integer RequestYear = BaseYear +1;
+        Criteria criteriaId = new Criteria();
+        criteriaId.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                RequestYear);
+        QueryByCriteria queryId = 
+            new QueryByCriteria(BudgetConstructionPosition.class,
+                    criteriaId);
+        getPersistenceBrokerTemplate().deleteByQuery(queryId);
+    }
+    
+    private void clearRequestYearBCSF(Integer BaseYear)
+    {
+        Integer RequestYear = BaseYear +1;
+        Criteria criteriaId = new Criteria();
+        criteriaId.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                RequestYear);
+        QueryByCriteria queryId = 
+            new QueryByCriteria(BudgetConstructionCalculatedSalaryFoundationTracker.class,
+                    criteriaId);
+        getPersistenceBrokerTemplate().deleteByQuery(queryId);
     }
     
     private void clearBaseYearHeaders(Integer BaseYear)
@@ -421,7 +514,50 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         getPersistenceBrokerTemplate().deleteByQuery(queryID);
         LOG.debug(String.format("\ndelete PBGL ended at %tT",dateTimeService.getCurrentDate()));
     }
+
+    private void clearBaseYearPendingApptFunding(Integer BaseYear)
+    {
+        Criteria criteriaId = new Criteria();
+        criteriaId.addColumnEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                BaseYear);
+        QueryByCriteria queryId = 
+            new QueryByCriteria(PendingBudgetConstructionAppointmentFunding.class,
+                    criteriaId);
+        getPersistenceBrokerTemplate().deleteByQuery(queryId);
+    }
+
+    private void clearBothYearsPendingApptFunding(Integer BaseYear)
+    {
+        Integer RequestYear = BaseYear+1;
+        Criteria criteriaId = new Criteria();
+        criteriaId.addBetween(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                              BaseYear,RequestYear);
+        QueryByCriteria queryId = 
+            new QueryByCriteria(PendingBudgetConstructionAppointmentFunding.class,
+                                                      criteriaId);
+        getPersistenceBrokerTemplate().deleteByQuery(queryId);
+    }
     
+    private void clearPendingApptFunding()
+    {
+        QueryByCriteria queryId = 
+            new QueryByCriteria(PendingBudgetConstructionAppointmentFunding.class,
+                                QueryByCriteria.CRITERIA_SELECT_ALL);
+        getPersistenceBrokerTemplate().deleteByQuery(queryId);
+    }
+    
+    private void clearRequestYearPendingApptFunding(Integer BaseYear)
+    {
+        Integer RequestYear = BaseYear +1;
+        Criteria criteriaId = new Criteria();
+        criteriaId.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                RequestYear);
+        QueryByCriteria queryId = 
+            new QueryByCriteria(PendingBudgetConstructionAppointmentFunding.class,
+                    criteriaId);
+        getPersistenceBrokerTemplate().deleteByQuery(queryId);
+    }
+
     /* 
      *  ****************************************************************************
      *  (3) BC Document Creation                                                   *
@@ -1473,6 +1609,10 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     
     private void readAcctReportsTo()
     {
+        if (! acctRptsToMap.isEmpty())
+        {
+            acctRptsToMap.clear();
+        }
         // we will use a report query, to bypass the "persistence" bureaucracy
         // we will use the OJB class as a convenient container object in the hashmap
         Integer sqlChartOfAccountsCode          = 0;
@@ -2275,4 +2415,22 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
      {
          this.workflowDocumentService = workflowDocumentService;
      }
+     
+/********************************************************************************************
+ *  (8)  the budget construction position table is dependent on each institution's payroll
+ *       system, and thus cannot be coded effectively in Kuali.   However, RI in the database
+ *       requires that it be populated.  This is a stub routine to do so.
+ *********************************************************************************************/
+     
+     
+     public void createNewBCPosition(Integer BaseYear,
+             boolean PosSyncAllowed)
+     {
+        // we need the account to find the RC code for a position
+         if (acctRptsToMap.isEmpty())
+         {
+             readAcctReportsTo();
+         }
+     }
+
 }

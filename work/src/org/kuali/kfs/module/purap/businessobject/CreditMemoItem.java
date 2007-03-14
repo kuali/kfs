@@ -25,7 +25,7 @@ import org.kuali.core.util.KualiDecimal;
 /**
  * 
  */
-public class CreditMemoItem extends PersistableBusinessObjectBase {
+public class CreditMemoItem extends AccountsPayableItemBase {
 
 	private Integer creditMemoItemIdentifier;
 	private Integer creditMemoIdentifier;

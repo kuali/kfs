@@ -25,7 +25,7 @@ import org.kuali.core.util.KualiDecimal;
 /**
  * 
  */
-public class PaymentRequestItem extends PersistableBusinessObjectBase {
+public class PaymentRequestItem extends AccountsPayableItemBase {
 
 	private Integer paymentRequestItemIdentifier;
 	private Integer paymentRequestIdentifier;

@@ -21,7 +21,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 
 import org.kuali.Constants;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 
 import edu.yale.its.tp.cas.ticket.*;
 import edu.yale.its.tp.cas.auth.*;

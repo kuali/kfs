@@ -15,14 +15,13 @@
  */
 package org.kuali.module.cg.lookup.keyvalues;
 
-import static org.kuali.core.util.SpringServiceLocator.getKeyValuesService;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.GrantDescription;
 
 public class GrantDescriptionValuesFinder extends KeyValuesBase {
@@ -32,7 +31,7 @@ public class GrantDescriptionValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
 
-        Collection<GrantDescription> codes = getKeyValuesService().findAll(GrantDescription.class);
+        Collection<GrantDescription> codes = SpringServiceLocator.getKeyValuesService().findAll(GrantDescription.class);
 
         List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
         labels.add(new KeyLabelPair("", ""));

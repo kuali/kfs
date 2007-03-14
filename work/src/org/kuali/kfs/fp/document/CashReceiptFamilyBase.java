@@ -21,11 +21,11 @@ import java.util.Iterator;
 import org.kuali.Constants;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.kfs.rule.AccountingLineRule;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.BasicFormatWithLineDescriptionAccountingLineParser;
 import org.kuali.module.financial.rules.CashReceiptFamilyRule;
 

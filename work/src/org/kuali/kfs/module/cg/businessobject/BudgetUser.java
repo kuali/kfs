@@ -26,7 +26,7 @@ import org.kuali.PropertyConstants;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.service.ChartUserService;
 import org.kuali.module.kra.budget.document.BudgetDocument;

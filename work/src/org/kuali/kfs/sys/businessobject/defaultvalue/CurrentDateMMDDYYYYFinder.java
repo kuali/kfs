@@ -21,7 +21,7 @@ import java.util.Date;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.core.lookup.valueFinder.ValueFinder;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 
 public class CurrentDateMMDDYYYYFinder implements ValueFinder {
 

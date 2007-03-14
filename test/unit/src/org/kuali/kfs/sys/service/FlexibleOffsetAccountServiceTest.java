@@ -15,7 +15,7 @@
  */
 package org.kuali.module.financial.service;
 
-import static org.kuali.core.util.SpringServiceLocator.getFlexibleOffsetAccountService;
+import static org.kuali.kfs.util.SpringServiceLocator.getFlexibleOffsetAccountService;
 import static org.kuali.test.fixtures.OffsetAccountFixture.OFFSET_ACCOUNT1;
 import static org.kuali.test.util.KualiTestAssertionUtils.assertSparselyEqualBean;
 

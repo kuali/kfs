@@ -27,7 +27,7 @@ import org.kuali.core.document.DocumentBase;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.CorrectionDocumentService;

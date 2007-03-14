@@ -15,10 +15,7 @@
  */
 package org.kuali.module.purap.rules;
 
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 
 public class PurchasingAccountsPayableDocumentRuleBase extends TransactionalDocumentRuleBase {
 

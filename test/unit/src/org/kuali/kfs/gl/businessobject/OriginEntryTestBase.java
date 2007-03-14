@@ -26,7 +26,7 @@ import java.util.Map;
 import org.kuali.core.service.ConfigurableDateService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.OriginEntryDao;

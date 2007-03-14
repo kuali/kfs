@@ -35,7 +35,7 @@ import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.bo.BudgetAdHocPermission;

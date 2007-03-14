@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
 

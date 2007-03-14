@@ -15,13 +15,12 @@
  */
 package org.kuali.module.financial.service;
 
+import static org.kuali.kfs.util.SpringServiceLocator.getDisbursementVoucherTaxService;
+
 import java.util.List;
 
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-
-import static org.kuali.core.util.SpringServiceLocator.*;
-
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.module.financial.bo.DisbursementVoucherNonResidentAlienTax;

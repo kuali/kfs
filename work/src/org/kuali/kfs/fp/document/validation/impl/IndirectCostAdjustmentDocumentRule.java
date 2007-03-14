@@ -22,10 +22,10 @@ import org.kuali.PropertyConstants;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
 
 /**

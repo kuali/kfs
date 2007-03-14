@@ -19,7 +19,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.financial.bo.AdvanceDepositDetail;
 import org.kuali.module.financial.document.AdvanceDepositDocument;

@@ -15,7 +15,7 @@
  */
 package org.kuali.module.chart.service;
 
-import static org.kuali.core.util.SpringServiceLocator.getBusinessObjectService;
+import static org.kuali.kfs.util.SpringServiceLocator.getBusinessObjectService;
 
 import java.util.HashMap;
 

@@ -15,7 +15,7 @@
  */
 package org.kuali.kfs.rules;
 
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
  * This class refers to an attribute which has a value and is labeled in the DataDictionary.

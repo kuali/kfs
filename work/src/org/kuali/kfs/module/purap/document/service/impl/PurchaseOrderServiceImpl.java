@@ -19,14 +19,12 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.exceptions.DocumentAuthorizationException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;

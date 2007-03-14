@@ -19,17 +19,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.authorization.AuthorizationConstants;
-
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
-import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
 import org.kuali.core.exceptions.InactiveDocumentTypeAuthorizationException;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.document.BudgetAdjustmentDocument;
 
 /**
@@ -73,7 +70,7 @@ public class BudgetAdjustmentDocumentAuthorizer extends AccountingDocumentAuthor
      */
     @Override
     public void canInitiate(String documentTypeName, UniversalUser user) {
-        List allowedYears = SpringServiceLocator.getKeyValuesService().getBudgetAdjustmentAllowedYears();
+        List allowedYears = SpringServiceLocator.getFiscalYearFunctionControlService().getBudgetAdjustmentAllowedYears();
 
         // if no allowed years found, BA document is not allowed to be initiated
         if (allowedYears == null || allowedYears.isEmpty()) {

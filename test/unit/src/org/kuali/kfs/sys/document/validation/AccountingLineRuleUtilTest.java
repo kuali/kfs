@@ -15,8 +15,8 @@
  */
 package org.kuali.module.financial.rules;
 
-import static org.kuali.core.util.SpringServiceLocator.getBusinessObjectService;
-import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
+import static org.kuali.kfs.util.SpringServiceLocator.getBusinessObjectService;
+import static org.kuali.kfs.util.SpringServiceLocator.getDataDictionaryService;
 import static org.kuali.test.fixtures.AccountFixture.ACCOUNT_NON_PRESENCE_ACCOUNT;
 import static org.kuali.test.fixtures.AccountFixture.ACCOUNT_PRESENCE_ACCOUNT_BUT_CLOSED;
 import static org.kuali.test.fixtures.AccountFixture.ACCOUNT_PRESENCE_ACCOUNT_WITH_EXPIRED;

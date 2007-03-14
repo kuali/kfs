@@ -15,8 +15,8 @@
  */
 package org.kuali.core.service;
 
-import static org.kuali.core.util.SpringServiceLocator.getAccountingLineService;
-import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
+import static org.kuali.kfs.util.SpringServiceLocator.getDocumentService;
+import static org.kuali.kfs.util.SpringServiceLocator.getAccountingLineService;
 import static org.kuali.test.fixtures.AccountingLineFixture.LINE2_TOF;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 

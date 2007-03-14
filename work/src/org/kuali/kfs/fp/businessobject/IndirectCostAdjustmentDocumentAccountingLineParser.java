@@ -27,10 +27,10 @@ import static org.kuali.PropertyConstants.SUB_ACCOUNT_NUMBER;
 
 import java.util.Map;
 
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.kfs.bo.AccountingLineParserBase;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.rules.IndirectCostAdjustmentDocumentRuleConstants;
 
 /**

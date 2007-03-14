@@ -77,7 +77,6 @@ import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.bo.AccountingLine;
@@ -90,6 +89,7 @@ import org.kuali.kfs.rule.GenerateGeneralLedgerPendingEntriesRule;
 import org.kuali.kfs.rule.ReviewAccountingLineRule;
 import org.kuali.kfs.rule.SufficientFundsCheckingPreparationRule;
 import org.kuali.kfs.rule.UpdateAccountingLineRule;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.ObjectCode;
 

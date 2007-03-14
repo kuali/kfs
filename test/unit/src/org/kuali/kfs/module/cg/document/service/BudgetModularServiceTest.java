@@ -15,8 +15,8 @@
  */
 package org.kuali.module.kra.service;
 
-import static org.kuali.core.util.SpringServiceLocator.getBudgetModularService;
-import static org.kuali.core.util.SpringServiceLocator.getBudgetNonpersonnelService;
+import static org.kuali.kfs.util.SpringServiceLocator.getBudgetModularService;
+import static org.kuali.kfs.util.SpringServiceLocator.getBudgetNonpersonnelService;
 
 import java.sql.Date;
 import java.text.ParseException;

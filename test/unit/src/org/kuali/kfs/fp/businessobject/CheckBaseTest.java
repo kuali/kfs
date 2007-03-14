@@ -20,7 +20,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 

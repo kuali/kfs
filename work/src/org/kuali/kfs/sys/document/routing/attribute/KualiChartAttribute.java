@@ -31,7 +31,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.Constants;
 import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.workflow.KualiWorkflowUtils;
 

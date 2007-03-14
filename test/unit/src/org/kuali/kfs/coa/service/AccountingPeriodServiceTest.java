@@ -15,9 +15,9 @@
  */
 package org.kuali.module.chart.service;
 
-import static org.kuali.core.util.SpringServiceLocator.getAccountingPeriodService;
-import static org.kuali.core.util.SpringServiceLocator.getBusinessObjectService;
-import static org.kuali.core.util.SpringServiceLocator.getDateTimeService;
+import static org.kuali.kfs.util.SpringServiceLocator.getBusinessObjectService;
+import static org.kuali.kfs.util.SpringServiceLocator.getDateTimeService;
+import static org.kuali.kfs.util.SpringServiceLocator.getAccountingPeriodService;
 
 import java.sql.Date;
 import java.util.HashMap;

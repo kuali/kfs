@@ -27,7 +27,6 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
@@ -39,6 +38,7 @@ import org.kuali.kfs.rule.event.GenerateGeneralLedgerDocumentPendingEntriesEvent
 import org.kuali.kfs.rule.event.GenerateGeneralLedgerPendingEntriesEvent;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.service.OptionsService;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.codes.BalanceTyp;

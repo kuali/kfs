@@ -15,9 +15,9 @@
  */
 package org.kuali.module.financial.document;
 
-import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
-import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
-import static org.kuali.core.util.SpringServiceLocator.getTransactionalDocumentDictionaryService;
+import static org.kuali.kfs.util.SpringServiceLocator.getDataDictionaryService;
+import static org.kuali.kfs.util.SpringServiceLocator.getDocumentService;
+import static org.kuali.kfs.util.SpringServiceLocator.getTransactionalDocumentDictionaryService;
 import static org.kuali.module.financial.document.AccountingDocumentTestUtils.testAddAccountingLine;
 import static org.kuali.module.financial.document.AccountingDocumentTestUtils.testConvertIntoCopy;
 import static org.kuali.module.financial.document.AccountingDocumentTestUtils.testConvertIntoCopy_copyDisallowed;

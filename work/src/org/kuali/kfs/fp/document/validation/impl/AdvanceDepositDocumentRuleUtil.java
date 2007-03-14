@@ -19,7 +19,7 @@ import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.AdvanceDepositDetail;
 
 /**

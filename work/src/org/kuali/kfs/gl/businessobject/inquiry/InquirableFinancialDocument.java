@@ -18,7 +18,7 @@ package org.kuali.module.gl.web.inquirable;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.Encumbrance;
 import org.kuali.module.gl.bo.Transaction;
 

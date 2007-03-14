@@ -16,7 +16,7 @@
 package org.kuali.kfs.lookup.valuefinder;
 
 import org.kuali.core.lookup.valueFinder.ValueFinder;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
  * Returns the current fiscal year.

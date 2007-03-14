@@ -15,7 +15,7 @@
  */
 package org.kuali.module.chart.bo;
 
-import static org.kuali.core.util.SpringServiceLocator.getDateTimeService;
+import static org.kuali.kfs.util.SpringServiceLocator.getDateTimeService;
 
 import java.sql.Timestamp;
 import java.text.ParseException;

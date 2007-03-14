@@ -31,12 +31,12 @@ import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.document.AccountingDocumentBase;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.AuxiliaryVoucherAccountingLineParser;
 
 import edu.iu.uis.eden.exception.WorkflowException;

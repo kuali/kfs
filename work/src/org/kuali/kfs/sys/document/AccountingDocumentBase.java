@@ -30,7 +30,6 @@ import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.rule.event.RouteDocumentEvent;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.bo.AccountingLineParser;
@@ -42,6 +41,7 @@ import org.kuali.kfs.rule.event.AddAccountingLineEvent;
 import org.kuali.kfs.rule.event.DeleteAccountingLineEvent;
 import org.kuali.kfs.rule.event.ReviewAccountingLineEvent;
 import org.kuali.kfs.rule.event.UpdateAccountingLineEvent;
+import org.kuali.kfs.util.SpringServiceLocator;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

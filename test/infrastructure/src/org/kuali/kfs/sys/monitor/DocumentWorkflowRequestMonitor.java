@@ -16,8 +16,8 @@
 package org.kuali.test.monitor;
 
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.util.SpringServiceLocator;
 
 import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.exception.WorkflowException;

@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.budget.bo.AppointmentType;
 import org.kuali.module.kra.budget.bo.BudgetBaseCode;
 

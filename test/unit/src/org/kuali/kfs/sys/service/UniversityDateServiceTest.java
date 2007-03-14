@@ -15,9 +15,7 @@
  */
 package org.kuali.module.financial.service;
 
-import static org.kuali.core.util.SpringServiceLocator.getDateTimeService;
-
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
@@ -44,8 +42,8 @@ public class UniversityDateServiceTest extends KualiTestBase {
     }
 
     public final void testGetFiscalYear_pastDate() throws Exception {
-        java.sql.Timestamp badTimestamp = getDateTimeService().convertToSqlTimestamp("1989-01-10 00:00:00");
-        java.sql.Timestamp goodTimestamp = getDateTimeService().convertToSqlTimestamp("1993-08-19 00:00:00");
+        java.sql.Timestamp badTimestamp = SpringServiceLocator.getDateTimeService().convertToSqlTimestamp("1989-01-10 00:00:00");
+        java.sql.Timestamp goodTimestamp = SpringServiceLocator.getDateTimeService().convertToSqlTimestamp("1993-08-19 00:00:00");
 
         assertNull("This date shouldn't be in sh_univ_date_t", SpringServiceLocator.getUniversityDateService().getFiscalYear(badTimestamp));
         assertEquals("This date should be in sh_univ_date_t", new Integer(1994), SpringServiceLocator.getUniversityDateService().getFiscalYear(goodTimestamp));

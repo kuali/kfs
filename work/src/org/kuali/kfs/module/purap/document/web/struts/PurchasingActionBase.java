@@ -24,15 +24,14 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.bo.VendorAddress;
 import org.kuali.module.purap.bo.VendorContract;
 import org.kuali.module.purap.bo.VendorDetail;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.document.PurchasingDocumentBase;
-import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.PhoneNumberService;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
 

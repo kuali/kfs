@@ -15,7 +15,7 @@
  */
 package org.kuali.module.chart.service;
 
-import static org.kuali.core.util.SpringServiceLocator.getOrganizationService;
+import static org.kuali.kfs.util.SpringServiceLocator.getOrganizationService;
 
 import java.util.Collections;
 import java.util.List;

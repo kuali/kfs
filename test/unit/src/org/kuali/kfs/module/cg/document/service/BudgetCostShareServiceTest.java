@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.kuali.core.util.ObjectUtils;
 
-import static org.kuali.core.util.SpringServiceLocator.getBudgetCostShareService;
+import static org.kuali.kfs.util.SpringServiceLocator.getBudgetCostShareService;
 
 import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
 import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;

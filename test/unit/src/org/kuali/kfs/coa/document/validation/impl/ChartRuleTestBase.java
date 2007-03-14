@@ -15,8 +15,8 @@
  */
 package org.kuali.module.chart.rules;
 
-import static org.kuali.core.util.SpringServiceLocator.getDictionaryValidationService;
-import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
+import static org.kuali.kfs.util.SpringServiceLocator.getDictionaryValidationService;
+import static org.kuali.kfs.util.SpringServiceLocator.getDocumentService;
 
 import java.util.Iterator;
 import java.util.Map;

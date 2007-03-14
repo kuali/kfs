@@ -30,7 +30,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.budget.bo.BudgetUser;
 import org.kuali.module.kra.budget.bo.UserAppointmentTask;
 import org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod;

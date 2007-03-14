@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.budget.bo.NonpersonnelCategory;
 import org.kuali.module.kra.budget.document.BudgetDocument;

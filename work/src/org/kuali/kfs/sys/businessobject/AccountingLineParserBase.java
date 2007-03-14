@@ -45,10 +45,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.format.FormatException;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.exceptions.AccountingLineParserException;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.PropertyConstants;
 
 /**

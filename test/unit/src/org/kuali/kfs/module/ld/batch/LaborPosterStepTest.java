@@ -15,7 +15,7 @@
  */
 package org.kuali.module.labor.batch;
 
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 import org.springframework.beans.factory.BeanFactory;

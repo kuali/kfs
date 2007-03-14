@@ -25,7 +25,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.budget.bo.BudgetIndirectCost;
 import org.kuali.module.kra.budget.bo.BudgetIndirectCostLookup;
 import org.kuali.module.kra.budget.rules.event.RecalculateIndirectCostEvent;

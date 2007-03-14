@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.Bank;
 import org.kuali.module.financial.service.BankService;
 

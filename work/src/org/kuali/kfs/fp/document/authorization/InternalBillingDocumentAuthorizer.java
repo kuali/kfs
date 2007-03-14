@@ -22,9 +22,9 @@ import java.util.Map;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ChartUser;
 
 public class InternalBillingDocumentAuthorizer extends AccountingDocumentAuthorizerBase{

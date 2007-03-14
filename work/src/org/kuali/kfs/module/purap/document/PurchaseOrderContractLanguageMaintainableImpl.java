@@ -16,7 +16,7 @@
 package org.kuali.module.purap.maintenance;
 
 import org.kuali.core.maintenance.KualiMaintainableImpl;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.bo.PurchaseOrderContractLanguage;
 
 public class PurchaseOrderContractLanguageMaintainableImpl extends KualiMaintainableImpl {

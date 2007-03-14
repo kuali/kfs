@@ -23,8 +23,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.AuthenticationUserId;
 
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.kfs.bo.AccountResponsibility;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine;
 import org.kuali.module.financial.document.BudgetAdjustmentDocument;

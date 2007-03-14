@@ -38,7 +38,6 @@ import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.Timer;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
@@ -53,6 +52,7 @@ import org.kuali.kfs.exceptions.AccountingLineParserException;
 import org.kuali.kfs.rule.event.AddAccountingLineEvent;
 import org.kuali.kfs.rule.event.DeleteAccountingLineEvent;
 import org.kuali.kfs.rule.event.UpdateAccountingLineEvent;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.kfs.web.ui.AccountingLineDecorator;
 

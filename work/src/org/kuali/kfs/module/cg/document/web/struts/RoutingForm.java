@@ -23,7 +23,7 @@ import java.util.Map;
 import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.web.struts.form.BudgetOverviewFormHelper;
 import org.kuali.module.kra.document.ResearchDocument;

@@ -15,14 +15,9 @@
  */
 package org.kuali.module.financial.service;
 
-import static org.kuali.core.util.SpringServiceLocator.getBusinessObjectService;
-import static org.kuali.core.util.SpringServiceLocator.getProcurementCardCreateDocumentService;
-import static org.kuali.core.util.SpringServiceLocator.getProcurementCardLoadTransactionsService;
+import static org.kuali.kfs.util.SpringServiceLocator.getProcurementCardCreateDocumentService;
 import static org.kuali.test.fixtures.UserNameFixture.KULUSER;
 
-import java.util.List;
-
-import org.kuali.module.financial.bo.ProcurementCardTransaction;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 /**

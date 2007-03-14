@@ -15,8 +15,8 @@
  */
 package org.kuali.module.financial.service;
 
-import static org.kuali.core.util.SpringServiceLocator.getCashReceiptService;
-import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
+import static org.kuali.kfs.util.SpringServiceLocator.getCashReceiptService;
+import static org.kuali.rice.KNSServiceLocator.getDocumentService;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 import java.util.Iterator;

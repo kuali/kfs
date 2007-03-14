@@ -17,9 +17,9 @@ package org.kuali.module.financial.document;
 
 import static org.kuali.Constants.GL_CREDIT_CODE;
 import static org.kuali.Constants.GL_DEBIT_CODE;
-import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
-import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
-import static org.kuali.core.util.SpringServiceLocator.getTransactionalDocumentDictionaryService;
+import static org.kuali.kfs.util.SpringServiceLocator.getDataDictionaryService;
+import static org.kuali.kfs.util.SpringServiceLocator.getDocumentService;
+import static org.kuali.kfs.util.SpringServiceLocator.getTransactionalDocumentDictionaryService;
 import static org.kuali.module.financial.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
 import static org.kuali.test.fixtures.AccountingLineFixture.LINE15;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;

@@ -21,7 +21,7 @@ import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.KraPropertyConstants;
 import org.kuali.module.kra.routingform.bo.QuestionType;
 import org.kuali.module.kra.routingform.bo.ResearchRiskType;

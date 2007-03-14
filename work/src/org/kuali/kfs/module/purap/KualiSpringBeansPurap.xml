@@ -225,4 +225,5 @@
 		</property>
 	</bean>
 	
+	<bean id="singleConfirmationQuestion" class="org.kuali.module.purap.question.SingleConfirmationQuestion" singleton="false" />
 </beans>

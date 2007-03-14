@@ -15,6 +15,13 @@
  */
 package org.kuali.module.financial.service;
 
+import static org.kuali.kfs.util.SpringServiceLocator.getCashDrawerService;
+import static org.kuali.kfs.util.SpringServiceLocator.getCashManagementService;
+import static org.kuali.kfs.util.SpringServiceLocator.getCashReceiptService;
+import static org.kuali.rice.KNSServiceLocator.getBusinessObjectService;
+import static org.kuali.rice.KNSServiceLocator.getDocumentService;
+import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,13 +36,6 @@ import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-
-import static org.kuali.core.util.SpringServiceLocator.getBusinessObjectService;
-import static org.kuali.core.util.SpringServiceLocator.getCashDrawerService;
-import static org.kuali.core.util.SpringServiceLocator.getCashManagementService;
-import static org.kuali.core.util.SpringServiceLocator.getCashReceiptService;
-import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
-
 import org.kuali.module.financial.bo.BankAccount;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.bo.Deposit;
@@ -48,7 +48,6 @@ import org.kuali.test.KualiTestBase;
 import org.kuali.test.TestsWorkflowViaDatabase;
 import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.fixtures.UserNameFixture;
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 import org.kuali.test.monitor.ChangeMonitor;
 import org.kuali.test.monitor.DocumentWorkflowStatusMonitor;
 

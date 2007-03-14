@@ -21,7 +21,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.Summarizable;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
  * 

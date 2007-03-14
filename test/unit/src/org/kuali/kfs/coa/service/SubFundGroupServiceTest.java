@@ -15,7 +15,7 @@
  */
 package org.kuali.module.chart.service;
 
-import static org.kuali.core.util.SpringServiceLocator.getSubFundGroupService;
+import static org.kuali.kfs.util.SpringServiceLocator.getSubFundGroupService;
 
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.test.KualiTestBase;

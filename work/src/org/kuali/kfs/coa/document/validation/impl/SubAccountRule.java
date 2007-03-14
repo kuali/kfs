@@ -29,7 +29,7 @@ import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.IcrAutomatedEntry;
 import org.kuali.module.chart.bo.SubAccount;

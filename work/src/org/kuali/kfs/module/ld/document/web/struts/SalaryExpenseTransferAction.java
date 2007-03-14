@@ -27,7 +27,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;

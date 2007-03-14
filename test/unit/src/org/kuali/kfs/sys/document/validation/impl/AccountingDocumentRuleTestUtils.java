@@ -15,7 +15,7 @@
  */
 package org.kuali.module.financial.rules;
 
-import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
+import static org.kuali.kfs.util.SpringServiceLocator.getDataDictionaryService;
 import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 import static org.kuali.test.util.KualiTestAssertionUtils.assertSparselyEqualBean;
 

@@ -17,7 +17,6 @@ package org.kuali.module.purap.rules;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
-import org.kuali.core.datadictionary.validation.fieldlevel.PhoneNumberValidationPattern;
 import org.kuali.core.datadictionary.validation.fieldlevel.ZipcodeValidationPattern;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
@@ -28,7 +27,6 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.document.RequisitionDocument;
-import org.kuali.module.purap.service.impl.PhoneNumberServiceImpl;
 
 public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
 

@@ -15,9 +15,9 @@
  */
 package org.kuali.module.financial.service;
 
-import static org.kuali.core.util.SpringServiceLocator.getCheckService;
-import static org.kuali.core.util.SpringServiceLocator.getDateTimeService;
-import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
+import static org.kuali.kfs.util.SpringServiceLocator.getCheckService;
+import static org.kuali.rice.KNSServiceLocator.getDateTimeService;
+import static org.kuali.rice.KNSServiceLocator.getDocumentService;
 import static org.kuali.test.fixtures.AccountingLineFixture.LINE18;
 import static org.kuali.test.fixtures.UserNameFixture.MHKOZLOW;
 

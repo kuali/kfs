@@ -23,7 +23,7 @@ import org.kuali.KeyConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.rules.PreRulesContinuationBase;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.service.ChartService;

@@ -15,7 +15,7 @@
  */
 package org.kuali.module.chart.service;
 
-import static org.kuali.core.util.SpringServiceLocator.getObjectCodeService;
+import static org.kuali.kfs.util.SpringServiceLocator.getObjectCodeService;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;

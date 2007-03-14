@@ -27,7 +27,7 @@ import org.kuali.Constants;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.module.kra.routingform.bo.RoutingFormAdHocOrg;

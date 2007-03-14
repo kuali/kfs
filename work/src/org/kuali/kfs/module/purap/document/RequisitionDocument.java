@@ -16,8 +16,6 @@
 
 package org.kuali.module.purap.document;
 
-import static org.kuali.core.util.SpringServiceLocator.getKualiConfigurationService;
-
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,9 +28,9 @@ import org.kuali.core.document.Copyable;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
@@ -107,7 +105,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setPurchaseOrderTransmissionMethodCode( PurapConstants.POTransmissionMethods.FAX );
 
         // set the default funding source
-        this.setFundingSourceCode(getKualiConfigurationService().getApplicationParameterValue("PurapAdminGroup","PURAP.REQUISITION_DEFAULT_FUNDING_SOURCE"));
+        this.setFundingSourceCode(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue("PurapAdminGroup","PURAP.REQUISITION_DEFAULT_FUNDING_SOURCE"));
 
         ChartUser currentUser = (ChartUser)GlobalVariables.getUserSession().getUniversalUser().getModuleUser( ChartUser.MODULE_ID );
         this.setChartOfAccountsCode(currentUser.getChartOfAccountsCode());

@@ -32,8 +32,8 @@ import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.rule.event.RouteDocumentEvent;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.service.SufficientFundsService;
 import org.kuali.module.gl.util.SufficientFundsItem;
 

@@ -25,7 +25,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentAuthorizer;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 import org.kuali.module.financial.web.struts.form.AuxiliaryVoucherForm;
 

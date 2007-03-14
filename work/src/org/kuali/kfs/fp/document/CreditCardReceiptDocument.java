@@ -22,9 +22,9 @@ import org.kuali.Constants;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.bo.AccountingLineParser;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.BasicFormatWithLineDescriptionAccountingLineParser;
 import org.kuali.module.financial.bo.CreditCardDetail;
 

@@ -25,7 +25,7 @@ import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;

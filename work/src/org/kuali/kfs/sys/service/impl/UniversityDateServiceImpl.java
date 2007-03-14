@@ -17,8 +17,8 @@ package org.kuali.module.financial.service.impl;
 
 import org.apache.log4j.Logger;
 import org.kuali.core.util.DateUtils;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.Timer;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.dao.UniversityDateDao;

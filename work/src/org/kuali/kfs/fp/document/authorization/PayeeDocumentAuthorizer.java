@@ -23,7 +23,7 @@ import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
  * Document Authorizer for the Payee maintenance document.

@@ -21,7 +21,7 @@ import java.util.List;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 
 /**

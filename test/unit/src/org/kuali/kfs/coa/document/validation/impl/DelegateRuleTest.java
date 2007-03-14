@@ -26,7 +26,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.kuali.KeyConstants;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Delegate;
 import org.kuali.test.WithTestSpringContext;
 

@@ -21,7 +21,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.InternalBillingItem;
 
 import edu.iu.uis.eden.exception.WorkflowException;

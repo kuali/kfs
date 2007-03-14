@@ -23,7 +23,7 @@ import org.apache.ojb.broker.PersistenceBroker;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
  * 

@@ -15,11 +15,11 @@
  */
 package org.kuali.kfs.service.impl;
 
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.SpringServiceLocator;
+
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.dao.OptionsDao;
 import org.kuali.kfs.service.OptionsService;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional

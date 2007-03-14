@@ -30,7 +30,7 @@ import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.util.LedgerEntryHolder;

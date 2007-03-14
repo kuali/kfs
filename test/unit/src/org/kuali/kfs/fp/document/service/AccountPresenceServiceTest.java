@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 package org.kuali.module.financial.service;
-import static org.kuali.core.util.SpringServiceLocator.getAccountPresenceService;
-import static org.kuali.core.util.SpringServiceLocator.getBusinessObjectService;
+import static org.kuali.kfs.util.SpringServiceLocator.getAccountPresenceService;
+import static org.kuali.rice.KNSServiceLocator.getBusinessObjectService;
 import static org.kuali.test.fixtures.AccountFixture.ACCOUNT_NON_PRESENCE_ACCOUNT;
 import static org.kuali.test.fixtures.AccountFixture.ACCOUNT_PRESENCE_ACCOUNT;
 import static org.kuali.test.fixtures.ObjectCodeFixture.OBJECT_CODE_BUDGETED_OBJECT_CODE;

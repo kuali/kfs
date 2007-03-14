@@ -19,7 +19,7 @@ package org.kuali.workflow.postprocessor;
 import java.rmi.RemoteException;
 
 import org.apache.log4j.Logger;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 
 import edu.iu.uis.eden.clientapp.PostProcessorRemote;
 import edu.iu.uis.eden.clientapp.vo.ActionTakenEventVO;

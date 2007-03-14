@@ -25,9 +25,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.bo.TargetAccountingLine;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine;
 import org.kuali.module.financial.document.ProcurementCardDocument;

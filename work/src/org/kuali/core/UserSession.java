@@ -26,8 +26,8 @@ import org.apache.log4j.Logger;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
 import edu.iu.uis.eden.clientapp.vo.UserVO;
@@ -62,8 +62,8 @@ public class UserSession implements Serializable {
      * @throws ResourceUnavailableException
      */
     public UserSession(String networkId) throws UserNotFoundException, WorkflowException {
-        this.universalUser = SpringServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(networkId));
-        this.workflowUser = SpringServiceLocator.getWorkflowInfoService().getWorkflowUser(new NetworkIdVO(networkId));
+        this.universalUser = KNSServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(networkId));
+        this.workflowUser = KNSServiceLocator.getWorkflowInfoService().getWorkflowUser(new NetworkIdVO(networkId));
         this.nextObjectKey = 0;
         this.objectMap = new HashMap();
     }
@@ -125,9 +125,9 @@ public class UserSession implements Serializable {
      */
     public void setBackdoorUser(String networkId) throws UserNotFoundException, WorkflowException {
        // only allow backdoor in non-production environments
-       if ( !SpringServiceLocator.getKualiConfigurationService().isProductionEnvironment() ) {
-        this.backdoorUser = SpringServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(networkId));
-        this.backdoorWorkflowUser = SpringServiceLocator.getWorkflowInfoService().getWorkflowUser(new NetworkIdVO(networkId));
+       if ( !KNSServiceLocator.getKualiConfigurationService().isProductionEnvironment() ) {
+        this.backdoorUser = KNSServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(networkId));
+        this.backdoorWorkflowUser = KNSServiceLocator.getWorkflowInfoService().getWorkflowUser(new NetworkIdVO(networkId));
         this.workflowDocMap = new HashMap();
        }
     }

@@ -21,11 +21,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.BudgetConstructionMonthly;
 import org.kuali.module.budget.dao.ojb.BudgetConstructionDaoOjb;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
-import org.kuali.core.util.SpringServiceLocator;
 
 
 public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {

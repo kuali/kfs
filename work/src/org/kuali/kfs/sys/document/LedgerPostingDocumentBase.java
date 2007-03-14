@@ -21,7 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.NumberUtils;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountingPeriod;
 
 /**

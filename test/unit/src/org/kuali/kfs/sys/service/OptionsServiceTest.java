@@ -19,7 +19,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.bo.Options;
 
-import static org.kuali.core.util.SpringServiceLocator.*;
+import static org.kuali.kfs.util.SpringServiceLocator.*;
 
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;

@@ -20,8 +20,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.SortedSet;
 
-import static org.kuali.core.util.SpringServiceLocator.getLockService;
-import static org.kuali.core.util.SpringServiceLocator.getBusinessObjectService;
+import static org.kuali.kfs.util.SpringServiceLocator.getBusinessObjectService;
+import static org.kuali.kfs.util.SpringServiceLocator.getLockService;
+
 import org.kuali.Constants.BudgetConstructionConstants.LockStatus;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.module.budget.bo.BudgetConstructionFundingLock;

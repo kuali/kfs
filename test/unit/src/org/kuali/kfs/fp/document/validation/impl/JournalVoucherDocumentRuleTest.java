@@ -17,9 +17,9 @@ package org.kuali.module.financial.rules;
 
 import static org.kuali.Constants.GL_CREDIT_CODE;
 import static org.kuali.Constants.GL_DEBIT_CODE;
-import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
-import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
-import static org.kuali.core.util.SpringServiceLocator.getDocumentTypeService;
+import static org.kuali.kfs.util.SpringServiceLocator.getDataDictionaryService;
+import static org.kuali.kfs.util.SpringServiceLocator.getDocumentService;
+import static org.kuali.kfs.util.SpringServiceLocator.getDocumentTypeService;
 import static org.kuali.module.financial.rules.AccountingDocumentRuleTestUtils.getBusinessRule;
 import static org.kuali.module.financial.rules.AccountingDocumentRuleTestUtils.testAddAccountingLineRule_IsObjectCodeAllowed;
 import static org.kuali.module.financial.rules.AccountingDocumentRuleTestUtils.testAddAccountingLineRule_IsObjectTypeAllowed;

@@ -22,7 +22,7 @@ import java.util.Set;
 
 import org.kuali.Constants;
 import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.DisbursementVoucherDocumentationLocation;
 
 /**

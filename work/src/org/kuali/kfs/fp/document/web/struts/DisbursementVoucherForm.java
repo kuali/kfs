@@ -19,8 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.format.SimpleBooleanFormatter;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeExpense;
 import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant;

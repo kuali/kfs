@@ -23,7 +23,7 @@ import org.kuali.core.rules.PreRulesContinuationBase;
 import org.kuali.core.service.DocumentAuthorizationService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.service.AccountService;
 

@@ -20,7 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.service.PersistenceService;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.SufficientFundBalances;
 import org.kuali.module.gl.bo.SufficientFundRebuild;
 import org.kuali.module.gl.dao.SufficientFundBalancesDao;

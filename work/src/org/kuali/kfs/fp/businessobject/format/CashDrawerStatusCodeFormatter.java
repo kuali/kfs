@@ -18,8 +18,8 @@ package org.kuali.module.financial.web.struts.form;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.format.Formatter;
+import org.kuali.kfs.util.SpringServiceLocator;
 
 public class CashDrawerStatusCodeFormatter extends Formatter {
     private final String CLOSED_CD;

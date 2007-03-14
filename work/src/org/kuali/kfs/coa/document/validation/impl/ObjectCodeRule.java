@@ -31,7 +31,7 @@ import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.ObjectCons;

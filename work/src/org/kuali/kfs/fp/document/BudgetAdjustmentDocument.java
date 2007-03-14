@@ -30,12 +30,12 @@ import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.kfs.rules.AccountingDocumentRuleUtil;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLine;
 import org.kuali.module.financial.bo.BudgetAdjustmentAccountingLineParser;
 import org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine;
@@ -115,7 +115,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
         // setting default posting year. Trying to set currentYear first if it's allowed, if it isn't,
         // just set first allowed year. Note: allowedYears will never be empty because then
         // BudgetAdjustmentDocumentAuthorizer.canInitiate would have failed.
-        List allowedYears = SpringServiceLocator.getKeyValuesService().getBudgetAdjustmentAllowedYears();
+        List allowedYears = SpringServiceLocator.getFiscalYearFunctionControlService().getBudgetAdjustmentAllowedYears();
         Integer currentYearParam = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();
         
         FiscalYearFunctionControl fiscalYearFunctionControl = new FiscalYearFunctionControl();

@@ -29,7 +29,7 @@ import org.apache.ojb.broker.query.Query;
 import org.kuali.Constants;
 import org.kuali.core.dao.LookupDao;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.springframework.beans.factory.BeanFactory;
 
 /**

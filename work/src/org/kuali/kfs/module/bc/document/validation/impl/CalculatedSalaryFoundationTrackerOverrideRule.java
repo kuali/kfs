@@ -19,7 +19,7 @@ import org.kuali.KeyConstants;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.budget.bo.CalculatedSalaryFoundationTrackerOverride;
 import org.kuali.module.budget.service.CalculatedSalaryFoundationTrackerOverrideService;
 

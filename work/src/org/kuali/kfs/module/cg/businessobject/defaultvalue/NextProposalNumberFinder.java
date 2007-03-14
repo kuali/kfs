@@ -16,8 +16,8 @@
 package org.kuali.module.cg.lookup.valuefinder;
 
 import org.kuali.core.lookup.valueFinder.ValueFinder;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.kfs.bo.OriginationCode;
+import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
  * Returns the next Proposal number available.

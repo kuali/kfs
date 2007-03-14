@@ -21,9 +21,9 @@ import java.util.List;
 
 import org.kuali.Constants;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.bo.Country;
+import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
  * This class returns list of country value pairs.

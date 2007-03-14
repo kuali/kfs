@@ -16,8 +16,8 @@
 package org.kuali.module.chart.maintenance;
 
 import org.kuali.core.maintenance.KualiMaintainableImpl;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.Constants;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Delegate;
 
 /**

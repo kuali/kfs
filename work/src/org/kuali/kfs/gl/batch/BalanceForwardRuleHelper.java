@@ -19,8 +19,8 @@ import java.sql.Date;
 
 import org.kuali.Constants;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.kfs.bo.Options;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.PriorYearAccount;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.bo.codes.BalanceTyp;

@@ -31,13 +31,13 @@ import static org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRul
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.datadictionary.BusinessObjectEntry;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
 
 /**

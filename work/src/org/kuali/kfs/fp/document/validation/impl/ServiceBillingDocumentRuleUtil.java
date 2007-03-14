@@ -26,9 +26,9 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.ServiceBillingControl;
 
 /**

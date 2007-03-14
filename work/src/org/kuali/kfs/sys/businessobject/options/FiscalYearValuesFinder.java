@@ -22,9 +22,9 @@ import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.bo.Options;
+import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
  * This class...

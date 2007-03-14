@@ -15,7 +15,7 @@
  */
 package org.kuali.module.chart.service;
 
-import static org.kuali.core.util.SpringServiceLocator.getSubObjectCodeService;
+import static org.kuali.kfs.util.SpringServiceLocator.getSubObjectCodeService;
 
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.test.KualiTestBase;

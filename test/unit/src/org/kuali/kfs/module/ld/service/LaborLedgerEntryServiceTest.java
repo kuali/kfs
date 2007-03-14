@@ -23,7 +23,7 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.util.ObjectUtil;

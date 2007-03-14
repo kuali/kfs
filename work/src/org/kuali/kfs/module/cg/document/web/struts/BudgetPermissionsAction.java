@@ -33,7 +33,7 @@ import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.rule.event.AddAdHocRoutePersonEvent;
 import org.kuali.core.rule.event.AddAdHocRouteWorkgroupEvent;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.bo.BudgetAdHocOrg;
 import org.kuali.module.kra.bo.BudgetAdHocPermission;

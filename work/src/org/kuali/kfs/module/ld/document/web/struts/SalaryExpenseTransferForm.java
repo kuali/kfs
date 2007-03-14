@@ -15,10 +15,9 @@
  */
 package org.kuali.module.labor.web.struts.form;
 
-import static org.kuali.core.util.SpringServiceLocator.getUniversalUserService;
-
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 
 /**
@@ -56,7 +55,7 @@ public class SalaryExpenseTransferForm extends LaborDocumentFormBase {
     public void setUserId(String uid) throws UserNotFoundException {
         if (uid != null) {
             //  This may happen during populate when there is no initial user
-            user = getUniversalUserService().getUniversalUser(uid);
+            user = SpringServiceLocator.getUniversalUserService().getUniversalUser(uid);
         }
     }
     
@@ -81,7 +80,7 @@ public class SalaryExpenseTransferForm extends LaborDocumentFormBase {
     public void setPersonName(String personName) throws UserNotFoundException {
         if (personName != null) {
             //  This may happen during populate when there is no initial user
-            user = getUniversalUserService().getUniversalUser(personName);
+            user = SpringServiceLocator.getUniversalUserService().getUniversalUser(personName);
         }
     }
     /**
@@ -104,7 +103,7 @@ public class SalaryExpenseTransferForm extends LaborDocumentFormBase {
     public void setEmplid(String emplid) throws UserNotFoundException {
         if (emplid != null) {
             //  This may happen during populate when there is no initial user
-            user = getUniversalUserService().getUniversalUser(emplid);
+            user = SpringServiceLocator.getUniversalUserService().getUniversalUser(emplid);
         }
     }
     /**

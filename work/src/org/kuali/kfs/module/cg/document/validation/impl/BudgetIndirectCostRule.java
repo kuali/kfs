@@ -18,7 +18,7 @@ package org.kuali.module.kra.budget.rules.budget;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.budget.bo.BudgetIndirectCost;
 import org.kuali.module.kra.budget.bo.BudgetTaskPeriodIndirectCost;

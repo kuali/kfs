@@ -15,7 +15,7 @@
  */
 package org.kuali.module.kra.service;
 
-import static org.kuali.core.util.SpringServiceLocator.getBudgetIndirectCostService;
+import static org.kuali.kfs.util.SpringServiceLocator.getBudgetIndirectCostService;
 
 import java.util.ArrayList;
 import java.util.Iterator;

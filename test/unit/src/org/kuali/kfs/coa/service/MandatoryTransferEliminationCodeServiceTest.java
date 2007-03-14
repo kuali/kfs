@@ -15,7 +15,7 @@
  */
 package org.kuali.module.chart.service;
 
-import static org.kuali.core.util.SpringServiceLocator.getKualiCodeService;
+import static org.kuali.kfs.util.SpringServiceLocator.getKualiCodeService;
 
 import org.kuali.module.chart.bo.codes.MandatoryTransferEliminationCode;
 import org.kuali.test.KualiTestBase;

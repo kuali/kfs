@@ -19,10 +19,10 @@ import java.util.Map;
 
 import org.kuali.PropertyConstants;
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.financial.document.IndirectCostAdjustmentDocument;
 import org.kuali.module.financial.rules.IndirectCostAdjustmentDocumentRuleConstants;

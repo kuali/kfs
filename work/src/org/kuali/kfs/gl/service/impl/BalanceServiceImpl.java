@@ -24,12 +24,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.IteratorUtils;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.service.OptionsService;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.GlSummary;

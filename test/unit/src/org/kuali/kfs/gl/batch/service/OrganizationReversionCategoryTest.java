@@ -17,7 +17,7 @@ package org.kuali.module.gl.service.impl.orgreversion;
 
 import java.util.Map;
 
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.chart.service.OrganizationReversionService;

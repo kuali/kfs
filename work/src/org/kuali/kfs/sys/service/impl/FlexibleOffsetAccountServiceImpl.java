@@ -21,7 +21,7 @@ import java.util.HashMap;
 import org.kuali.Constants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.service.AccountService;

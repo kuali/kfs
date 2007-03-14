@@ -25,7 +25,7 @@ import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiGroupService;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
  * This class...

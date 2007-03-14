@@ -24,7 +24,7 @@ import java.util.Iterator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.rules.CashReceiptDocumentRule;

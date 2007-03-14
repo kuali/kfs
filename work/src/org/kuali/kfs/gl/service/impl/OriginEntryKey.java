@@ -18,7 +18,7 @@ package org.kuali.module.gl.util;
 import java.util.Arrays;
 
 import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.gl.bo.OriginEntry;
 

@@ -23,7 +23,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.test.KualiTestBase;
 
 import com.opensymphony.oscache.util.StringUtil;

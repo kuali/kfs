@@ -18,9 +18,9 @@ package org.kuali.module.gl.service;
 import java.util.Iterator;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 

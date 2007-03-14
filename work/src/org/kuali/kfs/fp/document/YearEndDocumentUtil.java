@@ -17,9 +17,9 @@
 package org.kuali.module.financial.document;
 
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.util.SpringServiceLocator;
 
 
 /**

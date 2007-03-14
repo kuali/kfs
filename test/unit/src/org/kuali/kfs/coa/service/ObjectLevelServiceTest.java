@@ -15,7 +15,7 @@
  */
 package org.kuali.module.chart.service;
 
-import static org.kuali.core.util.SpringServiceLocator.getObjectLevelService;
+import static org.kuali.kfs.util.SpringServiceLocator.getObjectLevelService;
 
 import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.test.KualiTestBase;

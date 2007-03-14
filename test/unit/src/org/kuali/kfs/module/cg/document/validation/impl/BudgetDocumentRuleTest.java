@@ -15,8 +15,8 @@
  */
 package org.kuali.module.kra.rule;
 
-import static org.kuali.core.util.SpringServiceLocator.getDateTimeService;
-import static org.kuali.core.util.SpringServiceLocator.getKualiConfigurationService;
+import static org.kuali.kfs.util.SpringServiceLocator.getDateTimeService;
+import static org.kuali.kfs.util.SpringServiceLocator.getKualiConfigurationService;
 
 import java.util.ArrayList;
 import java.util.List;

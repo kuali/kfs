@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.kfs.bo.PostalZipCode;
 import org.kuali.kfs.service.PostalZipCodeService;
 

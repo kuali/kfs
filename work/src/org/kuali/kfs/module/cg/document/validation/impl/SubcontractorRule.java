@@ -23,9 +23,9 @@ import java.util.Map;
 import org.kuali.KeyConstants;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.State;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Subcontractor;
 
 /**

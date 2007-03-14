@@ -30,8 +30,8 @@ import org.kuali.core.document.authorization.DocumentAuthorizerBase;
 import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
 import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
 import org.kuali.core.exceptions.GroupNotFoundException;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.document.CashManagementDocument;
 
 /**

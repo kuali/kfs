@@ -16,7 +16,7 @@
 
 package org.kuali.module.financial.document;
 
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 
 
 /**

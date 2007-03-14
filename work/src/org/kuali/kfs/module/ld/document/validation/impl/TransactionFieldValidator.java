@@ -20,7 +20,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.util.Message;
 import org.springframework.beans.factory.BeanFactory;

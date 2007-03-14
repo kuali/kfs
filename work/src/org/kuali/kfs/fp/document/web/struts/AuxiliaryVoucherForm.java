@@ -22,7 +22,7 @@ import static org.kuali.Constants.AuxiliaryVoucher.RECODE_DOC_TYPE;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.Constants;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 
 /**

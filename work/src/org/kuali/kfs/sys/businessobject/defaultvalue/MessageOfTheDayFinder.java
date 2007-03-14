@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import org.kuali.core.lookup.valueFinder.ValueFinder;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.MessageOfTheDay;
 
 public class MessageOfTheDayFinder implements ValueFinder {

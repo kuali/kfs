@@ -15,10 +15,10 @@
  */
 package org.kuali.module.financial.document;
 
-import static org.kuali.core.util.SpringServiceLocator.getAccountingPeriodService;
-import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
-import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
-import static org.kuali.core.util.SpringServiceLocator.getTransactionalDocumentDictionaryService;
+import static org.kuali.kfs.util.SpringServiceLocator.getDataDictionaryService;
+import static org.kuali.kfs.util.SpringServiceLocator.getDocumentService;
+import static org.kuali.kfs.util.SpringServiceLocator.getTransactionalDocumentDictionaryService;
+import static org.kuali.kfs.util.SpringServiceLocator.getAccountingPeriodService;
 import static org.kuali.module.financial.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
 import static org.kuali.module.financial.document.AccountingDocumentTestUtils.saveDocument;
 import static org.kuali.test.fixtures.AccountingLineFixture.LINE7;
@@ -38,10 +38,10 @@ import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.DisbursementVoucherNonResidentAlienTax;
 import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
 import org.kuali.test.DocumentTestUtils;

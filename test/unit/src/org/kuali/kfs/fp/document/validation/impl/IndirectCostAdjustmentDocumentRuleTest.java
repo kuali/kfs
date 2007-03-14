@@ -16,19 +16,19 @@
 package org.kuali.module.financial.rules;
 
 
-import static org.kuali.core.util.SpringServiceLocator.getDataDictionaryService;
-import static org.kuali.core.util.SpringServiceLocator.getDocumentService;
-import static org.kuali.core.util.SpringServiceLocator.getDocumentTypeService;
+import static org.kuali.kfs.util.SpringServiceLocator.getDataDictionaryService;
+import static org.kuali.kfs.util.SpringServiceLocator.getDocumentService;
+import static org.kuali.kfs.util.SpringServiceLocator.getDocumentTypeService;
 import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.NEGATIVE;
 import static org.kuali.module.financial.rules.IsDebitTestUtils.Amount.POSITIVE;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.document.IndirectCostAdjustmentDocument;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;

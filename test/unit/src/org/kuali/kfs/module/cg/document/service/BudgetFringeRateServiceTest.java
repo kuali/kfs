@@ -19,7 +19,7 @@
  */
 package org.kuali.module.kra.service;
 
-import static org.kuali.core.util.SpringServiceLocator.getBudgetFringeRateService;
+import static org.kuali.kfs.util.SpringServiceLocator.getBudgetFringeRateService;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.kra.budget.bo.BudgetFringeRate;

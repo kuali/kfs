@@ -15,7 +15,7 @@
  */
 package org.kuali.module.financial.service;
 
-import static org.kuali.core.util.SpringServiceLocator.getCashDetailTypeCodeService;
+import static org.kuali.kfs.util.SpringServiceLocator.getCashDetailTypeCodeService;
 
 import java.util.ArrayList;
 

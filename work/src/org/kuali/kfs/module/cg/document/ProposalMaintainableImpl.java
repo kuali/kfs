@@ -25,7 +25,7 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.util.AssertionUtils;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Proposal;
 import org.kuali.module.cg.bo.ProposalResearchRisk;
 import org.kuali.module.cg.lookup.valuefinder.NextProposalNumberFinder;

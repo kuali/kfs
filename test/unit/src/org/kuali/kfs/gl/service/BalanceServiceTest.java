@@ -15,13 +15,13 @@
  */
 package org.kuali.module.financial.service;
 
-import static org.kuali.core.util.SpringServiceLocator.getBalanceService;
-import static org.kuali.core.util.SpringServiceLocator.getBeanFactory;
+import static org.kuali.kfs.util.SpringServiceLocator.getBalanceService;
+import static org.kuali.kfs.util.SpringServiceLocator.getBeanFactory;
 
 import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.gl.dao.UnitTestSqlDao;

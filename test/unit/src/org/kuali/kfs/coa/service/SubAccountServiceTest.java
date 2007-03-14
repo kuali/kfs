@@ -15,7 +15,7 @@
  */
 package org.kuali.module.chart.service;
 
-import static org.kuali.core.util.SpringServiceLocator.getSubAccountService;
+import static org.kuali.kfs.util.SpringServiceLocator.getSubAccountService;
 
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.chart.bo.A21SubAccount;

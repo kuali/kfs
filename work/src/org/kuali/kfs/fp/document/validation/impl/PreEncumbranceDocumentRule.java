@@ -30,7 +30,6 @@ import org.kuali.core.datadictionary.BusinessObjectEntry;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.TargetAccountingLine;
@@ -38,6 +37,7 @@ import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.rules.AccountingDocumentRuleUtil;
 import org.kuali.kfs.rules.AttributeReference;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.document.PreEncumbranceDocument;
 
 

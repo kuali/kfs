@@ -15,7 +15,7 @@
  */
 package org.kuali.module.chart.bo.codes;
 
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 

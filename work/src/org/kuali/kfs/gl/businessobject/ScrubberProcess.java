@@ -37,7 +37,7 @@ import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.OffsetDefinition;
 import org.kuali.module.chart.service.ObjectCodeService;

@@ -23,7 +23,7 @@ import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CreditCardDetail;
 import org.kuali.module.financial.document.CreditCardReceiptDocument;
 

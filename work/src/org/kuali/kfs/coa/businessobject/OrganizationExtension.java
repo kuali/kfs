@@ -22,7 +22,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.util.SpringServiceLocator;
+import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
  * 

@@ -56,7 +56,9 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         
         errors = scrubberValidator.validateTransaction(laborOriginEntry, scrubbedEntry, universityRunDate);
                 
-
+        Message err;
+        
+        
         return errors;
     }
     

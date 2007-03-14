@@ -16,23 +16,27 @@
 package org.kuali.module.kra.routingform.web.struts.action;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.service.ChartUserService;
-import org.kuali.module.kra.KraKeyConstants;
+import org.kuali.module.kra.routingform.bo.Keyword;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
@@ -111,32 +115,6 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-
-    /**
-     * When a keyword is added to the list.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward insertRoutingFormKeyword(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        /* TODO KULERA-712: Keyword code isn't multi select yet. Method will probably change. */
-        RoutingForm routingForm = (RoutingForm) form;
-        RoutingFormKeyword routingFormKeyword = routingForm.getNewRoutingFormKeyword();
-
-        if(!routingFormKeyword.isEmpty()) {
-            routingForm.getRoutingFormDocument().addRoutingFormKeyword(routingFormKeyword);
-            routingForm.setNewRoutingFormKeyword(new RoutingFormKeyword());
-        } else {
-            /* TODO Following should be in rules class? */
-            GlobalVariables.getErrorMap().addToErrorPath("newRoutingFormKeyword");
-            GlobalVariables.getErrorMap().putError("newRoutingFormKeyword", KraKeyConstants.ERROR_KEYWORD_MISSING);
-            GlobalVariables.getErrorMap().removeFromErrorPath("newRoutingFormKeyword");
-        }
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
     
     /**
      * When a keyword is deleted from the list.
@@ -148,7 +126,6 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
      * @throws Exception
      */
     public ActionForward deleteRoutingFormKeyword(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        /* TODO KULERA-712: Keyword code isn't multi select yet. Method will probably change. */
         RoutingForm routingForm = (RoutingForm) form;
 
         // Remove the item from the list.
@@ -210,6 +187,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
     /**
      * Refresh method on Main Page does several things for lookups:
      * <ul>
+     * <li>If we return from a multi value lookup then it was a keywords lookup and we add them to our keywords list.</li>
      * <li>If TBN is selected it clears the according key field for the appropriate lookup.</li>
      * <li>If an item is selected it clears the TBN field for the appropriate lookup.</li>
      * <li>For personnel lookups it sets the chart / org to the appropriate line (or new) field.</li>
@@ -222,10 +200,28 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         RoutingForm routingForm = (RoutingForm) form;
         RoutingFormDocument routingFormDocument = routingForm.getRoutingFormDocument();
 
-        String refreshCaller = request.getParameter(Constants.REFRESH_CALLER);
         // check to see if we are coming back from a lookup
-        if (Constants.KUALI_LOOKUPABLE_IMPL.equals(refreshCaller) ||
-                Constants.KUALI_USER_LOOKUPABLE_IMPL.equals(refreshCaller)) {
+        if (Constants.MULTIPLE_VALUE.equals(routingForm.getRefreshCaller())) {
+            // Multivalue lookup. Note that the multivalue keyword lookup results are returned persisted to avoid using session.
+            // Since URLs have a max length of 2000 chars, field conversions can not be done.
+            String lookupResultsSequenceNumber = routingForm.getLookupResultsSequenceNumber();
+            if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
+                Class lookupResultsBOClass = Class.forName(routingForm.getLookupResultsBOClassName());
+                Collection<PersistableBusinessObject> rawValues = SpringServiceLocator.getLookupResultsService().retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+                
+                if(lookupResultsBOClass.isAssignableFrom(Keyword.class)) {
+                    for(Iterator iter = rawValues.iterator(); iter.hasNext(); ) {
+                        Keyword keyword = (Keyword) iter.next();
+                        RoutingFormKeyword routingFormKeyword = new RoutingFormKeyword(routingFormDocument.getDocumentNumber(), keyword);
+                        // ignore / drop duplicates
+                        if(!routingFormDocument.getRoutingFormKeywords().contains(routingFormKeyword)) {
+                            routingFormDocument.addRoutingFormKeyword(routingFormKeyword);
+                        }
+                    }
+                }
+            }
+        } else if (Constants.KUALI_LOOKUPABLE_IMPL.equals(routingForm.getRefreshCaller()) ||
+                Constants.KUALI_USER_LOOKUPABLE_IMPL.equals(routingForm.getRefreshCaller())) {
             if (request.getParameter("document.routingFormAgency.agencyNumber") != null) {
                 // coming back from an Agency lookup - Agency selected
                 routingFormDocument.setRoutingFormAgencyToBeNamedIndicator(false);

@@ -45,7 +45,6 @@ public class RoutingForm extends ResearchDocumentFormBase {
     private boolean auditActivated;
     
     //Main Page
-    private RoutingFormKeyword newRoutingFormKeyword;
     private RoutingFormPersonnel newRoutingFormPerson;
     private RoutingFormOrganizationCreditPercent newRoutingFormOrganizationCreditPercent;
     
@@ -72,6 +71,17 @@ public class RoutingForm extends ResearchDocumentFormBase {
     private RoutingFormAdHocWorkgroup newAdHocWorkgroup;
     
     private Map systemParametersMap;
+    
+    /**
+     * Used to indicate which result set we're using when refreshing/returning from a multi-value lookup
+     */
+    private String lookupResultsSequenceNumber;
+    /**
+     * The type of result returned by the multi-value lookup
+     * 
+     * TODO: to be persisted in the lookup results service instead? See https://test.kuali.org/confluence/display/KULRNE/Using+multiple+value+lookups
+     */
+    private String lookupResultsBOClassName;
     
     public RoutingForm() {
         super();
@@ -101,15 +111,6 @@ public class RoutingForm extends ResearchDocumentFormBase {
     public void setAuditActivated(boolean auditActivated) {
         this.auditActivated = auditActivated;
     }
-
-    public RoutingFormKeyword getNewRoutingFormKeyword() {
-        return newRoutingFormKeyword;
-    }
-
-    public void setNewRoutingFormKeyword(RoutingFormKeyword newRoutingFormKeyword) {
-        this.newRoutingFormKeyword = newRoutingFormKeyword;
-    }
-
     public void setNewRoutingFormInstitutionCostShare(RoutingFormInstitutionCostShare newRoutingFormInstitutionCostShare) {
         this.newRoutingFormInstitutionCostShare = newRoutingFormInstitutionCostShare;
     }
@@ -219,6 +220,22 @@ public class RoutingForm extends ResearchDocumentFormBase {
      */
     public int  getRoutingFormProjectTypesSizeByTwoColumns() {
         return new Double(Math.ceil(getRoutingFormDocument().getRoutingFormProjectTypes().size() / 2.0)).intValue() - 1;
+    }
+
+    public String getLookupResultsBOClassName() {
+        return lookupResultsBOClassName;
+    }
+
+    public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
+        this.lookupResultsBOClassName = lookupResultsBOClassName;
+    }
+
+    public String getLookupResultsSequenceNumber() {
+        return lookupResultsSequenceNumber;
+    }
+
+    public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
+        this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
     }
 
     /**

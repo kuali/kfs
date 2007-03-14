@@ -731,6 +731,7 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
     <collection-descriptor name="routingFormKeywords" proxy="true" element-class-ref="org.kuali.module.kra.routingform.bo.RoutingFormKeyword" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="routingFormKeywordDescription" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 

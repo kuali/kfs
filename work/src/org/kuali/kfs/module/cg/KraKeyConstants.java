@@ -128,7 +128,6 @@ public class KraKeyConstants {
     public static final String ERROR_SUBCONTRACTOR_NOT_SELECTED = "error.subcontractor.not.selected";
     public static final String ERROR_SUBCONTRACTOR_ALREADY_EXISTS_ON_RF = "error.subcontractor.already.exists.on.rf";
     public static final String ERROR_FRINGE_RATE_TOO_LARGE = "error.fringeRate.tooLarge";
-    public static final String ERROR_KEYWORD_MISSING = "error.keyword.missing";
     public static final String ERROR_PERSON_NOT_NAMED = "error.person.not.named";
     
     // Routing Form Research Risks page errors

@@ -19,8 +19,9 @@ package org.kuali.module.kra.routingform.bo;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.PropertyConstants;
+import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.util.ObjectUtils;
 
 /**
  * 
@@ -36,6 +37,16 @@ public class RoutingFormKeyword extends PersistableBusinessObjectBase {
 	public RoutingFormKeyword() {
 
 	}
+    
+    /**
+     * Constructs a RoutingFormKeyword.
+     * @param documentNumber
+     * @param keyword
+     */
+    public RoutingFormKeyword(String documentNumber, Keyword keyword) {
+        this.documentNumber = documentNumber;
+        this.routingFormKeywordDescription = keyword.getRoutingFormKeywordDescription();
+    }
 
 	/**
 	 * Gets the routingFormKeywordDescription attribute.
@@ -78,8 +89,21 @@ public class RoutingFormKeyword extends PersistableBusinessObjectBase {
 		this.documentNumber = documentNumber;
 	}
 
+	@Override
+    public boolean equals(Object obj) {
+        boolean equals = true;
 
-	/**
+        if (ObjectUtils.isNotNull(obj) && obj instanceof RoutingFormKeyword) {
+            RoutingFormKeyword objCompare = (RoutingFormKeyword) obj;
+            
+            equals &= this.documentNumber.equals(objCompare.getDocumentNumber());
+            equals &= this.routingFormKeywordDescription.equals(objCompare.getRoutingFormKeywordDescription());
+        }
+        
+        return equals;
+    }
+
+    /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {

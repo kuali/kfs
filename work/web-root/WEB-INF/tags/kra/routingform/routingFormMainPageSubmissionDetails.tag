@@ -23,7 +23,7 @@
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
 <c:set var="budgetLinked" value="${KualiForm.editingMode['budgetLinked']}"/>
 
-<kul:tab tabTitle="Submission Details" defaultOpen="true" tabErrorKey="newRoutingFormKeyword*,document.contractGrantProposal*,document.projectAbstract,document.routingFormProjectTitle,document.routingFormBudget*" auditCluster="mainPageAuditErrors" tabAuditKey="document.routingFormBudget*,document.submissionTypeCode,document.previousFederalIdentifier,document.routingFormPurposeCode,document.researchTypeCode,document.routingFormOtherPurposeDescription,document.routingFormProjectTitle,document.projectAbstract,document.routingFormProjectTypes*,document.projectTypeOtherDescription,document.routingFormPriorGrantNumber,document.grantNumber">
+<kul:tab tabTitle="Submission Details" defaultOpen="true" tabErrorKey="document.contractGrantProposal*,document.projectAbstract,document.routingFormProjectTitle,document.routingFormBudget*" auditCluster="mainPageAuditErrors" tabAuditKey="document.routingFormBudget*,document.submissionTypeCode,document.previousFederalIdentifier,document.routingFormPurposeCode,document.researchTypeCode,document.routingFormOtherPurposeDescription,document.routingFormProjectTitle,document.projectAbstract,document.routingFormProjectTypes*,document.projectTypeOtherDescription,document.routingFormPriorGrantNumber,document.grantNumber">
 
           <div class="tab-container" align="center">
             <div class="h2-container">
@@ -183,29 +183,24 @@
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormKeywordAttributes.routingFormKeywordDescription}" skipHelpUrl="true" /></th>
                 <td colspan="3" align=left valign=middle nowrap >
 
-		            <table cellpadding="0" cellspacing="0" class="neutral">
+		            <table cellpadding="0" cellspacing="0" class="nobord">
 		              <tr>
-		                <td class="neutral"> <div align="left">
+		                <td class="nobord" colspan=2> <div align="left">
 					    	<c:if test="${!viewOnly}">
-						    	<html:hidden write="true" property="newRoutingFormKeyword.routingFormKeywordDescription" /> 
-					    		<kul:lookup boClassName="org.kuali.module.kra.routingform.bo.Keyword" lookupParameters="newRoutingFormKeyword.routingFormKeywordDescription:routingFormKeywordDescription" fieldConversions="routingFormKeywordDescription:newRoutingFormKeyword.routingFormKeywordDescription" anchor="${currentTabIndex}" />
+					    	    <!-- KULRNE-4500 & KULRNE-4502: Following line is to be replaced with kul:lookup once that is ready for multi value lookup. -->
+						    	Look Up/Add Multiple Keywords <input type="image" name="methodToCall.performLookup.org.kuali.module.kra.routingform.bo.Keyword.(!!org.kuali.module.kra.routingform.bo.Keyword!!)((%true%)).multipleValues.true.(:;routingFormKeywords;:).3.anchor${currentTabIndex}" src="images/searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Search Keywords" title="Search Keywords">
 		                	</c:if>
-		                </div></td>
-		                <td class="neutral"><div align="center">
-		                  <c:if test="${!viewOnly}">
-		                    <html:image property="methodToCall.insertRoutingFormKeyword.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-add1.gif" alt="add keyword"/>
-		                  </c:if>
 		                </div></td>
 		              </tr>   
 		              
 		              <c:forEach items = "${KualiForm.document.routingFormKeywords}" var="routingFormKeyword" varStatus="status"  >
 					  <tr>
-		                <td class="neutral"> <div align="left">
+		                <td class="nobord"> <div align="left">
 				    		<html:hidden property="document.routingFormKeywords[${status.index}].documentNumber" />
 				    		<html:hidden write="true" property="document.routingFormKeywords[${status.index}].routingFormKeywordDescription" />
 				    		<html:hidden property="document.routingFormKeywords[${status.index}].versionNumber" />
 		                </div></td>
-		                <td class="neutral"><div align="center">
+		                <td class="nobord"><div align="left">
 		                  <c:if test="${!viewOnly}">
 		                    <html:image property="methodToCall.deleteRoutingFormKeyword.line${status.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-delete1.gif" alt="delete research risk"/>
 		                  </c:if>

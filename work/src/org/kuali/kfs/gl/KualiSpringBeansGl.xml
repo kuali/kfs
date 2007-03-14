@@ -212,9 +212,6 @@
 		<property name="businessObjectMetaDataService">
 			<ref bean="businessObjectMetaDataService" />
 		</property>
-		<!--property name="dictionaryValidationService">
-			<ref bean="dictionaryValidationService" />
-			</property-->
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
@@ -223,9 +220,6 @@
 		</property>
 		<property name="scrubberValidator">
 			<ref bean="glScrubberValidator" />
-		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
 		</property>
 		<property name="entryService">
 			<ref bean="glEntryService" />

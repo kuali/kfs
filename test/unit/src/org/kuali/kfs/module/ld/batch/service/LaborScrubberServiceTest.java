@@ -56,7 +56,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         dateTimeService.setCurrentDate(date);
     }
     
-    @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
+   /* @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testMiscellaneousBlankFields() throws Exception {
 
         String[] stringInput = new String[] { "2007  6044900-----5300---ACEE07CHKDPDBLANKCHAR     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ", "2007BA       -----5300---ACEE07CHKDPDBLANKACCT     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ", "2007BA6044900-----    ---ACEE07CHKDPDBLANKOBJ      12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ", "2007BA6044900-----5300---ACEE07    PDBLANKDOCT     12345214090047 EVERETT J PRESCOTT INC.                 1445.00D2006-01-05ABCDEFGHIJ----------12345678                                                                       ",
@@ -1232,11 +1232,11 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         assertOriginEntries(4, outputTransactions);
     }
 
-    /**
+    *//**
      * Entry with a closed fiscal period/year. These transactions should be marked as errors.
      * 
      * @throws Exception
-     */
+     *//*
     @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testClosedFiscalYear() throws Exception {
         String[] inputTransactions = { "2003BA6044906-----4100---ACEX07TOPSLGCLOSEFISC     00000CONCERTO OFFICE PRODUCTS                            48.53C2006-01-05          ----------                                                                               ", "2003BA6044906-----9041---ACLI07TOPSLGCLOSEFISC     00000CONCERTO OFFICE PRODUCTS                            48.53D2006-01-05          ----------                                                                               " };
@@ -1248,11 +1248,11 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
 
     }
 
-    /**
+    *//**
      * Entry with a null fiscal year. The fiscal year should be replaced with the default fiscal year. They should not be errors.
      * 
      * @throws Exception
-     */
+     *//*
     @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testDefaultFiscalYear() throws Exception {
 
@@ -1269,5 +1269,5 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         loadInputTransactions(OriginEntrySource.BACKUP, inputTransactions, date);
         persistenceService.getPersistenceBroker().clearCache();
         laborScrubberService.scrubEntries();
-    }
+    }*/
 }

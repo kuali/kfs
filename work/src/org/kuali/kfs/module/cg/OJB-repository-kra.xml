@@ -325,7 +325,7 @@
 
 <class-descriptor class="org.kuali.module.kra.bo.BudgetAdHocPermission" table="ER_ADHOC_PRSN_T">
     <field-descriptor name="documentNumber" column="RDOC_NBR" jdbc-type="VARCHAR" primarykey="true" />
-    <field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="personUniversalIdentifier" column="PRSN_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="budgetPermissionCode" column="PRSN_PRMSN_CD" jdbc-type="VARCHAR" />

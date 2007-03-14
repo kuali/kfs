@@ -32,9 +32,8 @@ public class SingleConfirmationQuestion extends QuestionBase {
 
     public SingleConfirmationQuestion() {
         // this should be set by question form
-        super("Are you sure you want to cancel?", new ArrayList(1));
-        //TODO: change this to "Ok" after buttonsmall_Ok.gif is created
-        this.getButtons().add("acknowledge");
+        super("Confirmed", new ArrayList(1));
+        this.getButtons().add("ok");
     }
 
 }

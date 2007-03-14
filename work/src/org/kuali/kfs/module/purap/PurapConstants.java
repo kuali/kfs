@@ -80,8 +80,6 @@ public class PurapConstants {
         public static String ELECTRONIC = "ELEC";
     }
     
-    public static final String PURCHASE_ORDER_CLOSE_QUESTION = "DocClose";
-    
     public static int REQ_B2B_ALLOW_COPY_DAYS = 5;
     
     public static class RequisitionSources {
@@ -155,8 +153,10 @@ public class PurapConstants {
     }
     public final static HashMap<String,String> PURCHASE_ORDER_DOC_TYPE_MAP =
                         purchaseOrderDocTypes();
-
+    
     public static class PODocumentsStrings {
+        public static String PURCHASE_ORDER_CLOSE_QUESTION = "POClose";
+        public static String PURCHASE_ORDER_CLOSE_CONFIRM = "POCloseConfirm";
         public static String REOPEN_PO_QUESTION = "ReopenPO";
         public static String CONFIRM_REOPEN_QUESTION = "ConfirmReopen";
         public static String SINGLE_CONFIRMATION_QUESTION = "singleConfirmationQuestion";

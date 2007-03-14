@@ -18,13 +18,11 @@ package org.kuali.module.purap.service.impl;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.DocumentNote;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.DocumentAuthorizationException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DocumentNoteService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.SpringServiceLocator;
@@ -33,7 +31,6 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.module.purap.dao.PurchaseOrderDao;
-import org.kuali.module.purap.document.PurchaseOrderCloseDocumentAuthorizer;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.GeneralLedgerService;
@@ -50,7 +47,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
-    private DocumentNoteService documentNoteService;
     private DocumentService documentService;
     private GeneralLedgerService generalLedgerService;
     private PurapService purapService;
@@ -63,10 +59,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;    
-    }
-
-    public void setDocumentNoteService(DocumentNoteService documentNoteService) {
-        this.documentNoteService = documentNoteService;
     }
 
     public void setDocumentService(DocumentService documentService) {
@@ -124,37 +116,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
         return poDocument;
     }
+    
 
-    public void close( PurchaseOrderDocument document, String annotation ){
-        checkForNulls(document);
-        PurchaseOrderCloseDocumentAuthorizer authorizer = new PurchaseOrderCloseDocumentAuthorizer();
-        UniversalUser kualiUser = GlobalVariables.getUserSession().getUniversalUser();
-        if (!authorizer.getDocumentActionFlags(document, kualiUser).getCanClose()) {
-            throw buildAuthorizationException("close", document);
-        }
-        DocumentNote note = new DocumentNote();
-        
-        note.setDocumentNumber(document.getDocumentNumber());
-        note.setFinDocumentAuthorUniversalId(kualiUser.getPersonUniversalIdentifier());
-        //note.setFinDocumentAuthorUniversal(kualiUser);
-        note.setFinancialDocumentNoteText(annotation);
-        document.getDocumentHeader().addNote(note); // add to doc so it shows up on next post
-        try {
-            documentNoteService.save(note);
-        } catch (Exception e) {
-            //TODO: Handle failure to save note.
-        }
-        try {
-            documentService.prepareWorkflowDocument(document);
-        } catch (WorkflowException we) {
-            //TODO: Handle problem in preparing document for Workflow.
-        }
-        
-        //TODO: This needs to side-effect the PO table entries.
-        //workflowDocumentService.route(document.getDocumentHeader().getWorkflowDocument(), annotation,);
-        //workflowDocumentService.disapprove(document.getDocumentHeader().getWorkflowDocument(), annotation);
-        GlobalVariables.getUserSession().setWorkflowDocument(document.getDocumentHeader().getWorkflowDocument());
-    }
     
     public void updateFlagsAndRoute(PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients) {
         String oldDocNum = po.getDocumentNumber();
@@ -179,21 +142,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             throw new RuntimeException("Error setting oldPendingCurrentIndicator on PO document: " + e.getMessage());            
         }
     }
-    
-    protected void checkForNulls(Document document) {
-        if (document == null) {
-            throw new IllegalArgumentException("invalid (null) document");
-        }
-        else if (document.getDocumentNumber() == null) {
-            throw new IllegalStateException("invalid (null) documentHeaderId");
-        }
-    }
-    
-    private DocumentAuthorizationException buildAuthorizationException(String action, Document document) {
-        UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
-
-        return new DocumentAuthorizationException(currentUser.getPersonUserIdentifier(), action, document.getDocumentNumber());
-    }
 
     /**
      * @see org.kuali.module.purap.service.PurchaseOrderService#convertDocTypeToService()
@@ -205,7 +153,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         if(StringUtils.isNotEmpty(docType)) {
             popp=(PurchaseOrderPostProcessorService)SpringServiceLocator.getBeanFactory().getBean(docType);
         }
-        
+    
         return popp;
     }
 
@@ -223,7 +171,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             this.save(po);
             // TODO create PO print doc
             // routingService.routePrintablePurchaseOrderFYI(po, u);
-        }
+}
         else {
             LOG.info("completePurchaseOrder() Unhandled Transmission Status: " + po.getPurchaseOrderTransmissionMethodCode() + " -- Defaulting Status to OPEN");
             purapService.updateStatusAndStatusHistory(po, PurapConstants.PurchaseOrderStatuses.OPEN);
@@ -231,8 +179,5 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             po.setPurchaseOrderCurrentIndicator(true);
             this.save(po);
         }
-
     }
-
-
 }

@@ -93,6 +93,70 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return mapping.findForward("viewPaymentHistory");
     }
 
+    public ActionForward closePO(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+
+        Object question = request.getParameter(Constants.QUESTION_INST_ATTRIBUTE_NAME);
+        String reason = request.getParameter(Constants.QUESTION_REASON_ATTRIBUTE_NAME);
+        String closingNoteText = "";
+
+        KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
+
+        // start in logic for confirming the close
+        if (question == null) {
+            // ask question if not already asked
+            return this.performQuestionWithInput(mapping, form, request, response, PurapConstants.PODocumentsStrings.PURCHASE_ORDER_CLOSE_QUESTION, 
+                    kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CLOSE_DOCUMENT), 
+                    Constants.CONFIRMATION_QUESTION, Constants.MAPPING_CLOSE, "");
+        }
+        else {
+            Object buttonClicked = request.getParameter(Constants.QUESTION_CLICKED_BUTTON);
+            if( PurapConstants.PODocumentsStrings.PURCHASE_ORDER_CLOSE_QUESTION.equals(question) ) { 
+                if( ConfirmationQuestion.NO.equals(buttonClicked) ) {
+                    //If 'No' is the button clicked, just reload the doc
+                    return mapping.findForward(Constants.MAPPING_BASIC);
+                }
+                else {
+                    // have to check length on value entered
+                    String introNoteMessage = kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_CLOSE_NOTE_TEXT_INTRO) 
+                        + Constants.BLANK_SPACE;
+
+                    // build out full message
+                    closingNoteText = introNoteMessage + reason;
+                    int closingNoteTextLength = closingNoteText.length();
+
+                    // get note text max length from DD
+                    int noteTextMaxLength = SpringServiceLocator.getDataDictionaryService().getAttributeMaxLength(DocumentNote.class, 
+                        Constants.DOCUMENT_NOTE_TEXT_PROPERTY_NAME).intValue();
+
+                    if (StringUtils.isBlank(reason) || (closingNoteTextLength > noteTextMaxLength)) {
+                        // figure out exact number of characters that the user can enter
+                        int reasonLimit = noteTextMaxLength - closingNoteTextLength;
+
+                        if (reason == null) {
+                            // prevent a NPE by setting the reason to a blank string
+                            reason = "";
+                        }
+                        return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, PurapConstants.PODocumentsStrings.PURCHASE_ORDER_CLOSE_QUESTION, 
+                                kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CLOSE_DOCUMENT), 
+                                Constants.CONFIRMATION_QUESTION, Constants.MAPPING_CLOSE, "", reason, 
+                                PurapKeyConstants.ERROR_PURCHASE_ORDER_CLOSE_REASON_REQUIRED, Constants.QUESTION_REASON_ATTRIBUTE_NAME, 
+                                new Integer(reasonLimit).toString());
+                    }
+                    PurchaseOrderDocument po = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
+                    SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(po, "KualiPurchaseOrderCloseDocument", 
+                            kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));                    
+                    GlobalVariables.getMessageList().add(PurapKeyConstants.PURCHASE_ORDER_MESSAGE_CLOSE_DOCUMENT);
+                    kualiDocumentFormBase.setAnnotation("");
+                    return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.PODocumentsStrings.PURCHASE_ORDER_CLOSE_CONFIRM, 
+                            kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_MESSAGE_CLOSE_DOCUMENT), 
+                            Constants.CONFIRMATION_QUESTION, Constants.MAPPING_CLOSE, "");
+                }
+            }
+        }
+        return returnToSender(mapping, kualiDocumentFormBase);
+    }
+    
     public ActionForward reopenPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         //do something
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;

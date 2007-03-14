@@ -43,7 +43,6 @@ import org.kuali.core.util.Timer;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.core.web.ui.AccountingLineDecorator;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineOverride;
 import org.kuali.kfs.bo.AccountingLineParser;
@@ -55,6 +54,7 @@ import org.kuali.kfs.rule.event.AddAccountingLineEvent;
 import org.kuali.kfs.rule.event.DeleteAccountingLineEvent;
 import org.kuali.kfs.rule.event.UpdateAccountingLineEvent;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
+import org.kuali.kfs.web.ui.AccountingLineDecorator;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

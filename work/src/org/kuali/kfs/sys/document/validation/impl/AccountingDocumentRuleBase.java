@@ -71,7 +71,6 @@ import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rule.event.BlanketApproveDocumentEvent;
-import org.kuali.core.rules.GeneralLedgerPostingDocumentRuleBase;
 import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.ExceptionUtils;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;

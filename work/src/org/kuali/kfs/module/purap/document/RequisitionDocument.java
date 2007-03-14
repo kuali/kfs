@@ -28,7 +28,6 @@ import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.SpringServiceLocator;
@@ -38,6 +37,7 @@ import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.bo.BillingAddress;
+import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.bo.SourceDocumentReference;
 import org.kuali.module.purap.bo.VendorContract;
 import org.kuali.module.purap.bo.VendorDetail;
@@ -591,6 +591,15 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             sourceDocumentReferences.add(sourceDocumentReference);
            // String ObjID = this.getObjectId();
             
-     }   
+     }
+
+    /**
+     * @see org.kuali.module.purap.document.PurchasingDocumentBase#getItemClass()
+     */
+    @Override
+    public Class getItemClass() {
+        return RequisitionItem.class;
+    }   
+    
 }
 

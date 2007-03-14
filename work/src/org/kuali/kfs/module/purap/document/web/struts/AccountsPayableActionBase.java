@@ -26,7 +26,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
-import org.kuali.module.purap.bo.PurchasingItem;
+import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.bo.VendorAddress;
 import org.kuali.module.purap.bo.VendorContract;
 import org.kuali.module.purap.bo.VendorDetail;
@@ -119,7 +119,7 @@ public class AccountsPayableActionBase extends KualiTransactionalDocumentActionB
     public ActionForward addItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
         // TODO: should call add line event/rules here
-        PurchasingItem item = purchasingForm.getAndResetNewPurchasingItemLine();
+        PurchasingApItem item = purchasingForm.getAndResetNewPurchasingItemLine();
         PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
         purDocument.addItem(item);
         return mapping.findForward(Constants.MAPPING_BASIC);

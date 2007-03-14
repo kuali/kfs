@@ -15,7 +15,6 @@
  */
 package org.kuali.module.purap.bo;
 
-
-public interface PurchasingItem extends PurchasingApItem {
+public abstract class AccountsPayableItemBase extends PurApItemBase implements AccountsPayableItem {
 
 }

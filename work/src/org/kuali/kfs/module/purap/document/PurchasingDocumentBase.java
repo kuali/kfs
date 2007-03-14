@@ -29,10 +29,10 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.BillingAddress;
 import org.kuali.module.purap.bo.DeliveryRequiredDateReason;
 import org.kuali.module.purap.bo.FundingSource;
+import org.kuali.module.purap.bo.PurApItemBase;
 import org.kuali.module.purap.bo.PurchaseOrderCostSource;
 import org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod;
-import org.kuali.module.purap.bo.PurchasingItem;
-import org.kuali.module.purap.bo.PurchasingItemBase;
+import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.bo.RequisitionSource;
@@ -133,13 +133,11 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private Chart nonInstitutionFundChartOfAccounts;
     private VendorContract vendorContract;
     
-    //COLLECTIONS
-    private List<PurchasingItem> items;
+    
     
 
     public PurchasingDocumentBase() {
         super();
-        items = new TypedArrayList(PurchasingItemBase.class);
     }
 
     
@@ -1712,21 +1710,6 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         this.contractManagerName = contractManagerName;
     }
 
-    /**
-     * Gets the items attribute. 
-     * @return Returns the items.
-     */
-    public List getItems() {
-        return items;
-    }
-
-    /**
-     * Sets the items attribute value.
-     * @param items The items to set.
-     */
-    public void setItems(List items) {
-        this.items = items;
-    }
 
     /**
      * Gets the deliveryBuildingOther attribute. 
@@ -1743,52 +1726,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     public void setDeliveryBuildingOther(boolean deliveryBuildingOther) {
         this.deliveryBuildingOther = deliveryBuildingOther;
     }
-
-
-    public void addItem(PurchasingItem item) {
-        int itemLinePosition = items.size();
-        if(item.getItemLineNumber()!=null) {
-            itemLinePosition = item.getItemLineNumber().intValue();
-        }
-       
-        //if the user entered something set line number to that
-        if(itemLinePosition>0&&itemLinePosition<items.size()) {
-            itemLinePosition = item.getItemLineNumber() - 1;
-        }
-        
-        items.add(itemLinePosition,item);
-        renumberItems(itemLinePosition);
-    }
     
-    public void deleteItem(int lineNum) {
-        if(items.remove(lineNum)==null) {
-            //throw error here
-        }
-        renumberItems(lineNum);
-    }
-    
-    public void renumberItems(int start) {
-        for (int i = start; i<items.size(); i++) {
-            PurchasingItem item = (PurchasingItem)items.get(i);
-            item.setItemLineNumber(new Integer(i+1));
-        }
-    }
-    
-    public PurchasingItem getItem(int pos) {
-        while (getItems().size() <= pos) {
-            //TODO: totally incorrect shouldn't be ReqItem fix later
-            getItems().add(new RequisitionItem());
-        }
-        return (PurchasingItem)items.get(pos);
-    }
-    public KualiDecimal getTotal() {
-        KualiDecimal total = new KualiDecimal("0");
-        for (PurchasingItem item : items) {
-           total = total.add(item.getExtendedPrice());
-       }
-       return total;
-    }
-
     public void setVendorContactsLabel(String vendorContactsLabel) {
         this.vendorContactsLabel = vendorContactsLabel;
     }

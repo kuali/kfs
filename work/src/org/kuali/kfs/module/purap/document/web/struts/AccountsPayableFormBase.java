@@ -17,7 +17,7 @@ package org.kuali.module.purap.web.struts.form;
 
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
-import org.kuali.module.purap.bo.PurchasingItem;
+import org.kuali.module.purap.bo.PurchasingApItem;
 
 /**
  * This class is the form class for the Purchasing documents. This method extends the parent KualiTransactionalDocumentFormBase
@@ -26,7 +26,7 @@ import org.kuali.module.purap.bo.PurchasingItem;
  */
 public class AccountsPayableFormBase extends KualiTransactionalDocumentFormBase {
     
-    private PurchasingItem newPurchasingItemLine;
+    private PurchasingApItem newPurchasingItemLine;
     private Boolean notOtherDelBldg = true;
     
     /**
@@ -39,19 +39,19 @@ public class AccountsPayableFormBase extends KualiTransactionalDocumentFormBase 
      * Gets the newPurchasingItemLine attribute. 
      * @return Returns the newPurchasingItemLine.
      */
-    public PurchasingItem getNewPurchasingItemLine() {
+    public PurchasingApItem getNewPurchasingItemLine() {
         return newPurchasingItemLine;
     }
     /**
      * Sets the newPurchasingItemLine attribute value.
      * @param newPurchasingItemLine The newPurchasingItemLine to set.
      */
-    public void setNewPurchasingItemLine(PurchasingItem newPurchasingItemLine) {
+    public void setNewPurchasingItemLine(PurchasingApItem newPurchasingItemLine) {
         this.newPurchasingItemLine = newPurchasingItemLine;
     }
     
-    public PurchasingItem getAndResetNewPurchasingItemLine() {
-        PurchasingItem aPurchasingItemLine = getNewPurchasingItemLine();
+    public PurchasingApItem getAndResetNewPurchasingItemLine() {
+        PurchasingApItem aPurchasingItemLine = getNewPurchasingItemLine();
         setNewPurchasingItemLine(setupNewPurchasingItemLine());
         return aPurchasingItemLine;
     }
@@ -61,7 +61,7 @@ public class AccountsPayableFormBase extends KualiTransactionalDocumentFormBase 
      * This method should be overriden (or see accountingLines for an alternate way of doing this with newInstance)
      * @return
      */
-    public PurchasingItem setupNewPurchasingItemLine() {
+    public PurchasingApItem setupNewPurchasingItemLine() {
         return null;
     }
     public Boolean getNotOtherDelBldg() {

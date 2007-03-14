@@ -22,6 +22,8 @@ import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.document.AccountingDocumentBase;
+import org.kuali.module.purap.bo.PurApItemBase;
+import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.bo.SourceDocumentReference;
 import org.kuali.module.purap.bo.Status;
 import org.kuali.module.purap.bo.StatusHistory;
@@ -43,13 +45,16 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     // COMMON ELEMENTS
     protected List<StatusHistory> statusHistories;
     protected List<SourceDocumentReference> sourceDocumentReferences;
-
+    // COLLECTIONS
+    private List<PurchasingApItem> items;
+    
     // REFERENCE OBJECTS
     private Status status;
     private VendorDetail vendorDetail;
 
     // CONSTRUCTORS
     public PurchasingAccountsPayableDocumentBase() {
+        items = new TypedArrayList(PurApItemBase.class);
         this.statusHistories = new TypedArrayList( StatusHistory.class );
     }
     
@@ -182,5 +187,81 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 }
     public void setSourceDocumentReferences(List<SourceDocumentReference> sourceDocumentReferences) {
         this.sourceDocumentReferences = sourceDocumentReferences;
+    }
+    
+    /**
+     * Gets the items attribute. 
+     * @return Returns the items.
+     */
+    public List getItems() {
+        return items;
+    }
+
+    /**
+     * Sets the items attribute value.
+     * @param items The items to set.
+     */
+    public void setItems(List items) {
+        this.items = items;
+    }
+
+    public void addItem(PurchasingApItem item) {
+        int itemLinePosition = items.size();
+        if(item.getItemLineNumber()!=null) {
+            itemLinePosition = item.getItemLineNumber().intValue();
+        }
+       
+        //if the user entered something set line number to that
+        if(itemLinePosition>0&&itemLinePosition<items.size()) {
+            itemLinePosition = item.getItemLineNumber() - 1;
+        }
+        
+        items.add(itemLinePosition,item);
+        renumberItems(itemLinePosition);
+    }
+    
+    public void deleteItem(int lineNum) {
+        if(items.remove(lineNum)==null) {
+            //throw error here
+        }
+        renumberItems(lineNum);
+    }
+    
+    public void renumberItems(int start) {
+        for (int i = start; i<items.size(); i++) {
+            PurchasingApItem item = (PurchasingApItem)items.get(i);
+            item.setItemLineNumber(new Integer(i+1));
+        }
+    }
+    
+    public PurchasingApItem getItem(int pos) {
+        while (getItems().size() <= pos) {
+            
+            try {
+                getItems().add(getItemClass().newInstance());
+            }
+            catch (InstantiationException e) {
+                throw new RuntimeException("Unable to get class");
+            }
+            catch (IllegalAccessException e) {
+                throw new RuntimeException("Unable to get class");
+            }
+            catch (NullPointerException e) {
+                throw new RuntimeException("Can't instantiate Purchasing Item from base");
+            }
+        }
+        return (PurchasingApItem)items.get(pos);
+    }
+    public KualiDecimal getTotal() {
+        KualiDecimal total = new KualiDecimal("0");
+        for (PurchasingApItem item : items) {
+           total = total.add(item.getExtendedPrice());
+       }
+       return total;
+    }
+
+    public Class getItemClass() {
+        //should we throw unimplemented method here
+        return null;
     }
 }

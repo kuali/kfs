@@ -21,7 +21,7 @@ import org.kuali.core.util.SpringServiceLocator;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
-import org.kuali.module.purap.bo.PurchasingItem;
+import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 
 /**
@@ -83,7 +83,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * @see org.kuali.module.purap.web.struts.form.PurchasingFormBase#setupNewPurchasingItemLine()
      */
     @Override
-    public PurchasingItem setupNewPurchasingItemLine() {
+    public PurchasingApItem setupNewPurchasingItemLine() {
         return new PurchaseOrderItem();
     }
     

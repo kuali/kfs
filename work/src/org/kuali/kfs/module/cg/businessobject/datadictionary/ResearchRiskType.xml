@@ -132,20 +132,20 @@
                 <description>sortNumber description...</description>
 			</attribute>
 			
-			<attributeReference name="researchRiskTypeNotificationGroupText" sourceClassName="org.kuali.core.bo.AdHocRouteWorkgroup" sourceAttributeName="id">
+			<attribute name="researchRiskTypeNotificationGroupText" forceUppercase="true">
                 <label>Research Risk Type Notification Group</label>
                 <shortLabel>Not. Group</shortLabel>
 
-                <maxLength>30</maxLength>
+                <maxLength>70</maxLength>
                 <required>false</required>
 
                 <control>
-                    <text size="32" />
+                    <workflowWorkgroup size="32" />
                 </control>
 
                 <summary>researchRiskTypeNotificationGroupText</summary>
                 <description>Workgroup to notify if the user-entered value for this research risk matches the notification value.</description>
-            </attributeReference>
+            </attribute>
             
             <attribute name="researchRiskTypeNotificationValue" forceUppercase="true">
             	<label>Research Risk Type Notification Value</label>

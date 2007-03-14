@@ -15,6 +15,7 @@
  */
 package org.kuali.test.suite;
 
+import junit.framework.Test;
 import junit.framework.TestSuite;
 
 /**
@@ -22,7 +23,7 @@ import junit.framework.TestSuite;
  * IDEs or Ant can run this class as JUnit tests.
  */
 public class FiveMinuteSuite {
-    public static TestSuite suite()
+    public static Test suite()
         throws Exception
     {
         TestSuite suite = new TestSuite(FiveMinuteSuite.class.getName());

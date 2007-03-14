@@ -93,8 +93,11 @@
                 <lookupField attributeName="proposalPurposeCode" required="false" />
                 <lookupField attributeName="proposalFellowName" required="false" />
                 <lookupField attributeName="proposalOrganizations.organizationCode" required="false" />
+                <lookupField attributeName="proposalOrganizations.organization.organizationCode" required="false" />
                 <lookupField attributeName="proposalSubcontractors.subcontractorNumber" required="false" />
+                <lookupField attributeName="proposalSubcontractors.subcontractor.subcontractorNumber" required="false" />
                 <lookupField attributeName="proposalProjectDirectors.personUniversalIdentifier" required="false" />
+                <lookupField attributeName="proposalProjectDirectors.projectDirector.personUniversalIdentifier" required="false" />
 				
             </lookupFields>
 
@@ -118,7 +121,17 @@
    				<description>Insert desc here...</description>
             </attributeReference>
             
+            <attributeReference name="proposalOrganizations.organization.organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
+				<summary>Proposal Organization Organization Code</summary>
+   				<description>Insert desc here...</description>
+            </attributeReference>
+
             <attributeReference name="proposalSubcontractors.subcontractorNumber" sourceClassName="org.kuali.module.cg.bo.ProposalSubcontractor" sourceAttributeName="proposalSubcontractorNumber">
+				<summary>Proposal Subcontractor Number</summary>
+   				<description>Insert desc here...</description>
+            </attributeReference>
+			
+            <attributeReference name="proposalSubcontractors.subcontractor.subcontractorNumber" sourceClassName="org.kuali.module.cg.bo.Subcontractor" sourceAttributeName="subcontractorNumber">
 				<summary>Proposal Subcontractor Number</summary>
    				<description>Insert desc here...</description>
             </attributeReference>
@@ -128,6 +141,11 @@
    				<description>Insert desc here...</description>
             </attributeReference>
 			
+            <attributeReference name="proposalProjectDirectors.projectDirector.personUniversalIdentifier" sourceClassName="org.kuali.module.cg.bo.ProjectDirector" sourceAttributeName="personUniversalIdentifier">
+				<summary>Proposal Project Director ID</summary>
+   				<description>Insert desc here...</description>
+            </attributeReference>
+
             <attributeReference name="proposal.grantNumber" sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="grantNumber">
 				<summary>Proposal Grant Number</summary>
 				<description>Insert desc here...</description>
@@ -450,5 +468,27 @@
             </collection>
             
         </collections>
+        
+        <relationships>
+            <relationship objectAttributeName="proposalOrganizations" >
+                <primitiveAttribute sourceName="proposalOrganizations.organizationCode" targetName="organizationCode" />
+            </relationship>
+            <relationship objectAttributeName="proposalOrganizations.organization" >
+                <primitiveAttribute sourceName="proposalOrganizations.organization.organizationCode" targetName="organizationCode" />
+            </relationship>
+            <relationship objectAttributeName="proposalSubcontractors" >
+                <primitiveAttribute sourceName="proposalSubcontractors.subcontractorNumber" targetName="subcontractorNumber" />
+            </relationship>
+            <relationship objectAttributeName="proposalSubcontractors.subcontractor" >
+                <primitiveAttribute sourceName="proposalSubcontractors.subcontractor.subcontractorNumber" targetName="subcontractorNumber" />
+            </relationship>
+            <relationship objectAttributeName="proposalProjectDirectors" >
+                <primitiveAttribute sourceName="proposalProjectDirectors.personUniversalIdentifier" targetName="personUniversalIdentifier" />
+            </relationship>
+            <relationship objectAttributeName="proposalProjectDirectors.projectDirector" >
+                <primitiveAttribute sourceName="proposalProjectDirectors.projectDirector.personUniversalIdentifier" targetName="personUniversalIdentifier" />
+            </relationship>
+        </relationships>
+        
     </businessObject>
 </dictionaryEntry>

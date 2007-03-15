@@ -127,7 +127,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
                     // get note text max length from DD
                     int noteTextMaxLength = SpringServiceLocator.getDataDictionaryService().getAttributeMaxLength(Note.class, 
-                        Constants.DOCUMENT_NOTE_TEXT_PROPERTY_NAME).intValue();
+                        Constants.NOTE_TEXT_PROPERTY_NAME).intValue();
 
                     if (StringUtils.isBlank(reason) || (closingNoteTextLength > noteTextMaxLength)) {
                         // figure out exact number of characters that the user can enter
@@ -189,7 +189,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 int introNoteMessageLength = introNoteMessage.length();
 
                 // get note text max length from DD
-                int noteTextMaxLength = SpringServiceLocator.getDataDictionaryService().getAttributeMaxLength(Note.class, Constants.DOCUMENT_NOTE_TEXT_PROPERTY_NAME).intValue();
+                int noteTextMaxLength = SpringServiceLocator.getDataDictionaryService().getAttributeMaxLength(Note.class, Constants.NOTE_TEXT_PROPERTY_NAME).intValue();
 
                 if (StringUtils.isBlank(reason) || (introNoteMessageLength > noteTextMaxLength)) {
                     // figure out exact number of characters that the user can enter

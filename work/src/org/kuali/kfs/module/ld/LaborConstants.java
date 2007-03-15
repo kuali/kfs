@@ -87,4 +87,13 @@ public class LaborConstants {
 
         return consolidationAttributes;
     }
+    public static class SalaryExpenseTransfer {
+        public static final String LABOR_LEDGER_SALARY_CODE = "S";
+    } 
+    
+    public static class BenefitExpenseTransfer {
+        public static final String LABOR_LEDGER_BENEFIT_CODE = "F";
+    }  
+    
+
 }

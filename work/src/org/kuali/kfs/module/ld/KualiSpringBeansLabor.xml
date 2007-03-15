@@ -266,4 +266,31 @@
 			<ref bean="laborPosterService" />
 		</property>
 	</bean>    
+	
+	 <bean id="CSFTrackerBalanceLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="CSFTrackerBalanceLookupableHelperService" />
+		</property>
+	</bean>
+	
+	<bean id="CSFTrackerBalanceLookupableHelperService" class="org.kuali.module.labor.web.lookupable.CSFTrackerBalanceLookupableHelperServiceImpl" singleton="false">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="lookupService" />
+		</property>
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<!--property name="dictionaryValidationService">
+			<ref bean="dictionaryValidationService" />
+			</property-->
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+	</bean>    	
 </beans>

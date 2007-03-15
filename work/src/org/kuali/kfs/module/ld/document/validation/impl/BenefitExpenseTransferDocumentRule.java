@@ -32,6 +32,7 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountingPeriod;
+import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.bo.PositionObjectBenefit;
@@ -120,8 +121,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         LaborObject laborObject = (LaborObject) laborObjects.get(0);
         String FringeOrSalaryCode = laborObject.getFinancialObjectFringeOrSalaryCode();
 
-        if (!FringeOrSalaryCode.equals("F")) {
-            LOG.info("FringeOrSalaryCode not equal F");
+        if (!FringeOrSalaryCode.equals(LaborConstants.BenefitExpenseTransfer.LABOR_LEDGER_BENEFIT_CODE)) {
             reportError(PropertyConstants.ACCOUNT, KeyConstants.Labor.INVALID_FRINGE_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
             return false;
         }

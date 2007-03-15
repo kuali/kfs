@@ -44,6 +44,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.financial.bo.OffsetAccount;
+import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.BenefitsCalculation;
 import org.kuali.module.labor.bo.BenefitsType;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
@@ -53,6 +54,7 @@ import org.kuali.module.labor.bo.PositionObjectBenefit;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 import org.kuali.module.labor.rule.GenerateLaborLedgerBenefitClearingPendingEntriesRule;
 import org.kuali.module.labor.rule.GenerateLaborLedgerPendingEntriesRule;
+
 
 /**
  * Business rule(s) applicable to Salary Expense Transfer documents.
@@ -76,9 +78,9 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         public static final int LLPE_DESCRIPTION_MAX_LENGTH = 40;
     }
 
-    public static final String LABOR_LEDGER_SALARY_CODE = "S";
     public static final String LABOR_LEDGER_CHART_OF_ACCOUNT_CODE = "UA";
     public static final String LABOR_LEDGER_ACCOUNT_NUMBER = "9712700";
+   
         
     public SalaryExpenseTransferDocumentRule() {
         super();        
@@ -127,8 +129,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         LaborObject laborObject = (LaborObject) laborObjects.get(0);    
         String FringeOrSalaryCode = laborObject.getFinancialObjectFringeOrSalaryCode();
 
-        if (!FringeOrSalaryCode.equals("S")) {
-            LOG.info("FringeOrSalaryCode not equal S");
+        if (!FringeOrSalaryCode.equals(LaborConstants.SalaryExpenseTransfer.LABOR_LEDGER_SALARY_CODE)) {
               reportError(PropertyConstants.ACCOUNT, KeyConstants.Labor.INVALID_SALARY_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
             return false;
         }            
@@ -444,7 +445,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         }
         
         //if AL object code is a salary object code
-        if( StringUtils.equals(al.getLaborObject().getFinancialObjectFringeOrSalaryCode(), LABOR_LEDGER_SALARY_CODE) ){
+        if( StringUtils.equals(al.getLaborObject().getFinancialObjectFringeOrSalaryCode(), LaborConstants.SalaryExpenseTransfer.LABOR_LEDGER_SALARY_CODE) ){
             //get benefits
             positionObjectBenefits = SpringServiceLocator.getLaborPositionObjectBenefitService().getPositionObjectBenefits(al.getPayrollEndDateFiscalYear(), al.getChartOfAccountsCode(), al.getFinancialObjectCode());            
             
@@ -1070,8 +1071,8 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         benefitClearingEntry.setUniversityFiscalPeriodCode(null);
         
         //special handling
-        benefitClearingEntry.setChartOfAccountsCode( LABOR_LEDGER_CHART_OF_ACCOUNT_CODE );
-        benefitClearingEntry.setAccountNumber( LABOR_LEDGER_ACCOUNT_NUMBER );
+        benefitClearingEntry.setChartOfAccountsCode( "UA" );
+        benefitClearingEntry.setAccountNumber( "9712700" );
                 
         benefitClearingEntry.setSubAccountNumber(LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_ACCOUNT_NUMBER);        
 

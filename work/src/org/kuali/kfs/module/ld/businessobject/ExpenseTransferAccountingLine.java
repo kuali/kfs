@@ -21,28 +21,28 @@ import org.kuali.kfs.bo.AccountingLine;
 
 public interface ExpenseTransferAccountingLine extends AccountingLine {
 
-    public abstract String getPositionNumber();
+    public String getPositionNumber();
 
-    public abstract void setPositionNumber(String positionNumber);
+    public void setPositionNumber(String positionNumber);
 
-    public abstract BigDecimal getPayrollTotalHours();
+    public BigDecimal getPayrollTotalHours();
 
-    public abstract void setPayrollTotalHours(BigDecimal payrollTotalHours);
+    public void setPayrollTotalHours(BigDecimal payrollTotalHours);
 
-    public abstract Integer getPayrollEndDateFiscalYear();
+    public Integer getPayrollEndDateFiscalYear();
 
-    public abstract void setPayrollEndDateFiscalYear(Integer payrollEndDateFiscalYear);
+    public void setPayrollEndDateFiscalYear(Integer payrollEndDateFiscalYear);
 
-    public abstract String getPayrollEndDateFiscalPeriodCode();    
+    public String getPayrollEndDateFiscalPeriodCode();    
 
-    public abstract void setPayrollEndDateFiscalPeriodCode(String payrollEndDateFiscalPeriodCode);
+    public void setPayrollEndDateFiscalPeriodCode(String payrollEndDateFiscalPeriodCode);
 
-    public abstract String getEmplid();
+    public String getEmplid();
     
-    public abstract void setEmplid(String emplid);
+    public void setEmplid(String emplid);
     
-    public abstract LaborObject getLaborObject();
+    public LaborObject getLaborObject();
     
-    public abstract void setLaborObject(LaborObject laborObject);
+    public void setLaborObject(LaborObject laborObject);
 
 }

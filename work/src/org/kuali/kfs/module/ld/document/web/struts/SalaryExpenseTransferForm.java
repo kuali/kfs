@@ -52,6 +52,8 @@ public class SalaryExpenseTransferForm extends LaborDocumentFormBase {
      *
      * @param uid <code>personUserIdentifier</code>
      */
+    
+    //  todo: Make use of this on the salaryExpenserTransfer.jsp
     public void setUserId(String uid) throws UserNotFoundException {
         if (uid != null) {
             //  This may happen during populate when there is no initial user
@@ -64,6 +66,8 @@ public class SalaryExpenseTransferForm extends LaborDocumentFormBase {
      *
      * @return String <code>personUserIdentifier</code>
      */
+    
+//  todo: Make use of this on the salaryExpenserTransfer.jsp
     public String getUserId() {
         String retval = null;
         if (user != null) {
@@ -77,6 +81,8 @@ public class SalaryExpenseTransferForm extends LaborDocumentFormBase {
      *
      * @param uid <code>personUserIdentifier</code>
      */
+    
+    //  todo: Make use of this on the salaryExpenserTransfer.jsp
     public void setPersonName(String personName) throws UserNotFoundException {
         if (personName != null) {
             //  This may happen during populate when there is no initial user
@@ -88,6 +94,8 @@ public class SalaryExpenseTransferForm extends LaborDocumentFormBase {
      *
      * @return String <code>personName</code>
      */
+    
+    //  todo: Make use of this on the salaryExpenserTransfer.jsp
     public String getPersonName() {
         String retval = null;
         if (user != null) {
@@ -111,6 +119,7 @@ public class SalaryExpenseTransferForm extends LaborDocumentFormBase {
      *
      * @return String <code>personName</code>
      */
+
     public String getEmplid() {
         String retval = null;
         if (user != null) {

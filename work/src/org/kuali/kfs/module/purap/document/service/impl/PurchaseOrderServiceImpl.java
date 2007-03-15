@@ -96,6 +96,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         try {
             poDocument = (PurchaseOrderDocument) documentService.getNewDocument(PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT);
             poDocument.populatePurchaseOrderFromRequisition(reqDocument);
+            poDocument.setPurchaseOrderCurrentIndicator(true);
             // TODO set other default info
             // TODO set initiator of document as contract manager (is that right?)
 
@@ -174,7 +175,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             LOG.info("completePurchaseOrder() Unhandled Transmission Status: " + po.getPurchaseOrderTransmissionMethodCode() + " -- Defaulting Status to OPEN");
             purapService.updateStatusAndStatusHistory(po, PurapConstants.PurchaseOrderStatuses.OPEN);
             po.setPurchaseOrderInitialOpenDate(dateTimeService.getCurrentSqlDate());
-            po.setPurchaseOrderCurrentIndicator(true);
             this.save(po);
         }
     }

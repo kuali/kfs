@@ -114,6 +114,8 @@
 
         </lookup>
 
+        <titleAttribute>proposalNumber</titleAttribute>
+
         <attributes>
 
             <attributeReference name="proposalOrganizations.organizationCode" sourceClassName="org.kuali.module.cg.bo.ProposalOrganization" sourceAttributeName="organizationCode">

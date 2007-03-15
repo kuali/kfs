@@ -17,9 +17,9 @@ package org.kuali.module.chart.service.impl;
 
 import java.util.Collection;
 
-import org.kuali.core.service.KualiCodeService;
 import org.kuali.core.util.spring.Cached;
 import org.kuali.core.util.spring.Logged;
+import org.kuali.kfs.service.KualiCodeService;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.chart.dao.BalanceTypeDao;
 import org.kuali.module.chart.service.BalanceTypService;

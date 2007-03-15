@@ -15,7 +15,7 @@
  */
 package org.kuali.module.financial.service.impl;
 
-import org.kuali.core.service.KualiCodeService;
+import org.kuali.kfs.service.KualiCodeService;
 import org.kuali.module.financial.bo.CashDetailTypeCode;
 import org.kuali.module.financial.service.CashDetailTypeCodeService;
 import org.springframework.transaction.annotation.Transactional;

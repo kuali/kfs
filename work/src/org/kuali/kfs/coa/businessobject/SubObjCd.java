@@ -18,6 +18,7 @@ package org.kuali.module.chart.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.service.impl.PersistenceStructureServiceImpl;
 import org.kuali.kfs.bo.Options;
 
 /**
@@ -27,6 +28,10 @@ public class SubObjCd extends PersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -5292158248714650271L;
 
+    static {
+        PersistenceStructureServiceImpl.referenceConversionMap.put(SubObjCd.class, SubObjCdCurrent.class);
+    }
+    
     /**
      * Default no-arg constructor.
      */

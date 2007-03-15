@@ -23,14 +23,19 @@ import java.util.List;
 
 import org.kuali.PropertyConstants;
 import org.kuali.core.document.AmountTotaling;
+import org.kuali.core.document.Document;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.document.AccountingDocumentBase;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.ProcurementCardHolder;
 import org.kuali.module.financial.bo.ProcurementCardSourceAccountingLine;
 import org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine;
 import org.kuali.module.financial.bo.ProcurementCardTransactionDetail;
+
+import edu.iu.uis.eden.EdenConstants;
+import edu.iu.uis.eden.clientapp.vo.DocumentRouteStatusChangeVO;
 
 /**
  * This is the Procurement Card Document Class. The procurement cards distributes expenses from clearing accounts. It is a two-sided
@@ -207,4 +212,16 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
         m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return m;
     }
+
+    @Override
+    public void doRouteStatusChange(DocumentRouteStatusChangeVO statusChangeEvent) throws Exception {
+        if (EdenConstants.ROUTE_HEADER_ENROUTE_CD.equals(statusChangeEvent.getNewRouteStatus())) {
+            Document retrievedDocument = SpringServiceLocator.getDocumentService().getByDocumentHeaderId(statusChangeEvent.getRouteHeaderId().toString());
+            if (EdenConstants.ROUTE_HEADER_ENROUTE_CD.equals(retrievedDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()) && !EdenConstants.ROUTE_HEADER_ENROUTE_CD.equals(retrievedDocument.getDocumentHeader().getFinancialDocumentStatusCode())) {
+                throw new RuntimeException("KFS document status is out of sync with Workflow document status");
+            }
+        }
+    }
+    
+    
 }

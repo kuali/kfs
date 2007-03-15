@@ -23,6 +23,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.KualiCode;
 import org.kuali.core.bo.Summarizable;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.impl.PersistenceStructureServiceImpl;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.codes.BudgetAggregationCode;
@@ -34,6 +35,12 @@ import org.kuali.module.gl.bo.SufficientFundRebuild;
  * 
  */
 public class ObjectCode extends PersistableBusinessObjectBase implements Summarizable {
+    
+    
+    static {
+        PersistenceStructureServiceImpl.referenceConversionMap.put(ObjectCode.class, ObjectCodeCurrent.class);
+    }
+    
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectCode.class);
 
     private static final long serialVersionUID = -965833141452795485L;

@@ -17,6 +17,18 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>	
 
+	<bean id="kualiCodeService" class="org.kuali.kfs.service.impl.KualiCodeServiceImpl">
+		<property name="kualiCodeDao">
+			<ref bean="kualiCodeDao" />
+		</property>
+	</bean>
+	
+	<bean id="kualiCodeDao" class="org.kuali.kfs.dao.ojb.KualiCodeDaoOjb">
+		<property name="jcdAlias">
+			<value>dataSource</value>
+		</property>
+	</bean>
+
 	<bean id="universityDateService" class="org.kuali.module.financial.service.impl.UniversityDateServiceImpl">
 		<property name="universityDateDao"><ref bean="universityDateDao" /></property>
 	</bean>

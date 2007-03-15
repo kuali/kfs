@@ -55,6 +55,11 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         date = c.getTime();
         dateTimeService.setCurrentDate(date);
     }
+
+    public void testMiscellaneousBlankFields() throws Exception {
+
+    }
+
     
    /* @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testMiscellaneousBlankFields() throws Exception {

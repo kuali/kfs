@@ -92,7 +92,7 @@
             </lookupFields>
 
             <resultFields>
-                <field attributeName="proposal.proposalNumber" />
+                <field attributeName="proposalNumber" />
                 <field attributeName="agency.fullName" />
                 <field attributeName="awardTotalAmount" />
                 <field attributeName="awardBeginningDate" />
@@ -104,13 +104,15 @@
             </resultFields>
         </lookup>
 
+        <titleAttribute>proposalNumber</titleAttribute>
+
         <attributes>
 						
             <attributeReference name="proposal.proposalNumber"  sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="proposalNumber"/>
 			
             <attribute name="proposalNumber" forceUppercase="true">
-                <label>*Proposal Number</label>
-                <shortLabel>Number</shortLabel>
+            	<label>Award Proposal Number</label>
+            	<shortLabel>Award Prop Num</shortLabel>
 
                 <maxLength>12</maxLength>
                 <validationPattern><numeric /></validationPattern>
@@ -119,9 +121,9 @@
                     <text size="14" />
                 </control>
 
-                <summary>Proposal Number</summary>
-                <description>proposalNumber description...</description>
-			</attribute>
+            	<summary>Award Proposal Number</summary>
+            	<description>Award Proposal Number description...</description>
+            </attribute>
 
             <attributeReference name="awardAccounts.accountNumber" sourceClassName="org.kuali.module.cg.bo.AwardAccount" sourceAttributeName="accountNumber">
 				<summary>Award Account Number</summary>

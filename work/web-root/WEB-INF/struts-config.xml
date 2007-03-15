@@ -22,7 +22,7 @@
         <form-bean name="LookupForm" type="org.kuali.core.web.struts.form.LookupForm" />
 		<form-bean name="MultipleValueLookupForm" type="org.kuali.core.web.struts.form.MultipleValueLookupForm" />
         <form-bean name="InquiryForm" type="org.kuali.core.web.struts.form.InquiryForm" />
-        <form-bean name="KualiMaintenanceForm" type="org.kuali.core.web.struts.form.KualiMaintenanceForm" />
+        <form-bean name="KualiMaintenanceForm" type="org.kuali.kfs.web.struts.form.KfsMaintenanceForm" />
         <form-bean name="KualiHelpForm" type="org.kuali.core.web.struts.form.KualiHelpForm" />
         <form-bean name="KualiForm" type="org.kuali.core.web.struts.form.KualiForm" />
 
@@ -140,14 +140,16 @@
 
         <action path="/inquiry" name="InquiryForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.core.web.struts.action.KualiInquiryAction">
             <set-property property="cancellable" value="true" />
-            <forward name="basic" path="/jsp/core/KualiMaintenanceDocument.jsp" />
+            <forward name="basic" path="/jsp/core/KualiInquiry.jsp" />
         </action>
 
-        <action path="/maintenance" name="KualiMaintenanceForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.core.web.struts.action.KualiMaintenanceDocumentAction" validate="false" input="/jsp/core/KualiMaintenanceDocument.jsp">
+        <action path="/maintenance" name="KualiMaintenanceForm" scope="request" attribute="KualiForm" 
+        parameter="methodToCall" type="org.kuali.core.web.struts.action.KualiMaintenanceDocumentAction" 
+        validate="false" input="/jsp/kfs/KfsMaintenanceDocument.jsp">
             <set-property property="cancellable" value="true" />
-            <forward name="basic" path="/jsp/core/KualiMaintenanceDocument.jsp" />
+            <forward name="basic" path="/jsp/kfs/KfsMaintenanceDocument.jsp" />
         </action>
-
+ 
         <action path="/balanceInquiryReportMenu" name="KualiBalanceInquiryReportMenuForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.kfs.web.struts.action.KualiBalanceInquiryReportMenuAction">
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/core/KualiBalanceInquiryReportMenu.jsp" />

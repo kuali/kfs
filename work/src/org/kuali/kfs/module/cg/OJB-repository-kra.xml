@@ -1180,4 +1180,11 @@
 		<foreignkey field-ref="submissionTypeCode" />
 	</reference-descriptor>
 </class-descriptor>
+
+<class-descriptor class="org.kuali.module.kra.routingform.bo.RoutingFormPersonRole" table="ER_RF_PRSN_ROLE_T">
+	<field-descriptor name="documentNumber" column="RDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="personRoleCode" column="PRSN_ROLE_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+</class-descriptor>
 </descriptor-repository>

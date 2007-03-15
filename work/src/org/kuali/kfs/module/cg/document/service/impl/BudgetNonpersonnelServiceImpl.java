@@ -23,7 +23,6 @@ import java.util.Map;
 
 import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.impl.DocumentNoteServiceImpl;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.budget.bo.NonpersonnelCategory;
 import org.kuali.module.kra.budget.bo.NonpersonnelObjectCode;
@@ -34,7 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class BudgetNonpersonnelServiceImpl implements BudgetNonpersonnelService {
 
     // set up logging
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DocumentNoteServiceImpl.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetNonpersonnelServiceImpl.class);
 
     private BusinessObjectService businessObjectService;
  

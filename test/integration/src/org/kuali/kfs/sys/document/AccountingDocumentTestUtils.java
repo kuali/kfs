@@ -28,7 +28,6 @@ import org.apache.log4j.Logger;
 import org.kuali.Constants;
 import org.kuali.core.bo.AdHocRouteRecipient;
 import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.bo.DocumentNote;
 import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;
@@ -212,7 +211,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
             String preCorrectCorrectsId = document.getDocumentHeader().getFinancialDocumentInErrorNumber();
 
             int preCorrectPECount = document.getGeneralLedgerPendingEntries().size();
-            int preCorrectNoteCount = document.getDocumentHeader().getNotes().size();
+//            int preCorrectNoteCount = document.getDocumentHeader().getNotes().size();
 
             List<? extends SourceAccountingLine> preCorrectSourceLines = (List<? extends SourceAccountingLine>) ObjectUtils.deepCopy(new ArrayList(document.getSourceAccountingLines()));
             List<? extends TargetAccountingLine> preCorrectTargetLines = (List<? extends TargetAccountingLine>) ObjectUtils.deepCopy(new ArrayList(document.getTargetAccountingLines()));
@@ -221,7 +220,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
             assertNull(preCorrectCorrectsId);
 
             assertEquals(expectedPrePECount, preCorrectPECount);
-            assertEquals(0, preCorrectNoteCount);
+//            assertEquals(0, preCorrectNoteCount);
 
             // do the error correction
             ((Correctable) document).toErrorCorrection();
@@ -233,12 +232,13 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
             int postCorrectPECount = document.getGeneralLedgerPendingEntries().size();
             LOG.debug("postcorrect PE count = " + postCorrectPECount);
             assertEquals(0, postCorrectPECount);
-            // count 1 note, compare to "correction" text
-            int postCorrectNoteCount = document.getDocumentHeader().getNotes().size();
-            assertEquals(1, postCorrectNoteCount);
-            DocumentNote note = document.getDocumentHeader().getNote(0);
-            LOG.debug("postcorrect note text = " + note.getFinancialDocumentNoteText());
-            assertTrue(note.getFinancialDocumentNoteText().indexOf("correction") != -1);
+              //TODO: revisit this is it still needed
+//            // count 1 note, compare to "correction" text
+//            int postCorrectNoteCount = document.getDocumentHeader().getNotes().size();
+//            assertEquals(1, postCorrectNoteCount);
+//            DocumentNote note = document.getDocumentHeader().getNote(0);
+//            LOG.debug("postcorrect note text = " + note.getFinancialDocumentNoteText());
+//            assertTrue(note.getFinancialDocumentNoteText().indexOf("correction") != -1);
             // correctsId should be equal to old id
             String correctsId = document.getDocumentHeader().getFinancialDocumentInErrorNumber();
             LOG.debug("postcorrect correctsId = " + correctsId);
@@ -300,7 +300,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
         String preCopyCopiedFromId = document.getDocumentHeader().getFinancialDocumentTemplateNumber();
 
         int preCopyPECount = document.getGeneralLedgerPendingEntries().size();
-        int preCopyNoteCount = document.getDocumentHeader().getNotes().size();
+//        int preCopyNoteCount = document.getDocumentHeader().getNotes().size();
         String preCopyStatus = document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
 
         List<? extends SourceAccountingLine> preCopySourceLines = (List<? extends SourceAccountingLine>) ObjectUtils.deepCopy((ArrayList) document.getSourceAccountingLines());
@@ -310,7 +310,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
         assertNull(preCopyCopiedFromId);
 
         assertEquals(expectedPrePECount, preCopyPECount);
-        assertEquals(0, preCopyNoteCount);
+//        assertEquals(0, preCopyNoteCount);
         assertEquals("R", preCopyStatus);
         // do the copy
         ((Copyable) document).toCopy();
@@ -324,11 +324,13 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
         // pending entries should be cleared
         int postCopyPECount = document.getGeneralLedgerPendingEntries().size();
         assertEquals(0, postCopyPECount);
+        
+        //TODO: revisit this is it still needed
         // count 1 note, compare to "copied" text
-        int postCopyNoteCount = document.getDocumentHeader().getNotes().size();
-        assertEquals(1, postCopyNoteCount);
-        DocumentNote note = document.getDocumentHeader().getNote(0);
-        assertTrue(note.getFinancialDocumentNoteText().indexOf("copied from") != -1);
+//        int postCopyNoteCount = document.getDocumentHeader().getNotes().size();
+//        assertEquals(1, postCopyNoteCount);
+//        DocumentNote note = document.getDocumentHeader().getNote(0);
+//        assertTrue(note.getFinancialDocumentNoteText().indexOf("copied from") != -1);
         // copiedFrom should be equal to old id
         String copiedFromId = document.getDocumentHeader().getFinancialDocumentTemplateNumber();
         assertEquals(preCopyId, copiedFromId);

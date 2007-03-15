@@ -1,12 +1,12 @@
 <!--
  Copyright 2006-2007 The Kuali Foundation.
- 
+
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
- 
+
  http://www.opensource.org/licenses/ecl1.php
- 
+
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -44,7 +44,7 @@
     </collection-descriptor>
    	<collection-descriptor name="vendorTaxChanges" element-class-ref="org.kuali.module.purap.bo.VendorTaxChange" auto-retrieve="false" auto-update="object" auto-delete="false" proxy="false">
 		<inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
-	</collection-descriptor>    
+	</collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.VendorDetail" table="PUR_VNDR_DTL_T">
@@ -514,7 +514,7 @@
 	<field-descriptor name="itemTypeDescription" column="ITM_TYP_DESC" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="quantityBasedGeneralLedgerIndicator" column="QTY_BSD_GL_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="itemTypeAboveTheLineIndicator" column="ITYP_ABV_THE_LN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>	
+	<field-descriptor name="itemTypeAboveTheLineIndicator" column="ITYP_ABV_THE_LN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.CapitalAssetTransactionType" table="PUR_AP_CPTL_AST_TRN_TYP_T">
@@ -1919,29 +1919,6 @@
 	</reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.purap.bo.Note" table="SH_NTE_T">
-	<field-descriptor name="noteIdentifier" column="NTE_ID" jdbc-type="BIGINT" primarykey="true" index="true" autoincrement="true" sequence-name="NTE_ID_SEQ"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="remoteObjectIdentifier" column="RMT_OBJ_ID" jdbc-type="VARCHAR"/>
-	<field-descriptor name="noteAuthorIdentifier" column="NTE_AUTH_ID" jdbc-type="VARCHAR"/>
-	<field-descriptor name="notePostedTimestamp" column="NTE_POST_TS" jdbc-type="TIMESTAMP"/>
-	<field-descriptor name="noteTypeCode" column="NTE_TYP_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="noteText" column="NTE_TXT" jdbc-type="VARCHAR"/>
-	<field-descriptor name="notePurgeCode" column="NTE_PRG_CD" jdbc-type="VARCHAR"/>
-	<reference-descriptor name="noteType" class-ref="org.kuali.module.purap.bo.NoteType" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="noteTypeCode" />
-	</reference-descriptor>
-</class-descriptor>
-
-<class-descriptor class="org.kuali.module.purap.bo.NoteType" table="SH_NTE_TYP_T">
-	<field-descriptor name="noteTypeCode" column="NTE_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="noteTypeDescription" column="NTE_TYP_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="noteTypeActiveIndicator" column="NTE_TYP_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-</class-descriptor>
-
 <class-descriptor class="org.kuali.module.purap.bo.OrganizationParameter" table="PUR_AP_ORG_PARM_T">
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
@@ -1954,20 +1931,6 @@
 	<reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="organizationCode" />
-	</reference-descriptor>
-</class-descriptor>
-
-<class-descriptor class="org.kuali.module.purap.bo.Attachment" table="SH_ATT_T">
-	<field-descriptor name="noteIdentifier" column="NTE_ID" jdbc-type="BIGINT" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="attachmentMimeTypeCode" column="ATT_MIME_TYP_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="attachmentFileName" column="ATT_FL_NM" jdbc-type="VARCHAR"/>
-	<field-descriptor name="attachmentIdentifier" column="ATT_ID" jdbc-type="VARCHAR"/>
-	<field-descriptor name="attachmentFileSize" column="ATT_FL_SZ" jdbc-type="BIGINT"/>
-	<field-descriptor name="attachmentTypeCode" column="ATT_TYP_CD" jdbc-type="VARCHAR"/>
-	<reference-descriptor name="note" class-ref="org.kuali.module.purap.bo.Note" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="noteIdentifier" />
 	</reference-descriptor>
 </class-descriptor>
 
@@ -1997,7 +1960,7 @@
 	</reference-descriptor>
 	<reference-descriptor name="contractManager" class-ref="org.kuali.module.purap.bo.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="contractManagerCode" />
-	</reference-descriptor>	
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.document.AssignContractManagerDocument" table="FP_DOC_HEADER_T">
@@ -2012,12 +1975,12 @@
     <field-descriptor name="financialDocumentTemplateNumber" column="FDOC_TMPL_NBR" jdbc-type="VARCHAR" />
     <!-- TODO: remove following field from here, BO, and database after workflow API to retrieve this is implemented -->
     <field-descriptor name="documentFinalDate" column="TEMP_DOC_FNL_DT" jdbc-type="DATE" />
-
+<!--
     <collection-descriptor name="notes" element-class-ref="org.kuali.core.bo.DocumentNote" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="finDocNotePostedDttmStamp" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
-
+-->
     <collection-descriptor name="assignContractManagerDetails" proxy="true" element-class-ref="org.kuali.module.purap.bo.AssignContractManagerDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
@@ -2029,7 +1992,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="sourceDocumentObjectIdentifier" column="SRC_DOC_OBJ_ID" jdbc-type="VARCHAR"/>
-	<!-- 
+	<!--
 	<reference-descriptor name="purchasingAccountsPayableDocument" class-ref="org.kuali.module.purap.document.PurchasingAccountsPayableDocument"  auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="sourceDocumentIdentifier"  />
 	</reference-descriptor>

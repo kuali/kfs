@@ -20,7 +20,7 @@ import java.util.List;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 
 /**
- * This interface defines methods that a DocumentNote service must provide
+ * This interface defines methods that a service must provide
  * 
  * 
  */

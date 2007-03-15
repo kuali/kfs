@@ -507,7 +507,8 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      * @return whether the given document has no notes
      */
     private static boolean hasNoNotes(DisbursementVoucherDocument document) {
-        return (document.getDocumentHeader().getNotes() == null || document.getDocumentHeader().getNotes().size() == 0);
+        //TODO: this is not optimal it shouldn't get it directly from DocHeader revisit later
+        return (document.getDocumentHeader().getBoNotes() == null || document.getDocumentHeader().getBoNotes().size() == 0);
     }
 
     /**

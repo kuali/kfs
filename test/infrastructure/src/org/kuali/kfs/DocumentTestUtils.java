@@ -16,12 +16,9 @@
 package org.kuali.test;
 
 import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.bo.DocumentNote;
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.InternalBillingItem;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -53,23 +50,6 @@ public class DocumentTestUtils {
         return item;
     }
 
-
-    /**
-     * @param documentHeaderId
-     * @param documentNoteAuthor
-     * @param documentNoteText
-     * @return new DocumentNote initialized with the given values
-     */
-    public static DocumentNote createDocumentNote(String documentHeaderId, UniversalUser documentNoteAuthor, String documentNoteText) {
-        java.util.Date now = SpringServiceLocator.getDateTimeService().getCurrentDate();
-        DocumentNote documentNote = new DocumentNote();
-        documentNote.setDocumentNumber(documentHeaderId);
-        documentNote.setFinDocumentAuthorUniversalId(documentNoteAuthor.getPersonUniversalIdentifier());
-        documentNote.setFinancialDocumentNoteText(documentNoteText);
-        documentNote.setFinDocNotePostedDttmStamp(new java.sql.Timestamp(now.getTime()));
-
-        return documentNote;
-    }
     public static <D extends Document> D createDocument(DocumentService documentService,Class<D> docmentClass) throws WorkflowException {
         D document = (D)documentService.getNewDocument(docmentClass);
         document.getDocumentHeader().setExplanation("unit test created document");

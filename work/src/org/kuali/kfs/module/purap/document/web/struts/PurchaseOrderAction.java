@@ -24,7 +24,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
-import org.kuali.core.bo.DocumentNote;
+import org.kuali.core.bo.Note;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -126,7 +126,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                     int closingNoteTextLength = closingNoteText.length();
 
                     // get note text max length from DD
-                    int noteTextMaxLength = SpringServiceLocator.getDataDictionaryService().getAttributeMaxLength(DocumentNote.class, 
+                    int noteTextMaxLength = SpringServiceLocator.getDataDictionaryService().getAttributeMaxLength(Note.class, 
                         Constants.DOCUMENT_NOTE_TEXT_PROPERTY_NAME).intValue();
 
                     if (StringUtils.isBlank(reason) || (closingNoteTextLength > noteTextMaxLength)) {
@@ -189,7 +189,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 int introNoteMessageLength = introNoteMessage.length();
 
                 // get note text max length from DD
-                int noteTextMaxLength = SpringServiceLocator.getDataDictionaryService().getAttributeMaxLength(DocumentNote.class, Constants.DOCUMENT_NOTE_TEXT_PROPERTY_NAME).intValue();
+                int noteTextMaxLength = SpringServiceLocator.getDataDictionaryService().getAttributeMaxLength(Note.class, Constants.DOCUMENT_NOTE_TEXT_PROPERTY_NAME).intValue();
 
                 if (StringUtils.isBlank(reason) || (introNoteMessageLength > noteTextMaxLength)) {
                     // figure out exact number of characters that the user can enter

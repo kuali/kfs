@@ -62,7 +62,23 @@
                     <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personUniversalIdentifier:newRoutingFormPerson.personUniversalIdentifier,personName:newRoutingFormPerson.user.personName" extraButtonSource="images/buttonsmall_namelater.gif" extraButtonParams="&newRoutingFormPerson.personToBeNamedIndicator=true" anchor="${currentTabIndex}" />
                   </c:if>
                 </td>
-                <td class="infoline"><kul:htmlControlAttribute property="newRoutingFormPerson.personRoleCode" attributeEntry="${routingFormPersonnel.personRoleCode}" readOnly="${viewOnly}"/></td>
+                <td class="infoline">
+                  <c:forEach items="${KualiForm.document.routingFormPersonRoles}" var="routingFormPersonRole" varStatus="status"> 
+                    <html:hidden property="document.routingFormPersonRoles[${status.index}].documentNumber" /> 
+                    <html:hidden property="document.routingFormPersonRoles[${status.index}].personRoleCode" /> 
+                    <html:hidden property="document.routingFormPersonRoles[${status.index}].versionNumber" /> 
+                    <html:hidden property="document.routingFormPersonRoles[${status.index}].personRole.personRoleDescription" /> 
+                  </c:forEach>
+                  <kul:checkErrors keyMatch="newRoutingFormPerson.personRoleCode" auditMatch="newRoutingFormPerson.personRoleCode"/>
+				  <c:if test="${hasErrors==true}">
+				    <c:set var="newPersonRoleCodeTextStyle" value="background-color: red"/>
+				  </c:if>
+                  <html:select property="newRoutingFormPerson.personRoleCode" style="${newPersonRoleCodeTextStyle}" disabled="${viewOnly}"> 
+                    <html:option value="">select:</html:option> 
+                    <c:set var="routingFormPersonRoles" value="${KualiForm.document.routingFormPersonRoles}"/> 
+                    <html:options collection="routingFormPersonRoles" property="personRoleCode" labelProperty="personRole.personRoleDescription"/> 
+                  </html:select>
+                </td>
                 <td class="infoline"><kul:htmlControlAttribute property="newRoutingFormPerson.personRoleText" attributeEntry="${routingFormPersonnel.personRoleText}" readOnly="${viewOnly}"/></td>
                 <td class="infoline">
                   <html:hidden property="newRoutingFormPerson.chartOfAccountsCode"/>
@@ -126,7 +142,18 @@
                       </c:choose>
                     </c:if>
                   </td>
-                  <td><kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].personRoleCode" attributeEntry="${routingFormPersonnel.personRoleCode}" readOnly="${viewOnly or (budgetLinked and isProjectDirector)}"/></td>
+                  <td>
+                    <!-- Hidden variables for document.routingFormPersonRoles above under newRoutingFormPerson item -->
+	                <kul:checkErrors keyMatch="document.routingFormPersonnel[${status.index}].personRoleCode" auditMatch="document.routingFormPersonnel[${status.index}].personRoleCode"/>
+					<c:if test="${hasErrors==true}">
+					  <c:set var="personRoleCodeTextStyle" value="background-color: red"/>
+					</c:if>
+	                <html:select property="document.routingFormPersonnel[${status.index}].personRoleCode" style="${personRoleCodeTextStyle}" disabled="${viewOnly}"> 
+	                  <html:option value="">select:</html:option> 
+	                  <c:set var="routingFormPersonRoles" value="${KualiForm.document.routingFormPersonRoles}"/> 
+	                  <html:options collection="routingFormPersonRoles" property="personRoleCode" labelProperty="personRole.personRoleDescription"/> 
+	                </html:select>
+                  </td>
                   <td><kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].personRoleText" attributeEntry="${routingFormPersonnel.personRoleText}" readOnly="${viewOnly or (budgetLinked and isProjectDirector)}"/></td>
                   <td>
                     <c:choose>

@@ -730,6 +730,10 @@
         <orderby name="projectType.sortNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
+    <collection-descriptor name="routingFormPersonRoles" proxy="true" element-class-ref="org.kuali.module.kra.routingform.bo.RoutingFormPersonRole" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="personRole.personRoleSortNumber" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
     <collection-descriptor name="routingFormKeywords" proxy="true" element-class-ref="org.kuali.module.kra.routingform.bo.RoutingFormKeyword" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="routingFormKeywordDescription" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
@@ -1186,5 +1190,8 @@
 	<field-descriptor name="personRoleCode" column="PRSN_ROLE_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<reference-descriptor name="personRole" class-ref="org.kuali.module.kra.routingform.bo.PersonRole" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="personRoleCode" />
+	</reference-descriptor>
 </class-descriptor>
 </descriptor-repository>

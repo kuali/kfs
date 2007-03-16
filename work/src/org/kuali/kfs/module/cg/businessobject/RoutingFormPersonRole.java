@@ -12,6 +12,8 @@ public class RoutingFormPersonRole extends PersistableBusinessObjectBase {
 	private String documentNumber;
 	private String personRoleCode;
 
+    private PersonRole personRole;
+    
 	/**
 	 * Default constructor.
 	 */
@@ -19,6 +21,18 @@ public class RoutingFormPersonRole extends PersistableBusinessObjectBase {
 
 	}
 
+    /**
+     * Constructs a RoutingFormPurpose.
+     * @param documentNumber
+     * @param purpose
+     */
+    public RoutingFormPersonRole(String documentNumber, PersonRole personRole) {
+        this();
+        this.documentNumber = documentNumber;
+        this.personRoleCode = personRole.getPersonRoleCode();
+        this.personRole = personRole;
+    }
+    
 	/**
 	 * Gets the documentNumber attribute.
 	 * 
@@ -60,8 +74,27 @@ public class RoutingFormPersonRole extends PersistableBusinessObjectBase {
 		this.personRoleCode = personRoleCode;
 	}
 
+    /**
+     * Gets the personRole attribute.
+     * 
+     * @return Returns the personRole
+     * 
+     */
+	public PersonRole getPersonRole() {
+        return personRole;
+    }
 
-	/**
+    /**
+     * Sets the personRole attribute.
+     * 
+     * @param personRole The personRole to set.
+     * 
+     */
+    public void setPersonRole(PersonRole personRole) {
+        this.personRole = personRole;
+    }
+
+    /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {

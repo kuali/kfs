@@ -34,9 +34,6 @@ import org.kuali.module.kra.document.ResearchDocumentBase;
 import org.kuali.module.kra.routingform.bo.ContractGrantProposal;
 import org.kuali.module.kra.routingform.bo.Purpose;
 import org.kuali.module.kra.routingform.bo.ResearchTypeCode;
-import org.kuali.module.kra.routingform.bo.RoutingFormAdHocOrg;
-import org.kuali.module.kra.routingform.bo.RoutingFormAdHocPerson;
-import org.kuali.module.kra.routingform.bo.RoutingFormAdHocWorkgroup;
 import org.kuali.module.kra.routingform.bo.RoutingFormAgency;
 import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
 import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
@@ -44,6 +41,7 @@ import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganization;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent;
 import org.kuali.module.kra.routingform.bo.RoutingFormOtherCostShare;
+import org.kuali.module.kra.routingform.bo.RoutingFormPersonRole;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
 import org.kuali.module.kra.routingform.bo.RoutingFormProjectType;
 import org.kuali.module.kra.routingform.bo.RoutingFormPurpose;
@@ -133,6 +131,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private List<RoutingFormResearchTypeCode> routingFormResearchTypeCodes;
     private List<RoutingFormPurpose> routingFormPurposes;
     private List<RoutingFormProjectType> routingFormProjectTypes;
+    private List<RoutingFormPersonRole> routingFormPersonRoles;
     
 	/**
 	 * Default constructor.
@@ -160,6 +159,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         routingFormResearchTypeCodes = new TypedArrayList(RoutingFormResearchTypeCode.class);
         routingFormPurposes = new TypedArrayList(RoutingFormPurpose.class);
         routingFormProjectTypes = new TypedArrayList(RoutingFormProjectType.class);
+        routingFormPersonRoles = new TypedArrayList(RoutingFormPersonRole.class);
 	}
 
     public void initialize() {
@@ -167,9 +167,10 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         
         SpringServiceLocator.getDueDateTypeService().setupRoutingFormDueDateTypes(this);
         SpringServiceLocator.getSubmissionTypeService().setupRoutingFormSubmissionTypes(this);
-        SpringServiceLocator.getProjectTypeService().setupRoutingFormProjectType(this);
+        SpringServiceLocator.getProjectTypeService().setupRoutingFormProjectTypes(this);
         SpringServiceLocator.getPurposeService().setupRoutingFormPurposes(this);
         SpringServiceLocator.getResearchTypeCodeService().setupRoutingFormResearchTypeCodes(this);
+        SpringServiceLocator.getPersonRoleService().setupRoutingFormPersonRoles(this);
     }
 
     @Override
@@ -1747,6 +1748,22 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         this.routingFormProjectTypes = routingFormProjectTypes;
     }
     
+    /**
+     * Gets the routingFormPersonRoles attribute. 
+     * @return Returns the routingFormPersonRoles.
+     */
+    public List<RoutingFormPersonRole> getRoutingFormPersonRoles() {
+        return routingFormPersonRoles;
+    }
+
+    /**
+     * Sets the routingFormPersonRoles attribute value.
+     * @param routingFormPersonRoles The routingFormPersonRoles to set.
+     */
+    public void setRoutingFormPersonRoles(List<RoutingFormPersonRole> routingFormPersonRoles) {
+        this.routingFormPersonRoles = routingFormPersonRoles;
+    }
+
     /**
      * Sums percent financial aid from all personnel and organizations.
      * @return total financial aid for summary display

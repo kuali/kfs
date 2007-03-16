@@ -117,9 +117,6 @@
 
 	<!-- parent class, this is so we can override attributes if we add any later -->
 	<bean id="purchaseOrderPostProcessServiceBase" class="org.kuali.module.purap.service.impl.PurchaseOrderPostProcessorServiceBase" abstract="true">
-	</bean>
-	
-    <bean id="purchaseOrderPostProcessorService" class="org.kuali.module.purap.service.impl.PurchaseOrderPostProcessorServiceImpl" parent="purchaseOrderPostProcessServiceBase">
         <property name="purchaseOrderService">
             <ref bean="purchaseOrderService" />
         </property>	
@@ -129,6 +126,9 @@
         <property name="purapService">
             <ref bean="purapService" />
         </property>	
+	</bean>
+	
+    <bean id="purchaseOrderPostProcessorService" class="org.kuali.module.purap.service.impl.PurchaseOrderPostProcessorServiceImpl" parent="purchaseOrderPostProcessServiceBase">
     </bean>
 	<bean id="purchaseOrderPostProcessorCloseService" class="org.kuali.module.purap.service.impl.PurchaseOrderPostProcessorCloseServiceImpl" parent="purchaseOrderPostProcessServiceBase">
 	</bean>

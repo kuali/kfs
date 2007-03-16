@@ -137,13 +137,16 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
         referenceObjects.add("adhocOrgs");
         referenceObjects.add("adhocWorkgroups");
         SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(routingForm.getRoutingFormDocument(), referenceObjects);
-        for(RoutingFormPersonnel routingFormPerson : routingForm.getRoutingFormDocument().getRoutingFormPersonnel()) {
-            routingFormPerson.refresh();
-        }
         return mapping.findForward("permissions");
     }
 
     public ActionForward approvals(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        RoutingForm routingForm = (RoutingForm) form;
+        List referenceObjects = new ArrayList();
+        referenceObjects.add("adhocPersons");
+        referenceObjects.add("adhocOrgs");
+        referenceObjects.add("adhocWorkgroups");
+        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(routingForm.getRoutingFormDocument(), referenceObjects);
         return mapping.findForward("approvals");
     }
     

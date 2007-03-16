@@ -40,8 +40,7 @@
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
-        <lookup>
-            <lookupableID>CSFTrackerBalanceLookupable</lookupableID>        
+        <lookup>      
             <title>Calculated Salary Foundation Tracker Lookup</title>
 
             <instructions>Look up a Budget Construction Calculated Salary Foundation Tracker</instructions>
@@ -54,12 +53,19 @@
                 </sortAttributes>
             </defaultSort>
 
-            <lookupFields>
-                <lookupField attributeName="universityFiscalYear" required="false" />
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
+			<lookupFields>
                 <lookupField attributeName="accountNumber" required="false" />
-                <lookupField attributeName="subAccountNumber" required="false" />
+                <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="csfAmount" required="false" />
+                <lookupField attributeName="csfFullTimeEmploymentQuantity" required="false" />
+                <lookupField attributeName="csfFundingStatusCode" required="false" />
+                <lookupField attributeName="csfTimePercent" required="false" />
+                <lookupField attributeName="emplid" required="false" />
                 <lookupField attributeName="financialObjectCode" required="false" />
+                <lookupField attributeName="financialSubObjectCode" required="false" />
+                <lookupField attributeName="positionNumber" required="false" />
+                <lookupField attributeName="subAccountNumber" required="false" />
+                <lookupField attributeName="universityFiscalYear" required="false" />
             </lookupFields>
 
             <resultFields>

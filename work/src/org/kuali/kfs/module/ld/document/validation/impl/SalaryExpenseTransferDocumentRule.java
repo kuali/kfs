@@ -61,6 +61,7 @@ import org.kuali.module.labor.rule.GenerateLaborLedgerPendingEntriesRule;
  * 
  * 
  */
+
 public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBase implements GenerateLaborLedgerPendingEntriesRule<AccountingDocument>, GenerateLaborLedgerBenefitClearingPendingEntriesRule<AccountingDocument>{
 
     // LLPE Constants

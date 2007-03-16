@@ -48,6 +48,7 @@
         </inquiry>
 
         <lookup>
+        <lookupableID>CSFTrackerBalanceLookupable</lookupableID>
             <title>Calculated Salary Foundation Tracker Lookup</title>
 
             <instructions>Look up a Calculated Salary Foundation Tracker</instructions>
@@ -60,26 +61,12 @@
                 </sortAttributes>
             </defaultSort>
 
-            <lookupFields>
-                <lookupField attributeName="accountNumber" required="false" />
-                <lookupField attributeName="additionalSequence" required="false" />
+			<lookupFields>
+ 				<lookupField attributeName="universityFiscalYear" required="false" />
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="csfAmount" required="false" />
-                <lookupField attributeName="csfCreateTimestamp" required="false" />
-                <lookupField attributeName="csfDeleteCode" required="false" />
-                <lookupField attributeName="csfFullTimeEmploymentQuantity" required="false" />
-                <lookupField attributeName="csfFundingStatusCode" required="false" />
-                <lookupField attributeName="csfTimePercent" required="false" />
-                <lookupField attributeName="earnCode" required="false" />
-                <lookupField attributeName="effectiveDate" required="false" />
-                <lookupField attributeName="effectiveSequence" required="false" />
-                <lookupField attributeName="emplid" required="false" />
-                <lookupField attributeName="employeeRecord" required="false" />
-                <lookupField attributeName="financialObjectCode" required="false" />
-                <lookupField attributeName="financialSubObjectCode" required="false" />
-                <lookupField attributeName="positionNumber" required="false" />
+                <lookupField attributeName="accountNumber" required="false" />
                 <lookupField attributeName="subAccountNumber" required="false" />
-                <lookupField attributeName="universityFiscalYear" required="false" />
+                <lookupField attributeName="financialObjectCode" required="false" />
             </lookupFields>
 
             <resultFields>

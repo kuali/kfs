@@ -41,32 +41,29 @@ public class SalaryExpenseTransferForm extends LaborDocumentFormBase {
     }
 
     /**
-     * @return Returns the salaryExpenseTransferDocument.
+     * 
+     * This method returns a refernce to the Salary Expense Transfer Document
+     * @return
      */
+    
     public SalaryExpenseTransferDocument getSalaryExpenseTransferDocument() {
         return (SalaryExpenseTransferDocument) getDocument();
     }
     
+    //  todo: Make use of this on the salaryExpenserTransfer.jsp    
     /**
-     * Sets the <code>{@link UniversalUser}</code> through the <code>personUserIdentifier</code> attribute value
-     *
-     * @param uid <code>personUserIdentifier</code>
+     * 
+     * This method sets the User ID retrieved from the universal user service
+     * @param emplid
+     * @throws UserNotFoundException
      */
-    
-    //  todo: Make use of this on the salaryExpenserTransfer.jsp
     public void setUserId(String uid) throws UserNotFoundException {
         if (uid != null) {
             //  This may happen during populate when there is no initial user
             user = SpringServiceLocator.getUniversalUserService().getUniversalUser(uid);
         }
     }
-    
-    /**
-     * Gets the <code>personUserIdentifier</code> attribute value from the <code>{@link UniversalUser}</code> instance
-     *
-     * @return String <code>personUserIdentifier</code>
-     */
-    
+        
 //  todo: Make use of this on the salaryExpenserTransfer.jsp
     public String getUserId() {
         String retval = null;
@@ -76,50 +73,52 @@ public class SalaryExpenseTransferForm extends LaborDocumentFormBase {
         return retval;
     }
 
-    /**
-     * Sets the <code>{@link UniversalUser}</code> through the <code>personUserIdentifier</code> attribute value
-     *
-     * @param uid <code>personUserIdentifier</code>
-     */
-    
     //  todo: Make use of this on the salaryExpenserTransfer.jsp
+    /**
+     * 
+     * This method sets the Person Name retrieved from the universal user service
+     * @param emplid
+     * @throws UserNotFoundException
+     */
     public void setPersonName(String personName) throws UserNotFoundException {
         if (personName != null) {
             //  This may happen during populate when there is no initial user
             user = SpringServiceLocator.getUniversalUserService().getUniversalUser(personName);
         }
     }
-    /**
-     * Gets the <code>personName</code> attribute value from the <code>{@link UniversalUser}</code> instance
-     *
-     * @return String <code>personName</code>
-     */
     
     //  todo: Make use of this on the salaryExpenserTransfer.jsp
+    /**
+     * 
+     * This method returns the Person Name from the UniversalUser table.
+     * @return
+     */
     public String getPersonName() {
         String retval = null;
         if (user != null) {
             retval = user.getPersonName();
         }
         return retval;
-    }   
-    /**
-     * Sets the <code>{@link UniversalUser}</code> through the <code>personUserIdentifier</code> attribute value
-     *
-     * @param uid <code>personUserIdentifier</code>
-     */
+    }  
+    
+   /**
+    * 
+    * This method sets the employee ID retrieved from the universal user service
+    * @param emplid
+    * @throws UserNotFoundException
+    */
     public void setEmplid(String emplid) throws UserNotFoundException {
         if (emplid != null) {
             //  This may happen during populate when there is no initial user
             user = SpringServiceLocator.getUniversalUserService().getUniversalUser(emplid);
         }
     }
-    /**
-     * Gets the <code>personName</code> attribute value from the <code>{@link UniversalUser}</code> instance
-     *
-     * @return String <code>personName</code>
-     */
 
+/**
+ * 
+ * This method returns the employee ID from the UniversalUser table.
+ * @return
+ */
     public String getEmplid() {
         String retval = null;
         if (user != null) {

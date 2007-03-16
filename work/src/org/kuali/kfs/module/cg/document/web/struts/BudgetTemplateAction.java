@@ -53,9 +53,6 @@ public class BudgetTemplateAction extends BudgetAction {
 
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
-        budgetDoc.refresh();
-        ObjectUtils.materializeObjects(budgetDoc.getBudget().getPeriods());
-        ObjectUtils.materializeObjects(budgetDoc.getBudget().getTasks());
         
         ((Copyable) budgetDoc).toCopy();
         

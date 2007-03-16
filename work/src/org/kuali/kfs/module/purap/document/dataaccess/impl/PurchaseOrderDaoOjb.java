@@ -17,6 +17,7 @@ package org.kuali.module.purap.dao.ojb;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
+import org.kuali.Constants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.dao.PurchaseOrderDao;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
@@ -44,12 +45,22 @@ public class PurchaseOrderDaoOjb extends PersistenceBrokerDaoSupport implements 
     public PurchaseOrderDocument getPurchaseOrderById(Integer id) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
-
+        return getPurchaseOrder(criteria);
+      }
+    
+    public PurchaseOrderDocument getCurrentPurchaseOrder(Integer id) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id );
+        criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_CURRENT_INDICATOR, "Y");
+        return getPurchaseOrder(criteria);
+    }
+    
+    private PurchaseOrderDocument getPurchaseOrder (Criteria criteria) {
         PurchaseOrderDocument po = (PurchaseOrderDocument) getPersistenceBrokerTemplate().getObjectByQuery(
             new QueryByCriteria(PurchaseOrderDocument.class, criteria));
         if (po != null) {
             po.refreshAllReferences();
         }
-        return po;
-      }
+        return po;        
+    }
 }

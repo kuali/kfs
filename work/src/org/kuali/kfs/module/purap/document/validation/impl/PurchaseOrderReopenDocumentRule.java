@@ -78,7 +78,8 @@ public class PurchaseOrderReopenDocumentRule extends TransactionalDocumentRuleBa
 
         //check the PO status
         String poStatus = document.getStatus().getStatusCode();
-        if (poStatus.equals(PurapConstants.PurchaseOrderStatuses.CLOSED)) {
+        
+        if (!poStatus.equals(PurapConstants.PurchaseOrderStatuses.CLOSED)) {
             valid = false;
         }
         

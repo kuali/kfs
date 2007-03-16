@@ -18,6 +18,7 @@ package org.kuali.module.purap.service.impl;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.Constants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
@@ -27,7 +28,6 @@ import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderDocTypes;
-import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.module.purap.dao.PurchaseOrderDao;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
@@ -119,26 +119,23 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     
     public void updateFlagsAndRoute(PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients) {
-        String oldDocNum = po.getDocumentNumber();
         //PO row that is set to curr_ind to Y, set the pend_action to Y
-        po.setPurchaseOrderCurrentIndicator(true);
         po.setPendingActionIndicator(true);
         save(po);
         try {
             //call toCopy to give us a new documentHeader
             po.toCopy(docType);
             po.refreshNonUpdateableReferences();
-            documentService.routeDocument(po, annotation, adhocRoutingRecipients);
-            //update old po flags
-            PurchaseOrderDocument oldPo = (PurchaseOrderDocument)documentService.getByDocumentHeaderId(oldDocNum);
-            oldPo.setPurchaseOrderCurrentIndicator(false);
-            oldPo.setPendingActionIndicator(false);
-            oldPo.setStatusCode(PurchaseOrderStatuses.CLOSED);
-            save(oldPo);
+            po.setPurchaseOrderCurrentIndicator(false);
+            //I had to set the pending indicator of the new PO here because it had been set to
+            //true in the old PO prior to copy, so since we need it to be false in the new PO,
+            //I'm resetting the pending indicator again to false.
+            po.setPendingActionIndicator(false);
+            documentService.routeDocument(po, annotation, adhocRoutingRecipients);            
         }
         catch (WorkflowException e) {
-            LOG.error("Error creating PO document: " + e.getMessage());
-            throw new RuntimeException("Error setting oldPendingCurrentIndicator on PO document: " + e.getMessage());            
+            LOG.error("Error during updateFlagsAndRoute on PO document: " + e.getMessage());
+            throw new RuntimeException("Error during updateFlagsAndRoute on PO document: " + e.getMessage());            
         }
     }
 
@@ -177,5 +174,38 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             po.setPurchaseOrderInitialOpenDate(dateTimeService.getCurrentSqlDate());
             this.save(po);
         }
+    }
+    
+    public PurchaseOrderDocument getCurrentPurchaseOrder(Integer id) {
+        return purchaseOrderDao.getCurrentPurchaseOrder(id);        
+    }
+    
+    public void setCurrentAndPendingIndicatorsInPostProcessor(PurchaseOrderDocument newPO, String workflowState) {
+        if (workflowState.equals(Constants.DocumentStatusCodes.APPROVED)) {
+            setCurrentAndPendingIndicatorsForApprovedPODocuments(newPO);
+        } 
+        else if (workflowState.equals(Constants.DocumentStatusCodes.DISAPPROVED)) {
+            setCurrentAndPendingIndicatorsForDisapprovedPODocuments(newPO);
+        }
+    }
+    
+    private void setCurrentAndPendingIndicatorsForApprovedPODocuments(PurchaseOrderDocument newPO) {
+        //Get the "current PO" that's in the database, i.e. the PO row that contains current indicator = Y
+        PurchaseOrderDocument oldPO = getCurrentPurchaseOrder(newPO.getPurapDocumentIdentifier());
+        //First, we set the indicators for the oldPO to : Current = N and Pending = N
+        oldPO.setPurchaseOrderCurrentIndicator(false);
+        oldPO.setPendingActionIndicator(false);
+        save(oldPO);
+        //Now, we set the "new PO" indicators so that Current = Y and Pending = N
+        newPO.setPurchaseOrderCurrentIndicator(true);
+        newPO.setPendingActionIndicator(false);        
+    }
+    
+    private void setCurrentAndPendingIndicatorsForDisapprovedPODocuments(PurchaseOrderDocument newPO) {
+        //Get the "current PO" that's in the database, i.e. the PO row that contains current indicator = Y
+        PurchaseOrderDocument oldPO = getCurrentPurchaseOrder(newPO.getPurapDocumentIdentifier());
+        //Set the Pending indicator for the oldPO to N
+        oldPO.setPendingActionIndicator(false);
+        save(oldPO);
     }
 }

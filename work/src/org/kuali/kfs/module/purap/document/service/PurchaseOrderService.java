@@ -31,5 +31,7 @@ public interface PurchaseOrderService {
     public void updateFlagsAndRoute(PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients);
     
     public void completePurchaseOrder(PurchaseOrderDocument po);
+    public PurchaseOrderDocument getCurrentPurchaseOrder(Integer id);
+    public void setCurrentAndPendingIndicatorsInPostProcessor(PurchaseOrderDocument newPO, String workflowState);
 
 }

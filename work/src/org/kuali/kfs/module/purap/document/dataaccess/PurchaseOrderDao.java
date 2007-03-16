@@ -19,7 +19,9 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
 
 public interface PurchaseOrderDao {
 
-    public void save(PurchaseOrderDocument PurchaseOrderDocument);
-
+    public void save(PurchaseOrderDocument purchaseOrderDocument);
+   
     public PurchaseOrderDocument getPurchaseOrderById(Integer id);
+    
+    public PurchaseOrderDocument getCurrentPurchaseOrder(Integer id);
 }

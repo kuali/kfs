@@ -69,5 +69,6 @@ public interface GenesisDao {
    //  referential integrity constraint on it.  so, we provide a method here that
    //  each institution can implement in their genesisDao.)
    public void createNewBCPosition(Integer BaseYear,
-                                   boolean PosSyncAllowed);
+                                   boolean PosSyncAllowed,
+                                   boolean CSFUpdatesAllowed);
 }

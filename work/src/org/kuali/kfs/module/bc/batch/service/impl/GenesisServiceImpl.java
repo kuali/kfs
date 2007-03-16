@@ -49,9 +49,31 @@ public class GenesisServiceImpl implements GenesisService {
           genesisDao.clearHangingBCLocks(currentFiscalYear);
       }
 
+      public void testPositionBuild(Integer currentFiscalYear)
+      {
+          boolean CSFOK     = CSFUpdatesAllowed(currentFiscalYear+1);
+          boolean PSSynchOK = BatchPositionSynchAllowed(currentFiscalYear+1);
+          genesisDao.createNewBCPosition(currentFiscalYear,
+                                         PSSynchOK,
+                                         CSFOK);
+      }
+      
       /*
        *   here are some flag value routines
        */
+      
+      public boolean BatchPositionSynchAllowed(Integer BaseYear)
+      {
+          Integer RequestYear = BaseYear + 1;
+          boolean ReturnValue =
+          (genesisDao.getBudgetConstructionControlFlag(RequestYear,
+                       BudgetConstructionConstants.BUDGET_CONSTRUCTION_GENESIS_RUNNING))||
+          ((genesisDao.getBudgetConstructionControlFlag(RequestYear,
+                       BudgetConstructionConstants.BUDGET_CONSTRUCTION_ACTIVE))&&
+           (genesisDao.getBudgetConstructionControlFlag(RequestYear,
+                       BudgetConstructionConstants.BUDGET_BATCH_SYNCHRONIZATION_OK)));            
+          return ReturnValue;
+      }
     
       public boolean CSFUpdatesAllowed(Integer BaseYear)
       {

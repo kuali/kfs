@@ -23,6 +23,7 @@ public interface GenesisService {
     /*
      * these routines indicate which actions are allowed in genesis
      */ 
+    public boolean BatchPositionSynchAllowed(Integer BaseYear);
     public boolean CSFUpdatesAllowed(Integer BaseYear);
     public boolean GLUpdatesAllowed(Integer BaseYear);
     /*
@@ -51,6 +52,7 @@ public interface GenesisService {
     public void testSLFStep(Integer universityFiscalYear);
     public void testSLFAfterStep(Integer universityFiscalYear);
     public void testLockClearance(Integer currentFiscalYear);
+    public void testPositionBuild(Integer currentFiscalYear);
     
     public void testChartCreation();
     public void testHierarchyCreation(Integer currentFiscalYear);

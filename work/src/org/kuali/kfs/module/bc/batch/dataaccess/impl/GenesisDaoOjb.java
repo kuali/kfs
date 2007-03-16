@@ -2431,7 +2431,8 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
              private Integer returnedCSFFundingStatusCode   = new Integer(7);
              
              public void createNewBCPosition(Integer BaseYear,
-                     boolean PosSyncAllowed)
+                     boolean PosSyncAllowed,
+                     boolean CSFUpdatesAllowed)
              {
                 // do nothing if batch position updates are turned off  
                 if (! PosSyncAllowed)
@@ -2449,7 +2450,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                      readOrgReportsTo();
                  }
                 // read the current positions first
-                 readCurrentPositions();
+                 readCurrentPositions(BaseYear,CSFUpdatesAllowed);
                 //
                 // the positions for the base year are those in ACTIVE lines
                 // in CSF and CSF override
@@ -2465,8 +2466,8 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                 // (we will eliminate positions from lines which are not active,
                 //  because the positions in inactive lines might no longer be
                 //  budgeted, and/or the accounts might no longer be active)
-                 readCSFOverridePositions(BaseYear);
-                 readCSFPositions(BaseYear);
+                 readCSFOverridePositions(BaseYear,CSFUpdatesAllowed);
+                 readCSFPositions(BaseYear,CSFUpdatesAllowed);
                 //  finally, we have to read the position map, and store all the
                 //  positions that do not have a default lock ID, changing the lock
                 //  ID first
@@ -2548,7 +2549,8 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                  return PositionNumber+FiscalYear.toString();
              }
              
-             private void readCSFOverridePositions(Integer BaseYear)
+             private void readCSFOverridePositions(Integer BaseYear,
+                                                   boolean CSFUpdatesAllowed)
              {
                  Integer overridesRead     = new Integer(0);
                  Integer overridePositions = new Integer(0);
@@ -2576,14 +2578,18 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                      overridesRead = overridesRead+1;
                      Object[] rowReturned = (Object[]) resultSet.next();
                      // we know the active rows are not deleted in CSF Override
-                     // so, we just go ahead and build a new position
-                     String testBaseKey = 
-                         positionKey(BaseYear,
-                                     (String) rowReturned[returnedPositionNumber]);
-                     if (! currentBCPosition.containsKey(testBaseKey))
-                     {
-                         buildNewPositionFromCSF(BaseYear,rowReturned);
-                         overridePositions = overridePositions+1;
+                     // so, we just go ahead and build a new position, but only if
+                     // CSF updates are active
+                     if (! CSFUpdatesAllowed)
+                     {    
+                       String testBaseKey = 
+                           positionKey(BaseYear,
+                                      (String) rowReturned[returnedPositionNumber]);
+                       if (! currentBCPosition.containsKey(testBaseKey))
+                       {
+                           buildNewPositionFromCSF(BaseYear,rowReturned);
+                           overridePositions = overridePositions+1;
+                       }
                      }
                      buildRequestYearSpoof(BaseYear+1,rowReturned);
                      overrideRequest = overrideRequest+1;
@@ -2594,14 +2600,14 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                                            overridesRead, overridePositions, overrideRequest));
              }
              
-             private void readCSFPositions(Integer BaseYear)
+             private void readCSFPositions(Integer BaseYear, boolean CSFUpdatesAllowed)
              {
                  Integer csfRead     = new Integer(0);
                  Integer csfPositions = new Integer(0);
                  Integer csfRequest   = new Integer(0);
              //  now, read the active CSF lines    
                  String yearString = BaseYear.toString();
-                 // get the accounting strings for the lines marked deleted in CSF
+                 // get the accounting strings for the lines marked active in CSF
                  Criteria criteriaID = new Criteria();
                  criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
                                              BaseYear);
@@ -2609,7 +2615,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                                           BudgetConstructionConstants.ACTIVE_CSF_LINE);
                  String[] selectList = buildCSFPositionSelectList(); 
                  ReportQueryByCriteria queryID = 
-                     new ReportQueryByCriteria(CalculatedSalaryFoundationTrackerOverride.class,
+                     new ReportQueryByCriteria(CalculatedSalaryFoundationTracker.class,
                                                selectList,criteriaID);
                  Iterator resultSet = 
                      getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
@@ -2617,15 +2623,25 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                  {
                      csfRead = csfRead+1;
                      Object[] rowReturned = (Object[]) resultSet.next();
-                     // we know the active rows are not deleted in CSF Override
-                     // so, we just go ahead and build a new position
-                     String testBaseKey = 
-                         positionKey(BaseYear,
-                                     (String) rowReturned[returnedPositionNumber]);
-                     if (! currentBCPosition.containsKey(testBaseKey))
+                     // do not include any CSF rows which are marked deleted in CSF 
+                     // override
+                     String csfKey = buildDeletedKey(rowReturned);
+                     if (deletedCSFOverridePositions.contains(csfKey))
                      {
-                         buildNewPositionFromCSF(BaseYear,rowReturned);
-                         csfPositions = csfPositions+1;
+                         continue;
+                     }
+                     // if CSF updates are not allowed, we will not include any base year
+                     // position rows
+                     if (CSFUpdatesAllowed)
+                     {
+                       String testBaseKey = 
+                           positionKey(BaseYear,
+                                       (String) rowReturned[returnedPositionNumber]);
+                       if (! currentBCPosition.containsKey(testBaseKey))
+                       {
+                           buildNewPositionFromCSF(BaseYear,rowReturned);
+                           csfPositions = csfPositions+1;
+                       }
                      }
                      buildRequestYearSpoof(BaseYear+1,rowReturned);
                      csfRequest = csfRequest+1;
@@ -2636,11 +2652,30 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                                            csfRead, csfPositions, csfRequest));
              }
              
-             private void readCurrentPositions()
+             private void readCurrentPositions(Integer BaseYear,
+                                               boolean CSFUpdatesAllowed)
              {
-                 QueryByCriteria queryId = 
-                     new QueryByCriteria(BudgetConstructionPosition.class,
-                                         QueryByCriteria.CRITERIA_SELECT_ALL);
+                 QueryByCriteria queryId;
+                 if (CSFUpdatesAllowed) 
+                 {
+                   // we only update the base year if CSF updates are allowed
+                   // we always update the request year
+                   // this code gets both years   
+                   queryId = 
+                       new QueryByCriteria(BudgetConstructionPosition.class,
+                                           QueryByCriteria.CRITERIA_SELECT_ALL);
+                 }
+                 else
+                 {
+                   // base year budget construction positions are frozen
+                   // only update the request year positions  
+                   Integer RequestYear = BaseYear+1;  
+                   Criteria criteriaID = new Criteria();
+                   criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                                         RequestYear);
+                   queryId = 
+                       new QueryByCriteria(BudgetConstructionPosition.class,criteriaID);
+                 }
                  Iterator rowsReturned =
                  getPersistenceBrokerTemplate().getIteratorByQuery(queryId);
                  while (rowsReturned.hasNext())
@@ -2665,6 +2700,12 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                      if (!(testPosition.getPositionLockUserIdentifier().equals(
                              BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS)))
                      {
+                         // store everything that has a "lock"
+                         // this code will also serve to clear hanging locks, although
+                         // we should do that as well in the lock release routine because
+                         // this code doesn't run if the flag is not set
+                         // this mechanism can also permit us to update the default
+                         // object class and set the change flag in the "real" system
                          testPosition.setPositionLockUserIdentifier(
                                  BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
                          getPersistenceBrokerTemplate().store(testPosition);
@@ -2732,6 +2773,11 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                  newBCPosition.setIuDefaultObjectCode((String) rowReturned[returnedFinancialObjectCode]);
                  String acctTestKey = ((String) rowReturned[returnedChartOfAccountsCode])+
                                       ((String) rowReturned[returnedAccountNumber]);
+                 //
+                 //  the RC code should be derived from the department ID on the position
+                 //  in HR.
+                 //  a default is used if no RC can be assigned
+                 newBCPosition.setResponsibilityCenterCode("--");
                  if (acctRptsToMap.containsKey(acctTestKey))
                  {
                    BudgetConstructionAccountReports acctRpts =
@@ -2766,10 +2812,48 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
          *      appointment funding
          ****************************************************************************************
          */
-
+             // the set of new BCSF objects to be written
              private HashMap<String,BudgetConstructionCalculatedSalaryFoundationTracker> bCSF =
                  new HashMap();
-             
+             // the set of existing budget construction appointment funding rows
+             private HashMap<String,PendingBudgetConstructionAppointmentFunding> pndBCApptFndng =
+                 new HashMap();
+             // keys present in the override CSF: none of these keys will load to BCSF from
+             // the actual CSF
+             private HashSet<String> csfOverrideKeys = new HashSet();
+             // EMPLID's in CSF which have more than one active row
+             // we budget in whole dollars, while payroll deals in pennies
+             // we will use this for our complicated rounding algorithm, to prevent
+             // to keep the total budget base salary within a dollar of the payroll salary
+             private HashSet<String> keysNeedingRounding = new HashSet();
+    
+    // this is an inner class which will store the data we need to perform the rounding,
+    // and supply the methods as well         
+    private class roundMechanism
+    {
+        // the idea here is that people split over many lines could lose or gain several
+        // dollars if we rounded each salary line individually.  so, before we round the
+        // salaries in the CSF lines, we add the differences to a running total which
+        // will be added (subtracted) in dollar increments to successive lines until 
+        // the running total is exhausted.
+        private KualiDecimal diffAmount;
+        private ArrayList<BudgetConstructionCalculatedSalaryFoundationTracker> candidateBCSFRows;
+        private void roundMechanism()
+        {
+            this.diffAmount = new KualiDecimal(0);
+            this.candidateBCSFRows = 
+                new ArrayList<BudgetConstructionCalculatedSalaryFoundationTracker>(10);
+        }
+        public void addNewDiff(KualiDecimal csfAmount)
+        {
+            
+        }
+        
+        public void addNewBCSF(BudgetConstructionCalculatedSalaryFoundationTracker bCSF)
+        {
+            candidateBCSFRows.add(bCSF);
+        }
+    }
          
     public void setDocumentService(DocumentService documentService)
     {

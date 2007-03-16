@@ -129,13 +129,15 @@ public class GenesisTest {
       //   these are the current run configurations (to change when workflow is embedded)
       //   for
       //   genesis
-      genesisStep(2007);
+      // genesisStep(2007);
       //   budget construction update
       // bcUpdateStep(2009);
       //
       //    unit tests for Genesis 
       //
       //
+      // update current positions
+        genesisTestService.testPositionBuild(2007);
       // create the proxy BC headers
       /*
  //     genesisTestService.clearDBForGenesis(2009);

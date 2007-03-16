@@ -26,6 +26,8 @@
     <purap:hiddenPurapFields />
     <!-- TODO move this to where? -->
     <html:hidden property="document.requisitionIdentifier" />
+    <html:hidden property="document.purchaseOrderCurrentIndicator" />
+    <html:hidden property="document.pendingActionIndicator" />
 
     <kul:documentOverview editingMode="${KualiForm.editingMode}"
         includePostingYear="true"
@@ -68,10 +70,17 @@
 
     <kul:panelFooter />
 
+
   	<c:set var="extraButtonSource" value="images/buttonsmall_openorder.gif"/>
   	<c:set var="extraButtonProperty" value="methodToCall.reopenPo"/>
   	<c:set var="extraButtonAlt" value="Reopen"/>
   	
+<%-- 
+  	<c:set var="extraButtonSource" value="images/buttonsmall_closeorder.gif"/>
+  	<c:set var="extraButtonProperty" value="methodToCall.closePO"/>
+  	<c:set var="extraButtonAlt" value="Close PO"/>
+
+--%>  	
     <kul:documentControls 
         transactionalDocument="true" 
         extraButtonSource="${extraButtonSource}"

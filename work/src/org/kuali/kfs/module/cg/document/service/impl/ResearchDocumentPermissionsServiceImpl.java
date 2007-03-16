@@ -24,8 +24,8 @@ import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.kra.KraConstants;
-import org.kuali.module.kra.bo.BudgetAdHocOrg;
-import org.kuali.module.kra.bo.BudgetAdHocPermission;
+import org.kuali.module.kra.bo.AdhocOrg;
+import org.kuali.module.kra.bo.AdhocPerson;
 import org.kuali.module.kra.budget.bo.BudgetPermissionType;
 import org.kuali.module.kra.service.ResearchDocumentPermissionsService;
 import org.kuali.workflow.KualiWorkflowUtils;
@@ -47,18 +47,18 @@ public class ResearchDocumentPermissionsServiceImpl implements ResearchDocumentP
     /**
      * @see org.kuali.module.kra.budget.service.BudgetPermissionsService#getBudgetAdHocPermission(String documentNumber, String personUniversalIdentifier)
      */
-    public BudgetAdHocPermission getBudgetAdHocPermission(String documentNumber, String personUniversalIdentifier) {
-        return (BudgetAdHocPermission) businessObjectService.retrieve(new BudgetAdHocPermission(documentNumber, personUniversalIdentifier));
+    public AdhocPerson getBudgetAdHocPermission(String documentNumber, String personUniversalIdentifier) {
+        return (AdhocPerson) businessObjectService.retrieve(new AdhocPerson(documentNumber, personUniversalIdentifier));
     }
     
     /**
      * @see org.kuali.module.kra.budget.service.BudgetPermissionsService#getBudgetAdHocOrgs(String documentNumber, String budgetPermissionCode)
      */
-    public List<BudgetAdHocOrg> getBudgetAdHocOrgs(String documentNumber, String budgetPermissionCode) {
+    public List<AdhocOrg> getBudgetAdHocOrgs(String documentNumber, String budgetPermissionCode) {
         Map fieldValues = new HashMap();
         fieldValues.put(PropertyConstants.DOCUMENT_NUMBER, documentNumber);
         fieldValues.put(PropertyConstants.BUDGET_PERMISSION_CODE, budgetPermissionCode);
-        return new ArrayList(businessObjectService.findMatching(BudgetAdHocOrg.class, fieldValues));
+        return new ArrayList(businessObjectService.findMatching(AdhocOrg.class, fieldValues));
     }
     
     /**

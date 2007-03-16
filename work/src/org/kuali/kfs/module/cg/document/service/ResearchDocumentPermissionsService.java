@@ -17,8 +17,8 @@ package org.kuali.module.kra.service;
 
 import java.util.List;
 
-import org.kuali.module.kra.bo.BudgetAdHocOrg;
-import org.kuali.module.kra.bo.BudgetAdHocPermission;
+import org.kuali.module.kra.bo.AdhocOrg;
+import org.kuali.module.kra.bo.AdhocPerson;
 import org.kuali.module.kra.budget.bo.BudgetPermissionType;
 
 /**
@@ -35,7 +35,7 @@ public interface ResearchDocumentPermissionsService {
      * @param personUniversalIdentifier
      * @return BudgetAdHocPermission
      */
-    public BudgetAdHocPermission getBudgetAdHocPermission(String documentNumber, String personUniversalIdentifier);
+    public AdhocPerson getBudgetAdHocPermission(String documentNumber, String personUniversalIdentifier);
     
     /**
      * Retrieve the ad-hoc orgs for the given documentNumber and budgetPermissionCode.
@@ -44,7 +44,7 @@ public interface ResearchDocumentPermissionsService {
      * @param budgetPermissionCode
      * @return List<BudgetAdHocOrg>
      */
-    public List<BudgetAdHocOrg> getBudgetAdHocOrgs(String documentNumber, String budgetPermissionCode);
+    public List<AdhocOrg> getBudgetAdHocOrgs(String documentNumber, String budgetPermissionCode);
     
     /**
      * Get the list of Budget permission types.

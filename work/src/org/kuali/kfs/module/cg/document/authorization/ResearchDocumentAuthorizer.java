@@ -29,7 +29,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.KraConstants;
-import org.kuali.module.kra.bo.BudgetAdHocPermission;
+import org.kuali.module.kra.bo.AdhocPerson;
 import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.budget.document.BudgetDocumentAuthorizer;
 import org.kuali.module.kra.service.ResearchDocumentPermissionsService;
@@ -49,9 +49,9 @@ public class ResearchDocumentAuthorizer extends DocumentAuthorizerBase {
         KualiWorkflowDocument workflowDocument = researchDocument.getDocumentHeader().getWorkflowDocument();
         
         // Check ad-hoc user permissions
-        BudgetAdHocPermission budgetAdHocPermission = permissionsService.getBudgetAdHocPermission(researchDocument.getDocumentNumber(), u.getPersonUniversalIdentifier());
+        AdhocPerson budgetAdHocPermission = permissionsService.getBudgetAdHocPermission(researchDocument.getDocumentNumber(), u.getPersonUniversalIdentifier());
         if (budgetAdHocPermission != null) {
-            if (KraConstants.PERMISSION_MOD_CODE.equals(budgetAdHocPermission.getBudgetPermissionCode())) {
+            if (KraConstants.PERMISSION_MOD_CODE.equals(budgetAdHocPermission.getPermissionCode())) {
                 permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.FULL_ENTRY);
             } else {
                 permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.VIEW_ONLY);

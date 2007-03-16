@@ -27,9 +27,6 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.web.struts.form.BudgetOverviewFormHelper;
 import org.kuali.module.kra.document.ResearchDocument;
-import org.kuali.module.kra.routingform.bo.RoutingFormAdHocOrg;
-import org.kuali.module.kra.routingform.bo.RoutingFormAdHocPerson;
-import org.kuali.module.kra.routingform.bo.RoutingFormAdHocWorkgroup;
 import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganization;
@@ -64,11 +61,6 @@ public class RoutingForm extends ResearchDocumentFormBase {
     private boolean templateAddress;
     private boolean templateAdHocPermissions;
     private boolean templateAdHocApprovers;
-    
-    //Permissions
-    private RoutingFormAdHocPerson newAdHocPerson;
-    private RoutingFormAdHocOrg newAdHocOrg;
-    private RoutingFormAdHocWorkgroup newAdHocWorkgroup;
     
     private Map systemParametersMap;
     

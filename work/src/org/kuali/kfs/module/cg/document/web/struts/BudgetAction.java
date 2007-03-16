@@ -38,8 +38,8 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.KraKeyConstants;
-import org.kuali.module.kra.bo.BudgetAdHocPermission;
-import org.kuali.module.kra.bo.BudgetAdHocWorkgroup;
+import org.kuali.module.kra.bo.AdhocPerson;
+import org.kuali.module.kra.bo.AdhocWorkgroup;
 import org.kuali.module.kra.budget.rules.event.EnterModularEvent;
 import org.kuali.module.kra.budget.rules.event.RunAuditEvent;
 import org.kuali.module.kra.budget.web.struts.form.BudgetCostShareFormHelper;
@@ -92,8 +92,8 @@ public class BudgetAction extends ResearchDocumentActionBase {
         Object buttonClicked = request.getParameter(Constants.QUESTION_CLICKED_BUTTON);
 
         if ((Constants.DOCUMENT_DELETE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-            budgetForm.setAdHocRoutePersons(convertToAdHocRoutePersons(budgetForm.getBudgetDocument().getAdHocPermissions()));
-            budgetForm.setAdHocRouteWorkgroups(convertToAdHocRouteWorkgroups(budgetForm.getBudgetDocument().getAdHocWorkgroups()));
+            budgetForm.setAdHocRoutePersons(convertToAdHocRoutePersons(budgetForm.getBudgetDocument().getAdhocPersons()));
+            budgetForm.setAdHocRouteWorkgroups(convertToAdHocRouteWorkgroups(budgetForm.getBudgetDocument().getAdhocWorkgroups()));
             return super.route(mapping, form, request, response);
         }
         
@@ -388,9 +388,9 @@ public class BudgetAction extends ResearchDocumentActionBase {
         budgetForm.setNumberOfAcademicYearSubdivisions(Integer.parseInt(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.KRA_BUDGET_NUMBER_OF_ACADEMIC_YEAR_SUBDIVISIONS)));
     }
     
-    private static List<AdHocRoutePerson> convertToAdHocRoutePersons(List<BudgetAdHocPermission> adHocPermissions) {
+    private static List<AdHocRoutePerson> convertToAdHocRoutePersons(List<AdhocPerson> adHocPermissions) {
         List<AdHocRoutePerson> adHocRoutePersons = new ArrayList<AdHocRoutePerson>();
-        for (BudgetAdHocPermission adHocPermission: adHocPermissions) {
+        for (AdhocPerson adHocPermission: adHocPermissions) {
             SpringServiceLocator.getPersistenceService().refreshAllNonUpdatingReferences(adHocPermission);
             AdHocRoutePerson adHocRoutePerson = new AdHocRoutePerson();
             adHocRoutePerson.setId(adHocPermission.getUser().getPersonUserIdentifier());
@@ -400,9 +400,9 @@ public class BudgetAction extends ResearchDocumentActionBase {
         return adHocRoutePersons;
     }
     
-    private static List<AdHocRouteWorkgroup> convertToAdHocRouteWorkgroups(List<BudgetAdHocWorkgroup> adHocWorkgroups) {
+    private static List<AdHocRouteWorkgroup> convertToAdHocRouteWorkgroups(List<AdhocWorkgroup> adHocWorkgroups) {
         List<AdHocRouteWorkgroup> adHocRouteWorkgroups = new ArrayList<AdHocRouteWorkgroup>();
-        for (BudgetAdHocWorkgroup adHocWorkgroup: adHocWorkgroups) {
+        for (AdhocWorkgroup adHocWorkgroup: adHocWorkgroups) {
             SpringServiceLocator.getPersistenceService().refreshAllNonUpdatingReferences(adHocWorkgroup);
             AdHocRouteWorkgroup adHocRouteWorkgroup = new AdHocRouteWorkgroup();
             adHocRouteWorkgroup.setId(adHocWorkgroup.getWorkgroupName());

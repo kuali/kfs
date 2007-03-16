@@ -17,19 +17,19 @@ package org.kuali.module.kra.web.struts.form;
 
 import org.kuali.core.datadictionary.HeaderNavigation;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.module.kra.bo.BudgetAdHocOrg;
-import org.kuali.module.kra.bo.BudgetAdHocPermission;
+import org.kuali.module.kra.bo.AdhocOrg;
+import org.kuali.module.kra.bo.AdhocPerson;
 import org.kuali.module.kra.document.ResearchDocument;
 
 public abstract class ResearchDocumentFormBase extends KualiDocumentFormBase {
     
-    private BudgetAdHocPermission newAdHocPermission;
-    private BudgetAdHocOrg newAdHocOrg;
+    private AdhocPerson newAdHocPerson;
+    private AdhocOrg newAdHocOrg;
     private String newAdHocWorkgroupPermissionCode;
 
     public ResearchDocumentFormBase() {
-        newAdHocPermission = new BudgetAdHocPermission();
-        newAdHocOrg = new BudgetAdHocOrg();
+        newAdHocPerson = new AdhocPerson();
+        newAdHocOrg = new AdhocOrg();
     }
     
     abstract public ResearchDocument getResearchDocument();
@@ -55,28 +55,28 @@ public abstract class ResearchDocumentFormBase extends KualiDocumentFormBase {
     }
     
     /**
-     * Gets the newAdHocPermission attribute.
+     * Gets the newAdHocPerson attribute.
      * 
-     * @return Returns the newAdHocPermission.
+     * @return Returns the newAdHocPerson.
      */
-    public BudgetAdHocPermission getNewAdHocPermission() {
-        return newAdHocPermission;
+    public AdhocPerson getNewAdHocPerson() {
+        return newAdHocPerson;
     }
 
     /**
-     * Sets the newAdHocPermission attribute value.
+     * Sets the newAdHocPerson attribute value.
      * 
-     * @param newAdHocPermission The newAdHocPermission to set.
+     * @param newAdHocPerson The newAdHocPerson to set.
      */
-    public void setNewAdHocPermission(BudgetAdHocPermission newAdHocPermission) {
-        this.newAdHocPermission = newAdHocPermission;
+    public void setNewAdHocPerson(AdhocPerson newAdHocPerson) {
+        this.newAdHocPerson = newAdHocPerson;
     }
     
     /**
      * Gets the newAdHocOrg attribute. 
      * @return Returns the newAdHocOrg.
      */
-    public BudgetAdHocOrg getNewAdHocOrg() {
+    public AdhocOrg getNewAdHocOrg() {
         return newAdHocOrg;
     }
 
@@ -84,7 +84,7 @@ public abstract class ResearchDocumentFormBase extends KualiDocumentFormBase {
      * Sets the newAdHocOrg attribute value.
      * @param newAdHocOrg The newAdHocOrg to set.
      */
-    public void setNewAdHocOrg(BudgetAdHocOrg newAdHocOrg) {
+    public void setNewAdHocOrg(AdhocOrg newAdHocOrg) {
         this.newAdHocOrg = newAdHocOrg;
     }
 

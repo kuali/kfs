@@ -23,11 +23,10 @@ import org.kuali.core.document.Copyable;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.kra.bo.BudgetAdHocOrg;
-import org.kuali.module.kra.bo.BudgetAdHocPermission;
-import org.kuali.module.kra.bo.BudgetAdHocWorkgroup;
+import org.kuali.module.kra.bo.AdhocOrg;
+import org.kuali.module.kra.bo.AdhocPerson;
+import org.kuali.module.kra.bo.AdhocWorkgroup;
 import org.kuali.module.kra.service.ResearchDocumentService;
-import org.springframework.beans.BeansException;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -37,18 +36,18 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public abstract class ResearchDocumentBase extends TransactionalDocumentBase implements ResearchDocument, Copyable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ResearchDocumentBase.class);
 
-    private List<BudgetAdHocPermission> adHocPermissions;
-    private List<BudgetAdHocOrg> adHocOrgs;
-    private List<BudgetAdHocWorkgroup> adHocWorkgroups;
+    private List<AdhocPerson> adhocPersons;
+    private List<AdhocOrg> adhocOrgs;
+    private List<AdhocWorkgroup> adhocWorkgroups;
 
     /**
      * Sets up the collection instances and common document attributes.
      */
     public ResearchDocumentBase() {
         super();
-        adHocPermissions = new ArrayList<BudgetAdHocPermission>();
-        adHocOrgs = new ArrayList<BudgetAdHocOrg>();
-        adHocWorkgroups = new ArrayList<BudgetAdHocWorkgroup>();
+        adhocPersons = new ArrayList<AdhocPerson>();
+        adhocOrgs = new ArrayList<AdhocOrg>();
+        adhocWorkgroups = new ArrayList<AdhocWorkgroup>();
     }
 
     /**
@@ -62,92 +61,92 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase imp
     }
 
     /**
-     * Gets the adHocPermissions attribute.
+     * Gets the adhocPersons attribute.
      * 
-     * @return Returns the adHocPermissions.
+     * @return Returns the adhocPersons.
      */
-    public List<BudgetAdHocPermission> getAdHocPermissions() {
-        return adHocPermissions;
+    public List<AdhocPerson> getAdhocPersons() {
+        return adhocPersons;
     }
 
     /**
-     * Sets the adHocPermissions attribute value.
+     * Sets the adhocPersons attribute value.
      * 
-     * @param adHocPermissions The adHocPermissions to set.
+     * @param adhocPersons The adhocPersons to set.
      */
-    public void setAdHocPermissions(List<BudgetAdHocPermission> adHocPermissions) {
-        this.adHocPermissions = adHocPermissions;
+    public void setAdhocPersons(List<AdhocPerson> adhocPersons) {
+        this.adhocPersons = adhocPersons;
     }
 
     /**
-     * Gets the BudgetAdHocPermission item at given index.
+     * Gets the AdhocPerson item at given index.
      * 
      * @param index
-     * @return BudgetAdHocPermission
+     * @return AdhocPerson
      */
-    public BudgetAdHocPermission getBudgetAdHocPermissionItem(int index) {
-        while (this.getAdHocPermissions().size() <= index) {
-            this.getAdHocPermissions().add(new BudgetAdHocPermission());
+    public AdhocPerson getAdhocPersonItem(int index) {
+        while (this.getAdhocPersons().size() <= index) {
+            this.getAdhocPersons().add(new AdhocPerson());
         }
-        return this.getAdHocPermissions().get(index);
+        return this.getAdhocPersons().get(index);
     }
 
     /**
-     * Gets the adHocOrgs attribute.
+     * Gets the adhocOrgs attribute.
      * 
-     * @return Returns the adHocOrgs.
+     * @return Returns the adhocOrgs.
      */
-    public List<BudgetAdHocOrg> getAdHocOrgs() {
-        return adHocOrgs;
+    public List<AdhocOrg> getAdhocOrgs() {
+        return adhocOrgs;
     }
 
     /**
-     * Sets the adHocOrgs attribute value.
+     * Sets the adhocOrgs attribute value.
      * 
-     * @param adHocOrgs The adHocOrgs to set.
+     * @param adhocOrgs The adhocOrgs to set.
      */
-    public void setAdHocOrgs(List<BudgetAdHocOrg> adHocOrgs) {
-        this.adHocOrgs = adHocOrgs;
+    public void setAdhocOrgs(List<AdhocOrg> adhocOrgs) {
+        this.adhocOrgs = adhocOrgs;
     }
 
     /**
-     * Gets the BudgetAdHocOrg item at given index.
+     * Gets the BudgetAdhocOrg item at given index.
      * 
      * @param index
-     * @return BudgetAdHocOrg
+     * @return BudgetAdhocOrg
      */
-    public BudgetAdHocOrg getBudgetAdHocOrgItem(int index) {
-        while (this.getAdHocOrgs().size() <= index) {
-            this.getAdHocOrgs().add(new BudgetAdHocOrg());
+    public AdhocOrg getAdhocOrgItem(int index) {
+        while (this.getAdhocOrgs().size() <= index) {
+            this.getAdhocOrgs().add(new AdhocOrg());
         }
-        return this.getAdHocOrgs().get(index);
+        return this.getAdhocOrgs().get(index);
     }
 
-    public List<BudgetAdHocWorkgroup> getAdHocWorkgroups() {
-        return adHocWorkgroups;
+    public List<AdhocWorkgroup> getAdhocWorkgroups() {
+        return adhocWorkgroups;
     }
 
-    public void setAdHocWorkgroups(List<BudgetAdHocWorkgroup> adHocWorkgroups) {
-        this.adHocWorkgroups = adHocWorkgroups;
+    public void setAdhocWorkgroups(List<AdhocWorkgroup> adhocWorkgroups) {
+        this.adhocWorkgroups = adhocWorkgroups;
     }
 
     /**
-     * Gets the BudgetAdHocWorkgroup item at given index.
+     * Gets the AdhocWorkgroup item at given index.
      * 
      * @param index
-     * @return BudgetAdHocWorkgroup
+     * @return AdhocWorkgroup
      */
-    public BudgetAdHocWorkgroup getBudgetAdHocWorkgroupItem(int index) {
-        while (this.getAdHocWorkgroups().size() <= index) {
-            this.getAdHocWorkgroups().add(new BudgetAdHocWorkgroup());
+    public AdhocWorkgroup getAdhocWorkgroupItem(int index) {
+        while (this.getAdhocWorkgroups().size() <= index) {
+            this.getAdhocWorkgroups().add(new AdhocWorkgroup());
         }
-        return this.getAdHocWorkgroups().get(index);
+        return this.getAdhocWorkgroups().get(index);
     }
 
     /**
      * Build the xml to use when generating the workflow org routing report.
      * 
-     * @param List<BudgetAdHocOrg> orgs
+     * @param List<AdhocOrg> orgs
      * @param boolean encloseContent - whether the generated xml should be enclosed within a <documentContent> tag
      * @return String
      */
@@ -156,8 +155,8 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase imp
         if (encloseContent) {
             xml.append("<documentContent>");
         }
-        List<BudgetAdHocOrg> orgs = SpringServiceLocator.getResearchDocumentPermissionsService().getBudgetAdHocOrgs(this.getDocumentNumber(), permissionTypeCode);
-        for (BudgetAdHocOrg org : orgs) {
+        List<AdhocOrg> orgs = SpringServiceLocator.getResearchDocumentPermissionsService().getBudgetAdHocOrgs(this.getDocumentNumber(), permissionTypeCode);
+        for (AdhocOrg org : orgs) {
             xml.append("<chartOrg><chartOfAccountsCode>");
             xml.append(org.getFiscalCampusCode());
             xml.append("</chartOfAccountsCode><organizationCode>");
@@ -196,6 +195,4 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase imp
         }
 
     }
-
-
 }

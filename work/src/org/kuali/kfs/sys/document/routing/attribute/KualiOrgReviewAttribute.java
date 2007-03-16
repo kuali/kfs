@@ -409,7 +409,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
                     String xpathExp = null;
                     if (KualiWorkflowUtils.isMaintenanceDocument(docType)) {
                         xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("kualiUser").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
-                    } else if (KualiWorkflowUtils.KRA_BUDGET_DOC_TYPE.equalsIgnoreCase(docType.getName())) {
+                    } else if (KualiWorkflowUtils.KRA_BUDGET_DOC_TYPE.equalsIgnoreCase(docType.getName()) || KualiWorkflowUtils.KRA_ROUTING_FORM_DOC_TYPE.equalsIgnoreCase(docType.getName())) {
                         xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("chartOrg").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
                     }
                     else {
@@ -510,7 +510,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
             if (KualiWorkflowUtils.isMaintenanceDocument(docType)) {
                 return null;
             }
-            else if (KualiWorkflowUtils.KRA_BUDGET_DOC_TYPE.equalsIgnoreCase(docType.getName())) {
+            else if (KualiWorkflowUtils.KRA_BUDGET_DOC_TYPE.equalsIgnoreCase(docType.getName()) || KualiWorkflowUtils.KRA_ROUTING_FORM_DOC_TYPE.equalsIgnoreCase(docType.getName())) {
                 return null;
             }
             else if (KualiWorkflowUtils.isSourceLineOnly(docType.getName())) {

@@ -338,9 +338,9 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         referenceObjects.add("routingFormResearchRisks");
         referenceObjects.add("routingFormOrganizations");
         referenceObjects.add("routingFormQuestions");
-        referenceObjects.add("adHocPermissions");
-        referenceObjects.add("adHocOrgs");
-        referenceObjects.add("adHocWorkgroups");
+        referenceObjects.add("adhocPersons");
+        referenceObjects.add("adhocOrgs");
+        referenceObjects.add("adhocWorkgroups");
 
         SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(routingFormDocument, referenceObjects);
     }

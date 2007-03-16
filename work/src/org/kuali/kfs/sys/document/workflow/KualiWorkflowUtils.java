@@ -84,7 +84,8 @@ public class KualiWorkflowUtils {
     public static final String FIS_USER_DOC_TYPE = "KualiUserMaintenanceDocument";
     public static final String ORGANIZATION_DOC_TYPE = "KualiOrganizationMaintenanceDocument";
     public static final String PROJECT_CODE_DOC_TYPE = "KualiProjectCodeMaintenanceDocument";
-     public static final String KRA_BUDGET_DOC_TYPE = "KualiBudgetDocument";
+    public static final String KRA_BUDGET_DOC_TYPE = "KualiBudgetDocument";
+    public static final String KRA_ROUTING_FORM_DOC_TYPE = "KualiRoutingFormDocument";
     public static final String SIMPLE_MAINTENANCE_DOC_TYPE = "KualiSimpleMaintenanceDocument";
     
     public class RouteLevels {

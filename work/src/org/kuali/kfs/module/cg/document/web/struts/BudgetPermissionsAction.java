@@ -35,9 +35,9 @@ import org.kuali.core.rule.event.AddAdHocRouteWorkgroupEvent;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.KraKeyConstants;
-import org.kuali.module.kra.bo.BudgetAdHocOrg;
-import org.kuali.module.kra.bo.BudgetAdHocPermission;
-import org.kuali.module.kra.bo.BudgetAdHocWorkgroup;
+import org.kuali.module.kra.bo.AdhocOrg;
+import org.kuali.module.kra.bo.AdhocPerson;
+import org.kuali.module.kra.bo.AdhocWorkgroup;
 import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 
@@ -55,15 +55,15 @@ public class BudgetPermissionsAction extends BudgetAction {
 
         BudgetForm budgetForm = (BudgetForm) form;
 
-        List adHocPermissions = budgetForm.getBudgetDocument().getAdHocPermissions();
-        List adHocOrgs = budgetForm.getBudgetDocument().getAdHocOrgs();
-        List adHocWorkgroups = budgetForm.getBudgetDocument().getAdHocWorkgroups();
+        List adhocPermissions = budgetForm.getBudgetDocument().getAdhocPersons();
+        List adhocOrgs = budgetForm.getBudgetDocument().getAdhocOrgs();
+        List adhocWorkgroups = budgetForm.getBudgetDocument().getAdhocWorkgroups();
         
         this.load(mapping, budgetForm, request, response);
 
-        budgetForm.getBudgetDocument().setAdHocPermissions(adHocPermissions);
-        budgetForm.getBudgetDocument().setAdHocOrgs(adHocOrgs);
-        budgetForm.getBudgetDocument().setAdHocWorkgroups(adHocWorkgroups);
+        budgetForm.getBudgetDocument().setAdhocPersons(adhocPermissions);
+        budgetForm.getBudgetDocument().setAdhocOrgs(adhocOrgs);
+        budgetForm.getBudgetDocument().setAdhocWorkgroups(adhocWorkgroups);
         
         ActionForward forward = super.save(mapping, budgetForm, request, response);
         
@@ -78,8 +78,8 @@ public class BudgetPermissionsAction extends BudgetAction {
         
         BudgetForm budgetForm = (BudgetForm) form;
         
-        budgetForm.setNewAdHocPermission(new BudgetAdHocPermission());
-        budgetForm.setNewAdHocOrg(new BudgetAdHocOrg());
+        budgetForm.setNewAdHocPerson(new AdhocPerson());
+        budgetForm.setNewAdHocOrg(new AdhocOrg());
         budgetForm.setNewAdHocRouteWorkgroup(new AdHocRouteWorkgroup());
         budgetForm.setNewAdHocWorkgroupPermissionCode("");
         

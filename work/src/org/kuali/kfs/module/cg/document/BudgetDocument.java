@@ -40,7 +40,7 @@ import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
 import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.KraConstants;
-import org.kuali.module.kra.bo.BudgetAdHocOrg;
+import org.kuali.module.kra.bo.AdhocOrg;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
@@ -344,9 +344,9 @@ public class BudgetDocument extends ResearchDocumentBase {
     public List buildListOfDeletionAwareLists() {
         List list = new ArrayList();
         
-        list.add(this.getAdHocPermissions());
-        list.add(this.getAdHocOrgs()); 
-        list.add(this.getAdHocWorkgroups());
+        list.add(this.getAdhocPersons());
+        list.add(this.getAdhocOrgs()); 
+        list.add(this.getAdhocWorkgroups());
             
         Budget budget = this.getBudget();
             list.add(budget.getTasks());
@@ -403,7 +403,7 @@ public class BudgetDocument extends ResearchDocumentBase {
         referenceObjects.add("personnel");
         referenceObjects.add("institutionCostShareItems");
         SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(budget, referenceObjects);
-        this.refreshReferenceObject("adHocOrgs");
+        this.refreshReferenceObject("adhocOrgs");
         
         StringBuffer xml = new StringBuffer("<documentContent>");
         xml.append(buildProjectDirectorReportXml(false));
@@ -459,7 +459,7 @@ public class BudgetDocument extends ResearchDocumentBase {
     /**
      * Build the xml to use when generating the workflow org routing report.
      * 
-     * @param List<BudgetAdHocOrg> orgs
+     * @param List<BudgetAdhocOrg> orgs
      * @param boolean encloseContent - whether the generated xml should be enclosed within a <documentContent> tag
      * @return String
      */
@@ -498,7 +498,7 @@ public class BudgetDocument extends ResearchDocumentBase {
     /**
      * Build the xml to use when generating the workflow org routing report.
      * 
-     * @param List<BudgetAdHocOrg> orgs
+     * @param List<BudgetAdhocOrg> orgs
      * @param boolean encloseContent - whether the generated xml should be enclosed within a <documentContent> tag
      * @return String
      */
@@ -507,8 +507,8 @@ public class BudgetDocument extends ResearchDocumentBase {
         if (encloseContent) {
             xml.append("<documentContent>");
         }
-        List<BudgetAdHocOrg> orgs = this.getAdHocOrgs();
-        for (BudgetAdHocOrg org: orgs) {
+        List<AdhocOrg> orgs = this.getAdhocOrgs();
+        for (AdhocOrg org: orgs) {
             xml.append("<chartOrg><chartOfAccountsCode>");
             xml.append(org.getFiscalCampusCode());
             xml.append("</chartOfAccountsCode><organizationCode>");

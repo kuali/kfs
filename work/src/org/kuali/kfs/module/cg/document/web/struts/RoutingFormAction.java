@@ -133,9 +133,9 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
     public ActionForward permissions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         RoutingForm routingForm = (RoutingForm) form;
         List referenceObjects = new ArrayList();
-        referenceObjects.add("adHocPermissions");
-        referenceObjects.add("adHocOrgs");
-        referenceObjects.add("adHocWorkgroups");
+        referenceObjects.add("adhocPersons");
+        referenceObjects.add("adhocOrgs");
+        referenceObjects.add("adhocWorkgroups");
         SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(routingForm.getRoutingFormDocument(), referenceObjects);
         for(RoutingFormPersonnel routingFormPerson : routingForm.getRoutingFormDocument().getRoutingFormPersonnel()) {
             routingFormPerson.refresh();

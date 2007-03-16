@@ -249,15 +249,15 @@
         <foreignkey field-id-ref="1" />
     </reference-descriptor>
     
-    <collection-descriptor name="adHocPermissions" proxy="true" element-class-ref="org.kuali.module.kra.bo.BudgetAdHocPermission" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <collection-descriptor name="adhocPersons" proxy="true" element-class-ref="org.kuali.module.kra.bo.AdhocPerson" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
     
-    <collection-descriptor name="adHocOrgs" proxy="true" element-class-ref="org.kuali.module.kra.bo.BudgetAdHocOrg" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <collection-descriptor name="adhocOrgs" proxy="true" element-class-ref="org.kuali.module.kra.bo.AdhocOrg" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
     
-    <collection-descriptor name="adHocWorkgroups" proxy="true" element-class-ref="org.kuali.module.kra.bo.BudgetAdHocWorkgroup" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <collection-descriptor name="adhocWorkgroups" proxy="true" element-class-ref="org.kuali.module.kra.bo.AdhocWorkgroup" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
@@ -323,44 +323,44 @@
     </collection-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.kra.bo.BudgetAdHocPermission" table="ER_ADHOC_PRSN_T">
+<class-descriptor class="org.kuali.module.kra.bo.AdhocPerson" table="ER_ADHOC_PRSN_T">
     <field-descriptor name="documentNumber" column="RDOC_NBR" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="personUniversalIdentifier" column="PRSN_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="actionRequested" column="ACTN_RQST_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="adhocTypeCode" column="ADHOC_TYP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="budgetPermissionCode" column="PRSN_PRMSN_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="permissionCode" column="PRSN_PRMSN_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="addedByPerson" column="PRSN_ADD_BY_UNVL_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="personAddedTimestamp" column="PRSN_ADD_TS" jdbc-type="TIMESTAMP" />
-    <field-descriptor name="actionRequestCode" column="ACTN_RQST_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="adhocTypeCode" column="ADHOC_TYP_CD" jdbc-type="VARCHAR" />
     <reference-descriptor name="user" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="personUniversalIdentifier" />
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.kra.bo.BudgetAdHocOrg" table="ER_ADHOC_ORG_T">
+<class-descriptor class="org.kuali.module.kra.bo.AdhocOrg" table="ER_ADHOC_ORG_T">
     <field-descriptor name="documentNumber" column="RDOC_NBR" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="actionRequested" column="ACTN_RQST_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="adhocTypeCode" column="ADHOC_TYP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="fiscalCampusCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="primaryDepartmentCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="budgetPermissionCode" column="ORG_PRMSN_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="permissionCode" column="ORG_PRMSN_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="addedByPerson" column="PRSN_ADD_BY_UNVL_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="personAddedTimestamp" column="PRSN_ADD_TS" jdbc-type="TIMESTAMP" />
-    <field-descriptor name="actionRequestCode" column="ACTN_RQST_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="adhocTypeCode" column="ADHOC_TYP_CD" jdbc-type="VARCHAR" />
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.kra.bo.BudgetAdHocWorkgroup" table="ER_ADHOC_WKGRP_T">
+<class-descriptor class="org.kuali.module.kra.bo.AdhocWorkgroup" table="ER_ADHOC_WKGRP_T">
     <field-descriptor name="documentNumber" column="RDOC_NBR" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="actionRequested" column="ACTN_RQST_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="adhocTypeCode" column="ADHOC_TYP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="workgroupName" column="WKGRP_ID" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="budgetPermissionCode" column="WKGRP_PRMSN_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="permissionCode" column="WKGRP_PRMSN_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="addedByPerson" column="PRSN_ADD_BY_UNVL_ID" jdbc-type="VARCHAR" />
     <field-descriptor name="personAddedTimestamp" column="PRSN_ADD_TS" jdbc-type="TIMESTAMP" />
-    <field-descriptor name="actionRequestCode" column="ACTN_RQST_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="adhocTypeCode" column="ADHOC_TYP_CD" jdbc-type="VARCHAR" />
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.budget.bo.AgencyExtension" table="ER_AGNCY_EXTNS_T">
@@ -764,15 +764,15 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
     
-    <collection-descriptor name="adHocPermissions" proxy="true" element-class-ref="org.kuali.module.kra.bo.BudgetAdHocPermission" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <collection-descriptor name="adhocPersons" proxy="true" element-class-ref="org.kuali.module.kra.bo.AdhocPerson" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
     
-    <collection-descriptor name="adHocOrgs" proxy="true" element-class-ref="org.kuali.module.kra.bo.BudgetAdHocOrg" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <collection-descriptor name="adhocOrgs" proxy="true" element-class-ref="org.kuali.module.kra.bo.AdhocOrg" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
     
-    <collection-descriptor name="adHocWorkgroups" proxy="true" element-class-ref="org.kuali.module.kra.bo.BudgetAdHocWorkgroup" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <collection-descriptor name="adhocWorkgroups" proxy="true" element-class-ref="org.kuali.module.kra.bo.AdhocWorkgroup" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 </class-descriptor>

@@ -23,17 +23,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.Constants;
-import org.kuali.core.bo.user.AuthenticationUserId;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.kra.KraKeyConstants;
-import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
-import org.kuali.module.kra.routingform.bo.RoutingFormAdHocOrg;
-import org.kuali.module.kra.routingform.bo.RoutingFormAdHocPerson;
-import org.kuali.module.kra.routingform.bo.RoutingFormAdHocWorkgroup;
-import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 
 /**
@@ -48,15 +37,15 @@ public class RoutingFormPermissionsAction extends RoutingFormAction {
 
         RoutingForm routingForm = (RoutingForm) form;
 
-        List adHocPermissions = routingForm.getRoutingFormDocument().getAdHocPermissions();
-        List adHocOrgs = routingForm.getRoutingFormDocument().getAdHocOrgs();
-        List adHocWorkgroups = routingForm.getRoutingFormDocument().getAdHocWorkgroups();
+        List adhocPersons = routingForm.getRoutingFormDocument().getAdhocPersons();
+        List adhocOrgs = routingForm.getRoutingFormDocument().getAdhocOrgs();
+        List adhocWorkgroups = routingForm.getRoutingFormDocument().getAdhocWorkgroups();
         
         this.load(mapping, routingForm, request, response);
 
-        routingForm.getRoutingFormDocument().setAdHocPermissions(adHocPermissions);
-        routingForm.getRoutingFormDocument().setAdHocOrgs(adHocOrgs);
-        routingForm.getRoutingFormDocument().setAdHocWorkgroups(adHocWorkgroups);
+        routingForm.getRoutingFormDocument().setAdhocPersons(adhocPersons);
+        routingForm.getRoutingFormDocument().setAdhocOrgs(adhocOrgs);
+        routingForm.getRoutingFormDocument().setAdhocWorkgroups(adhocWorkgroups);
         
         ActionForward forward = super.save(mapping, routingForm, request, response);
         

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.kra.bo.AdhocWorkgroup">
+    
+    	<customAttributeEnabled>false</customAttributeEnabled>
+    	
+    	<attributes>
+    	
+    		<attribute name="documentNumber" forceUppercase="true">
+                <label>Document Number</label>
+                <shortLabel>Document Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+
+                <control>
+                    <text size="8" />
+                </control>
+
+                <summary>Document Number...</summary>
+                <description>Document Number...</description>
+            </attribute>
+            
+			<attribute name="workgroupName">
+                <label>Workgroup Identifier</label>
+                <shortLabel>Workgroup</shortLabel>
+
+                <maxLength>70</maxLength>
+                <required>true</required>
+                <control>
+                    <text size="72" />
+                </control>
+
+                <summary>
+                    ID of ad-hoc workgroup.
+                </summary>
+                <description>The name of the registered workgroup that receives the document ad hoc for the Action Requested.</description>
+            </attribute>
+            
+            <attribute name="permissionCode">
+                <label>Permission Type</label>
+                <maxLength>2</maxLength>
+                <control>
+                    <select valuesFinderClass="org.kuali.module.kra.lookup.keyvalues.BudgetPermissionTypeValuesFinder" />
+                </control>
+                <summary>Permission Type</summary>
+                <description>The level of action a permitted user is allowed to take on the document.</description>
+            </attribute>
+            
+            <attribute name="addedByPerson" forceUppercase="true">
+                <label>Added By Person</label>
+                <shortLabel>prsnAdd</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+
+                <control>
+                    <text size="20" />
+                </control>
+
+                <summary>Added By Person</summary>
+                <description>Added By Person summary...</description>
+            </attribute>
+            
+            <attribute name="personAddedTimestamp" forceUppercase="false">
+                <label>Person Added Timestamp</label>
+                <shortLabel>prsnAddTs</shortLabel>
+
+                <maxLength>10</maxLength>
+
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>Person Added Timestamp</summary>
+                <description>Person Added Timestamp description</description>
+            </attribute>
+            
+            <attribute name="objectId" forceUppercase="true">
+                <label>Object Id</label>
+                <shortLabel>GUID</shortLabel>
+
+                <maxLength>36</maxLength>
+
+                <validationPattern>
+                    <anyCharacter />
+                </validationPattern>
+
+                <control>
+                    <text size="36" />
+                </control>
+
+                <summary>objectId summary...</summary>
+                <description>objectId description...</description>
+            </attribute>
+
+            <attribute name="versionNumber" forceUppercase="true">
+                <label>Version Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>10</maxLength>
+
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+
+                <control>
+                    <text size="-1" />
+                </control>
+
+                <summary>versionNumber summary...</summary>
+                <description>versionNumber description...</description>
+            </attribute>
+    	
+    	</attributes>
+    	
+    </businessObject>
+</dictionaryEntry>

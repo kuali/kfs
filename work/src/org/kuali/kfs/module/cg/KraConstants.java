@@ -151,6 +151,10 @@ public class KraConstants extends JstlConstants {
     public static final String CO_PROJECT_DIRECTOR_CODE = "C";
     public static final String CONTACT_PERSON_ADMINISTRATIVE_CODE = "M";
     public static final String CONTACT_PERSON_PROPOSAL_CODE = "N";
+    
+    // Ad hoc types
+    public static final String AD_HOC_PERMISSION = "P";
+    public static final String AD_HOC_APPROVER = "A";
 
     public static class AuthorizationConstants extends org.kuali.core.authorization.AuthorizationConstants.EditMode {
         public static final String BUDGET_LINKED = "budgetLinked";

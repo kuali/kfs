@@ -25,6 +25,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.core.document.Copyable;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
@@ -58,6 +59,8 @@ public class RoutingFormTemplateAction extends RoutingFormAction {
         
         // Clear Research Risks
         routingFormDoc.setRoutingFormResearchRisks(new ArrayList<RoutingFormResearchRisk>());
+        
+        ObjectUtils.materializeSubObjectsToDepth(routingFormDoc, 2);
         
         // Clear Link to Budget if it exists.
         routingForm.getRoutingFormDocument().setRoutingFormBudgetNumber(null);

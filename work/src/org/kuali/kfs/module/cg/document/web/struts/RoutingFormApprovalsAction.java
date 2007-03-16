@@ -15,6 +15,38 @@
  */
 package org.kuali.module.kra.routingform.web.struts.action;
 
-public class RoutingFormApprovalsAction extends RoutingFormAction {
+import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
+
+public class RoutingFormApprovalsAction extends RoutingFormAction {
+    
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        RoutingForm routingForm = (RoutingForm) form;
+
+        List adhocPersons = routingForm.getRoutingFormDocument().getAdhocPersons();
+        List adhocOrgs = routingForm.getRoutingFormDocument().getAdhocOrgs();
+        List adhocWorkgroups = routingForm.getRoutingFormDocument().getAdhocWorkgroups();
+        
+        this.load(mapping, routingForm, request, response);
+
+        routingForm.getRoutingFormDocument().setAdhocPersons(adhocPersons);
+        routingForm.getRoutingFormDocument().setAdhocOrgs(adhocOrgs);
+        routingForm.getRoutingFormDocument().setAdhocWorkgroups(adhocWorkgroups);
+        
+        ActionForward forward = super.save(mapping, routingForm, request, response);
+        
+        routingForm.getRoutingFormDocument().populateDocumentForRouting();
+        routingForm.getRoutingFormDocument().getDocumentHeader().getWorkflowDocument().saveRoutingData();
+        
+        return forward;
+    }
 }

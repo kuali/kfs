@@ -111,9 +111,9 @@ public class BudgetParametersAction extends BudgetAction {
         SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(budgetForm.getBudgetDocument().getBudget(), referenceObjects);
         
         List docReferenceObjects = new ArrayList();
-        docReferenceObjects.add("adHocPermissions");
-        docReferenceObjects.add("adHocOrgs");
-        docReferenceObjects.add("adHocWorkgroups");
+        docReferenceObjects.add("adhocPersons");
+        docReferenceObjects.add("adhocOrgs");
+        docReferenceObjects.add("adhocWorkgroups");
         
         SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(budgetForm.getBudgetDocument(), docReferenceObjects);
 

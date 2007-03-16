@@ -31,14 +31,14 @@ import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.rule.event.AddAdHocRoutePersonEvent;
 import org.kuali.core.rule.event.AddAdHocRouteWorkgroupEvent;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.action.KualiDocumentActionBase;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.KraKeyConstants;
-import org.kuali.module.kra.bo.BudgetAdHocOrg;
-import org.kuali.module.kra.bo.BudgetAdHocPermission;
-import org.kuali.module.kra.bo.BudgetAdHocWorkgroup;
-import org.kuali.module.kra.budget.document.BudgetDocument;
-import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
+import org.kuali.module.kra.bo.AdhocOrg;
+import org.kuali.module.kra.bo.AdhocPerson;
+import org.kuali.module.kra.bo.AdhocWorkgroup;
 import org.kuali.module.kra.document.ResearchDocument;
 import org.kuali.module.kra.web.struts.form.ResearchDocumentFormBase;
 
@@ -98,15 +98,21 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
         boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new AddAdHocRoutePersonEvent(researchDocument, (AdHocRoutePerson) researchForm.getNewAdHocRoutePerson()));
         
         if (rulePassed) {
-            BudgetAdHocPermission newAdHocPermission = researchForm.getNewAdHocPermission();
+            AdhocPerson newAdHocPermission = researchForm.getNewAdHocPerson();
             UniversalUser user = SpringServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(adHocRoutePerson.getId()));
             newAdHocPermission.setPersonUniversalIdentifier(user.getPersonUniversalIdentifier());
             user.setPersonUserIdentifier(StringUtils.upperCase(user.getPersonUserIdentifier()));
+            if (adHocRoutePerson.getActionRequested() == null || StringUtils.isBlank(adHocRoutePerson.getActionRequested())) {
+                newAdHocPermission.setAdhocTypeCode(KraConstants.AD_HOC_PERMISSION);
+            } else {
+                newAdHocPermission.setActionRequested(adHocRoutePerson.getActionRequested());
+                newAdHocPermission.setAdhocTypeCode(KraConstants.AD_HOC_APPROVER);
+            }
             newAdHocPermission.setUser(user);
             newAdHocPermission.setPersonAddedTimestamp(SpringServiceLocator.getDateTimeService().getCurrentTimestamp());
             newAdHocPermission.setAddedByPerson(SpringServiceLocator.getWebAuthenticationService().getNetworkId(request));
-            researchDocument.getAdHocPermissions().add(newAdHocPermission);
-            researchForm.setNewAdHocPermission(new BudgetAdHocPermission());
+            researchDocument.getAdhocPersons().add(newAdHocPermission);
+            researchForm.setNewAdHocPerson(new AdhocPerson());
             researchForm.setNewAdHocRoutePerson(new AdHocRoutePerson());
         }
 
@@ -131,11 +137,17 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
                 new AddAdHocRouteWorkgroupEvent(researchDocument, (AdHocRouteWorkgroup) researchForm.getNewAdHocRouteWorkgroup()));
         
         if (rulePassed) {
-            BudgetAdHocWorkgroup newAdHocWorkgroup = new BudgetAdHocWorkgroup(adHocRouteWorkgroup.getId());
-            newAdHocWorkgroup.setBudgetPermissionCode(researchForm.getNewAdHocWorkgroupPermissionCode());
+            AdhocWorkgroup newAdHocWorkgroup = new AdhocWorkgroup(adHocRouteWorkgroup.getId());
+            if (adHocRouteWorkgroup.getActionRequested() == null) {
+                newAdHocWorkgroup.setAdhocTypeCode(KraConstants.AD_HOC_PERMISSION);
+            } else {
+                newAdHocWorkgroup.setActionRequested(adHocRouteWorkgroup.getActionRequested());
+                newAdHocWorkgroup.setAdhocTypeCode(KraConstants.AD_HOC_APPROVER);
+            }
+            newAdHocWorkgroup.setPermissionCode(researchForm.getNewAdHocWorkgroupPermissionCode());
             newAdHocWorkgroup.setPersonAddedTimestamp(SpringServiceLocator.getDateTimeService().getCurrentTimestamp());
             newAdHocWorkgroup.setAddedByPerson(SpringServiceLocator.getWebAuthenticationService().getNetworkId(request));
-            researchDocument.getAdHocWorkgroups().add(newAdHocWorkgroup);
+            researchDocument.getAdhocWorkgroups().add(newAdHocWorkgroup);
             researchForm.setNewAdHocRouteWorkgroup(new AdHocRouteWorkgroup());
         }
 
@@ -156,7 +168,7 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
         
         ResearchDocumentFormBase researchForm = (ResearchDocumentFormBase) form;
         ResearchDocument researchDocument = (ResearchDocument) researchForm.getDocument();
-        researchDocument.getAdHocPermissions().remove(getLineToDelete(request));
+        researchDocument.getAdhocPersons().remove(getLineToDelete(request));
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -175,7 +187,7 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
         
         ResearchDocumentFormBase researchForm = (ResearchDocumentFormBase) form;
         ResearchDocument researchDocument = (ResearchDocument) researchForm.getDocument();
-        researchDocument.getAdHocWorkgroups().remove(getLineToDelete(request));
+        researchDocument.getAdhocWorkgroups().remove(getLineToDelete(request));
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -200,11 +212,16 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
             GlobalVariables.getErrorMap().putError("newAdHocOrg", KraKeyConstants.ERROR_NO_ORG_SELECTED, new String[] {});
         }
         else {
-            BudgetAdHocOrg newAdHocOrg = researchForm.getNewAdHocOrg();
+            AdhocOrg newAdHocOrg = researchForm.getNewAdHocOrg();
+            if (newAdHocOrg.getActionRequested() == null) {
+                newAdHocOrg.setAdhocTypeCode(KraConstants.AD_HOC_PERMISSION);
+            } else {
+                newAdHocOrg.setAdhocTypeCode(KraConstants.AD_HOC_APPROVER);
+            }
             newAdHocOrg.setPersonAddedTimestamp(SpringServiceLocator.getDateTimeService().getCurrentTimestamp());
             newAdHocOrg.setAddedByPerson(SpringServiceLocator.getWebAuthenticationService().getNetworkId(request));
-            researchDocument.getAdHocOrgs().add(newAdHocOrg);
-            researchForm.setNewAdHocOrg(new BudgetAdHocOrg());
+            researchDocument.getAdhocOrgs().add(newAdHocOrg);
+            researchForm.setNewAdHocOrg(new AdhocOrg());
         }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -224,7 +241,7 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
 
         ResearchDocumentFormBase researchForm = (ResearchDocumentFormBase) form;
         ResearchDocument researchDocument = (ResearchDocument) researchForm.getDocument();
-        researchDocument.getAdHocOrgs().remove(getLineToDelete(request));
+        researchDocument.getAdhocOrgs().remove(getLineToDelete(request));
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }

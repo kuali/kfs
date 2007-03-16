@@ -21,6 +21,16 @@
 	headerDispatch="save" feedbackKey="app.krafeedback.link"
 	headerTabActive="approvals">
 	
-	<center>Approvals - Under Construction</center>
+	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
+	
+	<kra-rf:routingFormHiddenDocumentFields />
+	
+	<kra:kraAdHocRecipients adhocType="A" adhocLabel="Recipients" excludeActionRequested="false" disableActionRequested="true" actionRequestedDefault="${Constants.WORKFLOW_APPROVE_REQUEST}" editingMode="${KualiForm.editingMode}"/>
+	
+	<kul:routeLog />
+	
+	<kul:panelFooter />
+	
+	<kul:documentControls transactionalDocument="false" suppressRoutingControls="true" viewOnly="${KualiForm.editingMode['viewOnly']}" />
 	
 </kul:documentPage>

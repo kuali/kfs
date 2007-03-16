@@ -18,10 +18,9 @@ package org.kuali.module.kra.document;
 import java.util.List;
 
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.kra.bo.BudgetAdHocOrg;
-import org.kuali.module.kra.bo.BudgetAdHocPermission;
-import org.kuali.module.kra.bo.BudgetAdHocWorkgroup;
+import org.kuali.module.kra.bo.AdhocOrg;
+import org.kuali.module.kra.bo.AdhocPerson;
+import org.kuali.module.kra.bo.AdhocWorkgroup;
 
 
 /**
@@ -29,8 +28,8 @@ import org.kuali.module.kra.bo.BudgetAdHocWorkgroup;
  */
 public interface ResearchDocument extends TransactionalDocument {
     public void initialize();
-    public List<BudgetAdHocPermission> getAdHocPermissions();
-    public List<BudgetAdHocOrg> getAdHocOrgs();
-    public List<BudgetAdHocWorkgroup> getAdHocWorkgroups();
+    public List<AdhocPerson> getAdhocPersons();
+    public List<AdhocOrg> getAdhocOrgs();
+    public List<AdhocWorkgroup> getAdhocWorkgroups();
     public String buildAdhocOrgReportXml(String permissionTypeCode, boolean encloseContent);
 }

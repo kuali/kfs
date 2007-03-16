@@ -33,7 +33,7 @@
 	<kra-b:budgetHiddenDocumentFields includeDocumenHeaderIdFields="true"
 		includeTaskPeriodLists="false" />
 	
-	<kra:kraAdHocRecipients adHocType="Recipients" editingMode="${KualiForm.editingMode}"/>
+	<kra:kraAdHocRecipients adhocType="A" adhocLabel="Recipients" disableActionRequested="true" actionRequestedMessage="(upon completion)" actionRequestedDefault="${Constants.WORKFLOW_FYI_REQUEST}" editingMode="${KualiForm.editingMode}"/>
 	
 	<kul:routeLog />
 	

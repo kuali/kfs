@@ -55,6 +55,7 @@ public class RoutingFormDocumentAuthorizer extends ResearchDocumentAuthorizer {
                 if (KraConstants.PROJECT_DIRECTOR_CODE.equals(role)
                         || KraConstants.CO_PROJECT_DIRECTOR_CODE.equals(role)) {
                     permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.FULL_ENTRY);
+                    
                     return finalizeEditMode(routingFormDocument, permissionCode);
                 }
                 if (KraConstants.CONTACT_PERSON_ADMINISTRATIVE_CODE.equals(role)
@@ -64,7 +65,21 @@ public class RoutingFormDocumentAuthorizer extends ResearchDocumentAuthorizer {
             }
         }
         
-        // TODO Check default org permissions - project director, cost sharing orgs.  Need to set up routing first.
+        // TODO Check default org permissions - project director, cost sharing orgs.  Need to set up routing first. Update constants.
+        if (permissionsService.isUserInOrgHierarchy(routingFormDocument.buildProjectDirectorReportXml(true), u.getPersonUniversalIdentifier())) {
+            permissionCode = getPermissionCodeByPrecedence(permissionCode, kualiConfigurationService.getApplicationParameterValue(
+                    KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.PROJECT_DIRECTOR_ORG_BUDGET_PERMISSION));
+        }
+        
+        if (permissionsService.isUserInOrgHierarchy(routingFormDocument.buildCostShareOrgReportXml(true), u.getPersonUniversalIdentifier())) {
+            permissionCode = getPermissionCodeByPrecedence(permissionCode, kualiConfigurationService.getApplicationParameterValue(
+                    KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.COST_SHARE_ORGS_BUDGET_PERMISSION));
+        }
+        
+        if (permissionsService.isUserInOrgHierarchy(routingFormDocument.buildOtherOrgReportXml(true), u.getPersonUniversalIdentifier())) {
+            permissionCode = getPermissionCodeByPrecedence(permissionCode, kualiConfigurationService.getApplicationParameterValue(
+                    KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.COST_SHARE_ORGS_BUDGET_PERMISSION));
+        }
         
         permissionCode = getPermissionCodeByPrecedence(permissionCode, getAdHocEditMode(routingFormDocument, u));
         Map editModes = finalizeEditMode(routingFormDocument, permissionCode);

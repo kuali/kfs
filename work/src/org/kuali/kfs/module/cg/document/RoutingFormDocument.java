@@ -21,15 +21,24 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.Campus;
+import org.kuali.core.bo.user.AuthenticationUserId;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.KualiInteger;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.core.workflow.DocumentInitiator;
+import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
+import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference;
 import org.kuali.module.kra.KraConstants;
+import org.kuali.module.kra.bo.AdhocOrg;
 import org.kuali.module.kra.document.ResearchDocumentBase;
 import org.kuali.module.kra.routingform.bo.ContractGrantProposal;
 import org.kuali.module.kra.routingform.bo.Purpose;
@@ -1541,9 +1550,9 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         list.add(this.getRoutingFormOrganizations());
         list.add(this.getRoutingFormOrganizationCreditPercents());
         list.add(this.getRoutingFormProjectTypes());
-        list.add(this.getAdHocOrgs());
-        list.add(this.getAdHocPermissions());
-        list.add(this.getAdHocWorkgroups());
+        list.add(this.getAdhocOrgs());
+        list.add(this.getAdhocPersons());
+        list.add(this.getAdhocWorkgroups());
         
         return list;
     }
@@ -1814,6 +1823,179 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         routingFormOrganization.setDocumentNumber(this.getDocumentNumber());
         
         getRoutingFormOrganizations().add(routingFormOrganization);
+    }
+    
+    @Override
+    public void populateDocumentForRouting() {
+        KualiTransactionalDocumentInformation transInfo = new KualiTransactionalDocumentInformation();
+        DocumentInitiator initiator = new DocumentInitiator();
+        String initiatorNetworkId = documentHeader.getWorkflowDocument().getInitiatorNetworkId();
+        try {
+            UniversalUser initiatorUser = SpringServiceLocator.getUniversalUserService().getUniversalUser(new AuthenticationUserId(initiatorNetworkId));
+            initiator.setUniversalUser(initiatorUser);
+        }
+        catch (UserNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        transInfo.setDocumentInitiator(initiator);
+        KualiDocumentXmlMaterializer xmlWrapper = new KualiDocumentXmlMaterializer();
+        xmlWrapper.setDocument(this);
+        xmlWrapper.setKualiTransactionalDocumentInformation(transInfo);
+        documentHeader.getWorkflowDocument().setApplicationContent(generateDocumentContent());
+    }
+    
+    public String generateDocumentContent() {
+        List referenceObjects = new ArrayList();
+        this.refreshReferenceObject("adhocOrgs");
         
+        StringBuffer xml = new StringBuffer("<documentContent>");
+        xml.append(buildProjectDirectorReportXml(false));
+        xml.append(buildCostShareOrgReportXml(false));
+        xml.append(buildOtherOrgReportXml(false));
+        xml.append(buildAdhocOrgReportXml(false));
+        xml.append("</documentContent>");
+        
+        return xml.toString();
+    }
+    
+    /**
+     * Build the xml to use when generating the workflow routing report.
+     * 
+     * @param boolean encloseContent - whether the generated xml should be enclosed within a <documentContent> tag
+     * @return String
+     */
+    public String buildProjectDirectorReportXml(boolean encloseContent) {
+        StringBuffer xml = new StringBuffer();
+        if (encloseContent) {
+            xml.append("<documentContent>");
+        }
+        RoutingFormPersonnel projectDirector = null;
+        
+        for (RoutingFormPersonnel user : this.getRoutingFormPersonnel()) {
+            if (user.getPersonRoleCode().equals(KraConstants.PROJECT_DIRECTOR_CODE)) {
+                projectDirector = user;
+            } else if (user.getPersonRoleCode().equals(KraConstants.CO_PROJECT_DIRECTOR_CODE)) {
+                if (!StringUtils.isBlank(user.getChartOfAccountsCode())) {
+                    xml.append("<chartOrg><chartOfAccountsCode>");
+                    xml.append(user.getChartOfAccountsCode());
+                    xml.append("</chartOfAccountsCode><organizationCode>");
+                    xml.append(user.getOrganizationCode());
+                    xml.append("</organizationCode></chartOrg>");
+                }
+            }
+        }
+        
+        if (ObjectUtils.isNotNull(projectDirector) && ObjectUtils.isNotNull(projectDirector.getUser())) {
+            xml.append("<projectDirector>");
+            xml.append(projectDirector.getUser().getPersonUniversalIdentifier());
+            xml.append("</projectDirector>");
+            if (!StringUtils.isBlank(projectDirector.getChartOfAccountsCode())) {
+                xml.append("<chartOrg><chartOfAccountsCode>");
+                xml.append(projectDirector.getChartOfAccountsCode());
+                xml.append("</chartOfAccountsCode><organizationCode>");
+                xml.append(projectDirector.getOrganizationCode());
+                xml.append("</organizationCode></chartOrg>");
+            }
+        }
+        if (encloseContent) {
+            xml.append("</documentContent>");
+        }
+        return xml.toString();
+    }
+    
+    /**
+     * Build the xml to use when generating the workflow org routing report.
+     * 
+     * @param boolean encloseContent - whether the generated xml should be enclosed within a <documentContent> tag
+     * @return String
+     */
+    public String buildCostShareOrgReportXml(boolean encloseContent) {
+        
+        //String costSharePermissionCode = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
+        //        KraConstants.KRA_ADMIN_GROUP_NAME, KraConstants.ROUTING_FORM_COST_SHARE_PERMISSION_CODE);
+        boolean costShareRouting = true;
+        
+        StringBuffer xml = new StringBuffer();
+        if (encloseContent) {
+            xml.append("<documentContent>");
+        }
+        
+        if (!costShareRouting) {
+            for (RoutingFormInstitutionCostShare costShare : this.getRoutingFormInstitutionCostShares()) {
+                xml.append("<chartOrg><chartOfAccountsCode>");
+                if (costShare.getChartOfAccountsCode() != null) {
+                    xml.append(costShare.getChartOfAccountsCode());
+                }
+                xml.append("</chartOfAccountsCode><organizationCode>");
+                if (costShare.getOrganizationCode() != null) {
+                    xml.append(costShare.getOrganizationCode());
+                }
+                xml.append("</organizationCode></chartOrg>");
+            }
+        }
+        
+        if (encloseContent) {
+            xml.append("</documentContent>");
+        }
+        
+        return xml.toString();
+    }
+    
+    /**
+     * Build the xml to use when generating the workflow org routing report.
+     * 
+     * @param boolean encloseContent - whether the generated xml should be enclosed within a <documentContent> tag
+     * @return String
+     */
+    public String buildOtherOrgReportXml(boolean encloseContent) {
+        
+        StringBuffer xml = new StringBuffer();
+        if (encloseContent) {
+            xml.append("<documentContent>");
+        }
+        
+        for (RoutingFormOrganization otherOrg : this.getRoutingFormOrganizations()) {
+            xml.append("<chartOrg><chartOfAccountsCode>");
+            if (otherOrg.getChartOfAccountsCode() != null) {
+                xml.append(otherOrg.getChartOfAccountsCode());
+            }
+            xml.append("</chartOfAccountsCode><organizationCode>");
+            if (otherOrg.getOrganizationCode() != null) {
+                xml.append(otherOrg.getOrganizationCode());
+            }
+            xml.append("</organizationCode></chartOrg>");
+        }
+        
+        if (encloseContent) {
+            xml.append("</documentContent>");
+        }
+        
+        return xml.toString();
+    }
+    
+    /**
+     * Build the xml to use when generating the workflow org routing report.
+     * 
+     * @param List<BudgetAdHocOrg> orgs
+     * @param boolean encloseContent - whether the generated xml should be enclosed within a <documentContent> tag
+     * @return String
+     */
+    public String buildAdhocOrgReportXml(boolean encloseContent) {
+        StringBuffer xml = new StringBuffer();
+        if (encloseContent) {
+            xml.append("<documentContent>");
+        }
+        List<AdhocOrg> orgs = this.getAdhocOrgs();
+        for (AdhocOrg org: orgs) {
+            xml.append("<chartOrg><chartOfAccountsCode>");
+            xml.append(org.getFiscalCampusCode());
+            xml.append("</chartOfAccountsCode><organizationCode>");
+            xml.append(org.getPrimaryDepartmentCode());
+            xml.append("</organizationCode></chartOrg>");
+        }
+        if (encloseContent) {
+            xml.append("</documentContent>");
+        }
+        return xml.toString();
     }
 }

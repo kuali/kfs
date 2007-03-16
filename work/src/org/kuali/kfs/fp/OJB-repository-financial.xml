@@ -204,7 +204,7 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
-    <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-update="object" auto-delete="object">
+    <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
@@ -234,7 +234,7 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
-    <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-update="object" auto-delete="object">
+    <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
@@ -268,7 +268,7 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
-    <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-update="object" auto-delete="object">
+    <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
@@ -503,7 +503,7 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
-    <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-update="object" auto-delete="object">
+    <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
@@ -583,7 +583,7 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
-    <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-update="object" auto-delete="object">
+    <collection-descriptor name="generalLedgerPendingEntries" proxy="true" element-class-ref="org.kuali.kfs.bo.GeneralLedgerPendingEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>

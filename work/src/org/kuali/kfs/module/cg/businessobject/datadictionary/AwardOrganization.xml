@@ -71,7 +71,11 @@
             <attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode"/>
             
 			<attributeReference name="proposalNumber" sourceClassName="org.kuali.module.cg.bo.Award" sourceAttributeName="proposalNumber"/>
-
+      
+            <attributeReference name="newCollectionRecord" 
+                                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+                                sourceAttributeName="newCollectionRecord" />
+                                
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
             
 			<attribute name="awardPrimaryOrganizationIndicator" forceUppercase="true">

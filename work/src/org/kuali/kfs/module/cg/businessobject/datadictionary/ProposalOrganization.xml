@@ -91,6 +91,10 @@
                 <summary>Proposal Primary Organization Indicator</summary>
                 <description>proposalPrimaryOrganizationIndicator description...</description>
 			</attribute>
+			
+			<attributeReference name="newCollectionRecord" 
+                                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+                                sourceAttributeName="newCollectionRecord" />
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 

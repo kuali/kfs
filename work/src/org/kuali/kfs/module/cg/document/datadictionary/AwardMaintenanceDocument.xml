@@ -117,6 +117,7 @@
 						<maintainableField name="personUniversalIdentifier" required="true" />
 						<maintainableField name="projectDirector.universalUser.personName" required="false" readOnly="true" />
 						<!-- hidden fields -->
+						<maintainableField name="newCollectionRecord" />
 						<maintainableField name="versionNumber" />
 						<summaryFields>
 							<summaryField name="projectDirector.universalUser.personName" />
@@ -135,6 +136,7 @@
 						<maintainableField name="awardPrimaryProjectDirectorIndicator" required="false" />
 						<maintainableField name="awardProjectDirectorProjectTitle" required="false" />
 						<!-- hidden fields -->
+						<maintainableField name="newCollectionRecord" />
 						<maintainableField name="versionNumber" />
 						<summaryFields>
 							<summaryField name="projectDirector.universalUser.personName" />
@@ -151,6 +153,7 @@
                         <maintainableField name="chartOfAccountsCode" required="true" />
                         <maintainableField name="organizationCode" required="true" />
                         <maintainableField name="awardPrimaryOrganizationIndicator" required="false" />
+                        <maintainableField name="newCollectionRecord" />
                         <maintainableField name="versionNumber" />
                         <summaryFields>
                             <summaryField name="chartOfAccountsCode" />
@@ -170,6 +173,7 @@
 						<maintainableField name="subcontractorAmount">
 							<defaultValue>0.00</defaultValue>
 						</maintainableField>
+						<maintainableField name="newCollectionRecord" />
 						<summaryFields>
 							<summaryField name="subcontractor.subcontractorName" />
 							<summaryField name="subcontractorAmount" />

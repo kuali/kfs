@@ -97,6 +97,7 @@
                         <maintainableField name="organizationReversionObjectCode" required="true" webUILeaveFieldFunction="updateObjectName" />
                         <maintainableField name="organizationReversionObject.financialObjectCodeName" required="true" readOnly="true" />
                         <maintainableField name="organizationReversionCode" required="true" />
+                        <maintainableField name="newCollectionRecord" />
                         <maintainableField name="versionNumber" />
                     </maintainableCollection>
                 </maintainableItems>

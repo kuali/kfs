@@ -103,6 +103,7 @@
                         <maintainableField name="chartOfAccountsCode" required="true" />
                         <maintainableField name="organizationCode" required="true" />
                         <maintainableField name="proposalPrimaryOrganizationIndicator" required="false" />
+                        <maintainableField name="newCollectionRecord" />
                         <maintainableField name="versionNumber" />
                         <summaryFields>
                             <summaryField name="chartOfAccountsCode" />
@@ -121,6 +122,7 @@
                         <maintainableField name="proposalPrimaryProjectDirectorIndicator" required="false" />
                         <maintainableField name="proposalProjectDirectorProjectTitle" required="false" />
                         <!-- hidden fields -->
+                        <maintainableField name="newCollectionRecord" />
                         <maintainableField name="versionNumber" />
                         <summaryFields>
                             <summaryField name="projectDirector.universalUser.personName" />
@@ -140,6 +142,7 @@
                         <maintainableField name="proposalSubcontractorAmount">
 							<defaultValue>0.00</defaultValue>
 						</maintainableField>
+						<maintainableField name="newCollectionRecord" />
                         <summaryFields>
                             <summaryField name="subcontractor.subcontractorName" />
                             <summaryField name="proposalSubcontractorAmount" />
@@ -154,6 +157,7 @@
                         <maintainableField name="researchRiskType.researchRiskTypeDescription" readOnly="true" />
                         <maintainableField name="isActive" required="false" />
                         <!-- hidden fields -->
+                        <maintainableField name="newCollectionRecord" />
                         <maintainableField name="versionNumber" />
                         <maintainableField name="researchRiskTypeCode" />
                         <summaryFields>

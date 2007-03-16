@@ -45,6 +45,7 @@ import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.fixtures.AccountingLineFixture;
 import org.kuali.test.fixtures.UserNameFixture;
 import org.kuali.workflow.WorkflowTestUtils;
+import org.kuali.test.suite.RelatesTo;
 
 import edu.iu.uis.eden.EdenConstants;
 
@@ -84,6 +85,7 @@ public class TransferOfFundsDocumentTest extends KualiTestBase {
 
 
     @TestsWorkflowViaDatabase
+    @RelatesTo(RelatesTo.JiraIssue.KULUT10)
     public void testWorkflowRouting() throws Exception {
         // save and route the document
         AccountingDocument document = (AccountingDocument) buildDocumentForWorkflowRoutingTest();

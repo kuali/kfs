@@ -52,7 +52,7 @@
                 <field attributeName="federalPassThroughAgencyNumber" />
                 <field attributeName="federalPassThroughFundedAmount" />
                 <field attributeName="federalPassThroughIndicator" />
-                <field attributeName="financialSystemWorkgroupId" />
+                <field attributeName="workgroupName" />
                 <field attributeName="grantDescriptionCode" />
                 <field attributeName="letterOfCreditFundGroupCode" />
                 <field attributeName="oldProposalNumber" />
@@ -83,7 +83,7 @@
 				<lookupField attributeName="grantDescriptionCode" required="false" />
                 <lookupField attributeName="awardStatusCode" required="false" />
                 <lookupField attributeName="federalPassThroughAgencyNumber" required="false" />
-                <lookupField attributeName="financialSystemWorkgroupId" required="false" />
+                <lookupField attributeName="workgroupName" required="false" />
                 <lookupField attributeName="awardPurposeCode" required="false" />
 				<lookupField attributeName="awardSubcontractors.subcontractorNumber" required="false" />
 				<lookupField attributeName="awardProjectDirectors.personUniversalIdentifier" required="false" />
@@ -429,19 +429,19 @@
                 <description>federalPassThroughIndicator description...</description>
 			</attribute>
 
-            <attribute name="financialSystemWorkgroupId" forceUppercase="true">
-                <label>Financial System Workgroup Id</label>
-                <shortLabel>Id</shortLabel>
+            <attribute name="workgroupName" forceUppercase="true">
+                <label>Workgroup Name</label>
+                <shortLabel>Name</shortLabel>
 
-                <maxLength>10</maxLength>
+                <maxLength>70</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="12" />
+                    <text size="72" />
                 </control>
 
-                <summary>Financial System Workgroup ID</summary>
-                <description>financialSystemWorkgroupId description...</description>
+                <summary>Workgroup Name</summary>
+                <description>workgroupName description...</description>
 			</attribute>
 
             <attributeReference name="grantDescriptionCode" sourceClassName="org.kuali.module.cg.bo.GrantDescription" sourceAttributeName="grantDescriptionCode">

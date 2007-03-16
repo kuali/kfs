@@ -102,7 +102,7 @@
                     <maintainableField name="awardAddendumNumber" />
                     <maintainableField name="letterOfCreditFundGroupCode" />
                     <maintainableField name="awardDocumentNumber" />
-                    <maintainableField name="financialSystemWorkgroupId" />
+                    <maintainableField name="workgroupName" />
                     <maintainableField name="agencyAnalystName" />
                     <maintainableField name="analystTelephoneNumber" />
                     <maintainableField name="versionNumber" />

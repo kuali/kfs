@@ -300,7 +300,7 @@
     <field-descriptor name="awardCreateTimestamp" column="CGAWD_CREATE_TS" jdbc-type="TIMESTAMP" />
     <field-descriptor name="awardClosingDate" column="CGAWD_CLOSING_DT" jdbc-type="DATE" />
     <field-descriptor name="proposalAwardTypeCode" column="CGPRPSL_AWD_TYP_CD" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="financialSystemWorkgroupId" column="FS_WORK_GRP_ID" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="workgroupName" column="WRKGRP_NM" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="awardStatusCode" column="CGAWD_STAT_CD" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="letterOfCreditFundGroupCode" column="CG_LTRCR_FNDGRP_CD" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="grantDescriptionCode" column="CG_GRANT_DESC_CD" jdbc-type="VARCHAR" index="true" />

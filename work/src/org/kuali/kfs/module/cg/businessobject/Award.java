@@ -64,7 +64,7 @@ public class Award extends PersistableBusinessObjectBase {
     private Timestamp awardCreateTimestamp;
     private Date awardClosingDate;
     private String proposalAwardTypeCode;
-    private String financialSystemWorkgroupId;
+    private String workgroupName;
     private String awardStatusCode;
     private String letterOfCreditFundGroupCode;
     private String grantDescriptionCode;
@@ -600,23 +600,23 @@ public class Award extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the financialSystemWorkgroupId attribute.
+     * Gets the workgroupName attribute.
      * 
-     * @return Returns the financialSystemWorkgroupId
+     * @return Returns the workgroupName
      * 
      */
-    public String getFinancialSystemWorkgroupId() {
-        return financialSystemWorkgroupId;
+    public String getWorkgroupName() {
+        return workgroupName;
     }
 
     /**
-     * Sets the financialSystemWorkgroupId attribute.
+     * Sets the workgroupName attribute.
      * 
-     * @param financialSystemWorkgroupId The financialSystemWorkgroupId to set.
+     * @param workgroupName The workgroupName to set.
      * 
      */
-    public void setFinancialSystemWorkgroupId(String financialSystemWorkgroupId) {
-        this.financialSystemWorkgroupId = financialSystemWorkgroupId;
+    public void setWorkgroupName(String workgroupName) {
+        this.workgroupName = workgroupName;
     }
 
 

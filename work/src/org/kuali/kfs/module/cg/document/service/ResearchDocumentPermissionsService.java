@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.kuali.module.kra.bo.AdhocOrg;
 import org.kuali.module.kra.bo.AdhocPerson;
-import org.kuali.module.kra.budget.bo.BudgetPermissionType;
+import org.kuali.module.kra.bo.ResearchAdhocPermissionType;
 
 /**
  * This interface defines methods that a BudgetPermissionsService must provide
@@ -29,29 +29,29 @@ import org.kuali.module.kra.budget.bo.BudgetPermissionType;
 public interface ResearchDocumentPermissionsService {
     
     /**
-     * Retrieve the BudgetAdHocPermission for the given documentNumber and personUniversalIdentifier.
+     * Retrieve the AdHocPerson for the given documentNumber and personUniversalIdentifier.
      * 
      * @param documentNumber
      * @param personUniversalIdentifier
-     * @return BudgetAdHocPermission
+     * @return AdHocPerson
      */
-    public AdhocPerson getBudgetAdHocPermission(String documentNumber, String personUniversalIdentifier);
+    public AdhocPerson getAdHocPerson(String documentNumber, String personUniversalIdentifier);
     
     /**
      * Retrieve the ad-hoc orgs for the given documentNumber and budgetPermissionCode.
      * 
      * @param documentNumber
      * @param budgetPermissionCode
-     * @return List<BudgetAdHocOrg>
+     * @return List<AdHocOrg>
      */
-    public List<AdhocOrg> getBudgetAdHocOrgs(String documentNumber, String budgetPermissionCode);
+    public List<AdhocOrg> getAdHocOrgs(String documentNumber, String permissionCode);
     
     /**
-     * Get the list of Budget permission types.
+     * Get the list of permission types.
      * 
      * @return List<BudgetPermissionType>
      */
-    public List<BudgetPermissionType> getBudgetPermissionTypes();
+    public List<ResearchAdhocPermissionType> getPermissionTypes();
     
     /**
      * Check whether given user is in the org routing hierarchy.

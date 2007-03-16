@@ -26,7 +26,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.bo.AdhocOrg;
 import org.kuali.module.kra.bo.AdhocPerson;
-import org.kuali.module.kra.budget.bo.BudgetPermissionType;
+import org.kuali.module.kra.bo.ResearchAdhocPermissionType;
 import org.kuali.module.kra.service.ResearchDocumentPermissionsService;
 import org.kuali.workflow.KualiWorkflowUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,29 +45,29 @@ public class ResearchDocumentPermissionsServiceImpl implements ResearchDocumentP
     private BusinessObjectService businessObjectService;
     
     /**
-     * @see org.kuali.module.kra.budget.service.BudgetPermissionsService#getBudgetAdHocPermission(String documentNumber, String personUniversalIdentifier)
+     * @see org.kuali.module.kra.budget.service.BudgetPermissionsService#getAdHocPermission(String documentNumber, String personUniversalIdentifier)
      */
-    public AdhocPerson getBudgetAdHocPermission(String documentNumber, String personUniversalIdentifier) {
+    public AdhocPerson getAdHocPerson(String documentNumber, String personUniversalIdentifier) {
         return (AdhocPerson) businessObjectService.retrieve(new AdhocPerson(documentNumber, personUniversalIdentifier));
     }
     
     /**
-     * @see org.kuali.module.kra.budget.service.BudgetPermissionsService#getBudgetAdHocOrgs(String documentNumber, String budgetPermissionCode)
+     * @see org.kuali.module.kra.budget.service.PermissionsService#getAdHocOrgs(String documentNumber, String budgetPermissionCode)
      */
-    public List<AdhocOrg> getBudgetAdHocOrgs(String documentNumber, String budgetPermissionCode) {
+    public List<AdhocOrg> getAdHocOrgs(String documentNumber, String permissionCode) {
         Map fieldValues = new HashMap();
         fieldValues.put(PropertyConstants.DOCUMENT_NUMBER, documentNumber);
-        fieldValues.put(PropertyConstants.BUDGET_PERMISSION_CODE, budgetPermissionCode);
+        fieldValues.put("permissionCode", permissionCode);
         return new ArrayList(businessObjectService.findMatching(AdhocOrg.class, fieldValues));
     }
     
     /**
-     * @see org.kuali.module.kra.budget.service.BudgetPermissionsService#getBudgetPermissionType()
+     * @see org.kuali.module.kra.budget.service.PermissionsService#getPermissionType()
      */
-    public List<BudgetPermissionType> getBudgetPermissionTypes() {
-        List<BudgetPermissionType> permissionTypeList = new ArrayList<BudgetPermissionType>();
-        permissionTypeList.add(new BudgetPermissionType(Constants.PERMISSION_READ_CODE, Constants.PERMISSION_READ_DESCRIPTION));
-        permissionTypeList.add(new BudgetPermissionType(Constants.PERMISSION_MOD_CODE, Constants.PERMISSION_MOD_DESCRIPTION));
+    public List<ResearchAdhocPermissionType> getPermissionTypes() {
+        List<ResearchAdhocPermissionType> permissionTypeList = new ArrayList<ResearchAdhocPermissionType>();
+        permissionTypeList.add(new ResearchAdhocPermissionType(Constants.PERMISSION_READ_CODE, Constants.PERMISSION_READ_DESCRIPTION));
+        permissionTypeList.add(new ResearchAdhocPermissionType(Constants.PERMISSION_MOD_CODE, Constants.PERMISSION_MOD_DESCRIPTION));
         return permissionTypeList;
     }
     

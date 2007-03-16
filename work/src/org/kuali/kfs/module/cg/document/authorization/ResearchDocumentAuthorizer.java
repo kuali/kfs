@@ -49,7 +49,7 @@ public class ResearchDocumentAuthorizer extends DocumentAuthorizerBase {
         KualiWorkflowDocument workflowDocument = researchDocument.getDocumentHeader().getWorkflowDocument();
         
         // Check ad-hoc user permissions
-        AdhocPerson budgetAdHocPermission = permissionsService.getBudgetAdHocPermission(researchDocument.getDocumentNumber(), u.getPersonUniversalIdentifier());
+        AdhocPerson budgetAdHocPermission = permissionsService.getAdHocPerson(researchDocument.getDocumentNumber(), u.getPersonUniversalIdentifier());
         if (budgetAdHocPermission != null) {
             if (KraConstants.PERMISSION_MOD_CODE.equals(budgetAdHocPermission.getPermissionCode())) {
                 permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.FULL_ENTRY);

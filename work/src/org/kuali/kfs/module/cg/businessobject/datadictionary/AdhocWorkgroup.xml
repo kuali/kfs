@@ -61,7 +61,7 @@
                 <label>Permission Type</label>
                 <maxLength>2</maxLength>
                 <control>
-                    <select valuesFinderClass="org.kuali.module.kra.lookup.keyvalues.BudgetPermissionTypeValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.kra.lookup.keyvalues.ResearchAdhocPermissionTypeValuesFinder" />
                 </control>
                 <summary>Permission Type</summary>
                 <description>The level of action a permitted user is allowed to take on the document.</description>

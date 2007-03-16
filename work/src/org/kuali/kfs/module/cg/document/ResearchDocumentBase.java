@@ -155,7 +155,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase imp
         if (encloseContent) {
             xml.append("<documentContent>");
         }
-        List<AdhocOrg> orgs = SpringServiceLocator.getResearchDocumentPermissionsService().getBudgetAdHocOrgs(this.getDocumentNumber(), permissionTypeCode);
+        List<AdhocOrg> orgs = SpringServiceLocator.getResearchDocumentPermissionsService().getAdHocOrgs(this.getDocumentNumber(), permissionTypeCode);
         for (AdhocOrg org : orgs) {
             xml.append("<chartOrg><chartOfAccountsCode>");
             xml.append(org.getFiscalCampusCode());

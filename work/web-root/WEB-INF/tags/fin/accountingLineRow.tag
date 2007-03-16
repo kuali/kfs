@@ -316,7 +316,7 @@
 						test="${fn:contains(delimitedExtraRowFields, ',referenceOriginCode,')}">
 						<fin:accountingLineDataCell field="referenceOriginCode"
 							lookup="true" inquiry="true" boClassSimpleName="OriginationCode"
-							boPackageName="org.kuali.core.bo"
+							boPackageName="org.kuali.kfs.bo"
 							conversionField="financialSystemOriginationCode"
 							detailFunction="loadOriginationInfo"
 							detailField="referenceOrigin.financialSystemServerName"
@@ -332,7 +332,7 @@
 						test="${fn:contains(delimitedExtraRowFields, ',referenceTypeCode,')}">
 						<fin:accountingLineDataCell field="referenceTypeCode"
 							lookup="true" inquiry="true" boClassSimpleName="DocumentType"
-							boPackageName="org.kuali.core.document"
+							boPackageName="org.kuali.core.bo"
 							conversionField="financialDocumentTypeCode"
 							detailFunction="loadDocumentTypeInfo"
 							detailField="referenceType.financialDocumentName"

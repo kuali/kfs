@@ -15,6 +15,10 @@
  */
 package org.kuali.module.budget.dao.ojb;
 
+import java.math.BigDecimal;
+
+import java.sql.Date;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.GregorianCalendar;
@@ -2403,7 +2407,370 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
               }
             }
         }
+        
+        /********************************************************************************************
+         *  (8)  the budget construction position table is dependent on each institution's payroll
+         *       system, and thus cannot be coded effectively in Kuali.   However, RI in the database
+         *       requires that it be populated.  This is a stub routine to do so.
+         ********************************************************************************************
+         */
+             
+             private HashMap<String,BudgetConstructionPosition> currentBCPosition =
+                 new HashMap(BudgetConstructionConstants.ESTIMATED_NUMBER_OF_BUDGETED_POSITIONS);
+             private HashSet<String> deletedCSFOverridePositions =
+                 new HashSet();
+             private String newLockMarker = new String("saveThis");
 
+             private Integer returnedPositionNumber         = new Integer(0);
+             private Integer returnedEmplid                 = new Integer(1);
+             private Integer returnedChartOfAccountsCode    = new Integer(2);
+             private Integer returnedAccountNumber          = new Integer(3);
+             private Integer returnedSubAccountNumber       = new Integer(4);
+             private Integer returnedFinancialObjectCode    = new Integer(5);
+             private Integer returnedFinancialSubObjectCode = new Integer(6);
+             private Integer returnedCSFFundingStatusCode   = new Integer(7);
+             
+             public void createNewBCPosition(Integer BaseYear,
+                     boolean PosSyncAllowed)
+             {
+                // do nothing if batch position updates are turned off  
+                if (! PosSyncAllowed)
+                {
+                    return;
+                }
+                // we need the account and the organization it reports to to find the RC 
+                // code for a position
+                 if (acctRptsToMap.isEmpty())
+                 {
+                     readAcctReportsTo();
+                 }
+                 if (orgRptsToMap.isEmpty())
+                 {
+                     readOrgReportsTo();
+                 }
+                // read the current positions first
+                 readCurrentPositions();
+                //
+                // the positions for the base year are those in ACTIVE lines
+                // in CSF and CSF override
+                // there are two elements of stub code in this
+                // (1) it will be necessary to read active, budgeted positions for the
+                //     current fiscal year (by effective date at IU) into a hash map
+                //     and look for those in the CSF hash map, and fill in the position
+                //     attributes using the former.  
+                // (2) the next fiscal year positions come ONLY from the HR budgeted
+                //     positions (again by effective date at IU).  it does not matter
+                //     whether they are in CSF.  in the code below, we spoof the coming
+                //     year fetch by using CSF. 
+                // (we will eliminate positions from lines which are not active,
+                //  because the positions in inactive lines might no longer be
+                //  budgeted, and/or the accounts might no longer be active)
+                 readCSFOverridePositions(BaseYear);
+                 readCSFPositions(BaseYear);
+                //  finally, we have to read the position map, and store all the
+                //  positions that do not have a default lock ID, changing the lock
+                //  ID first
+                storeNewPositions(); 
+             }
+             
+             private String buildDeletedKey(Object[] returnedRow)
+             {
+                 return ((String) returnedRow[returnedPositionNumber])+
+                         vacantEmplid((String) returnedRow[returnedCSFFundingStatusCode],
+                                      (String) returnedRow[returnedEmplid])+
+                        ((String) returnedRow[returnedChartOfAccountsCode])+
+                        ((String) returnedRow[returnedAccountNumber])+
+                        ((String) returnedRow[returnedSubAccountNumber])+
+                        ((String) returnedRow[returnedFinancialObjectCode])+
+                        ((String) returnedRow[returnedFinancialSubObjectCode]);
+
+             }
+             
+             private void buildDeletedList(Integer BaseYear)
+             {
+                 // start fresh
+                 deletedCSFOverridePositions.clear();
+                 String yearString = BaseYear.toString();
+                 // get the accounting strings for the lines marked deleted in CSF
+                 Criteria criteriaID = new Criteria();
+                 criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                                             BaseYear);
+                 criteriaID.addNotEqualTo(PropertyConstants.CSF_DELETE_CODE,
+                                          BudgetConstructionConstants.ACTIVE_CSF_LINE);
+                 String[] selectList = buildCSFPositionSelectList();
+                 ReportQueryByCriteria queryID = 
+                     new ReportQueryByCriteria(CalculatedSalaryFoundationTrackerOverride.class,
+                                               selectList,criteriaID);
+                 Iterator resultSet = 
+                     getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+                 while (resultSet.hasNext())
+                 {
+                     Object[] returnedRow = (Object[]) resultSet.next();
+                     String deletedKey = buildDeletedKey(returnedRow);
+                     if (! deletedCSFOverridePositions.contains(deletedKey))
+                     {
+                         deletedCSFOverridePositions.add(deletedKey);
+                     }
+                 }
+                 logger.info(String.format("\ndeleted CSF Override rows %d",
+                                    deletedCSFOverridePositions.size()));
+             }
+             
+             private String[] buildCSFPositionSelectList()
+             {
+                 String[] returnArray =
+                    {PropertyConstants.POSITION_NUMBER,
+                     PropertyConstants.EMPLID,
+                     PropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                     PropertyConstants.ACCOUNT_NUMBER,
+                     PropertyConstants.SUB_ACCOUNT_NUMBER,
+                     PropertyConstants.FINANCIAL_OBJECT_CODE,
+                     PropertyConstants.FINANCIAL_SUB_OBJECT_CODE,
+                     PropertyConstants.CSF_FUNDING_STATUS_CODE};
+                 return returnArray;
+             }
+             
+             private void buildNewPositionFromCSF(Integer FiscalYear, Object[] rowReturned)
+             {
+                // we will save new positions with a lock ID that is NOT the default 
+                // we will then automatically store them when we run the code to clear
+                // locks 
+                BudgetConstructionPosition newBCPosition = new BudgetConstructionPosition();
+                newBCPosition.setUniversityFiscalYear(FiscalYear);
+                newBCPosition.setPositionLockUserIdentifier(newLockMarker);
+                newBCPosition.setPositionNumber((String) rowReturned[returnedPositionNumber]);
+                // this is spoof code
+                fillPositionAttributesSpoof(newBCPosition, rowReturned, FiscalYear);
+             }
+             
+             private String positionKey (Integer FiscalYear, String PositionNumber)
+             {
+                 return PositionNumber+FiscalYear.toString();
+             }
+             
+             private void readCSFOverridePositions(Integer BaseYear)
+             {
+                 Integer overridesRead     = new Integer(0);
+                 Integer overridePositions = new Integer(0);
+                 Integer overrideRequest   = new Integer(0);
+             //  first get the positions in deleted lines
+             //  any key marked deleted in CSF override will NOT contribute
+             //  to the position table
+                 buildDeletedList(BaseYear);
+             //  now, read the active CSF override lines    
+                 String yearString = BaseYear.toString();
+                 // get the accounting strings for the lines marked deleted in CSF
+                 Criteria criteriaID = new Criteria();
+                 criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                                             BaseYear);
+                 criteriaID.addEqualTo(PropertyConstants.CSF_DELETE_CODE,
+                                          BudgetConstructionConstants.ACTIVE_CSF_LINE);
+                 String[] selectList = buildCSFPositionSelectList(); 
+                 ReportQueryByCriteria queryID = 
+                     new ReportQueryByCriteria(CalculatedSalaryFoundationTrackerOverride.class,
+                                               selectList,criteriaID);
+                 Iterator resultSet = 
+                     getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+                 while (resultSet.hasNext())
+                 {
+                     overridesRead = overridesRead+1;
+                     Object[] rowReturned = (Object[]) resultSet.next();
+                     // we know the active rows are not deleted in CSF Override
+                     // so, we just go ahead and build a new position
+                     String testBaseKey = 
+                         positionKey(BaseYear,
+                                     (String) rowReturned[returnedPositionNumber]);
+                     if (! currentBCPosition.containsKey(testBaseKey))
+                     {
+                         buildNewPositionFromCSF(BaseYear,rowReturned);
+                         overridePositions = overridePositions+1;
+                     }
+                     buildRequestYearSpoof(BaseYear+1,rowReturned);
+                     overrideRequest = overrideRequest+1;
+                 }
+                 logger.info(String.format("\noverride rows (1) read = %d\n"+
+                                           "             (2) base year positions = %d\n"+
+                                           "             (3) request year positions = %d",
+                                           overridesRead, overridePositions, overrideRequest));
+             }
+             
+             private void readCSFPositions(Integer BaseYear)
+             {
+                 Integer csfRead     = new Integer(0);
+                 Integer csfPositions = new Integer(0);
+                 Integer csfRequest   = new Integer(0);
+             //  now, read the active CSF lines    
+                 String yearString = BaseYear.toString();
+                 // get the accounting strings for the lines marked deleted in CSF
+                 Criteria criteriaID = new Criteria();
+                 criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                                             BaseYear);
+                 criteriaID.addEqualTo(PropertyConstants.CSF_DELETE_CODE,
+                                          BudgetConstructionConstants.ACTIVE_CSF_LINE);
+                 String[] selectList = buildCSFPositionSelectList(); 
+                 ReportQueryByCriteria queryID = 
+                     new ReportQueryByCriteria(CalculatedSalaryFoundationTrackerOverride.class,
+                                               selectList,criteriaID);
+                 Iterator resultSet = 
+                     getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+                 while (resultSet.hasNext())
+                 {
+                     csfRead = csfRead+1;
+                     Object[] rowReturned = (Object[]) resultSet.next();
+                     // we know the active rows are not deleted in CSF Override
+                     // so, we just go ahead and build a new position
+                     String testBaseKey = 
+                         positionKey(BaseYear,
+                                     (String) rowReturned[returnedPositionNumber]);
+                     if (! currentBCPosition.containsKey(testBaseKey))
+                     {
+                         buildNewPositionFromCSF(BaseYear,rowReturned);
+                         csfPositions = csfPositions+1;
+                     }
+                     buildRequestYearSpoof(BaseYear+1,rowReturned);
+                     csfRequest = csfRequest+1;
+                 }
+                 logger.info(String.format("\nCSF rows (1) read = %d\n"+
+                                           "        (2) base year positions = %d\n"+
+                                           "        (3) request year positions = %d",
+                                           csfRead, csfPositions, csfRequest));
+             }
+             
+             private void readCurrentPositions()
+             {
+                 QueryByCriteria queryId = 
+                     new QueryByCriteria(BudgetConstructionPosition.class,
+                                         QueryByCriteria.CRITERIA_SELECT_ALL);
+                 Iterator rowsReturned =
+                 getPersistenceBrokerTemplate().getIteratorByQuery(queryId);
+                 while (rowsReturned.hasNext())
+                 {
+                     BudgetConstructionPosition currentPosition = 
+                         (BudgetConstructionPosition) rowsReturned.next();
+                     String hashKey = 
+                         positionKey(currentPosition.getUniversityFiscalYear(),
+                                     currentPosition.getPositionNumber());
+                     currentBCPosition.put(hashKey,currentPosition);
+                 }
+             }
+             
+             private void storeNewPositions()
+             {
+                 Integer positionsWritten = new Integer(0);
+                 for (Map.Entry<String,BudgetConstructionPosition> positionRows : 
+           currentBCPosition.entrySet())
+                 {
+                     BudgetConstructionPosition testPosition =
+                         positionRows.getValue();
+                     if (!(testPosition.getPositionLockUserIdentifier().equals(
+                             BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS)))
+                     {
+                         testPosition.setPositionLockUserIdentifier(
+                                 BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS);
+                         getPersistenceBrokerTemplate().store(testPosition);
+                         positionsWritten = positionsWritten+1;
+                     }
+                 }
+                 logger.info(String.format("\n%d of %d budget positions written",
+                             positionsWritten,currentBCPosition.size()));
+             }
+
+             private String vacantEmplid(String vacantCSFCode, String emplidCSF)
+             {
+                return (vacantCSFCode.equals(BudgetConstructionConstants.VACANT_CSF_LINE)?
+                        BudgetConstructionConstants.VACANT_EMPLID:
+                        emplidCSF);
+             }
+  
+             //
+             //  these are some stub routines to build a test position table
+             //  the implementing institution will have to replace these with
+             //  routines that access the HR system at that institution
+             //
+             
+             private void buildRequestYearSpoof(Integer RequestYear, Object[] rowReturned)
+             {
+                 String testRequestKey = 
+                     positionKey(RequestYear,
+                                 (String) rowReturned[returnedPositionNumber]);
+                 if (! currentBCPosition.containsKey(testRequestKey))
+                 {
+                     buildNewPositionFromCSF(RequestYear,rowReturned);
+                 }
+             }
+             
+             private void fillPositionAttributesSpoof(BudgetConstructionPosition newBCPosition,
+                                                      Object[] rowReturned, Integer FiscalYear)
+             {
+                 // default the regular/temporary indicator to regular, and mark as budgeted
+                 newBCPosition.setPositionRegularTemporary("R");
+                 newBCPosition.setBudgetedPosition(true);
+                 newBCPosition.setPositionEffectiveStatus("A");
+                 newBCPosition.setPositionStatus("A");
+                 // standard hours will be 40
+                 newBCPosition.setPositionStandardHoursDefault(new BigDecimal(40));
+                 // set the position type to academic, staff monthly, or staff biweekly
+                 String posTypeString = 
+                     positionTypeSpoof((String) rowReturned[returnedFinancialObjectCode]);
+                 newBCPosition.setIuPositionType(posTypeString);
+                 // academic are 10-pay, others 12-pay
+                 if (posTypeString.equals("AC"))
+                 {
+                   GregorianCalendar julyFirst = new GregorianCalendar(FiscalYear,6,1);  
+                   newBCPosition.setPositionEffectiveDate((Date) julyFirst.getTime());  
+                   newBCPosition.setIuNormalWorkMonths(new Integer(10));
+                   newBCPosition.setIuPayMonths(new Integer(10));
+                 }
+                 else
+                 {
+                   newBCPosition.setIuNormalWorkMonths(new Integer(12));
+                   newBCPosition.setIuPayMonths(new Integer(12));
+                 }
+                 // default object class comes from the CSF line
+                 // department ID and RC come from the account, chart comes from the CSF
+                 // line.  if the position is split, the first one in wins the prize
+                 newBCPosition.setIuDefaultObjectCode((String) rowReturned[returnedFinancialObjectCode]);
+                 String acctTestKey = ((String) rowReturned[returnedChartOfAccountsCode])+
+                                      ((String) rowReturned[returnedAccountNumber]);
+                 if (acctRptsToMap.containsKey(acctTestKey))
+                 {
+                   BudgetConstructionAccountReports acctRpts =
+                       acctRptsToMap.get(acctTestKey);
+                   newBCPosition.setPositionDepartmentIdentifier(acctRpts.getChartOfAccountsCode()+
+                                                    "-"+acctRpts.getReportsToOrganizationCode());
+                   String orgRptsToKey = acctRpts.getReportsToChartOfAccountsCode()+
+                                         acctRpts.getReportsToOrganization();
+                   if (orgRptsToMap.containsKey(orgRptsToKey))
+                   {
+                       newBCPosition.setResponsibilityCenterCode(
+                                     orgRptsToMap.get(orgRptsToKey).getResponsibilityCenterCode());
+                   }
+                                         
+                 }
+             }
+             
+             private String positionTypeSpoof (String objectClass)
+             {
+                 //24xx is monthly, 25xx bi-weekly, otherwise default to academic
+                 String empTypeID = objectClass.substring(1,2);
+                 return ((empTypeID.equals("24"))?"SM":
+                         ((empTypeID.equals("25"))?"SB":"AC"));
+             }
+             
+             
+             
+             
+             
+        /****************************************************************************************
+         * (9)  this code builds the budget construction CSF tracker and the budget construction
+         *      appointment funding
+         ****************************************************************************************
+         */
+
+             private HashMap<String,BudgetConstructionCalculatedSalaryFoundationTracker> bCSF =
+                 new HashMap();
+             
+         
     public void setDocumentService(DocumentService documentService)
     {
         this.documentService = documentService;
@@ -2415,22 +2782,5 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
      {
          this.workflowDocumentService = workflowDocumentService;
      }
-     
-/********************************************************************************************
- *  (8)  the budget construction position table is dependent on each institution's payroll
- *       system, and thus cannot be coded effectively in Kuali.   However, RI in the database
- *       requires that it be populated.  This is a stub routine to do so.
- *********************************************************************************************/
-     
-     
-     public void createNewBCPosition(Integer BaseYear,
-             boolean PosSyncAllowed)
-     {
-        // we need the account to find the RC code for a position
-         if (acctRptsToMap.isEmpty())
-         {
-             readAcctReportsTo();
-         }
-     }
-
+    
 }

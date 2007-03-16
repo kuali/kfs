@@ -49,6 +49,7 @@ import org.kuali.test.KualiTestBase;
 import org.kuali.test.TestsWorkflowViaDatabase;
 import org.kuali.test.WithTestSpringContext;
 import org.kuali.test.fixtures.AccountingLineFixture;
+import org.kuali.test.suite.RelatesTo;
 import org.kuali.workflow.WorkflowTestUtils;
 
 import edu.iu.uis.eden.EdenConstants;
@@ -115,6 +116,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
     }
 
     @TestsWorkflowViaDatabase
+    @RelatesTo(RelatesTo.JiraIssue.KULUT10)
     public final void testWorkflowRouting() throws Exception {
         // save and route the document
         Document document = buildDocument();

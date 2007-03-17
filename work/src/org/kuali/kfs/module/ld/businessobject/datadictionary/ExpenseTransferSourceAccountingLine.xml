@@ -53,7 +53,7 @@
                 <label>Payroll End Date Fiscal Year</label>
                 <shortLabel>Pay FY</shortLabel>
                 <summary>Payroll End Date Fiscal Year</summary>
-b			</attribute>
+b			</attributeReference>
 
             <attribute name="payrollTotalHours" forceUppercase="true">
                 <label>Payroll Total Hours</label>

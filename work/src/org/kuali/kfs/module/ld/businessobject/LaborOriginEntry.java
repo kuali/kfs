@@ -639,8 +639,8 @@ public class LaborOriginEntry extends OriginEntry {
      * Sets the laborLedgerOriginalFinancialObject attribute.
      * 
      * @param laborLedgerOriginalFinancialObject The laborLedgerOriginalFinancialObject to set.
-     * @deprecated
      */
+    @Deprecated
     public void setLaborLedgerOriginalFinancialObject(ObjectCode laborLedgerOriginalFinancialObject) {
         this.laborLedgerOriginalFinancialObject = laborLedgerOriginalFinancialObject;
     }
@@ -659,8 +659,8 @@ public class LaborOriginEntry extends OriginEntry {
      * Sets the laborLedgerOriginalChartOfAccounts attribute.
      * 
      * @param laborLedgerOriginalChartOfAccounts The laborLedgerOriginalChartOfAccounts to set.
-     * @deprecated
      */
+    @Deprecated
     public void setLaborLedgerOriginalChartOfAccounts(Chart laborLedgerOriginalChartOfAccounts) {
         this.laborLedgerOriginalChartOfAccounts = laborLedgerOriginalChartOfAccounts;
     }
@@ -679,8 +679,8 @@ public class LaborOriginEntry extends OriginEntry {
      * Sets the laborLedgerOriginalAccount attribute.
      * 
      * @param laborLedgerOriginalAccount The laborLedgerOriginalAccount to set.
-     * @deprecated
      */
+    @Deprecated
     public void setLaborLedgerOriginalAccount(Account laborLedgerOriginalAccount) {
         this.laborLedgerOriginalAccount = laborLedgerOriginalAccount;
     }
@@ -696,8 +696,8 @@ public class LaborOriginEntry extends OriginEntry {
     /**
      * Sets the financialDocument attribute value.
      * @param financialDocument The financialDocument to set.
-     * @deprecated
      */
+    @Deprecated
     public void setFinancialDocument(DocumentHeader financialDocument) {
         this.financialDocument = financialDocument;
     }
@@ -713,8 +713,8 @@ public class LaborOriginEntry extends OriginEntry {
     /**
      * Sets the laborLedgerOriginalFinancialSubObject attribute value.
      * @param laborLedgerOriginalFinancialSubObject The laborLedgerOriginalFinancialSubObject to set.
-     * @deprecated
      */
+    @Deprecated
     public void setLaborLedgerOriginalFinancialSubObject(SubObjCd laborLedgerOriginalFinancialSubObject) {
         this.laborLedgerOriginalFinancialSubObject = laborLedgerOriginalFinancialSubObject;
     }
@@ -730,8 +730,8 @@ public class LaborOriginEntry extends OriginEntry {
     /**
      * Sets the laborLedgerOriginalSubAccount attribute value.
      * @param laborLedgerOriginalSubAccount The laborLedgerOriginalSubAccount to set.
-     * @deprecated
      */
+    @Deprecated
     public void setLaborLedgerOriginalSubAccount(SubAccount laborLedgerOriginalSubAccount) {
         this.laborLedgerOriginalSubAccount = laborLedgerOriginalSubAccount;
     }
@@ -747,8 +747,8 @@ public class LaborOriginEntry extends OriginEntry {
     /**
      * Sets the payrollEndDateFiscalPeriod attribute value.
      * @param payrollEndDateFiscalPeriod The payrollEndDateFiscalPeriod to set.
-     * @deprecated
      */
+    @Deprecated
     public void setPayrollEndDateFiscalPeriod(AccountingPeriod payrollEndDateFiscalPeriod) {
         this.payrollEndDateFiscalPeriod = payrollEndDateFiscalPeriod;
     }
@@ -764,8 +764,8 @@ public class LaborOriginEntry extends OriginEntry {
     /**
      * Sets the referenceFinancialDocumentType attribute value.
      * @param referenceFinancialDocumentType The referenceFinancialDocumentType to set.
-     * @deprecated
      */
+    @Deprecated
     public void setReferenceFinancialDocumentType(DocumentType referenceFinancialDocumentType) {
         this.referenceFinancialDocumentType = referenceFinancialDocumentType;
     }
@@ -781,8 +781,8 @@ public class LaborOriginEntry extends OriginEntry {
     /**
      * Sets the referenceFinancialSystemOrigination attribute value.
      * @param referenceFinancialSystemOrigination The referenceFinancialSystemOrigination to set.
-     * @deprecated
      */
+    @Deprecated
     public void setReferenceFinancialSystemOrigination(OriginationCode referenceFinancialSystemOrigination) {
         this.referenceFinancialSystemOrigination = referenceFinancialSystemOrigination;
     }

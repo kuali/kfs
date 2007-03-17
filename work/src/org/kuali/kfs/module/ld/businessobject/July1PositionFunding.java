@@ -302,8 +302,8 @@ public class July1PositionFunding extends PersistableBusinessObjectBase {
 	 * Sets the financialObject attribute.
 	 * 
 	 * @param financialObject The financialObject to set.
-	 * @deprecated
 	 */
+    @Deprecated
 	public void setFinancialObject(ObjectCode financialObject) {
 		this.financialObject = financialObject;
 	}
@@ -322,8 +322,8 @@ public class July1PositionFunding extends PersistableBusinessObjectBase {
 	 * Sets the chartOfAccounts attribute.
 	 * 
 	 * @param chartOfAccounts The chartOfAccounts to set.
-	 * @deprecated
 	 */
+    @Deprecated
 	public void setChartOfAccounts(Chart chartOfAccounts) {
 		this.chartOfAccounts = chartOfAccounts;
 	}
@@ -342,8 +342,8 @@ public class July1PositionFunding extends PersistableBusinessObjectBase {
 	 * Sets the account attribute.
 	 * 
 	 * @param account The account to set.
-	 * @deprecated
 	 */
+    @Deprecated
 	public void setAccount(Account account) {
 		this.account = account;
 	}
@@ -359,8 +359,8 @@ public class July1PositionFunding extends PersistableBusinessObjectBase {
     /**
      * Sets the financialSubObject attribute value.
      * @param financialSubObject The financialSubObject to set.
-     * @deprecated
      */
+    @Deprecated
     public void setFinancialSubObject(SubObjCd financialSubObject) {
         this.financialSubObject = financialSubObject;
     }
@@ -376,8 +376,8 @@ public class July1PositionFunding extends PersistableBusinessObjectBase {
     /**
      * Sets the subAccount attribute value.
      * @param subAccount The subAccount to set.
-     * @deprecated
      */
+    @Deprecated
     public void setSubAccount(SubAccount subAccount) {
         this.subAccount = subAccount;
     }

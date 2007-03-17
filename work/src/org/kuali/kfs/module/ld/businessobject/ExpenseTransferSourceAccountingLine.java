@@ -158,8 +158,8 @@ public class ExpenseTransferSourceAccountingLine extends SourceAccountingLine im
     /**
      * Sets the laborObject attribute value.
      * @param laborObject The laborObject to set.
-     * @deprecated
      */
+    @Deprecated
     public void setLaborObject(LaborObject laborObject) {
         this.laborObject = laborObject;
     }

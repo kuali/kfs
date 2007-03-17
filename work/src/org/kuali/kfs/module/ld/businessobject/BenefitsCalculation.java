@@ -166,8 +166,8 @@ public class BenefitsCalculation extends PersistableBusinessObjectBase {
      * Sets the positionFringeBenefitObject attribute.
      * 
      * @param positionFringeBenefitObject The positionFringeBenefitObject to set.
-     * @deprecated
      */
+    @Deprecated
     public void setPositionFringeBenefitObject(ObjectCode positionFringeBenefitObject) {
         this.positionFringeBenefitObject = positionFringeBenefitObject;
     }
@@ -186,8 +186,8 @@ public class BenefitsCalculation extends PersistableBusinessObjectBase {
      * Sets the chartOfAccounts attribute.
      * 
      * @param chartOfAccounts The chartOfAccounts to set.
-     * @deprecated
      */
+    @Deprecated
     public void setChartOfAccounts(Chart chartOfAccounts) {
         this.chartOfAccounts = chartOfAccounts;
     }
@@ -205,8 +205,8 @@ public class BenefitsCalculation extends PersistableBusinessObjectBase {
      * Sets the positionBenefitType attribute value.
      * 
      * @param positionBenefitType The positionBenefitType to set.
-     * @deprecated
      */
+    @Deprecated
     public void setPositionBenefitType(BenefitsType positionBenefitType) {
         this.positionBenefitType = positionBenefitType;
     }

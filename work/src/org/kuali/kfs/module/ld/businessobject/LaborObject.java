@@ -231,8 +231,8 @@ public class LaborObject extends PersistableBusinessObjectBase {
 	 * Sets the financialObject attribute.
 	 * 
 	 * @param financialObject The financialObject to set.
-	 * @deprecated
 	 */
+    @Deprecated
 	public void setFinancialObject(ObjectCode financialObject) {
 		this.financialObject = financialObject;
 	}
@@ -251,8 +251,8 @@ public class LaborObject extends PersistableBusinessObjectBase {
 	 * Sets the chartOfAccounts attribute.
 	 * 
 	 * @param chartOfAccounts The chartOfAccounts to set.
-	 * @deprecated
 	 */
+    @Deprecated
 	public void setChartOfAccounts(Chart chartOfAccounts) {
 		this.chartOfAccounts = chartOfAccounts;
 	}
@@ -268,7 +268,6 @@ public class LaborObject extends PersistableBusinessObjectBase {
     /**
      * Sets the positionObjectGroup attribute value.
      * @param positionObjectGroup The positionObjectGroup to set.
-     * @deprecated
      */
     public void setPositionObjectGroup(PositionObjectGroup positionObjectGroup) {
         this.positionObjectGroup = positionObjectGroup;

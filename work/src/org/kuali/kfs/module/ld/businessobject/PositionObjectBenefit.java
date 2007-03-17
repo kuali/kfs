@@ -145,8 +145,8 @@ public class PositionObjectBenefit extends PersistableBusinessObjectBase {
      * Sets the financialObject attribute.
      * 
      * @param financialObject The financialObject to set.
-     * @deprecated
      */
+    @Deprecated
     public void setFinancialObject(ObjectCode financialObject) {
         this.financialObject = financialObject;
     }
@@ -165,8 +165,8 @@ public class PositionObjectBenefit extends PersistableBusinessObjectBase {
      * Sets the chartOfAccounts attribute.
      * 
      * @param chartOfAccounts The chartOfAccounts to set.
-     * @deprecated
      */
+    @Deprecated
     public void setChartOfAccounts(Chart chartOfAccounts) {
         this.chartOfAccounts = chartOfAccounts;
     }
@@ -185,8 +185,8 @@ public class PositionObjectBenefit extends PersistableBusinessObjectBase {
      * Sets the universityFiscal attribute value.
      * 
      * @param universityFiscal The universityFiscal to set.
-     * @deprecated
      */
+    @Deprecated
     public void setUniversityFiscal(Options universityFiscal) {
         this.universityFiscal = universityFiscal;
     }
@@ -205,8 +205,8 @@ public class PositionObjectBenefit extends PersistableBusinessObjectBase {
      * Sets the benefitsCalculation attribute value.
      * 
      * @param benefitsCalculation The benefitsCalculation to set.
-     * @deprecated
      */
+    @Deprecated
     public void setBenefitsCalculation(BenefitsCalculation benefitsCalculation) {
         this.benefitsCalculation = benefitsCalculation;
     }
@@ -215,9 +215,7 @@ public class PositionObjectBenefit extends PersistableBusinessObjectBase {
         return financialObjectBenefitsType;
     }
 
-    /**
-     * @deprecated
-     */
+    @Deprecated
     public void setFinancialObjectBenefitsType(BenefitsType financialObjectBenefitsType) {
         this.financialObjectBenefitsType = financialObjectBenefitsType;
     }
@@ -233,8 +231,8 @@ public class PositionObjectBenefit extends PersistableBusinessObjectBase {
     /**
      * Sets the laborObject attribute value.
      * @param laborObject The laborObject to set.
-     * @deprecated
      */
+    @Deprecated
     public void setLaborObject(LaborObject laborObject) {
         this.laborObject = laborObject;
     }

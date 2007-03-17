@@ -121,7 +121,7 @@ public class GlobalDocumentTest extends KualiTestBase {
         DelegateChangeDocument change = new DelegateChangeDocument();
         change.setAccountDelegatePrimaryRoutingIndicator(false);
         change.setAccountDelegateStartDate(DateUtils.newDate(2006, 6, 1));
-        change.setAccountDelegateUniversalId("20000000");
+        change.setAccountDelegateUniversalId("6137600107");
         change.setApprovalFromThisAmount(new KualiDecimal(0));
         change.setApprovalToThisAmount(new KualiDecimal(0));
         change.setFinancialDocumentTypeCode("ALL");
@@ -172,7 +172,7 @@ public class GlobalDocumentTest extends KualiTestBase {
         DelegateChangeDocument change = new DelegateChangeDocument();
         change.setAccountDelegatePrimaryRoutingIndicator(false);
         change.setAccountDelegateStartDate(DateUtils.newDate(2006, 6, 1));
-        change.setAccountDelegateUniversalId("20000000");
+        change.setAccountDelegateUniversalId("6137600107");
         change.setApprovalFromThisAmount(new KualiDecimal(0));
         change.setApprovalToThisAmount(new KualiDecimal(0));
         change.setFinancialDocumentTypeCode("ALL");
@@ -258,7 +258,7 @@ public class GlobalDocumentTest extends KualiTestBase {
         DelegateChangeDocument change = new DelegateChangeDocument();
         change.setAccountDelegatePrimaryRoutingIndicator(false);
         change.setAccountDelegateStartDate(DateUtils.newDate(2006, 6, 1));
-        change.setAccountDelegateUniversalId("019283749");
+        change.setAccountDelegateUniversalId("6137600107");
         change.setApprovalFromThisAmount(new KualiDecimal(0));
         change.setApprovalToThisAmount(new KualiDecimal(0));
         change.setFinancialDocumentTypeCode("ALL");

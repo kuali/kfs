@@ -39,35 +39,21 @@
                 <description>emplid description...</description>
 			</attribute>
 
-            <attribute name="payrollEndDateFiscalPeriodCode" forceUppercase="true">
+            <attributeReference name="payrollEndDateFiscalPeriodCode"
+                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+                sourceAttributeName="universityFiscalAccountingPeriod" >
                 <label>Payroll End Date Fiscal Period Code</label>
                 <shortLabel>Pay Per</shortLabel>
+                <summary>Payroll End Date Fiscal Period Code</summary>
+            </attributeReference>
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-				<required>true</required>
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>payrollEndDateFiscalPeriodCode</summary>
-                <description>payrollEndDateFiscalPeriodCode description...</description>
-			</attribute>
-
-            <attribute name="payrollEndDateFiscalYear" forceUppercase="true">
+            <attributeReference name="payrollEndDateFiscalYear"
+                sourceClassName="org.kuali.kfs.bo.TargetAccountingLine"
+                sourceAttributeName="postingYear" >
                 <label>Payroll End Date Fiscal Year</label>
                 <shortLabel>Pay FY</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><numeric /></validationPattern>
-				<required>true</required>
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>payrollEndDateFiscalYear</summary>
-                <description>payrollEndDateFiscalYear description...</description>
-			</attribute>
+                <summary>Payroll End Date Fiscal Year</summary>
+b			</attribute>
 
             <attribute name="payrollTotalHours" forceUppercase="true">
                 <label>Payroll Total Hours</label>

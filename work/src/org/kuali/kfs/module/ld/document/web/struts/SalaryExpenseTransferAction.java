@@ -41,6 +41,9 @@ import org.kuali.module.labor.web.struts.form.SalaryExpenseTransferForm;
  */
 public class SalaryExpenseTransferAction extends LaborDocumentActionBase {
 
+    /**
+     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#processAccountingLineOverrides(KualiAccountingDocumentFormBase)
+     */
     @Override         
     protected void processAccountingLineOverrides(KualiAccountingDocumentFormBase transForm) {
         
@@ -60,6 +63,10 @@ public class SalaryExpenseTransferAction extends LaborDocumentActionBase {
         }
     }
 
+    /**
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse)
+     */
+    @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SalaryExpenseTransferForm salaryExpenseTransferForm = (SalaryExpenseTransferForm) form;
 

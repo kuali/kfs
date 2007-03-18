@@ -17,6 +17,7 @@ package org.kuali.module.labor.dao;
 
 import java.util.List;
 
+import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
 import org.kuali.module.labor.bo.LedgerEntry;
 
 /**
@@ -24,6 +25,6 @@ import org.kuali.module.labor.bo.LedgerEntry;
  */
 public interface LaborDao {
  
-    List getCSFTrackerData(LedgerEntry ledgerEntry);
+    List getCSFTrackerData(CalculatedSalaryFoundationTracker csf);
 
 }

@@ -23,25 +23,42 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.PropertyConstants;
 import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
-import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.dao.LaborDao;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
- * This class...
+ * This class is used to retrieve Calculated Salary Foundation Tracker information.
  */
 public class LaborDaoOjb extends PersistenceBrokerDaoSupport implements LaborDao {
 
-    public List getCSFTrackerData(LedgerEntry ledgerEntry) {
+    /**
+     * @see org.kuali.module.labor.dao.LaborDao#getCSFTrackerData(org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker)
+     */
+    public List getCSFTrackerData(CalculatedSalaryFoundationTracker csf) {
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR, ledgerEntry.getUniversityFiscalYear());
-        criteria.addEqualTo(PropertyConstants.CHART_OF_ACCOUNTS_CODE, ledgerEntry.getChartOfAccountsCode());
-        criteria.addEqualTo(PropertyConstants.ACCOUNT_NUMBER, ledgerEntry.getAccountNumber());
-        criteria.addEqualTo(PropertyConstants.SUB_ACCOUNT_NUMBER, ledgerEntry.getSubAccountNumber());
-        criteria.addEqualTo(PropertyConstants.FINANCIAL_OBJECT_CODE, ledgerEntry.getFinancialObjectCode());
-        
-        QueryByCriteria query = QueryFactory.newQuery(CalculatedSalaryFoundationTracker.class, criteria);        
+        criteria.addLike(PropertyConstants.UNIVERSITY_FISCAL_YEAR, csf.getUniversityFiscalYear());
+        if ((csf.getChartOfAccountsCode().length() == 0))
+            criteria.addLike(PropertyConstants.CHART_OF_ACCOUNTS_CODE, "*");
+        else
+            criteria.addLike(PropertyConstants.CHART_OF_ACCOUNTS_CODE, csf.getChartOfAccountsCode());
+
+        if ((csf.getAccountNumber().length() == 0))
+            criteria.addLike(PropertyConstants.ACCOUNT_NUMBER, "*");
+        else
+            criteria.addLike(PropertyConstants.ACCOUNT_NUMBER, csf.getAccountNumber());
+
+        if ((csf.getSubAccountNumber().length() == 0))
+            criteria.addLike(PropertyConstants.SUB_ACCOUNT_NUMBER, "*");
+        else
+            criteria.addLike(PropertyConstants.SUB_ACCOUNT_NUMBER, csf.getSubAccountNumber());
+
+        if ((csf.getFinancialObjectCode().length() == 0))
+            criteria.addLike(PropertyConstants.FINANCIAL_OBJECT_CODE, "*");
+        else
+            criteria.addLike(PropertyConstants.FINANCIAL_OBJECT_CODE, csf.getFinancialObjectCode());
+
+        QueryByCriteria query = QueryFactory.newQuery(CalculatedSalaryFoundationTracker.class, criteria);
         return new ArrayList(getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(CalculatedSalaryFoundationTracker.class, criteria)));
     }
 }

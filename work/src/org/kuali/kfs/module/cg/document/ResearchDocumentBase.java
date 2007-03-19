@@ -16,6 +16,7 @@
 package org.kuali.module.kra.document;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -141,6 +142,32 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase imp
             this.getAdhocWorkgroups().add(new AdhocWorkgroup());
         }
         return this.getAdhocWorkgroups().get(index);
+    }
+    
+    /**
+     * Clears all adhocs of a given type.
+     * 
+     * @param adhocTypeCode
+     */
+    public void clearAdhocType(String adhocTypeCode) {
+        for (Iterator iter = this.adhocPersons.iterator(); iter.hasNext();) {
+            AdhocPerson person = (AdhocPerson) iter.next();
+            if (adhocTypeCode.equals(person.getAdhocTypeCode())) {
+                iter.remove();
+            }
+        }
+        for (Iterator iter = this.adhocOrgs.iterator(); iter.hasNext();) {
+            AdhocOrg org = (AdhocOrg) iter.next();
+            if (adhocTypeCode.equals(org.getAdhocTypeCode())) {
+                iter.remove();
+            }
+        }
+        for (Iterator iter = this.adhocWorkgroups.iterator(); iter.hasNext();) {
+            AdhocWorkgroup workgroup = (AdhocWorkgroup) iter.next();
+            if (adhocTypeCode.equals(workgroup.getAdhocTypeCode())) {
+                iter.remove();
+            }
+        }
     }
 
     /**

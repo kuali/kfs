@@ -24,6 +24,7 @@ import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.BudgetConstructionMonthly;
+import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.dao.ojb.BudgetConstructionDaoOjb;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
 
@@ -31,9 +32,14 @@ import org.kuali.module.budget.document.BudgetConstructionDocument;
 public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetConstructionForm.class);
     
+    private PendingBudgetConstructionGeneralLedger newRevenueLine;
+    private PendingBudgetConstructionGeneralLedger newExpenditureLine;
+
     public BudgetConstructionForm() {
         super();
         setDocument(new BudgetConstructionDocument());
+        this.setNewRevenueLine(new PendingBudgetConstructionGeneralLedger());
+        this.setNewExpenditureLine(new PendingBudgetConstructionGeneralLedger());
         LOG.debug("creating BudgetConstructionForm");
     }
     
@@ -43,6 +49,38 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
 
     public void setBudgetConstructionDocument(BudgetConstructionDocument budgetConstructionDocument){
         setDocument(budgetConstructionDocument);
+    }
+
+    /**
+     * Gets the newExpenditureLine attribute. 
+     * @return Returns the newExpenditureLine.
+     */
+    public PendingBudgetConstructionGeneralLedger getNewExpenditureLine() {
+        return newExpenditureLine;
+    }
+
+    /**
+     * Sets the newExpenditureLine attribute value.
+     * @param newExpenditureLine The newExpenditureLine to set.
+     */
+    public void setNewExpenditureLine(PendingBudgetConstructionGeneralLedger newExpenditureLine) {
+        this.newExpenditureLine = newExpenditureLine;
+    }
+
+    /**
+     * Gets the newRevenueLine attribute. 
+     * @return Returns the newRevenueLine.
+     */
+    public PendingBudgetConstructionGeneralLedger getNewRevenueLine() {
+        return newRevenueLine;
+    }
+
+    /**
+     * Sets the newRevenueLine attribute value.
+     * @param newRevenueLine The newRevenueLine to set.
+     */
+    public void setNewRevenueLine(PendingBudgetConstructionGeneralLedger newRevenueLine) {
+        this.newRevenueLine = newRevenueLine;
     }
 
    

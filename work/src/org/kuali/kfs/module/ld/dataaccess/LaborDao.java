@@ -15,16 +15,15 @@
  */
 package org.kuali.module.labor.dao;
 
+import java.util.Collection;
 import java.util.List;
-
-import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
-import org.kuali.module.labor.bo.LedgerEntry;
+import java.util.Map;
 
 /**
- * This class...
+ * This class is an interface for all new labor data access objects
  */
 public interface LaborDao {
  
-    List getCSFTrackerData(CalculatedSalaryFoundationTracker csf);
+    Collection getCSFTrackerData(Map fieldValues);
 
 }

@@ -266,8 +266,8 @@
 			<ref bean="laborPosterService" />
 		</property>
 	</bean>    
-	
-	 <bean id="CSFTrackerBalanceLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		
+	<bean id="CSFTrackerBalanceLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="CSFTrackerBalanceLookupableHelperService" />
 		</property>

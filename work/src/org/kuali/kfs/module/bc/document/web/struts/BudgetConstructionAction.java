@@ -226,6 +226,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             parameters.put(BCConstants.RETURN_ANCHOR, ((KualiForm) form).getAnchor());
         }
 
+        // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
         parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form));
             
         String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.MONTHLY_BUDGET_ACTION, parameters);
@@ -288,5 +289,3 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
     }
 
 }
-    
-

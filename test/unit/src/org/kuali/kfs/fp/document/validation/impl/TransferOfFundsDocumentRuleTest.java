@@ -82,7 +82,6 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
         testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument(), FLEXIBLE_EXPENSE_LINE.createTargetAccountingLine(), EXPECTED_FLEXIBLE_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE2, EXPECTED_FLEXIBLE_OFFSET_SOURCE_PENDING_ENTRY);
     }
 
-    @RelatesTo(RelatesTo.JiraIssue.KULRNE4213)
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpenseMissingOffsetDefinition() throws Exception {
         TestUtils.mockConfigurationServiceForFlexibleOffsetEnabled(true);
         TransferOfFundsDocument document = DocumentTestUtils.createDocument(getDocumentService(), TransferOfFundsDocument.class);

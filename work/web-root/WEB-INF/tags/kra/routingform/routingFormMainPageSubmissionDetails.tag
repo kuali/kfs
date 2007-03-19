@@ -187,8 +187,7 @@
 		              <tr>
 		                <td class="nobord" colspan=2> <div align="left">
 					    	<c:if test="${!viewOnly}">
-					    	    <!-- KULRNE-4500 & KULRNE-4502: Following line is to be replaced with kul:lookup once that is ready for multi value lookup. -->
-						    	Look Up/Add Multiple Keywords <input type="image" name="methodToCall.performLookup.org.kuali.module.kra.routingform.bo.Keyword.(!!org.kuali.module.kra.routingform.bo.Keyword!!)((%true%)).multipleValues.true.(:;routingFormKeywords;:).3.anchor${currentTabIndex}" src="images/searchicon.gif" border="0" class="tinybutton" valign="middle" alt="Search Keywords" title="Search Keywords">
+						    	<kul:multipleValueLookup boClassName="org.kuali.module.kra.routingform.bo.Keyword" lookedUpCollectionName="routingFormKeywords" fieldLabel="Keywords" iconLabel="Look Up/Add Multiple Keywords" anchor="${currentTabIndex}"/>
 		                	</c:if>
 		                </div></td>
 		              </tr>   

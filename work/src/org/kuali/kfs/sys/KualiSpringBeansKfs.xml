@@ -175,24 +175,18 @@
 		<property name="cronExpression" value="00 00 23 ? * *" />
 	</bean>
 
-	<bean id="purgeOldLookupResultsJob" parent="scheduledJobDescriptor">
-		<property name="steps">
-			<list>
-				<ref bean="purgeOldLookupResultsStep" />
-			</list>
-		</property>
-	</bean>
-
 	<bean id="purgeOldLookupResultsStep" class="org.kuali.core.batch.PurgeOldLookupResultsStep" parent="step">
 		<property name="lookupResultsService">
 			<ref bean="lookupResultsService" />
 		</property>
 	</bean>
 
-	<bean id="purgeDocumentContentsJob" parent="scheduledJobDescriptor">
+	<bean id="corePurgeJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="corePurgeDocumentContentsStep" />
+				<ref bean="purgePendingAttachmentsStep" />
+				<ref bean="purgeOldLookupResultsStep" />
 			</list>
 		</property>
 	</bean>
@@ -203,5 +197,9 @@
 		</property>
 	</bean>
 
-
+	<bean id="purgePendingAttachmentsStep" class="org.kuali.core.batch.PurgePendingAttachmentsStep" parent="step">
+		<property name="attachmentService">
+			<ref bean="attachmentService" />
+		</property>
+	</bean>
 </beans>

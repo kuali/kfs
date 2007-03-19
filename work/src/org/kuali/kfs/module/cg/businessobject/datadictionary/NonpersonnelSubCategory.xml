@@ -19,7 +19,7 @@
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.NonpersonnelSubCategory">
-        <customAttributeEnabled>false</customAttributeEnabled>
+
 
         <inquiry>
             <title>Nonpersonnel Sub Category</title>

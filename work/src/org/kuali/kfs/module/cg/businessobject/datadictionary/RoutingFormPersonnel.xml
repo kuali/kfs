@@ -19,7 +19,7 @@
     "../dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.kra.routingform.bo.RoutingFormPersonnel">
-        <customAttributeEnabled>false</customAttributeEnabled>
+
 
         <inquiry>
             <title>Routing Form Personnel Inquiry</title>

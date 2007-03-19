@@ -19,7 +19,7 @@
     "../dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.financial.bo.ProcurementCardVendor">
-        <customAttributeEnabled>false</customAttributeEnabled>
+
 
         <inquiry>
             <title>Procurement Card Transaction Vendor Inquiry</title>

@@ -19,7 +19,7 @@
     "../dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.purap.bo.CreditMemoAccount">
-        <customAttributeEnabled>false</customAttributeEnabled>
+
 
         <inquiry>
             <title>Credit Memo Account Inquiry</title>

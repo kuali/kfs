@@ -19,7 +19,7 @@
     "../dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.kra.routingform.bo.DueDateType">
-        <customAttributeEnabled>false</customAttributeEnabled>
+
 
         <inquiry>
             <title>Due Date Type Inquiry</title>

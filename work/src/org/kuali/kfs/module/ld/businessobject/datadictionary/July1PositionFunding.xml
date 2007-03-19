@@ -19,7 +19,7 @@
     "../dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.labor.bo.July1PositionFunding">
-        <customAttributeEnabled>false</customAttributeEnabled>
+
 
         <inquiry>
             <title>July 1 Position Funding Inquiry</title>

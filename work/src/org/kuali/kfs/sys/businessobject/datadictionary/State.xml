@@ -20,7 +20,7 @@
 
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.kfs.bo.State">
-        <customAttributeEnabled>false</customAttributeEnabled>
+
 
         <inquiry>
             <title>State Inquiry</title>

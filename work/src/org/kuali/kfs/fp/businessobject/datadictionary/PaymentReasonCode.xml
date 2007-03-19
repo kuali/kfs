@@ -21,7 +21,7 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.financial.bo.PaymentReasonCode">
 
-        <customAttributeEnabled>false</customAttributeEnabled>
+
 
         <inquiry>
             <title>Payment Reason Code inquiry</title>

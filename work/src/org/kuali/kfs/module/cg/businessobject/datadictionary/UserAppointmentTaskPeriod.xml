@@ -19,7 +19,7 @@
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.UserAppointmentTaskPeriod">
-        <customAttributeEnabled>false</customAttributeEnabled>
+
         <attributes>
             <attributeReference name="documentNumber" sourceClassName="org.kuali.module.kra.budget.bo.Budget" sourceAttributeName="documentNumber" />
 

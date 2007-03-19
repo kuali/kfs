@@ -19,7 +19,7 @@
     "../dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes">
-        <customAttributeEnabled>false</customAttributeEnabled>
+
 
         <attributes>
             <attribute name="pendingEntryOption">

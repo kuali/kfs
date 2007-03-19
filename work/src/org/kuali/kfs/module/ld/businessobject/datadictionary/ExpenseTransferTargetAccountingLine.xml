@@ -20,7 +20,7 @@
     [<!ENTITY accountingLineBaseAttributes SYSTEM "../../../kfs/entities/AccountingLineBaseAttributes.xml">]>
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.labor.bo.ExpenseTransferTargetAccountingLine">
-        <customAttributeEnabled>false</customAttributeEnabled>
+
 
         <attributes>
 

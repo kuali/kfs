@@ -19,7 +19,7 @@
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.chart.bo.AccountingPeriod">
-        <customAttributeEnabled>true</customAttributeEnabled>
+
 
         <inquiry>
             <title>Accounting Period Inquiry</title>
@@ -165,15 +165,6 @@
             <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />
         </attributes>
 
-        <collections>
-            <collection name="extendedAttributeValues">
-                <label>Extended Attribute Values</label>
-                <shortLabel>Values</shortLabel>
-                <summary>extendedAttributeValues</summary>
-                <description>extendedAttributeValues description...</description>
-            </collection>
-        </collections>
-        
         <objectLabel>Accounting Period</objectLabel>
     </businessObject>
 </dictionaryEntry>

@@ -19,8 +19,6 @@
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.kra.bo.AdhocWorkgroup">
-    
-    	<customAttributeEnabled>false</customAttributeEnabled>
     	
     	<attributes>
     	

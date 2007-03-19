@@ -39,7 +39,6 @@ public class CashDetailTypeCodeTest extends KualiTestBase {
         cdtc = new CashDetailTypeCode();
         cdtc.setActive(ACTIVE_IND);
         cdtc.setCode(CODE);
-        cdtc.setExtendedAttributeValues(new ArrayList());
         cdtc.setName(NAME);
         cdtc.setObjectId(GUID);
         cdtc.setVersionNumber(VER_NBR);

@@ -20,7 +20,7 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.BudgetPeriod">
 
-        <customAttributeEnabled>false</customAttributeEnabled>
+
 
         <attributes>
 

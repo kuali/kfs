@@ -20,8 +20,6 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.kra.bo.AdhocPerson">
     
-    	<customAttributeEnabled>false</customAttributeEnabled>
-    	
     	<attributes>
     	
     		<attribute name="documentNumber" forceUppercase="true">

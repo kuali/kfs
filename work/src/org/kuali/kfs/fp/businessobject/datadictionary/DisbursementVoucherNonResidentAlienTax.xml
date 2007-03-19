@@ -21,7 +21,7 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.financial.bo.DisbursementVoucherNonResidentAlienTax">
 
-        <customAttributeEnabled>false</customAttributeEnabled>
+
 
         <attributes>
 

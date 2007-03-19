@@ -20,7 +20,7 @@
 
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.gl.bo.AccountBalanceByConsolidation">
-        <customAttributeEnabled>false</customAttributeEnabled>
+
         <inquiry>
             <title>Balances By Consolidation</title>
             <inquirySections><inquirySection title="Header Text"><inquiryFields>

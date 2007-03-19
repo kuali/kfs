@@ -20,7 +20,7 @@
 
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.chart.bo.Chart">
-        <customAttributeEnabled>true</customAttributeEnabled>
+
 
         <inquiry>
             <title>Chart Inquiry</title>

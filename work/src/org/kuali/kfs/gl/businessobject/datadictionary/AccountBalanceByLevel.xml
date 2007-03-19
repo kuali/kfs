@@ -20,7 +20,7 @@
 
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.gl.bo.AccountBalanceByLevel">
-        <customAttributeEnabled>false</customAttributeEnabled>
+
         <inquiry>
             <title>Balances By Level</title>
             <inquirySections><inquirySection title="Header Text"><inquiryFields>

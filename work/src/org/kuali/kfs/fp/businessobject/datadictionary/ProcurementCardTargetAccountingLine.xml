@@ -21,7 +21,7 @@
 ]>
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine">
-        <customAttributeEnabled>false</customAttributeEnabled>
+
 
         <attributes>
 
@@ -30,17 +30,5 @@
             &accountingLineBaseAttributes;
         </attributes>
 
-        <collections>
-            <collection name="extendedAttributeValues">
-                <label>Extended Attribute Values</label>
-                <shortLabel>Values</shortLabel>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
-            </collection>
-        </collections>
     </businessObject>
 </dictionaryEntry>

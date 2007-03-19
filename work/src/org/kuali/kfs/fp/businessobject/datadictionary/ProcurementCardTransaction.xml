@@ -19,7 +19,7 @@
     "../dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.financial.bo.ProcurementCardTransaction">
-        <customAttributeEnabled>false</customAttributeEnabled>
+
 
         <attributes>
             <attributeReference name="cardCycleAmountLimit" sourceClassName="org.kuali.module.financial.bo.ProcurementCardHolder" sourceAttributeName="cardCycleAmountLimit" />

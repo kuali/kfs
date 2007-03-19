@@ -19,7 +19,7 @@
     "../dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.kfs.bo.TargetAccountingLine">
-        <customAttributeEnabled>false</customAttributeEnabled>
+
 
         <attributes>
             <attributeReference name="balanceTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="code">
@@ -318,17 +318,5 @@
             </attribute>
         </attributes>
 
-        <collections>
-            <collection name="extendedAttributeValues">
-                <label>Extended Attribute Values</label>
-                <shortLabel>Values</shortLabel>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>
-                    <![CDATA[&nbsp;]]>
-                </description>
-            </collection>
-        </collections>
     </businessObject>
 </dictionaryEntry>

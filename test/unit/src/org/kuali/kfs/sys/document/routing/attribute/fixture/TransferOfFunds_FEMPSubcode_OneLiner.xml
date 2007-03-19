@@ -342,7 +342,6 @@
                                 <organizationDefaultAccountNumber>1919330</organizationDefaultAccountNumber>
                                 <chartOfAccountsCode>UA</chartOfAccountsCode>
                                 <objectId>014F3DAF7F85A448E043814FD28EA448</objectId>
-                                <extendedAttributeValues />
                                 <versionNumber>1</versionNumber>
                             </reportsToOrganization>
                             <reportsToChartOfAccounts reference="../../chartOfAccounts" />
@@ -367,7 +366,6 @@
                             <organizationDefaultAccountNumber>1912410</organizationDefaultAccountNumber>
                             <chartOfAccountsCode>UA</chartOfAccountsCode>
                             <objectId>014F3DAF7F93A448E043814FD28EA448</objectId>
-                            <extendedAttributeValues />
                             <versionNumber>1</versionNumber>
                         </organization>
                         <personOrigination class="org.kuali.kfs.bo.OriginationCode--EnhancerByCGLIB--fcc8c248">
@@ -964,7 +962,6 @@
                             <accountDescription class="org.kuali.module.chart.bo.AccountDescription--EnhancerByCGLIB--82fab084" />
                             <subAccounts class="org.apache.ojb.broker.core.proxy.ListProxyDefaultImpl" />
                             <objectId>014C92B06BB1A16EE043814FD881A16E</objectId>
-                            <extendedAttributeValues />
                             <versionNumber>1</versionNumber>
                         </account>
                         <objectCode class="org.kuali.module.chart.bo.ObjectCode--EnhancerByCGLIB--7a1de89">
@@ -984,7 +981,6 @@
                             <finObjMandatoryTrnfrelimCd>N</finObjMandatoryTrnfrelimCd>
                             <financialFederalFundedCode>N</financialFederalFundedCode>
                             <objectId>014F3DAF440AA448E043814FD28EA448</objectId>
-                            <extendedAttributeValues />
                             <versionNumber>1</versionNumber>
                         </objectCode>
                         <subAccount class="org.kuali.module.chart.bo.SubAccount--EnhancerByCGLIB--c8c24cf2" />
@@ -1065,7 +1061,6 @@
                             <accountDescription class="org.kuali.module.chart.bo.AccountDescription--EnhancerByCGLIB--82fab084" />
                             <subAccounts class="org.apache.ojb.broker.core.proxy.ListProxyDefaultImpl" />
                             <objectId>014C92B06A56A16EE043814FD881A16E</objectId>
-                            <extendedAttributeValues />
                             <versionNumber>1</versionNumber>
                         </account>
                         <objectCode class="org.kuali.module.chart.bo.ObjectCode--EnhancerByCGLIB--7a1de89">
@@ -1084,7 +1079,6 @@
                             <finObjMandatoryTrnfrelimCd>E</finObjMandatoryTrnfrelimCd>
                             <financialFederalFundedCode>N</financialFederalFundedCode>
                             <objectId>014F3DAF2313A448E043814FD28EA448</objectId>
-                            <extendedAttributeValues />
                             <versionNumber>1</versionNumber>
                         </objectCode>
                         <subAccount class="org.kuali.module.chart.bo.SubAccount--EnhancerByCGLIB--c8c24cf2" />

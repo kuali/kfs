@@ -24,7 +24,7 @@
 -->
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.chart.bo.ObjectCode">
-        <customAttributeEnabled>true</customAttributeEnabled>
+
 
         <inquiry>
             <title>Object Code Inquiry</title>

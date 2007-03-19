@@ -20,7 +20,7 @@
 
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.gl.bo.CashBalance">
-        <customAttributeEnabled>false</customAttributeEnabled>
+
         <inquiry>
             <title>Cash Balance</title>
             <inquirySections><inquirySection title="Header Text"><inquiryFields>

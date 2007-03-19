@@ -19,7 +19,7 @@
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.chart.bo.SubFundGroup">
-        <customAttributeEnabled>true</customAttributeEnabled>
+
 
         <inquiry>
             <title>Sub-Fund Group Inquiry</title>
@@ -195,15 +195,6 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
-
-        <collections>
-            <collection name="extendedAttributeValues">
-                <label>Extended Attribute Values</label>
-                <shortLabel>Values</shortLabel>
-                <summary>extendedAttributeValues</summary>
-                <description>extendedAttributeValues description...</description>
-            </collection>
-        </collections>
         
         <objectLabel>Sub-Fund Group</objectLabel>
     </businessObject>

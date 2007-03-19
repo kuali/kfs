@@ -21,7 +21,7 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.chart.bo.RestrictedStatus">
 
-        <customAttributeEnabled>true</customAttributeEnabled>
+
 
         <inquiry>
             <title>Restricted Status inquiry</title>

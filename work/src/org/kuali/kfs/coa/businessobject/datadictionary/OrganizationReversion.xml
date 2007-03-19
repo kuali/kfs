@@ -19,7 +19,7 @@
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.chart.bo.OrganizationReversion">
-        <customAttributeEnabled>true</customAttributeEnabled>
+
 
         <inquiry>
             <title>Organization Reversion Inquiry</title>
@@ -27,14 +27,14 @@
             <inquirySections>
             	<inquirySection title="Header Text">
             		<inquiryFields>
-		                <field attributeName="universityFiscalYear" />
-		                <field attributeName="chartOfAccountsCode" />
-		                <field attributeName="organizationCode" />
-		                <field attributeName="budgetReversionChartOfAccountsCode" />
-		                <field attributeName="budgetReversionAccountNumber" />
-		                <field attributeName="cashReversionFinancialChartOfAccountsCode" />
-		                <field attributeName="cashReversionAccountNumber" />
-		                <field attributeName="carryForwardByObjectCodeIndicator" />
+                <field attributeName="universityFiscalYear" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="organizationCode" />
+                <field attributeName="budgetReversionChartOfAccountsCode" />
+                <field attributeName="budgetReversionAccountNumber" />
+                <field attributeName="cashReversionFinancialChartOfAccountsCode" />
+                <field attributeName="cashReversionAccountNumber" />
+                <field attributeName="carryForwardByObjectCodeIndicator" />
             		</inquiryFields>
             	</inquirySection>
             	<inquirySection title="Organization Reversion Details">
@@ -144,6 +144,9 @@
                     <![CDATA[&nbsp;]]>
                 </description>
             </attributeReference>
+
+
+
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 

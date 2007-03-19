@@ -20,7 +20,7 @@
 
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.BudgetGraduateAssistantRate">
-        <customAttributeEnabled>false</customAttributeEnabled>
+
 
         <attributes>
             <attribute name="documentNumber" forceUppercase="true">

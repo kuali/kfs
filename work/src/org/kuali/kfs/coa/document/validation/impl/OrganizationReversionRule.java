@@ -24,11 +24,7 @@ import org.kuali.module.chart.bo.OrganizationReversion;
 import org.kuali.module.chart.bo.OrganizationReversionDetail;
 
 /**
- * 
  * This class implements the business rules specific to the Organization Reversion Maintenance Document.
- * 
- * 
- * 
  */
 public class OrganizationReversionRule extends MaintenanceDocumentRuleBase {
 
@@ -53,7 +49,7 @@ public class OrganizationReversionRule extends MaintenanceDocumentRuleBase {
 
         boolean success = true;
 
-        // make sure its a valid ExtendedAttribute MaintenanceDocument
+        // make sure its a valid organization reversion MaintenanceDocument
         if (!isCorrectMaintenanceClass(document, OrganizationReversion.class)) {
             throw new IllegalArgumentException("Maintenance Document passed in was of the incorrect type.  Expected " + "'" + OrganizationReversion.class.toString() + "', received " + "'" + document.getOldMaintainableObject().getBoClass().toString() + "'.");
         }
@@ -71,7 +67,7 @@ public class OrganizationReversionRule extends MaintenanceDocumentRuleBase {
      * 
      * Tests each option attached to the main business object and validates its properties.
      * 
-     * @param extendedAttribute
+     * @param orgReversion
      * @return
      */
     private boolean validateDetailBusinessObjects(OrganizationReversion orgReversion) {

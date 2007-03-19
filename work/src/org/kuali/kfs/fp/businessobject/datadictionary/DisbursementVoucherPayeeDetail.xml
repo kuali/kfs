@@ -21,7 +21,7 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail">
 
-        <customAttributeEnabled>false</customAttributeEnabled>
+
         
         <titleAttribute>dvPayeeDetail</titleAttribute>
 

@@ -18,10 +18,7 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../core/datadictionary/dataDictionary-1_0.dtd">
 <dictionaryEntry>
-	<businessObject
-		businessObjectClass="org.kuali.module.chart.bo.OrganizationExtension">
-
-		<customAttributeEnabled>true</customAttributeEnabled>
+	<businessObject businessObjectClass="org.kuali.module.chart.bo.OrganizationExtension">
 
 		<attributes>
 			<attributeReference name="chartOfAccountsCode" 

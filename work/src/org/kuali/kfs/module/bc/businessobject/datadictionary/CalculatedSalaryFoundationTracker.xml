@@ -19,7 +19,7 @@
     "../dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker">
-        <customAttributeEnabled>false</customAttributeEnabled>
+
 
         <inquiry>
             <title>Calculated Salary Foundation Tracker Inquiry</title>
@@ -98,6 +98,7 @@
             <attribute name="accountNumber" forceUppercase="true">
                 <label>Account Number</label>
                 <shortLabel>Number</shortLabel>
+
                 <maxLength>7</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
 

@@ -20,7 +20,7 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.kra.budget.bo.BudgetUser">
 
-        <customAttributeEnabled>false</customAttributeEnabled>
+
 
         <inquiry>
             <title>Personnel Inquiry</title>

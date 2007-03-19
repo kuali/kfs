@@ -58,13 +58,14 @@
                     <sortAttribute attributeName="universityFiscalYear" />
                     <sortAttribute attributeName="chartOfAccountsCode" />
                     <sortAttribute attributeName="accountNumber" />
+                    <sortAttribute attributeName="positionNumber" />
                 </sortAttributes>
             </defaultSort>
 
 			<lookupFields>
- 				<lookupField attributeName="universityFiscalYear" required="false" />
+ 				<lookupField attributeName="universityFiscalYear" required="true" />
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="accountNumber" required="false" />
+                <lookupField attributeName="accountNumber" required="true" />
                 <lookupField attributeName="subAccountNumber" required="false" />
                 <lookupField attributeName="financialObjectCode" required="false" />
             </lookupFields>
@@ -97,7 +98,6 @@
             <attribute name="accountNumber" forceUppercase="true">
                 <label>Account Number</label>
                 <shortLabel>Number</shortLabel>
-
                 <maxLength>7</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
 

@@ -25,8 +25,6 @@ import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class tests the AccountingPeriod business object.
- * 
- * 
  */
 @WithTestSpringContext
 public class AccountingPeriodTest extends KualiTestBase {
@@ -46,7 +44,6 @@ public class AccountingPeriodTest extends KualiTestBase {
         univFiscPerdEndDate = new java.sql.Date(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
         ap = new AccountingPeriod();
         ap.setBudgetRolloverIndicator(BUDGET_ROLLOVER_IND);
-        ap.setExtendedAttributeValues(new ArrayList());
         ap.setObjectId(GUID);
         ap.setUniversityFiscalPeriodCode(UNIV_FISC_PERD_CODE);
         ap.setUniversityFiscalPeriodEndDate(univFiscPerdEndDate);
@@ -58,7 +55,6 @@ public class AccountingPeriodTest extends KualiTestBase {
 
     public void testAccountingPeriodPojo() {
         assertEquals(BUDGET_ROLLOVER_IND, ap.isBudgetRolloverIndicator());
-        assertEquals(0, ap.getExtendedAttributeValues().size());
         assertEquals(GUID, ap.getObjectId());
         assertEquals(UNIV_FISC_PERD_CODE, ap.getUniversityFiscalPeriodCode());
         assertEquals(univFiscPerdEndDate, ap.getUniversityFiscalPeriodEndDate());

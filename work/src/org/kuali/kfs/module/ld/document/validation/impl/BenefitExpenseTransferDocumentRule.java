@@ -62,7 +62,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
      ! Only fringe benefit labor object codes are allowed on this document. 
      ! The document must have at least one “FROM” segment and one “TO” segment. 
      ! The total amount on the “FROM” side must equal the total amount on the “TO” side. 
-     Testing -  Transfers cannot be made between two different fringe benefit labor object codes. 
+     Testing - Transfers cannot be made between two different fringe benefit labor object codes. 
      ??  Only the “Account” and “Amount” fields may be edited in the “TO” zone. 
      * The Justification field is required and should include as much pertinent detail as possible. 
      * The Fiscal Year field on this eDoc is used differently as compared to other TP documents. In the Benefit Transfer document, this field is
@@ -92,8 +92,6 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         accountingLines.addAll(benefitDoc.getTargetAccountingLines());
 
         for (AccountingLine lines : accountingLines) {
-            // LOG.info("1:" + accountingLine.getFinancialObjectCode());
-            // LOG.info("2:" + lines.getFinancialObjectCode());
             if ((accountingLine.getFinancialObjectCode() != null) && (lines.getFinancialObjectCode() != null)) {
 
                 if (!accountingLine.getFinancialObjectCode().equals(lines.getFinancialObjectCode())) {
@@ -146,11 +144,6 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
             return false;
         }
         
-        // Make sure the Justification field is filled in.
-        if (accountingDocument.getDocumentHeader().getExplanation().length() == 0) {
-            reportError(PropertyConstants.ACCOUNT, KeyConstants.Labor.INVALID_PAY_PERIOD_CODE);
-            return false;
-        }
         return true;
     }
 

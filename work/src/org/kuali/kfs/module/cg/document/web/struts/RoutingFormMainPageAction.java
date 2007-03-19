@@ -30,12 +30,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.chart.bo.ChartUser;
-import org.kuali.module.chart.service.ChartUserService;
 import org.kuali.module.kra.routingform.bo.Keyword;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent;
@@ -76,8 +72,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
     public ActionForward deletePersonLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         RoutingForm routingForm = (RoutingForm) form;
         
-        int lineToDelete = getLineToDelete(request);
-        routingForm.getRoutingFormDocument().getRoutingFormPersonnel().remove(getLineToDelete(request));
+        routingForm.getRoutingFormDocument().getRoutingFormPersonnel().remove(super.getLineToDelete(request));
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -110,8 +105,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
     public ActionForward deleteOrganizationCreditPercentLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         RoutingForm routingForm = (RoutingForm) form;
         
-        int lineToDelete = getLineToDelete(request);
-        routingForm.getRoutingFormDocument().getRoutingFormOrganizationCreditPercents().remove(getLineToDelete(request));
+        routingForm.getRoutingFormDocument().getRoutingFormOrganizationCreditPercents().remove(super.getLineToDelete(request));
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -128,9 +122,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
     public ActionForward deleteRoutingFormKeyword(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         RoutingForm routingForm = (RoutingForm) form;
 
-        // Remove the item from the list.
-        int lineToDelete = super.getLineToDelete(request);
-        routingForm.getRoutingFormDocument().getRoutingFormKeywords().remove(lineToDelete);
+        routingForm.getRoutingFormDocument().getRoutingFormKeywords().remove(super.getLineToDelete(request));
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -172,12 +164,6 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         RoutingForm routingForm = (RoutingForm) form;
         RoutingFormDocument routingFormDocument = routingForm.getRoutingFormDocument();
-
-        // Logic for SF424 question.
-        ActionForward preRulesForward = preRulesCheck(mapping, form, request, response, "save");
-        if (preRulesForward != null) {
-            return preRulesForward;
-        }
         
         retrieveMainPageReferenceObjects(routingFormDocument);
         
@@ -244,7 +230,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
                 RoutingFormPersonnel newRoutingFormPerson = routingForm.getNewRoutingFormPerson();
 
                 // coming back from new Person lookup - person selected. Unset TBN indicated and set chart / org.
-                setupPerson(newRoutingFormPerson);
+                newRoutingFormPerson.populateWithUserServiceFields();
                 newRoutingFormPerson.setPersonToBeNamedIndicator(false);
             }
             else if ("true".equals(request.getParameter("newRoutingFormPerson.personToBeNamedIndicator"))) {
@@ -261,7 +247,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
                     RoutingFormPersonnel routingFormPersonnel = routingFormDocument.getRoutingFormPersonnel().get(personIndex);
                     
                     // coming back from Person lookup - Person selected. Unset TBN indicated and set chart / org.
-                    setupPerson(routingFormPersonnel);
+                    routingFormPersonnel.populateWithUserServiceFields();
                     routingFormPersonnel.setPersonToBeNamedIndicator(false);
                 }
                 else if ("true".equals(request.getParameter("document.routingFormPersonnel[" + personIndex + "].personToBeNamedIndicator"))) {
@@ -275,33 +261,6 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-
-    /**
-     * Sets several fields in RoutingFormPersonnel person based upon the contained UniversalUserService's ChartUserService:
-     * <ul>
-     * <li>chart</li>
-     * <li>org</li>
-     * <li>email address</li>
-     * <li>campus address</li>
-     * <li>phone number</li>
-     * </ul>
-     * @param routingFormPersonnel
-     */
-    private void setupPerson(RoutingFormPersonnel routingFormPersonnel) {
-        // retrieve services and refresh UniversalUser objects (it's empty after returning from a kul:lookup)
-        UniversalUserService universalUserService = SpringServiceLocator.getUniversalUserService();
-        ChartUserService chartUserService = SpringServiceLocator.getChartUserService();
-        UniversalUser user =  universalUserService.updateUniversalUserIfNecessary(routingFormPersonnel.getPersonUniversalIdentifier(), routingFormPersonnel.getUser());
-        
-        // set chart / org for new person
-        routingFormPersonnel.setChartOfAccountsCode(chartUserService.getDefaultChartOfAccountsCode( (ChartUser)user.getModuleUser(ChartUser.MODULE_ID) ));
-        routingFormPersonnel.setOrganizationCode(chartUserService.getDefaultOrganizationCode( (ChartUser)user.getModuleUser(ChartUser.MODULE_ID) ));
-        
-        // set email address, campus address, and phone
-        routingFormPersonnel.setPersonEmailAddress(user.getPersonEmailAddress());
-        routingFormPersonnel.setPersonLine1Address(user.getPersonCampusAddress());
-        routingFormPersonnel.setPersonPhoneNumber(user.getPersonLocalPhoneNumber());
     }
 
     /**

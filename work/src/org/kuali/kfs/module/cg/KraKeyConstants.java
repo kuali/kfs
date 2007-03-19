@@ -27,7 +27,6 @@ public class KraKeyConstants {
 
     // KRA confirmation messages
     public static final String QUESTION_KRA_DELETE_CONFIRMATION = "document.question.deleteContext.text";
-    public static final String ROUTING_FORM_GRANTS_GOV = "document.routingForm.grants.gov";
     
     // KRA specific Error Codes
     public static final String ERROR_INVALID_PERIOD_LENGTH = "error.invalidPeriodLength";

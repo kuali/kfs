@@ -18,7 +18,6 @@ package org.kuali.module.kra.routingform.service;
 import java.util.List;
 
 import org.kuali.module.kra.routingform.bo.Purpose;
-import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 
 /**
  * Purpose Service
@@ -30,10 +29,4 @@ public interface PurposeService {
      * @return typed list of Purposes
      */
     public List<Purpose> getPurposes();
-
-    /**
-     * Setup routing form purpose.
-     * @param routingFormDocument
-     */
-    public void setupRoutingFormPurposes(RoutingFormDocument routingFormDocument);
 }

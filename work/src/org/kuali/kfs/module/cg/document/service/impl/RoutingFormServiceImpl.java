@@ -61,9 +61,6 @@ public class RoutingFormServiceImpl implements RoutingFormService {
      */
     public void prepareRoutingFormForSave(RoutingFormDocument routingFormDocument) throws WorkflowException {
         // TODO
-        
-        /* TODO write cleanse grants.gov (sf424) method. See Budget for samples. 
-         * Also see RoutingFormDocumentPreRules.confirmDeleteGrantsGovSubmission for Main Page confirm message. */
     }
 
     public BudgetDocument retrieveBudgetForLinking(String budgetDocumentNumber) throws WorkflowException {
@@ -256,23 +253,6 @@ public class RoutingFormServiceImpl implements RoutingFormService {
                 routingFormDocument.addRoutingFormSubcontractor(routingFormSubcontractor);
             }
         }
-    }
-    
-    /**
-     * @see org.kuali.module.kra.routingform.service.RoutingFormService#isGrantsGovModified(org.kuali.module.kra.routingform.document.RoutingFormDocument)
-     */
-    public boolean isGrantsGovModified(RoutingFormDocument routingFormDocument) {
-        RoutingFormDocument databaseRoutingFormDocument;
-        try {
-            databaseRoutingFormDocument = (RoutingFormDocument) documentService.getByDocumentHeaderId(routingFormDocument.getDocumentNumber());
-        } catch (WorkflowException e) {
-            throw new RuntimeException("Exception retrieving document: " + e);
-        }
-        if (databaseRoutingFormDocument == null) {
-            return false;
-        }
-
-        return databaseRoutingFormDocument.isGrantsGovernmentSubmissionIndicator() && !routingFormDocument.isGrantsGovernmentSubmissionIndicator();
     }
     
     /**

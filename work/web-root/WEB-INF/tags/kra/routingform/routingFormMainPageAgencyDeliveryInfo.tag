@@ -90,9 +90,6 @@
                 	<kul:htmlControlAttribute property="document.routingFormAgency.agencyShippingInstructionsDescription" attributeEntry="${routingFormAgencyAttributes.agencyShippingInstructionsDescription}" readOnly="${viewOnly}"/>
                 </td>
                 <td nowrap >
-                	<kul:htmlControlAttribute property="document.grantsGovernmentSubmissionIndicator" attributeEntry="${routingFormAttributes.grantsGovernmentSubmissionIndicator}" readOnly="${viewOnly}"/>
-                	<kul:htmlAttributeLabel attributeEntry="${routingFormAttributes.grantsGovernmentSubmissionIndicator}" skipHelpUrl="true" labelFor="document.grantsGovernmentSubmissionIndicator" noColon="true" />
-                  	<br>
                 	<kul:htmlControlAttribute property="document.routingFormAgency.agencyDiskAccompanyIndicator" attributeEntry="${routingFormAgencyAttributes.agencyDiskAccompanyIndicator}" readOnly="${viewOnly}"/>
                 	<kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.agencyDiskAccompanyIndicator}" skipHelpUrl="true" labelFor="document.routingFormAgency.agencyDiskAccompanyIndicator" noColon="true" />
                   	<br>

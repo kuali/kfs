@@ -20,16 +20,18 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.PostalZipCode;
 import org.kuali.kfs.bo.State;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Chart;
+import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.Org;
+import org.kuali.module.chart.service.ChartUserService;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.bo.BudgetUser;
-import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -94,6 +96,31 @@ public class RoutingFormPersonnel extends PersistableBusinessObjectBase {
         this.personToBeNamedIndicator = budgetUser.getPersonUniversalIdentifier() == null;
     }
 
+    /**
+     * Sets several fields in RoutingFormPersonnel person based upon the contained UniversalUserService's ChartUserService:
+     * <ul>
+     * <li>chart</li>
+     * <li>org</li>
+     * <li>email address</li>
+     * <li>campus address</li>
+     * <li>phone number</li>
+     * </ul>
+     */
+    public void populateWithUserServiceFields() {
+        // retrieve services and refresh UniversalUser objects (it's empty after returning from a kul:lookup)
+        UniversalUserService universalUserService = SpringServiceLocator.getUniversalUserService();
+        ChartUserService chartUserService = SpringServiceLocator.getChartUserService();
+        UniversalUser user = universalUserService.updateUniversalUserIfNecessary(this.getPersonUniversalIdentifier(), this.getUser());
+        
+        // set chart / org for new person
+        this.setChartOfAccountsCode(chartUserService.getDefaultChartOfAccountsCode( (ChartUser)user.getModuleUser(ChartUser.MODULE_ID) ));
+        this.setOrganizationCode(chartUserService.getDefaultOrganizationCode( (ChartUser)user.getModuleUser(ChartUser.MODULE_ID) ));
+        
+        // set email address, campus address, and phone
+        this.setPersonEmailAddress(user.getPersonEmailAddress());
+        this.setPersonLine1Address(user.getPersonCampusAddress());
+        this.setPersonPhoneNumber(user.getPersonLocalPhoneNumber());
+    }
     
 	/**
 	 * Gets the documentNumber attribute.

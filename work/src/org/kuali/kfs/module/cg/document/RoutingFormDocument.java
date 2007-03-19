@@ -174,12 +174,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     public void initialize() {
         this.setRoutingFormCreateDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
         
-        SpringServiceLocator.getDueDateTypeService().setupRoutingFormDueDateTypes(this);
-        SpringServiceLocator.getSubmissionTypeService().setupRoutingFormSubmissionTypes(this);
-        SpringServiceLocator.getProjectTypeService().setupRoutingFormProjectTypes(this);
-        SpringServiceLocator.getPurposeService().setupRoutingFormPurposes(this);
-        SpringServiceLocator.getResearchTypeCodeService().setupRoutingFormResearchTypeCodes(this);
-        SpringServiceLocator.getPersonRoleService().setupRoutingFormPersonRoles(this);
+        SpringServiceLocator.getRoutingFormMainPageService().setupMainPageMaintainables(this);
     }
 
     @Override

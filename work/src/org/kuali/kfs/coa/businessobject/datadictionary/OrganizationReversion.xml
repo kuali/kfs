@@ -24,19 +24,30 @@
         <inquiry>
             <title>Organization Reversion Inquiry</title>
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="universityFiscalYear" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="organizationCode" />
-                <field attributeName="budgetReversionChartOfAccountsCode" />
-                <field attributeName="budgetReversionAccountNumber" />
-                <field attributeName="cashReversionFinancialChartOfAccountsCode" />
-                <field attributeName="cashReversionAccountNumber" />
-                <field attributeName="carryForwardByObjectCodeIndicator" />
-
-
-
-            </inquiryFields></inquirySection></inquirySections>
+            <inquirySections>
+            	<inquirySection title="Header Text">
+            		<inquiryFields>
+		                <field attributeName="universityFiscalYear" />
+		                <field attributeName="chartOfAccountsCode" />
+		                <field attributeName="organizationCode" />
+		                <field attributeName="budgetReversionChartOfAccountsCode" />
+		                <field attributeName="budgetReversionAccountNumber" />
+		                <field attributeName="cashReversionFinancialChartOfAccountsCode" />
+		                <field attributeName="cashReversionAccountNumber" />
+		                <field attributeName="carryForwardByObjectCodeIndicator" />
+            		</inquiryFields>
+            	</inquirySection>
+            	<inquirySection title="Organization Reversion Details">
+            		<inquiryFields>
+            			<inquiryCollection name="organizationReversionDetail" businessObjectClass="org.kuali.module.chart.bo.OrganizationReversionDetail">
+            				<field attributeName="organizationReversionCategoryCode" />
+                			<field attributeName="organizationReversionObjectCode" />
+                			<field attributeName="organizationReversionObject.financialObjectCodeName" />
+                			<field attributeName="organizationReversionCode" />
+            			</inquiryCollection>
+            		</inquiryFields>
+            	</inquirySection>
+            </inquirySections>
         </inquiry>
 
         <lookup>
@@ -133,9 +144,6 @@
                     <![CDATA[&nbsp;]]>
                 </description>
             </attributeReference>
-
-
-
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 

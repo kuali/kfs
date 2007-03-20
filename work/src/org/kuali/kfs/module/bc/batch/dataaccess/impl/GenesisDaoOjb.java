@@ -2434,6 +2434,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                      boolean PosSyncAllowed,
                      boolean CSFUpdatesAllowed)
              {
+               
                 // do nothing if batch position updates are turned off  
                 if (! PosSyncAllowed)
                 {
@@ -2513,7 +2514,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                          deletedCSFOverridePositions.add(deletedKey);
                      }
                  }
-                 logger.info(String.format("\ndeleted CSF Override rows %d",
+                 LOG.info(String.format("\ndeleted CSF Override rows %d",
                                     deletedCSFOverridePositions.size()));
              }
              
@@ -2594,7 +2595,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                      buildRequestYearSpoof(BaseYear+1,rowReturned);
                      overrideRequest = overrideRequest+1;
                  }
-                 logger.info(String.format("\noverride rows (1) read = %d\n"+
+                 LOG.info(String.format("\noverride rows (1) read = %d\n"+
                                            "             (2) base year positions = %d\n"+
                                            "             (3) request year positions = %d",
                                            overridesRead, overridePositions, overrideRequest));
@@ -2646,7 +2647,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                      buildRequestYearSpoof(BaseYear+1,rowReturned);
                      csfRequest = csfRequest+1;
                  }
-                 logger.info(String.format("\nCSF rows (1) read = %d\n"+
+                 LOG.info(String.format("\nCSF rows (1) read = %d\n"+
                                            "        (2) base year positions = %d\n"+
                                            "        (3) request year positions = %d",
                                            csfRead, csfPositions, csfRequest));
@@ -2687,6 +2688,8 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                                      currentPosition.getPositionNumber());
                      currentBCPosition.put(hashKey,currentPosition);
                  }
+                 LOG.info(String.format("\nposition count before updates %d",
+                                        currentBCPosition.size()));
              }
              
              private void storeNewPositions()
@@ -2712,7 +2715,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                          positionsWritten = positionsWritten+1;
                      }
                  }
-                 logger.info(String.format("\n%d of %d budget positions written",
+                 LOG.info(String.format("\n%d of %d budget positions written",
                              positionsWritten,currentBCPosition.size()));
              }
 

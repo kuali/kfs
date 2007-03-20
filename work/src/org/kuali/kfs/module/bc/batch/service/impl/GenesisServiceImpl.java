@@ -21,6 +21,9 @@ import org.kuali.module.budget.dao.GenesisDao;
 import org.kuali.module.budget.service.GenesisService;
 import org.springframework.transaction.annotation.Transactional;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+
  
 @Transactional
 public class GenesisServiceImpl implements GenesisService {
@@ -29,6 +32,8 @@ public class GenesisServiceImpl implements GenesisService {
     
       private GenesisDao genesisDao;
 
+      private static Logger LOG;
+      
       public final void testStep (Integer BaseYear)
       {
          genesisDao.updateToPBGL(BaseYear);  
@@ -51,8 +56,8 @@ public class GenesisServiceImpl implements GenesisService {
 
       public void testPositionBuild(Integer currentFiscalYear)
       {
-          boolean CSFOK     = CSFUpdatesAllowed(currentFiscalYear+1);
-          boolean PSSynchOK = BatchPositionSynchAllowed(currentFiscalYear+1);
+          boolean CSFOK     = CSFUpdatesAllowed(currentFiscalYear);
+          boolean PSSynchOK = BatchPositionSynchAllowed(currentFiscalYear);
           genesisDao.createNewBCPosition(currentFiscalYear,
                                          PSSynchOK,
                                          CSFOK);

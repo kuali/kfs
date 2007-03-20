@@ -31,6 +31,9 @@
 
 		<table>
 			<tr>
+				<th>
+				    &nbsp;	
+				</th>
 				<kul:htmlAttributeHeaderCell attributeEntry="${pbglExpenditureAttributes.financialObjectCode}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${pbglExpenditureAttributes.financialSubObjectCode}" />
 				<kul:htmlAttributeHeaderCell attributeEntry="${pbglExpenditureAttributes.financialBeginningBalanceLineAmount}" />
@@ -43,19 +46,58 @@
 					Action
 				</th>
 			</tr>
+			
+			<tr>
+              <kul:htmlAttributeHeaderCell literalLabel="Add:" scope="row" rowspan="1">
+                  <%-- these hidden fields are inside a table cell to keep the HTML valid --%>
+                  <html:hidden property="newExpenditureLine.documentNumber"/>
+                  <html:hidden property="newExpenditureLine.universityFiscalYear"/>
+                  <html:hidden property="newExpenditureLine.chartOfAccountsCode"/>
+                  <html:hidden property="newExpenditureLine.accountNumber"/>
+                  <html:hidden property="newExpenditureLine.subAccountNumber"/>
+                  <html:hidden property="newExpenditureLine.financialBalanceTypeCode"/>
+                  <html:hidden property="newExpenditureLine.financialObjectTypeCode"/>
+                  <html:hidden property="newExpenditureLine.versionNumber"/>
+              </kul:htmlAttributeHeaderCell>
+              <td class="infoline" nowrap><div align="left"><span>
+              	  <a name="expenditurenewLineLineAnchor"></a>
+                  <kul:htmlControlAttribute attributeEntry="${pbglExpenditureAttributes.financialObjectCode}" property="newExpenditureLine.financialObjectCode" readOnly="false"/>
+              </span></div></td>
+              <td class="infoline" nowrap><div align="left"><span>
+                  <kul:htmlControlAttribute attributeEntry="${pbglExpenditureAttributes.financialSubObjectCode}" property="newExpenditureLine.financialSubObjectCode" readOnly="false"/>
+              </span></div></td>
+              <td class="infoline" nowrap><div align="right"><span>
+                  &nbsp;
+              </span></div></td>
+              <td class="infoline" nowrap><div align="right"><span>
+                  <kul:htmlControlAttribute attributeEntry="${pbglExpenditureAttributes.accountLineAnnualBalanceAmount}" property="newExpenditureLine.accountLineAnnualBalanceAmount" styleClass="amount" readOnly="false"/>
+              </span></div></td>
+              <td class="infoline" nowrap><div align="right"><span>
+                  &nbsp;
+              </span></div></td>
+			  <td class="infoline" nowrap><div align=center>
+                  &nbsp;
+			  </div></td>
+              <td class="infoline" nowrap><div align="center">
+                  <html:image property="methodToCall.insertExpenditureLine.anchorexpenditurenewLineLineAnchor" src="images/tinybutton-add1.gif" title="Add an Expenditure Line" alt="Add an Expenditure Line" styleClass="tinybutton"/>
+              </div></td>
+			</tr>
+			
 
 			<c:forEach items="${KualiForm.document.pendingBudgetConstructionGeneralLedgerExpenditureLines}" var="item" varStatus="status" >
 
 
-            <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].documentNumber"/>
-            <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].universityFiscalYear"/>
-            <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].chartOfAccountsCode"/>
-            <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].accountNumber"/>
-            <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].subAccountNumber"/>
-            <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].financialBalanceTypeCode"/>
-            <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].financialObjectTypeCode"/>
-            <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].versionNumber"/>
             <tr>
+              <kul:htmlAttributeHeaderCell scope="row" rowspan="1">
+                  <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].documentNumber"/>
+                  <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].universityFiscalYear"/>
+                  <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].chartOfAccountsCode"/>
+                  <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].accountNumber"/>
+                  <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].subAccountNumber"/>
+                  <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].financialBalanceTypeCode"/>
+                  <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].financialObjectTypeCode"/>
+                  <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].versionNumber"/>
+              </kul:htmlAttributeHeaderCell>
               <td valign=top nowrap><div align="left"><span>
               	  <a name="expenditureexistingLineLineAnchor${status.index}"></a>
                   <kul:htmlControlAttribute attributeEntry="${pbglExpenditureAttributes.financialObjectCode}" property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].financialObjectCode" readOnly="true"/>
@@ -90,7 +132,7 @@
             </tr>
 			</c:forEach>
 			<tr>
-				<th align=right colspan=2>
+				<th align=right colspan=3>
 					Expenditure Totals
 				</th>
 				<td>0</td>

@@ -38,6 +38,9 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
     public BudgetConstructionForm() {
         super();
         setDocument(new BudgetConstructionDocument());
+        //TODO need to set default field values somewhere
+        //maybe need a createNewRevenueLine() method the initializes the defaults
+        //not sure these set method calls are even needed here
         this.setNewRevenueLine(new PendingBudgetConstructionGeneralLedger());
         this.setNewExpenditureLine(new PendingBudgetConstructionGeneralLedger());
         LOG.debug("creating BudgetConstructionForm");
@@ -56,6 +59,11 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
      * @return Returns the newExpenditureLine.
      */
     public PendingBudgetConstructionGeneralLedger getNewExpenditureLine() {
+        if (this.newExpenditureLine == null){
+            //TODO need to set default field values somewhere
+            //maybe need a createNewRevenueLine() method the initializes the defaults
+            this.setNewExpenditureLine(new PendingBudgetConstructionGeneralLedger());
+        }
         return newExpenditureLine;
     }
 
@@ -72,6 +80,11 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
      * @return Returns the newRevenueLine.
      */
     public PendingBudgetConstructionGeneralLedger getNewRevenueLine() {
+        if (this.newRevenueLine == null){
+            //TODO need to set default field values somewhere
+            //maybe need a createNewRevenueLine() method the initializes the defaults
+            this.setNewRevenueLine(new PendingBudgetConstructionGeneralLedger());
+        }
         return newRevenueLine;
     }
 

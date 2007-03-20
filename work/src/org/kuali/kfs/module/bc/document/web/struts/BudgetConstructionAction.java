@@ -233,6 +233,92 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         return new ActionForward(lookupUrl, true);
     }
     
+    /**
+     * This adds a revenue line to the BC document
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward insertRevenueLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
+
+        PendingBudgetConstructionGeneralLedger line = budgetConstructionForm.getNewRevenueLine();
+        
+        //TODO check business rules here
+        boolean rulePassed = true;
+        
+        if (rulePassed){
+            // add PBGLLine
+            SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(line);
+            insertPBGLLine(true, budgetConstructionForm, line);
+
+            // clear the used newRevenueLine
+            budgetConstructionForm.setNewRevenueLine(null);
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /**
+     * This adds an expenditure line to the BC document
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward insertExpenditureLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
+
+        PendingBudgetConstructionGeneralLedger line = budgetConstructionForm.getNewExpenditureLine();
+        
+        //TODO check business rules here
+        boolean rulePassed = true;
+        
+        if (rulePassed){
+            // add PBGLLine
+            SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(line);
+            insertPBGLLine(false, budgetConstructionForm, line);
+
+            // clear the used newExpenditureLine
+            budgetConstructionForm.setNewExpenditureLine(null);
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /**
+     * This inserts a PBGL revenue or expenditure line
+     * 
+     * @param isRevenue
+     * @param budgetConstructionForm
+     * @param line
+     */
+    protected void insertPBGLLine(boolean isRevenue, BudgetConstructionForm budgetConstructionForm, PendingBudgetConstructionGeneralLedger line){
+        //TODO create and init a decorator
+
+        BudgetConstructionDocument tdoc = (BudgetConstructionDocument) budgetConstructionForm.getDocument();
+        if (isRevenue){
+            // add the revenue line
+            tdoc.addRevenueLine(line);
+
+            //TODO add the decorator
+        } else {
+            // add the expenditure line
+            tdoc.addExpenditureLine(line);
+
+            //TODO add the decorator
+
+        }
+        
+    }
+    
     public ActionForward returnFromMonthly(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;

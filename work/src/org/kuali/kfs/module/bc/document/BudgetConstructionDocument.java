@@ -117,6 +117,28 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
     }
 
     /**
+     * This adds a revenue line to the revenue lines list
+     * 
+     * @param line
+     */
+    public void addRevenueLine(PendingBudgetConstructionGeneralLedger line){
+        //TODO this needs to insert at the proper point based on object, subobject ordering
+        //need to check for unique key here? or during rules check?
+        this.pendingBudgetConstructionGeneralLedgerRevenueLines.add(line);
+    }
+    
+    /**
+     * This adds a expenditure line to the expenditure lines list
+     * 
+     * @param line
+     */
+    public void addExpenditureLine(PendingBudgetConstructionGeneralLedger line){
+        //TODO this needs to insert at the proper point based on object, subobject ordering
+        //need to check for unique key here? or during rules check?
+        this.pendingBudgetConstructionGeneralLedgerExpenditureLines.add(line);
+    }
+    
+    /**
      * Gets the universityFiscalYear attribute.
      * 
      * @return Returns the universityFiscalYear

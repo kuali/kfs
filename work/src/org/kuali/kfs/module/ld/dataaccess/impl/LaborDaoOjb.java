@@ -38,7 +38,7 @@ public class LaborDaoOjb extends PersistenceBrokerDaoSupport implements LaborDao
 
 
     public Collection getCSFTrackerData(Map fieldValues) {
-        Criteria criteria = buildCriteriaFromMap(fieldValues, new GeneralLedgerPendingEntry());
+        Criteria criteria = buildCriteriaFromMap(fieldValues, new CalculatedSalaryFoundationTracker());
 
         LookupUtils.applySearchResultsLimit(criteria);
 
@@ -99,7 +99,6 @@ public class LaborDaoOjb extends PersistenceBrokerDaoSupport implements LaborDao
 
             fieldValues.remove(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
         }
-
 
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, businessObject));
         return criteria;

@@ -23,13 +23,8 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 /**
  * 
  */
-//public class PaymentRequestStatus extends PersistableBusinessObjectBase {
 public class PaymentRequestStatus extends Status {
-/*
-	private String paymentRequestStatusCode;
-	private String paymentRequestStatusDescription;
-	private boolean active;
-*/
+
 	/**
 	 * Default constructor.
 	 */

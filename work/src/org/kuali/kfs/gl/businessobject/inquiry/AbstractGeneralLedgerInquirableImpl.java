@@ -84,7 +84,7 @@ public abstract class AbstractGLInquirableImpl extends KualiInquirableImpl {
         }
         else if (ObjectUtils.isNestedAttribute(attributeName)) {
             if (!"financialObject.financialObjectType.financialReportingSortCode".equals(attributeName)) {
-                inquiryBusinessObjectClass = LookupUtils.getNestedReferenceClassGl(businessObject, attributeName);
+                inquiryBusinessObjectClass = LookupUtils.getNestedReferenceClass(businessObject, attributeName);
             }
             else {
                 return "";

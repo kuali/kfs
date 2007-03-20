@@ -23,12 +23,12 @@ import java.util.Map;
 import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.datadictionary.DocumentEntry;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.web.format.PhoneNumberFormatter;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.web.struts.form.BudgetOverviewFormHelper;
 import org.kuali.module.kra.document.ResearchDocument;
 import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
-import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganization;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent;
 import org.kuali.module.kra.routingform.bo.RoutingFormOtherCostShare;
@@ -85,6 +85,9 @@ public class RoutingForm extends ResearchDocumentFormBase {
         setDocument(new RoutingFormDocument());
         
         periodBudgetOverviewFormHelpers = new ArrayList();
+
+        setFormatterType("document.routingFormPersonnel.personPhoneNumber", PhoneNumberFormatter.class);
+        setFormatterType("document.routingFormPersonnel.personFaxNumber", PhoneNumberFormatter.class);
     }
     
     @Override

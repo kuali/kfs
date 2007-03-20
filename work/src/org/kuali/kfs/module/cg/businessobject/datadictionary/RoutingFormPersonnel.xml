@@ -259,7 +259,7 @@
                 <label>Fax</label>
                 <shortLabel>Number</shortLabel>
 
-                <maxLength>12</maxLength>
+                <maxLength>14</maxLength>
                 <validationPattern><phoneNumber/></validationPattern>
 
                 <control>
@@ -319,7 +319,7 @@
                 <label>Phone</label>
                 <shortLabel>Number</shortLabel>
 
-                <maxLength>12</maxLength>
+                <maxLength>14</maxLength>
                 <validationPattern><phoneNumber/></validationPattern>
 
                 <control>

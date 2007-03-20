@@ -15,6 +15,10 @@
  */
 package org.kuali.module.gl.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.kuali.Constants;
 
 public class Summary implements Comparable {
     /**
@@ -78,7 +82,7 @@ public class Summary implements Comparable {
             return 0;
         }
     }
-    
+
     /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
@@ -92,6 +96,38 @@ public class Summary implements Comparable {
         Summary that = (Summary) object;
         return this.description.equals(that.getDescription());
     }
+
+    // build a report summary list for labor general ledger posting
+    public static List<Summary> buildDefualtReportSummary(String destination, int startingOrder) {
+        List<Summary> reportSummary = new ArrayList<Summary>();
+        updateReportSummary(reportSummary, destination, Constants.OperationType.INSERT, 0, startingOrder++);
+        updateReportSummary(reportSummary, destination, Constants.OperationType.UPDATE, 0, startingOrder++);
+        updateReportSummary(reportSummary, destination, Constants.OperationType.DELETE, 0, startingOrder++);
+        return reportSummary;
+    }
+
+    // update the report summary with the given information
+    public static void updateReportSummary(List<Summary> reportSummary, String destinationName, String operationType, int count, int order) {
+        StringBuilder summaryDescription = buildSummaryDescription(destinationName, operationType);
+        Summary inputSummary = new Summary(order, summaryDescription.toString(), count);
+
+        int index = reportSummary.indexOf(inputSummary);
+        if (index >= 0) {
+            Summary summary = reportSummary.get(index);
+            summary.setCount(summary.getCount() + count);
+        }
+        else {
+            reportSummary.add(inputSummary);
+        }
+    }
+
+    // build the description of summary with the given information
+    public static StringBuilder buildSummaryDescription(String destinationName, String operationType) {
+        StringBuilder summaryDescription = new StringBuilder();
+        summaryDescription.append("Number of ").append(destinationName).append(" records ").append(operationType).append(":");
+        return summaryDescription;
+    }
+
 
     public long getCount() {
         return count;

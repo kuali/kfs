@@ -15,14 +15,18 @@
  */
 package org.kuali.module.labor.rules;
 
+import java.util.List;
+
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.util.Message;
+import org.kuali.module.labor.LaborConstants;
 import org.springframework.beans.factory.BeanFactory;
 
 public class TransactionFieldValidator {
@@ -107,7 +111,7 @@ public class TransactionFieldValidator {
         String chartOfAccountsCode = transaction.getChartOfAccountsCode();
         String objectCode = transaction.getFinancialObjectCode();
         String subObjectCode = transaction.getFinancialSubObjectCode();
-        
+
         String subObjectCodeKey = fiscalYear + "-" + chartOfAccountsCode + "-" + objectCode + "-" + subObjectCode;
         if (StringUtils.isBlank(subObjectCode)) {
             return buildErrorMessage(KeyConstants.ERROR_SUB_OBJECT_CODE_NOT_BE_NULL, subObjectCodeKey, Message.TYPE_FATAL);
@@ -170,11 +174,11 @@ public class TransactionFieldValidator {
     }
 
     public static Message checkTransactionDebitCreditCode(Transaction transaction) {
-        String[] validDebitCreditCode = {Constants.GL_BUDGET_CODE, Constants.GL_CREDIT_CODE, Constants.GL_DEBIT_CODE};
+        String[] validDebitCreditCode = { Constants.GL_BUDGET_CODE, Constants.GL_CREDIT_CODE, Constants.GL_DEBIT_CODE };
         String debitCreditCode = transaction.getTransactionDebitCreditCode();
         if (!ArrayUtils.contains(validDebitCreditCode, debitCreditCode)) {
             return buildErrorMessage(KeyConstants.ERROR_DEDIT_CREDIT_CODE_NOT_BE_NULL, Message.TYPE_FATAL);
-        } 
+        }
         return null;
     }
 
@@ -182,10 +186,48 @@ public class TransactionFieldValidator {
         String originationCode = transaction.getFinancialSystemOriginationCode();
         if (StringUtils.isBlank(originationCode)) {
             return buildErrorMessage(KeyConstants.ERROR_ORIGIN_CODE_NOT_FOUND, Message.TYPE_FATAL);
-        } 
+        }
+        return null;
+    }
+
+    public static Message checkPostablePeridCode(Transaction transaction, String[] unpostableperidCodes) {
+        String periodCode = transaction.getUniversityFiscalPeriodCode();
+        if (ArrayUtils.contains(unpostableperidCodes, periodCode)) {
+            return buildErrorMessage(KeyConstants.Labor.ERROR_UNPOSTABLE_PERIOD_CODE, periodCode, Message.TYPE_FATAL);
+        }
+        return null;
+    }
+
+    public static Message checkPostableBalanceTypeCode(Transaction transaction, String[] unpostableBalanceTypeCodes) {
+        String balanceTypeCode = transaction.getFinancialBalanceTypeCode();
+        if (ArrayUtils.contains(unpostableBalanceTypeCodes, balanceTypeCode)) {
+            return buildErrorMessage(KeyConstants.Labor.ERROR_UNPOSTABLE_BALANCE_TYPE, balanceTypeCode, Message.TYPE_FATAL);
+        }
+        return null;
+    }
+
+    public static Message checkZeroTotalAmount(Transaction transaction) {
+        KualiDecimal amount = transaction.getTransactionLedgerEntryAmount();
+        if (amount == null || amount.isZero()) {
+            return buildErrorMessage(KeyConstants.Labor.ERROR_ZERO_TOTAL_AMOUNT, Message.TYPE_FATAL);
+        }
         return null;
     }
     
+    public static Message checkPostableObjectCode(Transaction transaction, String[] unpostableObjectCodes) {
+        String objectCode = transaction.getFinancialObjectCode();
+        if (ArrayUtils.contains(unpostableObjectCodes, objectCode)) {
+            return buildErrorMessage(KeyConstants.Labor.ERROR_UNPOSTABLE_OBJECT_CODE, objectCode, Message.TYPE_FATAL);
+        }
+        return null;
+    }
+    
+    public static void addMessageIntoList(List<Message> messageList, Message message){
+        if(message != null){
+            messageList.add(message);
+        }
+    }
+
     /**
      * Build the error message with the message body and error type
      */

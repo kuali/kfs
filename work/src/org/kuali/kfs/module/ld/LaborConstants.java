@@ -24,18 +24,18 @@ import org.kuali.PropertyConstants;
  * This class contains the constants used by Labor Distribution.
  */
 public class LaborConstants {
-    public static class PayrollDocumentTypeCode{
+    public static class PayrollDocumentTypeCode {
         public static final String NORMAL_PAY = "PAY";
         public static final String RETROACTIVE_ADJUSTMENT = "RETR";
-        
+
         public static final String ENCUMBRANCE = "PAYE";
         public static final String CHECK_CANCELLATION = "PAYC";
         public static final String OVERPAYMENT = "OPAY";
-        
+
         public static final String HAND_DRAWN_CHECK = "HDRW";
         public static final String ACCRUALS = "PAYA";
         public static final String ACCRUALS_REVERSAL = "PAYN";
-        
+
         public static final String EXPENSE_TRANSFER_ST = "ST";
         public static final String EXPENSE_TRANSFER_BT = "BT";
         public static final String EXPENSE_TRANSFER_ET = "ET";
@@ -43,21 +43,14 @@ public class LaborConstants {
         public static final String EXPENSE_TRANSFER_YEST = "YEST";
         public static final String EXPENSE_TRANSFER_YEBT = "YEBT";
     }
-    
-    public static class OperationType{
-        public static final String INSERT = "insert";
-        public static final String UPDATE = "update";
-        public static final String DELETE = "delete";
-        public static final String SELECT = "select";
-    }
-    
-    public static class DestinationNames{
+
+    public static class DestinationNames {
         public static final String LEDGER_BALANCE = "LD_LEDGER_BALANCE_T";
-        public static final String LEDGER_ENRTY   = "LD_LEDGER_ENTRY_T";
+        public static final String LEDGER_ENRTY = "LD_LEDGER_ENTRY_T";
         public static final String LABOR_GL_ENTRY = "LD_LABOR_GL_ENTRY_T";
-        public static final String ORIGN_ENTRY    = "LD_ORIGIN_ENTRY_T";
+        public static final String ORIGN_ENTRY = "LD_ORIGIN_ENTRY_T";
     }
-    
+
     public static List<String> consolidationAttributesOfOriginEntry() {
         List<String> consolidationAttributes = new ArrayList<String>();
 
@@ -87,16 +80,17 @@ public class LaborConstants {
 
         return consolidationAttributes;
     }
+
     public static class SalaryExpenseTransfer {
         public static final String LABOR_LEDGER_SALARY_CODE = "S";
-    } 
-    
+    }
+
     public static class BenefitExpenseTransfer {
         public static final String LABOR_LEDGER_BENEFIT_CODE = "F";
-    }  
+    }
     
     public static class BalanceInquiries {
         public static final String ERROR_INVALID_LABOR_OBJECT_CODE = "error.labor.invalidLaborObjectCodeError";
         public static final String[] VALID_LABOR_OBJECT_CODES = {"2000","2001","2400","2401","2500"};
-    }
+}
 }

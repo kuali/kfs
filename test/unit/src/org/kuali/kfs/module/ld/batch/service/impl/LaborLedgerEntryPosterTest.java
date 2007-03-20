@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
@@ -36,7 +37,6 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.web.TestDataGenerator;
-import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.service.LaborGeneralLedgerEntryService;
@@ -107,7 +107,7 @@ public class LaborLedgerEntryPosterTest extends KualiTestBase {
         assertEquals(numberOfTestData, returnValues.size());
         
         assertEquals(1, operationType.size());
-        assertEquals(expectedInsertion, operationType.get(LaborConstants.OperationType.INSERT).intValue());
+        assertEquals(expectedInsertion, operationType.get(Constants.OperationType.INSERT).intValue());
         
         LedgerEntry expected1 = new LedgerEntry();
         ObjectUtil.populateBusinessObject(expected1, properties, "post.expected1", fieldNames, deliminator);

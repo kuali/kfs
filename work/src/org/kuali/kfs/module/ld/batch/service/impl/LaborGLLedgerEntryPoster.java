@@ -45,7 +45,7 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
      * @see org.kuali.module.gl.batch.poster.PostTransaction#post(org.kuali.module.gl.bo.Transaction, int, java.util.Date)
      */
     public String post(Transaction transaction, int mode, java.util.Date postDate) {
-        String operationType = LaborConstants.OperationType.INSERT;
+        String operationType = Constants.OperationType.INSERT;
         LaborGeneralLedgerEntry laborGeneralLedgerEntry = new LaborGeneralLedgerEntry();
         ObjectUtil.buildObject(laborGeneralLedgerEntry, transaction);
 

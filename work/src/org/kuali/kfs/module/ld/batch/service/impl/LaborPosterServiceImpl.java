@@ -32,8 +32,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.kuali.Constants;
+import org.kuali.Constants.OperationType;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.module.gl.batch.poster.PostTransaction;
@@ -41,12 +41,10 @@ import org.kuali.module.gl.batch.poster.VerifyTransaction;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.service.impl.NightlyOutServiceImpl;
 import org.kuali.module.gl.util.Message;
 import org.kuali.module.gl.util.Summary;
-import org.kuali.module.labor.LaborConstants;
-import org.kuali.module.labor.LaborConstants.OperationType;
 import org.kuali.module.labor.bo.LaborOriginEntry;
+import org.kuali.module.labor.rules.TransactionFieldValidator;
 import org.kuali.module.labor.service.LaborOriginEntryService;
 import org.kuali.module.labor.service.LaborPosterService;
 import org.kuali.module.labor.service.LaborReportService;
@@ -62,7 +60,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class LaborPosterServiceImpl implements LaborPosterService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborPosterServiceImpl.class);
-    
+
     private LaborOriginEntryService laborOriginEntryService;
     private OriginEntryGroupService originEntryGroupService;
 
@@ -103,7 +101,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
             Iterator<LaborOriginEntry> entries = laborOriginEntryService.getEntriesByGroup(entryGroup);
             while (entries != null && entries.hasNext()) {
                 LaborOriginEntry originEntry = entries.next();
-                if(postSingleEntryIntoLaborLedger(originEntry, reportSummary, errorMap, validGroup, invalidGroup, runDate)){
+                if (postSingleEntryIntoLaborLedger(originEntry, reportSummary, errorMap, validGroup, invalidGroup, runDate)) {
                     numberOfOriginEntry++;
                     originEntry = null;
                 }
@@ -112,16 +110,16 @@ public class LaborPosterServiceImpl implements LaborPosterService {
             entryGroup.setProcess(Boolean.FALSE);
             originEntryGroupService.save(entryGroup);
         }
-        updateReportSummary(reportSummary, ORIGN_ENTRY, OperationType.SELECT, numberOfOriginEntry, 0);
-        
+        Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, Constants.OperationType.SELECT, numberOfOriginEntry, 0);
+
         reportService.generatePosterStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_STATISTICS, reportsDirectory, runDate);
         reportService.generatePosterInputSummaryReport(postingGroups, ReportRegistry.LABOR_POSTER_INPUT, reportsDirectory, runDate);
         reportService.generatePosterOutputSummaryReport(validGroup, ReportRegistry.LABOR_POSTER_OUTPUT, reportsDirectory, runDate);
         reportService.generatePosterErrorTransactionListing(invalidGroup, ReportRegistry.LABOR_POSTER_ERROR, reportsDirectory, runDate);
     }
-    
+
     // post the given entry into the labor ledger tables if the entry is qualified; otherwise report error
-    private boolean postSingleEntryIntoLaborLedger(LaborOriginEntry originEntry, List<Summary> reportSummary, Map<Transaction, List<Message>> errorMap, OriginEntryGroup validGroup, OriginEntryGroup invalidGroup, Date runDate){
+    private boolean postSingleEntryIntoLaborLedger(LaborOriginEntry originEntry, List<Summary> reportSummary, Map<Transaction, List<Message>> errorMap, OriginEntryGroup validGroup, OriginEntryGroup invalidGroup, Date runDate) {
         try {
             // reject the entry that is not postable
             if (!isPostableEntry(originEntry)) {
@@ -140,24 +138,24 @@ public class LaborPosterServiceImpl implements LaborPosterService {
             postAsProcessedOriginEntry(originEntry, validGroup, runDate);
 
             String operationOnLedgerEntry = postAsLedgerEntry(originEntry, runDate);
-            updateReportSummary(reportSummary, laborLedgerEntryPoster.getDestinationName(), operationOnLedgerEntry, STEP, 0);
+            Summary.updateReportSummary(reportSummary, laborLedgerEntryPoster.getDestinationName(), operationOnLedgerEntry, STEP, 0);
 
             String operationOnLedgerBalance = updateLedgerBalance(originEntry, runDate);
-            updateReportSummary(reportSummary, laborLedgerBalancePoster.getDestinationName(), operationOnLedgerBalance, STEP, 0);
+            Summary.updateReportSummary(reportSummary, laborLedgerBalancePoster.getDestinationName(), operationOnLedgerBalance, STEP, 0);
         }
         catch (Exception e) {
             LOG.error(e);
             return false;
-        }     
+        }
         return true;
     }
 
     // determine if the given origin entry need to be posted
     private boolean isPostableEntry(LaborOriginEntry originEntry) {
-        if (originEntry.getTransactionLedgerEntryAmount() == null || originEntry.getTransactionLedgerEntryAmount().isZero()) {
+        if (TransactionFieldValidator.checkZeroTotalAmount(originEntry) != null) {
             return false;
         }
-        else if (ArrayUtils.contains(this.getObjectsNotProcessed(), originEntry.getFinancialObjectCode())) {
+        else if (TransactionFieldValidator.checkPostableObjectCode(originEntry, this.getObjectsNotProcessed()) != null) {
             return false;
         }
         return true;
@@ -201,26 +199,20 @@ public class LaborPosterServiceImpl implements LaborPosterService {
                 continue;
             }
             String operationType = laborGLLedgerEntryPoster.post(originEntry, 0, runDate);
-            this.updateReportSummary(reportSummary, laborGLLedgerEntryPoster.getDestinationName(), operationType, STEP, 0);
+            Summary.updateReportSummary(reportSummary, laborGLLedgerEntryPoster.getDestinationName(), operationType, STEP, 0);
 
             numberOfOriginEntry++;
         }
-        updateReportSummary(reportSummary, ORIGN_ENTRY, OperationType.SELECT, numberOfOriginEntry, 0);
+        Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, Constants.OperationType.SELECT, numberOfOriginEntry, 0);
         reportService.generatePosterStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_GL_SUMMARY, reportsDirectory, runDate);
     }
 
     // determine if the given origin entry can be posted back to Labor GL entry
     private List<Message> isPostableForLaborGLEntry(LaborOriginEntry originEntry) {
         List<Message> errors = new ArrayList<Message>();
-        if (ArrayUtils.contains(this.getPeriodCodesNotProcessed(), originEntry.getUniversityFiscalPeriodCode())) {
-            errors.add(new Message("Cannot process the PERIOD CODES", 0));
-        }
-        else if (ArrayUtils.contains(this.getBalanceTypesNotProcessed(), originEntry.getFinancialBalanceTypeCode())) {
-            errors.add(new Message("Cannot process the BALANCE TYPES", 0));
-        }
-        else if (originEntry.getTransactionLedgerEntryAmount().isZero()) {
-            errors.add(new Message("Amount cannot be ZERO", 0));
-        }
+        TransactionFieldValidator.addMessageIntoList(errors, TransactionFieldValidator.checkPostablePeridCode(originEntry, getPeriodCodesNotProcessed()));
+        TransactionFieldValidator.addMessageIntoList(errors, TransactionFieldValidator.checkPostableBalanceTypeCode(originEntry, getBalanceTypesNotProcessed()));
+        TransactionFieldValidator.addMessageIntoList(errors, TransactionFieldValidator.checkZeroTotalAmount(originEntry));
         return errors;
     }
 
@@ -229,12 +221,12 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         List<Summary> reportSummary = new ArrayList<Summary>();
 
         String destination = laborLedgerEntryPoster.getDestinationName();
-        reportSummary.addAll(buildDefualtReportSummary(destination, reportSummary.size() + LINE_INTERVAL));
+        reportSummary.addAll(Summary.buildDefualtReportSummary(destination, reportSummary.size() + LINE_INTERVAL));
 
         reportSummary.add(new Summary(reportSummary.size() + LINE_INTERVAL, "", 0));
 
         destination = laborLedgerBalancePoster.getDestinationName();
-        reportSummary.addAll(buildDefualtReportSummary(destination, reportSummary.size() + LINE_INTERVAL));
+        reportSummary.addAll(Summary.buildDefualtReportSummary(destination, reportSummary.size() + LINE_INTERVAL));
 
         return reportSummary;
     }
@@ -244,40 +236,9 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         List<Summary> reportSummary = new ArrayList<Summary>();
 
         String destination = laborGLLedgerEntryPoster.getDestinationName();
-        reportSummary.addAll(buildDefualtReportSummary(destination, reportSummary.size() + LINE_INTERVAL));
+        reportSummary.addAll(Summary.buildDefualtReportSummary(destination, reportSummary.size() + LINE_INTERVAL));
 
         return reportSummary;
-    }
-
-    // build a report summary list for labor general ledger posting
-    private List<Summary> buildDefualtReportSummary(String destination, int startingOrder) {
-        List<Summary> reportSummary = new ArrayList<Summary>();
-        updateReportSummary(reportSummary, destination, OperationType.INSERT, 0, startingOrder++);
-        updateReportSummary(reportSummary, destination, OperationType.UPDATE, 0, startingOrder++);
-        updateReportSummary(reportSummary, destination, OperationType.DELETE, 0, startingOrder++);
-        return reportSummary;
-    }
-
-    // update the report summary with the given information
-    private void updateReportSummary(List<Summary> reportSummary, String destinationName, String operationType, int count, int order) {
-        StringBuilder summaryDescription = this.buildSummaryDescription(destinationName, operationType);
-        Summary inputSummary = new Summary(order, summaryDescription.toString(), count);
-
-        int index = reportSummary.indexOf(inputSummary);
-        if (index >= 0) {
-            Summary summary = reportSummary.get(index);
-            summary.setCount(summary.getCount() + count);
-        }
-        else {
-            reportSummary.add(inputSummary);
-        }
-    }
-
-    // build the description of summary with the given information
-    private StringBuilder buildSummaryDescription(String destinationName, String operationType) {
-        StringBuilder summaryDescription = new StringBuilder();
-        summaryDescription.append("Number of ").append(destinationName).append(" records ").append(operationType).append(":");
-        return summaryDescription;
     }
 
     public String getReportsDirectory() {

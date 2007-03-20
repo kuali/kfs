@@ -40,14 +40,14 @@ public class LaborLedgerBalancePoster implements PostTransaction {
      * @see org.kuali.module.gl.batch.poster.PostTransaction#post(org.kuali.module.gl.bo.Transaction, int, java.util.Date)
      */
     public String post(Transaction transaction, int mode, Date postDate) {
-        String operationType = LaborConstants.OperationType.INSERT;
+        String operationType = Constants.OperationType.INSERT;
         LedgerBalance ledgerBalance = new LedgerBalance();       
         ObjectUtil.buildObject(ledgerBalance, transaction);
 
         LedgerBalance tempLedgerBalance = (LedgerBalance) businessObjectService.retrieve(ledgerBalance);
         if (tempLedgerBalance != null) {
             ledgerBalance = tempLedgerBalance;
-            operationType = LaborConstants.OperationType.UPDATE;
+            operationType = Constants.OperationType.UPDATE;
         }
         String debitCreditCode = transaction.getTransactionDebitCreditCode();
         KualiDecimal amount = transaction.getTransactionLedgerEntryAmount();

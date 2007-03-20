@@ -35,27 +35,21 @@ public class LaborPosterTransactionValidator implements VerifyTransaction {
      */
     public List<Message> verifyTransaction(Transaction tranaction) {        
         List<Message> messageList = new ArrayList<Message>();
-        addMessageIntoList(messageList, TransactionFieldValidator.checkUniversityFiscalYear(tranaction));
-        addMessageIntoList(messageList, TransactionFieldValidator.checkChartOfAccountsCode(tranaction));
-        addMessageIntoList(messageList, TransactionFieldValidator.checkAccountNumber(tranaction));
-        addMessageIntoList(messageList, TransactionFieldValidator.checkSubAccountNumber(tranaction));
-        addMessageIntoList(messageList, TransactionFieldValidator.checkUniversityFiscalPeriodCode(tranaction));
-        addMessageIntoList(messageList, TransactionFieldValidator.checkFinancialBalanceTypeCode(tranaction));
-        addMessageIntoList(messageList, TransactionFieldValidator.checkFinancialObjectCode(tranaction));
-        addMessageIntoList(messageList, TransactionFieldValidator.checkFinancialSubObjectCode(tranaction));
-        addMessageIntoList(messageList, TransactionFieldValidator.checkFinancialObjectTypeCode(tranaction));
-        addMessageIntoList(messageList, TransactionFieldValidator.checkFinancialDocumentTypeCode(tranaction));
-        addMessageIntoList(messageList, TransactionFieldValidator.checkFinancialDocumentNumber(tranaction));
-        addMessageIntoList(messageList, TransactionFieldValidator.checkFinancialSystemOriginationCode(tranaction));
-        addMessageIntoList(messageList, TransactionFieldValidator.checkTransactionDebitCreditCode(tranaction));
-        addMessageIntoList(messageList, TransactionFieldValidator.checkTransactionLedgerEntrySequenceNumber(tranaction));
+        TransactionFieldValidator.addMessageIntoList(messageList, TransactionFieldValidator.checkUniversityFiscalYear(tranaction));
+        TransactionFieldValidator.addMessageIntoList(messageList, TransactionFieldValidator.checkChartOfAccountsCode(tranaction));
+        TransactionFieldValidator.addMessageIntoList(messageList, TransactionFieldValidator.checkAccountNumber(tranaction));
+        TransactionFieldValidator.addMessageIntoList(messageList, TransactionFieldValidator.checkSubAccountNumber(tranaction));
+        TransactionFieldValidator.addMessageIntoList(messageList, TransactionFieldValidator.checkUniversityFiscalPeriodCode(tranaction));
+        TransactionFieldValidator.addMessageIntoList(messageList, TransactionFieldValidator.checkFinancialBalanceTypeCode(tranaction));
+        TransactionFieldValidator.addMessageIntoList(messageList, TransactionFieldValidator.checkFinancialObjectCode(tranaction));
+        TransactionFieldValidator.addMessageIntoList(messageList, TransactionFieldValidator.checkFinancialSubObjectCode(tranaction));
+        TransactionFieldValidator.addMessageIntoList(messageList, TransactionFieldValidator.checkFinancialObjectTypeCode(tranaction));
+        TransactionFieldValidator.addMessageIntoList(messageList, TransactionFieldValidator.checkFinancialDocumentTypeCode(tranaction));
+        TransactionFieldValidator.addMessageIntoList(messageList, TransactionFieldValidator.checkFinancialDocumentNumber(tranaction));
+        TransactionFieldValidator.addMessageIntoList(messageList, TransactionFieldValidator.checkFinancialSystemOriginationCode(tranaction));
+        TransactionFieldValidator.addMessageIntoList(messageList, TransactionFieldValidator.checkTransactionDebitCreditCode(tranaction));
+        TransactionFieldValidator.addMessageIntoList(messageList, TransactionFieldValidator.checkTransactionLedgerEntrySequenceNumber(tranaction));
                 
         return messageList;
-    }
-    
-    private void addMessageIntoList(List<Message> messageList, Message message){
-        if(message != null){
-            messageList.add(message);
-        }
     }
 }

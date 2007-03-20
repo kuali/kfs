@@ -1255,7 +1255,7 @@
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
 
-    <collection-descriptor name="organizationReversionDetail" element-class-ref="org.kuali.module.chart.bo.OrganizationReversionDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <collection-descriptor name="organizationReversionDetail" element-class-ref="org.kuali.module.chart.bo.OrganizationReversionDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
         <orderby name="organizationReversionCategoryCode" sort="ASC" />
         <inverse-foreignkey field-ref="universityFiscalYear" />
         <inverse-foreignkey field-ref="chartOfAccountsCode" />

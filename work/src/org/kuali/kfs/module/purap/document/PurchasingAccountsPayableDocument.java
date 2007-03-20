@@ -71,9 +71,11 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
 
     public void setStatusCode(String statusCode);
 
-    public List<StatusHistory> getStatusHistories();
+    public List getStatusHistories();
+    
+    public void addToStatusHistories(String oldStatus, String newStatus );
 
-    public void setStatusHistories(List<StatusHistory> statusHistories);
+    public void setStatusHistories(List statusHistories);
     
     public List<SourceDocumentReference> getSourceDocumentReferences();
     

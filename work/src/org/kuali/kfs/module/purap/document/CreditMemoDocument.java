@@ -16,6 +16,8 @@
 
 package org.kuali.module.purap.document;
 
+import org.kuali.module.purap.bo.CreditMemoStatusHistory;
+
 
 /**
  * Credit Memo Document
@@ -56,8 +58,11 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     public void handleRouteLevelChange() {
         LOG.debug("handleRouteLevelChange() started");
         super.handleRouteLevelChange();
-
-
+    }
+    
+    public void addToStatusHistories( String oldStatus, String newStatus ) {
+        CreditMemoStatusHistory cmsh = new CreditMemoStatusHistory( oldStatus, newStatus );
+        this.getStatusHistories().add( cmsh );
     }
 
 }

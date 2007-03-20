@@ -22,6 +22,7 @@ import org.kuali.core.bo.Campus;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.PaymentRequestStatus;
+import org.kuali.module.purap.bo.PaymentRequestStatusHistory;
 
 
 /**
@@ -91,9 +92,10 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         return purchaseOrderEncumbranceFiscalYear;
     }
 
-
-
-
+    public void addToStatusHistories( String oldStatus, String newStatus ) {
+        PaymentRequestStatusHistory prsh = new PaymentRequestStatusHistory( oldStatus, newStatus );
+        this.getStatusHistories().add( prsh );
+    }
 
     /**
      * Sets the purchaseOrderEncumbranceFiscalYear attribute value.

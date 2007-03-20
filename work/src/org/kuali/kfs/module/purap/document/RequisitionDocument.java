@@ -19,6 +19,7 @@ package org.kuali.module.purap.document;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ojb.broker.PersistenceBroker;
@@ -36,6 +37,7 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.bo.BillingAddress;
 import org.kuali.module.purap.bo.RequisitionItem;
+import org.kuali.module.purap.bo.RequisitionStatusHistory;
 import org.kuali.module.purap.bo.SourceDocumentReference;
 import org.kuali.module.purap.bo.VendorContract;
 import org.kuali.module.purap.bo.VendorDetail;
@@ -375,6 +377,11 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 //            
 //        }
 
+    }
+    
+    public void addToStatusHistories( String oldStatus, String newStatus ) {
+        RequisitionStatusHistory rsh = new RequisitionStatusHistory( oldStatus, newStatus );
+        this.getStatusHistories().add( rsh );
     }
 
     // SETTERS AND GETTERS

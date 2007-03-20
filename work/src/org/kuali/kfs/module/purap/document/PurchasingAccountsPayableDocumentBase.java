@@ -18,6 +18,7 @@ package org.kuali.module.purap.document;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.ojb.broker.util.collections.ManageableArrayList;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
@@ -43,7 +44,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     private String vendorCustomerNumber;
 
     // COMMON ELEMENTS
-    protected List<StatusHistory> statusHistories;
+    protected List statusHistories;
     protected List<SourceDocumentReference> sourceDocumentReferences;
     // COLLECTIONS
     private List<PurchasingApItem> items;
@@ -55,7 +56,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     // CONSTRUCTORS
     public PurchasingAccountsPayableDocumentBase() {
         items = new TypedArrayList(PurApItemBase.class);
-        this.statusHistories = new TypedArrayList( StatusHistory.class );
+        this.statusHistories = new ManageableArrayList();
     }
     
     public KualiDecimal getTotalDollarAmount() {
@@ -167,11 +168,11 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         this.statusCode = statusCode;
     }
 
-    public List<StatusHistory> getStatusHistories() {
+    public List getStatusHistories() {
         return statusHistories;
     }
 
-    public void setStatusHistories(List<StatusHistory> statusHistories) {
+    public void setStatusHistories(List statusHistories) {
         this.statusHistories = statusHistories;
     }
 

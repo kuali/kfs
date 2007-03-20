@@ -35,6 +35,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.PaymentTermType;
+import org.kuali.module.purap.bo.PurchaseOrderStatusHistory;
 import org.kuali.module.purap.bo.PurchaseOrderVendorChoice;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.bo.RecurringPaymentFrequency;
@@ -510,6 +511,11 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
 
     public void setStatusChangeNote(String statusChangeNote) {
         this.statusChangeNote = statusChangeNote;
+    }
+    
+    public void addToStatusHistories( String oldStatus, String newStatus ) {
+        PurchaseOrderStatusHistory posh = new PurchaseOrderStatusHistory( oldStatus, newStatus );
+        this.getStatusHistories().add( posh );
     }
 
     /**

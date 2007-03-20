@@ -16,6 +16,7 @@
 package org.kuali.module.labor.util;
 
 import static org.kuali.module.gl.bo.OriginEntrySource.LABOR_SCRUBBER_VALID;
+import static org.kuali.module.gl.bo.OriginEntrySource.SCRUBBER_VALID;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -101,6 +102,22 @@ public class TestDataLoader {
         businessObjectService.save(originEntries);       
         return originEntries.size();
     }
+    
+    public int loadTransactionIntoGLOriginEntryTable() {
+        int numberOfInputData = Integer.valueOf(properties.getProperty("numOfData"));
+           
+        Date today = ((DateTimeService) beanFactory.getBean("dateTimeService")).getCurrentSqlDate();
+        OriginEntryGroup groupToPost = originEntryGroupService.createGroup(today, SCRUBBER_VALID, true, true, false);
+
+        int[] fieldLength = this.getFieldLength(fieldLengthList);
+        List<OriginEntry> originEntries = this.loadInputData(OriginEntry.class, "data", 50, keyFieldList, fieldLength);
+        for(OriginEntry entry : originEntries){
+            entry.setEntryGroupId(groupToPost.getId());
+        }
+        
+        businessObjectService.save(originEntries);       
+        return originEntries.size();
+    }
 
     private int loadInputData(String propertyKeyPrefix, int numberOfInputData, List<String> keyFieldList, int[] fieldLength) {
         int count = 0;
@@ -144,8 +161,10 @@ public class TestDataLoader {
 
     public static void main(String[] args) {
         TestDataLoader testDataLoader = new TestDataLoader();
+        for(int i=0; i<1; i++){
         int numOfData = testDataLoader.loadTransactionIntoOriginEntryTable();
         System.out.println("Number of Data Loaded = " + numOfData);
+        }
         System.exit(0);
     }
 }

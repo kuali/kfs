@@ -41,6 +41,7 @@ import org.kuali.module.gl.batch.poster.VerifyTransaction;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.service.OriginEntryGroupService;
+import org.kuali.module.gl.service.impl.NightlyOutServiceImpl;
 import org.kuali.module.gl.util.Message;
 import org.kuali.module.gl.util.Summary;
 import org.kuali.module.labor.LaborConstants;
@@ -60,7 +61,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class LaborPosterServiceImpl implements LaborPosterService {
-
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborPosterServiceImpl.class);
+    
     private LaborOriginEntryService laborOriginEntryService;
     private OriginEntryGroupService originEntryGroupService;
 
@@ -93,51 +95,61 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     private void postLaborLedgerEntries(OriginEntryGroup validGroup, OriginEntryGroup invalidGroup, Date runDate) {
         String reportsDirectory = this.getReportsDirectory();
         Map<Transaction, List<Message>> errorMap = new HashMap<Transaction, List<Message>>();
-        List<Summary> reportSummary = this.buildReportSummaryForLaborLedgerPosting();       
+        List<Summary> reportSummary = this.buildReportSummaryForLaborLedgerPosting();
         int numberOfOriginEntry = 0;
-        
+
         Collection<OriginEntryGroup> postingGroups = originEntryGroupService.getGroupsToPost(LABOR_SCRUBBER_VALID);
         for (OriginEntryGroup entryGroup : postingGroups) {
             Iterator<LaborOriginEntry> entries = laborOriginEntryService.getEntriesByGroup(entryGroup);
             while (entries != null && entries.hasNext()) {
                 LaborOriginEntry originEntry = entries.next();
-
-                // reject the entry that is not postable
-                if (!isPostableEntry(originEntry)) {
-                    continue;
+                if(postSingleEntryIntoLaborLedger(originEntry, reportSummary, errorMap, validGroup, invalidGroup, runDate)){
+                    numberOfOriginEntry++;
+                    originEntry = null;
                 }
-                
-                // reject the invalid entry so that it can be available for error correction
-                List<Message> errors = this.validateEntry(originEntry);
-                if (!errors.isEmpty()) {
-                    errorMap.put(originEntry, errors);
-                    postAsProcessedOriginEntry(originEntry, invalidGroup, runDate);
-                    continue;
-                }
-                
-                // post the current origin entry as a valid origin entry, ledger entry and ledger balance
-                postAsProcessedOriginEntry(originEntry, validGroup, runDate);
-                
-                String operationOnLedgerEntry = postAsLedgerEntry(originEntry, runDate);
-                updateReportSummary(reportSummary, laborLedgerEntryPoster.getDestinationName(), operationOnLedgerEntry, STEP, 0);
-                
-                String operationOnLedgerBalance = updateLedgerBalance(originEntry, runDate);       
-                updateReportSummary(reportSummary, laborLedgerBalancePoster.getDestinationName(), operationOnLedgerBalance, STEP, 0);
-                
-                numberOfOriginEntry++;
             }
-            
             // reset the process flag of the group so that it cannot be handled any more
             entryGroup.setProcess(Boolean.FALSE);
             originEntryGroupService.save(entryGroup);
         }
-       
         updateReportSummary(reportSummary, ORIGN_ENTRY, OperationType.SELECT, numberOfOriginEntry, 0);
-        reportService.generatePosterStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_STATISTICS, reportsDirectory, runDate);
         
+        reportService.generatePosterStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_STATISTICS, reportsDirectory, runDate);
         reportService.generatePosterInputSummaryReport(postingGroups, ReportRegistry.LABOR_POSTER_INPUT, reportsDirectory, runDate);
         reportService.generatePosterOutputSummaryReport(validGroup, ReportRegistry.LABOR_POSTER_OUTPUT, reportsDirectory, runDate);
         reportService.generatePosterErrorTransactionListing(invalidGroup, ReportRegistry.LABOR_POSTER_ERROR, reportsDirectory, runDate);
+    }
+    
+    // post the given entry into the labor ledger tables if the entry is qualified; otherwise report error
+    private boolean postSingleEntryIntoLaborLedger(LaborOriginEntry originEntry, List<Summary> reportSummary, Map<Transaction, List<Message>> errorMap, OriginEntryGroup validGroup, OriginEntryGroup invalidGroup, Date runDate){
+        try {
+            // reject the entry that is not postable
+            if (!isPostableEntry(originEntry)) {
+                return false;
+            }
+
+            // reject the invalid entry so that it can be available for error correction
+            List<Message> errors = this.validateEntry(originEntry);
+            if (!errors.isEmpty()) {
+                errorMap.put(originEntry, errors);
+                postAsProcessedOriginEntry(originEntry, invalidGroup, runDate);
+                return false;
+            }
+
+            // post the current origin entry as a valid origin entry, ledger entry and ledger balance
+            postAsProcessedOriginEntry(originEntry, validGroup, runDate);
+
+            String operationOnLedgerEntry = postAsLedgerEntry(originEntry, runDate);
+            updateReportSummary(reportSummary, laborLedgerEntryPoster.getDestinationName(), operationOnLedgerEntry, STEP, 0);
+
+            String operationOnLedgerBalance = updateLedgerBalance(originEntry, runDate);
+            updateReportSummary(reportSummary, laborLedgerBalancePoster.getDestinationName(), operationOnLedgerBalance, STEP, 0);
+        }
+        catch (Exception e) {
+            LOG.error(e);
+            return false;
+        }     
+        return true;
     }
 
     // determine if the given origin entry need to be posted
@@ -153,7 +165,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
     // validate the given entry, and generate an error list if the entry cannot meet the business rules
     private List<Message> validateEntry(LaborOriginEntry originEntry) {
-        return laborPosterTransactionValidator.verifyTransaction(originEntry);               
+        return laborPosterTransactionValidator.verifyTransaction(originEntry);
     }
 
     // post the processed entry into the approperiate group, either valid or invalid group
@@ -178,11 +190,11 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         String reportsDirectory = this.getReportsDirectory();
         List<Summary> reportSummary = this.buildReportSummaryForLaborGLPosting();
         Map<Transaction, List<Message>> errorMap = new HashMap<Transaction, List<Message>>();
-        
+
         int numberOfOriginEntry = 0;
         Collection<LaborOriginEntry> entries = laborOriginEntryService.getConsolidatedEntryCollectionByGroup(validGroup);
         for (LaborOriginEntry originEntry : entries) {
-            
+
             List<Message> errors = this.isPostableForLaborGLEntry(originEntry);
             if (!errors.isEmpty()) {
                 errorMap.put(originEntry, errors);
@@ -190,7 +202,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
             }
             String operationType = laborGLLedgerEntryPoster.post(originEntry, 0, runDate);
             this.updateReportSummary(reportSummary, laborGLLedgerEntryPoster.getDestinationName(), operationType, STEP, 0);
-            
+
             numberOfOriginEntry++;
         }
         updateReportSummary(reportSummary, ORIGN_ENTRY, OperationType.SELECT, numberOfOriginEntry, 0);
@@ -267,8 +279,8 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         summaryDescription.append("Number of ").append(destinationName).append(" records ").append(operationType).append(":");
         return summaryDescription;
     }
-    
-    public String getReportsDirectory(){
+
+    public String getReportsDirectory() {
         return kualiConfigurationService.getPropertyString(Constants.REPORTS_DIRECTORY_KEY);
     }
 
@@ -286,6 +298,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
     /**
      * Sets the dateTimeService attribute value.
+     * 
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -294,6 +307,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
     /**
      * Sets the kualiConfigurationService attribute value.
+     * 
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
@@ -302,6 +316,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
     /**
      * Sets the laborLedgerBalancePoster attribute value.
+     * 
      * @param laborLedgerBalancePoster The laborLedgerBalancePoster to set.
      */
     public void setLaborLedgerBalancePoster(PostTransaction laborLedgerBalancePoster) {
@@ -310,6 +325,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
     /**
      * Sets the laborGLLedgerEntryPoster attribute value.
+     * 
      * @param laborGLLedgerEntryPoster The laborGLLedgerEntryPoster to set.
      */
     public void setLaborGLLedgerEntryPoster(PostTransaction laborGLLedgerEntryPoster) {
@@ -318,6 +334,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
     /**
      * Sets the laborLedgerEntryPoster attribute value.
+     * 
      * @param laborLedgerEntryPoster The laborLedgerEntryPoster to set.
      */
     public void setLaborLedgerEntryPoster(PostTransaction laborLedgerEntryPoster) {
@@ -326,6 +343,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
     /**
      * Sets the laborOriginEntryService attribute value.
+     * 
      * @param laborOriginEntryService The laborOriginEntryService to set.
      */
     public void setLaborOriginEntryService(LaborOriginEntryService laborOriginEntryService) {
@@ -334,6 +352,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
     /**
      * Sets the originEntryGroupService attribute value.
+     * 
      * @param originEntryGroupService The originEntryGroupService to set.
      */
     public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
@@ -342,6 +361,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
     /**
      * Sets the reportService attribute value.
+     * 
      * @param reportService The reportService to set.
      */
     public void setReportService(LaborReportService reportService) {
@@ -350,6 +370,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
     /**
      * Sets the laborPosterTransactionValidator attribute value.
+     * 
      * @param laborPosterTransactionValidator The laborPosterTransactionValidator to set.
      */
     public void setLaborPosterTransactionValidator(VerifyTransaction laborPosterTransactionValidator) {

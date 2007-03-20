@@ -17,6 +17,35 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>	
 
+	<!-- Overriddeen from core to include the kfs.datadictionary package -->
+	<bean id="dataDictionaryService" class="org.kuali.core.service.impl.DataDictionaryServiceImpl">
+		<constructor-arg ref="validationCompletionUtils" />
+		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
+		<property name="authorizationService" ref="authorizationService" />
+		<property name="kualiGroupService" ref="kualiGroupService" />
+		<property name="kualiModuleService" ref="kualiModuleService" />
+		<property name="institutionId" value="${institution}" />
+		<property name="baselinePackages">
+			<list>
+				<value>org.kuali.core.bo.datadictionary</value>
+				<value>org.kuali.core.document.datadictionary</value>
+				<value>org.kuali.kfs.datadictionary</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="universalUserDao" class="org.kuali.core.dao.ojb.UniversalUserDaoOjb">
+		<property name="jcdAlias">
+			<value>dataSource</value>
+		</property>
+	</bean>
+	
+	<bean id="webAuthenticationService" class="org.kuali.core.service.impl.WebAuthenticationServiceCas">
+		<property name="validatePassword" value="false" />
+	</bean>
+	
+	<!-- end core overrides -->
+
 	<bean id="kualiCodeService" class="org.kuali.kfs.service.impl.KualiCodeServiceImpl">
 		<property name="kualiCodeDao">
 			<ref bean="kualiCodeDao" />

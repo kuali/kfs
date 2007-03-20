@@ -32,6 +32,7 @@ import org.apache.log4j.Logger;
 import org.kuali.Constants;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.util.FieldUtils;
+import org.kuali.core.workflow.attribute.WorkflowLookupableImpl;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.util.SpringServiceLocator;

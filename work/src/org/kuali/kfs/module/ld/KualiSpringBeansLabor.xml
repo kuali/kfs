@@ -125,6 +125,45 @@
 			<ref bean="businessObjectService" />
 		</property>
 	</bean>
+
+	<bean id="laborLedgerBalanceLookupableHelperService" class="org.kuali.module.labor.web.lookupable.LedgerBalanceLookupableHelperServiceImpl" singleton="false">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="lookupService" />
+		</property>
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<!--property name="dictionaryValidationService">
+			<ref bean="dictionaryValidationService" />
+			</property-->
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+		<property name="balanceService">
+			<ref bean="laborLedgerBalanceService" />
+		</property>		
+	</bean>
+	
+	<bean id="laborLedgerBalanceLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="laborLedgerBalanceLookupableHelperService" />
+		</property>
+	</bean>	
+	
+	<bean id="laborLedgerBalanceService" class="org.kuali.module.labor.service.impl.LaborLedgerBalanceServiceImpl">
+		<property name="balanceDao">
+			<ref bean="laborLedgerBalanceDao" />
+		</property>
+		<property name="optionsService">
+			<ref bean="optionsService" />
+		</property>
+	</bean>	
 	
     <!-- Section 2: Spring Beans for DAO -->
 
@@ -151,6 +190,15 @@
         </property>
     </bean>
 
+	<bean id="laborLedgerBalanceDao" class="org.kuali.module.labor.dao.ojb.LaborLedgerBalanceDaoOjb">
+		<property name="jcdAlias">
+			<value>dataSource</value>
+		</property>
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+	</bean>
+	
     <!-- Section 3: Spring Bean for Batch processes -->
 
 	<bean id="laborScrubberService" class="org.kuali.module.labor.service.impl.LaborScrubberServiceImpl">

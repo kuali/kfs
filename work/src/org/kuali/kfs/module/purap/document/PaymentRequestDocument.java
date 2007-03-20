@@ -20,8 +20,8 @@ import java.sql.Date;
 
 import org.kuali.core.bo.Campus;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.PaymentRequestStatus;
-import org.kuali.module.purap.bo.PaymentRequestStatusHistory;
 
 
 /**
@@ -74,6 +74,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
 
     private PaymentRequestStatus paymentRequestStatus;
     private Campus processingCampus;
+    private PurchaseOrderDocument purchaseOrderDocument;
 
     /**
 	 * Default constructor.
@@ -943,6 +944,21 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.alternateVendorDetailAssignedIdentifier = alternateVendorDetailAssignedIdentifier;
     }
 
+    /**
+     * Gets the purchaseOrderDocument attribute. 
+     * @return Returns the purchaseOrderDocument.
+     */
+    public PurchaseOrderDocument getPurchaseOrderDocument() {
+        return purchaseOrderDocument;
+    }
+
+    /**
+     * Sets the purchaseOrderDocument attribute value.
+     * @param purchaseOrderDocument The purchaseOrderDocument to set.
+     */
+    public void setPurchaseOrderDocument(PurchaseOrderDocument purchaseOrderDocument) {
+        this.purchaseOrderDocument = purchaseOrderDocument;
+    }
 
     /**
      * Gets the paymentRequestStatus attribute.
@@ -992,7 +1008,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      * Perform logic needed to initiate PREQ Document
      */
     public void initiateDocument() {
-
+        this.setStatusCode( PurapConstants.PaymentRequestStatuses.IN_PROCESS );
+        this.refreshAllReferences();
     }
 
     /**

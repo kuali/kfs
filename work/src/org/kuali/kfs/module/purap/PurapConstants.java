@@ -161,4 +161,25 @@ public class PurapConstants {
         public static String CONFIRM_REOPEN_QUESTION = "ConfirmReopen";
         public static String SINGLE_CONFIRMATION_QUESTION = "singleConfirmationQuestion";
     }
+    
+    public static class PaymentRequestStatuses {
+        public static String IN_PROCESS = "INPR";
+       /* Modify as required:
+        public static String CANCELLED = "CANC";
+        public static String CLOSED = "CLOS";
+        public static String AWAIT_CONTENT_APRVL = "ACNT";
+        public static String AWAIT_SUB_ACCT_APRVL = "ASUB";
+        public static String AWAIT_FISCAL_APRVL = "AFIS";
+        public static String AWAIT_CHART_APRVL = "ACHA";
+        public static String AWAIT_SEP_OF_DUTY_APRVL = "ASOD";
+        public static String DAPRVD_CONTENT = "DCNT";
+        public static String DAPRVD_SUB_ACCT = "DSUB";
+        public static String DAPRVD_FISCAL = "DFIS";
+        public static String DAPRVD_CHART = "DCHA";
+        public static String DAPRVD_SEP_OF_DUTY = "DSOD";
+        public static String AWAIT_CONTRACT_MANAGER_ASSGN = "ACMR";
+        public static String CONTRACT_MANAGER_ASSGN = "CMRA";
+        */
+    }
+
 }

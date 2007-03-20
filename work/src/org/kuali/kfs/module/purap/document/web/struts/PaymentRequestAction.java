@@ -21,8 +21,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.module.purap.document.PaymentRequestDocument;
+import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.web.struts.form.PaymentRequestForm;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class handles specific Actions requests for the Requisition.
@@ -30,6 +34,20 @@ import org.kuali.module.purap.web.struts.form.PaymentRequestForm;
  */
 public class PaymentRequestAction extends AccountsPayableActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestAction.class);
+    
+    /**
+     * Do initialization for a new requisition
+     * 
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
+     */
+    @Override
+    protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        
+        super.createDocument(kualiDocumentFormBase);
+        
+        ((PaymentRequestDocument) kualiDocumentFormBase.getDocument()).initiateDocument();
+        
+    }
 
     /**
      * @see org.kuali.core.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,

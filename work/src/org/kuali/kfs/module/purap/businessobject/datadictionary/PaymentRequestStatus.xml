@@ -25,8 +25,8 @@
             <title>Payment Request Status Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="paymentRequestStatusCode" />
-                <field attributeName="paymentRequestStatusDescription" />
+                <field attributeName="statusCode" />
+                <field attributeName="statusDescription" />
                 <field attributeName="active" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
@@ -38,19 +38,19 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="paymentRequestStatusDescription" />
+                    <sortAttribute attributeName="statusDescription" />
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="paymentRequestStatusCode" required="false" />
-                <lookupField attributeName="paymentRequestStatusDescription" required="false" />
+                <lookupField attributeName="statusCode" required="false" />
+                <lookupField attributeName="statusDescription" required="false" />
                 <lookupField attributeName="active" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="paymentRequestStatusCode" />
-                <field attributeName="paymentRequestStatusDescription" />
+                <field attributeName="statusCode" />
+                <field attributeName="statusDescription" />
                 <field attributeName="active" />
             </resultFields>
         </lookup>
@@ -58,7 +58,7 @@
         <titleAttribute>paymentRequestStatusCode</titleAttribute>
 
         <attributes>
-            <attribute name="paymentRequestStatusCode" forceUppercase="true">
+            <attribute name="statusCode" forceUppercase="true">
                 <label>Payment Request Status Code</label>
                 <shortLabel>Code</shortLabel>
 
@@ -73,7 +73,7 @@
                 <description>paymentRequestStatusCode description...</description>
 			</attribute>
 
-            <attribute name="paymentRequestStatusDescription" forceUppercase="true">
+            <attribute name="statusDescription" forceUppercase="true">
                 <label>Payment Request Status Description</label>
                 <shortLabel>Description</shortLabel>
 

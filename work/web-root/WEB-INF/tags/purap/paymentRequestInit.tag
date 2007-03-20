@@ -73,7 +73,9 @@
                    <br/>
                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentSpecialHandlingInstructionLine3Text}" property="document.paymentSpecialHandlingInstructionLine3Text" />
                 </td>
-               
+                <th align=right valign=middle class="bord-l-b" colspan="2">
+                   <div align="right">&nbsp;</div>
+                </th>
             </tr>
 		</table> 
 		

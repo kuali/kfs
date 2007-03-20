@@ -44,14 +44,14 @@
         <allowsCopy>true</allowsCopy>
 
         <lockingKeys>
-            <field attributeName="paymentRequestStatusCode" />
+            <field attributeName="statusCode" />
         </lockingKeys>
 
         <maintainableSections>
             <maintainableSection title="Edit Payment Request Status">
                 <maintainableItems>
-                    <maintainableField name="paymentRequestStatusCode" required="true" />
-                    <maintainableField name="paymentRequestStatusDescription" required="true" />
+                    <maintainableField name="statusCode" required="true" />
+                    <maintainableField name="statusDescription" required="true" />
                     <maintainableField name="active" />
                     <maintainableField name="versionNumber" />       
                 </maintainableItems>

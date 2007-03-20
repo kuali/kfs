@@ -23,83 +23,21 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 /**
  * 
  */
-public class PaymentRequestStatus extends PersistableBusinessObjectBase {
-
+//public class PaymentRequestStatus extends PersistableBusinessObjectBase {
+public class PaymentRequestStatus extends Status {
+/*
 	private String paymentRequestStatusCode;
 	private String paymentRequestStatusDescription;
 	private boolean active;
-
+*/
 	/**
 	 * Default constructor.
 	 */
 	public PaymentRequestStatus() {
-
-	}
-
-	/**
-	 * Gets the paymentRequestStatusCode attribute.
-	 * 
-	 * @return Returns the paymentRequestStatusCode
-	 * 
-	 */
-	public String getPaymentRequestStatusCode() { 
-		return paymentRequestStatusCode;
-	}
-
-	/**
-	 * Sets the paymentRequestStatusCode attribute.
-	 * 
-	 * @param paymentRequestStatusCode The paymentRequestStatusCode to set.
-	 * 
-	 */
-	public void setPaymentRequestStatusCode(String paymentRequestStatusCode) {
-		this.paymentRequestStatusCode = paymentRequestStatusCode;
-	}
-
-
-	/**
-	 * Gets the paymentRequestStatusDescription attribute.
-	 * 
-	 * @return Returns the paymentRequestStatusDescription
-	 * 
-	 */
-	public String getPaymentRequestStatusDescription() { 
-		return paymentRequestStatusDescription;
-	}
-
-	/**
-	 * Sets the paymentRequestStatusDescription attribute.
-	 * 
-	 * @param paymentRequestStatusDescription The paymentRequestStatusDescription to set.
-	 * 
-	 */
-	public void setPaymentRequestStatusDescription(String paymentRequestStatusDescription) {
-		this.paymentRequestStatusDescription = paymentRequestStatusDescription;
-	}
-
-
-	/**
-     * Gets the active attribute. 
-     * @return Returns the active.
-     */
-    public boolean isActive() {
-        return active;
+        super();
+        super.ojbConcreteClass = this.getClass().getName();
     }
 
-    /**
-     * Sets the active attribute value.
-     * @param active The active to set.
-     */
-    public void setActive(boolean active) {
-        this.active = active;
-    }
 
-    /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
-        m.put("paymentRequestStatusCode", this.paymentRequestStatusCode);
-	    return m;
-    }
+
 }

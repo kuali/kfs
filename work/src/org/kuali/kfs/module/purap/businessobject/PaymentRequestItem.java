@@ -19,8 +19,8 @@ package org.kuali.module.purap.bo;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.purap.document.PaymentRequestDocument;
 
 /**
  * 
@@ -46,7 +46,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
     private KualiDecimal itemOutstandingInvoiceQuantity;
     private KualiDecimal itemOutstandingInvoiceAmount;
     
-    private PaymentRequest paymentRequest;
+    private PaymentRequestDocument paymentRequest;
 
 	/**
 	 * Default constructor.
@@ -428,7 +428,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
 	 * @return Returns the paymentRequest
 	 * 
 	 */
-	public PaymentRequest getPaymentRequest() { 
+	public PaymentRequestDocument getPaymentRequest() { 
 		return paymentRequest;
 	}
 
@@ -438,7 +438,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
 	 * @param paymentRequest The paymentRequest to set.
 	 * @deprecated
 	 */
-	public void setPaymentRequest(PaymentRequest paymentRequest) {
+	public void setPaymentRequest(PaymentRequestDocument paymentRequest) {
 		this.paymentRequest = paymentRequest;
 	}
 

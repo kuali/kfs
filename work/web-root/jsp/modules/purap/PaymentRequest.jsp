@@ -32,17 +32,20 @@
         includePostingYear="true"
         postingYearAttributes="${DataDictionary.KualiPaymentRequestDocument.attributes}" />
 
-        
- 	<purap:paymentRequestInit documentAttributes="${DataDictionary.KualiPaymentRequestDocument.attributes}"
- 		 displayPaymentRequestInitFields="true" />
+         
+ 	<!-- purap:paymentRequestInit documentAttributes="${DataDictionary.KualiPaymentRequestDocument.attributes}"
+ 		 displayPaymentRequestInitFields="true" / -->
 	
-	<purap:vendor
+	<!--  purap:vendor
         documentAttributes="${DataDictionary.KualiPaymentRequestDocument.attributes}" 
-        displayPurchaseOrderFields="false" displayPaymentRequestFields="true"/>
+        displayPurchaseOrderFields="false" displayPaymentRequestFields="true"/ -->
 
-    <kul:notes />
+	<!--  purap:paymentRequestInvoiceInfo documentAttributes="${DataDictionary.KualiPaymentRequestDocument.attributes}"
+ 		 displayPaymentRequestInvoiceInfoFields="true" / -->        
 
-    <kul:adHocRecipients />
+    <!-- kul:notes / -->
+
+    <!-- kul:adHocRecipients / -->
 
     <kul:routeLog />
 

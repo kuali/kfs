@@ -253,18 +253,18 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         if (po.isPendingActionIndicator()) {
             GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PURCHASE_ORDER_PENDING_ACTION);
         }   
-        /*
         if (!po.isPurchaseOrderCurrentIndicator()) {
             // Status History: "This includes the entire status history of the PO, not just up to this document" (curr_ind = N)
             GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PURCHASE_ORDER_ENTIRE_STATUS_HISTORY);
             // Notes: "This includes all notes on the PO, not just up to this document" (curr_ind = N)
             GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PURCHASE_ORDER_ALL_NOTES);
         }
-        */
+        /* Uncomment the following if we decide to show the warnings on the note tab
         if (!po.isPurchaseOrderCurrentIndicator()) {
             ErrorMap errorMap = GlobalVariables.getErrorMap();
             errorMap.putError(Constants.DOCUMENT_NOTES_ERRORS, PurapKeyConstants.WARNING_PURCHASE_ORDER_ALL_NOTES);
         }
+        */
     }
     
     /**

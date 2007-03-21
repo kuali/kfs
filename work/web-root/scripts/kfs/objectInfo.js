@@ -60,7 +60,7 @@ function loadAccountInfo( accountCodeFieldName, accountNameFieldName ) {
     if (accountCode=='') {
 		clearRecipients(accountNameFieldName);
 	} else if (coaCode=='') {
-		setRecipientValue(accountNameFieldName, wrapError( 'chart code is empty' ) );
+		setRecipientValue(accountNameFieldName, wrapError( 'chart code is empty' ), true );
 	} else {
 		var dwrReply = {
 			callback:function(data) {

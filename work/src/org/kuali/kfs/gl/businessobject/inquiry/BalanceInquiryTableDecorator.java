@@ -29,81 +29,45 @@ import org.kuali.core.web.ui.ResultRow;
  */
 public class BalanceInquiryTableDecorator extends TableDecorator {
 
-    private int numOfNonMonthField = 11;
+    private int numOfNonMonthField;
     private int numOfMonthField = 13;
-    private int rowCounter;
-
-    /**
-     * Constructs a BalanceInquiryTableDecorator.java.
-     */
-    public BalanceInquiryTableDecorator() {
-        super();
-    }
+    private int rowCounter = 0;
 
     @Override
     public String startRow() {
         // TableTagParameters.
         PageContext pageContext = getPageContext();
         MediaTypeEnum mediaType = (MediaTypeEnum) pageContext.getAttribute("mediaType");
-
         ResultRow row = (ResultRow) getCurrentRowObject();
 
         if (MediaTypeEnum.HTML.equals(mediaType)) { // Display the nested table.
 
             StringBuffer rowBuffer = new StringBuffer("<tr>");
+            rowBuffer.append("<tr>");
 
-            if (1 <= rowCounter) {
+            List columns = row.getColumns();
+            int columnCount = 0;
+            numOfNonMonthField = columns.size() - numOfMonthField;
+            for (Iterator i = columns.iterator(); i.hasNext() && columnCount++ < numOfNonMonthField;) {
+                Column column = (Column) i.next();
 
-                rowBuffer.append("<tr>");
-
-                List columns = row.getColumns();
-
-                int columnCount = 0;
-                for (Iterator i = columns.iterator(); i.hasNext() && columnCount++ < numOfNonMonthField;) {
-
-                    Column column = (Column) i.next();
-
-                    if (columnCount > 1) {
-
-                        rowBuffer.append("<th>");
-
-                        // if(column.getSortable()) {
-                        //                        
-                        // }
-
-                        rowBuffer.append(column.getColumnTitle());
-
-                        // if(column.getSortable()) {
-                        //                            
-                        // rowBuffer.append("</a>");
-                        //                            
-                        // }
-
-                        rowBuffer.append("</th>");
-
-                    }
-
+                if (rowCounter>0 && columnCount > 1) {
+                    rowBuffer.append("<th>");
+                    rowBuffer.append(column.getColumnTitle());
+                    rowBuffer.append("</th>");
                 }
-
-                rowBuffer.append("</tr>");
-
             }
-
+            rowBuffer.append("</tr>");
             return rowBuffer.toString();
-
         }
-
         return super.startRow();
     }
 
     @Override
     public String finishRow() {
-
         rowCounter++;
-
         PageContext pageContext = getPageContext();
         MediaTypeEnum mediaType = (MediaTypeEnum) pageContext.getAttribute("mediaType");
-
         ResultRow row = (ResultRow) getCurrentRowObject();
 
         if (MediaTypeEnum.HTML.equals(mediaType)) {
@@ -115,13 +79,10 @@ public class BalanceInquiryTableDecorator extends TableDecorator {
             rowBuffer.append("<table class=\"datatable-80\" cellspacing=\"0\" cellpadding=\"0\">");
 
             for (int o = 0; o < 3; o++) {
-
                 rowBuffer.append("<tr>");
 
                 for (int i = 0; i < 4; i++) {
-
-                    int index = numOfNonMonthField + o + (3 * i);
-
+                    int index = this.numOfNonMonthField + o + (3 * i);
                     Column column = (Column) row.getColumns().get(index);
 
                     rowBuffer.append("<th class=\"infocell\" width=\"10%\">");
@@ -150,9 +111,7 @@ public class BalanceInquiryTableDecorator extends TableDecorator {
             rowBuffer.append("</td>");
 
             rowBuffer.append("</tr>");
-
             return rowBuffer.append("</table></center><br /></td></tr>").toString();
-
         }
         return super.finishRow();
     }

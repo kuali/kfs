@@ -48,6 +48,8 @@ public class OriginEntrySource extends KualiCodeBase {
     public static final String LABOR_MAIN_POSTER_VALID = "LMPV";    
     public static final String LABOR_SCRUBBER_ERROR = "LSCE";
     public static final String LABOR_SCRUBBER_VALID = "LSCV";
+    
+    public static final String LABOR_YEAR_END_BALANCE_FORWARD = "LBF";
 
     // Code base has all the fields we need
 }

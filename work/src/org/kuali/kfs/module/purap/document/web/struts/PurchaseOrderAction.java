@@ -28,6 +28,7 @@ import org.kuali.core.bo.Note;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -57,7 +58,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
         BusinessObjectService businessObjectService = SpringServiceLocator.getBusinessObjectService();
-
+        
         //Handling lookups for alternate vendor for escrow payment that are only specific to Purchase Order
         if (request.getParameter("document.alternateVendorHeaderGeneratedIdentifier") != null &&
             request.getParameter("document.alternateVendorDetailAssignedIdentifier") != null) {
@@ -157,9 +158,26 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return returnToSender(mapping, kualiDocumentFormBase);
     }
     
+    /**
+     * 
+     * This method is invoked when the user pressed on the Open Order button on a Purchase Order
+     * page that has status "Close" to reopen the PO.
+     * It will display the question page to the user to ask whether the user really wants to
+     * reopen the PO and ask the user to enter a reason in the text area. If the user has entered
+     * the reason, it will invoke the updateFlagsAndRoute service method to do the processing for
+     * reopening a PO, then display a Single Confirmation page to inform the user that the PO Reopen
+     * Document has been routed.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward reopenPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        //do something
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        PurchaseOrderDocument po = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
 
         Object question = request.getParameter(Constants.QUESTION_INST_ATTRIBUTE_NAME);
         String reason = request.getParameter(Constants.QUESTION_REASON_ATTRIBUTE_NAME);
@@ -204,11 +222,49 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             }
         }
 
-        PurchaseOrderDocument po = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
         SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(po, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
         GlobalVariables.getMessageList().add(PurapKeyConstants.MESSAGE_ROUTE_REOPENED);
         kualiDocumentFormBase.setAnnotation("");
         return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.PODocumentsStrings.CONFIRM_REOPEN_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_ROUTE_REOPENED), PurapConstants.PODocumentsStrings.SINGLE_CONFIRMATION_QUESTION, Constants.ROUTE_METHOD, "");
+    }
+    
+    /**
+     * 
+     * This method is to check on a few conditions that would cause a warning message to be
+     * displayed on top of the Purchase Order page.
+     * 
+     * @param po the PurchaseOrderDocument whose status and indicators are to be checked in the 
+     *           conditions
+     * 
+     * @return boolean true if the Purchase Order doesn't have any warnings and false otherwise.
+     */
+    private void checkForPOWarnings(PurchaseOrderDocument po) {
+        // "This is not the current version of this Purchase Order." (curr_ind = N and doc status is not enroute)
+        if (!po.isPurchaseOrderCurrentIndicator() &&
+            !po.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
+            GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PURCHASE_ORDER_NOT_CURRENT);
+        }
+        // "This document is a pending action. This is not the current version of this Purchase Order" (curr_ind = N and doc status is enroute)
+        if (!po.isPurchaseOrderCurrentIndicator() &&
+            po.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
+            GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PURCHASE_ORDER_PENDING_ACTION_NOT_CURRENT);
+        }
+        // "There is a pending action on this Purchase Order." (pend_action = Y)
+        if (po.isPendingActionIndicator()) {
+            GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PURCHASE_ORDER_PENDING_ACTION);
+        }   
+        /*
+        if (!po.isPurchaseOrderCurrentIndicator()) {
+            // Status History: "This includes the entire status history of the PO, not just up to this document" (curr_ind = N)
+            GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PURCHASE_ORDER_ENTIRE_STATUS_HISTORY);
+            // Notes: "This includes all notes on the PO, not just up to this document" (curr_ind = N)
+            GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PURCHASE_ORDER_ALL_NOTES);
+        }
+        */
+        if (!po.isPurchaseOrderCurrentIndicator()) {
+            ErrorMap errorMap = GlobalVariables.getErrorMap();
+            errorMap.putError(Constants.DOCUMENT_NOTES_ERRORS, PurapKeyConstants.WARNING_PURCHASE_ORDER_ALL_NOTES);
+        }
     }
     
     /**
@@ -254,4 +310,22 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    /**
+     * 
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * 
+     * This method overrides the docHandler method in the superclass. In addition to doing the
+     * normal process in the superclass and returning its action forward from the superclass, it
+     * also invokes the checkForPOWarnings method to check on a few conditions that could have
+     * caused warning messages to be displayed on top of Purchase Order page.
+     */
+    @Override
+    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = super.docHandler(mapping, form, request, response);
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        PurchaseOrderDocument po = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
+        checkForPOWarnings(po);
+      
+        return forward;
+    }
 }

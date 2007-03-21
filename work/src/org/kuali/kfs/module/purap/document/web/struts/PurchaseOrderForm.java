@@ -17,6 +17,7 @@ package org.kuali.module.purap.web.struts.form;
 
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
@@ -41,6 +42,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         setDocument(new PurchaseOrderDocument());
         this.setNewPurchasingItemLine(setupNewPurchasingItemLine());
         setNewPurchaseOrderVendorStipulationLine(new PurchaseOrderVendorStipulation());
+        addButtons();
     }
 
     /**
@@ -105,6 +107,27 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     public void setNewPurchaseOrderVendorStipulationLine(PurchaseOrderVendorStipulation newPurchaseOrderVendorStipulationLine) {
         this.newPurchaseOrderVendorStipulationLine = newPurchaseOrderVendorStipulationLine;
     }
-    
+
+    private void addButtons() {
+        //TODO: Find out and add logic about which buttons to appear in 
+        //which condition e.g. we might not want to display the close button 
+        //on a PO with status CLOSE or the open button on a PO with status OPEN, etc.
+        
+        ExtraButton closeButton = new ExtraButton();
+        closeButton.setExtraButtonProperty("methodToCall.closePO");
+        closeButton.setExtraButtonSource("images/buttonsmall_closeorder.gif");
+
+        ExtraButton reopenButton = new ExtraButton();
+        reopenButton.setExtraButtonProperty("methodToCall.reopenPo");
+        reopenButton.setExtraButtonSource("images/buttonsmall_openorder.gif");
+        
+        ExtraButton voidButton = new ExtraButton();
+        voidButton.setExtraButtonProperty("methodToCall.voidPo");
+        voidButton.setExtraButtonSource("images/buttonsmall_voidorder.gif");
+        
+        this.getExtraButtons().add(closeButton);
+        this.getExtraButtons().add(reopenButton);
+        this.getExtraButtons().add(voidButton);
+    }
     
 }

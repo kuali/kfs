@@ -71,21 +71,11 @@
     <kul:panelFooter />
 
 
-  	<c:set var="extraButtonSource" value="images/buttonsmall_openorder.gif"/>
-  	<c:set var="extraButtonProperty" value="methodToCall.reopenPo"/>
-  	<c:set var="extraButtonAlt" value="Reopen"/>
-  	
-<%-- 
-  	<c:set var="extraButtonSource" value="images/buttonsmall_closeorder.gif"/>
-  	<c:set var="extraButtonProperty" value="methodToCall.closePO"/>
-  	<c:set var="extraButtonAlt" value="Close PO"/>
+    <c:set var="extraButtons" value="${KualiForm.extraButtons}"/>  	
 
---%>  	
     <kul:documentControls 
         transactionalDocument="true" 
-        extraButtonSource="${extraButtonSource}"
-        extraButtonProperty="${extraButtonProperty}"
-        extraButtonAlt="${extraButtonAlt}"
+        extraButtons="${extraButtons}"
         />
 
 </kul:documentPage>

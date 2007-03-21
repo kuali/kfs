@@ -21,10 +21,13 @@ import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
 import org.kuali.core.service.UniversalUserService;
-import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapKeyConstants;
+import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.service.PurchaseOrderService;
 
 public class PurchaseOrderReopenDocumentRule extends TransactionalDocumentRuleBase {
 
@@ -54,13 +57,6 @@ public class PurchaseOrderReopenDocumentRule extends TransactionalDocumentRuleBa
 
     private boolean processValidation(PurchaseOrderDocument document) {
         boolean valid = true;
-        //return true for now, we need to check EPIC to see if there are any rules for this doc
-        
-        //check that the PO is not null
-        if (ObjectUtils.isNull(document)) {
-          //ServiceError se = new ServiceError("invalid PO", "purchaseOrder.invalid");
-          valid = false;
-        }
 
         //check that the user is in purchasing workgroup
         String initiatorNetworkId = document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
@@ -71,16 +67,17 @@ public class PurchaseOrderReopenDocumentRule extends TransactionalDocumentRuleBa
             String purchasingGroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue("PurapAdminGroup", PurapConstants.Workgroups.WORKGROUP_PURCHASING);
             if (!uus.isMember(user, purchasingGroup )) {
                 valid = false;
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURAP_DOC_ID, PurapKeyConstants.ERROR_USER_NONPURCHASING);
             }
         } catch (UserNotFoundException ue) {
             valid = false;
         }
 
         //check the PO status
-        String poStatus = document.getStatus().getStatusCode();
-        
+        String poStatus = document.getStatus().getStatusCode();        
         if (!poStatus.equals(PurapConstants.PurchaseOrderStatuses.CLOSED)) {
             valid = false;
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.STATUS_CODE, PurapKeyConstants.PURCHASE_ORDER_REOPEN_STATUS);
         }
         
         return valid;

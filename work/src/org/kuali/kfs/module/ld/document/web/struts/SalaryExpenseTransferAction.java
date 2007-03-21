@@ -28,6 +28,7 @@ import org.kuali.Constants;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.web.struts.action.KualiBalanceInquiryReportMenuAction;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
@@ -40,6 +41,20 @@ import org.kuali.module.labor.web.struts.form.SalaryExpenseTransferForm;
  * class is necessary for integrating into the framework.
  */
 public class SalaryExpenseTransferAction extends LaborDocumentActionBase {
+    private KualiBalanceInquiryReportMenuAction balanceInquiryAction;
+    
+    public SalaryExpenseTransferAction() {
+        balanceInquiryAction = new KualiBalanceInquiryReportMenuAction();
+    }
+    
+    /**
+     * @see org.kuali.kfs.web.struts.action.KualiBalanceInquiryReportMenuAction#performBalanceInquiryLookup(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse)
+     */
+    public ActionForward performBalanceInquiryLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return balanceInquiryAction.performBalanceInquiryLookup(mapping, form, request, response);
+    }
+
+
 
     /**
      * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#processAccountingLineOverrides(KualiAccountingDocumentFormBase)

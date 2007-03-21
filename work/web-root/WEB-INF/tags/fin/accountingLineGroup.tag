@@ -81,6 +81,8 @@ It's followed by 0 or more rows for the accounting lines that have already been 
 
 <%@ attribute name="forcedReadOnlyFields" required="false" type="java.util.Map"
               description="map containing accounting line field names that should be marked as read only." %>
+<%@ attribute name="importRowOverride" required="false" fragment="true"
+              description="Encapsulates a fragment of code that passed in through the body that overrides how rows are imported." %>
 <c:set var="sourceOrTarget" value="${isSource ? 'source' : 'target'}"/>
 <c:set var="baselineSourceOrTarget" value="${isSource ? 'baselineSource' : 'baselineTarget'}"/>
 <c:set var="capitalSourceOrTarget" value="${isSource ? 'Source' : 'Target'}"/>
@@ -122,11 +124,25 @@ It's followed by 0 or more rows for the accounting lines that have already been 
     </tr>    
 </kul:displayIfErrors>
 
-<fin:accountingLineImportRow
-    columnCount="${columnCount}"
-    isSource="${isSource}"
-    editingMode="${editingMode}"
-    sectionTitle="${sectionTitle}"/>
+<c:choose>
+    <c:when test="${empty importRowOverride}">
+        <fin:accountingLineImportRow
+            columnCount="${columnCount}"
+            isSource="${isSource}"
+            editingMode="${editingMode}"
+            sectionTitle="${sectionTitle}"/>
+    </c:when>
+    <c:otherwise>
+        <tr>
+            <td colspan="${!empty editingMode['fullEntry'] ? 4 : columnCount}" class="tab-subhead" style="border-right: none;">${sectionTitle}</td>
+            <c:if test="${!empty editingMode['fullEntry']}">
+                <td colspan="${columnCount - 4}" class="tab-subhead-import" align="right" nowrap="nowrap" style="border-left: none;">
+                    <jsp:invoke fragment="importRowOverride"/>
+                </td>
+            </c:if>
+        </tr>
+    </c:otherwise>
+</c:choose>
 
 <tr>
     <kul:htmlAttributeHeaderCell literalLabel="&nbsp;" rowspan="2" anchor="accounting${capitalSourceOrTarget}Anchor"/>

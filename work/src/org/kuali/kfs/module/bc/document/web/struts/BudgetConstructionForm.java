@@ -16,17 +16,25 @@
 package org.kuali.module.budget.web.struts.form;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.Constants;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.BudgetConstructionMonthly;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.dao.ojb.BudgetConstructionDaoOjb;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
+import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.chart.bo.SubAccount;
+import org.kuali.module.chart.bo.SubObjCd;
 
 
 public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
@@ -46,6 +54,124 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
         LOG.debug("creating BudgetConstructionForm");
     }
     
+    /**
+     * calls super.populate, then populates revenue and expenditure lines
+     * 
+     * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    public void populate(HttpServletRequest request) {
+
+        super.populate(request);
+
+        // now run through PBGL rev and exp lines
+        String methodToCall = this.getMethodToCall();
+        if (StringUtils.isNotBlank(methodToCall)){
+            if (methodToCall.equals(BCConstants.INSERT_REVENUE_LINE_METHOD)){
+                PendingBudgetConstructionGeneralLedger revline = getNewRevenueLine();
+                initNewLine(revline);
+                revline.setFinancialObjectTypeCode(BCConstants.FINANCIAL_OBJECT_TYPE_CODE_REV);
+                populateRevenueLine(this.getNewRevenueLine());
+            }
+            if (methodToCall.equals(BCConstants.INSERT_EXPENDITURE_LINE_METHOD)){
+                PendingBudgetConstructionGeneralLedger expline = getNewExpenditureLine(); 
+                initNewLine(expline);
+                expline.setFinancialObjectTypeCode(BCConstants.FINANCIAL_OBJECT_TYPE_CODE_EXP);
+                populateExpenditureLine(this.getNewExpenditureLine());
+            }
+
+            populatePBGLLines();
+            setDocTypeName(discoverDocumentTypeName());
+        }
+
+    }
+
+    /**
+     * This sets the default fields not setable by the user for added lines
+     * 
+     * @param line
+     */
+    private void initNewLine(PendingBudgetConstructionGeneralLedger line){
+
+        BudgetConstructionDocument tdoc = this.getBudgetConstructionDocument();
+
+        line.setDocumentNumber(tdoc.getDocumentNumber());
+        line.setUniversityFiscalYear(tdoc.getUniversityFiscalYear());
+        line.setChartOfAccountsCode(tdoc.getChartOfAccountsCode());
+        line.setAccountNumber(tdoc.getAccountNumber());
+        line.setSubAccountNumber(tdoc.getSubAccountNumber());
+        line.setFinancialBalanceTypeCode(BCConstants.FINANCIAL_BALANCE_TYPE_CODE_BB);
+        if (StringUtils.isBlank(line.getFinancialSubObjectCode())){
+            line.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
+        }
+    }
+    
+    /**
+     * This method iterates over all of the rev and exp lines in the BC document, and calls
+     * prepareAccountingLineForValidationAndPersistence on each one.
+     * This is called because a user could have updated already existing PBGL lines
+     * that had blank values in composite key fields.
+     */
+    protected void populatePBGLLines(){
+        Iterator revenueLines = this.getBudgetConstructionDocument().getPendingBudgetConstructionGeneralLedgerRevenueLines().iterator();
+        while (revenueLines.hasNext()){
+            PendingBudgetConstructionGeneralLedger revenueLine = (PendingBudgetConstructionGeneralLedger) revenueLines.next();
+            this.populateRevenueLine(revenueLine);
+        }
+        Iterator expenditureLines = this.getBudgetConstructionDocument().getPendingBudgetConstructionGeneralLedgerExpenditureLines().iterator();
+        while (expenditureLines.hasNext()){
+            PendingBudgetConstructionGeneralLedger expenditureLine = (PendingBudgetConstructionGeneralLedger) expenditureLines.next();
+            this.populateExpenditureLine(expenditureLine);
+        }
+    }
+    
+    /**
+     * Populates a PBGL revenue line bo using values from the struts form.
+     * This is in place to make sure that all of the composite key objects have the correct values in them.
+     * 
+     * @param revenueLine
+     */
+    public void populateRevenueLine(PendingBudgetConstructionGeneralLedger revenueLine){
+        populatePBGLLine(revenueLine);
+    }
+    
+    /**
+     * Populates a PBGL expenditure line bo using values from the struts form.
+     * This is in place to make sure that all of the composite key objects have the correct values in them.
+     * 
+     * @param expenditureLine
+     */
+    public void populateExpenditureLine(PendingBudgetConstructionGeneralLedger expenditureLine){
+        populatePBGLLine(expenditureLine);
+    }
+    
+    /**
+     * Populates the dependent fields of objects contained within the PBGL line
+     * that are visible to the user
+     * 
+     * @param line
+     */
+    private void populatePBGLLine(PendingBudgetConstructionGeneralLedger line){
+        //TODO need to trace through debug to see what all this affects
+        //SpringServiceLocator.getBusinessObjectDictionaryService().performForceUppercase(line);
+
+        BudgetConstructionDocument tdoc = this.getBudgetConstructionDocument();
+
+        if (ObjectUtils.isNull(line.getFinancialObject())) {
+            line.setFinancialObject(new ObjectCode());
+        }
+        line.getFinancialObject().setUniversityFiscalYear(tdoc.getUniversityFiscalYear());
+        line.getFinancialObject().setChartOfAccountsCode(line.getChartOfAccountsCode());
+
+        if (ObjectUtils.isNull(line.getFinancialSubObject())) {
+            line.setFinancialSubObject(new SubObjCd());
+        }
+        line.getFinancialSubObject().setChartOfAccountsCode(line.getChartOfAccountsCode());
+        line.getFinancialSubObject().setAccountNumber(line.getAccountNumber());
+        line.getFinancialSubObject().setFinancialObjectCode(line.getFinancialObjectCode());
+        line.getFinancialSubObject().setUniversityFiscalYear(tdoc.getUniversityFiscalYear());
+    }
+
     public BudgetConstructionDocument getBudgetConstructionDocument(){
         return (BudgetConstructionDocument) getDocument();
     }

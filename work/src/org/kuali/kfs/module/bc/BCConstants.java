@@ -26,4 +26,11 @@ public class BCConstants extends JstlConstants {
     public static final String MONTHLY_BUDGET_METHOD="view";
     public static final String RETURN_ANCHOR="returnAnchor";
     public static final String RETURN_FORM_KEY="returnFormKey";
+    
+    public static final String INSERT_REVENUE_LINE_METHOD = "insertRevenueLine";
+    public static final String INSERT_EXPENDITURE_LINE_METHOD = "insertExpenditureLine";
+    public static final String FINANCIAL_BALANCE_TYPE_CODE_BB = "BB";
+    public static final String FINANCIAL_OBJECT_TYPE_CODE_REV = "IN";
+    public static final String FINANCIAL_OBJECT_TYPE_CODE_EXP = "EX";
+
 }

@@ -1011,6 +1011,9 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     public void initiateDocument() {
         this.setStatusCode( PurapConstants.PaymentRequestStatuses.IN_PROCESS );
+        this.setPurchaseOrderEncumbranceFiscalYear(2007); 
+        this.setPaymentRequestCostSourceCode("CD");
+        this.setAccountsPayableProcessorIdentifier("abc");
         this.refreshAllReferences();
     }
 

@@ -23,7 +23,17 @@
 
 
     <kul:hiddenDocumentFields excludePostingYear="true" />
-
+	
+	<!-- purap:hiddenPurapFields / -->
+	<!--  I could not use hiddenPurapFields, because I was not sure if PREQ needs to have a requisitionSourceCode --> 
+	<html:hidden property="document.purapDocumentIdentifier" />
+	<html:hidden property="document.statusCode" />
+	<!--  html:hidden property="document.vendorHeaderGeneratedIdentifier" / -->
+	<!--  html:hidden property="document.vendorDetailAssignedIdentifier" / -->
+   
+    <html:hidden property="document.purchaseOrderEncumbranceFiscalYear" /> 
+    <html:hidden property="document.paymentRequestCostSourceCode" />
+    <html:hidden property="document.accountsPayableProcessorIdentifier" />
     
     <!-- TODO move this to where? -->
     <!-- html:hidden property="document.requisitionIdentifier" / -->
@@ -33,8 +43,8 @@
         postingYearAttributes="${DataDictionary.KualiPaymentRequestDocument.attributes}" />
 
          
- 	<!-- purap:paymentRequestInit documentAttributes="${DataDictionary.KualiPaymentRequestDocument.attributes}"
- 		 displayPaymentRequestInitFields="true" / -->
+ 	<purap:paymentRequestInit documentAttributes="${DataDictionary.KualiPaymentRequestDocument.attributes}"
+ 		 displayPaymentRequestInitFields="true" />
 	
 	<!--  purap:vendor
         documentAttributes="${DataDictionary.KualiPaymentRequestDocument.attributes}" 

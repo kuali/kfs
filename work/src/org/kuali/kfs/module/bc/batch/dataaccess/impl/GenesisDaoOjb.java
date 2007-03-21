@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.text.ParseException;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -2543,6 +2544,10 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                 newBCPosition.setPositionNumber((String) rowReturned[returnedPositionNumber]);
                 // this is spoof code
                 fillPositionAttributesSpoof(newBCPosition, rowReturned, FiscalYear);
+                // add the new position to the position hash
+                currentBCPosition.put(positionKey(FiscalYear,
+                                                  (String) rowReturned[returnedPositionNumber]),
+                                                  newBCPosition);
              }
              
              private String positionKey (Integer FiscalYear, String PositionNumber)
@@ -2700,8 +2705,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                  {
                      BudgetConstructionPosition testPosition =
                          positionRows.getValue();
-                     if (!(testPosition.getPositionLockUserIdentifier().equals(
-                             BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS)))
+                     if (!(storeNewPositionsCriteria(testPosition)))
                      {
                          // store everything that has a "lock"
                          // this code will also serve to clear hanging locks, although
@@ -2718,6 +2722,33 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                  LOG.info(String.format("\n%d of %d budget positions written",
                              positionsWritten,currentBCPosition.size()));
              }
+             
+             private boolean storeNewPositionsCriteria(BudgetConstructionPosition testPosition)
+             {
+                 //  if we try to test content of A (null) = content og B (null) we get a null
+                 //  pointer exception.  so, we need this convoluted routine because the default
+                 //  locks in the DB can be nulls
+                 //  (the null pointer exception apparently comes from the use of the null
+                 //   constant in the compareTo)
+                 //  this routine returns true if the tested lock is equal in value to the
+                 //  default lock, false otherwise
+                 boolean nullLock = (testPosition.getPositionLockUserIdentifier() == null);
+                 boolean nullDefaultLock = 
+                     (BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS == null);
+                 if  (nullLock && nullDefaultLock)
+                 {
+                     return true;
+                 }
+                 if ((nullDefaultLock) || (nullLock))
+                 {
+                     return false;
+                 }
+                 else
+                 {
+                     return (testPosition.getPositionLockUserIdentifier().compareTo(
+                             BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS) == 0);
+                 }
+             }
 
              private String vacantEmplid(String vacantCSFCode, String emplidCSF)
              {
@@ -2731,7 +2762,6 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
              //  the implementing institution will have to replace these with
              //  routines that access the HR system at that institution
              //
-             
              private void buildRequestYearSpoof(Integer RequestYear, Object[] rowReturned)
              {
                  String testRequestKey = 
@@ -2740,6 +2770,37 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                  if (! currentBCPosition.containsKey(testRequestKey))
                  {
                      buildNewPositionFromCSF(RequestYear,rowReturned);
+                 }
+             }
+             
+             private java.sql.Date julyFirst;
+             private java.sql.Date augustFirst;
+             private String missingRCCode = new String("NO");
+             
+             private void defaultPositionDatesSpoof(Integer RequestYear)
+             {
+                 // this routine assumes a specific SQLDATE_FORMAT in the date service
+                 try
+                 {
+                 julyFirst = dateTimeService.convertToSqlDate(RequestYear.toString()+
+                                                          "-07-01");
+                 }
+                 catch (ParseException ex)
+                 {
+                     LOG.warn("\nproblem setting July 1 position date with: ("+
+                             RequestYear.toString()+"-07-01)\n"
+                             +ex.getMessage());
+                 }
+                 try
+                 {
+                 augustFirst = dateTimeService.convertToSqlDate(RequestYear.toString()+
+                                                            "-08-01");
+                 }
+                 catch (ParseException ex)
+                 {
+                     LOG.warn("\nproblem setting August 1 position date with: ("+
+                             RequestYear.toString()+"-08-01)\n"
+                             +ex.getMessage());
                  }
              }
              
@@ -2760,13 +2821,13 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                  // academic are 10-pay, others 12-pay
                  if (posTypeString.equals("AC"))
                  {
-                   GregorianCalendar julyFirst = new GregorianCalendar(FiscalYear,6,1);  
-                   newBCPosition.setPositionEffectiveDate((Date) julyFirst.getTime());  
+                   newBCPosition.setPositionEffectiveDate(julyFirst);  
                    newBCPosition.setIuNormalWorkMonths(new Integer(10));
                    newBCPosition.setIuPayMonths(new Integer(10));
                  }
                  else
                  {
+                   newBCPosition.setPositionEffectiveDate(augustFirst);  
                    newBCPosition.setIuNormalWorkMonths(new Integer(12));
                    newBCPosition.setIuPayMonths(new Integer(12));
                  }
@@ -2780,7 +2841,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                  //  the RC code should be derived from the department ID on the position
                  //  in HR.
                  //  a default is used if no RC can be assigned
-                 newBCPosition.setResponsibilityCenterCode("--");
+                 newBCPosition.setResponsibilityCenterCode(missingRCCode);
                  if (acctRptsToMap.containsKey(acctTestKey))
                  {
                    BudgetConstructionAccountReports acctRpts =

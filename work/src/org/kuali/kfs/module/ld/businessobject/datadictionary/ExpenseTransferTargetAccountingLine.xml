@@ -26,7 +26,7 @@
 
             <attributeReference name="emplid" 
                      sourceClassName="org.kuali.core.bo.user.UniversalUser"
-                 sourceAttributeName="personPayrolIdentifier"/>
+                 sourceAttributeName="personPayrollIdentifier"/>
 
             <attributeReference name="payrollEndDateFiscalPeriodCode"
                 sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"

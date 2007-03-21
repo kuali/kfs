@@ -23,9 +23,18 @@
 	<kul:hiddenDocumentFields />
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
     <kul:employeeLookup />
-	<fin:accountingLines editingMode="${KualiForm.editingMode}"
+	<ld:accountingLines editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}" 
-		optionalFields="positionNumber,payrollEndDateFiscalYear,payrollEndDateFiscalPeriodCode,payrollTotalHours"/>
+		optionalFields="positionNumber,payrollEndDateFiscalYear,payrollEndDateFiscalPeriodCode,payrollTotalHours">
+        <jsp:attribute name="sourceImportRowOverride">
+            Import from Labor Ledger
+            <kul:balanceInquiryLookup
+	            boClassName="org.kuali.module.labor.bo.Balance"
+                actionPath="${Constants.GL_BALANCE_INQUIRY_ACTION}"
+	            lookupParameters="document.emplid:emplid"
+		        hideReturnLink="false" />
+        </jsp:attribute>
+    </ld:accountingLines>
 	<ld:laborLedgerPendingEntries />
 	<kul:generalLedgerPendingEntries />
 	<kul:notes />

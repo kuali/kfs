@@ -1430,7 +1430,6 @@
     <field-descriptor name="accountName" column="ACCOUNT_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="lockingRepresentation" column="LOCK_REPRESENTATION_TXT" jdbc-type="VARCHAR" />
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
@@ -1554,7 +1553,6 @@
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true" />
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="lockingRepresentation" column="LOCK_REPRESENTATION_TXT" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -1594,11 +1592,6 @@
     <orderby name="universityFiscalYear" sort="ASC" />
     <orderby name="chartOfAccountsCode" sort="ASC" />
     <orderby name="financialObjectCode" sort="ASC" />
-    <inverse-foreignkey field-ref="documentNumber" />
-  </collection-descriptor>
-<!-- TODO remove below after moving it to fp_maintenance_document_t -->
-  <collection-descriptor name="maintenanceLocks" element-class-ref="org.kuali.core.document.MaintenanceLock" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-    <orderby name="sequenceNumber" sort="ASC" />
     <inverse-foreignkey field-ref="documentNumber" />
   </collection-descriptor>
 </class-descriptor>

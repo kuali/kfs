@@ -29,9 +29,10 @@
         <jsp:attribute name="sourceImportRowOverride">
             Import from Labor Ledger
             <kul:balanceInquiryLookup
-	            boClassName="org.kuali.module.labor.bo.Balance"
+	            boClassName="org.kuali.module.labor.bo.LedgerBalance"
                 actionPath="${Constants.GL_BALANCE_INQUIRY_ACTION}"
-	            lookupParameters="document.emplid:emplid"
+	            lookupParameters="user.personPayrollIdentifier:emplid"
+                fieldConversions="chartOfAccountsCode:newSourceLine.chartOfAccountsCode"
 		        hideReturnLink="false" />
         </jsp:attribute>
     </ld:accountingLines>

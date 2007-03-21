@@ -34,4 +34,5 @@ public interface PurchaseOrderService {
     public PurchaseOrderDocument getCurrentPurchaseOrder(Integer id);
     public void setCurrentAndPendingIndicatorsInPostProcessor(PurchaseOrderDocument newPO, String workflowState);
 
+    public PurchaseOrderDocument getOldestPurchaseOrder(Integer id);
 }

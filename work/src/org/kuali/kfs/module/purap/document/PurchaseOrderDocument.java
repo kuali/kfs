@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.PropertyConstants;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.KualiDecimal;
@@ -669,5 +670,19 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
         setDocumentHeader(newDoc.getDocumentHeader());
         
     }        
-            
+
+    /**
+     * Overriding this from the super class so that Note will use only the oldest
+     * PurchaseOrderDocument as the documentBusinessObject.
+     * 
+     * @see org.kuali.core.document.Document#getDocumentBusinessObject()
+     */
+    @Override
+    public PersistableBusinessObject getDocumentBusinessObject() {
+        if (ObjectUtils.isNotNull(getPurapDocumentIdentifier()) &&
+            ObjectUtils.isNull(this.documentBusinessObject)) {
+                documentBusinessObject = SpringServiceLocator.getPurchaseOrderService().getOldestPurchaseOrder(getPurapDocumentIdentifier());
+        }
+        return documentBusinessObject;
+    }
 }

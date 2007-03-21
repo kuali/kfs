@@ -180,6 +180,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return purchaseOrderDao.getCurrentPurchaseOrder(id);        
     }
     
+    public PurchaseOrderDocument getOldestPurchaseOrder(Integer id) {
+        return purchaseOrderDao.getOldestPurchaseOrder(id);
+    }
+    
     public void setCurrentAndPendingIndicatorsInPostProcessor(PurchaseOrderDocument newPO, String workflowState) {
         if (workflowState.equals(Constants.DocumentStatusCodes.APPROVED)) {
             setCurrentAndPendingIndicatorsForApprovedPODocuments(newPO);

@@ -17,7 +17,7 @@ package org.kuali.module.purap.dao.ojb;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
-import org.kuali.Constants;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.dao.PurchaseOrderDao;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
@@ -42,12 +42,20 @@ public class PurchaseOrderDaoOjb extends PersistenceBrokerDaoSupport implements 
         getPersistenceBrokerTemplate().store(PurchaseOrderDocument);
     }
 
+    /**
+     * 
+     * @see org.kuali.module.purap.dao.PurchaseOrderDao#getPurchaseOrderById(java.lang.Integer)
+     */
     public PurchaseOrderDocument getPurchaseOrderById(Integer id) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
         return getPurchaseOrder(criteria);
       }
     
+    /**
+     * 
+     * @see org.kuali.module.purap.dao.PurchaseOrderDao#getCurrentPurchaseOrder(java.lang.Integer)
+     */
     public PurchaseOrderDocument getCurrentPurchaseOrder(Integer id) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id );
@@ -55,12 +63,36 @@ public class PurchaseOrderDaoOjb extends PersistenceBrokerDaoSupport implements 
         return getPurchaseOrder(criteria);
     }
     
+    /**
+     * 
+     * This method returns a PurchaseOrderDocument object if you give the
+     * criteria in the input parameter
+     * 
+     * @param criteria
+     * @return PurchaseOrderDocument
+     */
     private PurchaseOrderDocument getPurchaseOrder (Criteria criteria) {
         PurchaseOrderDocument po = (PurchaseOrderDocument) getPersistenceBrokerTemplate().getObjectByQuery(
             new QueryByCriteria(PurchaseOrderDocument.class, criteria));
-        if (po != null) {
+        if (ObjectUtils.isNotNull(po)) {
             po.refreshAllReferences();
         }
         return po;        
+    }
+    
+    /**
+     * 
+     * @see org.kuali.module.purap.dao.PurchaseOrderDao#getOldestPurchaseOrder(java.lang.Integer)
+     */
+    public PurchaseOrderDocument getOldestPurchaseOrder(Integer id) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
+        QueryByCriteria qbc = new QueryByCriteria(PurchaseOrderDocument.class, criteria);
+        qbc.addOrderByAscending(PurapPropertyConstants.DOCUMENT_NUMBER);
+        PurchaseOrderDocument oldestPO = (PurchaseOrderDocument)getPersistenceBrokerTemplate().getObjectByQuery(qbc);
+        if (ObjectUtils.isNotNull(oldestPO)) {
+            oldestPO.refreshAllReferences();
+        }
+        return oldestPO;
     }
 }

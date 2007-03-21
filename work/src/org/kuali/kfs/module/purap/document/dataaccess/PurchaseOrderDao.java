@@ -19,9 +19,40 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
 
 public interface PurchaseOrderDao {
 
+    /**
+     * 
+     * This method saves a PurchaseOrderDocument to the database
+     * @param purchaseOrderDocument
+     */
     public void save(PurchaseOrderDocument purchaseOrderDocument);
    
+    /**
+     * 
+     * This method gets a PurchaseOrderDocument by the
+     * purapDocumentIdentifier.
+     * 
+     * @param id Integer the purapDocumentIdentifier.
+     * @return PurchaseOrderDocument 
+     */
     public PurchaseOrderDocument getPurchaseOrderById(Integer id);
     
+    /**
+     * 
+     * This method gets the current PurchaseOrderDocument by the
+     * purapDocumentIdentifier.
+     * 
+     * @param id Integer the purapDocumentIdentifier.
+     * @return PurchaseOrderDocument 
+     */
     public PurchaseOrderDocument getCurrentPurchaseOrder(Integer id);
+
+    /**
+     * 
+     * This method gets the oldest, which is the first PurchaseOrderDocument
+     * that had been created in the database given the purapDocumentIdentifier.
+     * 
+     * @param id Integer the purapDocumentIdentifier.
+     * @return PurchaseOrderDocument
+     */
+    public PurchaseOrderDocument getOldestPurchaseOrder(Integer id);
 }

@@ -46,9 +46,7 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
     public BudgetConstructionForm() {
         super();
         setDocument(new BudgetConstructionDocument());
-        //TODO need to set default field values somewhere
-        //maybe need a createNewRevenueLine() method the initializes the defaults
-        //not sure these set method calls are even needed here
+        //TODO not sure these set method calls are even needed here
         this.setNewRevenueLine(new PendingBudgetConstructionGeneralLedger());
         this.setNewExpenditureLine(new PendingBudgetConstructionGeneralLedger());
         LOG.debug("creating BudgetConstructionForm");
@@ -153,6 +151,7 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
      */
     private void populatePBGLLine(PendingBudgetConstructionGeneralLedger line){
         //TODO need to trace through debug to see what all this affects
+        //maybe just explictly do upper on obj,sobj
         //SpringServiceLocator.getBusinessObjectDictionaryService().performForceUppercase(line);
 
         BudgetConstructionDocument tdoc = this.getBudgetConstructionDocument();
@@ -186,8 +185,6 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
      */
     public PendingBudgetConstructionGeneralLedger getNewExpenditureLine() {
         if (this.newExpenditureLine == null){
-            //TODO need to set default field values somewhere
-            //maybe need a createNewRevenueLine() method the initializes the defaults
             this.setNewExpenditureLine(new PendingBudgetConstructionGeneralLedger());
         }
         return newExpenditureLine;
@@ -207,8 +204,6 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
      */
     public PendingBudgetConstructionGeneralLedger getNewRevenueLine() {
         if (this.newRevenueLine == null){
-            //TODO need to set default field values somewhere
-            //maybe need a createNewRevenueLine() method the initializes the defaults
             this.setNewRevenueLine(new PendingBudgetConstructionGeneralLedger());
         }
         return newRevenueLine;

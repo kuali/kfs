@@ -24,20 +24,9 @@
 
         <attributes>
 
-            <attribute name="emplid" forceUppercase="true">
-                <label>Emplid</label>
-                <shortLabel>Emplid</shortLabel>
-
-                <maxLength>11</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="13" />
-                </control>
-
-                <summary>emplid</summary>
-                <description>emplid description...</description>
-			</attribute>
+            <attributeReference name="emplid" 
+                     sourceClassName="org.kuali.core.user.UniversalUser"
+                 sourceAttributeName="personPayrolIdentifier"/>
 
             <attributeReference name="payrollEndDateFiscalPeriodCode"
                 sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"

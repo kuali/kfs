@@ -75,7 +75,7 @@
                      <maintainableField name="emplid" required="true" />
                      <maintainableField name="csfAmount" required="true" />
                      <maintainableField name="csfFullTimeEmploymentQuantity" required="true" />
-                     <maintainableField name="csfFundingStatusCode" required="false" />
+                     <maintainableField name="csfFundingStatusCode" required="true" />
                      <maintainableField name="csfTimePercent" required="true" /> 
                      <maintainableField name="csfDeleteCode" required="false" />                                                   
                     <maintainableField name="versionNumber" />

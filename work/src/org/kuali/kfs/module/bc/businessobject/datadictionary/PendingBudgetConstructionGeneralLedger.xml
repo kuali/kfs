@@ -81,7 +81,7 @@
 
         <attributes>
 
-            <attribute name="accountLineAnnualBalanceAmount" forceUppercase="true">
+            <attribute name="accountLineAnnualBalanceAmount" forceUppercase="false">
                 <label>Account Line Annual Balance Amount</label>
                 <shortLabel>Requested</shortLabel>
 
@@ -141,7 +141,7 @@
                 <description>financialBalanceTypeCode description...</description>
 			</attribute>
 
-            <attribute name="financialBeginningBalanceLineAmount" forceUppercase="true">
+            <attribute name="financialBeginningBalanceLineAmount" forceUppercase="false">
                 <label>Financial Beginning Balance Line Amount</label>
                 <shortLabel>Base Budget</shortLabel>
 
@@ -156,7 +156,7 @@
                 <description>financialBeginningBalanceLineAmount description...</description>
 			</attribute>
 
-            <attribute name="percentChange" forceUppercase="true">
+            <attribute name="percentChange" forceUppercase="false">
                 <label>Percent Change</label>
                 <shortLabel>% Change</shortLabel>
 
@@ -245,7 +245,7 @@
                 <description>subAccountNumber description...</description>
 			</attribute>
 
-            <attribute name="universityFiscalYear" forceUppercase="true">
+            <attribute name="universityFiscalYear" forceUppercase="false">
                 <label>University Fiscal Year</label>
                 <shortLabel>FY</shortLabel>
 

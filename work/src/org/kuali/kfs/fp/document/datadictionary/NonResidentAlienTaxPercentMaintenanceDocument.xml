@@ -42,8 +42,6 @@
         <description>Document used to create or update Tax Percent objects</description>
         <help securityGroupName="Kuali.DisbursementVoucher.Help" parameterName="DISBURSEMENT_VOUCHER_HELP_NON_RESIDENT_ALIEN_TAX_PERCENT" />
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="incomeClassCode" />
             <field attributeName="incomeTaxTypeCode" />

@@ -41,8 +41,6 @@
         <description>Document used to create or update a credit card type.</description>
         <help securityGroupName="Kuali.Other.Help" parameterName="OTHER_HELP_CREDIT_CARD_TYPE" />
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="financialDocumentCreditCardTypeCode" />
         </lockingKeys>

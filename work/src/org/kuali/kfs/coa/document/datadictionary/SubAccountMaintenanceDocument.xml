@@ -46,8 +46,6 @@
         <description>Document used to create or update Sub-Account objects</description>
         <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_SUB_ACCOUNT" />
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="chartOfAccountsCode" />
             <field attributeName="accountNumber" />

@@ -41,8 +41,6 @@
         <summary>organizationReversionCategory maintenance document</summary>
         <description>Document used to create or update organizationReversionCategory objects</description>
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="organizationReversionCategoryCode" />
         </lockingKeys>

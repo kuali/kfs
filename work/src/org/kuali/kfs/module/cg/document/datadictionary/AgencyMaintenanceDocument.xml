@@ -41,8 +41,6 @@
         <summary>Agency Maintenance Document</summary>
         <description>Document used to create or update Agency objects</description>
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="agencyNumber" />
         </lockingKeys>

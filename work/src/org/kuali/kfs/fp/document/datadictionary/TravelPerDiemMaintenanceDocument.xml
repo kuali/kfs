@@ -42,8 +42,6 @@
         <description>Document used to create or update Travel Per Diem objects</description>
         <help securityGroupName="Kuali.DisbursementVoucher.Help" parameterName="DISBURSEMENT_VOUCHER_HELP_TRAVEL_PER_DIEM" />
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="fiscalYear" />
             <field attributeName="perDiemCountryName" />

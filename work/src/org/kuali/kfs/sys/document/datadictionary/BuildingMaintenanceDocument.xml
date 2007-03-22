@@ -41,8 +41,6 @@
         <summary>Building maintenance document</summary>
         <description>Document used to create or update Building objects</description>
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="campusCode" />
             <field attributeName="buildingCode" />

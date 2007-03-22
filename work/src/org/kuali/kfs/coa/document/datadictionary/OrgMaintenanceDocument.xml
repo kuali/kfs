@@ -47,8 +47,6 @@
         <description>Document used to create or update Organization objects</description>
         <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_ORGANIZATION_CODE" />
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="chartOfAccountsCode" />
             <field attributeName="organizationCode" />

@@ -42,8 +42,6 @@
         <description>Document used to create or update Origination Code objects</description>
         <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_ORIGINATION_CODE" />
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="financialSystemOriginationCode" />
         </lockingKeys>

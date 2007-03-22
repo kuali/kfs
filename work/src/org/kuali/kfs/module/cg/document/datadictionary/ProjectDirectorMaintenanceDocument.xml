@@ -41,8 +41,6 @@
         <summary>Project Director Maintenance Document</summary>
         <description>Document used to create or update Project Director objects</description>
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="universalUser.personUserIdentifier" />
         </lockingKeys>

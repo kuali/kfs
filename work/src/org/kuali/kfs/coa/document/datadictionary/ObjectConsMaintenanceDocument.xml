@@ -41,8 +41,6 @@
         <description>Maintenance document which allows you to create new Object Consolidations, or modify existing Object Consolidations.</description>
         <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_OBJECT_CONSOLIDATION" />
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="chartOfAccountsCode" />
             <field attributeName="finConsolidationObjectCode" />

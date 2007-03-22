@@ -42,8 +42,6 @@
         <summary>Purchase Order Contract Language Maintenance Document</summary>
         <description>Document used to create or update Purchase Order Contract Language objects</description>
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="purchaseOrderContractLanguageIdentifier" />
         </lockingKeys>

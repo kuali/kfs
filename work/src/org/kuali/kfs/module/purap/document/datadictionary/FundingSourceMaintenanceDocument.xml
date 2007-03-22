@@ -41,8 +41,6 @@
         <summary>Funding Source Maintenance Document</summary>
         <description>Document used to create or update Funding Source objects</description>
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="fundingSourceCode" />
         </lockingKeys>

@@ -41,8 +41,6 @@
         <summary>Carrier Maintenance Document</summary>
         <description>Document used to create or update Carrier objects</description>
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="carrierCode" />
         </lockingKeys>

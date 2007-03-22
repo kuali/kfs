@@ -41,8 +41,6 @@
         <summary>Purpose maintenance document</summary>
         <description>Document used to create or update Purpose objects</description>
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="purposeCode" />
         </lockingKeys>

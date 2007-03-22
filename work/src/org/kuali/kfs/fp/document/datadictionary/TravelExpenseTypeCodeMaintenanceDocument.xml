@@ -42,8 +42,6 @@
         <description>Document used to create or update Travel Expense Type objects</description>
         <help securityGroupName="Kuali.DisbursementVoucher.Help" parameterName="DISBURSEMENT_VOUCHER_HELP_TRAVEL_EXPENSE_TYPE_CODE" />
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="code" />
         </lockingKeys>

@@ -42,8 +42,6 @@
         <description>Document used to create or update Fund Group objects</description>
         <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_FUND_GROUP" />
         
-        <allowsCopy>true</allowsCopy>
-        
         <lockingKeys>
             <field attributeName="code" />
         </lockingKeys>

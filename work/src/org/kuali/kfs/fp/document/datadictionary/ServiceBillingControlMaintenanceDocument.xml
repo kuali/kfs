@@ -43,8 +43,6 @@
         <description>Document used to create or update Service Billing Control objects</description>
         <help securityGroupName="Kuali.Other.Help" parameterName="OTHER_HELP_SERVICE_BILLING_CONTROL" />
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="chartOfAccountsCode" />
             <field attributeName="accountNumber" />

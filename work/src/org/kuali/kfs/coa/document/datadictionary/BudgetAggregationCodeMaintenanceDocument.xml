@@ -39,8 +39,6 @@
         <summary>Budget Aggregation Code Maintenance Document</summary>
         <description>Maintenance document which allows you to create new Budget Aggregation Codes, or modify existing Budget Aggregation Codes.</description>
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="code" />
         </lockingKeys>

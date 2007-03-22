@@ -41,8 +41,6 @@
         <summary>Graduate Assistant Rate maintenance document</summary>
         <description>Document used to create or update Graduate Assistant Rate objects</description>
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="campusCode" />
         </lockingKeys>

@@ -41,8 +41,6 @@
         <summary>Payment Request Status Maintenance Document</summary>
         <description>Document used to create or update Payment Request Status objects</description>
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="statusCode" />
         </lockingKeys>

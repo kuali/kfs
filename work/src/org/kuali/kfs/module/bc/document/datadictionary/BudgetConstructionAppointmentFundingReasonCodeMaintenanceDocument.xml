@@ -41,8 +41,6 @@
         <summary>Budget Construction Appointment Funding Reason Code Maintenance Document</summary>
         <description>Document used to create or update Budget Construction Appointment Funding Reason Code Maintenance Document objects</description>
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="appointmentFundingReasonCode" />
         </lockingKeys>

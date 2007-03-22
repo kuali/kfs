@@ -41,8 +41,6 @@
         <summary>Research Type Code maintenance document</summary>
         <description>Document used to create or update Research Type Code objects</description>
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="researchTypeCode" />
         </lockingKeys>

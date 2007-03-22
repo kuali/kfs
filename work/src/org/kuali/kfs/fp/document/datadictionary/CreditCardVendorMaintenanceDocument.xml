@@ -42,8 +42,6 @@
         <description>Document used to create or update a credit card vendor.</description>
         <help securityGroupName="Kuali.Other.Help" parameterName="OTHER_HELP_CREDIT_CARD_VENDOR" />
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="financialDocumentCreditCardVendorNumber" />
         </lockingKeys>

@@ -41,9 +41,7 @@
 		<summary>Organization Parameter Maintenance Document</summary>
 		<description>Document used to create or update Organization Parameter objects</description>
 
-        <allowsCopy>true</allowsCopy>
-
-		<lockingKeys>
+        <lockingKeys>
 			<field attributeName="chartOfAccountsCode" />
 			<field attributeName="organizationCode" />
 		</lockingKeys>

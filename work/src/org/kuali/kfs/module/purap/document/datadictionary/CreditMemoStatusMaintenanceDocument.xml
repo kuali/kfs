@@ -41,8 +41,6 @@
         <summary>Credit Memo Status Maintenance Document</summary>
         <description>Document used to create or update Credit Memo Status objects</description>
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="creditMemoStatusCode" />
         </lockingKeys>

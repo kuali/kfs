@@ -41,8 +41,6 @@
         <summary>Person Role maintenance document</summary>
         <description>Document used to create or update Person Role objects</description>
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="personRoleCode" />
         </lockingKeys>

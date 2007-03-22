@@ -41,8 +41,6 @@
         <description>Maintenance document which allows you to create new ICR Type Codes, or modify existing ICR Type Codes.</description>
         <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_INDIRECT_COST_RECOVERY_TYPE_CODE" />
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="code" />
         </lockingKeys>

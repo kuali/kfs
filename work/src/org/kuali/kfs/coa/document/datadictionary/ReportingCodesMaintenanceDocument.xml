@@ -41,8 +41,6 @@
         <description>Maintenance document which allows you to create, remove or modify Financial Reporting Codes.</description>
         <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_FINANCIAL_REPORTING_CODE" />
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="chartOfAccountsCode" />
             <field attributeName="organizationCode" />

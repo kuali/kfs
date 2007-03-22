@@ -41,8 +41,6 @@
         <summary>Restricted Material Maintenance Document</summary>
         <description>Document used to create or update Restricted Material objects</description>
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="restrictedMaterialCode" />
         </lockingKeys>

@@ -42,8 +42,6 @@
         <description>Document used to create or update Fiscal Year Function Control objects</description>
         <help securityGroupName="Kuali.Other.Help" parameterName="OTHER_HELP_FISCAL_YEAR_FUNCTION_CONTROL" />
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="universityFiscalYear" />
             <field attributeName="financialSystemFunctionControlCode" />

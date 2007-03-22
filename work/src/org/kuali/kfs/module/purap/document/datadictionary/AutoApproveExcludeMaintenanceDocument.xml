@@ -41,8 +41,6 @@
         <summary>Auto Approve Exclude Maintenance Document</summary>
         <description>Document used to create or update Auto Approve Exclude objects</description>
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="accountNumber" />
         </lockingKeys>

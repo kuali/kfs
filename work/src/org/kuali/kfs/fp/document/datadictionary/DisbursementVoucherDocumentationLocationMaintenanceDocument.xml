@@ -42,8 +42,6 @@
         <description>Document used to create or update Documentation Location objects</description>
         <help securityGroupName="Kuali.DisbursementVoucher.Help" parameterName="DISBURSEMENT_VOUCHER_HELP_DOCUMENTATION_LOCATION" />
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="disbursementVoucherDocumentationLocationCode" />
         </lockingKeys>

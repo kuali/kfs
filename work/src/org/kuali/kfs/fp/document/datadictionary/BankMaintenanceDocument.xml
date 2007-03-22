@@ -42,8 +42,6 @@
         <description>Document used to create or update Bank objects</description>
         <help securityGroupName="Kuali.Other.Help" parameterName="OTHER_HELP_BANK" />
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="financialDocumentBankCode" />
         </lockingKeys>

@@ -40,8 +40,6 @@
         <summary>Object Code maintenance document</summary>
         <description>Document used to create or update Object Code objects</description>
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="budgetNonpersonnelCategoryCode" />
             <field attributeName="budgetNonpersonnelSubCategoryCode" />

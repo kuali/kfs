@@ -45,8 +45,6 @@
         <description>Document used to create or update Object Code objects</description>
         <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_OBJECT_CODE" />
 
-        <allowsCopy>true</allowsCopy>
-
         <lockingKeys>
             <field attributeName="universityFiscalYear" />
             <field attributeName="chartOfAccountsCode" />

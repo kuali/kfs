@@ -18,11 +18,13 @@ package org.kuali.module.purap.service.impl;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.Note;
 import org.kuali.Constants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.NoteService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -46,6 +48,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
     private DocumentService documentService;
+    private NoteService noteService;
     private GeneralLedgerService generalLedgerService;
     private PurapService purapService;
     private PurchaseOrderDao purchaseOrderDao;
@@ -61,6 +64,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
+    }
+    
+    public void setNoteService(NoteService noteService) {
+        this.noteService = noteService;
     }
 
     public void setGeneralLedgerService(GeneralLedgerService generalLedgerService) {
@@ -116,8 +123,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return poDocument;
     }
     
-
-    
+    /**
+     * @see org.kuali.module.purap.service.PurchaseOrderService#updateFlagsAndRoute(org.kuali.module.purap.document.PurchaseOrderDocument, java.lang.String, java.lang.String, java.util.List)
+     */
     public void updateFlagsAndRoute(PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients) {
         //PO row that is set to curr_ind to Y, set the pend_action to Y
         po.setPendingActionIndicator(true);
@@ -131,7 +139,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             //true in the old PO prior to copy, so since we need it to be false in the new PO,
             //I'm resetting the pending indicator again to false.
             po.setPendingActionIndicator(false);
-            documentService.routeDocument(po, annotation, adhocRoutingRecipients);            
+            documentService.routeDocument(po, annotation, adhocRoutingRecipients);
         }
         catch (WorkflowException e) {
             LOG.error("Error during updateFlagsAndRoute on PO document: " + e.getMessage());
@@ -167,7 +175,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             this.save(po);
             // TODO create PO print doc
             // routingService.routePrintablePurchaseOrderFYI(po, u);
-}
+        }
         else {
             LOG.info("completePurchaseOrder() Unhandled Transmission Status: " + po.getPurchaseOrderTransmissionMethodCode() + " -- Defaulting Status to OPEN");
             purapService.updateStatusAndStatusHistory(po, PurapConstants.PurchaseOrderStatuses.OPEN);
@@ -178,7 +186,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     
     public PurchaseOrderDocument getCurrentPurchaseOrder(Integer id) {
         return purchaseOrderDao.getCurrentPurchaseOrder(id);        
-    }
+}
     
     public PurchaseOrderDocument getOldestPurchaseOrder(Integer id) {
         return purchaseOrderDao.getOldestPurchaseOrder(id);

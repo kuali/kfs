@@ -18,11 +18,15 @@ package org.kuali.module.purap.document;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.util.collections.ManageableArrayList;
+import org.kuali.core.bo.Note;
 import org.kuali.core.document.AmountTotaling;
+import org.kuali.core.service.NoteService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.document.AccountingDocumentBase;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.bo.PurApItemBase;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.bo.SourceDocumentReference;
@@ -80,6 +84,27 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         LinkedHashMap m = new LinkedHashMap();      
         m.put("purapDocumentIdentifier", this.purapDocumentIdentifier);
         return m;
+    }
+    
+    /**
+     * This method is used to add a note to a Status History.
+     * 
+     * @param statusHistory
+     * @param statusHistoryNote
+     */
+    protected void addStatusHistoryNote( StatusHistory statusHistory, String statusHistoryNote ) {
+        if( StringUtils.isNotBlank( statusHistoryNote ) ) {
+            NoteService noteService = SpringServiceLocator.getNoteService();
+            Note note = new Note();
+            note.setNoteText( statusHistoryNote );
+            try {
+                note = noteService.createNote( note, statusHistory );
+                noteService.save( note );
+            } catch( Exception e ) {
+                LOG.error("Unable to create or save status history note " + e.getMessage());
+                throw new RuntimeException("Unable to create or save status history note " + e.getMessage());
+            }
+        }
     }
 
     // GETTERS AND SETTERS

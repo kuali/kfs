@@ -34,9 +34,17 @@ public class PurapServiceImpl implements PurapService {
 
     /**
      * This method updates the status and status history for a purap document.
-     *
-    */
+     */
     public boolean updateStatusAndStatusHistory(PurchasingAccountsPayableDocument document,String statusToSet) {
+        return updateStatusAndStatusHistory( document, statusToSet, null );
+    }
+    
+    /**
+     * This method updates the status and status history for a purap document, passing in a note
+     * for the status history.
+     */
+    public boolean updateStatusAndStatusHistory( PurchasingAccountsPayableDocument document,
+            String statusToSet, String statusHistoryNote ) {
         LOG.debug("updateStatusAndStatusHistory(): entered method.");
         
         boolean success = false;
@@ -54,8 +62,7 @@ public class PurapServiceImpl implements PurapService {
 
     /**
      * This method updates the status for a purap document.
-     *
-    */
+     */
     public boolean updateStatus(PurchasingAccountsPayableDocument document,String newStatus) {
         LOG.debug("updateStatus(): entered method.");
         
@@ -81,26 +88,35 @@ public class PurapServiceImpl implements PurapService {
 
     /**
      * This method updates the status history for a purap document.
-     *
-    */
-    public boolean updateStatusHistory(PurchasingAccountsPayableDocument document,String newStatus) {
+     */
+    public boolean updateStatusHistory( PurchasingAccountsPayableDocument document, String newStatus) {      
+        return updateStatusHistory( document, newStatus, null );
+    }
+    
+    /**
+     * This method updates the status history for a purap document and includes an optional BO
+     * annotation for the entry.
+     * 
+     * @param document              The document whose status history needs to be updated.
+     * @param newStatus             The new status code in String form
+     * @param statusHistoryNote     An optional BO annotation
+     * @return                      True on success.
+     */
+    public boolean updateStatusHistory( PurchasingAccountsPayableDocument document, 
+            String newStatus, String statusHistoryNote ) {
         LOG.debug("updateStatusHistory(): entered method.");
-        
-        boolean success = false;
-        
+        boolean success = false;       
         if ( ObjectUtils.isNull(document) || ObjectUtils.isNull(newStatus) ) {
             return success;
         }
-
         String oldStatus = document.getStatusCode();       
-        document.addToStatusHistories( oldStatus, newStatus );      
+        document.addToStatusHistories( oldStatus, newStatus, statusHistoryNote );      
 
         success = true;
         if (success) {
             LOG.debug("StatusHistory of document #"+document.getDocumentNumber()+" has been changed from "
                     +oldStatus+" to "+newStatus);
         }
-        
         LOG.debug("updateStatusHistory(): leaving method.");
         return success;
     }

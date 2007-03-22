@@ -26,9 +26,11 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.PropertyConstants;
+import org.kuali.core.bo.Note;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.TransactionalDocument;
+import org.kuali.core.service.NoteService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
@@ -514,8 +516,12 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
         this.statusChangeNote = statusChangeNote;
     }
     
-    public void addToStatusHistories( String oldStatus, String newStatus ) {
+    /**
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#addToStatusHistories(java.lang.String, java.lang.String)
+     */
+    public void addToStatusHistories( String oldStatus, String newStatus, String statusHistoryNote ) {
         PurchaseOrderStatusHistory posh = new PurchaseOrderStatusHistory( oldStatus, newStatus );
+        this.addStatusHistoryNote( posh, statusHistoryNote );
         this.getStatusHistories().add( posh );
     }
 
@@ -670,7 +676,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
         setDocumentHeader(newDoc.getDocumentHeader());
         
     }        
-
+            
     /**
      * Overriding this from the super class so that Note will use only the oldest
      * PurchaseOrderDocument as the documentBusinessObject.
@@ -682,7 +688,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
         if (ObjectUtils.isNotNull(getPurapDocumentIdentifier()) &&
             ObjectUtils.isNull(this.documentBusinessObject)) {
                 documentBusinessObject = SpringServiceLocator.getPurchaseOrderService().getOldestPurchaseOrder(getPurapDocumentIdentifier());
-        }
+}
         return documentBusinessObject;
     }
 }

@@ -35,6 +35,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.bo.VendorDetail;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
@@ -58,7 +59,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
         BusinessObjectService businessObjectService = SpringServiceLocator.getBusinessObjectService();
-        
+
         //Handling lookups for alternate vendor for escrow payment that are only specific to Purchase Order
         if (request.getParameter("document.alternateVendorHeaderGeneratedIdentifier") != null &&
             request.getParameter("document.alternateVendorDetailAssignedIdentifier") != null) {
@@ -145,13 +146,15 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                                 new Integer(reasonLimit).toString());
                     }
                     PurchaseOrderDocument po = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
+                    SpringServiceLocator.getPurapService().updateStatusAndStatusHistory( po, PurchaseOrderStatuses.CLOSED, 
+                            kualiDocumentFormBase.getAnnotation() );
                     SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(po, "KualiPurchaseOrderCloseDocument", 
                             kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));                    
                     GlobalVariables.getMessageList().add(PurapKeyConstants.PURCHASE_ORDER_MESSAGE_CLOSE_DOCUMENT);
                     kualiDocumentFormBase.setAnnotation("");
                     return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.PODocumentsStrings.PURCHASE_ORDER_CLOSE_CONFIRM, 
                             kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_MESSAGE_CLOSE_DOCUMENT), 
-                            Constants.CONFIRMATION_QUESTION, Constants.MAPPING_CLOSE, "");
+                            PurapConstants.PODocumentsStrings.SINGLE_CONFIRMATION_QUESTION, Constants.MAPPING_CLOSE, "");
                 }
             }
         }

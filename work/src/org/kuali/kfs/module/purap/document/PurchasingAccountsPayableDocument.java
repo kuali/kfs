@@ -73,7 +73,15 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
 
     public List getStatusHistories();
     
-    public void addToStatusHistories(String oldStatus, String newStatus );
+    /**
+     * This method adds to the document's status history collection an object of the
+     * appropriate child of StatusHistory.
+     * 
+     * @param oldStatus             A code for the old status in String form
+     * @param newStatus             A code for the new status in String form
+     * @param statusHistoryNote     An optional BO Note for the StatusHistory (can be null)
+     */
+    public void addToStatusHistories(String oldStatus, String newStatus, String statusHistoryNote);
 
     public void setStatusHistories(List statusHistories);
     

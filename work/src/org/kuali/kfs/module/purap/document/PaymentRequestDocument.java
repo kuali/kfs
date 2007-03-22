@@ -92,8 +92,12 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         return purchaseOrderEncumbranceFiscalYear;
     }
 
-    public void addToStatusHistories( String oldStatus, String newStatus ) {
+    /**
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#addToStatusHistories(java.lang.String, java.lang.String)
+     */
+    public void addToStatusHistories( String oldStatus, String newStatus, String statusHistoryNote ) {
         PaymentRequestStatusHistory prsh = new PaymentRequestStatusHistory( oldStatus, newStatus );
+        this.addStatusHistoryNote( prsh, statusHistoryNote );
         this.getStatusHistories().add( prsh );
     }
 
@@ -104,10 +108,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public void setPurchaseOrderEncumbranceFiscalYear(Integer purchaseOrderEncumbranceFiscalYear) {
         this.purchaseOrderEncumbranceFiscalYear = purchaseOrderEncumbranceFiscalYear;
     }
-
-
-
-
 
     /**
      * Gets the purchaseOrderIdentifier attribute. 
@@ -1011,9 +1011,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     public void initiateDocument() {
         this.setStatusCode( PurapConstants.PaymentRequestStatuses.IN_PROCESS );
-        this.setPurchaseOrderEncumbranceFiscalYear(2007); 
-        this.setPaymentRequestCostSourceCode("CD");
-        this.setAccountsPayableProcessorIdentifier("abc");
         this.refreshAllReferences();
     }
 

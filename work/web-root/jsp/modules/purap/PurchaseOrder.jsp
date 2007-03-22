@@ -70,9 +70,8 @@
 
     <kul:panelFooter />
 
-
     <c:set var="extraButtons" value="${KualiForm.extraButtons}"/>  	
-
+  	
     <kul:documentControls 
         transactionalDocument="true" 
         extraButtons="${extraButtons}"

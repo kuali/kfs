@@ -379,8 +379,12 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 
     }
     
-    public void addToStatusHistories( String oldStatus, String newStatus ) {
+    /**
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#addToStatusHistories(java.lang.String, java.lang.String, java.lang.String)
+     */
+    public void addToStatusHistories( String oldStatus, String newStatus, String statusHistoryNote ) {
         RequisitionStatusHistory rsh = new RequisitionStatusHistory( oldStatus, newStatus );
+        this.addStatusHistoryNote( rsh, statusHistoryNote );
         this.getStatusHistories().add( rsh );
     }
 

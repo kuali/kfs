@@ -59,6 +59,11 @@
 	            	<maintainableField name="universityFiscalYear" required="true" />
 	            	<maintainableField name="chartOfAccountsCode" required="true" />
 	            	<maintainableField name="financialObjectCode" required="true"/>
+	            	<maintainableField name="detailPositionRequiredIndicator" />
+                    <maintainableField name="financialObjectFringeOrSalaryCode" />
+                    <maintainableField name="financialObjectHoursRequiredIndicator" />
+                    <maintainableField name="financialObjectPayTypeCode" />
+                    <maintainableField name="positionObjectGroupCode" />       	
 	            	<maintainableField name="versionNumber" required="false"/>
 	         	</maintainableItems>
 	        </maintainableSection>

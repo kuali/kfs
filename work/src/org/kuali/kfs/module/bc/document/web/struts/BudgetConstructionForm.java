@@ -43,6 +43,9 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
     private PendingBudgetConstructionGeneralLedger newRevenueLine;
     private PendingBudgetConstructionGeneralLedger newExpenditureLine;
 
+    private boolean hideDetails = false;
+
+
     public BudgetConstructionForm() {
         super();
         setDocument(new BudgetConstructionDocument());
@@ -164,13 +167,15 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
         line.getFinancialObject().setUniversityFiscalYear(tdoc.getUniversityFiscalYear());
         line.getFinancialObject().setChartOfAccountsCode(line.getChartOfAccountsCode());
 
-        if (ObjectUtils.isNull(line.getFinancialSubObject())) {
-            line.setFinancialSubObject(new SubObjCd());
+        if (!line.getFinancialSubObjectCode().equalsIgnoreCase(Constants.DASHES_SUB_OBJECT_CODE)){
+            if (ObjectUtils.isNull(line.getFinancialSubObject())) {
+                line.setFinancialSubObject(new SubObjCd());
+            }
+            line.getFinancialSubObject().setChartOfAccountsCode(line.getChartOfAccountsCode());
+            line.getFinancialSubObject().setAccountNumber(line.getAccountNumber());
+            line.getFinancialSubObject().setFinancialObjectCode(line.getFinancialObjectCode());
+            line.getFinancialSubObject().setUniversityFiscalYear(tdoc.getUniversityFiscalYear());
         }
-        line.getFinancialSubObject().setChartOfAccountsCode(line.getChartOfAccountsCode());
-        line.getFinancialSubObject().setAccountNumber(line.getAccountNumber());
-        line.getFinancialSubObject().setFinancialObjectCode(line.getFinancialObjectCode());
-        line.getFinancialSubObject().setUniversityFiscalYear(tdoc.getUniversityFiscalYear());
     }
 
     public BudgetConstructionDocument getBudgetConstructionDocument(){
@@ -217,6 +222,31 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
      */
     public void setNewRevenueLine(PendingBudgetConstructionGeneralLedger newRevenueLine) {
         this.newRevenueLine = newRevenueLine;
+    }
+
+    /**
+     * Gets the hideDetails attribute. 
+     * @return Returns the hideDetails.
+     */
+    public boolean isHideDetails() {
+        return hideDetails;
+    }
+
+    /**
+     * 
+     * @return hideDetails attribute
+     * @see #isHideDetails()
+     */
+    public boolean getHideDetails() {
+        return isHideDetails();
+    }
+
+   /**
+     * Sets the hideDetails attribute value.
+     * @param hideDetails The hideDetails to set.
+     */
+    public void setHideDetails(boolean hideDetails) {
+        this.hideDetails = hideDetails;
     }
 
    

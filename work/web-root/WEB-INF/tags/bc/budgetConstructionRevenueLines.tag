@@ -17,13 +17,17 @@
 <%@ taglib uri="/tlds/struts-html.tld" prefix="html"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="kul" %>
 <%@ taglib uri="/tlds/fmt.tld" prefix="fmt" %>
+<%@ taglib tagdir="/WEB-INF/tags/bc" prefix="bc"%>
 
 <c:set var="pbglRevenueAttributes" value="${DataDictionary.PendingBudgetConstructionGeneralLedger.attributes}" />
 
 <kul:tab tabTitle="Revenue" defaultOpen="false" tabErrorKey="${Constants.BUDGET_CONSTRUCTION_REVENUE_TAB_ERRORS}">
 <div class="tab-container" align=center>
 
-		<table>
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
+            <bc:subheadingWithDetailToggleRow
+              columnCount="8"
+              subheading="Revenue"/>
 			<tr>
 				<th>
 				    &nbsp;	

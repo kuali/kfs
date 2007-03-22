@@ -17,6 +17,7 @@
 <%@ taglib uri="/tlds/struts-html.tld" prefix="html"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="kul" %>
 <%@ taglib uri="/tlds/fmt.tld" prefix="fmt" %>
+<%@ taglib tagdir="/WEB-INF/tags/bc" prefix="bc"%>
 
 <%-- needed? --%>
 <%--
@@ -29,7 +30,10 @@
 <kul:tab tabTitle="Expenditure" defaultOpen="false" tabErrorKey="${Constants.BUDGET_CONSTRUCTION_EXPENDITURE_TAB_ERRORS}">
 <div class="tab-container" align=center>
 
-		<table>
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
+            <bc:subheadingWithDetailToggleRow
+              columnCount="8"
+              subheading="Expenditure"/>
 			<tr>
 				<th>
 				    &nbsp;	
@@ -97,22 +101,36 @@
                   <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].financialBalanceTypeCode"/>
                   <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].financialObjectTypeCode"/>
                   <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].versionNumber"/>
+                  <bc:pbglLineDataCellDetail/>
               </kul:htmlAttributeHeaderCell>
-              <td valign=top nowrap><div align="left"><span>
+              <td class="datacell" nowrap><div align="left"><span>
               	  <a name="expenditureexistingLineLineAnchor${status.index}"></a>
                   <kul:htmlControlAttribute attributeEntry="${pbglExpenditureAttributes.financialObjectCode}" property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].financialObjectCode" readOnly="true"/>
+                  <bc:pbglLineDataCellDetail
+                     accountingLine="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}]"
+                     detailField="financialObject.financialObjectCodeShortName"
+                     detailFields="${detailFields}"
+                     />
               </span></div></td>
-              <td valign=top nowrap><div align="left"><span>
+              <td class="datacell" nowrap><div align="left"><span>
                   <kul:htmlControlAttribute attributeEntry="${pbglExpenditureAttributes.financialSubObjectCode}" property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].financialSubObjectCode" readOnly="true"/>
+                  <bc:pbglLineDataCellDetail
+                     accountingLine="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}]"
+                     detailField="financialSubObject.financialSubObjectCdshortNm"
+                     detailFields="${detailFields}"
+                     />
               </span></div></td>
-              <td valign=top nowrap><div align="right"><span>
+              <td class="datacell" nowrap><div align="right"><span>
                   <kul:htmlControlAttribute attributeEntry="${pbglExpenditureAttributes.financialBeginningBalanceLineAmount}" property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].financialBeginningBalanceLineAmount" readOnly="true"/>
+                  <bc:pbglLineDataCellDetail/>
               </span></div></td>
-              <td valign=top nowrap><div align="right"><span>
+              <td class="datacell" nowrap><div align="right"><span>
                   <kul:htmlControlAttribute attributeEntry="${pbglExpenditureAttributes.accountLineAnnualBalanceAmount}" property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].accountLineAnnualBalanceAmount" styleClass="amount" readOnly="false"/>
+                  <bc:pbglLineDataCellDetail/>
               </span></div></td>
-              <td valign=top nowrap><div align="right"><span>
+              <td class="datacell" nowrap><div align="right"><span>
 				  <fmt:formatNumber value="${item.percentChange}" type="number" groupingUsed="true" minFractionDigits="2" />&nbsp;
+                  <bc:pbglLineDataCellDetail/>
               </span></div></td>
 			  <td><div align=center>
 				<c:choose>
@@ -123,12 +141,13 @@
 						<html:image src="images/tinybutton-edit1.gif" styleClass="tinybutton" property="methodToCall.performMonthlyBudget.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" title="Edit Month" alt="Edit Month"/>
 					</c:otherwise> 
 				</c:choose> 
+                <bc:pbglLineDataCellDetail/>
 
 <%--
 	                   methodToCall.headerTab.headerDispatch.savePersonnel.navigateTo.parameters.x
 --%>			
 			  </div></td>
-	          <td></td>
+	          <td>&nbsp;</td>
             </tr>
 			</c:forEach>
 			<tr>

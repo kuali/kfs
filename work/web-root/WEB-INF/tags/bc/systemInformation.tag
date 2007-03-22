@@ -31,7 +31,7 @@
 
 <kul:tab tabTitle="System Information" defaultOpen="true" tabErrorKey="${Constants.BUDGET_CONSTRUCTION_SYSTEM_INFORMATION_TAB_ERRORS}">
 <div class="tab-container" align=center>
-	<table cellpadding="0" cellspacing="0" class="datatable" title="view system information" summary="view system information">
+	<table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable" title="view system information" summary="view system information">
     	<tr>
 		    <td colspan="4" class="subhead">
 			<span class="subhead-left">System Information</span>

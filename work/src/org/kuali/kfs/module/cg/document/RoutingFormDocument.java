@@ -39,6 +39,8 @@ import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.bo.AdhocOrg;
+import org.kuali.module.kra.bo.AdhocPerson;
+import org.kuali.module.kra.bo.AdhocWorkgroup;
 import org.kuali.module.kra.document.ResearchDocumentBase;
 import org.kuali.module.kra.routingform.bo.ContractGrantProposal;
 import org.kuali.module.kra.routingform.bo.Purpose;
@@ -1767,6 +1769,15 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     public void setRoutingFormPersonRoles(List<RoutingFormPersonRole> routingFormPersonRoles) {
         this.routingFormPersonRoles = routingFormPersonRoles;
     }
+    
+    public boolean isUserProjectDirector(String personUniversalIdentifier) {
+        for (RoutingFormPersonnel person : this.routingFormPersonnel) {
+            if (person.isProjectDirector()) {
+                return personUniversalIdentifier.equals(person.getPersonUniversalIdentifier());
+            }
+        }
+        return false;
+    }
 
     /**
      * Sums percent financial aid from all personnel and organizations.
@@ -1841,7 +1852,10 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     
     public String generateDocumentContent() {
         List referenceObjects = new ArrayList();
-        this.refreshReferenceObject("adhocOrgs");
+        referenceObjects.add("adhocPersons");
+        referenceObjects.add("adhocOrgs");
+        referenceObjects.add("adhocWorkgroups");
+        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(this, referenceObjects);
         
         StringBuffer xml = new StringBuffer("<documentContent>");
         xml.append(buildProjectDirectorReportXml(false));
@@ -1866,6 +1880,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         }
         RoutingFormPersonnel projectDirector = null;
         
+        SpringServiceLocator.getPersistenceService().retrieveReferenceObject(this, "routingFormPersonnel");
         for (RoutingFormPersonnel user : this.getRoutingFormPersonnel()) {
             if (user.getPersonRoleCode().equals(KraConstants.PROJECT_DIRECTOR_CODE)) {
                 projectDirector = user;
@@ -1882,7 +1897,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         
         if (ObjectUtils.isNotNull(projectDirector) && ObjectUtils.isNotNull(projectDirector.getUser())) {
             xml.append("<projectDirector>");
-            xml.append(projectDirector.getUser().getPersonUniversalIdentifier());
+            xml.append(projectDirector.getPersonUniversalIdentifier());
             xml.append("</projectDirector>");
             if (!StringUtils.isBlank(projectDirector.getChartOfAccountsCode())) {
                 xml.append("<chartOrg><chartOfAccountsCode>");

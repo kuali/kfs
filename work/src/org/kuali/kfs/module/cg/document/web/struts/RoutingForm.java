@@ -40,6 +40,7 @@ import org.kuali.module.kra.web.struts.form.ResearchDocumentFormBase;
 public class RoutingForm extends ResearchDocumentFormBase {
     
     private boolean auditActivated;
+    private boolean auditErrorsPassed;
     
     //Main Page
     private RoutingFormPersonnel newRoutingFormPerson;
@@ -106,6 +107,15 @@ public class RoutingForm extends ResearchDocumentFormBase {
     public void setAuditActivated(boolean auditActivated) {
         this.auditActivated = auditActivated;
     }
+    
+    public boolean isAuditErrorsPassed() {
+        return auditErrorsPassed;
+    }
+
+    public void setAuditErrorsPassed(boolean auditErrorsPassed) {
+        this.auditErrorsPassed = auditErrorsPassed;
+    }
+
     public void setNewRoutingFormInstitutionCostShare(RoutingFormInstitutionCostShare newRoutingFormInstitutionCostShare) {
         this.newRoutingFormInstitutionCostShare = newRoutingFormInstitutionCostShare;
     }

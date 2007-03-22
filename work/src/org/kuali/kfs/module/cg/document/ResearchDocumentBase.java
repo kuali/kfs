@@ -20,6 +20,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.core.bo.AdHocRoutePerson;
+import org.kuali.core.bo.AdHocRouteWorkgroup;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.rule.event.KualiDocumentEvent;
@@ -169,6 +171,40 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase imp
             }
         }
     }
+    
+    /**
+     * Convert and return this document's adhoc persons as KFS-style AdHoc persons
+     * 
+     * @return List<AdHocRoutePerson>
+     */
+    public List<AdHocRoutePerson> convertKraAdhocsToAdHocRoutePersons() {
+        List<AdHocRoutePerson> adHocRoutePersons = new ArrayList<AdHocRoutePerson>();
+        for (AdhocPerson kraAdhocPerson: this.adhocPersons) {
+            SpringServiceLocator.getPersistenceService().refreshAllNonUpdatingReferences(kraAdhocPerson);
+            AdHocRoutePerson adHocRoutePerson = new AdHocRoutePerson();
+            adHocRoutePerson.setId(kraAdhocPerson.getUser().getPersonUserIdentifier());
+            adHocRoutePerson.setActionRequested(kraAdhocPerson.getActionRequested());
+            adHocRoutePersons.add(adHocRoutePerson);
+        }
+        return adHocRoutePersons;
+    }
+    
+    /**
+     * Convert and return this document's adhoc workgroups as KFS-style AdHoc workgroups
+     * 
+     * @return List<AdHocRoutePerson>
+     */
+    public List<AdHocRouteWorkgroup> convertKraAdhocsToAdHocRouteWorkgroups() {
+        List<AdHocRouteWorkgroup> adHocRouteWorkgroups = new ArrayList<AdHocRouteWorkgroup>();
+        for (AdhocWorkgroup kraAdhocWorkgroup: this.adhocWorkgroups) {
+            SpringServiceLocator.getPersistenceService().refreshAllNonUpdatingReferences(kraAdhocWorkgroup);
+            AdHocRouteWorkgroup adHocRouteWorkgroup = new AdHocRouteWorkgroup();
+            adHocRouteWorkgroup.setId(kraAdhocWorkgroup.getWorkgroupName());
+            adHocRouteWorkgroup.setActionRequested(kraAdhocWorkgroup.getActionRequested());
+            adHocRouteWorkgroups.add(adHocRouteWorkgroup);
+        }
+        return adHocRouteWorkgroups;
+    }
 
     /**
      * Build the xml to use when generating the workflow org routing report.
@@ -195,7 +231,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase imp
         }
         return xml.toString();
     }
-
+    
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

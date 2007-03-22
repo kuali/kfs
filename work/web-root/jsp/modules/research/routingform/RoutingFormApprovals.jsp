@@ -31,6 +31,11 @@
 	
 	<kul:panelFooter />
 	
-	<kul:documentControls transactionalDocument="false" suppressRoutingControls="true" viewOnly="${KualiForm.editingMode['viewOnly']}" />
+	<html:hidden property="auditErrorsPassed"/>
+	<c:if test="${!KualiForm.auditErrorsPassed}">
+		<div class="error"><center><strong>This document cannot be routed until all hard audit errors are fixed.</strong></center></div>
+	</c:if>
+	
+	<kul:documentControls transactionalDocument="false" suppressRoutingControls="${!KualiForm.auditErrorsPassed}" viewOnly="${KualiForm.editingMode['viewOnly']}" />
 	
 </kul:documentPage>

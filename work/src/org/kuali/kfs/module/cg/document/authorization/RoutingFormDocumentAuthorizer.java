@@ -97,12 +97,16 @@ public class RoutingFormDocumentAuthorizer extends ResearchDocumentAuthorizer {
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
 
         DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-
+        RoutingFormDocument routingFormDocument = (RoutingFormDocument) document;
+        
         flags.setCanAcknowledge(false);
+        if (!flags.getCanRoute()) {
+            flags.setCanRoute(routingFormDocument.isUserProjectDirector(user.getPersonUniversalIdentifier()));
+        }
 //        flags.setCanApprove(false);
         flags.setCanBlanketApprove(false);
         flags.setCanCancel(false);
-        flags.setCanDisapprove(false);
+//        flags.setCanDisapprove(false);
         flags.setCanFYI(false);
         flags.setCanClose(false);
         flags.setCanSave(true);

@@ -23,15 +23,66 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.Constants;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 
 public class RoutingFormApprovalsAction extends RoutingFormAction {
     
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         RoutingForm routingForm = (RoutingForm) form;
-
+        
+        cacheAndLoad(mapping, form, request, response);
+        ActionForward forward = super.save(mapping, form, request, response);
+        
+        routingForm.getRoutingFormDocument().populateDocumentForRouting();
+        routingForm.getRoutingFormDocument().getDocumentHeader().getWorkflowDocument().saveRoutingData();
+        
+        return forward;
+    }
+    
+    /**
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#route(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        RoutingForm routingForm = (RoutingForm) form;
+        
+        if (!routingForm.isAuditErrorsPassed()) {
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        
+        cacheAndLoad(mapping, form, request, response);
+        
+        ActionForward forward = super.route(mapping, form, request, response);
+        return forward;
+    }
+    
+    /**
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#approve(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        cacheAndLoad(mapping, form, request, response);
+        RoutingForm routingForm = (RoutingForm) form;
+        
+        KualiWorkflowDocument workflowDoc = routingForm.getDocument().getDocumentHeader().getWorkflowDocument();
+        if (workflowDoc.getDocRouteLevelName().equals("Project Director")) {
+            routingForm.setAdHocRoutePersons(routingForm.getRoutingFormDocument().convertKraAdhocsToAdHocRoutePersons());
+            routingForm.setAdHocRouteWorkgroups(routingForm.getRoutingFormDocument().convertKraAdhocsToAdHocRouteWorkgroups());
+            // send FYIs, adhoc requests
+        }
+        
+        ActionForward forward = super.approve(mapping, form, request, response);
+        return forward;
+    }
+    
+    private void cacheAndLoad(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        RoutingForm routingForm = (RoutingForm) form;
+        
         List adhocPersons = routingForm.getRoutingFormDocument().getAdhocPersons();
         List adhocOrgs = routingForm.getRoutingFormDocument().getAdhocOrgs();
         List adhocWorkgroups = routingForm.getRoutingFormDocument().getAdhocWorkgroups();
@@ -41,12 +92,5 @@ public class RoutingFormApprovalsAction extends RoutingFormAction {
         routingForm.getRoutingFormDocument().setAdhocPersons(adhocPersons);
         routingForm.getRoutingFormDocument().setAdhocOrgs(adhocOrgs);
         routingForm.getRoutingFormDocument().setAdhocWorkgroups(adhocWorkgroups);
-        
-        ActionForward forward = super.save(mapping, routingForm, request, response);
-        
-        routingForm.getRoutingFormDocument().populateDocumentForRouting();
-        routingForm.getRoutingFormDocument().getDocumentHeader().getWorkflowDocument().saveRoutingData();
-        
-        return forward;
     }
 }

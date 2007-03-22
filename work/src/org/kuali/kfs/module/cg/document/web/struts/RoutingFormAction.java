@@ -147,6 +147,16 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
         referenceObjects.add("adhocOrgs");
         referenceObjects.add("adhocWorkgroups");
         SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(routingForm.getRoutingFormDocument(), referenceObjects);
+        
+        boolean auditErrorsPassed = SpringServiceLocator.getKualiRuleService().applyRules(new RunRoutingFormAuditEvent(routingForm.getRoutingFormDocument()));
+        routingForm.setAuditErrorsPassed(auditErrorsPassed);
+        if (!auditErrorsPassed) {
+            routingForm.setAuditActivated(true);
+        }
+        
+        routingForm.getRoutingFormDocument().populateDocumentForRouting();
+        routingForm.getRoutingFormDocument().getDocumentHeader().getWorkflowDocument().saveRoutingData();
+        
         return mapping.findForward("approvals");
     }
     

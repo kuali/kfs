@@ -120,6 +120,7 @@
 			<filter token="staging-directory" value="${staging.directory}" />
 			<filter token="attachments-directory" value="${attachments.directory}" />
 			<filter token="reports-directory" value="${reports.directory}" />
+			<filter token="workflow-xml-directory" value="${external.config.directory}/ears/${build.environment}/${workflow.application}/xml" />
 			<filter token="workflow-web-authentication-filter" value="${workflow.web.authentication.filter}" />
 			<filter token="application" value="${ant.project.name}" />
 			<filter token="institution" value="${institution}" />

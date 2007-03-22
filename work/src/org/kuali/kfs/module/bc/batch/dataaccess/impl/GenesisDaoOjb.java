@@ -2415,7 +2415,6 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
          *       requires that it be populated.  This is a stub routine to do so.
          ********************************************************************************************
          */
-             
              private HashMap<String,BudgetConstructionPosition> currentBCPosition =
                  new HashMap(BudgetConstructionConstants.ESTIMATED_NUMBER_OF_BUDGETED_POSITIONS);
              private HashSet<String> deletedCSFOverridePositions =
@@ -2441,16 +2440,6 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                 {
                     return;
                 }
-                // we need the account and the organization it reports to to find the RC 
-                // code for a position
-                 if (acctRptsToMap.isEmpty())
-                 {
-                     readAcctReportsTo();
-                 }
-                 if (orgRptsToMap.isEmpty())
-                 {
-                     readOrgReportsTo();
-                 }
                 // read the current positions first
                  readCurrentPositions(BaseYear,CSFUpdatesAllowed);
                 //
@@ -2465,6 +2454,8 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                 //     positions (again by effective date at IU).  it does not matter
                 //     whether they are in CSF.  in the code below, we spoof the coming
                 //     year fetch by using CSF. 
+                // initialize the data needed for the spoof routines
+                initializeStubValues(BaseYear); 
                 // (we will eliminate positions from lines which are not active,
                 //  because the positions in inactive lines might no longer be
                 //  budgeted, and/or the accounts might no longer be active)
@@ -2474,6 +2465,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                 //  positions that do not have a default lock ID, changing the lock
                 //  ID first
                 storeNewPositions(); 
+                getPersistenceBrokerTemplate().clearCache();
              }
              
              private String buildDeletedKey(Object[] returnedRow)
@@ -2776,6 +2768,15 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
              private java.sql.Date julyFirst;
              private java.sql.Date augustFirst;
              private String missingRCCode = new String("NO");
+             private String missingOrgCode = new String(" ");
+             private String[] defaultValue;
+             private HashMap<String,String> orgRCMap;
+             private HashMap<String,String[]> acctRCMap;
+             
+             private String acctRCKey(String ChartCode, String AccountNumber)
+             {
+                 return AccountNumber+ChartCode;
+             }
              
              private void defaultPositionDatesSpoof(Integer RequestYear)
              {
@@ -2835,28 +2836,34 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                  // department ID and RC come from the account, chart comes from the CSF
                  // line.  if the position is split, the first one in wins the prize
                  newBCPosition.setIuDefaultObjectCode((String) rowReturned[returnedFinancialObjectCode]);
-                 String acctTestKey = ((String) rowReturned[returnedChartOfAccountsCode])+
-                                      ((String) rowReturned[returnedAccountNumber]);
+                 String acctTestKey = acctRCKey((String) rowReturned[returnedChartOfAccountsCode],
+                                                (String) rowReturned[returnedAccountNumber]);
                  //
                  //  the RC code should be derived from the department ID on the position
                  //  in HR.
                  //  a default is used if no RC can be assigned
                  newBCPosition.setResponsibilityCenterCode(missingRCCode);
-                 if (acctRptsToMap.containsKey(acctTestKey))
+                 newBCPosition.setPositionDepartmentIdentifier(missingOrgCode);
+                 if (acctRCMap.containsKey(acctTestKey))
                  {
-                   BudgetConstructionAccountReports acctRpts =
-                       acctRptsToMap.get(acctTestKey);
-                   newBCPosition.setPositionDepartmentIdentifier(acctRpts.getChartOfAccountsCode()+
-                                                    "-"+acctRpts.getReportsToOrganizationCode());
-                   String orgRptsToKey = acctRpts.getReportsToChartOfAccountsCode()+
-                                         acctRpts.getReportsToOrganization();
-                   if (orgRptsToMap.containsKey(orgRptsToKey))
-                   {
-                       newBCPosition.setResponsibilityCenterCode(
-                                     orgRptsToMap.get(orgRptsToKey).getResponsibilityCenterCode());
-                   }
-                                         
+                   String[] acctRptsData =
+                       acctRCMap.get(acctTestKey);
+                   newBCPosition.setPositionDepartmentIdentifier(acctRptsData[0]);
+                   newBCPosition.setResponsibilityCenterCode(acctRptsData[1]);
                  }
+             }
+             
+             private void initializeStubValues(Integer BaseYear)
+             {
+                 Integer RequestYear = BaseYear+1;
+                 defaultPositionDatesSpoof(RequestYear);
+                 readAcctRCMap(BaseYear);
+                 readOrgRCMap();
+             }
+             
+             private String positionOrg(String chartCode, String orgCode)
+             {
+                 return chartCode+"-"+orgCode;
              }
              
              private String positionTypeSpoof (String objectClass)
@@ -2865,6 +2872,150 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                  String empTypeID = objectClass.substring(1,2);
                  return ((empTypeID.equals("24"))?"SM":
                          ((empTypeID.equals("25"))?"SB":"AC"));
+             }
+             
+             private void readAcctRCCSF(Class csfClass, Integer BaseYear)
+             {
+                 Criteria criteriaID = new Criteria();
+                 criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                                       BaseYear);
+                 String[] selectList = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                                        PropertyConstants.ACCOUNT_NUMBER};
+                 ReportQueryByCriteria queryID =
+                     new ReportQueryByCriteria(csfClass, selectList, criteriaID, true);
+                 Iterator resultSet = 
+                     getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+                 while (resultSet.hasNext())
+                 {
+                     Object[] rowReturned = (Object[]) resultSet.next();
+                     String acctKey = acctRCKey((String) rowReturned[0],
+                                                (String) rowReturned[1]);
+                     if (!(acctRCMap.containsKey(acctKey)))
+                     {
+                         acctRCMap.put(acctKey,defaultValue);
+                     }
+                 }
+             }
+
+             private Integer readAcctRCMapCount(Integer BaseYear)
+             {
+                Integer acctCount = new Integer(0);
+                Criteria criteriaID = new Criteria();
+                // we will estimate the size of the map needed based on the
+                // number of accounts alone, and not on the full key.  if this is
+                // an underestimate, the map can expand
+                //
+                // CSF override is a method for institutions which do not have a CSF
+                // tracker to enter payroll data.  so, we should include it in the count
+                criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                                      BaseYear);
+                String[] selectList = {"COUNT(DISTINCT "+
+                                       PropertyConstants.ACCOUNT_NUMBER+")"}; 
+                ReportQueryByCriteria queryID = 
+                    new ReportQueryByCriteria(CalculatedSalaryFoundationTrackerOverride.class,
+                                              selectList, criteriaID);
+                Iterator ovrdIter = 
+                    getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+                if (ovrdIter.hasNext())
+                {
+                    BigDecimal resultValue = (BigDecimal) ((Object[]) ovrdIter.next())[0];
+                    acctCount = acctCount +
+                                (Integer) resultValue.intValue();  
+                }
+                ReportQueryByCriteria queryCSF =
+                    new ReportQueryByCriteria(CalculatedSalaryFoundationTracker.class,
+                            selectList, criteriaID);
+                Iterator csfIter =
+                    getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryCSF);
+                if (csfIter.hasNext())
+                {
+                    BigDecimal resultValue = (BigDecimal) ((Object[]) csfIter.next())[0];
+                    acctCount = acctCount +
+                                (Integer) resultValue.intValue();  
+                }
+                return acctCount+10;
+             }
+             
+             private void readAcctRCMap(Integer BaseYear)
+             {
+                 Integer acctCount = readAcctRCMapCount(BaseYear);
+                 acctRCMap = new HashMap<String,String[]>(acctCount);
+                 defaultValue = new String[] {missingOrgCode, missingRCCode};
+                 // first we build a map with the default RC and organization
+                 //    take override accounts first, then CSF accounts
+                 readAcctRCCSF(CalculatedSalaryFoundationTrackerOverride.class, BaseYear);
+                 readAcctRCCSF(CalculatedSalaryFoundationTracker.class, BaseYear);
+                 // next, read the account table to fill in the org codes and the RC's.
+                 // every account key in the hash should have a counterpart in the account
+                 // table.  as each of those counterparts comes up as we iterate through
+                 // all teh accounts, we will join to the organization table to get
+                 // RC code
+//                 Criteria criteriaID = new Criteria();
+//                 criteriaID.addEqualTo(PropertyConstants.ACCOUNT_CLOSED_INDICATOR,
+//                                       new Boolean(false));
+                 ReportQueryByCriteria queryID = 
+                     new ReportQueryByCriteria(Account.class, QueryByCriteria.CRITERIA_SELECT_ALL);
+                 Iterator accountsReturned = 
+                     getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+                 while (accountsReturned.hasNext())
+                 {
+                     Account rowReturned = (Account) accountsReturned.next();
+                     String orgPositionKey = positionOrg(rowReturned.getChartOfAccountsCode(),
+                                                         rowReturned.getOrganizationCode());
+                     String acctKey = acctRCKey(rowReturned.getChartOfAccountsCode(),
+                                                rowReturned.getAccountNumber());
+                     if ((acctRCMap.containsKey(acctKey)) && 
+                         (orgRCMap.containsKey(orgPositionKey)))
+                     {
+                         String[] newValue = {orgPositionKey,
+                                              orgRCMap.get(orgPositionKey)};
+                         // this will replace the default values
+                         acctRCMap.put(acctKey,newValue);
+                     }
+                 }
+                 //  at this point, we no longer need the orgRCMap
+                 //  we want to minimize memory
+                 orgRCMap.clear();
+             }
+             
+             private Integer readOrgRCCount()
+             {
+                 String[] selectList = {"COUNT(*)"};
+                 ReportQueryByCriteria queryID = 
+                     new ReportQueryByCriteria(Org.class, selectList,
+                             QueryByCriteria.CRITERIA_SELECT_ALL);
+                 Iterator resultRow =
+                 getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+                 if (!(resultRow.hasNext()))
+                 {
+                     return new Integer(0);
+                 }
+                 else
+                 {
+                     BigDecimal resultValue = (BigDecimal) ((Object[]) resultRow.next())[0];
+                     return (Integer) resultValue.intValue();
+                 }
+             }
+             
+             private void readOrgRCMap()
+             {
+                 Integer orgCount = readOrgRCCount();
+                 orgRCMap = new HashMap<String,String>(orgCount+3);
+                 String[] selectList = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                                        PropertyConstants.ORGANIZATION_CODE,
+                                        PropertyConstants.RESPONSIBILITY_CENTER_CODE};
+                 ReportQueryByCriteria queryID = 
+                     new ReportQueryByCriteria(Org.class, selectList,
+                                               QueryByCriteria.CRITERIA_SELECT_ALL);
+                 Iterator resultSet =
+                     getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+                 while (resultSet.hasNext())
+                 {
+                     Object[] rowReturned = (Object[]) resultSet.next();
+                     String orgKey = positionOrg ((String) rowReturned[0],
+                                                  (String) rowReturned[1]);
+                     orgRCMap.put(orgKey,(String) rowReturned[2]);
+                 }
              }
              
              

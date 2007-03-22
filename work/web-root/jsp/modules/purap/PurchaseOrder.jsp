@@ -60,9 +60,17 @@
         documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" />
 
     <purap:statushistory 
-        documentAttributes="${DataDictionary.PurchaseOrderStatusHistory.attributes}" />
+        documentAttributes="${DataDictionary.PurchaseOrderStatusHistory.attributes}">
+          <html:messages id="warnings" property="statusHistoryWarning" message="true">
+            &nbsp;&nbsp;&nbsp;<bean:write name="warnings"/><br><br>
+          </html:messages>       
+    </purap:statushistory>
 
-    <kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}" /> 
+    <kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}" >
+          <html:messages id="warnings" property="noteWarning" message="true">
+            &nbsp;&nbsp;&nbsp;<bean:write name="warnings"/><br><br>
+          </html:messages>
+    </kul:notes> 
 
     <kul:adHocRecipients />
 

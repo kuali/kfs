@@ -22,13 +22,14 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessage;
+import org.apache.struts.action.ActionMessages;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.Note;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -241,7 +242,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * 
      * @return boolean true if the Purchase Order doesn't have any warnings and false otherwise.
      */
-    private void checkForPOWarnings(PurchaseOrderDocument po) {
+    private void checkForPOWarnings(PurchaseOrderDocument po, ActionMessages messages) {
         // "This is not the current version of this Purchase Order." (curr_ind = N and doc status is not enroute)
         if (!po.isPurchaseOrderCurrentIndicator() &&
             !po.getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
@@ -256,18 +257,15 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         if (po.isPendingActionIndicator()) {
             GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PURCHASE_ORDER_PENDING_ACTION);
         }   
+
         if (!po.isPurchaseOrderCurrentIndicator()) {
-            // Status History: "This includes the entire status history of the PO, not just up to this document" (curr_ind = N)
-            GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PURCHASE_ORDER_ENTIRE_STATUS_HISTORY);
-            // Notes: "This includes all notes on the PO, not just up to this document" (curr_ind = N)
-            GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PURCHASE_ORDER_ALL_NOTES);
+            //ErrorMap errorMap = GlobalVariables.getErrorMap();
+            //errorMap.putError(Constants.DOCUMENT_NOTES_ERRORS, PurapKeyConstants.WARNING_PURCHASE_ORDER_ALL_NOTES);
+            ActionMessage noteMessage = new ActionMessage(PurapKeyConstants.WARNING_PURCHASE_ORDER_ALL_NOTES);
+            ActionMessage statusHistoryMessage = new ActionMessage(PurapKeyConstants.WARNING_PURCHASE_ORDER_ENTIRE_STATUS_HISTORY);
+            messages.add(PurapConstants.NOTE_TAB_WARNING, noteMessage);
+            messages.add(PurapConstants.STATUS_HISTORY_TAB_WARNING, statusHistoryMessage);
         }
-        /* Uncomment the following if we decide to show the warnings on the note tab
-        if (!po.isPurchaseOrderCurrentIndicator()) {
-            ErrorMap errorMap = GlobalVariables.getErrorMap();
-            errorMap.putError(Constants.DOCUMENT_NOTES_ERRORS, PurapKeyConstants.WARNING_PURCHASE_ORDER_ALL_NOTES);
-        }
-        */
     }
     
     /**
@@ -327,8 +325,9 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         ActionForward forward = super.docHandler(mapping, form, request, response);
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         PurchaseOrderDocument po = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
-        checkForPOWarnings(po);
-      
+        ActionMessages messages = new ActionMessages();
+        checkForPOWarnings(po, messages);
+        saveMessages(request, messages);
         return forward;
     }
 }

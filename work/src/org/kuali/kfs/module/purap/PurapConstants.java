@@ -38,7 +38,9 @@ public class PurapConstants {
     public static final String VENDOR_HEADER_ATTR = "vendorHeader";
     public static final String DOC_ADHOC_NODE_NAME = "Adhoc Routing";
     public static final String ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING = "Unable to save the contract manager for the following Requisitions: ";
-
+    public static final String NOTE_TAB_WARNING = "noteWarning";
+    public static final String STATUS_HISTORY_TAB_WARNING = "statusHistoryWarning";
+    
     //Vendor Tax Types
     public static final String TAX_TYPE_FEIN = "FEIN";
     public static final String TAX_TYPE_SSN = "SSN";

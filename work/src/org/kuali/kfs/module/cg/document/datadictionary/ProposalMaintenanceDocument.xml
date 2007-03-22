@@ -115,7 +115,9 @@
             <maintainableSection title="Project Directors">
                 <maintainableItems>
                     <maintainableCollection name="proposalProjectDirectors" businessObjectClass="org.kuali.module.cg.bo.ProposalProjectDirector">
-                        <maintainableField name="personUniversalIdentifier" required="true" />
+                        <maintainableField name="projectDirector.personUserIdentifier" required="true" webUILeaveFieldFunction="proposalDirectorIDLookup" />
+                        <maintainableField name="projectDirector.personName" readOnly="true" />
+                        <maintainableField name="personUniversalIdentifier" readOnly="true" />
                         <!-- commented out for KULCG-230 -->
                         <!--maintainableField name="projectDirector.universalUser.personName" required="false" readOnly="true" /-->
                         <maintainableField name="proposalPrimaryProjectDirectorIndicator" required="false" />

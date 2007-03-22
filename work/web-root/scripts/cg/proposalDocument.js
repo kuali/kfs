@@ -36,6 +36,14 @@ function onblur_proposalStatusCode( proposalStatusCodeField ) {
     }
 }
 
+function proposalDirectorIDLookup( userIdField ) {
+    var elPrefix = findElPrefix( userIdField.name );
+	var userNameFieldName = elPrefix + ".personName";
+	var universalIdFieldName = findElPrefix( elPrefix ) + ".personUniversalIdentifier";
+	
+	loadUserInfo( userIdField.name, universalIdFieldName, userNameFieldName );
+}
+
 function today() {
     var now = new Date();
     // Kuali's DateFormatter requires this format, regardless of Locale.

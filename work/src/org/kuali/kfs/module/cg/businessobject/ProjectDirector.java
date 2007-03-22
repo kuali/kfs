@@ -18,6 +18,7 @@ package org.kuali.module.cg.bo;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.bo.user.UserId;
@@ -79,9 +80,47 @@ public class ProjectDirector extends PersistableBusinessObjectBase {
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("universaliUser.getUniversalIdentifier", this.getPersonUniversalIdentifier());
+        m.put("universalUser.getUniversalIdentifier", this.getPersonUniversalIdentifier());
         return m;
     }
 
+    public String getPersonName() {
+        if ( !StringUtils.isEmpty( personUniversalIdentifier ) ) {
+            universalUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary( personUniversalIdentifier, universalUser );
+        }
+        if ( universalUser != null ) {
+            return universalUser.getPersonName();
+        } else {
+            return "";
+        }
+    }
+
+    public void setPersonName(String personName) {
+        if ( universalUser == null ) {
+            universalUser = new UniversalUser();
+        }
+        universalUser.setPersonName( personName );
+    }
+
+    public String getPersonUserIdentifier() {
+        if ( !StringUtils.isEmpty( personUniversalIdentifier ) ) {
+            universalUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary( personUniversalIdentifier, universalUser );
+        }
+        if ( universalUser != null ) {
+            return universalUser.getPersonUserIdentifier();
+        } else {
+            return "";
+        }
+    }
+
+    public void setPersonUserIdentifier(String personUserIdentifier) {
+        try {
+            universalUser = SpringServiceLocator.getUniversalUserService().getUniversalUserByAuthenticationUserId( personUserIdentifier );
+        } catch ( UserNotFoundException ex ) {
+            universalUser = new UniversalUser();
+            universalUser.setPersonUserIdentifier( personUserIdentifier );
+        }
+        
+    }
 
 }

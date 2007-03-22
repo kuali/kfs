@@ -37,7 +37,7 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase {
      * Default constructor.
      */
     public ProposalProjectDirector() {
-
+        projectDirector = new ProjectDirector();
     }
 
     /**
@@ -69,6 +69,9 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase {
      */
     public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
         this.personUniversalIdentifier = personUniversalIdentifier;
+        if ( projectDirector != null ) {
+            projectDirector.setPersonUniversalIdentifier( personUniversalIdentifier );
+        }
     }
 
 
@@ -162,4 +165,5 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase {
         }
         return m;
     }
+
 }

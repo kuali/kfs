@@ -30,30 +30,99 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
 
 public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumentRuleBase {
 
-    boolean processDocumentOverviewValidation(PurchasingDocument document) {
+    /**
+     * Tabs included on Purchasing Documents are:
+     *   Payment Info
+     *   Delivery
+     *   Additional
+     * 
+     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     */
+    @Override
+    public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
+        boolean valid = super.processValidation(purapDocument);
+        valid &= processPaymentInfoValidation((PurchasingDocument)purapDocument);
+        valid &= processDeliveryValidation((PurchasingDocument)purapDocument);
+        valid &= processAdditionalValidation((PurchasingDocument)purapDocument);
+        return valid;
+    }
+
+    /**
+     * This method performs any validation for the Payment Info tab.
+     * 
+     * @param purDocument
+     * @return
+     */
+    public boolean processPaymentInfoValidation(PurchasingDocument purDocument) {
+        boolean valid = true;
+        valid &= checkBeginDateBeforeEndDate(purDocument);
+
+        if (ObjectUtils.isNotNull(purDocument.getPurchaseOrderBeginDate()) || ObjectUtils.isNotNull(purDocument.getPurchaseOrderEndDate())) {
+            if (ObjectUtils.isNotNull(purDocument.getPurchaseOrderBeginDate()) && ObjectUtils.isNull(purDocument.getPurchaseOrderEndDate())) {
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_END_DATE, PurapKeyConstants.ERROR_PURCHASE_ORDER_BEGIN_DATE_NO_END_DATE);
+                valid &= false;
+            }
+            else {
+                if (ObjectUtils.isNull(purDocument.getPurchaseOrderBeginDate()) && ObjectUtils.isNotNull(purDocument.getPurchaseOrderEndDate())) {
+                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_BEGIN_DATE, PurapKeyConstants.ERROR_PURCHASE_ORDER_END_DATE_NO_BEGIN_DATE);
+                    valid &= false;
+                }
+            }
+        }
+        if (valid && ObjectUtils.isNotNull(purDocument.getPurchaseOrderBeginDate()) && ObjectUtils.isNotNull(purDocument.getPurchaseOrderEndDate())) {
+            if (ObjectUtils.isNull(purDocument.getRecurringPaymentTypeCode())) {
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.RECURRING_PAYMENT_TYPE_CODE, PurapKeyConstants.ERROR_RECURRING_DATE_NO_TYPE);
+
+                valid &= false;
+            }
+        }
+        else if (ObjectUtils.isNotNull(purDocument.getRecurringPaymentTypeCode())) {
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_BEGIN_DATE, PurapKeyConstants.ERROR_RECURRING_TYPE_NO_DATE);
+            valid &= false;
+        }
+        return valid;
+    }
+    
+    /**
+     * This method performs any validation for the Delivery tab.
+     * 
+     * @param purDocument
+     * @return
+     */
+    public boolean processDeliveryValidation(PurchasingDocument purDocument) {
         boolean valid = true;
         // TODO code validation
         return valid;
     }
-    
-    boolean processAdditionalValidation(PurchasingDocument document) {
+
+    /**
+     * This method performs any validation for the Additional tab.
+     * 
+     * @param purDocument
+     * @return
+     */
+    public boolean processAdditionalValidation(PurchasingDocument purDocument) {
         boolean valid = true;
-        valid = validateTotDollarAmtIsLessThanPOTotLimit(document);
+        valid = validateTotDollarAmtIsLessThanPOTotLimit(purDocument);
         return valid;
     }
 
-    boolean processVendorValidation(PurchasingDocument document) {
-        boolean valid = true;
+    @Override
+    public boolean processVendorValidation(PurchasingAccountsPayableDocument purapDocument) {
+        boolean valid = super.processVendorValidation(purapDocument);
+        PurchasingDocument purDocument = (PurchasingDocument)purapDocument;
         ErrorMap errorMap = GlobalVariables.getErrorMap();
-        if( !document.getRequisitionSourceCode().equals( PurapConstants.RequisitionSources.B2B ) ) {
-            if( StringUtils.isNotBlank(document.getVendorFaxNumber()) ) {
+        if (!purDocument.getRequisitionSourceCode().equals(PurapConstants.RequisitionSources.B2B)) {
+            //TODO check this; I think we're only supposed to be validation the fax number format if the transmission type is FAX and the vendor ids are null (hjs)
+            if (StringUtils.isNotBlank(purDocument.getVendorFaxNumber())) {
                 PhoneNumberValidationPattern phonePattern = new PhoneNumberValidationPattern();
-                if( !phonePattern.matches(document.getVendorFaxNumber()) ) {
+                if (!phonePattern.matches(purDocument.getVendorFaxNumber())) {
                     valid &= false;
                     errorMap.putError(Constants.DOCUMENT_PROPERTY_NAME + "." + PurapPropertyConstants.VENDOR_FAX_NUMBER, PurapKeyConstants.ERROR_FAX_NUMBER_INVALID);
                 }
@@ -62,49 +131,6 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         return valid;
     }
 
-    boolean processItemValidation(PurchasingDocument document) {
-        boolean valid = true;
-        // TODO code validation
-        return valid;
-    }
-
-    boolean processPaymentInfoValidation(PurchasingDocument document) {
-        boolean valid = true;
-        valid &= checkBeginDateBeforeEndDate( document );
-        
-        if (ObjectUtils.isNotNull(document.getPurchaseOrderBeginDate()) ||
-                ObjectUtils.isNotNull(document.getPurchaseOrderEndDate())) {
-            if (ObjectUtils.isNotNull(document.getPurchaseOrderBeginDate()) && ObjectUtils.isNull(document.getPurchaseOrderEndDate())) {
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_END_DATE, PurapKeyConstants.ERROR_PURCHASE_ORDER_BEGIN_DATE_NO_END_DATE);
-                    valid &= false;
-            } 
-            else {
-                if (ObjectUtils.isNull(document.getPurchaseOrderBeginDate()) && ObjectUtils.isNotNull(document.getPurchaseOrderEndDate())) {
-                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_BEGIN_DATE, PurapKeyConstants.ERROR_PURCHASE_ORDER_END_DATE_NO_BEGIN_DATE);
-                    valid &= false;
-                }
-            }
-        }   
-        if (valid && ObjectUtils.isNotNull(document.getPurchaseOrderBeginDate()) && ObjectUtils.isNotNull(document.getPurchaseOrderEndDate())) {
-                if (ObjectUtils.isNull(document.getRecurringPaymentTypeCode())) {
-                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.RECURRING_PAYMENT_TYPE_CODE, PurapKeyConstants.ERROR_RECURRING_DATE_NO_TYPE);
-                    
-                    valid &= false;
-                }
-        } else if (ObjectUtils.isNotNull(document.getRecurringPaymentTypeCode())) {
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_BEGIN_DATE, PurapKeyConstants.ERROR_RECURRING_TYPE_NO_DATE);
-                valid &= false; 
-        }
-        
-        
-        return valid;
-    }
-
-    boolean processDeliveryValidation(PurchasingDocument document) {
-        boolean valid = true;
-        // TODO code validation
-        return valid;
-    }
 
     /**
      * This method is the implementation of the rule that if a document has a recurring payment
@@ -113,18 +139,18 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * dealing just with month and day, but we don't need to do that here; we're dealing with the
      * whole Date object.
      * 
-     * @param document
+     * @param purDocument
      * @return
      */
-    boolean checkBeginDateBeforeEndDate(PurchasingDocument document) {
+    private boolean checkBeginDateBeforeEndDate(PurchasingDocument purDocument) {
         boolean valid = true;
         DateTimeService dateTimeService = SpringServiceLocator.getDateTimeService();
-        int currentFiscalYear = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();   
+        int currentFiscalYear = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();
 
-        Date beginDate = document.getPurchaseOrderBeginDate();
-        Date endDate = document.getPurchaseOrderEndDate();
-        if( ObjectUtils.isNotNull( beginDate ) && ObjectUtils.isNotNull( endDate ) ) {
-            if( beginDate.after( endDate ) ) {
+        Date beginDate = purDocument.getPurchaseOrderBeginDate();
+        Date endDate = purDocument.getPurchaseOrderEndDate();
+        if (ObjectUtils.isNotNull(beginDate) && ObjectUtils.isNotNull(endDate)) {
+            if (beginDate.after(endDate)) {
                 valid &= false;
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_END_DATE, PurapKeyConstants.ERROR_PURCHASE_ORDER_BEGIN_DATE_AFTER_END);
             }
@@ -133,26 +159,25 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     }
     
     /**
-     * Validate that if the PurchaseOrderTotalLimit is not null 
-     *   then the TotalDollarAmount cannot be greater than the PurchaseOrderTotalLimit. 
+     * Validate that if the PurchaseOrderTotalLimit is not null then the TotalDollarAmount cannot be greater than the
+     * PurchaseOrderTotalLimit.
      * 
      * @return True if the TotalDollarAmount is less than the PurchaseOrderTotalLimit. False otherwise.
      */
-    boolean validateTotDollarAmtIsLessThanPOTotLimit(PurchasingDocument document) {
+    private boolean validateTotDollarAmtIsLessThanPOTotLimit(PurchasingDocument purDocument) {
         boolean valid = true;
-        if (ObjectUtils.isNotNull(document.getPurchaseOrderTotalLimit()) &&
-              ObjectUtils.isNotNull(((AmountTotaling) document).getTotalDollarAmount())) {
-            if (((AmountTotaling) document).getTotalDollarAmount().isGreaterThan(document.getPurchaseOrderTotalLimit())) {
-                if (document instanceof PurchaseOrderDocument) {
+        if (ObjectUtils.isNotNull(purDocument.getPurchaseOrderTotalLimit()) && 
+                ObjectUtils.isNotNull(((AmountTotaling) purDocument).getTotalDollarAmount())) {
+            if (((AmountTotaling) purDocument).getTotalDollarAmount().isGreaterThan(purDocument.getPurchaseOrderTotalLimit())) {
+                if (purDocument instanceof PurchaseOrderDocument) {
                     // TODO: issue a warning here.
                 }
-                if (document instanceof RequisitionDocument) {
-                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_TOTAL_LIMIT, 
-                            PurapKeyConstants.REQ_TOTAL_GREATER_THAN_PO_TOTAL_LIMIT);
-                          valid &= false;
+                if (purDocument instanceof RequisitionDocument) {
+                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_TOTAL_LIMIT, PurapKeyConstants.REQ_TOTAL_GREATER_THAN_PO_TOTAL_LIMIT);
+                    valid &= false;
                 }
             }
-        } 
+        }
         return valid;
     }
 

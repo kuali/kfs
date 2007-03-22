@@ -18,53 +18,21 @@ package org.kuali.module.purap.rules;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.core.datadictionary.validation.fieldlevel.ZipcodeValidationPattern;
-import org.kuali.core.document.Document;
-import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
 
 public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
 
-    /**
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
-     */
-    @Override
-    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
-        boolean isValid = true;
-        RequisitionDocument reqDocument = (RequisitionDocument) document;
-        return isValid &= processValidation(reqDocument);
-    }
-
-    @Override
-    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
-        boolean isValid = true;
-        RequisitionDocument reqDocument = (RequisitionDocument) document;
-        return isValid &= processValidation(reqDocument);
-    }
-
-    @Override
-    protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
-        boolean isValid = true;
-        RequisitionDocument reqDocument = (RequisitionDocument) approveEvent.getDocument();
-        return isValid &= processValidation(reqDocument);
-    }
-
-    private boolean processValidation(RequisitionDocument document) {
-        boolean valid = true;
-        valid &= processDocumentOverviewValidation(document);
-        valid &= processVendorValidation(document);
-        valid &= processItemValidation(document);
-        valid &= processPaymentInfoValidation(document);
-        valid &= processDeliveryValidation(document);
-        valid &= processAdditionalValidation(document);
-        return valid;
-    }
-    
+    //TODO check this: (hjs) 
+    //- just curious: what is a valid US zip code?
+    //- isn't city required if country is US? NO, ONLY FOR PO
+    //- comment list fax number, but code isn't here
+    //Can this be combined with PO?
     /**
      * 
      * This method performs validations for the fields in vendor tab.
@@ -75,19 +43,21 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
      * 2.  If this is a standard order requisition (not a B2B requisition), then if 
      *     the fax number is entered, it should be a valid fax number. (format) 
      *     
-     * @param document The requisition document object whose vendor tab is to be validated
+     * @param purapDocument The requisition document object whose vendor tab is to be validated
      * 
      * @return true if it passes vendor validation and false otherwise.
      */
-    boolean processVendorValidation(RequisitionDocument document) {
+    @Override
+    public boolean processVendorValidation(PurchasingAccountsPayableDocument purapDocument) {
         ErrorMap errorMap = GlobalVariables.getErrorMap();
-        boolean valid = super.processVendorValidation(document);
-        if (document.getRequisitionSourceCode().equals(PurapConstants.RequisitionSources.STANDARD_ORDER)) { 
-            if (!StringUtils.isBlank(document.getVendorCountryCode()) &&
-                document.getVendorCountryCode().equals(Constants.COUNTRY_CODE_UNITED_STATES) && 
-                !StringUtils.isBlank(document.getVendorPostalCode())) {
+        boolean valid = super.processVendorValidation(purapDocument);
+        RequisitionDocument reqDocument = (RequisitionDocument)purapDocument;
+        if (reqDocument.getRequisitionSourceCode().equals(PurapConstants.RequisitionSources.STANDARD_ORDER)) { 
+            if (!StringUtils.isBlank(reqDocument.getVendorCountryCode()) &&
+                    reqDocument.getVendorCountryCode().equals(Constants.COUNTRY_CODE_UNITED_STATES) && 
+                !StringUtils.isBlank(reqDocument.getVendorPostalCode())) {
                 ZipcodeValidationPattern zipPattern = new ZipcodeValidationPattern();
-                if (!zipPattern.matches(document.getVendorPostalCode())) {
+                if (!zipPattern.matches(reqDocument.getVendorPostalCode())) {
                     valid = false;
                     errorMap.putError(PurapPropertyConstants.VENDOR_POSTAL_CODE, PurapKeyConstants.ERROR_POSTAL_CODE_INVALID);
                 }
@@ -96,29 +66,7 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
         return valid;
     }
 
-    boolean processItemValidation(RequisitionDocument document) {
-        boolean valid = super.processItemValidation(document);
-        // TODO code validation
-        return valid;
-    }
-
-    boolean processPaymentInfoValidation(RequisitionDocument document) {
-        boolean valid = super.processPaymentInfoValidation(document);
- 
-        return valid;
-    }
-
-    boolean processDeliveryValidation(RequisitionDocument document) {
-        boolean valid = super.processDeliveryValidation(document);
-        // TODO code validation
-        return valid;
-    }
-
-    boolean processAdditionalValidation(RequisitionDocument document) {
-        boolean valid = super.processAdditionalValidation(document);
-        return valid;
-    }
-    
+    //TODO check this; this method wasn't being called from anywhere; is the code somewhere else?  if so, should the comments be moved?
     /**
      * 
      * This method validates that: 
@@ -129,26 +77,26 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
      * 
      * @return True if the beginning date is before the end date. False otherwise.
      */
-    boolean validatePOBeginEndDates(RequisitionDocument document) {
-        boolean valid = true;
-        if (ObjectUtils.isNotNull(document.getPurchaseOrderBeginDate()) && ObjectUtils.isNull(document.getPurchaseOrderEndDate())) {
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_END_DATE, PurapKeyConstants.ERROR_PURCHASE_ORDER_BEGIN_DATE_NO_END_DATE);
-                valid &= false;
-        } 
-        else {
-            if (ObjectUtils.isNull(document.getPurchaseOrderBeginDate()) && ObjectUtils.isNotNull(document.getPurchaseOrderEndDate())) {
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_BEGIN_DATE, PurapKeyConstants.ERROR_PURCHASE_ORDER_END_DATE_NO_BEGIN_DATE);
-                valid &= false;
-            }
-        }
-        if (valid && ObjectUtils.isNotNull(document.getPurchaseOrderBeginDate()) && ObjectUtils.isNotNull(document.getPurchaseOrderEndDate())) {
-            if (document.getPurchaseOrderBeginDate().after(document.getPurchaseOrderEndDate())) {
-                GlobalVariables.getErrorMap().putError( PurapPropertyConstants.PURCHASE_ORDER_BEGIN_DATE, PurapKeyConstants.ERROR_PURCHASE_ORDER_BEGIN_DATE_AFTER_END);
-                valid &= false;
-            }
-        }
-  
-        return valid;
-    }
+//    boolean validatePOBeginEndDates(RequisitionDocument document) {
+//        boolean valid = true;
+//        if (ObjectUtils.isNotNull(document.getPurchaseOrderBeginDate()) && ObjectUtils.isNull(document.getPurchaseOrderEndDate())) {
+//            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_END_DATE, PurapKeyConstants.ERROR_PURCHASE_ORDER_BEGIN_DATE_NO_END_DATE);
+//                valid &= false;
+//        } 
+//        else {
+//            if (ObjectUtils.isNull(document.getPurchaseOrderBeginDate()) && ObjectUtils.isNotNull(document.getPurchaseOrderEndDate())) {
+//                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_BEGIN_DATE, PurapKeyConstants.ERROR_PURCHASE_ORDER_END_DATE_NO_BEGIN_DATE);
+//                valid &= false;
+//            }
+//        }
+//        if (valid && ObjectUtils.isNotNull(document.getPurchaseOrderBeginDate()) && ObjectUtils.isNotNull(document.getPurchaseOrderEndDate())) {
+//            if (document.getPurchaseOrderBeginDate().after(document.getPurchaseOrderEndDate())) {
+//                GlobalVariables.getErrorMap().putError( PurapPropertyConstants.PURCHASE_ORDER_BEGIN_DATE, PurapKeyConstants.ERROR_PURCHASE_ORDER_BEGIN_DATE_AFTER_END);
+//                valid &= false;
+//            }
+//        }
+//  
+//        return valid;
+//    }
     
 }

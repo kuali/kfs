@@ -15,8 +15,86 @@
  */
 package org.kuali.module.purap.rules;
 
+import org.kuali.core.document.Document;
+import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
+import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 
 public class PurchasingAccountsPayableDocumentRuleBase extends TransactionalDocumentRuleBase {
+
+    @Override
+    protected boolean processCustomRouteDocumentBusinessRules(Document document) {
+        boolean isValid = true;
+        PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument) document;
+        return isValid &= processValidation(purapDocument);
+    }
+
+    //TODO should we call our validation here?
+//    @Override
+//    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+//        boolean isValid = true;
+//        PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument) document;
+//        return isValid &= processValidation(purapDocument);
+//    }
+
+    @Override
+    protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
+        boolean isValid = true;
+        PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument) approveEvent.getDocument();
+        return isValid &= processValidation(purapDocument);
+    }
+
+    /**
+     * This method calls each tab specific validation.  Tabs included on all PURAP docs are:
+     *   DocumentOverview
+     *   Vendor
+     *   Item
+     * 
+     * @param purapDocument
+     * @return
+     */
+    public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
+        boolean valid = true;
+        valid &= processDocumentOverviewValidation(purapDocument);
+        valid &= processVendorValidation(purapDocument);
+        valid &= processItemValidation(purapDocument);
+        return valid;
+    }
+
+    /**
+     * This method performs any validation for the Document Overview tab.
+     * 
+     * @param purapDocument
+     * @return
+     */
+    public boolean processDocumentOverviewValidation(PurchasingAccountsPayableDocument purapDocument) {
+        boolean valid = true;
+        // TODO code validation
+        return valid;
+    }
+
+    /**
+     * This method performs any validation for the Vendor tab.
+     * 
+     * @param purapDocument
+     * @return
+     */
+    public boolean processVendorValidation(PurchasingAccountsPayableDocument purapDocument) {
+        boolean valid = true;
+        // TODO code validation
+        return valid;
+    }
+
+    /**
+     * This method performs any validation for the Item tab.
+     * 
+     * @param purapDocument
+     * @return
+     */
+    public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
+        boolean valid = true;
+        // TODO code validation
+        return valid;
+    }
 
 }

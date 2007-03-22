@@ -15,6 +15,34 @@
  */
 package org.kuali.module.purap.rules;
 
+import org.kuali.module.purap.document.PaymentRequestDocument;
+import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+
 public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase {
 
+    /**
+     * Tabs included on Payment Request Documents are:
+     *   Invoice
+     * 
+     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     */
+    @Override
+    public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
+        boolean valid = super.processValidation(purapDocument);
+        valid &= processInvoiceValidation((PaymentRequestDocument)purapDocument);
+        return valid;
+    }
+    
+
+    /**
+     * This method performs any validation for the Invoice tab.
+     * 
+     * @param preqDocument
+     * @return
+     */
+    public boolean processInvoiceValidation(PaymentRequestDocument preqDocument) {
+        boolean valid = true;
+        //TODO code validation here
+        return valid;
+    }
 }

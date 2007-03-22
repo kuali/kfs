@@ -39,6 +39,12 @@ class PurapTestConstants {
         static PurchaseOrderDocument PO = new PurchaseOrderDocument();
     }
     
+    static class RecurringPaymentTypes {
+        static final String FIXD = "FIXD";
+        static final String FVAR = "FVAR";
+        static final String VARV = "VARV";
+    }
+    
     static class VendorParts {
         static final String CODE1 = "C1";
         static final String CODE2 = "C2";

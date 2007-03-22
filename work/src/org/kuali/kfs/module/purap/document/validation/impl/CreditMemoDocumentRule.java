@@ -15,6 +15,34 @@
  */
 package org.kuali.module.purap.rules;
 
+import org.kuali.module.purap.document.CreditMemoDocument;
+import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+
 public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
 
+    /**
+     * Tabs included on Payment Request Documents are:
+     *   Credit Memo
+     * 
+     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     */
+    @Override
+    public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
+        boolean valid = super.processValidation(purapDocument);
+        valid &= processCreditMemoValidation((CreditMemoDocument)purapDocument);
+        return valid;
+    }
+    
+
+    /**
+     * This method performs any validation for the Credit Memo tab.
+     * 
+     * @param cmDocument
+     * @return
+     */
+    public boolean processCreditMemoValidation(CreditMemoDocument cmDocument) {
+        boolean valid = true;
+        //TODO code validation here
+        return valid;
+    }
 }

@@ -19,12 +19,15 @@ import org.kuali.Constants;
 import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.UniversalUser;
 
+import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiGroupService;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
@@ -49,6 +52,7 @@ public class SubAccountDocumentAuthorizer extends MaintenanceDocumentAuthorizerB
      * @return
      * 
      */
+    @Override
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
 
         // if the user is the system supervisor, then do nothing, dont apply
@@ -89,5 +93,19 @@ public class SubAccountDocumentAuthorizer extends MaintenanceDocumentAuthorizerB
         }
 
         return auths;
+    }
+
+    /**
+     * @see org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     */
+    @Override
+    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+        DocumentActionFlags documentActionFlags = super.getDocumentActionFlags(document, user);
+        // KULRNE-44: even if some fields are readonly to the user, we allow him to blanket approve
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        if (!workflowDocument.stateIsCanceled()) {
+            documentActionFlags.setCanBlanketApprove(workflowDocument.isBlanketApproveCapable());
+        }
+        return documentActionFlags;
     }
 }

@@ -49,7 +49,6 @@
 		</lockingKeys>         
 
         <defaultExistenceChecks>
-            <reference attributeName="universityFiscalYear" attributeToHighlightOnFail="universityFiscalYear" />
             <reference attributeName="chartOfAccounts" attributeToHighlightOnFail="chartOfAccountsCode" />          
             <reference attributeName="financialObject" attributeToHighlightOnFail="financialObjectCode" />
         </defaultExistenceChecks>

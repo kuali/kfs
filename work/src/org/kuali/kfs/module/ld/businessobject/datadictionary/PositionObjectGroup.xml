@@ -22,7 +22,7 @@
 
 
         <inquiry>
-            <title>Position Object Group Inquiry</title>
+            <title>Labor Object Group Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="positionObjectGroupCode" />
@@ -32,9 +32,9 @@
         </inquiry>
 
         <lookup>
-            <title>Position Object Group Lookup</title>
+            <title>Labor Object Group Lookup</title>
 
-            <instructions>Look up a Position Object Group</instructions>
+            <instructions>Look up a Labor Object Group</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>

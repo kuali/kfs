@@ -86,10 +86,15 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
 
     /**
      * This sets the default fields not setable by the user for added lines
+     * It also uppercases text fields
      * 
      * @param line
      */
     private void initNewLine(PendingBudgetConstructionGeneralLedger line){
+        // do uppercase on added lines only, since users can only update amounts on existing lines
+        // this should only affect the line since the DD has auto-update=false on refs and collections
+        // and only affect fields where xml attribute has forceUppercase="true"
+        SpringServiceLocator.getBusinessObjectDictionaryService().performForceUppercase(line);
 
         BudgetConstructionDocument tdoc = this.getBudgetConstructionDocument();
 
@@ -150,9 +155,6 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
      * @param line
      */
     private void populatePBGLLine(PendingBudgetConstructionGeneralLedger line){
-        //TODO need to trace through debug to see what all this affects
-        //maybe just explictly do upper on obj,sobj
-        //SpringServiceLocator.getBusinessObjectDictionaryService().performForceUppercase(line);
 
         BudgetConstructionDocument tdoc = this.getBudgetConstructionDocument();
 

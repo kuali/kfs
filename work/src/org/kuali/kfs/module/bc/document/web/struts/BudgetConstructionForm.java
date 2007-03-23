@@ -43,7 +43,7 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
     private PendingBudgetConstructionGeneralLedger newRevenueLine;
     private PendingBudgetConstructionGeneralLedger newExpenditureLine;
 
-    private boolean hideDetails = false;
+    private boolean hideDetails = true;
 
 
     public BudgetConstructionForm() {

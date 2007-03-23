@@ -132,8 +132,9 @@
 				export="true" pagesize="100" defaultsort="1" decorator="org.kuali.module.gl.web.BalanceInquiryTableDecorator"
 				requestURI="glBalanceInquiry.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&searchResultKey=${searchResultKey}">
 				
+				<c:set var="columnLength" value="${fn:length(row.columns)-13}" />
 				<c:forEach items="${row.columns}" var="column" begin="1" varStatus="status">
-				
+									
 					<c:choose>
 					
 						<c:when test="${status.index > 0}">
@@ -142,7 +143,7 @@
 		
 								<c:when test="${column.formatter.implementationClass == 'org.kuali.core.web.format.CurrencyFormatter'}">
 		
-									<display:column class="numbercell" sortable="true" media="${(status.index < 11) ? 'all' : 'csv excel xml'}"
+									<display:column class="numbercell" sortable="true" media="${(status.index < columnLength) ? 'all' : 'csv excel xml'}"
 										decorator="org.kuali.core.web.ui.FormatAwareDecorator"
 										title="${column.columnTitle}" comparator="${column.comparator}">
 										
@@ -169,7 +170,7 @@
 		
 											<display:column class="infocell" sortable="${column.sortable}"
 												decorator="org.kuali.core.web.ui.FormatAwareDecorator"
-												title="${column.columnTitle}" media="${(status.index < 11) ? 'all' : 'csv excel xml'}"
+												title="${column.columnTitle}" media="${(status.index < columnLength) ? 'all' : 'csv excel xml'}"
 												comparator="${column.comparator}">
 		
 												<a href="<c:out value="${column.propertyURL}"/>" title="${column.propertyValue}"
@@ -183,7 +184,7 @@
 											
 											<display:column class="infocell" sortable="${column.sortable}"
 												decorator="org.kuali.core.web.ui.FormatAwareDecorator"
-												title="${column.columnTitle}" media="${(status.index < 11) ? 'all' : 'csv excel xml'}"
+												title="${column.columnTitle}" media="${(status.index < columnLength) ? 'all' : 'csv excel xml'}"
 												comparator="${column.comparator}">
 												
 												<c:if test="${column.columnTitle == 'Project Code'}">

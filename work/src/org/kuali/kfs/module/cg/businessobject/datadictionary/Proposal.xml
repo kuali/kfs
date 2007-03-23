@@ -93,12 +93,8 @@
                 <lookupField attributeName="proposalPurposeCode" required="false" />
                 <lookupField attributeName="proposalFellowName" required="false" />
                 <lookupField attributeName="proposalOrganizations.organizationCode" required="false" />
-                <lookupField attributeName="proposalOrganizations.organization.organizationCode" required="false" />
                 <lookupField attributeName="proposalSubcontractors.subcontractorNumber" required="false" />
-                <lookupField attributeName="proposalSubcontractors.subcontractor.subcontractorNumber" required="false" />
                 <lookupField attributeName="proposalProjectDirectors.personUniversalIdentifier" required="false" />
-                <lookupField attributeName="proposalProjectDirectors.projectDirector.personUniversalIdentifier" required="false" />
-				
             </lookupFields>
 
             <resultFields>

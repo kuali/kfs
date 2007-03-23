@@ -67,6 +67,23 @@ public class LedgerBalance extends Balance {
      */
     public LedgerBalance() {
         super();
+        this.setAccountLineAnnualBalanceAmount(KualiDecimal.ZERO);
+        this.setFinancialBeginningBalanceLineAmount(KualiDecimal.ZERO);
+        this.setContractsGrantsBeginningBalanceAmount(KualiDecimal.ZERO);
+
+        this.month1AccountLineAmount = KualiDecimal.ZERO;
+        this.month2AccountLineAmount = KualiDecimal.ZERO;
+        this.month3AccountLineAmount = KualiDecimal.ZERO;
+        this.month4AccountLineAmount = KualiDecimal.ZERO;
+        this.month5AccountLineAmount = KualiDecimal.ZERO;
+        this.month6AccountLineAmount = KualiDecimal.ZERO;
+        this.month7AccountLineAmount = KualiDecimal.ZERO;
+        this.month8AccountLineAmount = KualiDecimal.ZERO;
+        this.month9AccountLineAmount = KualiDecimal.ZERO;
+        this.month10AccountLineAmount = KualiDecimal.ZERO;
+        this.month11AccountLineAmount = KualiDecimal.ZERO;
+        this.month12AccountLineAmount = KualiDecimal.ZERO;
+        this.month13AccountLineAmount = KualiDecimal.ZERO;
     }
 
     /**

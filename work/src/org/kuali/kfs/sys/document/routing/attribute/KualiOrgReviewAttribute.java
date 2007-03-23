@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2007 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,6 +17,8 @@
 package org.kuali.workflow.attribute;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -34,7 +36,6 @@ import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.util.FieldUtils;
 import org.kuali.core.workflow.attribute.WorkflowLookupableImpl;
 import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
@@ -48,18 +49,20 @@ import edu.iu.uis.eden.doctype.DocumentType;
 import edu.iu.uis.eden.engine.RouteContext;
 import edu.iu.uis.eden.lookupable.Field;
 import edu.iu.uis.eden.lookupable.Row;
+import edu.iu.uis.eden.plugin.attributes.MassRuleAttribute;
 import edu.iu.uis.eden.plugin.attributes.WorkflowAttribute;
 import edu.iu.uis.eden.routeheader.DocumentContent;
+import edu.iu.uis.eden.routetemplate.RuleBaseValues;
 import edu.iu.uis.eden.routetemplate.RuleExtension;
 import edu.iu.uis.eden.routetemplate.RuleExtensionValue;
 import edu.iu.uis.eden.util.Utilities;
 
 /**
  * KualiOrgReviewAttribute should be used when using Orgs and thier inner details to do routing.
- * 
- * 
+ *
+ *
  */
-public class KualiOrgReviewAttribute implements WorkflowAttribute {
+public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttribute {
 
     static final long serialVersionUID = 1000;
 
@@ -112,7 +115,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, FIN_COA_CD_KEY));
         ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Org.class, Constants.ORGANIZATION_CODE_PROPERTY_NAME, ORG_CD_KEY));
         ruleRows.add(KualiWorkflowUtils.buildTextRow(SourceAccountingLine.class, "overrideCode", OVERRIDE_CD_KEY));
-        
+
         fields = new ArrayList();
         fields.add(new Field("From Amount", "", Field.TEXT, true, FROM_AMOUNT_KEY, "", null, null, FROM_AMOUNT_KEY));
         ruleRows.add(new Row(fields));
@@ -144,7 +147,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         chartFields.add(new Field("", "", Field.QUICKFINDER, false, "", "", null, WorkflowLookupableImpl.getLookupableName(WorkflowLookupableImpl.getLookupableImplName(Chart.class), new StringBuffer(WorkflowLookupableImpl.LOOKUPABLE_IMPL_NAME_PREFIX).append(Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME).append(":").append(FIN_COA_CD_KEY).toString())));
         return new Row(chartFields);
     }
-    
+
     /**
      * This method produces an org row.
      * @return
@@ -157,7 +160,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         orgFields.add(new Field("", "", Field.QUICKFINDER, false, "", "", null, WorkflowLookupableImpl.getLookupableName(WorkflowLookupableImpl.getLookupableImplName(Org.class), new StringBuffer(WorkflowLookupableImpl.LOOKUPABLE_IMPL_NAME_PREFIX).append(Constants.ORGANIZATION_CODE_PROPERTY_NAME).append(":").append(ORG_CD_KEY).toString())));
         return new Row(orgFields);
     }
-    
+
     /**
      * This method produces an overrideCode row.
      * @return
@@ -170,10 +173,10 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         orgFields.add(new Field(kualiOverrideCodeField.getFieldLabel(), KualiWorkflowUtils.getHelpUrl(kualiOverrideCodeField), Field.TEXT, true, OVERRIDE_CD_KEY, kualiOverrideCodeField.getPropertyValue(), kualiOverrideCodeField.getFieldValidValues(), null, OVERRIDE_CD_KEY));
         return new Row(orgFields);
     }
-    
+
     /**
      * constructor that takes the chart, org, which calls the no arg constructor
-     * 
+     *
      * @param finCoaCd
      * @param orgCd
      */
@@ -263,16 +266,48 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
     }
 
     /**
+     * Actual matching logic is handled in filterNonMatchingRules where the List of rules is narrowed down to
+     * those that should fire.
+     *
+     * @see #filterNonMatchingRules(RouteContext, List)
      * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#isMatch(java.lang.String, java.util.List)
      */
     public boolean isMatch(DocumentContent docContent, List ruleExtensions) {
-        this.finCoaCd = LookupUtils.forceUppercase(Org.class, "chartOfAccountsCode", getRuleExtentionValue(FIN_COA_CD_KEY, ruleExtensions));
-        this.orgCd = LookupUtils.forceUppercase(Org.class, "organizationCode", getRuleExtentionValue(ORG_CD_KEY, ruleExtensions));
-        this.fromAmount = getRuleExtentionValue(FROM_AMOUNT_KEY, ruleExtensions);
-        this.toAmount = getRuleExtentionValue(TO_AMOUNT_KEY, ruleExtensions);
-        this.overrideCd = LookupUtils.forceUppercase(SourceAccountingLine.class, "overrideCode", getRuleExtentionValue(OVERRIDE_CD_KEY, ruleExtensions));
-        DocumentType documentType = docContent.getRouteContext().getDocument().getDocumentType();
-        Set chartOrgValues = populateFromDocContent(documentType, docContent, docContent.getRouteContext());
+        return true;
+    }
+
+    /**
+     * Filters the List of Rules by those that will match and then sorts the List with those that have Orgs at the
+     * bottom of the hierarchy first.  This will allow for requests generated by rules at the bottom of the hierarchy
+     * to be activated first.  We've collapsed this method and isMatch into one to allow for optimal sorting (i.e.
+     * we only sort the rules that actually match and don't have to fetch every Org in the hierarchy to sort
+     * the full List of Rules).
+     */
+    public List filterNonMatchingRules(RouteContext routeContext, List rules) {
+        List filteredRules = new ArrayList();
+        DocumentType documentType = routeContext.getDocument().getDocumentType();
+        Set chartOrgValues = populateFromDocContent(documentType, routeContext.getDocumentContent(), routeContext);
+        for (Iterator iterator = rules.iterator(); iterator.hasNext();) {
+            RuleBaseValues rule = (RuleBaseValues) iterator.next();
+            List ruleExtensions = rule.getRuleExtensions();
+            this.finCoaCd = LookupUtils.forceUppercase(Org.class, "chartOfAccountsCode", getRuleExtentionValue(FIN_COA_CD_KEY, ruleExtensions));
+            this.orgCd = LookupUtils.forceUppercase(Org.class, "organizationCode", getRuleExtentionValue(ORG_CD_KEY, ruleExtensions));
+            this.fromAmount = getRuleExtentionValue(FROM_AMOUNT_KEY, ruleExtensions);
+            this.toAmount = getRuleExtentionValue(TO_AMOUNT_KEY, ruleExtensions);
+            this.overrideCd = LookupUtils.forceUppercase(SourceAccountingLine.class, "overrideCode", getRuleExtentionValue(OVERRIDE_CD_KEY, ruleExtensions));
+            if (ruleMatches(rule, chartOrgValues, routeContext)) {
+                filteredRules.add(rule);
+            }
+        }
+        Collections.sort(filteredRules, new ChartOrgRuleComparator(chartOrgValues));
+        return filteredRules;
+    }
+
+    /**
+     * Determines if the given Rule matches the document data by comparing the Org, total dollar amount,
+     * and override code.
+     */
+    protected boolean ruleMatches(RuleBaseValues rule, Set chartOrgValues, RouteContext routeContext) {
         boolean matchesOrg = false;
         for (Iterator iter = chartOrgValues.iterator(); iter.hasNext();) {
             Org org = (Org) iter.next();
@@ -286,7 +321,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
             return false;
         }
 
-        Float documentAmount = getAmount(documentType, docContent);
+        Float documentAmount = getAmount(routeContext.getDocument().getDocumentType(), routeContext.getDocumentContent());
         if (documentAmount != null) {
             Float ruleFromAmount = null;
             Float ruleToAmount = null;
@@ -305,7 +340,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         }
 
         if (this.overrideCd != null) {
-            String docOverrideCd = getOverrideCd(documentType, docContent);
+            String docOverrideCd = getOverrideCd(routeContext.getDocument().getDocumentType(), routeContext.getDocumentContent());
             if (!this.overrideCd.equalsIgnoreCase(docOverrideCd)) {
                 return false;
             }
@@ -315,17 +350,17 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
 
     /**
      * This method is a recursive method that will retrive reports to orgs to build up the hierarchy of organizations
-     * 
+     *
      * @param chartOrgSet
      * @param chartOrg
      */
     private void buildOrgReviewHierarchy(int counter, Set chartOrgSet, Org startOrg) {
         LOG.info("buildOrgReviewHierarchy iteration: " + counter);
         //  this will cause NPEs, so we dont let it through
-        if (startOrg == null) { 
+        if (startOrg == null) {
             throw new IllegalArgumentException("Parameter value for startOrg passed in was null.");
         }
-        
+
         //  we're done if the reportsToOrg is the same as the Org, ie we're at the top of the Org hiearchy
         if (startOrg.getChartOfAccountsCode().equalsIgnoreCase(startOrg.getReportsToChartOfAccountsCode())) {
             if (startOrg.getOrganizationCode().equalsIgnoreCase(startOrg.getReportsToOrganizationCode())) {
@@ -334,8 +369,8 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
         }
         Org reportsToOrg = SpringServiceLocator.getOrganizationService().getByPrimaryIdWithCaching(startOrg.getReportsToChartOfAccountsCode(), startOrg.getReportsToOrganizationCode());
         if (reportsToOrg == null) {
-            throw new RuntimeException("Org " + startOrg.getChartOfAccountsCode() + "-" + startOrg.getOrganizationCode() + 
-                    " has a reportsToOrganization (" + startOrg.getReportsToChartOfAccountsCode() + "-" + startOrg.getReportsToOrganizationCode() + ") " + 
+            throw new RuntimeException("Org " + startOrg.getChartOfAccountsCode() + "-" + startOrg.getOrganizationCode() +
+                    " has a reportsToOrganization (" + startOrg.getReportsToChartOfAccountsCode() + "-" + startOrg.getReportsToOrganizationCode() + ") " +
                     " that does not exist in the system.");
         }
         chartOrgSet.add(reportsToOrg);
@@ -360,7 +395,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
     /**
      * this method will take the document content, and populate a list of OrgReviewAttribute objects that also contain the rollup in
      * terms of organizational hierarchy as well.
-     * 
+     *
      * @param docContent
      * @return a list of OrgReviewAttribute objects that are contained in the doc, or roll up to able by one that is contained in
      *         the document
@@ -552,7 +587,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
 
     /**
      * simple getter for fincoacd
-     * 
+     *
      * @return String
      */
     public String getFinCoaCd() {
@@ -561,7 +596,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
 
     /**
      * simple setter for fincoacd
-     * 
+     *
      * @param finCoaCd
      */
     public void setFinCoaCd(String finCoaCd) {
@@ -570,7 +605,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
 
     /**
      * simple getter for org code
-     * 
+     *
      * @return String
      */
     public String getOrgCd() {
@@ -579,7 +614,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
 
     /**
      * simple setter for org code
-     * 
+     *
      * @param orgCd
      */
     public void setOrgCd(String orgCd) {
@@ -614,6 +649,47 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute {
      */
     public void setRequired(boolean required) {
         this.required = required;
+    }
+
+    /**
+     * Sorts RuleBaseValues by Orgs with the Orgs at the bottom of the hierarchy first.
+     */
+    private class ChartOrgRuleComparator implements Comparator<RuleBaseValues> {
+
+        private Set chartOrgs;
+
+        public ChartOrgRuleComparator(Set chartOrgs) {
+            this.chartOrgs = chartOrgs;
+        }
+
+        public int compare(RuleBaseValues rule1, RuleBaseValues rule2) {
+            String chart1 = rule1.getRuleExtensionValue(FIN_COA_CD_KEY).getValue();
+            String chart2 = rule2.getRuleExtensionValue(FIN_COA_CD_KEY).getValue();
+            String org1 = rule1.getRuleExtensionValue(ORG_CD_KEY).getValue();
+            String org2 = rule2.getRuleExtensionValue(ORG_CD_KEY).getValue();
+            Org docOrg1 = SpringServiceLocator.getOrganizationService().getByPrimaryIdWithCaching(chart1, org1);
+            Org docOrg2 = SpringServiceLocator.getOrganizationService().getByPrimaryIdWithCaching(chart2, org2);
+            int distanceFromRoot1 = getDistanceFromRoot(docOrg1);
+            int distanceFromRoot2 = getDistanceFromRoot(docOrg2);
+            // sort descending
+            return new Integer(distanceFromRoot2).compareTo(new Integer(distanceFromRoot1));
+        }
+
+        private int getDistanceFromRoot(Org org) {
+            if (org.getChartOfAccountsCode().equalsIgnoreCase(org.getReportsToChartOfAccountsCode())) {
+                if (org.getOrganizationCode().equalsIgnoreCase(org.getReportsToOrganizationCode())) {
+                    return 0;
+                }
+            }
+            Org reportsToOrg = SpringServiceLocator.getOrganizationService().getByPrimaryIdWithCaching(org.getReportsToChartOfAccountsCode(), org.getReportsToOrganizationCode());
+            if (reportsToOrg == null) {
+                throw new RuntimeException("Org " + org.getChartOfAccountsCode() + "-" + org.getOrganizationCode() +
+                        " has a reportsToOrganization (" + org.getReportsToChartOfAccountsCode() + "-" + org.getReportsToOrganizationCode() + ") " +
+                        " that does not exist in the system.");
+            }
+            return 1 + getDistanceFromRoot(reportsToOrg);
+        }
+
     }
 
 }

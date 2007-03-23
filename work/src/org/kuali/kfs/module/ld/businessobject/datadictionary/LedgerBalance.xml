@@ -74,6 +74,7 @@
                     <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.FiscalYearFinder</defaultValueFinderClass>
                 </lookupField>
                 <lookupField attributeName="emplid" required="false" />
+                <lookupField attributeName="financialBalanceTypeCode" required="true" />
 			</lookupFields>
 
             <resultFields>
@@ -150,7 +151,11 @@
 
 			<attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber" />
 			<attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode" />
-			<attributeReference name="financialBalanceTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="code" />
+			<attributeReference name="financialBalanceTypeCode" sourceClassName="org.kuali.module.chart.bo.codes.BalanceTyp" sourceAttributeName="code">
+				<control>
+					<hidden />
+				</control>
+			</attributeReference>
 			<attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode" />
 			<attributeReference name="financialObjectTypeCode" sourceClassName="org.kuali.module.chart.bo.ObjectType" sourceAttributeName="code" />
 			<attributeReference name="financialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode" />

@@ -185,9 +185,14 @@
 
 		            <table cellpadding="0" cellspacing="0" class="nobord">
 		              <tr>
-		                <td class="nobord" colspan=2> <div align="left">
+		                <td class="nobord"> <div align="left">
 					    	<c:if test="${!viewOnly}">
 						    	<kul:multipleValueLookup boClassName="org.kuali.module.kra.routingform.bo.Keyword" lookedUpCollectionName="routingFormKeywords" fieldLabel="Keywords" lookedUpBODisplayName="Keyword" anchor="${currentTabIndex}"/>
+		                	</c:if>
+		                </div></td>
+		                <td class="nobord"> <div align="center">
+					    	<c:if test="${!viewOnly && fn:length(KualiForm.document.routingFormKeywords) != 0}">
+						    	<html:image property="methodToCall.deleteAllRoutingFormKeyword.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-deleteall.gif" alt="delete all routing form keywords"/>
 		                	</c:if>
 		                </div></td>
 		              </tr>   
@@ -199,9 +204,9 @@
 				    		<html:hidden write="true" property="document.routingFormKeywords[${status.index}].routingFormKeywordDescription" />
 				    		<html:hidden property="document.routingFormKeywords[${status.index}].versionNumber" />
 		                </div></td>
-		                <td class="nobord"><div align="left">
+		                <td class="nobord"><div align="center">
 		                  <c:if test="${!viewOnly}">
-		                    <html:image property="methodToCall.deleteRoutingFormKeyword.line${status.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-delete1.gif" alt="delete research risk"/>
+		                    <html:image property="methodToCall.deleteRoutingFormKeyword.line${status.index}.anchor${currentTabIndex}" styleClass="tinybutton" src="images/tinybutton-delete1.gif" alt="delete routing form keyword"/>
 		                  </c:if>
 		                </div></td>
 		              </tr>   

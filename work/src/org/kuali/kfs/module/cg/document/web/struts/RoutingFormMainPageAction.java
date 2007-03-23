@@ -128,6 +128,23 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
     }
 
     /**
+     * All keywords are deleted from the routing form list.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deleteAllRoutingFormKeyword(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        RoutingForm routingForm = (RoutingForm) form;
+
+        routingForm.getRoutingFormDocument().getRoutingFormKeywords().clear();
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#route(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override

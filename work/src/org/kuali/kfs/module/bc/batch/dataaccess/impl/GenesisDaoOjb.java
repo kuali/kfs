@@ -2765,11 +2765,10 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                  }
              }
              
-             private java.sql.Date julyFirst;
-             private java.sql.Date augustFirst;
              private String missingRCCode = new String("NO");
              private String missingOrgCode = new String(" ");
              private String[] defaultValue;
+             private String fabricatedPositionTitle = new String("Generated from CSF");
              private HashMap<String,String> orgRCMap;
              private HashMap<String,String[]> acctRCMap;
              
@@ -2778,33 +2777,44 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                  return AccountNumber+ChartCode;
              }
              
-             private void defaultPositionDatesSpoof(Integer RequestYear)
+             private java.sql.Date defaultAugustFirst(Integer dateYear)
              {
                  // this routine assumes a specific SQLDATE_FORMAT in the date service
                  try
                  {
-                 julyFirst = dateTimeService.convertToSqlDate(RequestYear.toString()+
-                                                          "-07-01");
+                 java.sql.Date augustFirst = 
+                         dateTimeService.convertToSqlDate(dateYear.toString()+
+                                                          "-08-01");
+                 return augustFirst;
                  }
                  catch (ParseException ex)
                  {
                      LOG.warn("\nproblem setting July 1 position date with: ("+
-                             RequestYear.toString()+"-07-01)\n"
+                             dateYear.toString()+"-08-01)\ncurrent date was used\n"
                              +ex.getMessage());
-                 }
-                 try
-                 {
-                 augustFirst = dateTimeService.convertToSqlDate(RequestYear.toString()+
-                                                            "-08-01");
-                 }
-                 catch (ParseException ex)
-                 {
-                     LOG.warn("\nproblem setting August 1 position date with: ("+
-                             RequestYear.toString()+"-08-01)\n"
-                             +ex.getMessage());
+                     return dateTimeService.getCurrentSqlDateMidnight();
                  }
              }
              
+             private java.sql.Date defaultJulyFirst(Integer dateYear)
+             {
+                 // this routine assumes a specific SQLDATE_FORMAT in the date service
+                 try
+                 {
+                 java.sql.Date julyFirst = 
+                         dateTimeService.convertToSqlDate(dateYear.toString()+
+                                                          "-07-01");
+                 return julyFirst;
+                 }
+                 catch (ParseException ex)
+                 {
+                     LOG.warn("\nproblem setting July 1 position date with: ("+
+                             dateYear.toString()+"-07-01)\ncurrent date was used\n"
+                             +ex.getMessage());
+                     return dateTimeService.getCurrentSqlDateMidnight();
+                 }
+             }
+ 
              private void fillPositionAttributesSpoof(BudgetConstructionPosition newBCPosition,
                                                       Object[] rowReturned, Integer FiscalYear)
              {
@@ -2813,6 +2823,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                  newBCPosition.setBudgetedPosition(true);
                  newBCPosition.setPositionEffectiveStatus("A");
                  newBCPosition.setPositionStatus("A");
+                 newBCPosition.setPositionDescription(fabricatedPositionTitle);
                  // standard hours will be 40
                  newBCPosition.setPositionStandardHoursDefault(new BigDecimal(40));
                  // set the position type to academic, staff monthly, or staff biweekly
@@ -2822,13 +2833,15 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                  // academic are 10-pay, others 12-pay
                  if (posTypeString.equals("AC"))
                  {
-                   newBCPosition.setPositionEffectiveDate(julyFirst);  
+                   java.sql.Date augustFirst = defaultAugustFirst(FiscalYear);  
+                   newBCPosition.setPositionEffectiveDate(augustFirst);  
                    newBCPosition.setIuNormalWorkMonths(new Integer(10));
                    newBCPosition.setIuPayMonths(new Integer(10));
                  }
                  else
                  {
-                   newBCPosition.setPositionEffectiveDate(augustFirst);  
+                   java.sql.Date julyFirst = defaultJulyFirst(FiscalYear); 
+                   newBCPosition.setPositionEffectiveDate(julyFirst);  
                    newBCPosition.setIuNormalWorkMonths(new Integer(12));
                    newBCPosition.setIuPayMonths(new Integer(12));
                  }
@@ -2855,10 +2868,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
              
              private void initializeStubValues(Integer BaseYear)
              {
-                 Integer RequestYear = BaseYear+1;
-                 defaultPositionDatesSpoof(RequestYear);
                  readAcctRCMap(BaseYear);
-                 readOrgRCMap();
              }
              
              private String positionOrg(String chartCode, String orgCode)
@@ -2869,7 +2879,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
              private String positionTypeSpoof (String objectClass)
              {
                  //24xx is monthly, 25xx bi-weekly, otherwise default to academic
-                 String empTypeID = objectClass.substring(1,2);
+                 String empTypeID = objectClass.substring(0,2);
                  return ((empTypeID.equals("24"))?"SM":
                          ((empTypeID.equals("25"))?"SB":"AC"));
              }
@@ -2903,7 +2913,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                 Criteria criteriaID = new Criteria();
                 // we will estimate the size of the map needed based on the
                 // number of accounts alone, and not on the full key.  if this is
-                // an underestimate, the map can expand
+                // an underestimate, the map can expand on its own
                 //
                 // CSF override is a method for institutions which do not have a CSF
                 // tracker to enter payroll data.  so, we should include it in the count
@@ -2938,6 +2948,9 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
              
              private void readAcctRCMap(Integer BaseYear)
              {
+                 //  we need the set of organizations/RC codes
+                 readOrgRCMap();
+                 //
                  Integer acctCount = readAcctRCMapCount(BaseYear);
                  acctRCMap = new HashMap<String,String[]>(acctCount);
                  defaultValue = new String[] {missingOrgCode, missingRCCode};
@@ -2948,22 +2961,31 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                  // next, read the account table to fill in the org codes and the RC's.
                  // every account key in the hash should have a counterpart in the account
                  // table.  as each of those counterparts comes up as we iterate through
-                 // all teh accounts, we will join to the organization table to get
+                 // all the accounts, we will join to the organization table to get
                  // RC code
-//                 Criteria criteriaID = new Criteria();
-//                 criteriaID.addEqualTo(PropertyConstants.ACCOUNT_CLOSED_INDICATOR,
-//                                       new Boolean(false));
+                 Criteria criteriaID = new Criteria();
+                 criteriaID.addEqualTo(PropertyConstants.ACCOUNT_CLOSED_INDICATOR,
+                                       false);
+                 // we cannot return a business object with a report query
+                 // so, we just return what we need
+                 String [] attrbList = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                                        PropertyConstants.ACCOUNT_NUMBER,
+                                        PropertyConstants.ORGANIZATION_CODE};
+                 Integer chartIndex        = new Integer(0);
+                 Integer accountIndex      = new Integer(1);
+                 Integer organizationIndex = new Integer(2);
                  ReportQueryByCriteria queryID = 
-                     new ReportQueryByCriteria(Account.class, QueryByCriteria.CRITERIA_SELECT_ALL);
+                     new ReportQueryByCriteria(org.kuali.module.chart.bo.Account.class,
+                                               attrbList, criteriaID);
                  Iterator accountsReturned = 
                      getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
                  while (accountsReturned.hasNext())
                  {
-                     Account rowReturned = (Account) accountsReturned.next();
-                     String orgPositionKey = positionOrg(rowReturned.getChartOfAccountsCode(),
-                                                         rowReturned.getOrganizationCode());
-                     String acctKey = acctRCKey(rowReturned.getChartOfAccountsCode(),
-                                                rowReturned.getAccountNumber());
+                     Object[] rowReturned = (Object[]) accountsReturned.next();
+                     String orgPositionKey = positionOrg((String) rowReturned[chartIndex],
+                                                         (String) rowReturned[organizationIndex]);
+                     String acctKey = acctRCKey((String) rowReturned[chartIndex],
+                                                (String) rowReturned[accountIndex]);
                      if ((acctRCMap.containsKey(acctKey)) && 
                          (orgRCMap.containsKey(orgPositionKey)))
                      {
@@ -2974,7 +2996,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                      }
                  }
                  //  at this point, we no longer need the orgRCMap
-                 //  we want to minimize memory
+                 //  we want to minimize memory use
                  orgRCMap.clear();
              }
              

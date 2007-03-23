@@ -48,6 +48,7 @@ import org.kuali.module.labor.rules.TransactionFieldValidator;
 import org.kuali.module.labor.service.LaborOriginEntryService;
 import org.kuali.module.labor.service.LaborPosterService;
 import org.kuali.module.labor.service.LaborReportService;
+import org.kuali.module.labor.util.MessageBuilder;
 import org.kuali.module.labor.util.ReportRegistry;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -210,9 +211,9 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     // determine if the given origin entry can be posted back to Labor GL entry
     private List<Message> isPostableForLaborGLEntry(LaborOriginEntry originEntry) {
         List<Message> errors = new ArrayList<Message>();
-        TransactionFieldValidator.addMessageIntoList(errors, TransactionFieldValidator.checkPostablePeridCode(originEntry, getPeriodCodesNotProcessed()));
-        TransactionFieldValidator.addMessageIntoList(errors, TransactionFieldValidator.checkPostableBalanceTypeCode(originEntry, getBalanceTypesNotProcessed()));
-        TransactionFieldValidator.addMessageIntoList(errors, TransactionFieldValidator.checkZeroTotalAmount(originEntry));
+        MessageBuilder.addMessageIntoList(errors, TransactionFieldValidator.checkPostablePeridCode(originEntry, getPeriodCodesNotProcessed()));
+        MessageBuilder.addMessageIntoList(errors, TransactionFieldValidator.checkPostableBalanceTypeCode(originEntry, getBalanceTypesNotProcessed()));
+        MessageBuilder.addMessageIntoList(errors, TransactionFieldValidator.checkZeroTotalAmount(originEntry));
         return errors;
     }
 

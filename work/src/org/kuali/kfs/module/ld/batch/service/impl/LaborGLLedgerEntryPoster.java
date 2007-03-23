@@ -63,7 +63,6 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
 
         laborGeneralLedgerEntry.setTransactionEncumbranceUpdateCode(this.getEncumbranceUpdateCode(transaction));
         
-        // TODO: not threadsafe
         Integer sequenceNumber = laborGeneralLedgerEntryService.getMaxSequenceNumber(laborGeneralLedgerEntry) + 1;
         laborGeneralLedgerEntry.setTransactionLedgerEntrySequenceNumber(sequenceNumber);
 

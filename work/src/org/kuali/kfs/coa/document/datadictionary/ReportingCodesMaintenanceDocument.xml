@@ -64,7 +64,7 @@
                     <maintainableField name="universalUser.personUserIdentifier" required="true" />
                     <maintainableField name="universalUser.personName" required="false" readOnly="true" />
                     <maintainableField name="financialReportsToReportingCode" required="true" />
-                    <maintainableField name="versionNumber" required="true" />
+                    <maintainableField name="versionNumber" />
 
                 </maintainableItems>
             </maintainableSection>

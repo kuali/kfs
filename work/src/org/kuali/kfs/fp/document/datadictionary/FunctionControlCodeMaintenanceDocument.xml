@@ -52,7 +52,7 @@
                     <maintainableField name="financialSystemFunctionControlCode" required="true" />
                     <maintainableField name="financialSystemFunctionDefaultIndicator" required="false" />
                     <maintainableField name="financialSystemFunctionDescription" required="false" />
-                    <maintainableField name="versionNumber" required="false" />
+                    <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>
         </maintainableSections>

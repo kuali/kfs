@@ -62,7 +62,7 @@
 	            	<maintainableField name="positionBenefitTypeCode" required="true"/>
 	            	<maintainableField name="positionFringeBenefitObjectCode" required="false"/>
 	            	<maintainableField name="positionFringeBenefitPercent" required="false"/>
-	            	<maintainableField name="versionNumber" required="true"/>	            	
+	            	<maintainableField name="versionNumber" />
 	         	</maintainableItems>
 	        </maintainableSection>
 	    </maintainableSections>

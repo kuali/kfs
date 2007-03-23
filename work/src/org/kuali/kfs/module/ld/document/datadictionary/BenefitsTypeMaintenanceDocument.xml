@@ -52,7 +52,7 @@
 	            	<maintainableField name="positionBenefitTypeCode" required="true" />
 	            	<maintainableField name="positionBenefitTypeDescription" required="false" />
 	            	<maintainableField name="positionBenefitRetirementIndicator" required="false"/>
-	            	<maintainableField name="versionNumber" required="true"/>	            	
+	            	<maintainableField name="versionNumber" />
 	         	</maintainableItems>
 	        </maintainableSection>
 	    </maintainableSections>

@@ -63,7 +63,7 @@
 	            	<maintainableField name="chartOfAccountsCode" required="true" />
 	            	<maintainableField name="financialObjectCode" required="true"/>
 	            	<maintainableField name="financialObjectBenefitsTypeCode" required="true"/>
-	            	<maintainableField name="versionNumber" required="false"/>
+	            	<maintainableField name="versionNumber" />
 	         	</maintainableItems>
 	        </maintainableSection>
 	    </maintainableSections>

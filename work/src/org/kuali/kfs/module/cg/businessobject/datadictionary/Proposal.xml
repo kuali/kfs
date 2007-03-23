@@ -471,20 +471,11 @@
             <relationship objectAttributeName="proposalOrganizations" >
                 <primitiveAttribute sourceName="proposalOrganizations.organizationCode" targetName="organizationCode" />
             </relationship>
-            <relationship objectAttributeName="proposalOrganizations.organization" >
-                <primitiveAttribute sourceName="proposalOrganizations.organization.organizationCode" targetName="organizationCode" />
-            </relationship>
             <relationship objectAttributeName="proposalSubcontractors" >
                 <primitiveAttribute sourceName="proposalSubcontractors.subcontractorNumber" targetName="subcontractorNumber" />
             </relationship>
-            <relationship objectAttributeName="proposalSubcontractors.subcontractor" >
-                <primitiveAttribute sourceName="proposalSubcontractors.subcontractor.subcontractorNumber" targetName="subcontractorNumber" />
-            </relationship>
             <relationship objectAttributeName="proposalProjectDirectors" >
                 <primitiveAttribute sourceName="proposalProjectDirectors.personUniversalIdentifier" targetName="personUniversalIdentifier" />
-            </relationship>
-            <relationship objectAttributeName="proposalProjectDirectors.projectDirector" >
-                <primitiveAttribute sourceName="proposalProjectDirectors.projectDirector.personUniversalIdentifier" targetName="personUniversalIdentifier" />
             </relationship>
         </relationships>
         

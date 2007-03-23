@@ -56,9 +56,9 @@ public class LaborLedgerBalanceDaoOjb extends PersistenceBrokerDaoSupport implem
 
         Criteria c = new Criteria();
         c.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
-        c.addIn(PropertyConstants.BALANCE_TYPE_CODE, balanceTypeCodes);
+        c.addIn(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, balanceTypeCodes);
 
-        String[] attributes = new String[] { "account.subFundGroup.fundGroupCode", "sum(accountLineAnnualBalanceAmount)", "sum(beginningBalanceLineAmount)", "sum(contractsGrantsBeginningBalanceAmount)", "sum(month1Amount)", "sum(month2Amount)", "sum(month3Amount)", "sum(month4Amount)", "sum(month5Amount)", "sum(month6Amount)", "sum(month7Amount)", "sum(month8Amount)", "sum(month9Amount)", "sum(month10Amount)", "sum(month11Amount)", "sum(month12Amount)", "sum(month13Amount)" };
+        String[] attributes = new String[] { "account.subFundGroup.fundGroupCode", "sum(accountLineAnnualBalanceAmount)", "sum(financialBeginningBalanceLineAmount)", "sum(contractsGrantsBeginningBalanceAmount)", "sum(month1AccountLineAmount)", "sum(month2AccountLineAmount)", "sum(month3AccountLineAmount)", "sum(month4AccountLineAmount)", "sum(month5AccountLineAmount)", "sum(month6AccountLineAmount)", "sum(month7AccountLineAmount)", "sum(month8AccountLineAmount)", "sum(month9AccountLineAmount)", "sum(month10AccountLineAmount)", "sum(month11AccountLineAmount)", "sum(month12AccountLineAmount)", "sum(month13AccountLineAmount)" };
 
         String[] groupby = new String[] { "account.subFundGroup.fundGroupCode" };
 
@@ -86,10 +86,10 @@ public class LaborLedgerBalanceDaoOjb extends PersistenceBrokerDaoSupport implem
         query.addOrderByAscending(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
         query.addOrderByAscending(PropertyConstants.ACCOUNT_NUMBER);
         query.addOrderByAscending(PropertyConstants.SUB_ACCOUNT_NUMBER);
-        query.addOrderByAscending(PropertyConstants.OBJECT_CODE);
-        query.addOrderByAscending(PropertyConstants.SUB_OBJECT_CODE);
-        query.addOrderByAscending(PropertyConstants.BALANCE_TYPE_CODE);
-        query.addOrderByAscending(PropertyConstants.OBJECT_TYPE_CODE);
+        query.addOrderByAscending(PropertyConstants.FINANCIAL_OBJECT_CODE);
+        query.addOrderByAscending(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        query.addOrderByAscending(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
+        query.addOrderByAscending(PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
 
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
     }
@@ -118,10 +118,10 @@ public class LaborLedgerBalanceDaoOjb extends PersistenceBrokerDaoSupport implem
         crit.addEqualTo(PropertyConstants.CHART_OF_ACCOUNTS_CODE, t.getChartOfAccountsCode());
         crit.addEqualTo(PropertyConstants.ACCOUNT_NUMBER, t.getAccountNumber());
         crit.addEqualTo(PropertyConstants.SUB_ACCOUNT_NUMBER, t.getSubAccountNumber());
-        crit.addEqualTo(PropertyConstants.OBJECT_CODE, t.getFinancialObjectCode());
-        crit.addEqualTo(PropertyConstants.SUB_OBJECT_CODE, t.getFinancialSubObjectCode());
-        crit.addEqualTo(PropertyConstants.BALANCE_TYPE_CODE, t.getFinancialBalanceTypeCode());
-        crit.addEqualTo(PropertyConstants.OBJECT_TYPE_CODE, t.getFinancialObjectTypeCode());
+        crit.addEqualTo(PropertyConstants.FINANCIAL_OBJECT_CODE, t.getFinancialObjectCode());
+        crit.addEqualTo(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE, t.getFinancialSubObjectCode());
+        crit.addEqualTo(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, t.getFinancialBalanceTypeCode());
+        crit.addEqualTo(PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, t.getFinancialObjectTypeCode());
 
         QueryByCriteria qbc = QueryFactory.newQuery(LedgerBalance.class, crit);
         return (LedgerBalance) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
@@ -259,15 +259,15 @@ public class LaborLedgerBalanceDaoOjb extends PersistenceBrokerDaoSupport implem
 
     private ReportQueryByCriteria getCashBalanceCountQuery(Map fieldValues) {
         Criteria criteria = buildCriteriaFromMap(fieldValues, new LedgerBalance());
-        criteria.addEqualTo(PropertyConstants.BALANCE_TYPE_CODE, Constants.BALANCE_TYPE_ACTUAL);
-        criteria.addEqualToField("chart.financialCashObjectCode", PropertyConstants.OBJECT_CODE);
+        criteria.addEqualTo(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, Constants.BALANCE_TYPE_ACTUAL);
+        criteria.addEqualToField("chart.financialCashObjectCode", PropertyConstants.FINANCIAL_OBJECT_CODE);
 
         ReportQueryByCriteria query = QueryFactory.newReportQuery(LedgerBalance.class, criteria);
 
         List groupByList = buildGroupByList();
         groupByList.remove(PropertyConstants.SUB_ACCOUNT_NUMBER);
-        groupByList.remove(PropertyConstants.SUB_OBJECT_CODE);
-        groupByList.remove(PropertyConstants.OBJECT_TYPE_CODE);
+        groupByList.remove(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        groupByList.remove(PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
 
         // add the group criteria into the selection statement
         String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
@@ -282,8 +282,8 @@ public class LaborLedgerBalanceDaoOjb extends PersistenceBrokerDaoSupport implem
     // build the query for cash balance search
     private Query getCashBalanceQuery(Map fieldValues, boolean isConsolidated) {
         Criteria criteria = buildCriteriaFromMap(fieldValues, new LedgerBalance());
-        criteria.addEqualTo(PropertyConstants.BALANCE_TYPE_CODE, Constants.BALANCE_TYPE_ACTUAL);
-        criteria.addEqualToField("chart.financialCashObjectCode", PropertyConstants.OBJECT_CODE);
+        criteria.addEqualTo(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, Constants.BALANCE_TYPE_ACTUAL);
+        criteria.addEqualToField("chart.financialCashObjectCode", PropertyConstants.FINANCIAL_OBJECT_CODE);
 
         ReportQueryByCriteria query = QueryFactory.newReportQuery(LedgerBalance.class, criteria);
         List attributeList = buildAttributeList(false);
@@ -293,10 +293,10 @@ public class LaborLedgerBalanceDaoOjb extends PersistenceBrokerDaoSupport implem
         if (isConsolidated) {
             attributeList.remove(PropertyConstants.SUB_ACCOUNT_NUMBER);
             groupByList.remove(PropertyConstants.SUB_ACCOUNT_NUMBER);
-            attributeList.remove(PropertyConstants.SUB_OBJECT_CODE);
-            groupByList.remove(PropertyConstants.SUB_OBJECT_CODE);
-            attributeList.remove(PropertyConstants.OBJECT_TYPE_CODE);
-            groupByList.remove(PropertyConstants.OBJECT_TYPE_CODE);
+            attributeList.remove(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+            groupByList.remove(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+            attributeList.remove(PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
+            groupByList.remove(PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
         }
 
         // add the group criteria into the selection statement
@@ -325,10 +325,10 @@ public class LaborLedgerBalanceDaoOjb extends PersistenceBrokerDaoSupport implem
             // ignore subaccount number, sub object code and object type code
             attributeList.remove(PropertyConstants.SUB_ACCOUNT_NUMBER);
             groupByList.remove(PropertyConstants.SUB_ACCOUNT_NUMBER);
-            attributeList.remove(PropertyConstants.SUB_OBJECT_CODE);
-            groupByList.remove(PropertyConstants.SUB_OBJECT_CODE);
-            attributeList.remove(PropertyConstants.OBJECT_TYPE_CODE);
-            groupByList.remove(PropertyConstants.OBJECT_TYPE_CODE);
+            attributeList.remove(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+            groupByList.remove(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+            attributeList.remove(PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
+            groupByList.remove(PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
 
             // set the selection attributes
             String[] attributes = (String[]) attributeList.toArray(new String[attributeList.size()]);
@@ -352,8 +352,8 @@ public class LaborLedgerBalanceDaoOjb extends PersistenceBrokerDaoSupport implem
 
         List groupByList = buildGroupByList();
         groupByList.remove(PropertyConstants.SUB_ACCOUNT_NUMBER);
-        groupByList.remove(PropertyConstants.SUB_OBJECT_CODE);
-        groupByList.remove(PropertyConstants.OBJECT_TYPE_CODE);
+        groupByList.remove(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        groupByList.remove(PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
 
         // add the group criteria into the selection statement
         String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
@@ -375,12 +375,12 @@ public class LaborLedgerBalanceDaoOjb extends PersistenceBrokerDaoSupport implem
         Criteria criteria = new Criteria();
 
         // handle encumbrance balance type
-        String propertyName = PropertyConstants.BALANCE_TYPE_CODE;
+        String propertyName = PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE;
         if (localFieldValues.containsKey(propertyName)) {
             String propertyValue = (String) localFieldValues.get(propertyName);
             if (Constants.AGGREGATE_ENCUMBRANCE_BALANCE_TYPE_CODE.equals(propertyValue)) {
-                localFieldValues.remove(PropertyConstants.BALANCE_TYPE_CODE);
-                criteria.addIn(PropertyConstants.BALANCE_TYPE_CODE, this.getEncumbranceBalanceTypeCodeList());
+                localFieldValues.remove(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
+                criteria.addIn(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, this.getEncumbranceBalanceTypeCodeList());
             }
         }
 
@@ -403,24 +403,24 @@ public class LaborLedgerBalanceDaoOjb extends PersistenceBrokerDaoSupport implem
         List attributeList = this.buildGroupByList();
 
         attributeList.add("sum(accountLineAnnualBalanceAmount)");
-        attributeList.add("sum(beginningBalanceLineAmount)");
+        attributeList.add("sum(financialBeginningBalanceLineAmount)");
         attributeList.add("sum(contractsGrantsBeginningBalanceAmount)");
 
         // add the entended elements into the list
         if (isExtended) {
-            attributeList.add("sum(month1Amount)");
-            attributeList.add("sum(month2Amount)");
-            attributeList.add("sum(month3Amount)");
-            attributeList.add("sum(month4Amount)");
-            attributeList.add("sum(month5Amount)");
-            attributeList.add("sum(month6Amount)");
-            attributeList.add("sum(month7Amount)");
-            attributeList.add("sum(month8Amount)");
-            attributeList.add("sum(month9Amount)");
-            attributeList.add("sum(month10Amount)");
-            attributeList.add("sum(month11Amount)");
-            attributeList.add("sum(month12Amount)");
-            attributeList.add("sum(month13Amount)");
+            attributeList.add("sum(month1AccountLineAmount)");
+            attributeList.add("sum(month2AccountLineAmount)");
+            attributeList.add("sum(month3AccountLineAmount)");
+            attributeList.add("sum(month4AccountLineAmount)");
+            attributeList.add("sum(month5AccountLineAmount)");
+            attributeList.add("sum(month6AccountLineAmount)");
+            attributeList.add("sum(month7AccountLineAmount)");
+            attributeList.add("sum(month8AccountLineAmount)");
+            attributeList.add("sum(month9AccountLineAmount)");
+            attributeList.add("sum(month10AccountLineAmount)");
+            attributeList.add("sum(month11AccountLineAmount)");
+            attributeList.add("sum(month12AccountLineAmount)");
+            attributeList.add("sum(month13AccountLineAmount)");
         }
         return attributeList;
     }
@@ -437,10 +437,10 @@ public class LaborLedgerBalanceDaoOjb extends PersistenceBrokerDaoSupport implem
         attributeList.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
         attributeList.add(PropertyConstants.ACCOUNT_NUMBER);
         attributeList.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
-        attributeList.add(PropertyConstants.BALANCE_TYPE_CODE);
-        attributeList.add(PropertyConstants.OBJECT_CODE);
-        attributeList.add(PropertyConstants.SUB_OBJECT_CODE);
-        attributeList.add(PropertyConstants.OBJECT_TYPE_CODE);
+        attributeList.add(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
+        attributeList.add(PropertyConstants.FINANCIAL_OBJECT_CODE);
+        attributeList.add(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        attributeList.add(PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
 
         return attributeList;
     }
@@ -469,8 +469,8 @@ public class LaborLedgerBalanceDaoOjb extends PersistenceBrokerDaoSupport implem
         crit.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
         crit.addEqualTo(PropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
         crit.addEqualTo(PropertyConstants.ACCOUNT_NUMBER, accountNumber);
-        crit.addEqualTo(PropertyConstants.OBJECT_CODE, objectCode);
-        crit.addEqualTo(PropertyConstants.BALANCE_TYPE_CODE, Constants.BALANCE_TYPE_CURRENT_BUDGET);
+        crit.addEqualTo(PropertyConstants.FINANCIAL_OBJECT_CODE, objectCode);
+        crit.addEqualTo(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, Constants.BALANCE_TYPE_CURRENT_BUDGET);
 
         QueryByCriteria qbc = QueryFactory.newQuery(LedgerBalance.class, crit);
         return (LedgerBalance) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
@@ -508,7 +508,7 @@ public class LaborLedgerBalanceDaoOjb extends PersistenceBrokerDaoSupport implem
 
         QueryByCriteria qbc = QueryFactory.newQuery(LedgerBalance.class, crit);
         if (Constants.SF_TYPE_OBJECT.equals(sfCode)) {
-            qbc.addOrderByAscending(PropertyConstants.OBJECT_CODE);
+            qbc.addOrderByAscending(PropertyConstants.FINANCIAL_OBJECT_CODE);
         }
         else if (Constants.SF_TYPE_LEVEL.equals(sfCode)) {
             qbc.addOrderByAscending(GLConstants.BalanceInquiryDrillDowns.OBJECT_LEVEL_CODE);

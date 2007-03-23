@@ -132,16 +132,16 @@
 				  <fmt:formatNumber value="${item.percentChange}" type="number" groupingUsed="true" minFractionDigits="2" />&nbsp;
                   <bc:pbglLineDataCellDetail/>
               </span></div></td>
-			  <td><div align=center>
+			  <td class="datacell" nowrap><div align=center>
+                <bc:pbglLineDataCellDetail/>
 				<c:choose>
 					<c:when test="${empty item.budgetConstructionMonthly}" > 
-						<html:image src="images/tinybutton-createnew.gif" styleClass="tinybutton" property="methodToCall.performMonthlyBudget.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" title="Create Month" alt="Create Month"/>
+						<html:image src="images/tinybutton-createnew.gif" styleClass="tinybutton" property="methodToCall.performMonthlyExpenditureBudget.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" title="Create Month" alt="Create Month"/>
 					</c:when> 
 					<c:otherwise> 
-						<html:image src="images/tinybutton-edit1.gif" styleClass="tinybutton" property="methodToCall.performMonthlyBudget.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" title="Edit Month" alt="Edit Month"/>
+						<html:image src="images/tinybutton-edit1.gif" styleClass="tinybutton" property="methodToCall.performMonthlyExpenditureBudget.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" title="Edit Month" alt="Edit Month"/>
 					</c:otherwise> 
 				</c:choose> 
-                <bc:pbglLineDataCellDetail/>
 
 <%--
 	                   methodToCall.headerTab.headerDispatch.savePersonnel.navigateTo.parameters.x
@@ -151,14 +151,16 @@
             </tr>
 			</c:forEach>
 			<tr>
-				<th align=right colspan=3>
-					Expenditure Totals
-				</th>
-				<td>0</td>
-				<td>0</td>
-				<td></td>
-				<td></td>
-				<td></td>
+				<kul:htmlAttributeHeaderCell literalLabel="Expenditure Totals" colspan="3" horizontal="true" />
+                <td class="datacell" nowrap><div align="right"><span>
+				    0
+                </span></div></td>
+                <td class="datacell" nowrap><div align="right"><span>
+				    0
+                </span></div></td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
 			</tr>
 		</table>
 </div>

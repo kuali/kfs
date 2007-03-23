@@ -194,7 +194,15 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    public ActionForward performMonthlyBudget(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward performMonthlyRevenueBudget(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return performMonthlyBudget(true, mapping, form, request, response);
+    }
+
+    public ActionForward performMonthlyExpenditureBudget(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return performMonthlyBudget(false, mapping, form, request, response);
+    }
+
+    public ActionForward performMonthlyBudget(boolean isRevenue, ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         final String docNumber;
         
         // TODO do validate, save, etc first then goto the monthly screen or redisplay if errors
@@ -205,7 +213,12 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         // TODO for now just save
         documentService.updateDocument(bcDocument);
         
-        PendingBudgetConstructionGeneralLedger pbglLine = bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(this.getSelectedLine(request));
+        PendingBudgetConstructionGeneralLedger pbglLine;
+        if (isRevenue){
+            pbglLine = bcDocument.getPendingBudgetConstructionGeneralLedgerRevenueLines().get(this.getSelectedLine(request));
+        } else {
+            pbglLine = bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(this.getSelectedLine(request));
+        }
 
 
         String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();

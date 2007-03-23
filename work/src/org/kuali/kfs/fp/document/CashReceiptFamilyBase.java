@@ -33,6 +33,7 @@ import org.kuali.module.financial.rules.CashReceiptFamilyRule;
  * Abstract class which defines behavior common to CashReceipt-like documents.
  */
 abstract public class CashReceiptFamilyBase extends AccountingDocumentBase {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashReceiptFamilyBase.class);
     private String campusLocationCode; // TODO Needs to be an actual object - also need to clarify this
     private Timestamp depositDate;
 
@@ -106,18 +107,25 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase {
         Iterator iter = sourceAccountingLines.iterator();
         while (iter.hasNext()) {
             al = (AccountingLineBase) iter.next();
-
-            KualiDecimal amount = al.getAmount().abs();
-            if (amount != null && amount.isNonZero()) {
-                if (crFamilyRule.isDebit(this, al)) {
-                    total = total.subtract(amount);
+            try {
+                KualiDecimal amount = al.getAmount().abs();
+                if (amount != null && amount.isNonZero()) {
+                    if (crFamilyRule.isDebit(this, al)) {
+                        total = total.subtract(amount);
+                    }
+                    else if (crFamilyRule.isCredit(al, this)) {
+                        total = total.add(amount);
+                    }
+                    else {
+                        LOG.error("could not determine credit/debit for accounting line");
+                        return KualiDecimal.ZERO;
+                    }
                 }
-                else if (crFamilyRule.isCredit(al, this)) {
-                    total = total.add(amount);
-                }
-                else {
-                    throw new IllegalStateException("could not determine credit/debit for accounting line");
-                }
+            }
+            catch (Exception e) {
+                // Possibly caused by accounting lines w/ bad data
+                LOG.error("Error occured trying to compute Cash receipt total, returning 0", e);
+                return KualiDecimal.ZERO;
             }
         }
         return total;

@@ -21,13 +21,11 @@ import java.util.Map;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.PropertyConstants;
 import org.kuali.core.lookup.LookupUtils;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
-import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.util.OJBUtility;
+import org.kuali.module.labor.bo.BalanceByGeneralLedgerKey;
+import org.kuali.module.labor.bo.BalanceGlobalCalculatedSalaryFoundation;
 import org.kuali.module.labor.dao.LaborDao;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
@@ -42,6 +40,24 @@ public class LaborDaoOjb extends PersistenceBrokerDaoSupport implements LaborDao
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new CalculatedSalaryFoundationTracker()));
         LookupUtils.applySearchResultsLimit(criteria);
         QueryByCriteria query = QueryFactory.newQuery(CalculatedSalaryFoundationTracker.class, criteria);
+        return getPersistenceBrokerTemplate().getCollectionByQuery(query);
+    }
+    
+    public Collection getCurrentYearFunds(Map fieldValues) {
+        
+        Criteria criteria = new Criteria();        
+        criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new BalanceByGeneralLedgerKey()));
+        LookupUtils.applySearchResultsLimit(criteria);
+        QueryByCriteria query = QueryFactory.newQuery(BalanceByGeneralLedgerKey.class, criteria);
+        return getPersistenceBrokerTemplate().getCollectionByQuery(query);
+    }
+    
+ public Collection getBaseFunds(Map fieldValues) {
+        
+        Criteria criteria = new Criteria();        
+        criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new BalanceGlobalCalculatedSalaryFoundation()));
+        LookupUtils.applySearchResultsLimit(criteria);
+        QueryByCriteria query = QueryFactory.newQuery(BalanceGlobalCalculatedSalaryFoundation.class, criteria);
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 }

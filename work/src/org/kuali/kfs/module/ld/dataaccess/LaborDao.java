@@ -25,5 +25,8 @@ import java.util.Map;
 public interface LaborDao {
  
     Collection getCSFTrackerData(Map fieldValues);
-
+    
+    Collection getCurrentYearFunds(Map fieldValues);
+    
+    Collection getBaseFunds(Map fieldValues);
 }

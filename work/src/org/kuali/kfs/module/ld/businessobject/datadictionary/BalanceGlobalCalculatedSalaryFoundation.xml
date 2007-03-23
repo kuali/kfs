@@ -39,7 +39,8 @@
         </inquiry>
 
         <lookup>
-            <title>Balance Global Calculated Salary Foundation Lookup</title>
+       		<lookupableID>BaseFundsLookupable</lookupableID>
+            <title>Account Status (Base Funds)</title>
 
             <instructions>Look up a Balance Global Calculated Salary Foundation</instructions>
 

@@ -342,6 +342,54 @@
 		</property>
 	</bean>    	
 
+<bean id="CurrentYearFundsLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="CurrentYearFundsLookupableHelperService" />
+		</property>
+	</bean>
+	
+	<bean id="CurrentYearFundsLookupableHelperService" class="org.kuali.module.labor.web.lookupable.CurrentYearFundsLookupableHelperServiceImpl" singleton="false">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="lookupService" />
+		</property>
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+	</bean>    	
+	
+	<bean id="BaseFundsLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="BaseFundsLookupableHelperService" />
+		</property>
+	</bean>
+	
+	<bean id="BaseFundsLookupableHelperService" class="org.kuali.module.labor.web.lookupable.BaseFundsLookupableHelperServiceImpl" singleton="false">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="lookupService" />
+		</property>
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+	</bean>    	
+	
 	<bean id="laborDao" class="org.kuali.module.labor.dao.ojb.LaborDaoOjb">
 		<property name="jcdAlias">
 			<value>dataSource</value>

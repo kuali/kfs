@@ -19,8 +19,10 @@ package org.kuali.module.budget.bo;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
@@ -534,5 +536,25 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
         return m;
     }
 
+    /**
+     * Returns a map with the primitive field names as the key and the primitive values as the map value.
+     * 
+     * @return Map
+     */
+    public Map getValuesMap() {
+        Map simpleValues = new HashMap();
+
+        simpleValues.put(PropertyConstants.DOCUMENT_NUMBER, getDocumentNumber());
+        simpleValues.put("universityFiscalYear", getUniversityFiscalYear());
+        simpleValues.put("chartOfAccountsCode", getChartOfAccountsCode());
+        simpleValues.put("accountNumber", getAccountNumber());
+        simpleValues.put("subAccountNumber", getSubAccountNumber());
+        simpleValues.put("financialObjectCode", getFinancialObjectCode());
+        simpleValues.put("financialSubObjectCode", getFinancialSubObjectCode());
+        simpleValues.put("financialBalanceTypeCode", getFinancialBalanceTypeCode());
+        simpleValues.put("financialObjectTypeCode", getFinancialObjectTypeCode());
+
+        return simpleValues;
+    }
   
 }

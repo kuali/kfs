@@ -510,6 +510,20 @@
             </collection>
             <!-- todo: awardDiaries? -->
         </collections>
-        
+
+        <relationships>
+            <relationship objectAttributeName="awardSubcontractors" >
+                <primitiveAttribute sourceName="awardSubcontractors.subcontractorNumber" targetName="subcontractorNumber" />
+            </relationship>
+            <relationship objectAttributeName="awardProjectDirectors" >
+                <primitiveAttribute sourceName="awardProjectDirectors.personUniversalIdentifier" targetName="personUniversalIdentifier" />
+            </relationship>
+            <relationship objectAttributeName="awardOrganizations" >
+                <primitiveAttribute sourceName="awardOrganizations.organizationCode" targetName="organizationCode" />
+            </relationship>
+            <relationship objectAttributeName="awardAccounts" >
+                <primitiveAttribute sourceName="awardAccounts.accountNumber" targetName="accountNumber" />
+            </relationship>
+        </relationships>
     </businessObject>
 </dictionaryEntry>

@@ -78,6 +78,11 @@
 <%@ attribute name="accountingLineAttributes" required="false" type="java.util.Map"
               description="A parameter to specify an data dictionary entry for a sub-classed accounting line." %> 
 
+<%@ attribute name="inherit" required="false" type="java.lang.Boolean"
+              description="Should the default Financial Transactions Accounting Line tags be used?" %>
+<%@ attribute name="groupsOverride" required="false" fragment="true"
+              description="Fragment of code to override the default accountingline groups" %>
+
 <c:if test="${!accountingLineScriptsLoaded}">
 	<script type='text/javascript' src="dwr/interface/ChartService.js"></script>
 	<script type='text/javascript' src="dwr/interface/AccountService.js"></script>
@@ -109,9 +114,12 @@
                                         + (debitCreditAmount || currentBaseAmount ? 2 : 1)
                                         + (empty editingMode['viewOnly'] ? 1 : 0)}" />
 
+<%@ include file="/WEB-INF/tags/fin/accountingLinesVariablesOverride.tag" %>
+
 <kul:tab tabTitle="Accounting Lines" defaultOpen="true"
          tabErrorKey="${Constants.ACCOUNTING_LINE_ERRORS}">
-  <div class="tab-container" align=center>
+  <div class="tab-container" align="center">
+  <c:if test="${empty inherit || inherit == true}">
     <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
       <fin:subheadingWithDetailToggleRow
           columnCount="${columnCount}"
@@ -155,6 +163,10 @@
             />
       </c:if>
     </table>
+  </c:if>
+  <c:if test="${!empty groupsOverride}">
+      <jsp:invoke fragment="groupsOverride"/>
+  </c:if>
   </div>
   <SCRIPT type="text/javascript">
     var kualiForm = document.forms['KualiForm'];

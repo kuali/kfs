@@ -26,7 +26,7 @@ import org.kuali.module.kra.routingform.bo.RoutingFormOrganization;
 /**
  * 
  */
-public class ProposalOrganization extends PersistableBusinessObjectBase {
+public class ProposalOrganization extends PersistableBusinessObjectBase implements Primaryable {
 
     private String chartOfAccountsCode;
     private String organizationCode;
@@ -123,6 +123,13 @@ public class ProposalOrganization extends PersistableBusinessObjectBase {
      */
     public boolean isProposalPrimaryOrganizationIndicator() {
         return proposalPrimaryOrganizationIndicator;
+    }
+
+    /**
+     * @see Primaryable#isPrimary()
+     */
+    public boolean isPrimary() {
+        return isProposalPrimaryOrganizationIndicator();
     }
 
     /**

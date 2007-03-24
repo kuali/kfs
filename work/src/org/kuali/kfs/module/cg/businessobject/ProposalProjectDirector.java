@@ -24,7 +24,7 @@ import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
 /**
  * 
  */
-public class ProposalProjectDirector extends PersistableBusinessObjectBase {
+public class ProposalProjectDirector extends PersistableBusinessObjectBase implements Primaryable {
 
     private String personUniversalIdentifier;
     private Long proposalNumber;
@@ -106,6 +106,12 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase {
         return proposalPrimaryProjectDirectorIndicator;
     }
 
+    /**
+     * @see Primaryable#isPrimary()
+     */
+    public boolean isPrimary() {
+        return isProposalPrimaryProjectDirectorIndicator();
+    }
 
     /**
      * Sets the proposalPrimaryProjectDirectorIndicator attribute.

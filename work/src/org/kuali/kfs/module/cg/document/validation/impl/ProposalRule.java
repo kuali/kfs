@@ -16,66 +16,74 @@
 package org.kuali.module.cg.rules;
 
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.BusinessObject;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Proposal;
 import org.kuali.module.cg.bo.ProposalOrganization;
+import org.kuali.module.cg.bo.Primaryable;
+import org.kuali.module.cg.bo.ProposalProjectDirector;
 import org.kuali.PropertyConstants;
 import org.kuali.KeyConstants;
+import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
  * Rules for the Proposal maintenance document.
  */
 public class ProposalRule extends MaintenanceDocumentRuleBase {
 
-    // private Proposal oldProposal;
-    private Proposal newProposal;
+    // private Proposal oldProposalCopy;
+    private Proposal newProposalCopy;
 
     @Override
-    protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
-        processCustomRouteDocumentBusinessRules(document);
+    protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument documentCopy) {
+        processCustomRouteDocumentBusinessRules(documentCopy); // chain call but ignore success
         return true; // save despite error messages
     }
 
     @Override
-    protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        setupConvenienceObjects();
+    protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument documentCopy) {
         boolean success = true;
-        success &= checkOrgs();
+        success &= checkPrimary(newProposalCopy.getProposalOrganizations(), ProposalOrganization.class, PropertyConstants.PROPOSAL_ORGANIZATIONS, Proposal.class);
+        success &= checkPrimary(newProposalCopy.getProposalProjectDirectors(), ProposalProjectDirector.class, PropertyConstants.PROPOSAL_PROJECT_DIRECTORS, Proposal.class);
         return success;
     }
 
-    private boolean checkOrgs() {
+    private <E extends Primaryable> boolean checkPrimary(Collection<E> primaryables, Class<E> elementClass, String collectionName, Class<? extends BusinessObject> boClass) {
         boolean success = true;
-        boolean foundPrimary = false;
-        int n = 0;
-        for (ProposalOrganization po : newProposal.getProposalOrganizations()) {
-            String propertyName = PropertyConstants.PROPOSAL_ORGANIZATIONS + "[" + (n++) + "]." + PropertyConstants.ORGANIZATION_CODE;
-            if (po.isProposalPrimaryOrganizationIndicator()) {
-                if (foundPrimary) {
-                    putFieldError(PropertyConstants.PROPOSAL_ORGANIZATIONS, KeyConstants.ERROR_MULTIPLE_PRIMARY_ORGS);
-                    success = false;
-                }
-                foundPrimary = true;
+        int count = 0;
+        for (Primaryable p : primaryables) {
+            if (p.isPrimary()) {
+                count++;
             }
         }
-        if (!foundPrimary) {
-            putFieldError(PropertyConstants.PROPOSAL_ORGANIZATIONS, KeyConstants.ERROR_NO_PRIMARY_ORG);
+        if (count != 1) {
             success = false;
+            String elementLabel = SpringServiceLocator.getDataDictionaryService().getCollectionElementLabel(boClass.getName(), collectionName, elementClass);
+            switch(count) {
+                case 0:
+                    putFieldError(collectionName, KeyConstants.ERROR_NO_PRIMARY, elementLabel);
+                    break;
+                default:
+                    putFieldError(collectionName, KeyConstants.ERROR_MULTIPLE_PRIMARY, elementLabel);
+            }
         }
         return success;
     }
 
+    /**
+     * Performs convenience cast for Maintenance framework.
+     * Note that the MaintenanceDocumentRule events provide only a deep copy of the document (from KualiDocumentEventBase),
+     * so these BOs are a copy too.  The framework does this to prevent these rules from changing any data.
+     *
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRule#setupConvenienceObjects()
+     */
+    @Override
     public void setupConvenienceObjects() {
-        // oldProposal = (Proposal) super.getOldBo();
-        newProposal = (Proposal) super.getNewBo();
+        // oldProposalCopy = (Proposal) super.getOldBo();
+        newProposalCopy = (Proposal) super.getNewBo();
     }
 
     // todo: change the super method to accept var args

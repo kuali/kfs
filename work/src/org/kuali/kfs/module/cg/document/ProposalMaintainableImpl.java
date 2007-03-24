@@ -28,8 +28,10 @@ import org.kuali.core.util.AssertionUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Proposal;
 import org.kuali.module.cg.bo.ProposalResearchRisk;
+import org.kuali.module.cg.bo.ProposalProjectDirector;
 import org.kuali.module.cg.lookup.valuefinder.NextProposalNumberFinder;
 import org.kuali.module.kra.routingform.bo.ResearchRiskType;
+import org.kuali.PropertyConstants;
 
 /**
  * Methods for the Proposal maintenance document UI.
@@ -66,11 +68,19 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
 
     /**
      * This method is called for refreshing the Agency before a save to display the full name in case the agency number was changed
-     * by hand just before the save.
+     * by hand just before the save.  Also, if there is only one project director, then this method defaults it to be primary.
+     * This method can change data, unlike the rules.  It is run before the rules.
+     * <p/>
+     * This default primary is limited to save actions (including route, etc) so that when the user
+     * adds multiple project directors the first one added doesn't default to primary (so the user must choose).
      */
     @Override
     public void prepareForSave() {
         refreshProposal();
+        List<ProposalProjectDirector> directors = getProposal().getProposalProjectDirectors();
+        if (directors.size() == 1) {
+            directors.get(0).setProposalPrimaryProjectDirectorIndicator(true);
+        }
         super.prepareForSave();
     }
 
@@ -85,6 +95,8 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
 
     /**
      * This is a hook for initializing the BO from the maintenance framework.
+     * It initializes the research risk types collection.
+     *
      * @param generateDefaultValues true for initialization
      */
     @Override
@@ -115,13 +127,13 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
 
         getNewCollectionLine(PROPOSAL_SUBCONTRACTORS).refreshNonUpdateableReferences();
         getNewCollectionLine(PROPOSAL_PROJECT_DIRECTORS).refreshNonUpdateableReferences();
-        
+
         // the org list doesn't need any refresh
         refreshNonUpdateableReferences(p.getProposalProjectDirectors());
         refreshNonUpdateableReferences(p.getProposalSubcontractors());
         refreshNonUpdateableReferences(p.getProposalResearchRisks());
     }
-    
+
     // todo: move to ObjectUtils?
     private static void refreshNonUpdateableReferences(Collection<? extends PersistableBusinessObject> collection) {
         for (PersistableBusinessObject item : collection) {
@@ -136,7 +148,7 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
     /**
      * called for refreshing the subcontractor on proposalSubcontractor before adding to the proposalSubcontractors collection on
      * the proposal. this is to ensure that the summary fields are show correctly. i.e. subcontractor name
-     * 
+     *
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#addNewLineToCollection(java.lang.String)
      */
     @Override

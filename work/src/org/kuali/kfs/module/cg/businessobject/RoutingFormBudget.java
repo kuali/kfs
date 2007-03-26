@@ -282,6 +282,18 @@ public class RoutingFormBudget extends PersistableBusinessObjectBase {
     }
 
     /**
+     * Returns the sum of routingFormBudgetDirectAmount and routingFormBudgetIndirectCostAmount.
+     * @return
+     */
+    public KualiInteger getTotalCostsCurrentPeriod() {
+        KualiInteger totalCosts = new KualiInteger(0);
+        if (this.getRoutingFormBudgetDirectAmount() != null) totalCosts.add(this.getRoutingFormBudgetDirectAmount());
+        if (this.getRoutingFormBudgetIndirectCostAmount() != null) totalCosts.add(this.getRoutingFormBudgetIndirectCostAmount());
+        
+        return totalCosts;
+    }
+    
+    /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {

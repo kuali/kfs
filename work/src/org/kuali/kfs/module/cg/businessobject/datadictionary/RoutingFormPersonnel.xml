@@ -260,7 +260,7 @@
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>14</maxLength>
-                <validationPattern><phoneNumber/></validationPattern>
+                <validationPattern><numeric /></validationPattern>
 
                 <control>
                     <text size="16" />
@@ -320,7 +320,7 @@
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>14</maxLength>
-                <validationPattern><phoneNumber/></validationPattern>
+                <validationPattern><numeric /></validationPattern>
 
                 <control>
                     <text size="16" />

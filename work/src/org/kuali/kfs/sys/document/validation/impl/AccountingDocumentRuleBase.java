@@ -212,19 +212,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
     public boolean processDeleteAccountingLineBusinessRules(AccountingDocument financialDocument, AccountingLine accountingLine, boolean lineWasAlreadyDeletedFromDocument) {
         LOG.debug("processDeleteAccountingLineBusinessRules(AccountingDocument, AccountingLine, boolean) - start");
 
-        boolean valid = checkAccountingLine(financialDocument, accountingLine);
-        if (valid) {
-            valid &= checkAccountingLineAccountAccessibility(financialDocument, accountingLine, AccountingLineAction.DELETE);
-        }
-        if (valid) {
-            valid &= verifyExistenceOfOtherAccessibleAccountingLines(financialDocument, lineWasAlreadyDeletedFromDocument);
-        }
-        if (valid) {
-            valid &= processCustomDeleteAccountingLineBusinessRules(financialDocument, accountingLine, lineWasAlreadyDeletedFromDocument);
-        }
-
-        LOG.debug("processDeleteAccountingLineBusinessRules(AccountingDocument, AccountingLine, boolean) - end");
-        return valid;
+        return verifyExistenceOfOtherAccessibleAccountingLines(financialDocument, lineWasAlreadyDeletedFromDocument);
     }
 
     /**

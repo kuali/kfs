@@ -208,8 +208,8 @@
                 />
         </c:if>
     </c:if>
-</div>
 </span>
+</div>
 <c:if test="${!empty baselineAccountingLine}">
     <bc:hiddenPbglLineField
         accountingLine="${baselineAccountingLine}"

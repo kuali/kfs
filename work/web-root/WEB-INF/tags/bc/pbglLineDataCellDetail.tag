@@ -34,7 +34,7 @@
               field, rather than a database field. The semicolon will be ignored in the output." %>
 
 <c:if test="${!KualiForm.hideDetails}">
-    <br/>
+<%--    <br/> --%>
     <div id="${accountingLine}.${detailField}.div" class="fineprint">
     <c:if test="${!empty detailFields}">
 	    <c:forTokens var="key" items="${detailFields}" delims=",">

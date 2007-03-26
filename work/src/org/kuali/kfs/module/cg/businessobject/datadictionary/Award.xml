@@ -85,10 +85,10 @@
                 <lookupField attributeName="federalPassThroughAgencyNumber" required="false" />
                 <lookupField attributeName="workgroupName" required="false" />
                 <lookupField attributeName="awardPurposeCode" required="false" />
-				<lookupField attributeName="awardSubcontractors.subcontractorNumber" required="false" />
-				<lookupField attributeName="awardProjectDirectors.personUniversalIdentifier" required="false" />
-				<lookupField attributeName="awardOrganizations.organizationCode" required="false" />
-                <lookupField attributeName="awardAccounts.accountNumber" required="false" />
+				<lookupField attributeName="awardSubcontractors.subcontractor.subcontractorNumber" required="false" />
+				<lookupField attributeName="awardProjectDirectors.projectDirector.personUniversalIdentifier" required="false" />
+				<lookupField attributeName="awardOrganizations.organization.organizationCode" required="false" />
+                <lookupField attributeName="awardAccounts.account.accountNumber" required="false" />
             </lookupFields>
 
             <resultFields>
@@ -125,20 +125,31 @@
             	<description>Award Proposal Number description...</description>
             </attribute>
 
-            <attributeReference name="awardAccounts.accountNumber" sourceClassName="org.kuali.module.cg.bo.AwardAccount" sourceAttributeName="accountNumber">
-				<summary>Award Account Number</summary>
+            <attributeReference name="awardAccounts.account.accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
+				<label>Award Account Number</label>
+				<shortLabel>Acct Num</shortLabel>
+				<summary>Award Project Director ID</summary>
+   				<description>Insert desc here...</description>
             </attributeReference>
 
-            <attributeReference name="awardOrganizations.organizationCode" sourceClassName="org.kuali.module.cg.bo.AwardOrganization" sourceAttributeName="organizationCode">
+            <attributeReference name="awardOrganizations.organization.organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
+				<label>Organization Code</label>
+				<shortLabel>Org Cd</shortLabel>
 				<summary>Award Organization Code</summary>
             </attributeReference>
             
-            <attributeReference name="awardSubcontractors.subcontractorNumber" sourceClassName="org.kuali.module.cg.bo.AwardSubcontractor" sourceAttributeName="awardSubcontractorNumber">
+            <attributeReference name="awardSubcontractors.subcontractor.subcontractorNumber" sourceClassName="org.kuali.module.cg.bo.Subcontractor" sourceAttributeName="subcontractorNumber">
+				<label>Subcontractor Number</label>
+				<shortLabel>Subcontr Num</shortLabel>
 				<summary>Award Subcontractor Number</summary>
+   				<description>Insert desc here...</description>
             </attributeReference>
 			
-            <attributeReference name="awardProjectDirectors.personUniversalIdentifier" sourceClassName="org.kuali.module.cg.bo.AwardProjectDirector" sourceAttributeName="personUniversalIdentifier">
+            <attributeReference name="awardProjectDirectors.projectDirector.personUniversalIdentifier" sourceClassName="org.kuali.module.cg.bo.ProjectDirector" sourceAttributeName="personUniversalIdentifier">
+				<label>Project Director ID</label>
+				<shortLabel>Proj Dir ID</shortLabel>
 				<summary>Award Project Director ID</summary>
+   				<description>Insert desc here...</description>
             </attributeReference>
 			
             <attributeReference name="proposal.grantNumber" sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="grantNumber">
@@ -510,19 +521,19 @@
             </collection>
             <!-- todo: awardDiaries? -->
         </collections>
-
+        
         <relationships>
-            <relationship objectAttributeName="awardSubcontractors" >
-                <primitiveAttribute sourceName="awardSubcontractors.subcontractorNumber" targetName="subcontractorNumber" />
+            <relationship objectAttributeName="awardOrganizations.organization" >
+                <primitiveAttribute sourceName="awardOrganizations.organization.organizationCode" targetName="organizationCode" />
             </relationship>
-            <relationship objectAttributeName="awardProjectDirectors" >
-                <primitiveAttribute sourceName="awardProjectDirectors.personUniversalIdentifier" targetName="personUniversalIdentifier" />
+            <relationship objectAttributeName="awardSubcontractors.subcontractor" >
+                <primitiveAttribute sourceName="awardSubcontractors.subcontractor.subcontractorNumber" targetName="subcontractorNumber" />
             </relationship>
-            <relationship objectAttributeName="awardOrganizations" >
-                <primitiveAttribute sourceName="awardOrganizations.organizationCode" targetName="organizationCode" />
+            <relationship objectAttributeName="awardProjectDirectors.projectDirector" >
+                <primitiveAttribute sourceName="awardProjectDirectors.projectDirector.personUniversalIdentifier" targetName="personUniversalIdentifier" />
             </relationship>
-            <relationship objectAttributeName="awardAccounts" >
-                <primitiveAttribute sourceName="awardAccounts.accountNumber" targetName="accountNumber" />
+            <relationship objectAttributeName="awardAccounts.account" >
+                <primitiveAttribute sourceName="awardAccounts.account.accountNumber" targetName="accountNumber" />
             </relationship>
         </relationships>
     </businessObject>

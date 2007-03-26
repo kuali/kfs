@@ -19,6 +19,20 @@
 <%@ taglib uri="/tlds/fmt.tld" prefix="fmt" %>
 <%@ taglib tagdir="/WEB-INF/tags/bc" prefix="bc"%>
 
+<c:if test="${!accountingLineScriptsLoaded}">
+	<script type='text/javascript' src="dwr/interface/ChartService.js"></script>
+	<script type='text/javascript' src="dwr/interface/AccountService.js"></script>
+	<script type='text/javascript' src="dwr/interface/SubAccountService.js"></script>
+	<script type='text/javascript' src="dwr/interface/ObjectCodeService.js"></script>
+	<script type='text/javascript' src="dwr/interface/ObjectTypeService.js"></script>
+	<script type='text/javascript' src="dwr/interface/SubObjectCodeService.js"></script>
+	<script type='text/javascript' src="dwr/interface/ProjectCodeService.js"></script>
+	<script type='text/javascript' src="dwr/interface/OriginationCodeService.js"></script>
+	<script type='text/javascript' src="dwr/interface/DocumentTypeService.js"></script>
+	<script language="JavaScript" type="text/javascript" src="scripts/kfs/objectInfo.js"></script>
+	<c:set var="accountingLineScriptsLoaded" value="true" scope="page" />
+</c:if>
+
 <c:set var="pbglRevenueAttributes" value="${DataDictionary.PendingBudgetConstructionGeneralLedger.attributes}" />
 
 <kul:tab tabTitle="Revenue" defaultOpen="false" tabErrorKey="${Constants.BUDGET_CONSTRUCTION_REVENUE_TAB_ERRORS}">
@@ -44,6 +58,10 @@
 					Action
 				</th>
 			</tr>
+
+            <c:if test="${empty editingMode['viewOnly']}">
+              <c:set var="valuesMap" value="${KualiForm.newRevenueLine.valuesMap}"/>
+                
 			<tr>
               <kul:htmlAttributeHeaderCell literalLabel="Add:" scope="row" rowspan="1">
                   <%-- these hidden fields are inside a table cell to keep the HTML valid --%>
@@ -56,10 +74,29 @@
                   <html:hidden property="newRevenueLine.financialObjectTypeCode"/>
                   <html:hidden property="newRevenueLine.versionNumber"/>
               </kul:htmlAttributeHeaderCell>
+
+              <bc:pbglLineDataCell dataCellCssClass="infoline"
+                  accountingLine="newRevenueLine"
+                  field="financialObjectCode" detailFunction="loadObjectInfo"
+                  detailFunctionExtraParam="'${KualiForm.document.universityFiscalYear}', 'newRevenueLine.objectType.name', 'newRevenueLine.financialObjectTypeCode', "
+                  detailField="financialObject.financialObjectCodeShortName"
+                  attributes="${pbglRevenueAttributes}" lookup="true" inquiry="true"
+                  boClassSimpleName="ObjectCode"
+                  readOnly="false"
+                  displayHidden="false"
+                  lookupOrInquiryKeys="chartOfAccountsCode"
+                  lookupUnkeyedFieldConversions="financialObjectTypeCode:newRevenueLine.financialObjectTypeCode,"
+                  accountingLineValuesMap="${newRevenueLine.valuesMap}"
+                  inquiryExtraKeyValues="universityFiscalYear=${KualiForm.document.universityFiscalYear}"
+                  anchor="revenuenewLineLineAnchor" />
+
+<%--
               <td class="infoline" nowrap><div align="left"><span>
               	  <a name="revenuenewLineLineAnchor"></a>
                   <kul:htmlControlAttribute attributeEntry="${pbglRevenueAttributes.financialObjectCode}" property="newRevenueLine.financialObjectCode" readOnly="false"/>
               </span></div></td>
+--%>
+
               <td class="infoline" nowrap><div align="left"><span>
                   <kul:htmlControlAttribute attributeEntry="${pbglRevenueAttributes.financialSubObjectCode}" property="newRevenueLine.financialSubObjectCode" readOnly="false"/>
               </span></div></td>
@@ -79,7 +116,8 @@
                   <html:image property="methodToCall.insertRevenueLine.anchorrevenuenewLineLineAnchor" src="images/tinybutton-add1.gif" title="Add an Revenue Line" alt="Add an Revenue Line" styleClass="tinybutton"/>
               </div></td>
 			</tr>
-
+            </c:if>
+            
 			<c:forEach items="${KualiForm.document.pendingBudgetConstructionGeneralLedgerRevenueLines}" var="item" varStatus="status" >
 
             <tr>
@@ -97,14 +135,14 @@
               <bc:pbglLineDataCell dataCellCssClass="datacell"
                   accountingLine="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}]"
                   field="financialObjectCode" detailFunction="loadObjectInfo"
-                  detailFunctionExtraParam="'${KualiForm.document.universityFiscalYear}', '${accountingLine}.objectType.name', '${accountingLine}.financialObjectTypeCode', "
+                  detailFunctionExtraParam="'${KualiForm.document.universityFiscalYear}', 'document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].objectType.name', 'document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].financialObjectTypeCode', "
                   detailField="financialObject.financialObjectCodeShortName"
                   attributes="${pbglRevenueAttributes}" lookup="true" inquiry="true"
                   boClassSimpleName="ObjectCode"
                   readOnly="true"
                   displayHidden="false"
                   lookupOrInquiryKeys="chartOfAccountsCode"
-                  lookupUnkeyedFieldConversions="financialObjectTypeCode:${accountingLine}.objectTypeCode,"
+                  lookupUnkeyedFieldConversions="financialObjectTypeCode:document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].objectTypeCode,"
                   accountingLineValuesMap="${item.valuesMap}"
                   inquiryExtraKeyValues="universityFiscalYear=${KualiForm.document.universityFiscalYear}"
                   anchor="revenueexistingLineLineAnchor${status.index}" />
@@ -156,18 +194,32 @@
 				  <fmt:formatNumber value="${item.percentChange}" type="number" groupingUsed="true" minFractionDigits="2" />&nbsp;
                   <bc:pbglLineDataCellDetail/>
               </span></div></td>
-	              <td class="datacell"" nowrap><div align=center>
-                    <bc:pbglLineDataCellDetail/>
-					<c:choose>
-						<c:when test="${empty item.budgetConstructionMonthly}" > 
-	                   		<html:image src="images/tinybutton-createnew.gif" styleClass="tinybutton" property="methodToCall.performMonthlyRevenueBudget.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" title="Create Month" alt="Create Month"/>
-						</c:when> 
-						<c:otherwise> 
-	                   		<html:image src="images/tinybutton-edit1.gif" styleClass="tinybutton" property="methodToCall.performMonthlyRevenueBudget.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" title="Edit Month" alt="Edit Month"/>
-						</c:otherwise> 
-					</c:choose> 
-	              </div></td>
-	              <td>&nbsp;</td>
+              <td class="datacell"" nowrap><div align=center>
+                  <c:choose>
+                    <c:when test="${empty item.budgetConstructionMonthly}" > 
+                        <html:image src="images/tinybutton-createnew.gif" styleClass="tinybutton" property="methodToCall.performMonthlyRevenueBudget.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" title="Create Month" alt="Create Month"/>
+                    </c:when> 
+                    <c:otherwise> 
+                        <html:image src="images/tinybutton-edit1.gif" styleClass="tinybutton" property="methodToCall.performMonthlyRevenueBudget.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" title="Edit Month" alt="Edit Month"/>
+                    </c:otherwise> 
+                  </c:choose> 
+              </div></td>
+        <td class="datacell" nowrap>
+            <div align="center">
+              <c:if test="${empty item.financialBeginningBalanceLineAmount || item.financialBeginningBalanceLineAmount == 0}">
+                <html:image property="methodToCall.deleteRevenueLine.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" src="images/tinybutton-delete1.gif" title="Delete Revenue Line ${status.index}" alt="Delete Revenue Line ${status.index}" styleClass="tinybutton"/>
+                <br>
+              </c:if>
+              <html:image property="methodToCall.performBalanceInquiryForRevenueLine.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" src="images/tinybutton-balinquiry.gif" title="Balance Inquiry For Line ${status.index}" alt="Balance Inquiry For Line ${status.index}" styleClass="tinybutton" />
+              <c:if test="${!empty item.financialBeginningBalanceLineAmount && item.financialBeginningBalanceLineAmount != 0}">
+                <br>
+                <html:image property="methodToCall.performPercentAdjustmentRevenueLine.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" src="images/tinybutton-calculate.gif" title="Percent Adjustment Revenue Line ${status.index}" alt="Percent Adjustment Revenue Line ${status.index}" styleClass="tinybutton"/>
+              </c:if>
+            </div>
+        </td>
+
+<%--	              <td>&nbsp;</td>  --%>
+
             </tr>
 			</c:forEach>
 			<tr>
@@ -185,4 +237,8 @@
 		</table>
 
 </div>
+<SCRIPT type="text/javascript">
+  var kualiForm = document.forms['KualiForm'];
+  var kualiElements = kualiForm.elements;
+</SCRIPT>
 </kul:tab>

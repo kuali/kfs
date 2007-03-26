@@ -21,21 +21,22 @@ import java.util.Map;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
 import org.kuali.module.gl.util.OJBUtility;
+import org.kuali.module.labor.bo.AccountStatus;
 import org.kuali.module.labor.bo.BalanceByGeneralLedgerKey;
-import org.kuali.module.labor.bo.BalanceGlobalCalculatedSalaryFoundation;
 import org.kuali.module.labor.dao.LaborDao;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
- * This class is used to retrieve Calculated Salary Foundation Tracker information.
+ * This class is a facade for Labor Distribution DAO balance inquiries
  */
 public class LaborDaoOjb extends PersistenceBrokerDaoSupport implements LaborDao {
 
-    public Collection getCSFTrackerData(Map fieldValues) {
-        
+    // CSF Tracker Inquiry
+    public Collection getCSFTrackerData(Map fieldValues) {        
         Criteria criteria = new Criteria();        
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new CalculatedSalaryFoundationTracker()));
         LookupUtils.applySearchResultsLimit(criteria);
@@ -43,8 +44,8 @@ public class LaborDaoOjb extends PersistenceBrokerDaoSupport implements LaborDao
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
     
-    public Collection getCurrentYearFunds(Map fieldValues) {
-        
+    // CSF Current Year Funds Inquiry
+    public Collection getCurrentYearFunds(Map fieldValues) {        
         Criteria criteria = new Criteria();        
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new BalanceByGeneralLedgerKey()));
         LookupUtils.applySearchResultsLimit(criteria);
@@ -52,12 +53,18 @@ public class LaborDaoOjb extends PersistenceBrokerDaoSupport implements LaborDao
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
     
- public Collection getBaseFunds(Map fieldValues) {
+    // CSF Base Funds Inquiry
+    public Collection getBaseFunds(Map fieldValues) {
         
-        Criteria criteria = new Criteria();        
-        criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new BalanceGlobalCalculatedSalaryFoundation()));
-        LookupUtils.applySearchResultsLimit(criteria);
-        QueryByCriteria query = QueryFactory.newQuery(BalanceGlobalCalculatedSalaryFoundation.class, criteria);
+//        Criteria criteria = new Criteria();        
+  //      criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new AccountStatus()));
+    //    LookupUtils.applySearchResultsLimit(criteria);
+      //  QueryByCriteria query = QueryFactory.newQuery(AccountStatus.class, criteria);
+        
+        
+        Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new AccountStatus());
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(AccountStatus.class, criteria);
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
+
     }
 }

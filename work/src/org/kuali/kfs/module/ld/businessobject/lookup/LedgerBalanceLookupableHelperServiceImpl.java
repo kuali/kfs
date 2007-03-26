@@ -68,8 +68,6 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLaborLedge
         Iterator balanceIterator = balanceService.findBalance(fieldValues, isConsolidated);
         Collection searchResultsCollection = this.buildBalanceCollection(balanceIterator, isConsolidated, pendingEntryOption);
 
-        // update search results according to the selected pending entry option
-        updateByPendingLedgerEntry(searchResultsCollection, fieldValues, pendingEntryOption, isConsolidated, false);
 
         // perform the accumulation of the amounts
         this.accumulate(searchResultsCollection, isAccumulated);

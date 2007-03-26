@@ -313,7 +313,39 @@
 		<property name="laborPosterService">
 			<ref bean="laborPosterService" />
 		</property>
-	</bean>    
+	</bean> 
+		
+	<bean id="laborYearEndBalanceForwardService" class="org.kuali.module.labor.service.impl.LaborYearEndBalanceForwardServiceImpl">
+        <property name="laborLedgerBalanceService">
+            <ref bean="laborLedgerBalanceService" />
+        </property>
+        <property name="originEntryGroupService">
+            <ref bean="glOriginEntryGroupService" />
+        </property>
+
+        <property name="accountService">
+            <ref bean="accountService" />
+        </property>
+        <property name="optionsService">
+            <ref bean="optionsService" />
+        </property>
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+        
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>
+        <property name="kualiConfigurationService">
+            <ref bean="kualiConfigurationService" />
+        </property>
+
+        <property name="reportService">
+            <ref bean="laborReportService" />
+        </property>
+    </bean>  
+    
+    <!-- Section 3: Spring Bean for Balance Inquiry -->  
 		
 	<bean id="CSFTrackerBalanceLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">

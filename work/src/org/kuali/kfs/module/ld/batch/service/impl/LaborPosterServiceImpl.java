@@ -95,15 +95,17 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         String reportsDirectory = this.getReportsDirectory();
         Map<Transaction, List<Message>> errorMap = new HashMap<Transaction, List<Message>>();
         List<Summary> reportSummary = this.buildReportSummaryForLaborLedgerPosting();
-        int numberOfOriginEntry = 0;
 
         Collection<OriginEntryGroup> postingGroups = originEntryGroupService.getGroupsToPost(LABOR_SCRUBBER_VALID);
+        int numberOfOriginEntry = laborOriginEntryService.getCountOfEntriesInGroups(postingGroups);
+        int numberOfSelectedOriginEntry = 0;
+        
         for (OriginEntryGroup entryGroup : postingGroups) {
             Iterator<LaborOriginEntry> entries = laborOriginEntryService.getEntriesByGroup(entryGroup);
             while (entries != null && entries.hasNext()) {
                 LaborOriginEntry originEntry = entries.next();
                 if (postSingleEntryIntoLaborLedger(originEntry, reportSummary, errorMap, validGroup, invalidGroup, runDate)) {
-                    numberOfOriginEntry++;
+                    numberOfSelectedOriginEntry++;
                     originEntry = null;
                 }
             }
@@ -111,7 +113,9 @@ public class LaborPosterServiceImpl implements LaborPosterService {
             entryGroup.setProcess(Boolean.FALSE);
             originEntryGroupService.save(entryGroup);
         }
-        Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, Constants.OperationType.SELECT, numberOfOriginEntry, 0);
+        Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, Constants.OperationType.READ, numberOfOriginEntry, 0);
+        Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, Constants.OperationType.SELECT, numberOfSelectedOriginEntry, 0);
+        Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, Constants.OperationType.REPORT_ERROR, errorMap.size(), 0);
 
         reportService.generatePosterStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_STATISTICS, reportsDirectory, runDate);
         reportService.generatePosterInputSummaryReport(postingGroups, ReportRegistry.LABOR_POSTER_INPUT, reportsDirectory, runDate);
@@ -129,7 +133,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
             // reject the invalid entry so that it can be available for error correction
             List<Message> errors = this.validateEntry(originEntry);
-            if (!errors.isEmpty()) {
+            if (errors!=null && !errors.isEmpty()) {
                 errorMap.put(originEntry, errors);
                 postAsProcessedOriginEntry(originEntry, invalidGroup, runDate);
                 return false;
@@ -190,8 +194,10 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         List<Summary> reportSummary = this.buildReportSummaryForLaborGLPosting();
         Map<Transaction, List<Message>> errorMap = new HashMap<Transaction, List<Message>>();
 
-        int numberOfOriginEntry = 0;
         Collection<LaborOriginEntry> entries = laborOriginEntryService.getConsolidatedEntryCollectionByGroup(validGroup);
+        int numberOfOriginEntry = entries.size();
+        int numberOfSelectedOriginEntry = 0;
+        
         for (LaborOriginEntry originEntry : entries) {
 
             List<Message> errors = this.isPostableForLaborGLEntry(originEntry);
@@ -202,9 +208,11 @@ public class LaborPosterServiceImpl implements LaborPosterService {
             String operationType = laborGLLedgerEntryPoster.post(originEntry, 0, runDate);
             Summary.updateReportSummary(reportSummary, laborGLLedgerEntryPoster.getDestinationName(), operationType, STEP, 0);
 
-            numberOfOriginEntry++;
+            numberOfSelectedOriginEntry++;
         }
-        Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, Constants.OperationType.SELECT, numberOfOriginEntry, 0);
+        Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, Constants.OperationType.READ, numberOfOriginEntry, 0);
+        Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, Constants.OperationType.SELECT, numberOfSelectedOriginEntry, 0);
+        Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, Constants.OperationType.REPORT_ERROR, errorMap.size(), 0);
         reportService.generatePosterStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_GL_SUMMARY, reportsDirectory, runDate);
     }
 
@@ -220,13 +228,13 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     // build a report summary list for labor ledger posting
     private List<Summary> buildReportSummaryForLaborLedgerPosting() {
         List<Summary> reportSummary = new ArrayList<Summary>();
-
+        
         String destination = laborLedgerEntryPoster.getDestinationName();
+        reportSummary.add(new Summary(reportSummary.size() + LINE_INTERVAL, "", 0));
         reportSummary.addAll(Summary.buildDefualtReportSummary(destination, reportSummary.size() + LINE_INTERVAL));
 
-        reportSummary.add(new Summary(reportSummary.size() + LINE_INTERVAL, "", 0));
-
         destination = laborLedgerBalancePoster.getDestinationName();
+        reportSummary.add(new Summary(reportSummary.size() + LINE_INTERVAL, "", 0));
         reportSummary.addAll(Summary.buildDefualtReportSummary(destination, reportSummary.size() + LINE_INTERVAL));
 
         return reportSummary;
@@ -237,6 +245,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         List<Summary> reportSummary = new ArrayList<Summary>();
 
         String destination = laborGLLedgerEntryPoster.getDestinationName();
+        reportSummary.add(new Summary(reportSummary.size() + LINE_INTERVAL, "", 0));
         reportSummary.addAll(Summary.buildDefualtReportSummary(destination, reportSummary.size() + LINE_INTERVAL));
 
         return reportSummary;

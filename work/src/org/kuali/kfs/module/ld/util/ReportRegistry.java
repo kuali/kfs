@@ -21,12 +21,14 @@ package org.kuali.module.labor.util;
  */
 public enum ReportRegistry {
     LABOR_POSTER_INPUT("poster_main_ledger", "Main Poster Input Transactions"),
-    LABOR_POSTER_STATISTICS("poster_main", "Poster Report"),
-    
+    LABOR_POSTER_STATISTICS("poster_main", "Poster Report"),    
     LABOR_POSTER_ERROR("poster_main_error_list", "Main Poster Error Transaction Listing"),
     LABOR_POSTER_OUTPUT("poster_output", "Poster Output Summary"),
     LABOR_POSTER_OUTPUT_BY_SINGLE_GROUP("poster_output_single_group", "Poster Output Summary"),
-    LABOR_POSTER_GL_SUMMARY("poster_gl_summary", "Poster Labor General Ledger Summary");
+    LABOR_POSTER_GL_SUMMARY("poster_gl_summary", "Poster Labor General Ledger Summary"),
+    
+    LABOR_YEAR_END_OUTPUT("year_end_output", "Year-End Output Summary"),
+    LABOR_YEAR_END_STATISTICS("year_end_main", "Ledger Report");
     
     private String reportFilename;
     private String reportTitle;

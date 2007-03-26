@@ -3050,19 +3050,56 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
          ****************************************************************************************
          */
              // the set of new BCSF objects to be written
-             private HashMap<String,BudgetConstructionCalculatedSalaryFoundationTracker> bCSF =
-                 new HashMap();
+             private HashMap<String,BudgetConstructionCalculatedSalaryFoundationTracker> bCSF;
              // the set of existing budget construction appointment funding rows
-             private HashMap<String,PendingBudgetConstructionAppointmentFunding> pndBCApptFndng =
-                 new HashMap();
+             private HashMap<String,PendingBudgetConstructionAppointmentFunding> pndBCApptFndng;
              // keys present in the override CSF: none of these keys will load to BCSF from
              // the actual CSF
-             private HashSet<String> csfOverrideKeys = new HashSet();
+             private HashSet<String> csfOverrideKeys;
              // EMPLID's in CSF which have more than one active row
              // we budget in whole dollars, while payroll deals in pennies
              // we will use this for our complicated rounding algorithm, to prevent
              // to keep the total budget base salary within a dollar of the payroll salary
-             private HashSet<String> keysNeedingRounding = new HashSet();
+             private HashMap<String,roundMechanism> keysNeedingRounding;
+             
+    // set up the hash maps   
+             public void emplidWithMultipleLines(Integer BaseYear)
+             {
+                 Integer emplidCSFOvrdCount = new Integer(0);
+                 Integer emplidCSFCount     = new Integer(0);
+                 Criteria criteriaID = new Criteria();
+                 criteriaID.addEqualTo(PropertyConstants.CSF_DELETE_CODE,
+                                       BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
+                 criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                                       BaseYear);
+                 String[] selectList = {"COUNT(DISTINCT "+PropertyConstants.EMPLID+")"};
+                 ReportQueryByCriteria queryID = 
+                     new ReportQueryByCriteria(CalculatedSalaryFoundationTrackerOverride.class,
+                                         selectList,criteriaID);
+                 // EMPLID count for CSF Override
+                 Iterator emplidCSFOvrd =
+                 getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+                 if (emplidCSFOvrd.hasNext())
+                 {
+                     emplidCSFOvrdCount = 
+                         ((BigDecimal)((Object[]) emplidCSFOvrd.next())[0]).intValue();
+                 }
+                 // EMPLID count for CSF
+                 queryID =
+                 new ReportQueryByCriteria(CalculatedSalaryFoundationTracker.class,
+                         selectList,criteriaID);
+                 Iterator emplidCSF =
+                     getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+                     if (emplidCSFOvrd.hasNext())
+                     {
+                         emplidCSFCount = 
+                             ((BigDecimal)((Object[]) emplidCSF.next())[0]).intValue();
+                     }
+                 keysNeedingRounding = 
+                 new HashMap<String,roundMechanism>(emplidCSFCount+emplidCSFOvrdCount); 
+                 LOG.info(String.format("\nEmplid count %d",
+                                        emplidCSFCount+emplidCSFOvrdCount));
+             }
     
     // this is an inner class which will store the data we need to perform the rounding,
     // and supply the methods as well         
@@ -3081,14 +3118,62 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
             this.candidateBCSFRows = 
                 new ArrayList<BudgetConstructionCalculatedSalaryFoundationTracker>(10);
         }
-        public void addNewDiff(KualiDecimal csfAmount)
+        private void addNewDiff(KualiDecimal withPennies,
+                               KualiDecimal wholeDollars)
         {
-            
+            KualiDecimal roundingError = withPennies.subtract(wholeDollars);
+            diffAmount.add(roundingError);
         }
         
         public void addNewBCSF(BudgetConstructionCalculatedSalaryFoundationTracker bCSF)
         {
+            // save a pointer to the new BCSF object and round it
             candidateBCSFRows.add(bCSF);
+            KualiDecimal withPenniesCSFAmount = bCSF.getCsfAmount();
+            KualiDecimal wholeDollarsCSFAmount = bCSF.getCsfAmount().setScale(0);
+            // save the difference
+            addNewDiff(withPenniesCSFAmount,wholeDollarsCSFAmount);
+            // round the amount to be stored
+            bCSF.setCsfAmount(wholeDollarsCSFAmount);
+        }
+        
+        public void fixRoundErrors()
+        {
+            // this routine adjusts the BCSF values so that the total for each
+            // EMPLID round to the nearest whole dollar amount
+            KualiDecimal adjustAmount;
+            KualiDecimal negAdjust  = new KualiDecimal(-1);
+            negAdjust.setScale(0);
+            KualiDecimal posAdjust  = new KualiDecimal(1);
+            posAdjust.setScale(0);
+            // no rounding is necessary if the difference is less than a buck
+            // this will also prevent our accessing an empty array list, or
+            // trying to adjust things with only one CSF row
+            if ((diffAmount.isGreaterThan(negAdjust))&&
+                (diffAmount.isLessThan(posAdjust)))
+            {
+                return;
+            }        
+            if (diffAmount.isLessThan(KualiDecimal.ZERO))
+            {
+               adjustAmount = negAdjust; 
+            }
+            else
+            {
+               adjustAmount = posAdjust; 
+            }
+            for (BudgetConstructionCalculatedSalaryFoundationTracker rCSF: candidateBCSFRows)
+            {
+                KualiDecimal fixBCSFAmount = rCSF.getCsfAmount();
+                fixBCSFAmount.add(adjustAmount);
+                rCSF.setCsfAmount(fixBCSFAmount);
+                diffAmount.subtract(adjustAmount);   
+                if ((diffAmount.isGreaterThan(negAdjust))&&
+                        (diffAmount.isLessThan(posAdjust)))
+                    {
+                        break;
+                    }        
+            }
         }
     }
          

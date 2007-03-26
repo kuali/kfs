@@ -56,11 +56,12 @@ public class GenesisServiceImpl implements GenesisService {
 
       public void testPositionBuild(Integer currentFiscalYear)
       {
-          boolean CSFOK     = CSFUpdatesAllowed(currentFiscalYear);
-          boolean PSSynchOK = BatchPositionSynchAllowed(currentFiscalYear);
-          genesisDao.createNewBCPosition(currentFiscalYear,
-                                         PSSynchOK,
-                                         CSFOK);
+ //         boolean CSFOK     = CSFUpdatesAllowed(currentFiscalYear);
+ //         boolean PSSynchOK = BatchPositionSynchAllowed(currentFiscalYear);
+ //         genesisDao.createNewBCPosition(currentFiscalYear,
+ //                                        PSSynchOK,
+ //                                        CSFOK);
+            genesisDao.emplidWithMultipleLines(currentFiscalYear);
       }
       
       /*

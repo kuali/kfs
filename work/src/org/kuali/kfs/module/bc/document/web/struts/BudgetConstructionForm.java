@@ -69,15 +69,17 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
         String methodToCall = this.getMethodToCall();
         if (StringUtils.isNotBlank(methodToCall)){
             if (methodToCall.equals(BCConstants.INSERT_REVENUE_LINE_METHOD)){
-                PendingBudgetConstructionGeneralLedger revline = getNewRevenueLine();
-                initNewLine(revline);
-                revline.setFinancialObjectTypeCode(BCConstants.FINANCIAL_OBJECT_TYPE_CODE_REV);
+                PendingBudgetConstructionGeneralLedger revLine = getNewRevenueLine();
+                SpringServiceLocator.getBusinessObjectDictionaryService().performForceUppercase(revLine);
+                initNewLine(revLine);
+                revLine.setFinancialObjectTypeCode(BCConstants.FINANCIAL_OBJECT_TYPE_CODE_REV);
                 populateRevenueLine(this.getNewRevenueLine());
             }
             if (methodToCall.equals(BCConstants.INSERT_EXPENDITURE_LINE_METHOD)){
-                PendingBudgetConstructionGeneralLedger expline = getNewExpenditureLine(); 
-                initNewLine(expline);
-                expline.setFinancialObjectTypeCode(BCConstants.FINANCIAL_OBJECT_TYPE_CODE_EXP);
+                PendingBudgetConstructionGeneralLedger expLine = getNewExpenditureLine(); 
+                SpringServiceLocator.getBusinessObjectDictionaryService().performForceUppercase(expLine);
+                initNewLine(expLine);
+                expLine.setFinancialObjectTypeCode(BCConstants.FINANCIAL_OBJECT_TYPE_CODE_EXP);
                 populateExpenditureLine(this.getNewExpenditureLine());
             }
 
@@ -93,11 +95,13 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
      * 
      * @param line
      */
-    private void initNewLine(PendingBudgetConstructionGeneralLedger line){
+    public void initNewLine(PendingBudgetConstructionGeneralLedger line){
         // do uppercase on added lines only, since users can only update amounts on existing lines
         // this should only affect the line since the DD has auto-update=false on refs and collections
         // and only affect fields where xml attribute has forceUppercase="true"
-        SpringServiceLocator.getBusinessObjectDictionaryService().performForceUppercase(line);
+        
+        //moved to populate()
+        //SpringServiceLocator.getBusinessObjectDictionaryService().performForceUppercase(line);
 
         BudgetConstructionDocument tdoc = this.getBudgetConstructionDocument();
 

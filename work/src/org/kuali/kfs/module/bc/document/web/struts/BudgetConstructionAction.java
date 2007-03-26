@@ -167,6 +167,9 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         // KualiDocumentFormBase.populate() needs this updated in the session
         GlobalVariables.getUserSession().setWorkflowDocument(workflowDoc);
         
+        budgetConstructionForm.initNewLine(budgetConstructionForm.getNewRevenueLine());
+        budgetConstructionForm.initNewLine(budgetConstructionForm.getNewExpenditureLine());
+        
 // from kualiDocumentActionBase.loadDocument()
 //        kualiDocumentFormBase.setDocument(doc);
 //        KualiWorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();

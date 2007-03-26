@@ -32,7 +32,6 @@
 <c:set var="file" value="${sourceOrTarget}File"/>
 <c:set var="uploadLines" value="upload${capitalSourceOrTarget}Lines"/>
 <c:set var="canUpload" value="${!empty editingMode['fullEntry']}"/>
-<c:set var="formatUrl" value="${KualiForm.accountingLineImportInstructionsUrl}"/>
 
 <c:set var="titleColSpan" value="4" />
 <c:if test="${empty editingMode['fullEntry']}" >
@@ -60,7 +59,7 @@
                       '     width=72 height=15 border=0 align="middle" class="det-button">' +
                     '<\/a>' +
                     '<div id="${uploadDiv}" style="display:none;" >' +
-                      '<a href="${ConfigProperties.externalizable.help.url}AccountingLineImport.html" target="helpWindow"><img src="images/my_cp_inf.gif" alt="${altText}" hspace=5 border=0  align="middle"><\/a>&nbsp;' +
+                      '<a href="${KualiForm.accountingLineImportInstructionsUrl}" target="helpWindow"><img src="images/my_cp_inf.gif" alt="${altText}" hspace=5 border=0  align="middle"><\/a>&nbsp;' +
                       '<html:file size="30" property="${file}" />' +
                       '<html:image property="methodToCall.${uploadLines}" src="images/tinybutton-add1.gif"
                                     styleClass="tinybutton" alt="insert ${sourceOrTarget} accounting lines" title="insert ${sourceOrTarget} accounting lines" />' +
@@ -70,7 +69,7 @@
                 //-->
             </SCRIPT>
             <NOSCRIPT>
-                Import lines <a href="<bean:message key="url.accountingLineImport.instructions" />" target="helpWindow"><img src="images/my_cp_inf.gif" title="${altText}" alt="${altText}" hspace=5 border=0  align="middle"></a>&nbsp;
+                Import lines <a href="${KualiForm.accountingLineImportInstructionsUrl}" />" target="helpWindow"><img src="images/my_cp_inf.gif" title="${altText}" alt="${altText}" hspace=5 border=0  align="middle"></a>&nbsp;
                 <html:file size="30" property="${file}" style="font:10px;height:16px;"/>
                 <html:image property="methodToCall.${uploadLines}" src="images/tinybutton-add1.gif"
                             alt="insert ${sourceOrTarget} accounting lines" title="insert ${sourceOrTarget} accounting lines"/>

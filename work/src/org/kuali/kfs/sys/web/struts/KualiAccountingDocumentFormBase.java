@@ -66,8 +66,6 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
     protected FormFile targetFile;
     private boolean hideDetails = false;
 
-    private String accountingLineImportInstructionsUrl;
-
     private List<AccountingLineDecorator> sourceLineDecorators;
     private List<AccountingLineDecorator> targetLineDecorators;
 
@@ -94,9 +92,6 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
         // initialize accountingLine decoration lists
         sourceLineDecorators = new ArrayList<AccountingLineDecorator>();
         targetLineDecorators = new ArrayList<AccountingLineDecorator>();
-
-        // initialize accountingLine import instructions URL
-        accountingLineImportInstructionsUrl = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KeyConstants.ACCT_LINE_IMPORT_INSTRUCTIONS_URL);
     }
 
     /**
@@ -616,17 +611,11 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
     }
 
     /**
+     * TODO this has to be fixed for p2a: KULRNE-4552
      * @return String
      */
     public String getAccountingLineImportInstructionsUrl() {
-        return accountingLineImportInstructionsUrl;
-    }
-
-    /**
-     * @param accountingLineImportInstructionsUrl
-     */
-    public void setAccountingLineImportInstructionsUrl(String accountingLineImportInstructionsUrl) {
-        this.accountingLineImportInstructionsUrl = accountingLineImportInstructionsUrl;
+        return "https://test.kuali.org/confluence/display/KULRNE/Accounting+Line+Import+Instructions";
     }
 
     /**

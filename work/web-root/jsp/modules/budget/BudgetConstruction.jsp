@@ -47,4 +47,10 @@
 
 	<kul:panelFooter />
 
+<%-- Need these here to override and initialize vars used by objectinfo.js to BC specific --%>
+<SCRIPT type="text/javascript">
+  subObjectCodeNameSuffix = ".financialSubObject.financialSubObjectCdshortNm";
+  var kualiForm = document.forms['KualiForm'];
+  var kualiElements = kualiForm.elements;
+</SCRIPT>
 </kul:page>

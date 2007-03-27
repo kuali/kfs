@@ -17,6 +17,8 @@ package org.kuali.module.budget.web.struts.action;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -41,6 +43,7 @@ import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.bo.AccountingLineOverride;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
@@ -66,7 +69,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // TODO Auto-generated method stub
+        
         return super.execute(mapping, form, request, response);
     }
 
@@ -166,10 +169,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         budgetConstructionForm.setDocTypeName(workflowDoc.getDocumentType());
         // KualiDocumentFormBase.populate() needs this updated in the session
         GlobalVariables.getUserSession().setWorkflowDocument(workflowDoc);
-        
-        budgetConstructionForm.initNewLine(budgetConstructionForm.getNewRevenueLine());
-        budgetConstructionForm.initNewLine(budgetConstructionForm.getNewExpenditureLine());
-        
+
 // from kualiDocumentActionBase.loadDocument()
 //        kualiDocumentFormBase.setDocument(doc);
 //        KualiWorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
@@ -274,6 +274,8 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
             // clear the used newRevenueLine
             budgetConstructionForm.setNewRevenueLine(null);
+            
+
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -386,6 +388,10 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
                 line.refreshReferenceObject("budgetConstructionMonthly");
             }
         }
+        //TODO this method may need cleaned up to possibly use getPersistenceService() above too
+        final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject", "financialSubObject" }));
+        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(budgetConstructionForm.getNewRevenueLine(), REFRESH_FIELDS);
+        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(budgetConstructionForm.getNewExpenditureLine(), REFRESH_FIELDS);
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }

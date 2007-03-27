@@ -79,7 +79,7 @@
                   accountingLine="newRevenueLine"
                   field="financialObjectCode" detailFunction="loadObjectInfo"
                   detailFunctionExtraParam="'${KualiForm.document.universityFiscalYear}', 'newRevenueLine.objectType.name', 'newRevenueLine.financialObjectTypeCode', "
-                  detailField="financialObject.financialObjectCodeShortName"
+                  detailField="financialObject.financialObjectCodeName"
                   attributes="${pbglRevenueAttributes}" lookup="true" inquiry="true"
                   boClassSimpleName="ObjectCode"
                   readOnly="false"
@@ -237,8 +237,4 @@
 		</table>
 
 </div>
-<SCRIPT type="text/javascript">
-  var kualiForm = document.forms['KualiForm'];
-  var kualiElements = kualiForm.elements;
-</SCRIPT>
 </kul:tab>

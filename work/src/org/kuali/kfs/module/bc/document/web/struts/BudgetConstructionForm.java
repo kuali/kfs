@@ -50,8 +50,8 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
         super();
         setDocument(new BudgetConstructionDocument());
         //TODO not sure these set method calls are even needed here
-        this.setNewRevenueLine(new PendingBudgetConstructionGeneralLedger());
-        this.setNewExpenditureLine(new PendingBudgetConstructionGeneralLedger());
+//        this.setNewRevenueLine(new PendingBudgetConstructionGeneralLedger());
+//        this.setNewExpenditureLine(new PendingBudgetConstructionGeneralLedger());
         LOG.debug("creating BudgetConstructionForm");
     }
     
@@ -70,16 +70,34 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
         if (StringUtils.isNotBlank(methodToCall)){
             if (methodToCall.equals(BCConstants.INSERT_REVENUE_LINE_METHOD)){
                 PendingBudgetConstructionGeneralLedger revLine = getNewRevenueLine();
+
+                // do uppercase on added lines only, since users can only update amounts on existing lines
+                // this should only affect the line since the DD has auto-update=false on refs and collections
+                // and only affect fields where xml attribute has forceUppercase="true"
                 SpringServiceLocator.getBusinessObjectDictionaryService().performForceUppercase(revLine);
-                initNewLine(revLine);
                 revLine.setFinancialObjectTypeCode(BCConstants.FINANCIAL_OBJECT_TYPE_CODE_REV);
+
+                // null subobj must be set to dashes
+                if (StringUtils.isBlank(revLine.getFinancialSubObjectCode())){
+                    revLine.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
+                }
+
                 populateRevenueLine(this.getNewRevenueLine());
             }
             if (methodToCall.equals(BCConstants.INSERT_EXPENDITURE_LINE_METHOD)){
                 PendingBudgetConstructionGeneralLedger expLine = getNewExpenditureLine(); 
+
+                // do uppercase on added lines only, since users can only update amounts on existing lines
+                // this should only affect the line since the DD has auto-update=false on refs and collections
+                // and only affect fields where xml attribute has forceUppercase="true"
                 SpringServiceLocator.getBusinessObjectDictionaryService().performForceUppercase(expLine);
-                initNewLine(expLine);
                 expLine.setFinancialObjectTypeCode(BCConstants.FINANCIAL_OBJECT_TYPE_CODE_EXP);
+
+                // null subobj must be set to dashes
+                if (StringUtils.isBlank(expLine.getFinancialSubObjectCode())){
+                    expLine.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
+                }
+
                 populateExpenditureLine(this.getNewExpenditureLine());
             }
 
@@ -91,17 +109,10 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
 
     /**
      * This sets the default fields not setable by the user for added lines
-     * It also uppercases text fields
      * 
      * @param line
      */
-    public void initNewLine(PendingBudgetConstructionGeneralLedger line){
-        // do uppercase on added lines only, since users can only update amounts on existing lines
-        // this should only affect the line since the DD has auto-update=false on refs and collections
-        // and only affect fields where xml attribute has forceUppercase="true"
-        
-        //moved to populate()
-        //SpringServiceLocator.getBusinessObjectDictionaryService().performForceUppercase(line);
+    private void initNewLine(PendingBudgetConstructionGeneralLedger line){
 
         BudgetConstructionDocument tdoc = this.getBudgetConstructionDocument();
 
@@ -111,9 +122,6 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
         line.setAccountNumber(tdoc.getAccountNumber());
         line.setSubAccountNumber(tdoc.getSubAccountNumber());
         line.setFinancialBalanceTypeCode(BCConstants.FINANCIAL_BALANCE_TYPE_CODE_BB);
-        if (StringUtils.isBlank(line.getFinancialSubObjectCode())){
-            line.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
-        }
     }
     
     /**
@@ -216,6 +224,7 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
     public PendingBudgetConstructionGeneralLedger getNewRevenueLine() {
         if (this.newRevenueLine == null){
             this.setNewRevenueLine(new PendingBudgetConstructionGeneralLedger());
+            this.initNewLine(newRevenueLine);
         }
         return newRevenueLine;
     }

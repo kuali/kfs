@@ -1169,6 +1169,21 @@
 		</property>
 	</bean>
 	
+	<bean id="glYearEndJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="glEncumbranceForwardStep" />
+				<ref bean="glBalanceForwardStep" />
+				<ref bean="glNominalActivityClosingStep" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="glYearEndJobTrigger" parent="simpleTrigger">
+		<property name="jobName" value="glYearEndJob" />
+		<property name="startDelay" value="600000" />
+	</bean>
+	
 	<bean id="glClearPendingEntriesForCancelledOrDisapprovedDocumentsStep" class="org.kuali.module.gl.batch.ClearPendingEntriesForCancelledOrDisapprovedDocumentsStep">
 		<property name="generalLedgerPendingEntryService">
 			<ref bean="generalLedgerPendingEntryService" />

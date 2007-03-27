@@ -287,8 +287,8 @@ public class RoutingFormBudget extends PersistableBusinessObjectBase {
      */
     public KualiInteger getTotalCostsCurrentPeriod() {
         KualiInteger totalCosts = new KualiInteger(0);
-        if (this.getRoutingFormBudgetDirectAmount() != null) totalCosts.add(this.getRoutingFormBudgetDirectAmount());
-        if (this.getRoutingFormBudgetIndirectCostAmount() != null) totalCosts.add(this.getRoutingFormBudgetIndirectCostAmount());
+        if (this.getRoutingFormBudgetDirectAmount() != null) totalCosts = totalCosts.add(this.getRoutingFormBudgetDirectAmount());
+        if (this.getRoutingFormBudgetIndirectCostAmount() != null) totalCosts = totalCosts.add(this.getRoutingFormBudgetIndirectCostAmount());
         
         return totalCosts;
     }

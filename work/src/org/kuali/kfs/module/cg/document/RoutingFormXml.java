@@ -99,7 +99,7 @@ public class RoutingFormXml {
             agencyDataElement.setAttribute("PROGRAM_ANNOUNCEMENT_NUMBER", routingFormAnnouncementNumber);
             
             Element agencyFullNameElement = xmlDoc.createElement("AGENCY_FULL_NAME");
-            agencyFullNameElement.setNodeValue(routingFormAgency.getAgency().getFullName());
+            agencyFullNameElement.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormAgency.getAgency().getFullName())));
             agencyDataElement.appendChild(agencyFullNameElement);
     
             agencyElement.appendChild(agencyDataElement);
@@ -108,7 +108,7 @@ public class RoutingFormXml {
         Element agencyDueDateElement = xmlDoc.createElement("DUE_DATE");
         agencyDueDateElement.setAttribute("DUE_DATE_TYPE", routingFormAgency.getRoutingFormDueDateTypeCode());
         agencyDueDateElement.setAttribute("DUE_DATE", ObjectUtils.toString(routingFormAgency.getRoutingFormDueDate()));
-        // TODO following field is dropped
+        // following field is dropped in KRA but per request preserved for Indiana University ERA implementation.
         agencyDueDateElement.setAttribute("DUE_TIME", routingFormAgency.getRoutingFormDueTime());
         agencyElement.appendChild(agencyDueDateElement);
         
@@ -118,12 +118,12 @@ public class RoutingFormXml {
         agencyDeliveryElement.setAttribute("COPIES", routingFormAgency.getRoutingFormRequiredCopyText());
         
         Element agencyDeliveryInstructionsElement = xmlDoc.createElement("DELIVERY_INSTRUCTIONS");
-        agencyDeliveryInstructionsElement.setNodeValue(routingFormAgency.getAgencyShippingInstructionsDescription());
+        agencyDeliveryInstructionsElement.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormAgency.getAgencyShippingInstructionsDescription())));
         agencyDeliveryElement.appendChild(agencyDeliveryInstructionsElement);
         
         Element agencyAdditionalDeliveryInstructionsElement = xmlDoc.createElement("ADDITIONAL_DELIVERY_INSTRUCTIONS");
-        agencyAdditionalDeliveryInstructionsElement.setAttribute("DISK_INCLUDED_IND", ObjectUtils.toString(routingFormAgency.getAgencyDiskAccompanyIndicator()));
-        agencyAdditionalDeliveryInstructionsElement.setAttribute("ELECTRONIC_SUBMISSIONS_IND", ObjectUtils.toString(routingFormAgency.getAgencyElectronicSubmissionIndicator()));
+        agencyAdditionalDeliveryInstructionsElement.setAttribute("DISK_INCLUDED_IND", formatBoolean(routingFormAgency.getAgencyDiskAccompanyIndicator()));
+        agencyAdditionalDeliveryInstructionsElement.setAttribute("ELECTRONIC_SUBMISSIONS_IND", formatBoolean(routingFormAgency.getAgencyElectronicSubmissionIndicator()));
         agencyDeliveryElement.appendChild(agencyAdditionalDeliveryInstructionsElement);
         
         agencyElement.appendChild(agencyDeliveryElement);
@@ -161,7 +161,7 @@ public class RoutingFormXml {
         purposeElement.setAttribute("PURPOSE", routingFormDocument.getRoutingFormPurposeCode());
         
         Element purposeDescriptionElement = xmlDoc.createElement("PURPOSE_DESCRIPTION");
-        purposeDescriptionElement.setNodeValue(routingFormDocument.getRoutingFormOtherPurposeDescription());
+        purposeDescriptionElement.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormDocument.getRoutingFormOtherPurposeDescription())));
         purposeElement.appendChild(purposeDescriptionElement);
         
         return purposeElement;
@@ -180,20 +180,23 @@ public class RoutingFormXml {
         projectInformationElement.setAttribute("CFDA_TXT", routingFormDocument.getRoutingFormCatalogOfFederalDomesticAssistanceNumber());
         
         Element projectTitleElement = xmlDoc.createElement("PROJECT_TITLE");
-        projectTitleElement.setNodeValue(routingFormDocument.getRoutingFormProjectTitle());
+        projectTitleElement.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormDocument.getRoutingFormProjectTitle())));
         projectInformationElement.appendChild(projectTitleElement);
         
+        // following field is dropped in KRA but per request preserved for Indiana University ERA implementation.
         Element layDescription = xmlDoc.createElement("LAY_DESCRIPTION");
-        layDescription.setNodeValue(routingFormDocument.getRoutingFormLayDescription());
+        layDescription.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormDocument.getRoutingFormLayDescription())));
         projectInformationElement.appendChild(layDescription);
         
-        // TODO: routingFormDocument.getProjectAbstract()? ... not in legacy
+        Element abstractDescription = xmlDoc.createElement("ABSTRACT");
+        abstractDescription.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormDocument.getProjectAbstract())));
+        projectInformationElement.appendChild(abstractDescription);
         
         return projectInformationElement;
     }
     
     /**
-     * Creates AMOUNTS_DATES node.
+     * Creates AMOUNTS_DATES node. Only puts current period into XML per functional specification.
      * 
      * @param routingFormDocument
      * @param xmlDoc
@@ -206,30 +209,28 @@ public class RoutingFormXml {
         DateFormat dateFormatterLong = DateFormat.getDateInstance(DateFormat.LONG, Locale.US);
         
         Element directCostsDescription = xmlDoc.createElement("DIRECT_COSTS");
-        directCostsDescription.setNodeValue(ObjectUtils.toString(routingFormBudget.getRoutingFormBudgetDirectAmount()));
+        directCostsDescription.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormBudget.getRoutingFormBudgetDirectAmount())));
         amountsDatesElement.appendChild(directCostsDescription);
         
         Element indirectCostsDescription = xmlDoc.createElement("INDIRECT_COSTS");
-        indirectCostsDescription.setNodeValue(ObjectUtils.toString(routingFormBudget.getRoutingFormBudgetIndirectCostAmount()));
+        indirectCostsDescription.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormBudget.getRoutingFormBudgetIndirectCostAmount())));
         amountsDatesElement.appendChild(indirectCostsDescription);
         
         Element totalCostsDescription = xmlDoc.createElement("TOTAL_COSTS");
-        totalCostsDescription.setNodeValue(ObjectUtils.toString(routingFormBudget.getTotalCostsCurrentPeriod()));
+        totalCostsDescription.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormBudget.getTotalCostsCurrentPeriod())));
         amountsDatesElement.appendChild(totalCostsDescription);
         
         Element startDateDescription = xmlDoc.createElement("START_DATE");
         if (routingFormBudget.getRoutingFormBudgetStartDate() != null) {
-            startDateDescription.setNodeValue(dateFormatterKra.format(routingFormBudget.getRoutingFormBudgetStartDate()));
+            startDateDescription.appendChild(xmlDoc.createTextNode(dateFormatterKra.format(routingFormBudget.getRoutingFormBudgetStartDate())));
         }
         amountsDatesElement.appendChild(startDateDescription);
         
         Element endDateDescription = xmlDoc.createElement("STOP_DATE");
         if (routingFormBudget.getRoutingFormBudgetEndDate() != null) {
-            endDateDescription.setNodeValue(dateFormatterKra.format(routingFormBudget.getRoutingFormBudgetEndDate()));
+            endDateDescription.appendChild(xmlDoc.createTextNode(dateFormatterKra.format(routingFormBudget.getRoutingFormBudgetEndDate())));
         }
         amountsDatesElement.appendChild(endDateDescription);
-        
-        // TODO: How to handle total and current line?
         
         return amountsDatesElement;
     }
@@ -247,20 +248,20 @@ public class RoutingFormXml {
         // TODO: dynamic fields?
         
         Element priorGrantDescription = xmlDoc.createElement("PRIOR_GRANT");
-        priorGrantDescription.setNodeValue(routingFormDocument.getRoutingFormPriorGrantNumber());
+        priorGrantDescription.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormDocument.getRoutingFormPriorGrantNumber())));
         typeElement.appendChild(priorGrantDescription);
         
         Element currentGrantDescription = xmlDoc.createElement("CURRENT_GRANT");
-        currentGrantDescription.setNodeValue(routingFormDocument.getGrantNumber());
+        currentGrantDescription.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormDocument.getGrantNumber())));
         typeElement.appendChild(currentGrantDescription);
         
         // TODO changed IU_ACCOUNT to INSTITUTION_ACCOUNT
         Element institutionAccountDescription = xmlDoc.createElement("INSTITUTION_ACCOUNT");
-        institutionAccountDescription.setNodeValue(routingFormDocument.getInstitutionAccountNumber());
+        institutionAccountDescription.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormDocument.getInstitutionAccountNumber())));
         typeElement.appendChild(institutionAccountDescription);
         
         Element currentProposalDescription = xmlDoc.createElement("CURRENT_PROPOSAL");
-        currentProposalDescription.setNodeValue(ObjectUtils.toString(routingFormDocument.getContractGrantProposal().getProposalNumber()));
+        currentProposalDescription.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(ObjectUtils.toString(routingFormDocument.getContractGrantProposal().getProposalNumber()))));
         typeElement.appendChild(currentProposalDescription);
         
         return typeElement;
@@ -293,27 +294,29 @@ public class RoutingFormXml {
 
         // TODO: dynamic fields?
         
-        Element percentCreditDescription = xmlDoc.createElement("PERCENT_CREDIT");
-        
-        for(RoutingFormPersonnel routingFormPerson : routingFormDocument.getRoutingFormPersonnel()) {
-            percentCreditDescription.setAttribute("NAME", routingFormPerson.getUser().getPersonName());
-            percentCreditDescription.setAttribute("ROLE", routingFormPerson.getPersonRoleText());
-            percentCreditDescription.setAttribute("CHART", routingFormPerson.getChartOfAccountsCode());
-            percentCreditDescription.setAttribute("ORG", routingFormPerson.getOrganizationCode());
-            percentCreditDescription.setAttribute("CREDIT", ObjectUtils.toString(routingFormPerson.getPersonCreditPercent()));
-            // TODO what about routingFormPerson.getPersonFinancialAidPercent() ?
+        if (routingFormDocument.getRoutingFormPersonnel().size() > 0 || routingFormDocument.getRoutingFormOrganizationCreditPercents().size() > 0) {
+            Element percentCreditDescription = xmlDoc.createElement("PERCENT_CREDIT");
+            
+            for(RoutingFormPersonnel routingFormPerson : routingFormDocument.getRoutingFormPersonnel()) {
+                percentCreditDescription.setAttribute("NAME", routingFormPerson.getUser().getPersonName());
+                percentCreditDescription.setAttribute("ROLE", routingFormPerson.getPersonRoleText());
+                percentCreditDescription.setAttribute("CHART", routingFormPerson.getChartOfAccountsCode());
+                percentCreditDescription.setAttribute("ORG", routingFormPerson.getOrganizationCode());
+                percentCreditDescription.setAttribute("CREDIT", ObjectUtils.toString(routingFormPerson.getPersonCreditPercent()));
+                // TODO what about routingFormPerson.getPersonFinancialAidPercent() ?
+            }
+    
+            for(RoutingFormOrganizationCreditPercent routingFormOrganizationCreditPercent : routingFormDocument.getRoutingFormOrganizationCreditPercents()) {
+                percentCreditDescription.setAttribute("NAME", routingFormOrganizationCreditPercent.getOrganization().getOrganizationName());
+                percentCreditDescription.setAttribute("ROLE", routingFormOrganizationCreditPercent.getOrganizationCreditRoleText());
+                percentCreditDescription.setAttribute("CHART", routingFormOrganizationCreditPercent.getChartOfAccountsCode());
+                percentCreditDescription.setAttribute("ORG", routingFormOrganizationCreditPercent.getOrganizationCode());
+                percentCreditDescription.setAttribute("CREDIT", ObjectUtils.toString(routingFormOrganizationCreditPercent.getOrganizationCreditPercent()));
+                // TODO what about routingFormOrganizationCreditPercent.getPersonFinancialAidPercent() ?
+            }
+            
+            projectDetailElement.appendChild(percentCreditDescription);
         }
-
-        for(RoutingFormOrganizationCreditPercent routingFormOrganizationCreditPercent : routingFormDocument.getRoutingFormOrganizationCreditPercents()) {
-            percentCreditDescription.setAttribute("NAME", routingFormOrganizationCreditPercent.getOrganization().getOrganizationName());
-            percentCreditDescription.setAttribute("ROLE", routingFormOrganizationCreditPercent.getOrganizationCreditRoleText());
-            percentCreditDescription.setAttribute("CHART", routingFormOrganizationCreditPercent.getChartOfAccountsCode());
-            percentCreditDescription.setAttribute("ORG", routingFormOrganizationCreditPercent.getOrganizationCode());
-            percentCreditDescription.setAttribute("CREDIT", ObjectUtils.toString(routingFormOrganizationCreditPercent.getOrganizationCreditPercent()));
-            // TODO what about routingFormOrganizationCreditPercent.getPersonFinancialAidPercent() ?
-        }
-        
-        projectDetailElement.appendChild(percentCreditDescription);
         
         return projectDetailElement;
     }
@@ -345,7 +348,7 @@ public class RoutingFormXml {
 
         for(RoutingFormKeyword routingFormKeyword : routingFormKeywords) {
             Element keywordDescription = xmlDoc.createElement("KEYWORDS");
-            keywordDescription.setNodeValue(routingFormKeyword.getRoutingFormKeywordDescription());
+            keywordDescription.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormKeyword.getRoutingFormKeywordDescription())));
             keywordsElement.appendChild(keywordDescription);            
         }
         
@@ -366,5 +369,14 @@ public class RoutingFormXml {
         // routingFormDocument.getDocumentHeader().getBoNotes();
         
         return commentsElement;
+    }
+    
+    /**
+     * Takes a boolean at returns its value as a "Y" or "N". This is how the xslts interpret indicators.
+     * @param bool
+     * @return
+     */
+    private static String formatBoolean(boolean bool) {
+        return bool ? "Y" : "N";
     }
 }

@@ -21,6 +21,10 @@
 	htmlFormAction="purapRequisition" renderMultipart="true"
 	showTabButtons="true">
 
+    <c:if test="${!empty KualiForm.editingMode['fullEntry']}">
+        <c:set var="fullEntryMode" value="true" scope="request" />
+    </c:if>
+
 	<kul:hiddenDocumentFields excludePostingYear="true" />
 
     <purap:hiddenPurapFields />
@@ -33,10 +37,6 @@
 	    	documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}"
 	    	detailSectionLabel="Requisition Detail" />
     </kul:documentOverview>
-	
-	<purap:viewRelatedDocuments
-	    	documentAttributes="${DataDictionary.SourceDocumentReference.attributes}"
-	    	/>
 	
     <purap:vendor
         documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}"
@@ -56,6 +56,10 @@
         documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}"
         displayRequisitionFields="true" />
 
+    <purap:viewRelatedDocuments
+            documentAttributes="${DataDictionary.SourceDocumentReference.attributes}"
+            />
+    
 	<purap:statushistory 
 		documentAttributes="${DataDictionary.RequisitionStatusHistory.attributes}" />
 

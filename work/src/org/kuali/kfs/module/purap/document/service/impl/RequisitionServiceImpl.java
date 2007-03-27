@@ -199,12 +199,14 @@ public class RequisitionServiceImpl implements RequisitionService {
             if (vendorDetail == null) {
                 return "Error retrieving vendor from the database.";
             }
-            Boolean vendorRestricted = vendorDetail.getVendorRestrictedIndicator();
-            if (vendorRestricted != requisition.getVendorRestrictedIndicator()) {
-                // restricted status of vendor has changed; save new status to requisition 
-                requisition.setVendorRestrictedIndicator(vendorDetail.getVendorRestrictedIndicator());
-                save(requisition);
-            }
+
+//TODO fix this
+//            Boolean vendorRestricted = vendorDetail.getVendorRestrictedIndicator();
+//            if (vendorRestricted != requisition.getVendorRestrictedIndicator()) {
+//                // restricted status of vendor has changed; save new status to requisition 
+//                requisition.setVendorRestrictedIndicator(vendorDetail.getVendorRestrictedIndicator());
+//                save(requisition);
+//            }
             if (requisition.getVendorRestrictedIndicator()) {
                 return "Selected vendor is marked as restricted.";
             }

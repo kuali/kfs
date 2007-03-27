@@ -25,7 +25,6 @@
 <%@ attribute name="displayRequisitionFields" required="false"
               description="A boolean as to whether the document is a Requisition."%>
              
-<c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
 <c:set var="notOtherDelBldg" value="${KualiForm.notOtherDelBldg}" />
 
 
@@ -45,7 +44,8 @@
                     	attributeEntry="${documentAttributes.deliveryBuildingName}" 
                     	property="document.deliveryBuildingName"
                     	onchange="submitForm()"
-                    	readOnly="${true}"/>&nbsp;
+                    	readOnly="true"/>&nbsp;
+                     <!-- TODO: figure out how to add fullEntryMode to this (initial try wasn't working) -->
                     <c:if test="${notOtherDelBldg}">
                     	<kul:lookup boClassName="org.kuali.kfs.bo.Building" 
                     		fieldConversions="buildingName:document.deliveryBuildingName,campusCode:document.deliveryCampusCode,buildingStreetAddress:document.deliveryBuildingLine1Address,buildingAddressCityName:document.deliveryCityName,buildingAddressStateCode:document.deliveryStateCode,buildingAddressZipCode:document.deliveryPostalCode"/>
@@ -56,9 +56,11 @@
                 </th>
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryToName}" 
-                    	property="document.deliveryToName" readOnly="${readOnly}"/>
-                    <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" 
-                    	fieldConversions="personName:document.deliveryToName,personEmailAddress:document.deliveryToEmailAddress,personLocalPhoneNumber:document.deliveryToPhoneNumber"/>
+                    	property="document.deliveryToName" readOnly="${not fullEntryMode}"/>
+                    <c:if test="${fullEntryMode}">
+                        <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" 
+                        	fieldConversions="personName:document.deliveryToName,personEmailAddress:document.deliveryToEmailAddress,personLocalPhoneNumber:document.deliveryToPhoneNumber"/>
+                    </c:if>
                 </td>
             </tr>
             <tr>
@@ -77,7 +79,7 @@
                 </th>
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryToEmailAddress}" 
-                    	property="document.deliveryToEmailAddress" readOnly="${readOnly}"/>
+                    	property="document.deliveryToEmailAddress" readOnly="${not fullEntryMode}"/>
                 </td>
             </tr>
 			<tr>
@@ -86,8 +88,8 @@
 				</th>
 				<td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingOther}" 
-                    	property="document.deliveryBuildingOther"  readOnly="${readOnly}"/>&nbsp;
-                    <c:if test="${!readOnly}">
+                    	property="document.deliveryBuildingOther"  readOnly="${not fullEntryMode}"/>&nbsp;
+                    <c:if test="${fullEntryMode}">
                     	<html:image property="methodToCall.refresh" src="images/buttonsmall_refresh.gif" alt="refresh" styleClass="tinybutton"/>
                     </c:if>
                 </td>
@@ -96,7 +98,7 @@
                 </th>
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryToPhoneNumber}" 
-                    	property="document.deliveryToPhoneNumber" readOnly="${readOnly}"/>
+                    	property="document.deliveryToPhoneNumber" readOnly="${not fullEntryMode}"/>
                 </td>
 			</tr>
 			<tr>
@@ -105,14 +107,14 @@
                 </th>
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingLine1Address}" 
-                    	property="document.deliveryBuildingLine1Address"  readOnly="${readOnly}"/>
+                    	property="document.deliveryBuildingLine1Address"  readOnly="${not fullEntryMode}"/>
                 </td>			
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryRequiredDate}"/></div>
                 </th>
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryRequiredDate}" datePicker="true" 
-                    	property="document.deliveryRequiredDate" readOnly="${readOnly}"/>
+                    	property="document.deliveryRequiredDate" readOnly="${not fullEntryMode}"/>
                 </td>
 			</tr>
 			<tr>
@@ -121,14 +123,14 @@
                 </th>
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingLine2Address}" 
-                    	property="document.deliveryBuildingLine2Address" readOnly="${readOnly}"/>
+                    	property="document.deliveryBuildingLine2Address" readOnly="${not fullEntryMode}"/>
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryRequiredDateReasonCode}"/></div>
                 </th>
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryRequiredDateReasonCode}" 
-                    	property="document.deliveryRequiredDateReasonCode" readOnly="${readOnly}"/>
+                    	property="document.deliveryRequiredDateReasonCode" readOnly="${not fullEntryMode}"/>
                 </td>
 			</tr>
 			<tr>
@@ -137,14 +139,14 @@
                 </th>
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingRoomNumber}" 
-                    	property="document.deliveryBuildingRoomNumber" readOnly="${readOnly}"/>
+                    	property="document.deliveryBuildingRoomNumber" readOnly="${not fullEntryMode}"/>
                 </td>			
                 <th align=right valign=middle class="bord-l-b" rowspan="4">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryInstructionText}"/></div>
                 </th>
                 <td align=left valign=middle class="datacell"  rowspan="4">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryInstructionText}" 
-                    	property="document.deliveryInstructionText" readOnly="${readOnly}"/>
+                    	property="document.deliveryInstructionText" readOnly="${not fullEntryMode}"/>
                 </td>
 			</tr>
 			<tr>
@@ -153,7 +155,7 @@
                 </th>
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryCityName}" 
-                    	property="document.deliveryCityName" readOnly="${readOnly}"/>
+                    	property="document.deliveryCityName" readOnly="${not fullEntryMode}"/>
                 </td>
             </tr>
             <tr>			
@@ -162,7 +164,7 @@
                 </th>
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryStateCode}" 
-                    	property="document.deliveryStateCode" readOnly="${readOnly}"/>
+                    	property="document.deliveryStateCode" readOnly="${not fullEntryMode}"/>
                 </td>
 			</tr>
 			<tr>
@@ -171,7 +173,7 @@
                 </th>
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryPostalCode}" 
-                    	property="document.deliveryPostalCode" readOnly="${readOnly}"/>
+                    	property="document.deliveryPostalCode" readOnly="${not fullEntryMode}"/>
                 </td>
 			</tr>
         </table>

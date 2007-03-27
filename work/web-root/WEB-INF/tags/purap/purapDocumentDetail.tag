@@ -27,8 +27,6 @@
 <%@ attribute name="detailSectionLabel" required="true"
 			  description="The label of the detail section."%>
 
-<c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
-
 <div class="h2-container">
 	<h2><c:out value="${detailSectionLabel}"/></h2>
 </div>
@@ -96,7 +94,7 @@
 	        	<kul:htmlControlAttribute 
 	                property="document.purchaseOrderConfirmedIndicator"
 	                attributeEntry="${documentAttributes.purchaseOrderConfirmedIndicator}" 
-	                readOnly="${readOnly}" />
+	                readOnly="${not fullEntryMode}" />
 	        </td> 
 	    </tr>
 	 </c:if>
@@ -118,7 +116,7 @@
 	        	<kul:htmlControlAttribute 
 	                property="document.statusChange" 
 	                attributeEntry="${documentAttributes.statusChange}" 
-	                readOnly="${readOnly}" />
+	                readOnly="${not fullEntryMode}" />
 	        </td>
 			<th align=right valign=middle class="bord-l-b" rowspan="2">
 	            <div align="right">
@@ -129,7 +127,7 @@
 	        	<kul:htmlControlAttribute 
 	                property="document.statusChangeNote" 
 	                attributeEntry="${documentAttributes.statusChangeNote}" 
-	                readOnly="${readOnly}" />
+	                readOnly="${not fullEntryMode}" />
 	        </td>	         		
 		</tr>
 		<tr>

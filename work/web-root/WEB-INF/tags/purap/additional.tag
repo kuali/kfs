@@ -26,7 +26,7 @@
 <%@ attribute name="displayRequisitionFields" required="false"
               description="Boolean to indicate if REQ specific fields should be displayed" %>
 
-<c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
+<c:set var="contentReadOnly" value="${not empty KualiForm.editingMode['lockContentEntry']}" />
 
 <kul:tab tabTitle="Additional" defaultOpen="true" tabErrorKey="${PurapConstants.ADDITIONAL_TAB_ERRORS}">
 
@@ -44,7 +44,7 @@
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.chartOfAccountsCode}" property="document.chartOfAccountsCode" readOnly="true" />
                     &nbsp;/&nbsp;<kul:htmlControlAttribute attributeEntry="${documentAttributes.organizationCode}" property="document.organizationCode"  readOnly="true"/>
-			        <c:if test="${!readOnly}" >
+			        <c:if test="${fullEntryMode and not contentReadOnly}" >
 			            <kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="organizationCode:document.organizationCode,chartOfAccountsCode:document.chartOfAccountsCode"/>
 			        </c:if>
                 </td>
@@ -52,8 +52,8 @@
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.requestorPersonName}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.requestorPersonName}" property="document.requestorPersonName" readOnly="${readOnly}" />
-			        <c:if test="${!readOnly}" >
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.requestorPersonName}" property="document.requestorPersonName" readOnly="${not fullEntryMode}" />
+			        <c:if test="${fullEntryMode}" >
                         <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personName:document.requestorPersonName,personLocalPhoneNumber:document.requestorPersonPhoneNumber,personEmailAddress:document.requestorPersonEmailAddress" /></div>
 			        </c:if>
                 </td>
@@ -64,13 +64,13 @@
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderTransmissionMethodCode}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderTransmissionMethodCode}" property="document.purchaseOrderTransmissionMethodCode" readOnly="${readOnly}" />
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderTransmissionMethodCode}" property="document.purchaseOrderTransmissionMethodCode" readOnly="${not fullEntryMode}" />
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.requestorPersonPhoneNumber}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.requestorPersonPhoneNumber}" property="document.requestorPersonPhoneNumber" readOnly="${readOnly}" />
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.requestorPersonPhoneNumber}" property="document.requestorPersonPhoneNumber" readOnly="${not fullEntryMode}" />
                 </td>
             </tr>
 
@@ -79,13 +79,13 @@
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderCostSourceCode}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderCostSourceCode}" property="document.purchaseOrderCostSourceCode" readOnly="${readOnly}" />
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderCostSourceCode}" property="document.purchaseOrderCostSourceCode" readOnly="${not fullEntryMode}" />
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.requestorPersonEmailAddress}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.requestorPersonEmailAddress}" property="document.requestorPersonEmailAddress" readOnly="${readOnly}" />
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.requestorPersonEmailAddress}" property="document.requestorPersonEmailAddress" readOnly="${not fullEntryMode}" />
                 </td>
             </tr>
             
@@ -94,8 +94,8 @@
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.institutionContactName}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.institutionContactName}" property="document.institutionContactName" readOnly="${readOnly}" />
-			        <c:if test="${!readOnly}" >
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.institutionContactName}" property="document.institutionContactName" readOnly="${not fullEntryMode}" />
+			        <c:if test="${fullEntryMode}" >
                         <kul:lookup boClassName="org.kuali.core.bo.user.UniversalUser" fieldConversions="personName:document.institutionContactName,personLocalPhoneNumber:document.institutionContactPhoneNumber,personEmailAddress:document.institutionContactEmailAddress" /></div>
 			        </c:if>
                 </td>
@@ -106,7 +106,7 @@
 		                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.requisitionOrganizationReference1Text}" /></div>
 		                </th>
 		                <td align=left valign=middle class="datacell">
-		                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.requisitionOrganizationReference1Text}" property="document.requisitionOrganizationReference1Text" readOnly="${readOnly}" />
+		                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.requisitionOrganizationReference1Text}" property="document.requisitionOrganizationReference1Text" readOnly="${not fullEntryMode}" />
 		                </td>
 	                </c:when>
         			<c:otherwise>
@@ -125,7 +125,7 @@
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.institutionContactPhoneNumber}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.institutionContactPhoneNumber}" property="document.institutionContactPhoneNumber" readOnly="${readOnly}" />
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.institutionContactPhoneNumber}" property="document.institutionContactPhoneNumber" readOnly="${not fullEntryMode}" />
                 </td>
 
                 <c:choose>
@@ -134,7 +134,7 @@
 		                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.requisitionOrganizationReference2Text}" /></div>
 		                </th>
 		                <td align=left valign=middle class="datacell">
-		                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.requisitionOrganizationReference2Text}" property="document.requisitionOrganizationReference1Text" readOnly="${readOnly}" />
+		                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.requisitionOrganizationReference2Text}" property="document.requisitionOrganizationReference1Text" readOnly="${not fullEntryMode}" />
 		                </td>
 	                </c:when>
         			<c:otherwise>
@@ -153,7 +153,7 @@
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.institutionContactEmailAddress}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.institutionContactEmailAddress}" property="document.institutionContactEmailAddress" readOnly="${readOnly}" />
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.institutionContactEmailAddress}" property="document.institutionContactEmailAddress" readOnly="${not fullEntryMode}" />
                 </td>
 
                 <c:choose>
@@ -162,7 +162,7 @@
 		                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.requisitionOrganizationReference3Text}" /></div>
 		                </th>
 		                <td align=left valign=middle class="datacell">
-		                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.requisitionOrganizationReference1Text}" property="document.requisitionOrganizationReference3Text" readOnly="${readOnly}" />
+		                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.requisitionOrganizationReference1Text}" property="document.requisitionOrganizationReference3Text" readOnly="${not fullEntryMode}" />
 		                </td>
 	                </c:when>
         			<c:otherwise>
@@ -181,7 +181,7 @@
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderTotalLimit}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderTotalLimit}" property="document.purchaseOrderTotalLimit" readOnly="${readOnly}" />
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderTotalLimit}" property="document.purchaseOrderTotalLimit" readOnly="${not fullEntryMode}" />
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                     &nbsp;

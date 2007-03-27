@@ -22,6 +22,9 @@
     htmlFormAction="purapPaymentRequest" renderMultipart="true"
     showTabButtons="true">
 
+    <c:if test="${!empty KualiForm.editingMode['fullEntry']}">
+        <c:set var="fullEntryMode" value="true" scope="request" />
+    </c:if>
 
     <kul:hiddenDocumentFields excludePostingYear="true" />
 	
@@ -36,7 +39,6 @@
     <html:hidden property="document.paymentRequestCostSourceCode" />
     <html:hidden property="document.accountsPayableProcessorIdentifier" />
     <!-- html:hidden property="document.paymentRequestInitiated" /-->
-    
     
     <!-- TODO move this to where? -->
     <!-- html:hidden property="document.requisitionIdentifier" / -->
@@ -53,7 +55,7 @@
         documentAttributes="${DataDictionary.KualiPaymentRequestDocument.attributes}" 
         displayPurchaseOrderFields="false" displayPaymentRequestFields="true"/ -->
 	<!-- c:out value="${KualiForm.paymentRequestInitiated}" /-->
-	
+
 	<c:if test="${not KualiForm.paymentRequestInitiated}">
 		<purap:paymentRequestInvoiceInfo documentAttributes="${DataDictionary.KualiPaymentRequestDocument.attributes}"
 	 		 displayPaymentRequestInvoiceInfoFields="true" />        

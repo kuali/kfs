@@ -25,8 +25,6 @@
 
 <c:set var="stipulationAttributes" value="${DataDictionary.PurchaseOrderVendorStipulation.attributes}" />
 
-<c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
-
 <kul:tab tabTitle="Stipulations & Info" defaultOpen="true" tabErrorKey="${PurapConstants.STIPULATIONS_TAB_ERRORS}">
     <div class="tab-container" align=center>
         <div class="h2-container">
@@ -38,20 +36,20 @@
                 <kul:htmlAttributeHeaderCell attributeEntry="${stipulationAttributes.vendorStipulationDescription}" />
                 <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
             </tr>
-            <tr>
-                <kul:htmlAttributeHeaderCell literalLabel="add:" scope="row"/>
-                <td class="infoline">
-                    <kul:htmlControlAttribute 
-                        attributeEntry="${stipulationAttributes.vendorStipulationDescription}" 
-                        property="newPurchaseOrderVendorStipulationLine.vendorStipulationDescription" />
-                    <c:if test="${!readOnly}" >
+            <c:if test="${fullEntryMode}" >
+                <tr>
+                    <kul:htmlAttributeHeaderCell literalLabel="add:" scope="row"/>
+                    <td class="infoline">
+                        <kul:htmlControlAttribute 
+                            attributeEntry="${stipulationAttributes.vendorStipulationDescription}" 
+                            property="newPurchaseOrderVendorStipulationLine.vendorStipulationDescription" />
                         <kul:lookup boClassName="org.kuali.module.purap.bo.VendorStipulation" fieldConversions="vendorStipulationDescription:document.vendorStipulationDescription" /></div>
-                    </c:if>
-                </td>
-                <td class="infoline">
-            		<div align="center"><html:image property="methodToCall.addStipulation" src="images/tinybutton-add1.gif" alt="Insert a Stipulation" title="Add a Stipulation" styleClass="tinybutton"/></div>
-				</td>
-            </tr>
+                    </td>
+                    <td class="infoline">
+                		<div align="center"><html:image property="methodToCall.addStipulation" src="images/tinybutton-add1.gif" alt="Insert a Stipulation" title="Add a Stipulation" styleClass="tinybutton"/></div>
+    				</td>
+                </tr>
+            </c:if>
         	<logic:notEmpty name="KualiForm" property="document.purchaseOrderVendorStipulations">
 	 			<logic:iterate name="KualiForm" id="stipulation" property="document.purchaseOrderVendorStipulations" indexId="ctr">
                     <tr>
@@ -60,7 +58,7 @@
 		                    <kul:htmlControlAttribute 
 		                        attributeEntry="${stipulationAttributes.vendorStipulationDescription}" 
 		                        property="document.purchaseOrderVendorStipulation[${ctr}].vendorStipulationDescription" 
-		                        readOnly="${readOnly}" 
+		                        readOnly="${not fullEntryMode}" 
 		                    />
                             <html:hidden property="document.purchaseOrderVendorStipulation[${ctr}].vendorStipulationCreateDate" />
                             <html:hidden property="document.purchaseOrderVendorStipulation[${ctr}].vendorStipulationAuthorEmployeeIdentifier" />

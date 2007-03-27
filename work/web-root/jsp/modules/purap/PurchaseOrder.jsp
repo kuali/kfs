@@ -21,6 +21,10 @@
     htmlFormAction="purapPurchaseOrder" renderMultipart="true"
     showTabButtons="true">
 
+    <c:if test="${!empty KualiForm.editingMode['fullEntry']}">
+        <c:set var="fullEntryMode" value="true" scope="request" />
+    </c:if>
+
     <kul:hiddenDocumentFields excludePostingYear="true" />
 
     <purap:hiddenPurapFields />

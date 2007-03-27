@@ -33,13 +33,12 @@
         </div>
 
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Payment Info Section">
-
             <tr>
                 <th align=right valign=middle class="bord-l-b">
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.recurringPaymentTypeCode}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentTypeCode}" property="document.recurringPaymentTypeCode" />
+                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentTypeCode}" property="document.recurringPaymentTypeCode" readOnly="${not fullEntryMode}" />
                 </td>
             </tr>
             <tr>
@@ -47,10 +46,10 @@
                    <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.purchaseOrderBeginDate}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell"> from:
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderBeginDate}" property="document.purchaseOrderBeginDate" datePicker="true"/>
+                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderBeginDate}" property="document.purchaseOrderBeginDate" datePicker="true" readOnly="${not fullEntryMode}"/>
                  	&nbsp;&nbsp;
                   to:
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderEndDate}" property="document.purchaseOrderEndDate" datePicker="true"/>
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderEndDate}" property="document.purchaseOrderEndDate" datePicker="true" readOnly="${not fullEntryMode}"/>
                </td> 
             </tr>
 		</table> 
@@ -66,13 +65,13 @@
 	                   <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.recurringPaymentAmount}" /></div>
 	                </th>
 	                <td align=left valign=middle class="datacell"> Amount:
-	                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentAmount}" property="document.recurringPaymentAmount"/>
+	                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentAmount}" property="document.recurringPaymentAmount" readOnly="${not fullEntryMode}"/>
 	                 	&nbsp;&nbsp;
 	                  	First Payment Date:
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentDate}" property="document.recurringPaymentDate" datePicker="true"/>
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentDate}" property="document.recurringPaymentDate" datePicker="true" readOnly="${not fullEntryMode}"/>
 	              		&nbsp;&nbsp;
 	              		Frequency:
-	                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentFrequencyCode}" property="document.recurringPaymentFrequencyCode" />
+	                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentFrequencyCode}" property="document.recurringPaymentFrequencyCode" readOnly="${not fullEntryMode}"/>
 	                </td> 
 	            </tr>
 	            <tr>
@@ -80,10 +79,10 @@
 	                   <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.initialPaymentAmount}" /></div>
 	                </th>
 	                <td align=left valign=middle class="datacell"> Amount:
-	                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.initialPaymentAmount}" property="document.initialPaymentAmount" />
+	                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.initialPaymentAmount}" property="document.initialPaymentAmount" readOnly="${not fullEntryMode}"/>
 	                 	&nbsp;&nbsp;
 	                  Date:
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.initialPaymentDate}" property="document.initialPaymentDate" datePicker="true"/>
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.initialPaymentDate}" property="document.initialPaymentDate" datePicker="true" readOnly="${not fullEntryMode}"/>
 	               </td> 
 	            </tr>
 	            <tr>
@@ -91,10 +90,10 @@
 	                   <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.finalPaymentAmount}" /></div>
 	                </th>
 	                <td align=left valign=middle class="datacell"> Amount:
-	                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.finalPaymentAmount}" property="document.finalPaymentAmount" />
+	                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.finalPaymentAmount}" property="document.finalPaymentAmount" readOnly="${not fullEntryMode}"/>
 	                 	&nbsp;&nbsp;
 	                  Date:
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.finalPaymentDate}" property="document.finalPaymentDate" datePicker="true"/>
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.finalPaymentDate}" property="document.finalPaymentDate" datePicker="true" readOnly="${not fullEntryMode}"/>
 	               </td> 
 	            </tr>
 			</table> 
@@ -111,15 +110,10 @@
                 </th>
                 <td align=left valign=middle class="datacell">
                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.billingName}" property="document.billingName" readOnly="true" /><br>
-                 
                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.billingLine1Address}" property="document.billingLine1Address" readOnly="true" /><br>
-        
 	        		<c:if test="${!empty document.billingLine2Address}">
-	        	
 	                   	<kul:htmlControlAttribute attributeEntry="${documentAttributes.billingLine2Address}" property="document.billingLine2Address" readOnly="true" /><br>
-	                	
 	        		</c:if>
-	         
                		<kul:htmlControlAttribute attributeEntry="${documentAttributes.billingCityName}" property="document.billingCityName" readOnly="true" />,&nbsp;
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.billingStateCode}" property="document.billingStateCode" readOnly="true" />&nbsp;&nbsp;
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.billingPostalCode}" property="document.billingPostalCode" readOnly="true" /><br>

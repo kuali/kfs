@@ -105,6 +105,7 @@
                 <field attributeName="proposalEndingDate" />
 				<field attributeName="grantNumber" />
                 <field attributeName="proposalStatusCode" />
+                <field attributeName="primaryProposalOrganization.organizationCode" />
 
             </resultFields>
 
@@ -113,6 +114,13 @@
         <titleAttribute>proposalNumber</titleAttribute>
 
         <attributes>
+
+			<attributeReference name="primaryProposalOrganization.organizationCode" sourceClassName="org.kuali.module.cg.bo.ProposalOrganization" sourceAttributeName="organizationCode" >
+				<label>Primary Organization Code</label>
+				<shortLabel>Primary Org Cd</shortLabel>
+				<summary>Primary Organization Code</summary>
+				<description>Insert desc here...</description>
+			</attributeReference>
 
             <attributeReference name="proposalOrganizations.organization.organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
 				<label>Organization Code</label>
@@ -467,6 +475,9 @@
             </relationship>
             <relationship objectAttributeName="proposalProjectDirectors.projectDirector" >
                 <primitiveAttribute sourceName="proposalProjectDirectors.projectDirector.personUniversalIdentifier" targetName="personUniversalIdentifier" />
+            </relationship>
+            <relationship objectAttributeName="primaryProposalOrganization" >
+            	<primitiveAttribute sourceName="primaryProposalOrganization.organizationCode" targetName="organizationCode" />
             </relationship>
         </relationships>
         

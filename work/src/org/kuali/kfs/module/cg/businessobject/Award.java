@@ -88,7 +88,8 @@ public class Award extends PersistableBusinessObjectBase {
     private Agency agency;
     private Agency federalPassThroughAgency;
     private ProposalPurpose awardPurpose;
-
+    private AwardOrganization primaryAwardOrganization;
+    
     /**
      * Default constructor.
      */
@@ -1050,6 +1051,31 @@ public class Award extends PersistableBusinessObjectBase {
      */
     public void setAwardSubcontractors(List<AwardSubcontractor> awardSubcontractors) {
         this.awardSubcontractors = awardSubcontractors;
+    }
+
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    public AwardOrganization getPrimaryAwardOrganization() {
+        for(AwardOrganization ao:awardOrganizations) {
+            if(ao!=null && ao.isAwardPrimaryOrganizationIndicator()) {
+                setPrimaryAwardOrganization(ao);
+                break;
+            }
+        }
+        
+        return primaryAwardOrganization;
+    }
+
+    /**
+     * 
+     * This method...
+     * @param primaryAwardOrganization
+     */
+    public void setPrimaryAwardOrganization(AwardOrganization primaryAwardOrganization) {
+        this.primaryAwardOrganization = primaryAwardOrganization;
     }
 
     /**

@@ -87,8 +87,6 @@ public class LaborReportServiceTest extends KualiTestBase {
         businessObjectService = (BusinessObjectService) beanFactory.getBean("businessObjectService");
         persistenceService = (PersistenceService) beanFactory.getBean("persistenceService");
         
-        // laborReportService = (LaborReportService) beanFactory.getBean("laborReportServiceForUnitTesting");
-        // in order to generate PDF reports, please uncomment the statement below
         laborReportService = (LaborReportService) beanFactory.getBean("laborReportService");
         
         kualiConfigurationService = (KualiConfigurationService) beanFactory.getBean("kualiConfigurationService");
@@ -107,67 +105,72 @@ public class LaborReportServiceTest extends KualiTestBase {
         businessObjectService.deleteMatching(LaborOriginEntry.class, fieldValues);
     }
 
-    public void testGeneratePosterInputSummaryReport() throws Exception {
-        int numberOfTestData = Integer.valueOf(properties.getProperty("generatePosterInputSummaryReport.numOfData"));
+    public void testGenerateInputSummaryReport() throws Exception {
+        String testTarget = "generateInputSummaryReport.";
+        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
         List<OriginEntryGroup> groups = new ArrayList<OriginEntryGroup>();
 
-        laborReportService.generatePosterInputSummaryReport(groups, ReportRegistry.LABOR_POSTER_INPUT, reportsDirectory, today);
+        laborReportService.generateInputSummaryReport(groups, ReportRegistry.LABOR_POSTER_INPUT, reportsDirectory, today);
 
         groups.add(group1);
-        businessObjectService.save(getInputDataList("generatePosterInputSummaryReport.testData", numberOfTestData, group1));
+        businessObjectService.save(getInputDataList(testTarget + "testData", numberOfTestData, group1));
         groups.add(group2);
-        businessObjectService.save(getInputDataList("generatePosterInputSummaryReport.testData", numberOfTestData, group2));
-        laborReportService.generatePosterInputSummaryReport(groups, ReportRegistry.LABOR_POSTER_INPUT, reportsDirectory, today);
+        businessObjectService.save(getInputDataList(testTarget + "testData", numberOfTestData, group2));
+        laborReportService.generateInputSummaryReport(groups, ReportRegistry.LABOR_POSTER_INPUT, reportsDirectory, today);
     }
 
-    public void testGeneratePosterErrorTransactionListing() throws Exception {
-        int numberOfTestData = Integer.valueOf(properties.getProperty("generatePosterErrorTransactionListing.numOfData"));
+    public void testGenerateErrorTransactionListing() throws Exception {
+        String testTarget = "generateErrorTransactionListing.";
+        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
 
-        laborReportService.generatePosterErrorTransactionListing(invalidGroup, ReportRegistry.LABOR_POSTER_ERROR, reportsDirectory, today);
+        laborReportService.generateErrorTransactionListing(invalidGroup, ReportRegistry.LABOR_POSTER_ERROR, reportsDirectory, today);
 
-        businessObjectService.save(getInputDataList("generatePosterErrorTransactionListing.testData", numberOfTestData, invalidGroup));
-        businessObjectService.save(getInputDataList("generatePosterErrorTransactionListing.testData", numberOfTestData, invalidGroup));
-        laborReportService.generatePosterErrorTransactionListing(invalidGroup, ReportRegistry.LABOR_POSTER_ERROR, reportsDirectory, today);
+        businessObjectService.save(getInputDataList(testTarget + "testData", numberOfTestData, invalidGroup));
+        businessObjectService.save(getInputDataList(testTarget + "testData", numberOfTestData, invalidGroup));
+        laborReportService.generateErrorTransactionListing(invalidGroup, ReportRegistry.LABOR_POSTER_ERROR, reportsDirectory, today);
     }
 
-    public void testGeneratePosterOutputSummaryReportByGroups() throws Exception {
-        int numberOfTestData = Integer.valueOf(properties.getProperty("generatePosterOutputSummaryReport.numOfData"));
+    public void testGenerateOutputSummaryReportByGroups() throws Exception {
+        String testTarget = "generateOutputSummaryReport.";
+        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
         List<OriginEntryGroup> groups = new ArrayList<OriginEntryGroup>();
 
-        laborReportService.generatePosterOutputSummaryReport(groups, ReportRegistry.LABOR_POSTER_OUTPUT, reportsDirectory, today);
+        laborReportService.generateOutputSummaryReport(groups, ReportRegistry.LABOR_POSTER_OUTPUT, reportsDirectory, today);
 
         groups.add(group1);
-        businessObjectService.save(getInputDataList("generatePosterOutputSummaryReport.testData", numberOfTestData, group1));
+        businessObjectService.save(getInputDataList(testTarget + "testData", numberOfTestData, group1));
         groups.add(group2);
-        businessObjectService.save(getInputDataList("generatePosterOutputSummaryReport.testData", numberOfTestData, group2));
-        laborReportService.generatePosterOutputSummaryReport(groups, ReportRegistry.LABOR_POSTER_OUTPUT, reportsDirectory, today);
+        businessObjectService.save(getInputDataList(testTarget + "testData", numberOfTestData, group2));
+        laborReportService.generateOutputSummaryReport(groups, ReportRegistry.LABOR_POSTER_OUTPUT, reportsDirectory, today);
     }
     
-    public void testGeneratePosterOutputSummaryReportBySingleGroup() throws Exception {
-        int numberOfTestData = Integer.valueOf(properties.getProperty("generatePosterOutputSummaryReport.numOfData"));
+    public void testGenerateOutputSummaryReportBySingleGroup() throws Exception {
+        String testTarget = "generateOutputSummaryReport.";
+        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
 
-        laborReportService.generatePosterOutputSummaryReport(group1, ReportRegistry.LABOR_POSTER_OUTPUT_BY_SINGLE_GROUP, reportsDirectory, today);
+        laborReportService.generateOutputSummaryReport(group1, ReportRegistry.LABOR_POSTER_OUTPUT_BY_SINGLE_GROUP, reportsDirectory, today);
 
-        businessObjectService.save(getInputDataList("generatePosterOutputSummaryReport.testData", numberOfTestData, group1));
-        laborReportService.generatePosterOutputSummaryReport(group1, ReportRegistry.LABOR_POSTER_OUTPUT_BY_SINGLE_GROUP, reportsDirectory, today);
+        businessObjectService.save(getInputDataList(testTarget + "testData", numberOfTestData, group1));
+        laborReportService.generateOutputSummaryReport(group1, ReportRegistry.LABOR_POSTER_OUTPUT_BY_SINGLE_GROUP, reportsDirectory, today);
     }
 
-    public void testGeneratePosterStatisticsReport() throws Exception {
-        int numberOfTestData = Integer.valueOf(properties.getProperty("generatePosterStatisticsReport.numOfData"));
+    public void testGenerateStatisticsReport() throws Exception {
+        String testTarget = "generateStatisticsReport.";
+        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
         List<OriginEntryGroup> groups = new ArrayList<OriginEntryGroup>();
 
         List<Summary> reportSummary = this.getReportSummary();
-        laborReportService.generatePosterStatisticsReport(reportSummary, null, ReportRegistry.LABOR_POSTER_STATISTICS, reportsDirectory, today);
+        laborReportService.generateStatisticsReport(reportSummary, null, ReportRegistry.LABOR_POSTER_STATISTICS, reportsDirectory, today);
 
         groups.add(group1);
-        businessObjectService.save(getInputDataList("generatePosterStatisticsReport.testData", numberOfTestData, group1));
+        businessObjectService.save(getInputDataList(testTarget + "testData", numberOfTestData, group1));
         groups.add(group2);
-        businessObjectService.save(getInputDataList("generatePosterStatisticsReport.testData", numberOfTestData, group2));
+        businessObjectService.save(getInputDataList(testTarget + "testData", numberOfTestData, group2));
         
         persistenceService.getPersistenceBroker().clearCache();
 
         Map<Transaction, List<Message>> errorMap = this.getErrorMap(groups);
-        laborReportService.generatePosterStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_STATISTICS, reportsDirectory, today);
+        laborReportService.generateStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_STATISTICS, reportsDirectory, today);
     }
 
     private List<Summary> getReportSummary() {

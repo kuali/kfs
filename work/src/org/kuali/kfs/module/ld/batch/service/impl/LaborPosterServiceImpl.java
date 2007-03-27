@@ -117,10 +117,10 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, Constants.OperationType.SELECT, numberOfSelectedOriginEntry, 0);
         Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, Constants.OperationType.REPORT_ERROR, errorMap.size(), 0);
 
-        reportService.generatePosterStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_STATISTICS, reportsDirectory, runDate);
-        reportService.generatePosterInputSummaryReport(postingGroups, ReportRegistry.LABOR_POSTER_INPUT, reportsDirectory, runDate);
-        reportService.generatePosterOutputSummaryReport(validGroup, ReportRegistry.LABOR_POSTER_OUTPUT, reportsDirectory, runDate);
-        reportService.generatePosterErrorTransactionListing(invalidGroup, ReportRegistry.LABOR_POSTER_ERROR, reportsDirectory, runDate);
+        reportService.generateStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_STATISTICS, reportsDirectory, runDate);
+        reportService.generateInputSummaryReport(postingGroups, ReportRegistry.LABOR_POSTER_INPUT, reportsDirectory, runDate);
+        reportService.generateOutputSummaryReport(validGroup, ReportRegistry.LABOR_POSTER_OUTPUT, reportsDirectory, runDate);
+        reportService.generateErrorTransactionListing(invalidGroup, ReportRegistry.LABOR_POSTER_ERROR, reportsDirectory, runDate);
     }
 
     // post the given entry into the labor ledger tables if the entry is qualified; otherwise report error
@@ -213,7 +213,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, Constants.OperationType.READ, numberOfOriginEntry, 0);
         Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, Constants.OperationType.SELECT, numberOfSelectedOriginEntry, 0);
         Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, Constants.OperationType.REPORT_ERROR, errorMap.size(), 0);
-        reportService.generatePosterStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_GL_SUMMARY, reportsDirectory, runDate);
+        reportService.generateStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_GL_SUMMARY, reportsDirectory, runDate);
     }
 
     // determine if the given origin entry can be posted back to Labor GL entry

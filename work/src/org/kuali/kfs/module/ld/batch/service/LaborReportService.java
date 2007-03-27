@@ -32,27 +32,27 @@ import org.kuali.module.labor.util.ReportRegistry;
 public interface LaborReportService {
 
     /**
-     * Generate poster input summary report with the given information
+     * Generate input summary report with the given information
      * 
      * @param groups the given origin entry groups
      * @param reportInfo the primary elements of a report, such as report title and report file name
      * @param reportsDirectory the directory in file system that is used to contain reports
      * @param runDate the datetime of the repor generation
      */
-    public void generatePosterInputSummaryReport(Collection<OriginEntryGroup> groups, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
+    public void generateInputSummaryReport(Collection<OriginEntryGroup> groups, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
 
     /**
-     * Generate poster error transaction listing as a report
+     * Generate error transaction listing as a report
      * 
      * @param group the given origin entry group
      * @param reportInfo the primary elements of a report, such as report title and report file name
      * @param reportsDirectory the directory in file system that is used to contain reports
      * @param runDate the datetime of the repor generation
      */
-    public void generatePosterErrorTransactionListing(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
+    public void generateErrorTransactionListing(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
 
     /**
-     * Generate poster statistics report with the given information
+     * Generate statistics report with the given information
      * 
      * @param reportSummary a list of report <code>Summary<code> objects
      * @param errors the tansactions with problems and the descriptions of the problems
@@ -60,25 +60,25 @@ public interface LaborReportService {
      * @param reportsDirectory the directory in file system that is used to contain reports
      * @param runDate the datetime of the repor generation
      */
-    public void generatePosterStatisticsReport(List<Summary> reportSummary, Map<Transaction, List<Message>> errors, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
+    public void generateStatisticsReport(List<Summary> reportSummary, Map<Transaction, List<Message>> errors, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
 
     /**
-     * Generate poster output summary report with the given information
+     * Generate output summary report with the given information
      * 
      * @param groups the given origin entry groups
      * @param reportInfo the primary elements of a report, such as report title and report file name
      * @param reportsDirectory the directory in file system that is used to contain reports
      * @param runDate the datetime of the repor generation
      */
-    public void generatePosterOutputSummaryReport(Collection<OriginEntryGroup> groups, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
+    public void generateOutputSummaryReport(Collection<OriginEntryGroup> groups, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
 
     /**
-     * Generate poster output summary report with the given information
+     * Generate output summary report with the given information
      * 
      * @param group the given origin entry group
      * @param reportInfo the primary elements of a report, such as report title and report file name
      * @param reportsDirectory the directory in file system that is used to contain reports
      * @param runDate the datetime of the repor generation
      */
-    public void generatePosterOutputSummaryReport(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
+    public void generateOutputSummaryReport(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
 }

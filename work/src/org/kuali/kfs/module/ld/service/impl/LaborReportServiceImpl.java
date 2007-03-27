@@ -48,10 +48,10 @@ public class LaborReportServiceImpl implements LaborReportService {
     private OriginEntryGroupService originEntryGroupService;
 
     /**
-     * @see org.kuali.module.labor.service.LaborReportService#generate(java.util.Collection, org.kuali.module.labor.util.ReportRegistry,
-     *      java.util.Date)
+     * @see org.kuali.module.labor.service.LaborReportService#generateInputSummaryReport(java.util.Collection,
+     *      org.kuali.module.labor.util.ReportRegistry, java.lang.String, java.util.Date)
      */
-    public void generatePosterInputSummaryReport(Collection<OriginEntryGroup> groups, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
+    public void generateInputSummaryReport(Collection<OriginEntryGroup> groups, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
         LedgerEntryHolder ledgerEntries;
         ledgerEntries = groups.size() > 0 ? laborOriginEntryService.getSummariedEntriesByGroups(groups) : new LedgerEntryHolder();
 
@@ -59,43 +59,44 @@ public class LaborReportServiceImpl implements LaborReportService {
         ledgerReport.generateReport(ledgerEntries, runDate, reportInfo.reportTitle(), reportInfo.reportFilename(), reportsDirectory);
     }
 
+
     /**
-     * @see org.kuali.module.labor.service.LaborReportService#generate(org.kuali.module.gl.bo.OriginEntryGroup,
-     *      org.kuali.module.labor.util.ReportRegistry, java.util.Date)
+     * @see org.kuali.module.labor.service.LaborReportService#generateErrorTransactionListing(org.kuali.module.gl.bo.OriginEntryGroup,
+     *      org.kuali.module.labor.util.ReportRegistry, java.lang.String, java.util.Date)
      */
-    public void generatePosterErrorTransactionListing(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
+    public void generateErrorTransactionListing(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
         Iterator entries = laborOriginEntryService.getEntriesByGroup(group);
         TransactionListingReport transactionListingReport = new TransactionListingReport();
         transactionListingReport.generateReport(entries, runDate, reportInfo.reportTitle(), reportInfo.reportFilename(), reportsDirectory);
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborReportService#generatePosterStatisticsReport(java.util.Map, java.util.Map,
-     *      org.kuali.module.labor.util.ReportRegistry, java.util.Date)
+     * @see org.kuali.module.labor.service.LaborReportService#generateStatisticsReport(java.util.List, java.util.Map,
+     *      org.kuali.module.labor.util.ReportRegistry, java.lang.String, java.util.Date)
      */
-    public void generatePosterStatisticsReport(List<Summary> reportSummary, Map<Transaction, List<Message>> errors, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
+    public void generateStatisticsReport(List<Summary> reportSummary, Map<Transaction, List<Message>> errors, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
         TransactionReport transactionReport = new TransactionReport();
         transactionReport.generateReport(errors, reportSummary, runDate, reportInfo.reportTitle(), reportInfo.reportFilename(), reportsDirectory);
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborReportService#generatePosterOutputSummaryReport(java.util.Collection,
-     *      org.kuali.module.labor.util.ReportRegistry, java.util.Date)
+     * @see org.kuali.module.labor.service.LaborReportService#generateOutputSummaryReport(java.util.Collection,
+     *      org.kuali.module.labor.util.ReportRegistry, java.lang.String, java.util.Date)
      */
-    public void generatePosterOutputSummaryReport(Collection<OriginEntryGroup> groups, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
+    public void generateOutputSummaryReport(Collection<OriginEntryGroup> groups, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
         PosterOutputSummaryReport posterOutputSummaryReport = new PosterOutputSummaryReport();
         Map<String, PosterOutputSummaryEntry> posterOutputSummary = laborOriginEntryService.getPosterOutputSummaryByGroups(groups);
         posterOutputSummaryReport.generateReport(posterOutputSummary, runDate, reportInfo.reportTitle(), reportInfo.reportFilename(), reportsDirectory);
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborReportService#generatePosterOutputSummaryReport(org.kuali.module.gl.bo.OriginEntryGroup,
-     *      org.kuali.module.labor.util.ReportRegistry, java.util.Date)
+     * @see org.kuali.module.labor.service.LaborReportService#generateOutputSummaryReport(org.kuali.module.gl.bo.OriginEntryGroup,
+     *      org.kuali.module.labor.util.ReportRegistry, java.lang.String, java.util.Date)
      */
-    public void generatePosterOutputSummaryReport(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
+    public void generateOutputSummaryReport(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
         List<OriginEntryGroup> groups = new ArrayList<OriginEntryGroup>();
         groups.add(group);
-        this.generatePosterOutputSummaryReport(groups, reportInfo, reportsDirectory, runDate);
+        this.generateOutputSummaryReport(groups, reportInfo, reportsDirectory, runDate);
     }
 
     /**

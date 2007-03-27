@@ -127,8 +127,8 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
         reportSummary.add(new Summary(reportSummary.size() + LINE_INTERVAL, "", 0));
         Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, Constants.OperationType.INSERT, numberOfSelectedBalance, 0);
 
-        reportService.generatePosterStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_YEAR_END_STATISTICS, reportsDirectory, runDate);
-        reportService.generatePosterOutputSummaryReport(validGroup, ReportRegistry.LABOR_YEAR_END_OUTPUT, reportsDirectory, runDate);
+        reportService.generateStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_YEAR_END_STATISTICS, reportsDirectory, runDate);
+        reportService.generateOutputSummaryReport(validGroup, ReportRegistry.LABOR_YEAR_END_OUTPUT, reportsDirectory, runDate);
     }
 
     // determine if the given balance is qualified to be carried forward to new fiscal year

@@ -15,6 +15,7 @@
 --%>
 <%@ include file="/jsp/core/tldHeader.jsp"%>
 <%@ taglib tagdir="/WEB-INF/tags/purap" prefix="purap"%>
+<%@ taglib prefix="c" uri="/tlds/c.tld"%>
 
 <kul:documentPage showDocumentInfo="true"
     documentTypeName="KualiPaymentRequestDocument"
@@ -34,6 +35,8 @@
     <html:hidden property="document.purchaseOrderEncumbranceFiscalYear" /> 
     <html:hidden property="document.paymentRequestCostSourceCode" />
     <html:hidden property="document.accountsPayableProcessorIdentifier" />
+    <!-- html:hidden property="document.paymentRequestInitiated" /-->
+    
     
     <!-- TODO move this to where? -->
     <!-- html:hidden property="document.requisitionIdentifier" / -->
@@ -49,10 +52,12 @@
 	<!--  purap:vendor
         documentAttributes="${DataDictionary.KualiPaymentRequestDocument.attributes}" 
         displayPurchaseOrderFields="false" displayPaymentRequestFields="true"/ -->
-
-	<!--  purap:paymentRequestInvoiceInfo documentAttributes="${DataDictionary.KualiPaymentRequestDocument.attributes}"
- 		 displayPaymentRequestInvoiceInfoFields="true" / -->        
-
+	<!-- c:out value="${KualiForm.paymentRequestInitiated}" /-->
+	
+	<c:if test="${not KualiForm.paymentRequestInitiated}">
+		<purap:paymentRequestInvoiceInfo documentAttributes="${DataDictionary.KualiPaymentRequestDocument.attributes}"
+	 		 displayPaymentRequestInvoiceInfoFields="true" />        
+	</c:if>
     <!-- kul:notes / -->
 
     <!-- kul:adHocRecipients / -->
@@ -68,6 +73,7 @@
         extraButtonSource="${extraButtonSource}"
         extraButtonProperty="${extraButtonProperty}"
         extraButtonAlt="${extraButtonAlt}"
+        suppressRoutingControls="${KualiForm.paymentRequestInitiated}"
         />
        
 

@@ -18,6 +18,7 @@ package org.kuali.module.purap.document;
 
 import java.sql.Date;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.PurapConstants;
@@ -1002,6 +1003,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.processingCampus = processingCampus;
     }
     
+   
     public void refreshAllReferences() {
         super.refreshAllReferences();
     }
@@ -1010,10 +1012,26 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      * Perform logic needed to initiate PREQ Document
      */
     public void initiateDocument() {
-        this.setStatusCode( PurapConstants.PaymentRequestStatuses.IN_PROCESS );
+        LOG.debug("initiateDocument() started");
+        this.setStatusCode( PurapConstants.PaymentRequestStatuses.INITIATE );
+        //this.setStatusCode( PurapConstants.PaymentRequestStatuses.IN_PROCESS )
+       // this.setInitialized(true);
         this.refreshAllReferences();
     }
-
+    
+    /**
+     * Gets the DisplayInitiateTab attribute for JSP 
+     * @return Returns the DisplayInitiateTab.
+     */
+  /*
+    public boolean isPaymentRequestInitiated() { 
+        LOG.info("isPaymentRequestInitiated() started");
+        String stat = this.getStatusCode();
+        boolean bol = StringUtils.equals(this.getStatusCode(),PurapConstants.PaymentRequestStatuses.INITIATE);
+        return bol;
+        //return (StringUtils.equals(this.getStatusCode(),PurapConstants.PaymentRequestStatuses.INITIATE));
+      } 
+*/
     /**
      * @see org.kuali.core.document.DocumentBase#handleRouteStatusChange()
      */

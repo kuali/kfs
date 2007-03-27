@@ -93,4 +93,8 @@ public class PurapPropertyConstants {
     public static final String VENDOR_STIPULATION_DESCRIPTION = "vendorStipulationDescription";
     
     public static final String SOURCE_DOCUMENT_IDENTIFIER  = "sourceDocumentIdentifier";
+    
+    // Payment Request
+    public static final String PURCHASE_ORDER_IDENTIFIER = "document.purchaseOrderIdentifier";
+    
 }

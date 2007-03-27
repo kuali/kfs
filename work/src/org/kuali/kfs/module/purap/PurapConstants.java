@@ -165,6 +165,7 @@ public class PurapConstants {
     }
     
     public static class PaymentRequestStatuses {
+        public static String INITIATE = "INIT";
         public static String IN_PROCESS = "INPR";
        /* Modify as required:
         public static String CANCELLED = "CANC";

@@ -18,13 +18,19 @@ package org.kuali.module.purap.web.struts.action;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.document.PaymentRequestDocument;
+import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.web.struts.form.PaymentRequestForm;
+import org.kuali.module.purap.web.struts.form.PurchaseOrderForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -46,7 +52,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         super.createDocument(kualiDocumentFormBase);
         
         ((PaymentRequestDocument) kualiDocumentFormBase.getDocument()).initiateDocument();
-        
+
     }
 
     /**
@@ -58,6 +64,13 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
  
         PaymentRequestForm preqForm = (PaymentRequestForm) form;
         PaymentRequestDocument document = (PaymentRequestDocument) preqForm.getDocument();
+        /*
+        if (StringUtils.equals(document.getStatusCode(),PurapConstants.PaymentRequestStatuses.INITIATE)){
+           preqForm.setInitialized(true);
+        }
+       // BusinessObjectService businessObjectService = SpringServiceLocator.getBusinessObjectService();
+*/
+        
         
         return super.refresh(mapping, form, request, response);
     }

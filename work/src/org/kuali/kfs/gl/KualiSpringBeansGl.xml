@@ -1179,9 +1179,9 @@
 		</property>
 	</bean>
 	
-	<bean id="glYearEndJobTrigger" parent="simpleTrigger">
+	<bean id="glYearEndJobTrigger" parent="cronTrigger">
 		<property name="jobName" value="glYearEndJob" />
-		<property name="startDelay" value="600000" />
+		<property name="cronExpression" value="00 00 08 ? * *" />
 	</bean>
 	
 	<bean id="glClearPendingEntriesForCancelledOrDisapprovedDocumentsStep" class="org.kuali.module.gl.batch.ClearPendingEntriesForCancelledOrDisapprovedDocumentsStep">

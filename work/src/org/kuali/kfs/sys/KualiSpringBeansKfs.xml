@@ -155,7 +155,6 @@
 
 	<!-- Quartz stuff -->
 	<bean id="schedulerService" class="org.kuali.core.service.impl.SchedulerServiceImpl">
-		<property name="scheduleTriggerDescriptor" ref="scheduleJobTrigger" />
 		<property name="configurationService" ref="kualiConfigurationService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 	</bean>
@@ -171,7 +170,9 @@
 		<property name="group" value="scheduled" />
 	</bean>
 
-	<bean id="unscheduledJobDescriptor" abstract="true" class="org.kuali.core.batch.JobDescriptor" />
+	<bean id="unscheduledJobDescriptor" abstract="true" class="org.kuali.core.batch.JobDescriptor">
+		<property name="group" value="unscheduled" />
+	</bean>
 
 	<bean id="step" abstract="true">
 		<property name="configurationService" ref="kualiConfigurationService" />

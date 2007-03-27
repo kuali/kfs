@@ -88,6 +88,7 @@ public class Proposal extends PersistableBusinessObjectBase {
     private Agency federalPassThroughAgency;
     private ProposalPurpose proposalPurpose;
     private CatalogOfFederalDomesticAssistanceReference cfda;
+    private ProposalOrganization primaryProposalOrganization;
 
     /**
      * Default constructor.
@@ -876,6 +877,31 @@ public class Proposal extends PersistableBusinessObjectBase {
      */
     public void setProposalResearchRisks(List<ProposalResearchRisk> proposalResearchRisks) {
         this.proposalResearchRisks = proposalResearchRisks;
+    }
+
+    /**
+     * 
+     * This method...
+     * @return
+     */
+    public ProposalOrganization getPrimaryProposalOrganization() {
+        for(ProposalOrganization po:proposalOrganizations) {
+            if(po!=null && po.isPrimary()) {
+                setPrimaryProposalOrganization(po);
+                break;
+            }
+        }
+        
+        return primaryProposalOrganization;
+    }
+
+    /**
+     * 
+     * This method...
+     * @param primaryProposalOrganization
+     */
+    public void setPrimaryProposalOrganization(ProposalOrganization primaryProposalOrganization) {
+        this.primaryProposalOrganization = primaryProposalOrganization;
     }
 
     /**

@@ -101,6 +101,7 @@
 				<field attributeName="proposal.grantNumber" />
 				<field attributeName="grantDescriptionCode" />
                 <field attributeName="awardStatusCode" />
+                <field attributeName="primaryAwardOrganization.organizationCode" />
             </resultFields>
         </lookup>
 
@@ -108,6 +109,13 @@
 
         <attributes>
 						
+			<attributeReference name="primaryAwardOrganization.organizationCode" sourceClassName="org.kuali.module.cg.bo.AwardOrganization" sourceAttributeName="organizationCode" >
+				<label>Primary Organization Code</label>
+				<shortLabel>Primary Org Cd</shortLabel>
+				<summary>Primary Organization Code</summary>
+				<description>Insert desc here...</description>
+			</attributeReference>
+
             <attributeReference name="proposal.proposalNumber"  sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="proposalNumber"/>
 			
             <attribute name="proposalNumber" forceUppercase="true">
@@ -534,6 +542,9 @@
             </relationship>
             <relationship objectAttributeName="awardAccounts.account" >
                 <primitiveAttribute sourceName="awardAccounts.account.accountNumber" targetName="accountNumber" />
+            </relationship>
+            <relationship objectAttributeName="primaryAwardOrganization" >
+            	<primitiveAttribute sourceName="primaryAwardOrganization.organizationCode" targetName="organizationCode" />
             </relationship>
         </relationships>
     </businessObject>

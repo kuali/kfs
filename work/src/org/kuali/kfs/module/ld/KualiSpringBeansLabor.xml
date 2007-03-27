@@ -308,8 +308,7 @@
 
     <bean id="laborPosterTransactionValidator" class="org.kuali.module.labor.batch.poster.impl.LaborPosterTransactionValidator"/>
     
-	<bean id="laborPosterStep"
-		class="org.kuali.module.labor.batch.LaborPosterStep">
+	<bean id="laborPosterStep" class="org.kuali.module.labor.batch.LaborPosterStep">
 		<property name="laborPosterService">
 			<ref bean="laborPosterService" />
 		</property>
@@ -344,6 +343,12 @@
             <ref bean="laborReportService" />
         </property>
     </bean>  
+    
+    <bean id="laborYearEndBalanceForwardStep" class="org.kuali.module.labor.batch.LaborYearEndBalanceForwardStep" singleton="false">
+		<property name="laborYearEndBalanceForwardService">
+			<ref bean="laborYearEndBalanceForwardService" />
+		</property>
+	</bean>
     
     <!-- Section 3: Spring Bean for Balance Inquiry -->  
 		

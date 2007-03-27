@@ -20,11 +20,6 @@ import org.kuali.module.budget.bo.*;
 public interface GenesisDao {
     
     /*
-     *  @@TODO: temporary stuff
-     */
-     
-  public void emplidWithMultipleLines(Integer BaseYear);   
-    /*
      * return a map of values for the budget construction control flags
      * for the fiscal year (flag name, flag value)
      */
@@ -76,4 +71,9 @@ public interface GenesisDao {
    public void createNewBCPosition(Integer BaseYear,
                                    boolean PosSyncAllowed,
                                    boolean CSFUpdatesAllowed);
+
+   // budget construction CSF and budget construction appointment funding
+   public void buildAppointmentFundingAndBCSF(Integer BaseYear);
 }
+
+

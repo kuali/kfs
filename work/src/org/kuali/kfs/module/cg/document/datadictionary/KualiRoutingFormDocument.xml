@@ -272,11 +272,11 @@
       </attribute>
 
             <attribute name="routingFormFellowFullName" forceUppercase="true">
-                <label>Routing Form Fellow Full Name</label>
+                <label>Fellow</label>
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>30</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
                 <control>
                     <text size="32" />
@@ -332,11 +332,11 @@
       </attribute>
 
             <attribute name="routingFormLayDescription" forceUppercase="true">
-                <label>Routing Form Lay Description</label>
+                <label>Lay Description of This Request</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>1000</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 
                 <control>
                     <textarea rows="5" cols="80"/>

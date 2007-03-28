@@ -141,9 +141,11 @@ public class RoutingFormXml {
     private static Element createPrinciplesElement(RoutingFormDocument routingFormDocument, Document xmlDoc) {
         Element principlesElement = xmlDoc.createElement("PRINCIPLES");
 
-        // TODO
+        // TODO do this section & consider howto handle different roles?
         
-        // TODO howto handle different roles?
+        Element fellowDescriptionElement = xmlDoc.createElement("FELLOW");
+        fellowDescriptionElement.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormDocument.getRoutingFormFellowFullName())));
+        principlesElement.appendChild(fellowDescriptionElement);
         
         return principlesElement;
     }
@@ -183,7 +185,6 @@ public class RoutingFormXml {
         projectTitleElement.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormDocument.getRoutingFormProjectTitle())));
         projectInformationElement.appendChild(projectTitleElement);
         
-        // following field is dropped in KRA but per request preserved for Indiana University ERA implementation.
         Element layDescription = xmlDoc.createElement("LAY_DESCRIPTION");
         layDescription.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormDocument.getRoutingFormLayDescription())));
         projectInformationElement.appendChild(layDescription);

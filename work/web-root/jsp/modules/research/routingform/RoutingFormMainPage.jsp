@@ -40,6 +40,6 @@
       </tr>
     </table>
 
-    <kul:documentControls transactionalDocument="false" suppressRoutingControls="false" viewOnly="${KualiForm.editingMode['viewOnly']}" />
+    <kul:documentControls transactionalDocument="false" suppressRoutingControls="true" viewOnly="${KualiForm.editingMode['viewOnly']}" />
 
 </kul:documentPage>

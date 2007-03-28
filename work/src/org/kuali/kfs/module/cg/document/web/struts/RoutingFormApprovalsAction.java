@@ -67,14 +67,14 @@ public class RoutingFormApprovalsAction extends RoutingFormAction {
     @Override
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         cacheAndLoad(mapping, form, request, response);
-        RoutingForm routingForm = (RoutingForm) form;
-        
-        KualiWorkflowDocument workflowDoc = routingForm.getDocument().getDocumentHeader().getWorkflowDocument();
-        if (workflowDoc.getDocRouteLevelName().equals("Project Director")) {
-            routingForm.setAdHocRoutePersons(routingForm.getRoutingFormDocument().convertKraAdhocsToAdHocRoutePersons());
-            routingForm.setAdHocRouteWorkgroups(routingForm.getRoutingFormDocument().convertKraAdhocsToAdHocRouteWorkgroups());
-            // send FYIs, adhoc requests
-        }
+//        RoutingForm routingForm = (RoutingForm) form;
+//        
+//        KualiWorkflowDocument workflowDoc = routingForm.getDocument().getDocumentHeader().getWorkflowDocument();
+//        if (workflowDoc.getDocRouteLevelName().equals("Project Director")) {
+//            routingForm.setAdHocRoutePersons(routingForm.getRoutingFormDocument().convertKraAdhocsToAdHocRoutePersons());
+//            routingForm.setAdHocRouteWorkgroups(routingForm.getRoutingFormDocument().convertKraAdhocsToAdHocRouteWorkgroups());
+//            // send FYIs, adhoc requests
+//        }
         
         ActionForward forward = super.approve(mapping, form, request, response);
         return forward;

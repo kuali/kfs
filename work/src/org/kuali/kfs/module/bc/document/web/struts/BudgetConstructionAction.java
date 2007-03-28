@@ -372,26 +372,29 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         // and rehooks the budgetConstructionMonthly referenced objects
         // we should be able to just refresh needed references by iterating the current set of expenditure lines???
 
-        if (refreshCaller.equalsIgnoreCase(BCConstants.MONTHLY_BUDGET_REFRESH_CALLER)){
+        if (refreshCaller != null && refreshCaller.equalsIgnoreCase(BCConstants.MONTHLY_BUDGET_REFRESH_CALLER)){
             
             // do things specific to returning from MonthlyBudget
 
-            // need to get current state of monthly budgets
-            for (PendingBudgetConstructionGeneralLedger line :
-                budgetConstructionForm.getBudgetConstructionDocument().getPendingBudgetConstructionGeneralLedgerExpenditureLines()){
-
-                line.refreshReferenceObject("budgetConstructionMonthly");
-            }
-            for (PendingBudgetConstructionGeneralLedger line :
-                budgetConstructionForm.getBudgetConstructionDocument().getPendingBudgetConstructionGeneralLedgerRevenueLines()){
-
-                line.refreshReferenceObject("budgetConstructionMonthly");
-            }
         }
+// populate already handles all this
+/*
+        // need to get current state of monthly budgets regardless of who calls refresh
+        for (PendingBudgetConstructionGeneralLedger line :
+            budgetConstructionForm.getBudgetConstructionDocument().getPendingBudgetConstructionGeneralLedgerExpenditureLines()){
+
+            line.refreshReferenceObject("budgetConstructionMonthly");
+        }
+        for (PendingBudgetConstructionGeneralLedger line :
+            budgetConstructionForm.getBudgetConstructionDocument().getPendingBudgetConstructionGeneralLedgerRevenueLines()){
+
+            line.refreshReferenceObject("budgetConstructionMonthly");
+        }
+*/
         //TODO this method may need cleaned up to possibly use getPersistenceService() above too
-        final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject", "financialSubObject" }));
-        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(budgetConstructionForm.getNewRevenueLine(), REFRESH_FIELDS);
-        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(budgetConstructionForm.getNewExpenditureLine(), REFRESH_FIELDS);
+//        final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject", "financialSubObject" }));
+//        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(budgetConstructionForm.getNewRevenueLine(), REFRESH_FIELDS);
+//        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(budgetConstructionForm.getNewExpenditureLine(), REFRESH_FIELDS);
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }

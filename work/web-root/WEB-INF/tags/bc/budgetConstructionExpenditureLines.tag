@@ -135,7 +135,7 @@
 			  <td class="datacell" nowrap><div align=center>
                 <bc:pbglLineDataCellDetail/>
 				<c:choose>
-					<c:when test="${empty item.budgetConstructionMonthly}" > 
+					<c:when test="${empty item.budgetConstructionMonthly[0]}" > 
 						<html:image src="images/tinybutton-createnew.gif" styleClass="tinybutton" property="methodToCall.performMonthlyExpenditureBudget.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" title="Create Month" alt="Create Month"/>
 					</c:when> 
 					<c:otherwise> 

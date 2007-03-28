@@ -84,7 +84,7 @@
                   boClassSimpleName="ObjectCode"
                   readOnly="false"
                   displayHidden="false"
-                  lookupOrInquiryKeys="chartOfAccountsCode"
+                  lookupOrInquiryKeys="universityFiscalYear,chartOfAccountsCode"
                   lookupUnkeyedFieldConversions="financialObjectTypeCode:newRevenueLine.financialObjectTypeCode,"
                   accountingLineValuesMap="${newRevenueLine.valuesMap}"
                   inquiryExtraKeyValues="universityFiscalYear=${KualiForm.document.universityFiscalYear}"
@@ -196,7 +196,7 @@
               </span></div></td>
               <td class="datacell"" nowrap><div align=center>
                   <c:choose>
-                    <c:when test="${empty item.budgetConstructionMonthly}" > 
+                    <c:when test="${empty item.budgetConstructionMonthly[0]}" > 
                         <html:image src="images/tinybutton-createnew.gif" styleClass="tinybutton" property="methodToCall.performMonthlyRevenueBudget.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" title="Create Month" alt="Create Month"/>
                     </c:when> 
                     <c:otherwise> 

@@ -15,8 +15,11 @@
  */
 package org.kuali.module.budget.web.struts.form;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +38,7 @@ import org.kuali.module.budget.document.BudgetConstructionDocument;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
+import org.kuali.rice.KNSServiceLocator;
 
 
 public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
@@ -81,9 +85,10 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
                 if (StringUtils.isBlank(revLine.getFinancialSubObjectCode())){
                     revLine.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
                 }
-
                 populateRevenueLine(this.getNewRevenueLine());
+
             }
+
             if (methodToCall.equals(BCConstants.INSERT_EXPENDITURE_LINE_METHOD)){
                 PendingBudgetConstructionGeneralLedger expLine = getNewExpenditureLine(); 
 
@@ -97,8 +102,8 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
                 if (StringUtils.isBlank(expLine.getFinancialSubObjectCode())){
                     expLine.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
                 }
-
                 populateExpenditureLine(this.getNewExpenditureLine());
+
             }
 
             populatePBGLLines();
@@ -172,7 +177,7 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
     private void populatePBGLLine(PendingBudgetConstructionGeneralLedger line){
 
         BudgetConstructionDocument tdoc = this.getBudgetConstructionDocument();
-
+/*
         if (ObjectUtils.isNull(line.getFinancialObject())) {
             line.setFinancialObject(new ObjectCode());
         }
@@ -188,6 +193,20 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
             line.getFinancialSubObject().setFinancialObjectCode(line.getFinancialObjectCode());
             line.getFinancialSubObject().setUniversityFiscalYear(tdoc.getUniversityFiscalYear());
         }
+*/        
+//        line.getFinancialObject();
+//        if (!line.getFinancialSubObjectCode().equalsIgnoreCase(Constants.DASHES_SUB_OBJECT_CODE)){
+//            line.getFinancialSubObject();
+//        }
+//        line.getBudgetConstructionMonthly();
+
+        final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject", "financialSubObject", "budgetConstructionMonthly" }));
+//        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(line, REFRESH_FIELDS);
+        KNSServiceLocator.getPersistenceService().retrieveReferenceObjects(line, REFRESH_FIELDS);
+
+//        line.refreshReferenceObject("financialObject");
+//        line.refreshReferenceObject("financialSubObject");
+//        line.refreshReferenceObject("budgetConstructionMonthly");
     }
 
     public BudgetConstructionDocument getBudgetConstructionDocument(){
@@ -205,6 +224,7 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
     public PendingBudgetConstructionGeneralLedger getNewExpenditureLine() {
         if (this.newExpenditureLine == null){
             this.setNewExpenditureLine(new PendingBudgetConstructionGeneralLedger());
+            this.initNewLine(newExpenditureLine);
         }
         return newExpenditureLine;
     }

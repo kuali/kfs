@@ -74,6 +74,9 @@ public interface GenesisDao {
 
    // budget construction CSF and budget construction appointment funding
    public void buildAppointmentFundingAndBCSF(Integer BaseYear);
+   
+   // this is a junk method in genesis that was used to unit test various SQL
+   public void genesisUnitTest(Integer BaseYear);
 }
 
 

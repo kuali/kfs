@@ -61,7 +61,7 @@ public class GenesisServiceImpl implements GenesisService {
 //         genesisDao.createNewBCPosition(currentFiscalYear,
 //                                        PSSynchOK,
 //                                        CSFOK);
-          genesisDao.buildAppointmentFundingAndBCSF(currentFiscalYear);      }
+          genesisDao.genesisUnitTest(currentFiscalYear);      }
       
       /*
        *   here are some flag value routines

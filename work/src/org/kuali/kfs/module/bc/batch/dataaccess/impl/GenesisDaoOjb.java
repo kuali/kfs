@@ -3044,486 +3044,779 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
              
              
              
-        /****************************************************************************************
-         * (9)  this code builds the budget construction CSF tracker and the budget construction
-         *      appointment funding
-         ****************************************************************************************
-         */
-            public void buildAppointmentFundingAndBCSF(Integer BaseYear)
-            {
-               setUpCSFOverrideKeys(BaseYear); 
-            }
-            
-             // the set of new BCSF objects to be written
-             private HashMap<String,BudgetConstructionCalculatedSalaryFoundationTracker> bCSF;
-             // keys for deleted or vacant rows present in the override CSF: none of these keys
-             // will load to BCSF from either the override or actual CSF (even if they
-             // are active in the actual CSF) 
-             private HashSet<String> csfOverrideKeys;
-             // EMPLID's in CSF which have more than one active row
-             // we budget in whole dollars, while payroll deals in pennies
-             // we will use this for our complicated rounding algorithm, to prevent
-             // to keep the total budget base salary within a dollar of the payroll salary
-             private HashMap<String,roundMechanism> keysNeedingRounding;
-
-             // overload the vacant BCSF line object builders
-             private void
-             addToExistingBCSFVacant(CalculatedSalaryFoundationTrackerOverride csf,
-                                     String csfKey)
-             {
-               BudgetConstructionCalculatedSalaryFoundationTracker nowBCSF =
-                   bCSF.get(csfKey);
-               // first round the amount to whole dollars
-               KualiDecimal roundedAmount = csf.getCsfAmount().setScale(0);
-               nowBCSF.setCsfAmount(nowBCSF.getCsfAmount().add(roundedAmount));
-               // increase the percent time (maximum of 100)
-               BigDecimal pctTime = nowBCSF.getCsfTimePercent();
-               pctTime.add(csf.getCsfTimePercent());
-               if (pctTime.floatValue() > 100.0)
-               {
-                   pctTime = new BigDecimal(100.0);
-               }
-               nowBCSF.setCsfTimePercent(pctTime);
-               // increase the FTE (full-time equivalent) (maximum of 1.0)
-               BigDecimal csfFTE = nowBCSF.getCsfFullTimeEmploymentQuantity();
-               csfFTE.add(csf.getCsfFullTimeEmploymentQuantity());
-               if (csfFTE.floatValue() > 1.0)
-               {
-                   csfFTE = new BigDecimal(1.0);
-               }
-               nowBCSF.setCsfFullTimeEmploymentQuantity(csfFTE);
-             }
-             
-             private void
-             addToExistingBCSFVacant(CalculatedSalaryFoundationTracker csf,
-                                     String csfKey)
-             {
-               BudgetConstructionCalculatedSalaryFoundationTracker nowBCSF =
-                   bCSF.get(csfKey);
-               // first round the amount to whole dollars
-               KualiDecimal roundedAmount = csf.getCsfAmount().setScale(0);
-               nowBCSF.setCsfAmount(nowBCSF.getCsfAmount().add(roundedAmount));
-               // increase the percent time (maximum of 100)
-               BigDecimal pctTime = nowBCSF.getCsfTimePercent();
-               pctTime.add(csf.getCsfTimePercent());
-               if (pctTime.floatValue() > 100.0)
-               {
-                   pctTime = new BigDecimal(100.0);
-               }
-               nowBCSF.setCsfTimePercent(pctTime);
-               // increase the FTE (full-time equivalent) (maximum of 1.0)
-               BigDecimal csfFTE = nowBCSF.getCsfFullTimeEmploymentQuantity();
-               csfFTE.add(csf.getCsfFullTimeEmploymentQuantity());
-               if (csfFTE.floatValue() > 1.0)
-               {
-                   csfFTE = new BigDecimal(1.0);
-               }
-               nowBCSF.setCsfFullTimeEmploymentQuantity(csfFTE);
-             }
-             
-             // overload the BCSF object builders
-             private void 
-             buildAndStoreBCSFfromCSF(CalculatedSalaryFoundationTrackerOverride csf,
-                                      String csfKey)
-             {
-                boolean vacantLine = isVacantLine(csf);  
-                BudgetConstructionCalculatedSalaryFoundationTracker csfBC = new
-                BudgetConstructionCalculatedSalaryFoundationTracker();
-                // budget construction CSF contains the coming fiscal year
-                csfBC.setUniversityFiscalYear(csf.getUniversityFiscalYear()+1);
-                csfBC.setChartOfAccountsCode(csf.getChartOfAccountsCode());
-                csfBC.setAccountNumber(csf.getAccountNumber());
-                csfBC.setSubAccountNumber(csf.getSubAccountNumber());
-                csfBC.setFinancialObjectCode(csf.getFinancialObjectCode());
-                csfBC.setFinancialSubObjectCode(csf.getFinancialSubObjectCode());
-                csfBC.setPositionNumber(csf.getPositionNumber());
-                // budget construction CSF always contains the vacant EMPLID, not
-                // the EMPLID of the last incumbent
-                csfBC.setEmplid((vacantLine?
-                                BudgetConstructionConstants.VACANT_EMPLID:
-                                csf.getEmplid()));
-                csfBC.setCsfFullTimeEmploymentQuantity(csf.getCsfFullTimeEmploymentQuantity());
-                csfBC.setCsfTimePercent(csf.getCsfTimePercent());
-                csfBC.setCsfFundingStatusCode(csf.getCsfFundingStatusCode());
-                // we only worry about rounding errors when the line is not vacant
-                // since all vacant lines in CSF have the same (vacant) EMPLID, we
-                // would have to round by position. 
-                if (!vacantLine)
-                {
-                    csfBC.setCsfAmount(csf.getCsfAmount());
-                    bCSF.put(csfKey,csfBC);
-                    // now we have to round and save the rounding error
-                    roundMechanism rX = keysNeedingRounding.get(csf.getEmplid());
-                    rX.addNewBCSF(csfBC);
-                }
-                else
-                {
-                    // for vacant lines, we have to round to whole dollars
-                    csfBC.setCsfAmount(csf.getCsfAmount().setScale(0));
-                    bCSF.put(csfKey,csfBC);
-                }
-             }
-             
-             private void 
-             buildAndStoreBCSFfromCSF(CalculatedSalaryFoundationTracker csf,
-                                      String csfKey)
-             {
-                boolean vacantLine = isVacantLine(csf);  
-                BudgetConstructionCalculatedSalaryFoundationTracker csfBC = new
-                BudgetConstructionCalculatedSalaryFoundationTracker();
-                // budget construction CSF contains the coming fiscal year
-                csfBC.setUniversityFiscalYear(csf.getUniversityFiscalYear()+1);
-                csfBC.setChartOfAccountsCode(csf.getChartOfAccountsCode());
-                csfBC.setAccountNumber(csf.getAccountNumber());
-                csfBC.setSubAccountNumber(csf.getSubAccountNumber());
-                csfBC.setFinancialObjectCode(csf.getFinancialObjectCode());
-                csfBC.setFinancialSubObjectCode(csf.getFinancialSubObjectCode());
-                csfBC.setPositionNumber(csf.getPositionNumber());
-                // budget construction CSF always contains the vacant EMPLID, not
-                // the EMPLID of the last incumbent
-                csfBC.setEmplid((vacantLine?
-                                BudgetConstructionConstants.VACANT_EMPLID:
-                                csf.getEmplid()));
-                csfBC.setCsfFullTimeEmploymentQuantity(csf.getCsfFullTimeEmploymentQuantity());
-                csfBC.setCsfTimePercent(csf.getCsfTimePercent());
-                csfBC.setCsfFundingStatusCode(csf.getCsfFundingStatusCode());
-                // we only worry about rounding errors when the line is not vacant
-                // since all vacant lines in CSF have the same (vacant) EMPLID, we
-                // would have to round by position, and positions can be shared. 
-                if (!vacantLine)
-                {
-                    csfBC.setCsfAmount(csf.getCsfAmount());
-                    bCSF.put(csfKey,csfBC);
-                    // now we have to round and save the rounding error
-                    roundMechanism rX = keysNeedingRounding.get(csf.getEmplid());
-                    rX.addNewBCSF(csfBC);
-                }
-                else
-                {
-                    // for vacant lines, we have to round to whole dollars
-                    csfBC.setCsfAmount(csf.getCsfAmount().setScale(0));
-                    bCSF.put(csfKey,csfBC);
-                }
-             }
-             
-             // overload the CSF key builders 
-             private String buildCSFKey(CalculatedSalaryFoundationTrackerOverride csf)
-             {
-                 return (csf.getEmplid())+
-                         csf.getPositionNumber()+
-                         csf.getAccountNumber()+
-                         csf.getChartOfAccountsCode()+
-                         csf.getSubAccountNumber()+
-                         csf.getFinancialObjectCode()+
-                         csf.getFinancialSubObjectCode();
-             }
- 
-             private String buildCSFKey(CalculatedSalaryFoundationTracker csf)
-             {
-                 return (csf.getEmplid())+
-                         csf.getPositionNumber()+
-                         csf.getAccountNumber()+
-                         csf.getChartOfAccountsCode()+
-                         csf.getSubAccountNumber()+
-                         csf.getFinancialObjectCode()+
-                         csf.getFinancialSubObjectCode();
-             }
-             
-             private String buildVacantCSFKey(CalculatedSalaryFoundationTrackerOverride csf)
-             {
-                 boolean vacantLine = isVacantLine(csf);
-                 return (vacantLine?BudgetConstructionConstants.VACANT_EMPLID:
-                         csf.getEmplid())+
-                         csf.getPositionNumber()+
-                         csf.getAccountNumber()+
-                         csf.getChartOfAccountsCode()+
-                         csf.getSubAccountNumber()+
-                         csf.getFinancialObjectCode()+
-                         csf.getFinancialSubObjectCode();
-             }
- 
-             private String buildVacantCSFKey(CalculatedSalaryFoundationTracker csf)
-             {
-                 boolean vacantLine = isVacantLine(csf);
-                 return (vacantLine?BudgetConstructionConstants.VACANT_EMPLID:
-                         csf.getEmplid())+
-                         csf.getPositionNumber()+
-                         csf.getAccountNumber()+
-                         csf.getChartOfAccountsCode()+
-                         csf.getSubAccountNumber()+
-                         csf.getFinancialObjectCode()+
-                         csf.getFinancialSubObjectCode();
-             }
-             
-
-             // set up the hash objects   
-             private void setUpBCSFMap (Integer BaseYear)
-             {
-                 // we'll just overestimate, making the size equal to active override 
-                 // rows and active CSF rows, even though the former might replace some
-                 // of the latter
-                 Integer bCSFSize = new Integer(0);
-                 Criteria criteriaID = new Criteria();
-                 criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
-                 criteriaID.addEqualTo(PropertyConstants.CSF_DELETE_CODE,
-                                       BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
-                 String[] selectList = {"COUNT(*)"};
-                 ReportQueryByCriteria queryID =
-                     new ReportQueryByCriteria(CalculatedSalaryFoundationTrackerOverride.class,
-                                               selectList,criteriaID);
-                 Iterator ovrdCntr =
-                     getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
-                 if (ovrdCntr.hasNext())
-                 {
-                     bCSFSize = ((BigDecimal) ((Object[]) ovrdCntr.next())[0]).intValue();
-                 }
-                 queryID =
-                     new ReportQueryByCriteria(CalculatedSalaryFoundationTracker.class,
-                                               selectList,criteriaID);
-                 Iterator csfCntr =
-                     getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
-                 if (csfCntr.hasNext())
-                 {
-                     bCSFSize = bCSFSize +
-                                ((BigDecimal) ((Object[]) ovrdCntr.next())[0]).intValue();
-                 }
-                 bCSF = new HashMap<String,
-                                   BudgetConstructionCalculatedSalaryFoundationTracker>(bCSFSize);
-             }
-             
-             private void setUpCSFOverrideKeys(Integer BaseYear)
-             {
-             //  these are rows in CSF Override--they should take precedence
-             //  over what is in CSF
-             //  the idea is this:
-             //  (1) we build BCSF from CSF Override first.  so, when we read CSF, 
-             //      we will not create a new BCSF entry if the override already has
-             //      created one.
-             //  (2) the override will create an entry with the same key as CSF unless
-             //      (a) the override has a deleted row or (b) the override has a 
-             //      vacant row so that the EMPLID is changed to the vacant EMPLID
-             //      in BCSF.
-             //   So, we create a list of override keys possibly missing in BCSF
-             //   which can be used to eliminate CSF candidates for BCSF.    
-                 Criteria criteriaID = new Criteria();
-                 criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
-                                       BaseYear);
-                 Criteria deleteCriteria = new Criteria();
-                 deleteCriteria.addNotEqualTo(PropertyConstants.CSF_DELETE_CODE,
-                                       BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
-                 Criteria vacantCriteria = new Criteria();
-                 vacantCriteria.addEqualTo(PropertyConstants.CSF_FUNDING_STATUS_CODE,
-                                           BudgetConstructionConstants.VACANT_CSF_LINE);
-                 deleteCriteria.addOrCriteria(vacantCriteria);
-                 criteriaID.addAndCriteria(deleteCriteria);
-                 String[] selectList = {"COUNT(*)"};
-                 ReportQueryByCriteria queryID =
-                     new ReportQueryByCriteria(CalculatedSalaryFoundationTrackerOverride.class,
-                                               selectList,criteriaID);
-                 Iterator csfOverride =
-                     getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
-                 Integer overrideSize = new Integer(0);
-                 while (csfOverride.hasNext())
-                 {
-                     overrideSize =
-                         ((BigDecimal)((Object[]) csfOverride.next())[0]).intValue();
-                 }
-                 if (overrideSize > 0)
-                 {
-                    csfOverrideKeys = new HashSet<String>(overrideSize); 
-                 }
-                 else
-                 {
-                    csfOverrideKeys = new HashSet<String>(); 
-                 }
-             // now we want to build the hash set
-             QueryByCriteria qry = 
-                new QueryByCriteria(CalculatedSalaryFoundationTrackerOverride.class,
-                                    criteriaID);
-             Iterator csfOvrd = getPersistenceBrokerTemplate().getIteratorByQuery(qry);
-             while (csfOvrd.hasNext())
-             {
-                 csfOverrideKeys.add(buildCSFKey(
-                                (CalculatedSalaryFoundationTrackerOverride) csfOvrd.next()));
-             }
-             // the hashset of override keys must exist before BCSF can be built
-             // so, we should be able to clear the cache to save on memory
-                 getPersistenceBrokerTemplate().clearCache();
-             }
-             
-             private void setUpKeysNeedingRounding(Integer BaseYear)
-             {
-                 Integer emplidCSFOvrdCount = new Integer(0);
-                 Integer emplidCSFCount     = new Integer(0);
-                 Criteria criteriaID = new Criteria();
-                 criteriaID.addEqualTo(PropertyConstants.CSF_DELETE_CODE,
-                                       BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
-                 criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
-                                       BaseYear);
-                 String[] selectList = {"COUNT(DISTINCT "+PropertyConstants.EMPLID+")"};
-                 ReportQueryByCriteria queryID = 
-                     new ReportQueryByCriteria(CalculatedSalaryFoundationTrackerOverride.class,
-                                         selectList,criteriaID);
-                 // EMPLID count for CSF Override
-                 Iterator emplidCSFOvrd =
-                 getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
-                 if (emplidCSFOvrd.hasNext())
-                 {
-                     emplidCSFOvrdCount = 
-                         ((BigDecimal)((Object[]) emplidCSFOvrd.next())[0]).intValue();
-                 }
-                 // EMPLID count for CSF
-                 queryID =
-                 new ReportQueryByCriteria(CalculatedSalaryFoundationTracker.class,
-                         selectList,criteriaID);
-                 Iterator emplidCSF =
-                     getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
-                     if (emplidCSF.hasNext())
-                     {
-                         emplidCSFCount = 
-                             ((BigDecimal)((Object[]) emplidCSF.next())[0]).intValue();
-                     }
-                 emplidCSFCount = emplidCSFCount+emplidCSFOvrdCount;
-                 if (emplidCSFCount > 0)
-                 {
-                     keysNeedingRounding = 
-                     new HashMap<String,roundMechanism>(emplidCSFCount);
-                 }
-                 else
-                 {
-                     keysNeedingRounding =
-                         new HashMap<String,roundMechanism>();
-                 }
-                 LOG.info(String.format("\nEmplid count %d",
-                                        emplidCSFCount));
-                 // now fill the hashmap
-                 // there will be one rounding bucket for each EMPLID
-                 String[] columnList = {PropertyConstants.EMPLID};
-                 // first use CSF Override
-                 queryID = 
-                 new ReportQueryByCriteria(CalculatedSalaryFoundationTrackerOverride.class,
-                                           columnList,criteriaID,true);
-                 Iterator emplidOvrd = 
-                     getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
-                 while (emplidOvrd.hasNext())
-                 {
-                     String newKey = (String) ((Object[]) emplidOvrd.next())[0];
-                     keysNeedingRounding.put(newKey, new roundMechanism());
-                 }
-                 LOG.info(String.format("\nEMPLID's from CSF override: %d",
-                                        keysNeedingRounding.size()));
-                 // now add the EMPLID's from CSF itself
-                 queryID =
-                 new ReportQueryByCriteria(CalculatedSalaryFoundationTracker.class,
-                                           columnList,criteriaID,true);    
-                 Iterator emplidIter = 
-                     getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
-                 while (emplidIter.hasNext())
-                 {
-                     String newKey = (String) ((Object[]) emplidIter.next())[0];
-                     // insert what is not already there from CSF override
-                     if (! keysNeedingRounding.containsKey(newKey))
-                     {
-                         keysNeedingRounding.put(newKey, new roundMechanism());
-                     }
-                 }
-                 LOG.info(String.format("\nEMPLID total for BCSF: %d",
-                         keysNeedingRounding.size()));
-             }
-             
-//  we will overload both of these checks as well             
-             private boolean isVacantLine(CalculatedSalaryFoundationTracker csf)
-             {
-                 return  ((csf.getCsfFundingStatusCode().equals(
-                           BudgetConstructionConstants.VACANT_CSF_LINE))||
-                          (csf.getCsfFundingStatusCode().equals(
-                           BudgetConstructionConstants.UNFUNDED_CSF_LINE)));
-             }
-    
-             private boolean isVacantLine(CalculatedSalaryFoundationTrackerOverride csf)
-             {
-                 return  ((csf.getCsfFundingStatusCode().equals(
-                           BudgetConstructionConstants.VACANT_CSF_LINE))||
-                          (csf.getCsfFundingStatusCode().equals(
-                           BudgetConstructionConstants.UNFUNDED_CSF_LINE)));
-             }
-    
-    // this is an inner class which will store the data we need to perform the rounding,
-    // and supply the methods as well         
-    private class roundMechanism
+    /****************************************************************************************
+    * (9)  this code builds the budget construction CSF tracker and the budget construction
+    *      appointment funding
+    ****************************************************************************************
+    */
+    public void buildAppointmentFundingAndBCSF(Integer BaseYear)
     {
-        // the idea here is that people split over many lines could lose or gain several
-        // dollars if we rounded each salary line individually.  so, before we round the
-        // salaries in the CSF lines, we add the differences to a running total which
-        // will be added (subtracted) in dollar increments to successive lines until 
-        // the running total is exhausted.
-        private KualiDecimal diffAmount;
-        private ArrayList<BudgetConstructionCalculatedSalaryFoundationTracker> candidateBCSFRows;
-        private void roundMechanism()
+       // budget construction CSF tracker is always rebuilt from scratch
+       // (it doesn't make sense to carry a base salary line that has 
+       //  has disappeared from the system--hence the current base--from
+       //  one run to the next.)
+       clearBCCSF(BaseYear); 
+       // build the new BC CSF objects in memory
+       setUpCSFOverrideKeys(BaseYear); 
+       setUpBCSFMap(BaseYear);
+       setUpKeysNeedingRounding(BaseYear);
+       readCSFOverride(BaseYear);
+       readCSF(BaseYear);
+       adjustCSFRounding();
+       //  store bCSF rows matching current appointment funding
+       readExistingAppointmentFunding(BaseYear);
+       //  create new appointment funding, new GL, and new header rows
+       //  and store the bCSF rows which don't match appointment funding
+    }
+    
+    // the set of new BCSF objects to be written
+    private HashMap<String,BudgetConstructionCalculatedSalaryFoundationTracker> bCSF;
+    // keys for deleted or vacant rows present in the override CSF: none of these keys
+    // will load to BCSF from either the override or actual CSF (even if they
+    // are active in the actual CSF) 
+    private HashSet<String> csfOverrideKeys;
+    // EMPLID's in CSF which have more than one active row
+    // we budget in whole dollars, while payroll deals in pennies
+    // we will use this for our complicated rounding algorithm, to prevent
+    // to keep the total budget base salary within a dollar of the payroll salary
+    private HashMap<String,roundMechanism> keysNeedingRounding;
+
+    // overload the vacant BCSF line object builders
+    private void
+    addToExistingBCSFVacant(CalculatedSalaryFoundationTrackerOverride csf,
+                            String csfKey)
+    {
+      //
+      // this method takes care of a rare occurrence.
+      // - more than one person shares a position in the same line.
+      // - both people leave on the same day 
+      // - since each vacant CSF line carries the EMPLID of the last
+      //   incumbent, and EMPLID is part of the key, there are two
+      //   separate lines in CSF.
+      // - the EMPLID is replaced with the vacant ID in BCSF, so there
+      //   will only be one line in BCSF, and we need to aggregate the
+      //   amounts and effort  
+      BudgetConstructionCalculatedSalaryFoundationTracker nowBCSF =
+          bCSF.get(csfKey);
+      // first round the amount to whole dollars
+      KualiDecimal roundedAmount = csf.getCsfAmount().setScale(0);
+      nowBCSF.setCsfAmount(nowBCSF.getCsfAmount().add(roundedAmount));
+      // increase the percent time (maximum of 100)
+      BigDecimal pctTime = nowBCSF.getCsfTimePercent();
+      pctTime.add(csf.getCsfTimePercent());
+      if (pctTime.floatValue() > 100.0)
+      {
+          pctTime = new BigDecimal(100.0);
+      }
+      nowBCSF.setCsfTimePercent(pctTime);
+      // increase the FTE (full-time equivalent) (maximum of 1.0)
+      BigDecimal csfFTE = nowBCSF.getCsfFullTimeEmploymentQuantity();
+      csfFTE.add(csf.getCsfFullTimeEmploymentQuantity());
+      if (csfFTE.floatValue() > 1.0)
+      {
+          csfFTE = new BigDecimal(1.0);
+      }
+      nowBCSF.setCsfFullTimeEmploymentQuantity(csfFTE);
+    }
+    
+    private void
+    addToExistingBCSFVacant(CalculatedSalaryFoundationTracker csf,
+                            String csfKey)
+    {
+        //
+        // this method takes care of a rare occurrence.
+        // - more than one person shares a position in the same line.
+        // - both people leave on the same day 
+        // - since each vacant CSF line carries the EMPLID of the last
+        //   incumbent, and EMPLID is part of the key, there are two
+        //   separate lines in CSF.
+        // - the EMPLID is replaced with the vacant ID in BCSF, so there
+        //   will only be one line in BCSF, and we need to aggregate the
+        //   amounts and effort  
+      BudgetConstructionCalculatedSalaryFoundationTracker nowBCSF =
+          bCSF.get(csfKey);
+      // first round the amount to whole dollars
+      KualiDecimal roundedAmount = csf.getCsfAmount().setScale(0);
+      nowBCSF.setCsfAmount(nowBCSF.getCsfAmount().add(roundedAmount));
+      // increase the percent time (maximum of 100)
+      BigDecimal pctTime = nowBCSF.getCsfTimePercent();
+      pctTime.add(csf.getCsfTimePercent());
+      if (pctTime.floatValue() > 100.0)
+      {
+          pctTime = new BigDecimal(100.0);
+      }
+      nowBCSF.setCsfTimePercent(pctTime);
+      // increase the FTE (full-time equivalent) (maximum of 1.0)
+      BigDecimal csfFTE = nowBCSF.getCsfFullTimeEmploymentQuantity();
+      csfFTE.add(csf.getCsfFullTimeEmploymentQuantity());
+      if (csfFTE.floatValue() > 1.0)
+      {
+          csfFTE = new BigDecimal(1.0);
+      }
+      nowBCSF.setCsfFullTimeEmploymentQuantity(csfFTE);
+    }
+    
+    // make the rounding adjustments
+    private void adjustCSFRounding()
+    {
+        for (Map.Entry<String,roundMechanism> roundMap: keysNeedingRounding.entrySet())
         {
-            this.diffAmount = new KualiDecimal(0);
-            this.candidateBCSFRows = 
-                new ArrayList<BudgetConstructionCalculatedSalaryFoundationTracker>(10);
+           roundMechanism rx = roundMap.getValue();
+           rx.fixRoundErrors();
         }
-        private void addNewDiff(KualiDecimal withPennies,
-                               KualiDecimal wholeDollars)
+        // we can reclaim the storage
+        keysNeedingRounding.clear();
+    }
+    
+    // overload the BCSF object builders
+    private void 
+    buildAndStoreBCSFfromCSF(CalculatedSalaryFoundationTrackerOverride csf,
+                             String csfKey)
+    {
+       boolean vacantLine = isVacantLine(csf);  
+       BudgetConstructionCalculatedSalaryFoundationTracker csfBC = new
+       BudgetConstructionCalculatedSalaryFoundationTracker();
+       // budget construction CSF contains the coming fiscal year
+       csfBC.setUniversityFiscalYear(csf.getUniversityFiscalYear()+1);
+       csfBC.setChartOfAccountsCode(csf.getChartOfAccountsCode());
+       csfBC.setAccountNumber(csf.getAccountNumber());
+       csfBC.setSubAccountNumber(csf.getSubAccountNumber());
+       csfBC.setFinancialObjectCode(csf.getFinancialObjectCode());
+       csfBC.setFinancialSubObjectCode(csf.getFinancialSubObjectCode());
+       csfBC.setPositionNumber(csf.getPositionNumber());
+       // budget construction CSF always contains the vacant EMPLID, not
+       // the EMPLID of the last incumbent
+       csfBC.setEmplid((vacantLine?
+                       BudgetConstructionConstants.VACANT_EMPLID:
+                       csf.getEmplid()));
+       csfBC.setCsfFullTimeEmploymentQuantity(csf.getCsfFullTimeEmploymentQuantity());
+       csfBC.setCsfTimePercent(csf.getCsfTimePercent());
+       csfBC.setCsfFundingStatusCode(csf.getCsfFundingStatusCode());
+       // we only worry about rounding errors when the line is not vacant
+       // since all vacant lines in CSF have the same (vacant) EMPLID, we
+       // would have to round by position. 
+       if (!vacantLine)
+       {
+           csfBC.setCsfAmount(csf.getCsfAmount());
+           bCSF.put(csfKey,csfBC);
+           // now we have to round and save the rounding error
+           roundMechanism rX = keysNeedingRounding.get(csf.getEmplid());
+           rX.addNewBCSF(csfBC);
+       }
+       else
+       {
+           // for vacant lines, we have to round to whole dollars
+           csfBC.setCsfAmount(csf.getCsfAmount().setScale(0));
+           bCSF.put(csfKey,csfBC);
+       }
+    }
+    
+    private void 
+    buildAndStoreBCSFfromCSF(CalculatedSalaryFoundationTracker csf,
+                             String csfKey)
+    {
+       boolean vacantLine = isVacantLine(csf);  
+       BudgetConstructionCalculatedSalaryFoundationTracker csfBC = new
+       BudgetConstructionCalculatedSalaryFoundationTracker();
+       // budget construction CSF contains the coming fiscal year
+       csfBC.setUniversityFiscalYear(csf.getUniversityFiscalYear()+1);
+       csfBC.setChartOfAccountsCode(csf.getChartOfAccountsCode());
+       csfBC.setAccountNumber(csf.getAccountNumber());
+       csfBC.setSubAccountNumber(csf.getSubAccountNumber());
+       csfBC.setFinancialObjectCode(csf.getFinancialObjectCode());
+       csfBC.setFinancialSubObjectCode(csf.getFinancialSubObjectCode());
+       csfBC.setPositionNumber(csf.getPositionNumber());
+       // budget construction CSF always contains the vacant EMPLID, not
+       // the EMPLID of the last incumbent
+       csfBC.setEmplid((vacantLine?
+                       BudgetConstructionConstants.VACANT_EMPLID:
+                       csf.getEmplid()));
+       csfBC.setCsfFullTimeEmploymentQuantity(csf.getCsfFullTimeEmploymentQuantity());
+       csfBC.setCsfTimePercent(csf.getCsfTimePercent());
+       csfBC.setCsfFundingStatusCode(csf.getCsfFundingStatusCode());
+       // we only worry about rounding errors when the line is not vacant
+       // since all vacant lines in CSF have the same (vacant) EMPLID, we
+       // would have to round by position, and positions can be shared. 
+       if (!vacantLine)
+       {
+           csfBC.setCsfAmount(csf.getCsfAmount());
+           bCSF.put(csfKey,csfBC);
+           // now we have to round and save the rounding error
+           roundMechanism rX = keysNeedingRounding.get(csf.getEmplid());
+           rX.addNewBCSF(csfBC);
+       }
+       else
+       {
+           // for vacant lines, we have to round to whole dollars
+           csfBC.setCsfAmount(csf.getCsfAmount().setScale(0));
+           bCSF.put(csfKey,csfBC);
+       }
+    }
+    
+    private String buildAppointmentFundingKey(
+                   PendingBudgetConstructionAppointmentFunding bcaf)
+    {
+        return (bcaf.getEmplid())+
+        bcaf.getPositionNumber()+
+        bcaf.getAccountNumber()+
+        bcaf.getChartOfAccountsCode()+
+        bcaf.getSubAccountNumber()+
+        bcaf.getFinancialObjectCode()+
+        bcaf.getFinancialSubObjectCode();
+    }
+    
+    // overload the CSF key builders 
+    private String buildCSFKey(CalculatedSalaryFoundationTrackerOverride csf)
+    {
+        return (csf.getEmplid())+
+                csf.getPositionNumber()+
+                csf.getAccountNumber()+
+                csf.getChartOfAccountsCode()+
+                csf.getSubAccountNumber()+
+                csf.getFinancialObjectCode()+
+                csf.getFinancialSubObjectCode();
+    }
+
+    private String buildCSFKey(CalculatedSalaryFoundationTracker csf)
+    {
+        return (csf.getEmplid())+
+                csf.getPositionNumber()+
+                csf.getAccountNumber()+
+                csf.getChartOfAccountsCode()+
+                csf.getSubAccountNumber()+
+                csf.getFinancialObjectCode()+
+                csf.getFinancialSubObjectCode();
+    }
+    
+    private String buildVacantCSFKey(CalculatedSalaryFoundationTrackerOverride csf)
+    {
+        boolean vacantLine = isVacantLine(csf);
+        return (vacantLine?BudgetConstructionConstants.VACANT_EMPLID:
+                csf.getEmplid())+
+                csf.getPositionNumber()+
+                csf.getAccountNumber()+
+                csf.getChartOfAccountsCode()+
+                csf.getSubAccountNumber()+
+                csf.getFinancialObjectCode()+
+                csf.getFinancialSubObjectCode();
+    }
+
+    private String buildVacantCSFKey(CalculatedSalaryFoundationTracker csf)
+    {
+        boolean vacantLine = isVacantLine(csf);
+        return (vacantLine?BudgetConstructionConstants.VACANT_EMPLID:
+                csf.getEmplid())+
+                csf.getPositionNumber()+
+                csf.getAccountNumber()+
+                csf.getChartOfAccountsCode()+
+                csf.getSubAccountNumber()+
+                csf.getFinancialObjectCode()+
+                csf.getFinancialSubObjectCode();
+    }
+    //
+    // clean out the existing BCSF data for the key in question.
+    private void clearBCCSF(Integer BaseYear)
+    {
+        Criteria criteriaID = new Criteria();
+        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                              BaseYear);
+        QueryByCriteria queryID = 
+            new QueryByCriteria(BudgetConstructionCalculatedSalaryFoundationTracker.class,
+                                criteriaID);
+        getPersistenceBrokerTemplate().deleteByQuery(queryID);
+        // as always, we should clear the cache after a delete,
+        // even though in this case we haven't yet fetched much
+        getPersistenceBrokerTemplate().clearCache();
+    }
+    
+    
+//  we will overload both of these checks as well             
+    private boolean isVacantLine(CalculatedSalaryFoundationTracker csf)
+    {
+       return  ((csf.getCsfFundingStatusCode().equals(
+                 BudgetConstructionConstants.VACANT_CSF_LINE))||
+                (csf.getCsfFundingStatusCode().equals(
+                 BudgetConstructionConstants.UNFUNDED_CSF_LINE)));
+    }
+    
+    private boolean isVacantLine(CalculatedSalaryFoundationTrackerOverride csf)
+    {
+       return  ((csf.getCsfFundingStatusCode().equals(
+                 BudgetConstructionConstants.VACANT_CSF_LINE))||
+                (csf.getCsfFundingStatusCode().equals(
+                 BudgetConstructionConstants.UNFUNDED_CSF_LINE)));
+    }
+
+    // here are the routines to build BCSF
+    
+    private void readCSF(Integer BaseYear)
+    {
+        Criteria criteriaID = new Criteria();
+        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
+        criteriaID.addEqualTo(PropertyConstants.CSF_DELETE_CODE,
+                              BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
+        QueryByCriteria queryID = 
+            new QueryByCriteria(CalculatedSalaryFoundationTracker.class,criteriaID);
+        Iterator csfResultSet =
+            getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
+        while (csfResultSet.hasNext())
         {
-            KualiDecimal roundingError = withPennies.subtract(wholeDollars);
-            diffAmount.add(roundingError);
-        }
-        
-        public void addNewBCSF(BudgetConstructionCalculatedSalaryFoundationTracker bCSF)
-        {
-            // save a pointer to the new BCSF object and round it
-            candidateBCSFRows.add(bCSF);
-            KualiDecimal withPenniesCSFAmount = bCSF.getCsfAmount();
-            KualiDecimal wholeDollarsCSFAmount = bCSF.getCsfAmount().setScale(0);
-            // save the difference
-            addNewDiff(withPenniesCSFAmount,wholeDollarsCSFAmount);
-            // round the amount to be stored
-            bCSF.setCsfAmount(wholeDollarsCSFAmount);
-        }
-        
-        public void fixRoundErrors()
-        {
-            // this routine adjusts the BCSF values so that the total for each
-            // EMPLID round to the nearest whole dollar amount
-            KualiDecimal adjustAmount;
-            KualiDecimal negAdjust  = new KualiDecimal(-1);
-            negAdjust.setScale(0);
-            KualiDecimal posAdjust  = new KualiDecimal(1);
-            posAdjust.setScale(0);
-            // no rounding is necessary if the difference is less than a buck
-            // this will also prevent our accessing an empty array list, or
-            // trying to adjust things with only one CSF row
-            if ((diffAmount.isGreaterThan(negAdjust))&&
-                (diffAmount.isLessThan(posAdjust)))
+            CalculatedSalaryFoundationTracker csfRow = 
+                (CalculatedSalaryFoundationTracker) csfResultSet.next();
+            // has this been overridden?  if so, don't store it
+            String testKey = buildCSFKey(csfRow);
+            if (csfOverrideKeys.contains(testKey))
             {
-                return;
-            }        
-            if (diffAmount.isLessThan(KualiDecimal.ZERO))
+                break;
+            }
+            // is the line vacant
+            testKey = buildVacantCSFKey(csfRow);
+            if (isVacantLine(csfRow)&&(bCSF.containsKey(testKey)))
             {
-               adjustAmount = negAdjust; 
+                //the line is vacant and it is already in CSF
+                addToExistingBCSFVacant(csfRow,testKey);
             }
             else
             {
-               adjustAmount = posAdjust; 
+                buildAndStoreBCSFfromCSF(csfRow,testKey);
             }
-            for (BudgetConstructionCalculatedSalaryFoundationTracker rCSF: candidateBCSFRows)
+        }
+        // we no longer need the list of csf override keys--recycle
+        csfOverrideKeys.clear();
+    }
+    
+    private void readCSFOverride(Integer BaseYear)
+    {
+        Criteria criteriaID = new Criteria();
+        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
+        criteriaID.addEqualTo(PropertyConstants.CSF_DELETE_CODE,
+                              BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
+        QueryByCriteria queryID = 
+            new QueryByCriteria(CalculatedSalaryFoundationTrackerOverride.class,criteriaID);
+        Iterator csfResultSet =
+            getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
+        while (csfResultSet.hasNext())
+        {
+            CalculatedSalaryFoundationTrackerOverride csfRow = 
+                (CalculatedSalaryFoundationTrackerOverride) csfResultSet.next();
+            // has this been overridden?  if so, don't store it
+            // is the line vacant
+            String testKey = buildVacantCSFKey(csfRow);
+            if (isVacantLine(csfRow)&&(bCSF.containsKey(testKey)))
             {
-                KualiDecimal fixBCSFAmount = rCSF.getCsfAmount();
-                fixBCSFAmount.add(adjustAmount);
-                rCSF.setCsfAmount(fixBCSFAmount);
-                diffAmount.subtract(adjustAmount);   
-                if ((diffAmount.isGreaterThan(negAdjust))&&
-                        (diffAmount.isLessThan(posAdjust)))
-                    {
-                        break;
-                    }        
+                //the line is vacant and it is already in CSF
+                addToExistingBCSFVacant(csfRow,testKey);
+            }
+            else
+            {
+                buildAndStoreBCSFfromCSF(csfRow,testKey);
             }
         }
     }
-         
+
+    private void readExistingAppointmentFunding (Integer BaseYear)
+    {
+        // we will read all existing appointment funding
+        // -- if an AF object matches with a BCSF row, we will store and
+        //    remove the BCSF row, and ignore the AF object
+        // -- if an AF object does NOT match with a BCSF row, we will
+        //    check to see if it has been altered by a user.  if not, we
+        //    will mark it deleted and store it.
+        //
+        Integer RequestYear = BaseYear+1;
+        Criteria criteriaID = new Criteria();
+        // we add this criterion so that it is possible to have more than
+        // one year at a time in budget construction
+        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                              RequestYear);
+        QueryByCriteria queryID = 
+            new QueryByCriteria(PendingBudgetConstructionAppointmentFunding.class,
+                                criteriaID);
+        Iterator bcafResults =
+            getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
+        while (bcafResults.hasNext())
+        {
+            PendingBudgetConstructionAppointmentFunding bcaf =
+                (PendingBudgetConstructionAppointmentFunding) bcafResults.next();
+            String testKey = buildAppointmentFundingKey(bcaf);
+            if (bCSF.containsKey(testKey))
+            {
+                // the new BCSF row is already in appointment funding
+                // we store the BCSF row, delete it from the hash map, and go on
+                BudgetConstructionCalculatedSalaryFoundationTracker bCSFRow =
+                    bCSF.get(testKey);
+                getPersistenceBrokerTemplate().store(bCSFRow);
+                bCSF.remove(testKey);
+            }
+            else
+            {
+                // the current funding row is NOT in the new base set
+                // we will mark it deleted if it came in from CSF and has not
+                // been altered by a user
+                untouchedAppointmentFunding(bcaf);
+            }
+        }
+    }
+    
+    // set up the hash objects   
+    private void setUpBCSFMap (Integer BaseYear)
+    {
+        // we'll just overestimate, making the size equal to active override 
+        // rows and active CSF rows, even though the former might replace some
+        // of the latter
+        Integer bCSFSize = new Integer(0);
+        Criteria criteriaID = new Criteria();
+        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
+        criteriaID.addEqualTo(PropertyConstants.CSF_DELETE_CODE,
+                              BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
+        String[] selectList = {"COUNT(*)"};
+        ReportQueryByCriteria queryID =
+            new ReportQueryByCriteria(CalculatedSalaryFoundationTrackerOverride.class,
+                                      selectList,criteriaID);
+        Iterator ovrdCntr =
+            getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+        if (ovrdCntr.hasNext())
+        {
+            bCSFSize = ((BigDecimal) ((Object[]) ovrdCntr.next())[0]).intValue();
+        }
+        queryID =
+            new ReportQueryByCriteria(CalculatedSalaryFoundationTracker.class,
+                                      selectList,criteriaID);
+        Iterator csfCntr =
+            getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+        if (csfCntr.hasNext())
+        {
+            bCSFSize = bCSFSize +
+                       ((BigDecimal) ((Object[]) ovrdCntr.next())[0]).intValue();
+        }
+        bCSF = new HashMap<String,
+                          BudgetConstructionCalculatedSalaryFoundationTracker>(bCSFSize);
+    }
+    
+    private void setUpCSFOverrideKeys(Integer BaseYear)
+    {
+    //  these are rows in CSF Override--they should take precedence
+    //  over what is in CSF
+    //  the idea is this:
+    //  (1) we build BCSF from CSF Override first.  so, when we read CSF, 
+    //      we will not create a new BCSF entry if the override already has
+    //      created one.
+    //  (2) the override will create an entry with the same key as CSF unless
+    //      (a) the override has a deleted row or (b) the override has a 
+    //      vacant row so that the EMPLID is changed to the vacant EMPLID
+    //      in BCSF.
+    //   So, we create a list of override keys possibly missing in BCSF
+    //   which can be used to eliminate CSF candidates for BCSF.    
+        Criteria criteriaID = new Criteria();
+        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                              BaseYear);
+        Criteria deleteCriteria = new Criteria();
+        deleteCriteria.addNotEqualTo(PropertyConstants.CSF_DELETE_CODE,
+                              BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
+        Criteria vacantCriteria = new Criteria();
+        vacantCriteria.addEqualTo(PropertyConstants.CSF_FUNDING_STATUS_CODE,
+                                  BudgetConstructionConstants.VACANT_CSF_LINE);
+        deleteCriteria.addOrCriteria(vacantCriteria);
+        criteriaID.addAndCriteria(deleteCriteria);
+        String[] selectList = {"COUNT(*)"};
+        ReportQueryByCriteria queryID =
+            new ReportQueryByCriteria(CalculatedSalaryFoundationTrackerOverride.class,
+                                      selectList,criteriaID);
+        Iterator csfOverride =
+            getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+        Integer overrideSize = new Integer(0);
+        while (csfOverride.hasNext())
+        {
+            overrideSize =
+                ((BigDecimal)((Object[]) csfOverride.next())[0]).intValue();
+        }
+        if (overrideSize > 0)
+        {
+           csfOverrideKeys = new HashSet<String>(overrideSize); 
+        }
+        else
+        {
+           csfOverrideKeys = new HashSet<String>(); 
+        }
+    // now we want to build the hash set
+    QueryByCriteria qry = 
+       new QueryByCriteria(CalculatedSalaryFoundationTrackerOverride.class,
+                           criteriaID);
+    Iterator csfOvrd = getPersistenceBrokerTemplate().getIteratorByQuery(qry);
+    while (csfOvrd.hasNext())
+    {
+        csfOverrideKeys.add(buildCSFKey(
+                       (CalculatedSalaryFoundationTrackerOverride) csfOvrd.next()));
+    }
+    // the hashset of override keys must exist before BCSF can be built
+    // so, we should be able to clear the cache to save on memory
+        getPersistenceBrokerTemplate().clearCache();
+    }
+    
+    private void setUpKeysNeedingRounding(Integer BaseYear)
+    {
+    Integer emplidCSFOvrdCount = new Integer(0);
+    Integer emplidCSFCount     = new Integer(0);
+    Criteria criteriaID = new Criteria();
+    criteriaID.addEqualTo(PropertyConstants.CSF_DELETE_CODE,
+                      BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
+    criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                      BaseYear);
+    String[] selectList = {"COUNT(DISTINCT "+PropertyConstants.EMPLID+")"};
+    ReportQueryByCriteria queryID = 
+      new ReportQueryByCriteria(CalculatedSalaryFoundationTrackerOverride.class,
+                                selectList,criteriaID);
+//     EMPLID count for CSF Override
+    Iterator emplidCSFOvrd =
+         getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+    if (emplidCSFOvrd.hasNext())
+    {
+    emplidCSFOvrdCount = 
+       ((BigDecimal)((Object[]) emplidCSFOvrd.next())[0]).intValue();
+    }
+//     EMPLID count for CSF
+    queryID =
+    new ReportQueryByCriteria(CalculatedSalaryFoundationTracker.class,
+                          selectList,criteriaID);
+    Iterator emplidCSF =
+         getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+    if (emplidCSF.hasNext())
+    {
+    emplidCSFCount = 
+         ((BigDecimal)((Object[]) emplidCSF.next())[0]).intValue();
+    }
+    emplidCSFCount = emplidCSFCount+emplidCSFOvrdCount;
+    if (emplidCSFCount > 0)
+    {
+    keysNeedingRounding = 
+      new HashMap<String,roundMechanism>(emplidCSFCount);
+    }
+    else
+    {
+    keysNeedingRounding =
+          new HashMap<String,roundMechanism>();
+    }
+    LOG.info(String.format("\nEmplid count %d",
+                       emplidCSFCount));
+//     now fill the hashmap
+//     there will be one rounding bucket for each EMPLID
+    String[] columnList = {PropertyConstants.EMPLID};
+//     first use CSF Override
+    queryID = 
+    new ReportQueryByCriteria(CalculatedSalaryFoundationTrackerOverride.class,
+                          columnList,criteriaID,true);
+    Iterator emplidOvrd = 
+         getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+    while (emplidOvrd.hasNext())
+    {
+    String newKey = (String) ((Object[]) emplidOvrd.next())[0];
+                             keysNeedingRounding.put(newKey, new roundMechanism());
+    }
+    LOG.info(String.format("\nEMPLID's from CSF override: %d",
+                       keysNeedingRounding.size()));
+//     now add the EMPLID's from CSF itself
+    queryID =
+    new ReportQueryByCriteria(CalculatedSalaryFoundationTracker.class,
+                             columnList,criteriaID,true);    
+    Iterator emplidIter = 
+        getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+    while (emplidIter.hasNext())
+    {
+                String newKey = (String) ((Object[]) emplidIter.next())[0];
+     // insert what is not already there from CSF override
+     if (! keysNeedingRounding.containsKey(newKey))
+     {
+       keysNeedingRounding.put(newKey, new roundMechanism());
+     }
+    }
+    LOG.info(String.format("\nEMPLID total for BCSF: %d",
+     keysNeedingRounding.size()));
+    }
+        
+//     decide whether the current appointment funding row, missing from BCSF, has
+//     been entered by a user or is due to a CSF row that has since gone away
+    String notOnLeave  = new String(BudgetConstructionConstants.NO_LEAVE_INDICATED);
+    KualiDecimal rqstAmount = new KualiDecimal(0);
+    BigDecimal pctTime = new BigDecimal(0);
+    BigDecimal FTE     = new BigDecimal(0);
+    Integer appointmentFundingMarkedDeleted = new Integer(0);
+    private void 
+    untouchedAppointmentFunding(PendingBudgetConstructionAppointmentFunding bcaf)
+    {
+//     this checks to see whether the missing row could have come in from CSF 
+//     if they did not come in from CSF, then it follows that someone entered them
+//     and we should not touch them  
+    if ((! bcaf.getAppointmentRequestedAmount().equals(rqstAmount)) ||
+      (! bcaf.getAppointmentFundingDurationCode().equals(notOnLeave)) ||
+      (bcaf.isAppointmentFundingDeleteIndicator()))
+    {    
+    return;
+    }
+//
+//     this should happen so rarely that we trade time for space, and do
+//     an individual OBJ SQL call to see whether the missing row did in fact 
+//     come in from CSF.  anecdotal evidence indicates there are about 25 or so
+//     a day.  if this gets to be a major run-time problem, the fix would be to 
+//     create another hashMap<String,BigDecimal[]), where the key would be 
+//     the accounting key, position, and EMPLID (and if the line were vacant, 
+//     another key differing only by the replacement of EMPLID by the VACANT_EMPLID
+//     value). The BigDecimal[] would be csfTimePercent and 
+//     csfFullTimeEmploymentQuantity.
+//
+    Criteria criteriaID = new Criteria();
+    criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                        bcaf.getUniversityFiscalYear()-1);
+    criteriaID.addEqualTo(PropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                        bcaf.getChartOfAccountsCode());
+    criteriaID.addEqualTo(PropertyConstants.ACCOUNT_NUMBER,
+                        bcaf.getAccountNumber());
+    criteriaID.addEqualTo(PropertyConstants.SUB_ACCOUNT_NUMBER,
+                        bcaf.getSubAccountNumber());
+    criteriaID.addEqualTo(PropertyConstants.FINANCIAL_OBJECT_CODE,
+                        bcaf.getFinancialObjectCode());
+    criteriaID.addEqualTo(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE,
+                        bcaf.getFinancialSubObjectCode());
+    criteriaID.addEqualTo(PropertyConstants.POSITION_NUMBER,
+                        bcaf.getPositionNumber());
+    criteriaID.addEqualTo(PropertyConstants.CSF_FULL_TIME_EMPLOYMENT_QUANTITY,
+                        bcaf.getAppointmentRequestedFteQuantity());
+    criteriaID.addEqualTo(PropertyConstants.CSF_TIME_PERCENT,
+                        bcaf.getAppointmentRequestedTimePercent());
+    Criteria vacantCriteria = new Criteria();
+    Criteria flagCriteria   = new Criteria();
+//     funding status is "vacant" or "unfunded"
+    vacantCriteria.addEqualTo(PropertyConstants.CSF_FUNDING_STATUS_CODE,
+                            BudgetConstructionConstants.VACANT_CSF_LINE);
+    flagCriteria.addEqualTo(PropertyConstants.CSF_FUNDING_STATUS_CODE,
+                          BudgetConstructionConstants.UNFUNDED_CSF_LINE);
+    flagCriteria.addOrCriteria(vacantCriteria);
+//     in addition, EMPLID is vacant
+    vacantCriteria = new Criteria();
+    vacantCriteria.addEqualTo(PropertyConstants.EMPLID,
+                            BudgetConstructionConstants.VACANT_EMPLID);
+    vacantCriteria.addAndCriteria(flagCriteria);
+//     OR, the EMPLID in CSF is the same as in BCAF
+    flagCriteria = new Criteria();
+    flagCriteria.addEqualTo(PropertyConstants.EMPLID,
+                          bcaf.getEmplid());
+    vacantCriteria.addOrCriteria(flagCriteria);
+//     now add the whole thing to the criteria list
+    criteriaID.addAndCriteria(vacantCriteria);
+    String[] selectList = {"A"};
+    ReportQueryByCriteria queryID = 
+      new ReportQueryByCriteria(CalculatedSalaryFoundationTracker.class,
+                                selectList,criteriaID);
+    Iterator resultSet = 
+      getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+    if (! resultSet.hasNext())
+    {
+      return;
+    }
+//     we need to mark this bcaf line deleted
+    bcaf.setAppointmentRequestedFteQuantity(FTE);
+    bcaf.setAppointmentRequestedTimePercent(pctTime);
+    bcaf.setAppointmentFundingDeleteIndicator(true);
+    getPersistenceBrokerTemplate().store(bcaf);
+    appointmentFundingMarkedDeleted = appointmentFundingMarkedDeleted+1;
+    }
+
+//     this is an inner class which will store the data we need to perform the rounding,
+//     and supply the methods as well         
+    private class roundMechanism
+    {
+//     the idea here is that people split over many lines could lose or gain several
+//     dollars if we rounded each salary line individually.  so, before we round the
+//     salaries in the CSF lines, we add the differences to a running total which
+//     will be added (subtracted) in dollar increments to successive lines until 
+//     the running total is exhausted.
+    private KualiDecimal diffAmount;
+    private ArrayList<BudgetConstructionCalculatedSalaryFoundationTracker> candidateBCSFRows;
+    private void roundMechanism()
+    {
+       this.diffAmount = new KualiDecimal(0);
+       this.candidateBCSFRows = 
+           new ArrayList<BudgetConstructionCalculatedSalaryFoundationTracker>(10);
+    }
+    private void addNewDiff(KualiDecimal withPennies,
+                          KualiDecimal wholeDollars)
+    {
+       KualiDecimal roundingError = withPennies.subtract(wholeDollars);
+       diffAmount.add(roundingError);
+    }
+
+    public void addNewBCSF(BudgetConstructionCalculatedSalaryFoundationTracker bCSF)
+    {
+       // save a pointer to the new BCSF object and round it
+       candidateBCSFRows.add(bCSF);
+       KualiDecimal withPenniesCSFAmount = bCSF.getCsfAmount();
+       KualiDecimal wholeDollarsCSFAmount = bCSF.getCsfAmount().setScale(0);
+       // save the difference
+       addNewDiff(withPenniesCSFAmount,wholeDollarsCSFAmount);
+       // round the amount to be stored
+       bCSF.setCsfAmount(wholeDollarsCSFAmount);
+    }
+
+    public void fixRoundErrors()
+    {
+       // this routine adjusts the BCSF values so that the total for each
+       // EMPLID round to the nearest whole dollar amount
+       KualiDecimal adjustAmount;
+       KualiDecimal negAdjust  = new KualiDecimal(-1);
+       negAdjust.setScale(0);
+       KualiDecimal posAdjust  = new KualiDecimal(1);
+       posAdjust.setScale(0);
+       // no rounding is necessary if the difference is less than a buck
+       // this will also prevent our accessing an empty array list, or
+       // trying to adjust things with only one CSF row
+       if ((diffAmount.isGreaterThan(negAdjust))&&
+           (diffAmount.isLessThan(posAdjust)))
+       {
+           return;
+       }        
+       if (diffAmount.isLessThan(KualiDecimal.ZERO))
+       {
+          adjustAmount = negAdjust; 
+       }
+       else
+       {
+          adjustAmount = posAdjust; 
+       }
+       for (BudgetConstructionCalculatedSalaryFoundationTracker rCSF: candidateBCSFRows)
+       {
+           KualiDecimal fixBCSFAmount = rCSF.getCsfAmount();
+           fixBCSFAmount.add(adjustAmount);
+           rCSF.setCsfAmount(fixBCSFAmount);
+           diffAmount.subtract(adjustAmount);   
+           if ((diffAmount.isGreaterThan(negAdjust))&&
+                   (diffAmount.isLessThan(posAdjust)))
+               {
+                   break;
+               }        
+       }
+    }
+    }
+    /**************************************************************************** 
+     * (10) this is a unit test routine @@TODO: take this out                 
+     ****************************************************************************/
+    public void genesisUnitTest(Integer BaseYear)
+    {
+        /*  check the SQL for appointment funding */
+        Criteria criteriaID = new Criteria();
+        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                              BaseYear+1);
+        criteriaID.addEqualTo(PropertyConstants.EMPLID,"0000000018");
+        QueryByCriteria queryID = new QueryByCriteria(
+                PendingBudgetConstructionAppointmentFunding.class, criteriaID);
+        Iterator bcafResults =
+        getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
+        while (bcafResults.hasNext())
+        {
+            PendingBudgetConstructionAppointmentFunding bcaf =
+                (PendingBudgetConstructionAppointmentFunding) bcafResults.next();
+            untouchedAppointmentFunding(bcaf);
+        }
+    }
+
     //
     //  here are the routines Spring uses to "wire the beans"
     //

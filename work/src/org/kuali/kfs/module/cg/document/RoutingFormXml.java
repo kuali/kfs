@@ -256,7 +256,6 @@ public class RoutingFormXml {
         currentGrantDescription.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormDocument.getGrantNumber())));
         typeElement.appendChild(currentGrantDescription);
         
-        // TODO changed IU_ACCOUNT to INSTITUTION_ACCOUNT
         Element institutionAccountDescription = xmlDoc.createElement("INSTITUTION_ACCOUNT");
         institutionAccountDescription.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormDocument.getInstitutionAccountNumber())));
         typeElement.appendChild(institutionAccountDescription);
@@ -296,27 +295,28 @@ public class RoutingFormXml {
         // TODO: dynamic fields?
         
         if (routingFormDocument.getRoutingFormPersonnel().size() > 0 || routingFormDocument.getRoutingFormOrganizationCreditPercents().size() > 0) {
-            Element percentCreditDescription = xmlDoc.createElement("PERCENT_CREDIT");
             
             for(RoutingFormPersonnel routingFormPerson : routingFormDocument.getRoutingFormPersonnel()) {
+                Element percentCreditDescription = xmlDoc.createElement("PERCENT_CREDIT");
                 percentCreditDescription.setAttribute("NAME", routingFormPerson.getUser().getPersonName());
                 percentCreditDescription.setAttribute("ROLE", routingFormPerson.getPersonRoleText());
                 percentCreditDescription.setAttribute("CHART", routingFormPerson.getChartOfAccountsCode());
                 percentCreditDescription.setAttribute("ORG", routingFormPerson.getOrganizationCode());
                 percentCreditDescription.setAttribute("CREDIT", ObjectUtils.toString(routingFormPerson.getPersonCreditPercent()));
-                // TODO what about routingFormPerson.getPersonFinancialAidPercent() ?
+                percentCreditDescription.setAttribute("FA", ObjectUtils.toString(routingFormPerson.getPersonFinancialAidPercent()));
+                projectDetailElement.appendChild(percentCreditDescription);
             }
     
             for(RoutingFormOrganizationCreditPercent routingFormOrganizationCreditPercent : routingFormDocument.getRoutingFormOrganizationCreditPercents()) {
+                Element percentCreditDescription = xmlDoc.createElement("PERCENT_CREDIT");
                 percentCreditDescription.setAttribute("NAME", routingFormOrganizationCreditPercent.getOrganization().getOrganizationName());
                 percentCreditDescription.setAttribute("ROLE", routingFormOrganizationCreditPercent.getOrganizationCreditRoleText());
                 percentCreditDescription.setAttribute("CHART", routingFormOrganizationCreditPercent.getChartOfAccountsCode());
                 percentCreditDescription.setAttribute("ORG", routingFormOrganizationCreditPercent.getOrganizationCode());
                 percentCreditDescription.setAttribute("CREDIT", ObjectUtils.toString(routingFormOrganizationCreditPercent.getOrganizationCreditPercent()));
-                // TODO what about routingFormOrganizationCreditPercent.getPersonFinancialAidPercent() ?
+                percentCreditDescription.setAttribute("FA", ObjectUtils.toString(routingFormOrganizationCreditPercent.getOrganizationFinancialAidPercent()));
+                projectDetailElement.appendChild(percentCreditDescription);
             }
-            
-            projectDetailElement.appendChild(percentCreditDescription);
         }
         
         return projectDetailElement;
@@ -348,7 +348,7 @@ public class RoutingFormXml {
         Element keywordsElement = xmlDoc.createElement("KEYWORDS");
 
         for(RoutingFormKeyword routingFormKeyword : routingFormKeywords) {
-            Element keywordDescription = xmlDoc.createElement("KEYWORDS");
+            Element keywordDescription = xmlDoc.createElement("KEYWORD");
             keywordDescription.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormKeyword.getRoutingFormKeywordDescription())));
             keywordsElement.appendChild(keywordDescription);            
         }

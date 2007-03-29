@@ -1882,9 +1882,9 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         
         SpringServiceLocator.getPersistenceService().retrieveReferenceObject(this, "routingFormPersonnel");
         for (RoutingFormPersonnel user : this.getRoutingFormPersonnel()) {
-            if (user.getPersonRoleCode().equals(KraConstants.PROJECT_DIRECTOR_CODE)) {
+            if (ObjectUtils.isNotNull(user.getPersonRoleCode()) && user.isProjectDirector()) {
                 projectDirector = user;
-            } else if (user.getPersonRoleCode().equals(KraConstants.CO_PROJECT_DIRECTOR_CODE)) {
+            } else if (ObjectUtils.isNotNull(user.getPersonRoleCode()) && user.getPersonRoleCode().equals(KraConstants.CO_PROJECT_DIRECTOR_CODE)) {
                 if (!StringUtils.isBlank(user.getChartOfAccountsCode())) {
                     xml.append("<chartOrg><chartOfAccountsCode>");
                     xml.append(user.getChartOfAccountsCode());

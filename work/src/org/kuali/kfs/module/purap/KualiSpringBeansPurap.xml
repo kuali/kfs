@@ -22,7 +22,7 @@
 		<property name="moduleCode" value="PA" />
 		<property name="moduleUserService" ref="purapUserService" />
 		<property name="moduleAuthorizer">
-			<bean class="org.kuali.core.authorization.KualiModuleAuthorizerBase">
+			<bean class="org.kuali.kfs.authorization.KfsModuleAuthorizerBase">
 				<property name="packagePrefixes">
 					<list>
 						<value>org.kuali.module.purap.</value>

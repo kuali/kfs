@@ -19,17 +19,13 @@ package org.kuali.module.purap.document;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ChartUser;
@@ -38,7 +34,6 @@ import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.bo.BillingAddress;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.bo.RequisitionStatusHistory;
-import org.kuali.module.purap.bo.SourceDocumentReference;
 import org.kuali.module.purap.bo.VendorContract;
 import org.kuali.module.purap.bo.VendorDetail;
 import org.kuali.module.purap.service.PhoneNumberService;
@@ -68,28 +63,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 	 */
 	public RequisitionDocument() {
         super();
-        /*
-        SourceDocumentReference sourceDocumentReference = new SourceDocumentReference();
-        
-        sourceDocumentReference.setSourceDocumentIdentifier(this.getIdentifier());
-        String documentTypeName = SpringServiceLocator.getDataDictionaryService().getDocumentTypeNameByClass(this.getClass());
-        String documentTypeCode = SpringServiceLocator.getDataDictionaryService().getDocumentTypeCodeByTypeName(documentTypeName);
-        sourceDocumentReference.setSourceFinancialDocumentTypeCode(documentTypeCode);
-        */
-        // This line is giving this error:
-        /*
-        javax.servlet.ServletException: OJB operation; SQL []; ORA-01400: cannot insert NULL into ("KULDEV"."PUR_SRC_DOC_REF_T"."SRC_DOC_OBJ_ID")
-        ; nested exception is java.sql.SQLException: ORA-01400: cannot insert NULL into ("KULDEV"."PUR_SRC_DOC_REF_T"."SRC_DOC_OBJ_ID")
-        */
-        //sourceDocumentReference.setSourceDocumentObjectIdentifier(this.getObjectId());
-        /*
-        String ObjID = this.getObjectId();
-        sourceDocumentReference.setSourceDocumentObjectIdentifier("objectID");
-        sourceDocumentReferences = new TypedArrayList(SourceDocumentReference.class);
-        sourceDocumentReferences.add(sourceDocumentReference);
-
-      */
-        
     }
 
     public void refreshAllReferences() {
@@ -578,30 +551,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 		this.organizationAutomaticPurchaseOrderLimit = organizationAutomaticPurchaseOrderLimit;
 	}
 	
-    @Override
-    public void afterInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-            super.afterInsert(persistenceBroker);
-            SourceDocumentReference sourceDocumentReference = new SourceDocumentReference();
-            
-            sourceDocumentReference.setSourceDocumentIdentifier(this.getPurapDocumentIdentifier());
-            String documentTypeName = SpringServiceLocator.getDataDictionaryService().getDocumentTypeNameByClass(this.getClass());
-            String documentTypeCode = SpringServiceLocator.getDataDictionaryService().getDocumentTypeCodeByTypeName(documentTypeName);
-            sourceDocumentReference.setSourceFinancialDocumentTypeCode(documentTypeCode);
-            // This line is giving this error:
-            /*
-            javax.servlet.ServletException: OJB operation; SQL []; ORA-01400: cannot insert NULL into ("KULDEV"."PUR_SRC_DOC_REF_T"."SRC_DOC_OBJ_ID")
-            ; nested exception is java.sql.SQLException: ORA-01400: cannot insert NULL into ("KULDEV"."PUR_SRC_DOC_REF_T"."SRC_DOC_OBJ_ID")
-            */
-            String ObjID = this.getObjectId();
-            sourceDocumentReference.setSourceDocumentObjectIdentifier(this.getObjectId());
-            //String ObjID = this.getObjectId();
-           // sourceDocumentReference.setSourceDocumentObjectIdentifier("objectID");
-            sourceDocumentReferences = new TypedArrayList(SourceDocumentReference.class);
-            sourceDocumentReferences.add(sourceDocumentReference);
-           // String ObjID = this.getObjectId();
-            
-     }
-
     /**
      * @see org.kuali.module.purap.document.PurchasingDocumentBase#getItemClass()
      */

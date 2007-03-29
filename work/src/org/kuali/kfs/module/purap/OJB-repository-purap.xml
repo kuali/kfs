@@ -758,11 +758,6 @@
 	<reference-descriptor name="vendorContract" class-ref="org.kuali.module.purap.bo.VendorContract" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="vendorContractGeneratedIdentifier" />
 	</reference-descriptor>
-	<collection-descriptor name="sourceDocumentReferences" proxy="true" element-class-ref="org.kuali.module.purap.bo.SourceDocumentReference" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
-        <orderby name="sourceDocumentReferenceGeneratedIdentifier" sort="ASC" />
-        <orderby name="sourceDocumentIdentifier" sort="ASC" />
-        <inverse-foreignkey field-ref="sourceDocumentIdentifier" />
-    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.FundingSource" table="PUR_FND_SRC_T">
@@ -1039,13 +1034,6 @@
     <!-- reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterialStatusHistory" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderIdentifier" />
     </reference-descriptor -->
-    <!-- 
-    <collection-descriptor name="sourceDocumentReferences" proxy="true" element-class-ref="org.kuali.module.purap.bo.SourceDocumentReference" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
-        <orderby name="sourceDocumentReferenceGeneratedIdentifier" sort="ASC" />
-        <orderby name="sourceDocumentIdentifier" sort="ASC" />
-        <inverse-foreignkey field-ref="sourceDocumentIdentifier" />
-    </collection-descriptor>
-    -->
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.CreditMemo" table="AP_CRDT_MEMO_T">
@@ -1990,25 +1978,6 @@
     <collection-descriptor name="assignContractManagerDetails" proxy="true" element-class-ref="org.kuali.module.purap.bo.AssignContractManagerDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
-</class-descriptor>
-<class-descriptor class="org.kuali.module.purap.bo.SourceDocumentReference" table="PUR_SRC_DOC_REF_T">
-	<field-descriptor name="sourceDocumentReferenceGeneratedIdentifier" column="SRC_DOC_REF_GNRTD_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="SRC_DOC_REF_GNRTD_ID"/>
-	<field-descriptor name="sourceDocumentIdentifier" column="SRC_DOC_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
-	<field-descriptor name="sourceFinancialDocumentTypeCode" column="SRC_FDOC_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="sourceDocumentObjectIdentifier" column="SRC_DOC_OBJ_ID" jdbc-type="VARCHAR"/>
-	<!--
-	<reference-descriptor name="purchasingAccountsPayableDocument" class-ref="org.kuali.module.purap.document.PurchasingAccountsPayableDocument"  auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="sourceDocumentIdentifier"  />
-	</reference-descriptor>
-	-->
-	<reference-descriptor name="purchasingAccountsPayableDocument" class-ref="org.kuali.module.purap.document.PurchaseOrderDocument"  auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="sourceDocumentIdentifier"  />
-	</reference-descriptor>
-	<reference-descriptor name="purchasingAccountsPayableDocument" class-ref="org.kuali.module.purap.document.RequisitionDocument"  auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="sourceDocumentIdentifier"  />
-	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.PurchaseOrderStatusHistoryLink" table="PUR_PO_STAT_HIST_LNK_V">

@@ -29,7 +29,6 @@ import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.bo.PurApItemBase;
 import org.kuali.module.purap.bo.PurchasingApItem;
-import org.kuali.module.purap.bo.SourceDocumentReference;
 import org.kuali.module.purap.bo.Status;
 import org.kuali.module.purap.bo.StatusHistory;
 import org.kuali.module.purap.bo.VendorDetail;
@@ -49,7 +48,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
     // COMMON ELEMENTS
     protected List statusHistories;
-    protected List<SourceDocumentReference> sourceDocumentReferences;
+
     // COLLECTIONS
     private List<PurchasingApItem> items;
     
@@ -208,13 +207,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         this.vendorDetail = vendorDetail;
     }
 
-    public List<SourceDocumentReference> getSourceDocumentReferences() {
-        return sourceDocumentReferences;
-}
-    public void setSourceDocumentReferences(List<SourceDocumentReference> sourceDocumentReferences) {
-        this.sourceDocumentReferences = sourceDocumentReferences;
-    }
-    
     /**
      * Gets the items attribute. 
      * @return Returns the items.

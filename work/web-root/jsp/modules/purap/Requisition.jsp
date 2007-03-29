@@ -56,9 +56,9 @@
         documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}"
         displayRequisitionFields="true" />
 
-    <purap:viewRelatedDocuments
+    <!-- purap:viewRelatedDocuments
             documentAttributes="${DataDictionary.SourceDocumentReference.attributes}"
-            />
+            / -->
     
 	<purap:statushistory 
 		documentAttributes="${DataDictionary.RequisitionStatusHistory.attributes}" />

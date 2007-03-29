@@ -18,9 +18,7 @@ package org.kuali.module.purap.document;
 import java.util.List;
 
 import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.module.purap.bo.SourceDocumentReference;
 import org.kuali.module.purap.bo.Status;
-import org.kuali.module.purap.bo.StatusHistory;
 
 
 /**
@@ -85,8 +83,4 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
 
     public void setStatusHistories(List statusHistories);
     
-    public List<SourceDocumentReference> getSourceDocumentReferences();
-    
-    public void setSourceDocumentReferences(List<SourceDocumentReference> sourceDocumentReferences);
-
 }

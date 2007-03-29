@@ -17,14 +17,9 @@
 package org.kuali.module.purap.document;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.Copyable;
@@ -34,7 +29,6 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.PaymentTermType;
 import org.kuali.module.purap.bo.PurchaseOrderStatusHistory;
 import org.kuali.module.purap.bo.PurchaseOrderStatusHistoryLink;
@@ -43,7 +37,6 @@ import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.bo.RecurringPaymentFrequency;
 import org.kuali.module.purap.bo.ShippingPaymentTerms;
 import org.kuali.module.purap.bo.ShippingTitle;
-import org.kuali.module.purap.bo.SourceDocumentReference;
 import org.kuali.module.purap.bo.VendorDetail;
 import org.kuali.module.purap.service.PurchaseOrderPostProcessorService;
 
@@ -187,33 +180,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
 //        }
 //        this.setItems(items);
         
-      // TODO Naser This is the code Naser is working on
- /*
-        SourceDocumentReference sourceDocumentReference = new SourceDocumentReference();
-        Integer ReqId = this.getRequisitionIdentifier();
-        // The following code is assuming that any PO has one and only one requisition:
-        Map fieldValues = new HashMap();
-        fieldValues.put(PurapPropertyConstants.SOURCE_DOCUMENT_IDENTIFIER, this.getRequisitionIdentifier());
-        List<SourceDocumentReference> sourceDocumentReferences = new ArrayList(SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(SourceDocumentReference.class,  
-                fieldValues, PurapPropertyConstants.SOURCE_DOCUMENT_IDENTIFIER, true));
-        if (sourceDocumentReferences.size()>= 1){
-            Integer sourceDocumentReferenceGeneratedId = sourceDocumentReferences.get(0).getSourceDocumentReferenceGeneratedIdentifier();
-            sourceDocumentReference.setSourceDocumentReferenceGeneratedIdentifier(sourceDocumentReferences.get(0).getSourceDocumentReferenceGeneratedIdentifier());
-    }
-        String documentTypeName = SpringServiceLocator.getDataDictionaryService().getDocumentTypeNameByClass(this.getClass());
-        String documentTypeCode = SpringServiceLocator.getDataDictionaryService().getDocumentTypeCodeByTypeName(documentTypeName);
-        sourceDocumentReference.setSourceFinancialDocumentTypeCode(documentTypeCode);
-       // sourceDocumentReference.setSourceFinancialDocumentTypeCode("PO");
-        // This line is giving this error:
-        
-        //javax.servlet.ServletException: OJB operation; SQL []; ORA-01400: cannot insert NULL into ("KULDEV"."PUR_SRC_DOC_REF_T"."SRC_DOC_OBJ_ID")
-        // ; nested exception is java.sql.SQLException: ORA-01400: cannot insert NULL into ("KULDEV"."PUR_SRC_DOC_REF_T"."SRC_DOC_OBJ_ID")
-        //sourceDocumentReference.setSourceDocumentObjectIdentifier(this.getObjectId());
-        sourceDocumentReference.setSourceDocumentObjectIdentifier("POObjectID");
-        //sourceDocumentReferences = new TypedArrayList(SourceDocumentReference.class);
-        sourceDocumentReferences.add(sourceDocumentReference);
-        this.setSourceDocumentReferences(sourceDocumentReferences);
-     */
     }
 
     public void refreshAllReferences() {
@@ -643,39 +609,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
         this.setAlternateVendorName(vendorDetail.getVendorName());
     }
     
-    @Override
-    public void afterInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-            super.afterInsert(persistenceBroker);
-            
-            //TODO Naser This is the code Naser is working on
-            
-            SourceDocumentReference sourceDocumentReference = new SourceDocumentReference();
-            Integer ReqId = this.getRequisitionIdentifier();
-            // The following code is assuming that any PO has one and only one requisition:
-            Map fieldValues = new HashMap();
-            fieldValues.put(PurapPropertyConstants.SOURCE_DOCUMENT_IDENTIFIER, this.getRequisitionIdentifier());
-            List<SourceDocumentReference> sourceDocumentReferences = new ArrayList(SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(SourceDocumentReference.class,  
-                    fieldValues, PurapPropertyConstants.SOURCE_DOCUMENT_IDENTIFIER, true));
-            if (sourceDocumentReferences.size()>= 1){
-                Integer sourceDocumentReferenceGeneratedId = sourceDocumentReferences.get(0).getSourceDocumentReferenceGeneratedIdentifier();
-                sourceDocumentReference.setSourceDocumentReferenceGeneratedIdentifier(sourceDocumentReferences.get(0).getSourceDocumentReferenceGeneratedIdentifier());
-}
-            String documentTypeName = SpringServiceLocator.getDataDictionaryService().getDocumentTypeNameByClass(this.getClass());
-            String documentTypeCode = SpringServiceLocator.getDataDictionaryService().getDocumentTypeCodeByTypeName(documentTypeName);
-            sourceDocumentReference.setSourceFinancialDocumentTypeCode(documentTypeCode);
-           // sourceDocumentReference.setSourceFinancialDocumentTypeCode("PO");
-            // This line is giving this error:
-            //javax.servlet.ServletException: OJB operation; SQL []; ORA-01400: cannot insert NULL into ("KULDEV"."PUR_SRC_DOC_REF_T"."SRC_DOC_OBJ_ID")
-            // ; nested exception is java.sql.SQLException: ORA-01400: cannot insert NULL into ("KULDEV"."PUR_SRC_DOC_REF_T"."SRC_DOC_OBJ_ID")
-            String objID = this.getObjectId();
-            sourceDocumentReference.setSourceDocumentObjectIdentifier(this.getObjectId());
-            
-           // sourceDocumentReference.setSourceDocumentObjectIdentifier("POObjectID");
-            //sourceDocumentReferences = new TypedArrayList(SourceDocumentReference.class);
-            sourceDocumentReferences.add(sourceDocumentReference);
-            this.setSourceDocumentReferences(sourceDocumentReferences);
-    }
-
     public void toCopy(String docType) throws WorkflowException {
         TransactionalDocument newDoc = (TransactionalDocument) SpringServiceLocator.getDocumentService().getNewDocument(docType);
         newDoc.getDocumentHeader().setFinancialDocumentDescription(getDocumentHeader().getFinancialDocumentDescription());

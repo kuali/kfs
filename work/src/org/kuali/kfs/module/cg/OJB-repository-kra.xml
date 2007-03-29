@@ -811,6 +811,9 @@
     <reference-descriptor name="agency" class-ref="org.kuali.module.cg.bo.Agency" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="agencyNumber" />
     </reference-descriptor>
+    <reference-descriptor name="dueDateType" class-ref="org.kuali.module.kra.routingform.bo.DueDateType" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="routingFormDueDateTypeCode" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.kra.routingform.bo.RoutingFormBudget" table="ER_RF_BDGT_T">

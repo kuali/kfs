@@ -57,6 +57,7 @@ public class RoutingFormAgency extends PersistableBusinessObjectBase {
 
     private List<RoutingFormDueDateType> routingFormDueDateTypes;
     private Agency agency;
+    private DueDateType dueDateType;
     
 	/**
 	 * Default constructor.
@@ -594,5 +595,19 @@ public class RoutingFormAgency extends PersistableBusinessObjectBase {
     public void setAgency(Agency routingFormAgency) {
         this.agency = routingFormAgency;
     }
+
+    public DueDateType getDueDateType() {
+        return dueDateType;
+    }
+
+    /**
+     * @param dueDateType
+     * @deprecated
+     */
+    public void setDueDateType(DueDateType dueDateType) {
+        this.dueDateType = dueDateType;
+    }
+    
+    
 
 }

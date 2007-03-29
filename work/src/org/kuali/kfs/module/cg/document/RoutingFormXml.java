@@ -22,7 +22,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Locale;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.module.kra.routingform.bo.RoutingFormAgency;
@@ -30,6 +29,7 @@ import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
+import org.kuali.module.kra.routingform.bo.RoutingFormSubmissionType;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -78,6 +78,7 @@ public class RoutingFormXml {
         routingFormElement.appendChild(createProjectDetailElement(routingFormDocument, xmlDoc));
         routingFormElement.appendChild(createApprovalsElement(routingFormDocument, xmlDoc));
         routingFormElement.appendChild(createKeywordsElement(routingFormDocument.getRoutingFormKeywords(), xmlDoc));
+        routingFormElement.appendChild(createSubmissionTypesElement(routingFormDocument.getRoutingFormSubmissionTypes(), routingFormDocument.getPreviousFederalIdentifier(), xmlDoc));
         routingFormElement.appendChild(createCommentsElement(routingFormDocument, xmlDoc));
     }
     
@@ -92,6 +93,8 @@ public class RoutingFormXml {
     private static Element createAgencyElement(RoutingFormAgency routingFormAgency, String routingFormAnnouncementNumber, Document xmlDoc) {
         Element agencyElement = xmlDoc.createElement("AGENCY");
 
+        DateFormat dateFormatterKra = new SimpleDateFormat("MM/dd/yyyy");
+        
         if (routingFormAgency.getAgency() != null) {
             Element agencyDataElement = xmlDoc.createElement("AGENCY_DATA");
             agencyDataElement.setAttribute("AGENCY_NUMBER", routingFormAgency.getAgencyNumber());
@@ -106,24 +109,23 @@ public class RoutingFormXml {
         }
         
         Element agencyDueDateElement = xmlDoc.createElement("DUE_DATE");
-        agencyDueDateElement.setAttribute("DUE_DATE_TYPE", routingFormAgency.getRoutingFormDueDateTypeCode());
-        agencyDueDateElement.setAttribute("DUE_DATE", ObjectUtils.toString(routingFormAgency.getRoutingFormDueDate()));
+        agencyDueDateElement.setAttribute("DUE_DATE_TYPE", routingFormAgency.getDueDateType() == null ? "" : routingFormAgency.getDueDateType().getDueDateDescription());
+        agencyDueDateElement.setAttribute("DUE_DATE", routingFormAgency.getRoutingFormDueDate() == null ? "" : dateFormatterKra.format(routingFormAgency.getRoutingFormDueDate()));
         // following field is dropped in KRA but per request preserved for Indiana University ERA implementation.
         agencyDueDateElement.setAttribute("DUE_TIME", routingFormAgency.getRoutingFormDueTime());
         agencyElement.appendChild(agencyDueDateElement);
         
         Element agencyDeliveryElement = xmlDoc.createElement("AGENCY_DELIVERY");
-        // TODO following field is dropped but used by stylesheet
-        agencyDeliveryElement.setAttribute("ADDITIONAL_DELIVERY_INSTRUCTIONS_IND", "TODO");
         agencyDeliveryElement.setAttribute("COPIES", routingFormAgency.getRoutingFormRequiredCopyText());
         
         Element agencyDeliveryInstructionsElement = xmlDoc.createElement("DELIVERY_INSTRUCTIONS");
-        agencyDeliveryInstructionsElement.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormAgency.getAgencyShippingInstructionsDescription())));
+        agencyDeliveryInstructionsElement.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormAgency.getAgencyAddressDescription())));
         agencyDeliveryElement.appendChild(agencyDeliveryInstructionsElement);
         
         Element agencyAdditionalDeliveryInstructionsElement = xmlDoc.createElement("ADDITIONAL_DELIVERY_INSTRUCTIONS");
         agencyAdditionalDeliveryInstructionsElement.setAttribute("DISK_INCLUDED_IND", formatBoolean(routingFormAgency.getAgencyDiskAccompanyIndicator()));
         agencyAdditionalDeliveryInstructionsElement.setAttribute("ELECTRONIC_SUBMISSIONS_IND", formatBoolean(routingFormAgency.getAgencyElectronicSubmissionIndicator()));
+        agencyAdditionalDeliveryInstructionsElement.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormAgency.getAgencyShippingInstructionsDescription())));
         agencyDeliveryElement.appendChild(agencyAdditionalDeliveryInstructionsElement);
         
         agencyElement.appendChild(agencyDeliveryElement);
@@ -160,6 +162,10 @@ public class RoutingFormXml {
     private static Element createPurposeElement(RoutingFormDocument routingFormDocument, Document xmlDoc) {
         Element purposeElement = xmlDoc.createElement("PURPOSE");
 
+        // TODO Research Type dropdown.
+        
+        // TODO Purpose should be dynamic, not static as it is right now below.
+        
         purposeElement.setAttribute("PURPOSE", routingFormDocument.getRoutingFormPurposeCode());
         
         Element purposeDescriptionElement = xmlDoc.createElement("PURPOSE_DESCRIPTION");
@@ -207,7 +213,6 @@ public class RoutingFormXml {
         Element amountsDatesElement = xmlDoc.createElement("AMOUNTS_DATES");
 
         DateFormat dateFormatterKra = new SimpleDateFormat("MM/dd/yyyy");
-        DateFormat dateFormatterLong = DateFormat.getDateInstance(DateFormat.LONG, Locale.US);
         
         Element directCostsDescription = xmlDoc.createElement("DIRECT_COSTS");
         directCostsDescription.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormBudget.getRoutingFormBudgetDirectAmount())));
@@ -332,7 +337,10 @@ public class RoutingFormXml {
     private static Element createApprovalsElement(RoutingFormDocument routingFormDocument, Document xmlDoc) {
         Element approvalsElement = xmlDoc.createElement("APPROVALS");
 
-        // TODO where do I get the route log from?  (ask Geoff? Terry?)
+        // TODO 
+        //WorkflowInfo
+        //... should get me action taken and pending
+        //... see ResearchDocumentPermissionsServiceImpl.isUserInOrgHierarchy for future
         
         return approvalsElement;
     }
@@ -356,6 +364,21 @@ public class RoutingFormXml {
         return keywordsElement;
     }
     
+    /**
+     * Creates SUBMISSION_TYPES node.
+     * 
+     * @param routingFormDocument
+     * @param xmlDoc
+     * @return resulting node
+     */
+    private static Element createSubmissionTypesElement(List<RoutingFormSubmissionType> routingFormSubmissionTypes, String previousFederalIdentifier, Document xmlDoc) {
+        Element submissionTypesElement = xmlDoc.createElement("SUBMISSION_TYPES");
+
+        // TODO New section on KRA, create?
+        
+        return submissionTypesElement;
+    }
+     
     /**
      * Creates COMMENTS node.
      * 

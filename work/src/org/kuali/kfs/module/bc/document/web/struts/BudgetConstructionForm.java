@@ -47,15 +47,12 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
     private PendingBudgetConstructionGeneralLedger newRevenueLine;
     private PendingBudgetConstructionGeneralLedger newExpenditureLine;
 
-    private boolean hideDetails = true;
+    private boolean hideDetails = false;
 
 
     public BudgetConstructionForm() {
         super();
         setDocument(new BudgetConstructionDocument());
-        //TODO not sure these set method calls are even needed here
-//        this.setNewRevenueLine(new PendingBudgetConstructionGeneralLedger());
-//        this.setNewExpenditureLine(new PendingBudgetConstructionGeneralLedger());
         LOG.debug("creating BudgetConstructionForm");
     }
     
@@ -79,7 +76,6 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
                 // this should only affect the line since the DD has auto-update=false on refs and collections
                 // and only affect fields where xml attribute has forceUppercase="true"
                 SpringServiceLocator.getBusinessObjectDictionaryService().performForceUppercase(revLine);
-                revLine.setFinancialObjectTypeCode(BCConstants.FINANCIAL_OBJECT_TYPE_CODE_REV);
 
                 // null subobj must be set to dashes
                 if (StringUtils.isBlank(revLine.getFinancialSubObjectCode())){
@@ -96,7 +92,6 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
                 // this should only affect the line since the DD has auto-update=false on refs and collections
                 // and only affect fields where xml attribute has forceUppercase="true"
                 SpringServiceLocator.getBusinessObjectDictionaryService().performForceUppercase(expLine);
-                expLine.setFinancialObjectTypeCode(BCConstants.FINANCIAL_OBJECT_TYPE_CODE_EXP);
 
                 // null subobj must be set to dashes
                 if (StringUtils.isBlank(expLine.getFinancialSubObjectCode())){
@@ -106,36 +101,23 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
 
             }
 
+            //this is needed to retrieve ref objects, esp budgetConstructionMonthly 
             populatePBGLLines();
+
             setDocTypeName(discoverDocumentTypeName());
         }
 
     }
 
     /**
-     * This sets the default fields not setable by the user for added lines
-     * 
-     * @param line
-     */
-    private void initNewLine(PendingBudgetConstructionGeneralLedger line){
-
-        BudgetConstructionDocument tdoc = this.getBudgetConstructionDocument();
-
-        line.setDocumentNumber(tdoc.getDocumentNumber());
-        line.setUniversityFiscalYear(tdoc.getUniversityFiscalYear());
-        line.setChartOfAccountsCode(tdoc.getChartOfAccountsCode());
-        line.setAccountNumber(tdoc.getAccountNumber());
-        line.setSubAccountNumber(tdoc.getSubAccountNumber());
-        line.setFinancialBalanceTypeCode(BCConstants.FINANCIAL_BALANCE_TYPE_CODE_BB);
-    }
-    
-    /**
-     * This method iterates over all of the rev and exp lines in the BC document, and calls
-     * prepareAccountingLineForValidationAndPersistence on each one.
-     * This is called because a user could have updated already existing PBGL lines
-     * that had blank values in composite key fields.
+     * This method iterates over all of the rev and exp lines in the BC document.
+     * TODO verify this - and calls prepareAccountingLineForValidationAndPersistence on each one.
+     * This is called to refresh ref objects for use by validation
      */
     protected void populatePBGLLines(){
+
+        //TODO add pbgl totaling here??
+
         Iterator revenueLines = this.getBudgetConstructionDocument().getPendingBudgetConstructionGeneralLedgerRevenueLines().iterator();
         while (revenueLines.hasNext()){
             PendingBudgetConstructionGeneralLedger revenueLine = (PendingBudgetConstructionGeneralLedger) revenueLines.next();
@@ -170,43 +152,15 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
     
     /**
      * Populates the dependent fields of objects contained within the PBGL line
-     * that are visible to the user
      * 
      * @param line
      */
     private void populatePBGLLine(PendingBudgetConstructionGeneralLedger line){
 
-        BudgetConstructionDocument tdoc = this.getBudgetConstructionDocument();
-/*
-        if (ObjectUtils.isNull(line.getFinancialObject())) {
-            line.setFinancialObject(new ObjectCode());
-        }
-        line.getFinancialObject().setUniversityFiscalYear(tdoc.getUniversityFiscalYear());
-        line.getFinancialObject().setChartOfAccountsCode(line.getChartOfAccountsCode());
-
-        if (!line.getFinancialSubObjectCode().equalsIgnoreCase(Constants.DASHES_SUB_OBJECT_CODE)){
-            if (ObjectUtils.isNull(line.getFinancialSubObject())) {
-                line.setFinancialSubObject(new SubObjCd());
-            }
-            line.getFinancialSubObject().setChartOfAccountsCode(line.getChartOfAccountsCode());
-            line.getFinancialSubObject().setAccountNumber(line.getAccountNumber());
-            line.getFinancialSubObject().setFinancialObjectCode(line.getFinancialObjectCode());
-            line.getFinancialSubObject().setUniversityFiscalYear(tdoc.getUniversityFiscalYear());
-        }
-*/        
-//        line.getFinancialObject();
-//        if (!line.getFinancialSubObjectCode().equalsIgnoreCase(Constants.DASHES_SUB_OBJECT_CODE)){
-//            line.getFinancialSubObject();
-//        }
-//        line.getBudgetConstructionMonthly();
-
-        final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject", "financialSubObject", "budgetConstructionMonthly" }));
+        final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject", "financialSubObject", "laborObject", "budgetConstructionMonthly"}));
 //        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(line, REFRESH_FIELDS);
         KNSServiceLocator.getPersistenceService().retrieveReferenceObjects(line, REFRESH_FIELDS);
 
-//        line.refreshReferenceObject("financialObject");
-//        line.refreshReferenceObject("financialSubObject");
-//        line.refreshReferenceObject("budgetConstructionMonthly");
     }
 
     public BudgetConstructionDocument getBudgetConstructionDocument(){
@@ -224,7 +178,7 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
     public PendingBudgetConstructionGeneralLedger getNewExpenditureLine() {
         if (this.newExpenditureLine == null){
             this.setNewExpenditureLine(new PendingBudgetConstructionGeneralLedger());
-            this.initNewLine(newExpenditureLine);
+            this.initNewLine(newExpenditureLine, false);
         }
         return newExpenditureLine;
     }
@@ -244,7 +198,7 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
     public PendingBudgetConstructionGeneralLedger getNewRevenueLine() {
         if (this.newRevenueLine == null){
             this.setNewRevenueLine(new PendingBudgetConstructionGeneralLedger());
-            this.initNewLine(newRevenueLine);
+            this.initNewLine(newRevenueLine, true);
         }
         return newRevenueLine;
     }
@@ -257,6 +211,30 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
         this.newRevenueLine = newRevenueLine;
     }
 
+    /**
+     * This sets the default fields not setable by the user for added lines
+     * 
+     * @param line
+     */
+    private void initNewLine(PendingBudgetConstructionGeneralLedger line, boolean isRevenue){
+
+        BudgetConstructionDocument tdoc = this.getBudgetConstructionDocument();
+
+        line.setDocumentNumber(tdoc.getDocumentNumber());
+        line.setUniversityFiscalYear(tdoc.getUniversityFiscalYear());
+        line.setChartOfAccountsCode(tdoc.getChartOfAccountsCode());
+        line.setAccountNumber(tdoc.getAccountNumber());
+        line.setSubAccountNumber(tdoc.getSubAccountNumber());
+        line.setFinancialBalanceTypeCode(BCConstants.FINANCIAL_BALANCE_TYPE_CODE_BB);
+        
+        if (isRevenue){
+            line.setFinancialObjectTypeCode(BCConstants.FINANCIAL_OBJECT_TYPE_CODE_REV);
+        } else {
+            line.setFinancialObjectTypeCode(BCConstants.FINANCIAL_OBJECT_TYPE_CODE_EXP);
+        }
+
+    }
+    
     /**
      * Gets the hideDetails attribute. 
      * @return Returns the hideDetails.

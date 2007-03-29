@@ -51,6 +51,7 @@ import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.dao.ojb.BudgetConstructionDaoOjb;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
 import org.kuali.module.budget.web.struts.form.BudgetConstructionForm;
+import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -265,11 +266,16 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         PendingBudgetConstructionGeneralLedger line = budgetConstructionForm.getNewRevenueLine();
         
         //TODO check business rules here
+        //this assumes populate retrieves needed ref objects used in applying business rules
         boolean rulePassed = true;
         
         if (rulePassed){
+//TODO this should not be needed since ref objects are retrieved in populate
+//this is here to be consistent with how KualiAccountingDocumentActionBase insert new lines
+//but it looks like this would circumvent business rules checks
+//            SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(line);
+
             // add PBGLLine
-            SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(line);
             insertPBGLLine(true, budgetConstructionForm, line);
 
             // clear the used newRevenueLine
@@ -297,11 +303,16 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         PendingBudgetConstructionGeneralLedger line = budgetConstructionForm.getNewExpenditureLine();
         
         //TODO check business rules here
+        //this assumes populate retrieves needed ref objects used in applying business rules
         boolean rulePassed = true;
         
         if (rulePassed){
+//TODO this should not be needed since ref objects are retrieved in populate
+//this is here to be consistent with how KualiAccountingDocumentActionBase insert new lines
+//          but it looks like this would circumvent business rules checks
+//            SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(line);
+
             // add PBGLLine
-            SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(line);
             insertPBGLLine(false, budgetConstructionForm, line);
 
             // clear the used newExpenditureLine
@@ -319,7 +330,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
      * @param line
      */
     protected void insertPBGLLine(boolean isRevenue, BudgetConstructionForm budgetConstructionForm, PendingBudgetConstructionGeneralLedger line){
-        //TODO create and init a decorator
+        //TODO create and init a decorator if determined to be needed
 
         BudgetConstructionDocument tdoc = (BudgetConstructionDocument) budgetConstructionForm.getDocument();
         if (isRevenue){
@@ -331,12 +342,13 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             // add the expenditure line
             tdoc.addExpenditureLine(line);
 
-            //TODO add the decorator
+            //TODO add the decorator, if determined to be needed
 
         }
         
     }
-    
+
+/*
     public ActionForward returnFromMonthly(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
@@ -353,6 +365,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         return mapping.findForward(Constants.MAPPING_BASIC);
         
     }
+*/
 
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -362,22 +375,21 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
 
         BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
         
-        // do specific refresh stuff here based on refreshCaller parameter
-        // typical refresh callers would be monthlyBudget or salarySetting
+        // Do specific refresh stuff here based on refreshCaller parameter
+        // typical refresh callers would be monthlyBudget or salarySetting or kualiLookupable
         // need to look at optmistic locking problems since we will be storing the values in the form before hand
         // this locking problem may workout if we store first then put the form in session
         String refreshCaller = request.getParameter(Constants.REFRESH_CALLER);
 
-        // for now, this re-populates pbgl revenue-expenditure lines
-        // and rehooks the budgetConstructionMonthly referenced objects
-        // we should be able to just refresh needed references by iterating the current set of expenditure lines???
-
         if (refreshCaller != null && refreshCaller.equalsIgnoreCase(BCConstants.MONTHLY_BUDGET_REFRESH_CALLER)){
             
-            // do things specific to returning from MonthlyBudget
+            //TODO do things specific to returning from MonthlyBudget
+            //like refreshing the line itself if the monthly budget process overrides the annual request
+            //this would need to know what line to operate on
 
         }
-// populate already handles all this
+//TODO populate should already handle all this
+//take this out when populate is fixed and confirmed to handle
 /*
         // need to get current state of monthly budgets regardless of who calls refresh
         for (PendingBudgetConstructionGeneralLedger line :
@@ -391,10 +403,13 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             line.refreshReferenceObject("budgetConstructionMonthly");
         }
 */
-        //TODO this method may need cleaned up to possibly use getPersistenceService() above too
-//        final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject", "financialSubObject" }));
-//        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(budgetConstructionForm.getNewRevenueLine(), REFRESH_FIELDS);
-//        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(budgetConstructionForm.getNewExpenditureLine(), REFRESH_FIELDS);
+        //TODO this should figure out if user is returning to a rev or exp line and refresh just that
+        //TODO this should also keep original values of obj, sobj to compare and null out dependencies when needed
+        if (refreshCaller != null && refreshCaller.equalsIgnoreCase(Constants.KUALI_LOOKUPABLE_IMPL)){
+            final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject", "financialSubObject" }));
+            KNSServiceLocator.getPersistenceService().retrieveReferenceObjects(budgetConstructionForm.getNewRevenueLine(), REFRESH_FIELDS);            
+            KNSServiceLocator.getPersistenceService().retrieveReferenceObjects(budgetConstructionForm.getNewExpenditureLine(), REFRESH_FIELDS);            
+        }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }

@@ -15,12 +15,12 @@
  */
 package org.kuali.module.financial.document;
 
-import static org.kuali.kfs.util.SpringServiceLocator.getDataDictionaryService;
-import static org.kuali.kfs.util.SpringServiceLocator.getDocumentService;
-import static org.kuali.kfs.util.SpringServiceLocator.getTransactionalDocumentDictionaryService;
 import static org.kuali.module.financial.document.AccountingDocumentTestUtils.approveDocument;
 import static org.kuali.module.financial.document.AccountingDocumentTestUtils.routeDocument;
 import static org.kuali.module.financial.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
+import static org.kuali.rice.KNSServiceLocator.getDataDictionaryService;
+import static org.kuali.rice.KNSServiceLocator.getDocumentService;
+import static org.kuali.rice.KNSServiceLocator.getTransactionalDocumentDictionaryService;
 import static org.kuali.test.fixtures.AccountingLineFixture.LINE2;
 import static org.kuali.test.fixtures.AccountingLineFixture.LINE3;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
@@ -32,7 +32,6 @@ import java.util.List;
 
 import org.kuali.KeyConstants;
 import org.kuali.core.document.Document;
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.DocumentAuthorizationException;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.util.GlobalVariables;
@@ -48,6 +47,7 @@ import org.kuali.test.fixtures.AccountingLineFixture;
 import org.kuali.test.fixtures.UserNameFixture;
 import org.kuali.test.suite.AnnotationTestSuite;
 import org.kuali.test.suite.CrossSectionSuite;
+import org.kuali.test.suite.RelatesTo;
 
 /**
  * This class is used to test InternalBillingDocument.
@@ -219,79 +219,6 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         }
         catch (ValidationException e) {
             failedAsExpected = true;
-        }
-        catch (DocumentAuthorizationException dae) {
-            // this means that the workflow status didn't change in time for the check, so this is
-            // an expected exception
-            failedAsExpected = true;
-        }
-        assertTrue(failedAsExpected);
-    }
-
-    @TestsWorkflowViaDatabase
-    public final void testApprove_deleteInaccessibleAccount_sourceLine() throws Exception {
-        // switch user to WESPRICE, build and route document with
-        // accountingLines
-        AccountingDocument retrieved;
-        AccountingDocument original;
-        String docId;
-
-        changeCurrentUser(getInitialUserName());
-        original = buildDocument();
-        routeDocument(original, getDocumentService());
-        docId = original.getDocumentNumber();
-
-        // switch user to AHORNICK, delete sourceAccountingLines for accounts
-        // not controlled by this user
-        // (and delete matching accessible targetLine, for balance)
-        changeCurrentUser(getTestUserName());
-        retrieved = (AccountingDocument) getDocumentService().getByDocumentHeaderId(docId);
-        deleteSourceAccountingLine(retrieved, 1);
-        deleteTargetAccountingLine(retrieved, 0);
-
-        // approve document, wait for failure
-        boolean failedAsExpected = false;
-        try {
-            approveDocument(retrieved, getDocumentService());
-        }
-        catch (ValidationException e) {
-            failedAsExpected = GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_DELETE);
-        }
-        catch (DocumentAuthorizationException dae) {
-            // this means that the workflow status didn't change in time for the check, so this is
-            // an expected exception
-            failedAsExpected = true;
-        }
-        assertTrue(failedAsExpected);
-    }
-
-    @TestsWorkflowViaDatabase
-    public final void testApprove_deleteInaccessibleAccount_targetLine() throws Exception {
-        AccountingDocument retrieved;
-        AccountingDocument original;
-        String docId;
-
-        // switch user to WESPRICE, build and route document with
-        // accountingLines
-        changeCurrentUser(getInitialUserName());
-        original = buildDocument();
-        routeDocument(original, getDocumentService());
-        docId = original.getDocumentNumber();
-
-        // switch user to AHORNICK, delete targetAccountingLine for accounts not controlled by this user
-        // (and delete matching accessible sourceLine, for balance)
-        changeCurrentUser(getTestUserName());
-        retrieved = (AccountingDocument) getDocumentService().getByDocumentHeaderId(docId);
-        deleteTargetAccountingLine(retrieved, 1);
-        deleteSourceAccountingLine(retrieved, 0);
-
-        // approve document, wait for failure
-        boolean failedAsExpected = false;
-        try {
-            approveDocument(retrieved, getDocumentService());
-        }
-        catch (ValidationException e) {
-            failedAsExpected = GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_DELETE);
         }
         catch (DocumentAuthorizationException dae) {
             // this means that the workflow status didn't change in time for the check, so this is

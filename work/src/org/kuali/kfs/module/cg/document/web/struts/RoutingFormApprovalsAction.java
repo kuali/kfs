@@ -71,7 +71,7 @@ public class RoutingFormApprovalsAction extends RoutingFormAction {
         
         KualiWorkflowDocument workflowDoc = routingForm.getDocument().getDocumentHeader().getWorkflowDocument();
         workflowDoc.refreshContent();
-        if (workflowDoc.getDocRouteLevelName().equals("Project Director")) {
+        if (new Integer(1).equals(workflowDoc.getRouteHeader().getDocRouteLevel())) {
             routingForm.setAdHocRoutePersons(routingForm.getRoutingFormDocument().convertKraAdhocsToAdHocRoutePersons());
             routingForm.setAdHocRouteWorkgroups(routingForm.getRoutingFormDocument().convertKraAdhocsToAdHocRouteWorkgroups());
             // send FYIs, adhoc requests

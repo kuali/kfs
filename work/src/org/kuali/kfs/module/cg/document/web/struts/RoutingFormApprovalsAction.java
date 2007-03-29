@@ -70,7 +70,6 @@ public class RoutingFormApprovalsAction extends RoutingFormAction {
         RoutingForm routingForm = (RoutingForm) form;
         
         KualiWorkflowDocument workflowDoc = routingForm.getDocument().getDocumentHeader().getWorkflowDocument();
-        workflowDoc.refreshContent();
         if (new Integer(1).equals(workflowDoc.getRouteHeader().getDocRouteLevel())) {
             routingForm.setAdHocRoutePersons(routingForm.getRoutingFormDocument().convertKraAdhocsToAdHocRoutePersons());
             routingForm.setAdHocRouteWorkgroups(routingForm.getRoutingFormDocument().convertKraAdhocsToAdHocRouteWorkgroups());

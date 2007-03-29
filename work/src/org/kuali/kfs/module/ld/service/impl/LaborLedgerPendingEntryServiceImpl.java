@@ -40,13 +40,8 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerPendingEntryServiceImpl.class);
 
     private LaborLedgerPendingEntryDao laborLedgerPendingEntryDao;
-    private KualiRuleService kualiRuleService;
-    
+    private KualiRuleService kualiRuleService;    
     private BusinessObjectService businessObjectService;
-
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
 
     public boolean hasPendingLaborLedgerEntry(Account account) {
         Map fieldValues = new HashMap();
@@ -185,6 +180,20 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
 
         this.laborLedgerPendingEntryDao.delete(documentHeaderId);
     }
+    
+    /**
+     * @see org.kuali.module.labor.service.LaborLedgerPendingEntryService#findApprovedPendingLedgerEntries()
+     */
+    public Iterator<PendingLedgerEntry> findApprovedPendingLedgerEntries() {
+        return laborLedgerPendingEntryDao.findApprovedPendingLedgerEntries();
+    }
+    
+    /**
+     * @see org.kuali.module.labor.service.LaborLedgerPendingEntryService#deleteByFinancialDocumentApprovedCode(java.lang.String)
+     */
+    public void deleteByFinancialDocumentApprovedCode(String financialDocumentApprovedCode) {
+        laborLedgerPendingEntryDao.deleteByFinancialDocumentApprovedCode(financialDocumentApprovedCode);        
+    }
 
     public void setLaborLedgerPendingEntryDao(LaborLedgerPendingEntryDao laborLedgerPendingEntryDao) {
         this.laborLedgerPendingEntryDao = laborLedgerPendingEntryDao;
@@ -194,4 +203,7 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
         this.kualiRuleService = kualiRuleService;
     }
 
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
 }

@@ -39,7 +39,6 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.spring.Logged;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.chart.bo.Account;
@@ -53,7 +52,6 @@ import org.kuali.module.gl.util.Summary;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.service.LaborLedgerBalanceService;
-import org.kuali.module.labor.service.LaborOriginEntryService;
 import org.kuali.module.labor.service.LaborReportService;
 import org.kuali.module.labor.service.LaborYearEndBalanceForwardService;
 import org.kuali.module.labor.util.MessageBuilder;
@@ -77,7 +75,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
     private OptionsService optionsService;
 
     private BusinessObjectService businessObjectService;
-    private LaborReportService reportService;
+    private LaborReportService laborReportService;
     private DateTimeService dateTimeService;
     private KualiConfigurationService kualiConfigurationService;
 
@@ -92,13 +90,12 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
 
     // forward the labor balances in the given fiscal year to the new fiscal year
     public void forwardBalance(Integer fiscalYear, Integer newFiscalYear) {
-        //Integer newFiscalYear = fiscalYear + 1;
-        String reportsDirectory = this.getReportsDirectory();
+        String reportsDirectory = ReportRegistry.getReportsDirectory();
         Date runDate = dateTimeService.getCurrentSqlDate();
 
         List<Summary> reportSummary = new ArrayList<Summary>();
         Map<Transaction, List<Message>> errorMap = new HashMap<Transaction, List<Message>>();
-        OriginEntryGroup validGroup = originEntryGroupService.createGroup(runDate, LABOR_YEAR_END_BALANCE_FORWARD, true, false, true);
+        OriginEntryGroup validGroup = originEntryGroupService.createGroup(runDate, LABOR_YEAR_END_BALANCE_FORWARD, true, true, true);
 
         Map fieldValues = new HashMap();
         fieldValues.put(PropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
@@ -115,20 +112,21 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
                 this.postAsOriginEntry(balance, newFiscalYear, validGroup, runDate);
                 numberOfSelectedBalance++;
             }
-            else if (errors!=null && !errors.isEmpty()) {
+            else if (errors != null && !errors.isEmpty()) {
                 LaborOriginEntry originEntry = new LaborOriginEntry();
                 ObjectUtil.buildObject(originEntry, balance);
                 errorMap.put(originEntry, errors);
             }
         }
+
         Summary.updateReportSummary(reportSummary, LEDGER_BALANCE, Constants.OperationType.READ, numberOfBalance, 0);
         Summary.updateReportSummary(reportSummary, LEDGER_BALANCE, Constants.OperationType.SELECT, numberOfSelectedBalance, 0);
         Summary.updateReportSummary(reportSummary, LEDGER_BALANCE, Constants.OperationType.REPORT_ERROR, errorMap.size(), 0);
         reportSummary.add(new Summary(reportSummary.size() + LINE_INTERVAL, "", 0));
         Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, Constants.OperationType.INSERT, numberOfSelectedBalance, 0);
 
-        reportService.generateStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_YEAR_END_STATISTICS, reportsDirectory, runDate);
-        reportService.generateOutputSummaryReport(validGroup, ReportRegistry.LABOR_YEAR_END_OUTPUT, reportsDirectory, runDate);
+        laborReportService.generateStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_YEAR_END_STATISTICS, reportsDirectory, runDate);
+        laborReportService.generateOutputSummaryReport(validGroup, ReportRegistry.LABOR_YEAR_END_OUTPUT, reportsDirectory, runDate);
     }
 
     // determine if the given balance is qualified to be carried forward to new fiscal year
@@ -149,7 +147,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
         Account account = accountService.getByPrimaryId(chartOfAccountsCode, accountNumber);
         if (account == null) {
             StringBuilder invalidAccountValue = new StringBuilder();
-            invalidAccountValue = invalidAccountValue.append(chartOfAccountsCode).append("-").append(accountNumber);
+            invalidAccountValue.append(chartOfAccountsCode).append("-").append(accountNumber);
 
             errors = new ArrayList<Message>();
             errors.add(MessageBuilder.buildErrorMessage(KeyConstants.Labor.ERROR_ACCOUNT_NOT_FOUND, invalidAccountValue.toString(), Message.TYPE_FATAL));
@@ -160,7 +158,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
         String subFundGroupCode = account.getSubFundGroupCode();
         if (subFundGroup == null) {
             StringBuilder invalidSubFundValue = new StringBuilder();
-            invalidSubFundValue = invalidSubFundValue.append(chartOfAccountsCode).append("-").append(accountNumber).append("-").append(subFundGroupCode);
+            invalidSubFundValue.append(chartOfAccountsCode).append("-").append(accountNumber).append("-").append(subFundGroupCode);
 
             errors = new ArrayList<Message>();
             errors.add(MessageBuilder.buildErrorMessage(KeyConstants.Labor.ERROR_SUB_FUND_GROUP_NOT_FOUND, invalidSubFundValue.toString(), Message.TYPE_FATAL));
@@ -253,13 +251,9 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
         return kualiConfigurationService.getPropertyString(KeyConstants.Labor.MESSAGE_YEAR_END_TRANSACTION_DESCRIPTON);
     }
 
-    // get the directory where the reports can be stored
-    private String getReportsDirectory() {
-        return kualiConfigurationService.getPropertyString(Constants.REPORTS_DIRECTORY_KEY);
-    }
-
     /**
      * Sets the accountService attribute value.
+     * 
      * @param accountService The accountService to set.
      */
     public void setAccountService(AccountService accountService) {
@@ -268,6 +262,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
 
     /**
      * Sets the businessObjectService attribute value.
+     * 
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -276,6 +271,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
 
     /**
      * Sets the dateTimeService attribute value.
+     * 
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -284,6 +280,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
 
     /**
      * Sets the kualiConfigurationService attribute value.
+     * 
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
@@ -292,6 +289,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
 
     /**
      * Sets the laborLedgerBalanceService attribute value.
+     * 
      * @param laborLedgerBalanceService The laborLedgerBalanceService to set.
      */
     public void setLaborLedgerBalanceService(LaborLedgerBalanceService laborLedgerBalanceService) {
@@ -300,6 +298,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
 
     /**
      * Sets the optionsService attribute value.
+     * 
      * @param optionsService The optionsService to set.
      */
     public void setOptionsService(OptionsService optionsService) {
@@ -308,6 +307,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
 
     /**
      * Sets the originEntryGroupService attribute value.
+     * 
      * @param originEntryGroupService The originEntryGroupService to set.
      */
     public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
@@ -315,10 +315,10 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
     }
 
     /**
-     * Sets the reportService attribute value.
-     * @param reportService The reportService to set.
+     * Sets the laborReportService attribute value.
+     * @param laborReportService The laborReportService to set.
      */
-    public void setReportService(LaborReportService reportService) {
-        this.reportService = reportService;
+    public void setLaborReportService(LaborReportService laborReportService) {
+        this.laborReportService = laborReportService;
     }
 }

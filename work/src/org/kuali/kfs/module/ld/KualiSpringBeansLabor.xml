@@ -200,6 +200,25 @@
 	</bean>
 	
     <!-- Section 3: Spring Bean for Batch processes -->
+    
+    <bean id="laborNightlyOutService" class="org.kuali.module.labor.service.impl.LaborNightlyOutServiceImpl">
+    	<property name="laborLedgerPendingEntryService">
+            <ref bean="laborLedgerPendingEntryService" />
+        </property>
+        <property name="originEntryGroupService">
+            <ref bean="glOriginEntryGroupService" />
+        </property>               
+        <property name="laborReportService">
+            <ref bean="laborReportService" />
+        </property>
+
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+    </bean>
 
 	<bean id="laborScrubberService" class="org.kuali.module.labor.service.impl.LaborScrubberServiceImpl">
 		<property name="flexibleOffsetAccountService">
@@ -261,7 +280,7 @@
             <ref bean="kualiConfigurationService" />
         </property>
 
-        <property name="reportService">
+        <property name="laborReportService">
             <ref bean="laborReportService" />
         </property>
         <property name="laborPosterTransactionValidator">
@@ -339,7 +358,7 @@
             <ref bean="kualiConfigurationService" />
         </property>
 
-        <property name="reportService">
+        <property name="laborReportService">
             <ref bean="laborReportService" />
         </property>
     </bean>  

@@ -65,7 +65,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     private LaborOriginEntryService laborOriginEntryService;
     private OriginEntryGroupService originEntryGroupService;
 
-    private LaborReportService reportService;
+    private LaborReportService laborReportService;
     private DateTimeService dateTimeService;
     private VerifyTransaction laborPosterTransactionValidator;
     private KualiConfigurationService kualiConfigurationService;
@@ -92,7 +92,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
     // post the qualified origin entries into Labor Ledger tables
     private void postLaborLedgerEntries(OriginEntryGroup validGroup, OriginEntryGroup invalidGroup, Date runDate) {
-        String reportsDirectory = this.getReportsDirectory();
+        String reportsDirectory = ReportRegistry.getReportsDirectory();
         Map<Transaction, List<Message>> errorMap = new HashMap<Transaction, List<Message>>();
         List<Summary> reportSummary = this.buildReportSummaryForLaborLedgerPosting();
 
@@ -117,10 +117,10 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, Constants.OperationType.SELECT, numberOfSelectedOriginEntry, 0);
         Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, Constants.OperationType.REPORT_ERROR, errorMap.size(), 0);
 
-        reportService.generateStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_STATISTICS, reportsDirectory, runDate);
-        reportService.generateInputSummaryReport(postingGroups, ReportRegistry.LABOR_POSTER_INPUT, reportsDirectory, runDate);
-        reportService.generateOutputSummaryReport(validGroup, ReportRegistry.LABOR_POSTER_OUTPUT, reportsDirectory, runDate);
-        reportService.generateErrorTransactionListing(invalidGroup, ReportRegistry.LABOR_POSTER_ERROR, reportsDirectory, runDate);
+        laborReportService.generateStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_STATISTICS, reportsDirectory, runDate);
+        laborReportService.generateInputSummaryReport(postingGroups, ReportRegistry.LABOR_POSTER_INPUT, reportsDirectory, runDate);
+        laborReportService.generateOutputSummaryReport(validGroup, ReportRegistry.LABOR_POSTER_OUTPUT, reportsDirectory, runDate);
+        laborReportService.generateErrorTransactionListing(invalidGroup, ReportRegistry.LABOR_POSTER_ERROR, reportsDirectory, runDate);
     }
 
     // post the given entry into the labor ledger tables if the entry is qualified; otherwise report error
@@ -190,7 +190,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
     // post the valid origin entries in the given group into General Ledger
     private void postLaborGLEntries(OriginEntryGroup validGroup, Date runDate) {
-        String reportsDirectory = this.getReportsDirectory();
+        String reportsDirectory = ReportRegistry.getReportsDirectory();
         List<Summary> reportSummary = this.buildReportSummaryForLaborGLPosting();
         Map<Transaction, List<Message>> errorMap = new HashMap<Transaction, List<Message>>();
 
@@ -213,7 +213,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, Constants.OperationType.READ, numberOfOriginEntry, 0);
         Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, Constants.OperationType.SELECT, numberOfSelectedOriginEntry, 0);
         Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, Constants.OperationType.REPORT_ERROR, errorMap.size(), 0);
-        reportService.generateStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_GL_SUMMARY, reportsDirectory, runDate);
+        laborReportService.generateStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_GL_SUMMARY, reportsDirectory, runDate);
     }
 
     // determine if the given origin entry can be posted back to Labor GL entry
@@ -249,10 +249,6 @@ public class LaborPosterServiceImpl implements LaborPosterService {
         reportSummary.addAll(Summary.buildDefualtReportSummary(destination, reportSummary.size() + LINE_INTERVAL));
 
         return reportSummary;
-    }
-
-    public String getReportsDirectory() {
-        return kualiConfigurationService.getPropertyString(Constants.REPORTS_DIRECTORY_KEY);
     }
 
     public String[] getBalanceTypesNotProcessed() {
@@ -331,14 +327,13 @@ public class LaborPosterServiceImpl implements LaborPosterService {
     }
 
     /**
-     * Sets the reportService attribute value.
-     * 
-     * @param reportService The reportService to set.
+     * Sets the laborReportService attribute value.
+     * @param laborReportService The laborReportService to set.
      */
-    public void setReportService(LaborReportService reportService) {
-        this.reportService = reportService;
+    public void setLaborReportService(LaborReportService laborReportService) {
+        this.laborReportService = laborReportService;
     }
-
+    
     /**
      * Sets the laborPosterTransactionValidator attribute value.
      * 

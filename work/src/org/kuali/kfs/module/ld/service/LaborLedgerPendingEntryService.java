@@ -15,6 +15,7 @@
  */
 package org.kuali.module.labor.service;
 
+import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.module.chart.bo.Account;
@@ -23,44 +24,52 @@ import org.kuali.module.labor.document.LaborDocument;
 
 /**
  * This interface defines methods that a LaborLedgerPendingEntry Service must provide
- * 
- * 
  */
 public interface LaborLedgerPendingEntryService {
 
     /**
-     * 
      * Does the given account have any labor ledger entries? It is necessary to check this before closing an account.
      * 
      * @param account
      * @return
      */
-    
+
     public boolean hasPendingLaborLedgerEntry(Account account);
- 
+
     /**
-     * 
      * This method checks that the given employee has any labor ledger entries?
      * 
-     * @param emplid 
+     * @param emplid
      * @return
-     */    
+     */
     public boolean hasPendingLaborLedgerEntry(String emplid);
-    
+
     /**
-     * 
      * This method clears cancelled/disapproved entries to clear pending labor entries
      * 
      * @return
-     */    
+     */
     public boolean clearCancelledPendingLaborLedgerEntries();
-    
+
     /**
-     * 
      * This method generates labor ledger pending entries.
      * 
      * @param document
      * @return
      */
     public boolean generateLaborLedgerPendingEntries(LaborDocument document);
+
+    /**
+     * Get all entries that have been approved but still in pending entry queue
+     * 
+     * @return all approved pending entries
+     */
+    public Iterator<PendingLedgerEntry> findApprovedPendingLedgerEntries();
+
+    /**
+     * Delete the pending entries with the given financial document approved code
+     * 
+     * @param approvedCode
+     */
+    public void deleteByFinancialDocumentApprovedCode(String financialDocumentApprovedCode);
 }

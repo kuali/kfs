@@ -24,51 +24,16 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.DocumentHeader;
+import org.kuali.kfs.dao.ojb.GeneralLedgerPendingEntryDaoOjb;
 import org.kuali.module.labor.bo.PendingLedgerEntry;
 import org.kuali.module.labor.dao.LaborLedgerPendingEntryDao;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
-/**
- * 
- * 
- */
-public class LaborLedgerPendingEntryDaoOjb extends PersistenceBrokerDaoSupport implements LaborLedgerPendingEntryDao {
+public class LaborLedgerPendingEntryDaoOjb extends GeneralLedgerPendingEntryDaoOjb implements LaborLedgerPendingEntryDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerPendingEntryDaoOjb.class);
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.kuali.dao.GeneralLedgerPendingEntryDao#delete(Long)
-     */
-    public void delete(String documentHeaderId) {
-        LOG.debug("delete() started");
-
-        if (documentHeaderId != null) {
-            Criteria criteria = new Criteria();
-            criteria.addEqualTo(PropertyConstants.DOCUMENT_NUMBER, documentHeaderId);
-
-            getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(PendingLedgerEntry.class, criteria));
-            getPersistenceBrokerTemplate().clearCache();
-        }
-    }
-
-    public void deleteEntriesForCancelledOrDisapprovedDocuments() {
-        LOG.debug("deleteEntriesForCancelledOrDisapprovedDocuments() started");
-
-        Criteria subCriteria = new Criteria();
-        Criteria criteria = new Criteria();
-
-        List codes = new ArrayList();
-        codes.add(Constants.DocumentStatusCodes.DISAPPROVED);
-        codes.add(Constants.DocumentStatusCodes.CANCELLED);
-
-        subCriteria.addIn(PropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, codes);
-        ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(DocumentHeader.class, subCriteria);
-
-        subQuery.setAttributes(new String[] { PropertyConstants.DOCUMENT_NUMBER });
-
-        criteria.addIn(PropertyConstants.DOCUMENT_NUMBER, subQuery);
-
-        getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(PendingLedgerEntry.class, criteria));
+    
+    @Override
+    public Class getEntryClass(){
+        return PendingLedgerEntry.class;
     }
 }

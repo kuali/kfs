@@ -15,6 +15,10 @@
  */
 package org.kuali.module.labor.util;
 
+import org.kuali.Constants;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.kfs.util.SpringServiceLocator;
+
 /**
  * This is a registry of the reports. The registry typically holds the key elements of a report: its file name
  * and title.
@@ -28,7 +32,10 @@ public enum ReportRegistry {
     LABOR_POSTER_GL_SUMMARY("poster_gl_summary", "Poster Labor General Ledger Summary"),
     
     LABOR_YEAR_END_OUTPUT("year_end_output", "Year-End Output Summary"),
-    LABOR_YEAR_END_STATISTICS("year_end_main", "Ledger Report");
+    LABOR_YEAR_END_STATISTICS("year_end_main", "Ledger Report"),
+    
+    LABOR_PENDING_ENTRY_REPORT("pending_entry_report", "Pending Ledger Entry Report"),
+    LABOR_PENDING_ENTRY_SUMMARY("pending_entry_summary", "Pending Ledger Entry Summary");
     
     private String reportFilename;
     private String reportTitle;
@@ -44,5 +51,10 @@ public enum ReportRegistry {
     
     public String reportTitle(){
         return this.reportTitle;
+    }
+    
+    // get the directory where the reports can be stored
+    public static String getReportsDirectory() {      
+        return SpringServiceLocator.getKualiConfigurationService().getPropertyString(Constants.REPORTS_DIRECTORY_KEY);
     }
 }

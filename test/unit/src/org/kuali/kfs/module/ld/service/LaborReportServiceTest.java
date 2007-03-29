@@ -92,7 +92,7 @@ public class LaborReportServiceTest extends KualiTestBase {
         kualiConfigurationService = (KualiConfigurationService) beanFactory.getBean("kualiConfigurationService");
         laborPosterTransactionValidator = (VerifyTransaction) beanFactory.getBean("laborPosterTransactionValidator");
 
-        reportsDirectory = kualiConfigurationService.getPropertyString(Constants.REPORTS_DIRECTORY_KEY);
+        reportsDirectory = ReportRegistry.getReportsDirectory();
 
         today = ((DateTimeService) beanFactory.getBean("dateTimeService")).getCurrentSqlDate();
         group1 = originEntryGroupService.createGroup(today, LABOR_MAIN_POSTER_VALID, true, true, false);

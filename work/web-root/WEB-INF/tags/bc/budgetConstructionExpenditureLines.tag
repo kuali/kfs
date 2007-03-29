@@ -19,13 +19,21 @@
 <%@ taglib uri="/tlds/fmt.tld" prefix="fmt" %>
 <%@ taglib tagdir="/WEB-INF/tags/bc" prefix="bc"%>
 
-<%-- needed? --%>
-<%--
-<c:set var="budgetConstructionAttributes"
-	value="${DataDictionary['KualiBudgetConstructionDocument'].attributes}" />
---%>
-<c:set var="pbglExpenditureAttributes" value="${DataDictionary.PendingBudgetConstructionGeneralLedger.attributes}" />
+<c:if test="${!accountingLineScriptsLoaded}">
+	<script type='text/javascript' src="dwr/interface/ChartService.js"></script>
+	<script type='text/javascript' src="dwr/interface/AccountService.js"></script>
+	<script type='text/javascript' src="dwr/interface/SubAccountService.js"></script>
+	<script type='text/javascript' src="dwr/interface/ObjectCodeService.js"></script>
+	<script type='text/javascript' src="dwr/interface/ObjectTypeService.js"></script>
+	<script type='text/javascript' src="dwr/interface/SubObjectCodeService.js"></script>
+	<script type='text/javascript' src="dwr/interface/ProjectCodeService.js"></script>
+	<script type='text/javascript' src="dwr/interface/OriginationCodeService.js"></script>
+	<script type='text/javascript' src="dwr/interface/DocumentTypeService.js"></script>
+	<script language="JavaScript" type="text/javascript" src="scripts/kfs/objectInfo.js"></script>
+	<c:set var="accountingLineScriptsLoaded" value="true" scope="page" />
+</c:if>
 
+<c:set var="pbglExpenditureAttributes" value="${DataDictionary.PendingBudgetConstructionGeneralLedger.attributes}" />
 
 <kul:tab tabTitle="Expenditure" defaultOpen="false" tabErrorKey="${Constants.BUDGET_CONSTRUCTION_EXPENDITURE_TAB_ERRORS}">
 <div class="tab-container" align=center>

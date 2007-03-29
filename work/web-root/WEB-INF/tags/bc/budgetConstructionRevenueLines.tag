@@ -90,22 +90,33 @@
                   inquiryExtraKeyValues="universityFiscalYear=${KualiForm.document.universityFiscalYear}"
                   anchor="revenuenewLineLineAnchor" />
 
-<%--
-              <td class="infoline" nowrap><div align="left"><span>
-              	  <a name="revenuenewLineLineAnchor"></a>
-                  <kul:htmlControlAttribute attributeEntry="${pbglRevenueAttributes.financialObjectCode}" property="newRevenueLine.financialObjectCode" readOnly="false"/>
-              </span></div></td>
---%>
+              <bc:pbglLineDataCell dataCellCssClass="infoline"
+                  accountingLine="newRevenueLine"
+                  field="financialSubObjectCode" detailFunction="loadSubObjectInfo"
+                  detailFunctionExtraParam="'${KualiForm.document.universityFiscalYear}', "
+                  detailField="financialSubObject.financialSubObjectCodeName"
+                  attributes="${pbglRevenueAttributes}" lookup="true" inquiry="true"
+                  boClassSimpleName="SubObjCd"
+                  readOnly="false"
+                  displayHidden="false"
+                  lookupOrInquiryKeys="universityFiscalYear,chartOfAccountsCode,financialObjectCode,accountNumber"
+                  accountingLineValuesMap="${newRevenueLine.valuesMap}"
+                  inquiryExtraKeyValues="universityFiscalYear=${KualiForm.document.universityFiscalYear}"
+                  lookupAnchor="revenuenewLineLineAnchor" />
 
-              <td class="infoline" nowrap><div align="left"><span>
-                  <kul:htmlControlAttribute attributeEntry="${pbglRevenueAttributes.financialSubObjectCode}" property="newRevenueLine.financialSubObjectCode" readOnly="false"/>
-              </span></div></td>
               <td class="infoline" nowrap><div align="right"><span>
                   &nbsp;
               </span></div></td>
-              <td class="infoline" nowrap><div align="right"><span>
-                  <kul:htmlControlAttribute attributeEntry="${pbglRevenueAttributes.accountLineAnnualBalanceAmount}" property="newRevenueLine.accountLineAnnualBalanceAmount" styleClass="amount" readOnly="false"/>
-              </span></div></td>
+
+              <bc:pbglLineDataCell dataCellCssClass="datacell"
+                  accountingLine="newRevenueLine"
+                  cellProperty="newRevenueLine.accountLineAnnualBalanceAmount"
+                  attributes="${pbglRevenueAttributes}"
+                  field="accountLineAnnualBalanceAmount"
+                  fieldAlign="right"
+                  readOnly="false"
+                  rowSpan="1" dataFieldCssClass="amount" />
+
               <td class="infoline" nowrap><div align="right"><span>
                   &nbsp;
               </span></div></td>
@@ -174,13 +185,6 @@
                   readOnly="true"
                   rowSpan="1" dataFieldCssClass="amount" />
 
-<%--
-              <td class="datacell" valign="top" nowrap><div align="right"><span>
-                  <kul:htmlControlAttribute attributeEntry="${pbglRevenueAttributes.financialBeginningBalanceLineAmount}" property="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].financialBeginningBalanceLineAmount" readOnly="true"/>
-                  <bc:pbglLineDataCellDetail/>
-              </span></div></td>
---%>
-
               <bc:pbglLineDataCell dataCellCssClass="datacell"
                   accountingLine="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}]"
                   cellProperty="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].accountLineAnnualBalanceAmount"
@@ -194,6 +198,7 @@
 				  <fmt:formatNumber value="${item.percentChange}" type="number" groupingUsed="true" minFractionDigits="2" />&nbsp;
                   <bc:pbglLineDataCellDetail/>
               </span></div></td>
+
               <td class="datacell"" nowrap><div align=center>
                   <c:choose>
                     <c:when test="${empty item.budgetConstructionMonthly[0]}" > 
@@ -204,24 +209,24 @@
                     </c:otherwise> 
                   </c:choose> 
               </div></td>
-        <td class="datacell" nowrap>
-            <div align="center">
-              <c:if test="${empty item.financialBeginningBalanceLineAmount || item.financialBeginningBalanceLineAmount == 0}">
-                <html:image property="methodToCall.deleteRevenueLine.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" src="images/tinybutton-delete1.gif" title="Delete Revenue Line ${status.index}" alt="Delete Revenue Line ${status.index}" styleClass="tinybutton"/>
-                <br>
-              </c:if>
-              <html:image property="methodToCall.performBalanceInquiryForRevenueLine.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" src="images/tinybutton-balinquiry.gif" title="Balance Inquiry For Line ${status.index}" alt="Balance Inquiry For Line ${status.index}" styleClass="tinybutton" />
-              <c:if test="${!empty item.financialBeginningBalanceLineAmount && item.financialBeginningBalanceLineAmount != 0}">
-                <br>
-                <html:image property="methodToCall.performPercentAdjustmentRevenueLine.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" src="images/tinybutton-calculate.gif" title="Percent Adjustment Revenue Line ${status.index}" alt="Percent Adjustment Revenue Line ${status.index}" styleClass="tinybutton"/>
-              </c:if>
-            </div>
-        </td>
 
-<%--	              <td>&nbsp;</td>  --%>
-
+             <td class="datacell" nowrap>
+                 <div align="center">
+                   <c:if test="${empty item.financialBeginningBalanceLineAmount || item.financialBeginningBalanceLineAmount == 0}">
+                     <html:image property="methodToCall.deleteRevenueLine.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" src="images/tinybutton-delete1.gif" title="Delete Revenue Line ${status.index}" alt="Delete Revenue Line ${status.index}" styleClass="tinybutton"/>
+                     <br>
+                   </c:if>
+                   <html:image property="methodToCall.performBalanceInquiryForRevenueLine.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" src="images/tinybutton-balinquiry.gif" title="Balance Inquiry For Line ${status.index}" alt="Balance Inquiry For Line ${status.index}" styleClass="tinybutton" />
+                   <c:if test="${!empty item.financialBeginningBalanceLineAmount && item.financialBeginningBalanceLineAmount != 0}">
+                     <br>
+                     <html:image property="methodToCall.performPercentAdjustmentRevenueLine.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" src="images/tinybutton-calculate.gif" title="Percent Adjustment Revenue Line ${status.index}" alt="Percent Adjustment Revenue Line ${status.index}" styleClass="tinybutton"/>
+                   </c:if>
+                 </div>
+             </td>
             </tr>
+
 			</c:forEach>
+
 			<tr>
 				<kul:htmlAttributeHeaderCell literalLabel="Revenue Totals" colspan="3" horizontal="true" />
                 <td class="datacell" nowrap><div align="right"><span>

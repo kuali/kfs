@@ -103,10 +103,13 @@
               description="map of the accounting line primitive fields and values, for inquiry keys" %>
 <%@ attribute name="inquiryExtraKeyValues" required="false"
               description="ampersand separated list of inquiry key=value pairs not in accountingLineValuesMap" %>
+<%@ attribute name="lookupAnchor" required="false" description="return to this anchor after lookup" %>
 
 <%@ attribute name="rowSpan" required="false"
               description="row span for the data cell" %>
-<%@ attribute name="anchor" required="false" description="adds a named anchor inside the header cell" %>
+<%@ attribute name="anchor" required="false"
+              description="adds a named anchor inside the header cell.
+              Also if lookup is true, returns to this anchor, unless lookupAnchor is set." %>
 <%@ attribute name="detailFields" required="false"
               description="The name of multiple fields in the business object containing details to be display.
 			  Any supplied field that starts with a semicolon will be treated as a text field, rather 
@@ -190,6 +193,9 @@
     <%-- lookup control --%>
     <c:if test="${!readOnly}">
         <c:if test="${lookup}">
+            <c:if test="${empty lookupAnchor}">
+                <c:set var="lookupAnchor" value="${anchor}"/>
+            </c:if>
             <%-- todo: this lookup to field conversion swapping in accountingLineLookup.tag --%>
             <c:set var="lookupParameters" value=""/>
             <c:set var="fieldConversions" value="${lookupUnkeyedFieldConversions}"/>
@@ -205,6 +211,7 @@
                 boClassName="${boClassName}"
                 fieldConversions="${fieldConversions}${conversionField}:${qualifiedField}"
                 lookupParameters="${lookupParameters}" fieldLabel="${attributes[field].shortLabel}"
+                anchor="${lookupAnchor}"
                 />
         </c:if>
     </c:if>

@@ -25,12 +25,12 @@ import java.util.Map;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.labor.bo.AccountStatus;
 import org.kuali.module.labor.bo.BalanceByGeneralLedgerKey;
+import org.kuali.module.labor.bo.BalanceGlobalCalculatedSalaryFoundation;
 import org.kuali.module.labor.dao.LaborDao;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
@@ -40,6 +40,10 @@ import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 public class LaborDaoOjb extends PersistenceBrokerDaoSupport implements LaborDao {
     private LaborDaoOjb dao;
 
+    /**
+     * 
+     * @see org.kuali.module.labor.dao.LaborDao#getCSFTrackerData(java.util.Map)
+     */
     public Collection getCSFTrackerData(Map fieldValues) {
         Criteria criteria = new Criteria();
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new CalculatedSalaryFoundationTracker()));
@@ -48,6 +52,10 @@ public class LaborDaoOjb extends PersistenceBrokerDaoSupport implements LaborDao
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 
+    /**
+     * 
+     * @see org.kuali.module.labor.dao.LaborDao#getCurrentYearFunds(java.util.Map)
+     */
     public Collection getCurrentYearFunds(Map fieldValues) {
         Criteria criteria = new Criteria();
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new BalanceByGeneralLedgerKey()));
@@ -57,16 +65,33 @@ public class LaborDaoOjb extends PersistenceBrokerDaoSupport implements LaborDao
     }
 
     /**
+     * 
+     * @see org.kuali.module.labor.dao.LaborDao#getBaseFunds(java.util.Map)
+     */
+    public Collection getBaseFunds(Map fieldValues) {
+        Criteria criteria = new Criteria();
+        criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new BalanceGlobalCalculatedSalaryFoundation()));
+        LookupUtils.applySearchResultsLimit(criteria);
+        QueryByCriteria query = QueryFactory.newQuery(BalanceGlobalCalculatedSalaryFoundation.class, criteria);
+        return getPersistenceBrokerTemplate().getCollectionByQuery(query);
+    }
+    
+    /**
      * This method retrieves information for the Base Funds balance inquiry
      * 
      * @param fieldValues
      * @return
      */
-    public Collection getBaseFunds(Map fieldValues) {
+    public Collection getBaseFunds2(Map fieldValues) {
         Statement stmt = null;
         ArrayList baseFundList = new ArrayList();
-        String selectStatement = "SELECT distinct A1.UNIV_FISCAL_YR, A1.FIN_COA_CD, A0.PERSON_UNVL_ID, A0.SUB_ACCT_NBR, A0.FIN_OBJECT_CD, A0.FIN_SUB_OBJ_CD, A0.OBJ_ID, A0.VER_NBR, A0.BUDGET_AMT, A0.CSF_AMT ";
-        String fromStatement = "FROM LD_BAL_GLBL_CSF_T A0, LD_LDGR_ENTR_T A1 WHERE ";
+        String selectStatement = "select distinct A0.PERSON_UNVL_ID, A0.SUB_ACCT_NBR, A0.FIN_OBJECT_CD, A0.FIN_SUB_OBJ_CD, A0.OBJ_ID, A0.VER_NBR, A0.BUDGET_AMT, A0.CSF_AMT ";
+        String fromStatement = "FROM LD_BAL_GLBL_CSF_T A0, LD_LDGR_ENTR_T A1 WHERE "; 
+        // We also need to:
+        //
+        // 1) Use the EMPLID from LD_LDGR_ENTR_T and match this to the PERSON_UNVL_ID in LD_BAL_GLBL_CSF_T.
+        // 2) * Return the employee name in the original data object. Doing option #2 is the reason for not using OJB.
+        
         try {
 
             // Parse the UI for parameters

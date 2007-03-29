@@ -1426,6 +1426,7 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="budgetAmount" column="BUDGET_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	<field-descriptor name="calculatedSalaryFoundationAmount" column="CSF_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+<!-- need relationship for emplid -->
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.labor.bo.AccountStatus" table="LD_BAL_GLBL_CSF_T">
@@ -1436,7 +1437,8 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="budgetAmount" column="BUDGET_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="calculatedSalaryFoundationAmount" column="CSF_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>	
+	<field-descriptor name="calculatedSalaryFoundationAmount" column="CSF_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>		
+<!-- need relationship for emplid   <field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" index="true" /> -->
 </class-descriptor>
 
 	<class-descriptor class="org.kuali.module.labor.bo.PendingLedgerEntry" table="LD_PND_LDGR_ENTR_T">

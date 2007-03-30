@@ -35,7 +35,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
+import org.kuali.KeyConstants;
+import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiDocumentActionBase;
@@ -180,6 +183,43 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         
     }
 
+
+    /**
+ * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#close(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+ */
+@Override
+public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+//    return super.close(mapping, form, request, response);
+    BudgetConstructionForm docForm = (BudgetConstructionForm) form;
+
+    // only want to prompt them to save if they already can save
+    if (docForm.getDocumentActionFlags().getCanSave()) {
+        Object question = request.getParameter(Constants.QUESTION_INST_ATTRIBUTE_NAME);
+        KualiConfigurationService kualiConfiguration = KNSServiceLocator.getKualiConfigurationService();
+
+        // logic for close question
+        if (question == null) {
+            // ask question if not already asked
+            return this.performQuestionWithoutInput(mapping, form, request, response, Constants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, kualiConfiguration.getPropertyString(KeyConstants.QUESTION_SAVE_BEFORE_CLOSE), Constants.CONFIRMATION_QUESTION, Constants.MAPPING_CLOSE, "");
+        }
+        else {
+            Object buttonClicked = request.getParameter(Constants.QUESTION_CLICKED_BUTTON);
+            if ((Constants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                // if yes button clicked - save the doc
+
+                //KNSServiceLocator.getDocumentService().saveDocument(docForm.getDocument());
+                // TODO for now just do trivial save eventually need to add validation, routelog stuff, etc
+                KNSServiceLocator.getDocumentService().updateDocument(docForm.getDocument());
+                
+            }
+            // else go to close logic below
+        }
+    }
+
+    return returnToSender(mapping, docForm);
+}
+
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -193,6 +233,11 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         
         // TODO for now just do trivial save eventually need to add validation, routelog stuff, etc
         documentService.updateDocument(bcDocument);
+
+        GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_SAVED);
+        
+        //TODO not sure this is needed in BC
+        budgetConstructionForm.setAnnotation("");
 
         // TODO this should eventually be set to return to AccountSelect
         return mapping.findForward(Constants.MAPPING_BASIC);

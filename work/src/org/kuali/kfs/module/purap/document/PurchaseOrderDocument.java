@@ -486,6 +486,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
     public void addToStatusHistories( String oldStatus, String newStatus, String statusHistoryNote ) {
         PurchaseOrderStatusHistory posh = new PurchaseOrderStatusHistory( oldStatus, newStatus );
         this.addStatusHistoryNote( posh, statusHistoryNote );
+        posh.setDocumentHeaderIdentifier(this.documentNumber);
         this.getStatusHistories().add( posh );
     }
 

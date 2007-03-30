@@ -955,12 +955,6 @@
     	<foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
-    <!-- 
-    <collection-descriptor name="statusHistories" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderStatusHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
-        <orderby name="statusHistoryIdentifier" sort="DESC" />
-        <inverse-foreignkey field-ref="purapDocumentIdentifier" />
-    </collection-descriptor>
-    -->
 
     <!-- COMMON TO REQ AND PO DOCUMENTS -->
     <reference-descriptor name="fundingSource" class-ref="org.kuali.module.purap.bo.FundingSource" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -1033,8 +1027,8 @@
     </collection-descriptor>
     <collection-descriptor name="statusHistories" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderStatusHistory" 
                auto-retrieve="true" auto-update="true" indirection-table="PUR_PO_STAT_HIST_LNK_T"> 
-        <fk-pointing-to-this-class column="documentNumber"/> 
-        <fk-pointing-to-element-class column="statusHistoryIdentifier"/> 
+        <fk-pointing-to-this-class column="FDOC_NBR"/>
+        <fk-pointing-to-element-class column="PO_STAT_HIST_ID"/> 
     </collection-descriptor> 
 
     <!-- reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterialStatusHistory" auto-retrieve="true" auto-update="none" auto-delete="none">

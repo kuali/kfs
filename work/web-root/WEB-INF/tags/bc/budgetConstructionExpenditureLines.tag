@@ -59,6 +59,9 @@
 				</th>
 			</tr>
 			
+            <c:if test="${empty editingMode['viewOnly']}">
+              <c:set var="valuesMap" value="${KualiForm.newExpenditureLine.valuesMap}"/>
+                
 			<tr>
               <kul:htmlAttributeHeaderCell literalLabel="Add:" scope="row" rowspan="1">
                   <%-- these hidden fields are inside a table cell to keep the HTML valid --%>
@@ -71,19 +74,49 @@
                   <html:hidden property="newExpenditureLine.financialObjectTypeCode"/>
                   <html:hidden property="newExpenditureLine.versionNumber"/>
               </kul:htmlAttributeHeaderCell>
-              <td class="infoline" nowrap><div align="left"><span>
-              	  <a name="expenditurenewLineLineAnchor"></a>
-                  <kul:htmlControlAttribute attributeEntry="${pbglExpenditureAttributes.financialObjectCode}" property="newExpenditureLine.financialObjectCode" readOnly="false"/>
-              </span></div></td>
-              <td class="infoline" nowrap><div align="left"><span>
-                  <kul:htmlControlAttribute attributeEntry="${pbglExpenditureAttributes.financialSubObjectCode}" property="newExpenditureLine.financialSubObjectCode" readOnly="false"/>
-              </span></div></td>
+
+              <bc:pbglLineDataCell dataCellCssClass="infoline"
+                  accountingLine="newExpenditureLine"
+                  field="financialObjectCode" detailFunction="loadObjectInfo"
+                  detailFunctionExtraParam="'${KualiForm.document.universityFiscalYear}', 'newExpenditureLine.objectType.name', 'newExpenditureLine.financialObjectTypeCode', "
+                  detailField="financialObject.financialObjectCodeName"
+                  attributes="${pbglExpenditureAttributes}" lookup="true" inquiry="true"
+                  boClassSimpleName="ObjectCode"
+                  readOnly="false"
+                  displayHidden="false"
+                  lookupOrInquiryKeys="universityFiscalYear,chartOfAccountsCode"
+                  lookupUnkeyedFieldConversions="financialObjectTypeCode:newExpenditureLine.financialObjectTypeCode,"
+                  accountingLineValuesMap="${newExpenditureLine.valuesMap}"
+                  inquiryExtraKeyValues="universityFiscalYear=${KualiForm.document.universityFiscalYear}"
+                  anchor="expenditurenewLineLineAnchor" />
+
+              <bc:pbglLineDataCell dataCellCssClass="infoline"
+                  accountingLine="newExpenditureLine"
+                  field="financialSubObjectCode" detailFunction="loadSubObjectInfo"
+                  detailFunctionExtraParam="'${KualiForm.document.universityFiscalYear}', "
+                  detailField="financialSubObject.financialSubObjectCodeName"
+                  attributes="${pbglExpenditureAttributes}" lookup="true" inquiry="true"
+                  boClassSimpleName="SubObjCd"
+                  readOnly="false"
+                  displayHidden="false"
+                  lookupOrInquiryKeys="universityFiscalYear,chartOfAccountsCode,financialObjectCode,accountNumber"
+                  accountingLineValuesMap="${newExpenditureLine.valuesMap}"
+                  inquiryExtraKeyValues="universityFiscalYear=${KualiForm.document.universityFiscalYear}"
+                  lookupAnchor="expenditurenewLineLineAnchor" />
+
               <td class="infoline" nowrap><div align="right"><span>
                   &nbsp;
               </span></div></td>
-              <td class="infoline" nowrap><div align="right"><span>
-                  <kul:htmlControlAttribute attributeEntry="${pbglExpenditureAttributes.accountLineAnnualBalanceAmount}" property="newExpenditureLine.accountLineAnnualBalanceAmount" styleClass="amount" readOnly="false"/>
-              </span></div></td>
+
+              <bc:pbglLineDataCell dataCellCssClass="datacell"
+                  accountingLine="newExpenditureLine"
+                  cellProperty="newExpenditureLine.accountLineAnnualBalanceAmount"
+                  attributes="${pbglExpenditureAttributes}"
+                  field="accountLineAnnualBalanceAmount"
+                  fieldAlign="right"
+                  readOnly="false"
+                  rowSpan="1" dataFieldCssClass="amount" />
+
               <td class="infoline" nowrap><div align="right"><span>
                   &nbsp;
               </span></div></td>
@@ -94,6 +127,7 @@
                   <html:image property="methodToCall.insertExpenditureLine.anchorexpenditurenewLineLineAnchor" src="images/tinybutton-add1.gif" title="Add an Expenditure Line" alt="Add an Expenditure Line" styleClass="tinybutton"/>
               </div></td>
 			</tr>
+            </c:if>
 			
 
 			<c:forEach items="${KualiForm.document.pendingBudgetConstructionGeneralLedgerExpenditureLines}" var="item" varStatus="status" >
@@ -111,53 +145,91 @@
                   <html:hidden property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].versionNumber"/>
                   <bc:pbglLineDataCellDetail/>
               </kul:htmlAttributeHeaderCell>
-              <td class="datacell" nowrap><div align="left"><span>
-              	  <a name="expenditureexistingLineLineAnchor${status.index}"></a>
-                  <kul:htmlControlAttribute attributeEntry="${pbglExpenditureAttributes.financialObjectCode}" property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].financialObjectCode" readOnly="true"/>
-                  <bc:pbglLineDataCellDetail
-                     accountingLine="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}]"
-                     detailField="financialObject.financialObjectCodeShortName"
-                     detailFields="${detailFields}"
-                     />
-              </span></div></td>
-              <td class="datacell" nowrap><div align="left"><span>
-                  <kul:htmlControlAttribute attributeEntry="${pbglExpenditureAttributes.financialSubObjectCode}" property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].financialSubObjectCode" readOnly="true"/>
-                  <bc:pbglLineDataCellDetail
-                     accountingLine="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}]"
-                     detailField="financialSubObject.financialSubObjectCdshortNm"
-                     detailFields="${detailFields}"
-                     />
-              </span></div></td>
-              <td class="datacell" nowrap><div align="right"><span>
-                  <kul:htmlControlAttribute attributeEntry="${pbglExpenditureAttributes.financialBeginningBalanceLineAmount}" property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].financialBeginningBalanceLineAmount" readOnly="true"/>
-                  <bc:pbglLineDataCellDetail/>
-              </span></div></td>
-              <td class="datacell" nowrap><div align="right"><span>
-                  <kul:htmlControlAttribute attributeEntry="${pbglExpenditureAttributes.accountLineAnnualBalanceAmount}" property="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].accountLineAnnualBalanceAmount" styleClass="amount" readOnly="false"/>
-                  <bc:pbglLineDataCellDetail/>
-              </span></div></td>
-              <td class="datacell" nowrap><div align="right"><span>
+
+              <bc:pbglLineDataCell dataCellCssClass="datacell"
+                  accountingLine="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}]"
+                  field="financialObjectCode" detailFunction="loadObjectInfo"
+                  detailFunctionExtraParam="'${KualiForm.document.universityFiscalYear}', 'document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].objectType.name', 'document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].financialObjectTypeCode', "
+                  detailField="financialObject.financialObjectCodeShortName"
+                  attributes="${pbglExpenditureAttributes}" lookup="true" inquiry="true"
+                  boClassSimpleName="ObjectCode"
+                  readOnly="true"
+                  displayHidden="false"
+                  lookupOrInquiryKeys="chartOfAccountsCode"
+                  lookupUnkeyedFieldConversions="financialObjectTypeCode:document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].objectTypeCode,"
+                  accountingLineValuesMap="${item.valuesMap}"
+                  inquiryExtraKeyValues="universityFiscalYear=${KualiForm.document.universityFiscalYear}"
+                  anchor="expenditureexistingLineLineAnchor${status.index}" />
+
+              <c:set var="doLookupOrInquiry" value="false"/>
+              <c:if test="${item.financialSubObjectCode ne Constants.DASHES_SUB_OBJECT_CODE}">
+                  <c:set var="doLookupOrInquiry" value="true"/>
+              </c:if>
+
+              <bc:pbglLineDataCell dataCellCssClass="datacell"
+                  accountingLine="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}]"
+                  field="financialSubObjectCode" detailFunction="loadSubObjectInfo"
+                  detailFunctionExtraParam="'${KualiForm.document.universityFiscalYear}', "
+                  detailField="financialSubObject.financialSubObjectCdshortNm"
+                  attributes="${pbglExpenditureAttributes}" lookup="${doLookupOrInquiry}" inquiry="${doLookupOrInquiry}"
+                  boClassSimpleName="SubObjCd"
+                  readOnly="true"
+                  displayHidden="false"
+                  lookupOrInquiryKeys="chartOfAccountsCode,financialObjectCode,accountNumber"
+                  accountingLineValuesMap="${item.valuesMap}"
+                  inquiryExtraKeyValues="universityFiscalYear=${KualiForm.document.universityFiscalYear}" />
+
+              <bc:pbglLineDataCell dataCellCssClass="datacell"
+                  accountingLine="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}]"
+                  cellProperty="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].financialBeginningBalanceLineAmount"
+                  attributes="${pbglExpenditureAttributes}"
+                  field="financialBeginningBalanceLineAmount"
+                  fieldAlign="right"
+                  readOnly="true"
+                  rowSpan="1" dataFieldCssClass="amount" />
+
+              <bc:pbglLineDataCell dataCellCssClass="datacell"
+                  accountingLine="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}]"
+                  cellProperty="document.pendingBudgetConstructionGeneralLedgerExpenditureLines[${status.index}].accountLineAnnualBalanceAmount"
+                  attributes="${pbglExpenditureAttributes}"
+                  field="accountLineAnnualBalanceAmount"
+                  fieldAlign="right"
+                  readOnly="false"
+                  rowSpan="1" dataFieldCssClass="amount" />
+
+              <td class="datacell" valign="top" nowrap><div align="right"><span>
 				  <fmt:formatNumber value="${item.percentChange}" type="number" groupingUsed="true" minFractionDigits="2" />&nbsp;
                   <bc:pbglLineDataCellDetail/>
               </span></div></td>
+
 			  <td class="datacell" nowrap><div align=center>
-                <bc:pbglLineDataCellDetail/>
-				<c:choose>
+				  <c:choose>
 					<c:when test="${empty item.budgetConstructionMonthly[0]}" > 
 						<html:image src="images/tinybutton-createnew.gif" styleClass="tinybutton" property="methodToCall.performMonthlyExpenditureBudget.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" title="Create Month" alt="Create Month"/>
 					</c:when> 
 					<c:otherwise> 
 						<html:image src="images/tinybutton-edit1.gif" styleClass="tinybutton" property="methodToCall.performMonthlyExpenditureBudget.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" title="Edit Month" alt="Edit Month"/>
 					</c:otherwise> 
-				</c:choose> 
-
-<%--
-	                   methodToCall.headerTab.headerDispatch.savePersonnel.navigateTo.parameters.x
---%>			
+				  </c:choose> 
 			  </div></td>
-	          <td>&nbsp;</td>
+
+             <td class="datacell" nowrap>
+                 <div align="center">
+                   <c:if test="${empty item.financialBeginningBalanceLineAmount || item.financialBeginningBalanceLineAmount == 0}">
+                     <html:image property="methodToCall.deleteExpenditureLine.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" src="images/tinybutton-delete1.gif" title="Delete Expenditure Line ${status.index}" alt="Delete Expenditure Line ${status.index}" styleClass="tinybutton"/>
+                     <br>
+                   </c:if>
+                   <html:image property="methodToCall.performBalanceInquiryForExpenditureLine.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" src="images/tinybutton-balinquiry.gif" title="Balance Inquiry For Expenditure Line ${status.index}" alt="Balance Inquiry For Expenditure Line ${status.index}" styleClass="tinybutton" />
+                   <c:if test="${!empty item.financialBeginningBalanceLineAmount && item.financialBeginningBalanceLineAmount != 0}">
+                     <br>
+                     <html:image property="methodToCall.performPercentAdjustmentExpenditureLine.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" src="images/tinybutton-calculate.gif" title="Percent Adjustment Expenditure Line ${status.index}" alt="Percent Adjustment Expenditure Line ${status.index}" styleClass="tinybutton"/>
+                   </c:if>
+                 </div>
+             </td>
             </tr>
+
 			</c:forEach>
+
 			<tr>
 				<kul:htmlAttributeHeaderCell literalLabel="Expenditure Totals" colspan="3" horizontal="true" />
                 <td class="datacell" nowrap><div align="right"><span>

@@ -29,8 +29,8 @@
                 <field attributeName="purchaseOrderQuotePriceExpirationDate" />
                 <field attributeName="purchaseOrderQuoteRankNumber" />
                 <field attributeName="purchaseOrderQuoteStatusCode" />
-                <field attributeName="purchaseOrderQuoteTransactionDate" />
-                <field attributeName="purchaseOrderQuoteTransactionTypeCode" />
+                <field attributeName="purchaseOrderQuoteTransmitDate" />
+                <field attributeName="purchaseOrderQuoteTransmitTypeCode" />
                 <field attributeName="purchaseOrderVendorQuoteIdentifier" />
                 <field attributeName="vendorAttentionName" />
                 <field attributeName="vendorCityName" />
@@ -63,8 +63,8 @@
                 <lookupField attributeName="purchaseOrderQuotePriceExpirationDate" required="false" />
                 <lookupField attributeName="purchaseOrderQuoteRankNumber" required="false" />
                 <lookupField attributeName="purchaseOrderQuoteStatusCode" required="false" />
-                <lookupField attributeName="purchaseOrderQuoteTransactionDate" required="false" />
-                <lookupField attributeName="purchaseOrderQuoteTransactionTypeCode" required="false" />
+                <lookupField attributeName="purchaseOrderQuoteTransmitDate" required="false" />
+                <lookupField attributeName="purchaseOrderQuoteTransmitTypeCode" required="false" />
                 <lookupField attributeName="purchaseOrderVendorQuoteIdentifier" required="false" />
                 <lookupField attributeName="vendorAttentionName" required="false" />
                 <lookupField attributeName="vendorCityName" required="false" />
@@ -85,8 +85,8 @@
                 <field attributeName="purchaseOrderQuotePriceExpirationDate" />
                 <field attributeName="purchaseOrderQuoteRankNumber" />
                 <field attributeName="purchaseOrderQuoteStatusCode" />
-                <field attributeName="purchaseOrderQuoteTransactionDate" />
-                <field attributeName="purchaseOrderQuoteTransactionTypeCode" />
+                <field attributeName="purchaseOrderQuoteTransmitDate" />
+                <field attributeName="purchaseOrderQuoteTransmitTypeCode" />
                 <field attributeName="purchaseOrderVendorQuoteIdentifier" />
                 <field attributeName="vendorAttentionName" />
                 <field attributeName="vendorCityName" />
@@ -165,8 +165,8 @@
                 <description>purchaseOrderQuoteStatusCode description...</description>
 			</attribute>
 
-            <attribute name="purchaseOrderQuoteTransactionDate" forceUppercase="true">
-                <label>Purchase Order Quote Transaction Date</label>
+            <attribute name="purchaseOrderQuoteTransmitDate" forceUppercase="true">
+                <label>Purchase Order Quote Transmit Date</label>
                 <shortLabel>Date</shortLabel>
 
                 <maxLength>7</maxLength>
@@ -176,12 +176,12 @@
                     <text size="9" />
                 </control>
 
-                <summary>purchaseOrderQuoteTransactionDate</summary>
-                <description>purchaseOrderQuoteTransactionDate description...</description>
+                <summary>purchaseOrderQuoteTransmitDate</summary>
+                <description>purchaseOrderQuoteTransmitDate description...</description>
 			</attribute>
 
-            <attribute name="purchaseOrderQuoteTransactionTypeCode" forceUppercase="true">
-                <label>Purchase Order Quote Transaction Type Code</label>
+            <attribute name="purchaseOrderQuoteTransmitTypeCode" forceUppercase="true">
+                <label>Purchase Order Quote Transmit Type Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>50</maxLength>
@@ -191,8 +191,8 @@
                     <text size="52" />
                 </control>
 
-                <summary>purchaseOrderQuoteTransactionTypeCode</summary>
-                <description>purchaseOrderQuoteTransactionTypeCode description...</description>
+                <summary>purchaseOrderQuoteTransmitTypeCode</summary>
+                <description>purchaseOrderQuoteTransmitTypeCode description...</description>
 			</attribute>
 
             <attribute name="purchaseOrderVendorQuoteIdentifier" forceUppercase="true">

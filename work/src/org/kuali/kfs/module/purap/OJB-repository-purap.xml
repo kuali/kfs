@@ -758,6 +758,9 @@
 	<reference-descriptor name="vendorContract" class-ref="org.kuali.module.purap.bo.VendorContract" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="vendorContractGeneratedIdentifier" />
 	</reference-descriptor>
+    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="vendorCountryCode" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.FundingSource" table="PUR_FND_SRC_T">
@@ -1005,7 +1008,9 @@
     <reference-descriptor name="vendorContract" class-ref="org.kuali.module.purap.bo.VendorContract" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="vendorContractGeneratedIdentifier" />
     </reference-descriptor>
-
+	<reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="vendorCountryCode" />
+	</reference-descriptor>
     <!-- SPECIFIC TO PO DOCUMENT -->
 	<reference-descriptor name="purchaseOrderVendorChoice" class-ref="org.kuali.module.purap.bo.PurchaseOrderVendorChoice" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="purchaseOrderVendorChoiceCode" />
@@ -1649,8 +1654,8 @@
 	<field-descriptor name="vendorFaxNumber" column="VNDR_FAX_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="vendorEmailAddress" column="VNDR_EMAIL_ADDR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="vendorAttentionName" column="VNDR_ATTN_NM" jdbc-type="VARCHAR"/>
-	<field-descriptor name="purchaseOrderQuoteTransactionTypeCode" column="PO_QT_TRANS_TYP_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="purchaseOrderQuoteTransactionDate" column="PO_QT_TRANS_DT" jdbc-type="DATE"/>
+	<field-descriptor name="purchaseOrderQuoteTransmitTypeCode" column="PO_QT_TRANS_TYP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="purchaseOrderQuoteTransmitDate" column="PO_QT_TRANS_DT" jdbc-type="DATE"/>
 	<field-descriptor name="purchaseOrderQuotePriceExpirationDate" column="PO_QT_PRCE_EXPR_DT" jdbc-type="DATE"/>
 	<field-descriptor name="purchaseOrderQuoteStatusCode" column="PO_QT_STAT_CD" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="purchaseOrderQuoteAwardDate" column="PO_QT_AWD_DT" jdbc-type="DATE"/>

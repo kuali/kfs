@@ -40,6 +40,9 @@ public class PurapConstants {
     public static final String ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING = "Unable to save the contract manager for the following Requisitions: ";
     public static final String NOTE_TAB_WARNING = "noteWarning";
     public static final String STATUS_HISTORY_TAB_WARNING = "statusHistoryWarning";
+    public static final String IMAGE_TEMP_PATH = "PURAP.IMAGE.TEMP.PATH";
+    public static final String PDF_DIRECTORY = "PURAP.PDF.DIRECTORY";
+    public static final String STATUS_INQUIRY_URL = "PURAP.STATUS.INQUIRY.URL";
     
     //Vendor Tax Types
     public static final String TAX_TYPE_FEIN = "FEIN";
@@ -132,6 +135,7 @@ public class PurapConstants {
         public static String ITEM_TYPE_SHIP_AND_HAND_CODE = "SPHD";
         public static String ITEM_TYPE_TRADE_IN_CODE = "TRDI";
         public static String ITEM_TYPE_ORDER_DISCOUNT_CODE = "ORDS";        
+        public static String ITEM_TYPE_SERVICE_CODE = "SRVC";
     }
     
     //Item constants

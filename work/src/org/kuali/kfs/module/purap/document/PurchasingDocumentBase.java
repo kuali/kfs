@@ -18,13 +18,10 @@ package org.kuali.module.purap.document;
 import java.sql.Date;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Campus;
-import org.kuali.core.bo.Note;
-import org.kuali.core.service.NoteService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.bo.Country;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
@@ -36,7 +33,6 @@ import org.kuali.module.purap.bo.PurchaseOrderCostSource;
 import org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod;
 import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.bo.RequisitionSource;
-import org.kuali.module.purap.bo.StatusHistory;
 import org.kuali.module.purap.bo.VendorAddress;
 import org.kuali.module.purap.bo.VendorContract;
 import org.kuali.module.purap.bo.VendorDetail;
@@ -133,7 +129,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private Account nonInstitutionFundAccount;
     private Chart nonInstitutionFundChartOfAccounts;
     private VendorContract vendorContract;
-    
+    private Country vendorCountry;
     
     
 
@@ -155,6 +151,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         this.refreshReferenceObject("organization");
         this.refreshReferenceObject("deliveryCampus");
         this.refreshReferenceObject("vendorContract");
+        this.refreshReferenceObject("vendorCountry");
     }
 
     /**
@@ -1730,6 +1727,14 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     
     public void setVendorContactsLabel(String vendorContactsLabel) {
         this.vendorContactsLabel = vendorContactsLabel;
+    }
+
+    public Country getVendorCountry() {
+        return vendorCountry;
+    }
+
+    public void setVendorCountry(Country vendorCountry) {
+        this.vendorCountry = vendorCountry;
     }
 
 

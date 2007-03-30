@@ -41,8 +41,8 @@ public class PurchaseOrderVendorQuote extends PersistableBusinessObjectBase {
 	private String vendorFaxNumber;
 	private String vendorEmailAddress;
 	private String vendorAttentionName;
-	private String purchaseOrderQuoteTransactionTypeCode;
-	private Date purchaseOrderQuoteTransactionDate;
+	private String purchaseOrderQuoteTransmitTypeCode;
+	private Date purchaseOrderQuoteTransmitDate;
 	private Date purchaseOrderQuotePriceExpirationDate;
 	private String purchaseOrderQuoteStatusCode;
 	private Date purchaseOrderQuoteAwardDate;
@@ -58,8 +58,8 @@ public class PurchaseOrderVendorQuote extends PersistableBusinessObjectBase {
 	public PurchaseOrderVendorQuote() {
 
 	}
-
-	/**
+    
+    /**
      * Gets the documentNumber attribute. 
      * @return Returns the documentNumber.
      */
@@ -348,44 +348,44 @@ public class PurchaseOrderVendorQuote extends PersistableBusinessObjectBase {
 
 
 	/**
-	 * Gets the purchaseOrderQuoteTransactionTypeCode attribute.
+	 * Gets the purchaseOrderQuoteTransmitTypeCode attribute.
 	 * 
-	 * @return Returns the purchaseOrderQuoteTransactionTypeCode
+	 * @return Returns the purchaseOrderQuoteTransmitTypeCode
 	 * 
 	 */
-	public String getPurchaseOrderQuoteTransactionTypeCode() { 
-		return purchaseOrderQuoteTransactionTypeCode;
+	public String getPurchaseOrderQuoteTransmitTypeCode() { 
+		return purchaseOrderQuoteTransmitTypeCode;
 	}
 
 	/**
-	 * Sets the purchaseOrderQuoteTransactionTypeCode attribute.
+	 * Sets the purchaseOrderQuoteTransmitTypeCode attribute.
 	 * 
-	 * @param purchaseOrderQuoteTransactionTypeCode The purchaseOrderQuoteTransactionTypeCode to set.
+	 * @param purchaseOrderQuoteTransmitTypeCode The purchaseOrderQuoteTransmitTypeCode to set.
 	 * 
 	 */
-	public void setPurchaseOrderQuoteTransactionTypeCode(String purchaseOrderQuoteTransactionTypeCode) {
-		this.purchaseOrderQuoteTransactionTypeCode = purchaseOrderQuoteTransactionTypeCode;
+	public void setPurchaseOrderQuoteTransmitTypeCode(String purchaseOrderQuoteTransmitTypeCode) {
+		this.purchaseOrderQuoteTransmitTypeCode = purchaseOrderQuoteTransmitTypeCode;
 	}
 
 
 	/**
-	 * Gets the purchaseOrderQuoteTransactionDate attribute.
+	 * Gets the purchaseOrderQuoteTransmitDate attribute.
 	 * 
-	 * @return Returns the purchaseOrderQuoteTransactionDate
+	 * @return Returns the purchaseOrderQuoteTransmitDate
 	 * 
 	 */
-	public Date getPurchaseOrderQuoteTransactionDate() { 
-		return purchaseOrderQuoteTransactionDate;
+	public Date getPurchaseOrderQuoteTransmitDate() { 
+		return purchaseOrderQuoteTransmitDate;
 	}
 
 	/**
-	 * Sets the purchaseOrderQuoteTransactionDate attribute.
+	 * Sets the purchaseOrderQuoteTransmitDate attribute.
 	 * 
-	 * @param purchaseOrderQuoteTransactionDate The purchaseOrderQuoteTransactionDate to set.
+	 * @param purchaseOrderQuoteTransmitDate The purchaseOrderQuoteTransmitDate to set.
 	 * 
 	 */
-	public void setPurchaseOrderQuoteTransactionDate(Date purchaseOrderQuoteTransactionDate) {
-		this.purchaseOrderQuoteTransactionDate = purchaseOrderQuoteTransactionDate;
+	public void setPurchaseOrderQuoteTransmitDate(Date purchaseOrderQuoteTransmitDate) {
+		this.purchaseOrderQuoteTransmitDate = purchaseOrderQuoteTransmitDate;
 	}
 
 

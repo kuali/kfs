@@ -100,6 +100,18 @@
     <bean id="paymentRequestService" class="org.kuali.module.purap.service.impl.PaymentRequestServiceImpl">
     </bean>
 
+	<bean id="printService" class="org.kuali.module.purap.service.impl.PrintServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+        <property name="imageDao">
+            <ref bean="imageDao" />
+        </property>
+	</bean>
+			
 	<bean id="purchaseOrderService" class="org.kuali.module.purap.service.impl.PurchaseOrderServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
@@ -183,6 +195,15 @@
 		</property>
 	</bean>
 
+	<bean id="imageDao" class="org.kuali.module.purap.dao.ojb.ImageDaoNet">
+		<property name="jcdAlias">
+			<value>dataSource</value>
+		</property>
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>		
+	</bean>
+	
 	<bean id="vendorLookupableHelperService" class="org.kuali.module.purap.lookup.VendorLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />

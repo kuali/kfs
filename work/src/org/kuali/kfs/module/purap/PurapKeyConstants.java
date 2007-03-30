@@ -97,11 +97,11 @@ public class PurapKeyConstants {
     public static final String PURCHASE_ORDER_MESSAGE_CLOSE_DOCUMENT = "purchaseOrder.route.message.close.text";
     public static final String PURCHASE_ORDER_QUESTION_CLOSE_DOCUMENT = "purchaseOrder.question.close.text";
     public static final String PURCHASE_ORDER_CLOSE_NOTE_TEXT_INTRO = "purchaseOrder.message.close.noteTextIntro";
-    public static final String ERROR_PURCHASE_ORDER_CLOSE_REASON_REQUIRED = "error.close.purchaseOrder.reasonRequired";
-
+    public static final String ERROR_PURCHASE_ORDER_CLOSE_REASON_REQUIRED = "error.close.purchaseOrder.reasonRequired";    
     public static final String QUESTION_REOPEN_PO_DOCUMENT ="document.question.reopen.po.text";
     public static final String MESSAGE_ROUTE_REOPENED="message.route.reopened";
     public static final String ERROR_USER_NONPURCHASING="errors.user.nonPurchasing";
+    public static final String ERROR_PURCHASE_ORDER_PDF = "error.purchaseOrder.pdf";
     public static final String PURCHASE_ORDER_REOPEN_STATUS="purchaseOrder.reopen.status";
     public static final String WARNING_PURCHASE_ORDER_NOT_CURRENT="warning.purchaseOrder.notCurrent";
     public static final String WARNING_PURCHASE_ORDER_PENDING_ACTION_NOT_CURRENT="warning.purchaseOrder.pendingAction.notCurrent";

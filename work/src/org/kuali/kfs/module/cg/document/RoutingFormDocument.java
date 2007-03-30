@@ -1859,6 +1859,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         
         StringBuffer xml = new StringBuffer("<documentContent>");
         xml.append(buildProjectDirectorReportXml(false));
+        xml.append(buildAdhocApproverReportXml());
         xml.append(buildCostShareOrgReportXml(false));
         xml.append(buildOtherOrgReportXml(false));
         xml.append(buildAdhocOrgReportXml(false));
@@ -1909,6 +1910,17 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         }
         if (encloseContent) {
             xml.append("</documentContent>");
+        }
+        return xml.toString();
+    }
+    
+    public String buildAdhocApproverReportXml() {
+        StringBuffer xml = new StringBuffer();
+        List<AdhocPerson> people = this.getAdhocPersons();
+        for (AdhocPerson person: people) {
+            xml.append("<adhocApprover>");
+            xml.append(person.getPersonUniversalIdentifier());
+            xml.append("</adhocApprover>");
         }
         return xml.toString();
     }

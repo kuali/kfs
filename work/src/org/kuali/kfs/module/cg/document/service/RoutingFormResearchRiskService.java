@@ -17,6 +17,7 @@ package org.kuali.module.kra.routingform.service;
 
 import java.util.List;
 
+import org.kuali.core.bo.AdHocRouteWorkgroup;
 import org.kuali.module.kra.routingform.bo.ResearchRiskType;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 
@@ -41,4 +42,6 @@ public interface RoutingFormResearchRiskService {
      * @return List<ResearchRiskType>
      */
     public List<ResearchRiskType> getResearchRiskTypes(String[] exceptCodes);
+    
+    public List<String> getNotificationWorkgroups(String documentNumber);
 }

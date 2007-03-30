@@ -100,8 +100,11 @@ public class RoutingFormDocumentAuthorizer extends ResearchDocumentAuthorizer {
         RoutingFormDocument routingFormDocument = (RoutingFormDocument) document;
         
         flags.setCanAcknowledge(false);
-        if (!flags.getCanRoute()) {
-            flags.setCanRoute(routingFormDocument.isUserProjectDirector(user.getPersonUniversalIdentifier()));
+        
+        if (!flags.getCanRoute()
+                && routingFormDocument.isUserProjectDirector(user.getPersonUniversalIdentifier())
+                && routingFormDocument.getDocumentHeader().getWorkflowDocument().stateIsSaved()) {
+            flags.setCanRoute(true);
         }
 //        flags.setCanApprove(false);
         flags.setCanBlanketApprove(false);

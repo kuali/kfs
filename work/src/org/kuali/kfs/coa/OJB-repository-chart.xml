@@ -1307,6 +1307,75 @@
     <field-descriptor name="organizationReversionCategoryActiveIndicator" column="ORG_RVRSN_CTGRY_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 </class-descriptor>
 
+<class-descriptor class="org.kuali.module.chart.bo.OrganizationReversionChangeDocument" table="CA_ORG_RVRSN_CHG_DOC_T">
+  <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+  <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" index="true" />
+  <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+  <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+  <field-descriptor name="budgetReversionChartOfAccountsCode" column="BDGT_RVRSN_COA_CD" jdbc-type="VARCHAR" />
+  <field-descriptor name="budgetReversionAccountNumber" column="BDGT_RVRSNACCT_NBR" jdbc-type="VARCHAR" />
+  <field-descriptor name="carryForwardByObjectCodeIndicator" column="CF_BY_OBJ_CD_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+  <field-descriptor name="cashReversionFinancialChartOfAccountsCode" column="CSH_RVRSNFINCOA_CD" jdbc-type="VARCHAR" />
+  <field-descriptor name="cashReversionAccountNumber" column="CSH_RVRSN_ACCT_NBR" jdbc-type="VARCHAR" />
+  
+  <reference-descriptor name="cashReversionAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <foreignkey field-ref="cashReversionFinancialChartOfAccountsCode" />
+    <foreignkey field-ref="cashReversionAccountNumber" />
+  </reference-descriptor>
+  <reference-descriptor name="budgetReversionAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <foreignkey field-ref="budgetReversionChartOfAccountsCode" />
+    <foreignkey field-ref="budgetReversionAccountNumber" />
+  </reference-descriptor>
+  <reference-descriptor name="budgetReversionChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <foreignkey field-ref="budgetReversionChartOfAccountsCode" />
+  </reference-descriptor>
+  <reference-descriptor name="cashReversionFinancialChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <foreignkey field-ref="cashReversionFinancialChartOfAccountsCode" />
+  </reference-descriptor>
+  <reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="universityFiscalYear" />
+	</reference-descriptor>
+  
+  <collection-descriptor name="organizationReversionChangeDetails" element-class-ref="org.kuali.module.chart.bo.OrganizationReversionChangeDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="none">
+    <orderby name="organizationReversionCategoryCode" sort="ASC" />
+    <inverse-foreignkey field-ref="documentNumber" />
+  </collection-descriptor>
+  <collection-descriptor name="organizationReversionChangeOrganizations" element-class-ref="org.kuali.module.chart.bo.OrganizationReversionChangeOrganization" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="none">
+    <orderby name="organizationCode" sort="ASC"/>
+    <inverse-foreignkey field-ref="documentNumber" />
+  </collection-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.chart.bo.OrganizationReversionChangeDetail" table="CA_ORG_RVRSN_CHG_DTL_T">
+  <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+  <field-descriptor name="organizationReversionCategoryCode" column="ORG_RVRSN_CTGRY_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+  <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+  <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+  <field-descriptor name="organizationReversionCode" column="ORG_RVRSN_CD" jdbc-type="VARCHAR" />
+  <field-descriptor name="organizationReversionObjectCode" column="ORG_RVRSN_OBJ_CD" jdbc-type="VARCHAR" />
+  
+  <reference-descriptor name="organizationReversionCategory" class-ref="org.kuali.module.chart.bo.OrganizationReversionCategory" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <foreignkey field-ref="organizationReversionCategoryCode" />
+  </reference-descriptor>
+  
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.chart.bo.OrganizationReversionChangeOrganization" table="CA_ORG_RVRSN_CHG_ORG_T">
+  <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+  <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+  <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+  <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+  <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+  
+  <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <foreignkey field-ref="chartOfAccountsCode" />
+  </reference-descriptor>
+  <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <foreignkey field-ref="chartOfAccountsCode" />
+    <foreignkey field-ref="organizationCode" />
+  </reference-descriptor>
+</class-descriptor>
+
 <class-descriptor class="org.kuali.module.chart.bo.AccountingPeriod" table="SH_ACCT_PERIOD_T">
     <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true" />
     <field-descriptor name="universityFiscalPeriodCode" column="UNIV_FISCAL_PRD_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />

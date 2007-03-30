@@ -57,7 +57,6 @@
             <reference attributeName="account" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="accountNumber" displayFieldName="Account Number" />
             <reference attributeName="financialReportChart" activeIndicatorAttributeName="finChartOfAccountActiveIndicator" activeIndicatorReversed="false" attributeToHighlightOnFail="financialReportChartCode" displayFieldName="Financial Reporting Chart Code" />
             <reference attributeName="reportingCode" attributeToHighlightOnFail="financialReportingCode" displayFieldName="Financial Reporting Code for this Financial Reporting Chart Code and Financial Reporting Org Code combination" />
-        
         </defaultExistenceChecks>
 
         <maintainableSections>
@@ -70,7 +69,7 @@
                     <maintainableField name="subAccountActiveIndicator" required="false">
                         <defaultValue>true</defaultValue>
                     </maintainableField>
-                    <maintainableField name="a21SubAccount.subAccountTypeCode" required="false">
+                    <maintainableField name="a21SubAccount.subAccountTypeCode" required="true">
                         <defaultValue>EX</defaultValue>
                     </maintainableField>
                     <maintainableField name="versionNumber" />

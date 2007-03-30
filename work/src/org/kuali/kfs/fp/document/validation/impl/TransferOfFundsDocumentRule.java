@@ -63,11 +63,11 @@ public class TransferOfFundsDocumentRule extends AccountingDocumentRuleBase impl
 
         explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL);
         if (isExpense(accountingLine)) {
-            explicitEntry.setFinancialObjectTypeCode(options.getFinancialObjectTypeTransferExpenseCode());
+            explicitEntry.setFinancialObjectTypeCode(options.getFinancialObjectTypeTransferExpenseCd());
         }
         else {
             if (isIncome(accountingLine)) {
-                explicitEntry.setFinancialObjectTypeCode(options.getFinancialObjectTypeTransferIncomeCode());
+                explicitEntry.setFinancialObjectTypeCode(options.getFinancialObjectTypeTransferIncomeCd());
             }
             else {
                 explicitEntry.setFinancialObjectTypeCode(AccountingDocumentRuleUtil.getObjectCodeTypeCodeWithoutSideEffects(accountingLine));

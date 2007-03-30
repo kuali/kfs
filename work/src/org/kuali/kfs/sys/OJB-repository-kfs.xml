@@ -88,12 +88,12 @@
     <field-descriptor name="universityFinChartOfAcctCd" column="UNIV_FIN_COA_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="universityFiscalYearName" column="UNIV_FISCAL_YR_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="financialBeginBalanceLoadInd" column="FIN_BEGBALLOAD_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-    <field-descriptor name="costShareEncumbranceBalanceTypeCode" column="CSTSHR_ENCUM_FIN_BAL_TYP_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="baseBudgetFinancialBalanceTypeCode" column="BASE_BDGT_FIN_BAL_TYP_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="monthlyBudgetFinancialBalanceTypeCode" column="MO_BDGT_FIN_BAL_TYP_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="financialObjectTypeTransferIncomeCode" column="FIN_OBJECT_TYP_TRNFR_INC_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="financialObjectTypeTransferExpenseCode" column="FIN_OBJECT_TYP_TRNFR_EXP_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="nominalFinancialBalanceTypeCode" column="NMNL_FIN_BAL_TYP_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="costShareEncumbranceBalanceTypeCd" column="CSTSHR_ENCUM_FIN_BAL_TYP_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="baseBudgetFinancialBalanceTypeCd" column="BASE_BDGT_FIN_BAL_TYP_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="monthlyBudgetFinancialBalanceTypeCd" column="MO_BDGT_FIN_BAL_TYP_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="financialObjectTypeTransferIncomeCd" column="FIN_OBJECT_TYP_TRNFR_INC_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="financialObjectTypeTransferExpenseCd" column="FIN_OBJECT_TYP_TRNFR_EXP_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="nominalFinancialBalanceTypeCd" column="NMNL_FIN_BAL_TYP_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 
@@ -138,11 +138,11 @@
     </reference-descriptor>
 
     <reference-descriptor name="financialObjectTypeTransferIncome" class-ref="org.kuali.module.chart.bo.ObjectType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="financialObjectTypeTransferIncomeCode" />
+        <foreignkey field-ref="financialObjectTypeTransferIncomeCd" />
     </reference-descriptor>
 
     <reference-descriptor name="financialObjectTypeTransferExpense" class-ref="org.kuali.module.chart.bo.ObjectType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="financialObjectTypeTransferExpenseCode" />
+        <foreignkey field-ref="financialObjectTypeTransferExpenseCd" />
     </reference-descriptor>
 
     <reference-descriptor name="actualFinancialBalanceType" class-ref="org.kuali.module.chart.bo.codes.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -170,19 +170,19 @@
     </reference-descriptor>
 
     <reference-descriptor name="costShareEncumbranceBalanceType" class-ref="org.kuali.module.chart.bo.codes.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="costShareEncumbranceBalanceTypeCode" />
+        <foreignkey field-ref="costShareEncumbranceBalanceTypeCd" />
     </reference-descriptor>
 
     <reference-descriptor name="baseBudgetFinancialBalanceType" class-ref="org.kuali.module.chart.bo.codes.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="baseBudgetFinancialBalanceTypeCode" />
+        <foreignkey field-ref="baseBudgetFinancialBalanceTypeCd" />
     </reference-descriptor>
 
     <reference-descriptor name="monthlyBudgetFinancialBalanceType" class-ref="org.kuali.module.chart.bo.codes.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="monthlyBudgetFinancialBalanceTypeCode" />
+        <foreignkey field-ref="monthlyBudgetFinancialBalanceTypeCd" />
     </reference-descriptor>
 
     <reference-descriptor name="nominalFinancialBalanceType" class-ref="org.kuali.module.chart.bo.codes.BalanceTyp" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <foreignkey field-ref="nominalFinancialBalanceTypeCode" />
+        <foreignkey field-ref="nominalFinancialBalanceTypeCd" />
     </reference-descriptor>
 </class-descriptor>
 

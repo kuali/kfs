@@ -143,7 +143,7 @@ public class OrganizationReversionProcess {
                                 unitOfWork.addActualAmount(cat.getOrganizationReversionCategoryCode(), bal.getBeginningBalanceLineAmount());
                                 unitOfWork.addActualAmount(cat.getOrganizationReversionCategoryCode(), bal.getAccountLineAnnualBalanceAmount());
                             }
-                            else if (bal.getOption().getFinObjTypeExpenditureexpCd().equals(bal.getBalanceTypeCode()) || bal.getOption().getCostShareEncumbranceBalanceTypeCode().equals(bal.getBalanceTypeCode()) || bal.getOption().getIntrnlEncumFinBalanceTypCd().equals(bal.getBalanceTypeCode())) {
+                            else if (bal.getOption().getFinObjTypeExpenditureexpCd().equals(bal.getBalanceTypeCode()) || bal.getOption().getCostShareEncumbranceBalanceTypeCd().equals(bal.getBalanceTypeCode()) || bal.getOption().getIntrnlEncumFinBalanceTypCd().equals(bal.getBalanceTypeCode())) {
                                 // Encumbrance
                                 KualiDecimal amount = bal.getBeginningBalanceLineAmount().add(bal.getAccountLineAnnualBalanceAmount());
                                 if (amount.isPositive()) {
@@ -200,7 +200,7 @@ public class OrganizationReversionProcess {
         entry.setSubAccountNumber(unitOfWork.subAccountNbr);
         entry.setFinancialObjectCode(organizationReversion.getChartOfAccounts().getFinancialCashObjectCode());
         entry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
-        entry.setFinancialBalanceTypeCode(entry.getOption().getNominalFinancialBalanceTypeCode());
+        entry.setFinancialBalanceTypeCode(entry.getOption().getNominalFinancialBalanceTypeCd());
 
         persistenceService.retrieveReferenceObject(entry, FINANCIAL_OBJECT);
         if (entry.getFinancialObject() == null) {

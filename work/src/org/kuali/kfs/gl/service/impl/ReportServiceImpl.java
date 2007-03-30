@@ -502,8 +502,8 @@ public class ReportServiceImpl implements ReportService {
         }
         else {
             balanceTypeCodes.add(year.getBudgetCheckingBalanceTypeCd());
-            balanceTypeCodes.add(year.getBaseBudgetFinancialBalanceTypeCode());
-            balanceTypeCodes.add(year.getMonthlyBudgetFinancialBalanceTypeCode());
+            balanceTypeCodes.add(year.getBaseBudgetFinancialBalanceTypeCd());
+            balanceTypeCodes.add(year.getMonthlyBudgetFinancialBalanceTypeCd());
         }
 
         List balances = balanceService.getGlSummary(year.getUniversityFiscalYear(), balanceTypeCodes);
@@ -524,7 +524,7 @@ public class ReportServiceImpl implements ReportService {
         balanceTypeCodes.add(year.getExtrnlEncumFinBalanceTypCd());
         balanceTypeCodes.add(year.getIntrnlEncumFinBalanceTypCd());
         balanceTypeCodes.add(year.getPreencumbranceFinBalTypeCd());
-        balanceTypeCodes.add(year.getCostShareEncumbranceBalanceTypeCode());
+        balanceTypeCodes.add(year.getCostShareEncumbranceBalanceTypeCd());
 
         List balances = balanceService.getGlSummary(year.getUniversityFiscalYear(), balanceTypeCodes);
 

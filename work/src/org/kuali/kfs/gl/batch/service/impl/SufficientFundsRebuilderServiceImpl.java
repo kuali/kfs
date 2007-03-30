@@ -282,14 +282,14 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         if ( options.getFinObjTypeExpenditureexpCd().equals(balance.getObjectTypeCode()) || 
                 options.getFinObjTypeExpendNotExp().equals(balance.getObjectTypeCode()) || 
                 options.getFinObjTypeExpNotExpendCode().equals(balance.getObjectTypeCode()) ||
-                options.getFinancialObjectTypeTransferExpenseCode().equals(balance.getObjectTypeCode()) ) {
+                options.getFinancialObjectTypeTransferExpenseCd().equals(balance.getObjectTypeCode()) ) {
             if (options.getActualFinancialBalanceTypeCd().equals(balance.getBalanceTypeCode())) {
                 processObjtAcctActual(balance);
             }
             else if ( options.getExtrnlEncumFinBalanceTypCd().equals(balance.getBalanceTypeCode()) || 
                     options.getIntrnlEncumFinBalanceTypCd().equals(balance.getBalanceTypeCode()) || 
                     options.getPreencumbranceFinBalTypeCd().equals(balance.getBalanceTypeCode()) || 
-                    options.getCostShareEncumbranceBalanceTypeCode().equals(balance.getBalanceTypeCode()) ) {
+                    options.getCostShareEncumbranceBalanceTypeCd().equals(balance.getBalanceTypeCode()) ) {
                 processObjtAcctEncmbrnc(balance);
             }
             else if (options.getBudgetCheckingBalanceTypeCd().equals(balance.getBalanceTypeCode())) {
@@ -318,8 +318,8 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
                 processCashActual(sfrbAccount, balance);
             }
         }
-        else if (balance.getBalanceTypeCode().equals(options.getExtrnlEncumFinBalanceTypCd()) || balance.getBalanceTypeCode().equals(options.getIntrnlEncumFinBalanceTypCd()) || balance.getBalanceTypeCode().equals(options.getPreencumbranceFinBalTypeCd()) || options.getCostShareEncumbranceBalanceTypeCode().equals(balance.getBalanceTypeCode())) {
-            if (balance.getObjectTypeCode().equals(options.getFinObjTypeExpenditureexpCd()) || balance.getObjectTypeCode().equals(options.getFinObjTypeExpendNotExpCode()) || options.getFinancialObjectTypeTransferExpenseCode().equals(balance.getObjectTypeCode()) || options.getFinObjTypeExpNotExpendCode().equals(balance.getObjectTypeCode())) {
+        else if (balance.getBalanceTypeCode().equals(options.getExtrnlEncumFinBalanceTypCd()) || balance.getBalanceTypeCode().equals(options.getIntrnlEncumFinBalanceTypCd()) || balance.getBalanceTypeCode().equals(options.getPreencumbranceFinBalTypeCd()) || options.getCostShareEncumbranceBalanceTypeCd().equals(balance.getBalanceTypeCode())) {
+            if (balance.getObjectTypeCode().equals(options.getFinObjTypeExpenditureexpCd()) || balance.getObjectTypeCode().equals(options.getFinObjTypeExpendNotExpCode()) || options.getFinancialObjectTypeTransferExpenseCd().equals(balance.getObjectTypeCode()) || options.getFinObjTypeExpNotExpendCode().equals(balance.getObjectTypeCode())) {
                 processCashEncumbrance(balance);
             }
         }

@@ -56,12 +56,12 @@ public class Options extends PersistableBusinessObjectBase {
     private String universityFiscalYearName;
     private boolean financialBeginBalanceLoadInd;
     private String universityFinChartOfAcctCd;
-    private String costShareEncumbranceBalanceTypeCode;
-    private String baseBudgetFinancialBalanceTypeCode;
-    private String monthlyBudgetFinancialBalanceTypeCode;
-    private String financialObjectTypeTransferIncomeCode;
-    private String financialObjectTypeTransferExpenseCode;
-    private String nominalFinancialBalanceTypeCode;
+    private String costShareEncumbranceBalanceTypeCd;
+    private String baseBudgetFinancialBalanceTypeCd;
+    private String monthlyBudgetFinancialBalanceTypeCd;
+    private String financialObjectTypeTransferIncomeCd;
+    private String financialObjectTypeTransferExpenseCd;
+    private String nominalFinancialBalanceTypeCd;
 
     private Chart universityFinChartOfAcct;
     private ObjectType objectType;
@@ -755,8 +755,8 @@ public class Options extends PersistableBusinessObjectBase {
      * 
      * @return Returns the costShareEncumbranceBalanceTypeCode.
      */
-    public String getCostShareEncumbranceBalanceTypeCode() {
-        return costShareEncumbranceBalanceTypeCode;
+    public String getCostShareEncumbranceBalanceTypeCd() {
+        return costShareEncumbranceBalanceTypeCd;
     }
 
     /**
@@ -764,8 +764,8 @@ public class Options extends PersistableBusinessObjectBase {
      * 
      * @param costShareEncumbranceBalanceTypeCode The costShareEncumbranceBalanceTypeCode to set.
      */
-    public void setCostShareEncumbranceBalanceTypeCode(String costShareEncumbranceBalanceTypeCode) {
-        this.costShareEncumbranceBalanceTypeCode = costShareEncumbranceBalanceTypeCode;
+    public void setCostShareEncumbranceBalanceTypeCd(String costShareEncumbranceBalanceTypeCd) {
+        this.costShareEncumbranceBalanceTypeCd = costShareEncumbranceBalanceTypeCd;
     }
 
     /**
@@ -792,8 +792,8 @@ public class Options extends PersistableBusinessObjectBase {
      * 
      * @return Returns the baseBudgetFinancialBalanceTypeCode.
      */
-    public String getBaseBudgetFinancialBalanceTypeCode() {
-        return baseBudgetFinancialBalanceTypeCode;
+    public String getBaseBudgetFinancialBalanceTypeCd() {
+        return baseBudgetFinancialBalanceTypeCd;
     }
 
     /**
@@ -801,8 +801,8 @@ public class Options extends PersistableBusinessObjectBase {
      * 
      * @param baseBudgetFinancialBalanceTypeCode The baseBudgetFinancialBalanceTypeCode to set.
      */
-    public void setBaseBudgetFinancialBalanceTypeCode(String baseBudgetFinancialBalanceTypeCode) {
-        this.baseBudgetFinancialBalanceTypeCode = baseBudgetFinancialBalanceTypeCode;
+    public void setBaseBudgetFinancialBalanceTypeCd(String baseBudgetFinancialBalanceTypeCd) {
+        this.baseBudgetFinancialBalanceTypeCd = baseBudgetFinancialBalanceTypeCd;
     }
 
     /**
@@ -810,8 +810,8 @@ public class Options extends PersistableBusinessObjectBase {
      * 
      * @return Returns the monthlyBudgetFinancialBalanceTypeCode.
      */
-    public String getMonthlyBudgetFinancialBalanceTypeCode() {
-        return monthlyBudgetFinancialBalanceTypeCode;
+    public String getMonthlyBudgetFinancialBalanceTypeCd() {
+        return monthlyBudgetFinancialBalanceTypeCd;
     }
 
     /**
@@ -820,7 +820,7 @@ public class Options extends PersistableBusinessObjectBase {
      * @param monthlyBudgetFinancialBalanceTypeCode The monthlyBudgetFinancialBalanceTypeCode to set.
      */
     public void setMonthlyBudgetFinancialBalanceTypeCode(String monthlyBudgetFinancialBalanceTypeCode) {
-        this.monthlyBudgetFinancialBalanceTypeCode = monthlyBudgetFinancialBalanceTypeCode;
+        this.monthlyBudgetFinancialBalanceTypeCd = monthlyBudgetFinancialBalanceTypeCode;
     }
 
     /**
@@ -828,8 +828,8 @@ public class Options extends PersistableBusinessObjectBase {
      * 
      * @return Returns the financialObjectTypeTransferIncomeCode.
      */
-    public String getFinancialObjectTypeTransferIncomeCode() {
-        return financialObjectTypeTransferIncomeCode;
+    public String getFinancialObjectTypeTransferIncomeCd() {
+        return financialObjectTypeTransferIncomeCd;
     }
 
     /**
@@ -837,8 +837,8 @@ public class Options extends PersistableBusinessObjectBase {
      * 
      * @param financialObjectTypeTransferIncomeCode The financialObjectTypeTransferIncomeCode to set.
      */
-    public void setFinancialObjectTypeTransferIncomeCode(String financialObjectTypeTransferIncomeCode) {
-        this.financialObjectTypeTransferIncomeCode = financialObjectTypeTransferIncomeCode;
+    public void setFinancialObjectTypeTransferIncomeCd(String financialObjectTypeTransferIncomeCd) {
+        this.financialObjectTypeTransferIncomeCd = financialObjectTypeTransferIncomeCd;
     }
 
     /**
@@ -846,8 +846,8 @@ public class Options extends PersistableBusinessObjectBase {
      * 
      * @return Returns the financialObjectTypeTransferExpenseCode.
      */
-    public String getFinancialObjectTypeTransferExpenseCode() {
-        return financialObjectTypeTransferExpenseCode;
+    public String getFinancialObjectTypeTransferExpenseCd() {
+        return financialObjectTypeTransferExpenseCd;
     }
 
     /**
@@ -855,8 +855,8 @@ public class Options extends PersistableBusinessObjectBase {
      * 
      * @param financialObjectTypeTransferExpenseCode The financialObjectTypeTransferExpenseCode to set.
      */
-    public void setFinancialObjectTypeTransferExpenseCode(String financialObjectTypeTransferExpenseCode) {
-        this.financialObjectTypeTransferExpenseCode = financialObjectTypeTransferExpenseCode;
+    public void setFinancialObjectTypeTransferExpenseCd(String financialObjectTypeTransferExpenseCd) {
+        this.financialObjectTypeTransferExpenseCd = financialObjectTypeTransferExpenseCd;
     }
 
     /**
@@ -940,8 +940,8 @@ public class Options extends PersistableBusinessObjectBase {
      * 
      * @return Returns the nominalFinancialBalanceTypeCode.
      */
-    public String getNominalFinancialBalanceTypeCode() {
-        return nominalFinancialBalanceTypeCode;
+    public String getNominalFinancialBalanceTypeCd() {
+        return nominalFinancialBalanceTypeCd;
     }
 
     /**
@@ -949,8 +949,8 @@ public class Options extends PersistableBusinessObjectBase {
      * 
      * @param nominalFinancialBalanceTypeCode The nominalFinancialBalanceTypeCode to set.
      */
-    public void setNominalFinancialBalanceTypeCode(String nominalFinancialBalanceTypeCode) {
-        this.nominalFinancialBalanceTypeCode = nominalFinancialBalanceTypeCode;
+    public void setNominalFinancialBalanceTypeCd(String nominalFinancialBalanceTypeCd) {
+        this.nominalFinancialBalanceTypeCd = nominalFinancialBalanceTypeCd;
     }
 
     /**

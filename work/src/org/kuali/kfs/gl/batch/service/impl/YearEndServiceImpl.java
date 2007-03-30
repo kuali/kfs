@@ -255,7 +255,7 @@ public class YearEndServiceImpl implements YearEndService {
                     }
 
                     activityEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
-                    activityEntry.setFinancialBalanceTypeCode(balance.getOption().getNominalFinancialBalanceTypeCode());
+                    activityEntry.setFinancialBalanceTypeCode(balance.getOption().getNominalFinancialBalanceTypeCd());
 
                     if (null == balance.getObjectTypeCode()) {
                         throw new FatalErrorException(" ERROR ACCESSING OBJECT TABLE FOR ");
@@ -696,7 +696,7 @@ public class YearEndServiceImpl implements YearEndService {
                     // 1082 007570 MOVE 'NB'
                     // 1083 007580 TO FIN-BALANCE-TYP-CD OF GLEN-RECORD.
 
-                    offsetEntry.setFinancialBalanceTypeCode(balance.getOption().getNominalFinancialBalanceTypeCode());
+                    offsetEntry.setFinancialBalanceTypeCode(balance.getOption().getNominalFinancialBalanceTypeCd());
 
                     // 1084 007590 MOVE VAR-FUND-BAL-OBJ-TYP-CD
                     // 1085 007600 TO FIN-OBJ-TYP-CD OF GLEN-RECORD.

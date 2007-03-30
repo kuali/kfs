@@ -303,8 +303,8 @@ public class BalanceForwardRuleHelper {
             priorYearAccountObjectTypes[1] = options.getFinObjTypeExpNotExpendCode();
             priorYearAccountObjectTypes[2] = options.getFinObjTypeExpenditureexpCd();
             priorYearAccountObjectTypes[3] = options.getFinObjTypeIncomeNotCashCd();
-            priorYearAccountObjectTypes[4] = options.getFinancialObjectTypeTransferExpenseCode();
-            priorYearAccountObjectTypes[5] = options.getFinancialObjectTypeTransferIncomeCode();
+            priorYearAccountObjectTypes[4] = options.getFinancialObjectTypeTransferExpenseCd();
+            priorYearAccountObjectTypes[5] = options.getFinancialObjectTypeTransferIncomeCd();
             priorYearAccountObjectTypes[6] = options.getFinObjectTypeIncomecashCode();
             priorYearAccountObjectTypes[7] = options.getFinObjTypeCshNotIncomeCd();
 

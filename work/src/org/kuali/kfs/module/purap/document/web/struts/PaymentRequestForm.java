@@ -139,7 +139,7 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
         
         ExtraButton continueButton = new ExtraButton();
         continueButton.setExtraButtonProperty("methodToCall.continuePREQ");
-        continueButton.setExtraButtonSource("images/buttonsmall_acknowledge.gif");
+        continueButton.setExtraButtonSource("images/buttonsmall_continue.gif");
         String stat = this.getPaymentRequestDocument().getStatusCode();
         this.getExtraButtons().add(continueButton);
 

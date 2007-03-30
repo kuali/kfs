@@ -25,6 +25,7 @@ import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.LookupService;
+import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.AccountBalanceByLevel;
 import org.kuali.module.gl.web.Constant;
 
@@ -66,7 +67,7 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
         Map userDefinedAttributeMap = new HashMap();
         // userDefinedAttributeMap.put("financialObject.financialObjectLevel.financialConsolidationObject.financialConsolidationObjectCode",
         // "");
-        userDefinedAttributeMap.put("dummyBusinessObject.linkButtonOption", "");
+        userDefinedAttributeMap.put(GLConstants.DummyBusinessObject.LINK_BUTTON_OPTION, "");
         return userDefinedAttributeMap;
     }
 
@@ -116,7 +117,7 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
      */
     protected Class getInquiryBusinessObjectClass(String attributeName) {
         Class c = null;
-        if ("dummyBusinessObject.linkButtonOption".equals(attributeName)) {
+        if (GLConstants.DummyBusinessObject.LINK_BUTTON_OPTION.equals(attributeName)) {
             c = AccountBalanceByLevel.class;
         }
         return c;

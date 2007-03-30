@@ -90,6 +90,15 @@
 
     <bean id="generalLedgerService" class="org.kuali.module.purap.service.impl.GeneralLedgerServiceImpl">
     </bean>
+    
+    <bean id="paymentRequestDao" class="org.kuali.module.purap.dao.ojb.PaymentRequestDaoOjb">
+    	<property name="jcdAlias">
+			<value>dataSource</value>
+		</property>
+	</bean>
+    
+    <bean id="paymentRequestService" class="org.kuali.module.purap.service.impl.PaymentRequestServiceImpl">
+    </bean>
 
 	<bean id="purchaseOrderService" class="org.kuali.module.purap.service.impl.PurchaseOrderServiceImpl">
 		<property name="businessObjectService">

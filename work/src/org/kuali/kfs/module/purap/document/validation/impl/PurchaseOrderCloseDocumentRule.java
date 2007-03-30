@@ -15,10 +15,13 @@
  */
 package org.kuali.module.purap.rules;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
 
 public class PurchaseOrderCloseDocumentRule extends TransactionalDocumentRuleBase {
     
@@ -48,7 +51,11 @@ public class PurchaseOrderCloseDocumentRule extends TransactionalDocumentRuleBas
 
     private boolean processValidation(PurchaseOrderDocument document) {
         boolean valid = true;
-        //return true for now, we need to check EPIC to see if there are any rules for this doc
+        if( !StringUtils.equals( document.getStatusCode(), PurchaseOrderStatuses.OPEN ) ) {
+            valid = false;
+        } else {
+            
+        }
         return valid;
     }
 }

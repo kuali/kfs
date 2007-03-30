@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2007 The Kuali Foundation.
+ * Copyright 2007 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,16 +15,6 @@
  */
 package org.kuali.module.purap.service;
 
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.purap.document.RequisitionDocument;
+public interface PaymentRequestService {
 
-public interface RequisitionService {
-
-    public void save(RequisitionDocument requisitionDocument);
-
-    public RequisitionDocument getRequisitionById(Integer id);
-
-    public KualiDecimal getApoLimit(Integer vendorContractGeneratedIdentifier, String chart, String org);
-
-    public boolean isAutomaticPurchaseOrderAllowed(RequisitionDocument requisition);
 }

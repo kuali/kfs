@@ -111,4 +111,5 @@ public class PurapKeyConstants {
     
     //Payment Request
     public static final String ERROR_PURCHASE_ORDER_NOT_EXIST="error.paymentRequest.purchaseOrder.notExist";
+    public static final String ERROR_PURCHASE_ORDER_NOT_OPEN="error.paymentRequest.purchaseOrder.notOpen";
 }

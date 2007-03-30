@@ -17,9 +17,12 @@ package org.kuali.module.purap.rules;
 
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.document.PaymentRequestDocument;
@@ -38,11 +41,19 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processValidation(purapDocument);
         valid &= processInvoiceValidation((PaymentRequestDocument)purapDocument);
-       // valid &= processPurchaseOrderIDValidation((PaymentRequestDocument)purapDocument);
+        valid &= processPurchaseOrderIDValidation((PaymentRequestDocument)purapDocument);
         return valid;
     }
 
+//  TODO should we call our validation here?
+//  @Override
+//  protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+//      boolean isValid = true;
+//      PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument) document;
+//      return isValid &= processValidation(purapDocument);
+//  }
 
+      
 /**
      * This method performs any validation for the Invoice tab.
      * 
@@ -56,15 +67,18 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     }
     
     boolean processPurchaseOrderIDValidation(PaymentRequestDocument document) {
-        //boolean valid = super.processItemValidation(document);
+       
         boolean valid = true;
-        PurchaseOrderDocument purchaseOrderDocument = new PurchaseOrderDocument();
-        purchaseOrderDocument.setPurapDocumentIdentifier(document.getPurchaseOrderIdentifier());
-        Map keys = SpringServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(purchaseOrderDocument);
-        purchaseOrderDocument = (PurchaseOrderDocument) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(PurchaseOrderDocument.class, keys);
+       
+        Integer POID = document.getPurchaseOrderIdentifier();
+        
+       PurchaseOrderDocument purchaseOrderDocument = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(document.getPurchaseOrderIdentifier());
         if (ObjectUtils.isNull(purchaseOrderDocument)) {
             //GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_BEGIN_DATE, PurapKeyConstants.ERROR_PURCHASE_ORDER_END_DATE_NO_BEGIN_DATE);
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_EXIST);
+            valid &= false;
+        } else if (!StringUtils.equals(purchaseOrderDocument.getStatusCode(),PurapConstants.PurchaseOrderStatuses.OPEN)){
+            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_OPEN);
             valid &= false;
         }
        

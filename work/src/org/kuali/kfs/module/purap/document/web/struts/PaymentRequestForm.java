@@ -45,7 +45,8 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
         setDocument(new PaymentRequestDocument());
         this.setNewPurchasingItemLine(setupNewPurchasingItemLine());
         setNewPurchaseOrderVendorStipulationLine(new PurchaseOrderVendorStipulation());
-        //addButtons();
+        showButtons();  
+ 
     }
 
     /**
@@ -127,14 +128,11 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
      */
   
     public boolean isPaymentRequestInitiated() { 
-        // String stat = this.getPaymentRequestDocument().getStatusCode();
-        // boolean bol = StringUtils.equals(this.getPaymentRequestDocument().getStatusCode(),PurapConstants.PaymentRequestStatuses.INITIATE);
-         //return bol;
-         return StringUtils.equals(this.getPaymentRequestDocument().getStatusCode(),PurapConstants.PaymentRequestStatuses.INITIATE);
+        return StringUtils.equals(this.getPaymentRequestDocument().getStatusCode(),PurapConstants.PaymentRequestStatuses.INITIATE);
       } 
 
     
-    private void addButtons() {
+    private void showButtons() {
         //TODO: Find out and add logic about which buttons to appear in 
         //which condition e.g. we might not want to display the continue button 
         //on a PREQ with status ???  etc.
@@ -142,10 +140,9 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
         ExtraButton continueButton = new ExtraButton();
         continueButton.setExtraButtonProperty("methodToCall.continuePREQ");
         continueButton.setExtraButtonSource("images/buttonsmall_acknowledge.gif");
-       
+        String stat = this.getPaymentRequestDocument().getStatusCode();
         this.getExtraButtons().add(continueButton);
-       
+
     }
-    
-    
+ 
 }

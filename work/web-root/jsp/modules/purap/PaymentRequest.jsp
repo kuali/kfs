@@ -25,6 +25,9 @@
     <c:if test="${!empty KualiForm.editingMode['fullEntry']}">
         <c:set var="fullEntryMode" value="true" scope="request" />
     </c:if>
+ 
+    <c:set var="displayInitTab" value="${KualiForm.editingMode['displayInitTab']}" scope="request" />
+    
 
     <kul:hiddenDocumentFields excludePostingYear="true" />
 	
@@ -55,8 +58,8 @@
         documentAttributes="${DataDictionary.KualiPaymentRequestDocument.attributes}" 
         displayPurchaseOrderFields="false" displayPaymentRequestFields="true"/ -->
 	<!-- c:out value="${KualiForm.paymentRequestInitiated}" /-->
-
-	<c:if test="${not KualiForm.paymentRequestInitiated}">
+	
+	<c:if test="${not KualiForm.editingMode['displayInitTab']}" >
 		<purap:paymentRequestInvoiceInfo documentAttributes="${DataDictionary.KualiPaymentRequestDocument.attributes}"
 	 		 displayPaymentRequestInvoiceInfoFields="true" />        
 	</c:if>
@@ -67,16 +70,14 @@
     <kul:routeLog />
 
     <kul:panelFooter />
-
-  	
-  	
-    <kul:documentControls 
-        transactionalDocument="true" 
-        extraButtonSource="${extraButtonSource}"
-        extraButtonProperty="${extraButtonProperty}"
-        extraButtonAlt="${extraButtonAlt}"
-        suppressRoutingControls="${KualiForm.paymentRequestInitiated}"
-        />
-       
-
+    <c:if test="${KualiForm.editingMode['displayInitTab']}">
+ 		<c:set var="extraButtons" value="${KualiForm.extraButtons}" />
+ 	</c:if>
+  	<kul:documentControls 
+        transactionalDocument="true"  
+        extraButtons="${extraButtons}"  
+        suppressRoutingControls="${KualiForm.editingMode['displayInitTab']}"
+       	
+    />
+    
 </kul:documentPage>

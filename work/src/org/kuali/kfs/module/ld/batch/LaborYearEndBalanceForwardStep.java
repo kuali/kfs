@@ -30,8 +30,12 @@ public class LaborYearEndBalanceForwardStep extends AbstractStep {
      * @see org.kuali.core.batch.Step#execute()
      */
     public boolean execute() {
+        if(fiscalYear == null){
+            LOG.fatal("Cannot execute Labor Year End Balance Forward step: University Fiscal Year must be numeric.");
+            return false;
+        }
         laborYearEndBalanceForwardService.forwardBalance(this.getFiscalYear());
-        return false;
+        return true;
     }
 
     /**

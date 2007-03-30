@@ -31,7 +31,6 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.PaymentTermType;
 import org.kuali.module.purap.bo.PurchaseOrderStatusHistory;
-import org.kuali.module.purap.bo.PurchaseOrderStatusHistoryLink;
 import org.kuali.module.purap.bo.PurchaseOrderVendorChoice;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.bo.RecurringPaymentFrequency;
@@ -87,7 +86,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
     
     //COLLECTIONS
     private List<PurchaseOrderVendorStipulation> purchaseOrderVendorStipulations;
-    private List<PurchaseOrderStatusHistoryLink> purchaseOrderStatusHistoryLinks;
     
     /**
 	 * Default constructor.
@@ -95,7 +93,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
 	public PurchaseOrderDocument() {
         super();
         this.purchaseOrderVendorStipulations = new TypedArrayList( PurchaseOrderVendorStipulation.class );
-        this.purchaseOrderStatusHistoryLinks = new TypedArrayList( PurchaseOrderStatusHistoryLink.class );
     }
 
     public void populatePurchaseOrderFromRequisition(RequisitionDocument requisitionDocument) {
@@ -484,22 +481,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
     }
 
     /**
-     * Gets the purchaseOrderStatusHistoryLinks attribute. 
-     * @return Returns the purchaseOrderStatusHistoryLinks.
-     */
-    public List<PurchaseOrderStatusHistoryLink> getPurchaseOrderStatusHistoryLinks() {
-        return purchaseOrderStatusHistoryLinks;
-    }
-
-    /**
-     * Sets the purchaseOrderStatusHistoryLinks attribute value.
-     * @param purchaseOrderStatusHistoryLinks The purchaseOrderStatusHistoryLinks to set.
-     */
-    public void setPurchaseOrderStatusHistoryLinks(List<PurchaseOrderStatusHistoryLink> purchaseOrderStatusHistoryLinks) {
-        this.purchaseOrderStatusHistoryLinks = purchaseOrderStatusHistoryLinks;
-    }    
-    
-    /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#addToStatusHistories(java.lang.String, java.lang.String)
      */
     public void addToStatusHistories( String oldStatus, String newStatus, String statusHistoryNote ) {
@@ -566,7 +547,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
         String vendorNumber = "";
         if( this.alternateVendorHeaderGeneratedIdentifier != null ) {
             hdrGenId = this.alternateVendorHeaderGeneratedIdentifier.toString();
-}
+        }
         if( this.alternateVendorDetailAssignedIdentifier != null ) {
             detAssgndId = this.alternateVendorDetailAssignedIdentifier.toString();
         }
@@ -638,8 +619,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
         if (ObjectUtils.isNotNull(getPurapDocumentIdentifier()) &&
             ObjectUtils.isNull(this.documentBusinessObject)) {
                 documentBusinessObject = SpringServiceLocator.getPurchaseOrderService().getOldestPurchaseOrder(getPurapDocumentIdentifier());
-}
+        }
         return documentBusinessObject;
     }
-
 }

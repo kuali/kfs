@@ -1026,10 +1026,11 @@
         <orderby name="purchaseOrderVendorStipulationIdentifier" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
-    <collection-descriptor name="purchaseOrderStatusHistoryLinks" proxy="true" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderStatusHistoryLink" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <orderby name="statusHistoryIdentifier" sort="ASC" />
-        <inverse-foreignkey field-ref="documentNumber" />
-    </collection-descriptor>
+    <collection-descriptor name="statusHistories" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderStatusHistory" 
+               auto-retrieve="true" auto-update="true" indirection-table="PUR_PO_STAT_HIST_LNK_T"> 
+        <fk-pointing-to-this-class column="documentNumber"/> 
+        <fk-pointing-to-element-class column="statusHistoryIdentifier"/> 
+    </collection-descriptor> 
 
     <!-- reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterialStatusHistory" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="purchaseOrderIdentifier" />
@@ -1978,13 +1979,5 @@
     <collection-descriptor name="assignContractManagerDetails" proxy="true" element-class-ref="org.kuali.module.purap.bo.AssignContractManagerDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
-</class-descriptor>
-
-<class-descriptor class="org.kuali.module.purap.bo.PurchaseOrderStatusHistoryLink" table="PUR_PO_STAT_HIST_LNK_V">
-	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true"/>
-	<field-descriptor name="statusHistoryIdentifier" column="PO_STAT_HIST_ID" jdbc-type="INTEGER"/>
-	<reference-descriptor name="statusHistory" class-ref="org.kuali.module.purap.bo.PurchaseOrderStatusHistory" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="statusHistoryIdentifier" />
-	</reference-descriptor>
 </class-descriptor>
 </descriptor-repository>

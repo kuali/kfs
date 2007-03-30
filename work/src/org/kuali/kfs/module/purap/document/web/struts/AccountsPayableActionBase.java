@@ -59,12 +59,12 @@ public class AccountsPayableActionBase extends KualiTransactionalDocumentActionB
             if (document.isDeliveryBuildingOther()) {
                 document.setDeliveryBuildingName("Other");
                 document.setDeliveryBuildingCode("OTH");
-                baseForm.setNotOtherDelBldg(false);
+                baseForm.setNotOtherDeliveryBuilding(false);
             }
             else {
                 document.setDeliveryBuildingName(null);
                 document.setDeliveryBuildingCode(null);
-                baseForm.setNotOtherDelBldg(true);
+                baseForm.setNotOtherDeliveryBuilding(true);
             }
         }
         

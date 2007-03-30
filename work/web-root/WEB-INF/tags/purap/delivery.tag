@@ -25,7 +25,7 @@
 <%@ attribute name="displayRequisitionFields" required="false"
               description="A boolean as to whether the document is a Requisition."%>
              
-<c:set var="notOtherDelBldg" value="${KualiForm.notOtherDelBldg}" />
+<c:set var="notOtherDeliveryBuilding" value="${KualiForm.notOtherDeliveryBuilding}" />
 
 
 <kul:tab tabTitle="Delivery" defaultOpen="true" tabErrorKey="${PurapConstants.DELIVERY_TAB_ERRORS}">
@@ -46,7 +46,7 @@
                     	onchange="submitForm()"
                     	readOnly="true"/>&nbsp;
                      <!-- TODO: figure out how to add fullEntryMode to this (initial try wasn't working) -->
-                    <c:if test="${notOtherDelBldg}">
+                    <c:if test="${notOtherDeliveryBuilding}">
                     	<kul:lookup boClassName="org.kuali.kfs.bo.Building" 
                     		fieldConversions="buildingName:document.deliveryBuildingName,campusCode:document.deliveryCampusCode,buildingStreetAddress:document.deliveryBuildingLine1Address,buildingAddressCityName:document.deliveryCityName,buildingAddressStateCode:document.deliveryStateCode,buildingAddressZipCode:document.deliveryPostalCode"/>
                     </c:if>
@@ -72,7 +72,7 @@
                     	attributeEntry="${documentAttributes.deliveryCampusCode}" 
                     	property="document.deliveryCampusCode" 
                     	onchange="submitForm()" 
-                    	readOnly="${notOtherDelBldg}"/>                
+                    	readOnly="${notOtherDeliveryBuilding}"/>                
                 </td>           	
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryToEmailAddress}"/></div>

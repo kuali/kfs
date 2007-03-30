@@ -27,7 +27,7 @@ import org.kuali.module.purap.bo.PurchasingApItem;
 public class AccountsPayableFormBase extends KualiTransactionalDocumentFormBase {
     
     private PurchasingApItem newPurchasingItemLine;
-    private Boolean notOtherDelBldg = true;
+    private Boolean notOtherDeliveryBuilding = true;
     
     /**
      * Constructs a RequisitionForm instance and sets up the appropriately casted document. 
@@ -64,11 +64,11 @@ public class AccountsPayableFormBase extends KualiTransactionalDocumentFormBase 
     public PurchasingApItem setupNewPurchasingItemLine() {
         return null;
     }
-    public Boolean getNotOtherDelBldg() {
-        return notOtherDelBldg;
+    public Boolean getNotOtherDeliveryBuilding() {
+        return notOtherDeliveryBuilding;
     }
-    public void setNotOtherDelBldg(Boolean notOtherDelBldg) {
-        this.notOtherDelBldg = notOtherDelBldg;
+    public void setNotOtherDeliveryBuilding(Boolean notOtherDeliveryBuilding) {
+        this.notOtherDeliveryBuilding = notOtherDeliveryBuilding;
     }
        
 }

@@ -89,7 +89,7 @@ public class KualiTestAssertionUtils {
         else {
             message = message + " ";
         }
-        assertNotNull(message + "actual bean not null", actualBean);
+        assertNotNull(message + "actual bean is null", actualBean);
         PropertyDescriptor[] descriptors = PropertyUtils.getPropertyDescriptors(expectedBean);
         for (int i = 0; i < descriptors.length; i++) {
             PropertyDescriptor descriptor = descriptors[i];

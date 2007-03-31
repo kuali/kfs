@@ -16,7 +16,7 @@
 package org.kuali.module.cg.rules;
 
 import java.util.Collection;
-import java.util.List;
+import java.sql.Date;
 
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -46,8 +46,20 @@ public class ProposalRule extends MaintenanceDocumentRuleBase {
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument documentCopy) {
         boolean success = true;
+        success &= checkEndAfterBegin();
         success &= checkPrimary(newProposalCopy.getProposalOrganizations(), ProposalOrganization.class, PropertyConstants.PROPOSAL_ORGANIZATIONS, Proposal.class);
         success &= checkPrimary(newProposalCopy.getProposalProjectDirectors(), ProposalProjectDirector.class, PropertyConstants.PROPOSAL_PROJECT_DIRECTORS, Proposal.class);
+        return success;
+    }
+
+    private boolean checkEndAfterBegin() {
+        boolean success = true;
+        Date begin = newProposalCopy.getProposalBeginningDate();
+        Date end = newProposalCopy.getProposalEndingDate();
+        if (begin != null && end != null && !end.after(begin)) {
+            putFieldError(PropertyConstants.PROPOSAL_ENDING_DATE, KeyConstants.ERROR_ENDING_DATE_NOT_AFTER_BEGIN);
+            success = false;
+        }
         return success;
     }
 
@@ -84,11 +96,5 @@ public class ProposalRule extends MaintenanceDocumentRuleBase {
     public void setupConvenienceObjects() {
         // oldProposalCopy = (Proposal) super.getOldBo();
         newProposalCopy = (Proposal) super.getNewBo();
-    }
-
-    // todo: change the super method to accept var args
-    @Override
-    protected void putFieldError(String propertyName, String errorConstant, String... parameters) {
-        super.putFieldError(propertyName, errorConstant, parameters);
     }
 }

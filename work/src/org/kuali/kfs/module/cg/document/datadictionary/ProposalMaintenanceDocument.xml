@@ -118,16 +118,13 @@
                         <maintainableField name="projectDirector.personUserIdentifier" required="true" webUILeaveFieldFunction="proposalDirectorIDLookup" />
                         <maintainableField name="projectDirector.personName" readOnly="true" />
                         <maintainableField name="personUniversalIdentifier" readOnly="true" />
-                        <!-- commented out for KULCG-230 -->
-                        <!--maintainableField name="projectDirector.universalUser.personName" required="false" readOnly="true" /-->
                         <maintainableField name="proposalPrimaryProjectDirectorIndicator" required="false" />
                         <maintainableField name="proposalProjectDirectorProjectTitle" required="false" />
                         <!-- hidden fields -->
                         <maintainableField name="newCollectionRecord" />
                         <maintainableField name="versionNumber" />
                         <summaryFields>
-                            <!-- commented out for KULCG-230 -->
-                            <!--summaryField name="projectDirector.universalUser.personName" /-->
+                            <summaryField name="projectDirector.personName" />
                             <summaryField name="proposalPrimaryProjectDirectorIndicator" />
                             <summaryField name="proposalProjectDirectorProjectTitle" />
                         </summaryFields>

@@ -19,6 +19,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.bo.user.PersonPayrollId;
+import org.kuali.core.bo.user.UniversalUser;
+
 /**
  * This class is an interface for all new labor data access objects
  */
@@ -31,4 +34,7 @@ public interface LaborDao {
     Collection getBaseFunds(Map fieldValues);
     
     Collection getCurrentFunds(Map fieldValues);
+    
+    UniversalUser getUniversalUserByEmplid(String emplid);     
+
 }

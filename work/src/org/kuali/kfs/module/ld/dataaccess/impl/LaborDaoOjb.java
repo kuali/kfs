@@ -21,6 +21,8 @@ import java.util.Map;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.core.bo.user.PersonPayrollId;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
 import org.kuali.module.gl.util.OJBUtility;
@@ -84,4 +86,14 @@ public class LaborDaoOjb extends PersistenceBrokerDaoSupport implements LaborDao
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }    
 
+    /**
+     * 
+     * @see org.kuali.module.labor.dao.LaborDao#getUniversalUserByEmplid(String)
+     */
+    public UniversalUser getUniversalUserByEmplid(String emplid) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("personPayrollIdentifier", emplid);
+        UniversalUser universalUser = (UniversalUser) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(UniversalUser.class, criteria));
+        return universalUser;
+    }
 }

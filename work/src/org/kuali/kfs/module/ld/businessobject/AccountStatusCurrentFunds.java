@@ -16,23 +16,27 @@
 
 package org.kuali.module.labor.bo;
 
-import java.sql.Timestamp;
+import java.util.Collection;
 
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectType;
 import org.kuali.module.gl.bo.Balance;
+import org.kuali.module.labor.service.LaborBalanceInquiryService;
+import org.springframework.beans.factory.BeanFactory;
 
-/**
- * 
- */
 public class AccountStatusCurrentFunds extends Balance {
-    
+
     private String financialObjectCode;
     private String financialSubObjectCode;
     private String financialBalanceTypeCode;
     private String financialObjectTypeCode;
+
+    private String emplid;
+    private String personName;
     private String positionNumber;
     private KualiDecimal financialBeginningBalanceLineAmount;
     private KualiDecimal calculatedSalaryFoundationAmount;
@@ -40,9 +44,10 @@ public class AccountStatusCurrentFunds extends Balance {
     private Chart chartOfAccounts;
     private ObjectType financialObjectType;
     private Balance financialBalance;
+    private UniversalUserService universalUserService;
+    private LaborBalanceInquiryService laborBalanceInquiryService;
 
     /**
-     * 
      * Constructs an AccountStatusCurrentFunds.java.
      */
     public AccountStatusCurrentFunds() {
@@ -53,7 +58,8 @@ public class AccountStatusCurrentFunds extends Balance {
     }
 
     /**
-     * Gets the financialBalance attribute. 
+     * Gets the financialBalance attribute.
+     * 
      * @return Returns the financialBalance.
      */
     public Balance getFinancialBalance() {
@@ -62,6 +68,7 @@ public class AccountStatusCurrentFunds extends Balance {
 
     /**
      * Sets the financialBalance attribute value.
+     * 
      * @param financialBalance The financialBalance to set.
      */
     public void setFinancialBalance(Balance financialBalance) {
@@ -69,7 +76,8 @@ public class AccountStatusCurrentFunds extends Balance {
     }
 
     /**
-     * Gets the financialBalanceTypeCode attribute. 
+     * Gets the financialBalanceTypeCode attribute.
+     * 
      * @return Returns the financialBalanceTypeCode.
      */
     public String getFinancialBalanceTypeCode() {
@@ -78,6 +86,7 @@ public class AccountStatusCurrentFunds extends Balance {
 
     /**
      * Sets the financialBalanceTypeCode attribute value.
+     * 
      * @param financialBalanceTypeCode The financialBalanceTypeCode to set.
      */
     public void setFinancialBalanceTypeCode(String financialBalanceTypeCode) {
@@ -85,7 +94,8 @@ public class AccountStatusCurrentFunds extends Balance {
     }
 
     /**
-     * Gets the financialBeginningBalanceLineAmount attribute. 
+     * Gets the financialBeginningBalanceLineAmount attribute.
+     * 
      * @return Returns the financialBeginningBalanceLineAmount.
      */
     public KualiDecimal getFinancialBeginningBalanceLineAmount() {
@@ -94,6 +104,7 @@ public class AccountStatusCurrentFunds extends Balance {
 
     /**
      * Sets the financialBeginningBalanceLineAmount attribute value.
+     * 
      * @param financialBeginningBalanceLineAmount The financialBeginningBalanceLineAmount to set.
      */
     public void setFinancialBeginningBalanceLineAmount(KualiDecimal financialBeginningBalanceLineAmount) {
@@ -101,7 +112,8 @@ public class AccountStatusCurrentFunds extends Balance {
     }
 
     /**
-     * Gets the financialObjectCode attribute. 
+     * Gets the financialObjectCode attribute.
+     * 
      * @return Returns the financialObjectCode.
      */
     public String getFinancialObjectCode() {
@@ -110,6 +122,7 @@ public class AccountStatusCurrentFunds extends Balance {
 
     /**
      * Sets the financialObjectCode attribute value.
+     * 
      * @param financialObjectCode The financialObjectCode to set.
      */
     public void setFinancialObjectCode(String financialObjectCode) {
@@ -117,7 +130,8 @@ public class AccountStatusCurrentFunds extends Balance {
     }
 
     /**
-     * Gets the financialObjectTypeCode attribute. 
+     * Gets the financialObjectTypeCode attribute.
+     * 
      * @return Returns the financialObjectTypeCode.
      */
     public String getFinancialObjectTypeCode() {
@@ -126,6 +140,7 @@ public class AccountStatusCurrentFunds extends Balance {
 
     /**
      * Sets the financialObjectTypeCode attribute value.
+     * 
      * @param financialObjectTypeCode The financialObjectTypeCode to set.
      */
     public void setFinancialObjectTypeCode(String financialObjectTypeCode) {
@@ -133,7 +148,8 @@ public class AccountStatusCurrentFunds extends Balance {
     }
 
     /**
-     * Gets the financialSubObjectCode attribute. 
+     * Gets the financialSubObjectCode attribute.
+     * 
      * @return Returns the financialSubObjectCode.
      */
     public String getFinancialSubObjectCode() {
@@ -142,6 +158,7 @@ public class AccountStatusCurrentFunds extends Balance {
 
     /**
      * Sets the financialSubObjectCode attribute value.
+     * 
      * @param financialSubObjectCode The financialSubObjectCode to set.
      */
     public void setFinancialSubObjectCode(String financialSubObjectCode) {
@@ -149,7 +166,8 @@ public class AccountStatusCurrentFunds extends Balance {
     }
 
     /**
-     * Gets the positionNumber attribute. 
+     * Gets the positionNumber attribute.
+     * 
      * @return Returns the positionNumber.
      */
     public String getPositionNumber() {
@@ -158,6 +176,7 @@ public class AccountStatusCurrentFunds extends Balance {
 
     /**
      * Sets the positionNumber attribute value.
+     * 
      * @param positionNumber The positionNumber to set.
      */
     public void setPositionNumber(String positionNumber) {
@@ -185,7 +204,8 @@ public class AccountStatusCurrentFunds extends Balance {
     }
 
     /**
-     * Gets the chartOfAccounts attribute. 
+     * Gets the chartOfAccounts attribute.
+     * 
      * @return Returns the chartOfAccounts.
      */
     public Chart getChartOfAccounts() {
@@ -194,6 +214,7 @@ public class AccountStatusCurrentFunds extends Balance {
 
     /**
      * Sets the chartOfAccounts attribute value.
+     * 
      * @param chartOfAccounts The chartOfAccounts to set.
      */
     public void setChartOfAccounts(Chart chartOfAccounts) {
@@ -201,7 +222,8 @@ public class AccountStatusCurrentFunds extends Balance {
     }
 
     /**
-     * Gets the financialObjectType attribute. 
+     * Gets the financialObjectType attribute.
+     * 
      * @return Returns the financialObjectType.
      */
     public ObjectType getFinancialObjectType() {
@@ -210,6 +232,7 @@ public class AccountStatusCurrentFunds extends Balance {
 
     /**
      * Sets the financialObjectType attribute value.
+     * 
      * @param financialObjectType The financialObjectType to set.
      */
     public void setFinancialObjectType(ObjectType financialObjectType) {
@@ -223,7 +246,7 @@ public class AccountStatusCurrentFunds extends Balance {
 
     @Override
     public void setObjectCode(String objectCode) {
-        this.setFinancialObjectCode(objectCode);        
+        this.setFinancialObjectCode(objectCode);
     }
 
     @Override
@@ -264,5 +287,30 @@ public class AccountStatusCurrentFunds extends Balance {
     public void setCalculatedSalaryFoundationAmount(KualiDecimal calculatedSalaryFoundationAmount) {
         this.calculatedSalaryFoundationAmount = calculatedSalaryFoundationAmount;
     }
+
+    public String getEmplid() {
+        return emplid;
+    }
+
+    public void setEmplid(String emplid) {
+        this.emplid = emplid;
+    }
     
+    /**
+     * Sets the personName attribute value by looking up the employee ID from the universal User table.
+     * 
+     */
+
+    public String getPersonName() {
+        UniversalUser universalUser;
+
+        BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
+        laborBalanceInquiryService = (LaborBalanceInquiryService) beanFactory.getBean("laborBalanceInquiryService");
+        universalUser = laborBalanceInquiryService.getUniversalUserByEmplid(getEmplid());
+        return universalUser.getPersonName();
+    }
+
+    public void setPersonName(String personName) {
+        this.personName = personName;
+    }
 }

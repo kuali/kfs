@@ -66,12 +66,12 @@
             <resultFields>
                 <field attributeName="subAccountNumber" />
                 <field attributeName="financialObjectTypeCode" />
+				<field attributeName="personName" />
                 <field attributeName="universityFiscalYear" />                                
                 <field attributeName="calculatedSalaryFoundationAmount" />
                 <field attributeName="financialBeginningBalanceLineAmount" />                            
                 <field attributeName="contractsGrantsBeginningBalanceAmount" />                
 				<field attributeName="accountLineAnnualBalanceAmount" />
-
             </resultFields>
         </lookup>
 
@@ -157,6 +157,37 @@
 
                 <summary>calculatedSalaryFoundationAmount</summary>
                 <description>calculatedSalaryFoundationAmount description...</description>
+			</attribute>
+            <attribute name="emplid" forceUppercase="true">
+                <label>Emplid</label>
+                <shortLabel>Emplid</shortLabel>
+
+                <maxLength>11</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="13" />
+                </control>
+
+                <summary>emplid</summary>
+                <description>emplid description...</description>
+			</attribute>
+			<attribute name="personName" forceUppercase="true">
+				<label>Display Name</label>
+				<shortLabel>Name</shortLabel>
+
+				<maxLength>80</maxLength>
+
+				<control>
+					<hidden/>
+					<!-- enable if you want to be able to set the display name separate from the individual name fields
+					<text size="40" />
+					-->
+				</control>
+
+				<summary>Display Name</summary>
+				<description>Name</description>
+
 			</attribute>
 
 

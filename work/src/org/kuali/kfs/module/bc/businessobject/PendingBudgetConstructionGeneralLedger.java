@@ -36,6 +36,7 @@ import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.labor.bo.LaborObject;
+import org.kuali.rice.KNSServiceLocator;
 import org.kuali.PropertyConstants;
 
 /**
@@ -507,13 +508,21 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
      * @return Returns the laborObject.
      */
     public LaborObject getLaborObject() {
+        if (laborObject == null){
+            Map pkeys = new HashMap();
+            pkeys.put("universityFiscalYear", getUniversityFiscalYear());
+            pkeys.put("chartOfAccountsCode", getChartOfAccountsCode());
+            pkeys.put("financialObjectCode", getFinancialObjectCode());
+            
+            setLaborObject((LaborObject) KNSServiceLocator.getBusinessObjectService().findByPrimaryKey(LaborObject.class,pkeys));
+            
+        }
         return laborObject;
     }
 
     /**
      * Sets the laborObject attribute value.
      * @param laborObject The laborObject to set.
-     * @deprecated
      */
     public void setLaborObject(LaborObject laborObject) {
         this.laborObject = laborObject;

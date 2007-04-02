@@ -88,7 +88,7 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
         originEntry.setTransactionPostingDate(group.getDate());
         originEntry.setEntryGroupId(group.getId());
 
-        businessObjectService.save(pendingEntry);
+        businessObjectService.save(originEntry);
     }
 
     /**

@@ -40,7 +40,7 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerPendingEntryServiceImpl.class);
 
     private LaborLedgerPendingEntryDao laborLedgerPendingEntryDao;
-    private KualiRuleService kualiRuleService;    
+    private KualiRuleService kualiRuleService;
     private BusinessObjectService businessObjectService;
 
     public boolean hasPendingLaborLedgerEntry(Account account) {
@@ -65,44 +65,11 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
         return false;
     }
 
-    public boolean clearCancelledPendingLaborLedgerEntries() {
-
-        // Insert an entry into fp_cancelled_docs_mt by copying columns from fp_doc_header_t 
-        
-   /*     SELECT  USERENV('SESSIONID'), fs_origin_cd, fdoc_nbr
-        FROM fp_doc_header_t 
-        WHERE fdoc_status_cd = 'C';
-*/
-
-        // Delete from gl_pending_entry_t
-        
-/*        DELETE  gl_pending_entry_t
-        WHERE ROWID IN
-        (SELECT p.ROWID
-        FROM gl_pending_entry_t p, fp_cancelled_docs_mt c
-        WHERE (p.fs_origin_cd = c.fs_origin_cd 
-        AND p.fdoc_nbr = c.fdoc_nbr) 
-        AND c.SESID = USERENV('SESSIONID'));
-*/    
-       // Delete from ld_pnd_ldgr_entr_t
-    
-/*      DELETE  ld_pnd_ldgr_entr_t
-        WHERE ROWID IN
-        (SELECT p.ROWID
-        FROM ld_pnd_ldgr_entr_t p, fp_cancelled_docs_mt c
-        WHERE (p.fs_origin_cd = c.fs_origin_cd 
-        AND p.fdoc_nbr = c.fdoc_nbr) 
-        AND c.SESID = USERENV('SESSIONID'));
-*/
-    //DELETE  from fp_cancelled_docs_mt
-
-     //   WHERE SESID = USERENV('SESSIONID');
-
-
-        
-        
-        
-        return true;
+    /**
+     * @see org.kuali.module.labor.service.LaborLedgerPendingEntryService#deleteEntriesForCancelledOrDisapprovedDocuments()
+     */
+    public void deleteEntriesForCancelledOrDisapprovedDocuments() {
+        laborLedgerPendingEntryDao.deleteEntriesForCancelledOrDisapprovedDocuments();
     }
 
     /**
@@ -121,10 +88,10 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
         delete(document.getDocumentNumber());
 
         LOG.info("generating ll pending ledger entries for document " + document.getDocumentNumber());
-        GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();        
+        GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
         AccountingDocument transactionalDocument = (AccountingDocument) document;
-        
-        //process accounting lines, generate labor ledger pending entries
+
+        // process accounting lines, generate labor ledger pending entries
         List sourceAccountingLines = transactionalDocument.getSourceAccountingLines();
         if (sourceAccountingLines != null) {
             for (Iterator iter = sourceAccountingLines.iterator(); iter.hasNext();) {
@@ -139,9 +106,9 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
             }
         }
 
-        //compare source and target accounting lines, and generate benefit clearing liens as needed
+        // compare source and target accounting lines, and generate benefit clearing liens as needed
         success &= processGenerateLaborLedgerBenefitClearingEntries(transactionalDocument, sequenceHelper);
-        
+
         return success;
     }
 
@@ -180,19 +147,19 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
 
         this.laborLedgerPendingEntryDao.delete(documentHeaderId);
     }
-    
+
     /**
      * @see org.kuali.module.labor.service.LaborLedgerPendingEntryService#findApprovedPendingLedgerEntries()
      */
     public Iterator<PendingLedgerEntry> findApprovedPendingLedgerEntries() {
         return laborLedgerPendingEntryDao.findApprovedPendingLedgerEntries();
     }
-    
+
     /**
      * @see org.kuali.module.labor.service.LaborLedgerPendingEntryService#deleteByFinancialDocumentApprovedCode(java.lang.String)
      */
     public void deleteByFinancialDocumentApprovedCode(String financialDocumentApprovedCode) {
-        laborLedgerPendingEntryDao.deleteByFinancialDocumentApprovedCode(financialDocumentApprovedCode);        
+        laborLedgerPendingEntryDao.deleteByFinancialDocumentApprovedCode(financialDocumentApprovedCode);
     }
 
     public void setLaborLedgerPendingEntryDao(LaborLedgerPendingEntryDao laborLedgerPendingEntryDao) {

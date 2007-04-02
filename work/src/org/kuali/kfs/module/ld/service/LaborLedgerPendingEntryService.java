@@ -46,10 +46,8 @@ public interface LaborLedgerPendingEntryService {
 
     /**
      * This method clears cancelled/disapproved entries to clear pending labor entries
-     * 
-     * @return
      */
-    public boolean clearCancelledPendingLaborLedgerEntries();
+    public void deleteEntriesForCancelledOrDisapprovedDocuments();
 
     /**
      * This method generates labor ledger pending entries.

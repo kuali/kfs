@@ -15,10 +15,6 @@
  */
 package org.kuali.module.labor.dao.ojb;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
@@ -27,9 +23,9 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
-import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.util.OJBUtility;
-import org.kuali.module.labor.bo.AccountStatus;
+import org.kuali.module.labor.bo.AccountStatusBaseFunds;
+import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
 import org.kuali.module.labor.bo.BalanceByGeneralLedgerKey;
 import org.kuali.module.labor.dao.LaborDao;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
@@ -70,9 +66,22 @@ public class LaborDaoOjb extends PersistenceBrokerDaoSupport implements LaborDao
      */
     public Collection getBaseFunds(Map fieldValues) {
         Criteria criteria = new Criteria();
-        criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new AccountStatus()));
+        criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new AccountStatusBaseFunds()));
         LookupUtils.applySearchResultsLimit(criteria);
-        QueryByCriteria query = QueryFactory.newQuery(AccountStatus.class, criteria);
+        QueryByCriteria query = QueryFactory.newQuery(AccountStatusBaseFunds.class, criteria);
+        return getPersistenceBrokerTemplate().getCollectionByQuery(query);
+    }
+    
+    /**
+     * 
+     * @see org.kuali.module.labor.dao.LaborDao#getCurrentFunds(java.util.Map)
+     */
+    public Collection getCurrentFunds(Map fieldValues) {
+        Criteria criteria = new Criteria();
+        criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new AccountStatusCurrentFunds()));
+        LookupUtils.applySearchResultsLimit(criteria);
+        QueryByCriteria query = QueryFactory.newQuery(AccountStatusCurrentFunds.class, criteria);
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }    
+
 }

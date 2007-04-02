@@ -390,21 +390,18 @@
 		<property name="businessObjectMetaDataService">
 			<ref bean="businessObjectMetaDataService" />
 		</property>
-		<!--property name="dictionaryValidationService">
-			<ref bean="dictionaryValidationService" />
-			</property-->
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
 		</property>
 	</bean>    	
 
-<bean id="CurrentYearFundsLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+<bean id="CurrentFundsLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
-			<ref bean="CurrentYearFundsLookupableHelperService" />
+			<ref bean="CurrentFundsLookupableHelperService" />
 		</property>
 	</bean>
 	
-	<bean id="CurrentYearFundsLookupableHelperService" class="org.kuali.module.labor.web.lookupable.CurrentYearFundsLookupableHelperServiceImpl" singleton="false">
+	<bean id="CurrentFundsLookupableHelperService" class="org.kuali.module.labor.web.lookupable.CurrentFundsLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
@@ -445,7 +442,7 @@
 			<ref bean="dataDictionaryService" />
 		</property>
 	</bean>    	
-	
+		
 	<bean id="laborDao" class="org.kuali.module.labor.dao.ojb.LaborDaoOjb">
 		<property name="jcdAlias">
 			<value>dataSource</value>

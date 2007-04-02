@@ -42,7 +42,7 @@
         </inquiry>
 
         <lookup>
-           <lookupableID>CurrentYearFundsLookupable</lookupableID>
+           <lookupableID>CurrentYearsFundsLookupable</lookupableID>
             <title>Balance By General Ledger Key Lookup</title>
 
             <instructions>Look up a Balance By General Ledger Key</instructions>

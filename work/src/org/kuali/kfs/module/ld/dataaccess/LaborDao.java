@@ -29,4 +29,6 @@ public interface LaborDao {
     Collection getCurrentYearFunds(Map fieldValues);
     
     Collection getBaseFunds(Map fieldValues);
+    
+    Collection getCurrentFunds(Map fieldValues);
 }

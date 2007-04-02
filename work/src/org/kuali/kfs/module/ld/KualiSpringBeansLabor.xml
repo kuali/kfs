@@ -325,13 +325,7 @@
         </property>
     </bean>
 
-    <bean id="laborPosterTransactionValidator" class="org.kuali.module.labor.batch.poster.impl.LaborPosterTransactionValidator"/>
-    
-	<bean id="laborPosterStep" class="org.kuali.module.labor.batch.LaborPosterStep">
-		<property name="laborPosterService">
-			<ref bean="laborPosterService" />
-		</property>
-	</bean> 
+    <bean id="laborPosterTransactionValidator" class="org.kuali.module.labor.batch.poster.impl.LaborPosterTransactionValidator"/> 
 		
 	<bean id="laborYearEndBalanceForwardService" class="org.kuali.module.labor.service.impl.LaborYearEndBalanceForwardServiceImpl">
         <property name="laborLedgerBalanceService">
@@ -362,10 +356,22 @@
             <ref bean="laborReportService" />
         </property>
     </bean>  
+           
+	<bean id="laborPosterStep" class="org.kuali.module.labor.batch.LaborPosterStep">
+		<property name="laborPosterService">
+			<ref bean="laborPosterService" />
+		</property>
+	</bean>
     
     <bean id="laborYearEndBalanceForwardStep" class="org.kuali.module.labor.batch.LaborYearEndBalanceForwardStep" singleton="false">
 		<property name="laborYearEndBalanceForwardService">
 			<ref bean="laborYearEndBalanceForwardService" />
+		</property>
+	</bean>
+	
+	<bean id="laborNightlyOutStep" class="org.kuali.module.labor.batch.LaborNightlyOutStep">
+		<property name="laborNightlyOutService">
+			<ref bean="laborNightlyOutService" />
 		</property>
 	</bean>
     
@@ -442,7 +448,7 @@
 			<ref bean="dataDictionaryService" />
 		</property>
 	</bean>    	
-		
+	
 	<bean id="laborDao" class="org.kuali.module.labor.dao.ojb.LaborDaoOjb">
 		<property name="jcdAlias">
 			<value>dataSource</value>

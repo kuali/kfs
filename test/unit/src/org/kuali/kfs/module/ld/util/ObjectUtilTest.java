@@ -234,4 +234,12 @@ public class ObjectUtilTest extends TestCase {
             assertEquals(expectedValue, ObjectUtil.valueOf(type, value[i]));
         }
     }
+    
+    public void testHasNullValueField() throws Exception{       
+        SimpleAddress sourceAddress = new SimpleAddress(null, null, null, 9999);       
+        assertTrue(ObjectUtil.hasNullValueField(sourceAddress));
+        
+        sourceAddress = new SimpleAddress("1000 Main Street", "Source City", "Kuali", 10000, new KualiDecimal(200000), new Date(1000000));      
+        assertTrue(!ObjectUtil.hasNullValueField(sourceAddress));
+    }    
 }

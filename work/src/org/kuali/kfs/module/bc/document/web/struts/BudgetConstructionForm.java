@@ -38,6 +38,7 @@ import org.kuali.module.budget.document.BudgetConstructionDocument;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
+import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.rice.KNSServiceLocator;
 
 
@@ -157,7 +158,8 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
      */
     private void populatePBGLLine(PendingBudgetConstructionGeneralLedger line){
 
-        final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject", "financialSubObject", "laborObject", "budgetConstructionMonthly"}));
+//        final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject", "financialSubObject", "laborObject", "budgetConstructionMonthly"}));
+      final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject", "financialSubObject", "budgetConstructionMonthly"}));
 //        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(line, REFRESH_FIELDS);
         KNSServiceLocator.getPersistenceService().retrieveReferenceObjects(line, REFRESH_FIELDS);
 

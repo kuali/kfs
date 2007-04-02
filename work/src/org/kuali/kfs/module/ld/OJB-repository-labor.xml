@@ -1550,7 +1550,13 @@
     <reference-descriptor name="project" class-ref="org.kuali.module.chart.bo.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="projectCode" />
     </reference-descriptor>
+    <!--
     <reference-descriptor name="financialDocument" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="documentNumber" />
+    </reference-descriptor>
+    -->
+    
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
     <reference-descriptor name="referenceFinancialDocumentType" class-ref="org.kuali.core.bo.DocumentType" auto-retrieve="true" auto-update="none" auto-delete="none">

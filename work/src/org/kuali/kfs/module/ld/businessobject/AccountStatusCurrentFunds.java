@@ -16,9 +16,11 @@
 
 package org.kuali.module.labor.bo;
 
-import java.util.Collection;
-
+import org.kuali.KeyConstants;
+import org.kuali.core.bo.user.PersonPayrollId;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.bo.user.UserId;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -302,6 +304,19 @@ public class AccountStatusCurrentFunds extends Balance {
      */
 
     public String getPersonName() {
+        UserId empl = new PersonPayrollId(getEmplid());
+        UniversalUser universalUser = null;
+        
+        try{
+            universalUser = SpringServiceLocator.getUniversalUserService().getUniversalUser(empl);
+        }catch(UserNotFoundException e){
+            return KeyConstants.ERROR_MISSING_PERSON_NAME;
+        }
+
+        return universalUser.getPersonName();
+    }        
+        
+    public String getPersonName2() {
         UniversalUser universalUser;
 
         BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();

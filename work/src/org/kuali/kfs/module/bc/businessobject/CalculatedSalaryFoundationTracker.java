@@ -21,9 +21,15 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
+import org.kuali.KeyConstants;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.bo.user.PersonPayrollId;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.bo.user.UserId;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.Options;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -43,6 +49,7 @@ public class CalculatedSalaryFoundationTracker extends PersistableBusinessObject
     private String financialSubObjectCode;
     private String positionNumber;
     private String emplid;
+    private String personName;
     private Timestamp csfCreateTimestamp;
     private String csfDeleteCode;
     private KualiDecimal csfAmount;
@@ -596,6 +603,24 @@ public class CalculatedSalaryFoundationTracker extends PersistableBusinessObject
             m.put("csfCreateTimestamp", this.csfCreateTimestamp.toString());
         }
         return m;
+    }
+
+
+    public String getPersonName() {
+        UserId empl = new PersonPayrollId(getEmplid());
+        UniversalUser universalUser = null;
+        
+        try{
+            universalUser = SpringServiceLocator.getUniversalUserService().getUniversalUser(empl);
+        }catch(UserNotFoundException e){
+            return KeyConstants.ERROR_MISSING_PERSON_NAME;
+        }
+
+        return universalUser.getPersonName();
+    }        
+    
+    public void setPersonName(String personName) {
+        this.personName = personName;
     }
 
 }

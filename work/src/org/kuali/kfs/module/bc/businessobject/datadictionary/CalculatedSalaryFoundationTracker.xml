@@ -85,6 +85,7 @@
                 <field attributeName="earnCode" />
                 <field attributeName="effectiveDate" />
                 <field attributeName="effectiveSequence" />
+                <field attributeName="personName" />
                 <field attributeName="emplid" />
                 <field attributeName="employeeRecord" />
                 <field attributeName="financialObjectCode" />
@@ -383,6 +384,23 @@
 			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+			<attribute name="personName" forceUppercase="true">
+				<label>Display Name</label>
+				<shortLabel>Name</shortLabel>
+
+				<maxLength>80</maxLength>
+
+				<control>
+					<hidden/>
+					<!-- enable if you want to be able to set the display name separate from the individual name fields
+					<text size="40" />
+					-->
+				</control>
+
+				<summary>Display Name</summary>
+				<description>Name</description>
+
+			</attribute>
 
         </attributes>
     </businessObject>

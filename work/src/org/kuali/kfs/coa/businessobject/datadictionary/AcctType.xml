@@ -73,7 +73,7 @@
                 <label>Account Type Name</label>
                 <shortLabel>Name</shortLabel>
 
-                <maxLength>50</maxLength>
+                <maxLength>40</maxLength>
                 <validationPattern>
                     <anyCharacter allowWhitespace="true" />
                 </validationPattern>

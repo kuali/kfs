@@ -320,11 +320,14 @@
     <reference-descriptor name="objectType" class-ref="org.kuali.module.chart.bo.ObjectType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="financialObjectTypeCode" />
     </reference-descriptor>
+    
+<!-- most objects do not exist in labor object so we handle this manually returning null when needed
     <reference-descriptor name="laborObject" class-ref="org.kuali.module.labor.bo.LaborObject" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="financialObjectCode" />
     </reference-descriptor>
+-->
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.budget.bo.BudgetConstructionPositionFunding" table="LD_BCN_POS_FND_T">

@@ -3063,6 +3063,45 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     *      appointment funding
     ****************************************************************************************
     */
+             
+    // the set of new BCSF objects to be written
+    private HashMap<String,BudgetConstructionCalculatedSalaryFoundationTracker> bCSF;
+    // hashmap to hold the document numbers for each accounting key in the header
+    private HashMap<String,String> bcHdrDocNumbers;
+    // hashset to hold the accounting string for each pending GL entry
+    private HashSet<String> currentPBGLKeys;
+    // hashMap for finding the object type of "detailed position" object codes
+    private HashMap<String,String> detailedPositionObjectTypes;
+    // keys for deleted or vacant rows present in the override CSF: none of these keys
+    // will load to BCSF from either the override or actual CSF (even if they
+    // are active in the actual CSF) 
+    private HashSet<String> csfOverrideKeys;
+    // EMPLID's in CSF which have more than one active row
+    // we budget in whole dollars, while payroll deals in pennies
+    // we will use this for our complicated rounding algorithm, to prevent
+    // to keep the total budget base salary within a dollar of the payroll salary
+    private HashMap<String,roundMechanism> keysNeedingRounding;
+    // we need the position normal work months to write a new appointment funding row
+    private HashMap<String,Integer> positionNormalWorkMonths;
+    //
+    // counters
+    //
+    Integer CSFRowsRead              = new Integer(0);
+    Integer CSFRowsVacant            = new Integer(0);
+    Integer CSFVacantsConsolidated   = new Integer(0);
+    Integer CSFOverrideDeletesRead   = new Integer(0);
+    Integer CSFOverrideRead          = new Integer(0);
+    Integer CSFOverrideVacant        = new Integer(0);
+    Integer CSFForBCSF               = new Integer(0);
+    Integer CSFCurrentGLRows         = new Integer(0);
+    Integer CSFCurrentBCAFRows       = new Integer(0);
+    Integer CSFBCSFRowsMatchingGL    = new Integer(0);
+    Integer CSFBCSFRowsMatchingBCAF  = new Integer(0);
+    Integer CSFNewGLRows             = new Integer(0);
+    Integer CSFNewBCAFRows           = new Integer(0);
+    Integer CSFBCAFRowsMarkedDeleted = new Integer(0);
+    Integer CSFBCAFRowsMissing       = new Integer(0);
+             
     public void buildAppointmentFundingAndBCSF(Integer BaseYear)
     {
        /*********************************************************************
@@ -3084,6 +3123,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
        setUpKeysNeedingRounding(BaseYear);
        readCSFOverride(BaseYear);
        readCSF(BaseYear);
+       CSFForBCSF = bCSF.size(); 
        adjustCSFRounding();
        // at this point we should clear the cache
        // any objects fetched from the database (CSF and CSF Override) will not
@@ -3091,7 +3131,8 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
        getPersistenceBrokerTemplate().clearCache();
        //  store bCSF rows matching current appointment funding
        readExistingAppointmentFunding(BaseYear);
-       //  if all of the bCSF rows have been stored, we can quit here
+       //  if all of the bCSF rows have been stored (they all already eixst in
+       //  PBGL), we can quit here
        if (bCSF.size() == 0)
        {
            return;
@@ -3118,28 +3159,10 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
        // all that exists at this point is a set of BCSF rows that have never
        // been in the database
        getPersistenceBrokerTemplate().clearCache();
+       readAndWriteBCSFAndNewAppointmentFundingAndNewPBGL(BaseYear);
+       CSFDiagnostics();
     }
     
-    // the set of new BCSF objects to be written
-    private HashMap<String,BudgetConstructionCalculatedSalaryFoundationTracker> bCSF;
-    // hashmap to hold the document numbers for each accounting key in the header
-    private HashMap<String,String> bcHdrDocNumbers;
-    // hashset to hold the accounting string for each pending GL entry
-    private HashSet<String> currentPBGLKeys;
-    // hashMap for finding the object type of "detailed position" object codes
-    private HashMap<String,String> detailedPositionObjectTypes;
-    // keys for deleted or vacant rows present in the override CSF: none of these keys
-    // will load to BCSF from either the override or actual CSF (even if they
-    // are active in the actual CSF) 
-    private HashSet<String> csfOverrideKeys;
-    // EMPLID's in CSF which have more than one active row
-    // we budget in whole dollars, while payroll deals in pennies
-    // we will use this for our complicated rounding algorithm, to prevent
-    // to keep the total budget base salary within a dollar of the payroll salary
-    private HashMap<String,roundMechanism> keysNeedingRounding;
-    // we need the position normal work months to write a new appointment funding row
-    private HashMap<String,Integer> positionNormalWorkMonths;
-
     // overload the vacant BCSF line object builders
     private void
     addToExistingBCSFVacant(CalculatedSalaryFoundationTrackerOverride csf,
@@ -3176,6 +3199,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
           csfFTE = new BigDecimal(1.0);
       }
       nowBCSF.setCsfFullTimeEmploymentQuantity(csfFTE);
+      CSFVacantsConsolidated = CSFVacantsConsolidated+1;
     }
     
     private void
@@ -3213,6 +3237,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
           csfFTE = new BigDecimal(1.0);
       }
       nowBCSF.setCsfFullTimeEmploymentQuantity(csfFTE);
+      CSFVacantsConsolidated = CSFVacantsConsolidated+1;
     }
     
     // make the rounding adjustments
@@ -3394,6 +3419,16 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                 csf.getFinancialSubObjectCode();
     }
     
+    private String buildDocKeyFromBCSF(
+                   BudgetConstructionCalculatedSalaryFoundationTracker bcsf)
+    {
+        // see setUpbcHdrDocNumbers for the correct key elements
+        // the order here must match the order there
+        return bcsf.getChartOfAccountsCode()+
+               bcsf.getAccountNumber()+
+               bcsf.getSubAccountNumber();
+    }
+    
     private void buildPBGLFromBCSFAndStore(
             BudgetConstructionCalculatedSalaryFoundationTracker bcsf)
     {
@@ -3407,9 +3442,14 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         // store the key so we won't try to add another row from a different
         // person's bcsf which has the same key
         currentPBGLKeys.add(testKey);
+        String docKey = buildDocKeyFromBCSF(bcsf);
+        // we never have to build a new document header
+        // createNewBCDocumentsFromGLCSF is always called earlier in the step
+        // containing this routine
         // fill in the fields
         PendingBudgetConstructionGeneralLedger pbGL = 
             new PendingBudgetConstructionGeneralLedger();
+        pbGL.setDocumentNumber(bcHdrDocNumbers.get(docKey));
         pbGL.setUniversityFiscalYear(bcsf.getUniversityFiscalYear());
         pbGL.setChartOfAccountsCode(bcsf.getChartOfAccountsCode());
         pbGL.setAccountNumber(bcsf.getAccountNumber());
@@ -3418,11 +3458,12 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         pbGL.setFinancialSubObjectCode(bcsf.getFinancialSubObjectCode());
         pbGL.setFinancialBalanceTypeCode(Constants.BALANCE_TYPE_BASE_BUDGET);
         pbGL.setFinancialObjectTypeCode(detailedPositionObjectTypes.get(
-                bcsf.getChartOfAccountsCode()+bcsf.getAccountNumber()));
+                bcsf.getChartOfAccountsCode()+bcsf.getFinancialObjectCode()));
         pbGL.setAccountLineAnnualBalanceAmount(KualiDecimal.ZERO);
         pbGL.setFinancialBeginningBalanceLineAmount(KualiDecimal.ZERO);
         // store the new PBGL row
         getPersistenceBrokerTemplate().store(pbGL);
+        CSFNewGLRows = CSFNewGLRows+1;
     }
     
     // these two rows are overloaded so we have a standardized key
@@ -3485,6 +3526,29 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         getPersistenceBrokerTemplate().clearCache();
     }
     
+    private void CSFDiagnostics()
+    {
+        LOG.info(String.format("\n\nResults of building BC CSF"));
+        LOG.info(String.format("\nCSF override rows =      %d",CSFOverrideRead));
+        LOG.info(String.format("\nCSF rows read            %d",CSFRowsRead));
+        LOG.info(String.format("\nCSF override deletes     %d",
+                 CSFOverrideDeletesRead-CSFOverrideVacant));
+        LOG.info(String.format("\n\nCSF overrides vacant    %d",CSFOverrideVacant));
+        LOG.info(String.format("\nCSF vacant               %d",CSFRowsVacant));
+        LOG.info(String.format("\nCSF vacants consolidated %d",
+                 CSFVacantsConsolidated));
+        LOG.info(String.format("\n\nBudgetConstruction CSF rows %d",
+                 CSFForBCSF));
+        LOG.info(String.format("\n\nCurrent PBGL rows           %d",
+                 CSFCurrentGLRows));
+        LOG.info(String.format("\nCurrent appt funding rows     %d",
+                 CSFCurrentBCAFRows));
+        LOG.info(String.format("\n\nAppt funding rows not in BCSF   %d",
+                 CSFBCAFRowsMissing));
+        LOG.info(String.format("\nAppt funding rows marked deleted %d",
+                 CSFBCAFRowsMarkedDeleted));
+    }
+    
     private ArrayList<String> findPositonRequiredObjectCodes (Integer BaseYear)
     {
         // we want to build an SQL IN criteria to filter a return set
@@ -3531,6 +3595,27 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
 
     // here are the routines to build BCSF
     
+    private void readAndWriteBCSFAndNewAppointmentFundingAndNewPBGL(Integer BaseYear)
+    {
+      // read through the remaining BCSF objects (those that do not presently exist
+      // in appointment funding (BCAF)
+      // we will check whether they exist in Pending GL (PBGL), and, if not, write
+      // a new GL line.  Then, we will write a PBGL row and a BCSF row (in that order,
+      // because of referential integrity.  The PBGL and BCAF rows will have 0 amounts.
+      // people will have to fill in the budgets (or mark the funding deleted) to cover
+      // people in the payroll in budgeted positions, but not funding in the base 
+      // budget.
+      CSFNewBCAFRows = bCSF.size();  
+      for (Map.Entry<String,BudgetConstructionCalculatedSalaryFoundationTracker>
+           orphanBCSF: bCSF.entrySet())
+      {
+         BudgetConstructionCalculatedSalaryFoundationTracker bcsf = 
+             orphanBCSF.getValue();         
+         buildPBGLFromBCSFAndStore(bcsf); 
+         buildAppointemntFundingFromBCSF(bcsf);
+      }
+    }
+    
     private void readCSF(Integer BaseYear)
     {
         Criteria criteriaID = new Criteria();
@@ -3545,6 +3630,8 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         {
             CalculatedSalaryFoundationTracker csfRow = 
                 (CalculatedSalaryFoundationTracker) csfResultSet.next();
+            CSFRowsRead = CSFRowsRead+1;
+            CSFRowsRead = CSFRowsVacant+(isVacantLine(csfRow)?1:0);
             // has this been overridden?  if so, don't store it
             String testKey = buildCSFKey(csfRow);
             if (csfOverrideKeys.contains(testKey))
@@ -3581,7 +3668,8 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         {
             CalculatedSalaryFoundationTrackerOverride csfRow = 
                 (CalculatedSalaryFoundationTrackerOverride) csfResultSet.next();
-            // has this been overridden?  if so, don't store it
+            CSFOverrideRead   = CSFOverrideRead+1;
+            CSFOverrideVacant = CSFOverrideVacant+(isVacantLine(csfRow)?1:0);
             // is the line vacant
             String testKey = buildVacantCSFKey(csfRow);
             if (isVacantLine(csfRow)&&(bCSF.containsKey(testKey)))
@@ -3618,6 +3706,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
             getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
         while (bcafResults.hasNext())
         {
+            CSFCurrentBCAFRows = CSFCurrentBCAFRows+1;
             PendingBudgetConstructionAppointmentFunding bcaf =
                 (PendingBudgetConstructionAppointmentFunding) bcafResults.next();
             String testKey = buildAppointmentFundingKey(bcaf);
@@ -3767,6 +3856,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         csfOverrideKeys.add(buildCSFKey(
                        (CalculatedSalaryFoundationTrackerOverride) csfOvrd.next()));
     }
+    CSFOverrideDeletesRead = csfOverrideKeys.size();
     // the hashset of override keys must exist before BCSF can be built
     // so, we should be able to clear the cache to save on memory
         getPersistenceBrokerTemplate().clearCache();
@@ -3810,7 +3900,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
             detailedPositionObjectTypes = 
                 new HashMap<String,String>(hashCapacity(rowCount));
         }
-        // the PBGL already exists
+        // the PBGL has already been built
         // we will get business objects so we can use an overloaded method that
         // will be easy to change in order to extract the key
         // the objects are of no further use, and will disappear when we clear the cache
@@ -3825,6 +3915,8 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
             String testKey = this.buildPBGLKey(pbGLRow);
             currentPBGLKeys.add(testKey);
         }
+        CSFCurrentGLRows = currentPBGLKeys.size();
+        //
         // now we have to set up the query to read the object types
         String[] objectTypeSelectList = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
                                          PropertyConstants.FINANCIAL_OBJECT_CODE,
@@ -3961,13 +4053,13 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     KualiDecimal rqstAmount = new KualiDecimal(0);
     BigDecimal pctTime = new BigDecimal(0);
     BigDecimal FTE     = new BigDecimal(0);
-    Integer appointmentFundingMarkedDeleted = new Integer(0);
     private void 
     untouchedAppointmentFunding(PendingBudgetConstructionAppointmentFunding bcaf)
     {
 //     this checks to see whether the missing row could have come in from CSF 
 //     if they did not come in from CSF, then it follows that someone entered them
 //     and we should not touch them  
+      CSFBCAFRowsMissing = CSFBCAFRowsMissing+1;  
       if ((! bcaf.getAppointmentRequestedAmount().equals(rqstAmount)) ||
         (! bcaf.getAppointmentFundingDurationCode().equals(notOnLeave)) ||
         (bcaf.isAppointmentFundingDeleteIndicator()))
@@ -4041,7 +4133,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
       bcaf.setAppointmentRequestedTimePercent(pctTime);
       bcaf.setAppointmentFundingDeleteIndicator(true);
       getPersistenceBrokerTemplate().store(bcaf);
-      appointmentFundingMarkedDeleted = appointmentFundingMarkedDeleted+1;
+      CSFBCAFRowsMarkedDeleted = CSFBCAFRowsMarkedDeleted+1;
     }
 
 //     this is an inner class which will store the data we need to perform the rounding,
@@ -4089,6 +4181,13 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
        negAdjust.setScale(0);
        KualiDecimal posAdjust  = new KualiDecimal(1);
        posAdjust.setScale(0);
+       // @@TODO: test code
+       if (candidateBCSFRows.size() > 1)
+       {
+           LOG.info(String.format("\n\nrounding amount = f for &d rows",
+                    diffAmount.floatValue(),candidateBCSFRows.size()));
+       }
+       // @@TODO: end test code 
        // no rounding is necessary if the difference is less than a buck
        // this will also prevent our accessing an empty array list, or
        // trying to adjust things with only one CSF row
@@ -4107,10 +4206,26 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
        }
        for (BudgetConstructionCalculatedSalaryFoundationTracker rCSF: candidateBCSFRows)
        {
+           // @@TODO: test code
+           LOG.info(String.format("\n%s %s (%s,%s,%s,%s,%s)",
+                    rCSF.getEmplid(), 
+                    rCSF.getPositionNumber(),
+                    rCSF.getChartOfAccountsCode(),
+                    rCSF.getAccountNumber(),
+                    rCSF.getSubAccountNumber(),
+                    rCSF.getFinancialObjectCode(),
+                    rCSF.getFinancialSubObjectCode()));
+           LOG.info(String.format("\n       before %f",
+                   rCSF.getCsfAmount().floatValue()));
+           // @@TODO: end test code 
            KualiDecimal fixBCSFAmount = rCSF.getCsfAmount();
            fixBCSFAmount.add(adjustAmount);
            rCSF.setCsfAmount(fixBCSFAmount);
            diffAmount.subtract(adjustAmount);   
+           // @@TODO: test code
+           LOG.info(String.format("\n       after %f",
+                   rCSF.getCsfAmount().floatValue()));
+           // @@TODO: end test code 
            if ((diffAmount.isGreaterThan(negAdjust))&&
                    (diffAmount.isLessThan(posAdjust)))
                {
@@ -4124,7 +4239,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
      ****************************************************************************/
     public void genesisUnitTest(Integer BaseYear)
     {
-        /*  check the SQL for appointment funding (worked 03/29/2007
+        /* (1) check the SQL for appointment funding (worked 03/29/2007) p6spy=yes
         Criteria criteriaID = new Criteria();
         criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
                               BaseYear+1);
@@ -4140,6 +4255,28 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
             untouchedAppointmentFunding(bcaf);
         }
         */
+        /* (2) test the addIn criterion  (worked 04/02/2007) p6spy=yes
+        Integer RequestYear = BaseYear+1;
+        Criteria criteriaID = new Criteria();
+        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                              RequestYear);
+        criteriaID.addIn(PropertyConstants.FINANCIAL_OBJECT_CODE,
+                this.findPositonRequiredObjectCodes(BaseYear));
+        String[] selectCount = {"COUNT(*)"};
+        ReportQueryByCriteria queryID =
+            new ReportQueryByCriteria(PendingBudgetConstructionGeneralLedger.class,
+                                      selectCount,criteriaID);
+        Iterator rowCounter =
+            getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+        while (rowCounter.hasNext())
+        {
+            Integer rowCount = 
+                ((BigDecimal)((Object[]) rowCounter.next())[0]).intValue();
+            LOG.info(String.format("\nPBGL rows with detailed position objects: %d",
+                     rowCount));
+        }
+        */
+        /* (3) attempt to test the rounding mechanism */
     }
 
     //

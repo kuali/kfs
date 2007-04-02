@@ -239,6 +239,19 @@
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 			</tr>
+
+            <c:if test="${empty editingMode['viewOnly']}">
+            <tr>
+              <td colspan="8" class="datacell" nowrap>
+                <div align="center">
+                  <html:image property="methodToCall.performPercentChange.anchorexpenditureControlsAnchor" src="images/buttonsmall_namelater.gif" title="Apply Percent Change" alt="Apply Percent Change" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
+                  <html:image property="methodToCall.performMonthSpread.anchorexpenditureControlsAnchor" src="images/buttonsmall_namelater.gif" title="Monthly Spread" alt="Monthly Spread" styleClass="tinybutton" />&nbsp;&nbsp;&nbsp;
+                  <html:image property="methodToCall.performMonthDelete.anchorexpenditureControlsAnchor" src="images/buttonsmall_namelater.gif" title="Monthly Delete" alt="Monthly Delete" styleClass="tinybutton"/>
+                </div>
+              </td>
+	        </tr>
+	        </c:if>
+
 		</table>
 
 </div>

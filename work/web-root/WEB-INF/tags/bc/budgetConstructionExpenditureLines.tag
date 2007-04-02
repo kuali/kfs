@@ -204,25 +204,39 @@
 
 			  <td class="datacell" nowrap><div align=center>
 				  <c:choose>
-					<c:when test="${empty item.budgetConstructionMonthly[0]}" > 
+					<c:when test="${empty editingMode['viewOnly'] && empty item.budgetConstructionMonthly[0]}" > 
+                      <c:if test="${empty item.laborObject || (!empty item.laborObject && item.laborObject.financialObjectFringeOrSalaryCode != 'F')}">
 						<html:image src="images/tinybutton-createnew.gif" styleClass="tinybutton" property="methodToCall.performMonthlyExpenditureBudget.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" title="Create Month" alt="Create Month"/>
+                      </c:if>
 					</c:when> 
 					<c:otherwise> 
-						<html:image src="images/tinybutton-edit1.gif" styleClass="tinybutton" property="methodToCall.performMonthlyExpenditureBudget.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" title="Edit Month" alt="Edit Month"/>
+                      <c:choose>
+                        <c:when test="${empty editingMode['viewOnly']}">
+                          <html:image src="images/tinybutton-edit1.gif" styleClass="tinybutton" property="methodToCall.performMonthlyExpenditureBudget.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" title="Edit Month" alt="Edit Month"/>
+                        </c:when> 
+                        <c:otherwise> 
+                          <html:image src="images/tinybutton-view.gif" styleClass="tinybutton" property="methodToCall.performMonthlyExpenditureBudget.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" title="View Month" alt="View Month"/>
+                        </c:otherwise> 
+                      </c:choose>
+						
 					</c:otherwise> 
-				  </c:choose> 
+				  </c:choose>&nbsp; 
 			  </div></td>
 
              <td class="datacell" nowrap>
                  <div align="center">
-                   <c:if test="${empty item.financialBeginningBalanceLineAmount || item.financialBeginningBalanceLineAmount == 0}">
-                     <html:image property="methodToCall.deleteExpenditureLine.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" src="images/tinybutton-delete1.gif" title="Delete Expenditure Line ${status.index}" alt="Delete Expenditure Line ${status.index}" styleClass="tinybutton"/>
-                     <br>
-                   </c:if>
                    <html:image property="methodToCall.performBalanceInquiryForExpenditureLine.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" src="images/tinybutton-balinquiry.gif" title="Balance Inquiry For Expenditure Line ${status.index}" alt="Balance Inquiry For Expenditure Line ${status.index}" styleClass="tinybutton" />
+                   <c:if test="${empty item.financialBeginningBalanceLineAmount || item.financialBeginningBalanceLineAmount == 0}">
+                     <br>
+                     <html:image property="methodToCall.deleteExpenditureLine.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" src="images/tinybutton-delete1.gif" title="Delete Expenditure Line ${status.index}" alt="Delete Expenditure Line ${status.index}" styleClass="tinybutton"/>
+                   </c:if>
                    <c:if test="${!empty item.financialBeginningBalanceLineAmount && item.financialBeginningBalanceLineAmount != 0}">
                      <br>
                      <html:image property="methodToCall.performPercentAdjustmentExpenditureLine.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" src="images/tinybutton-calculate.gif" title="Percent Adjustment Expenditure Line ${status.index}" alt="Percent Adjustment Expenditure Line ${status.index}" styleClass="tinybutton"/>
+                   </c:if>
+                   <c:if test="${!empty item.laborObject && item.laborObject.detailPositionRequiredIndicator}">
+                     <br>
+                     <html:image property="methodToCall.performSalarySetting.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" src="images/tinybutton-addpers.gif" title="Perform Salary Setting For ${status.index}" alt="Perform Salary Setting For Line ${status.index}" styleClass="tinybutton"/>
                    </c:if>
                  </div>
              </td>
@@ -242,6 +256,20 @@
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 			</tr>
+
+            <c:if test="${empty editingMode['viewOnly']}">
+            <tr>
+              <td colspan="8" class="datacell" nowrap>
+                <div align="center">
+                  <html:image property="methodToCall.performPercentChange.anchorexpenditureControlsAnchor" src="images/buttonsmall_namelater.gif" title="Apply Percent Change" alt="Apply Percent Change" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
+                  <html:image property="methodToCall.performMonthSpread.anchorexpenditureControlsAnchor" src="images/buttonsmall_namelater.gif" title="Monthly Spread" alt="Monthly Spread" styleClass="tinybutton" />&nbsp;&nbsp;&nbsp;
+                  <html:image property="methodToCall.performMonthDelete.anchorexpenditureControlsAnchor" src="images/buttonsmall_namelater.gif" title="Monthly Delete" alt="Monthly Delete" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
+                  <html:image property="methodToCall.performCalculateBenfits.anchorexpenditureControlsAnchor" src="images/buttonsmall_namelater.gif" title="Calculate Benefits" alt="Calculate Benefits" styleClass="tinybutton"/>
+                </div>
+              </td>
+	        </tr>
+	        </c:if>
+			
 		</table>
 </div>
 </kul:tab>

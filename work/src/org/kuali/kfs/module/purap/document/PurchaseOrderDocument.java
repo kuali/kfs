@@ -77,6 +77,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
     private boolean purchaseOrderCurrentIndicator;
     private boolean pendingActionIndicator;
     private Date purchaseOrderFirstTransmissionDate;
+    private Integer accountsPayablePurchasingDocumentLinkIdentifier;
     
     private PurchaseOrderVendorChoice purchaseOrderVendorChoice;
     private PaymentTermType vendorPaymentTerms;
@@ -538,6 +539,22 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
         this.purchaseOrderFirstTransmissionDate = purchaseOrderFirstTransmissionDate;
     }    
     
+    /**
+     * Gets the accountsPayablePurchasingDocumentLinkIdentifier attribute. 
+     * @return Returns the accountsPayablePurchasingDocumentLinkIdentifier.
+     */
+    public Integer getAccountsPayablePurchasingDocumentLinkIdentifier() {
+        return accountsPayablePurchasingDocumentLinkIdentifier;
+    }
+
+    /**
+     * Sets the accountsPayablePurchasingDocumentLinkIdentifier attribute value.
+     * @param accountsPayablePurchasingDocumentLinkIdentifier The accountsPayablePurchasingDocumentLinkIdentifier to set.
+     */
+    public void setAccountsPayablePurchasingDocumentLinkIdentifier(Integer accountsPayablePurchasingDocumentLinkIdentifier) {
+        this.accountsPayablePurchasingDocumentLinkIdentifier = accountsPayablePurchasingDocumentLinkIdentifier;
+    }
+
     /**
      * Gets the alternateVendorNumber attribute. 
      * @return Returns the alternateVendorNumber.

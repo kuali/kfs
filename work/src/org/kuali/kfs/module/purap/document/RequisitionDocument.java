@@ -55,7 +55,8 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 	private String alternate4VendorName;
 	private String alternate5VendorName;
 	private KualiDecimal organizationAutomaticPurchaseOrderLimit;
-
+    private Integer accountsPayablePurchasingDocumentLinkIdentifier;
+    
     private PhoneNumberService phoneNumberService;
 
 	/**
@@ -551,6 +552,22 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 		this.organizationAutomaticPurchaseOrderLimit = organizationAutomaticPurchaseOrderLimit;
 	}
 	
+    /**
+     * Gets the accountsPayablePurchasingDocumentLinkIdentifier attribute. 
+     * @return Returns the accountsPayablePurchasingDocumentLinkIdentifier.
+     */
+    public Integer getAccountsPayablePurchasingDocumentLinkIdentifier() {
+        return accountsPayablePurchasingDocumentLinkIdentifier;
+    }
+
+    /**
+     * Sets the accountsPayablePurchasingDocumentLinkIdentifier attribute value.
+     * @param accountsPayablePurchasingDocumentLinkIdentifier The accountsPayablePurchasingDocumentLinkIdentifier to set.
+     */
+    public void setAccountsPayablePurchasingDocumentLinkIdentifier(Integer accountsPayablePurchasingDocumentLinkIdentifier) {
+        this.accountsPayablePurchasingDocumentLinkIdentifier = accountsPayablePurchasingDocumentLinkIdentifier;
+    }
+
     /**
      * @see org.kuali.module.purap.document.PurchasingDocumentBase#getItemClass()
      */

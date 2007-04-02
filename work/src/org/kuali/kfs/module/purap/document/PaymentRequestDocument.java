@@ -73,7 +73,9 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private Integer originalVendorDetailAssignedIdentifier;
     private Integer alternateVendorHeaderGeneratedIdentifier;
     private Integer alternateVendorDetailAssignedIdentifier;
-
+    private boolean continuationAccountIndicator;
+    private Integer accountsPayablePurchasingDocumentLinkIdentifier;
+    
     private PaymentRequestStatus paymentRequestStatus;
     private Campus processingCampus;
     private PurchaseOrderDocument purchaseOrderDocument;
@@ -945,6 +947,38 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     public void setAlternateVendorDetailAssignedIdentifier(Integer alternateVendorDetailAssignedIdentifier) {
         this.alternateVendorDetailAssignedIdentifier = alternateVendorDetailAssignedIdentifier;
+    }
+
+    /**
+     * Gets the continuationAccountIndicator attribute. 
+     * @return Returns the continuationAccountIndicator.
+     */
+    public boolean isContinuationAccountIndicator() {
+        return continuationAccountIndicator;
+    }
+
+    /**
+     * Sets the continuationAccountIndicator attribute value.
+     * @param continuationAccountIndicator The continuationAccountIndicator to set.
+     */
+    public void setContinuationAccountIndicator(boolean continuationAccountIndicator) {
+        this.continuationAccountIndicator = continuationAccountIndicator;
+    }
+
+    /**
+     * Gets the accountsPayablePurchasingDocumentLinkIdentifier attribute. 
+     * @return Returns the accountsPayablePurchasingDocumentLinkIdentifier.
+     */
+    public Integer getAccountsPayablePurchasingDocumentLinkIdentifier() {
+        return accountsPayablePurchasingDocumentLinkIdentifier;
+    }
+
+    /**
+     * Sets the accountsPayablePurchasingDocumentLinkIdentifier attribute value.
+     * @param accountsPayablePurchasingDocumentLinkIdentifier The accountsPayablePurchasingDocumentLinkIdentifier to set.
+     */
+    public void setAccountsPayablePurchasingDocumentLinkIdentifier(Integer accountsPayablePurchasingDocumentLinkIdentifier) {
+        this.accountsPayablePurchasingDocumentLinkIdentifier = accountsPayablePurchasingDocumentLinkIdentifier;
     }
 
     /**

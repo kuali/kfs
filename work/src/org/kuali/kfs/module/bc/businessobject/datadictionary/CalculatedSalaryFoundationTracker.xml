@@ -63,8 +63,10 @@
             </defaultSort>
 
 			<lookupFields>
- 				<lookupField attributeName="universityFiscalYear" required="true" />
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
+			    <lookupField attributeName="universityFiscalYear" required="true">
+                   <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.FiscalYearFinder</defaultValueFinderClass>
+                </lookupField>
+				<lookupField attributeName="chartOfAccountsCode" required="false" />
                 <lookupField attributeName="accountNumber" required="true" />
                 <lookupField attributeName="subAccountNumber" required="false" />
                 <lookupField attributeName="financialObjectCode" required="false" />

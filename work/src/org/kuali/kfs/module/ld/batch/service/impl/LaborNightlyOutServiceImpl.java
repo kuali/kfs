@@ -33,10 +33,12 @@ import org.kuali.module.labor.service.LaborNightlyOutService;
 import org.kuali.module.labor.service.LaborReportService;
 import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.util.ReportRegistry;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class...
  */
+@Transactional
 public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
     private LaborLedgerPendingEntryService laborLedgerPendingEntryService;
     private OriginEntryGroupService originEntryGroupService;

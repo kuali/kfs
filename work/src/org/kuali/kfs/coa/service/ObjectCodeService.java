@@ -47,5 +47,17 @@ public interface ObjectCodeService {
 
     public List getYearList(String chartOfAccountsCode, String financialObjectCode);
 
-
+    /**
+     * 
+     * This method, written for use with DWR, returns a joined string representation
+     * of all of the names of the distinct object codes associated with each of the 
+     * chart codes given.  In the best of all possible worlds, this will only ever 
+     * return *one* object code name, as object codes will be shared across charts.
+     *   
+     * @param universityFiscalYear the fiscal year of the financial object code to check.
+     * @param chartOfAccountCodes array of Chart of Accounts codes to 
+     * @param financialObjectCode financial object code to look up
+     * @return a String representation of the distinct names of the object codes
+     */
+    public String getObjectCodeNamesByCharts(Integer universityFiscalYear, String[] chartOfAccountCodes, String financialObjectCode);
 }

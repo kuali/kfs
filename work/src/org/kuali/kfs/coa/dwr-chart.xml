@@ -50,6 +50,7 @@
 	    <create creator="spring" javascript="ObjectCodeService">
 	    	<param name="beanName" value="objectCodeService" />
 	    	<include method="getByPrimaryId" />
+	    	<include method="getObjectCodeNamesByCharts" />
 	    </create>
 	    <create creator="spring" javascript="ObjectTypeService">
 	    	<param name="beanName" value="objectTypeService" />

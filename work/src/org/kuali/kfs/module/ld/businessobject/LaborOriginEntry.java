@@ -40,7 +40,7 @@ import org.kuali.module.gl.exception.LoadException;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class LaborOriginEntry extends OriginEntry {
+public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborOriginEntry.class);
     private static String SPACES = "                                                                                                              ";
     
@@ -99,9 +99,50 @@ public class LaborOriginEntry extends OriginEntry {
         this(null, null);
     }
     
-    public LaborOriginEntry(Transaction t) {
+    public LaborOriginEntry(LaborTransaction t) {
         this();
         setTransaction(t);
+        
+        setPositionNumber(t.getPositionNumber());
+        setTransactionPostingDate(t.getTransactionPostingDate());
+        setPayPeriodEndDate(t.getPayPeriodEndDate());
+        setTransactionTotalHours(t.getTransactionTotalHours());
+        setPayrollEndDateFiscalYear(t.getPayrollEndDateFiscalYear());
+        setPayrollEndDateFiscalPeriodCode(t.getPayrollEndDateFiscalPeriodCode());
+        setFinancialDocumentApprovedCode(t.getFinancialDocumentApprovedCode());
+        setTransactionEntryOffsetCode(t.getTransactionEntryOffsetCode());
+        setTransactionEntryProcessedTimestamp(t.getTransactionEntryProcessedTimestamp());
+        setEmplid(t.getEmplid());
+        setEmployeeRecord(t.getEmployeeRecord());
+        setEarnCode(t.getEarnCode());
+        setPayGroup(t.getPayGroup());
+        setSalaryAdministrationPlan(t.getSalaryAdministrationPlan());
+        setGrade(t.getGrade());
+        setRunIdentifier(t.getRunIdentifier());
+        setLaborLedgerOriginalChartOfAccountsCode(t.getLaborLedgerOriginalChartOfAccountsCode());
+        setLaborLedgerOriginalAccountNumber(t.getLaborLedgerOriginalAccountNumber());
+        setLaborLedgerOriginalSubAccountNumber(t.getLaborLedgerOriginalSubAccountNumber());
+        setLaborLedgerOriginalFinancialObjectCode(t.getLaborLedgerOriginalFinancialObjectCode());
+        setLaborLedgerOriginalFinancialSubObjectCode(t.getLaborLedgerOriginalFinancialSubObjectCode());
+        setHrmsCompany(getHrmsCompany());
+        setSetid(t.getSetid());
+        //public Date transactionDateTimeStamp;
+
+        setLaborLedgerOriginalFinancialObject(t.getLaborLedgerOriginalFinancialObject());
+        setLaborLedgerOriginalChartOfAccounts(t.getLaborLedgerOriginalChartOfAccounts());
+        
+        setLaborLedgerOriginalAccount(t.getLaborLedgerOriginalAccount());
+        
+        setFinancialDocument(t.getFinancialDocument());
+        setReferenceFinancialDocumentType(t.getReferenceFinancialDocumentType());
+        setReferenceFinancialSystemOrigination(t.getReferenceFinancialSystemOrigination());
+        setPayrollEndDateFiscalPeriod(t.getPayrollEndDateFiscalPeriod());
+        setLaborLedgerOriginalSubAccount(t.getLaborLedgerOriginalSubAccount());
+        setLaborLedgerOriginalFinancialSubObject(t.getLaborLedgerOriginalFinancialSubObject());
+        
+        
+        
+        
     }
 
     public LaborOriginEntry(String line) {

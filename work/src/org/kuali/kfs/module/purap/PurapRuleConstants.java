@@ -31,8 +31,6 @@ public interface PurapRuleConstants {
     public static String PURAP_SSN_ALLOWED_OWNERSHIP_TYPES = "PURAP.SSN_ALLOWED_OWNERSHIP_TYPES";
     public static String PURAP_FEIN_ALLOWED_OWNERSHIP_TYPES = "PURAP.FEIN_ALLOWED_OWNERSHIP_TYPES";
     
-    public static final String ALLOWED_EMPLOYEE_TYPE_RULE = "AllowedEmployeeTypes";
-
     public static final String PURAP_DOCUMENT_PO_ACTIONS = "PURAP.DOCUMENT.PO.ACTIONS";
     public static final String PURAP_DOCUMENT_PREQ_ACTIONS = "PURAP.DOCUMENT.PO.ACTIONS";
     public static final String PURAP_DOCUMENT_ASSIGN_CM_ACTIONS = "PURAP.DOCUMENT.ASSIGN.CM.ACTIONS";

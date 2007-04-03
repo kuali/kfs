@@ -28,8 +28,6 @@ import java.util.StringTokenizer;
 
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
-import org.kuali.PropertyConstants;
-import org.kuali.core.bo.DocumentType;
 import org.kuali.core.bo.FinancialSystemParameter;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.service.DateTimeService;
@@ -37,31 +35,26 @@ import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.OffsetDefinition;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.chart.service.OffsetDefinitionService;
-import org.kuali.module.financial.exceptions.InvalidFlexibleOffsetException;
 import org.kuali.module.financial.service.FlexibleOffsetAccountService;
 import org.kuali.module.gl.GLConstants;
-
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.dao.UniversityDateDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.ReportService;
 import org.kuali.module.gl.service.ScrubberValidator;
-import org.kuali.module.gl.service.impl.scrubber.DemergerReportData;
-import org.kuali.module.gl.util.Message;
+//TODO: should be changed to RaborScrubberReportData
 import org.kuali.module.gl.service.impl.scrubber.ScrubberReportData;
+import org.kuali.module.gl.util.Message;
 import org.kuali.module.gl.util.ObjectHelper;
-import org.kuali.module.gl.util.OriginEntryStatistics;
-import org.kuali.module.gl.util.StringHelper;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.service.LaborOriginEntryService;
+import org.kuali.module.labor.service.LaborReportService;
+import org.kuali.module.labor.util.ReportRegistry;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.util.StringUtils;
 
@@ -90,7 +83,7 @@ public class LaborScrubberProcess {
     private KualiConfigurationService kualiConfigurationService;
     private UniversityDateDao universityDateDao;
     private PersistenceService persistenceService;
-    private ReportService reportService;
+    private LaborReportService laborReportService;
     private ScrubberValidator scrubberValidator;
 
     private Map<String, FinancialSystemParameter> parameters;
@@ -136,7 +129,7 @@ public class LaborScrubberProcess {
     /**
      * These parameters are all the dependencies.
      */
-    public LaborScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, DocumentTypeService documentTypeService, BeanFactory beanFactory, LaborOriginEntryService laborOriginEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService kualiConfigurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, ReportService reportService, ScrubberValidator scrubberValidator) {
+    public LaborScrubberProcess(FlexibleOffsetAccountService flexibleOffsetAccountService, DocumentTypeService documentTypeService, BeanFactory beanFactory, LaborOriginEntryService laborOriginEntryService, OriginEntryGroupService originEntryGroupService, DateTimeService dateTimeService, OffsetDefinitionService offsetDefinitionService, ObjectCodeService objectCodeService, KualiConfigurationService kualiConfigurationService, UniversityDateDao universityDateDao, PersistenceService persistenceService, LaborReportService laborReportService, ScrubberValidator scrubberValidator) {
         super();
         this.flexibleOffsetAccountService = flexibleOffsetAccountService;
         this.documentTypeService = documentTypeService;
@@ -149,7 +142,7 @@ public class LaborScrubberProcess {
         this.kualiConfigurationService = kualiConfigurationService;
         this.universityDateDao = universityDateDao;
         this.persistenceService = persistenceService;
-        this.reportService = reportService;
+        this.laborReportService = laborReportService;
         this.scrubberValidator = scrubberValidator;
 
         parameters = kualiConfigurationService.getParametersByGroup(GLConstants.GL_SCRUBBER_GROUP);
@@ -187,6 +180,9 @@ public class LaborScrubberProcess {
         // We are in report only mode if we pass a group to this method.
         // if not, we are in batch mode and we scrub the backup group
         reportOnlyMode = (group != null);
+        
+        //get reportDirectory
+        String reportsDirectory = ReportRegistry.getReportsDirectory();
 
         scrubberReportErrors = new HashMap<Transaction, List<Message>>();
 
@@ -224,9 +220,9 @@ public class LaborScrubberProcess {
 
         // generate the reports based on the origin entries to be processed by scrubber
         if (reportOnlyMode) {
-            reportService.generateScrubberLedgerSummaryReportOnline(runDate, group,documentNumber);
+            laborReportService.generateScrubberLedgerSummaryReportOnline(group,documentNumber, reportsDirectory, runDate);
         } else {
-            reportService.generateScrubberLedgerSummaryReportBatch(runDate, groupsToScrub);
+            laborReportService.generateScrubberLedgerSummaryReportBatch(groupsToScrub, reportsDirectory, runDate);
         }
 
         // Scrub all of the OriginEntryGroups waiting to be scrubbed as of runDate.
@@ -248,10 +244,10 @@ public class LaborScrubberProcess {
 
         // generate the scrubber status summary report
         if (reportOnlyMode) {
-            reportService.generateOnlineScrubberStatisticsReport(group.getId(), runDate, scrubberReport, scrubberReportErrors,documentNumber);
+            laborReportService.generateOnlineScrubberStatisticsReport(group.getId(), scrubberReport, scrubberReportErrors,documentNumber, reportsDirectory, runDate);
         }
         else {
-            reportService.generateBatchScrubberStatisticsReport(runDate, scrubberReport, scrubberReportErrors);
+            laborReportService.generateBatchScrubberStatisticsReport(scrubberReport, scrubberReportErrors, reportsDirectory, runDate);
         }
 
         // run the demerger
@@ -264,12 +260,12 @@ public class LaborScrubberProcess {
         // Run the reports
         if ( reportOnlyMode ) {
             // Run transaction list
-            reportService.generateScrubberTransactionsOnline(runDate, group,documentNumber);
+            laborReportService.generateScrubberTransactionsOnline(group,documentNumber, reportsDirectory, runDate);
         } else {
             // Run bad balance type report and removed transaction report
-            reportService.generateScrubberBadBalanceTypeListingReport(runDate, groupsToScrub);
+            laborReportService.generateScrubberBadBalanceTypeListingReport(groupsToScrub, reportsDirectory, runDate);
 
-            reportService.generateScrubberRemovedTransactions(runDate, errorGroup);
+            laborReportService.generateScrubberRemovedTransactions(errorGroup, reportsDirectory, runDate);
         }
     }
 

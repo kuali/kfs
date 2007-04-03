@@ -251,8 +251,8 @@
 		<property name="persistenceService">
 			<ref bean="persistenceService" />
 		</property>
-		<property name="reportService">
-			<ref bean="glReportService" />
+		<property name="laborReportService">
+			<ref bean="laborReportService" />
 		</property>
 		<property name="scrubberValidator">
 			<ref bean="laborScrubberValidator" />

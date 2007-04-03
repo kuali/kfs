@@ -17,6 +17,7 @@ package org.kuali.module.purap.document;
 
 import java.util.List;
 
+import org.kuali.core.bo.Note;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.purap.bo.Status;
 
@@ -79,7 +80,7 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
      * @param newStatus             A code for the new status in String form
      * @param statusHistoryNote     An optional BO Note for the StatusHistory (can be null)
      */
-    public void addToStatusHistories(String oldStatus, String newStatus, String statusHistoryNote);
+    public void addToStatusHistories(String oldStatus, String newStatus, Note statusHistoryNote);
 
     public void setStatusHistories(List statusHistories);
     

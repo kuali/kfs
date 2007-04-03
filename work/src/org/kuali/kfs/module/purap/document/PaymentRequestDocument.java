@@ -18,8 +18,8 @@ package org.kuali.module.purap.document;
 
 import java.sql.Date;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Campus;
+import org.kuali.core.bo.Note;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.PaymentRequestStatus;
@@ -75,7 +75,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private Integer alternateVendorDetailAssignedIdentifier;
     private boolean continuationAccountIndicator;
     private Integer accountsPayablePurchasingDocumentLinkIdentifier;
-    
+
     private PaymentRequestStatus paymentRequestStatus;
     private Campus processingCampus;
     private PurchaseOrderDocument purchaseOrderDocument;
@@ -98,7 +98,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#addToStatusHistories(java.lang.String, java.lang.String)
      */
-    public void addToStatusHistories( String oldStatus, String newStatus, String statusHistoryNote ) {
+    public void addToStatusHistories( String oldStatus, String newStatus, Note statusHistoryNote ) {
         PaymentRequestStatusHistory prsh = new PaymentRequestStatusHistory( oldStatus, newStatus );
         this.addStatusHistoryNote( prsh, statusHistoryNote );
         this.getStatusHistories().add( prsh );

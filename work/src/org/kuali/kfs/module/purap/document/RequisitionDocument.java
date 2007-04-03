@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.Map;
 
 import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.bo.Note;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.util.GlobalVariables;
@@ -56,7 +57,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 	private String alternate5VendorName;
 	private KualiDecimal organizationAutomaticPurchaseOrderLimit;
     private Integer accountsPayablePurchasingDocumentLinkIdentifier;
-    
+
     private PhoneNumberService phoneNumberService;
 
 	/**
@@ -356,7 +357,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#addToStatusHistories(java.lang.String, java.lang.String, java.lang.String)
      */
-    public void addToStatusHistories( String oldStatus, String newStatus, String statusHistoryNote ) {
+    public void addToStatusHistories( String oldStatus, String newStatus, Note statusHistoryNote ) {
         RequisitionStatusHistory rsh = new RequisitionStatusHistory( oldStatus, newStatus );
         this.addStatusHistoryNote( rsh, statusHistoryNote );
         this.getStatusHistories().add( rsh );

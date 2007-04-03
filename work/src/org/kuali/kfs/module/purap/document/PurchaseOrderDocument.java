@@ -21,9 +21,11 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.PropertyConstants;
+import org.kuali.core.bo.Note;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.TransactionalDocument;
+import org.kuali.core.service.NoteService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
@@ -36,6 +38,7 @@ import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.bo.RecurringPaymentFrequency;
 import org.kuali.module.purap.bo.ShippingPaymentTerms;
 import org.kuali.module.purap.bo.ShippingTitle;
+import org.kuali.module.purap.bo.StatusHistory;
 import org.kuali.module.purap.bo.VendorDetail;
 import org.kuali.module.purap.service.PurchaseOrderPostProcessorService;
 
@@ -484,7 +487,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#addToStatusHistories(java.lang.String, java.lang.String)
      */
-    public void addToStatusHistories( String oldStatus, String newStatus, String statusHistoryNote ) {
+    public void addToStatusHistories( String oldStatus, String newStatus, Note statusHistoryNote ) {
         PurchaseOrderStatusHistory posh = new PurchaseOrderStatusHistory( oldStatus, newStatus );
         this.addStatusHistoryNote( posh, statusHistoryNote );
         posh.setDocumentHeaderIdentifier(this.documentNumber);

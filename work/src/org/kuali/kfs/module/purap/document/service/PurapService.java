@@ -15,6 +15,7 @@
  */
 package org.kuali.module.purap.service;
 
+import org.kuali.core.bo.Note;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 
 public interface PurapService {
@@ -22,13 +23,13 @@ public interface PurapService {
     public boolean updateStatusAndStatusHistory( PurchasingAccountsPayableDocument document, String statusToSet);
     
     public boolean updateStatusAndStatusHistory( PurchasingAccountsPayableDocument document, 
-            String statusToSet, String statusHistoryNote );
+            String statusToSet, Note statusHistoryNote );
     
     public boolean updateStatus( PurchasingAccountsPayableDocument document, String statusToSet);
     
     public boolean updateStatusHistory( PurchasingAccountsPayableDocument document, String statusToSet);
     
     public boolean updateStatusHistory( PurchasingAccountsPayableDocument document,
-            String statusToSet, String statusHistoryNote );
+            String statusToSet, Note statusHistoryNote );
     
 }

@@ -146,11 +146,18 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                                 PurapKeyConstants.ERROR_PURCHASE_ORDER_CLOSE_REASON_REQUIRED, Constants.QUESTION_REASON_ATTRIBUTE_NAME, 
                                 new Integer(reasonLimit).toString());
                     }
+                    
+                    //Setting the note on the BO.
+                    Note reasonNote = new Note();
+                    reasonNote.setNoteText( closingNoteText );
+                    kualiDocumentFormBase.setNewNote( reasonNote );
+                    this.insertBONote( mapping, kualiDocumentFormBase, request, response );
+                    
                     PurchaseOrderDocument po = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
-                    SpringServiceLocator.getPurapService().updateStatusAndStatusHistory( po, PurchaseOrderStatuses.CLOSED, 
-                            kualiDocumentFormBase.getAnnotation() );
+                    SpringServiceLocator.getPurchaseOrderService().save( po );  //Save with added note.
                     SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(po, "KualiPurchaseOrderCloseDocument", 
-                            kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));                    
+                            kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase)); 
+                    
                     GlobalVariables.getMessageList().add(PurapKeyConstants.PURCHASE_ORDER_MESSAGE_CLOSE_DOCUMENT);
                     kualiDocumentFormBase.setAnnotation("");
                     return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.PODocumentsStrings.PURCHASE_ORDER_CLOSE_CONFIRM, 

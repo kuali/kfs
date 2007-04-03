@@ -15,11 +15,9 @@
  */
 package org.kuali.module.purap.service.impl;
 
-import java.util.List;
-
+import org.kuali.core.bo.Note;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.purap.bo.StatusHistory;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.service.PurapService;
 
@@ -44,7 +42,7 @@ public class PurapServiceImpl implements PurapService {
      * for the status history.
      */
     public boolean updateStatusAndStatusHistory( PurchasingAccountsPayableDocument document,
-            String statusToSet, String statusHistoryNote ) {
+            String statusToSet, Note statusHistoryNote ) {
         LOG.debug("updateStatusAndStatusHistory(): entered method.");
         
         boolean success = false;
@@ -53,7 +51,7 @@ public class PurapServiceImpl implements PurapService {
             return success;
         }
 
-        success &= this.updateStatusHistory(document, statusToSet);
+        success &= this.updateStatusHistory(document, statusToSet, statusHistoryNote);
         success = this.updateStatus(document, statusToSet);
 
         LOG.debug("updateStatusAndStatusHistory(): leaving method.");
@@ -103,7 +101,7 @@ public class PurapServiceImpl implements PurapService {
      * @return                      True on success.
      */
     public boolean updateStatusHistory( PurchasingAccountsPayableDocument document, 
-            String newStatus, String statusHistoryNote ) {
+            String newStatus, Note statusHistoryNote ) {
         LOG.debug("updateStatusHistory(): entered method.");
         boolean success = false;       
         if ( ObjectUtils.isNull(document) || ObjectUtils.isNull(newStatus) ) {

@@ -18,12 +18,12 @@ package org.kuali.module.purap.document;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.util.collections.ManageableArrayList;
 import org.kuali.core.bo.Note;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.service.NoteService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -91,11 +91,9 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * @param statusHistory
      * @param statusHistoryNote
      */
-    protected void addStatusHistoryNote( StatusHistory statusHistory, String statusHistoryNote ) {
-        if( StringUtils.isNotBlank( statusHistoryNote ) ) {
+    protected void addStatusHistoryNote( StatusHistory statusHistory, Note note ) {
+        if( ObjectUtils.isNotNull( null ) ) {
             NoteService noteService = SpringServiceLocator.getNoteService();
-            Note note = new Note();
-            note.setNoteText( statusHistoryNote );
             try {
                 note = noteService.createNote( note, statusHistory );
                 noteService.save( note );

@@ -27,16 +27,14 @@
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="accountLineAnnualBalanceAmount" />
                 <field attributeName="accountNumber" />
-                <field attributeName="financialBeginningBalanceLineAmount" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="financialBalanceTypeCode" />
-                <field attributeName="contractsGrantsBeginningBalanceAmount" />
                 <field attributeName="financialObjectCode" />
                 <field attributeName="financialObjectTypeCode" />
                 <field attributeName="financialSubObjectCode" />
                 <field attributeName="positionNumber" />
                 <field attributeName="subAccountNumber" />
-                <field attributeName="universityFiscalYear" />
+				
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -48,7 +46,6 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="universityFiscalYear" />
                     <sortAttribute attributeName="chartOfAccountsCode" />
                     <sortAttribute attributeName="accountNumber" />
                 </sortAttributes>
@@ -66,12 +63,9 @@
             <resultFields>
                 <field attributeName="subAccountNumber" />
                 <field attributeName="financialObjectTypeCode" />
-                <field attributeName="universityFiscalYear" />                                
+                <field attributeName="adjustedBaseBudgetAmount" />                                
                 <field attributeName="calculatedSalaryFoundationAmount" />
-                <field attributeName="financialBeginningBalanceLineAmount" />                            
-                <field attributeName="contractsGrantsBeginningBalanceAmount" />                
-				<field attributeName="accountLineAnnualBalanceAmount" />
-
+                <field attributeName="baseCSFVarianceAmount" />
             </resultFields>
         </lookup>
 
@@ -118,14 +112,6 @@
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
-            <attributeReference name="financialBeginningBalanceLineAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Beginning Balance Line Amount</label>
-                <shortLabel>Beginning Balance Line Amount</shortLabel>
-                <summary>BeginningBalanceLineAmount</summary>
-                <description>beginningBalanceLineAmount description...</description>
-                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
-            </attributeReference>
-
             <attributeReference name="contractsGrantsBeginningBalanceAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Contracts Grants Beginning Balance Amount</label>
                 <shortLabel>CG Amount</shortLabel>
@@ -145,8 +131,8 @@
             </attributeReference>
 
 			<attribute name="calculatedSalaryFoundationAmount" forceUppercase="true">
-                <label>Calculated Salary Foundation Amount</label>
-                <shortLabel>Amount</shortLabel>
+                <label>CSF Acctount Amount</label>
+                <shortLabel>CSF Acctount Amount</shortLabel>
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
@@ -159,6 +145,43 @@
                 <description>calculatedSalaryFoundationAmount description...</description>
 			</attribute>
 
+			<attribute name="baseCSFVarianceAmount" forceUppercase="true">
+                <label>Base/CSF Variance Amount</label>
+                <shortLabel>Base/CSF Variance Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>basecalculatedSalaryFoundationAmount</summary>
+                <description>basecalculatedSalaryFoundationAmount description...</description>
+			</attribute>
+			
+			<attribute name="adjustedBaseBudgetAmount" forceUppercase="true">
+                <label>Adjusted Base Budget Amount</label>
+                <shortLabel>Adjusted Base Budget Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>adjustedBaseBudgetAmount</summary>
+                <description>adjustedBaseBudgetAmount description...</description>
+			</attribute>
+
+			<attributeReference name="financialBeginningBalanceLineAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>Beginning Balance Line Amount</label>
+                <shortLabel>Beginning Balance Line Amount</shortLabel>
+                <summary>BeginningBalanceLineAmount</summary>
+                <description>beginningBalanceLineAmount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
+            </attributeReference>
 
         </attributes>
     </businessObject>

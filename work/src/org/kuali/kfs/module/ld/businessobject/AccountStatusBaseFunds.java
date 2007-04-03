@@ -35,7 +35,9 @@ public class AccountStatusBaseFunds extends Balance {
     private String financialObjectTypeCode;
     private String positionNumber;
     private KualiDecimal financialBeginningBalanceLineAmount;
+    private KualiDecimal adjustedBaseBudgetAmount;    
     private KualiDecimal calculatedSalaryFoundationAmount;
+    private KualiDecimal baseCSFVarianceAmount;
 
     private Chart chartOfAccounts;
     private ObjectType financialObjectType;
@@ -48,8 +50,7 @@ public class AccountStatusBaseFunds extends Balance {
         super();
         this.setAccountLineAnnualBalanceAmount(KualiDecimal.ZERO);
         this.setFinancialBeginningBalanceLineAmount(KualiDecimal.ZERO);
-        this.setContractsGrantsBeginningBalanceAmount(KualiDecimal.ZERO);
-
+        this.setBaseCSFVarianceAmount(KualiDecimal.ZERO);
     }
 
     /**
@@ -84,20 +85,12 @@ public class AccountStatusBaseFunds extends Balance {
         this.financialBalanceTypeCode = financialBalanceTypeCode;
     }
 
-    /**
-     * Gets the financialBeginningBalanceLineAmount attribute. 
-     * @return Returns the financialBeginningBalanceLineAmount.
-     */
-    public KualiDecimal getFinancialBeginningBalanceLineAmount() {
-        return financialBeginningBalanceLineAmount;
+    public KualiDecimal getAdjustedBaseBudgetAmount() {
+        return adjustedBaseBudgetAmount;
     }
 
-    /**
-     * Sets the financialBeginningBalanceLineAmount attribute value.
-     * @param financialBeginningBalanceLineAmount The financialBeginningBalanceLineAmount to set.
-     */
-    public void setFinancialBeginningBalanceLineAmount(KualiDecimal financialBeginningBalanceLineAmount) {
-        this.financialBeginningBalanceLineAmount = financialBeginningBalanceLineAmount;
+    public void setAdjustedBaseBudgetAmount(KualiDecimal adjustedBaseBudgetAmount) {
+        this.adjustedBaseBudgetAmount = adjustedBaseBudgetAmount;
     }
 
     /**
@@ -264,5 +257,22 @@ public class AccountStatusBaseFunds extends Balance {
     public void setCalculatedSalaryFoundationAmount(KualiDecimal calculatedSalaryFoundationAmount) {
         this.calculatedSalaryFoundationAmount = calculatedSalaryFoundationAmount;
     }
+
+    public KualiDecimal getBaseCSFVarianceAmount() {
+        return baseCSFVarianceAmount;
+    }
+
+    public void setBaseCSFVarianceAmount(KualiDecimal baseCSFVarianceAmount) {
+        this.baseCSFVarianceAmount = baseCSFVarianceAmount;
+    }
+
+    public KualiDecimal getFinancialBeginningBalanceLineAmount() {
+        return financialBeginningBalanceLineAmount;
+    }
+
+    public void setFinancialBeginningBalanceLineAmount(KualiDecimal financialBeginningBalanceLineAmount) {
+        this.financialBeginningBalanceLineAmount = financialBeginningBalanceLineAmount;
+    }
+
     
 }

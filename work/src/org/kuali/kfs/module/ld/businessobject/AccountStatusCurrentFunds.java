@@ -41,7 +41,8 @@ public class AccountStatusCurrentFunds extends Balance {
     private String personName;
     private String positionNumber;
     private KualiDecimal financialBeginningBalanceLineAmount;
-    private KualiDecimal calculatedSalaryFoundationAmount;
+    private KualiDecimal ytdActualAmount;
+    private KualiDecimal outstandingEncum;
 
     private Chart chartOfAccounts;
     private ObjectType financialObjectType;
@@ -54,9 +55,8 @@ public class AccountStatusCurrentFunds extends Balance {
      */
     public AccountStatusCurrentFunds() {
         super();
-        this.setAccountLineAnnualBalanceAmount(KualiDecimal.ZERO);
-        this.setFinancialBeginningBalanceLineAmount(KualiDecimal.ZERO);
-        this.setContractsGrantsBeginningBalanceAmount(KualiDecimal.ZERO);
+        this.setYtdActualAmount(KualiDecimal.ZERO);
+        this.setOutstandingEncum(KualiDecimal.ZERO);
     }
 
     /**
@@ -93,24 +93,6 @@ public class AccountStatusCurrentFunds extends Balance {
      */
     public void setFinancialBalanceTypeCode(String financialBalanceTypeCode) {
         this.financialBalanceTypeCode = financialBalanceTypeCode;
-    }
-
-    /**
-     * Gets the financialBeginningBalanceLineAmount attribute.
-     * 
-     * @return Returns the financialBeginningBalanceLineAmount.
-     */
-    public KualiDecimal getFinancialBeginningBalanceLineAmount() {
-        return financialBeginningBalanceLineAmount;
-    }
-
-    /**
-     * Sets the financialBeginningBalanceLineAmount attribute value.
-     * 
-     * @param financialBeginningBalanceLineAmount The financialBeginningBalanceLineAmount to set.
-     */
-    public void setFinancialBeginningBalanceLineAmount(KualiDecimal financialBeginningBalanceLineAmount) {
-        this.financialBeginningBalanceLineAmount = financialBeginningBalanceLineAmount;
     }
 
     /**
@@ -281,15 +263,6 @@ public class AccountStatusCurrentFunds extends Balance {
         this.setFinancialSubObjectCode(subObjectCode);
     }
 
-    public KualiDecimal getCalculatedSalaryFoundationAmount() {
-        calculatedSalaryFoundationAmount = new KualiDecimal("2345.33");
-        return calculatedSalaryFoundationAmount;
-    }
-
-    public void setCalculatedSalaryFoundationAmount(KualiDecimal calculatedSalaryFoundationAmount) {
-        this.calculatedSalaryFoundationAmount = calculatedSalaryFoundationAmount;
-    }
-
     public String getEmplid() {
         return emplid;
     }
@@ -298,11 +271,6 @@ public class AccountStatusCurrentFunds extends Balance {
         this.emplid = emplid;
     }
     
-    /**
-     * Sets the personName attribute value by looking up the employee ID from the universal User table.
-     * 
-     */
-
     public String getPersonName() {
         UserId empl = new PersonPayrollId(getEmplid());
         UniversalUser universalUser = null;
@@ -327,5 +295,29 @@ public class AccountStatusCurrentFunds extends Balance {
 
     public void setPersonName(String personName) {
         this.personName = personName;
+    }
+
+    public KualiDecimal getYtdActualAmount() {
+        return ytdActualAmount;
+    }
+
+    public void setYtdActualAmount(KualiDecimal ytdActualAmount) {
+        this.ytdActualAmount = ytdActualAmount;
+    }
+
+    public KualiDecimal getOutstandingEncum() {
+        return outstandingEncum;
+    }
+
+    public void setOutstandingEncum(KualiDecimal outstandingEncum) {
+        this.outstandingEncum = outstandingEncum;
+    }
+
+    public KualiDecimal getFinancialBeginningBalanceLineAmount() {
+        return financialBeginningBalanceLineAmount;
+    }
+
+    public void setFinancialBeginningBalanceLineAmount(KualiDecimal financialBeginningBalanceLineAmount) {
+        this.financialBeginningBalanceLineAmount = financialBeginningBalanceLineAmount;
     }
 }

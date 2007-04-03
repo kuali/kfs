@@ -82,15 +82,6 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
         Long collectionCount = new Long(searchResults.size());
         Long actualCountIfTruncated = new Long(0);
 
-        // When the maxium limit of rows is reached, remove the extra rows.
-        if (limit != null) {
-            if (collectionCount >= limit.intValue()) {
-                actualCountIfTruncated = collectionCount;
-                for (int i = collectionCount.intValue() - 1; i >= limit; i--) {
-                    searchResults.remove(i);
-                }
-            }
-        }
         return new CollectionIncomplete(searchResults, actualCountIfTruncated);
     }
 }

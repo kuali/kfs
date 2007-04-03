@@ -58,7 +58,6 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
 	private KualiDecimal financialBeginningBalanceLineAmount;
 
     private BudgetConstructionHeader budgetConstructionHeader;
-//    private BudgetConstructionMonthly budgetConstructionMonthly;
 	private ObjectCode financialObject;
 	private Chart chartOfAccounts;
 	private Account account;
@@ -67,20 +66,21 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
     private BalanceTyp balanceType;
     private ObjectType objectType;
 
+    private List budgetConstructionMonthly;
+    
+    //TODO These are only used by PBGLExpenditureLines so should probably put these in an extension class
+    // These are not defined under ojb since not all expenditure line objects have these
     private LaborObject laborObject;
     private List<PositionObjectBenefit> positionObjectBenefit;
 
-    private List budgetConstructionMonthly;
-    
     private KualiDecimal percentChange;
     
 	/**
 	 * Default constructor.
 	 */
 	public PendingBudgetConstructionGeneralLedger() {
-//        budgetConstructionMonthly = new ArrayList();
-        budgetConstructionMonthly = new TypedArrayList(BudgetConstructionMonthly.class);
-        percentChange = null;
+        setBudgetConstructionMonthly(new TypedArrayList(BudgetConstructionMonthly.class));
+        setPercentChange(null);
 
 	}
 
@@ -92,11 +92,11 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
     public KualiDecimal getPercentChange() {
 
         if (financialBeginningBalanceLineAmount == null || financialBeginningBalanceLineAmount.isZero()){
-            percentChange = null;
+            setPercentChange(null);
         } else {
             BigDecimal diffRslt = (accountLineAnnualBalanceAmount.bigDecimalValue().setScale(4)).subtract(financialBeginningBalanceLineAmount.bigDecimalValue().setScale(4));
             BigDecimal divRslt = diffRslt.divide((financialBeginningBalanceLineAmount.bigDecimalValue().setScale(4)),BigDecimal.ROUND_HALF_UP);
-            percentChange = new KualiDecimal(divRslt.multiply(BigDecimal.valueOf(100)).setScale(2)); 
+            setPercentChange(new KualiDecimal(divRslt.multiply(BigDecimal.valueOf(100)).setScale(2))); 
         }
         return percentChange;
     }

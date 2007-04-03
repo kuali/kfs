@@ -86,7 +86,6 @@
                 <field attributeName="effectiveDate" />
                 <field attributeName="effectiveSequence" />
                 <field attributeName="personName" />
-                <field attributeName="emplid" />
                 <field attributeName="employeeRecord" />
                 <field attributeName="financialObjectCode" />
                 <field attributeName="financialSubObjectCode" />

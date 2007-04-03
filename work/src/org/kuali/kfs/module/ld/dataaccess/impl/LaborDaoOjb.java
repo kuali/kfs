@@ -21,9 +21,9 @@ import java.util.Map;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.core.bo.user.PersonPayrollId;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.lookup.LookupUtils;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.labor.bo.AccountStatusBaseFunds;
@@ -48,6 +48,31 @@ public class LaborDaoOjb extends PersistenceBrokerDaoSupport implements LaborDao
         LookupUtils.applySearchResultsLimit(criteria);
         QueryByCriteria query = QueryFactory.newQuery(CalculatedSalaryFoundationTracker.class, criteria);
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.labor.dao.LaborDao#getCSFTrackerData(java.util.Map)
+     */
+    public Object getCSFTrackerTotal(Map fieldValues) {
+        System.out.println("accountNumber:" + fieldValues.get("accountNumber"));
+        System.out.println("universityFiscalYear:" + fieldValues.get("universityFiscalYear"));
+        System.out.println("chartOfAccountsCode:" + fieldValues.get("chartOfAccountsCode"));
+        System.out.println("accountNumber:" + fieldValues.get("accountNumber"));
+        System.out.println("subAccountNumber:" + fieldValues.get("subAccountNumber"));       
+        System.out.println("financialObjectCode:" + fieldValues.get("financialObjectCode"));
+        System.out.println("financialSubObjectCode:" + fieldValues.get("financialSubObjectCode"));
+        
+        Criteria criteria = new Criteria();
+        criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new CalculatedSalaryFoundationTracker()));
+        LookupUtils.applySearchResultsLimit(criteria);
+        
+        QueryByCriteria query = QueryFactory.newQuery(CalculatedSalaryFoundationTracker.class, criteria);
+        Collection test = getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        CalculatedSalaryFoundationTracker csf = new CalculatedSalaryFoundationTracker();
+        System.out.println("Size:" + test.size());
+        csf.setCsfAmount(new KualiDecimal("123.45"));
+        return csf;
     }
 
     /**
@@ -84,16 +109,5 @@ public class LaborDaoOjb extends PersistenceBrokerDaoSupport implements LaborDao
         LookupUtils.applySearchResultsLimit(criteria);
         QueryByCriteria query = QueryFactory.newQuery(AccountStatusCurrentFunds.class, criteria);
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
-    }    
-
-    /**
-     * 
-     * @see org.kuali.module.labor.dao.LaborDao#getUniversalUserByEmplid(String)
-     */
-    public UniversalUser getUniversalUserByEmplid(String emplid) {
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo("personPayrollIdentifier", emplid);
-        UniversalUser universalUser = (UniversalUser) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(UniversalUser.class, criteria));
-        return universalUser;
     }
 }

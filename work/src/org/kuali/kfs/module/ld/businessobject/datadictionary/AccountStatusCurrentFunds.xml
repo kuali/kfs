@@ -56,7 +56,9 @@
                 </lookupField>
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
                 <lookupField attributeName="accountNumber" required="true" />
+                <lookupField attributeName="subAccountNumber" required="true" />				
                 <lookupField attributeName="financialObjectCode" required="false" />
+                <lookupField attributeName="financialSubObjectCode" required="false" />
             </lookupFields>
 
             <resultFields>

@@ -28,13 +28,12 @@ import org.kuali.core.bo.user.UniversalUser;
 public interface LaborDao {
  
     Collection getCSFTrackerData(Map fieldValues);
+
+    Object getCSFTrackerTotal(Map fieldValues);
     
     Collection getCurrentYearFunds(Map fieldValues);
     
     Collection getBaseFunds(Map fieldValues);
     
     Collection getCurrentFunds(Map fieldValues);
-    
-    UniversalUser getUniversalUserByEmplid(String emplid);     
-
 }

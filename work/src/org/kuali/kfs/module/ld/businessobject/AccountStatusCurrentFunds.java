@@ -285,15 +285,6 @@ public class AccountStatusCurrentFunds extends Balance {
         return universalUser.getPersonName();
     }        
         
-    public String getPersonName2() {
-        UniversalUser universalUser;
-
-        BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
-        laborBalanceInquiryService = (LaborBalanceInquiryService) beanFactory.getBean("laborBalanceInquiryService");
-        universalUser = laborBalanceInquiryService.getUniversalUserByEmplid(getEmplid());
-        return universalUser.getPersonName();
-    }
-
     public void setPersonName(String personName) {
         this.personName = personName;
     }

@@ -16,17 +16,18 @@
 
 package org.kuali.module.labor.bo;
 
-import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectType;
 import org.kuali.module.gl.bo.Balance;
+import org.kuali.module.labor.service.LaborBalanceInquiryService;
+import org.springframework.beans.factory.BeanFactory;
 
-/**
- * 
- */
 public class AccountStatusBaseFunds extends Balance {
     
     private String financialObjectCode;
@@ -34,14 +35,19 @@ public class AccountStatusBaseFunds extends Balance {
     private String financialBalanceTypeCode;
     private String financialObjectTypeCode;
     private String positionNumber;
+    private Integer universityFiscalYear;
+    
+    private KualiDecimal accountLineAnnualBalanceAmount;
     private KualiDecimal financialBeginningBalanceLineAmount;
-    private KualiDecimal adjustedBaseBudgetAmount;    
+    private KualiDecimal contractsGrantsBeginningBalanceAmount;
     private KualiDecimal calculatedSalaryFoundationAmount;
     private KualiDecimal baseCSFVarianceAmount;
 
     private Chart chartOfAccounts;
     private ObjectType financialObjectType;
     private Balance financialBalance;
+
+    private LaborBalanceInquiryService laborBalanceInquiryService;
 
     /**
      * Default constructor.
@@ -83,14 +89,6 @@ public class AccountStatusBaseFunds extends Balance {
      */
     public void setFinancialBalanceTypeCode(String financialBalanceTypeCode) {
         this.financialBalanceTypeCode = financialBalanceTypeCode;
-    }
-
-    public KualiDecimal getAdjustedBaseBudgetAmount() {
-        return adjustedBaseBudgetAmount;
-    }
-
-    public void setAdjustedBaseBudgetAmount(KualiDecimal adjustedBaseBudgetAmount) {
-        this.adjustedBaseBudgetAmount = adjustedBaseBudgetAmount;
     }
 
     /**
@@ -250,16 +248,26 @@ public class AccountStatusBaseFunds extends Balance {
     }
 
     public KualiDecimal getCalculatedSalaryFoundationAmount() {
-        calculatedSalaryFoundationAmount = new KualiDecimal("2345.33");
-        return calculatedSalaryFoundationAmount;
+        
+       Map fieldValues = new HashMap(); 
+       
+       fieldValues.put("universityFiscalYear", getUniversityFiscalYear());
+       fieldValues.put("chartOfAccountsCode", getChartOfAccountsCode());
+       fieldValues.put("accountNumber", getAccountNumber());
+       fieldValues.put("subAccountNumber", getSubAccountNumber());       
+       fieldValues.put("financialObjectCode", getFinancialObjectCode());
+       fieldValues.put("financialSubObjectCode", getFinancialSubObjectCode());
+
+      // BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
+      // laborBalanceInquiryService = (LaborBalanceInquiryService) beanFactory.getBean("laborBalanceInquiryService");
+      // CalculatedSalaryFoundationTracker CSFTotal = (CalculatedSalaryFoundationTracker) laborBalanceInquiryService.getCSFTrackerTotal(fieldValues);
+      // calculatedSalaryFoundationAmount = CSFTotal.getCsfAmount();
+       calculatedSalaryFoundationAmount = new KualiDecimal("2345.33");
+       return calculatedSalaryFoundationAmount;
     }
 
     public void setCalculatedSalaryFoundationAmount(KualiDecimal calculatedSalaryFoundationAmount) {
         this.calculatedSalaryFoundationAmount = calculatedSalaryFoundationAmount;
-    }
-
-    public KualiDecimal getBaseCSFVarianceAmount() {
-        return baseCSFVarianceAmount;
     }
 
     public void setBaseCSFVarianceAmount(KualiDecimal baseCSFVarianceAmount) {
@@ -274,5 +282,35 @@ public class AccountStatusBaseFunds extends Balance {
         this.financialBeginningBalanceLineAmount = financialBeginningBalanceLineAmount;
     }
 
+
+    public KualiDecimal getBaseCSFVarianceAmount() {
+        if ((this.accountLineAnnualBalanceAmount != null) && (this.calculatedSalaryFoundationAmount != null))
+            baseCSFVarianceAmount = (this.accountLineAnnualBalanceAmount.add(this.calculatedSalaryFoundationAmount));
+        return baseCSFVarianceAmount;
+    }
     
+    public KualiDecimal getAccountLineAnnualBalanceAmount() {
+        return accountLineAnnualBalanceAmount;
+    }
+
+    public void setAccountLineAnnualBalanceAmount(KualiDecimal accountLineAnnualBalanceAmount) {
+        this.accountLineAnnualBalanceAmount = accountLineAnnualBalanceAmount;
+    }
+
+    public KualiDecimal getContractsGrantsBeginningBalanceAmount() {
+        return contractsGrantsBeginningBalanceAmount;
+    }
+
+    public void setContractsGrantsBeginningBalanceAmount(KualiDecimal contractsGrantsBeginningBalanceAmount) {
+        this.contractsGrantsBeginningBalanceAmount = contractsGrantsBeginningBalanceAmount;
+    }
+
+    public Integer getUniversityFiscalYear() {
+        return universityFiscalYear;
+    }
+
+    public void setUniversityFiscalYear(Integer universityFiscalYear) {
+        this.universityFiscalYear = universityFiscalYear;
+    }
+
 }

@@ -21,7 +21,6 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-import org.kuali.KeyConstants;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.PersonPayrollId;
 import org.kuali.core.bo.user.UniversalUser;
@@ -35,6 +34,7 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
+import org.kuali.module.labor.LaborConstants;
 
 /**
  * 
@@ -572,7 +572,7 @@ public class CalculatedSalaryFoundationTracker extends PersistableBusinessObject
             universalUser = SpringServiceLocator.getUniversalUserService().getUniversalUser(empl);
         }
         catch (UserNotFoundException e) {
-            return KeyConstants.ERROR_MISSING_PERSON_NAME;
+            return LaborConstants.BalanceInquiries.UnknownPersonName;
         }
 
         return universalUser.getPersonName();

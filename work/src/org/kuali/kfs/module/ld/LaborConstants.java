@@ -92,5 +92,6 @@ public class LaborConstants {
     public static class BalanceInquiries {
         public static final String ERROR_INVALID_LABOR_OBJECT_CODE = "error.labor.invalidLaborObjectCodeError";
         public static final String[] VALID_LABOR_OBJECT_CODES = {"2000","2001","2400","2401","2500"};
+        public static final String UnknownPersonName = "* Unknown Name *";
 }
 }

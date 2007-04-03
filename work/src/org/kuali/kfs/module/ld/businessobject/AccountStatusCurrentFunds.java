@@ -27,6 +27,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectType;
 import org.kuali.module.gl.bo.Balance;
+import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.service.LaborBalanceInquiryService;
 import org.springframework.beans.factory.BeanFactory;
 
@@ -278,7 +279,7 @@ public class AccountStatusCurrentFunds extends Balance {
         try{
             universalUser = SpringServiceLocator.getUniversalUserService().getUniversalUser(empl);
         }catch(UserNotFoundException e){
-            return KeyConstants.ERROR_MISSING_PERSON_NAME;
+            return LaborConstants.BalanceInquiries.UnknownPersonName;
         }
 
         return universalUser.getPersonName();

@@ -200,14 +200,22 @@
               </span></div></td>
 
               <td class="datacell"" nowrap><div align=center>
-                  <c:choose>
-                    <c:when test="${empty item.budgetConstructionMonthly[0]}" > 
-                        <html:image src="images/tinybutton-createnew.gif" styleClass="tinybutton" property="methodToCall.performMonthlyRevenueBudget.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" title="Create Month" alt="Create Month"/>
-                    </c:when> 
-                    <c:otherwise> 
-                        <html:image src="images/tinybutton-edit1.gif" styleClass="tinybutton" property="methodToCall.performMonthlyRevenueBudget.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" title="Edit Month" alt="Edit Month"/>
-                    </c:otherwise> 
-                  </c:choose> 
+				  <c:choose>
+					<c:when test="${empty editingMode['viewOnly'] && empty item.budgetConstructionMonthly[0]}" > 
+                      <html:image src="images/tinybutton-createnew.gif" styleClass="tinybutton" property="methodToCall.performMonthlyRevenueBudget.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" title="Create Month" alt="Create Month"/>
+					</c:when> 
+					<c:otherwise> 
+                      <c:choose>
+                        <c:when test="${empty editingMode['viewOnly']}">
+                          <html:image src="images/tinybutton-edit1.gif" styleClass="tinybutton" property="methodToCall.performMonthlyRevenueBudget.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" title="Edit Month" alt="Edit Month"/>
+                        </c:when> 
+                        <c:otherwise> 
+                          <html:image src="images/tinybutton-view.gif" styleClass="tinybutton" property="methodToCall.performMonthlyRevenueBudget.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" title="View Month" alt="View Month"/>
+                        </c:otherwise> 
+                      </c:choose>
+						
+					</c:otherwise> 
+				  </c:choose>&nbsp; 
               </div></td>
 
              <td class="datacell" nowrap>

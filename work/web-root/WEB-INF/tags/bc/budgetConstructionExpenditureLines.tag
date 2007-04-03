@@ -238,6 +238,10 @@
                      <br>
                      <html:image property="methodToCall.performSalarySetting.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" src="images/tinybutton-addpers.gif" title="Perform Salary Setting For ${status.index}" alt="Perform Salary Setting For Line ${status.index}" styleClass="tinybutton"/>
                    </c:if>
+                   <c:if test="${!empty item.positionObjectBenefit[0]}">
+                     <br>
+                     <html:image property="methodToCall.performShowBenefits.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" src="images/tinybutton-view.gif" title="Show Benefits For ${status.index}" alt="Show Benefits For Line ${status.index}" styleClass="tinybutton"/>
+                   </c:if>
                  </div>
              </td>
             </tr>

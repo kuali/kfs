@@ -27,6 +27,9 @@ public class MonthlyBudgetForm extends KualiForm {
     private BudgetConstructionMonthly budgetConstructionMonthly;
     private String docTypeName;
 
+    //TODO probably need to push this to new superclass BCExpansionForm??
+    private boolean hideDetails = false;
+
     // url parameters sent from BCDoc
     private String returnAnchor;
     private String returnFormKey;
@@ -253,6 +256,22 @@ public class MonthlyBudgetForm extends KualiForm {
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
+    }
+
+    /**
+     * Gets the hideDetails attribute. 
+     * @return Returns the hideDetails.
+     */
+    public boolean isHideDetails() {
+        return hideDetails;
+    }
+
+    /**
+     * Sets the hideDetails attribute value.
+     * @param hideDetails The hideDetails to set.
+     */
+    public void setHideDetails(boolean hideDetails) {
+        this.hideDetails = hideDetails;
     }
     
 }

@@ -100,5 +100,38 @@ public class MonthlyBudgetAction extends KualiAction {
         String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_DOCUMENT_ACTION, parameters);
         return new ActionForward(lookupUrl, true);
     }
-    
+
+    /**
+     * This action changes the value of the hide field in the user interface so that when the page is rendered,
+     * the UI knows to show all of the descriptions and labels for each of the pbgl line values.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward showDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        MonthlyBudgetForm tForm = (MonthlyBudgetForm) form;
+        tForm.setHideDetails(false);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    /**
+     * This action toggles the value of the hide field in the user interface to "hide" so that when the page is rendered,
+     * the UI displays values without all of the descriptions and labels for each of the pbgl lines.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward hideDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        MonthlyBudgetForm tForm = (MonthlyBudgetForm) form;
+        tForm.setHideDetails(true);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 }

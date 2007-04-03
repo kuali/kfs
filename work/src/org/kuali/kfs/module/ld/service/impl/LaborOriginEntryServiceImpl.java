@@ -31,7 +31,7 @@ import java.util.Map;
 import org.kuali.PropertyConstants;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.bo.Transaction;
+import org.kuali.module.labor.bo.LaborTransaction;
 import org.kuali.module.gl.dao.OriginEntryDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.impl.OriginEntryServiceImpl;
@@ -166,10 +166,10 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
      * @see org.kuali.module.gl.service.OriginEntryService#createEntry(org.kuali.module.gl.bo.Transaction,
      *      org.kuali.module.gl.bo.OriginEntryGroup)
      */
-    public void createEntry(Transaction transaction, OriginEntryGroup originEntryGroup) {
+    public void createEntry(LaborTransaction laborTransaction, OriginEntryGroup originEntryGroup) {
         LOG.debug("createEntry() started");
 
-        LaborOriginEntry e = new LaborOriginEntry(transaction);
+        LaborOriginEntry e = new LaborOriginEntry(laborTransaction);
         e.setGroup(originEntryGroup);
 
         originEntryDao.saveOriginEntry(e);
@@ -442,4 +442,5 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
     public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
         this.originEntryGroupService = originEntryGroupService;
     }
+   
 }

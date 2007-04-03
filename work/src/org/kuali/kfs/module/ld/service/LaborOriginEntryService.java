@@ -22,11 +22,11 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.util.LedgerEntryHolder;
 import org.kuali.module.gl.util.OriginEntryStatistics;
 import org.kuali.module.gl.util.PosterOutputSummaryEntry;
 import org.kuali.module.labor.bo.LaborOriginEntry;
+import org.kuali.module.labor.bo.LaborTransaction;
 
 /**
  * This interface provides its clients with access to labor origin entries in the backend data store.  
@@ -107,7 +107,7 @@ public interface LaborOriginEntryService {
      * @param tran transaction to save
      * @param group group to save the transaction
      */
-    public void createEntry(Transaction tran, OriginEntryGroup group);
+    public void createEntry(LaborTransaction laborTran, OriginEntryGroup group);
 
     /**
      * Save an origin entry
@@ -198,4 +198,15 @@ public interface LaborOriginEntryService {
      * @return the count of the origin entry collection in the given group
      */
     public int getCountOfEntriesInGroups(Collection<OriginEntryGroup> groups);
+    
+    
+    
+    /**
+     * get the summarized information of the entries that belong to the entry groups with the given group id list
+     * 
+     * @param groupIdList the origin entry groups
+     * @return a set of summarized information of the entries within the specified group
+     */
+    public LedgerEntryHolder getSummaryByGroupId(Collection groupIdList);
+    
 }

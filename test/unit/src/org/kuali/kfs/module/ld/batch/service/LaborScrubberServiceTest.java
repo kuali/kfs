@@ -1055,15 +1055,21 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
+    
+    */
+    
     @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testInvalidDebitCreditCode() throws Exception {
-        String[] inputTransactions = { "2007BL1031420-----4110---ACEX07ID33EUINVALDBCR     00000NOV-05 IMU Business Office          2224           241.75X2005-11-30          ----------                                                                               ", "2007BL1031420-----8000---ACAS07ID33EUINVALDBCR     00000NOV-05 IMU Business Office          2237           241.75X2005-11-30          ----------                                                                               " };
+        String[] inputTransactions = { "2007BA6044900-----2400---ACEX06PAY PLM01010207     0000100009529----------KUALI TEST DESCRIPTION                  +000000000003493.50X2006-12-22                                                 2006-12-222006-12-31000168.002007060000149952 001REGS12PAE 11 M001010207                     IU IUBLA"
+                                     , "2007BA6044900-----2400---ACEX06PAY PLM01010207     0000100009529----------KUALI TEST DESCRIPTION                  +000000000003495.50X2006-12-25                                                 2006-12-222006-12-31000168.002007060000149952 001REGS12PAE 11 M001010207                     IU IUBLA" };
 
         EntryHolder[] outputTransactions = { new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[0]), new EntryHolder(OriginEntrySource.BACKUP, inputTransactions[1]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[0]), new EntryHolder(OriginEntrySource.SCRUBBER_ERROR, inputTransactions[1]) };
 
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
     }
+    
+    /*
     @RelatesTo(RelatesTo.JiraIssue.KULLAB96)
     public void testDebitCreditCodeOnTransactionNotRequiringOffset() throws Exception {
         String[] inputTransactions = { "2007BL1031400-----4100---MBEX07BA  01WRONGDBCR     00000Rite Quality Office Supplies Inc.                   94.35D2006-01-05          ----------                                                                               ", "2007BL1031400-----1800---MBLI07BA  01WRONGDBCR     00000Rite Quality Office Supplies Inc.                   94.35C2006-01-05          ----------                                                                               " };
@@ -1267,12 +1273,12 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
 
         scrub(inputTransactions);
         assertOriginEntries(4, outputTransactions);
-    }
+    } */
 
     private void scrub(String[] inputTransactions) {
         clearOriginEntryTables();
         loadInputTransactions(OriginEntrySource.BACKUP, inputTransactions, date);
         persistenceService.getPersistenceBroker().clearCache();
         laborScrubberService.scrubEntries();
-    }*/
+    }
 }

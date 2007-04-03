@@ -3117,6 +3117,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
        //  has disappeared from the system--hence the current base--from
        //  one run to the next.)
        clearBCCSF(BaseYear); 
+       clearBCCSF(BaseYear+1);
        // build the new BC CSF objects in memory
        setUpCSFOverrideKeys(BaseYear); 
        setUpBCSFMap(BaseYear);
@@ -3512,11 +3513,11 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     }
     //
     // clean out the existing BCSF data for the key in question.
-    private void clearBCCSF(Integer BaseYear)
+    private void clearBCCSF(Integer FiscalYear)
     {
         Criteria criteriaID = new Criteria();
         criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
-                              BaseYear);
+                              FiscalYear);
         QueryByCriteria queryID = 
             new QueryByCriteria(BudgetConstructionCalculatedSalaryFoundationTracker.class,
                                 criteriaID);
@@ -3532,7 +3533,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         LOG.info(String.format("\nCSF override rows =      %d",CSFOverrideRead));
         LOG.info(String.format("\nCSF rows read            %d",CSFRowsRead));
         LOG.info(String.format("\nCSF override deletes     %d",
-                 CSFOverrideDeletesRead-CSFOverrideVacant));
+                 CSFOverrideDeletesRead));
         LOG.info(String.format("\n\nCSF overrides vacant    %d",CSFOverrideVacant));
         LOG.info(String.format("\nCSF vacant               %d",CSFRowsVacant));
         LOG.info(String.format("\nCSF vacants consolidated %d",
@@ -3631,7 +3632,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
             CalculatedSalaryFoundationTracker csfRow = 
                 (CalculatedSalaryFoundationTracker) csfResultSet.next();
             CSFRowsRead = CSFRowsRead+1;
-            CSFRowsRead = CSFRowsVacant+(isVacantLine(csfRow)?1:0);
+            CSFRowsVacant = CSFRowsVacant+(isVacantLine(csfRow)?1:0);
             // has this been overridden?  if so, don't store it
             String testKey = buildCSFKey(csfRow);
             if (csfOverrideKeys.contains(testKey))
@@ -3758,7 +3759,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         if (csfCntr.hasNext())
         {
             bCSFSize = bCSFSize +
-                       ((BigDecimal) ((Object[]) ovrdCntr.next())[0]).intValue();
+                       ((BigDecimal) ((Object[]) csfCntr.next())[0]).intValue();
         }
         bCSF = new HashMap<String,
                BudgetConstructionCalculatedSalaryFoundationTracker>(hashCapacity(bCSFSize));
@@ -4141,18 +4142,21 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     private class roundMechanism
     {
 //     the idea here is that people split over many lines could lose or gain several
-//     dollars if we rounded each salary line individually.  so, before we round the
-//     salaries in the CSF lines, we add the differences to a running total which
-//     will be added (subtracted) in dollar increments to successive lines until 
-//     the running total is exhausted.
-    private KualiDecimal diffAmount;
-    private ArrayList<BudgetConstructionCalculatedSalaryFoundationTracker> candidateBCSFRows;
-    private void roundMechanism()
-    {
-       this.diffAmount = new KualiDecimal(0);
-       this.candidateBCSFRows = 
-           new ArrayList<BudgetConstructionCalculatedSalaryFoundationTracker>(10);
-    }
+//     dollars if we rounded each salary line individually.  so, we do the following.
+//     (1) assume that all the amounts are positive
+//     (2) truncate the actual amount to the next lowest integer (round floor)
+//     (3) accumulate the difference in a running total to two decimal places
+//     (4) when all the lines for a person have been encountered, we round the
+//         difference to the next whole integer.
+//     (5) add the difference in dollar increments to each of the lines until the
+//         difference amount is exhausted  
+//     In otherwords, we only use "bankers rounding" at the end.  We truncate by 
+//     converting to an int, which calls BigDecimal.intvalue.        
+    private KualiDecimal diffAmount = new KualiDecimal(0);
+    private ArrayList<BudgetConstructionCalculatedSalaryFoundationTracker> 
+     candidateBCSFRows =
+     new ArrayList<BudgetConstructionCalculatedSalaryFoundationTracker>(10);
+
     private void addNewDiff(KualiDecimal withPennies,
                           KualiDecimal wholeDollars)
     {
@@ -4162,48 +4166,47 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
 
     public void addNewBCSF(BudgetConstructionCalculatedSalaryFoundationTracker bCSF)
     {
-       // save a pointer to the new BCSF object and round it
-       candidateBCSFRows.add(bCSF);
+       //  just round negative amounts and return
+       //  this is only a safety measure.  negative salaries are illegal in 
+       //  budget construction 
+       if (bCSF.getCsfAmount().isNegative())
+       {
+           bCSF.setCsfAmount(bCSF.getCsfAmount().setScale(0));
+           return;
+       }
+       // save a pointer to the new BCSF object and truncate it
        KualiDecimal withPenniesCSFAmount = bCSF.getCsfAmount();
-       KualiDecimal wholeDollarsCSFAmount = bCSF.getCsfAmount().setScale(0);
+       //  this uses BigDecimal intValue, which truncates
+       KualiDecimal wholeDollarsCSFAmount = 
+           new KualiDecimal(bCSF.getCsfAmount().bigDecimalValue().intValue());
        // save the difference
        addNewDiff(withPenniesCSFAmount,wholeDollarsCSFAmount);
-       // round the amount to be stored
+       // store the truncated amount
        bCSF.setCsfAmount(wholeDollarsCSFAmount);
+       candidateBCSFRows.add(bCSF);
     }
 
     public void fixRoundErrors()
     {
        // this routine adjusts the BCSF values so that the total for each
        // EMPLID round to the nearest whole dollar amount
-       KualiDecimal adjustAmount;
-       KualiDecimal negAdjust  = new KualiDecimal(-1);
-       negAdjust.setScale(0);
-       KualiDecimal posAdjust  = new KualiDecimal(1);
-       posAdjust.setScale(0);
+       KualiDecimal adjustAmount  = new KualiDecimal(1);
+       adjustAmount.setScale(0);
        // @@TODO: test code
        if (candidateBCSFRows.size() > 1)
        {
-           LOG.info(String.format("\n\nrounding amount = f for &d rows",
-                    diffAmount.floatValue(),candidateBCSFRows.size()));
+           LOG.info(String.format("\n\nrounding amount = %f for %d rows for %s",
+                    diffAmount.floatValue(),candidateBCSFRows.size(),
+                    candidateBCSFRows.get(0).getEmplid()));
        }
        // @@TODO: end test code 
        // no rounding is necessary if the difference is less than a buck
        // this will also prevent our accessing an empty array list, or
        // trying to adjust things with only one CSF row
-       if ((diffAmount.isGreaterThan(negAdjust))&&
-           (diffAmount.isLessThan(posAdjust)))
+       if (diffAmount.isLessThan(adjustAmount))
        {
            return;
        }        
-       if (diffAmount.isLessThan(KualiDecimal.ZERO))
-       {
-          adjustAmount = negAdjust; 
-       }
-       else
-       {
-          adjustAmount = posAdjust; 
-       }
        for (BudgetConstructionCalculatedSalaryFoundationTracker rCSF: candidateBCSFRows)
        {
            // @@TODO: test code
@@ -4226,8 +4229,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
            LOG.info(String.format("\n       after %f",
                    rCSF.getCsfAmount().floatValue()));
            // @@TODO: end test code 
-           if ((diffAmount.isGreaterThan(negAdjust))&&
-                   (diffAmount.isLessThan(posAdjust)))
+           if (diffAmount.isLessThan(adjustAmount))
                {
                    break;
                }        
@@ -4277,6 +4279,15 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         }
         */
         /* (3) attempt to test the rounding mechanism */
+        // build the new BC CSF objects in memory
+        setUpCSFOverrideKeys(BaseYear); 
+        setUpBCSFMap(BaseYear);
+        setUpKeysNeedingRounding(BaseYear);
+        readCSFOverride(BaseYear);
+        readCSF(BaseYear);
+        CSFForBCSF = bCSF.size(); 
+        adjustCSFRounding();
+        CSFDiagnostics();
     }
 
     //

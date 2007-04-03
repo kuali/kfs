@@ -546,26 +546,14 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
     private String getPurchasingAddressFull(CampusParameter campusParameter) {
         String purchasingAddressFull = ""; // Used at the top of the quote  - "Return this form to"
         String indent = "     ";
-        //TODO: Remove these Strings when the database table for CampusParameter provides these fields.
-        String purchasingCampusName = indent + "Indiana University";
-        String purchasingDepartmentName = indent + "Purchasing Department";
-        String purchasingAddressLine1 = indent + "Poplars Building";
-        String purchasingAddressLine2 = indent + "P.O. Box 4040";
-        String purchasingCity = indent + "Bloomington";
-        String purchasingState = "IN";
-        String purchasingZipCode = "47402";
-        String purchasingCountry = "";
-        //TODO: Uncomment these Strings when the database table for CampusParameter provides these fields.
-        /*
-        String purchasingCampusName = indent + campusParameter.getPurchasingCampusName();
+        String purchasingCampusName = indent + campusParameter.getPurchasingInstitutionName();
         String purchasingDepartmentName = indent + campusParameter.getPurchasingDepartmentName();
-        String purchasingAddressLine1 = indent + campusParameter.getPurchasingAddressLine1();
-        String purchasingAddressLine2 = indent + campusParameter.getPurchasingAddressLine2();
-        String purchasingCity = indent + campusParameter.getPurchasingCity();
-        String purchasingState = campusParameter.getPurchasingState();
-        String purchasingZipCode = campusParameter.getPurchasingZipCode();
-        String purchasingCountry = campusParameter.getPurchasingCountry();
-        */
+        String purchasingAddressLine1 = indent + campusParameter.getPurchasingDepartmentLine1Address();
+        String purchasingAddressLine2 = indent + campusParameter.getPurchasingDepartmentLine2Address();
+        String purchasingCity = indent + campusParameter.getPurchasingDepartmentCityName();
+        String purchasingState = campusParameter.getPurchasingDepartmentStateCode();
+        String purchasingZipCode = campusParameter.getPurchasingDepartmentZipCode();
+        String purchasingCountry = campusParameter.getPurchasingDepartmentCountryCode();
         purchasingAddressFull = purchasingCampusName + "\n" + purchasingDepartmentName + "\n" + purchasingAddressLine1 + "\n" + purchasingAddressLine2 + "\n" + purchasingCity + ", " + purchasingState + " " + purchasingZipCode + " " + purchasingCountry;
         
         return purchasingAddressFull;
@@ -573,18 +561,11 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
     
     private String getPurchasingAddressPartial(CampusParameter campusParameter) {
         String purchasingAddressPartial = ""; // Used at the bottom - "All material to be shipped to"
-        //TODO: Remove these Strings when the database table for CampusParameter provides these fields.
-        String purchasingCampusName = "Indiana University";
-        String purchasingCity = "Bloomington";
-        String purchasingState = "IN";
-        String purchasingZipCode = "47402";
-        //TODO: Uncomment these Strings when the database table for CampusParameter provides these fields.
-        /*
-        String purchasingCampusName = campusParameter.getPurchasingCampusName();
-        String purchasingCity = campusParameter.getPurchasingCity();
-        String purchasingState = campusParameter.getPurchasingState();
-        String purchasingZipCode = campusParameter.getPurchasingZipCode();
-        */
+
+        String purchasingCampusName = campusParameter.getPurchasingInstitutionName();
+        String purchasingCity = campusParameter.getPurchasingDepartmentCityName();
+        String purchasingState = campusParameter.getPurchasingDepartmentStateCode();
+        String purchasingZipCode = campusParameter.getPurchasingDepartmentZipCode();
         
         purchasingAddressPartial = purchasingCampusName + ", " + purchasingCity + ", " + purchasingState + " " + purchasingZipCode;
   

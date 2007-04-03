@@ -469,23 +469,19 @@ public class GeneralErrorCorrectionDocumentRuleTest extends KualiTestBase {
         testRouteDocumentRule_processRouteDocument(createDocumentUnbalanced(), false);
     }
 
-    @RelatesTo(RelatesTo.JiraIssue.KULRNE4308)
     public void testProcessGenerateGeneralLedgerPendingEntries_validTargetExpense() throws Exception {
         testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument(), getExpenseTargetLine(), EXPECTED_GEC_EXPLICIT_TARGET_PENDING_ENTRY_FOR_EXPENSE, EXPECTED_GEC_OFFSET_TARGET_PENDING_ENTRY);
     }
 
-    @RelatesTo(RelatesTo.JiraIssue.KULRNE4308)
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpense() throws Exception {
 
         testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument(), getExpenseSourceLine(), EXPECTED_GEC_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE, EXPECTED_GEC_OFFSET_SOURCE_PENDING_ENTRY);
     }
 
-    @RelatesTo(RelatesTo.JiraIssue.KULRNE4308)
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceAsset() throws Exception {
         testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument(), getAssetSourceLine(), EXPECTED_GEC_EXPLICIT_SOURCE_PENDING_ENTRY, EXPECTED_GEC_OFFSET_SOURCE_PENDING_ENTRY);
     }
 
-    @RelatesTo(RelatesTo.JiraIssue.KULRNE4308)
     public void testProcessGenerateGeneralLedgerPendingEntries_validTargetAsset() throws Exception {
         testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument(), getAssetTargetLine(), EXPECTED_GEC_EXPLICIT_TARGET_PENDING_ENTRY, EXPECTED_GEC_OFFSET_TARGET_PENDING_ENTRY);
     }

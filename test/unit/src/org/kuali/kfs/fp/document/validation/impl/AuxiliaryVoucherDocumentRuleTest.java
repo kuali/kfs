@@ -174,23 +174,19 @@ public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
         testRouteDocumentRule_processRouteDocument(createDocumentUnbalanced(), false);
     }
 
-    @RelatesTo(RelatesTo.JiraIssue.KULRNE4308)
     public void testProcessGenerateGeneralLedgerPendingEntries_validTargetExpense() throws Exception {
         testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument(), getExpenseTargetLine(), EXPECTED_AV_EXPLICIT_TARGET_PENDING_ENTRY_FOR_EXPENSE, null);
     }
 
-    @RelatesTo(RelatesTo.JiraIssue.KULRNE4308)
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpense() throws Exception {
 
         testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument(), getExpenseSourceLine(), EXPECTED_AV_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE, null);
     }
 
-    @RelatesTo(RelatesTo.JiraIssue.KULRNE4308)
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceAsset() throws Exception {
         testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument(), getAssetSourceLine(), EXPECTED_AV_EXPLICIT_SOURCE_PENDING_ENTRY, null);
     }
 
-    @RelatesTo(RelatesTo.JiraIssue.KULRNE4308)
     public void testProcessGenerateGeneralLedgerPendingEntries_validTargetAsset() throws Exception {
         testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(createDocument(), getAssetTargetLine(), EXPECTED_AV_EXPLICIT_TARGET_PENDING_ENTRY, null);
     }
@@ -198,7 +194,6 @@ public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
     private AuxiliaryVoucherDocument createDocument() throws Exception {
         // AV document has a restriction on accounting period cannot be more than 2 periods behind current
         return DocumentTestUtils.createDocument(getDocumentService(), AuxiliaryVoucherDocument.class);
-
     }
 
     private AuxiliaryVoucherDocument createDocumentValidForRouting() throws Exception {

@@ -40,6 +40,7 @@ import org.kuali.module.chart.bo.IcrAutomatedEntry;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.gl.service.BalanceService;
+import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 
 /**
@@ -662,8 +663,10 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         }
 
         // make sure both coaCode and accountNumber are filled out
-        result &= checkEmptyBOField("incomeStreamAccountNumber", newAccount.getIncomeStreamAccountNumber(), "When Fund Group is CG or GF, Income Stream Account Number");
-        result &= checkEmptyBOField("incomeStreamFinancialCoaCode", newAccount.getIncomeStreamFinancialCoaCode(), "When Fund Group is CG or GF, Income Stream Chart Of Accounts Code");
+        result &= checkEmptyBOField("incomeStreamAccountNumber", newAccount.getIncomeStreamAccountNumber(), StringUtils.replace(SpringServiceLocator.getKualiConfigurationService().getPropertyString(
+                KeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_NBR_CANNOT_BE_EMPTY), "{0}", fundGroupCode));
+        result &= checkEmptyBOField("incomeStreamFinancialCoaCode", newAccount.getIncomeStreamFinancialCoaCode(), StringUtils.replace(SpringServiceLocator.getKualiConfigurationService().getPropertyString(
+                KeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_COA_CANNOT_BE_EMPTY), "{0}", fundGroupCode));
 
         // if both fields arent present, then we're done
         if (result == false) {
@@ -688,13 +691,18 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         // Certain C&G fields are required if the Account belongs to the CG Fund Group
         if (ObjectUtils.isNotNull(newAccount.getSubFundGroup())) {
             if (SpringServiceLocator.getSubFundGroupService().isForContractsAndGrants(newAccount.getSubFundGroup())) {
-                result &= checkEmptyBOField("contractControlFinCoaCode", newAccount.getContractControlFinCoaCode(), "When Fund Group is CG, Contract Control Chart of Accounts Code");
-                result &= checkEmptyBOField("contractControlAccountNumber", newAccount.getContractControlAccountNumber(), "When Fund Group is CG, Contract Control Account Number");
-                result &= checkEmptyBOField("acctIndirectCostRcvyTypeCd", newAccount.getAcctIndirectCostRcvyTypeCd(), "When Fund Group is CG, ICR Type Code");
-                result &= checkEmptyBOField("financialIcrSeriesIdentifier", newAccount.getFinancialIcrSeriesIdentifier(), "When Fund Group is CG, ICR Series Identifier");
+                result &= checkEmptyBOField("contractControlFinCoaCode", newAccount.getContractControlFinCoaCode(), StringUtils.replace(SpringServiceLocator.getKualiConfigurationService().getPropertyString(
+                        KeyConstants.ERROR_DOCUMENT_ACCMAINT_CONTRACT_CONTROL_COA_CANNOT_BE_EMPTY), "{0}", newAccount.getSubFundGroup().getFundGroupCode()));
+                result &= checkEmptyBOField("contractControlAccountNumber", newAccount.getContractControlAccountNumber(), StringUtils.replace(SpringServiceLocator.getKualiConfigurationService().getPropertyString(
+                        KeyConstants.ERROR_DOCUMENT_ACCMAINT_CONTRACT_CONTROL_ACCT_CANNOT_BE_EMPTY), "{0}", newAccount.getSubFundGroup().getFundGroupCode()));
+                result &= checkEmptyBOField("acctIndirectCostRcvyTypeCd", newAccount.getAcctIndirectCostRcvyTypeCd(), StringUtils.replace(SpringServiceLocator.getKualiConfigurationService().getPropertyString(
+                        KeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_TYPE_CODE_CANNOT_BE_EMPTY), "{0}", newAccount.getSubFundGroup().getFundGroupCode()));
+                result &= checkEmptyBOField("financialIcrSeriesIdentifier", newAccount.getFinancialIcrSeriesIdentifier(), StringUtils.replace(SpringServiceLocator.getKualiConfigurationService().getPropertyString(
+                        KeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_SERIES_IDENTIFIER_CANNOT_BE_EMPTY), "{0}", newAccount.getSubFundGroup().getFundGroupCode()));
                 
                 // Validation for financialIcrSeriesIdentifier
-                if (checkEmptyBOField("financialIcrSeriesIdentifier", newAccount.getFinancialIcrSeriesIdentifier(), "When Fund Group is CG, ICR Series Identifier")){
+                if (checkEmptyBOField("financialIcrSeriesIdentifier", newAccount.getFinancialIcrSeriesIdentifier(), StringUtils.replace(SpringServiceLocator.getKualiConfigurationService().getPropertyString(
+                        KeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_SERIES_IDENTIFIER_CANNOT_BE_EMPTY), "{0}", newAccount.getSubFundGroup().getFundGroupCode()))){
                     Map pkMap = new HashMap();
                     pkMap.put("financialIcrSeriesIdentifier", newAccount.getFinancialIcrSeriesIdentifier());
                     if (getBoService().countMatching(IcrAutomatedEntry.class, pkMap) == 0){
@@ -703,9 +711,12 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                     }
                 }
                 
-                result &= checkEmptyBOField("indirectCostRcvyFinCoaCode", newAccount.getIndirectCostRcvyFinCoaCode(), "When Fund Group is CG, ICR Cost Recovery Chart of Accounts Code");
-                result &= checkEmptyBOField("indirectCostRecoveryAcctNbr", newAccount.getIndirectCostRecoveryAcctNbr(), "When Fund Group is CG, ICR Cost Recovery Account");
-                result &= checkEmptyBOField("accountCfdaNumber", newAccount.getAccountCfdaNumber(), "When Fund Group is CG, C&G Federal Domestic Assistance Number");
+                result &= checkEmptyBOField("indirectCostRcvyFinCoaCode", newAccount.getIndirectCostRcvyFinCoaCode(), StringUtils.replace(SpringServiceLocator.getKualiConfigurationService().getPropertyString(
+                        KeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_CHART_CODE_CANNOT_BE_EMPTY), "{0}", newAccount.getSubFundGroup().getFundGroupCode()));
+                result &= checkEmptyBOField("indirectCostRecoveryAcctNbr", newAccount.getIndirectCostRecoveryAcctNbr(), StringUtils.replace(SpringServiceLocator.getKualiConfigurationService().getPropertyString(
+                        KeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_ACCOUNT_CANNOT_BE_EMPTY), "{0}", newAccount.getSubFundGroup().getFundGroupCode()));
+                result &= checkEmptyBOField("accountCfdaNumber", newAccount.getAccountCfdaNumber(), StringUtils.replace(SpringServiceLocator.getKualiConfigurationService().getPropertyString(
+                        KeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FEDERAL_ASSISTANCE_NUMBER_CANNOT_BE_EMPTY), "{0}", newAccount.getSubFundGroup().getFundGroupCode()));
                 result &= checkContractControlAccountNumberRequired(newAccount);
             }
         }

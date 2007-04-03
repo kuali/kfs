@@ -97,10 +97,10 @@
                 <label>State Code</label>
                 <shortLabel>State Code</shortLabel>
 
-                <maxLength>28</maxLength>
+                <maxLength>45</maxLength>
 
                 <control>
-                    <text size="28" />
+                    <text size="45" />
                 </control>
 
                 <summary>State Code</summary>

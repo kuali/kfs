@@ -22,6 +22,8 @@ import java.util.Map;
 
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.Transaction;
+import org.kuali.module.gl.service.impl.scrubber.DemergerReportData;
+import org.kuali.module.gl.service.impl.scrubber.ScrubberReportData;
 import org.kuali.module.gl.util.Message;
 import org.kuali.module.gl.util.Summary;
 import org.kuali.module.labor.util.ReportRegistry;
@@ -81,4 +83,33 @@ public interface LaborReportService {
      * @param runDate the datetime of the repor generation
      */
     public void generateOutputSummaryReport(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
+    
+    
+    
+    
+    //Scrubber reports
+    public void generateScrubberLedgerSummaryReportBatch(Collection groups, String reportsDirectory, Date runDate);
+    
+    public void generateScrubberLedgerSummaryReportOnline(OriginEntryGroup group, String documentNumber, String reportsDirectory, Date runDate);
+    
+    public void generateBatchScrubberStatisticsReport(ScrubberReportData scrubberReport, Map<Transaction, List<Message>> scrubberReportErrors, String reportsDirectory, Date runDate);
+    
+    public void generateOnlineScrubberStatisticsReport(Integer groupId, ScrubberReportData scrubberReport, Map<Transaction, List<Message>> scrubberReportErrors, String documentNumber, String reportsDirectory, Date runDate);
+    
+    public void generateScrubberDemergerStatisticsReports(DemergerReportData demergerReport, String reportsDirectory, Date runDate);
+    
+    public void generateScrubberBadBalanceTypeListingReport(Collection groups, String reportsDirectory, Date runDate);
+    
+    public void generateScrubberTransactionsOnline(OriginEntryGroup validGroup, String documentNumber, String reportsDirectory, Date runDate);
+    
+    public void generateScrubberRemovedTransactions(OriginEntryGroup errorGroup, String reportsDirectory, Date runDate);
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

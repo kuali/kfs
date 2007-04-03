@@ -158,7 +158,7 @@
 
             <attribute name="financialDocumentMonth10LineAmount" forceUppercase="true">
                 <label>Financial Document Month10 Line Amount</label>
-                <shortLabel>Amount</shortLabel>
+                <shortLabel>Month 10</shortLabel>
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
@@ -173,7 +173,7 @@
 
             <attribute name="financialDocumentMonth11LineAmount" forceUppercase="true">
                 <label>Financial Document Month11 Line Amount</label>
-                <shortLabel>Amount</shortLabel>
+                <shortLabel>Month 11</shortLabel>
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
@@ -188,7 +188,7 @@
 
             <attribute name="financialDocumentMonth12LineAmount" forceUppercase="true">
                 <label>Financial Document Month12 Line Amount</label>
-                <shortLabel>Amount</shortLabel>
+                <shortLabel>Month 12</shortLabel>
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
@@ -203,7 +203,7 @@
 
             <attribute name="financialDocumentMonth1LineAmount" forceUppercase="true">
                 <label>Financial Document Month1 Line Amount</label>
-                <shortLabel>Amount</shortLabel>
+                <shortLabel>Month 1</shortLabel>
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
@@ -218,7 +218,7 @@
 
             <attribute name="financialDocumentMonth2LineAmount" forceUppercase="true">
                 <label>Financial Document Month2 Line Amount</label>
-                <shortLabel>Amount</shortLabel>
+                <shortLabel>Month 2</shortLabel>
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
@@ -233,7 +233,7 @@
 
             <attribute name="financialDocumentMonth3LineAmount" forceUppercase="true">
                 <label>Financial Document Month3 Line Amount</label>
-                <shortLabel>Amount</shortLabel>
+                <shortLabel>Month 3</shortLabel>
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
@@ -248,7 +248,7 @@
 
             <attribute name="financialDocumentMonth4LineAmount" forceUppercase="true">
                 <label>Financial Document Month4 Line Amount</label>
-                <shortLabel>Amount</shortLabel>
+                <shortLabel>Month 4</shortLabel>
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
@@ -263,7 +263,7 @@
 
             <attribute name="financialDocumentMonth5LineAmount" forceUppercase="true">
                 <label>Financial Document Month5 Line Amount</label>
-                <shortLabel>Amount</shortLabel>
+                <shortLabel>Month 5</shortLabel>
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
@@ -278,7 +278,7 @@
 
             <attribute name="financialDocumentMonth6LineAmount" forceUppercase="true">
                 <label>Financial Document Month6 Line Amount</label>
-                <shortLabel>Amount</shortLabel>
+                <shortLabel>Month 6</shortLabel>
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
@@ -293,7 +293,7 @@
 
             <attribute name="financialDocumentMonth7LineAmount" forceUppercase="true">
                 <label>Financial Document Month7 Line Amount</label>
-                <shortLabel>Amount</shortLabel>
+                <shortLabel>Month 7</shortLabel>
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
@@ -308,7 +308,7 @@
 
             <attribute name="financialDocumentMonth8LineAmount" forceUppercase="true">
                 <label>Financial Document Month8 Line Amount</label>
-                <shortLabel>Amount</shortLabel>
+                <shortLabel>Month 8</shortLabel>
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
@@ -323,7 +323,7 @@
 
             <attribute name="financialDocumentMonth9LineAmount" forceUppercase="true">
                 <label>Financial Document Month9 Line Amount</label>
-                <shortLabel>Amount</shortLabel>
+                <shortLabel>Month 9</shortLabel>
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>

@@ -36,6 +36,7 @@ import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.labor.bo.LaborObject;
+import org.kuali.module.labor.bo.PositionObjectBenefit;
 import org.kuali.rice.KNSServiceLocator;
 import org.kuali.PropertyConstants;
 
@@ -65,7 +66,9 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
     private SubObjCd financialSubObject;
     private BalanceTyp balanceType;
     private ObjectType objectType;
+
     private LaborObject laborObject;
+    private List<PositionObjectBenefit> positionObjectBenefit;
 
     private List budgetConstructionMonthly;
     
@@ -528,6 +531,31 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
         this.laborObject = laborObject;
     }        
     
+    /**
+     * Gets the positionObjectBenefit attribute. 
+     * @return Returns the positionObjectBenefit.
+     */
+    public List<PositionObjectBenefit> getPositionObjectBenefit() {
+        if (positionObjectBenefit == null){
+            Map fieldValues = new HashMap();
+            fieldValues.put("universityFiscalYear", getUniversityFiscalYear());
+            fieldValues.put("chartOfAccountsCode", getChartOfAccountsCode());
+            fieldValues.put("financialObjectCode", getFinancialObjectCode());
+            
+            setPositionObjectBenefit((List<PositionObjectBenefit>) KNSServiceLocator.getBusinessObjectService().findMatching(PositionObjectBenefit.class,fieldValues));
+            
+        }
+        return positionObjectBenefit;
+    }
+
+    /**
+     * Sets the positionObjectBenefit attribute value.
+     * @param positionObjectBenefit The positionObjectBenefit to set.
+     */
+    public void setPositionObjectBenefit(List<PositionObjectBenefit> positionObjectBenefit) {
+        this.positionObjectBenefit = positionObjectBenefit;
+    }
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

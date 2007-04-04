@@ -55,7 +55,7 @@ public class Proposal extends PersistableBusinessObjectBase {
      * @see #getProposalTotalAmount
      * @see #setProposalTotalAmount
      */
-    @SuppressWarnings({"UnusedDeclaration"})
+    @SuppressWarnings({"unused"})
     private KualiDecimal proposalTotalAmount;
     
     private KualiDecimal proposalDirectCostAmount;
@@ -91,7 +91,18 @@ public class Proposal extends PersistableBusinessObjectBase {
     private CatalogOfFederalDomesticAssistanceReference cfda;
     private ProposalOrganization primaryProposalOrganization;
 
-    /**
+    /** Dummy value used to facilitate lookups */
+    private transient String lookupUserId;
+    
+    public String getLookupUserId() {
+		return lookupUserId;
+	}
+
+	public void setLookupUserId(String lookupUserId) {
+		this.lookupUserId = lookupUserId;
+	}
+
+	/**
      * Default constructor.
      */
     @SuppressWarnings({"unchecked"})  // todo: generify TypedArrayList and rename to something appropriate like AlwaysGettableArrayList

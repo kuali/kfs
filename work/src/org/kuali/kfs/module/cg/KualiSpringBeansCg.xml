@@ -70,4 +70,12 @@
     	</property>
 	</bean>
 
+	<bean id="proposalLookupableHelperService" class="org.kuali.module.cg.lookup.ProposalLookupableHelperServiceImpl" singleton="false" parent="kualiLookupableHelperService" />
+
+	<bean id="proposalLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="proposalLookupableHelperService" />
+		</property>
+	</bean>
+
 </beans>

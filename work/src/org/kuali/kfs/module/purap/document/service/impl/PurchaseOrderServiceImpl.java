@@ -126,11 +126,18 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     /**
      * @see org.kuali.module.purap.service.PurchaseOrderService#updateFlagsAndRoute(org.kuali.module.purap.document.PurchaseOrderDocument, java.lang.String, java.lang.String, java.util.List)
      */
-    public void updateFlagsAndRoute(PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients) {
+    public void updateFlagsAndRoute(PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients, String noteText) {
         //PO row that is set to curr_ind to Y, set the pend_action to Y
         po.setPendingActionIndicator(true);
         save(po);
         try {
+            if (StringUtils.isNotBlank(noteText)) {
+                Note noteFromNoteText = new Note();
+                noteFromNoteText.setNoteText(noteText);
+                //create and save the notes
+                Note newNote = noteService.createNote(noteFromNoteText, po.getDocumentBusinessObject());
+                noteService.save(newNote);
+            }
             //call toCopy to give us a new documentHeader
             po.toCopy(docType);
             po.refreshNonUpdateableReferences();
@@ -141,9 +148,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             po.setPendingActionIndicator(false);
             documentService.routeDocument(po, annotation, adhocRoutingRecipients);
         }
-        catch (WorkflowException e) {
+        catch (WorkflowException we) {
+            LOG.error("Error during updateFlagsAndRoute on PO document: " + we.getMessage());
+            throw new RuntimeException("Error during updateFlagsAndRoute on PO document: " + we.getMessage());            
+        }
+        catch (Exception e) {
             LOG.error("Error during updateFlagsAndRoute on PO document: " + e.getMessage());
-            throw new RuntimeException("Error during updateFlagsAndRoute on PO document: " + e.getMessage());            
+            throw new RuntimeException("Error during updateFlagsAndRoute on PO document: " + e.getMessage());      
         }
     }
 

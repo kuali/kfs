@@ -28,7 +28,7 @@ public interface PurchaseOrderService {
     public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument);   
     public PurchaseOrderPostProcessorService convertDocTypeToService(String documentTypeId);  
     
-    public void updateFlagsAndRoute(PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients);
+    public void updateFlagsAndRoute(PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients, String noteText);
     
     public void completePurchaseOrder(PurchaseOrderDocument po);
     public PurchaseOrderDocument getCurrentPurchaseOrder(Integer id);

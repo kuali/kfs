@@ -15,6 +15,11 @@
  */
 package org.kuali.module.purap.web.struts.action;
 
+import java.io.ByteArrayOutputStream;
+import java.sql.Date;
+import java.util.Collection;
+
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -37,9 +42,11 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.bo.VendorDetail;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.exceptions.PurError;
 import org.kuali.module.purap.question.SingleConfirmationQuestion;
 import org.kuali.module.purap.web.struts.form.PurchaseOrderForm;
 
@@ -155,8 +162,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                     
                     PurchaseOrderDocument po = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
                     SpringServiceLocator.getPurchaseOrderService().save( po );  //Save with added note.
-                    SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(po, "KualiPurchaseOrderCloseDocument", 
-                            kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase)); 
+                    SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(po, "KualiPurchaseOrderCloseDocument",
+                            kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), reason); 
                     
                     GlobalVariables.getMessageList().add(PurapKeyConstants.PURCHASE_ORDER_MESSAGE_CLOSE_DOCUMENT);
                     kualiDocumentFormBase.setAnnotation("");
@@ -187,6 +194,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * @throws Exception
      */
     public ActionForward reopenPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("Reopen PO started");
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         PurchaseOrderDocument po = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
 
@@ -229,14 +237,98 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                         reason = "";
                     }
                     return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, PurapConstants.PODocumentsStrings.REOPEN_PO_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.QUESTION_REOPEN_PO_DOCUMENT), Constants.CONFIRMATION_QUESTION, "CreatePOReopenDocument", "", reason, KeyConstants.ERROR_DOCUMENT_DISAPPROVE_REASON_REQUIRED, Constants.QUESTION_REASON_ATTRIBUTE_NAME, new Integer(reasonLimit).toString());
-                } 
+                }
             }
         }
 
-        SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(po, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
+        SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(po, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), reason);
         GlobalVariables.getMessageList().add(PurapKeyConstants.MESSAGE_ROUTE_REOPENED);
         kualiDocumentFormBase.setAnnotation("");
         return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.PODocumentsStrings.CONFIRM_REOPEN_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_ROUTE_REOPENED), PurapConstants.PODocumentsStrings.SINGLE_CONFIRMATION_QUESTION, Constants.ROUTE_METHOD, "");
+    }
+    
+    public ActionForward retransmitPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        //TODO: Remove this temporary method when the PurchaseOrderPrintAction is ready
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        PurchaseOrderDocument po = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
+        ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
+        try {
+            String environment = "dev";
+            StringBuffer sbFilename = new StringBuffer();
+            sbFilename.append("IU_PO_");
+            sbFilename.append(po.getPurapDocumentIdentifier());
+            sbFilename.append("_");
+            sbFilename.append(System.currentTimeMillis());
+            sbFilename.append(".pdf");
+            
+            //for testing Generate PO PDF
+            //po.setPurchaseOrderAutomaticIndicator(true);
+            //Collection<String> generatePDFErrors = SpringServiceLocator.getPrintService().generatePurchaseOrderPdf(po, baosPDF, false, environment);
+            
+            //for testing Generate Quote
+            PurchaseOrderVendorQuote povq = createDummyPOVQ(po);
+            Collection<String> generatePDFErrors = SpringServiceLocator.getPrintService().generatePurchaseOrderQuotePdf(po, povq, baosPDF, environment);
+            
+            if (generatePDFErrors.size() > 0) {
+                for (String error: generatePDFErrors) {
+                    GlobalVariables.getErrorMap().putError(Constants.GLOBAL_ERRORS, PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, error);
+                }
+                if (baosPDF != null) {
+                    baosPDF.reset();
+                }
+                return mapping.findForward(Constants.MAPPING_ERROR);
+            }
+            response.setHeader("Cache-Control", "max-age=30");
+            response.setContentType("application/pdf");
+            StringBuffer sbContentDispValue = new StringBuffer();
+            sbContentDispValue.append("inline");
+            sbContentDispValue.append("; filename=");
+            sbContentDispValue.append(sbFilename);
+
+            response.setHeader(
+              "Content-disposition",
+              sbContentDispValue.toString());
+    
+            response.setContentLength(baosPDF.size());
+       
+            ServletOutputStream sos;
+
+            sos = response.getOutputStream();
+          
+            baosPDF.writeTo(sos);
+        
+            sos.flush();
+            
+            SpringServiceLocator.getPrintService().savePurchaseOrderPdf(po, false, "MYDEV");
+            //for testing Save Quote
+            //SpringServiceLocator.getPrintService().savePurchaseOrderQuotePdf(po, povq, "DEV");
+        } finally {
+            if (baosPDF != null) {
+              baosPDF.reset();
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * 
+     * TODO: Remove this dummy  method when we have the actual PrintAction working
+     * @return
+     */
+    private PurchaseOrderVendorQuote createDummyPOVQ(PurchaseOrderDocument po) {
+        PurchaseOrderVendorQuote povq = new PurchaseOrderVendorQuote();
+        povq.setPurchaseOrderVendorQuoteIdentifier(1000);
+        povq.setVendorName("Dusty's Cellar");
+        povq.setVendorHeaderGeneratedIdentifier(1000);
+        povq.setVendorCityName("Okemos");
+        povq.setVendorCountryCode("USA");
+        povq.setVendorLine1Address("1 Dobie Rd");
+        povq.setVendorFaxNumber("517-111-1FAX");
+        povq.setVendorPhoneNumber("1-800-DUSTY-CELL");
+        povq.setVendorPostalCode("48864");
+        po.setPurchaseOrderQuoteDueDate(new Date(System.currentTimeMillis()));
+        povq.setPurchaseOrder(po);
+        return povq;
     }
     
     /**
@@ -266,8 +358,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         }   
 
         if (!po.isPurchaseOrderCurrentIndicator()) {
-            //ErrorMap errorMap = GlobalVariables.getErrorMap();
-            //errorMap.putError(Constants.DOCUMENT_NOTES_ERRORS, PurapKeyConstants.WARNING_PURCHASE_ORDER_ALL_NOTES);
             ActionMessage noteMessage = new ActionMessage(PurapKeyConstants.WARNING_PURCHASE_ORDER_ALL_NOTES);
             ActionMessage statusHistoryMessage = new ActionMessage(PurapKeyConstants.WARNING_PURCHASE_ORDER_ENTIRE_STATUS_HISTORY);
             messages.add(PurapConstants.NOTE_TAB_WARNING, noteMessage);

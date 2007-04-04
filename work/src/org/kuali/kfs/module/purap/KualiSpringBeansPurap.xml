@@ -141,6 +141,9 @@
         <property name="purapService">
             <ref bean="purapService" />
         </property>
+        <property name="noteService">
+            <ref bean="noteService" />
+        </property>
 		<property name="purchaseOrderDao">
 			<ref bean="purchaseOrderDao" />
 		</property>

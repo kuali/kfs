@@ -63,6 +63,16 @@ public class LaborReportServiceImpl implements LaborReportService {
         LedgerReport ledgerReport = new LedgerReport();
         ledgerReport.generateReport(ledgerEntries, runDate, reportInfo.reportTitle(), reportInfo.reportFilename(), reportsDirectory);
     }
+    
+    /**
+     * @see org.kuali.module.labor.service.LaborReportService#generateInputSummaryReport(org.kuali.module.gl.bo.OriginEntryGroup, org.kuali.module.labor.util.ReportRegistry, java.lang.String, java.util.Date)
+     */
+    public void generateInputSummaryReport(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
+        List<OriginEntryGroup> groups = new ArrayList<OriginEntryGroup>();
+        groups.add(group);
+        
+        this.generateInputSummaryReport(groups, reportInfo, reportsDirectory, runDate);       
+    }
 
 
     /**

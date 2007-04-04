@@ -51,7 +51,7 @@ public interface LaborReportService {
      * @param reportsDirectory the directory in file system that is used to contain reports
      * @param runDate the datetime of the repor generation
      */
-    public void generateInputSummaryReport(OriginEntryGroup groups, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
+    public void generateInputSummaryReport(OriginEntryGroup group, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
     
     /**
      * Generate error transaction listing as a report

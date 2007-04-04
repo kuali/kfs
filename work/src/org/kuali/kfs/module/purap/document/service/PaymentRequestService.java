@@ -15,9 +15,35 @@
  */
 package org.kuali.module.purap.service;
 
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.NoteService;
+import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.module.purap.dao.PaymentRequestDao;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 
 public interface PaymentRequestService {
+
+    public void setBusinessObjectService(BusinessObjectService boService);
+
+    public void setDateTimeService(DateTimeService dateTimeService) ;
+   
+
+    public void setDocumentService(DocumentService documentService) ;
+    
+    public void setNoteService(NoteService noteService);
+    
+
+    public void setGeneralLedgerService(GeneralLedgerService generalLedgerService) ;
+    
+    public void setPurapService(PurapService purapService) ;
+
+    public void setPaymentRequestDao(PaymentRequestDao paymentRequestDao) ;
+
+    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) ;
+    
+    public void setVendorService(VendorService vendorService) ;
 
     public void save(PaymentRequestDocument paymentRequestDocument);
 }

@@ -32,7 +32,7 @@
         subheading="Monthly Amounts"/>
 
       <tr>
-          <kul:htmlAttributeHeaderCell attributeEntry="${pbglAttributes.universityFiscalYear}" >
+          <kul:htmlAttributeHeaderCell align="left" attributeEntry="${pbglAttributes.universityFiscalYear}" >
               <html:hidden property="returnAnchor" />
               <html:hidden property="returnFormKey" />
           </kul:htmlAttributeHeaderCell>
@@ -45,10 +45,51 @@
       </tr>
 
       <tr>
-          <td>${pbgl.universityFiscalYear}</td>
-          <td>${pbgl.chartOfAccountsCode}</td>
-          <td>${pbgl.accountNumber}</td>
-          <td>${pbgl.subAccountNumber}</td>
+          <bc:pbglLineDataCell dataCellCssClass="datacell"
+              accountingLine="budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger"
+              cellProperty="budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger.universityFiscalYear"
+              field="universityFiscalYear"
+              attributes="${pbglAttributes}"
+              readOnly="true"
+              displayHidden="false" />
+
+          <bc:pbglLineDataCell dataCellCssClass="datacell"
+              accountingLine="budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger"
+              field="chartOfAccountsCode"
+              detailField="chartOfAccounts.finChartOfAccountDescription"
+              attributes="${pbglAttributes}" inquiry="true"
+              boClassSimpleName="Chart"
+              readOnly="true"
+              displayHidden="$false"
+              accountingLineValuesMap="${KualiForm.budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger.valuesMap}" />
+
+          <bc:pbglLineDataCell dataCellCssClass="datacell"
+              accountingLine="budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger"
+              field="accountNumber"
+              detailField="account.accountName"
+              attributes="${pbglAttributes}" inquiry="true"
+              boClassSimpleName="Account"
+              readOnly="true"
+              displayHidden="false"
+              lookupOrInquiryKeys="chartOfAccountsCode"
+              accountingLineValuesMap="${KualiForm.budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger.valuesMap}" />
+          
+          <c:set var="doAccountLookupOrInquiry" value="false"/>
+          <c:if test="${pbgl.subAccountNumber ne Constants.DASHES_SUB_ACCOUNT_NUMBER}">
+              <c:set var="doAccountLookupOrInquiry" value="true"/>
+          </c:if>
+
+          <bc:pbglLineDataCell dataCellCssClass="datacell"
+              accountingLine="budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger"
+              field="subAccountNumber"
+              detailField="subAccount.subAccountName"
+              attributes="${pbglAttributes}" inquiry="${doAccountLookupOrInquiry}"
+              boClassSimpleName="SubAccount"
+              readOnly="true"
+              displayHidden="false"
+              lookupOrInquiryKeys="universityFiscalYear,chartOfAccountsCode"
+              accountingLineValuesMap="${KualiForm.budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger.valuesMap}" />
+          
           <bc:pbglLineDataCell dataCellCssClass="datacell"
               accountingLine="budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger"
               field="financialObjectCode"
@@ -57,10 +98,25 @@
               boClassSimpleName="ObjectCode"
               readOnly="true"
               displayHidden="false"
-              lookupOrInquiryKeys="chartOfAccountsCode"
-              accountingLineValuesMap="${budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger.valuesMap}"
-              inquiryExtraKeyValues="universityFiscalYear=${KualiForm.budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger.universityFiscalYear}" />
-          <td>${pbgl.financialSubObjectCode}</td>
+              lookupOrInquiryKeys="universityFiscalYear,chartOfAccountsCode"
+              accountingLineValuesMap="${KualiForm.budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger.valuesMap}" />
+
+          <c:set var="doSubObjectLookupOrInquiry" value="false"/>
+          <c:if test="${pbgl.financialSubObjectCode ne Constants.DASHES_SUB_OBJECT_CODE}">
+              <c:set var="doSubObjectLookupOrInquiry" value="true"/>
+          </c:if>
+
+          <bc:pbglLineDataCell dataCellCssClass="datacell"
+              accountingLine="budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger"
+              field="financialSubObjectCode"
+              detailField="financialSubObject.financialSubObjectCdshortNm"
+              attributes="${pbglAttributes}" inquiry="${doSubObjectLookupOrInquiry}"
+              boClassSimpleName="SubObjCd"
+              readOnly="true"
+              displayHidden="false"
+              lookupOrInquiryKeys="universityFiscalYear,chartOfAccountsCode,financialObjectCode,accountNumber"
+              accountingLineValuesMap="${KualiForm.budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger.valuesMap}" />
+
           <bc:pbglLineDataCell dataCellCssClass="datacell"
               accountingLine="budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger"
               cellProperty="budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger.accountLineAnnualBalanceAmount"

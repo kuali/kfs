@@ -40,9 +40,18 @@ public class PurapConstants {
     public static final String ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING = "Unable to save the contract manager for the following Requisitions: ";
     public static final String NOTE_TAB_WARNING = "noteWarning";
     public static final String STATUS_HISTORY_TAB_WARNING = "statusHistoryWarning";
+    
+    //PDF Constants
     public static final String IMAGE_TEMP_PATH = "PURAP.IMAGE.TEMP.PATH";
     public static final String PDF_DIRECTORY = "PURAP.PDF.DIRECTORY";
     public static final String STATUS_INQUIRY_URL = "PURAP.STATUS.INQUIRY.URL";
+    public static final String PURCHASING_DIRECTOR_IMAGE_PREFIX = "PURAP.PUR.DIRECTOR.IMAGE.PREFIX";
+    public static final String PURCHASING_DIRECTOR_IMAGE_EXTENSION = "PURAP.PUR.DIRECTOR.IMAGE.EXTENSION";
+    public static final String CONTRACT_MANAGER_IMAGE_PREFIX = "PURAP.CONTRACT.MGR.IMAGE.PREFIX";
+    public static final String CONTRACT_MANAGER_IMAGE_EXTENSION = "PURAP.CONTRACT.MGR.IMAGE.EXTENSION";
+    public static final String LOGO_IMAGE_PREFIX = "PURAP.PDF.LOGO.IMAGE.PREFIX";
+    public static final String LOGO_IMAGE_EXTENSION = "PURAP.PDF.LOGO.IMAGE.EXTENSION";
+    public static final String PDF_IMAGES_AVAILABLE_INDICATOR = "PURAP.PDF.IMAGES.AVAILABLE.INDICATOR";
     
     //Vendor Tax Types
     public static final String TAX_TYPE_FEIN = "FEIN";

@@ -232,15 +232,15 @@
                    </c:if>
                    <c:if test="${!empty item.financialBeginningBalanceLineAmount && item.financialBeginningBalanceLineAmount != 0}">
                      <br>
-                     <html:image property="methodToCall.performPercentAdjustmentExpenditureLine.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" src="images/tinybutton-calculate.gif" title="Percent Adjustment Expenditure Line ${status.index}" alt="Percent Adjustment Expenditure Line ${status.index}" styleClass="tinybutton"/>
+                     <html:image property="methodToCall.performPercentAdjustmentExpenditureLine.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" src="images/tinybutton-percentincdec.gif" title="Percent Adjustment Expenditure Line ${status.index}" alt="Percent Adjustment Expenditure Line ${status.index}" styleClass="tinybutton"/>
                    </c:if>
                    <c:if test="${!empty item.laborObject && item.laborObject.detailPositionRequiredIndicator}">
                      <br>
-                     <html:image property="methodToCall.performSalarySetting.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" src="images/tinybutton-addpers.gif" title="Perform Salary Setting For ${status.index}" alt="Perform Salary Setting For Line ${status.index}" styleClass="tinybutton"/>
+                     <html:image property="methodToCall.performSalarySetting.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" src="images/tinybutton-salarysetting.gif" title="Perform Salary Setting For ${status.index}" alt="Perform Salary Setting For Line ${status.index}" styleClass="tinybutton"/>
                    </c:if>
                    <c:if test="${!empty item.positionObjectBenefit[0]}">
                      <br>
-                     <html:image property="methodToCall.performShowBenefits.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" src="images/tinybutton-view.gif" title="Show Benefits For ${status.index}" alt="Show Benefits For Line ${status.index}" styleClass="tinybutton"/>
+                     <html:image property="methodToCall.performShowBenefits.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" src="images/tinybutton-showbenefits.gif" title="Show Benefits For ${status.index}" alt="Show Benefits For Line ${status.index}" styleClass="tinybutton"/>
                    </c:if>
                  </div>
              </td>
@@ -265,10 +265,10 @@
             <tr>
               <td colspan="8" class="datacell" nowrap>
                 <div align="center">
-                  <html:image property="methodToCall.performPercentChange.anchorexpenditureControlsAnchor" src="images/buttonsmall_namelater.gif" title="Apply Percent Change" alt="Apply Percent Change" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
-                  <html:image property="methodToCall.performMonthSpread.anchorexpenditureControlsAnchor" src="images/buttonsmall_namelater.gif" title="Monthly Spread" alt="Monthly Spread" styleClass="tinybutton" />&nbsp;&nbsp;&nbsp;
-                  <html:image property="methodToCall.performMonthDelete.anchorexpenditureControlsAnchor" src="images/buttonsmall_namelater.gif" title="Monthly Delete" alt="Monthly Delete" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
-                  <html:image property="methodToCall.performCalculateBenfits.anchorexpenditureControlsAnchor" src="images/buttonsmall_namelater.gif" title="Calculate Benefits" alt="Calculate Benefits" styleClass="tinybutton"/>
+                  <html:image property="methodToCall.performPercentChange.anchorexpenditureControlsAnchor" src="images/buttonsmall_percentincdec.gif" title="Apply Percent Change" alt="Apply Percent Change" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
+                  <html:image property="methodToCall.performMonthSpread.anchorexpenditureControlsAnchor" src="images/buttonsmall_monthspread.gif" title="Monthly Spread" alt="Monthly Spread" styleClass="tinybutton" />&nbsp;&nbsp;&nbsp;
+                  <html:image property="methodToCall.performMonthDelete.anchorexpenditureControlsAnchor" src="images/buttonsmall_monthdel.gif" title="Monthly Delete" alt="Monthly Delete" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
+                  <html:image property="methodToCall.performCalculateBenfits.anchorexpenditureControlsAnchor" src="images/buttonsmall_calcbenefits.gif" title="Calculate Benefits" alt="Calculate Benefits" styleClass="tinybutton"/>
                 </div>
               </td>
 	        </tr>

@@ -355,9 +355,9 @@
     	<tr>
           <td colspan="4" class="datacell" nowrap>
             <div align="center">
-              <html:image property="methodToCall.performAccountPullup.anchorsystemControlsAnchor" src="images/buttonsmall_namelater.gif" title="Account Pull Up" alt="Account Pull Up" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
-              <html:image property="methodToCall.performAccountPushdown.anchorsystemControlsAnchor" src="images/buttonsmall_namelater.gif" title="Account Push Down" alt="Account Push Down" styleClass="tinybutton" />&nbsp;&nbsp;&nbsp;
-              <html:image property="methodToCall.performReportDump.anchorsystemControlsAnchor" src="images/buttonsmall_namelater.gif" title="Account Report/Dump" alt="Account Report/Dump" styleClass="tinybutton"/>
+              <html:image property="methodToCall.performAccountPullup.anchorsystemControlsAnchor" src="images/buttonsmall_pullup.gif" title="Account Pull Up" alt="Account Pull Up" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
+              <html:image property="methodToCall.performAccountPushdown.anchorsystemControlsAnchor" src="images/buttonsmall_pushdown.gif" title="Account Push Down" alt="Account Push Down" styleClass="tinybutton" />&nbsp;&nbsp;&nbsp;
+              <html:image property="methodToCall.performReportDump.anchorsystemControlsAnchor" src="images/buttonsmall_reportdump.gif" title="Account Report/Dump" alt="Account Report/Dump" styleClass="tinybutton"/>
             </div>
           </td>
 	    </tr>

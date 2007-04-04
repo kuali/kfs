@@ -227,7 +227,7 @@
                    <html:image property="methodToCall.performBalanceInquiryForRevenueLine.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" src="images/tinybutton-balinquiry.gif" title="Balance Inquiry For Revenue Line ${status.index}" alt="Balance Inquiry For Revenue Line ${status.index}" styleClass="tinybutton" />
                    <c:if test="${!empty item.financialBeginningBalanceLineAmount && item.financialBeginningBalanceLineAmount != 0}">
                      <br>
-                     <html:image property="methodToCall.performPercentAdjustmentRevenueLine.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" src="images/tinybutton-calculate.gif" title="Percent Adjustment Revenue Line ${status.index}" alt="Percent Adjustment Revenue Line ${status.index}" styleClass="tinybutton"/>
+                     <html:image property="methodToCall.performPercentAdjustmentRevenueLine.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" src="images/tinybutton-percentincdec.gif" title="Percent Adjustment Revenue Line ${status.index}" alt="Percent Adjustment Revenue Line ${status.index}" styleClass="tinybutton"/>
                    </c:if>
                  </div>
              </td>
@@ -252,9 +252,9 @@
             <tr>
               <td colspan="8" class="datacell" nowrap>
                 <div align="center">
-                  <html:image property="methodToCall.performPercentChange.anchorexpenditureControlsAnchor" src="images/buttonsmall_namelater.gif" title="Apply Percent Change" alt="Apply Percent Change" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
-                  <html:image property="methodToCall.performMonthSpread.anchorexpenditureControlsAnchor" src="images/buttonsmall_namelater.gif" title="Monthly Spread" alt="Monthly Spread" styleClass="tinybutton" />&nbsp;&nbsp;&nbsp;
-                  <html:image property="methodToCall.performMonthDelete.anchorexpenditureControlsAnchor" src="images/buttonsmall_namelater.gif" title="Monthly Delete" alt="Monthly Delete" styleClass="tinybutton"/>
+                  <html:image property="methodToCall.performPercentChange.anchorexpenditureControlsAnchor" src="images/buttonsmall_percentincdec.gif" title="Apply Percent Change" alt="Apply Percent Change" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
+                  <html:image property="methodToCall.performMonthSpread.anchorexpenditureControlsAnchor" src="images/buttonsmall_monthspread.gif" title="Monthly Spread" alt="Monthly Spread" styleClass="tinybutton" />&nbsp;&nbsp;&nbsp;
+                  <html:image property="methodToCall.performMonthDelete.anchorexpenditureControlsAnchor" src="images/buttonsmall_monthdel.gif" title="Monthly Delete" alt="Monthly Delete" styleClass="tinybutton"/>
                 </div>
               </td>
 	        </tr>

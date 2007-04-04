@@ -105,6 +105,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
     public ActionForward closePO(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        PurchaseOrderDocument po = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
 
         Object question = request.getParameter(Constants.QUESTION_INST_ATTRIBUTE_NAME);
         String reason = request.getParameter(Constants.QUESTION_REASON_ATTRIBUTE_NAME);
@@ -153,16 +154,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                                 PurapKeyConstants.ERROR_PURCHASE_ORDER_CLOSE_REASON_REQUIRED, Constants.QUESTION_REASON_ATTRIBUTE_NAME, 
                                 new Integer(reasonLimit).toString());
                     }
-                    
-                    //Setting the note on the BO.
-                    Note reasonNote = new Note();
-                    reasonNote.setNoteText( closingNoteText );
-                    kualiDocumentFormBase.setNewNote( reasonNote );
-                    this.insertBONote( mapping, kualiDocumentFormBase, request, response );
-                    
-                    PurchaseOrderDocument po = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
-                    SpringServiceLocator.getPurchaseOrderService().save( po );  //Save with added note.
-                    SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(po, "KualiPurchaseOrderCloseDocument",
+                  
+                    SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(po, "KualiPurchaseOrderCloseDocument", 
                             kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), reason); 
                     
                     GlobalVariables.getMessageList().add(PurapKeyConstants.PURCHASE_ORDER_MESSAGE_CLOSE_DOCUMENT);
@@ -237,7 +230,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                         reason = "";
                     }
                     return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, PurapConstants.PODocumentsStrings.REOPEN_PO_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.QUESTION_REOPEN_PO_DOCUMENT), Constants.CONFIRMATION_QUESTION, "CreatePOReopenDocument", "", reason, KeyConstants.ERROR_DOCUMENT_DISAPPROVE_REASON_REQUIRED, Constants.QUESTION_REASON_ATTRIBUTE_NAME, new Integer(reasonLimit).toString());
-                }
+                } 
             }
         }
 

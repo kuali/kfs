@@ -93,6 +93,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public void setVendorService(VendorService vendorService) {
         this.vendorService = vendorService;    
     }
+    
+    public List<PaymentRequestDocument> getPaymentRequestsByPurchaseOrderId(Integer poDocId) {
+        return paymentRequestDao.getPaymentRequestsByPurchaseOrderId( poDocId );
+    }
 
     public void save(PaymentRequestDocument paymentRequestDocument) {
        

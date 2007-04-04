@@ -15,10 +15,13 @@
  */
 package org.kuali.module.purap.dao;
 
+import java.util.List;
+
 import org.kuali.module.purap.document.PaymentRequestDocument;
 
 public interface PaymentRequestDao {
 
     public void save(PaymentRequestDocument paymentRequestDocument);
     public PaymentRequestDocument getPaymentRequestById(Integer id);
+    public List<PaymentRequestDocument> getPaymentRequestsByPurchaseOrderId(Integer poDocId);
 }

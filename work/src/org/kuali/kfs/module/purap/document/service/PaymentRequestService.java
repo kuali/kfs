@@ -15,6 +15,8 @@
  */
 package org.kuali.module.purap.service;
 
+import java.util.List;
+
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
@@ -46,4 +48,6 @@ public interface PaymentRequestService {
     public void setVendorService(VendorService vendorService) ;
 
     public void save(PaymentRequestDocument paymentRequestDocument);
+    
+    public List<PaymentRequestDocument> getPaymentRequestsByPurchaseOrderId(Integer poDocId);
 }

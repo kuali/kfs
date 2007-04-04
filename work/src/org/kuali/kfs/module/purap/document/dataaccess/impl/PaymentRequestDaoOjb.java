@@ -15,6 +15,8 @@
  */
 package org.kuali.module.purap.dao.ojb;
 
+import java.util.List;
+
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.module.purap.PurapPropertyConstants;
@@ -47,4 +49,14 @@ public class PaymentRequestDaoOjb extends PersistenceBrokerDaoSupport implements
         }
         return pReq;
       }
+    
+    public List<PaymentRequestDocument> getPaymentRequestsByPurchaseOrderId(Integer poDocId) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo( PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, poDocId );
+
+        List<PaymentRequestDocument> pReqs = (List<PaymentRequestDocument>)this.getPersistenceBrokerTemplate().getCollectionByQuery(
+                new QueryByCriteria(PaymentRequestDocument.class, criteria));
+ 
+        return pReqs; 
+    }
 }

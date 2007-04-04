@@ -25,7 +25,6 @@ import org.kuali.core.bo.Note;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.core.service.NoteService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
@@ -38,7 +37,6 @@ import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.bo.RecurringPaymentFrequency;
 import org.kuali.module.purap.bo.ShippingPaymentTerms;
 import org.kuali.module.purap.bo.ShippingTitle;
-import org.kuali.module.purap.bo.StatusHistory;
 import org.kuali.module.purap.bo.VendorDetail;
 import org.kuali.module.purap.service.PurchaseOrderPostProcessorService;
 

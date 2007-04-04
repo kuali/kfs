@@ -15,13 +15,18 @@
  */
 package org.kuali.module.purap.rules;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.module.purap.document.PaymentRequestDocument;
+import org.kuali.module.purap.document.PurchaseOrderDocument;
 
 public class PurchaseOrderCloseDocumentRule extends TransactionalDocumentRuleBase {
     
@@ -51,10 +56,32 @@ public class PurchaseOrderCloseDocumentRule extends TransactionalDocumentRuleBas
 
     private boolean processValidation(PurchaseOrderDocument document) {
         boolean valid = true;
-        if( !StringUtils.equals( document.getStatusCode(), PurchaseOrderStatuses.OPEN ) ) {
+        //The PO must be in OPEN status.
+        if( !StringUtils.equalsIgnoreCase( document.getStatusCode(), PurchaseOrderStatuses.OPEN ) ) {
             valid = false;
         } else {
-            
+            //TODO: To be uncommented and tested after PREQ implementation gets further.
+            //valid &= processPaymentRequestRules( document );
+        }
+        return valid;
+    }
+    
+    public boolean processPaymentRequestRules( PurchaseOrderDocument document ) {
+        boolean valid = true;
+        //The PO must have at least one PREQ against it.
+        Integer poDocId = document.getPurapDocumentIdentifier();
+        List<PaymentRequestDocument> pReqs = SpringServiceLocator.getPaymentRequestService().getPaymentRequestsByPurchaseOrderId( poDocId );
+        if( ObjectUtils.isNotNull( pReqs ) ) {
+            if( pReqs.size() == 0 ) {
+                valid = false;
+            } else {
+                //None of the PREQs against this PO may be in 'In Process' status.
+                for( PaymentRequestDocument pReq : pReqs ) {
+                    if( StringUtils.equalsIgnoreCase( pReq.getStatusCode(), PaymentRequestStatuses.IN_PROCESS ) ) {
+                        valid = false;
+                    }
+                }
+            }
         }
         return valid;
     }

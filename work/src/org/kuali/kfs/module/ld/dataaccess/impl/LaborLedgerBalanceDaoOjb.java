@@ -437,7 +437,7 @@ public class LaborLedgerBalanceDaoOjb extends PersistenceBrokerDaoSupport implem
         attributeList.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
         attributeList.add(PropertyConstants.ACCOUNT_NUMBER);
         attributeList.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
-        attributeList.add(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);    
+        attributeList.add(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
         attributeList.add(PropertyConstants.FINANCIAL_OBJECT_CODE);
         attributeList.add(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
         attributeList.add(PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
@@ -549,4 +549,16 @@ public class LaborLedgerBalanceDaoOjb extends PersistenceBrokerDaoSupport implem
         this.kualiConfigurationService = kualiConfigurationService;
     }
 
+    public Iterator<Object[]> getAccountStatusCurrentFunds(Map fieldValues) {
+        Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new LedgerBalance());
+        criteria.addEqualToField("universalUser.personUniversalIdentifier", "emplid");
+        
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(LedgerBalance.class, criteria);
+
+        // set the selection attributes
+        String[] attributes = {"emplid", "universalUser.personName"};
+        query.setAttributes(attributes);
+
+        return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+    }
 }

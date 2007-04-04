@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
 import org.kuali.module.labor.bo.LedgerBalance;
 
 public interface LaborLedgerBalanceService {
@@ -99,4 +100,6 @@ public interface LaborLedgerBalanceService {
      * @return
      */
     public List getGlSummary(int universityFiscalYear, List<String> balanceTypeCodes);
+    
+    public Iterator<AccountStatusCurrentFunds> getAccountStatusCurrentFunds(Map fieldValues);
 }

@@ -67,7 +67,8 @@ public class LedgerBalance extends Balance {
     private ObjectType financialObjectType;
     private Balance financialBalance;
 
-    private UniversalUser ledgerPerson;
+    private UniversalUser ledgerPerson; // follow naming convention?
+    private UniversalUser universalUser;
 
     /**
      * Default constructor.
@@ -756,5 +757,21 @@ public class LedgerBalance extends Balance {
      */
     public void setLedgerPerson(UniversalUser ledgerPerson) {
         this.ledgerPerson = ledgerPerson;
+    }
+
+    /**
+     * Gets the universalUser attribute. 
+     * @return Returns the universalUser.
+     */
+    public UniversalUser getUniversalUser() {
+        return universalUser;
+    }
+
+    /**
+     * Sets the universalUser attribute value.
+     * @param universalUser The universalUser to set.
+     */
+    public void setUniversalUser(UniversalUser universalUser) {
+        this.universalUser = universalUser;
     }
 }

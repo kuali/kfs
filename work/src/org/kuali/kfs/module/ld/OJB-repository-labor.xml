@@ -484,6 +484,9 @@
     <reference-descriptor name="option" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>	
+    <reference-descriptor name="universalUser" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="emplid" />
+    </reference-descriptor>	    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.labor.bo.LedgerA21Balance" table="LD_LDGR_BAL_T">

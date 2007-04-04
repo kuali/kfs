@@ -32,6 +32,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.gl.bo.GlSummary;
 import org.kuali.module.gl.util.OJBUtility;
+import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.dao.LaborLedgerBalanceDao;
 import org.kuali.module.labor.service.LaborLedgerBalanceService;
@@ -417,5 +418,21 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
             loadConstantsFromOptions();
         }
         return encumbranceBaseBudgetBalanceTypeCodes;
+    }
+
+    public Iterator<AccountStatusCurrentFunds> getAccountStatusCurrentFunds(Map fieldValues) {
+        Iterator<Object[]> accountStatusCurrentFundsIterator = balanceDao.getAccountStatusCurrentFunds(fieldValues);
+        Collection<AccountStatusCurrentFunds> accountStatusCurrentFunds = new ArrayList<AccountStatusCurrentFunds>();
+        
+        while(accountStatusCurrentFundsIterator != null && accountStatusCurrentFundsIterator.hasNext()){
+            Object[] entry = accountStatusCurrentFundsIterator.next();
+            AccountStatusCurrentFunds balance = new AccountStatusCurrentFunds();
+            
+            balance.setEmplid(entry[0].toString());
+            balance.setPersonName(entry[1].toString());
+            
+            accountStatusCurrentFunds.add(balance);
+        }       
+        return accountStatusCurrentFunds.iterator();
     }
 }

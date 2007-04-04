@@ -16,7 +16,6 @@
 
 package org.kuali.module.labor.bo;
 
-import org.kuali.KeyConstants;
 import org.kuali.core.bo.user.PersonPayrollId;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.bo.user.UserId;
@@ -29,9 +28,8 @@ import org.kuali.module.chart.bo.ObjectType;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.service.LaborBalanceInquiryService;
-import org.springframework.beans.factory.BeanFactory;
 
-public class AccountStatusCurrentFunds extends Balance {
+public class AccountStatusCurrentFunds extends LedgerBalance {
 
     private String financialObjectCode;
     private String financialSubObjectCode;
@@ -48,8 +46,6 @@ public class AccountStatusCurrentFunds extends Balance {
     private Chart chartOfAccounts;
     private ObjectType financialObjectType;
     private Balance financialBalance;
-    private UniversalUserService universalUserService;
-    private LaborBalanceInquiryService laborBalanceInquiryService;
 
     /**
      * Constructs an AccountStatusCurrentFunds.java.
@@ -273,16 +269,7 @@ public class AccountStatusCurrentFunds extends Balance {
     }
     
     public String getPersonName() {
-        UserId empl = new PersonPayrollId(getEmplid());
-        UniversalUser universalUser = null;
-        
-        try{
-            universalUser = SpringServiceLocator.getUniversalUserService().getUniversalUser(empl);
-        }catch(UserNotFoundException e){
-            return LaborConstants.BalanceInquiries.UnknownPersonName;
-        }
-
-        return universalUser.getPersonName();
+        return this.personName;
     }        
         
     public void setPersonName(String personName) {

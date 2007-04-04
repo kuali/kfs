@@ -137,4 +137,6 @@ public interface LaborLedgerBalanceDao {
      * @return an iterator over all balances for a given fiscal year
      */
     public Iterator<LedgerBalance> findBalancesForFiscalYear(Integer year);
+
+    public Iterator<Object[]> getAccountStatusCurrentFunds(Map fieldValues);
 }

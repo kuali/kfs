@@ -47,7 +47,7 @@ public class MonthlyBudgetForm extends KualiForm {
     public MonthlyBudgetForm(){
         super();
         setBudgetConstructionMonthly(new BudgetConstructionMonthly());
-        getBudgetConstructionMonthly().setDocumentNumber("1234");
+//        getBudgetConstructionMonthly().setDocumentNumber("1234");
 
 // TODO remove - was here originally for kul:page tag use 
 //      this.setDocTypeName("KualiBudgetConstructionDocument");

@@ -1201,6 +1201,28 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
     
     /**
+     * Perform logic needed to initiate PREQ Document
+     */
+    public void clearInitFields() {
+        LOG.debug("clearDocument() started");
+        // Clearing document overview fields 
+        
+        this.getDocumentHeader().setFinancialDocumentDescription(null);
+        this.getDocumentHeader().setExplanation(null);
+        this.getDocumentHeader().setFinancialDocumentTotalAmount(null);
+        this.getDocumentHeader().setOrganizationDocumentNumber(null);
+    
+        // Clearing document Init fields
+        this.setPurchaseOrderIdentifier(null);
+        this.setInvoiceNumber(null);
+        this.setInvoiceDate(null);
+        this.setVendorInvoiceAmount(null);
+        this.setPaymentSpecialHandlingInstructionLine1Text(null);
+        this.setPaymentSpecialHandlingInstructionLine2Text(null);
+        this.setPaymentSpecialHandlingInstructionLine3Text(null);
+        }
+    
+    /**
      * Gets the DisplayInitiateTab attribute for JSP 
      * @return Returns the DisplayInitiateTab.
      */

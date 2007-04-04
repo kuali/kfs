@@ -94,7 +94,25 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         return super.refresh(mapping, form, request, response);
         //return mapping.findForward(Constants.MAPPING_BASIC);
     }
+    
+    public ActionForward clearInitFields(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.debug("clearInitValues() method");
 
+        PaymentRequestForm preqForm = (PaymentRequestForm) form;
+        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) preqForm.getDocument();
+        paymentRequestDocument.clearInitFields();
+        
+        //PaymentRequestDocument paymentRequestDocument = new PaymentRequestDocument();
+        // preqForm.setDocument(paymentRequestDocument);
+        //PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) preqForm.getDocument();
+        
+       
+        
+        
+             
+        return super.refresh(mapping, form, request, response);
+        //return mapping.findForward(Constants.MAPPING_BASIC);
+    }
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */

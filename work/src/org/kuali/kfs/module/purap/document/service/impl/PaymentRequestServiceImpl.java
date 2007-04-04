@@ -38,12 +38,14 @@ import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.VendorService;
 //import org.kuali.module.purap.service.PaymentRequestPostProcessorService;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class...
  */
+@Transactional
 public class PaymentRequestServiceImpl implements PaymentRequestService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestServiceImpl.class);
 
@@ -59,8 +61,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;    
-    }
-
+}
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;    
     }

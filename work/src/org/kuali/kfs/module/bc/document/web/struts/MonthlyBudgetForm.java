@@ -25,7 +25,8 @@ public class MonthlyBudgetForm extends KualiForm {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MonthlyBudgetForm.class);
     
     private BudgetConstructionMonthly budgetConstructionMonthly;
-    private String docTypeName;
+//  TODO remove - was here originally for kul:page tag use 
+//    private String docTypeName;
 
     //TODO probably need to push this to new superclass BCExpansionForm??
     private boolean hideDetails = false;
@@ -47,7 +48,9 @@ public class MonthlyBudgetForm extends KualiForm {
         super();
         setBudgetConstructionMonthly(new BudgetConstructionMonthly());
         getBudgetConstructionMonthly().setDocumentNumber("1234");
-        this.setDocTypeName("KualiBudgetConstructionDocument");
+
+// TODO remove - was here originally for kul:page tag use 
+//      this.setDocTypeName("KualiBudgetConstructionDocument");
     }
 
     /**
@@ -70,17 +73,19 @@ public class MonthlyBudgetForm extends KualiForm {
      * Gets the docTypeName attribute. 
      * @return Returns the docTypeName.
      */
-    public String getDocTypeName() {
-        return docTypeName;
-    }
+//  TODO remove - was here originally for kul:page tag use 
+//    public String getDocTypeName() {
+//        return docTypeName;
+//    }
 
     /**
      * Sets the docTypeName attribute value.
      * @param docTypeName The docTypeName to set.
      */
-    public void setDocTypeName(String docTypeName) {
-        this.docTypeName = docTypeName;
-    }
+//  TODO remove - was here originally for kul:page tag use 
+//    public void setDocTypeName(String docTypeName) {
+//        this.docTypeName = docTypeName;
+//    }
 
     /**
      * Gets the returnAnchor attribute. 

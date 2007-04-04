@@ -87,7 +87,7 @@
                 <field attributeName="financialBalanceTypeCode" />
                 <field attributeName="positionNumber" />
                 <field attributeName="financialObjectTypeCode" />
-                <field attributeName="emplid" />
+                <field attributeName="ledgerPerson.personName" />
 
                 <field attributeName="financialBeginningBalanceLineAmount" />                            
                 <field attributeName="contractsGrantsBeginningBalanceAmount" />                
@@ -125,6 +125,16 @@
                 <summary>emplid</summary>
                 <description>emplid description...</description>
 			</attribute>
+                        
+            <attributeReference name="ledgerPerson.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
+                <label>Name</label>
+                <shortLabel>Name</shortLabel>
+                <required>false</required>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Name.</description>
+            </attributeReference>
 
             <attribute name="positionNumber" forceUppercase="true">
                 <label>Position Number</label>

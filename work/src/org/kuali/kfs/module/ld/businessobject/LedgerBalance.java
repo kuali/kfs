@@ -21,7 +21,12 @@ import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
 import org.kuali.Constants;
+import org.kuali.core.bo.user.PersonPayrollId;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.bo.user.UserId;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -61,6 +66,8 @@ public class LedgerBalance extends Balance {
     private Chart chartOfAccounts;
     private ObjectType financialObjectType;
     private Balance financialBalance;
+
+    private UniversalUser ledgerPerson;
 
     /**
      * Default constructor.
@@ -727,5 +734,27 @@ public class LedgerBalance extends Balance {
             this.month13AccountLineAmount = month13AccountLineAmount.add(amount);
             this.setAccountLineAnnualBalanceAmount(this.getAccountLineAnnualBalanceAmount().add(amount));
         }
+    }
+    
+    public UniversalUser getLedgerPerson() {
+        UserId empl = new PersonPayrollId(getEmplid());
+        
+        try{
+            ledgerPerson = SpringServiceLocator.getUniversalUserService().getUniversalUser(empl);
+        }catch(UserNotFoundException e){
+            ledgerPerson = new UniversalUser();            
+        }
+        
+        return ledgerPerson;
+    }
+
+    /**
+     * Sets the ledgerPerson attribute.
+     * 
+     * @param ledgerPerson The ledgerPerson to set.
+     * @deprecated
+     */
+    public void setLedgerPerson(UniversalUser ledgerPerson) {
+        this.ledgerPerson = ledgerPerson;
     }
 }

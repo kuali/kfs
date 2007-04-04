@@ -129,6 +129,9 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLaborLedge
                 balance.setBalanceTypeCode(array[i++].toString());
                 balance.setObjectCode(array[i++].toString());
 
+                balance.setEmplid(array[i++].toString());
+                balance.setPositionNumber(array[i++].toString());
+                
                 balance.setSubObjectCode(Constant.CONSOLIDATED_SUB_OBJECT_CODE);
                 balance.setObjectTypeCode(Constant.CONSOLIDATED_OBJECT_TYPE_CODE);
 

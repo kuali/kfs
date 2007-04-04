@@ -44,6 +44,16 @@ public interface LaborReportService {
     public void generateInputSummaryReport(Collection<OriginEntryGroup> groups, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
 
     /**
+     * Generate input summary report with the given information
+     * 
+     * @param group the given origin entry group
+     * @param reportInfo the primary elements of a report, such as report title and report file name
+     * @param reportsDirectory the directory in file system that is used to contain reports
+     * @param runDate the datetime of the repor generation
+     */
+    public void generateInputSummaryReport(OriginEntryGroup groups, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
+    
+    /**
      * Generate error transaction listing as a report
      * 
      * @param group the given origin entry group

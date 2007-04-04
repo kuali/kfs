@@ -95,7 +95,7 @@
                 <lookupField attributeName="proposalFellowName" required="false" />
                 <lookupField attributeName="proposalOrganizations.organization.organizationCode" required="false" />
                 <lookupField attributeName="proposalSubcontractors.subcontractor.subcontractorNumber" required="false" />
-                <lookupField attributeName="lookupUserId" required="false" />
+                <lookupField attributeName="lookupUniversalUser.personUserIdentifier" required="false" />
             </lookupFields>
 
             <resultFields>
@@ -144,9 +144,12 @@
    				<description>Insert desc here...</description>
             </attributeReference>
 
-            <attributeReference name="lookupUserId" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
+            <attributeReference name="lookupUniversalUser.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
 				<label>Project Director User ID</label>
 				<shortLabel>Proj Dir User ID</shortLabel>
+                <control>
+                    <kualiUser universalIdAttributeName="lookupPersonUniversalIdentifier" userIdAttributeName="lookupUniversalUser.personUserIdentifier" personNameAttributeName="lookupUniversalUser.personName" />
+                </control>
 				<summary>Proposal Project Director User ID</summary>
    				<description>Insert desc here...</description>
             </attributeReference>
@@ -486,6 +489,11 @@
             </relationship>
             <relationship objectAttributeName="primaryProposalOrganization" >
             	<primitiveAttribute sourceName="primaryProposalOrganization.organizationCode" targetName="organizationCode" />
+            </relationship>
+            <relationship objectAttributeName="lookupUniversalUser" >
+                <primitiveAttribute sourceName="lookupPersonUniversalIdentifier" targetName="personUniversalIdentifier" />
+				<supportAttribute sourceName="lookupUniversalUser.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
+				<supportAttribute sourceName="lookupUniversalUser.personName" targetName="personName" />
             </relationship>
         </relationships>
         

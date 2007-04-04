@@ -23,6 +23,7 @@ import java.util.List;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
@@ -90,17 +91,6 @@ public class Proposal extends PersistableBusinessObjectBase {
     private ProposalPurpose proposalPurpose;
     private CatalogOfFederalDomesticAssistanceReference cfda;
     private ProposalOrganization primaryProposalOrganization;
-
-    /** Dummy value used to facilitate lookups */
-    private transient String lookupUserId;
-    
-    public String getLookupUserId() {
-		return lookupUserId;
-	}
-
-	public void setLookupUserId(String lookupUserId) {
-		this.lookupUserId = lookupUserId;
-	}
 
 	/**
      * Default constructor.
@@ -942,4 +932,28 @@ public class Proposal extends PersistableBusinessObjectBase {
         }
         return m;
     }
+
+    /** Dummy value used to facilitate lookups */
+    private transient String lookupPersonUniversalIdentifier;
+    private transient UniversalUser lookupUniversalUser;
+
+	public UniversalUser getLookupUniversalUser() {
+		return lookupUniversalUser;
+	}
+
+	public void setLookupUniversalUser(UniversalUser lookupUniversalUser) {
+		this.lookupUniversalUser = lookupUniversalUser;
+	}
+
+	public String getLookupPersonUniversalIdentifier() {
+		lookupUniversalUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(lookupPersonUniversalIdentifier, lookupUniversalUser);
+		return lookupPersonUniversalIdentifier;
+	}
+
+	public void setLookupPersonUniversalIdentifier(String lookupUniversalUserId) {
+		this.lookupPersonUniversalIdentifier = lookupUniversalUserId;
+	}
+    
+
+
 }

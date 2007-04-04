@@ -15,10 +15,8 @@
  */
 package org.kuali.module.purap.rules;
 
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.service.DocumentService;
+import org.kuali.core.document.Document;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -52,6 +50,14 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
 //      PurchasingAccountsPayableDocument purapDocument = (PurchasingAccountsPayableDocument) document;
 //      return isValid &= processValidation(purapDocument);
 //  }
+
+   
+          @Override
+          protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+              boolean isValid = true;
+              PaymentRequestDocument  paymentRequestDocument = (PaymentRequestDocument) document;
+              return isValid &= processValidation(paymentRequestDocument);
+          }
 
       
 /**

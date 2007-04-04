@@ -24,6 +24,10 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.PaymentRequestStatus;
 import org.kuali.module.purap.bo.PaymentRequestStatusHistory;
+import org.kuali.module.purap.bo.PaymentTermType;
+import org.kuali.module.purap.bo.RecurringPaymentFrequency;
+import org.kuali.module.purap.bo.ShippingPaymentTerms;
+import org.kuali.module.purap.bo.ShippingTitle;
 
 
 /**
@@ -79,6 +83,10 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private PaymentRequestStatus paymentRequestStatus;
     private Campus processingCampus;
     private PurchaseOrderDocument purchaseOrderDocument;
+    private PaymentTermType vendorPaymentTerms;
+    private ShippingPaymentTerms vendorShippingPaymentTerms;
+   // private ShippingTitle vendorShippingTitle;
+   // private RecurringPaymentFrequency recurringPaymentFrequency;
 
     /**
 	 * Default constructor.
@@ -87,6 +95,67 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         super();
     }
 
+    
+    public void populatePaymentRequestFormPurchaseOrder(PurchaseOrderDocument po) {
+        this.setPurchaseOrderDocument(po);
+        this.setPurchaseOrderIdentifier(po.getPurapDocumentIdentifier());
+        //this.purchaseOrderEncumbranceFiscalYear = po.getEncumbranceFiscalYear();
+        
+        //this.requisitionNumber = po.getRequisitionId();
+        this.setPurchaseOrderEncumbranceFiscalYear(po.getPostingYear());
+        this.setVendorCustomerNumber(po.getVendorCustomerNumber());
+        //this.costSource = po.getCostSource();
+        this.setPaymentRequestCostSourceCode(po.getPurchaseOrderCostSourceCode());
+        this.setVendorShippingPaymentTerms(po.getVendorShippingPaymentTerms());
+        if(this.getVendorShippingPaymentTerms()!=null) {
+            this.setVendorShippingPaymentTermsCode(this.getVendorShippingPaymentTerms().getVendorShippingPaymentTermsCode());
+        }
+ /*
+        this.setRecurringPaymentType(po.getRecurringPaymentType());
+        if(this.getRecurringPaymentType()!=null) {
+            this.setRecurringPaymentTypeCode(this.getRecurringPaymentType().getCode());
+        }
+        */
+        //this.setRecurringPaymentTypeCode(po.getRecurringPaymentTypeCode());
+        this.setVendorHeaderGeneratedIdentifier(po.getVendorHeaderGeneratedIdentifier());
+        this.setVendorDetailAssignedIdentifier(po.getVendorDetailAssignedIdentifier());
+        this.setVendorName(po.getVendorName());
+        //this.vendorRemitLine1Address = po.getVendorLine1Address();
+        this.setVendorLine1Address(po.getVendorLine1Address());
+        this.setVendorLine2Address(po.getVendorLine2Address());
+        //this.vendorRemitLine3Address = po.getVendorLine3Address();
+        this.setVendorCityName(po.getVendorCityName());
+        this.setVendorStateCode(po.getVendorStateCode());
+        this.setVendorPostalCode(po.getVendorPostalCode());
+        this.setVendorCountryCode(po.getVendorCountryCode());
+        if ((po.getVendorPaymentTerms() == null) || ("".equals(po.getVendorPaymentTerms().getVendorPaymentTermsCode())) ) {
+        //if ( (po.getVendorPaymentTerms() == null) || ("".equals(po.getVendorPaymentTermsCode())) ) {
+          //this.vendorPaymentTerms = new PaymentTermsType();
+          //this.vendorPaymentTerms.setCode("");
+            this.setVendorPaymentTerms(new PaymentTermType());
+            this.vendorPaymentTerms.setVendorPaymentTermsCode("");
+        } else {
+          this.setVendorPaymentTerms(po.getVendorPaymentTerms());
+        }
+/*
+        items.clear();
+        if (po.getItems() != null) {
+          for (Iterator i = po.getItems().iterator(); i.hasNext(); ) {
+            //Jira kulapp 1258: only save the first 500 characters of the description to the item
+            PurchaseOrderItem poi = (PurchaseOrderItem) i.next();
+            //Jira kulapp 1383, we should only copy the active po items.
+            if (poi.getActive().booleanValue()) {
+              String desc = poi.getDescription();
+              if (desc != null &&(desc.length() > 500)) {
+                poi.setDescription(desc.substring(0, 500));
+              }
+              items.add(new PaymentRequestItem(this, poi));
+            }//end of if (poi.getActive()..      
+          }//end of for (Iterator i = po.getItems()...
+        }//end of if (po.getItems() != null) 
+        */
+    }
+    
     /**
      * Gets the purchaseOrderEncumbranceFiscalYear attribute. 
      * @return Returns the purchaseOrderEncumbranceFiscalYear.
@@ -226,8 +295,25 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public void setVendorPaymentTermsCode(String vendorPaymentTermsCode) {
         this.vendorPaymentTermsCode = vendorPaymentTermsCode;
     }
-
-
+    /**
+     * Gets the vendorPaymentTerms attribute.
+     * 
+     * @return Returns the vendorPaymentTerms
+     * 
+     */
+    public PaymentTermType getVendorPaymentTerms() {
+        return vendorPaymentTerms;
+    }
+    /**
+     * Sets the vendorPaymentTerms attribute.
+     * 
+     * @param vendorPaymentTerms The vendorPaymentTerms to set.
+     * 
+     */
+    public void setVendorPaymentTerms(PaymentTermType vendorPaymentTerms) {
+        this.vendorPaymentTerms = vendorPaymentTerms;
+    }
+    
     /**
      * Gets the vendorShippingPaymentTermsCode attribute.
      * 
@@ -1038,6 +1124,64 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
     
    
+    /**
+     * Gets the recurringPaymentFrequency attribute. 
+     * @return Returns the recurringPaymentFrequency.
+     */
+   /*
+    public RecurringPaymentFrequency getRecurringPaymentFrequency() {
+        return recurringPaymentFrequency;
+    }
+
+*/
+    /**
+     * Sets the recurringPaymentFrequency attribute value.
+     * @param recurringPaymentFrequency The recurringPaymentFrequency to set.
+     */
+    /*
+    public void setRecurringPaymentFrequency(RecurringPaymentFrequency recurringPaymentFrequency) {
+        this.recurringPaymentFrequency = recurringPaymentFrequency;
+    }
+*/
+
+    /**
+     * Gets the vendorShippingPaymentTerms attribute. 
+     * @return Returns the vendorShippingPaymentTerms.
+     */
+    public ShippingPaymentTerms getVendorShippingPaymentTerms() {
+        return vendorShippingPaymentTerms;
+    }
+
+
+    /**
+     * Sets the vendorShippingPaymentTerms attribute value.
+     * @param vendorShippingPaymentTerms The vendorShippingPaymentTerms to set.
+     */
+    public void setVendorShippingPaymentTerms(ShippingPaymentTerms vendorShippingPaymentTerms) {
+        this.vendorShippingPaymentTerms = vendorShippingPaymentTerms;
+    }
+
+
+    /**
+     * Gets the vendorShippingTitle attribute. 
+     * @return Returns the vendorShippingTitle.
+     */
+    /*
+    public ShippingTitle getVendorShippingTitle() {
+        return vendorShippingTitle;
+    }
+*/
+
+    /**
+     * Sets the vendorShippingTitle attribute value.
+     * @param vendorShippingTitle The vendorShippingTitle to set.
+     */
+    /*
+    public void setVendorShippingTitle(ShippingTitle vendorShippingTitle) {
+        this.vendorShippingTitle = vendorShippingTitle;
+    }
+
+*/
     public void refreshAllReferences() {
         super.refreshAllReferences();
     }
@@ -1048,6 +1192,9 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public void initiateDocument() {
         LOG.debug("initiateDocument() started");
         this.setStatusCode( PurapConstants.PaymentRequestStatuses.INITIATE );
+        this.setAccountsPayableProcessorIdentifier("TBD");
+       // paymentRequest.setProcessedCampusCode(u.getCampusCd());
+        //paymentRequest.setAccountsPayableProcessorId(u.getId());
         //this.setStatusCode( PurapConstants.PaymentRequestStatuses.IN_PROCESS )
        // this.setInitialized(true);
         this.refreshAllReferences();

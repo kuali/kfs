@@ -15,6 +15,9 @@
  */
 package org.kuali.module.purap.service;
 
+import org.kuali.module.purap.document.PaymentRequestDocument;
+
 public interface PaymentRequestService {
 
+    public void save(PaymentRequestDocument paymentRequestDocument);
 }

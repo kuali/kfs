@@ -98,6 +98,19 @@
 	</bean>
     
     <bean id="paymentRequestService" class="org.kuali.module.purap.service.impl.PaymentRequestServiceImpl">
+    	<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+		<property name="paymentRequestDao">
+			<ref bean="paymentRequestDao" />
+		</property>
+        <property name="vendorService">
+            <ref bean="vendorService" />
+        </property>
+    
     </bean>
 
 	<bean id="printService" class="org.kuali.module.purap.service.impl.PrintServiceImpl">

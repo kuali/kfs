@@ -15,9 +15,36 @@
  */
 package org.kuali.module.purap.dao.ojb;
 
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryByCriteria;
+import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.dao.PaymentRequestDao;
+import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 public class PaymentRequestDaoOjb extends PersistenceBrokerDaoSupport implements PaymentRequestDao {
 
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestDaoOjb.class);
+
+    /**
+     * 
+     * @param paymentRequestDocument - a populated REQUISITION object to be saved
+     * @throws IllegalObjectStateException
+     * @throws ValidationErrorList
+     */
+    public void save(PaymentRequestDocument paymentRequestDocument) {
+        getPersistenceBrokerTemplate().store(paymentRequestDocument);
+    }
+
+    public PaymentRequestDocument getPaymentRequestById(Integer id) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
+
+        PaymentRequestDocument pReq = (PaymentRequestDocument) getPersistenceBrokerTemplate().getObjectByQuery(
+            new QueryByCriteria(PaymentRequestDocument.class, criteria));
+        if (pReq != null) {
+            pReq.refreshAllReferences();
+        }
+        return pReq;
+      }
 }

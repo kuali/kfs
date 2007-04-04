@@ -1161,10 +1161,20 @@
 	<reference-descriptor name="processingCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="processingCampusCode" />
 	</reference-descriptor>
-	<collection-descriptor name="statusHistories" element-class-ref="org.kuali.module.purap.bo.PaymentRequestStatusHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+	<!-- collection-descriptor name="statusHistories" element-class-ref="org.kuali.module.purap.bo.PaymentRequestStatusHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
         <orderby name="statusHistoryIdentifier" sort="DESC" />
         <inverse-foreignkey field-ref="purapDocumentIdentifier" />
-    </collection-descriptor>
+    </collection-descriptor -->
+    <reference-descriptor name="purchaseOrderDocument" class-ref="org.kuali.module.purap.document.PurchaseOrderDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="documentNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.module.purap.bo.ShippingPaymentTerms" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorShippingPaymentTermsCode" />
+    </reference-descriptor>
+    <reference-descriptor name="vendorPaymentTerms" class-ref="org.kuali.module.purap.bo.PaymentTermType" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorPaymentTermsCode" />
+    </reference-descriptor>
+	
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.PurchaseOrderStatus" table="PUR_PO_STAT_T">

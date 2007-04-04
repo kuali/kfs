@@ -29,6 +29,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.document.PaymentRequestDocument;
+import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.web.struts.form.PaymentRequestForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -72,13 +73,17 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         LOG.debug("continuePREQ() method");
 
         PaymentRequestForm preqForm = (PaymentRequestForm) form;
-        PaymentRequestDocument document = (PaymentRequestDocument) preqForm.getDocument();
+        PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) preqForm.getDocument();
         
        
-        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new SaveDocumentEvent(document)); 
+        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new SaveDocumentEvent(paymentRequestDocument)); 
         //boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new BlanketApproveDocumentEvent(document)); 
         if (rulePassed) {
-            document.setStatusCode(PurapConstants.PaymentRequestStatuses.IN_PROCESS);
+            
+            Integer poId = paymentRequestDocument.getPurchaseOrderIdentifier();
+            PurchaseOrderDocument purchaseOrderDocument = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderIdentifier());
+            paymentRequestDocument.populatePaymentRequestFormPurchaseOrder(purchaseOrderDocument);
+            paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.IN_PROCESS);
             
         }
         Map editMode = preqForm.getEditingMode();
@@ -89,4 +94,21 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         return super.refresh(mapping, form, request, response);
         //return mapping.findForward(Constants.MAPPING_BASIC);
     }
+
+    /**
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    /*
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // TODO Auto-generated method stub
+        LOG.debug("save() method");
+
+        PaymentRequestForm preqForm = (PaymentRequestForm) form;
+        PaymentRequestDocument document = (PaymentRequestDocument) preqForm.getDocument();
+        
+        SpringServiceLocator.getPaymentRequestService().save(document);
+        return super.save(mapping, form, request, response);
+    }
+    */
 }

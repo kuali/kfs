@@ -15,11 +15,126 @@
  */
 package org.kuali.module.purap.service.impl;
 
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.kuali.Constants;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.NoteService;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.purap.PurapConstants;
+//import org.kuali.module.purap.PurapConstants.PaymentRequestDocTypes;
+import org.kuali.module.purap.dao.PaymentRequestDao;
+import org.kuali.module.purap.document.PaymentRequestDocument;
+import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.module.purap.service.GeneralLedgerService;
 import org.kuali.module.purap.service.PaymentRequestService;
+import org.kuali.module.purap.service.PurapService;
+import org.kuali.module.purap.service.VendorService;
+//import org.kuali.module.purap.service.PaymentRequestPostProcessorService;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class...
  */
 public class PaymentRequestServiceImpl implements PaymentRequestService {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestServiceImpl.class);
 
+    private BusinessObjectService businessObjectService;
+    private DateTimeService dateTimeService;
+    private DocumentService documentService;
+    private NoteService noteService;
+    private GeneralLedgerService generalLedgerService;
+    private PurapService purapService;
+    private PaymentRequestDao paymentRequestDao;
+    private WorkflowDocumentService workflowDocumentService;
+    private VendorService vendorService;
+    
+    public void setBusinessObjectService(BusinessObjectService boService) {
+        this.businessObjectService = boService;    
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;    
+    }
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+    
+    public void setNoteService(NoteService noteService) {
+        this.noteService = noteService;
+    }
+
+    public void setGeneralLedgerService(GeneralLedgerService generalLedgerService) {
+        this.generalLedgerService = generalLedgerService;
+    }
+    
+    public void setPurapService(PurapService purapService) {
+        this.purapService = purapService;
+    }
+
+    public void setPaymentRequestDao(PaymentRequestDao paymentRequestDao) {
+        this.paymentRequestDao = paymentRequestDao;
+    }
+
+    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
+        this.workflowDocumentService = workflowDocumentService;
+    }
+    
+    public void setVendorService(VendorService vendorService) {
+        this.vendorService = vendorService;    
+    }
+
+    public void save(PaymentRequestDocument paymentRequestDocument) {
+       
+       // Integer poId = paymentRequestDocument.getPurchaseOrderIdentifier();
+       // PurchaseOrderDocument purchaseOrderDocument = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderIdentifier());
+       // paymentRequestDocument.populatePaymentRequestFormPurchaseOrder(purchaseOrderDocument);
+
+        paymentRequestDao.save(paymentRequestDocument);
+    }
+
+    /**
+     * Creates a PaymentRequestDocument from given RequisitionDocument
+     * 
+     * @param reqDocument - RequisitionDocument that the PO is being created from
+     * @return PaymentRequestDocument
+     */
+  /*
+    public PaymentRequestDocument createPaymentRequestDocument(RequisitionDocument reqDocument) {
+        PaymentRequestDocument poDocument = null;
+
+        // get new document from doc service
+        try {
+            poDocument = (PaymentRequestDocument) documentService.getNewDocument(PaymentRequestDocTypes.PURCHASE_ORDER_DOCUMENT);
+            poDocument.populatePaymentRequestFromRequisition(reqDocument);
+            poDocument.setPaymentRequestCurrentIndicator(true);
+            // TODO set other default info
+            // TODO set initiator of document as contract manager (is that right?)
+
+            documentService.updateDocument(poDocument);
+            documentService.prepareWorkflowDocument(poDocument);
+            workflowDocumentService.save(poDocument.getDocumentHeader().getWorkflowDocument(), "", null);
+
+        }
+        catch (WorkflowException e) {
+            LOG.error("Error creating PO document: " + e.getMessage());
+            throw new RuntimeException("Error creating PO document: " + e.getMessage());
+        }
+        catch (Exception e) {
+            LOG.error("Error persisting document # " + poDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage());
+            throw new RuntimeException("Error persisting document # " + poDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage());
+        }
+        return poDocument;
+    }
+  */
+   
 }

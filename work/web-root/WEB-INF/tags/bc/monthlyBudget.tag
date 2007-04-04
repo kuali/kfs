@@ -162,11 +162,23 @@
                 field="financialDocumentMonth1LineAmount"
                 fieldAlign="left"
                 readOnly="false"
-                rowSpan="1" dataFieldCssClass="amount" />
-          <td rowspan="12" class="datacell" nowrap>
-              <div align="center">&nbsp;
-              </div>
-          </td>
+                rowSpan="1" dataFieldCssClass="amount"
+                anchor="monthlyBudgetLineLineAnchor" />
+           <td rowspan="12" class="datacell" nowrap>
+               <div align="center">
+                   <c:if test="${empty editingMode['viewOnly']}">
+                       <html:image src="images/tinybutton-calculate.gif" styleClass="tinybutton" property="methodToCall.performMonthlySpread.anchormonthlyBudgetLineLineAnchor" title="Spread Evenly To Months" alt="Spread Evenly To Months"/>
+                       <br>
+                       <br>
+                       <html:image src="images/tinybutton-clear1.gif" styleClass="tinybutton" property="methodToCall.performMonthlyZero.anchormonthlyBudgetLineLineAnchor" title="Set Months To Zero" alt="Set Months To Zero"/>
+                       <br>
+                       <br>
+                       <html:image src="images/tinybutton-delete1.gif" styleClass="tinybutton" property="methodToCall.performMonthlyDelete.anchormonthlyBudgetLineLineAnchor" title="Delete Monthly" alt="Delete Monthly"/>
+                       <br>
+                   </c:if>
+                   &nbsp;
+               </div>
+           </td>
         </tr>
         <tr>
 			<kul:htmlAttributeHeaderCell align="right" attributeEntry="${monthlyBudgetAttributes.financialDocumentMonth2LineAmount}" />

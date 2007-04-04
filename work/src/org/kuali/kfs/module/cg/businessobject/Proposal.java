@@ -77,6 +77,7 @@ public class Proposal extends PersistableBusinessObjectBase {
     private String proposalFellowName;
     private String proposalPurposeCode;
     private String proposalProjectTitle;
+    private boolean active;
     private List<ProposalSubcontractor> proposalSubcontractors;
     private List<ProposalOrganization> proposalOrganizations;
     private List<ProposalProjectDirector> proposalProjectDirectors;
@@ -695,6 +696,22 @@ public class Proposal extends PersistableBusinessObjectBase {
      */
     public void setProposalProjectTitle(String proposalProjectTitle) {
         this.proposalProjectTitle = proposalProjectTitle;
+    }
+
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**

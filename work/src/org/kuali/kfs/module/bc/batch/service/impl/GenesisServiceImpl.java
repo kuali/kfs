@@ -184,27 +184,31 @@ public class GenesisServiceImpl implements GenesisService {
     {
         genesisDao.clearDBForGenesis(BaseYear); 
     }
-      
-    public void createProxyBCHeadersTransactional(Integer BaseYear)
+    // this step updates the budget from the payroll (CSF) and the GL once
+    // genesis has run.
+    public void bCUpdateStep(Integer BaseYear)
     {
-        genesisDao.primeNewBCHeadersDocumentCreation(BaseYear);
+        genesisDao.clearHangingBCLocks(BaseYear);
+        genesisDao.createNewBCDocumentsFromGLCSF(BaseYear,
+                GLUpdatesAllowed(BaseYear), CSFUpdatesAllowed(BaseYear));
+        if (GLUpdatesAllowed(BaseYear))
+        {
+           genesisDao.updateToPBGL(BaseYear);
+        }
+        genesisDao.initialLoadToPBGL(BaseYear);
+        boolean CSFOK     = CSFUpdatesAllowed(BaseYear);
+        boolean PSSynchOK = BatchPositionSynchAllowed(BaseYear);
+        genesisDao.createNewBCPosition(BaseYear,
+                                       PSSynchOK,
+                                       CSFOK);
+        if (CSFOK)
+        {
+            genesisDao.buildAppointmentFundingAndBCSF(BaseYear);
+        }
+        genesisDao.rebuildOrganizationHierarchy(BaseYear);
     }
- //  this step must be re-done
- //  we need (1) an intiation step that sets the flags,
- //              builds the chart, and creates the proxy
- //              documents
- //          (2) a non-transactional step (not in this service)
- //              that sets document numbers and routes the
- //              documents.  this should be called directly
- //              from geneisDao.
- //          (3) a step that does the rest (initializes the
- //              document status, builds the org hieratchy and
- //              the GL, and resets the flags
- //           THERE COULD BE A DOCUMENT STEP, AS LONG AS THE
- //           THE TRANSACTIONAL PARTS COME FROM A SERVICE AND 
- //           BUT THE DOCUMENT ROUTE IS FROM genesisDao AND IS
- //           NON_TRANSACTIONAL.   
-    public void genesisStep(Integer BaseYear)
+
+     public void genesisStep(Integer BaseYear)
     {
         genesisDao.setControlFlagsAtTheStartOfGenesis(BaseYear);
         genesisDao.clearDBForGenesis(BaseYear);
@@ -212,15 +216,25 @@ public class GenesisServiceImpl implements GenesisService {
                 GLUpdatesAllowed(BaseYear), CSFUpdatesAllowed(BaseYear));
         genesisDao.createChartForNextBudgetCycle();
         genesisDao.initialLoadToPBGL(BaseYear);
+        boolean CSFOK     = CSFUpdatesAllowed(BaseYear);
+        boolean PSSynchOK = BatchPositionSynchAllowed(BaseYear);
+        genesisDao.createNewBCPosition(BaseYear,
+                                       PSSynchOK,
+                                       CSFOK);
+        if (CSFOK)
+        {
+            genesisDao.buildAppointmentFundingAndBCSF(BaseYear);
+        }
         genesisDao.rebuildOrganizationHierarchy(BaseYear);
         genesisDao.setControlFlagsAtTheEndOfGenesis(BaseYear);
     }
-    
+
+ //  these steps are no longer needed now that workflow runs locally in the same
+ //  transaction as genesis    
     public void genesisDocumentStep (Integer BaseYear)
     {
         genesisDao.setControlFlagsAtTheStartOfGenesis(BaseYear);
         genesisDao.clearDBForGenesis(BaseYear);
-//        genesisDao.primeNewBCHeadersDocumentCreation(BaseYear);
         genesisDao.createNewBCDocumentsFromGLCSF(BaseYear,
                 GLUpdatesAllowed(BaseYear), CSFUpdatesAllowed(BaseYear));
     }

@@ -116,8 +116,8 @@ public class GenesisTest {
       {
           // use the log as a quick way to test whether the flags work
           LOG.info(String.format("\nentered GL update block"));
-          genesisDao.primeNewBCHeadersDocumentCreation(BaseYear);
-          genesisDao.createNewBCDocuments(BaseYear);
+          //genesisDao.primeNewBCHeadersDocumentCreation(BaseYear);
+          //genesisDao.createNewBCDocuments(BaseYear);
           genesisDao.updateToPBGL(BaseYear);
           LOG.info(String.format("\nfinished GL update block"));
       }

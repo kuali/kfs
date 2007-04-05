@@ -37,6 +37,7 @@
         <documentTypeCode>PRPL</documentTypeCode>
 
 		<webScriptFile>scripts/cg/proposalDocument.js</webScriptFile>
+        <webScriptFile>dwr/interface/ProjectDirectorService.js</webScriptFile>
 
         <label>Proposal Maintenance Document</label>
         <shortLabel>PrpslMaintDoc</shortLabel>

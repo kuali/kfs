@@ -41,7 +41,32 @@ function proposalDirectorIDLookup( userIdField ) {
 	var userNameFieldName = elPrefix + ".personName";
 	var universalIdFieldName = findElPrefix( elPrefix ) + ".personUniversalIdentifier";
 	
-	loadUserInfo( userIdField.name, universalIdFieldName, userNameFieldName );
+	loadDirectorInfo( userIdField.name, universalIdFieldName, userNameFieldName );
+}
+
+function loadDirectorInfo( userIdFieldName, universalIdFieldName, userNameFieldName ) {
+    var userId = DWRUtil.getValue( userIdFieldName );
+
+    if (userId == "") {
+        clearRecipients( universalIdFieldName, "" );
+        clearRecipients( userNameFieldName, "" );
+    } else {
+        var dwrReply = {
+            callback:function(data) {
+                if ( data != null && typeof data == 'object' ) {
+                    setRecipientValue( universalIdFieldName, data.personUniversalIdentifier );
+                    setRecipientValue( userNameFieldName, data.personName );
+                } else {
+                    setRecipientValue( universalIdFieldName, "" );
+                    setRecipientValue( userNameFieldName, wrapError( "director not found" ), true );
+                } },
+            errorHandler:function( errorMessage ) {
+                setRecipientValue( universalIdFieldName, "" );
+                setRecipientValue( userNameFieldName, wrapError( "director not found" ), true );
+            }
+        };
+        ProjectDirectorService.getByPersonUserIdentifier( userId, dwrReply );
+    }
 }
 
 function today() {

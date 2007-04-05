@@ -120,4 +120,13 @@
 		</property>
 	</bean>
 
+    <bean id="projectDirectorService" class="org.kuali.module.cg.service.impl.ProjectDirectorServiceImpl">
+        <property name="universalUserService">
+            <ref bean="universalUserService" />
+        </property>
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+    </bean>
+
 </beans>

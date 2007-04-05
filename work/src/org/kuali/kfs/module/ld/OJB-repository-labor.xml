@@ -409,6 +409,11 @@
 		<foreignkey field-ref="positionNumber" />
 		<foreignkey field-ref="emplid" />
     </reference-descriptor>
+    <reference-descriptor name="laborObject" class-ref="org.kuali.module.labor.bo.LaborObject" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="universityFiscalYear" />
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="financialObjectCode" />
+    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.labor.bo.LedgerBalance" table="LD_LDGR_BAL_T">

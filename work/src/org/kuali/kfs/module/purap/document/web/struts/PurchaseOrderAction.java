@@ -234,6 +234,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             }
         }
 
+        reason = PurapConstants.PODocumentsStrings.REOPEN_NOTE_PREFIX + reason;
         SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(po, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), reason);
         GlobalVariables.getMessageList().add(PurapKeyConstants.MESSAGE_ROUTE_REOPENED);
         kualiDocumentFormBase.setAnnotation("");
@@ -255,12 +256,12 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             sbFilename.append(".pdf");
             
             //for testing Generate PO PDF
-            //po.setPurchaseOrderAutomaticIndicator(true);
-            //Collection<String> generatePDFErrors = SpringServiceLocator.getPrintService().generatePurchaseOrderPdf(po, baosPDF, false, environment);
+            po.setPurchaseOrderAutomaticIndicator(true);
+            Collection<String> generatePDFErrors = SpringServiceLocator.getPrintService().generatePurchaseOrderPdf(po, baosPDF, false, environment);
             
             //for testing Generate Quote
-            PurchaseOrderVendorQuote povq = createDummyPOVQ(po);
-            Collection<String> generatePDFErrors = SpringServiceLocator.getPrintService().generatePurchaseOrderQuotePdf(po, povq, baosPDF, environment);
+            //PurchaseOrderVendorQuote povq = createDummyPOVQ(po);
+            //Collection<String> generatePDFErrors = SpringServiceLocator.getPrintService().generatePurchaseOrderQuotePdf(po, povq, baosPDF, environment);
             
             if (generatePDFErrors.size() > 0) {
                 for (String error: generatePDFErrors) {

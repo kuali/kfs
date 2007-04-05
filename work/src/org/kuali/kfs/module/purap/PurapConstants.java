@@ -175,6 +175,7 @@ public class PurapConstants {
         public static String REOPEN_PO_QUESTION = "ReopenPO";
         public static String CONFIRM_REOPEN_QUESTION = "ConfirmReopen";
         public static String SINGLE_CONFIRMATION_QUESTION = "singleConfirmationQuestion";
+        public static String REOPEN_NOTE_PREFIX = "Note entered while reopening a Purchase Order : ";
     }
     
     public static class PaymentRequestStatuses {

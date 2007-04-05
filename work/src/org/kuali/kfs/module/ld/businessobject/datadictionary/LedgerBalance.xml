@@ -35,19 +35,19 @@
                 <field attributeName="financialObjectCode" />
                 <field attributeName="financialObjectTypeCode" />
                 <field attributeName="financialSubObjectCode" />
-                <field attributeName="month10AccountLineAmount" />
-                <field attributeName="month11AccountLineAmount" />
-                <field attributeName="month12AccountLineAmount" />
-                <field attributeName="month13AccountLineAmount" />
-                <field attributeName="month1AccountLineAmount" />
-                <field attributeName="month2AccountLineAmount" />
-                <field attributeName="month3AccountLineAmount" />
-                <field attributeName="month4AccountLineAmount" />
-                <field attributeName="month5AccountLineAmount" />
-                <field attributeName="month6AccountLineAmount" />
-                <field attributeName="month7AccountLineAmount" />
-                <field attributeName="month8AccountLineAmount" />
-                <field attributeName="month9AccountLineAmount" />
+                <field attributeName="month10Amount" />
+                <field attributeName="month11Amount" />
+                <field attributeName="month12Amount" />
+                <field attributeName="month13Amount" />
+                <field attributeName="month1Amount" />
+                <field attributeName="month2Amount" />
+                <field attributeName="month3Amount" />
+                <field attributeName="month4Amount" />
+                <field attributeName="month5Amount" />
+                <field attributeName="month6Amount" />
+                <field attributeName="month7Amount" />
+                <field attributeName="month8Amount" />
+                <field attributeName="month9Amount" />
                 <field attributeName="positionNumber" />
                 <field attributeName="subAccountNumber" />
                 <field attributeName="transactionDateTimeStamp" />
@@ -93,19 +93,19 @@
                 <field attributeName="contractsGrantsBeginningBalanceAmount" />                
 				<field attributeName="accountLineAnnualBalanceAmount" />
 
-                <field attributeName="month1AccountLineAmount" />
-                <field attributeName="month2AccountLineAmount" />
-                <field attributeName="month3AccountLineAmount" />
-                <field attributeName="month4AccountLineAmount" />
-                <field attributeName="month5AccountLineAmount" />
-                <field attributeName="month6AccountLineAmount" />
-                <field attributeName="month7AccountLineAmount" />
-                <field attributeName="month8AccountLineAmount" />
-                <field attributeName="month9AccountLineAmount" />
-                <field attributeName="month10AccountLineAmount" />
-                <field attributeName="month11AccountLineAmount" />
-                <field attributeName="month12AccountLineAmount" />
-                <field attributeName="month13AccountLineAmount" />
+                <field attributeName="month1Amount" />
+                <field attributeName="month2Amount" />
+                <field attributeName="month3Amount" />
+                <field attributeName="month4Amount" />
+                <field attributeName="month5Amount" />
+                <field attributeName="month6Amount" />
+                <field attributeName="month7Amount" />
+                <field attributeName="month8Amount" />
+                <field attributeName="month9Amount" />
+                <field attributeName="month10Amount" />
+                <field attributeName="month11Amount" />
+                <field attributeName="month12Amount" />
+                <field attributeName="month13Amount" />
             </resultFields>
         </lookup>
 
@@ -194,67 +194,67 @@
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
-            <attributeReference name="month1AccountLineAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+            <attributeReference name="month1Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>July</label>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
-            <attributeReference name="month2AccountLineAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+            <attributeReference name="month2Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>August</label>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
-            <attributeReference name="month3AccountLineAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+            <attributeReference name="month3Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>September</label>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
-            <attributeReference name="month4AccountLineAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+            <attributeReference name="month4Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>October</label>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
-            <attributeReference name="month5AccountLineAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+            <attributeReference name="month5Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>November</label>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
-            <attributeReference name="month6AccountLineAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+            <attributeReference name="month6Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>December</label>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
-            <attributeReference name="month7AccountLineAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+            <attributeReference name="month7Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>January</label>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
-            <attributeReference name="month8AccountLineAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+            <attributeReference name="month8Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>February</label>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
-            <attributeReference name="month9AccountLineAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+            <attributeReference name="month9Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>March</label>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
-            <attributeReference name="month10AccountLineAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+            <attributeReference name="month10Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>April</label>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
-            <attributeReference name="month11AccountLineAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+            <attributeReference name="month11Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>May</label>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
-            <attributeReference name="month12AccountLineAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+            <attributeReference name="month12Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>June</label>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
-            <attributeReference name="month13AccountLineAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+            <attributeReference name="month13Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Year End</label>
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>

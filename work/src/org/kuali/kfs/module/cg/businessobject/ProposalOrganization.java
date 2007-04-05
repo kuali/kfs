@@ -192,4 +192,13 @@ public class ProposalOrganization extends PersistableBusinessObjectBase implemen
         return m;
     }
 
+    /**
+     * This can be displayed by Proposal.xml lookup results.
+     * @see Object#toString()
+     */
+    @Override
+    public String toString() {
+        // todo: get "primary" and "secondary" from ApplicationResources.properties via KeyConstants?
+        return getChartOfAccountsCode() + "-" + getOrganizationCode() + " " + (isProposalPrimaryOrganizationIndicator() ? "primary" : "secondary");
+    }
 }

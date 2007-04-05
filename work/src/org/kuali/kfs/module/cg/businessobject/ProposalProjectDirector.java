@@ -19,6 +19,7 @@ package org.kuali.module.cg.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
 
 /**
@@ -172,4 +173,15 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
         return m;
     }
 
+    /**
+     * This can be displayed by Proposal.xml lookup results.
+     * @see Object#toString()
+     */
+    @Override
+    public String toString() {
+        // todo: get "nonexistent", "primary", and "secondary" from ApplicationResources.properties via KeyConstants?
+        String name = ObjectUtils.isNull(getProjectDirector()) ? "nonexistent" : getProjectDirector().getPersonName();
+        String title = getProposalProjectDirectorProjectTitle() == null ? "" : " " + getProposalProjectDirectorProjectTitle();
+        return name + " " + (isProposalPrimaryProjectDirectorIndicator() ? "primary" : "secondary") + title;
+    }
 }

@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
 
 /**
@@ -179,7 +180,17 @@ public class ProposalSubcontractor extends PersistableBusinessObjectBase {
         }
         m.put("subcontractorNumber", this.subcontractorNumber);
         return m;
-    }    
+    }
 
-
+    /**
+     * This can be displayed by Proposal.xml lookup results.
+     * @see Object#toString()
+     */
+    @Override
+    public String toString() {
+        // todo: get "nonexistent" from ApplicationResources.properties via KeyConstants?
+        String name = ObjectUtils.isNull(getSubcontractor()) ? "nonexistent" : getSubcontractor().getSubcontractorName();
+        String description = getProposalSubcontractorDescription() == null ? "" : " " + getProposalSubcontractorDescription();
+        return name + " " + getProposalSubcontractorAmount() + description;
+    }
 }

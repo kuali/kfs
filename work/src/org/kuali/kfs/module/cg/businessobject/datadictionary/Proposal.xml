@@ -66,6 +66,35 @@
                         </inquiryCollection>
                     </inquiryFields>
                 </inquirySection>
+                <inquirySection title="Project Directors">
+                    <inquiryFields>
+                        <inquiryCollection name="proposalProjectDirectors" businessObjectClass="org.kuali.module.cg.bo.ProposalProjectDirector">
+                            <field attributeName="projectDirector.personUserIdentifier"/>
+                            <field attributeName="projectDirector.personName"/>
+                            <field attributeName="proposalPrimaryProjectDirectorIndicator"/>
+                            <field attributeName="proposalProjectDirectorProjectTitle"/>
+                            <inquirySummaryFields>
+                                <inquirySummaryField attributeName="projectDirector.personName" />
+                                <inquirySummaryField attributeName="proposalPrimaryProjectDirectorIndicator" />
+                                <inquirySummaryField attributeName="proposalProjectDirectorProjectTitle" />
+                            </inquirySummaryFields>
+                        </inquiryCollection>
+                    </inquiryFields>
+                </inquirySection>
+                <inquirySection title="Subcontractors">
+                    <inquiryFields>
+                        <inquiryCollection name="proposalSubcontractors" businessObjectClass="org.kuali.module.cg.bo.ProposalSubcontractor">
+                            <field attributeName="subcontractorNumber" />
+                            <field attributeName="subcontractor.subcontractorName" />
+                            <field attributeName="proposalSubcontractorDescription" />
+                            <field attributeName="proposalSubcontractorAmount"/>
+                            <inquirySummaryFields>
+                                <inquirySummaryField attributeName="subcontractor.subcontractorName" />
+                                <inquirySummaryField attributeName="proposalSubcontractorAmount" />
+                            </inquirySummaryFields>
+                        </inquiryCollection>
+                    </inquiryFields>
+                </inquirySection>
             </inquirySections>
         </inquiry>
 
@@ -107,7 +136,9 @@
 				<field attributeName="grantNumber" />
                 <field attributeName="proposalStatusCode" />
                 <field attributeName="primaryProposalOrganization.organizationCode" />
-
+                <field attributeName="proposalOrganizations" />
+                <field attributeName="proposalProjectDirectors" />
+                <field attributeName="proposalSubcontractors" />
             </resultFields>
 
         </lookup>
@@ -431,6 +462,19 @@
 			</attributeReference>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+            <!-- Column headers for lookup results ignore the labels of the <collection> elements below, but these fake duplicate attributes are not allowed
+
+            <attributeReference name="proposalOrganizations" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean" >
+                <label>Proposal Organizations</label>
+            </attributeReference>
+            <attributeReference name="proposalProjectDirectors" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean" >
+                <label>Proposal Project Directors</label>
+            </attributeReference>
+            <attributeReference name="proposalSubcontractors" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean" >
+                <label>Proposal Subcontractors</label>
+            </attributeReference>
+            -->
 
         </attributes>
         

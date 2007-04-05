@@ -29,13 +29,6 @@ public class PurapConstants {
         public static final String WORKGROUP_TAXNBR_ACCESSIBLE = "PURAP.WORKGROUP.TAXNBR_ACCESSIBLE"; 
     }
     
-    //Miscellaneous generic constants
-    public static final String NONE = "NONE";
-    public static final String CREATE_NEW_DIVISION = "create division";
-    public static final String NAME_DELIM = ", ";
-    public static final String VENDOR_LOOKUPABLE_IMPL = "vendorLookupable";
-    public static final String DASH = "-";
-    public static final String VENDOR_HEADER_ATTR = "vendorHeader";
     public static final String DOC_ADHOC_NODE_NAME = "Adhoc Routing";
     public static final String ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING = "Unable to save the contract manager for the following Requisitions: ";
     public static final String NOTE_TAB_WARNING = "noteWarning";
@@ -52,18 +45,6 @@ public class PurapConstants {
     public static final String LOGO_IMAGE_PREFIX = "PURAP.PDF.LOGO.IMAGE.PREFIX";
     public static final String LOGO_IMAGE_EXTENSION = "PURAP.PDF.LOGO.IMAGE.EXTENSION";
     public static final String PDF_IMAGES_AVAILABLE_INDICATOR = "PURAP.PDF.IMAGES.AVAILABLE.INDICATOR";
-    
-    //Vendor Tax Types
-    public static final String TAX_TYPE_FEIN = "FEIN";
-    public static final String TAX_TYPE_SSN = "SSN";
-    //public static final String TAX_TYPE_ITIN = "ITIN";  //are we implementing this in Kuali??
-
-    //VENDOR PHONE TYPES
-    public static class PhoneTypes {
-        public static final String TOLL_FREE = "TF";
-        public static final String PHONE = "PH";
-        public static final String FAX = "FX";
-    }
     
     public static class RequisitionStatuses {
         public static String IN_PROCESS = "INPR";

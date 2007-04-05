@@ -30,8 +30,8 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.AssignContractManagerDetail;
-import org.kuali.module.purap.bo.ContractManager;
 import org.kuali.module.purap.document.AssignContractManagerDocument;
+import org.kuali.module.vendor.bo.ContractManager;
 
 public class AssignContractManagerDocumentRule extends TransactionalDocumentRuleBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssignContractManagerDocumentRule.class);

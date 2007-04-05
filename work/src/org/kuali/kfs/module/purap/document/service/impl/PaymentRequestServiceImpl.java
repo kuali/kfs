@@ -17,30 +17,18 @@ package org.kuali.module.purap.service.impl;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.NoteService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.purap.PurapConstants;
-//import org.kuali.module.purap.PurapConstants.PaymentRequestDocTypes;
 import org.kuali.module.purap.dao.PaymentRequestDao;
 import org.kuali.module.purap.document.PaymentRequestDocument;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.GeneralLedgerService;
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurapService;
-import org.kuali.module.purap.service.VendorService;
-//import org.kuali.module.purap.service.PaymentRequestPostProcessorService;
+import org.kuali.module.vendor.service.VendorService;
 import org.springframework.transaction.annotation.Transactional;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class...

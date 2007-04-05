@@ -25,7 +25,7 @@ import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.bo.ItemType;
-import org.kuali.module.purap.bo.OwnershipType;
+import org.kuali.module.vendor.bo.OwnershipType;
 
 /**
  * This class returns list containg A = Active or I = Inactive

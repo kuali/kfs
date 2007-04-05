@@ -87,9 +87,9 @@
                 <description>purchaseOrderQuoteListName description...</description>
 			</attribute>
 			
-			<attributeReference name="contractManagerCode" sourceClassName="org.kuali.module.purap.bo.ContractManager" sourceAttributeName="contractManagerCode">
+			<attributeReference name="contractManagerCode" sourceClassName="org.kuali.module.vendor.bo.ContractManager" sourceAttributeName="contractManagerCode">
                 <control>
-                    <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.ContractManagerValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.ContractManagerValuesFinder" />
                 </control>
             </attributeReference>			
 			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

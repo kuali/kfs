@@ -55,18 +55,6 @@
 	<bean id="purapUserService" class="org.kuali.module.purap.service.impl.PurapUserServiceImpl" parent="kualiModuleUserServiceBase">
 	</bean>
 
-	<bean id="vendorService" class="org.kuali.module.purap.service.impl.VendorServiceImpl">
-		<property name="vendorDao">
-			<ref bean="vendorDao" />
-		</property>
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-		<property name="documentService">
-			<ref bean="documentService" />
-		</property>
-	</bean>
-
 	<bean id="requisitionService" class="org.kuali.module.purap.service.impl.RequisitionServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
@@ -178,30 +166,9 @@
 	<bean id="purchaseOrderPostProcessorVoidService" class="org.kuali.module.purap.service.impl.PurchaseOrderPostProcessorVoidServiceImpl" parent="purchaseOrderPostProcessServiceBase">
 	</bean>		
   
-	<bean id="vendorDao" class="org.kuali.module.purap.dao.ojb.VendorDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-        <property name="dateTimeService">
-            <ref bean="dateTimeService" />
-        </property>
-	</bean>
-
 	<bean id="requisitionDao" class="org.kuali.module.purap.dao.ojb.RequisitionDaoOjb">
 		<property name="jcdAlias">
 			<value>dataSource</value>
-		</property>
-	</bean>
-	
-	<bean id="phoneNumberService" class="org.kuali.module.purap.service.impl.PhoneNumberServiceImpl">
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService"/>
-		</property>
-	</bean>
-	
-	<bean id="taxNumberService" class="org.kuali.module.purap.service.impl.TaxNumberServiceImpl">
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService"/>
 		</property>
 	</bean>
 	
@@ -218,63 +185,6 @@
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>		
-	</bean>
-	
-	<bean id="vendorLookupableHelperService" class="org.kuali.module.purap.lookup.VendorLookupableHelperServiceImpl" singleton="false">
-		<property name="persistenceStructureService">
-			<ref bean="persistenceStructureService" />
-		</property>
-		<property name="lookupService">
-			<ref bean="lookupService" />
-		</property>
-		<property name="businessObjectMetaDataService">
-			<ref bean="businessObjectMetaDataService" />
-		</property>
-		<property name="businessObjectDictionaryService">
-			<ref bean="businessObjectDictionaryService" />
-		</property>
-		<!--property name="dictionaryValidationService">
-			<ref bean="dictionaryValidationService" />
-			</property-->
-		<property name="dataDictionaryService">
-			<ref bean="dataDictionaryService" />
-		</property>
-		<property name="vendorService">
-			<ref bean="vendorService" />
-		</property>
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
-		</property>
-	</bean>
-
-	<bean id="vendorContactLookupableHelperService" class="org.kuali.module.purap.lookup.VendorContactLookupableHelperServiceImpl" singleton="false">
-		<property name="persistenceStructureService">
-			<ref bean="persistenceStructureService" />
-		</property>
-		<property name="lookupService">
-			<ref bean="lookupService" />
-		</property>
-		<property name="businessObjectMetaDataService">
-			<ref bean="businessObjectMetaDataService" />
-		</property>
-		<property name="businessObjectDictionaryService">
-			<ref bean="businessObjectDictionaryService" />
-		</property>
-		<property name="dataDictionaryService">
-			<ref bean="dataDictionaryService" />
-		</property>
-	</bean>
-	
-	<bean id="vendorLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
-		<property name="lookupableHelperService">
-			<ref bean="vendorLookupableHelperService" />
-		</property>
-	</bean>
-	
-	<bean id="vendorContactLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
-		<property name="lookupableHelperService">
-			<ref bean="vendorContactLookupableHelperService" />
-		</property>
 	</bean>
 	
 	<bean id="singleConfirmationQuestion" class="org.kuali.module.purap.question.SingleConfirmationQuestion" singleton="false" />

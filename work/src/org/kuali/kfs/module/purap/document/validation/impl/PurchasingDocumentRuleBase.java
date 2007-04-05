@@ -33,6 +33,7 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.module.vendor.VendorPropertyConstants;
 
 public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumentRuleBase {
 
@@ -124,7 +125,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                 PhoneNumberValidationPattern phonePattern = new PhoneNumberValidationPattern();
                 if (!phonePattern.matches(purDocument.getVendorFaxNumber())) {
                     valid &= false;
-                    errorMap.putError(Constants.DOCUMENT_PROPERTY_NAME + "." + PurapPropertyConstants.VENDOR_FAX_NUMBER, PurapKeyConstants.ERROR_FAX_NUMBER_INVALID);
+                    errorMap.putError(Constants.DOCUMENT_PROPERTY_NAME + "." + VendorPropertyConstants.VENDOR_FAX_NUMBER, PurapKeyConstants.ERROR_FAX_NUMBER_INVALID);
                 }
             }
         }

@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.vendor.bo.VendorContract">
+
+
+        <inquiry>
+            <title>Vendor Contract Inquiry</title>
+
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+                <field attributeName="vendorContractName" />
+                <field attributeName="vendorContractDescription" />
+                <field attributeName="vendorCampusCode" />
+                <field attributeName="vendorContractBeginningDate" />
+                <field attributeName="vendorContractEndDate" />
+                <field attributeName="contractManagerCode" />
+                <field attributeName="vendorPaymentTermsCode" />
+                <field attributeName="vendorContractExtensionDate" />
+                <field attributeName="vendorShippingPaymentTermsCode" />
+                <field attributeName="vendorShippingTitleCode" />
+                <field attributeName="vendorB2bIndicator" />
+                <field attributeName="organizationAutomaticPurchaseOrderLimit" />
+                <field attributeName="purchaseOrderCostSourceCode" />
+                <field attributeName="vendorContractGeneratedIdentifier" />
+                <field attributeName="vendorDetailAssignedIdentifier" />
+                <field attributeName="vendorHeaderGeneratedIdentifier" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Vendor Contract Lookup</title>
+
+            <instructions>Lookup a Vendor Contract</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="vendorContractName" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="contractManagerCode" required="false" />
+                <lookupField attributeName="organizationAutomaticPurchaseOrderLimit" required="false" />
+                <lookupField attributeName="purchaseOrderCostSourceCode" required="false" />
+                <lookupField attributeName="vendorB2bIndicator" required="false" />
+                <lookupField attributeName="vendorCampusCode" required="false" />
+                <lookupField attributeName="vendorContractBeginningDate" required="false" />
+                <lookupField attributeName="vendorContractDescription" required="false" />
+                <lookupField attributeName="vendorContractEndDate" required="false" />
+                <lookupField attributeName="vendorContractExtensionDate" required="false" />
+                <lookupField attributeName="vendorContractGeneratedIdentifier" required="false" />
+                <lookupField attributeName="vendorContractName" required="false" />
+                <lookupField attributeName="vendorDetailAssignedIdentifier" required="false" />        
+                <lookupField attributeName="vendorHeaderGeneratedIdentifier" required="false" />
+                <lookupField attributeName="vendorPaymentTermsCode" required="false" />
+                <lookupField attributeName="vendorShippingPaymentTermsCode" required="false" />
+                <lookupField attributeName="vendorShippingTitleCode" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="contractManagerCode" />
+                <field attributeName="organizationAutomaticPurchaseOrderLimit" />
+                <field attributeName="purchaseOrderCostSourceCode" />
+                <field attributeName="vendorB2bIndicator" />
+                <field attributeName="vendorCampusCode" />
+                <field attributeName="vendorContractBeginningDate" />
+                <field attributeName="vendorContractDescription" />
+                <field attributeName="vendorContractEndDate" />
+                <field attributeName="vendorContractExtensionDate" />
+                <field attributeName="vendorContractGeneratedIdentifier" />
+                <field attributeName="vendorContractName" />
+                <field attributeName="vendorDetailAssignedIdentifier" />
+                <field attributeName="vendorHeaderGeneratedIdentifier" />
+                <field attributeName="vendorPaymentTermsCode" />
+                <field attributeName="vendorShippingPaymentTermsCode" />
+                <field attributeName="vendorShippingTitleCode" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="vendorContractName" forceUppercase="true">
+                <label>Contract Name</label>
+                <shortLabel>Contract Name</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+                <required>true</required>
+
+				<control>
+                    <text size="22" />
+                </control>
+
+                <summary>vendorContractName</summary>
+                <description>vendorContractName description...</description>
+			</attribute>
+
+            <attribute name="vendorContractDescription" forceUppercase="false">
+                <label>Short Description</label>
+                <shortLabel>Short Description</shortLabel>
+
+                <maxLength>60</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+                <required>true</required>
+    
+                <control>
+                    <text size="45" />
+                </control>
+
+                <summary>vendorContractDescription</summary>
+                <description>vendorContractDescription description...</description>
+  			</attribute>
+
+			<attributeReference name="vendorCampusCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="campusCode" >
+                <required>true</required>
+            </attributeReference>
+
+			<attributeReference name="vendorContractBeginningDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
+                <label>Begin Date</label>
+                <shortLabel>Begin Date</shortLabel>
+                <required>true</required>
+			</attributeReference>
+
+			<attributeReference name="vendorContractEndDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
+                <label>End Date</label>
+                <shortLabel>End Date</shortLabel>
+                <required>true</required>
+			</attributeReference>
+
+			<attributeReference name="contractManagerCode" sourceClassName="org.kuali.module.vendor.bo.ContractManager" sourceAttributeName="contractManagerCode">
+                <label>Contract Manager</label>
+                <shortLabel>Contract Manager</shortLabel>
+                <required>true</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.ContractManagerValuesFinder" />
+                </control>
+            </attributeReference>			
+
+			<attributeReference name="vendorPaymentTermsCode" sourceClassName="org.kuali.module.vendor.bo.PaymentTermType" sourceAttributeName="vendorPaymentTermsCode">
+                <label>Payment Terms</label>
+                <shortLabel>Payment Terms</shortLabel>
+                <required>true</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.PaymentTermsValuesFinder" />
+                </control>
+            </attributeReference>			
+
+            <attributeReference name="purchaseOrderCostSourceCode" sourceClassName="org.kuali.module.vendor.bo.PurchaseOrderCostSource" sourceAttributeName="purchaseOrderCostSourceCode">
+                <label>PO Cost Source</label>
+                <shortLabel>PO Cost Source</shortLabel>
+                <required>true</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.PurchaseOrderCostSourceValuesFinder" />
+                </control>
+			</attributeReference>
+
+			<attributeReference name="vendorContractExtensionDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate" >
+                <label>Extension Option Date</label>
+                <shortLabel>Extension Option Date</shortLabel>
+                <required>false</required>
+			</attributeReference>
+
+			<attributeReference name="vendorShippingPaymentTermsCode" sourceClassName="org.kuali.module.vendor.bo.ShippingPaymentTerms" sourceAttributeName="vendorShippingPaymentTermsCode" >
+                <label>Shipping Terms</label>
+                <shortLabel>Shipping Terms</shortLabel>
+                <required>false</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.ShippingPaymentTermsValuesFinder" />
+                </control>
+			</attributeReference>
+
+			<attributeReference name="vendorShippingTitleCode" sourceClassName="org.kuali.module.vendor.bo.ShippingTitle" sourceAttributeName="vendorShippingTitleCode" >
+                <label>Shipping Title</label>
+                <shortLabel>Shipping Title</shortLabel>
+                <required>false</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.ShippingTitleValuesFinder" />
+                </control>
+			</attributeReference>
+
+            <attributeReference name="vendorB2bIndicator" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="yesNoWithoutBlankIndicator">
+                <label>B2B Contract</label>
+                <shortLabel>B2B Contract</shortLabel>
+                <required>true</required>
+                <summary>vendorB2bIndicator</summary>
+                <description>vendorB2bIndicator description...</description>
+			</attributeReference>
+
+            <attributeReference name="organizationAutomaticPurchaseOrderLimit" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>Default APO Limit</label>
+                <shortLabel>Default APO Limit</shortLabel>
+                <required>false</required>
+            </attributeReference>
+			
+			<attribute name="vendorContractGeneratedIdentifier" forceUppercase="true">
+                <label>Vendor Contract Generated Identifier</label>
+                <shortLabel>Vendor Contract Generated Identifier</shortLabel>
+                
+				<maxLength>8</maxLength>
+                
+				<validationPattern><numeric /></validationPattern>
+                
+				<control>
+                    <hidden/>
+                </control>
+                
+                <summary>The Purchasing and Accounts Payable Document Number</summary>
+                <description>The Purchasing and Accounts Payable Document Number</description>
+			</attribute>
+			
+			<attributeReference name="newCollectionRecord" 
+                                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+                                sourceAttributeName="newCollectionRecord" />
+
+            <attributeReference name="vendorHeaderGeneratedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorHeaderGeneratedIdentifier" />
+            <attributeReference name="vendorDetailAssignedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorDetailAssignedIdentifier" />
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

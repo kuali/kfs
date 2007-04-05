@@ -28,9 +28,9 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.AccountsPayableDocumentBase;
 import org.kuali.module.purap.document.PurchasingDocument;
-import org.kuali.module.purap.service.PhoneNumberService;
 import org.kuali.module.purap.web.struts.form.AccountsPayableFormBase;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
+import org.kuali.module.vendor.service.PhoneNumberService;
 
 /**
  * This class handles specific Actions requests for the Purchasing Ap.

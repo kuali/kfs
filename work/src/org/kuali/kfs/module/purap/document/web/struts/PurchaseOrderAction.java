@@ -43,10 +43,10 @@ import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
-import org.kuali.module.purap.bo.VendorDetail;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.question.SingleConfirmationQuestion;
 import org.kuali.module.purap.web.struts.form.PurchaseOrderForm;
+import org.kuali.module.vendor.bo.VendorDetail;
 
 /**
  * This class handles specific Actions requests for the Requisition.
@@ -152,10 +152,10 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                                 PurapKeyConstants.ERROR_PURCHASE_ORDER_CLOSE_REASON_REQUIRED, Constants.QUESTION_REASON_ATTRIBUTE_NAME, 
                                 new Integer(reasonLimit).toString());
                     }
-
+                    
                     boolean success = SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(po, "KualiPurchaseOrderCloseDocument", 
                             kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase)); 
-
+                    
                     if (!success) {
                         return mapping.findForward(Constants.MAPPING_ERROR);
                     }
@@ -254,7 +254,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         }
         
         if (StringUtils.isNotBlank(reason)) {
-            reason = PurapConstants.PODocumentsStrings.REOPEN_NOTE_PREFIX + reason;
+        reason = PurapConstants.PODocumentsStrings.REOPEN_NOTE_PREFIX + reason;
             Note newNote = new Note();
             newNote.setNoteText(reason);
             newNote.setNoteTypeCode("BO");

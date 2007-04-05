@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.vendor.bo.AddressType">
+
+
+        <inquiry>
+            <title>Address Type Inquiry</title>
+
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+                <field attributeName="vendorAddressTypeCode" />
+                <field attributeName="vendorAddressTypeDescription" />
+                <field attributeName="vendorDefaultIndicator" />
+                <field attributeName="active" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Address Type Lookup</title>
+
+            <instructions>Lookup an Address Type</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="vendorAddressTypeDescription" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="vendorAddressTypeCode" required="false" />
+                <lookupField attributeName="vendorAddressTypeDescription" required="false" />
+                <lookupField attributeName="vendorDefaultIndicator" required="false" />
+                <lookupField attributeName="active" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="vendorAddressTypeCode" />
+                <field attributeName="vendorAddressTypeDescription" />
+                <field attributeName="vendorDefaultIndicator" />
+                <field attributeName="active" />
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>vendorAddressTypeCode</titleAttribute>
+
+        <attributes>
+
+            <attribute name="vendorAddressTypeCode" forceUppercase="true">
+                <label>Vendor Address Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+                <required>true</required>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>vendorAddressTypeCode</summary>
+                <description>vendorAddressTypeCode description...</description>
+			</attribute>
+
+            <attribute name="vendorAddressTypeDescription" forceUppercase="true">
+                <label>Vendor Address Type Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+                <required>true</required>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>vendorAddressTypeDescription</summary>
+                <description>vendorAddressTypeDescription description...</description>
+			</attribute>
+
+            <attribute name="vendorDefaultIndicator" forceUppercase="false">
+                <label>Vendor Default Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>vendorDefaultIndicator</summary>
+                <description>vendorDefaultIndicator description...</description>
+			</attribute>
+
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

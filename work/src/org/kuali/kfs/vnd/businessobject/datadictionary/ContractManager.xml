@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.vendor.bo.ContractManager">
+
+
+        <inquiry>
+            <title>Contract Manager Inquiry</title>
+
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+                <field attributeName="contractManagerCode" />
+                <field attributeName="contractManagerUserIdentifier" />
+                <field attributeName="contractManagerName" />
+                <field attributeName="contractManagerPhoneNumber" />
+                <field attributeName="contractManagerFaxNumber" />
+                <field attributeName="contractManagerLongDistanceAccessCode" />
+                <field attributeName="contractManagerDelegationDollarLimit" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Contract Manager Lookup</title>
+
+            <instructions>Lookup a Contract Manager</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="contractManagerCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="contractManagerCode" required="false" />
+                <lookupField attributeName="contractManagerUserIdentifier" required="false" />
+                <lookupField attributeName="contractManagerName" required="false" />
+                <lookupField attributeName="contractManagerPhoneNumber" required="false" />
+                <lookupField attributeName="contractManagerFaxNumber" required="false" />
+                <lookupField attributeName="contractManagerLongDistanceAccessCode" required="false" />
+                <lookupField attributeName="contractManagerDelegationDollarLimit" required="false" />
+                <lookupField attributeName="contractManagerSignatureImageLocationDescription" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="contractManagerCode" />
+                <field attributeName="contractManagerUserIdentifier" />
+                <field attributeName="contractManagerName" />
+                <field attributeName="contractManagerPhoneNumber" />
+                <field attributeName="contractManagerFaxNumber" />
+                <field attributeName="contractManagerLongDistanceAccessCode" />
+                <field attributeName="contractManagerDelegationDollarLimit" />
+                <field attributeName="contractManagerSignatureImageLocationDescription" />
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>contractManagerCode</titleAttribute>
+
+        <attributes>
+
+            <attribute name="contractManagerCode" forceUppercase="true">
+                <label>CM Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>contractManagerCode</summary>
+                <description>contractManagerCode description...</description>
+			</attribute>
+
+            <attribute name="contractManagerDelegationDollarLimit" forceUppercase="false">
+                <label>CM Delegation Dollar Limit</label>
+                <shortLabel>Limit</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>contractManagerDelegationDollarLimit</summary>
+                <description>contractManagerDelegationDollarLimit description...</description>
+			</attribute>
+
+            <attribute name="contractManagerFaxNumber" forceUppercase="true">
+                <label>CM Fax Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>contractManagerFaxNumber</summary>
+                <description>contractManagerFaxNumber description...</description>
+			</attribute>
+
+            <attribute name="contractManagerLongDistanceAccessCode" forceUppercase="true">
+                <label>CM Long Distance Access Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>contractManagerLongDistanceAccessCode</summary>
+                <description>contractManagerLongDistanceAccessCode description...</description>
+			</attribute>
+
+            <attribute name="contractManagerName" forceUppercase="true">
+                <label>CM Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>contractManagerName</summary>
+                <description>contractManagerName description...</description>
+			</attribute>
+
+            <attribute name="contractManagerPhoneNumber" forceUppercase="true">
+                <label>CM Phone Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>contractManagerPhoneNumber</summary>
+                <description>contractManagerPhoneNumber description...</description>
+			</attribute>
+
+            <attribute name="contractManagerSignatureImageLocationDescription" forceUppercase="true">
+                <label>CM Signature Image Location Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>contractManagerSignatureImageLocationDescription</summary>
+                <description>contractManagerSignatureImageLocationDescription description...</description>
+			</attribute>
+
+            <attribute name="contractManagerUserIdentifier" forceUppercase="true">
+                <label>CM User Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>11</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="13" />
+                </control>
+
+                <summary>contractManagerUserIdentifier</summary>
+                <description>contractManagerUserIdentifier description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

@@ -20,19 +20,19 @@
     </control>
 </attributeReference>
 
-<attributeReference name="vendorNumber" sourceClassName="org.kuali.module.purap.bo.VendorDetail" sourceAttributeName="vendorNumber">
+<attributeReference name="vendorNumber" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorNumber">
     <label>Vendor Number</label>
     <shortLabel>Number</shortLabel>
     <required>false</required>
 </attributeReference>
 
-<attributeReference name="vendorAddressGeneratedIdentifier" sourceClassName="org.kuali.module.purap.bo.VendorAddress" sourceAttributeName="vendorAddressGeneratedIdentifier">
+<attributeReference name="vendorAddressGeneratedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorAddress" sourceAttributeName="vendorAddressGeneratedIdentifier">
     <label>Vendor Address Generated Identifier</label>
     <shortLabel>Identifier</shortLabel>
     <required>false</required>
 </attributeReference>
 
-<attributeReference name="vendorContractName" sourceClassName="org.kuali.module.purap.bo.VendorContract" sourceAttributeName="vendorContractName">
+<attributeReference name="vendorContractName" sourceClassName="org.kuali.module.vendor.bo.VendorContract" sourceAttributeName="vendorContractName">
     <label>Vendor Contract Name</label>
     <shortLabel>Contract Name</shortLabel>
     <required>false</required>
@@ -140,7 +140,7 @@
     <description>chartOfAccountsCode description...</description>
 </attributeReference>
 
-<attributeReference name="contractManagerCode" sourceClassName="org.kuali.module.purap.bo.ContractManager" sourceAttributeName="contractManagerCode">
+<attributeReference name="contractManagerCode" sourceClassName="org.kuali.module.vendor.bo.ContractManager" sourceAttributeName="contractManagerCode">
     <label>Contract Manager</label>
     <shortLabel>Contract Manager</shortLabel>
     
@@ -148,7 +148,7 @@
     <description>contractManagerCode description...</description>
 </attributeReference>
 
-<attributeReference name="contractManagerName" sourceClassName="org.kuali.module.purap.bo.ContractManager" sourceAttributeName="contractManagerName">
+<attributeReference name="contractManagerName" sourceClassName="org.kuali.module.vendor.bo.ContractManager" sourceAttributeName="contractManagerName">
     <label>Contract Manager</label>
     <shortLabel>Contract Manager</shortLabel>
     
@@ -174,7 +174,7 @@
     <description>deliveryBuildingName description...</description>
 </attribute>
 
-<attributeReference name="deliveryCampusCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="campusCode">
+<attributeReference name="deliveryCampusCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="campusCode">
     <label>Delivery Campus</label>
     <shortLabel>Del. Campus</shortLabel>
     
@@ -198,7 +198,7 @@
 	<description>deliveryBuildingOther description...</description>
 </attribute>
 
-<attributeReference name="deliveryBuildingLine1Address" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="line1Address">
+<attributeReference name="deliveryBuildingLine1Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line1Address">
     <label>Address 1</label>
     <shortLabel>Addr. 1</shortLabel>
        
@@ -208,7 +208,7 @@
     <description>deliveryBuildingLine1Address description...</description>
 </attributeReference>
 
-<attributeReference name="deliveryBuildingLine2Address" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="line2Address">
+<attributeReference name="deliveryBuildingLine2Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line2Address">
     <label>Address 2</label>
     <shortLabel>Addr. 2</shortLabel>
     <summary>deliveryBuildingLine2Address</summary>
@@ -233,7 +233,7 @@
     <description>deliveryBuildingRoomNumber description...</description>
 </attribute>
 
-<attributeReference name="deliveryCityName" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="cityName">
+<attributeReference name="deliveryCityName" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="cityName">
     <label>City</label>
     <shortLabel>City</shortLabel>
 
@@ -243,7 +243,7 @@
     <description>deliveryCityName description...</description>
 </attributeReference>
 
-<attributeReference name="deliveryCountryCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="countryCode">
+<attributeReference name="deliveryCountryCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="countryCode">
     <label>Delivery Country Code</label>
     <shortLabel>Code</shortLabel>
    
@@ -266,7 +266,7 @@
     <description>deliveryInstructionText description...</description>
 </attribute>
 
-<attributeReference name="deliveryPostalCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="zipCode">
+<attributeReference name="deliveryPostalCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="zipCode">
     <label>Postal Code</label>
     <shortLabel>Zip</shortLabel>
 
@@ -292,7 +292,7 @@
     <description>deliveryRequiredDateReasonCode description...</description>
 </attributeReference>
 
-<attributeReference name="deliveryStateCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="stateCode">
+<attributeReference name="deliveryStateCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="stateCode">
     <label>State</label>
     <shortLabel>State</shortLabel>
 
@@ -312,7 +312,7 @@
     <description>deliveryToEmailAddress description...</description>
 </attributeReference>
 
-<attributeReference name="deliveryToName" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="attentionName">
+<attributeReference name="deliveryToName" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="attentionName">
 
     <label>Delivery To</label>
     <shortLabel>To</shortLabel>
@@ -323,7 +323,7 @@
     <description>deliveryToName description...</description>
 </attributeReference>
 
-<attributeReference name="deliveryToPhoneNumber" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="phoneNumberWithValidation">
+<attributeReference name="deliveryToPhoneNumber" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="phoneNumberWithValidation">
     <label>Phone Number</label>
     <shortLabel>Phone</shortLabel>
     
@@ -378,7 +378,7 @@
     <description>institutionContactName description...</description>
 </attribute>
 
-<attributeReference name="institutionContactPhoneNumber" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="phoneNumberWithValidation">
+<attributeReference name="institutionContactPhoneNumber" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="phoneNumberWithValidation">
     <label>Contact Phone</label>
     <shortLabel>Number</shortLabel>
 
@@ -434,7 +434,7 @@
     <description>organizationCode description...</description>
 </attributeReference>
 
-<attributeReference name="purchaseOrderAutomaticIndicator" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="hiddenIndicator">
+<attributeReference name="purchaseOrderAutomaticIndicator" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="hiddenIndicator">
     <label>Purchase Order Automatic Indicator</label>
     <shortLabel>Indicator</shortLabel>
         
@@ -442,12 +442,12 @@
     <description>purchaseOrderAutomaticIndicator description...</description>
 </attributeReference>
 
-<attributeReference name="purchaseOrderCostSourceCode" sourceClassName="org.kuali.module.purap.bo.PurchaseOrderCostSource" sourceAttributeName="purchaseOrderCostSourceCode">
+<attributeReference name="purchaseOrderCostSourceCode" sourceClassName="org.kuali.module.vendor.bo.PurchaseOrderCostSource" sourceAttributeName="purchaseOrderCostSourceCode">
     <label>Cost Source</label>
     <shortLabel>Code</shortLabel>
     <required>true</required>
     <control>
-        <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderCostSourceValuesFinder" />
+        <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.PurchaseOrderCostSourceValuesFinder" />
     </control>
     
     <summary>purchaseOrderCostSourceCode</summary>
@@ -527,7 +527,7 @@
     <description>requestorPersonName description...</description>
 </attribute>
 
-<attributeReference name="requestorPersonPhoneNumber" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="phoneNumberWithValidation">
+<attributeReference name="requestorPersonPhoneNumber" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="phoneNumberWithValidation">
     <label>Requestor Phone</label>
     <shortLabel>Phone Number</shortLabel>
 
@@ -544,7 +544,7 @@
     <description>requisitionSourceCode description...</description>
 </attributeReference>
 
-<attributeReference name="vendorContractGeneratedIdentifier" sourceClassName="org.kuali.module.purap.bo.VendorContract" sourceAttributeName="vendorContractGeneratedIdentifier">
+<attributeReference name="vendorContractGeneratedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorContract" sourceAttributeName="vendorContractGeneratedIdentifier">
     <label>Contract ID</label>
     <shortLabel>Identifier</shortLabel>
     
@@ -552,7 +552,7 @@
     <description>vendorContractGeneratedIdentifier description...</description>
 </attributeReference>
 
-<attributeReference name="vendorFaxNumber" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="phoneNumberNoValidation">
+<attributeReference name="vendorFaxNumber" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="phoneNumberNoValidation">
     <label>Fax Number</label>
     <shortLabel>Number</shortLabel>
 
@@ -560,7 +560,7 @@
     <description>vendorFaxNumber description...</description>
 </attributeReference>
 
-<attributeReference name="vendorLine2Address" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="line2Address">
+<attributeReference name="vendorLine2Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line2Address">
     <label>Address 2</label>
     <shortLabel>Address</shortLabel>
 
@@ -585,7 +585,7 @@
     <description>vendorNoteText description...</description>
 </attribute>
 
-<attributeReference name="vendorPhoneNumber" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="phoneNumberNoValidation">
+<attributeReference name="vendorPhoneNumber" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="phoneNumberNoValidation">
     <label>Phone Number</label>
     <shortLabel>Number</shortLabel>
 
@@ -593,7 +593,7 @@
     <description>vendorPhoneNumber description...</description>
 </attributeReference>
 
-<attributeReference name="vendorPostalCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="zipCode">
+<attributeReference name="vendorPostalCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="zipCode">
     <label>Postal Code</label>
     <shortLabel>Code</shortLabel>
     
@@ -601,7 +601,7 @@
     <description>vendorPostalCode description...</description>
 </attributeReference>
 
-<attributeReference name="vendorRestrictedIndicator" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="hiddenIndicator">
+<attributeReference name="vendorRestrictedIndicator" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="hiddenIndicator">
     <label>Restricted Indicator</label>
     <shortLabel>Restricted</shortLabel>
   	
@@ -609,7 +609,7 @@
     <description>vendorRestrictedIndicator description...</description>
 </attributeReference>
 
-<attributeReference name="vendorStateCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="stateCode">
+<attributeReference name="vendorStateCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="stateCode">
     <label>State</label>
     <shortLabel>Code</shortLabel>
     

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.vendor.bo.VendorContact">
+
+
+        <inquiry>
+            <title>Vendor Contact Inquiry</title>
+
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+            	<field attributeName="vendorContactTypeCode" />
+            	<field attributeName="vendorContactName" />
+            	<field attributeName="vendorContactEmailAddress" />
+                <field attributeName="vendorContactGeneratedIdentifier" />             
+                <field attributeName="vendorDetailAssignedIdentifier" />
+                <field attributeName="vendorHeaderGeneratedIdentifier" />
+                <field attributeName="vendorContactCommentText" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>           
+            <lookupableID>vendorContactLookupable</lookupableID>
+            <title>Vendor Contact Lookup</title>
+
+            <instructions>Lookup a Vendor Contact</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="vendorContactGeneratedIdentifier" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="vendorContactName" required="false" />
+                <lookupField attributeName="vendorHeaderGeneratedIdentifier" required="false" />      
+                <lookupField attributeName="vendorDetailAssignedIdentifier" required="false" /> 
+                <lookupField attributeName="vendorContactTypeCode" required="false" />         
+                <lookupField attributeName="vendorContactEmailAddress" required="false" />                            
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="vendorContactName" />
+            	<field attributeName="vendorHeaderGeneratedIdentifier" />
+            	<field attributeName="vendorDetailAssignedIdentifier" />
+                <field attributeName="vendorContactTypeCode" />
+                <field attributeName="vendorContactEmailAddress" />
+                <field attributeName="phoneNumberForLookup" />
+                <field attributeName="faxForLookup" />
+                <field attributeName="tollFreeForLookup" />
+            </resultFields>
+        </lookup>
+        
+        <attributes>
+
+			<attribute name="vendorContactGeneratedIdentifier" forceUppercase="true">
+                <label>Vendor Contact Generated Identifier</label>
+                <shortLabel>Contact Gen. ID</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <hidden />
+                </control>
+
+                <summary>vendorContactGeneratedIdentifier</summary>
+                <description>vendorContactGeneratedIdentifier description...</description>
+			</attribute>
+
+            <attributeReference name="vendorContactTypeCode"
+            	sourceClassName="org.kuali.module.vendor.bo.ContactType"
+            	sourceAttributeName="vendorContactTypeCode">
+                <label>Contact Type</label>
+                <shortLabel>Contact Type</shortLabel>
+                <required>true</required>
+
+				<control>
+                    <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.ContactTypeValuesFinder" />
+                </control>
+			</attributeReference>
+						
+            <attribute name="vendorContactName">
+                <label>Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+                <required>true</required>
+
+                <control>
+                    <text size="45" />
+                </control>
+
+                <summary>vendorContactName</summary>
+                <description>vendorContactName description...</description>
+			</attribute>
+			
+            <attribute name="vendorContactCommentText">
+                <label>Comments</label>
+                <shortLabel>Comments</shortLabel>
+
+                <maxLength>800</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>vendorContactCommentText</summary>
+                <description>vendorContactCommentText description...</description>
+			</attribute>
+
+            <attributeReference name="vendorContactEmailAddress"
+            	sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+            	sourceAttributeName="emailAddress">
+                <label>Email Address</label>
+                <shortLabel>Email</shortLabel>
+
+                <summary>vendorContactEmailAddress</summary>
+                <description>vendorContactEmailAddress description...</description>
+			</attributeReference>
+			
+            <attributeReference name="phoneNumberForLookup" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="phoneNumberNoValidation">
+                <label>Phone Number</label>
+                <shortLabel>Phone</shortLabel>
+                <summary>phoneNumberForLookup</summary>
+                <description>This field is here for the lookup only, and does not persist in the db, due to the vendorContactPhoneNumbers collection.</description>
+            </attributeReference>
+
+            <attributeReference name="faxForLookup" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="phoneNumberNoValidation">
+                <label>Fax Number</label>
+                <shortLabel>Fax</shortLabel>
+                <summary>faxForLookup</summary>
+                <description>This field is here for the lookup only, and does not persist in the db, due to the vendorContactPhoneNumbers collection.</description>
+            </attributeReference>
+
+            <attributeReference name="tollFreeForLookup" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="phoneNumberNoValidation">
+                <label>Toll Free Number</label>
+                <shortLabel>Toll Free</shortLabel>
+                <summary>toll FreeForLookup</summary>
+                <description>This field is here for the lookup only, and does not persist in the db, due to the vendorContactPhoneNumbers collection.</description>
+            </attributeReference>
+            
+            <attributeReference name="newCollectionRecord" 
+                                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+                                sourceAttributeName="newCollectionRecord" />
+                        					
+            <attributeReference name="vendorLine1Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line1Address" />
+            <attributeReference name="vendorLine2Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line2Address" />
+            <attributeReference name="vendorCityName" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="cityName" />
+            <attributeReference name="vendorStateCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="stateCode" />
+            <attributeReference name="vendorCountryCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="countryCode" />
+            <attributeReference name="vendorZipCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="zipCode" />
+            <attributeReference name="vendorAddressInternationalProvinceName" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="internationalProvinceName" />
+            <attributeReference name="vendorAttentionName" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="attentionName" />
+            <attributeReference name="vendorHeaderGeneratedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorHeaderGeneratedIdentifier" />
+            <attributeReference name="vendorDetailAssignedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorDetailAssignedIdentifier" />
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

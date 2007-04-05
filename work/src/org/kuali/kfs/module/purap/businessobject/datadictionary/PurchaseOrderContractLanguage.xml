@@ -76,7 +76,7 @@
                 <description>purchaseOrderContractLanguageIdentifier description...</description>
 			</attribute>
 			
-			<attributeReference name="campusCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="campusCode" >
+			<attributeReference name="campusCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="campusCode" >
                 <label>Purchasing Office Campus Code</label>
                 <shortLabel>Code</shortLabel>
 			</attributeReference>

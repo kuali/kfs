@@ -35,9 +35,9 @@ import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.bo.BillingAddress;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.bo.RequisitionStatusHistory;
-import org.kuali.module.purap.bo.VendorContract;
-import org.kuali.module.purap.bo.VendorDetail;
-import org.kuali.module.purap.service.PhoneNumberService;
+import org.kuali.module.vendor.bo.VendorContract;
+import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.module.vendor.service.PhoneNumberService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -57,7 +57,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 	private String alternate5VendorName;
 	private KualiDecimal organizationAutomaticPurchaseOrderLimit;
     private Integer accountsPayablePurchasingDocumentLinkIdentifier;
-
+    
     private PhoneNumberService phoneNumberService;
 
 	/**

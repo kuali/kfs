@@ -27,12 +27,12 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.OrganizationParameter;
-import org.kuali.module.purap.bo.VendorContract;
-import org.kuali.module.purap.bo.VendorDetail;
 import org.kuali.module.purap.dao.RequisitionDao;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.RequisitionService;
-import org.kuali.module.purap.service.VendorService;
+import org.kuali.module.vendor.bo.VendorContract;
+import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.module.vendor.service.VendorService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional

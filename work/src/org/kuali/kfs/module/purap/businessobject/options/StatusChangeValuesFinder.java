@@ -16,17 +16,12 @@
 package org.kuali.module.purap.lookup.keyvalues;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.Constants;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
-import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.bo.ContactType;
+import org.kuali.module.vendor.VendorConstants;
 
 public class StatusChangeValuesFinder extends KeyValuesBase {
 
@@ -35,7 +30,7 @@ public class StatusChangeValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {       
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair(PurapConstants.PurchaseOrderStatuses.IN_PROCESS, PurapConstants.NONE));
+        labels.add(new KeyLabelPair(PurapConstants.PurchaseOrderStatuses.IN_PROCESS, VendorConstants.NONE));
         labels.add(new KeyLabelPair(PurapConstants.PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT, "Department"));
         labels.add(new KeyLabelPair(PurapConstants.PurchaseOrderStatuses.WAITING_FOR_VENDOR,"Vendor"));       
         return labels;

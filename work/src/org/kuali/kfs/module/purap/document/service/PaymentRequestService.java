@@ -24,6 +24,7 @@ import org.kuali.core.service.NoteService;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.module.purap.dao.PaymentRequestDao;
 import org.kuali.module.purap.document.PaymentRequestDocument;
+import org.kuali.module.vendor.service.VendorService;
 
 public interface PaymentRequestService {
 

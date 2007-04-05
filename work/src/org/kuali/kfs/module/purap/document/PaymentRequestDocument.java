@@ -24,10 +24,8 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.PaymentRequestStatus;
 import org.kuali.module.purap.bo.PaymentRequestStatusHistory;
-import org.kuali.module.purap.bo.PaymentTermType;
-import org.kuali.module.purap.bo.RecurringPaymentFrequency;
-import org.kuali.module.purap.bo.ShippingPaymentTerms;
-import org.kuali.module.purap.bo.ShippingTitle;
+import org.kuali.module.vendor.bo.PaymentTermType;
+import org.kuali.module.vendor.bo.ShippingPaymentTerms;
 
 
 /**

@@ -22,12 +22,12 @@ import org.kuali.PropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.CampusParameter;
-import org.kuali.module.purap.bo.ContractManager;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.exceptions.PurError;
+import org.kuali.module.vendor.bo.ContractManager;
 
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
@@ -63,9 +63,9 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
             headerTable.getDefaultCell().setVerticalAlignment(Element.ALIGN_CENTER);
       
             if (StringUtils.isNotBlank(logoImage)) {
-                logo = Image.getInstance(logoImage);
-                logo.scalePercent(3,3);
-                headerTable.addCell(new Phrase(new Chunk(logo, 0, 0)));
+            logo = Image.getInstance(logoImage);
+            logo.scalePercent(3,3);
+            headerTable.addCell(new Phrase(new Chunk(logo, 0, 0)));
             } 
             else {
                 //if we don't use images
@@ -155,7 +155,7 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         this.environment = environment;
     
         NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.US);
-        
+
         CampusParameter campusParameter = getCampusParameter(contractManagerCampusCode);
         String purchasingAddressFull = getPurchasingAddressFull(campusParameter);
         //Used at the bottom - "All material to be shipped to"
@@ -534,7 +534,7 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
     
     private String getPurchasingAddressPartial(CampusParameter campusParameter) {
         StringBuffer purchasingAddressPartial = new StringBuffer(); 
-         
+
         purchasingAddressPartial.append(campusParameter.getPurchasingInstitutionName() + ", ");
         purchasingAddressPartial.append(campusParameter.getPurchasingDepartmentCityName() + ", ");
         purchasingAddressPartial.append(campusParameter.getPurchasingDepartmentStateCode() + " ");
@@ -543,4 +543,5 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         return purchasingAddressPartial.toString();
     }
 }
+
 

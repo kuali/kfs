@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.purap.document.AssignContractManagerDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.module.vendor.bo.ContractManager;
 import org.kuali.PropertyConstants;
 
 /**

@@ -17,15 +17,15 @@ package org.kuali.module.purap.fixtures;
 
 import java.sql.Date;
 
-import org.kuali.module.purap.bo.VendorAddress;
-import org.kuali.module.purap.bo.VendorContract;
-import org.kuali.module.purap.bo.VendorDetail;
-import org.kuali.module.purap.bo.VendorHeader;
-import org.kuali.module.purap.bo.VendorShippingSpecialCondition;
-import org.kuali.module.purap.bo.VendorSupplierDiversity;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
-import org.kuali.module.purap.service.PhoneNumberService;
+import org.kuali.module.vendor.bo.VendorAddress;
+import org.kuali.module.vendor.bo.VendorContract;
+import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.module.vendor.bo.VendorHeader;
+import org.kuali.module.vendor.bo.VendorShippingSpecialCondition;
+import org.kuali.module.vendor.bo.VendorSupplierDiversity;
+import org.kuali.module.vendor.service.PhoneNumberService;
 
 class PurapTestConstants {
        

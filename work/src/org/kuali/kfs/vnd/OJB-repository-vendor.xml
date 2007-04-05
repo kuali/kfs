@@ -14,4 +14,515 @@
  limitations under the License.
 -->
 <descriptor-repository version="1.0">
+
+<class-descriptor class="org.kuali.module.vendor.bo.ContactType" table="PUR_CNTCT_TYP_T">
+    <field-descriptor name="vendorContactTypeCode" column="VNDR_CNTCT_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="vendorContactTypeDescription" column="VNDR_CNTCT_TYP_DESC" jdbc-type="VARCHAR"/>
+    <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.vendor.bo.VendorHeader" table="PUR_VNDR_HDR_T">
+    <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="VNDR_HDR_GNRTD_ID"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="vendorTypeCode" column="VNDR_TYP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorTaxNumber" column="VNDR_TAX_NBR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorTaxTypeCode" column="VNDR_TAX_TYP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorOwnershipCode" column="VNDR_OWNR_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorOwnershipCategoryCode" column="VNDR_OWNR_CTGRY_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorFederalWithholdingTaxBeginningDate" column="VNDR_FWT_BEG_DT" jdbc-type="DATE"/>
+    <field-descriptor name="vendorFederalWithholdingTaxEndDate" column="VNDR_FWT_END_DT" jdbc-type="DATE"/>
+    <field-descriptor name="vendorW9ReceivedIndicator" column="VNDR_W9_RCVD_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="vendorW8BenReceivedIndicator" column="VNDR_W8_BEN_RCVD_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="vendorDebarredIndicator" column="VNDR_DEBRD_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="vendorForeignIndicator" column="VNDR_FRGN_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+    <reference-descriptor name="vendorType" class-ref="org.kuali.module.vendor.bo.VendorType" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorTypeCode" />
+    </reference-descriptor>
+    <reference-descriptor name="vendorOwnership" class-ref="org.kuali.module.vendor.bo.OwnershipType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="vendorOwnershipCode" />
+    </reference-descriptor>
+    <reference-descriptor name="vendorOwnershipCategory" class-ref="org.kuali.module.vendor.bo.OwnershipCategory" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="vendorOwnershipCategoryCode" />
+    </reference-descriptor>
+    <collection-descriptor name="vendorSupplierDiversities" element-class-ref="org.kuali.module.vendor.bo.VendorSupplierDiversity" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="none">
+        <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+    </collection-descriptor>
+    <collection-descriptor name="vendorTaxChanges" element-class-ref="org.kuali.module.vendor.bo.VendorTaxChange" auto-retrieve="false" auto-update="object" auto-delete="false" proxy="false">
+        <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+    </collection-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.vendor.bo.VendorDetail" table="PUR_VNDR_DTL_T">
+    <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
+    <field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="vendorParentIndicator" column="VNDR_PARENT_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="vendorName" column="VNDR_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="activeIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="vendorInactiveReasonCode" column="VNDR_INACTV_REAS_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorDunsNumber" column="VNDR_DUNS_NBR" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="vendorPaymentTermsCode" column="VNDR_PMT_TERM_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorShippingTitleCode" column="VNDR_SHP_TTL_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorShippingPaymentTermsCode" column="VNDR_SHP_PMT_TERM_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorConfirmationIndicator" column="VNDR_CNFM_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="vendorPrepaymentIndicator" column="VNDR_PRPYMT_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="vendorCreditCardIndicator" column="VNDR_CCRD_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="vendorMinimumOrderAmount" column="VNDR_MIN_ORD_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+    <field-descriptor name="vendorUrlAddress" column="VNDR_URL_ADDR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorSoldToName" column="VNDR_SOLD_TO_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorRemitName" column="VNDR_RMT_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorRestrictedIndicator" column="VNDR_RSTRC_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="vendorRestrictedReasonText" column="VNDR_RSTRC_REAS_TXT" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorRestrictedDate" column="VNDR_RSTRC_DT" jdbc-type="DATE"/>
+    <field-descriptor name="vendorRestrictedPersonIdentifier" column="VNDR_RSTRC_PRSN_ID" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorSoldToGeneratedIdentifier" column="VNDR_SOLD_TO_GNRTD_ID" jdbc-type="INTEGER"/>
+    <field-descriptor name="vendorSoldToAssignedIdentifier" column="VNDR_SOLD_TO_ASND_ID" jdbc-type="INTEGER"/>
+    <field-descriptor name="vendorFirstLastNameIndicator" column="VNDR_1ST_LST_NM_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+    <reference-descriptor name="vendorHeader" class-ref="org.kuali.module.vendor.bo.VendorHeader" auto-retrieve="true" auto-update="none" auto-delete="object" proxy="true">
+        <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+    </reference-descriptor>
+    <reference-descriptor name="soldToVendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="vendorSoldToGeneratedIdentifier" />
+        <foreignkey field-ref="vendorSoldToAssignedIdentifier" />
+    </reference-descriptor>
+    <reference-descriptor name="vendorInactiveReason" class-ref="org.kuali.module.vendor.bo.VendorInactiveReason" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorInactiveReasonCode" />
+    </reference-descriptor>
+    <reference-descriptor name="vendorPaymentTerms" class-ref="org.kuali.module.vendor.bo.PaymentTermType" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorPaymentTermsCode" />
+    </reference-descriptor>
+    <reference-descriptor name="vendorShippingTitle" class-ref="org.kuali.module.vendor.bo.ShippingTitle" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorShippingTitleCode" />
+    </reference-descriptor>
+    <reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.module.vendor.bo.ShippingPaymentTerms" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorShippingPaymentTermsCode" />
+    </reference-descriptor>
+    <collection-descriptor name="vendorAliases" element-class-ref="org.kuali.module.vendor.bo.VendorAlias" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+        <orderby name="vendorAliasName" sort="ASC" />
+        <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+        <inverse-foreignkey field-ref="vendorDetailAssignedIdentifier" />
+    </collection-descriptor>
+    <collection-descriptor name="vendorAddresses" element-class-ref="org.kuali.module.vendor.bo.VendorAddress" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+        <orderby name="vendorAddressTypeCode" sort="ASC" />
+        <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+        <inverse-foreignkey field-ref="vendorDetailAssignedIdentifier" />
+    </collection-descriptor>
+    <collection-descriptor name="vendorContacts" element-class-ref="org.kuali.module.vendor.bo.VendorContact" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true" proxy="false">
+        <orderby name="vendorContactTypeCode" sort="ASC" />
+        <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+        <inverse-foreignkey field-ref="vendorDetailAssignedIdentifier" />
+    </collection-descriptor>
+    <collection-descriptor name="vendorContracts" element-class-ref="org.kuali.module.vendor.bo.VendorContract" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true" proxy="false">
+        <orderby name="vendorContractName" sort="ASC" />
+        <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+        <inverse-foreignkey field-ref="vendorDetailAssignedIdentifier" />
+    </collection-descriptor>
+    <collection-descriptor name="vendorCustomerNumbers" element-class-ref="org.kuali.module.vendor.bo.VendorCustomerNumber" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+        <orderby name="chartOfAccountsCode" sort="ASC" />
+        <orderby name="vendorOrganizationCode" sort="ASC" />
+        <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+        <inverse-foreignkey field-ref="vendorDetailAssignedIdentifier" />
+    </collection-descriptor>
+    <collection-descriptor name="vendorPhoneNumbers" element-class-ref="org.kuali.module.vendor.bo.VendorPhoneNumber" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true" proxy="false">
+        <orderby name="vendorPhoneGeneratedIdentifier" sort="ASC" />
+        <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+        <inverse-foreignkey field-ref="vendorDetailAssignedIdentifier" />
+    </collection-descriptor>
+    <collection-descriptor name="vendorShippingSpecialConditions" element-class-ref="org.kuali.module.vendor.bo.VendorShippingSpecialCondition" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+        <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+        <inverse-foreignkey field-ref="vendorDetailAssignedIdentifier" />
+    </collection-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.vendor.bo.VendorAddress" table="PUR_VNDR_ADDR_T">
+    <field-descriptor name="vendorAddressGeneratedIdentifier" column="VNDR_ADDR_GNRTD_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="VNDR_ADDR_GNRTD_ID"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER" index="true"/>
+    <field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER" index="true"/>
+    <field-descriptor name="vendorAddressTypeCode" column="VNDR_ADDR_TYP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorLine1Address" column="VNDR_LN1_ADDR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorLine2Address" column="VNDR_LN2_ADDR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorCityName" column="VNDR_CTY_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorStateCode" column="VNDR_ST_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorZipCode" column="VNDR_ZIP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorCountryCode" column="VNDR_CNTRY_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorAttentionName" column="VNDR_ATTN_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorAddressInternationalProvinceName" column="VNDR_ADDR_INTL_PROV_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorAddressEmailAddress" column="VNDR_ADDR_EMAIL_ADDR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorBusinessToBusinessUrlAddress" column="VNDR_B2B_URL_ADDR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorFaxNumber" column="VNDR_FAX_NBR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorDefaultAddressIndicator" column="VNDR_DFLT_ADDR_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+        <foreignkey field-ref="vendorDetailAssignedIdentifier" />
+    </reference-descriptor>
+    <reference-descriptor name="vendorAddressType" class-ref="org.kuali.module.vendor.bo.AddressType" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorAddressTypeCode" />
+    </reference-descriptor>
+    <reference-descriptor name="vendorState" class-ref="org.kuali.kfs.bo.State" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorStateCode" />
+    </reference-descriptor>
+    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorCountryCode" />
+    </reference-descriptor>
+    <collection-descriptor name="vendorDefaultAddresses" proxy="false" element-class-ref="org.kuali.module.vendor.bo.VendorDefaultAddress" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+        <orderby name="vendorDefaultAddressGeneratedIdentifier" sort="ASC" />
+        <inverse-foreignkey field-ref="vendorAddressGeneratedIdentifier" />
+    </collection-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.vendor.bo.VendorContact" table="PUR_VNDR_CNTCT_T">
+    <field-descriptor name="vendorContactGeneratedIdentifier" column="VNDR_CNTCT_GNRTD_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="VNDR_CNTCT_GNRTD_ID"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
+    <field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER"/>
+    <field-descriptor name="vendorContactTypeCode" column="VNDR_CNTCT_TYP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorContactName" column="VNDR_CNTCT_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorContactEmailAddress" column="VNDR_CNTCT_EMAIL_ADDR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorContactCommentText" column="VNDR_CNTCT_CMNT_TXT" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorLine1Address" column="VNDR_LN1_ADDR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorLine2Address" column="VNDR_LN2_ADDR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorCityName" column="VNDR_CTY_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorStateCode" column="VNDR_ST_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorZipCode" column="VNDR_ZIP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorCountryCode" column="VNDR_CNTRY_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorAttentionName" column="VNDR_ATTN_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorAddressInternationalProvinceName" column="VNDR_ADDR_INTL_PROV_NM" jdbc-type="VARCHAR"/>
+    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+        <foreignkey field-ref="vendorDetailAssignedIdentifier" />
+    </reference-descriptor>
+    <reference-descriptor name="vendorContactType" class-ref="org.kuali.module.vendor.bo.ContactType" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorContactTypeCode" />
+    </reference-descriptor>
+    <reference-descriptor name="vendorState" class-ref="org.kuali.kfs.bo.State" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorStateCode" />
+    </reference-descriptor>
+    <reference-descriptor name="vendorCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorCountryCode" />
+    </reference-descriptor>
+    <collection-descriptor name="vendorContactPhoneNumbers" element-class-ref="org.kuali.module.vendor.bo.VendorContactPhoneNumber" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
+        <orderby name="vendorContactPhoneGeneratedIdentifier" sort="ASC" />
+        <inverse-foreignkey field-ref="vendorContactGeneratedIdentifier" />
+    </collection-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.vendor.bo.VendorContract" table="PUR_VNDR_CONTR_T">
+    <field-descriptor name="vendorContractGeneratedIdentifier" column="VNDR_CONTR_GNRTD_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="VNDR_CONTR_GNRTD_ID"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER" index="true"/>
+    <field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER" index="true"/>
+    <field-descriptor name="vendorContractName" column="VNDR_CONTR_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorContractDescription" column="VNDR_CONTR_DESC" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorCampusCode" column="VNDR_CMP_CD" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="vendorContractBeginningDate" column="VNDR_CONTR_BEG_DT" jdbc-type="DATE"/>
+    <field-descriptor name="vendorContractEndDate" column="VNDR_CONTR_END_DT" jdbc-type="DATE"/>
+    <field-descriptor name="contractManagerCode" column="CONTR_MGR_CD" jdbc-type="INTEGER"/>
+    <field-descriptor name="purchaseOrderCostSourceCode" column="PO_CST_SRC_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorPaymentTermsCode" column="VNDR_PMT_TERM_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorShippingPaymentTermsCode" column="VNDR_SHP_PMT_TERM_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorShippingTitleCode" column="VNDR_SHP_TTL_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorContractExtensionDate" column="VNDR_CONTR_EXTNS_DT" jdbc-type="DATE"/>
+    <field-descriptor name="vendorB2bIndicator" column="VNDR_B2B_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="organizationAutomaticPurchaseOrderLimit" column="ORG_AUTO_PO_LMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+        <foreignkey field-ref="vendorDetailAssignedIdentifier" />
+    </reference-descriptor>
+    <reference-descriptor name="vendorCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorCampusCode" />
+    </reference-descriptor>
+    <reference-descriptor name="contractManager" class-ref="org.kuali.module.vendor.bo.ContractManager" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="contractManagerCode" />
+    </reference-descriptor>
+    <reference-descriptor name="purchaseOrderCostSource" class-ref="org.kuali.module.vendor.bo.PurchaseOrderCostSource" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="purchaseOrderCostSourceCode" />
+    </reference-descriptor>
+    <reference-descriptor name="vendorPaymentTerms" class-ref="org.kuali.module.vendor.bo.PaymentTermType" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorPaymentTermsCode" />
+    </reference-descriptor>
+    <reference-descriptor name="vendorShippingPaymentTerms" class-ref="org.kuali.module.vendor.bo.ShippingPaymentTerms" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorShippingPaymentTermsCode" />
+    </reference-descriptor>
+    <reference-descriptor name="vendorShippingTitle" class-ref="org.kuali.module.vendor.bo.ShippingTitle" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorShippingTitleCode" />
+    </reference-descriptor>
+    <collection-descriptor name="vendorContractOrganizations"  element-class-ref="org.kuali.module.vendor.bo.VendorContractOrganization" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true" proxy="false">
+        <orderby name="chartOfAccountsCode" sort="ASC" />
+        <orderby name="organizationCode" sort="ASC" />
+        <inverse-foreignkey field-ref="vendorContractGeneratedIdentifier" />
+    </collection-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.vendor.bo.VendorContractOrganization" table="PUR_VNDR_CONTR_ORG_T">
+    <field-descriptor name="vendorContractGeneratedIdentifier" column="VNDR_CONTR_GNRTD_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
+    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="vendorContractPurchaseOrderLimitAmount" column="VNDR_CTRPO_LMT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+    <field-descriptor name="vendorContractExcludeIndicator" column="VNDR_CONTR_EXCL_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+    <reference-descriptor name="vendorContract" class-ref="org.kuali.module.vendor.bo.VendorContract" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorContractGeneratedIdentifier" />
+    </reference-descriptor>
+    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="chartOfAccountsCode" />
+        <foreignkey field-ref="organizationCode" />
+    </reference-descriptor>
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="chartOfAccountsCode" />
+    </reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.vendor.bo.VendorCustomerNumber" table="PUR_VNDR_CUST_NBR_T">
+    <field-descriptor name="vendorCustomerNumberGeneratedIdentifier" column="VNDR_CUST_NBR_GNRTD_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="VNDR_CUST_NBR_GNRTD_ID"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
+    <field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER"/>
+    <field-descriptor name="vendorCustomerNumber" column="VNDR_CUST_NBR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorOrganizationCode" column="VNDR_ORG_CD" jdbc-type="VARCHAR"/>
+    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+        <foreignkey field-ref="vendorDetailAssignedIdentifier" />
+    </reference-descriptor>
+    <reference-descriptor name="vendorOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="chartOfAccountsCode" />
+        <foreignkey field-ref="vendorOrganizationCode" />
+    </reference-descriptor>
+    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="chartOfAccountsCode" />
+    </reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.vendor.bo.VendorTaxChange" table="PUR_VNDR_TAX_CHG_T">
+    <field-descriptor name="vendorTaxChangeGeneratedIdentifier" column="VNDR_TAX_CHG_GNRTD_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="VNDR_TAX_CHG_GNRTD_ID"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
+    <field-descriptor name="vendorTaxChangeDate" column="VNDR_TAX_CHG_DT" jdbc-type="DATE"/>
+    <field-descriptor name="vendorPreviousTaxNumber" column="VNDR_PREV_TAX_NBR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorPreviousTaxTypeCode" column="VNDR_PREV_TAX_TYP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorTaxChangePersonIdentifier" column="VNDR_TAX_CHG_PRSN_ID" jdbc-type="VARCHAR"/>
+    <reference-descriptor name="vendorHeader" class-ref="org.kuali.module.vendor.bo.VendorHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+    </reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.vendor.bo.VendorPhoneNumber" table="PUR_VNDR_PHN_NBR_T">
+    <field-descriptor name="vendorPhoneGeneratedIdentifier" column="VNDR_PHN_GNRTD_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="VNDR_PHN_GNRTD_ID"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>
+    <field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER"/>
+    <field-descriptor name="vendorPhoneTypeCode" column="VNDR_PHN_TYP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorPhoneNumber" column="VNDR_PHN_NBR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorPhoneExtensionNumber" column="VNDR_PHN_EXTNS_NBR" jdbc-type="VARCHAR"/>
+    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+        <foreignkey field-ref="vendorDetailAssignedIdentifier" />
+    </reference-descriptor>
+    <reference-descriptor name="vendorPhoneType" class-ref="org.kuali.module.vendor.bo.PhoneType" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorPhoneTypeCode" />
+    </reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.vendor.bo.VendorDefaultAddress" table="PUR_VNDR_DFLT_ADDR_T">
+    <field-descriptor name="vendorDefaultAddressGeneratedIdentifier" column="VNDR_DFLT_ADDR_GNRTD_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="VNDR_DFLT_ADDR_GNRTD_ID"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="vendorAddressGeneratedIdentifier" column="VNDR_ADDR_GNRTD_ID" jdbc-type="INTEGER"/>
+    <field-descriptor name="vendorCampusCode" column="VNDR_CMP_CD" jdbc-type="VARCHAR" index="true"/>
+    <reference-descriptor name="vendorCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorCampusCode" />
+    </reference-descriptor>
+    <reference-descriptor name="vendorAddress" class-ref="org.kuali.module.vendor.bo.VendorAddress" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorAddressGeneratedIdentifier" />
+    </reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.vendor.bo.VendorSupplierDiversity" table="PUR_VNDR_SUPP_DVRST_T">
+    <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
+    <field-descriptor name="vendorSupplierDiversityCode" column="VNDR_SUPP_DVRST_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <reference-descriptor name="vendorHeader" class-ref="org.kuali.module.vendor.bo.VendorHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+    </reference-descriptor>
+    <reference-descriptor name="vendorSupplierDiversity" class-ref="org.kuali.module.vendor.bo.SupplierDiversity" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorSupplierDiversityCode" />
+    </reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.vendor.bo.VendorShippingSpecialCondition" table="PUR_VNDR_SHP_SPCL_COND_T">
+    <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
+    <field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
+    <field-descriptor name="vendorShippingSpecialConditionCode" column="VNDR_SHP_SPCL_COND_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+        <foreignkey field-ref="vendorDetailAssignedIdentifier" />
+    </reference-descriptor>
+    <reference-descriptor name="vendorShippingSpecialCondition" class-ref="org.kuali.module.vendor.bo.ShippingSpecialCondition" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorShippingSpecialConditionCode" />
+    </reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.vendor.bo.VendorAlias" table="PUR_VNDR_ALIAS_T">
+    <field-descriptor name="vendorAliasName" column="VNDR_ALIAS_NM" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
+    <field-descriptor name="vendorDetailAssignedIdentifier" column="VNDR_DTL_ASND_ID" jdbc-type="INTEGER" primarykey="true" index="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <reference-descriptor name="vendorDetail" class-ref="org.kuali.module.vendor.bo.VendorDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
+        <foreignkey field-ref="vendorDetailAssignedIdentifier" />
+    </reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.vendor.bo.VendorType" table="PUR_VNDR_TYP_T">
+    <field-descriptor name="vendorTypeCode" column="VNDR_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="vendorTypeDescription" column="VNDR_TYP_DESC" jdbc-type="VARCHAR"/>
+    <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="vendorTaxNumberRequiredIndicator" column="VNDR_TAX_NBR_REQ_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="vendorTypeChangeAllowedIndicator" column="VNDR_TYP_CHG_ALLW_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="vendorAddressTypeRequiredCode" column="VNDR_ADDR_TYP_REQ_CD" jdbc-type="VARCHAR"/>
+    <reference-descriptor name="addressType" class-ref="org.kuali.module.vendor.bo.AddressType" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorAddressTypeRequiredCode" />
+    </reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.vendor.bo.VendorContactPhoneNumber" table="PUR_VNDR_CNTCT_PHN_NBR_T">
+    <field-descriptor name="vendorContactPhoneGeneratedIdentifier" column="VNDR_CNTCT_PHN_GNRTD_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="VNDR_CNTCT_PHN_GNRTD_ID"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="vendorContactGeneratedIdentifier" column="VNDR_CNTCT_GNRTD_ID" jdbc-type="INTEGER"/>
+    <field-descriptor name="vendorPhoneTypeCode" column="VNDR_PHN_TYP_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorPhoneNumber" column="VNDR_PHN_NBR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorPhoneExtensionNumber" column="VNDR_PHN_EXTNS_NBR" jdbc-type="VARCHAR"/>
+    <reference-descriptor name="vendorPhoneType" class-ref="org.kuali.module.vendor.bo.PhoneType" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="vendorPhoneTypeCode" />
+    </reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.vendor.bo.VendorInactiveReason" table="PUR_VNDR_INACTV_REAS_T">
+    <field-descriptor name="vendorInactiveReasonCode" column="VNDR_INACTV_REAS_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="vendorInactiveReasonDescription" column="VNDR_INACTV_REAS_DESC" jdbc-type="VARCHAR"/>
+    <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.vendor.bo.OwnershipType" table="PUR_OWNR_TYP_T">
+    <field-descriptor name="vendorOwnershipCode" column="VNDR_OWNR_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="vendorOwnershipDescription" column="VNDR_OWNR_DESC" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorOwnershipCategoryAllowedIndicator" column="VNDR_OWNR_CTGRY_ALLW_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.vendor.bo.ShippingSpecialCondition" table="PUR_SHP_SPCL_COND_T">
+    <field-descriptor name="vendorShippingSpecialConditionCode" column="VNDR_SHP_SPCL_COND_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="vendorShippingSpecialConditionDescription" column="VNDR_SHP_SPCL_COND_DESC" jdbc-type="VARCHAR"/>
+    <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.vendor.bo.AddressType" table="PUR_ADDR_TYP_T">
+    <field-descriptor name="vendorAddressTypeCode" column="VNDR_ADDR_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="vendorAddressTypeDescription" column="VNDR_ADDR_TYP_DESC" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorDefaultIndicator" column="VNDR_DFLT_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.vendor.bo.OwnershipCategory" table="PUR_OWNR_CTGRY_T">
+    <field-descriptor name="vendorOwnershipCategoryCode" column="VNDR_OWNR_CTGRY_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="vendorOwnershipCategoryDescription" column="VNDR_OWNR_CTGRY_DESC" jdbc-type="VARCHAR"/>
+    <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.vendor.bo.PhoneType" table="PUR_PHN_TYP_T">
+    <field-descriptor name="vendorPhoneTypeCode" column="VNDR_PHN_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="vendorPhoneTypeDescription" column="VNDR_PHN_TYP_DESC" jdbc-type="VARCHAR"/>
+    <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.vendor.bo.ShippingPaymentTerms" table="PUR_SHP_PMT_TERM_T">
+    <field-descriptor name="vendorShippingPaymentTermsCode" column="VNDR_SHP_PMT_TERM_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="vendorShippingPaymentTermsDescription" column="VNDR_SHP_PMT_TERM_DESC" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorShippingPaymentTermsPayIndicator" column="VNDR_SHP_PMT_TERM_PAY_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+    <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.vendor.bo.ShippingTitle" table="PUR_SHP_TTL_T">
+    <field-descriptor name="vendorShippingTitleCode" column="VNDR_SHP_TTL_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="vendorShippingTitleDescription" column="VNDR_SHP_TTL_DESC" jdbc-type="VARCHAR"/>
+    <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.vendor.bo.SupplierDiversity" table="PUR_SUPP_DVRST_T">
+    <field-descriptor name="vendorSupplierDiversityCode" column="VNDR_SUPP_DVRST_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="vendorSupplierDiversityDescription" column="VNDR_SUPP_DVRST_DESC" jdbc-type="VARCHAR"/>
+    <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.vendor.bo.ContractManager" table="PUR_CONTR_MGR_T">
+    <field-descriptor name="contractManagerCode" column="CONTR_MGR_CD" jdbc-type="INTEGER" primarykey="true" index="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="contractManagerUserIdentifier" column="CONTR_MGR_USR_ID" jdbc-type="VARCHAR"/>
+    <field-descriptor name="contractManagerName" column="CONTR_MGR_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="contractManagerPhoneNumber" column="CONTR_MGR_PHN_NBR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="contractManagerFaxNumber" column="CONTR_MGR_FAX_NBR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="contractManagerLongDistanceAccessCode" column="CONTR_MGR_LONG_DIST_ACC_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="contractManagerDelegationDollarLimit" column="CONTR_MGR_DLGN_DLR_LMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+    <field-descriptor name="contractManagerSignatureImageLocationDescription" column="CONTR_MGR_SIG_IMG_LOC_DESC" jdbc-type="VARCHAR"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.vendor.bo.PaymentTermType" table="PUR_PMT_TERM_TYP_T">
+    <field-descriptor name="vendorPaymentTermsCode" column="VNDR_PMT_TERM_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="vendorDiscountDueTypeDescription" column="VNDR_DSCT_DUE_TYP_DESC" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorDiscountDueNumber" column="VNDR_DSCT_DUE_NBR" jdbc-type="INTEGER"/>
+    <field-descriptor name="vendorPaymentTermsPercent" column="VNDR_PMT_TERM_PCT" jdbc-type="DECIMAL"/>
+    <field-descriptor name="vendorNetDueTypeDescription" column="VNDR_NET_DUE_TYP_DESC" jdbc-type="VARCHAR"/>
+    <field-descriptor name="vendorNetDueNumber" column="VNDR_NET_DUE_NBR" jdbc-type="INTEGER"/>
+    <field-descriptor name="vendorPaymentTermsDescription" column="VNDR_PMT_TERM_DESC" jdbc-type="VARCHAR"/>
+    <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.vendor.bo.PurchaseOrderCostSource" table="PUR_PO_CST_SRC_T">
+    <field-descriptor name="purchaseOrderCostSourceCode" column="PO_CST_SRC_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="purchaseOrderCostSourceDescription" column="PO_CST_SRC_DESC" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+</class-descriptor>
+
 </descriptor-repository>

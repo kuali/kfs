@@ -25,17 +25,17 @@ import org.kuali.kfs.bo.Country;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
-import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.BillingAddress;
 import org.kuali.module.purap.bo.DeliveryRequiredDateReason;
 import org.kuali.module.purap.bo.FundingSource;
-import org.kuali.module.purap.bo.PurchaseOrderCostSource;
 import org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod;
 import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.bo.RequisitionSource;
-import org.kuali.module.purap.bo.VendorAddress;
-import org.kuali.module.purap.bo.VendorContract;
-import org.kuali.module.purap.bo.VendorDetail;
+import org.kuali.module.vendor.VendorConstants;
+import org.kuali.module.vendor.bo.PurchaseOrderCostSource;
+import org.kuali.module.vendor.bo.VendorAddress;
+import org.kuali.module.vendor.bo.VendorContract;
+import org.kuali.module.vendor.bo.VendorDetail;
 
 /**
  * Purchasing Document Base
@@ -165,7 +165,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         }
     
         this.setVendorDetail(vendorDetail);
-        this.setVendorNumber(vendorDetail.getVendorHeaderGeneratedIdentifier() + PurapConstants.DASH + vendorDetail.getVendorDetailAssignedIdentifier());
+        this.setVendorNumber(vendorDetail.getVendorHeaderGeneratedIdentifier() + VendorConstants.DASH + vendorDetail.getVendorDetailAssignedIdentifier());
         this.setVendorName(vendorDetail.getVendorName());
     }
     

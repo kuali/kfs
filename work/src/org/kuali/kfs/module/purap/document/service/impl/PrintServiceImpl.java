@@ -17,7 +17,6 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.bo.CampusParameter;
-import org.kuali.module.purap.bo.ContractManager;
 import org.kuali.module.purap.bo.PurchaseOrderContractLanguage;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.dao.ImageDao;
@@ -28,6 +27,7 @@ import org.kuali.module.purap.pdf.PurchaseOrderPdf;
 import org.kuali.module.purap.pdf.PurchaseOrderPdfParameters;
 import org.kuali.module.purap.pdf.PurchaseOrderQuotePdf;
 import org.kuali.module.purap.service.PrintService;
+import org.kuali.module.vendor.bo.ContractManager;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -165,12 +165,12 @@ public class PrintServiceImpl implements PrintService {
         //We'll get the imageTempLocation and the actual images only if the useImage is true. If useImage is false, we'll leave the images as blank space
         if (useImage) {
             imageTempLocation = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.IMAGE_TEMP_PATH);
-            if ( imageTempLocation == null ) {
-                LOG.debug("generatePurchaseOrderQuotePdf() ended");
-                throw new PurapConfigurationException("Application Setting IMAGE_TEMP_PATH is missing");      
-            }
-            // Get logo image.
-            logoImage = imageDao.getLogo(key, campusCode, imageTempLocation); 
+        if ( imageTempLocation == null ) {
+            LOG.debug("generatePurchaseOrderQuotePdf() ended");
+            throw new PurapConfigurationException("Application Setting IMAGE_TEMP_PATH is missing");      
+        }
+        // Get logo image.
+        logoImage = imageDao.getLogo(key, campusCode, imageTempLocation); 
         }
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(PropertyConstants.CAMPUS_CODE, po.getDeliveryCampusCode());
@@ -224,7 +224,7 @@ public class PrintServiceImpl implements PrintService {
             poQuotePdf.generatePOQuotePDF(po, povq, deliveryCampusName, pdfParameters.getContractManagerCampusCode(), 
                 pdfParameters.getLogoImage(), byteArrayOutputStream, environment);
             if (pdfParameters.isUseImage()) {
-                imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), pdfParameters.getImageTempLocation()); // Removes temporary images; only need to call once.
+            imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), pdfParameters.getImageTempLocation()); // Removes temporary images; only need to call once.
             }
         } catch (PurError pe) {
             LOG.error("Caught exception ", pe);
@@ -264,7 +264,7 @@ public class PrintServiceImpl implements PrintService {
             poQuotePdf.savePOQuotePDF(po, povq, pdfParameters.getPdfFileLocation(), pdfQuoteFilename, deliveryCampusName, 
                 pdfParameters.getContractManagerCampusCode(), pdfParameters.getLogoImage(), environment);
             if (pdfParameters.isUseImage()) {
-                imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), pdfParameters.getImageTempLocation()); // Removes temporary images; only need to call once.
+            imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), pdfParameters.getImageTempLocation()); // Removes temporary images; only need to call once.
             }
         } catch (PurError e) {
             LOG.error("Caught exception ", e);
@@ -303,22 +303,22 @@ public class PrintServiceImpl implements PrintService {
         //We'll get the imageTempLocation and the actual images only if the useImage is true. If useImage is false, we'll leave the images as blank space
         if (useImage) {
             imageTempLocation = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.IMAGE_TEMP_PATH);
-            if ( imageTempLocation == null ) {
-                throw new PurapConfigurationException("IMAGE_TEMP_PATH is missing");      
-            }
-
-            // Get images
-            if ( (logoImage = imageDao.getLogo(key, campusCode, imageTempLocation)) == null ) {
-                throw new PurapConfigurationException("logoImage is null.");
-            }
-            if ((directorSignatureImage = imageDao.getPurchasingDirectorImage(key, campusCode, imageTempLocation)) == null ) {
-                throw new PurapConfigurationException("directorSignatureImage is null.");
-            }
-            if ( (contractManagerSignatureImage = imageDao.getContractManagerImage(key, po.getVendorContract().getContractManagerCode(), imageTempLocation)) == null ) {
-                throw new PurapConfigurationException("contractManagerSignatureImage is null.");
-            }
+        if ( imageTempLocation == null ) {
+            throw new PurapConfigurationException("IMAGE_TEMP_PATH is missing");      
         }
-        
+
+        // Get images
+            if ( (logoImage = imageDao.getLogo(key, campusCode, imageTempLocation)) == null ) {
+            throw new PurapConfigurationException("logoImage is null.");
+        }
+        if ((directorSignatureImage = imageDao.getPurchasingDirectorImage(key, campusCode, imageTempLocation)) == null ) {
+            throw new PurapConfigurationException("directorSignatureImage is null.");
+        }
+        if ( (contractManagerSignatureImage = imageDao.getContractManagerImage(key, po.getVendorContract().getContractManagerCode(), imageTempLocation)) == null ) {
+            throw new PurapConfigurationException("contractManagerSignatureImage is null.");
+        }
+        }
+
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(PropertyConstants.CAMPUS_CODE, po.getDeliveryCampusCode());
         CampusParameter campusParameter = (CampusParameter)((List) businessObjectService.findMatching(CampusParameter.class, criteria)).get(0);
@@ -341,7 +341,7 @@ public class PrintServiceImpl implements PrintService {
                 }
             }
         }
-            
+        
         String pdfFileLocation = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.PDF_DIRECTORY);
         if (pdfFileLocation == null) {
             LOG.debug("savePurchaseOrderPdf() ended");
@@ -349,7 +349,7 @@ public class PrintServiceImpl implements PrintService {
         }
         
         String pdfFileName = "PURAP_PO_"+po.getPurapDocumentIdentifier().toString()+"_" + System.currentTimeMillis() + ".pdf";
- 
+
         PurchaseOrderPdfParameters pdfParameters = new PurchaseOrderPdfParameters();
         pdfParameters.setCampusParameter(campusParameter);
         pdfParameters.setContractLanguage(contractLanguage.toString());
@@ -383,7 +383,7 @@ public class PrintServiceImpl implements PrintService {
             PurchaseOrderPdfParameters pdfParameters = getPurchaseOrderPdfParameters(po);
             poPdf.generatePdf(po, pdfParameters, byteArrayOutputStream, isRetransmit, environment);
             if (pdfParameters.isUseImage()) {
-                imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), pdfParameters.getImageTempLocation()); // Removes the temporary images; only need to call once.
+            imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), pdfParameters.getImageTempLocation()); // Removes the temporary images; only need to call once.
             }
         } catch (PurError e) {
             LOG.error("Caught exception ", e);
@@ -416,7 +416,7 @@ public class PrintServiceImpl implements PrintService {
             pdfParameters = getPurchaseOrderPdfParameters(po);
             poPdf.savePdf(po, pdfParameters, isRetransmit, environment);
             if (pdfParameters.isUseImage()) {
-                imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), pdfParameters.getImageTempLocation()); // Removes the temporary images; only need to call once.
+            imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), pdfParameters.getImageTempLocation()); // Removes the temporary images; only need to call once.
             }
         } catch (PurError e) {
             LOG.error("Caught exception ", e);
@@ -432,6 +432,7 @@ public class PrintServiceImpl implements PrintService {
                 errors.add("Error while deleting the pdf after savePurchaseOrderPdf" + e.getMessage());
             }
         }
+
 
         LOG.debug("savePurchaseOrderPdf() ended");
         return errors;

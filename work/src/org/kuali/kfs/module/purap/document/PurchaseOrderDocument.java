@@ -30,15 +30,16 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.bo.PaymentTermType;
 import org.kuali.module.purap.bo.PurchaseOrderStatusHistory;
 import org.kuali.module.purap.bo.PurchaseOrderVendorChoice;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.bo.RecurringPaymentFrequency;
-import org.kuali.module.purap.bo.ShippingPaymentTerms;
-import org.kuali.module.purap.bo.ShippingTitle;
-import org.kuali.module.purap.bo.VendorDetail;
 import org.kuali.module.purap.service.PurchaseOrderPostProcessorService;
+import org.kuali.module.vendor.VendorConstants;
+import org.kuali.module.vendor.bo.PaymentTermType;
+import org.kuali.module.vendor.bo.ShippingPaymentTerms;
+import org.kuali.module.vendor.bo.ShippingTitle;
+import org.kuali.module.vendor.bo.VendorDetail;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -605,7 +606,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
             return;
         }
     
-        this.setAlternateVendorNumber(vendorDetail.getVendorHeaderGeneratedIdentifier() + PurapConstants.DASH + vendorDetail.getVendorDetailAssignedIdentifier());
+        this.setAlternateVendorNumber(vendorDetail.getVendorHeaderGeneratedIdentifier() + VendorConstants.DASH + vendorDetail.getVendorDetailAssignedIdentifier());
         this.setAlternateVendorName(vendorDetail.getVendorName());
     }
     

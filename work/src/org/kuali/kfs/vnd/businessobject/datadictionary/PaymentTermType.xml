@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.vendor.bo.PaymentTermType">
+
+
+        <inquiry>
+            <title>Payment Term Type Inquiry</title>
+
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+                <field attributeName="vendorPaymentTermsCode" />
+                <field attributeName="vendorPaymentTermsDescription" />
+                <field attributeName="vendorPaymentTermsPercent" />
+                <field attributeName="vendorDiscountDueNumber" />
+                <field attributeName="vendorDiscountDueTypeDescription" />
+                <field attributeName="vendorNetDueNumber" />
+                <field attributeName="vendorNetDueTypeDescription" />
+                <field attributeName="active" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Payment Term Type Lookup</title>
+
+            <instructions>Lookup a Payment Term Type</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="vendorPaymentTermsDescription" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+            	<lookupField attributeName="vendorPaymentTermsCode" required="false" />
+            	<lookupField attributeName="vendorPaymentTermsDescription" required="false" />
+            	<lookupField attributeName="vendorPaymentTermsPercent" required="false" />
+                <lookupField attributeName="vendorDiscountDueNumber" required="false" />
+                <lookupField attributeName="vendorDiscountDueTypeDescription" required="false" />
+                <lookupField attributeName="vendorNetDueNumber" required="false" />
+                <lookupField attributeName="vendorNetDueTypeDescription" required="false" >
+                	<defaultValueFinderClass>org.kuali.module.vendor.lookup.keyvalues.PaymentTypeValuesFinder</defaultValueFinderClass>
+                </lookupField>
+                <lookupField attributeName="active" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="vendorPaymentTermsCode" />
+                <field attributeName="vendorPaymentTermsDescription" />
+                <field attributeName="vendorPaymentTermsPercent" />
+                <field attributeName="vendorDiscountDueNumber" />
+                <field attributeName="vendorDiscountDueTypeDescription" />
+                <field attributeName="vendorNetDueNumber" />
+                <field attributeName="vendorNetDueTypeDescription" />
+                <field attributeName="active" />
+            </resultFields>
+        </lookup>
+
+        <titleAttribute>vendorPaymentTermsCode</titleAttribute>
+
+        <attributes>
+
+            <attribute name="vendorDiscountDueNumber">
+                <label>Vendor Discount Due Number</label>
+                <shortLabel>Discount Due Num.</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>vendorDiscountDueNumber</summary>
+                <description>vendorDiscountDueNumber description...</description>
+			</attribute>
+
+            <attribute name="vendorDiscountDueTypeDescription" >
+                <label>Vendor Discount Due Type Description</label>
+                <shortLabel>Discount Due Type Desc.</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+
+                <control>
+                    <radio valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.PaymentTypeValuesFinder" />
+                </control>
+
+                <summary>vendorDiscountDueTypeDescription</summary>
+                <description>vendorDiscountDueTypeDescription description...</description>
+			</attribute>
+
+            <attribute name="vendorNetDueNumber">
+                <label>Vendor Net Due Number</label>
+                <shortLabel>Net Due Num.</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>vendorNetDueNumber</summary>
+                <description>vendorNetDueNumber description...</description>
+			</attribute>
+
+            <attribute name="vendorNetDueTypeDescription">
+                <label>Vendor Net Due Type Description</label>
+                <shortLabel>Net Due Type Desc.</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+
+                <control>
+                    <radio valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.PaymentTypeValuesFinder" />
+                </control>
+
+                <summary>vendorNetDueTypeDescription</summary>
+                <description>vendorNetDueTypeDescription description...</description>
+			</attribute>
+
+            <attribute name="vendorPaymentTermsCode" forceUppercase="true">
+                <label>Vendor Payment Terms Code</label>
+                <shortLabel>Payment Terms Cd.</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="7" />
+                </control>
+
+                <summary>vendorPaymentTermsCode</summary>
+                <description>vendorPaymentTermsCode description...</description>
+			</attribute>
+
+            <attribute name="vendorPaymentTermsDescription">
+                <label>Vendor Payment Terms Description</label>
+                <shortLabel>Payment Terms Desc.</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>vendorPaymentTermsDescription</summary>
+                <description>vendorPaymentTermsDescription description...</description>
+			</attribute>
+
+            <attribute name="vendorPaymentTermsPercent">
+                <label>Vendor Payment Terms Percent</label>
+                <shortLabel>Payment Terms Percent</shortLabel>
+
+                <maxLength>6</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="8" />
+                </control>
+
+                <summary>vendorPaymentTermsPercent</summary>
+                <description>vendorPaymentTermsPercent description...</description>
+			</attribute>
+
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

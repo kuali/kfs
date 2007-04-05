@@ -31,7 +31,7 @@ import org.kuali.module.purap.bo.PurApItemBase;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.bo.Status;
 import org.kuali.module.purap.bo.StatusHistory;
-import org.kuali.module.purap.bo.VendorDetail;
+import org.kuali.module.vendor.bo.VendorDetail;
 
 /**
  * Purchasing-Accounts Payable Document Base

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.vendor.bo.VendorAddress">
+
+
+        <inquiry>
+            <title>Vendor Address Inquiry</title>
+
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+                <field attributeName="vendorAddressEmailAddress" />
+                <field attributeName="vendorAddressGeneratedIdentifier" />
+                <field attributeName="vendorAddressInternationalProvinceName" />
+                <field attributeName="vendorAddressTypeCode" />
+                <field attributeName="vendorAttentionName" />
+                <field attributeName="vendorBusinessToBusinessUrlAddress" />
+                <field attributeName="vendorCityName" />
+                <field attributeName="vendorCountryCode" />
+                <field attributeName="vendorDetailAssignedIdentifier" />
+                <field attributeName="vendorHeaderGeneratedIdentifier" />
+                <field attributeName="vendorLine1Address" />
+                <field attributeName="vendorLine2Address" />
+                <field attributeName="vendorStateCode" />
+                <field attributeName="vendorZipCode" />
+                <field attributeName="vendorFaxNumber" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Vendor Address Lookup</title>
+
+            <instructions>Lookup an Vendor Address</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="vendorAddressTypeCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="vendorHeaderGeneratedIdentifier" required="true" />
+                <lookupField attributeName="vendorDetailAssignedIdentifier" required="true" />
+                <lookupField attributeName="vendorAddressEmailAddress" required="false" />
+                <lookupField attributeName="vendorAddressTypeCode" required="false" />
+                <lookupField attributeName="vendorLine1Address" required="false" />
+                <lookupField attributeName="vendorLine2Address" required="false" />
+                <lookupField attributeName="vendorStateCode" required="false" />
+                <lookupField attributeName="vendorCityName" required="false" />
+                <lookupField attributeName="vendorZipCode" required="false" />
+                <lookupField attributeName="vendorFaxNumber" required="false" />
+                <lookupField attributeName="vendorCountryCode" required="false" />
+                <lookupField attributeName="vendorAddressInternationalProvinceName" required="false" />
+                <lookupField attributeName="vendorAttentionName" required="false" />
+                <lookupField attributeName="vendorBusinessToBusinessUrlAddress" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="vendorAddressTypeCode" />
+                <field attributeName="vendorLine1Address" />
+                <field attributeName="vendorLine2Address" />
+                <field attributeName="vendorStateCode" />
+                <field attributeName="vendorCityName" />
+                <field attributeName="vendorZipCode" />
+                <field attributeName="vendorCountryCode" />
+                <field attributeName="vendorFaxNumber" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="vendorAddressEmailAddress" forceUppercase="true">
+                <label>Email Address</label>
+                <shortLabel>Email Address</shortLabel>
+
+                <maxLength>90</maxLength>
+                <validationPattern>
+                    <emailAddress />
+                </validationPattern>
+
+                <control>
+                    <text size="45" />
+                </control>
+
+                <summary>vendorAddressEmailAddress</summary>
+                <description>vendorAddressEmailAddress description...</description>
+			</attribute>
+
+            <attribute name="vendorAddressGeneratedIdentifier" forceUppercase="true">
+                <label>Vendor Address Generated Identifier</label>
+                <shortLabel>Vendor Address Generated Identifier</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <hidden/>
+                </control>
+
+                <summary>vendorAddressGeneratedIdentifier</summary>
+                <description>vendorAddressGeneratedIdentifier description...</description>
+			</attribute>
+
+            <attribute name="vendorBusinessToBusinessUrlAddress" forceUppercase="true">
+                <label>URL</label>
+                <shortLabel>URL</shortLabel>
+
+                <maxLength>90</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="45" />
+                </control>
+
+                <summary>vendorBusinessToBusinessUrlAddress</summary>
+                <description>vendorBusinessToBusinessUrlAddress description...</description>
+			</attribute>
+
+            <attribute name="vendorFaxNumber" forceUppercase="true">
+                <label>Vendor Fax Number</label>
+                <shortLabel>Vendor Fax Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="14" />
+                </control>
+
+                <summary>vendorFaxNumber</summary>
+                <description>vendorFaxNumber...</description>
+			</attribute>
+			
+            <attribute name="vendorDefaultAddressIndicator" forceUppercase="false">
+                <label>Set as Default Address</label>
+                <shortLabel>Default Address</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.IndicatorYNOnlyValuesFinder" />
+                </control>
+
+                <summary>vendorDefaultAddressIndicator</summary>
+                <description>vendorDefaultAddressIndicator description...</description>
+            </attribute>
+
+			<attributeReference name="vendorAddressTypeCode" sourceClassName="org.kuali.module.vendor.bo.AddressType" sourceAttributeName="vendorAddressTypeCode">
+                <label>Address Type</label>
+                <required>true</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.AddressTypeValuesFinder" />
+                </control>
+			</attributeReference>
+			
+			<attributeReference name="newCollectionRecord" 
+                                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+                                sourceAttributeName="newCollectionRecord" />
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+			<attributeReference name="vendorLine1Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line1Address" >
+                <required>true</required>
+            </attributeReference>
+			<attributeReference name="vendorLine2Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line2Address" />
+			<attributeReference name="vendorCityName" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="cityName" >
+                <required>true</required>
+            </attributeReference>
+			<attributeReference name="vendorStateCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="stateCode" />
+			<attributeReference name="vendorZipCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="zipCode" />
+			<attributeReference name="vendorCountryCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="countryCode" >
+                <required>true</required>
+            </attributeReference>
+			<attributeReference name="vendorAddressInternationalProvinceName" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="internationalProvinceName" />
+			<attributeReference name="vendorAttentionName" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="attentionName" />
+			<attributeReference name="vendorHeaderGeneratedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorHeaderGeneratedIdentifier" />
+            <attributeReference name="vendorDetailAssignedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorDetailAssignedIdentifier" />
+        </attributes>
+        <objectLabel>Address</objectLabel>
+    </businessObject>
+</dictionaryEntry>

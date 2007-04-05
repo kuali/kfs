@@ -19,6 +19,7 @@ package org.kuali.module.purap.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.module.vendor.bo.ContractManager;
 
 /**
  * 

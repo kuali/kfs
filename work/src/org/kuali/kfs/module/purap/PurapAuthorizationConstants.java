@@ -25,10 +25,6 @@ import org.kuali.core.authorization.AuthorizationConstants;
  */
 public class PurapAuthorizationConstants extends AuthorizationConstants {
 
-    public static class VendorEditMode extends EditMode {
-        public static final String TAX_ENTRY = "taxEntry";
-    }
-
     public static class RequisitionEditMode extends EditMode {
         public static final String LOCK_VENDOR_ENTRY = "lockVendorEntry";
         public static final String LOCK_CONTENT_ENTRY = "lockContentEntry";

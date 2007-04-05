@@ -26,16 +26,25 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
+import org.kuali.core.authorization.AuthorizationType;
+import org.kuali.core.document.Document;
+import org.kuali.core.document.authorization.DocumentAuthorizer;
+import org.kuali.core.exceptions.AuthorizationException;
+import org.kuali.core.exceptions.ModuleAuthorizationException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
+import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.bo.BudgetConstructionMonthly;
+import org.kuali.module.budget.document.authorization.BudgetConstructionDocumentAuthorizer;
 import org.kuali.module.budget.web.struts.form.MonthlyBudgetForm;
+import org.kuali.rice.KNSServiceLocator;
 
 public class MonthlyBudgetAction extends KualiAction {
-
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MonthlyBudgetAction.class);
+            
     /**
      * added for testing - remove if not needed
      * @see org.kuali.module.budget.web.struts.action.BudgetConstructionAction#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -45,9 +54,61 @@ public class MonthlyBudgetAction extends KualiAction {
         ActionForward forward = super.execute(mapping, form, request, response);
 
         MonthlyBudgetForm monthlyBudgetForm = (MonthlyBudgetForm) form;
+        
+        //TODO should not need to handle optimistic lock exception here (like KualiDocumentActionBase)
+        //since BC sets locks up front, but need to verify this
+
+
+        BudgetConstructionDocumentAuthorizer budgetConstructionDocumentAuthorizer = new BudgetConstructionDocumentAuthorizer();
+        monthlyBudgetForm.populateAuthorizationFields(budgetConstructionDocumentAuthorizer);
+/*
+// TODO from KualiDocumentActionBase remove when ready
+        // populates authorization-related fields in KualiDocumentFormBase instances, which are derived from
+        // information which is contained in the form but which may be unavailable until this point
+        if (form instanceof KualiDocumentFormBase) {
+            KualiDocumentFormBase formBase = (KualiDocumentFormBase) form;
+            Document document = formBase.getDocument();
+            DocumentAuthorizer documentAuthorizer = KNSServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(document);
+            formBase.populateAuthorizationFields(documentAuthorizer);
+
+            // set returnToActionList flag, if needed
+            if ("displayActionListView".equals(formBase.getCommand())) {
+                formBase.setReturnToActionList(true);
+            }
+
+ */        
         return forward;
     }
     
+    /**
+     * @see org.kuali.core.web.struts.action.KualiAction#checkAuthorization(org.apache.struts.action.ActionForm, java.lang.String)
+     */
+    @Override
+    protected void checkAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
+
+        AuthorizationType bcAuthorizationType = new AuthorizationType.Default(this.getClass());
+        if ( !KNSServiceLocator.getKualiModuleService().isAuthorized( GlobalVariables.getUserSession().getUniversalUser(), bcAuthorizationType ) ){
+            LOG.error("User not authorized to use this action: " + this.getClass().getName() );
+            throw new ModuleAuthorizationException( GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier(), bcAuthorizationType, getKualiModuleService().getResponsibleModule(this.getClass()) );
+        }
+/*
+//TODO from KualiAction - remove when ready
+        AuthorizationType defaultAuthorizationType = new AuthorizationType.Default(this.getClass());
+        if ( !KNSServiceLocator.getKualiModuleService().isAuthorized( GlobalVariables.getUserSession().getUniversalUser(), defaultAuthorizationType ) ) {
+            LOG.error("User not authorized to use this action: " + this.getClass().getName() );
+            throw new ModuleAuthorizationException( GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier(), defaultAuthorizationType, getKualiModuleService().getResponsibleModule(((KualiDocumentFormBase)form).getDocument().getClass()) );
+        }
+
+//TODO from KualiDocumentActionBase - remove when ready            
+            AuthorizationType documentAuthorizationType = new AuthorizationType.Document(((KualiDocumentFormBase)form).getDocument().getClass(), ((KualiDocumentFormBase)form).getDocument());
+            if ( !KNSServiceLocator.getKualiModuleService().isAuthorized( GlobalVariables.getUserSession().getUniversalUser(), documentAuthorizationType ) ) {
+                LOG.error("User not authorized to use this action: " + ((KualiDocumentFormBase)form).getDocument().getClass().getName() );
+                throw new ModuleAuthorizationException( GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier(), documentAuthorizationType, getKualiModuleService().getResponsibleModule(((KualiDocumentFormBase)form).getDocument().getClass()) );
+            }
+
+ */
+    }
+
     public ActionForward view(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         MonthlyBudgetForm monthlyBudgetForm = (MonthlyBudgetForm) form;

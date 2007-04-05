@@ -17,7 +17,14 @@ package org.kuali.module.budget.web.struts.form;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.kuali.core.authorization.AuthorizationConstants;
+import org.kuali.core.bo.user.UniversalUser;
+//import org.kuali.core.document.authorization.DocumentAuthorizer;
+import org.kuali.module.budget.document.authorization.BudgetConstructionDocumentAuthorizer;
+import org.kuali.core.exceptions.AuthorizationException;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.module.budget.bo.BudgetConstructionMonthly;
 
@@ -28,8 +35,9 @@ public class MonthlyBudgetForm extends KualiForm {
 //  TODO remove - was here originally for kul:page tag use 
 //    private String docTypeName;
 
-    //TODO probably need to push this to new superclass BCExpansionForm??
+    //TODO probably need to push these and some url parms to new superclass BCExpansionForm??
     private boolean hideDetails = false;
+    protected Map editingMode;
 
     // url parameters sent from BCDoc
     private String returnAnchor;
@@ -279,4 +287,55 @@ public class MonthlyBudgetForm extends KualiForm {
         this.hideDetails = hideDetails;
     }
     
+    /**
+     * @return Map of editingModes for this BC expansion screen, as set during the most recent call to
+     *         populate(javax.servlet.http.HttpServletRequest)
+     */
+    public Map getEditingMode() {
+        return editingMode;
+    }
+
+    /**
+     * Set editingMode for this BC Expansion screen
+     * TODO verify comments from KualiDocumentFormBase - unfortunately necessary, since validation failures bypass the normal
+     * populateAuthorizationFields call. (Unfortunate because it makes the UI just a bit easier to hack, until we have the back-end
+     * checks of editingMode et al in place.)
+     */
+    public void setEditingMode(Map editingMode) {
+        this.editingMode = editingMode;
+    }
+
+    /**
+     * Updates authorization-related form fields based on the current form contents
+     */
+    public void populateAuthorizationFields(BudgetConstructionDocumentAuthorizer documentAuthorizer) {
+
+        useBCAuthorizer(documentAuthorizer);
+
+        //TODO probably need BCAuthorizationConstants extension
+        if (getEditingMode().containsKey(AuthorizationConstants.EditMode.UNVIEWABLE)) {
+            throw new AuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonName(), "view", this.getAccountNumber()+", "+this.getSubAccountNumber());
+        }
+
+/*
+//TODO from KualiDocumentFormBase - remove when ready
+        if (isFormDocumentInitialized()) {
+            useBCAuthorizer(documentAuthorizer);
+
+            // graceless hack which takes advantage of the fact that here and only here will we have guaranteed access to the
+            // correct DocumentAuthorizer
+            if (getEditingMode().containsKey(AuthorizationConstants.EditMode.UNVIEWABLE)) {
+                throw new AuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonName(), "view", this.getAccountNumber()+", "+this.getSubAccountNumber());
+            }
+        }
+*/
+    }
+
+    protected void useBCAuthorizer(BudgetConstructionDocumentAuthorizer documentAuthorizer) {
+        UniversalUser kualiUser = GlobalVariables.getUserSession().getUniversalUser();
+
+        setEditingMode(documentAuthorizer.getEditMode(this.getUniversityFiscalYear(), this.getChartOfAccountsCode(), this.getAccountNumber(), this.getSubAccountNumber(), kualiUser));
+//TODO probably don't need these, editingmode drives expansion screen actions
+//        setDocumentActionFlags(documentAuthorizer.getDocumentActionFlags(document, kualiUser));
+    }
 }

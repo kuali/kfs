@@ -50,6 +50,20 @@ public class BudgetConstructionDocumentAuthorizer extends DocumentAuthorizerBase
 
         /*
          * TODO eventually this needs to call service methods that implements the BC security model
+         * probably need to extend with BCAuthorizationConstants to handle edit,view,beyondlevel
+         */ 
+        Map editModeMap = new HashMap();
+        String editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
+        editModeMap.put(editMode, "TRUE");
+
+        return editModeMap;
+    }
+
+    public Map getEditMode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, UniversalUser u){
+        
+        /*
+         * TODO eventually this needs to call service methods that implements the BC security model
+         * probably need to extend with BCAuthorizationConstants to handle edit,view,beyondlevel
          */ 
         Map editModeMap = new HashMap();
         String editMode = AuthorizationConstants.EditMode.FULL_ENTRY;

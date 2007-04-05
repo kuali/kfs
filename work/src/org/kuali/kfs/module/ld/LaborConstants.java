@@ -50,6 +50,15 @@ public class LaborConstants {
         public static final String LABOR_GL_ENTRY = "LD_LABOR_GL_ENTRY_T";
         public static final String ORIGN_ENTRY = "LD_ORIGIN_ENTRY_T";
     }
+    
+    public static class TransactionGeneratorNames {
+        public static final String ACCRUAL_SALARY = "ACCRUAL SALARY";
+        public static final String ACCRUAL_BENEFIT = "ACCRUAL BENEFIT";
+        public static final String REVERSAL_SALARY = "REVERSAL SALARY";
+        public static final String REVERSAL_BENEFIT = "REVERSAL BENEFIT";
+        public static final String ENCUMBRANCE = "ENCUMBRANCE";
+        public static final String DISENCUMBRANCE = "DISENCUMBRANCE";
+    }
 
     public static List<String> consolidationAttributesOfOriginEntry() {
         List<String> consolidationAttributes = new ArrayList<String>();

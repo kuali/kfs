@@ -111,7 +111,6 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
                 doc, writer, environment);
         } catch (DocumentException de) {
             LOG.error(de.getMessage(),de);
-            de.printStackTrace();
             throw new PurError("Document Exception when trying to save a Purchase Order Quote PDF", de);
         } 
     }
@@ -128,11 +127,9 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
                 doc, writer, environment);
         } catch (DocumentException de) {
             LOG.error(de.getMessage(),de);
-            de.printStackTrace();
             throw new PurError("Document Exception when trying to save a Purchase Order Quote PDF", de);
         } catch (FileNotFoundException f) {
             LOG.error(f.getMessage(),f);
-            f.printStackTrace();
             throw new PurError("FileNotFound Exception when trying to save a Purchase Order Quote PDF", f);
         }
     }
@@ -153,36 +150,10 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         this.environment = environment;
     
         NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.US);
-
-        // TODO 2006 ripierce: We decided to hard code the purchasing addresses for the 11/19/05 release,
-        //   will redesign and probably get them from the campus table later.
-        /*
-        if (contractManagerCampusCode.equals("BL")) {
-            purchasingAddressFull = "     Indiana University\n     Purchasing Department\n     Poplars Building\n     P.O. Box 4040\n     Bloomington, IN  47402";
-            purchasingAddressPartial = "Indiana University, Bloomington, IN  47402";
-        } else if (contractManagerCampusCode.equals("IN")) {
-            purchasingAddressFull = "     Indiana Univ. Purdue Univ. - Indianapolis\n     Purchasing Department\n     620 Union Drive\n     Suite 571a\n     Indianapolis, IN  46202-5169";
-            purchasingAddressPartial = "Indiana Univ. Purdue Univ., Indianapolis, IN  46202-5169";
-        } else if (contractManagerCampusCode.equals("KO")) {
-            purchasingAddressFull = "     Indiana University Kokomo\n     2300 S Washington St\n     Kokomo, IN  46904-9003";
-            purchasingAddressPartial = "Indiana University Kokomo, Kokomo, IN  46904-9003";
-        } else if (contractManagerCampusCode.equals("SB")) {
-            purchasingAddressFull = "     Indiana University South Bend\n     1700 Mishawaka Ave, Rm A239\n     P.O. Box 7111\n     South Bend, IN  46634";
-            purchasingAddressPartial = "Indiana University South Bend, South Bend, IN  46634";
-        } else if (contractManagerCampusCode.equals("SE")) {
-            purchasingAddressFull = "     Indiana University Southeast\n     Service Building\n     4201 Grant Line Road\n     New Albany, IN  47150";
-            purchasingAddressPartial = "Indiana University Southeast, New Albany, IN  47150";
-        } else if (contractManagerCampusCode.equals("NW")) {
-            purchasingAddressFull = "     Indiana University Northwest\n     Purchasing Department\n     3400 Broadway\n     Gary, IN  46408";
-            purchasingAddressPartial = "Indiana University Northwest, Gary, IN  46408";
-        } else if (contractManagerCampusCode.equals("EA")) {
-            purchasingAddressFull = "     Indiana University East\n     Purchasing Department\n     2325 Chester Boulevard\n     Richmond, IN  47374-1289";
-            purchasingAddressPartial = "Indiana University East, Richmond, IN  47374-1289";
-        }
-        */
         
         CampusParameter campusParameter = getCampusParameter(contractManagerCampusCode);
         String purchasingAddressFull = getPurchasingAddressFull(campusParameter);
+        //Used at the bottom - "All material to be shipped to"
         String purchasingAddressPartial = getPurchasingAddressPartial(campusParameter);
         
         // Turn on the page events that handle the header and page numbers.
@@ -237,7 +208,6 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         }
 
         if (! Constants.COUNTRY_CODE_UNITED_STATES.equalsIgnoreCase(poqv.getVendorCountryCode())) {
-            //TODO: Get the vendor country name instead of country code   
             vendorInfo.append("     "+poqv.getPurchaseOrder().getVendorCountry().getPostalCountryName()+"\n\n");
         } else {
             vendorInfo.append("\n\n");
@@ -251,8 +221,7 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         p = new Paragraph();
         p.add(new Chunk("\n     R.Q. Number: ", ver_8_bold));
         p.add(new Chunk(po.getPurapDocumentIdentifier()+"\n", cour_10_normal));
-        Timestamp now = new Timestamp((new java.util.Date()).getTime());
-        String requestDate = (new Date(now.getTime())).toString();
+        String requestDate = getDateTimeService().getCurrentSqlDate().toString();
         if (poqv.getPurchaseOrderQuoteTransmitDate() != null) {
           requestDate = (new Date(poqv.getPurchaseOrderQuoteTransmitDate().getTime())).toString();
         }
@@ -544,56 +513,29 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
     }
  
     private String getPurchasingAddressFull(CampusParameter campusParameter) {
-        String purchasingAddressFull = ""; // Used at the top of the quote  - "Return this form to"
         String indent = "     ";
-        String purchasingCampusName = indent + campusParameter.getPurchasingInstitutionName();
-        String purchasingDepartmentName = indent + campusParameter.getPurchasingDepartmentName();
-        String purchasingAddressLine1 = indent + campusParameter.getPurchasingDepartmentLine1Address();
-        String purchasingAddressLine2 = indent + campusParameter.getPurchasingDepartmentLine2Address();
-        String purchasingCity = indent + campusParameter.getPurchasingDepartmentCityName();
-        String purchasingState = campusParameter.getPurchasingDepartmentStateCode();
-        String purchasingZipCode = campusParameter.getPurchasingDepartmentZipCode();
-        String purchasingCountry = campusParameter.getPurchasingDepartmentCountryCode();
-        purchasingAddressFull = purchasingCampusName + "\n" + purchasingDepartmentName + "\n" + purchasingAddressLine1 + "\n" + purchasingAddressLine2 + "\n" + purchasingCity + ", " + purchasingState + " " + purchasingZipCode + " " + purchasingCountry;
+        StringBuffer addressBuffer = new StringBuffer();
+        addressBuffer.append(indent + campusParameter.getPurchasingInstitutionName() + "\n");
+        addressBuffer.append(indent + campusParameter.getPurchasingDepartmentName() + "\n");
+        addressBuffer.append(indent + campusParameter.getPurchasingDepartmentLine1Address() + "\n");
+        addressBuffer.append(indent + campusParameter.getPurchasingDepartmentLine2Address() + "\n");
+        addressBuffer.append(indent + campusParameter.getPurchasingDepartmentCityName() + ", ");
+        addressBuffer.append(indent + campusParameter.getPurchasingDepartmentStateCode() + " ");
+        addressBuffer.append(indent + campusParameter.getPurchasingDepartmentZipCode() + " ");
+        addressBuffer.append(indent + campusParameter.getPurchasingDepartmentCountryCode());
         
-        return purchasingAddressFull;
+        return addressBuffer.toString();
     }
     
     private String getPurchasingAddressPartial(CampusParameter campusParameter) {
-        String purchasingAddressPartial = ""; // Used at the bottom - "All material to be shipped to"
-
-        String purchasingCampusName = campusParameter.getPurchasingInstitutionName();
-        String purchasingCity = campusParameter.getPurchasingDepartmentCityName();
-        String purchasingState = campusParameter.getPurchasingDepartmentStateCode();
-        String purchasingZipCode = campusParameter.getPurchasingDepartmentZipCode();
+        StringBuffer purchasingAddressPartial = new StringBuffer(); 
+         
+        purchasingAddressPartial.append(campusParameter.getPurchasingInstitutionName() + ", ");
+        purchasingAddressPartial.append(campusParameter.getPurchasingDepartmentCityName() + ", ");
+        purchasingAddressPartial.append(campusParameter.getPurchasingDepartmentStateCode() + " ");
+        purchasingAddressPartial.append(campusParameter.getPurchasingDepartmentZipCode());
         
-        purchasingAddressPartial = purchasingCampusName + ", " + purchasingCity + ", " + purchasingState + " " + purchasingZipCode;
-  
-        return purchasingAddressPartial;
+        return purchasingAddressPartial.toString();
     }
 }
-/*
-Copyright (c) 2004, 2005 The National Association of College and
-University Business Officers, Cornell University, Trustees of Indiana
-University, Michigan State University Board of Trustees, Trustees of San
-Joaquin Delta College, University of Hawai'i, The Arizona Board of
-Regents on behalf of the University of Arizona, and the r*smart group.
 
-Licensed under the Educational Community License Version 1.0 (the
-"License"); By obtaining, using and/or copying this Original Work, you
-agree that you have read, understand, and will comply with the terms and
-conditions of the Educational Community License.
-
-You may obtain a copy of the License at:
-
-http://kualiproject.org/license.html
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE. 
-*/

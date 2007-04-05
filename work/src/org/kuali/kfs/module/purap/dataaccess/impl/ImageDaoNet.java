@@ -18,6 +18,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.Constants;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.dao.ImageDao;
 import org.kuali.module.purap.exceptions.PurError;
 import org.kuali.module.purap.exceptions.PurapConfigurationException;
@@ -37,9 +39,9 @@ public class ImageDaoNet extends PersistenceBrokerDaoSupport implements ImageDao
     public String getPurchasingDirectorImage(String key,String campusCode,String location) {
         LOG.debug("getPurchasingDirectorImage() started");
 
-        //TODO: uncomment this when we have the .tif file for director's image
-        //return getFile("pd",campusCode,key,".tif",location);
-        return getFile("pd",campusCode,key,".gif",location);
+        String prefix = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.PURCHASING_DIRECTOR_IMAGE_PREFIX);
+        String extension = "." + kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.PURCHASING_DIRECTOR_IMAGE_EXTENSION);
+        return getFile (prefix, campusCode, key, extension, location );
     }
 
     /* (non-Javadoc)
@@ -51,9 +53,9 @@ public class ImageDaoNet extends PersistenceBrokerDaoSupport implements ImageDao
         NumberFormat formatter = new DecimalFormat("00");
         String cm = formatter.format(contractManagerId);
 
-        //TODO: uncomment this when we have the .tif file for director's image
-        //return getFile("cm",cm,key,".tif",location);
-        return getFile("cm",cm,key,".gif",location);
+        String prefix = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.CONTRACT_MANAGER_IMAGE_PREFIX);
+        String extension = "." + kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.CONTRACT_MANAGER_IMAGE_EXTENSION);
+        return getFile (prefix, cm, key, extension, location );
     }
 
     /* (non-Javadoc)
@@ -62,7 +64,9 @@ public class ImageDaoNet extends PersistenceBrokerDaoSupport implements ImageDao
     public String getLogo(String key,String campusCode,String location) {
         LOG.debug("getLogo() started. key is " + key + ". campusCode is " + campusCode);
 
-        return getFile("logo",campusCode,key,".jpg",location);
+        String prefix = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.LOGO_IMAGE_PREFIX);
+        String extension = "." + kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.LOGO_IMAGE_EXTENSION);
+        return getFile (prefix, campusCode, key, extension, location );
     }
 
     /**

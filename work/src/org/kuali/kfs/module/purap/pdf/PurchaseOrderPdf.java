@@ -14,8 +14,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.Constants;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
@@ -58,10 +56,15 @@ public class PurchaseOrderPdf extends PurapPdf {
             headerTable.getDefaultCell().setBorderWidth(0);
             headerTable.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
             headerTable.getDefaultCell().setVerticalAlignment(Element.ALIGN_CENTER);
-            logo = Image.getInstance(logoImage);
-            logo.scalePercent(3,3);
-            headerTable.addCell(new Phrase(new Chunk(logo, 0, 0)));
-
+            if (StringUtils.isNotBlank(logoImage)) {
+                logo = Image.getInstance(logoImage);
+                logo.scalePercent(3,3);
+                headerTable.addCell(new Phrase(new Chunk(logo, 0, 0)));
+            } 
+            else {
+                //if we don't use images
+                headerTable.addCell(new Phrase(new Chunk("")));
+            }
             // Nested table for titles, etc.
             float[] nestedHeaderWidths = {0.70f, 0.30f};
             nestedHeaderTable = new PdfPTable(nestedHeaderWidths);
@@ -151,15 +154,12 @@ public class PurchaseOrderPdf extends PurapPdf {
                 isRetransmit, environment);
         } catch (DocumentException de) {
             LOG.error("generatePdf() DocumentException: " + de.getMessage(),de);
-            de.printStackTrace();
             throw new PurError("Document Exception when trying to save a Purchase Order PDF", de);
         } catch (IOException i) {
             LOG.error("generatePdf() IOException: " + i.getMessage(),i);
-            i.printStackTrace();
             throw new PurError("IO Exception when trying to save a Purchase Order PDF", i);
         } catch (Exception t) {
             LOG.error("generatePdf() EXCEPTION: " + t.getMessage(),t);
-            t.printStackTrace();
             throw new PurError("Exception when trying to save a Purchase Order PDF", t);
         }
     }
@@ -188,19 +188,15 @@ public class PurchaseOrderPdf extends PurapPdf {
                 contractManagerSignatureImage, isRetransmit, environment);
         } catch (DocumentException de) {
             LOG.error("savePdf() DocumentException: " + de.getMessage(),de);
-            de.printStackTrace();
             throw new PurError("Document Exception when trying to save a Purchase Order PDF", de);
         } catch (FileNotFoundException f) {
             LOG.error("savePdf() FileNotFoundException: " + f.getMessage(),f);
-            f.printStackTrace();
             throw new PurError("FileNotFound Exception when trying to save a Purchase Order PDF", f);
         } catch (IOException i) {
             LOG.error("savePdf() IOException: " + i.getMessage(),i);
-            i.printStackTrace();
             throw new PurError("IO Exception when trying to save a Purchase Order PDF", i);
         } catch (Exception t) {
             LOG.error("savePdf() EXCEPTION: " + t.getMessage(),t);
-            t.printStackTrace();
             throw new PurError("Exception when trying to save a Purchase Order PDF", t);
         }
     }
@@ -219,7 +215,7 @@ public class PurchaseOrderPdf extends PurapPdf {
     
         // These have to be set because they are used by the onOpenDocument() and onStartPage() methods.
         this.campusName = campusName;
-         this.po = po;
+        this.po = po;
         this.logoImage = logoImage;
         this.environment = environment;
     
@@ -267,7 +263,6 @@ public class PurchaseOrderPdf extends PurapPdf {
             vendorInfo.append("\n");
         }
         if (! Constants.COUNTRY_CODE_UNITED_STATES.equalsIgnoreCase(po.getVendorCountryCode())) {
-            //TODO: Get the vendor country name instead of country code   
             vendorInfo.append("     "+po.getVendorCountry().getPostalCountryName()+"\n\n");
         } else {
             vendorInfo.append("\n\n");
@@ -359,8 +354,7 @@ public class PurchaseOrderPdf extends PurapPdf {
             orderDate = po.getPurchaseOrderInitialOpenDate().toString();
         } else { // This date isn't set until the first time this document is printed, so will be null 
     	        //   the first time; use today's date.
-            DateTimeService dateTimeService = SpringServiceLocator.getDateTimeService();
-            orderDate = dateTimeService.getCurrentSqlDate().toString();
+            orderDate = getDateTimeService().getCurrentSqlDate().toString();
         }
        
         p.add(new Chunk("     "+orderDate, cour_10_normal));
@@ -610,10 +604,15 @@ public class PurchaseOrderPdf extends PurapPdf {
             cell.setVerticalAlignment(Element.ALIGN_CENTER);
             cell.setBorderWidth(0);
             signaturesTable.addCell(cell);
-
-            Image directorSignature = Image.getInstance(directorSignatureImage);
-            directorSignature.scalePercent(30,30);
-            cell = new PdfPCell(directorSignature, false);
+            if (StringUtils.isNotBlank(directorSignatureImage)) {
+                Image directorSignature = Image.getInstance(directorSignatureImage);
+                directorSignature.scalePercent(30,30);
+                cell = new PdfPCell(directorSignature, false);
+            }
+            else {
+                //if the director signature image is empty
+                cell = new PdfPCell();
+            }
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
             cell.setBorderWidth(0);
@@ -642,9 +641,15 @@ public class PurchaseOrderPdf extends PurapPdf {
     
         // Contract manager signature, name and phone; only on non-APOs
         if (!po.getPurchaseOrderAutomaticIndicator()) {
-            Image contractManagerSignature = Image.getInstance(contractManagerSignatureImage);
-            contractManagerSignature.scalePercent(15,15);
-            cell = new PdfPCell(contractManagerSignature, false);
+            if (StringUtils.isNotBlank(contractManagerSignatureImage)) {
+                Image contractManagerSignature = Image.getInstance(contractManagerSignatureImage);
+                contractManagerSignature.scalePercent(15,15);
+                cell = new PdfPCell(contractManagerSignature, false);
+            }
+            else {
+                //an empty cell if the contract manager signature image is not available.
+                cell = new PdfPCell();
+            }
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
             cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
             cell.setBorderWidth(0);
@@ -712,28 +717,4 @@ public class PurchaseOrderPdf extends PurapPdf {
     }
 
 }
-/*
-Copyright (c) 2004, 2005 The National Association of College and
-University Business Officers, Cornell University, Trustees of Indiana
-University, Michigan State University Board of Trustees, Trustees of San
-Joaquin Delta College, University of Hawai'i, The Arizona Board of
-Regents on behalf of the University of Arizona, and the r*smart group.
 
-Licensed under the Educational Community License Version 1.0 (the
-"License"); By obtaining, using and/or copying this Original Work, you
-agree that you have read, understand, and will comply with the terms and
-conditions of the Educational Community License.
-
-You may obtain a copy of the License at:
-
-http://kualiproject.org/license.html
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE. 
-*/

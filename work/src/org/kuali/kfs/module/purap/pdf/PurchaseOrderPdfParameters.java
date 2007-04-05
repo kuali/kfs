@@ -29,7 +29,7 @@ public class PurchaseOrderPdfParameters {
     private String pdfFileLocation;
     private String pdfFileName;
     private String contractManagerCampusCode;
-    
+    private boolean useImage;
     
     public String getContractManagerCampusCode() {
         return contractManagerCampusCode;
@@ -96,6 +96,12 @@ public class PurchaseOrderPdfParameters {
     }
     public void setStatusInquiryUrl(String statusInquiryUrl) {
         this.statusInquiryUrl = statusInquiryUrl;
+    }
+    public boolean isUseImage() {
+        return useImage;
+    }
+    public void setUseImage(boolean useImage) {
+        this.useImage = useImage;
     }
     
 

@@ -16,7 +16,7 @@
 
 package org.kuali.module.cg.bo;
 
-import java.sql.Date;
+import java.util.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -90,7 +90,7 @@ public class Award extends PersistableBusinessObjectBase {
     private Agency federalPassThroughAgency;
     private ProposalPurpose awardPurpose;
     private AwardOrganization primaryAwardOrganization;
-    
+
     /**
      * Default constructor.
      */
@@ -104,6 +104,54 @@ public class Award extends PersistableBusinessObjectBase {
         awardOrganizations = new TypedArrayList(AwardOrganization.class);
     }
 
+    public Award(Proposal proposal) {
+        populateFromProposal(proposal);
+    }
+    
+    public void populateFromProposal(Proposal proposal) {
+        if (ObjectUtils.isNotNull(proposal)) {
+            setProposalNumber(proposal.getProposalNumber());
+            setAgencyNumber(proposal.getAgencyNumber());
+            setAwardProjectTitle(proposal.getProposalProjectTitle());
+            setAwardDirectCostAmount(proposal.getProposalDirectCostAmount());
+            setAwardIndirectCostAmount(proposal.getProposalIndirectCostAmount());
+            setProposalAwardTypeCode(proposal.getProposalAwardTypeCode());
+            setFederalPassThroughIndicator(proposal.getProposalFederalPassThroughIndicator());
+            setFederalPassThroughAgencyNumber(proposal.getFederalPassThroughAgencyNumber());
+            setAwardPurposeCode(proposal.getProposalPurposeCode());
+
+            // copy proposal organizations to award organizations
+            for (ProposalOrganization pOrg : proposal.getProposalOrganizations()) {
+                AwardOrganization awardOrg = new AwardOrganization();
+                awardOrg.setProposalNumber(pOrg.getProposalNumber());
+                awardOrg.setChartOfAccountsCode(pOrg.getChartOfAccountsCode());
+                awardOrg.setOrganizationCode(pOrg.getOrganizationCode());
+                awardOrg.setAwardPrimaryOrganizationIndicator(pOrg.isProposalPrimaryOrganizationIndicator());
+                getAwardOrganizations().add(awardOrg);
+            }
+
+            // copy proposal subcontractors to award subcontractors
+            for (ProposalSubcontractor pSubcontractor : proposal.getProposalSubcontractors()) {
+                AwardSubcontractor awardSubcontractor = new AwardSubcontractor();
+                awardSubcontractor.setProposalNumber(pSubcontractor.getProposalNumber());
+                awardSubcontractor.setAwardSubcontractorNumber(pSubcontractor.getProposalSubcontractorNumber());
+                awardSubcontractor.setSubcontractorAmount(pSubcontractor.getProposalSubcontractorAmount());
+                awardSubcontractor.setAwardSubcontractorDescription(pSubcontractor.getProposalSubcontractorDescription());
+                getAwardSubcontractors().add(awardSubcontractor);
+            }
+            
+            //copy proposal project directors to award propject directors
+            for(ProposalProjectDirector pDirector:proposal.getProposalProjectDirectors()){
+                AwardProjectDirector awardDirector= new AwardProjectDirector();
+                awardDirector.setProposalNumber(pDirector.getProposalNumber());
+                awardDirector.setAwardPrimaryProjectDirectorIndicator(pDirector.isProposalPrimaryProjectDirectorIndicator());
+                awardDirector.setAwardProjectDirectorProjectTitle(pDirector.getProposalProjectDirectorProjectTitle());
+                awardDirector.setPersonUniversalIdentifier(pDirector.getPersonUniversalIdentifier());
+                getAwardProjectDirectors().add(awardDirector);
+            }
+        }
+    }
+    
     /**
      * Gets the proposalNumber attribute.
      * 

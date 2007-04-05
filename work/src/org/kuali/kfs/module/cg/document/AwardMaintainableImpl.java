@@ -81,66 +81,10 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
         super.refresh(refreshCaller, fieldValues, document);
         // copy over proposal values after refresh
         if (StringUtils.equals(PropertyConstants.PROPOSAL, (String) fieldValues.get(Constants.REFERENCES_TO_REFRESH))) {
-            copyProposalToAward();
+            Award award = getAward();
+            award.populateFromProposal(award.getProposal());
         }
     }
-
-    /**
-     * copies proposal fields to award
-     */
-    @SuppressWarnings("deprecation")
-    private void copyProposalToAward() {
-        Award award = getAward();
-        Proposal proposal = award.getProposal();
-        if (ObjectUtils.isNotNull(proposal)) {
-            award.setAgencyNumber(proposal.getAgencyNumber());
-            award.setAgency(proposal.getAgency());
-            award.setAwardProjectTitle(proposal.getProposalProjectTitle());
-            award.setAwardDirectCostAmount(proposal.getProposalDirectCostAmount());
-            award.setAwardIndirectCostAmount(proposal.getProposalIndirectCostAmount());
-            award.setProposalAwardTypeCode(proposal.getProposalAwardTypeCode());
-            award.setProposalAwardType(proposal.getProposalAwardType());
-            award.setFederalPassThroughIndicator(proposal.getProposalFederalPassThroughIndicator());
-            award.setFederalPassThroughAgencyNumber(proposal.getFederalPassThroughAgencyNumber());
-            award.setFederalPassThroughAgency(proposal.getFederalPassThroughAgency());
-            award.setAwardPurposeCode(proposal.getProposalPurposeCode());
-            award.setAwardPurpose(proposal.getProposalPurpose());
-
-            // copy proposal organizations to award organizations
-            for (ProposalOrganization pOrg : proposal.getProposalOrganizations()) {
-                AwardOrganization awardOrg = new AwardOrganization();
-                awardOrg.setProposalNumber(pOrg.getProposalNumber());
-                awardOrg.setChartOfAccountsCode(pOrg.getChartOfAccountsCode());
-                awardOrg.setChartOfAccounts(pOrg.getChartOfAccounts());
-                awardOrg.setOrganizationCode(pOrg.getOrganizationCode());
-                awardOrg.setOrganization(pOrg.getOrganization());
-                awardOrg.setAwardPrimaryOrganizationIndicator(pOrg.isProposalPrimaryOrganizationIndicator());
-                award.getAwardOrganizations().add(awardOrg);
-            }
-
-            // copy proposal subcontractors to award subcontractors
-            for (ProposalSubcontractor pSubcontractor : proposal.getProposalSubcontractors()) {
-                AwardSubcontractor awardSubcontractor = new AwardSubcontractor();
-                awardSubcontractor.setProposalNumber(pSubcontractor.getProposalNumber());
-                awardSubcontractor.setAwardSubcontractorNumber(pSubcontractor.getProposalSubcontractorNumber());
-                awardSubcontractor.setSubcontractorAmount(pSubcontractor.getProposalSubcontractorAmount());
-                awardSubcontractor.setAwardSubcontractorDescription(pSubcontractor.getProposalSubcontractorDescription());
-                awardSubcontractor.setSubcontractor(pSubcontractor.getSubcontractor());
-                award.getAwardSubcontractors().add(awardSubcontractor);
-            }
-            
-            //copy proposal project directors to award propject directors
-            for(ProposalProjectDirector pDirector:proposal.getProposalProjectDirectors()){
-                AwardProjectDirector awardDirector= new AwardProjectDirector();
-                awardDirector.setProposalNumber(pDirector.getProposalNumber());
-                awardDirector.setAwardPrimaryProjectDirectorIndicator(pDirector.isProposalPrimaryProjectDirectorIndicator());
-                awardDirector.setAwardProjectDirectorProjectTitle(pDirector.getProposalProjectDirectorProjectTitle());
-                awardDirector.setPersonUniversalIdentifier(pDirector.getPersonUniversalIdentifier());
-                award.getAwardProjectDirectors().add(awardDirector);
-            }
-        }
-    }
-
 
     private void refreshAward() {
         Award award = getAward();

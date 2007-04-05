@@ -51,17 +51,59 @@
 			</bean>
 		</property>
 	</bean>
+	
+	<!-- DAOs -->
+	<bean id="awardDao" class="org.kuali.module.cg.dao.ojb.AwardDaoOjb">
+		<property name="jcdAlias">
+			<value>dataSource</value>
+		</property>
+	</bean>
+
+	<bean id="proposalDao" class="org.kuali.module.cg.dao.ojb.ProposalDaoOjb">
+		<property name="jcdAlias">
+			<value>dataSource</value>
+		</property>
+	</bean>
+	
+	<bean id="proposalCloseDao" class="org.kuali.module.cg.dao.ojb.ProposalCloseDaoOjb">
+		<property name="jcdAlias">
+			<value>dataSource</value>
+		</property>
+	</bean>
+	
+	<!-- Services -->
+	<bean id="proposalCloseService" class="org.kuali.module.cg.service.impl.ProposalCloseServiceImpl">
+		<property name="awardDao">
+			<ref bean="awardDao" />
+		</property>
+		<property name="proposalDao">
+			<ref bean="proposalDao" />
+		</property>
+		<property name="proposalCloseDao">
+			<ref bean="proposalCloseDao" />
+		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>
+	</bean>
 
 	<bean id="cgUserService" class="org.kuali.module.cg.service.impl.CgUserServiceImpl" parent="kualiModuleUserServiceBase">
 	</bean>
 
 	<bean id="awardService" class="org.kuali.module.cg.service.impl.AwardServiceImpl">
+		<property name="awardDao">
+			<ref bean="awardDao" />
+		</property>
         <property name="kualiGroupService">
             <ref bean="kualiGroupService" />
         </property>
+        
 	</bean>
 	
 	<bean id="proposalService" class="org.kuali.module.cg.service.impl.ProposalServiceImpl">
+    	<property name="proposalDao">
+      		<ref bean="proposalDao" />
+    	</property>
     	<property name="documentService">
       		<ref bean="documentService" />
     	</property>

@@ -18,9 +18,9 @@ package org.kuali.module.purap.service.impl;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.Note;
 import org.kuali.Constants;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.rule.event.SaveDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
@@ -126,35 +126,36 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     /**
      * @see org.kuali.module.purap.service.PurchaseOrderService#updateFlagsAndRoute(org.kuali.module.purap.document.PurchaseOrderDocument, java.lang.String, java.lang.String, java.util.List)
      */
-    public void updateFlagsAndRoute(PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients, String noteText) {
-        //PO row that is set to curr_ind to Y, set the pend_action to Y
-        po.setPendingActionIndicator(true);
-        save(po);
-        try {
-            if (StringUtils.isNotBlank(noteText)) {
-                Note noteFromNoteText = new Note();
-                noteFromNoteText.setNoteText(noteText);
-                //create and save the notes
-                Note newNote = noteService.createNote(noteFromNoteText, po.getDocumentBusinessObject());
-                noteService.save(newNote);
+    public boolean updateFlagsAndRoute(PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients) {
+        //Before Routing, I think we ought to check the rules first
+        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new SaveDocumentEvent(po)); 
+        if (!rulePassed) {
+            return false;
+        } else {
+            //PO row that is set to curr_ind to Y, set the pend_action to Y
+            po.setPendingActionIndicator(true);
+            save(po);
+            try {
+                //call toCopy to give us a new documentHeader
+                po.toCopy(docType);
+                po.refreshNonUpdateableReferences();
+                po.setPurchaseOrderCurrentIndicator(false);
+                //I had to set the pending indicator of the new PO here because it had been set to
+                //true in the old PO prior to copy, so since we need it to be false in the new PO,
+                //I'm resetting the pending indicator again to false.
+                po.setPendingActionIndicator(false);
+            
+                documentService.routeDocument(po, annotation, adhocRoutingRecipients);
             }
-            //call toCopy to give us a new documentHeader
-            po.toCopy(docType);
-            po.refreshNonUpdateableReferences();
-            po.setPurchaseOrderCurrentIndicator(false);
-            //I had to set the pending indicator of the new PO here because it had been set to
-            //true in the old PO prior to copy, so since we need it to be false in the new PO,
-            //I'm resetting the pending indicator again to false.
-            po.setPendingActionIndicator(false);
-            documentService.routeDocument(po, annotation, adhocRoutingRecipients);
-        }
-        catch (WorkflowException we) {
-            LOG.error("Error during updateFlagsAndRoute on PO document: " + we.getMessage());
-            throw new RuntimeException("Error during updateFlagsAndRoute on PO document: " + we.getMessage());            
-        }
-        catch (Exception e) {
-            LOG.error("Error during updateFlagsAndRoute on PO document: " + e.getMessage());
-            throw new RuntimeException("Error during updateFlagsAndRoute on PO document: " + e.getMessage());      
+            catch (WorkflowException we) {
+                LOG.error("Error during updateFlagsAndRoute on PO document: " + we.getMessage());
+                throw new RuntimeException("Error during updateFlagsAndRoute on PO document: " + we.getMessage());            
+            }
+            catch (Exception e) {
+                LOG.error("Error during updateFlagsAndRoute on PO document: " + e.getMessage());
+                throw new RuntimeException("Error during updateFlagsAndRoute on PO document: " + e.getMessage());      
+            }
+            return true;
         }
     }
 

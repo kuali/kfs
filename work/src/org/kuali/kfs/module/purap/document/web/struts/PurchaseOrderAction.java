@@ -41,12 +41,10 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
-import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.bo.VendorDetail;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.exceptions.PurError;
 import org.kuali.module.purap.question.SingleConfirmationQuestion;
 import org.kuali.module.purap.web.struts.form.PurchaseOrderForm;
 
@@ -117,7 +115,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         if (question == null) {
             // ask question if not already asked
             return this.performQuestionWithInput(mapping, form, request, response, PurapConstants.PODocumentsStrings.PURCHASE_ORDER_CLOSE_QUESTION, 
-                    kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CLOSE_DOCUMENT), 
+                    kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_DOCUMENT), 
                     Constants.CONFIRMATION_QUESTION, Constants.MAPPING_CLOSE, "");
         }
         else {
@@ -149,17 +147,26 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                             reason = "";
                         }
                         return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, PurapConstants.PODocumentsStrings.PURCHASE_ORDER_CLOSE_QUESTION, 
-                                kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_CLOSE_DOCUMENT), 
+                                kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_DOCUMENT), 
                                 Constants.CONFIRMATION_QUESTION, Constants.MAPPING_CLOSE, "", reason, 
                                 PurapKeyConstants.ERROR_PURCHASE_ORDER_CLOSE_REASON_REQUIRED, Constants.QUESTION_REASON_ATTRIBUTE_NAME, 
                                 new Integer(reasonLimit).toString());
                     }
-                  
+
                     SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(po, "KualiPurchaseOrderCloseDocument", 
-                            kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), reason); 
+                            kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase)); 
+
+
+                    if (StringUtils.isNotBlank(reason)) {
+                        reason = PurapConstants.PODocumentsStrings.CLOSE_NOTE_PREFIX + reason;
+                        Note newNote = new Note();
+                        newNote.setNoteText(reason);
+                        newNote.setNoteTypeCode("BO");
+                        kualiDocumentFormBase.setNewNote(newNote);
+                        insertBONote(mapping, form, request, response);
+                    }
                     
                     GlobalVariables.getMessageList().add(PurapKeyConstants.PURCHASE_ORDER_MESSAGE_CLOSE_DOCUMENT);
-                    kualiDocumentFormBase.setAnnotation("");
                     return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.PODocumentsStrings.PURCHASE_ORDER_CLOSE_CONFIRM, 
                             kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_MESSAGE_CLOSE_DOCUMENT), 
                             PurapConstants.PODocumentsStrings.SINGLE_CONFIRMATION_QUESTION, Constants.MAPPING_CLOSE, "");
@@ -199,7 +206,9 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         // start in logic for confirming the PO Reopen
         if (question == null) {
             // ask question if not already asked
-            return this.performQuestionWithInput(mapping, form, request, response, PurapConstants.PODocumentsStrings.REOPEN_PO_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.QUESTION_REOPEN_PO_DOCUMENT), Constants.CONFIRMATION_QUESTION, "CreatePOReopenDocument", "");
+            return this.performQuestionWithInput(mapping, form, request, response, PurapConstants.PODocumentsStrings.REOPEN_PO_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_DOCUMENT), Constants.CONFIRMATION_QUESTION, "CreatePOReopenDocument", "");
+            //return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.PODocumentsStrings.CONFIRM_REOPEN_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_ROUTE_REOPENED), Constants.CONFIRMATION_QUESTION, Constants.ROUTE_METHOD, "");
+            
         } 
         else {
             Object buttonClicked = request.getParameter(Constants.QUESTION_CLICKED_BUTTON);
@@ -214,7 +223,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             }
             else {
                 // have to check length on value entered
-                String introNoteMessage = kualiConfiguration.getPropertyString(PurapKeyConstants.QUESTION_REOPEN_PO_DOCUMENT) + Constants.BLANK_SPACE;
+                String introNoteMessage = kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_DOCUMENT) + Constants.BLANK_SPACE;
 
                 int introNoteMessageLength = introNoteMessage.length();
 
@@ -229,15 +238,28 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                         // prevent a NPE by setting the reason to a blank string
                         reason = "";
                     }
-                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, PurapConstants.PODocumentsStrings.REOPEN_PO_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.QUESTION_REOPEN_PO_DOCUMENT), Constants.CONFIRMATION_QUESTION, "CreatePOReopenDocument", "", reason, KeyConstants.ERROR_DOCUMENT_DISAPPROVE_REASON_REQUIRED, Constants.QUESTION_REASON_ATTRIBUTE_NAME, new Integer(reasonLimit).toString());
+                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, PurapConstants.PODocumentsStrings.REOPEN_PO_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_DOCUMENT), Constants.CONFIRMATION_QUESTION, "CreatePOReopenDocument", "", reason, KeyConstants.ERROR_DOCUMENT_DISAPPROVE_REASON_REQUIRED, Constants.QUESTION_REASON_ATTRIBUTE_NAME, new Integer(reasonLimit).toString());
                 } 
             }
         }
 
-        reason = PurapConstants.PODocumentsStrings.REOPEN_NOTE_PREFIX + reason;
-        SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(po, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), reason);
+        
+        boolean success = SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(po, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
+
+        if (! success) {
+            return mapping.findForward(Constants.MAPPING_ERROR);
+        }
+        
+        if (StringUtils.isNotBlank(reason)) {
+            reason = PurapConstants.PODocumentsStrings.REOPEN_NOTE_PREFIX + reason;
+            Note newNote = new Note();
+            newNote.setNoteText(reason);
+            newNote.setNoteTypeCode("BO");
+            kualiDocumentFormBase.setNewNote(newNote);
+            insertBONote(mapping, form, request, response);
+        }
+        
         GlobalVariables.getMessageList().add(PurapKeyConstants.MESSAGE_ROUTE_REOPENED);
-        kualiDocumentFormBase.setAnnotation("");
         return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.PODocumentsStrings.CONFIRM_REOPEN_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_ROUTE_REOPENED), PurapConstants.PODocumentsStrings.SINGLE_CONFIRMATION_QUESTION, Constants.ROUTE_METHOD, "");
     }
     

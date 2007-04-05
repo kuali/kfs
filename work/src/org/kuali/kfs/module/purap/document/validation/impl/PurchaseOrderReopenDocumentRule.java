@@ -52,7 +52,7 @@ public class PurchaseOrderReopenDocumentRule extends TransactionalDocumentRuleBa
     protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
         boolean isValid = true;
         PurchaseOrderDocument porDocument = (PurchaseOrderDocument) approveEvent.getDocument();
-        return isValid;
+        return isValid &= processValidation(porDocument);
     }
 
     private boolean processValidation(PurchaseOrderDocument document) {

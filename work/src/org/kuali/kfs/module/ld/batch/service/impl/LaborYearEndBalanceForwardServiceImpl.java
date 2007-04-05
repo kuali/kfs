@@ -57,6 +57,7 @@ import org.kuali.module.labor.service.LaborYearEndBalanceForwardService;
 import org.kuali.module.labor.util.MessageBuilder;
 import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.util.ReportRegistry;
+import org.kuali.module.labor.util.TransactionTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -199,12 +200,10 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
             originEntry.setFinancialSystemOriginationCode(this.getOriginationCode());
             originEntry.setTransactionLedgerEntryDescription(this.getDescription());
 
-            KualiDecimal transactionLedgerEntryAmount = balance.getAccountLineAnnualBalanceAmount();
-            transactionLedgerEntryAmount = transactionLedgerEntryAmount.add(balance.getContractsGrantsBeginningBalanceAmount());
-            originEntry.setTransactionLedgerEntryAmount(transactionLedgerEntryAmount.abs());
-
-            String debitCreditCode = transactionLedgerEntryAmount.isPositive() ? Constants.GL_DEBIT_CODE : Constants.GL_CREDIT_CODE;
-            originEntry.setTransactionDebitCreditCode(debitCreditCode);
+            KualiDecimal transactionAmount = balance.getAccountLineAnnualBalanceAmount();
+            transactionAmount = transactionAmount.add(balance.getContractsGrantsBeginningBalanceAmount());
+            originEntry.setTransactionLedgerEntryAmount(transactionAmount.abs());
+            originEntry.setTransactionDebitCreditCode(TransactionTemplate.getDebitCreditCode(transactionAmount, false));
 
             originEntry.setTransactionLedgerEntrySequenceNumber(1);
             originEntry.setTransactionTotalHours(BigDecimal.ZERO);

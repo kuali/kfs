@@ -153,6 +153,7 @@
 			<filter token="scheduler-spring-beans-import" value="${scheduler.spring.beans.import}" />
 			<filter token="scheduler-spring-jobstore-properties" value="${scheduler.spring.jobstore.properties}" />
 			<filter token="transaction-timeout" value="${transaction.timeout}"/>
+			<filter token="log4j-mail-appender-address" value="${log4j.mail.appender.address}"/>
 			<filter token="dwr-config-init-params" value="${dwr.config.init.params}"/>
 		</filterset>
 	</target>

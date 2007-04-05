@@ -28,7 +28,7 @@ import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.labor.service.LaborBalanceInquiryService;
 import org.springframework.beans.factory.BeanFactory;
 
-public class AccountStatusBaseFunds extends Balance {
+public class AccountStatusBaseFunds extends LedgerBalance {
     
     private String financialObjectCode;
     private String financialSubObjectCode;
@@ -246,24 +246,29 @@ public class AccountStatusBaseFunds extends Balance {
     public void setSubObjectCode(String subObjectCode) {
         this.setFinancialSubObjectCode(subObjectCode);
     }
-
+    
+    /**
+     * 
+     * This method calculates the Salary Foundation Amount
+     * @return
+     */
     public KualiDecimal getCalculatedSalaryFoundationAmount() {
         
        Map fieldValues = new HashMap(); 
        
        fieldValues.put("universityFiscalYear", getUniversityFiscalYear());
-       fieldValues.put("chartOfAccountsCode", getChartOfAccountsCode());
-       fieldValues.put("accountNumber", getAccountNumber());
-       fieldValues.put("subAccountNumber", getSubAccountNumber());       
-       fieldValues.put("financialObjectCode", getFinancialObjectCode());
-       fieldValues.put("financialSubObjectCode", getFinancialSubObjectCode());
+//       fieldValues.put("chartOfAccountsCode", getChartOfAccountsCode());
+//       fieldValues.put("accountNumber", getAccountNumber());
+//       fieldValues.put("subAccountNumber", getSubAccountNumber());       
+//       fieldValues.put("financialObjectCode", getFinancialObjectCode());
+//       fieldValues.put("financialSubObjectCode", getFinancialSubObjectCode());
 
-      // BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
-      // laborBalanceInquiryService = (LaborBalanceInquiryService) beanFactory.getBean("laborBalanceInquiryService");
-      // CalculatedSalaryFoundationTracker CSFTotal = (CalculatedSalaryFoundationTracker) laborBalanceInquiryService.getCSFTrackerTotal(fieldValues);
-      // calculatedSalaryFoundationAmount = CSFTotal.getCsfAmount();
-       calculatedSalaryFoundationAmount = new KualiDecimal("2345.33");
-       return calculatedSalaryFoundationAmount;
+      BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
+      laborBalanceInquiryService = (LaborBalanceInquiryService) beanFactory.getBean("laborBalanceInquiryService");
+       KualiDecimal CSFTotal = (KualiDecimal) laborBalanceInquiryService.getCSFTrackerTotal(fieldValues);
+      // KualiDecimal CSFTotal = new KualiDecimal("123456.78");
+       this.calculatedSalaryFoundationAmount = CSFTotal;
+       return CSFTotal; 
     }
 
     public void setCalculatedSalaryFoundationAmount(KualiDecimal calculatedSalaryFoundationAmount) {
@@ -281,7 +286,6 @@ public class AccountStatusBaseFunds extends Balance {
     public void setFinancialBeginningBalanceLineAmount(KualiDecimal financialBeginningBalanceLineAmount) {
         this.financialBeginningBalanceLineAmount = financialBeginningBalanceLineAmount;
     }
-
 
     public KualiDecimal getBaseCSFVarianceAmount() {
         if ((this.accountLineAnnualBalanceAmount != null) && (this.calculatedSalaryFoundationAmount != null))
@@ -312,5 +316,4 @@ public class AccountStatusBaseFunds extends Balance {
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
     }
-
 }

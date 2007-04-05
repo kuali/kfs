@@ -65,6 +65,7 @@
                 <field attributeName="subAccountNumber" />
                 <field attributeName="financialSubObjectCode" />
 				<field attributeName="personName" />
+				<field attributeName="UniversalUser.personName" />
 				<field attributeName="positionNumber" />				
 				<field attributeName="ytdActualAmount" />
 				<field attributeName="outstandingEncum" />
@@ -154,6 +155,8 @@
                 <summary>emplid</summary>
                 <description>emplid description...</description>
 			</attribute>
+
+			<attributeReference name="universalUser.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName" />			
 
 			<attribute name="personName" forceUppercase="true">
 				<label>Person</label>

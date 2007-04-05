@@ -166,7 +166,7 @@
                 anchor="monthlyBudgetLineLineAnchor" />
            <td rowspan="12" class="datacell" nowrap>
                <div align="center">
-                   <c:if test="${empty editingMode['viewOnly']}">
+                   <c:if test="${!empty editingMode['fullEntry']}">
                        <html:image src="images/tinybutton-calculate.gif" styleClass="tinybutton" property="methodToCall.performMonthlySpread.anchormonthlyBudgetLineLineAnchor" title="Spread Evenly To Months" alt="Spread Evenly To Months"/>
                        <br>
                        <br>

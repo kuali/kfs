@@ -62,10 +62,15 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
             headerTable.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
             headerTable.getDefaultCell().setVerticalAlignment(Element.ALIGN_CENTER);
       
-            logo = Image.getInstance(logoImage);
-            logo.scalePercent(3,3);
-            headerTable.addCell(new Phrase(new Chunk(logo, 0, 0)));
-
+            if (StringUtils.isNotBlank(logoImage)) {
+                logo = Image.getInstance(logoImage);
+                logo.scalePercent(3,3);
+                headerTable.addCell(new Phrase(new Chunk(logo, 0, 0)));
+            } 
+            else {
+                //if we don't use images
+                headerTable.addCell(new Phrase(new Chunk("")));
+            }
             PdfPCell cell;
             cell = new PdfPCell(new Paragraph("REQUEST FOR QUOTATION\nTHIS IS NOT AN ORDER",ver_17_normal));
             cell.setBorderWidth(0);

@@ -227,10 +227,13 @@ public class PrintServiceImpl implements PrintService {
                 imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), pdfParameters.getImageTempLocation()); // Removes temporary images; only need to call once.
             }
         } catch (PurError pe) {
+            LOG.error("Caught exception ", pe);
             errors.add(pe.getMessage());
         } catch (PurapConfigurationException pce) {
+            LOG.error("Caught exception ", pce);
             errors.add(pce.getMessage());
         } catch (Exception e) {
+            LOG.error("Caught exception ", e);
             errors.add(e.getMessage());
         }
 
@@ -264,8 +267,10 @@ public class PrintServiceImpl implements PrintService {
                 imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), pdfParameters.getImageTempLocation()); // Removes temporary images; only need to call once.
             }
         } catch (PurError e) {
+            LOG.error("Caught exception ", e);
             errors.add(e.getMessage());
         } catch (PurapConfigurationException pce) {
+            LOG.error("Caught exception ", pce);
             errors.add(pce.getMessage());
         } finally {
             try {
@@ -381,8 +386,10 @@ public class PrintServiceImpl implements PrintService {
                 imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), pdfParameters.getImageTempLocation()); // Removes the temporary images; only need to call once.
             }
         } catch (PurError e) {
+            LOG.error("Caught exception ", e);
             errors.add(e.getMessage());
         } catch (PurapConfigurationException pce) {
+            LOG.error("Caught exception ", pce);
             errors.add(pce.getMessage());
         }
 
@@ -412,8 +419,10 @@ public class PrintServiceImpl implements PrintService {
                 imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), pdfParameters.getImageTempLocation()); // Removes the temporary images; only need to call once.
             }
         } catch (PurError e) {
+            LOG.error("Caught exception ", e);
             errors.add(e.getMessage());
         } catch (PurapConfigurationException pce) {
+            LOG.error("Caught exception ", pce);
             errors.add(pce.getMessage());
         } finally {
             try {

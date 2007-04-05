@@ -153,9 +153,12 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                                 new Integer(reasonLimit).toString());
                     }
 
-                    SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(po, "KualiPurchaseOrderCloseDocument", 
+                    boolean success = SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(po, "KualiPurchaseOrderCloseDocument", 
                             kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase)); 
 
+                    if (!success) {
+                        return mapping.findForward(Constants.MAPPING_ERROR);
+                    }
 
                     if (StringUtils.isNotBlank(reason)) {
                         reason = PurapConstants.PODocumentsStrings.CLOSE_NOTE_PREFIX + reason;

@@ -21,8 +21,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.purap.PurapKeyConstants;
+import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.module.purap.document.PaymentRequestDocument;
@@ -59,6 +62,8 @@ public class PurchaseOrderCloseDocumentRule extends TransactionalDocumentRuleBas
         //The PO must be in OPEN status.
         if( !StringUtils.equalsIgnoreCase( document.getStatusCode(), PurchaseOrderStatuses.OPEN ) ) {
             valid = false;
+            GlobalVariables.getErrorMap().putError( PurapPropertyConstants.STATUS_CODE, 
+                    PurapKeyConstants.ERROR_PURCHASE_ORDER_CLOSE_STATUS );
         } else {
             //TODO: To be uncommented and tested after PREQ implementation gets further.
             //valid &= processPaymentRequestRules( document );
@@ -74,11 +79,17 @@ public class PurchaseOrderCloseDocumentRule extends TransactionalDocumentRuleBas
         if( ObjectUtils.isNotNull( pReqs ) ) {
             if( pReqs.size() == 0 ) {
                 valid = false;
+                GlobalVariables.getErrorMap().putError( PurapPropertyConstants.PURAP_DOC_ID, 
+                        PurapKeyConstants.ERROR_PURCHASE_ORDER_CLOSE_NO_PREQ,
+                        PurchaseOrderStatuses.OPEN );
             } else {
                 //None of the PREQs against this PO may be in 'In Process' status.
                 for( PaymentRequestDocument pReq : pReqs ) {
                     if( StringUtils.equalsIgnoreCase( pReq.getStatusCode(), PaymentRequestStatuses.IN_PROCESS ) ) {
                         valid = false;
+                        GlobalVariables.getErrorMap().putError( PurapPropertyConstants.PURAP_DOC_ID, 
+                                PurapKeyConstants.ERROR_PURCHASE_ORDER_CLOSE_PREQ_IN_PROCESS,
+                                PaymentRequestStatuses.IN_PROCESS );
                     }
                 }
             }

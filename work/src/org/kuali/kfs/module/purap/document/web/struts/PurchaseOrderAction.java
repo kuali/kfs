@@ -41,6 +41,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.PurapConstants.PODocumentsStrings;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
@@ -114,13 +115,13 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         // start in logic for confirming the close
         if (question == null) {
             // ask question if not already asked
-            return this.performQuestionWithInput(mapping, form, request, response, PurapConstants.PODocumentsStrings.PURCHASE_ORDER_CLOSE_QUESTION, 
-                    kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_DOCUMENT), 
+            return this.performQuestionWithInput(mapping, form, request, response, PODocumentsStrings.CLOSE_QUESTION, 
+                    kualiConfiguration.getPropertyString( PurapKeyConstants.PURCHASE_ORDER_QUESTION_DOCUMENT ), 
                     Constants.CONFIRMATION_QUESTION, Constants.MAPPING_CLOSE, "");
         }
         else {
-            Object buttonClicked = request.getParameter(Constants.QUESTION_CLICKED_BUTTON);
-            if( PurapConstants.PODocumentsStrings.PURCHASE_ORDER_CLOSE_QUESTION.equals(question) ) { 
+            Object buttonClicked = request.getParameter( Constants.QUESTION_CLICKED_BUTTON );
+            if( PODocumentsStrings.CLOSE_QUESTION.equals( question ) ) { 
                 if( ConfirmationQuestion.NO.equals(buttonClicked) ) {
                     //If 'No' is the button clicked, just reload the doc
                     return mapping.findForward(Constants.MAPPING_BASIC);
@@ -146,37 +147,33 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                             // prevent a NPE by setting the reason to a blank string
                             reason = "";
                         }
-                        return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, PurapConstants.PODocumentsStrings.PURCHASE_ORDER_CLOSE_QUESTION, 
-                                kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_DOCUMENT), 
+                        return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, PODocumentsStrings.CLOSE_QUESTION, 
+                                kualiConfiguration.getPropertyString( PurapKeyConstants.PURCHASE_ORDER_QUESTION_DOCUMENT ), 
                                 Constants.CONFIRMATION_QUESTION, Constants.MAPPING_CLOSE, "", reason, 
                                 PurapKeyConstants.ERROR_PURCHASE_ORDER_CLOSE_REASON_REQUIRED, Constants.QUESTION_REASON_ATTRIBUTE_NAME, 
                                 new Integer(reasonLimit).toString());
                     }
-                    
-                    boolean success = SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(po, "KualiPurchaseOrderCloseDocument", 
-                            kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase)); 
-                    
-                    if (!success) {
-                        return mapping.findForward(Constants.MAPPING_ERROR);
-                    }
-
-                    if (StringUtils.isNotBlank(reason)) {
-                        reason = PurapConstants.PODocumentsStrings.CLOSE_NOTE_PREFIX + reason;
-                        Note newNote = new Note();
-                        newNote.setNoteText(reason);
-                        newNote.setNoteTypeCode("BO");
-                        kualiDocumentFormBase.setNewNote(newNote);
-                        insertBONote(mapping, form, request, response);
-                    }
-                    
-                    GlobalVariables.getMessageList().add(PurapKeyConstants.PURCHASE_ORDER_MESSAGE_CLOSE_DOCUMENT);
-                    return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.PODocumentsStrings.PURCHASE_ORDER_CLOSE_CONFIRM, 
-                            kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_MESSAGE_CLOSE_DOCUMENT), 
-                            PurapConstants.PODocumentsStrings.SINGLE_CONFIRMATION_QUESTION, Constants.MAPPING_CLOSE, "");
                 }
-            }
+            }   
         }
-        return returnToSender(mapping, kualiDocumentFormBase);
+        boolean success = SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(po, "KualiPurchaseOrderCloseDocument", 
+                kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase)); 
+                    
+        if (!success) {
+            return mapping.findForward(Constants.MAPPING_ERROR);
+        }
+
+        reason = PODocumentsStrings.CLOSE_NOTE_PREFIX + reason;
+        Note newNote = new Note();
+        newNote.setNoteText(reason);
+        newNote.setNoteTypeCode("BO");
+        kualiDocumentFormBase.setNewNote(newNote);
+        insertBONote(mapping, form, request, response);
+                
+        GlobalVariables.getMessageList().add( PurapKeyConstants.PURCHASE_ORDER_MESSAGE_CLOSE_DOCUMENT );
+        return this.performQuestionWithoutInput(mapping, form, request, response, PODocumentsStrings.CLOSE_CONFIRM,              
+                kualiConfiguration.getPropertyString( PurapKeyConstants.PURCHASE_ORDER_MESSAGE_CLOSE_DOCUMENT ), 
+                PODocumentsStrings.SINGLE_CONFIRMATION_QUESTION, Constants.MAPPING_CLOSE, "");
     }
     
     /**

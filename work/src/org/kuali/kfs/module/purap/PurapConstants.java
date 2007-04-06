@@ -151,8 +151,8 @@ public class PurapConstants {
                         purchaseOrderDocTypes();
     
     public static class PODocumentsStrings {
-        public static String PURCHASE_ORDER_CLOSE_QUESTION = "POClose";
-        public static String PURCHASE_ORDER_CLOSE_CONFIRM = "POCloseConfirm";
+        public static String CLOSE_QUESTION = "POClose";
+        public static String CLOSE_CONFIRM = "POCloseConfirm";
         public static String REOPEN_PO_QUESTION = "ReopenPO";
         public static String CONFIRM_REOPEN_QUESTION = "ConfirmReopen";
         public static String SINGLE_CONFIRMATION_QUESTION = "singleConfirmationQuestion";

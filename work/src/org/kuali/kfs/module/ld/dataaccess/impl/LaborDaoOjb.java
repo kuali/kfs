@@ -71,21 +71,19 @@ public class LaborDaoOjb extends PersistenceBrokerDaoSupport implements LaborDao
         System.out.println("financialObjectCode:" + fieldValues.get("financialObjectCode"));
         System.out.println("financialSubObjectCode:" + fieldValues.get("financialSubObjectCode"));
         /*
-        SELECT  sub_acct_nbr, fin_object_cd, fin_sub_obj_cd, SUM(pos_csf_amt) FROM ld_csf_tracker_t 
-        GROUP BY univ_fiscal_yr, fin_coa_cd, account_nbr, sub_acct_nbr, fin_object_cd, fin_sub_obj_cd;*/
 //        fieldValues.clear();
 //        fieldValues.put("accountNumber", "1031400");
-        fieldValues.put("universityFiscalYear", "2004");
 //        fieldValues.put("chartOfAccountsCode", "BL");
-        fieldValues.put("financialObjectCode", "5821");
         
+//        fieldValues.put("universityFiscalYear", "2004");
+//        fieldValues.put("financialObjectCode", "5821");
+*/        
         Criteria criteria = new Criteria();
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new CalculatedSalaryFoundationTracker()));
-        LookupUtils.applySearchResultsLimit(criteria);
         System.out.println("criteria:" + criteria);
         
         ReportQueryByCriteria query = QueryFactory.newReportQuery(CalculatedSalaryFoundationTracker.class, criteria);
-        
+
         List groupByList = new ArrayList();
         groupByList.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
         groupByList.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
@@ -97,18 +95,15 @@ public class LaborDaoOjb extends PersistenceBrokerDaoSupport implements LaborDao
 
         query.setAttributes(new String[] { "sum(" + CSF_AMOUNT + ")"});
         query.addGroupBy(groupBy);
-/*        Collection calculatedSalaryFoundationTracker = getPersistenceBrokerTemplate().getCollectionByQuery(query);
-        for (Iterator iter = calculatedSalaryFoundationTracker.iterator(); iter.hasNext();) {
-            CalculatedSalaryFoundationTracker csf = (CalculatedSalaryFoundationTracker) calculatedSalaryFoundationTracker;            
-            System.out.println("CSF:" + csf.getCsfAmount());
+        
+        Object[] csf = null;
+        Iterator<Object[]> calculatedSalaryFoundationTracker = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+        while (calculatedSalaryFoundationTracker!=null && calculatedSalaryFoundationTracker.hasNext()) {
+//            csf = calculatedSalaryFoundationTracker.next();            
         }
-*/        
-        Iterator csf = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);        
-      //  CalculatedSalaryFoundationTracker csfData = null;
-      //  KualiDecimal csfAmount = null;
-      //  String test = (String) csf.next();
-      //  System.out.println("csfData:" + test);
-        KualiDecimal csfAmount = new KualiDecimal("100.00"); 
+        KualiDecimal csfAmount = new KualiDecimal("0.00"); 
+        if (csf != null)
+           csfAmount = new KualiDecimal(csf[0].toString()); 
         System.out.println("Amount:" + csfAmount);
         return csfAmount;  
     }
@@ -120,8 +115,8 @@ public class LaborDaoOjb extends PersistenceBrokerDaoSupport implements LaborDao
     public Collection getCurrentYearFunds(Map fieldValues) {
         Criteria criteria = new Criteria();
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new AccountStatusCurrentFunds()));
-        LookupUtils.applySearchResultsLimit(criteria);
         QueryByCriteria query = QueryFactory.newQuery(AccountStatusCurrentFunds.class, criteria);
+        OJBUtility.limitResultSize(query);
         Collection ledgerBalances = getPersistenceBrokerTemplate().getCollectionByQuery(query);
         for (Iterator iter = ledgerBalances.iterator(); iter.hasNext();) {
             AccountStatusCurrentFunds currentFund = (AccountStatusCurrentFunds) ledgerBalances;            
@@ -145,8 +140,8 @@ public class LaborDaoOjb extends PersistenceBrokerDaoSupport implements LaborDao
     public Collection getBaseFunds(Map fieldValues) {
         Criteria criteria = new Criteria();
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new AccountStatusBaseFunds()));
-        LookupUtils.applySearchResultsLimit(criteria);
         QueryByCriteria query = QueryFactory.newQuery(AccountStatusBaseFunds.class, criteria);
+        OJBUtility.limitResultSize(query);        
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
     
@@ -157,8 +152,8 @@ public class LaborDaoOjb extends PersistenceBrokerDaoSupport implements LaborDao
     public Collection getCurrentFunds(Map fieldValues) {
         Criteria criteria = new Criteria();
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new AccountStatusCurrentFunds()));
-        LookupUtils.applySearchResultsLimit(criteria);
         QueryByCriteria query = QueryFactory.newQuery(AccountStatusCurrentFunds.class, criteria);
+        OJBUtility.limitResultSize(query);
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 }

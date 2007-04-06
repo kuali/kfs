@@ -260,7 +260,7 @@ public class AccountStatusBaseFunds extends LedgerBalance {
        fieldValues.put("chartOfAccountsCode", getChartOfAccountsCode());
        fieldValues.put("accountNumber", getAccountNumber());
 //       fieldValues.put("subAccountNumber", getSubAccountNumber());       
-//       fieldValues.put("financialObjectCode", getFinancialObjectCode());
+       fieldValues.put("financialObjectCode", getFinancialObjectCode());
 //       fieldValues.put("financialSubObjectCode", getFinancialSubObjectCode());
 
       BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();

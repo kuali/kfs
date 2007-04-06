@@ -136,6 +136,7 @@ public class PurapConstants {
         public static String PURCHASE_ORDER_REOPEN_DOCUMENT  = "KualiPurchaseOrderReopenDocument";
         public static String PURCHASE_ORDER_CLOSE_DOCUMENT  = "KualiPurchaseOrderCloseDocument";
         public static String PURCHASE_ORDER_DOCUMENT  = "KualiPurchaseOrderDocument";
+        public static String PURCHASE_ORDER_RETRANSMIT_DOCUMENT  = "KualiPurchaseOrderRetransmitDocument";
     }
 
     private static HashMap<String, String> purchaseOrderDocTypes()
@@ -163,6 +164,8 @@ public class PurapConstants {
     public static class PaymentRequestStatuses {
         public static String INITIATE = "INIT";
         public static String IN_PROCESS = "INPR";
+        public static String CANCELLED_POST_APPROVE = "CANC";
+        public static String CANCELLED_IN_PROCESS = "VOID";
        /* Modify as required:
         public static String CANCELLED = "CANC";
         public static String CLOSED = "CLOS";
@@ -179,6 +182,35 @@ public class PurapConstants {
         public static String AWAIT_CONTRACT_MANAGER_ASSGN = "ACMR";
         public static String CONTRACT_MANAGER_ASSGN = "CMRA";
         */
+/*        
+//      PAYMENT REQUEST STATUSES 
+        public static String PREQ_STAT_IN_PROCESS = "INPR";   // In process (not routed yet)
+        public static String PREQ_STAT_CANCELLED_POST_APPROVE = "CANC";
+        public static String PREQ_STAT_CANCELLED_IN_PROCESS = "VOID";
+        public static String PREQ_STAT_AP_APPROVED = "APAD";
+        public static String PREQ_STAT_AUTO_APPROVED = "AUTO";
+        public static String PREQ_STAT_DEPARTMENT_APPROVED = "DPTA";
+        public static String PREQ_STAT_AWAIT_SUB_ACCOUNT_APRVL = "ASAA";   // Waiting for Sub Acct Manager approval
+        public static String PREQ_STAT_AWAIT_FISCAL_OFFICER_APRVL = "AFOA";   // Waiting for Fiscal Officer approval
+        public static String PREQ_STAT_AWAIT_CHART_APRVL = "ACHA";   // Waiting for Chart/Org approval
+        public static String PREQ_STAT_AWAIT_TAX_APRVL = "ATAX";   // Waiting for Tax approval
+        public static String PREQ_STAT_PENDING_E_INVOICE = "PEIN";
+        
+        // PAYMENT REQUEST STATUSES TO BE AUTO APPROVED
+        public static String[] PREQ_STATUSES_FOR_AUTO_APPROVE = {PREQ_STAT_AWAIT_SUB_ACCOUNT_APRVL,PREQ_STAT_AWAIT_FISCAL_OFFICER_APRVL,PREQ_STAT_AWAIT_CHART_APRVL};
+        
+        // PAYMENT REQUEST PAY DATE CALCULATION DAYS
+        public static int PREQ_PAY_DATE_CALCULATION_DAYS = 28;
+        
+        // PREQ CANCEL FORWARDS
+        public static String PREQ_CANCEL_FORWARD_DOC_HANDLER = "dochandler";
+        public static String PREQ_CANCEL_FORWARD_TAB_PAGE = "editpreq";
+     */   
+    }
+    
+    public static class PREQDocumentsStrings {
+        public static String PAYMENT_REQUEST_DUPLICATE_DATE_AMONT_QUESTION = "PREQDuplicateDateAmount";
+        
     }
 
 }

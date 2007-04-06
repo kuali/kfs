@@ -59,4 +59,10 @@ public class PurapKeyConstants {
     //Payment Request
     public static final String ERROR_PURCHASE_ORDER_NOT_EXIST="error.paymentRequest.purchaseOrder.notExist";
     public static final String ERROR_PURCHASE_ORDER_NOT_OPEN="error.paymentRequest.purchaseOrder.notOpen";
+    public static final String ERROR_PURCHASE_ORDER_IS_PENDING="error.paymentRequest.purchaseOrder.isPending";
+   
+    public static final String MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT="message.duplicate.preq.date.amount";
+    public static final String MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT_CANCELLEDORVOIDED="message.duplicate.preq.date.amount.cancelledOrVoided";
+    public static final String MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT_VOIDED="message.duplicate.preq.date.amount.voided";
+    public static final String MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT_CANCELLED="message.duplicate.preq.date.amount.cancelled";
 }

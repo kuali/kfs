@@ -15,13 +15,115 @@
  */
 package org.kuali.module.purap.dao;
 
+import java.sql.Date;
+import java.util.Collection;
 import java.util.List;
 
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.document.PaymentRequestDocument;
+
 
 public interface PaymentRequestDao {
 
     public void save(PaymentRequestDocument paymentRequestDocument);
+   
+    /**
+     * Get a payment request by id
+     * 
+     * @param id PaymentRequest Id
+     * @return PaymentRequest or null if not found
+     */
     public PaymentRequestDocument getPaymentRequestById(Integer id);
     public List<PaymentRequestDocument> getPaymentRequestsByPurchaseOrderId(Integer poDocId);
+
+
+    /**
+     * Get a payment request by document id
+     * 
+     * @param id workflow document Id
+     * @return PaymentRequest or null if not found
+     */
+    public PaymentRequestDocument getPaymentRequestByDocId(Long id);
+
+    /**
+     * Save a pay req.  This saves it to the
+     * tables.  
+     * 
+     * @param pr PaymentRequest to save
+     */
+    public PaymentRequestDocument savePaymentRequestRetriveReferences(PaymentRequestDocument pr);
+
+    /**
+     * Save a pay req.  This saves it to the
+     * tables.  
+     * 
+     * @param pr PaymentRequest to save
+     */
+    public PaymentRequestDocument savePaymentRequest(PaymentRequestDocument pr);
+
+    /**
+     * Retreives a list of Pay Reqs with the given Req Id.
+     * 
+     * @param id
+     * @return List of Pay Reqs.
+     */
+    public List getPaymentRequestsByRequisitionId(Integer id);
+
+    /**
+     * Retreives a list of Pay Reqs with the given PO Id.
+     * 
+     * @param id
+     * @return List of Pay Reqs.
+     */
+    public List getPaymentRequestsByPOId(Integer id);
+    
+    /**
+     * Retreives a list of Pay Reqs with the given PO Id.
+     * 
+     * @param id
+     * @return List of Pay Reqs.
+     */
+    public List getPaymentRequestsByPOId(Integer id, Integer returnListMax);
+    
+    /**
+     * Retreives a list of Pay Reqs with the given vendor id and invoice number.
+     * 
+     * @param vendorHeaderGeneratedId  header id of the vendor id
+     * @param vendorDetailAssignedId   detail id of the vendor id
+     * @param invoiceNumber            invoice number as entered by AP
+     * @return List of Pay Reqs.
+     */
+    public List getActivePaymentRequestsByVendorNumberInvoiceNumber(Integer vendorHeaderGeneratedId,
+        Integer vendorDetailAssignedId,String invoiceNumber);
+    
+    public List getAllPREQsByPOIdAndStatus(Integer purchaseOrderID,Collection statusCodes);
+    
+    /**
+     * Retreives a list of Pay Reqs with the given PO Id, invoice amount, and invoice date.
+     * 
+     * @param poId           purchase order ID
+     * @param invoiceAmount  amount of the invoice as entered by AP
+     * @param invoiceDate    date of the invoice as entered by AP
+     * @return List of Pay Reqs.
+     */
+    public List getActivePaymentRequestsByPOIdInvoiceAmountInvoiceDate(Integer poId, KualiDecimal invoiceAmount, Date invoiceDate);
+
+    /**
+     * Get all the payment requests for a set of statuses
+     * 
+     * @param statuses
+     * @return
+     */
+    public Collection getByStatuses(String statuses[]);
+    
+ //   public PaymentRequestStatusHistory savePaymentRequestStatusHistory(PaymentRequestStatusHistory prsh);
+    
+    /**
+     * Method to get current database values of Status History
+     * for given PREQ id
+     * 
+     * @param preqId  id of preq to check
+     * @return  List of payment request status history records
+     */
+ //   public List getPaymentRequestStatusHistories(Integer preqId);
 }

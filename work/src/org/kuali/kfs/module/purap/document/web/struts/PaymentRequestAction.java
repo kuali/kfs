@@ -23,13 +23,18 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.Constants;
+import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.rule.event.SaveDocumentEvent;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.question.SingleConfirmationQuestion;
 import org.kuali.module.purap.web.struts.form.PaymentRequestForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -75,6 +80,33 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         PaymentRequestForm preqForm = (PaymentRequestForm) form;
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) preqForm.getDocument();
         
+        Object question = request.getParameter(Constants.QUESTION_INST_ATTRIBUTE_NAME);
+        //String reason = request.getParameter(Constants.QUESTION_REASON_ATTRIBUTE_NAME);
+
+        KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
+
+        // start in logic for confirming the PO Reopen
+        /*
+        if (question == null) {
+            // ask question if not already asked
+          //  return this.performQuestionWithInput(mapping, form, request, response, PurapConstants.PODocumentsStrings.REOPEN_PO_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.QUESTION_REOPEN_PO_DOCUMENT), Constants.CONFIRMATION_QUESTION, "CreatePOReopenDocument", "");
+            return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.PREQDocumentsStrings.PAYMENT_REQUEST_DUPLICATE_DATE_AMONT_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT), Constants.CONFIRMATION_QUESTION, Constants.ROUTE_METHOD, "");
+
+        } 
+        else {
+            Object buttonClicked = request.getParameter(Constants.QUESTION_CLICKED_BUTTON);
+            if ((PurapConstants.PREQDocumentsStrings.PAYMENT_REQUEST_DUPLICATE_DATE_AMONT_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
+                // if no button clicked just reload the doc
+                return mapping.findForward(Constants.MAPPING_BASIC);
+            }
+            else if ((PurapConstants.PREQDocumentsStrings.PAYMENT_REQUEST_DUPLICATE_DATE_AMONT_QUESTION.equals(question)) && buttonClicked.equals(SingleConfirmationQuestion.OK)) {
+                // This is the case when the user clicks on "OK" in the end, after we inform the user that the reopen has been rerouted,
+                // so we'll redirect to the portal page ?
+                return super.refresh(mapping, form, request, response);
+                //return mapping.findForward(Constants.MAPPING_PORTAL);
+            }
+        }
+        */
        
         boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new SaveDocumentEvent(paymentRequestDocument)); 
         //boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new BlanketApproveDocumentEvent(document)); 
@@ -89,6 +121,13 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         Map editMode = preqForm.getEditingMode();
         editMode.put(PurapAuthorizationConstants.PaymentRequestEditMode.DISPLAY_INIT_TAB, "FALSE");
         preqForm.setEditingMode(editMode);
+        
+        
+       
+        
+        
+        
+        
         
              
         return super.refresh(mapping, form, request, response);

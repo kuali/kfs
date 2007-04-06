@@ -15,6 +15,10 @@
  */
 package org.kuali.module.purap.rules;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.GlobalVariables;
@@ -77,19 +81,72 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         boolean valid = true;
        
         Integer POID = document.getPurchaseOrderIdentifier();
-        
+       
+       // I think only the current PO can have the pending action indicator to be "Y". For all the other POs with the same PO number the pending indicator should be always "N". So I think we only need to check if for the current PO the Pending indicator is "Y" and it is not a Retransmit doc, then we don't allow users to create a PREQ. Correct? 
+      //given a PO number the use enters in the Init screen, for the rule "Error if the PO is not open" we also only need to check this rule against the current PO, Correct? 
        PurchaseOrderDocument purchaseOrderDocument = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(document.getPurchaseOrderIdentifier());
-        if (ObjectUtils.isNull(purchaseOrderDocument)) {
+       if (ObjectUtils.isNull(purchaseOrderDocument)) {
             //GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_BEGIN_DATE, PurapKeyConstants.ERROR_PURCHASE_ORDER_END_DATE_NO_BEGIN_DATE);
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_EXIST);
             valid &= false;
-        } else if (!StringUtils.equals(purchaseOrderDocument.getStatusCode(),PurapConstants.PurchaseOrderStatuses.OPEN)){
+       } else if (!StringUtils.equals(purchaseOrderDocument.getStatusCode(),PurapConstants.PurchaseOrderStatuses.OPEN)){
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_OPEN);
             valid &= false;
-        }
+            // if the PO is pending and it is not a Retransmit, we cannot generate a Payment Request for it:
+      // } else if (purchaseOrderDocument.isPendingActionIndicator() & !StringUtils.equals(purchaseOrderDocument.getDocumentHeader().getWorkflowDocument().getDocumentType(), PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT)){
+      //      GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_IS_PENDING);
+       //     valid &= false;
+       }
        
+         
         return valid;
     }
     
+    
+    boolean processPaymentRequestDuplicateValidation(PaymentRequestDocument document){  
+        
+        boolean valid = true;
+        //  check that the invoice date and invoice total amount entered are not on any existing non-cancelled PREQs for this PO
+        Integer POID = document.getPurchaseOrderIdentifier();
+        List<PaymentRequestDocument> preqs = SpringServiceLocator.getPaymentRequestService().getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(POID, document.getVendorInvoiceAmount(), document.getInvoiceDate());
+        
+        if (preqs.size() > 0) {
+         // boolean addedError = false;
+          List cancelled = new ArrayList();
+          List voided = new ArrayList();
+          for (Iterator iter = preqs.iterator(); iter.hasNext();) {
+            PaymentRequestDocument testPREQ = (PaymentRequestDocument) iter.next();
+            if ( (!(PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE.equals(testPREQ.getStatus().getStatusCode()))) && 
+                 (!(PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getStatusCode()))) ) {
+                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT);
+              //addedError = true;
+                valid &= false;
+              break;
+            } else if (PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getStatusCode())) {
+              voided.add(testPREQ);
+            } else if (PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE.equals(testPREQ.getStatus().getStatusCode())) {
+              cancelled.add(testPREQ);
+            }
+          }
+          // custom error message for duplicates related to cancelled/voided PREQs
+         //if (!addedError) {
+          if (valid) {
+            if ( (!(voided.isEmpty())) && (!(cancelled.isEmpty())) ) {
+              //messages.add("errors.duplicate.invoice.date.amount.cancelledOrVoided");
+              GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT_CANCELLEDORVOIDED);
+              valid &= false;
+            } else if ( (!(voided.isEmpty())) && (cancelled.isEmpty()) ) {
+              //messages.add("errors.duplicate.invoice.date.amount.voided");
+              GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT_VOIDED);
+              valid &= false;
+            } else if ( (voided.isEmpty()) && (!(cancelled.isEmpty())) ) {
+              //messages.add("errors.duplicate.invoice.date.amount.cancelled");
+              GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT_CANCELLED);
+              valid &= false;
+            }
+          }
+        }
+        return valid;
+    } 
 
 }

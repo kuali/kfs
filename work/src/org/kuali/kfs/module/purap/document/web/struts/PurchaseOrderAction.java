@@ -121,38 +121,41 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         }
         else {
             Object buttonClicked = request.getParameter( Constants.QUESTION_CLICKED_BUTTON );
-            if( PODocumentsStrings.CLOSE_QUESTION.equals( question ) ) { 
-                if( ConfirmationQuestion.NO.equals(buttonClicked) ) {
-                    //If 'No' is the button clicked, just reload the doc
-                    return mapping.findForward(Constants.MAPPING_BASIC);
-                }
-                else {
-                    // have to check length on value entered
-                    String introNoteMessage = kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_CLOSE_NOTE_TEXT_INTRO) 
-                        + Constants.BLANK_SPACE;
+            if( PODocumentsStrings.CLOSE_QUESTION.equals( question ) && ( ConfirmationQuestion.NO.equals(buttonClicked) )) {
+                //If 'No' is the button clicked, just reload the doc
+                return mapping.findForward(Constants.MAPPING_BASIC);
+            }
+            else if ((PODocumentsStrings.CLOSE_CONFIRM.equals(question)) && buttonClicked.equals(SingleConfirmationQuestion.OK)) {
+                // This is the case when the user clicks on "OK" in the end, after we inform the user that the reopen has been rerouted,
+                // so we'll redirect to the portal page ?
+                return mapping.findForward(Constants.MAPPING_PORTAL);
+            }
+            else {
+                // have to check length on value entered
+                String introNoteMessage = kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_CLOSE_NOTE_TEXT_INTRO) 
+                    + Constants.BLANK_SPACE;
 
-                    // build out full message
-                    closingNoteText = introNoteMessage + reason;
-                    int closingNoteTextLength = closingNoteText.length();
+                // build out full message
+                closingNoteText = introNoteMessage + reason;
+                int closingNoteTextLength = closingNoteText.length();
 
-                    // get note text max length from DD
-                    int noteTextMaxLength = SpringServiceLocator.getDataDictionaryService().getAttributeMaxLength(Note.class, 
-                        Constants.NOTE_TEXT_PROPERTY_NAME).intValue();
+                // get note text max length from DD
+                int noteTextMaxLength = SpringServiceLocator.getDataDictionaryService().getAttributeMaxLength(Note.class, 
+                    Constants.NOTE_TEXT_PROPERTY_NAME).intValue();
 
-                    if (StringUtils.isBlank(reason) || (closingNoteTextLength > noteTextMaxLength)) {
-                        // figure out exact number of characters that the user can enter
-                        int reasonLimit = noteTextMaxLength - closingNoteTextLength;
+                if (StringUtils.isBlank(reason) || (closingNoteTextLength > noteTextMaxLength)) {
+                    // figure out exact number of characters that the user can enter
+                    int reasonLimit = noteTextMaxLength - closingNoteTextLength;
 
-                        if (reason == null) {
-                            // prevent a NPE by setting the reason to a blank string
-                            reason = "";
-                        }
-                        return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, PODocumentsStrings.CLOSE_QUESTION, 
-                                kualiConfiguration.getPropertyString( PurapKeyConstants.PURCHASE_ORDER_QUESTION_DOCUMENT ), 
-                                Constants.CONFIRMATION_QUESTION, Constants.MAPPING_CLOSE, "", reason, 
-                                PurapKeyConstants.ERROR_PURCHASE_ORDER_CLOSE_REASON_REQUIRED, Constants.QUESTION_REASON_ATTRIBUTE_NAME, 
-                                new Integer(reasonLimit).toString());
+                    if (reason == null) {
+                        // prevent a NPE by setting the reason to a blank string
+                        reason = "";
                     }
+                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, PODocumentsStrings.CLOSE_QUESTION, 
+                            kualiConfiguration.getPropertyString( PurapKeyConstants.PURCHASE_ORDER_QUESTION_DOCUMENT ), 
+                            Constants.CONFIRMATION_QUESTION, Constants.MAPPING_CLOSE, "", reason, 
+                            PurapKeyConstants.ERROR_PURCHASE_ORDER_CLOSE_REASON_REQUIRED, Constants.QUESTION_REASON_ATTRIBUTE_NAME, 
+                            new Integer(reasonLimit).toString());
                 }
             }   
         }
@@ -207,8 +210,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         if (question == null) {
             // ask question if not already asked
             return this.performQuestionWithInput(mapping, form, request, response, PurapConstants.PODocumentsStrings.REOPEN_PO_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_DOCUMENT), Constants.CONFIRMATION_QUESTION, "CreatePOReopenDocument", "");
-            //return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.PODocumentsStrings.CONFIRM_REOPEN_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_ROUTE_REOPENED), Constants.CONFIRMATION_QUESTION, Constants.ROUTE_METHOD, "");
-            
         } 
         else {
             Object buttonClicked = request.getParameter(Constants.QUESTION_CLICKED_BUTTON);
@@ -250,14 +251,12 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             return mapping.findForward(Constants.MAPPING_ERROR);
         }
         
-        if (StringUtils.isNotBlank(reason)) {
         reason = PurapConstants.PODocumentsStrings.REOPEN_NOTE_PREFIX + reason;
-            Note newNote = new Note();
-            newNote.setNoteText(reason);
-            newNote.setNoteTypeCode("BO");
-            kualiDocumentFormBase.setNewNote(newNote);
-            insertBONote(mapping, form, request, response);
-        }
+        Note newNote = new Note();
+        newNote.setNoteText(reason);
+        newNote.setNoteTypeCode("BO");
+        kualiDocumentFormBase.setNewNote(newNote);
+        insertBONote(mapping, form, request, response);
         
         GlobalVariables.getMessageList().add(PurapKeyConstants.MESSAGE_ROUTE_REOPENED);
         return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.PODocumentsStrings.CONFIRM_REOPEN_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_ROUTE_REOPENED), PurapConstants.PODocumentsStrings.SINGLE_CONFIRMATION_QUESTION, Constants.ROUTE_METHOD, "");

@@ -257,8 +257,8 @@ public class AccountStatusBaseFunds extends LedgerBalance {
        Map fieldValues = new HashMap(); 
        
        fieldValues.put("universityFiscalYear", getUniversityFiscalYear());
-//       fieldValues.put("chartOfAccountsCode", getChartOfAccountsCode());
-//       fieldValues.put("accountNumber", getAccountNumber());
+       fieldValues.put("chartOfAccountsCode", getChartOfAccountsCode());
+       fieldValues.put("accountNumber", getAccountNumber());
 //       fieldValues.put("subAccountNumber", getSubAccountNumber());       
 //       fieldValues.put("financialObjectCode", getFinancialObjectCode());
 //       fieldValues.put("financialSubObjectCode", getFinancialSubObjectCode());

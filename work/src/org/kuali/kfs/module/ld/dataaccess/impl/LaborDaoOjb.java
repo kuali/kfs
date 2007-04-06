@@ -18,11 +18,14 @@ package org.kuali.module.labor.dao.ojb;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.PropertyConstants;
 import org.kuali.core.bo.user.PersonPayrollId;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.lookup.LookupUtils;
@@ -58,6 +61,8 @@ public class LaborDaoOjb extends PersistenceBrokerDaoSupport implements LaborDao
      */
     public Object getCSFTrackerTotal(Map fieldValues) {
         
+        final String CSF_AMOUNT = "csfAmount";
+        
         System.out.println("accountNumber:" + fieldValues.get("accountNumber"));
         System.out.println("universityFiscalYear:" + fieldValues.get("universityFiscalYear"));
         System.out.println("chartOfAccountsCode:" + fieldValues.get("chartOfAccountsCode"));
@@ -66,39 +71,46 @@ public class LaborDaoOjb extends PersistenceBrokerDaoSupport implements LaborDao
         System.out.println("financialObjectCode:" + fieldValues.get("financialObjectCode"));
         System.out.println("financialSubObjectCode:" + fieldValues.get("financialSubObjectCode"));
         /*
-        SELECT  
-        sub_acct_nbr, 
-        fin_object_cd, 
-        fin_sub_obj_cd, 
-        SUM(pos_csf_amt)
-    FROM ld_csf_tracker_t 
-GROUP BY univ_fiscal_yr, 
-        fin_coa_cd, 
-        account_nbr, 
-        sub_acct_nbr, 
-        fin_object_cd, 
-        fin_sub_obj_cd;*/
-        fieldValues.clear();
-        fieldValues.put("accountNumber", "1031400");
-        fieldValues.put("universityFiscalYear", "2006");
-        fieldValues.put("chartOfAccountsCode", "BL");
-        fieldValues.put("financialObjectCode", "2000");
-        fieldValues.put("emplid", "0000001441");
-        fieldValues.put("positionNumber", "00021695");
+        SELECT  sub_acct_nbr, fin_object_cd, fin_sub_obj_cd, SUM(pos_csf_amt) FROM ld_csf_tracker_t 
+        GROUP BY univ_fiscal_yr, fin_coa_cd, account_nbr, sub_acct_nbr, fin_object_cd, fin_sub_obj_cd;*/
+//        fieldValues.clear();
+//        fieldValues.put("accountNumber", "1031400");
+        fieldValues.put("universityFiscalYear", "2004");
+//        fieldValues.put("chartOfAccountsCode", "BL");
+        fieldValues.put("financialObjectCode", "5821");
         
         Criteria criteria = new Criteria();
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new CalculatedSalaryFoundationTracker()));
         LookupUtils.applySearchResultsLimit(criteria);
         System.out.println("criteria:" + criteria);
         
-        QueryByCriteria query = QueryFactory.newQuery(CalculatedSalaryFoundationTracker.class, criteria);        
-        Collection csf= getPersistenceBrokerTemplate().getCollectionByQuery(query);
-        System.out.println("CSF Size:" + csf.size());
-        System.out.println("CSF:" + csf);
-//        ArrayList array = (ArrayList) csf;
-//       CalculatedSalaryFoundationTracker csf = (CalculatedSalaryFoundationTracker) test;
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(CalculatedSalaryFoundationTracker.class, criteria);
         
-        return new KualiDecimal("123.00");  
+        List groupByList = new ArrayList();
+        groupByList.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        groupByList.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        groupByList.add(PropertyConstants.ACCOUNT_NUMBER);
+        groupByList.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
+        groupByList.add(PropertyConstants.FINANCIAL_OBJECT_CODE);        
+        groupByList.add(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
+
+        query.setAttributes(new String[] { "sum(" + CSF_AMOUNT + ")"});
+        query.addGroupBy(groupBy);
+/*        Collection calculatedSalaryFoundationTracker = getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        for (Iterator iter = calculatedSalaryFoundationTracker.iterator(); iter.hasNext();) {
+            CalculatedSalaryFoundationTracker csf = (CalculatedSalaryFoundationTracker) calculatedSalaryFoundationTracker;            
+            System.out.println("CSF:" + csf.getCsfAmount());
+        }
+*/        
+        Iterator csf = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);        
+      //  CalculatedSalaryFoundationTracker csfData = null;
+      //  KualiDecimal csfAmount = null;
+      //  String test = (String) csf.next();
+      //  System.out.println("csfData:" + test);
+        KualiDecimal csfAmount = new KualiDecimal("100.00"); 
+        System.out.println("Amount:" + csfAmount);
+        return csfAmount;  
     }
 
     /**

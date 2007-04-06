@@ -104,7 +104,7 @@ public abstract class WatchfulPasswordHandler implements PasswordHandler {
    */
   private synchronized static void expireFailures() {
     // scoop up addresses from Map so as to avoid modifying the Map in-place
-    Set keys = offenders.keySet();
+;    Set keys = offenders.keySet();
     Iterator ki = keys.iterator();
     List l = new ArrayList();
     while (ki.hasNext())

@@ -24,7 +24,7 @@
         <inquiry>
             <title>Agency Type Inquiry</title>
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+            <inquirySections><inquirySection title="Agency Type Details"><inquiryFields>
                 <field attributeName="code" />
                 <field attributeName="name" />
                 <field attributeName="rowActiveIndicator" />

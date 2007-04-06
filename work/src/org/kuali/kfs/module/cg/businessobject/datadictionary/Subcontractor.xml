@@ -20,11 +20,10 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.cg.bo.Subcontractor">
 
-
         <inquiry>
             <title>Subcontractor Inquiry</title>
 
-            <inquirySections><inquirySection title="Subcontractor Inquiry"><inquiryFields>
+            <inquirySections><inquirySection title="Subcontractor Details"><inquiryFields>
                 <field attributeName="subcontractorNumber" />
                 <field attributeName="subcontractorName" />
                 <field attributeName="subcontractorAddressLine1" />

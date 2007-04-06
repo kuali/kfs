@@ -16,7 +16,7 @@
 -->
 <!DOCTYPE dictionaryEntry PUBLIC
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.cg.bo.LetterOfCreditFundGroup">
 
@@ -24,7 +24,7 @@
         <inquiry>
             <title>Letter Of Credit Fund Group Inquiry</title>
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+            <inquirySections><inquirySection title="Letter of Credit Fund Group Details"><inquiryFields>
                 <field attributeName="letterOfCreditFundGroupCode" />
                 <field attributeName="letterOfCreditFundGroupDescription" />
                 <field attributeName="rowActiveIndicator" />

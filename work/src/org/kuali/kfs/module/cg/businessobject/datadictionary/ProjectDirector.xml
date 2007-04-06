@@ -24,7 +24,7 @@
         <inquiry>
             <title>Project Director Inquiry</title>
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+            <inquirySections><inquirySection title="Project Director Details"><inquiryFields>
                 <field attributeName="personUniversalIdentifier" />
                 <field attributeName="universalUser.personUserIdentifier" />
                 <field attributeName="universalUser.personName" />

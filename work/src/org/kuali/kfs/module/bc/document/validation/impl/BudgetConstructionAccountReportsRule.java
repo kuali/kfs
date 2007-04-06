@@ -134,8 +134,6 @@ public class BudgetConstructionAccountReportsRule extends MaintenanceDocumentRul
      * It also calls the BusinessObjectBase.refresh(), which will attempt to load all sub-objects from the DB by their primary keys,
      * if available.
      * 
-     * @param document - the maintenanceDocument being evaluated
-     * 
      */
     public void setupConvenienceObjects() {
 

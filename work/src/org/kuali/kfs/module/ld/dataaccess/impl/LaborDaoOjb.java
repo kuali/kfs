@@ -78,9 +78,20 @@ public class LaborDaoOjb extends PersistenceBrokerDaoSupport implements LaborDao
 //        fieldValues.put("universityFiscalYear", "2004");
 //        fieldValues.put("financialObjectCode", "5821");
 */        
-        Criteria criteria = new Criteria();
-        criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new CalculatedSalaryFoundationTracker()));
-        System.out.println("criteria:" + criteria);
+       
+        Criteria criteria;
+        criteria = new Criteria();
+        try {
+            System.out.println("#A");
+            criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new CalculatedSalaryFoundationTracker()));
+            System.out.println("#B");
+            System.out.println("criteria:" + criteria);
+        }
+        catch (RuntimeException e) {
+            System.out.println("Error:" + e.getMessage());
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         
         ReportQueryByCriteria query = QueryFactory.newReportQuery(CalculatedSalaryFoundationTracker.class, criteria);
 
@@ -98,13 +109,14 @@ public class LaborDaoOjb extends PersistenceBrokerDaoSupport implements LaborDao
         
         Object[] csf = null;
         Iterator<Object[]> calculatedSalaryFoundationTracker = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+        System.out.println("#2");
         while (calculatedSalaryFoundationTracker!=null && calculatedSalaryFoundationTracker.hasNext()) {
-            csf = calculatedSalaryFoundationTracker.next();            
+            csf = calculatedSalaryFoundationTracker.next();   
+            System.out.println("CSF Amount:" + csf[0].toString());
         }
-        KualiDecimal csfAmount = new KualiDecimal("0.00"); 
+        KualiDecimal csfAmount = new KualiDecimal("0"); 
         if (csf != null)
            csfAmount = new KualiDecimal(csf[0].toString()); 
-        System.out.println("Amount:" + csfAmount);
         return csfAmount;  
     }
 

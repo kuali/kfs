@@ -259,14 +259,13 @@ public class AccountStatusBaseFunds extends LedgerBalance {
        fieldValues.put("universityFiscalYear", getUniversityFiscalYear());
        fieldValues.put("chartOfAccountsCode", getChartOfAccountsCode());
        fieldValues.put("accountNumber", getAccountNumber());
-//       fieldValues.put("subAccountNumber", getSubAccountNumber());       
+       fieldValues.put("subAccountNumber", getSubAccountNumber());       
        fieldValues.put("financialObjectCode", getFinancialObjectCode());
-//       fieldValues.put("financialSubObjectCode", getFinancialSubObjectCode());
+       fieldValues.put("financialSubObjectCode", getFinancialSubObjectCode());
 
-      BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
-      laborBalanceInquiryService = (LaborBalanceInquiryService) beanFactory.getBean("laborBalanceInquiryService");
+       BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
+       laborBalanceInquiryService = (LaborBalanceInquiryService) beanFactory.getBean("laborBalanceInquiryService");
        KualiDecimal CSFTotal = (KualiDecimal) laborBalanceInquiryService.getCSFTrackerTotal(fieldValues);
-      // KualiDecimal CSFTotal = new KualiDecimal("123456.78");
        this.calculatedSalaryFoundationAmount = CSFTotal;
        return CSFTotal; 
     }

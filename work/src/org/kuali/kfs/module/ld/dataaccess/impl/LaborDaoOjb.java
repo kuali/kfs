@@ -99,7 +99,7 @@ public class LaborDaoOjb extends PersistenceBrokerDaoSupport implements LaborDao
         Object[] csf = null;
         Iterator<Object[]> calculatedSalaryFoundationTracker = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
         while (calculatedSalaryFoundationTracker!=null && calculatedSalaryFoundationTracker.hasNext()) {
-//            csf = calculatedSalaryFoundationTracker.next();            
+            csf = calculatedSalaryFoundationTracker.next();            
         }
         KualiDecimal csfAmount = new KualiDecimal("0.00"); 
         if (csf != null)

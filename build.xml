@@ -81,6 +81,10 @@
 			<equals arg1="${is.local.build}" arg2="true" />
 		</condition>
 		<property name="appenders" value="INFO, LogFile" />
+		<condition property="startup.stats.mailing.list" value="${configuration.manager.mailing.list}">
+			<equals arg1="${build.environment}" arg2="cnv" />
+		</condition>
+		<property name="startup.stats.mailing.list" value="" />
 		<condition property="scheduler.spring.beans.import" value="${scheduler.spring.beans.import.value}">
 			<not><equals arg1="${use.quartz.scheduling}" arg2="false" /></not>
 		</condition>
@@ -153,7 +157,7 @@
 			<filter token="scheduler-spring-beans-import" value="${scheduler.spring.beans.import}" />
 			<filter token="scheduler-spring-jobstore-properties" value="${scheduler.spring.jobstore.properties}" />
 			<filter token="transaction-timeout" value="${transaction.timeout}"/>
-			<filter token="log4j-mail-appender-address" value="${log4j.mail.appender.address}"/>
+			<filter token="startup-stats-mailing-list" value="${startup.stats.mailing.list}"/>
 			<filter token="dwr-config-init-params" value="${dwr.config.init.params}"/>
 		</filterset>
 	</target>

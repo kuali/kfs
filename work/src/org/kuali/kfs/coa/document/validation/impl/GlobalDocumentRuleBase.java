@@ -15,12 +15,12 @@
  */
 package org.kuali.module.chart.rules;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.KeyConstants;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.module.chart.bo.AccountChangeDetail;
+
+import java.util.List;
 
 /**
  * This class contains common Business Rule functionality for Global Documents.
@@ -41,7 +41,7 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
      * This method checks whether the set of Account Change Detail records on this document all are under the same Chart of
      * Accounts. It will set the appropriate field error if it did fail, and return the result.
      * 
-     * @param accountChangeDocument
+     * @param accountChangeDetails
      * @return True if the test passed with no errors, False if any errors occurred.
      * 
      */
@@ -62,7 +62,7 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
      * Note that this method doesnt actually set any errors, it just returns whether or not the test succeeded, and where it failed
      * if it failed.
      * 
-     * @param accountChangeDocument The popualted accountChangeDocument to test.
+     * @param accountChangeDetails The popualted accountChangeDocument to test.
      * @return A populated CheckOnlyOneChartResult object. This will contain whether the test succeeded or failed, and if failed,
      *         what lines the failures occurred on.
      * 
@@ -154,7 +154,7 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
      * set an Error and return false if this is the case.
      * 
      * @param newAccountLine
-     * @param accountChangeDocument
+     * @param accountChangeDetails
      * @return True if the line being added has the exact same chart as all the existing lines, False if not.
      * 
      */
@@ -178,7 +178,7 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
      * Note that this document does not actually set any errors, it just reports success or failure.
      * 
      * @param newAccountLine
-     * @param accountChangeDocument
+     * @param accountChangeDetails
      * @return True if no errors are found, False if the line being added has a different Chart code than any of the existing lines.
      * 
      */

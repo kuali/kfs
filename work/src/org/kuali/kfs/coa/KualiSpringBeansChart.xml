@@ -154,6 +154,7 @@
 
 	<bean id="subFundGroupService" class="org.kuali.module.chart.service.impl.SubFundGroupServiceImpl">
 		<property name="configurationService" ref="kualiConfigurationService" />
+		<property name="dataDictionaryService" ref="dataDictionaryService" />
 		<property name="subFundGroupDao" ref="subFundGroupDao" />
 	</bean>
 

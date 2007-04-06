@@ -96,4 +96,13 @@ public class SubFundGroupServiceImpl implements SubFundGroupService {
     public void setSubFundGroupDao(SubFundGroupDao subFundGroupDao) {
         this.subFundGroupDao = subFundGroupDao;
     }
+    
+    /**
+     * Sets the dataDictionarySerivce
+     *
+     * @param dataDictionaryService The dataDictionaryService implementation to set.
+     */
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
+    }
 }

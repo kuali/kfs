@@ -127,31 +127,30 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @see org.kuali.module.purap.service.PurchaseOrderService#updateFlagsAndRoute(org.kuali.module.purap.document.PurchaseOrderDocument, java.lang.String, java.lang.String, java.util.List)
      */
     public boolean updateFlagsAndRoute(PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients) {
-           
-            try {
-                //call toCopy to give us a new documentHeader
-                po.toCopy(docType);
-                po.refreshNonUpdateableReferences();
-                po.setPurchaseOrderCurrentIndicator(false);
-                po.setPendingActionIndicator(false);
-                //Before Routing, I think we ought to check the rules first
-                boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new RouteDocumentEvent(po)); 
-                if (!rulePassed) {
-                    return false;
-                } 
-                else { 
-                    documentService.routeDocument(po, annotation, adhocRoutingRecipients);
-                }
+        try {
+            //call toCopy to give us a new documentHeader
+            po.toCopy(docType);
+            po.refreshNonUpdateableReferences();
+            po.setPurchaseOrderCurrentIndicator(false);
+            po.setPendingActionIndicator(false);
+            //Before Routing, I think we ought to check the rules first
+            boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new RouteDocumentEvent(po)); 
+            if (!rulePassed) {
+                return false;
+            } 
+            else { 
+                documentService.routeDocument(po, annotation, adhocRoutingRecipients);
             }
-            catch (WorkflowException we) {
-                LOG.error("Error during updateFlagsAndRoute on PO document: " + we.getMessage());
-                throw new RuntimeException("Error during updateFlagsAndRoute on PO document: " + we.getMessage());            
-            }
-            catch (Exception e) {
-                LOG.error("Error during updateFlagsAndRoute on PO document: " + e.getMessage());
-                throw new RuntimeException("Error during updateFlagsAndRoute on PO document: " + e.getMessage());      
-            }
-            return true;
+        }
+        catch (WorkflowException we) {
+            LOG.error("Error during updateFlagsAndRoute on PO document: " + we.getMessage());
+            throw new RuntimeException("Error during updateFlagsAndRoute on PO document: " + we.getMessage());            
+        }
+        catch (Exception e) {
+            LOG.error("Error during updateFlagsAndRoute on PO document: " + e.getMessage());
+            throw new RuntimeException("Error during updateFlagsAndRoute on PO document: " + e.getMessage());      
+        }
+        return true;
     }
 
     /**

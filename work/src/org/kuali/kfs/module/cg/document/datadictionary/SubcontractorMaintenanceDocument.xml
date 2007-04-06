@@ -50,7 +50,9 @@
         <maintainableSections>
             <maintainableSection title="Edit Subcontractor">
                 <maintainableItems>
-                    <maintainableField name="subcontractorNumber" required="true" />
+                    <maintainableField name="subcontractorNumber" required="true" readOnly="true">
+                        <defaultValueFinderClass>org.kuali.module.cg.lookup.valuefinder.NextSubcontractorNumberFinder</defaultValueFinderClass>
+                    </maintainableField>
                     <maintainableField name="subcontractorName" required="true" />
                     <maintainableField name="subcontractorAddressLine1" required="true" />
                     <maintainableField name="subcontractorAddressLine2" />

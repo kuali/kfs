@@ -129,4 +129,18 @@
         </property>
     </bean>
 
+    <!-- Batch Steps -->
+    <bean id="proposalCloseBatchStep" class="org.kuali.module.cg.batch.ProposalCloseBatchStep">
+        <property name="proposalCloseService">
+            <ref bean="proposalCloseService" />
+        </property>
+    </bean>
+
+    <bean id="proposalCloseJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="proposalCloseBatchStep" />
+			</list>
+		</property>
+	</bean>
 </beans>

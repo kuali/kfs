@@ -269,8 +269,18 @@ public class AccountStatusCurrentFunds extends LedgerBalance {
     }
     
     public String getPersonName() {
-        return this.personName;
+        UserId empl = new PersonPayrollId(getEmplid());
+        UniversalUser universalUser = null;
+        
+        try{
+            universalUser = SpringServiceLocator.getUniversalUserService().getUniversalUser(empl);
+        }catch(UserNotFoundException e){
+            return LaborConstants.BalanceInquiries.UnknownPersonName;
+        }
+
+        return universalUser.getPersonName();
     }        
+    
         
     public void setPersonName(String personName) {
         this.personName = personName;

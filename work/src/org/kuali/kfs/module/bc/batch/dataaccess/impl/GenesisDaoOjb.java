@@ -259,7 +259,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
             getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
         while (resultRows.hasNext())
         {
-            return(hashCapacity(((BigDecimal) resultRows.next()).intValue()));
+            return(hashCapacity(((BigDecimal)((Object[]) resultRows.next())[0]).intValue()));
         }
         return (new Integer(1));
     }
@@ -276,7 +276,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
             getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
         while (resultRows.hasNext())
         {
-            return(hashCapacity(((BigDecimal) resultRows.next()).intValue()));
+            return(hashCapacity(((BigDecimal)((Object[]) resultRows.next())[0]).intValue()));
         }
         return (new Integer(1));
     }
@@ -677,14 +677,12 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     //        actual data processing to create the PBGL rows.
     
     private HashSet<String> currentBCHeaderKeys = new HashSet<String>(1);
-    private Collection<BudgetConstructionHeader> newBCDocumentSource;
     // these routines are used to merge CSF and CSF Override
     private HashMap<String,String[]> CSFTrackerKeys =
             new HashMap<String,String[]>(1);
     private void createNewDocumentsCleanUp()
     {
         currentBCHeaderKeys.clear();
-        newBCDocumentSource.clear();
         CSFTrackerKeys.clear();
     }
             
@@ -1029,12 +1027,11 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         // occurrence.  
         Criteria criteriaID = new Criteria();
         criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
-        criteriaID.addEqualTo(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE,
+        criteriaID.addEqualTo(PropertyConstants.BALANCE_TYPE_CODE,
                               BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_TYPE);
-        // the || concatenation operator is standard SQL for strings
-        String propertyString = PropertyConstants.CHART_OF_ACCOUNTS_CODE+"||"+
-                                PropertyConstants.ACCOUNT_NUMBER+"||"+
-                                PropertyConstants.SUB_ACCOUNT_NUMBER;
+        String[] propertyString = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                                   PropertyConstants.ACCOUNT_NUMBER,
+                                   PropertyConstants.SUB_ACCOUNT_NUMBER};
         currentBCHeaderKeys = 
             new HashSet<String>(hashObjectSize(Balance.class,criteriaID,
                                 propertyString));
@@ -3885,9 +3882,11 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
           getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
       while (positionRows.hasNext())
       {
+          // apparently, numbers always come back in report queries as BigDecimal
+          // the results do not go through the business object
           Object[] positionRow = (Object[]) positionRows.next();
           positionNormalWorkMonths.put((String) positionRow[0],
-                                       (Integer) positionRow[1]);
+                                       (Integer) ((BigDecimal) positionRow[1]).intValue());
       }
     }
         
@@ -4077,8 +4076,8 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
            rCSF.setCsfAmount(fixBCSFAmount.add(adjustAmount));
            diffAmount = diffAmount.subtract(adjustAmount);   
            // @@TODO: test code
-           LOG.info(String.format("\n       after %f",
-                   rCSF.getCsfAmount().floatValue()));
+           //LOG.info(String.format("\n       after %f",
+           //        rCSF.getCsfAmount().floatValue()));
            // @@TODO: end test code 
            if (diffAmount.isLessThan(adjustAmount))
                {
@@ -4140,6 +4139,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         adjustCSFRounding();
         CSFDiagnostics();
         */
+        createNewBCDocumentsFromGLCSF(2007,true,true);
         buildAppointmentFundingAndBCSF(2007);
     }
 

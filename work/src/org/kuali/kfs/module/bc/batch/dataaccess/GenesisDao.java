@@ -49,8 +49,9 @@ public interface GenesisDao {
    
    // intialization for genesis
    public void clearDBForGenesis(Integer BaseYear);
-   
+    
    // pending budget construction general ledger
+   public void ensureObjectClassRIForBudget(Integer BaseYear);
    public void initialLoadToPBGL(Integer currentFiscalYear);
    public void updateToPBGL(Integer currentFiscalYear);
    

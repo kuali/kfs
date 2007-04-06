@@ -189,6 +189,7 @@ public class GenesisServiceImpl implements GenesisService {
     public void bCUpdateStep(Integer BaseYear)
     {
         genesisDao.clearHangingBCLocks(BaseYear);
+        genesisDao.ensureObjectClassRIForBudget(BaseYear);
         genesisDao.createNewBCDocumentsFromGLCSF(BaseYear,
                 GLUpdatesAllowed(BaseYear), CSFUpdatesAllowed(BaseYear));
         if (GLUpdatesAllowed(BaseYear))
@@ -212,6 +213,7 @@ public class GenesisServiceImpl implements GenesisService {
     {
         genesisDao.setControlFlagsAtTheStartOfGenesis(BaseYear);
         genesisDao.clearDBForGenesis(BaseYear);
+        genesisDao.ensureObjectClassRIForBudget(BaseYear);
         genesisDao.createNewBCDocumentsFromGLCSF(BaseYear,
                 GLUpdatesAllowed(BaseYear), CSFUpdatesAllowed(BaseYear));
         genesisDao.createChartForNextBudgetCycle();

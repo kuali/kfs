@@ -109,7 +109,12 @@ public class Summary implements Comparable {
     // update the report summary with the given information
     public static void updateReportSummary(List<Summary> reportSummary, String destinationName, String operationType, int count, int order) {
         StringBuilder summaryDescription = buildSummaryDescription(destinationName, operationType);
-        Summary inputSummary = new Summary(order, summaryDescription.toString(), count);
+        updateReportSummary(reportSummary, summaryDescription.toString(), count, order);
+    }
+    
+    // update the report summary with the given information
+    public static void updateReportSummary(List<Summary> reportSummary, String summaryDescription, int count, int order) {
+        Summary inputSummary = new Summary(order, summaryDescription, count);
 
         int index = reportSummary.indexOf(inputSummary);
         if (index >= 0) {

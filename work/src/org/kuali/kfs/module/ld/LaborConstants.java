@@ -52,10 +52,10 @@ public class LaborConstants {
     }
     
     public static class TransactionGeneratorNames {
-        public static final String ACCRUAL_SALARY = "ACCRUAL SALARY";
-        public static final String ACCRUAL_BENEFIT = "ACCRUAL BENEFIT";
-        public static final String REVERSAL_SALARY = "REVERSAL SALARY";
-        public static final String REVERSAL_BENEFIT = "REVERSAL BENEFIT";
+        public static final String SALARY_ACCRUAL = "SALARY ACCRUAL";
+        public static final String BENEFIT_ACCRUAL = "BENEFIT ACCRUAL";
+        public static final String SALARY_REVERSAL = "SALARY REVERSAL";
+        public static final String BENEFIT_REVERSAL = "BENEFIT REVERSAL";
         public static final String ENCUMBRANCE = "ENCUMBRANCE";
         public static final String DISENCUMBRANCE = "DISENCUMBRANCE";
     }

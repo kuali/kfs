@@ -167,7 +167,7 @@ public class LaborReportServiceTest extends KualiTestBase {
         groups.add(group2);
         businessObjectService.save(getInputDataList(testTarget + "testData", numberOfTestData, group2));
         
-        persistenceService.getPersistenceBroker().clearCache();
+        persistenceService.clearCache();
 
         Map<Transaction, List<Message>> errorMap = this.getErrorMap(groups);
         laborReportService.generateStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_STATISTICS, reportsDirectory, today);

@@ -43,14 +43,10 @@
 				<value>org.kuali.module.kra.routingform.datadictionary</value>
 			</list>
 		</property>
-		<property name="ojbMetadataLoader">
-			<bean class="org.kuali.rice.OjbMetadataLoader">
-				<property name="repositoryDescriptors">
-					<list>
-						<value>classpath:org/kuali/module/kra/OJB-repository-kra.xml</value>
-					</list>
-				</property>
-			</bean>
+		<property name="databaseRepositoryFilePaths">
+			<list>
+				<value>org/kuali/module/kra/OJB-repository-kra.xml</value>
+			</list>
 		</property>
 	</bean>
 

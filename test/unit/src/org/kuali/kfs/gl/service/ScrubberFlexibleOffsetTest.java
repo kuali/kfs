@@ -148,7 +148,7 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
     private void scrub(String[] inputTransactions) {
         clearOriginEntryTables();
         loadInputTransactions(OriginEntrySource.BACKUP, inputTransactions, date);
-        persistenceService.getPersistenceBroker().clearCache();
+        persistenceService.clearCache();
         scrubberService.scrubEntries();
     }
 }

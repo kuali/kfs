@@ -144,17 +144,56 @@
 		</property>
 	</bean>
 
-	<!-- KFS is not a module, so it needs to just use this initailizing bean to get it's OJB metadata loaded -->
-	<bean class="org.kuali.rice.OjbMetadataLoader">
-		<property name="repositoryDescriptors">
+	<bean class="org.kuali.core.util.spring.NamedOrderedListBean">
+		<property name="name" value="databaseRepositoryFilePaths" />
+		<property name="listItem" value="org/kuali/kfs/OJB-repository-kfs.xml" />
+	</bean>
+	
+	<bean class="org.kuali.core.util.spring.NamedOrderedListBean">
+		<property name="name" value="scriptConfigurationFilePaths" />
+		<property name="listItem" value="org/kuali/kfs/dwr-kfs.xml" />
+	</bean>	
+
+	<!-- Quartz stuff -->
+	<bean class="org.kuali.core.util.spring.NamedOrderedListBean">
+		<property name="name" value="jobNames" />
+		<property name="listItems">
 			<list>
-				<value>classpath:org/kuali/kfs/OJB-repository-kfs.xml</value>
+				<value>scheduleJob</value>
+				<value>corePurgeJob</value>
 			</list>
 		</property>
 	</bean>
-
-	<!-- Quartz stuff -->
+	
+	<bean class="org.kuali.core.util.spring.NamedOrderedListBean">
+		<property name="name" value="triggerNames" />
+		<property name="listItem" value="scheduleJobTrigger" />
+	</bean>
+	
+	<bean id="scheduler" class="org.kuali.core.util.spring.SchedulerFactoryBean">
+		<property name="useQuartzScheduling" value="${use.quartz.scheduling}" />
+		<property name="useJdbcJobstore" value="${use.quartz.jdbc.jobstore}" />
+		<property name="dataSourceReference" ref="dataSource" />
+		<property name="autoStartup" value="false" />
+		<property name="quartzPropertiesReference">
+			<props>
+				<prop key="org.quartz.scheduler.instanceId">AUTO</prop>
+				<prop key="org.quartz.threadPool.threadCount">8</prop>
+				<prop key="org.quartz.plugin.triggHistory.class">org.quartz.plugins.history.LoggingTriggerHistoryPlugin</prop>
+				<prop key="org.quartz.plugin.triggHistory.triggerFiredMessage">Trigger {1}.{0} fired job {6}.{5} at: {4, date, HH:mm:ss MM/dd/yyyy}</prop>
+				<prop key="org.quartz.plugin.triggHistory.triggerCompleteMessage">Trigger {1}.{0} completed firing job {6}.{5} at {4, date, HH:mm:ss MM/dd/yyyy} with resulting trigger instruction code: {9}</prop>
+			</props>
+		</property>
+		<property name="globalJobListeners">
+			<list>
+				<ref bean="jobListener" />
+			</list>
+		</property>
+	</bean>
+	
 	<bean id="schedulerService" class="org.kuali.core.service.impl.SchedulerServiceImpl">
+		<property name="scheduler" ref="scheduler" />
+		<property name="moduleService" ref="kualiModuleService" />
 		<property name="configurationService" ref="kualiConfigurationService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 	</bean>
@@ -186,7 +225,7 @@
 			</list>
 		</property>
 	</bean>
-
+	
 	<bean id="scheduleStep" parent="step" class="org.kuali.core.batch.ScheduleStep">
 		<property name="schedulerService" ref="schedulerService" />
 	</bean>

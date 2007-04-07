@@ -110,7 +110,7 @@ public class LaborOriginEntryTestBase extends KualiTestBase {
             laborOriginEntryService.createEntry(loe, group);
         }
 
-        persistenceService.getPersistenceBroker().clearCache();
+        persistenceService.clearCache();
     }
 
     protected void clearExpenditureTable() {
@@ -153,7 +153,7 @@ public class LaborOriginEntryTestBase extends KualiTestBase {
      * @param requiredEntries
      */
     protected void assertOriginEntries(int groupCount, EntryHolder[] requiredEntries) {
-        persistenceService.getPersistenceBroker().clearCache();
+        persistenceService.clearCache();
 
         List groups = unitTestSqlDao.sqlSelect("select * from gl_origin_entry_grp_t order by origin_entry_grp_src_cd");
         assertEquals("Number of groups is wrong", groupCount, groups.size());

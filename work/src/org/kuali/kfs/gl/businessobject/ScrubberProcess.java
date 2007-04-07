@@ -282,7 +282,7 @@ public class ScrubberProcess {
         LOG.debug("performDemerger() started");
 
         // Without this step, the job fails with Optimistic Lock Exceptions
-        persistenceService.getPersistenceBroker().clearCache();
+        persistenceService.clearCache();
 
         DemergerReportData demergerReport = new DemergerReportData();
 

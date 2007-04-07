@@ -1,16 +1,4 @@
 configuration.properties
-KualiSpringBeans.xml
-KualiSpringBeansDataDictionaryService.xml
-SpringDataSource.xml
-workflow-config.properties
-workflow-crypto.properties
-PluginSpringDataSource.xml
-JndiSpringDataSource.xml
-SpringDataSourceResources.xml
 META-INF
-SpringConfigurationResources.xml
 SpringBeans.xml
-SpringWebDataSource.xml
-SpringWebBeans.xml
 SpringSchedulerBeans.xml
-OJB-repository.xml

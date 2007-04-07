@@ -91,7 +91,13 @@
                     <maintainableField name="financialObjectTypeAssetsCd" required="true" />
                     <maintainableField name="finObjectTypeLiabilitiesCode" required="true" />
                     <maintainableField name="finObjectTypeFundBalanceCd" required="true" />
-                    <maintainableField name="versionNumber" />
+	                <maintainableField name="costShareEncumbranceBalanceTypeCd" required="true" />
+	                <maintainableField name="baseBudgetFinancialBalanceTypeCd" required="true" />
+	                <maintainableField name="monthlyBudgetFinancialBalanceTypeCd" required="true" />
+	                <maintainableField name="financialObjectTypeTransferIncomeCd" required="true" />
+	                <maintainableField name="financialObjectTypeTransferExpenseCd" required="true" />
+	                <maintainableField name="nominalFinancialBalanceTypeCd" required="true" />
+	                <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>
         </maintainableSections>

@@ -160,6 +160,21 @@ public class JournalVoucherDocumentRule extends AccountingDocumentRuleBase {
         return valid;
     }
 
+    @Override
+    protected KualiDecimal getGeneralLedgerPendingEntryAmountForAccountingLine(AccountingLine accountingLine) {
+        LOG.debug("getGeneralLedgerPendingEntryAmountForAccountingLine(AccountingLine) - start");
+        KualiDecimal returnKualiDecimal;
+            
+        String budgetCodes = SpringServiceLocator.getOptionsService().getOptions(accountingLine.getPostingYear()).getBudgetCheckingBalanceTypeCd();
+        if (budgetCodes.contains(accountingLine.getBalanceTypeCode())) { 
+            returnKualiDecimal = accountingLine.getAmount();
+        } else {
+            returnKualiDecimal = accountingLine.getAmount().abs();
+        }
+        LOG.debug("getGeneralLedgerPendingEntryAmountForAccountingLine(AccountingLine) - end");
+        return returnKualiDecimal;
+    }
+
     /**
      * This method contains Journal Voucher document specific GLPE explicit entry attribute sets.
      * 

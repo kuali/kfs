@@ -48,7 +48,7 @@
 	<kul:panelFooter />
 
 	<kul:documentControls transactionalDocument="false"
-		suppressRoutingControls="true" viewOnly="${KualiForm.editingMode['viewOnly']}" />
+		suppressRoutingControls="true" viewOnly="${KualiForm.editingMode['systemViewOnly'] || !KualiForm.editingMode['fullEntry']}" />
 
 <%-- Need these here to override and initialize vars used by objectinfo.js to BC specific --%>
 <SCRIPT type="text/javascript">

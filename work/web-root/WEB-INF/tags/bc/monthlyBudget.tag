@@ -22,6 +22,7 @@
 <c:set var="monthlyBudget" value="${KualiForm.budgetConstructionMonthly}" />
 <c:set var="pbglAttributes" value="${DataDictionary['PendingBudgetConstructionGeneralLedger'].attributes}" />
 <c:set var="pbgl" value="${KualiForm.budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger}" />
+<c:set var="readOnly" value="${KualiForm.editingMode['systemViewOnly'] || !KualiForm.editingMode['atDocLevel']}" />
 
 <kul:tabTop tabTitle="Monthly Budget Construction" defaultOpen="true" tabErrorKey="${Constants.BUDGET_CONSTRUCTION_MONTHLY_BUDGET_ERRORS}">
 <div class="tab-container" align=center>
@@ -130,7 +131,7 @@
     <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
 
       <tr>
-          <kul:htmlAttributeHeaderCell colspan="3" />
+          <kul:htmlAttributeHeaderCell colspan="2" />
           
       </tr>
       
@@ -149,7 +150,6 @@
               <html:hidden property="budgetConstructionMonthly.versionNumber" />
           </kul:htmlAttributeHeaderCell>
           <kul:htmlAttributeHeaderCell align="left" literalLabel="Amount" />
-          <kul:htmlAttributeHeaderCell literalLabel="Actions" />
       </tr>
 
       <c:if test="${monthlyBudget != null}">
@@ -164,21 +164,6 @@
                 readOnly="false"
                 rowSpan="1" dataFieldCssClass="amount"
                 anchor="monthlyBudgetLineLineAnchor" />
-           <td rowspan="12" class="datacell" nowrap>
-               <div align="center">
-                   <c:if test="${!empty editingMode['fullEntry']}">
-                       <html:image src="images/tinybutton-calculate.gif" styleClass="tinybutton" property="methodToCall.performMonthlySpread.anchormonthlyBudgetLineLineAnchor" title="Spread Evenly To Months" alt="Spread Evenly To Months"/>
-                       <br>
-                       <br>
-                       <html:image src="images/tinybutton-clear1.gif" styleClass="tinybutton" property="methodToCall.performMonthlyZero.anchormonthlyBudgetLineLineAnchor" title="Set Months To Zero" alt="Set Months To Zero"/>
-                       <br>
-                       <br>
-                       <html:image src="images/tinybutton-delete1.gif" styleClass="tinybutton" property="methodToCall.performMonthlyDelete.anchormonthlyBudgetLineLineAnchor" title="Delete Monthly" alt="Delete Monthly"/>
-                       <br>
-                   </c:if>
-                   &nbsp;
-               </div>
-           </td>
         </tr>
         <tr>
 			<kul:htmlAttributeHeaderCell align="right" attributeEntry="${monthlyBudgetAttributes.financialDocumentMonth2LineAmount}" />
@@ -367,9 +352,16 @@
 --%>
                 </c:if>
                 <tr>
-                    <td colspan="3" valign=top nowrap><div align="center"><span>
-                        <html:image src="images/tinybutton-saveedits.gif" styleClass="tinybutton" property="methodToCall.returnToDocument" title="View" alt="View"/>
-                    </span></div></td>
+                    <td colspan="2" class="datacell" nowrap>
+                        <div align="center"><span>
+                          <c:if test="${!readOnly}">
+                            <html:image src="images/tinybutton-calculate.gif" styleClass="tinybutton" property="methodToCall.performMonthlySpread.anchormonthlyBudgetLineLineAnchor" title="Spread Evenly To Months" alt="Spread Evenly To Months"/>
+                            <html:image src="images/tinybutton-clear1.gif" styleClass="tinybutton" property="methodToCall.performMonthlyZero.anchormonthlyBudgetLineLineAnchor" title="Set Months To Zero" alt="Set Months To Zero"/>
+                            <html:image src="images/tinybutton-delete1.gif" styleClass="tinybutton" property="methodToCall.performMonthlyDelete.anchormonthlyBudgetLineLineAnchor" title="Delete Monthly" alt="Delete Monthly"/>
+                          </c:if>
+                          &nbsp;
+                       </div>
+                    </td>
                 </tr>
         </table>
 </div>

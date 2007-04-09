@@ -34,6 +34,7 @@
 </c:if>
 
 <c:set var="pbglRevenueAttributes" value="${DataDictionary.PendingBudgetConstructionGeneralLedger.attributes}" />
+<c:set var="readOnly" value="${KualiForm.editingMode['systemViewOnly'] || !KualiForm.editingMode['fullEntry']}" />
 
 <kul:tab tabTitle="Revenue" defaultOpen="false" tabErrorKey="${Constants.BUDGET_CONSTRUCTION_REVENUE_TAB_ERRORS}">
 <div class="tab-container" align=center>
@@ -59,7 +60,7 @@
 				</th>
 			</tr>
 
-            <c:if test="${empty editingMode['viewOnly']}">
+            <c:if test="${!readOnly}">
               <c:set var="valuesMap" value="${KualiForm.newRevenueLine.valuesMap}"/>
                 
 			<tr>
@@ -201,12 +202,12 @@
 
               <td class="datacell"" nowrap><div align=center>
 				  <c:choose>
-					<c:when test="${empty editingMode['viewOnly'] && empty item.budgetConstructionMonthly[0]}" > 
+					<c:when test="${!readOnly && empty item.budgetConstructionMonthly[0]}" > 
                       <html:image src="images/tinybutton-createnew.gif" styleClass="tinybutton" property="methodToCall.performMonthlyRevenueBudget.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" title="Create Month" alt="Create Month"/>
 					</c:when> 
 					<c:otherwise> 
                       <c:choose>
-                        <c:when test="${empty editingMode['viewOnly']}">
+                        <c:when test="${!readOnly}">
                           <html:image src="images/tinybutton-edit1.gif" styleClass="tinybutton" property="methodToCall.performMonthlyRevenueBudget.line${status.index}.anchorrevenueexistingLineLineAnchor${status.index}" title="Edit Month" alt="Edit Month"/>
                         </c:when> 
                         <c:otherwise> 
@@ -248,7 +249,7 @@
 				<td>&nbsp;</td>
 			</tr>
 
-            <c:if test="${empty editingMode['viewOnly']}">
+            <c:if test="${!readOnly}">
             <tr>
               <td colspan="8" class="datacell" nowrap>
                 <div align="center">

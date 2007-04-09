@@ -34,8 +34,6 @@ import org.springframework.beans.factory.BeanFactory;
 
 /**
  * This class provides a set of utilities that can handle common tasks related to business objects.
- * 
- * 
  */
 public class OJBUtility {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OJBUtility.class);
@@ -64,7 +62,7 @@ public class OJBUtility {
             }
         }
         catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("OJBUtility.buildPropertyMap()" + e);
         }
         return propertyMap;
     }
@@ -79,17 +77,22 @@ public class OJBUtility {
     public static Criteria buildCriteriaFromMap(Map fieldValues, Object businessObject) {
         Criteria criteria = new Criteria();
 
-        Iterator propsIter = fieldValues.keySet().iterator();
-        while (propsIter.hasNext()) {
-            String propertyName = (String) propsIter.next();
-            Object propertyValueObject = fieldValues.get(propertyName);
-            String propertyValue = (propertyValueObject != null) ? propertyValueObject.toString().trim() : "";
+        try {
+            Iterator propsIter = fieldValues.keySet().iterator();
+            while (propsIter.hasNext()) {
+                String propertyName = (String) propsIter.next();
+                Object propertyValueObject = fieldValues.get(propertyName);
+                String propertyValue = (propertyValueObject != null) ? propertyValueObject.toString().trim() : "";
 
-            // if searchValue is empty and the key is not a valid property ignore
-            boolean isCreated = createCriteria(businessObject, propertyValue, propertyName, criteria);
-            if (!isCreated) {
-                continue;
+                // if searchValue is empty and the key is not a valid property ignore
+                boolean isCreated = createCriteria(businessObject, propertyValue, propertyName, criteria);
+                if (!isCreated) {
+                    continue;
+                }
             }
+        }
+        catch (Exception e) {
+            LOG.error("OJBUtility.buildCriteriaFromMap()" + e);
         }
         return criteria;
     }

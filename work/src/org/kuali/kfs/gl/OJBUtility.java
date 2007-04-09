@@ -82,8 +82,8 @@ public class OJBUtility {
         Iterator propsIter = fieldValues.keySet().iterator();
         while (propsIter.hasNext()) {
             String propertyName = (String) propsIter.next();
-            String propertyValue = (String) fieldValues.get(propertyName);
-            propertyValue = (propertyValue != null) ? propertyValue.trim() : "";
+            Object propertyValueObject = fieldValues.get(propertyName);
+            String propertyValue = (propertyValueObject != null) ? propertyValueObject.toString().trim() : "";
 
             // if searchValue is empty and the key is not a valid property ignore
             boolean isCreated = createCriteria(businessObject, propertyValue, propertyName, criteria);

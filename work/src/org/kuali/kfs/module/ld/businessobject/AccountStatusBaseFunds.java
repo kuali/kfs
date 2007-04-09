@@ -59,14 +59,14 @@ public class AccountStatusBaseFunds extends LedgerBalance {
     public KualiDecimal getCalculatedSalaryFoundationAmount() {
         
        Map fieldValues = new HashMap(); 
-       
+     
        fieldValues.put("universityFiscalYear", getUniversityFiscalYear());
        fieldValues.put("chartOfAccountsCode", getChartOfAccountsCode());
        fieldValues.put("accountNumber", getAccountNumber());
        fieldValues.put("subAccountNumber", getSubAccountNumber());       
        fieldValues.put("financialObjectCode", getFinancialObjectCode());
        fieldValues.put("financialSubObjectCode", getFinancialSubObjectCode());
-
+       
        BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
        laborBalanceInquiryService = (LaborBalanceInquiryService) beanFactory.getBean("laborBalanceInquiryService");
        KualiDecimal CSFTotal = (KualiDecimal) laborBalanceInquiryService.getCSFTrackerTotal(fieldValues);

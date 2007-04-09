@@ -60,15 +60,7 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLaborLedgerLoo
 
         setBackLocation((String) fieldValues.get(Constants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(Constants.DOC_FORM_KEY));
-        
-        if ((fieldValues.get(PropertyConstants.FINANCIAL_OBJECT_CODE).toString().length() > 0)) {
-
-            // Check for a valid labor object code for this inquiry
-            if (StringUtils.indexOfAny(fieldValues.get(PropertyConstants.FINANCIAL_OBJECT_CODE).toString(), LaborConstants.BalanceInquiries.VALID_LABOR_OBJECT_CODES) != 0)
-            GlobalVariables.getErrorMap().putError(LaborConstants.BalanceInquiries.ERROR_INVALID_LABOR_OBJECT_CODE, 
-                    LaborConstants.BalanceInquiries.ERROR_INVALID_LABOR_OBJECT_CODE, "2");
-        }
-        
+                
         // Parse the map and call the DAO to process the inquiry
         BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
         laborBalanceInquiryService = (LaborBalanceInquiryService) beanFactory.getBean("laborBalanceInquiryService");
@@ -81,15 +73,6 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLaborLedgerLoo
             Collections.sort(searchResults, new BeanPropertyComparator(defaultSortColumns, true));
         }
         
-        // Get the result limit number from configuration
-        beanFactory = SpringServiceLocator.getBeanFactory();
-        kualiConfigurationService = (KualiConfigurationService) beanFactory.getBean("kualiConfigurationService");
-        String limitConfig = kualiConfigurationService.getApplicationParameterValue(Constants.ParameterGroups.SYSTEM, Constants.LOOKUP_RESULTS_LIMIT_URL_KEY);
-        Integer limit = null;
-        if (limitConfig != null) {
-            limit = Integer.valueOf(limitConfig);
-        }
-        Long collectionCount = new Long(searchResults.size());
         Long actualCountIfTruncated = new Long(0);
 
         return new CollectionIncomplete(searchResults, actualCountIfTruncated);

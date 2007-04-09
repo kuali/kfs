@@ -25,9 +25,9 @@ import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.LookupService;
+import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.web.Constant;
-import org.kuali.module.labor.bo.LedgerBalance;
 
 /**
  * This class is used to generate the URL for the user-defined attributes for the Base Funds screen. It is entended the
@@ -113,7 +113,7 @@ public class BaseFundsInquirableImpl extends AbstractLaborInquirableImpl {
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getInquiryBusinessObjectClass(String)
      */
     protected Class getInquiryBusinessObjectClass(String attributeName) {
-        return LedgerBalance.class;
+        return CalculatedSalaryFoundationTracker.class;
     }
 
     /**

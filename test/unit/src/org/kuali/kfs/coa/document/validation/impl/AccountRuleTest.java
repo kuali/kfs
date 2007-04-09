@@ -112,7 +112,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
                 private static final String UNIVERSAL_ID = "1509103107";
                 private static final String USER_ID = "AEMCAFEE";
                 private static final String EMP_ID = "0000000013";
-                private static final String NAME = "Mcafee, Alan";
+                private static final String NAME = "Mcafee,Alan";
                 private static final String EMP_STATUS = "A";
                 private static final String EMP_TYPE = "P";
             }
@@ -121,7 +121,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
                 private static final String UNIVERSAL_ID = "1195901455";
                 private static final String USER_ID = "AAPHAM";
                 private static final String EMP_ID = "0000004686";
-                private static final String NAME = "Pham, Anibal";
+                private static final String NAME = "Pham,Anibal";
                 private static final String EMP_STATUS = "A";
                 private static final String EMP_TYPE = "P";
             }
@@ -130,7 +130,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
                 private static final String UNIVERSAL_ID = "1959008511";
                 private static final String USER_ID = "AHLERS";
                 private static final String EMP_ID = "0000002820";
-                private static final String NAME = "Ahlers, Esteban";
+                private static final String NAME = "Ahlers,Esteban";
                 private static final String EMP_STATUS = "A";
                 private static final String EMP_TYPE = "P";
             }

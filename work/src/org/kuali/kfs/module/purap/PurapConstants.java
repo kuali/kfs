@@ -154,11 +154,17 @@ public class PurapConstants {
     public static class PODocumentsStrings {
         public static String CLOSE_QUESTION = "POClose";
         public static String CLOSE_CONFIRM = "POCloseConfirm";
-        public static String REOPEN_PO_QUESTION = "ReopenPO";
-        public static String CONFIRM_REOPEN_QUESTION = "ConfirmReopen";
-        public static String SINGLE_CONFIRMATION_QUESTION = "singleConfirmationQuestion";
-        public static String REOPEN_NOTE_PREFIX = "Note entered while reopening a Purchase Order : ";
         public static String CLOSE_NOTE_PREFIX = "Note entered while closing a Purchase Order : ";
+        
+        public static String REOPEN_PO_QUESTION = "ReopenPO";
+        public static String CONFIRM_REOPEN_QUESTION = "ConfirmReopen"; 
+        public static String REOPEN_NOTE_PREFIX = "Note entered while reopening a Purchase Order : ";
+        
+        public static String VOID_QUESTION = "POVoid";
+        public static String VOID_CONFIRM = "POVoidConfirm";
+        public static String VOID_NOTE_PREFIX = "Note entered while voiding a Purchasing Order : ";
+        
+        public static String SINGLE_CONFIRMATION_QUESTION = "singleConfirmationQuestion";
     }
     
     public static class PaymentRequestStatuses {
@@ -207,10 +213,9 @@ public class PurapConstants {
         public static String PREQ_CANCEL_FORWARD_TAB_PAGE = "editpreq";
      */   
     }
-    
+
     public static class PREQDocumentsStrings {
         public static String PAYMENT_REQUEST_DUPLICATE_DATE_AMONT_QUESTION = "PREQDuplicateDateAmount";
         
-    }
-
+}
 }

@@ -25,15 +25,8 @@
             <title>Account Status (Base Funds) Balance Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="accountLineAnnualBalanceAmount" />
-                <field attributeName="accountNumber" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="financialBalanceTypeCode" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="financialObjectTypeCode" />
-                <field attributeName="financialSubObjectCode" />
-                <field attributeName="positionNumber" />
                 <field attributeName="subAccountNumber" />
+                <field attributeName="financialObjectCode" />
 				
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>

@@ -79,13 +79,9 @@ public class LaborDaoOjb extends PersistenceBrokerDaoSupport implements LaborDao
 //        fieldValues.put("financialObjectCode", "5821");
 */        
        
-        Criteria criteria;
-        criteria = new Criteria();
+        Criteria criteria = new Criteria();
         try {
-            System.out.println("#A");
             criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new CalculatedSalaryFoundationTracker()));
-            System.out.println("#B");
-            System.out.println("criteria:" + criteria);
         }
         catch (RuntimeException e) {
             System.out.println("Error:" + e.getMessage());
@@ -108,12 +104,17 @@ public class LaborDaoOjb extends PersistenceBrokerDaoSupport implements LaborDao
         query.addGroupBy(groupBy);
         
         Object[] csf = null;
+//        Collection test = getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        
+  //      System.out.println("test Length:" + test.size());
+        
         Iterator<Object[]> calculatedSalaryFoundationTracker = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
-        System.out.println("#2");
         while (calculatedSalaryFoundationTracker!=null && calculatedSalaryFoundationTracker.hasNext()) {
-            csf = calculatedSalaryFoundationTracker.next();   
+            csf = calculatedSalaryFoundationTracker.next();
+            System.out.println("CSF Length:" + csf.length);
             System.out.println("CSF Amount:" + csf[0].toString());
         }
+        System.out.println("Exit:" + csf[0].toString());
         KualiDecimal csfAmount = new KualiDecimal("0"); 
         if (csf != null)
            csfAmount = new KualiDecimal(csf[0].toString()); 

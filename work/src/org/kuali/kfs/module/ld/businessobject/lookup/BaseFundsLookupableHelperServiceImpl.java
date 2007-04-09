@@ -23,7 +23,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
-import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
+import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.BeanPropertyComparator;
@@ -32,14 +32,23 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.service.BalanceService;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.service.LaborBalanceInquiryService;
+import org.kuali.module.labor.web.inquirable.BaseFundsInquirableImpl;
 import org.springframework.beans.factory.BeanFactory;
 
-public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
+public class BaseFundsLookupableHelperServiceImpl extends AbstractLaborLedgerLookupableHelperServiceImpl {
     private BalanceService balanceService;
     private Map fieldValues;
     private LaborBalanceInquiryService laborBalanceInquiryService;
     private KualiConfigurationService kualiConfigurationService;
 
+    /**
+     * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
+     */
+    @Override
+    public String getInquiryUrl(BusinessObject bo, String propertyName) {
+        return (new BaseFundsInquirableImpl()).getInquiryUrl(bo, propertyName);
+    }
+    
     /**
      * @see org.kuali.core.lookup.Lookupable#gfetSearchResults(java.util.Map)
      */
@@ -85,4 +94,9 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
 
         return new CollectionIncomplete(searchResults, actualCountIfTruncated);
     }
+
+
+public void updateEntryCollection(Collection entryCollection, Map fieldValues, boolean isApproved, boolean isConsolidated, boolean isCostShareInclusive) {
+}
+
 }

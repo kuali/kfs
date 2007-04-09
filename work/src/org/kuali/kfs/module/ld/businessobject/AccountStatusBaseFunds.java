@@ -30,11 +30,6 @@ import org.springframework.beans.factory.BeanFactory;
 
 public class AccountStatusBaseFunds extends LedgerBalance {
     
-    private String financialObjectCode;
-    private String financialSubObjectCode;
-    private String financialBalanceTypeCode;
-    private String financialObjectTypeCode;
-    private String positionNumber;
     private Integer universityFiscalYear;
     
     private KualiDecimal accountLineAnnualBalanceAmount;
@@ -42,10 +37,6 @@ public class AccountStatusBaseFunds extends LedgerBalance {
     private KualiDecimal contractsGrantsBeginningBalanceAmount;
     private KualiDecimal calculatedSalaryFoundationAmount;
     private KualiDecimal baseCSFVarianceAmount;
-
-    private Chart chartOfAccounts;
-    private ObjectType financialObjectType;
-    private Balance financialBalance;
 
     private LaborBalanceInquiryService laborBalanceInquiryService;
 
@@ -59,197 +50,10 @@ public class AccountStatusBaseFunds extends LedgerBalance {
         this.setBaseCSFVarianceAmount(KualiDecimal.ZERO);
     }
 
-    /**
-     * Gets the financialBalance attribute. 
-     * @return Returns the financialBalance.
-     */
-    public Balance getFinancialBalance() {
-        return financialBalance;
-    }
-
-    /**
-     * Sets the financialBalance attribute value.
-     * @param financialBalance The financialBalance to set.
-     */
-    public void setFinancialBalance(Balance financialBalance) {
-        this.financialBalance = financialBalance;
-    }
-
-    /**
-     * Gets the financialBalanceTypeCode attribute. 
-     * @return Returns the financialBalanceTypeCode.
-     */
-    public String getFinancialBalanceTypeCode() {
-        return financialBalanceTypeCode;
-    }
-
-    /**
-     * Sets the financialBalanceTypeCode attribute value.
-     * @param financialBalanceTypeCode The financialBalanceTypeCode to set.
-     */
-    public void setFinancialBalanceTypeCode(String financialBalanceTypeCode) {
-        this.financialBalanceTypeCode = financialBalanceTypeCode;
-    }
-
-    /**
-     * Gets the financialObjectCode attribute. 
-     * @return Returns the financialObjectCode.
-     */
-    public String getFinancialObjectCode() {
-        return financialObjectCode;
-    }
-
-    /**
-     * Sets the financialObjectCode attribute value.
-     * @param financialObjectCode The financialObjectCode to set.
-     */
-    public void setFinancialObjectCode(String financialObjectCode) {
-        this.financialObjectCode = financialObjectCode;
-    }
-
-    /**
-     * Gets the financialObjectTypeCode attribute. 
-     * @return Returns the financialObjectTypeCode.
-     */
-    public String getFinancialObjectTypeCode() {
-        return financialObjectTypeCode;
-    }
-
-    /**
-     * Sets the financialObjectTypeCode attribute value.
-     * @param financialObjectTypeCode The financialObjectTypeCode to set.
-     */
-    public void setFinancialObjectTypeCode(String financialObjectTypeCode) {
-        this.financialObjectTypeCode = financialObjectTypeCode;
-    }
-
-    /**
-     * Gets the financialSubObjectCode attribute. 
-     * @return Returns the financialSubObjectCode.
-     */
-    public String getFinancialSubObjectCode() {
-        return financialSubObjectCode;
-    }
-
-    /**
-     * Sets the financialSubObjectCode attribute value.
-     * @param financialSubObjectCode The financialSubObjectCode to set.
-     */
-    public void setFinancialSubObjectCode(String financialSubObjectCode) {
-        this.financialSubObjectCode = financialSubObjectCode;
-    }
-
-    /**
-     * Gets the positionNumber attribute. 
-     * @return Returns the positionNumber.
-     */
-    public String getPositionNumber() {
-        return positionNumber;
-    }
-
-    /**
-     * Sets the positionNumber attribute value.
-     * @param positionNumber The positionNumber to set.
-     */
-    public void setPositionNumber(String positionNumber) {
-        this.positionNumber = positionNumber;
-    }
-
-    @Override
-    public String getBalanceTypeCode() {
-        return this.getFinancialBalanceTypeCode();
-    }
-
-    @Override
-    public void setBalanceTypeCode(String balanceTypeCode) {
-        this.setFinancialBalanceTypeCode(balanceTypeCode);
-    }
-
-    @Override
-    public Chart getChart() {
-        return this.getChartOfAccounts();
-    }
-
-    @Override
-    public void setChart(Chart chart) {
-        this.setChartOfAccounts(chart);
-    }
-
-    /**
-     * Gets the chartOfAccounts attribute. 
-     * @return Returns the chartOfAccounts.
-     */
-    public Chart getChartOfAccounts() {
-        return chartOfAccounts;
-    }
-
-    /**
-     * Sets the chartOfAccounts attribute value.
-     * @param chartOfAccounts The chartOfAccounts to set.
-     */
-    public void setChartOfAccounts(Chart chartOfAccounts) {
-        this.chartOfAccounts = chartOfAccounts;
-    }
-
-    /**
-     * Gets the financialObjectType attribute. 
-     * @return Returns the financialObjectType.
-     */
-    public ObjectType getFinancialObjectType() {
-        return financialObjectType;
-    }
-
-    /**
-     * Sets the financialObjectType attribute value.
-     * @param financialObjectType The financialObjectType to set.
-     */
-    public void setFinancialObjectType(ObjectType financialObjectType) {
-        this.financialObjectType = financialObjectType;
-    }
-
-    @Override
-    public String getObjectCode() {
-        return this.getFinancialObjectCode();
-    }
-
-    @Override
-    public void setObjectCode(String objectCode) {
-        this.setFinancialObjectCode(objectCode);        
-    }
-
-    @Override
-    public ObjectType getObjectType() {
-        return this.getFinancialObjectType();
-    }
-
-    @Override
-    public void setObjectType(ObjectType objectType) {
-        this.setFinancialObjectType(objectType);
-    }
-
-    @Override
-    public String getObjectTypeCode() {
-        return this.getFinancialObjectTypeCode();
-    }
-
-    @Override
-    public void setObjectTypeCode(String objectTypeCode) {
-        this.setFinancialObjectTypeCode(objectTypeCode);
-    }
-
-    @Override
-    public String getSubObjectCode() {
-        return this.getFinancialSubObjectCode();
-    }
-
-    @Override
-    public void setSubObjectCode(String subObjectCode) {
-        this.setFinancialSubObjectCode(subObjectCode);
-    }
     
     /**
      * 
-     * This method calculates the Salary Foundation Amount
+     * This method calculates the Salary Foundation Amount and returns it
      * @return
      */
     public KualiDecimal getCalculatedSalaryFoundationAmount() {
@@ -270,48 +74,95 @@ public class AccountStatusBaseFunds extends LedgerBalance {
        return CSFTotal; 
     }
 
+    /**
+     * 
+     * This method set the calculated salary foundation amount
+     * @param calculatedSalaryFoundationAmount
+     */
     public void setCalculatedSalaryFoundationAmount(KualiDecimal calculatedSalaryFoundationAmount) {
         this.calculatedSalaryFoundationAmount = calculatedSalaryFoundationAmount;
     }
 
+    /**
+     * 
+     * This method...
+     * @param baseCSFVarianceAmount
+     */
     public void setBaseCSFVarianceAmount(KualiDecimal baseCSFVarianceAmount) {
         this.baseCSFVarianceAmount = baseCSFVarianceAmount;
     }
 
+    /**
+     * 
+     * @see org.kuali.module.labor.bo.LedgerBalance#getFinancialBeginningBalanceLineAmount()
+     */
     public KualiDecimal getFinancialBeginningBalanceLineAmount() {
         return financialBeginningBalanceLineAmount;
     }
 
+    /**
+     * 
+     * @see org.kuali.module.labor.bo.LedgerBalance#setFinancialBeginningBalanceLineAmount(org.kuali.core.util.KualiDecimal)
+     */
     public void setFinancialBeginningBalanceLineAmount(KualiDecimal financialBeginningBalanceLineAmount) {
         this.financialBeginningBalanceLineAmount = financialBeginningBalanceLineAmount;
     }
 
+    /**
+     * 
+     * This method calculates the CFS variance amount
+     * @return
+     */
     public KualiDecimal getBaseCSFVarianceAmount() {
         if ((this.accountLineAnnualBalanceAmount != null) && (this.calculatedSalaryFoundationAmount != null))
             baseCSFVarianceAmount = (this.accountLineAnnualBalanceAmount.add(this.calculatedSalaryFoundationAmount));
         return baseCSFVarianceAmount;
     }
     
+    /**
+     * 
+     * @see org.kuali.module.gl.bo.Balance#getAccountLineAnnualBalanceAmount()
+     */
     public KualiDecimal getAccountLineAnnualBalanceAmount() {
         return accountLineAnnualBalanceAmount;
     }
 
+    /**
+     * 
+     * @see org.kuali.module.gl.bo.Balance#setAccountLineAnnualBalanceAmount(org.kuali.core.util.KualiDecimal)
+     */
     public void setAccountLineAnnualBalanceAmount(KualiDecimal accountLineAnnualBalanceAmount) {
         this.accountLineAnnualBalanceAmount = accountLineAnnualBalanceAmount;
     }
 
+    /**
+     * 
+     * @see org.kuali.module.gl.bo.Balance#getContractsGrantsBeginningBalanceAmount()
+     */
     public KualiDecimal getContractsGrantsBeginningBalanceAmount() {
         return contractsGrantsBeginningBalanceAmount;
     }
 
+    /**
+     * 
+     * @see org.kuali.module.gl.bo.Balance#setContractsGrantsBeginningBalanceAmount(org.kuali.core.util.KualiDecimal)
+     */
     public void setContractsGrantsBeginningBalanceAmount(KualiDecimal contractsGrantsBeginningBalanceAmount) {
         this.contractsGrantsBeginningBalanceAmount = contractsGrantsBeginningBalanceAmount;
     }
 
+    /**
+     * 
+     * @see org.kuali.module.gl.bo.Balance#getUniversityFiscalYear()
+     */
     public Integer getUniversityFiscalYear() {
         return universityFiscalYear;
     }
 
+    /**
+     * 
+     * @see org.kuali.module.gl.bo.Balance#setUniversityFiscalYear(java.lang.Integer)
+     */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
     }

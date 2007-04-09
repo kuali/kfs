@@ -75,6 +75,16 @@ public interface LaborReportService {
     public void generateStatisticsReport(List<Summary> reportSummary, Map<Transaction, List<Message>> errors, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
 
     /**
+     * Generate statistics report with the given information
+     * 
+     * @param reportSummary a list of report String objects
+     * @param reportInfo the primary elements of a report, such as report title and report file name
+     * @param reportsDirectory the directory in file system that is used to contain reports
+     * @param runDate the datetime of the repor generation
+     */
+    public void generateStatisticsReport(List<String> reportSummary, ReportRegistry reportInfo, String reportsDirectory, Date runDate);
+
+    /**
      * Generate output summary report with the given information
      * 
      * @param groups the given origin entry groups
@@ -112,14 +122,5 @@ public interface LaborReportService {
     
     public void generateScrubberTransactionsOnline(OriginEntryGroup validGroup, String documentNumber, String reportsDirectory, Date runDate);
     
-    public void generateScrubberRemovedTransactions(OriginEntryGroup errorGroup, String reportsDirectory, Date runDate);
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    public void generateScrubberRemovedTransactions(OriginEntryGroup errorGroup, String reportsDirectory, Date runDate);    
 }

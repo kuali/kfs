@@ -44,6 +44,7 @@ import org.kuali.module.gl.util.Summary;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.util.ObjectUtil;
+import org.kuali.module.labor.util.PayrollAccrualSummaryTable;
 import org.kuali.module.labor.util.ReportRegistry;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
@@ -86,9 +87,9 @@ public class LaborReportServiceTest extends KualiTestBase {
         originEntryGroupService = (OriginEntryGroupService) beanFactory.getBean("glOriginEntryGroupService");
         businessObjectService = (BusinessObjectService) beanFactory.getBean("businessObjectService");
         persistenceService = (PersistenceService) beanFactory.getBean("persistenceService");
-        
+
         laborReportService = (LaborReportService) beanFactory.getBean("laborReportService");
-        
+
         kualiConfigurationService = (KualiConfigurationService) beanFactory.getBean("kualiConfigurationService");
         laborPosterTransactionValidator = (VerifyTransaction) beanFactory.getBean("laborPosterTransactionValidator");
 
@@ -143,7 +144,7 @@ public class LaborReportServiceTest extends KualiTestBase {
         businessObjectService.save(getInputDataList(testTarget + "testData", numberOfTestData, group2));
         laborReportService.generateOutputSummaryReport(groups, ReportRegistry.LABOR_POSTER_OUTPUT, reportsDirectory, today);
     }
-    
+
     public void testGenerateOutputSummaryReportBySingleGroup() throws Exception {
         String testTarget = "generateOutputSummaryReport.";
         int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
@@ -166,11 +167,20 @@ public class LaborReportServiceTest extends KualiTestBase {
         businessObjectService.save(getInputDataList(testTarget + "testData", numberOfTestData, group1));
         groups.add(group2);
         businessObjectService.save(getInputDataList(testTarget + "testData", numberOfTestData, group2));
-        
+
         persistenceService.clearCache();
 
         Map<Transaction, List<Message>> errorMap = this.getErrorMap(groups);
         laborReportService.generateStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_STATISTICS, reportsDirectory, today);
+    }
+
+    public void testGenerateStatisticsReportFromStringList() throws Exception {
+
+        PayrollAccrualSummaryTable accrualSummaryTable = new PayrollAccrualSummaryTable();
+        List<String> reportSummary = PayrollAccrualSummaryTable.buildReportSummary(accrualSummaryTable);
+
+        reportSummary.add(0, PayrollAccrualSummaryTable.buildReportSummaryLine("Base Accrual Percent", 0.50));
+        laborReportService.generateStatisticsReport(reportSummary, ReportRegistry.PAYROLL_ACCRUAL_STATISTICS, reportsDirectory, today);
     }
 
     private List<Summary> getReportSummary() {
@@ -188,7 +198,8 @@ public class LaborReportServiceTest extends KualiTestBase {
         for (Iterator<LaborOriginEntry> entry = laborOriginEntryService.getEntriesByGroups(groups); entry.hasNext();) {
             LaborOriginEntry originEntry = entry.next();
 
-            List<Message> errors = laborPosterTransactionValidator.verifyTransaction(originEntry);;
+            List<Message> errors = laborPosterTransactionValidator.verifyTransaction(originEntry);
+            ;
             if (!errors.isEmpty()) {
                 errorMap.put(originEntry, errors);
             }

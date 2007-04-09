@@ -38,6 +38,7 @@ import org.kuali.module.gl.util.PosterOutputSummaryReport;
 import org.kuali.module.gl.util.Summary;
 import org.kuali.module.gl.util.TransactionListingReport;
 import org.kuali.module.gl.util.TransactionReport;
+import org.kuali.module.labor.report.TransactionSummaryReport;
 import org.kuali.module.labor.service.LaborOriginEntryService;
 import org.kuali.module.labor.service.LaborReportService;
 import org.kuali.module.labor.util.ReportRegistry;
@@ -92,6 +93,14 @@ public class LaborReportServiceImpl implements LaborReportService {
     public void generateStatisticsReport(List<Summary> reportSummary, Map<Transaction, List<Message>> errors, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
         TransactionReport transactionReport = new TransactionReport();
         transactionReport.generateReport(errors, reportSummary, runDate, reportInfo.reportTitle(), reportInfo.reportFilename(), reportsDirectory);
+    }
+    
+    /**
+     * @see org.kuali.module.labor.service.LaborReportService#generateStatisticsReport(java.util.List, org.kuali.module.labor.util.ReportRegistry, java.lang.String, java.util.Date)
+     */
+    public void generateStatisticsReport(List<String> reportSummary, ReportRegistry reportInfo, String reportsDirectory, Date runDate) {
+        TransactionSummaryReport transactionSummaryReport = new TransactionSummaryReport();
+        transactionSummaryReport.generateReport(reportSummary, runDate, reportInfo.reportTitle(), reportInfo.reportFilename(), reportsDirectory);
     }
 
     /**

@@ -37,8 +37,8 @@ public enum ReportRegistry {
     LABOR_PENDING_ENTRY_REPORT("pending_entry_report", "Pending Ledger Entry Report"),
     LABOR_PENDING_ENTRY_SUMMARY("pending_entry_summary", "Pending Ledger Entry Summary"),
     
-    LABOR_PAYROLL_ACCRUAL_REPORT("payroll_accrual_report", "Payroll Accrual Entry Report"),
-    LABOR_PAYROLL_ACCRUAL_SUMMARY("payroll_accrual_summary", "Payroll Accrual Entry Summary");
+    PAYROLL_ACCRUAL_REPORT("payroll_accrual_report", "Payroll Accrual Entry Report"),
+    PAYROLL_ACCRUAL_STATISTICS("payroll_accrual_summary", "Payroll Accrual Summary Report");
     
     private String reportFilename;
     private String reportTitle;

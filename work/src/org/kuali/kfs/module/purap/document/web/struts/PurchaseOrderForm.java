@@ -126,12 +126,12 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         voidButton.setExtraButtonSource("images/buttonsmall_voidorder.gif");
 
         ExtraButton paymentHoldButton = new ExtraButton();
-        voidButton.setExtraButtonProperty("methodToCall.paymentHoldPo");
-        voidButton.setExtraButtonSource("images/buttonsmall_paymenthold.gif");
+        paymentHoldButton.setExtraButtonProperty("methodToCall.paymentHoldPo");
+        paymentHoldButton.setExtraButtonSource("images/buttonsmall_paymenthold.gif");
         
         ExtraButton retransmitButton = new ExtraButton();
-        voidButton.setExtraButtonProperty("methodToCall.retransmitPo");
-        voidButton.setExtraButtonSource("images/buttonsmall_retransmit.gif");
+        retransmitButton.setExtraButtonProperty("methodToCall.retransmitPo");
+        retransmitButton.setExtraButtonSource("images/buttonsmall_retransmit.gif");
         
         this.getExtraButtons().add(closeButton);
         this.getExtraButtons().add(reopenButton);

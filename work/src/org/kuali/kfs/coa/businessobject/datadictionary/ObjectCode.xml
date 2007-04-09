@@ -123,11 +123,9 @@
 
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
                 <required>true</required>
-                <!-- 
                 <control>
 				    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" script="setReportsToChartCode();" /> 
                 </control>
-                -->
             </attributeReference>
 
             <attribute name="financialObjectCode" forceUppercase="true">
@@ -218,11 +216,10 @@
                 <validationPattern>
                     <alpha exactLength="2" />
                 </validationPattern>
-                <required>false</required>
+                <required>true</required>
                 <control>
-				    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" /> 
-                </control>
-                
+					<text size="2" />
+				</control>
                 <summary>
                     <![CDATA[&nbsp;]]>
                 </summary>

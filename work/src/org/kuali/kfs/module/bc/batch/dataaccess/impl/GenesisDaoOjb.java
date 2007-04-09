@@ -3039,6 +3039,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     Integer CSFNewBCAFRows           = new Integer(0);
     Integer CSFBCAFRowsMarkedDeleted = new Integer(0);
     Integer CSFBCAFRowsMissing       = new Integer(0);
+    Integer CSFBadObjectsSkipped     = new Integer(0);
              
     public void buildAppointmentFundingAndBCSF(Integer BaseYear)
     {
@@ -3370,14 +3371,38 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                bcsf.getSubAccountNumber();
     }
     
-    private void buildPBGLFromBCSFAndStore(
+    private boolean buildPBGLFromBCSFAndStore(
             BudgetConstructionCalculatedSalaryFoundationTracker bcsf)
     {
         // first we need to see if a new PBGL row is needed
         String testKey = buildPBGLKey(bcsf);
         if (currentPBGLKeys.contains(testKey))
         {
-            return;
+            return true;
+        }
+        // Budget construction cannot show detailed salary lines unless the object code
+        // support "detailed positions".   But, the CSF is a plug-in, so Kuali cannot
+        // assume that the CSF enforces this rule.  Here, we test whether the object
+        // class is valid.  if it is not, we write a message and skip the row
+        // we do this before the GL check, so we can be sure we write all the rows
+        // that have problems
+        String objectType =
+            detailedPositionObjectTypes.get(
+                    bcsf.getChartOfAccountsCode()+bcsf.getFinancialObjectCode());
+        if (objectType == null)
+        {
+          LOG.warn(String.format("\nthis row has an object class which does not support"+
+                                 " detailed positions (skipped):\n"+
+                                 "position: %s, EMPLID: %s, accounting string ="+
+                                 "(%s,%s,%s,%s,%s",
+                                 bcsf.getPositionNumber(),
+                                 bcsf.getEmplid(),
+                                 bcsf.getChartOfAccountsCode(),
+                                 bcsf.getAccountNumber(),
+                                 bcsf.getSubAccountNumber(),
+                                 bcsf.getFinancialObjectCode(),
+                                 bcsf.getFinancialSubObjectCode()));
+          CSFBadObjectsSkipped = CSFBadObjectsSkipped+1;
         }
         // we need a new row
         // store the key so we won't try to add another row from a different
@@ -3398,13 +3423,13 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         pbGL.setFinancialObjectCode(bcsf.getFinancialObjectCode());
         pbGL.setFinancialSubObjectCode(bcsf.getFinancialSubObjectCode());
         pbGL.setFinancialBalanceTypeCode(Constants.BALANCE_TYPE_BASE_BUDGET);
-        pbGL.setFinancialObjectTypeCode(detailedPositionObjectTypes.get(
-                bcsf.getChartOfAccountsCode()+bcsf.getFinancialObjectCode()));
+        pbGL.setFinancialObjectTypeCode(objectType);
         pbGL.setAccountLineAnnualBalanceAmount(KualiDecimal.ZERO);
         pbGL.setFinancialBeginningBalanceLineAmount(KualiDecimal.ZERO);
         // store the new PBGL row
         getPersistenceBrokerTemplate().store(pbGL);
         CSFNewGLRows = CSFNewGLRows+1;
+        return true;
     }
     
     // these two rows are overloaded so we have a standardized key
@@ -3551,9 +3576,12 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
            orphanBCSF: bCSF.entrySet())
       {
          BudgetConstructionCalculatedSalaryFoundationTracker bcsf = 
-             orphanBCSF.getValue();         
-         buildPBGLFromBCSFAndStore(bcsf); 
-         buildAppointemntFundingFromBCSF(bcsf);
+             orphanBCSF.getValue(); 
+         if (!buildPBGLFromBCSFAndStore(bcsf))
+         { 
+             continue;
+         }
+           buildAppointemntFundingFromBCSF(bcsf);
       }
     }
     

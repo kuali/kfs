@@ -17,16 +17,24 @@ package org.kuali.module.purap.service.impl;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.NoteService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapKeyConstants;
+import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.dao.PaymentRequestDao;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.service.GeneralLedgerService;
@@ -171,7 +179,61 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     
    /* End Paste */
     
-    
+   
+    public HashMap<String, String> paymentRequestDuplicateMessages(PaymentRequestDocument document){
+        HashMap<String,String> msgs; 
+        msgs =  new HashMap<String,String>();
+        KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
+        
+        // check that the invoice date and invoice total amount entered are not on any existing non-cancelled PREQs for this PO
+        Integer POID = document.getPurchaseOrderIdentifier();
+        //List<PaymentRequestDocument> preqs = SpringServiceLocator.getPaymentRequestService().getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(POID, document.getVendorInvoiceAmount(), document.getInvoiceDate());
+        List<PaymentRequestDocument> preqs = getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(POID, document.getVendorInvoiceAmount(), document.getInvoiceDate());
+        POID = document.getPurchaseOrderIdentifier();
+        //msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_DATE_AMONT_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT));
+        if (preqs.size() > 0) {
+          boolean addedMessage = false;
+          List cancelled = new ArrayList();
+          List voided = new ArrayList();
+          msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_DATE_AMONT_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT));
+          for (Iterator iter = preqs.iterator(); iter.hasNext();) {
+            PaymentRequestDocument testPREQ = (PaymentRequestDocument) iter.next();
+            if ( (!(PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE.equals(testPREQ.getStatus().getStatusCode()))) && 
+                 (!(PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getStatusCode()))) ) {
+                 msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_DATE_AMONT_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT));
+                 addedMessage = true;
+              
+              break;
+            } else if (PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getStatusCode())) {
+              voided.add(testPREQ);
+            } else if (PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE.equals(testPREQ.getStatus().getStatusCode())) {
+              cancelled.add(testPREQ);
+            }
+          }
+          // custom error message for duplicates related to cancelled/voided PREQs
+         if (!addedMessage) {
+          //if (valid) {
+            if ( (!(voided.isEmpty())) && (!(cancelled.isEmpty())) ) {
+              //messages.add("errors.duplicate.invoice.date.amount.cancelledOrVoided");
+                msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_DATE_AMONT_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT_CANCELLEDORVOIDED));
+              
+            } else if ( (!(voided.isEmpty())) && (cancelled.isEmpty()) ) {
+              //messages.add("errors.duplicate.invoice.date.amount.voided");
+                msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_DATE_AMONT_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT_VOIDED));
+                addedMessage = true;
+              //valid &= false;
+            } else if ( (voided.isEmpty()) && (!(cancelled.isEmpty())) ) {
+              //messages.add("errors.duplicate.invoice.date.amount.cancelled");
+                msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_DATE_AMONT_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT_CANCELLED));
+                addedMessage = true;
+            }
+          }
+        }
+       
+        
+        
+        return msgs;
+    }
     
     
     

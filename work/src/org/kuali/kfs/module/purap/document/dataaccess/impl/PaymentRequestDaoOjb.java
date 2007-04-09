@@ -182,7 +182,7 @@ public class PaymentRequestDaoOjb extends PersistenceBrokerDaoSupport implements
       public List getPaymentRequestsByPOId(Integer poId) {
         LOG.debug("getPaymentRequestsByPOId() started");
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("purchaseOrderNumber", poId);
+        criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, poId);
         QueryByCriteria qbc = new QueryByCriteria(PaymentRequestDocument.class,criteria);
         qbc.addOrderByDescending("id");
         return this.getPaymentRequestsByQueryByCriteria(qbc);
@@ -197,7 +197,7 @@ public class PaymentRequestDaoOjb extends PersistenceBrokerDaoSupport implements
       public List getPaymentRequestsByPOId(Integer poId, Integer returnListMax) {
         LOG.debug("getPaymentRequestsByPOId(Integer) started");
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("purchaseOrderNumber", poId);
+        criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, poId);
         QueryByCriteria qbc = new QueryByCriteria(PaymentRequestDocument.class,criteria);
         qbc.setEndAtIndex(returnListMax.intValue());
         qbc.addOrderByDescending("id");
@@ -234,7 +234,7 @@ public class PaymentRequestDaoOjb extends PersistenceBrokerDaoSupport implements
       public List getActivePaymentRequestsByPOIdInvoiceAmountInvoiceDate(Integer poId, KualiDecimal vendorInvoiceAmount, Date invoiceDate) {
         LOG.debug("getActivePaymentRequestsByVendorNumberInvoiceNumber() started");
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("purchaseOrderNumber", poId);
+        criteria.addEqualTo("purchaseOrderIdentifier", poId);
         criteria.addEqualTo("vendorInvoiceAmount", vendorInvoiceAmount);
         criteria.addEqualTo("invoiceDate", invoiceDate);
         QueryByCriteria qbc = new QueryByCriteria(PaymentRequestDocument.class,criteria);

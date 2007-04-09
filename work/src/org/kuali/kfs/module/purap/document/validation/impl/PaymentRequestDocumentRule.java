@@ -16,6 +16,7 @@
 package org.kuali.module.purap.rules;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -119,7 +120,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             if ( (!(PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE.equals(testPREQ.getStatus().getStatusCode()))) && 
                  (!(PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getStatusCode()))) ) {
                  GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT);
-              //addedError = true;
+              //addedError = true;s
                 valid &= false;
               break;
             } else if (PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getStatusCode())) {
@@ -149,4 +150,55 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         return valid;
     } 
 
+    public HashMap<String, String> paymentRequestDuplicateMessages(PaymentRequestDocument document){
+        HashMap<String,String> msgs; 
+        msgs =  new HashMap<String,String>();
+        
+//      check that the invoice date and invoice total amount entered are not on any existing non-cancelled PREQs for this PO
+        Integer POID = document.getPurchaseOrderIdentifier();
+        List<PaymentRequestDocument> preqs = SpringServiceLocator.getPaymentRequestService().getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(POID, document.getVendorInvoiceAmount(), document.getInvoiceDate());
+        
+        if (preqs.size() > 0) {
+          boolean addedMessage = false;
+          List cancelled = new ArrayList();
+          List voided = new ArrayList();
+          for (Iterator iter = preqs.iterator(); iter.hasNext();) {
+            PaymentRequestDocument testPREQ = (PaymentRequestDocument) iter.next();
+            if ( (!(PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE.equals(testPREQ.getStatus().getStatusCode()))) && 
+                 (!(PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getStatusCode()))) ) {
+                 msgs.put(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT);
+                 addedMessage = true;
+              
+              break;
+            } else if (PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getStatusCode())) {
+              voided.add(testPREQ);
+            } else if (PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE.equals(testPREQ.getStatus().getStatusCode())) {
+              cancelled.add(testPREQ);
+            }
+          }
+          // custom error message for duplicates related to cancelled/voided PREQs
+         if (!addedMessage) {
+          //if (valid) {
+            if ( (!(voided.isEmpty())) && (!(cancelled.isEmpty())) ) {
+              //messages.add("errors.duplicate.invoice.date.amount.cancelledOrVoided");
+                msgs.put(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT_CANCELLEDORVOIDED);
+              
+            } else if ( (!(voided.isEmpty())) && (cancelled.isEmpty()) ) {
+              //messages.add("errors.duplicate.invoice.date.amount.voided");
+                msgs.put(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT_VOIDED);
+                addedMessage = true;
+              //valid &= false;
+            } else if ( (voided.isEmpty()) && (!(cancelled.isEmpty())) ) {
+              //messages.add("errors.duplicate.invoice.date.amount.cancelled");
+                msgs.put(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT_CANCELLED);
+                addedMessage = true;
+            }
+          }
+        }
+       
+        
+        
+        return msgs;
+    }
+    
 }

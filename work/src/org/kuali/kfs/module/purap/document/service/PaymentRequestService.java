@@ -17,6 +17,7 @@ package org.kuali.module.purap.service;
 
 import java.sql.Date;
 //import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.core.service.BusinessObjectService;
@@ -59,6 +60,8 @@ public interface PaymentRequestService {
     public List getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(Integer poId, KualiDecimal invoiceAmount, Date invoiceDate);
     
     public boolean isInvoiceDateAfterToday(Date invoiceDate);
+    
+    public HashMap<String, String> paymentRequestDuplicateMessages(PaymentRequestDocument document);
     
     
     /* Start Paste from EPIC */

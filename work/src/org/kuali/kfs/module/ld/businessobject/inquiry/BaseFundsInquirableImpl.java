@@ -51,6 +51,10 @@ public class BaseFundsInquirableImpl extends AbstractLaborInquirableImpl {
 
         keys.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
         keys.add(PropertyConstants.OBJECT_CODE);
+        keys.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        keys.add(PropertyConstants.ACCOUNT_NUMBER);
+        keys.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        keys.add(PropertyConstants.CSF_AMOUNT);
 
         return keys;
     }
@@ -60,11 +64,6 @@ public class BaseFundsInquirableImpl extends AbstractLaborInquirableImpl {
      */
     protected Map getUserDefinedAttributeMap() {
         Map userDefinedAttributeMap = new HashMap();
-
-
-        userDefinedAttributeMap.put(PropertyConstants.BEGINNING_BALANCE_LINE_AMOUNT, Constants.BEGINNING_BALANCE);
-        userDefinedAttributeMap.put(PropertyConstants.CONTRACTS_GRANTS_BEGINNING_BALANCE_AMOUNT, Constants.CG_BEGINNING_BALANCE);
-
         return userDefinedAttributeMap;
     }
 

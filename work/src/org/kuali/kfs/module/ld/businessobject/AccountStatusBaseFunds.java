@@ -21,10 +21,6 @@ import java.util.Map;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.ObjectType;
-import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.labor.service.LaborBalanceInquiryService;
 import org.springframework.beans.factory.BeanFactory;
 
@@ -35,7 +31,7 @@ public class AccountStatusBaseFunds extends LedgerBalance {
     private KualiDecimal accountLineAnnualBalanceAmount;
     private KualiDecimal financialBeginningBalanceLineAmount;
     private KualiDecimal contractsGrantsBeginningBalanceAmount;
-    private KualiDecimal calculatedSalaryFoundationAmount;
+    private KualiDecimal csfAmount;
     private KualiDecimal baseCSFVarianceAmount;
 
     private LaborBalanceInquiryService laborBalanceInquiryService;
@@ -56,7 +52,7 @@ public class AccountStatusBaseFunds extends LedgerBalance {
      * This method calculates the Salary Foundation Amount and returns it
      * @return
      */
-    public KualiDecimal getCalculatedSalaryFoundationAmount() {
+    public KualiDecimal getCsfAmount() {
         
        Map fieldValues = new HashMap(); 
      
@@ -70,7 +66,7 @@ public class AccountStatusBaseFunds extends LedgerBalance {
        BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
        laborBalanceInquiryService = (LaborBalanceInquiryService) beanFactory.getBean("laborBalanceInquiryService");
        KualiDecimal CSFTotal = (KualiDecimal) laborBalanceInquiryService.getCSFTrackerTotal(fieldValues);
-       this.calculatedSalaryFoundationAmount = CSFTotal;
+       this.csfAmount = CSFTotal;
        return CSFTotal; 
     }
 
@@ -79,8 +75,8 @@ public class AccountStatusBaseFunds extends LedgerBalance {
      * This method set the calculated salary foundation amount
      * @param calculatedSalaryFoundationAmount
      */
-    public void setCalculatedSalaryFoundationAmount(KualiDecimal calculatedSalaryFoundationAmount) {
-        this.calculatedSalaryFoundationAmount = calculatedSalaryFoundationAmount;
+    public void setCsfAmount(KualiDecimal csfAmount) {
+        this.csfAmount = csfAmount;
     }
 
     /**
@@ -114,8 +110,8 @@ public class AccountStatusBaseFunds extends LedgerBalance {
      * @return
      */
     public KualiDecimal getBaseCSFVarianceAmount() {
-        if ((this.accountLineAnnualBalanceAmount != null) && (this.calculatedSalaryFoundationAmount != null))
-            baseCSFVarianceAmount = (this.accountLineAnnualBalanceAmount.add(this.calculatedSalaryFoundationAmount));
+        if ((this.accountLineAnnualBalanceAmount != null) && (this.csfAmount != null))
+            baseCSFVarianceAmount = (this.accountLineAnnualBalanceAmount.add(this.csfAmount));
         return baseCSFVarianceAmount;
     }
     
@@ -166,4 +162,6 @@ public class AccountStatusBaseFunds extends LedgerBalance {
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
     }
+
+
 }

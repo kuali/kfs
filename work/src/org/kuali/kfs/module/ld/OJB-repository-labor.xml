@@ -1470,7 +1470,7 @@
 		<foreignkey field-ref="accountNumber" />
 		<foreignkey field-ref="financialObjectCode" />
 		<foreignkey field-ref="financialSubObjectCode" />
-	</reference-descriptor>
+    </reference-descriptor>
 	
 </class-descriptor>
 

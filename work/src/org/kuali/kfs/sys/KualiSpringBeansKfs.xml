@@ -184,22 +184,17 @@
 				<prop key="org.quartz.plugin.triggHistory.triggerCompleteMessage">Trigger {1}.{0} completed firing job {6}.{5} at {4, date, HH:mm:ss MM/dd/yyyy} with resulting trigger instruction code: {9}</prop>
 			</props>
 		</property>
-		<property name="globalJobListeners">
-			<list>
-				<ref bean="jobListener" />
-			</list>
-		</property>
 	</bean>
 	
 	<bean id="schedulerService" class="org.kuali.core.service.impl.SchedulerServiceImpl">
 		<property name="scheduler" ref="scheduler" />
+		<property name="jobListener" ref="jobListener" />
 		<property name="moduleService" ref="kualiModuleService" />
 		<property name="configurationService" ref="kualiConfigurationService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 	</bean>
 
 	<bean id="jobListener" class="org.kuali.core.batch.JobListener">
-		<property name="schedulerService" ref="schedulerService" />
 		<property name="configurationService" ref="kualiConfigurationService" />
 		<property name="mailService" ref="mailService" />
 		<property name="dateTimeService" ref="dateTimeService" />

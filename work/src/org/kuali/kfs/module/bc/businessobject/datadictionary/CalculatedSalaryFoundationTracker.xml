@@ -73,25 +73,16 @@
             </lookupFields>
 
             <resultFields>
-                <field attributeName="accountNumber" />
-                <field attributeName="additionalSequence" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="csfAmount" />
-                <field attributeName="csfCreateTimestamp" />
-                <field attributeName="csfDeleteCode" />
-                <field attributeName="csfFullTimeEmploymentQuantity" />
-                <field attributeName="csfFundingStatusCode" />
-                <field attributeName="csfTimePercent" />
-                <field attributeName="earnCode" />
-                <field attributeName="effectiveDate" />
-                <field attributeName="effectiveSequence" />
                 <field attributeName="personName" />
-                <field attributeName="employeeRecord" />
                 <field attributeName="financialObjectCode" />
                 <field attributeName="financialSubObjectCode" />
                 <field attributeName="positionNumber" />
-                <field attributeName="subAccountNumber" />
-                <field attributeName="universityFiscalYear" />
+                <field attributeName="csfAmount" />
+                <field attributeName="csfFundingStatusCode" />
+                <field attributeName="csfDeleteCode" />
+                <field attributeName="csfTimePercent" />
+                <field attributeName="earnCode" />
+                <field attributeName="effectiveDate" />
             </resultFields>
         </lookup>
 

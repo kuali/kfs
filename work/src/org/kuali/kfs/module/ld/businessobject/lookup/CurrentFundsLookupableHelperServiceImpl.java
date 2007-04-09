@@ -39,11 +39,10 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
     private Map fieldValues;
     private LaborBalanceInquiryService laborBalanceInquiryService;
     private KualiConfigurationService kualiConfigurationService;
-
+    
     /**
      * @see org.kuali.core.lookup.Lookupable#gfetSearchResults(java.util.Map)
      */
-
     @Override
     public List getSearchResults(Map fieldValues) {
 

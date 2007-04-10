@@ -22,7 +22,7 @@
 <c:set var="monthlyBudget" value="${KualiForm.budgetConstructionMonthly}" />
 <c:set var="pbglAttributes" value="${DataDictionary['PendingBudgetConstructionGeneralLedger'].attributes}" />
 <c:set var="pbgl" value="${KualiForm.budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger}" />
-<c:set var="readOnly" value="${KualiForm.editingMode['systemViewOnly'] || !KualiForm.editingMode['atDocLevel']}" />
+<c:set var="readOnly" value="${KualiForm.editingMode['systemViewOnly'] || !KualiForm.editingMode['fullEntry']}" />
 
 <kul:tabTop tabTitle="Monthly Budget Construction" defaultOpen="true" tabErrorKey="${Constants.BUDGET_CONSTRUCTION_MONTHLY_BUDGET_ERRORS}">
 <div class="tab-container" align=center>
@@ -136,7 +136,7 @@
       </tr>
       
       <tr>
-          <kul:htmlAttributeHeaderCell align="right" literalLabel="Period">
+          <kul:htmlAttributeHeaderCell align="right" literalLabel="Period" scope="col">
               <%-- these hidden fields are inside a table cell to keep the HTML valid --%>
               <html:hidden property="budgetConstructionMonthly.documentNumber" />
               <html:hidden property="budgetConstructionMonthly.universityFiscalYear" />
@@ -149,7 +149,7 @@
               <html:hidden property="budgetConstructionMonthly.financialObjectTypeCode" />
               <html:hidden property="budgetConstructionMonthly.versionNumber" />
           </kul:htmlAttributeHeaderCell>
-          <kul:htmlAttributeHeaderCell align="left" literalLabel="Amount" />
+          <kul:htmlAttributeHeaderCell align="left" literalLabel="Amount" scope="col" />
       </tr>
 
       <c:if test="${monthlyBudget != null}">
@@ -355,9 +355,9 @@
                     <td colspan="2" class="datacell" nowrap>
                         <div align="center"><span>
                           <c:if test="${!readOnly}">
-                            <html:image src="images/tinybutton-calculate.gif" styleClass="tinybutton" property="methodToCall.performMonthlySpread.anchormonthlyBudgetLineLineAnchor" title="Spread Evenly To Months" alt="Spread Evenly To Months"/>
-                            <html:image src="images/tinybutton-clear1.gif" styleClass="tinybutton" property="methodToCall.performMonthlyZero.anchormonthlyBudgetLineLineAnchor" title="Set Months To Zero" alt="Set Months To Zero"/>
-                            <html:image src="images/tinybutton-delete1.gif" styleClass="tinybutton" property="methodToCall.performMonthlyDelete.anchormonthlyBudgetLineLineAnchor" title="Delete Monthly" alt="Delete Monthly"/>
+                            <html:image src="images/buttonsmall_monthspread.gif" styleClass="tinybutton" property="methodToCall.performMonthlySpread.anchormonthlyBudgetLineLineAnchor" title="Spread Evenly To Months" alt="Spread Evenly To Months"/>
+                            <html:image src="images/buttonsmall_clear.gif" styleClass="tinybutton" property="methodToCall.performMonthlyZero.anchormonthlyBudgetLineLineAnchor" title="Set Months To Zero" alt="Set Months To Zero"/>
+                            <html:image src="images/buttonsmall_monthdel.gif" styleClass="tinybutton" property="methodToCall.performMonthlyDelete.anchormonthlyBudgetLineLineAnchor" title="Delete Monthly" alt="Delete Monthly"/>
                           </c:if>
                           &nbsp;
                        </div>

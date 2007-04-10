@@ -162,6 +162,7 @@
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="21" />
@@ -177,6 +178,7 @@
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="21" />
@@ -192,6 +194,7 @@
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="21" />
@@ -207,6 +210,7 @@
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="21" />
@@ -222,6 +226,7 @@
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="21" />
@@ -237,6 +242,7 @@
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="21" />
@@ -252,6 +258,7 @@
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="21" />
@@ -267,6 +274,7 @@
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="21" />
@@ -282,6 +290,7 @@
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="21" />
@@ -297,6 +306,7 @@
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="21" />
@@ -312,6 +322,7 @@
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="21" />
@@ -327,6 +338,7 @@
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="21" />

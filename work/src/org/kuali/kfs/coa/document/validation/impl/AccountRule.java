@@ -715,8 +715,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     }
 
     private String replaceTokens(String errorConstant){
-        String cngLabel =  SpringServiceLocator.getSubFundGroupService().getContractsAndGrantsDenotingAttributeLabel();
-        String cngValue =  SpringServiceLocator.getSubFundGroupService().getContractsAndGrantsDenotingValue();
+        String cngLabel = SpringServiceLocator.getSubFundGroupService().getContractsAndGrantsDenotingAttributeLabel();
+        String cngValue = SpringServiceLocator.getSubFundGroupService().getContractsAndGrantsDenotingValue();
         String result = SpringServiceLocator.getKualiConfigurationService().getPropertyString(errorConstant);
         result = StringUtils.replace(result, "{0}", cngLabel);
         result = StringUtils.replace(result, "{1}", cngValue);

@@ -295,6 +295,44 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
         return new ActionForward(lookupUrl, true);
     }
     
+    public ActionForward performSalarySetting(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        final String docNumber;
+        
+        // TODO do validate, save, etc first then goto the SalarySetting screen or redisplay if errors
+        BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
+        BudgetConstructionDocument bcDocument = (BudgetConstructionDocument) budgetConstructionForm.getDocument();
+        DocumentService documentService = SpringServiceLocator.getDocumentService();
+        
+        // TODO for now just save
+        documentService.updateDocument(bcDocument);
+        
+        PendingBudgetConstructionGeneralLedger pbglLine;
+        pbglLine = bcDocument.getPendingBudgetConstructionGeneralLedgerRevenueLines().get(this.getSelectedLine(request));
+
+        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+        Properties parameters = new Properties();
+        parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, BCConstants.SALARY_SETTING_METHOD);
+
+//        parameters.put("documentNumber", pbglLine.getDocumentNumber());
+        parameters.put("universityFiscalYear", pbglLine.getUniversityFiscalYear().toString());
+        parameters.put("chartOfAccountsCode", pbglLine.getChartOfAccountsCode());
+        parameters.put("accountNumber", pbglLine.getAccountNumber());
+        parameters.put("subAccountNumber", pbglLine.getSubAccountNumber());
+        parameters.put("financialObjectCode", pbglLine.getFinancialObjectCode());
+        parameters.put("financialSubObjectCode", pbglLine.getFinancialSubObjectCode());
+        
+        // anchor, if it exists
+        if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
+            parameters.put(BCConstants.RETURN_ANCHOR, ((KualiForm) form).getAnchor());
+        }
+
+        // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
+        parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form));
+            
+        String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.SALARY_SETTING_ACTION, parameters);
+        return new ActionForward(lookupUrl, true);
+    }
+    
     /**
      * This adds a revenue line to the BC document
      * 

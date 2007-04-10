@@ -24,6 +24,19 @@ public class BCConstants extends JstlConstants {
     public static final String MONTHLY_BUDGET_REFRESH_CALLER="MonthlyBudget";
     public static final String MONTHLY_BUDGET_ACTION="budgetMonthlyBudget.do";
     public static final String MONTHLY_BUDGET_METHOD="loadExpansionScreen";
+
+    public static final String SALARY_SETTING_REFRESH_CALLER="SalarySetting";
+    public static final String SALARY_SETTING_ACTION="budgetSalarySetting.do";
+    public static final String SALARY_SETTING_METHOD="loadExpansionScreen";
+
+    public static final String POSITION_SALARY_SETTING_REFRESH_CALLER="PositionSalarySetting";
+    public static final String POSITION_SALARY_SETTING_ACTION="budgetPositionSalarySetting.do";
+    public static final String POSITION_SALARY_SETTING_METHOD="loadExpansionScreen";
+
+    public static final String INCUMBENT_SALARY_SETTING_REFRESH_CALLER="IncumbentSalarySetting";
+    public static final String INCUMBENT_SALARY_SETTING_ACTION="budgetIncumbentSalarySetting.do";
+    public static final String INCUMBENT_SALARY_SETTING_METHOD="loadExpansionScreen";
+
     public static final String RETURN_ANCHOR="returnAnchor";
     public static final String RETURN_FORM_KEY="returnFormKey";
     

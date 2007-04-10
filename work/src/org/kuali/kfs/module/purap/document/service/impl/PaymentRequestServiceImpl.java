@@ -190,7 +190,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         //List<PaymentRequestDocument> preqs = SpringServiceLocator.getPaymentRequestService().getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(POID, document.getVendorInvoiceAmount(), document.getInvoiceDate());
         List<PaymentRequestDocument> preqs = getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(POID, document.getVendorInvoiceAmount(), document.getInvoiceDate());
         POID = document.getPurchaseOrderIdentifier();
-        //msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_DATE_AMONT_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT));
+        
+        // This line  is for test only to simulate duplicate messages, need to remove after Code review
+        msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_DATE_AMONT_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT));
+        
         if (preqs.size() > 0) {
           boolean addedMessage = false;
           List cancelled = new ArrayList();

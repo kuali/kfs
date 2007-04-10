@@ -104,6 +104,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
             Object buttonClicked = request.getParameter(Constants.QUESTION_CLICKED_BUTTON);
            
             if ((PurapConstants.PREQDocumentsStrings.DUPLICATE_DATE_AMONT_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
+                
                 // if no button clicked just reload the doc in the INITIATE status and let the user to change the input values
                
                 paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.INITIATE);
@@ -140,15 +141,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         PaymentRequestForm preqForm = (PaymentRequestForm) form;
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) preqForm.getDocument();
         paymentRequestDocument.clearInitFields();
-        
-        //PaymentRequestDocument paymentRequestDocument = new PaymentRequestDocument();
-        // preqForm.setDocument(paymentRequestDocument);
-        //PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) preqForm.getDocument();
-        
-       
-        
-        
-             
+
         return super.refresh(mapping, form, request, response);
         //return mapping.findForward(Constants.MAPPING_BASIC);
     }

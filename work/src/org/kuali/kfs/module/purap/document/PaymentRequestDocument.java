@@ -83,7 +83,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private PurchaseOrderDocument purchaseOrderDocument;
     private PaymentTermType vendorPaymentTerms;
     private ShippingPaymentTerms vendorShippingPaymentTerms;
-   // private ShippingTitle vendorShippingTitle;
+   
+    // private ShippingTitle vendorShippingTitle;
    // private RecurringPaymentFrequency recurringPaymentFrequency;
 
     /**
@@ -93,67 +94,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         super();
     }
 
-    
-    public void populatePaymentRequestFormPurchaseOrder(PurchaseOrderDocument po) {
-        this.setPurchaseOrderDocument(po);
-        this.setPurchaseOrderIdentifier(po.getPurapDocumentIdentifier());
-        //this.purchaseOrderEncumbranceFiscalYear = po.getEncumbranceFiscalYear();
-        
-        //this.requisitionNumber = po.getRequisitionId();
-        this.setPurchaseOrderEncumbranceFiscalYear(po.getPostingYear());
-        this.setVendorCustomerNumber(po.getVendorCustomerNumber());
-        //this.costSource = po.getCostSource();
-        this.setPaymentRequestCostSourceCode(po.getPurchaseOrderCostSourceCode());
-        this.setVendorShippingPaymentTerms(po.getVendorShippingPaymentTerms());
-        if(this.getVendorShippingPaymentTerms()!=null) {
-            this.setVendorShippingPaymentTermsCode(this.getVendorShippingPaymentTerms().getVendorShippingPaymentTermsCode());
-        }
- /*
-        this.setRecurringPaymentType(po.getRecurringPaymentType());
-        if(this.getRecurringPaymentType()!=null) {
-            this.setRecurringPaymentTypeCode(this.getRecurringPaymentType().getCode());
-        }
-        */
-        //this.setRecurringPaymentTypeCode(po.getRecurringPaymentTypeCode());
-        this.setVendorHeaderGeneratedIdentifier(po.getVendorHeaderGeneratedIdentifier());
-        this.setVendorDetailAssignedIdentifier(po.getVendorDetailAssignedIdentifier());
-        this.setVendorName(po.getVendorName());
-        //this.vendorRemitLine1Address = po.getVendorLine1Address();
-        this.setVendorLine1Address(po.getVendorLine1Address());
-        this.setVendorLine2Address(po.getVendorLine2Address());
-        //this.vendorRemitLine3Address = po.getVendorLine3Address();
-        this.setVendorCityName(po.getVendorCityName());
-        this.setVendorStateCode(po.getVendorStateCode());
-        this.setVendorPostalCode(po.getVendorPostalCode());
-        this.setVendorCountryCode(po.getVendorCountryCode());
-        if ((po.getVendorPaymentTerms() == null) || ("".equals(po.getVendorPaymentTerms().getVendorPaymentTermsCode())) ) {
-        //if ( (po.getVendorPaymentTerms() == null) || ("".equals(po.getVendorPaymentTermsCode())) ) {
-          //this.vendorPaymentTerms = new PaymentTermsType();
-          //this.vendorPaymentTerms.setCode("");
-            this.setVendorPaymentTerms(new PaymentTermType());
-            this.vendorPaymentTerms.setVendorPaymentTermsCode("");
-        } else {
-          this.setVendorPaymentTerms(po.getVendorPaymentTerms());
-        }
-/*
-        items.clear();
-        if (po.getItems() != null) {
-          for (Iterator i = po.getItems().iterator(); i.hasNext(); ) {
-            //Jira kulapp 1258: only save the first 500 characters of the description to the item
-            PurchaseOrderItem poi = (PurchaseOrderItem) i.next();
-            //Jira kulapp 1383, we should only copy the active po items.
-            if (poi.getActive().booleanValue()) {
-              String desc = poi.getDescription();
-              if (desc != null &&(desc.length() > 500)) {
-                poi.setDescription(desc.substring(0, 500));
-              }
-              items.add(new PaymentRequestItem(this, poi));
-            }//end of if (poi.getActive()..      
-          }//end of for (Iterator i = po.getItems()...
-        }//end of if (po.getItems() != null) 
-        */
-    }
-    
+ 
     /**
      * Gets the purchaseOrderEncumbranceFiscalYear attribute. 
      * @return Returns the purchaseOrderEncumbranceFiscalYear.
@@ -162,15 +103,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         return purchaseOrderEncumbranceFiscalYear;
     }
 
-    /**
-     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#addToStatusHistories(java.lang.String, java.lang.String)
-     */
-    public void addToStatusHistories( String oldStatus, String newStatus, Note statusHistoryNote ) {
-        PaymentRequestStatusHistory prsh = new PaymentRequestStatusHistory( oldStatus, newStatus );
-        this.addStatusHistoryNote( prsh, statusHistoryNote );
-        this.getStatusHistories().add( prsh );
-    }
-
+   
     /**
      * Sets the purchaseOrderEncumbranceFiscalYear attribute value.
      * @param purchaseOrderEncumbranceFiscalYear The purchaseOrderEncumbranceFiscalYear to set.
@@ -1185,13 +1118,25 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
     
     /**
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#addToStatusHistories(java.lang.String, java.lang.String)
+     */
+    public void addToStatusHistories( String oldStatus, String newStatus, Note statusHistoryNote ) {
+        PaymentRequestStatusHistory prsh = new PaymentRequestStatusHistory( oldStatus, newStatus );
+        this.addStatusHistoryNote( prsh, statusHistoryNote );
+        this.getStatusHistories().add( prsh );
+    }
+    
+    /**
      * Perform logic needed to initiate PREQ Document
      */
     public void initiateDocument() {
         LOG.debug("initiateDocument() started");
         this.setStatusCode( PurapConstants.PaymentRequestStatuses.INITIATE );
+        
+        //TODO: Change this one:
         this.setAccountsPayableProcessorIdentifier("TBD");
-       // paymentRequest.setProcessedCampusCode(u.getCampusCd());
+       
+        // paymentRequest.setProcessedCampusCode(u.getCampusCd());
         //paymentRequest.setAccountsPayableProcessorId(u.getId());
         //this.setStatusCode( PurapConstants.PaymentRequestStatuses.IN_PROCESS )
        // this.setInitialized(true);
@@ -1218,21 +1163,71 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.setPaymentSpecialHandlingInstructionLine1Text(null);
         this.setPaymentSpecialHandlingInstructionLine2Text(null);
         this.setPaymentSpecialHandlingInstructionLine3Text(null);
+    }
+  
+    public void populatePaymentRequestFormPurchaseOrder(PurchaseOrderDocument po) {
+        this.setPurchaseOrderDocument(po);
+        this.setPurchaseOrderIdentifier(po.getPurapDocumentIdentifier());
+        //this.purchaseOrderEncumbranceFiscalYear = po.getEncumbranceFiscalYear();
+        
+        //this.requisitionNumber = po.getRequisitionId();
+        this.setPurchaseOrderEncumbranceFiscalYear(po.getPostingYear());
+        this.setVendorCustomerNumber(po.getVendorCustomerNumber());
+        //this.costSource = po.getCostSource();
+        this.setPaymentRequestCostSourceCode(po.getPurchaseOrderCostSourceCode());
+        this.setVendorShippingPaymentTerms(po.getVendorShippingPaymentTerms());
+        if(this.getVendorShippingPaymentTerms()!=null) {
+            this.setVendorShippingPaymentTermsCode(this.getVendorShippingPaymentTerms().getVendorShippingPaymentTermsCode());
         }
+        /*
+        this.setRecurringPaymentType(po.getRecurringPaymentType());
+        if(this.getRecurringPaymentType()!=null) {
+            this.setRecurringPaymentTypeCode(this.getRecurringPaymentType().getCode());
+        }
+        */
+        //this.setRecurringPaymentTypeCode(po.getRecurringPaymentTypeCode());
+        this.setVendorHeaderGeneratedIdentifier(po.getVendorHeaderGeneratedIdentifier());
+        this.setVendorDetailAssignedIdentifier(po.getVendorDetailAssignedIdentifier());
+        this.setVendorName(po.getVendorName());
+        //this.vendorRemitLine1Address = po.getVendorLine1Address();
+        this.setVendorLine1Address(po.getVendorLine1Address());
+        this.setVendorLine2Address(po.getVendorLine2Address());
+        //this.vendorRemitLine3Address = po.getVendorLine3Address();
+        this.setVendorCityName(po.getVendorCityName());
+        this.setVendorStateCode(po.getVendorStateCode());
+        this.setVendorPostalCode(po.getVendorPostalCode());
+        this.setVendorCountryCode(po.getVendorCountryCode());
+        if ((po.getVendorPaymentTerms() == null) || ("".equals(po.getVendorPaymentTerms().getVendorPaymentTermsCode())) ) {
+        //if ( (po.getVendorPaymentTerms() == null) || ("".equals(po.getVendorPaymentTermsCode())) ) {
+          //this.vendorPaymentTerms = new PaymentTermsType();
+          //this.vendorPaymentTerms.setCode("");
+            this.setVendorPaymentTerms(new PaymentTermType());
+            this.vendorPaymentTerms.setVendorPaymentTermsCode("");
+        } else {
+          this.setVendorPaymentTerms(po.getVendorPaymentTerms());
+        }
+
+        
+        /*
+        items.clear();
+        if (po.getItems() != null) {
+          for (Iterator i = po.getItems().iterator(); i.hasNext(); ) {
+            //Jira kulapp 1258: only save the first 500 characters of the description to the item
+            PurchaseOrderItem poi = (PurchaseOrderItem) i.next();
+            //Jira kulapp 1383, we should only copy the active po items.
+            if (poi.getActive().booleanValue()) {
+              String desc = poi.getDescription();
+              if (desc != null &&(desc.length() > 500)) {
+                poi.setDescription(desc.substring(0, 500));
+              }
+              items.add(new PaymentRequestItem(this, poi));
+            }//end of if (poi.getActive()..      
+          }//end of for (Iterator i = po.getItems()...
+        }//end of if (po.getItems() != null) 
+        */
+    }
     
-    /**
-     * Gets the DisplayInitiateTab attribute for JSP 
-     * @return Returns the DisplayInitiateTab.
-     */
-  /*
-    public boolean isPaymentRequestInitiated() { 
-        LOG.info("isPaymentRequestInitiated() started");
-        String stat = this.getStatusCode();
-        boolean bol = StringUtils.equals(this.getStatusCode(),PurapConstants.PaymentRequestStatuses.INITIATE);
-        return bol;
-        //return (StringUtils.equals(this.getStatusCode(),PurapConstants.PaymentRequestStatuses.INITIATE));
-      } 
-*/
+   
     /**
      * @see org.kuali.core.document.DocumentBase#handleRouteStatusChange()
      */
@@ -1250,5 +1245,19 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
 
 
     }
+    
+    /**
+     * Gets the DisplayInitiateTab attribute for JSP 
+     * @return Returns the DisplayInitiateTab.
+     */
+  /*
+    public boolean isPaymentRequestInitiated() { 
+        LOG.info("isPaymentRequestInitiated() started");
+        String stat = this.getStatusCode();
+        boolean bol = StringUtils.equals(this.getStatusCode(),PurapConstants.PaymentRequestStatuses.INITIATE);
+        return bol;
+        //return (StringUtils.equals(this.getStatusCode(),PurapConstants.PaymentRequestStatuses.INITIATE));
+      } 
+*/
 
 }

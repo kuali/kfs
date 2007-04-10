@@ -23,6 +23,7 @@ import org.kuali.core.bo.DocumentType;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
  * 
@@ -147,6 +148,7 @@ public class OrganizationRoutingModel extends PersistableBusinessObjectBase {
      * @return Returns the accountDelegate.
      */
     public UniversalUser getAccountDelegate() {
+        accountDelegate = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(accountDelegateUniversalId, accountDelegate);
         return accountDelegate;
     }
 

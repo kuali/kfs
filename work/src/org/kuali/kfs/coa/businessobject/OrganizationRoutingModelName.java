@@ -18,6 +18,8 @@ package org.kuali.module.chart.bo;
 
 import org.apache.log4j.Logger;
 import org.kuali.core.util.TypedArrayList;
+
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +28,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.bo.user.KualiModuleUser;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.rice.KNSServiceLocator;
 
@@ -182,5 +185,17 @@ public class OrganizationRoutingModelName extends PersistableBusinessObjectBase 
         return m;
     }
 
-
+    /**
+     * @see org.kuali.core.bo.PersistableBusinessObjectBase#linkEditableUserFields()
+     */
+    @Override
+    public void linkEditableUserFields() {
+        super.linkEditableUserFields();
+        if (this == null) {
+            throw new IllegalArgumentException("parameter passed in was null");
+        }
+        List bos = new ArrayList();
+        bos.addAll(getOrganizationRoutingModel());
+        SpringServiceLocator.getBusinessObjectService().linkUserFields(bos);
+    }
 }

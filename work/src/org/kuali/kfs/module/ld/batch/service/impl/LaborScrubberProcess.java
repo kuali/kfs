@@ -15,6 +15,7 @@
  */
 package org.kuali.module.labor.service.impl;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -28,6 +29,8 @@ import java.util.StringTokenizer;
 
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
+import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.bo.DocumentType;
 import org.kuali.core.bo.FinancialSystemParameter;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.service.DateTimeService;
@@ -35,6 +38,13 @@ import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.bo.OriginationCode;
+import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.AccountingPeriod;
+import org.kuali.module.chart.bo.Chart;
+import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.chart.bo.SubAccount;
+import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.chart.service.OffsetDefinitionService;
 import org.kuali.module.financial.service.FlexibleOffsetAccountService;
@@ -336,18 +346,10 @@ public class LaborScrubberProcess {
             boolean saveValidTransaction = false;
 
             // Build a scrubbed entry
+            // Labor has more fields
             LaborOriginEntry scrubbedEntry = new LaborOriginEntry();
-            scrubbedEntry.setDocumentNumber(unscrubbedEntry.getDocumentNumber());
-            scrubbedEntry.setOrganizationDocumentNumber(unscrubbedEntry.getOrganizationDocumentNumber());
-            scrubbedEntry.setOrganizationReferenceId(unscrubbedEntry.getOrganizationReferenceId());
-            scrubbedEntry.setReferenceFinancialDocumentNumber(unscrubbedEntry.getReferenceFinancialDocumentNumber());
-
-            Integer transactionNumber = unscrubbedEntry.getTransactionLedgerEntrySequenceNumber();
-            scrubbedEntry.setTransactionLedgerEntrySequenceNumber(null == transactionNumber ? new Integer(0) : transactionNumber);
-            scrubbedEntry.setTransactionLedgerEntryDescription(unscrubbedEntry.getTransactionLedgerEntryDescription());
-            scrubbedEntry.setTransactionLedgerEntryAmount(unscrubbedEntry.getTransactionLedgerEntryAmount());
-            scrubbedEntry.setTransactionDebitCreditCode(unscrubbedEntry.getTransactionDebitCreditCode());
-
+            buildScrubbedEntry(unscrubbedEntry, scrubbedEntry);
+            
             List<Message> tmperrors = scrubberValidator.validateTransaction(unscrubbedEntry, scrubbedEntry, universityRunDate);
             transactionErrors.addAll(tmperrors);
 
@@ -814,5 +816,57 @@ public class LaborScrubberProcess {
         }
         cutoffTime = cutoffParam.getFinancialSystemParameterText();
         setCutoffTime(cutoffTime);
+    }
+    
+    protected void buildScrubbedEntry(LaborOriginEntry unscrubbedEntry, LaborOriginEntry scrubbedEntry){
+        scrubbedEntry.setDocumentNumber(unscrubbedEntry.getDocumentNumber());
+        scrubbedEntry.setOrganizationDocumentNumber(unscrubbedEntry.getOrganizationDocumentNumber());
+        scrubbedEntry.setOrganizationReferenceId(unscrubbedEntry.getOrganizationReferenceId());
+        scrubbedEntry.setReferenceFinancialDocumentNumber(unscrubbedEntry.getReferenceFinancialDocumentNumber());
+
+        Integer transactionNumber = unscrubbedEntry.getTransactionLedgerEntrySequenceNumber();
+        scrubbedEntry.setTransactionLedgerEntrySequenceNumber(null == transactionNumber ? new Integer(0) : transactionNumber);
+        scrubbedEntry.setTransactionLedgerEntryDescription(unscrubbedEntry.getTransactionLedgerEntryDescription());
+        scrubbedEntry.setTransactionLedgerEntryAmount(unscrubbedEntry.getTransactionLedgerEntryAmount());
+        scrubbedEntry.setTransactionDebitCreditCode(unscrubbedEntry.getTransactionDebitCreditCode());
+        
+        // For Labor's more fields 
+        // It might be changed based on Labor Scrubber's business rule
+        
+        scrubbedEntry.setPositionNumber(unscrubbedEntry.getPositionNumber());
+        scrubbedEntry.setTransactionPostingDate(unscrubbedEntry.getTransactionPostingDate());
+        scrubbedEntry.setPayPeriodEndDate(unscrubbedEntry.getPayPeriodEndDate());
+        scrubbedEntry.setTransactionTotalHours(unscrubbedEntry.getTransactionTotalHours());
+        scrubbedEntry.setPayrollEndDateFiscalYear(unscrubbedEntry.getPayrollEndDateFiscalYear());
+        scrubbedEntry.setPayrollEndDateFiscalPeriodCode(unscrubbedEntry.getPayrollEndDateFiscalPeriodCode());
+        scrubbedEntry.setFinancialDocumentApprovedCode(unscrubbedEntry.getFinancialDocumentApprovedCode());
+        scrubbedEntry.setTransactionEntryOffsetCode(unscrubbedEntry.getTransactionEntryOffsetCode());
+        scrubbedEntry.setTransactionEntryProcessedTimestamp(unscrubbedEntry.getTransactionEntryProcessedTimestamp());
+        scrubbedEntry.setEmplid(unscrubbedEntry.getEmplid());
+        scrubbedEntry.setEmployeeRecord(unscrubbedEntry.getEmployeeRecord());
+        scrubbedEntry.setEarnCode(unscrubbedEntry.getEarnCode());
+        scrubbedEntry.setPayGroup(unscrubbedEntry.getPayGroup());
+        scrubbedEntry.setSalaryAdministrationPlan(unscrubbedEntry.getSalaryAdministrationPlan());
+        scrubbedEntry.setGrade(unscrubbedEntry.getGrade());
+        scrubbedEntry.setRunIdentifier(unscrubbedEntry.getRunIdentifier());
+        scrubbedEntry.setLaborLedgerOriginalChartOfAccountsCode(unscrubbedEntry.getLaborLedgerOriginalChartOfAccountsCode());
+        scrubbedEntry.setLaborLedgerOriginalAccountNumber(unscrubbedEntry.getLaborLedgerOriginalAccountNumber());
+        scrubbedEntry.setLaborLedgerOriginalSubAccountNumber(unscrubbedEntry.getLaborLedgerOriginalSubAccountNumber());
+        scrubbedEntry.setLaborLedgerOriginalFinancialObjectCode(unscrubbedEntry.getLaborLedgerOriginalFinancialObjectCode());
+        scrubbedEntry.setLaborLedgerOriginalFinancialSubObjectCode(unscrubbedEntry.getLaborLedgerOriginalFinancialSubObjectCode());
+        scrubbedEntry.setHrmsCompany(unscrubbedEntry.getHrmsCompany());
+        scrubbedEntry.setSetid(unscrubbedEntry.getSetid());
+        scrubbedEntry.setTransactionDateTimeStamp(unscrubbedEntry.getTransactionDateTimeStamp());
+        scrubbedEntry.setLaborLedgerOriginalFinancialObject(unscrubbedEntry.getLaborLedgerOriginalFinancialObject());
+        scrubbedEntry.setLaborLedgerOriginalChartOfAccounts(unscrubbedEntry.getLaborLedgerOriginalChartOfAccounts());
+        scrubbedEntry.setLaborLedgerOriginalAccount(unscrubbedEntry.getLaborLedgerOriginalAccount());
+        scrubbedEntry.setFinancialDocument(unscrubbedEntry.getFinancialDocument());
+        scrubbedEntry.setReferenceFinancialDocumentType(unscrubbedEntry.getReferenceFinancialDocumentType());
+        scrubbedEntry.setReferenceFinancialSystemOrigination(unscrubbedEntry.getReferenceFinancialSystemOrigination());
+        scrubbedEntry.setPayrollEndDateFiscalPeriod(unscrubbedEntry.getPayrollEndDateFiscalPeriod());
+        scrubbedEntry.setLaborLedgerOriginalSubAccount(unscrubbedEntry.getLaborLedgerOriginalSubAccount());
+        scrubbedEntry.setLaborLedgerOriginalFinancialSubObject(unscrubbedEntry.getLaborLedgerOriginalFinancialSubObject());
+        
+        
     }
 }

@@ -287,82 +287,19 @@
                 rowSpan="1" dataFieldCssClass="amount" />
         </tr>
 
-
-
-<%--
-            <td valign=top nowrap><div align="right"><span>
-                <kul:htmlControlAttribute attributeEntry="${monthlyBudgetAttributes.financialDocumentMonth1LineAmount}" property="budgetConstructionMonthly.financialDocumentMonth1LineAmount" readOnly="true"/>
-            </span></div></td>
+      </c:if>
+        <tr>
+            <td colspan="2" class="datacell" nowrap>
+              <div align="center"><span>
+              <c:if test="${!readOnly}">
+                <html:image src="images/buttonsmall_monthspread.gif" styleClass="tinybutton" property="methodToCall.performMonthlySpread.anchormonthlyBudgetLineLineAnchor" title="Spread Evenly To Months" alt="Spread Evenly To Months"/>
+                <html:image src="images/buttonsmall_clear.gif" styleClass="tinybutton" property="methodToCall.performMonthlyZero.anchormonthlyBudgetLineLineAnchor" title="Set Months To Zero" alt="Set Months To Zero"/>
+                <html:image src="images/buttonsmall_monthdel.gif" styleClass="tinybutton" property="methodToCall.performMonthlyDelete.anchormonthlyBudgetLineLineAnchor" title="Delete Monthly" alt="Delete Monthly"/>
+              </c:if>
+              &nbsp;
+              </div>
+            </td>
         </tr>
-        <tr><th>Month 2</th>
-            <td valign=top nowrap><div align="right"><span>
-                <kul:htmlControlAttribute attributeEntry="${monthlyBudgetAttributes.financialDocumentMonth1LineAmount}" property="budgetConstructionMonthly.financialDocumentMonth2LineAmount" readOnly="true"/>
-            </span></div></td>
-        </tr>
-                <tr><th>Month 3</th>
-                    <td valign=top nowrap><div align="right"><span>
-                        <kul:htmlControlAttribute attributeEntry="${monthlyBudgetAttributes.financialDocumentMonth1LineAmount}" property="budgetConstructionMonthly.financialDocumentMonth3LineAmount" readOnly="true"/>
-                    </span></div></td>
-                </tr>
-                <tr><th>Month 4</th>
-                    <td valign=top nowrap><div align="right"><span>
-                        <kul:htmlControlAttribute attributeEntry="${monthlyBudgetAttributes.financialDocumentMonth1LineAmount}" property="budgetConstructionMonthly.financialDocumentMonth4LineAmount" readOnly="true"/>
-                    </span></div></td>
-                </tr>
-                <tr><th>Month 5</th>
-                    <td valign=top nowrap><div align="right"><span>
-                        <kul:htmlControlAttribute attributeEntry="${monthlyBudgetAttributes.financialDocumentMonth1LineAmount}" property="budgetConstructionMonthly.financialDocumentMonth5LineAmount" readOnly="true"/>
-                    </span></div></td>
-                </tr>
-                <tr><th>Month 6</th>
-                    <td valign=top nowrap><div align="right"><span>
-                        <kul:htmlControlAttribute attributeEntry="${monthlyBudgetAttributes.financialDocumentMonth1LineAmount}" property="budgetConstructionMonthly.financialDocumentMonth6LineAmount" readOnly="true"/>
-                    </span></div></td>
-                </tr>
-                <tr><th>Month 7</th>
-                    <td valign=top nowrap><div align="right"><span>
-                        <kul:htmlControlAttribute attributeEntry="${monthlyBudgetAttributes.financialDocumentMonth1LineAmount}" property="budgetConstructionMonthly.financialDocumentMonth7LineAmount" readOnly="true"/>
-                    </span></div></td>
-                </tr>
-                <tr><th>Month 8</th>
-                    <td valign=top nowrap><div align="right"><span>
-                        <kul:htmlControlAttribute attributeEntry="${monthlyBudgetAttributes.financialDocumentMonth1LineAmount}" property="budgetConstructionMonthly.financialDocumentMonth8LineAmount" readOnly="true"/>
-                    </span></div></td>
-                </tr>
-                <tr><th>Month 9</th>
-                    <td valign=top nowrap><div align="right"><span>
-                        <kul:htmlControlAttribute attributeEntry="${monthlyBudgetAttributes.financialDocumentMonth1LineAmount}" property="budgetConstructionMonthly.financialDocumentMonth9LineAmount" readOnly="true"/>
-                    </span></div></td>
-                </tr>
-                <tr><th>Month 10</th>
-                    <td valign=top nowrap><div align="right"><span>
-                        <kul:htmlControlAttribute attributeEntry="${monthlyBudgetAttributes.financialDocumentMonth1LineAmount}" property="budgetConstructionMonthly.financialDocumentMonth10LineAmount" readOnly="true"/>
-                    </span></div></td>
-                </tr>
-                <tr><th>Month 11</th>
-                    <td valign=top nowrap><div align="right"><span>
-                        <kul:htmlControlAttribute attributeEntry="${monthlyBudgetAttributes.financialDocumentMonth1LineAmount}" property="budgetConstructionMonthly.financialDocumentMonth11LineAmount" readOnly="true"/>
-                    </span></div></td>
-                </tr>
-                <tr><th>Month 12</th>
-                    <td valign=top nowrap><div align="right"><span>
-                        <kul:htmlControlAttribute attributeEntry="${monthlyBudgetAttributes.financialDocumentMonth1LineAmount}" property="budgetConstructionMonthly.financialDocumentMonth12LineAmount" readOnly="true"/>
-                    </span></div></td>
-                </tr>
---%>
-                </c:if>
-                <tr>
-                    <td colspan="2" class="datacell" nowrap>
-                        <div align="center"><span>
-                          <c:if test="${!readOnly}">
-                            <html:image src="images/buttonsmall_monthspread.gif" styleClass="tinybutton" property="methodToCall.performMonthlySpread.anchormonthlyBudgetLineLineAnchor" title="Spread Evenly To Months" alt="Spread Evenly To Months"/>
-                            <html:image src="images/buttonsmall_clear.gif" styleClass="tinybutton" property="methodToCall.performMonthlyZero.anchormonthlyBudgetLineLineAnchor" title="Set Months To Zero" alt="Set Months To Zero"/>
-                            <html:image src="images/buttonsmall_monthdel.gif" styleClass="tinybutton" property="methodToCall.performMonthlyDelete.anchormonthlyBudgetLineLineAnchor" title="Delete Monthly" alt="Delete Monthly"/>
-                          </c:if>
-                          &nbsp;
-                       </div>
-                    </td>
-                </tr>
-        </table>
+    </table>
 </div>
 </kul:tabTop>

@@ -109,7 +109,7 @@ public class MonthlyBudgetAction extends KualiAction {
  */
     }
 
-    public ActionForward view(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         MonthlyBudgetForm monthlyBudgetForm = (MonthlyBudgetForm) form;
         
@@ -144,7 +144,7 @@ public class MonthlyBudgetAction extends KualiAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    public ActionForward returnToDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward returnToCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         MonthlyBudgetForm monthlyBudgetForm = (MonthlyBudgetForm) form;
         BudgetConstructionMonthly budgetConstructionMonthly = monthlyBudgetForm.getBudgetConstructionMonthly();

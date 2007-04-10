@@ -3403,6 +3403,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
                                  bcsf.getFinancialObjectCode(),
                                  bcsf.getFinancialSubObjectCode()));
           CSFBadObjectsSkipped = CSFBadObjectsSkipped+1;
+          return false;
         }
         // we need a new row
         // store the key so we won't try to add another row from a different
@@ -4135,7 +4136,7 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
             untouchedAppointmentFunding(bcaf);
         }
         */
-        /* (2) test the addIn criterion  (worked 04/02/2007) p6spy=yes
+        /* (2) test the addIn criterion  (worked 04/02/2007) p6spy=yes */
         Integer RequestYear = BaseYear+1;
         Criteria criteriaID = new Criteria();
         criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
@@ -4155,7 +4156,20 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
             LOG.info(String.format("\nPBGL rows with detailed position objects: %d",
                      rowCount));
         }
-        */
+        // here is an add on to verify that OJB instantiates all joined rows
+        // one row at a time
+        criteriaID.addEqualTo(PropertyConstants.CHART_OF_ACCOUNTS_CODE,"BL");
+        QueryByCriteria testQry = 
+            new QueryByCriteria(LaborObject.class,criteriaID);
+        Iterator uncleGuido =
+            getPersistenceBrokerTemplate().getIteratorByQuery(testQry);
+        Integer numerateri = new Integer(0);
+        while (uncleGuido.hasNext())
+        {
+            numerateri = numerateri+1;
+            LOG.warn(String.format("\ninstantiating Object %d",numerateri));
+            LaborObject labObj = (LaborObject) uncleGuido.next();
+        }
         /* (3) attempt to test the rounding mechanism (worked 4/4/2007)
         // build the new BC CSF objects in memory
         setUpCSFOverrideKeys(BaseYear); 
@@ -4167,8 +4181,10 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
         adjustCSFRounding();
         CSFDiagnostics();
         */
+        /* (4) attempt to test appointment funding (worked 04/09/2007)
         createNewBCDocumentsFromGLCSF(2007,true,true);
         buildAppointmentFundingAndBCSF(2007);
+        */
     }
 
     //

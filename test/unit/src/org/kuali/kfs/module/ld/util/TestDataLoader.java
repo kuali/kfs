@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectService;
@@ -38,6 +39,7 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
 import org.kuali.module.labor.bo.LaborOriginEntry;
+import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.bo.PendingLedgerEntry;
 import org.kuali.module.labor.service.LaborGeneralLedgerEntryService;
 import org.kuali.module.labor.service.LaborOriginEntryService;
@@ -110,7 +112,7 @@ public class TestDataLoader {
         OriginEntryGroup groupToPost = originEntryGroupService.createGroup(today, SCRUBBER_VALID, true, true, false);
 
         int[] fieldLength = this.getFieldLength(fieldLengthList);
-        List<OriginEntry> originEntries = this.loadInputData(OriginEntry.class, "data", 50, keyFieldList, fieldLength);
+        List<OriginEntry> originEntries = this.loadInputData(OriginEntry.class, "data", numberOfInputData, keyFieldList, fieldLength);
         for(OriginEntry entry : originEntries){
             entry.setEntryGroupId(groupToPost.getId());
         }
@@ -118,6 +120,26 @@ public class TestDataLoader {
         businessObjectService.save(originEntries);       
         return originEntries.size();
     }
+    
+    public void generateLedgerEntryTestData() {
+        int numberOfInputData = Integer.valueOf(properties.getProperty("numOfData"));
+
+        int[] fieldLength = this.getFieldLength(fieldLengthList);
+        List<LedgerEntry> entries = this.loadInputData(LedgerEntry.class, "data", 2, keyFieldList, fieldLength);
+        System.out.println(StringUtils.deleteWhitespace("a  a   a"));
+        for(LedgerEntry entry : entries){
+            System.out.print("data = ");
+            for(String field : keyFieldList){
+                try{
+                    Object propertyValue = PropertyUtils.getProperty(entry, field);
+                    String value = (propertyValue==null) ? ";" : (propertyValue + ";");
+                    System.out.println(field + ":" + StringUtils.deleteWhitespace(value));
+                }
+                catch(Exception e){e.printStackTrace();}
+            }
+            System.out.println();
+        }
+    }    
 
     private int loadInputData(String propertyKeyPrefix, int numberOfInputData, List<String> keyFieldList, int[] fieldLength) {
         int count = 0;
@@ -161,10 +183,11 @@ public class TestDataLoader {
 
     public static void main(String[] args) {
         TestDataLoader testDataLoader = new TestDataLoader();
-        for(int i=0; i<1; i++){
+        /*for(int i=0; i<1; i++){
         int numOfData = testDataLoader.loadTransactionIntoOriginEntryTable();
         System.out.println("Number of Data Loaded = " + numOfData);
-        }
+        }*/
+        testDataLoader.generateLedgerEntryTestData();
         System.exit(0);
     }
 }

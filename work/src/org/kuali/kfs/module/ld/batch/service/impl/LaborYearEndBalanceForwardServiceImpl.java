@@ -202,6 +202,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
 
             KualiDecimal transactionAmount = balance.getAccountLineAnnualBalanceAmount();
             transactionAmount = transactionAmount.add(balance.getContractsGrantsBeginningBalanceAmount());
+            
             originEntry.setTransactionLedgerEntryAmount(transactionAmount.abs());
             originEntry.setTransactionDebitCreditCode(TransactionTemplate.getDebitCreditCode(transactionAmount, false));
 

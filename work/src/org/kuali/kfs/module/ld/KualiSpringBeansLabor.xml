@@ -370,8 +370,53 @@
 			<ref bean="laborNightlyOutService" />
 		</property>
 	</bean>
+
+    <bean id="payrollAccrualService" class="org.kuali.module.labor.service.impl.PayrollAccrualServiceImpl">
+        <property name="originEntryGroupService">
+            <ref bean="glOriginEntryGroupService" />
+        </property>
+
+        <property name="accountService">
+            <ref bean="accountService" />
+        </property>
+        <property name="optionsService">
+            <ref bean="optionsService" />
+        </property>
+        
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>        
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
+        </property>
+        <property name="kualiConfigurationService">
+            <ref bean="kualiConfigurationService" />
+        </property>
+
+        <property name="laborReportService">
+            <ref bean="laborReportService" />
+        </property>
+        
+        <property name="transactionGenerators">
+        	<list>
+        		<ref bean="laborBenefitAccrualTransactionGenerator"/>
+        		<ref bean="laborBenefitReversalTransactionGenerator"/>
+        		<ref bean="laborSalaryAccrualTransactionGenerator"/>
+        		<ref bean="laborSalaryReversalTransactionGenerator"/>
+        		<ref bean="laborDisencumbranceTransactionGenerator"/>
+        		<ref bean="laborEncumbranceTransactionGenerator"/>
+        	</list>
+        </property>
+    </bean> 
     
-    <!-- Section 3: Spring Bean for Balance Inquiry -->  
+    <bean id="laborBenefitAccrualTransactionGenerator" class="org.kuali.module.labor.batch.payrollaccrual.impl.BenefitAccrualTransactionGenerator"/> 
+    <bean id="laborBenefitReversalTransactionGenerator" class="org.kuali.module.labor.batch.payrollaccrual.impl.BenefitReversalTransactionGenerator"/>
+    <bean id="laborSalaryAccrualTransactionGenerator" class="org.kuali.module.labor.batch.payrollaccrual.impl.SalaryAccrualTransactionGenerator"/> 
+    <bean id="laborSalaryReversalTransactionGenerator" class="org.kuali.module.labor.batch.payrollaccrual.impl.SalaryReversalTransactionGenerator"/>
+    <bean id="laborEncumbranceTransactionGenerator" class="org.kuali.module.labor.batch.payrollaccrual.impl.EncumbranceTransactionGenerator"/> 
+    <bean id="laborDisencumbranceTransactionGenerator" class="org.kuali.module.labor.batch.payrollaccrual.impl.DisencumbranceTransactionGenerator"/>    
+        
+    <!-- Section 4: Spring Bean for Balance Inquiry -->  
 		
 	<bean id="CSFTrackerBalanceLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">

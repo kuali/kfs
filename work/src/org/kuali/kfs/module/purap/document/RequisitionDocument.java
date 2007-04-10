@@ -17,6 +17,7 @@
 package org.kuali.module.purap.document;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
@@ -236,6 +237,9 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setOrganizationAutomaticPurchaseOrderLimit(null);
         this.setPurchaseOrderAutomaticIndicator(false);
         this.setStatusHistories(null);
+        
+        // Fill the BO Notes with an empty List.
+        this.setBoNotes(new ArrayList());
       
         //TODO WAIT ON ITEM LOGIC (CHRIS AND DAVID SHOULD FIX THIS HERE)
         //TODO what about id in items?  do we need to null them out?

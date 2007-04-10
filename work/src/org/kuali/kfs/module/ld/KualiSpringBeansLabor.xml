@@ -259,6 +259,13 @@
         <property name="scrubberValidator">
             <ref bean="glScrubberValidator" />
         </property>
+        <property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+		<property name="accountService">
+			<ref bean="accountService" />
+		</property>
+		
     </bean>
 	
     <bean id="laborPosterService" class="org.kuali.module.labor.service.impl.LaborPosterServiceImpl">

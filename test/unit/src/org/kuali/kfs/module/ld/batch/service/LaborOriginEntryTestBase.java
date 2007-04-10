@@ -188,16 +188,17 @@ public class LaborOriginEntryTestBase extends KualiTestBase {
             // Check transaction - this is done this way so that Anthill prints the two transactions to make
             // resolving the issue easier.
             
-            //This test is not good for Labor because input and output is little different.
-            /*String expected = requiredEntries[count].transactionLine.substring(0, 173);// trim();
-            String found = foundTransaction.getLine().substring(0, 173);// trim();
+            //This test is not good for Labor because input and output is little different.  -- Amount data 
+            /*String expected = requiredEntries[count].transactionLine.substring(0, 294);// trim();
+            String found = foundTransaction.getLine().substring(0, 294);// trim();
 
             if (!found.equals(expected)) {
                 System.err.println("Expected transaction: " + expected);
                 System.err.println("Found transaction:    " + found);
 
                 fail("Transaction " + foundTransaction.getEntryId() + " doesn't match expected output");
-            }*/
+            }
+            */            
             count++;
         }
     }

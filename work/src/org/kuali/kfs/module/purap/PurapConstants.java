@@ -137,6 +137,9 @@ public class PurapConstants {
         public static String PURCHASE_ORDER_CLOSE_DOCUMENT  = "KualiPurchaseOrderCloseDocument";
         public static String PURCHASE_ORDER_DOCUMENT  = "KualiPurchaseOrderDocument";
         public static String PURCHASE_ORDER_RETRANSMIT_DOCUMENT  = "KualiPurchaseOrderRetransmitDocument";
+        public static String PURCHASE_ORDER_PRINT_DOCUMENT  = "KualiPurchaseOrderPrintDocument";
+        public static String PURCHASE_ORDER_VOID_DOCUMENT  = "KualiPurchaseOrderVoidDocument";
+        public static String PURCHASE_ORDER_PAYMENT_HOLD_DOCUMENT  = "KualiPurchaseOrderPaymentHoldDocument";
     }
 
     private static HashMap<String, String> purchaseOrderDocTypes()
@@ -145,6 +148,10 @@ public class PurapConstants {
         mapSLF =  new HashMap<String,String>();
         mapSLF.put(PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT, "purchaseOrderPostProcessorCloseService");
         mapSLF.put(PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT, "purchaseOrderPostProcessorReopenService");
+        mapSLF.put(PurchaseOrderDocTypes.PURCHASE_ORDER_VOID_DOCUMENT, "purchaseOrderPostProcessorVoidService");
+        mapSLF.put(PurchaseOrderDocTypes.PURCHASE_ORDER_PRINT_DOCUMENT, "purchaseOrderPostProcessorPrintService");
+        mapSLF.put(PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, "purchaseOrderPostProcessorRetransmitService");
+        mapSLF.put(PurchaseOrderDocTypes.PURCHASE_ORDER_PAYMENT_HOLD_DOCUMENT, "purchaseOrderPostProcessorPaymentHoldService");
         mapSLF.put(PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT, "purchaseOrderPostProcessorService");
         return mapSLF;
     }

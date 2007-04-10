@@ -16,21 +16,29 @@
 
 package org.kuali.module.chart.bo;
 
-import java.util.ArrayList;
+import org.apache.log4j.Logger;
+import org.kuali.core.util.TypedArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-
+import java.util.Map;
+import org.kuali.core.UserSession;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.bo.user.KualiModuleUser;
+import org.kuali.module.chart.bo.ChartUser;
+import org.kuali.rice.KNSServiceLocator;
 
 /**
  * 
  */
 public class OrganizationRoutingModelName extends PersistableBusinessObjectBase {
+    private static final Logger LOG = Logger.getLogger(OrganizationRoutingModelName.class );
 
     private String chartOfAccountsCode;
     private String organizationCode;
     private String organizationRoutingModelName;
-    private List organizationRoutingModel;
+    private List<OrganizationRoutingModel> organizationRoutingModel;
 
     private Org organization;
     private Chart chartOfAccounts;
@@ -39,8 +47,7 @@ public class OrganizationRoutingModelName extends PersistableBusinessObjectBase 
      * Default constructor.
      */
     public OrganizationRoutingModelName() {
-        organizationRoutingModel = new ArrayList();
-
+        organizationRoutingModel = new TypedArrayList(OrganizationRoutingModel.class);
     }
 
     /**
@@ -151,7 +158,7 @@ public class OrganizationRoutingModelName extends PersistableBusinessObjectBase 
      * 
      * @return Returns the organizationRoutingModel.
      */
-    public List getOrganizationRoutingModel() {
+    public List<OrganizationRoutingModel> getOrganizationRoutingModel() {
         return organizationRoutingModel;
     }
 
@@ -160,7 +167,7 @@ public class OrganizationRoutingModelName extends PersistableBusinessObjectBase 
      * 
      * @param organizationRoutingModel The organizationRoutingModel to set.
      */
-    public void setOrganizationRoutingModel(List organizationRoutingModel) {
+    public void setOrganizationRoutingModel(List<OrganizationRoutingModel> organizationRoutingModel) {
         this.organizationRoutingModel = organizationRoutingModel;
     }
 

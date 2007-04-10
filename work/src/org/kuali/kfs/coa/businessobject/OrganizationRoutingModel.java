@@ -19,7 +19,9 @@ package org.kuali.module.chart.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
+import org.kuali.core.bo.DocumentType;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.KualiDecimal;
 
 /**
@@ -38,6 +40,8 @@ public class OrganizationRoutingModel extends PersistableBusinessObjectBase {
     private Date accountDelegateStartDate;
 
     private Chart chartOfAccounts;
+    private DocumentType documentType;
+    private UniversalUser accountDelegate;
 
     /**
      * Default constructor.
@@ -139,6 +143,22 @@ public class OrganizationRoutingModel extends PersistableBusinessObjectBase {
 
 
     /**
+     * Gets the accountDelegate attribute. 
+     * @return Returns the accountDelegate.
+     */
+    public UniversalUser getAccountDelegate() {
+        return accountDelegate;
+    }
+
+    /**
+     * Sets the accountDelegate attribute value.
+     * @param accountDelegate The accountDelegate to set.
+     */
+    public void setAccountDelegate(UniversalUser accountDelegate) {
+        this.accountDelegate = accountDelegate;
+    }
+
+    /**
      * Gets the financialDocumentTypeCode attribute.
      * 
      * @return Returns the financialDocumentTypeCode
@@ -158,6 +178,22 @@ public class OrganizationRoutingModel extends PersistableBusinessObjectBase {
         this.financialDocumentTypeCode = financialDocumentTypeCode;
     }
 
+
+    /**
+     * Gets the documentType attribute. 
+     * @return Returns the documentType.
+     */
+    public DocumentType getDocumentType() {
+        return documentType;
+    }
+
+    /**
+     * Sets the documentType attribute value.
+     * @param documentType The documentType to set.
+     */
+    public void setDocumentType(DocumentType documentType) {
+        this.documentType = documentType;
+    }
 
     /**
      * Gets the approvalFromThisAmount attribute.
@@ -274,5 +310,18 @@ public class OrganizationRoutingModel extends PersistableBusinessObjectBase {
         m.put("accountDelegateUniversalId", this.accountDelegateUniversalId);
         m.put("financialDocumentTypeCode", this.financialDocumentTypeCode);
         return m;
+    }
+    
+    public boolean equals(Object o) {
+        if (o instanceof OrganizationRoutingModel) {
+            OrganizationRoutingModel orgRouteModel = (OrganizationRoutingModel)o;
+            return (this.getChartOfAccountsCode().equals(orgRouteModel.getChartOfAccountsCode()) && this.getOrganizationCode().equals(orgRouteModel.getOrganizationCode()) && this.getOrganizationRoutingModelName().equals(orgRouteModel.getOrganizationRoutingModelName()) && this.getAccountDelegateUniversalId().equals(orgRouteModel.getAccountDelegateUniversalId()) && this.getFinancialDocumentTypeCode().equals(orgRouteModel.getFinancialDocumentTypeCode()));
+        } else {
+            return false;
+        }
+    }
+    
+    public int hashCode() {
+        return ((((this.getChartOfAccountsCode().hashCode() * 29 + this.getOrganizationCode().hashCode())*29 + this.getOrganizationRoutingModelName().hashCode()) * 29 + this.getAccountDelegateUniversalId().hashCode()) * 29 + this.getFinancialDocumentTypeCode().hashCode()) * 29;
     }
 }

@@ -19,8 +19,6 @@
     "../dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.chart.bo.OrganizationRoutingModelName">
-
-
         <inquiry>
             <title>Organization Routing Model Name Inquiry</title>
 
@@ -102,20 +100,9 @@
                 <description>organizationRoutingModelName description...</description>
 			</attribute>
 
-            <attribute name="versionNumber" forceUppercase="true">
-                <label>Version Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>versionNumber</summary>
-                <description>versionNumber description...</description>
-			</attribute>
+            <attributeReference name="versionNumber" 
+            					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" 
+            					sourceAttributeName="versionNumber" />
 
         </attributes>
         <objectLabel>Organization Routing Model Name</objectLabel>

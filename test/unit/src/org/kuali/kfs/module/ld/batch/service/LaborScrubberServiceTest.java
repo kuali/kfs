@@ -1352,7 +1352,7 @@ public class LaborScrubberServiceTest extends LaborOriginEntryTestBase {
     private void scrub(String[] inputTransactions) {
         clearOriginEntryTables();
         loadInputTransactions(OriginEntrySource.BACKUP, inputTransactions, date);
-        persistenceService.clearCache();
+        persistenceService.getPersistenceBroker().clearCache();
         laborScrubberService.scrubEntries();
     }
 }

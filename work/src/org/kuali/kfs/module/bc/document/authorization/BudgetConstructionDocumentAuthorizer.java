@@ -49,8 +49,10 @@ public class BudgetConstructionDocumentAuthorizer extends DocumentAuthorizerBase
 //        return super.getEditMode(d, u);
 
         /*
-         * TODO eventually this needs to call service methods that implements the BC security model
-         * probably need to extend with BCAuthorizationConstants to handle edit,view,beyondlevel
+         * TODO this eventually needs to call service methods that implements the BC security model
+         * use FULL_ENTRY for userAtDocLevel, VIEW_ONLY for userAboveDocLevel and 
+         * AuthorizationConstants.BudgetConstructionEditMode.USER_BELOW_DOC_LEVEL for limited access
+         * use AuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY to reflect when BC itself is in viewonly mode
          */ 
         Map editModeMap = new HashMap();
         String editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
@@ -62,8 +64,10 @@ public class BudgetConstructionDocumentAuthorizer extends DocumentAuthorizerBase
     public Map getEditMode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, UniversalUser u){
         
         /*
-         * TODO eventually this needs to call service methods that implements the BC security model
-         * probably need to extend with BCAuthorizationConstants to handle edit,view,beyondlevel
+         * TODO this eventually needs to call service methods that implements the BC security model
+         * use FULL_ENTRY for userAtDocLevel, VIEW_ONLY for userAboveDocLevel and 
+         * AuthorizationConstants.BudgetConstructionEditMode.USER_BELOW_DOC_LEVEL for limited access
+         * use AuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY to reflect when BC itself is in viewonly mode
          */ 
         Map editModeMap = new HashMap();
         String editMode = AuthorizationConstants.EditMode.FULL_ENTRY;

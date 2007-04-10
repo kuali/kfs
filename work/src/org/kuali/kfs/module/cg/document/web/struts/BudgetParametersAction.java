@@ -114,7 +114,7 @@ public class BudgetParametersAction extends BudgetAction {
         docReferenceObjects.add("adhocPersons");
         docReferenceObjects.add("adhocOrgs");
         docReferenceObjects.add("adhocWorkgroups");
-        
+
         SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(budgetForm.getBudgetDocument(), docReferenceObjects);
 
         if (budgetForm.getBudgetDocument().getBudget().isAgencyModularIndicator()) {

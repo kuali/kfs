@@ -26,6 +26,7 @@
    <html:hidden property="document.objectId" />
    <html:hidden property="document.documentHeader.documentNumber" />
    <html:hidden property="document.documentHeader.financialDocumentStatusCode" />
+   <html:hidden property="document.documentHeader.objectId" />
 
     <html:hidden property="auditActivated" />
     

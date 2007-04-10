@@ -25,6 +25,7 @@
     <html:hidden property="document.budget.versionNumber" />
     <html:hidden property="document.objectId" />
     <html:hidden property="document.documentHeader.financialDocumentStatusCode" />
+    <html:hidden property="document.documentHeader.objectId" />
 		
     <c:if test="${includeDocumenHeaderIdFields == 'true' || includeDocumenHeaderIdFields == 'TRUE'}">
       <html:hidden property="document.documentHeader.versionNumber" />
@@ -52,8 +53,6 @@
     </c:if>
     
     <c:if test="${!excludeBudgetParameteres}">
-      <html:hidden property="document.budget.projectDirector.universalUser.personName" />
-      <html:hidden property="document.budget.projectDirector.universalUser.personUniversalIdentifier"/>
       <html:hidden property="document.budget.projectDirector.personUniversalIdentifier"/>
       <html:hidden property="document.budget.budgetAgencyNumber" />
       <html:hidden property="document.budget.budgetAgency.fullName" />

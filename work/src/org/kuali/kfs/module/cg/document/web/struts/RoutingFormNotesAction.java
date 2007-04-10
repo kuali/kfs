@@ -15,6 +15,18 @@
  */
 package org.kuali.module.kra.routingform.web.struts.action;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+
 public class RoutingFormNotesAction extends RoutingFormAction {
 
+    @Override
+    public ActionForward headerTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        super.load(mapping, form, request, response);
+        return super.headerTab(mapping, form, request, response);
+    }
 }

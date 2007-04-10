@@ -50,15 +50,12 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
     
     public ActionForward mainpage(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         RoutingForm routingForm = (RoutingForm) form;
-        routingForm.setTabStates(new ArrayList());
         
         return mapping.findForward("mainpage");
     }
     
     public ActionForward personnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         RoutingForm routingForm = (RoutingForm) form;
-        
-        routingForm.setTabStates(new ArrayList());
         
         // Make sure all the reference objects fields are filled. Since most pages don't care about them this is important.
         for(RoutingFormPersonnel routingFormPerson : routingForm.getRoutingFormDocument().getRoutingFormPersonnel()) {
@@ -72,7 +69,7 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
         
         RoutingForm routingForm = (RoutingForm) form;
         SpringServiceLocator.getPersistenceService().retrieveReferenceObject(routingForm.getRoutingFormDocument(), "routingFormResearchRisks");
-        routingForm.setTabStates(new ArrayList());
+
         return mapping.findForward("researchrisks");
     }
     
@@ -80,7 +77,7 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
         
         RoutingForm routingForm = (RoutingForm) form;
         SpringServiceLocator.getPersistenceService().retrieveReferenceObject(routingForm.getRoutingFormDocument(), "routingFormQuestions");
-        routingForm.setTabStates(new ArrayList());
+
         return mapping.findForward("projectdetails");
     }
     
@@ -94,7 +91,6 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
 
     public ActionForward link(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         RoutingForm routingForm = (RoutingForm)form;
-        routingForm.setTabStates(new ArrayList());
         
         if (routingForm.getRoutingFormDocument().getRoutingFormBudgetNumber() != null) {
             new RoutingFormLinkAction().setupBudgetPeriodData(routingForm);
@@ -108,12 +104,6 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
             }
         }
         return mapping.findForward("link");
-    }
-
-    public ActionForward notes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        RoutingForm routingForm = (RoutingForm) form;
-        routingForm.setTabStates(new ArrayList());
-        return mapping.findForward("notes");
     }
 
     public ActionForward output(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

@@ -76,6 +76,25 @@ public class BudgetAction extends ResearchDocumentActionBase {
         return forward;
     }
     
+
+    
+    @Override
+    /**
+     * Overriding headerTab to customize how clearing tab state works on Budget.  Specifically, additional attributes (selected task and period) should be cleared any time header navigation occurs.
+     */
+    public ActionForward headerTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        BudgetForm budgetForm = (BudgetForm)form;
+
+        // This is so that tab states are not shared between pages.
+        budgetForm.newTabState(true, true);
+
+        
+        return super.headerTab(mapping, form, request, response);
+    }
+
+
+
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         BudgetForm budgetForm = (BudgetForm) form;
@@ -156,9 +175,6 @@ public class BudgetAction extends ResearchDocumentActionBase {
 
         BudgetForm budgetForm = (BudgetForm) form;
 
-        // This is so that tab states are not shared between pages.
-        budgetForm.newTabState(true, true);
-
         budgetForm.setBudgetOverviewFormHelper(new BudgetOverviewFormHelper(budgetForm));
 
         return mapping.findForward("overview");
@@ -169,9 +185,6 @@ public class BudgetAction extends ResearchDocumentActionBase {
         this.load(mapping, form, request, response);
 
         BudgetForm budgetForm = (BudgetForm) form;
-
-        // This is so that tab states are not shared between pages.
-        budgetForm.newTabState(true, true);
 
         // Set default task name
         String DEFAULT_BUDGET_TASK_NAME = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "defaultBudgetTaskName");
@@ -195,24 +208,9 @@ public class BudgetAction extends ResearchDocumentActionBase {
 
         BudgetForm budgetForm = (BudgetForm) form;
 
-        // This is so that tab states are not shared between pages.
-        budgetForm.newTabState(true, true);
-
         return mapping.findForward("template");
     }
 
-    public ActionForward notes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        this.load(mapping, form, request, response);
-
-        BudgetForm budgetForm = (BudgetForm) form;
-
-        // This is so that tab states are not shared between pages.
-        budgetForm.newTabState(true, true);
-
-        return mapping.findForward("notes");
-    }
-    
     public ActionForward personnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         this.load(mapping, form, request, response);
@@ -233,9 +231,6 @@ public class BudgetAction extends ResearchDocumentActionBase {
         this.load(mapping, form, request, response);
         BudgetForm budgetForm = (BudgetForm) form;
 
-        // This is so that tab states are not shared between pages.
-        budgetForm.newTabState(true, true);
-
         setupNonpersonnelCategories(budgetForm);
         budgetForm.setBudgetNonpersonnelFormHelper(new BudgetNonpersonnelFormHelper(budgetForm));
 
@@ -246,9 +241,6 @@ public class BudgetAction extends ResearchDocumentActionBase {
 
         this.load(mapping, form, request, response);
         BudgetForm budgetForm = (BudgetForm) form;
-
-        // This is so that tab states are not shared between pages.
-        budgetForm.newTabState(true, true);
 
         SpringServiceLocator.getBudgetModularService().generateModularBudget(budgetForm.getBudgetDocument().getBudget(), budgetForm.getNonpersonnelCategories());
 
@@ -262,9 +254,6 @@ public class BudgetAction extends ResearchDocumentActionBase {
         this.load(mapping, form, request, response);
 
         BudgetForm budgetForm = (BudgetForm) form;
-
-        // This is so that tab states are not shared between pages.
-        budgetForm.newTabState(true, true);
 
         // Make sure our IDC object is properly formed. This will also perform initial calculations for BudgetTaskPeriodIndirectCost
         // objects.
@@ -281,9 +270,6 @@ public class BudgetAction extends ResearchDocumentActionBase {
         this.load(mapping, form, request, response);
 
         BudgetForm budgetForm = (BudgetForm) form;
-
-        // This is so that tab states are not shared between pages.
-        budgetForm.newTabState(true, true);
         
         setupBudgetCostSharePermissionDisplay(budgetForm);
 
@@ -301,9 +287,6 @@ public class BudgetAction extends ResearchDocumentActionBase {
 
         BudgetForm budgetForm = (BudgetForm) form;
 
-        // This is so that tab states are not shared between pages.
-        budgetForm.newTabState(true, true);
-
         return mapping.findForward("output");
     }
 
@@ -312,9 +295,6 @@ public class BudgetAction extends ResearchDocumentActionBase {
         this.load(mapping, form, request, response);
 
         BudgetForm budgetForm = (BudgetForm) form;
-
-        // This is so that tab states are not shared between pages.
-        budgetForm.newTabState(true, true);
 
         return mapping.findForward("auditmode");
     }
@@ -331,9 +311,6 @@ public class BudgetAction extends ResearchDocumentActionBase {
         
         budgetForm.getBudgetDocument().populateDocumentForRouting();
         budgetForm.getBudgetDocument().getDocumentHeader().getWorkflowDocument().saveRoutingData();
-
-        // This is so that tab states are not shared between pages.
-        budgetForm.newTabState(true, true);
 
         return mapping.findForward("permissions");
     }

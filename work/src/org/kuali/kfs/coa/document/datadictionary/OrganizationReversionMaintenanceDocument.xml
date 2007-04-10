@@ -21,7 +21,7 @@
 <dictionaryEntry>
     <maintenanceDocument>
         <businessObjectClass>org.kuali.module.chart.bo.OrganizationReversion</businessObjectClass>
-        <maintainableClass>org.kuali.module.chart.maintenance.OrganizationReversionMaintainable</maintainableClass>
+        <maintainableClass>org.kuali.module.chart.maintenance.OrganizationReversionMaintainableImpl</maintainableClass>
         <businessRulesClass>org.kuali.module.chart.rules.OrganizationReversionRule</businessRulesClass>
         <preRulesCheckClass>org.kuali.module.chart.rules.OrganizationReversionPreRules</preRulesCheckClass>
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>

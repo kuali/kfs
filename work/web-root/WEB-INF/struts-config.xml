@@ -76,7 +76,6 @@
         <form-bean name="AssignContractManagerForm" type="org.kuali.module.purap.web.struts.form.AssignContractManagerForm" />
         <form-bean name="RequisitionForm" type="org.kuali.module.purap.web.struts.form.RequisitionForm" />
         <form-bean name="PurchaseOrderForm" type="org.kuali.module.purap.web.struts.form.PurchaseOrderForm" />
-        <form-bean name="PurchaseOrderPrintForm" type="org.kuali.module.purap.web.struts.form.PurchaseOrderPrintForm" />
         <form-bean name="PaymentRequestForm" type="org.kuali.module.purap.web.struts.form.PaymentRequestForm" />
 
     </form-beans>

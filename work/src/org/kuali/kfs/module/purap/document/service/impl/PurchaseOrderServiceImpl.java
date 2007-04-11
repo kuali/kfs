@@ -290,7 +290,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             GlobalVariables.setErrorMap(new ErrorMap());
             createPurchaseOrderPrintDocument(po);
             try {
-                po = (PurchaseOrderDocument)SpringServiceLocator.getDocumentService().routeDocument(po, null, null);
+                po = (PurchaseOrderDocument)documentService.routeDocument(po, null, null);
             }
             catch (WorkflowException e) {
                 LOG.error("Error routing PO document: " + e.getMessage());

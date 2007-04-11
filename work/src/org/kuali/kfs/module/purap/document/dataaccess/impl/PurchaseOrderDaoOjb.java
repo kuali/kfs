@@ -18,6 +18,7 @@ package org.kuali.module.purap.dao.ojb;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.dao.PurchaseOrderDao;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
@@ -94,5 +95,17 @@ public class PurchaseOrderDaoOjb extends PersistenceBrokerDaoSupport implements 
             oldestPO.refreshAllReferences();
         }
         return oldestPO;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.module.purap.dao.PurchaseOrderDao#getPurchaseOrderInPendingPrintStatus(java.lang.Integer)
+     */
+    public PurchaseOrderDocument getPurchaseOrderInPendingPrintStatus(Integer id) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
+        criteria.addEqualTo(PurapPropertyConstants.STATUS_CODE, PurapConstants.PurchaseOrderStatuses.PENDING_PRINT);
+        PurchaseOrderDocument thePO = (PurchaseOrderDocument)getPurchaseOrder(criteria);
+        return thePO;
     }
 }

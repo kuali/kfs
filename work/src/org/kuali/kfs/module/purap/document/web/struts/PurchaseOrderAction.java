@@ -101,7 +101,12 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
         return mapping.findForward("viewPaymentHistory");
     }
-
+    
+    public ActionForward paymentHoldPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        //TODO add code
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
     public ActionForward closePO(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("Close PO started");
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
@@ -263,6 +268,127 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.PODocumentsStrings.CONFIRM_REOPEN_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_ROUTE_REOPENED), PurapConstants.PODocumentsStrings.SINGLE_CONFIRMATION_QUESTION, Constants.ROUTE_METHOD, "");
     }
     
+    /**
+     * 
+     * This method is executed when the user click on the "print" button on a Purchase Order Print
+     * Document page. It will display the PDF document on the browser window and set a few fields
+     * (transmission dates and statuses) of the original Purchase Order Document and Purchase Order
+     * Print Document itself and save these fields to the database.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward printPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        PurchaseOrderDocument po = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
+        ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
+        try {
+            StringBuffer sbFilename = new StringBuffer();
+            sbFilename.append("PURAP_PO_");
+            sbFilename.append(po.getPurapDocumentIdentifier());
+            sbFilename.append("_");
+            sbFilename.append(System.currentTimeMillis());
+            sbFilename.append(".pdf");
+            
+            //for testing Generate PO PDF, set the APO to true
+            po.setPurchaseOrderAutomaticIndicator(true);
+            boolean success = SpringServiceLocator.getPurchaseOrderService().printPurchaseOrderPDF(po, 
+                PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PRINT_DOCUMENT, kualiDocumentFormBase.getAnnotation(), 
+                combineAdHocRecipients(kualiDocumentFormBase), baosPDF);
+
+            if (!success) {
+                if (baosPDF != null) {
+                    baosPDF.reset();
+                }
+                return mapping.findForward(Constants.MAPPING_ERROR);
+            }
+            response.setHeader("Cache-Control", "max-age=30");
+            response.setContentType("application/pdf");
+            StringBuffer sbContentDispValue = new StringBuffer();
+            sbContentDispValue.append("inline");
+            sbContentDispValue.append("; filename=");
+            sbContentDispValue.append(sbFilename);
+
+            response.setHeader(
+              "Content-disposition",
+              sbContentDispValue.toString());
+    
+            response.setContentLength(baosPDF.size());
+       
+            ServletOutputStream sos;
+
+            sos = response.getOutputStream();
+          
+            baosPDF.writeTo(sos);
+        
+            sos.flush();
+            
+        } finally {
+            if (baosPDF != null) {
+              baosPDF.reset();
+            }
+        }
+        return null;        
+    }
+    
+    public ActionForward firstTransmitPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        PurchaseOrderDocument po = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
+        ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
+        try {
+            String environment = "dev";
+            StringBuffer sbFilename = new StringBuffer();
+            sbFilename.append("PURAP_PO_");
+            sbFilename.append(po.getPurapDocumentIdentifier());
+            sbFilename.append("_");
+            sbFilename.append(System.currentTimeMillis());
+            sbFilename.append(".pdf");
+            
+            //for testing Generate PO PDF, set the APO to true
+            po.setPurchaseOrderAutomaticIndicator(true);
+            boolean success = SpringServiceLocator.getPurchaseOrderService().firstPurchaseOrderTransmitViaPrint(po, 
+                PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PRINT_DOCUMENT, kualiDocumentFormBase.getAnnotation(), 
+                combineAdHocRecipients(kualiDocumentFormBase), baosPDF, environment);
+
+            if (!success) {
+                if (baosPDF != null) {
+                    baosPDF.reset();
+                }
+                return mapping.findForward(Constants.MAPPING_ERROR);
+            }
+            response.setHeader("Cache-Control", "max-age=30");
+            response.setContentType("application/pdf");
+            StringBuffer sbContentDispValue = new StringBuffer();
+            sbContentDispValue.append("inline");
+            sbContentDispValue.append("; filename=");
+            sbContentDispValue.append(sbFilename);
+
+            response.setHeader(
+              "Content-disposition",
+              sbContentDispValue.toString());
+    
+            response.setContentLength(baosPDF.size());
+       
+            ServletOutputStream sos;
+
+            sos = response.getOutputStream();
+          
+            baosPDF.writeTo(sos);
+        
+            sos.flush();
+            
+        } finally {
+            if (baosPDF != null) {
+              baosPDF.reset();
+            }
+        }
+        return null;        
+    }
+    
     public ActionForward retransmitPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         //TODO: Remove this temporary method when the PurchaseOrderPrintAction is ready
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
@@ -271,7 +397,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         try {
             String environment = "dev";
             StringBuffer sbFilename = new StringBuffer();
-            sbFilename.append("IU_PO_");
+            sbFilename.append("PURAP_PO_");
             sbFilename.append(po.getPurapDocumentIdentifier());
             sbFilename.append("_");
             sbFilename.append(System.currentTimeMillis());
@@ -515,6 +641,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.docHandler(mapping, form, request, response);
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        ((PurchaseOrderForm)kualiDocumentFormBase).addButtons();
         PurchaseOrderDocument po = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
         ActionMessages messages = new ActionMessages();
         checkForPOWarnings(po, messages);

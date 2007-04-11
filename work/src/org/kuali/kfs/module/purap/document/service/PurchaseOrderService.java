@@ -15,6 +15,7 @@
  */
 package org.kuali.module.purap.service;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import org.kuali.module.purap.document.PurchaseOrderDocument;
@@ -29,10 +30,15 @@ public interface PurchaseOrderService {
     public PurchaseOrderPostProcessorService convertDocTypeToService(String documentTypeId);  
     
     public boolean updateFlagsAndRoute(PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients);
-    
+    public boolean firstPurchaseOrderTransmitViaPrint (PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients,
+        ByteArrayOutputStream baosPDF,  String environment);
+    public boolean printPurchaseOrderPDF (PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients,
+            ByteArrayOutputStream baosPDF);
     public void completePurchaseOrder(PurchaseOrderDocument po);
     public PurchaseOrderDocument getCurrentPurchaseOrder(Integer id);
     public void setCurrentAndPendingIndicatorsInPostProcessor(PurchaseOrderDocument newPO, String workflowState);
 
     public PurchaseOrderDocument getOldestPurchaseOrder(Integer id);
+    public PurchaseOrderDocument getPurchaseOrderInPendingPrintStatus(Integer id);
+    
 }

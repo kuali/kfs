@@ -20,6 +20,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.bo.PurchasingApItem;
@@ -42,7 +43,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         setDocument(new PurchaseOrderDocument());
         this.setNewPurchasingItemLine(setupNewPurchasingItemLine());
         setNewPurchaseOrderVendorStipulationLine(new PurchaseOrderVendorStipulation());
-        addButtons();
+        //addButtons();
     }
 
     /**
@@ -108,22 +109,11 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         this.newPurchaseOrderVendorStipulationLine = newPurchaseOrderVendorStipulationLine;
     }
 
-    private void addButtons() {
+    public void addButtons() {
         //TODO: Find out and add logic about which buttons to appear in 
         //which condition e.g. we might not want to display the close button 
         //on a PO with status CLOSE or the open button on a PO with status OPEN, etc.
         
-        ExtraButton closeButton = new ExtraButton();
-        closeButton.setExtraButtonProperty("methodToCall.closePO");
-        closeButton.setExtraButtonSource("images/buttonsmall_closeorder.gif");
-
-        ExtraButton reopenButton = new ExtraButton();
-        reopenButton.setExtraButtonProperty("methodToCall.reopenPo");
-        reopenButton.setExtraButtonSource("images/buttonsmall_openorder.gif");
-        
-        ExtraButton voidButton = new ExtraButton();
-        voidButton.setExtraButtonProperty("methodToCall.voidPo");
-        voidButton.setExtraButtonSource("images/buttonsmall_voidorder.gif");
 
         ExtraButton paymentHoldButton = new ExtraButton();
         paymentHoldButton.setExtraButtonProperty("methodToCall.paymentHoldPo");
@@ -133,11 +123,47 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         retransmitButton.setExtraButtonProperty("methodToCall.retransmitPo");
         retransmitButton.setExtraButtonSource("images/buttonsmall_retransmit.gif");
         
-        this.getExtraButtons().add(closeButton);
-        this.getExtraButtons().add(reopenButton);
-        this.getExtraButtons().add(voidButton);
+
         this.getExtraButtons().add(paymentHoldButton);
         this.getExtraButtons().add(retransmitButton);
+
+        String documentType = this.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentType();
+        PurchaseOrderDocument purchaseOrder = (PurchaseOrderDocument)this.getDocument();
+        
+        if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PRINT_DOCUMENT)) {
+            ExtraButton printButton = new ExtraButton();
+            printButton.setExtraButtonProperty("methodToCall.printPo");
+            printButton.setExtraButtonSource("images/buttonsmall_print.gif");
+            this.getExtraButtons().add(printButton);
+        }
+        if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CLOSED) &&
+            purchaseOrder.isPurchaseOrderCurrentIndicator() &&
+            !purchaseOrder.isPendingActionIndicator()) {
+            ExtraButton reopenButton = new ExtraButton();
+            reopenButton.setExtraButtonProperty("methodToCall.reopenPo");
+            reopenButton.setExtraButtonSource("images/buttonsmall_openorder.gif");    
+            this.getExtraButtons().add(reopenButton);
+        }
+        if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) &&
+            purchaseOrder.isPurchaseOrderCurrentIndicator() &&
+            !purchaseOrder.isPendingActionIndicator()) {
+            ExtraButton closeButton = new ExtraButton();
+            closeButton.setExtraButtonProperty("methodToCall.closePO");
+            closeButton.setExtraButtonSource("images/buttonsmall_closeorder.gif");
+            this.getExtraButtons().add(closeButton);
+            ExtraButton voidButton = new ExtraButton();
+            voidButton.setExtraButtonProperty("methodToCall.voidPo");
+            voidButton.setExtraButtonSource("images/buttonsmall_voidorder.gif");            
+            this.getExtraButtons().add(voidButton); 
+        }
+        /* We probably won't need this button */
+        if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT) &&
+            purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.PENDING_PRINT)) {
+            ExtraButton firstTransmitButton = new ExtraButton();
+            firstTransmitButton.setExtraButtonProperty("methodToCall.firstTransmitPo");
+            firstTransmitButton.setExtraButtonSource("images/buttonsmall_transmit.gif");
+            this.getExtraButtons().add(firstTransmitButton);
+        }
     }
     
 }

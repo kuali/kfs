@@ -162,7 +162,7 @@ AS
 	subobject.fin_subobj_shrt_nm,
 	account.org_cd,
 	account.account_nm,
-	account.acct_mgr_unvl_id,
+	account.acct_fsc_ofc_uid,
 	account.acct_spvsr_unvl_id,
 	account.acct_effect_dt,
 	account.acct_expiration_dt,
@@ -774,7 +774,7 @@ AS
 	type.fin_obj_typ_nm,
 	type.fin_report_sort_cd as fin_objtyp_rsrt_cd,
 	account.account_nm,
-	account.acct_mgr_unvl_id,
+	account.acct_fsc_ofc_uid,
 	account.acct_spvsr_unvl_id,
 	account.acct_effect_dt,
 	account.acct_expiration_dt,
@@ -862,7 +862,7 @@ SELECT
 fin_coa_cd,
 account_nbr,
 account_nm,
-acct_mgr_unvl_id,
+acct_fsc_ofc_uid,
 person_nm,
 acct_typ_cd,
 incptn_dt,
@@ -896,7 +896,7 @@ FROM (
 	SELECT
 	a.account_nbr,
 	a.account_nm,
-	a.acct_mgr_unvl_id,
+	a.acct_fsc_ofc_uid,
 	a.acct_typ_cd,
 	a.amount,
 	a.balance_name,
@@ -939,7 +939,7 @@ FROM (
 		  SELECT
 		  z.account_nbr,
 		  z.account_nm,
-		  z.acct_mgr_unvl_id,
+		  z.acct_fsc_ofc_uid,
 		  z.acct_typ_cd,
 		  z.amount,
 		  z.balance_name,
@@ -979,7 +979,7 @@ FROM (
 			    SELECT
 			    a.account_nbr,
 			    a.account_nm,
-			    a.acct_mgr_unvl_id,
+			    a.acct_fsc_ofc_uid,
 			    a.acct_typ_cd,
 			    SUM(DECODE(a.trn_debit_crdt_cd, 'C', -1 * a.trn_ldgr_entr_amt,
 							    a.trn_ldgr_entr_amt)) as amount,
@@ -1053,7 +1053,7 @@ FROM (
 			    WHERE a.fin_coa_cd = sa.fin_coa_cd (+)
 			    AND   a.account_nbr = sa.account_nbr (+)
 			    AND   a.sub_acct_nbr = sa.sub_acct_nbr (+)
-			    AND   a.acct_mgr_unvl_id = u.person_unvl_id (+)
+			    AND   a.acct_fsc_ofc_uid = u.person_unvl_id (+)
 
 			    
 			    AND   a.fin_balance_typ_cd IN ('IE','EX','PE','CE')
@@ -1066,7 +1066,7 @@ FROM (
 
                             GROUP BY a.account_nbr,
 			             a.account_nm,
-			             a.acct_mgr_unvl_id,
+			             a.acct_fsc_ofc_uid,
 			             a.acct_typ_cd,
                                      a.fin_balance_typ_cd,
 			     	     a.acct_expiration_dt,
@@ -1120,7 +1120,7 @@ FROM (
 		  SELECT
 		  a.account_nbr,
 		  a.account_nm,
-		  a.acct_mgr_unvl_id,
+		  a.acct_fsc_ofc_uid,
 		  a.acct_typ_cd, 
 
 		  DECODE(a.trn_debit_crdt_cd, 'D', DECODE(a.fin_obj_typ_cd, 'LI', -1 * a.trn_ldgr_entr_amt,
@@ -1222,7 +1222,7 @@ FROM (
 				       s.univ_fscpd_end_dt
 			 ) sh     
 
-		  WHERE a.acct_mgr_unvl_id = u.person_unvl_id (+)
+		  WHERE a.acct_fsc_ofc_uid = u.person_unvl_id (+)
 		  AND   a.univ_fiscal_yr = sh.univ_fiscal_yr (+)
 		  AND   a.univ_fiscal_prd_cd = sh.univ_fiscal_prd_cd (+)
 
@@ -1333,7 +1333,7 @@ SELECT
          fin_coa_cd,
          account_nbr,
          account_nm,
-         acct_mgr_unvl_id,
+         acct_fsc_ofc_uid,
          person_nm,
          acct_typ_cd,
          incptn_dt,
@@ -1373,7 +1373,7 @@ SELECT
          fin_coa_cd,
          account_nbr,
          account_nm,
-         acct_mgr_unvl_id,
+         acct_fsc_ofc_uid,
          person_nm,
          acct_typ_cd,
          incptn_dt,
@@ -1416,7 +1416,7 @@ GROUP BY
          object_code,
          fdoc_typ_cd,
          account_nm,
-         acct_mgr_unvl_id,
+         acct_fsc_ofc_uid,
          person_nm,
          acct_typ_cd,
          incptn_dt,
@@ -1873,7 +1873,7 @@ AS
 			a.fin_objtyp_rsrt_cd,
 			a.fin_subobj_shrt_nm,
 			a.account_nm,
-			a.acct_mgr_unvl_id,
+			a.acct_fsc_ofc_uid,
 			a.acct_spvsr_unvl_id,
 			a.acct_effect_dt,
 			a.acct_expiration_dt,
@@ -2010,7 +2010,7 @@ AS
 			AND     a.account_nbr = b.account_nbr (+)
 			AND     a.sub_acct_nbr = b.sub_acct_nbr (+)
 			AND     a.univ_fiscal_yr = sh.univ_fiscal_yr (+)	 
-			AND     a.acct_mgr_unvl_id = u.person_unvl_id (+)     
+			AND     a.acct_fsc_ofc_uid = u.person_unvl_id (+)     
 		     ) b
 
 

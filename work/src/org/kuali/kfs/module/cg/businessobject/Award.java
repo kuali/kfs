@@ -24,9 +24,13 @@ import java.util.List;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.bo.user.KualiGroup;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
  * 
@@ -76,6 +80,7 @@ public class Award extends PersistableBusinessObjectBase {
     private String awardCommentText;
     private String awardPurposeCode;
     private boolean active;
+    private String kualiGroupNames;
     private List<AwardProjectDirector> awardProjectDirectors;
     private List<AwardAccount> awardAccounts;
     private List<AwardSubcontractor> awardSubcontractors;
@@ -89,6 +94,7 @@ public class Award extends PersistableBusinessObjectBase {
     private Agency agency;
     private Agency federalPassThroughAgency;
     private ProposalPurpose awardPurpose;
+    private KualiGroup workgroup;
     private AwardOrganization primaryAwardOrganization;
 
     /**
@@ -1119,6 +1125,24 @@ public class Award extends PersistableBusinessObjectBase {
 
     /**
      * 
+     * Returns a KualiGroup object whose name is defined by workgroupName.
+     * @return KualiGroup defined by workgroupName
+     */
+    public KualiGroup getWorkgroup() {
+        return SpringServiceLocator.getAwardService().getKualiGroup(workgroupName);
+    }
+
+    /**
+     * 
+     * Sets the local workgroupName attribute to the name of the passed in workgroup object.
+     * @param workgroup KualiGroup object to use to set the local workgroupName attribute.
+     */
+    public void setWorkgroup(KualiGroup workgroup) {
+        this.workgroupName = workgroup.getGroupName();
+    }
+
+    /**
+     * 
      * This method...
      * @return
      */
@@ -1140,6 +1164,59 @@ public class Award extends PersistableBusinessObjectBase {
      */
     public void setPrimaryAwardOrganization(AwardOrganization primaryAwardOrganization) {
         this.primaryAwardOrganization = primaryAwardOrganization;
+    }
+
+    /**
+     * 
+     * Retrieves the list of users assigned to the associated workgroup and builds out a 
+     * string representation of these users for display purposes.
+     * 
+     * NOTE: This method is used by the Account and Award Inquiry screens to display users of the associated workgroup.
+     * NOTE: This method currently has not other use outside of the Account Inquiry screen.
+     * 
+     * @return String representation of the users assigned to the associated workgroup.
+     */
+    public String getKualiGroupNames() {
+        StringBuffer names = new StringBuffer(20);
+        
+        KualiGroup finSysWorkgroup = getWorkgroup();
+        
+        if(finSysWorkgroup==null) {
+            return "";
+        } else {
+            List<String> users = finSysWorkgroup.getGroupUsers();
+            if(users.isEmpty()) {
+                names.append("Workgroup user list is empty");
+            } else {
+                int i = 0;
+                for(String userName : users) {
+                    try {
+                        UniversalUser user = SpringServiceLocator.getUniversalUserService().getUniversalUserByAuthenticationUserId(userName);
+                        names.append(user.getPersonName());
+                    } catch(UserNotFoundException unfe) {
+                        names.append("No User Name Found ("+userName+")");
+                    }
+                    if(users.size()>1) {
+                        names.append("; ");
+                    }
+                    i++;
+                }
+            }
+        }
+        
+        kualiGroupNames = names.toString();
+
+        return kualiGroupNames;
+    }
+
+    /**
+     * 
+     * Simple method that simply sets the kualiGroupNames attribute by calling the getter, which 
+     * performs all the necessary parsing to retrieve the names.
+     * @param kualiGroupNames Value to be assigned to the kualiGroupNames attribute.  This value is never actually set.
+     */
+    public void setKualiGroupNames(String kualiGroupNames) {
+        this.kualiGroupNames = getKualiGroupNames();
     }
 
     /**

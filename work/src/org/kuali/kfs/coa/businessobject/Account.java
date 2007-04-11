@@ -30,16 +30,15 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.Constants;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.bo.PostalZipCode;
 import org.kuali.kfs.bo.State;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.cg.bo.AwardAccount;
 import org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference;
 import org.kuali.module.chart.bo.codes.BudgetRecordingLevelCode;
 import org.kuali.module.chart.bo.codes.ICRTypeCode;
@@ -147,6 +146,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     private AccountDescription accountDescription;
 
     private List subAccounts;
+    private List awards;
 
     /**
      * Default no-arg constructor.
@@ -1875,4 +1875,23 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     public boolean isForContractsAndGrants() {
         return forContractsAndGrants;
     }
+
+    /**
+     * 
+     * This method returns a collection of AwardAccount objects.
+     * @return Collection of assicated AwardAccounts.
+     */
+    public List<AwardAccount> getAwards() {
+        return awards;
+    }
+
+    /**
+     * 
+     * This method sets the associated collection of AwardAccounts to the local collection attribute.
+     * @param awards New collection of AwardAccounts to be assigned to this Account.
+     */
+    public void setAwards(List<AwardAccount> awards) {
+        this.awards = awards;
+    }
+
 }

@@ -28,6 +28,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.NoteService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
@@ -62,6 +63,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private PurchaseOrderDao purchaseOrderDao;
     private WorkflowDocumentService workflowDocumentService;
     private KualiConfigurationService kualiConfigurationService;
+    private KualiRuleService kualiRuleService;
     
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;    
@@ -101,6 +103,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
+    }
+    
+    public void setKualiRuleService(KualiRuleService kualiRuleService) {
+        this.kualiRuleService = kualiRuleService;
     }
     
     public void save(PurchaseOrderDocument purchaseOrderDocument) {
@@ -241,7 +247,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             po.setPurchaseOrderCurrentIndicator(false);
             po.setPendingActionIndicator(false);
             //Before Routing, I think we ought to check the rules first
-            boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new RouteDocumentEvent(po)); 
+            boolean rulePassed = kualiRuleService.applyRules(new RouteDocumentEvent(po)); 
             if (!rulePassed) {
                 return false;
             } 

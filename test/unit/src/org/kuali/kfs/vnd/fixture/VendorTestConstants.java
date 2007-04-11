@@ -33,8 +33,6 @@ class VendorTestConstants {
     static class BeginEndDates {
         static final Date FIRST_DATE = new Date(108,1,1); //2008-01-01
         static final Date LAST_DATE = new Date(109,1,1);  //2009-01-01
-        static RequisitionDocument REQ = new RequisitionDocument();
-        static PurchaseOrderDocument PO = new PurchaseOrderDocument();
     }
     
     static class VendorParts {

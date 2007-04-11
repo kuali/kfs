@@ -133,9 +133,7 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
 
     
     private void showButtons() {
-        //TODO: Find out and add logic about which buttons to appear in 
-        //which condition e.g. we might not want to display the continue button 
-        //on a PREQ with status ???  etc.
+        
         
         ExtraButton continueButton = new ExtraButton();
         continueButton.setExtraButtonProperty("methodToCall.continuePREQ");
@@ -144,7 +142,10 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
         ExtraButton clearButton = new ExtraButton();
         clearButton.setExtraButtonProperty("methodToCall.clearInitFields");
         clearButton.setExtraButtonSource("images/buttonsmall_clear.gif");
+        
+        // Only for debuggin and test:
         String stat = this.getPaymentRequestDocument().getStatusCode();
+        
         this.getExtraButtons().add(continueButton);
         this.getExtraButtons().add(clearButton);
 

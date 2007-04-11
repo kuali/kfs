@@ -83,7 +83,9 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
        
         Integer POID = document.getPurchaseOrderIdentifier();
        
-       // I think only the current PO can have the pending action indicator to be "Y". For all the other POs with the same PO number the pending indicator should be always "N". So I think we only need to check if for the current PO the Pending indicator is "Y" and it is not a Retransmit doc, then we don't allow users to create a PREQ. Correct? 
+       // I think only the current PO can have the pending action indicator to be "Y". For all the other POs with the same PO number the pending indicator 
+       // should be always "N". So I think we only need to check if for the current PO the Pending indicator is "Y" and it is not a Retransmit doc, then 
+       //we don't allow users to create a PREQ. Correct? 
       //given a PO number the use enters in the Init screen, for the rule "Error if the PO is not open" we also only need to check this rule against the current PO, Correct? 
        PurchaseOrderDocument purchaseOrderDocument = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(document.getPurchaseOrderIdentifier());
        if (ObjectUtils.isNull(purchaseOrderDocument)) {
@@ -103,6 +105,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         return valid;
     }
     
+    // This moved to PaymentRequestService to be used from action logic for Continue  Button:
     
     boolean processPaymentRequestDuplicateValidation(PaymentRequestDocument document){  
         

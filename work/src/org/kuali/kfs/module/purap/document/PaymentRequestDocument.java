@@ -20,6 +20,8 @@ import java.sql.Date;
 
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.Note;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.PaymentRequestStatus;
@@ -33,7 +35,7 @@ import org.kuali.module.vendor.bo.ShippingPaymentTerms;
  */
 public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestDocument.class);
-    private Integer purchaseOrderEncumbranceFiscalYear;
+    //private Integer purchaseOrderEncumbranceFiscalYear;
     private Integer purchaseOrderIdentifier;
     private String purchaseOrderClassificationTypeDescription;
     private Date invoiceDate;
@@ -99,18 +101,21 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      * Gets the purchaseOrderEncumbranceFiscalYear attribute. 
      * @return Returns the purchaseOrderEncumbranceFiscalYear.
      */
+    /*
     public Integer getPurchaseOrderEncumbranceFiscalYear() {
         return purchaseOrderEncumbranceFiscalYear;
     }
-
+*/
    
     /**
      * Sets the purchaseOrderEncumbranceFiscalYear attribute value.
      * @param purchaseOrderEncumbranceFiscalYear The purchaseOrderEncumbranceFiscalYear to set.
      */
+  /*
     public void setPurchaseOrderEncumbranceFiscalYear(Integer purchaseOrderEncumbranceFiscalYear) {
         this.purchaseOrderEncumbranceFiscalYear = purchaseOrderEncumbranceFiscalYear;
     }
+    */
 
     /**
      * Gets the purchaseOrderIdentifier attribute. 
@@ -1132,10 +1137,11 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public void initiateDocument() {
         LOG.debug("initiateDocument() started");
         this.setStatusCode( PurapConstants.PaymentRequestStatuses.INITIATE );
-        
+  
         //TODO: Change this one:
         this.setAccountsPayableProcessorIdentifier("TBD");
-       
+        UniversalUser currentUser = (UniversalUser)GlobalVariables.getUserSession().getUniversalUser();
+        this.setAccountsPayableProcessorIdentifier(currentUser.getPersonUniversalIdentifier());
         // paymentRequest.setProcessedCampusCode(u.getCampusCd());
         //paymentRequest.setAccountsPayableProcessorId(u.getId());
         //this.setStatusCode( PurapConstants.PaymentRequestStatuses.IN_PROCESS )
@@ -1165,13 +1171,14 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.setPaymentSpecialHandlingInstructionLine3Text(null);
     }
   
-    public void populatePaymentRequestFormPurchaseOrder(PurchaseOrderDocument po) {
+    public void populatePaymentRequestFromPurchaseOrder(PurchaseOrderDocument po) {
         this.setPurchaseOrderDocument(po);
         this.setPurchaseOrderIdentifier(po.getPurapDocumentIdentifier());
         //this.purchaseOrderEncumbranceFiscalYear = po.getEncumbranceFiscalYear();
         
         //this.requisitionNumber = po.getRequisitionId();
-        this.setPurchaseOrderEncumbranceFiscalYear(po.getPostingYear());
+       // this.setPurchaseOrderEncumbranceFiscalYear(po.getPostingYear());
+        this.setPostingYear(po.getPostingYear());
         this.setVendorCustomerNumber(po.getVendorCustomerNumber());
         //this.costSource = po.getCostSource();
         this.setPaymentRequestCostSourceCode(po.getPurchaseOrderCostSourceCode());

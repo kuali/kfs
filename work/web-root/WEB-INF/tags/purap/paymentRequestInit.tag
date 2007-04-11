@@ -26,7 +26,10 @@
 <%@ attribute name="displayPaymentRequestInitFields" required="false"
               description="Boolean to indicate if PO specific fields should be displayed" %>
 
-<kul:tab tabTitle="Payment Request Init" defaultOpen="true">
+<kul:tabTop tabTitle="Payment Request Init" defaultOpen="true" >
+	
+	
+
     <div class="tab-container" align=center>
         <div class="h2-container">
             <h2>Payment Request Init</h2>
@@ -46,7 +49,7 @@
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.invoiceNumber}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.invoiceNumber}" property="document.invoiceNumber" />
+                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.invoiceNumber}" property="document.invoiceNumber"  />
                 </td>
             </tr>
             <tr>
@@ -54,13 +57,13 @@
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.invoiceDate}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.invoiceDate}" property="document.invoiceDate" />
+                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.invoiceDate}" property="document.invoiceDate" datePicker="true" />
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                    <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.vendorInvoiceAmount}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorInvoiceAmount}" property="document.vendorInvoiceAmount" />
+                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorInvoiceAmount}" property="document.vendorInvoiceAmount"  />
                 </td>
             </tr>
             <tr>
@@ -83,4 +86,5 @@
 		
 
     </div>
-</kul:tab>
+
+</kul:tabTop>

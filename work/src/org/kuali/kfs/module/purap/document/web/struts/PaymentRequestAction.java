@@ -114,14 +114,14 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         }
         
         // If we are here either there was no duplicate or there was a duplicate and the user hits continue, in either case we need to validate the business rules
-
+        paymentRequestDocument.getDocumentHeader().setFinancialDocumentDescription("dummy data to pass the business rule");
         boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new SaveDocumentEvent(paymentRequestDocument)); 
-       
+        paymentRequestDocument.getDocumentHeader().setFinancialDocumentDescription(null);
         if (rulePassed) {
             
             Integer poId = paymentRequestDocument.getPurchaseOrderIdentifier();
             PurchaseOrderDocument purchaseOrderDocument = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderIdentifier());
-            paymentRequestDocument.populatePaymentRequestFormPurchaseOrder(purchaseOrderDocument);
+            paymentRequestDocument.populatePaymentRequestFromPurchaseOrder(purchaseOrderDocument);
             paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.IN_PROCESS);
             //editMode.put(PurapAuthorizationConstants.PaymentRequestEditMode.DISPLAY_INIT_TAB, "FALSE");
             

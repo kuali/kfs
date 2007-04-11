@@ -44,9 +44,6 @@
     			<kul:htmlAttributeHeaderCell
                 	attributeEntry="${documentAttributes.newStatus}"
                 	scope="col" />
-            	<kul:htmlAttributeHeaderCell
-                	attributeEntry="${documentAttributes.noteIdentifier}"
-                	scope="col" />
                	<kul:htmlAttributeHeaderCell
                 	attributeEntry="${documentAttributes.statusHistoryUserIdentifier}"
                 	scope="col" />
@@ -69,10 +66,6 @@
 		        		<td align=left valign=middle class="datacell">
 		        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.newStatus}" 
 		                    	property="document.statusHistories[${ctr}].newStatus.statusDescription" readOnly="true"/>
-		        		</td>
-		        		<td align=left valign=middle class="datacell">
-		        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.noteIdentifier}" 
-		                    	property="document.statusHistories[${ctr}].noteIdentifier" readOnly="true"/>
 		        		</td>
 		        		<td align=left valign=middle class="datacell">
 		        			<kul:htmlControlAttribute attributeEntry="${documentAttributes.statusHistoryUserIdentifier}" 

@@ -409,7 +409,6 @@
 	<field-descriptor name="newStatusCode" column="NEW_REQS_STAT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="statusHistoryTimestamp" column="REQS_STATHST_TS" jdbc-type="TIMESTAMP"/>
 	<field-descriptor name="statusHistoryUserIdentifier" column="REQS_STATHST_USR_ID" jdbc-type="VARCHAR"/>
-	<field-descriptor name="noteIdentifier" column="NTE_ID" jdbc-type="BIGINT"/>
     <reference-descriptor name="oldStatus" class-ref="org.kuali.module.purap.bo.RequisitionStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="oldStatusCode" />
     </reference-descriptor>
@@ -799,7 +798,6 @@
 	<field-descriptor name="newStatusCode" column="NEW_PMT_RQST_STAT_CD" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="statusHistoryTimestamp" column="PMT_RQST_STATHST_TS" jdbc-type="TIMESTAMP"/>
 	<field-descriptor name="statusHistoryUserIdentifier" column="PMT_RQST_STATHST_USR_ID" jdbc-type="VARCHAR"/>
-	<field-descriptor name="noteIdentifier" column="NTE_ID" jdbc-type="BIGINT"/>
 	<reference-descriptor name="oldStatus" class-ref="org.kuali.module.purap.bo.PaymentRequestStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="oldStatusCode" />
 	</reference-descriptor>
@@ -840,7 +838,6 @@
 	<field-descriptor name="newStatusCode" column="CRDT_MEMO_NEW_STAT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="statusHistoryTimestamp" column="CRDT_MEMO_STATHST_TS" jdbc-type="TIMESTAMP"/>
 	<field-descriptor name="statusHistoryUserIdentifier" column="CRDT_MEMO_STATHST_USR_ID" jdbc-type="VARCHAR"/>
-	<field-descriptor name="noteIdentifier" column="NTE_ID" jdbc-type="BIGINT"/>
     <reference-descriptor name="oldStatus" class-ref="org.kuali.module.purap.bo.CreditMemoStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="oldStatusCode" />
     </reference-descriptor>
@@ -1041,7 +1038,6 @@
 	<field-descriptor name="newStatusCode" column="NEW_PO_STAT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="statusHistoryTimestamp" column="PO_STATHST_TS" jdbc-type="TIMESTAMP"/>
 	<field-descriptor name="statusHistoryUserIdentifier" column="PO_STATHST_USR_ID" jdbc-type="VARCHAR"/>
-	<field-descriptor name="noteIdentifier" column="NTE_ID" jdbc-type="BIGINT"/>
     <reference-descriptor name="oldStatus" class-ref="org.kuali.module.purap.bo.PurchaseOrderStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="oldStatusCode" />
     </reference-descriptor>

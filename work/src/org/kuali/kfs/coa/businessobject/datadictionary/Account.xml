@@ -24,83 +24,101 @@
         <inquiry>
             <title>Account Inquiry</title>
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="chartOfAccounts.codeAndDescription" />
-                <field attributeName="accountNumber" />
-                <field attributeName="accountName" />
-                <field attributeName="organization.codeAndDescription" />
-                <field attributeName="accountPhysicalCampusCode" />
-                <field attributeName="accountEffectiveDate" />
-                <field attributeName="accountExpirationDate" />
-                <field attributeName="accountZipCode" />
-                <field attributeName="accountCityName" />
-                <field attributeName="accountState.codeAndDescription" />
-                <field attributeName="accountStreetAddress" />
-                <field attributeName="accountOffCampusIndicator" />
-                <field attributeName="accountClosedIndicator" />
-                <field attributeName="accountTypeCode" />
-                <field attributeName="subFundGroup.codeAndDescription" />
-                <!--  comment programCode out if not in use at your institution -->
-                <field attributeName="program.codeAndDescription" />
-                <field attributeName="accountsFringesBnftIndicator" />
-                <field attributeName="reportsToChartOfAccountsCode" />
-                <field attributeName="reportsToAccountNumber" />
-                <field attributeName="financialHigherEdFunction.codeAndDescription" />
-                <field attributeName="accountRestrictedStatusCode" />
-                <field attributeName="accountRestrictedStatusDate" />
-                <field attributeName="endowmentIncomeChartOfAccounts.codeAndDescription" />
-                <field attributeName="endowmentIncomeAccountNumber" />
+            <inquirySections>
+            	<inquirySection title="Account Details">
+            		<inquiryFields>
+		                <field attributeName="chartOfAccounts.codeAndDescription" />
+		                <field attributeName="accountNumber" />
+		                <field attributeName="accountName" />
+		                <field attributeName="organization.codeAndDescription" />
+		                <field attributeName="accountPhysicalCampusCode" />
+		                <field attributeName="accountEffectiveDate" />
+		                <field attributeName="accountExpirationDate" />
+		                <field attributeName="accountZipCode" />
+		                <field attributeName="accountCityName" />
+		                <field attributeName="accountState.codeAndDescription" />
+		                <field attributeName="accountStreetAddress" />
+		                <field attributeName="accountOffCampusIndicator" />
+		                <field attributeName="accountClosedIndicator" />
+		                <field attributeName="accountTypeCode" />
+		                <field attributeName="subFundGroup.codeAndDescription" />
+		                <!--  comment programCode out if not in use at your institution -->
+		                <field attributeName="program.codeAndDescription" />
+		                <field attributeName="accountsFringesBnftIndicator" />
+		                <field attributeName="reportsToChartOfAccountsCode" />
+		                <field attributeName="reportsToAccountNumber" />
+		                <field attributeName="financialHigherEdFunction.codeAndDescription" />
+		                <field attributeName="accountRestrictedStatusCode" />
+		                <field attributeName="accountRestrictedStatusDate" />
+		                <field attributeName="endowmentIncomeChartOfAccounts.codeAndDescription" />
+		                <field attributeName="endowmentIncomeAccountNumber" />
+		
+		                <field attributeName="accountResponsibilitySectionBlank" />
+		                <field attributeName="accountResponsibilitySection" />
+		
+						<field attributeName="accountFiscalOfficerSystemIdentifier" />
+		                <field attributeName="accountFiscalOfficerUser.personName" />
+		                <field attributeName="accountsSupervisorySystemsIdentifier" />
+		                <field attributeName="accountSupervisoryUser.personName" />
+		                <field attributeName="accountManagerSystemIdentifier" />
+		                <field attributeName="accountManagerUser.personName" />
+		                <field attributeName="continuationFinChrtOfAcctCd" />
+		                <field attributeName="continuationAccountNumber" />
+		                <field attributeName="incomeStreamFinancialCoaCode" />
+		                <field attributeName="incomeStreamAccountNumber" />
+						<field attributeName="budgetRecordingLevelCode" noInquiry="true" /> 
+		                <field attributeName="accountSufficientFundsCode" noInquiry="true" />
+		
+		                <field attributeName="pendingAcctSufficientFundsIndicator" />
+		                <field attributeName="extrnlFinEncumSufficntFndIndicator" />
+		                <field attributeName="intrnlFinEncumSufficntFndIndicator" />
+		                <field attributeName="finPreencumSufficientFundIndicator" />
+		                <field attributeName="financialObjectivePrsctrlIndicator" />
+		
+		                <field attributeName="contractsAndGrantsSectionBlank" />
+		                <field attributeName="contractsAndGrantsSection" />
+		
+		                <field attributeName="contractControlFinCoaCode" />
+		                <field attributeName="contractControlAccountNumber" />
+		                <field attributeName="acctIndirectCostRcvyType.codeAndDescription" />
+		                <field attributeName="financialIcrSeriesIdentifier" />
+		                <field attributeName="indirectCostRcvyFinCoaCode" />
+		                <field attributeName="indirectCostRecoveryAcctNbr" />
+		                <field attributeName="accountCfdaNumber" />
+		
+		                <field attributeName="guidelinesAndPurposeSectionBlank" />
+		                <field attributeName="guidelinesAndPurposeSection" />
+		
+		                <field attributeName="accountGuideline.accountExpenseGuidelineText" />
+		                <field attributeName="accountGuideline.accountIncomeGuidelineText" />
+		                <field attributeName="accountGuideline.accountPurposeText" />
+		
+		                <field attributeName="accountDescriptionSectionBlank" />
+		                <field attributeName="accountDescriptionSection" />
+		
+		                <field attributeName="accountDescription.campusDescription" />
+		                <field attributeName="accountDescription.organizationDescription" />
+		                <field attributeName="accountDescription.responsibilityCenterDescription" />
+		                <field attributeName="accountDescription.campusCode" />
+		                <field attributeName="accountDescription.buildingCode" />
+		
+	            	</inquiryFields>
+	            </inquirySection>
 
-                <field attributeName="accountResponsibilitySectionBlank" />
-                <field attributeName="accountResponsibilitySection" />
+                <inquirySection title="Awards">
+                    <inquiryFields>
+                        <inquiryCollection name="awards" businessObjectClass="org.kuali.module.cg.bo.AwardAccount" numberOfColumns="1">
+                            <field attributeName="proposalNumber" />
+                            <field attributeName="projectDirector.universalUser.personName" />
+                            <field attributeName="award.workgroupName" />
+                            <field attributeName="award.kualiGroupNames" />
+                            <field attributeName="award.proposal.proposalFederalPassThroughIndicator" />
+                            <field attributeName="award.proposal.federalPassThroughAgencyNumber" />
+                        </inquiryCollection>
+                    </inquiryFields>
+                </inquirySection>
 
-				<field attributeName="accountFiscalOfficerSystemIdentifier" />
-                <field attributeName="accountFiscalOfficerUser.personName" />
-                <field attributeName="accountsSupervisorySystemsIdentifier" />
-                <field attributeName="accountSupervisoryUser.personName" />
-                <field attributeName="accountManagerSystemIdentifier" />
-                <field attributeName="accountManagerUser.personName" />
-                <field attributeName="continuationFinChrtOfAcctCd" />
-                <field attributeName="continuationAccountNumber" />
-                <field attributeName="incomeStreamFinancialCoaCode" />
-                <field attributeName="incomeStreamAccountNumber" />
-				<field attributeName="budgetRecordingLevelCode" noInquiry="true" /> 
-                <field attributeName="accountSufficientFundsCode" noInquiry="true" />
-
-                <field attributeName="pendingAcctSufficientFundsIndicator" />
-                <field attributeName="extrnlFinEncumSufficntFndIndicator" />
-                <field attributeName="intrnlFinEncumSufficntFndIndicator" />
-                <field attributeName="finPreencumSufficientFundIndicator" />
-                <field attributeName="financialObjectivePrsctrlIndicator" />
-
-                <field attributeName="contractsAndGrantsSectionBlank" />
-                <field attributeName="contractsAndGrantsSection" />
-
-                <field attributeName="contractControlFinCoaCode" />
-                <field attributeName="contractControlAccountNumber" />
-                <field attributeName="acctIndirectCostRcvyType.codeAndDescription" />
-                <field attributeName="financialIcrSeriesIdentifier" />
-                <field attributeName="indirectCostRcvyFinCoaCode" />
-                <field attributeName="indirectCostRecoveryAcctNbr" />
-                <field attributeName="accountCfdaNumber" />
-
-                <field attributeName="guidelinesAndPurposeSectionBlank" />
-                <field attributeName="guidelinesAndPurposeSection" />
-
-                <field attributeName="accountGuideline.accountExpenseGuidelineText" />
-                <field attributeName="accountGuideline.accountIncomeGuidelineText" />
-                <field attributeName="accountGuideline.accountPurposeText" />
-
-                <field attributeName="accountDescriptionSectionBlank" />
-                <field attributeName="accountDescriptionSection" />
-
-                <field attributeName="accountDescription.campusDescription" />
-                <field attributeName="accountDescription.organizationDescription" />
-                <field attributeName="accountDescription.responsibilityCenterDescription" />
-                <field attributeName="accountDescription.campusCode" />
-                <field attributeName="accountDescription.buildingCode" />
-
-            </inquiryFields></inquirySection></inquirySections>
+		    </inquirySections>
         </inquiry>
 
         <lookup>
@@ -153,22 +171,22 @@
         <titleAttribute>accountNumber</titleAttribute>
 
         <attributes>
-            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <description>The code that identifies the Chart of Accounts for an Account. It is part of the primary key. Kuali accommodates more than one Chart of Accounts.</description>
-            </attributeReference>
+           <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+               <description>The code that identifies the Chart of Accounts for an Account. It is part of the primary key. Kuali accommodates more than one Chart of Accounts.</description>
+           </attributeReference>
 
            <attributeReference name="chartOfAccounts.codeAndDescription" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="codeAndDescription">
-                <label>Chart Code</label>
-                <shortLabel>Chart Code</shortLabel>
-                <required>false</required>
-                <control>
-                    <hidden />
-                </control>
-                <summary>
-                    <![CDATA[&nbsp;]]>
-                </summary>
-                <description>Chart Code and Description</description>
-            </attributeReference>
+               <label>Chart Code</label>
+               <shortLabel>Chart Code</shortLabel>
+               <required>false</required>
+               <control>
+                   <hidden />
+               </control>
+               <summary>
+                   <![CDATA[&nbsp;]]>
+               </summary>
+               <description>Chart Code and Description</description>
+           </attributeReference>
             
            <attributeReference name="endowmentIncomeChartOfAccounts.codeAndDescription" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="codeAndDescription">
                 <label>Endowment Chart of Accounts Code</label>
@@ -1087,7 +1105,16 @@
                 </summary>
                 <description>accounts with some hierarchical subrelationship to this one</description>
             </collection>
-        </collections>
+            
+            <collection name="awards">
+            	<label>Awards</label>
+            	<shortLabel>Awards</shortLabel>
+            	<summary>
+            		<![CDATA[&nbsp;]]>
+            	</summary>
+            	<description>awards associated with the account</description>
+            </collection>
+		</collections>
         
         <relationships>
             <relationship objectAttributeName="accountFiscalOfficerUser" >

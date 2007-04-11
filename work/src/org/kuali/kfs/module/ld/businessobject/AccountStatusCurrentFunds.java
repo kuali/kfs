@@ -16,6 +16,9 @@
 
 package org.kuali.module.labor.bo;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.core.bo.user.PersonPayrollId;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.bo.user.UserId;
@@ -24,6 +27,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.service.LaborBalanceInquiryService;
+import org.springframework.beans.factory.BeanFactory;
 
 public class AccountStatusCurrentFunds extends LedgerBalance {
 
@@ -76,9 +80,23 @@ public class AccountStatusCurrentFunds extends LedgerBalance {
      * @return
      */
     public KualiDecimal getOutstandingEncum() {
-        if ((getAccountLineAnnualBalanceAmount() != null) && (getContractsGrantsBeginningBalanceAmount() != null))
-            outstandingEncum = (getAccountLineAnnualBalanceAmount().add(getContractsGrantsBeginningBalanceAmount()));
-        return outstandingEncum;
+        
+        Map fieldValues = new HashMap(); 
+        
+        fieldValues.put("universityFiscalYear", getUniversityFiscalYear());
+        fieldValues.put("chartOfAccountsCode", getChartOfAccountsCode());
+        fieldValues.put("accountNumber", getAccountNumber());
+        fieldValues.put("subAccountNumber", getSubAccountNumber());       
+        fieldValues.put("financialObjectCode", getFinancialObjectCode());
+        fieldValues.put("financialSubObjectCode", getFinancialSubObjectCode());
+        fieldValues.put("emplid", getEmplid());
+        
+        BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
+        laborBalanceInquiryService = (LaborBalanceInquiryService) beanFactory.getBean("laborBalanceInquiryService");
+        KualiDecimal EncumTotal = (KualiDecimal) laborBalanceInquiryService.getEncumbranceTotal(fieldValues);
+        this.outstandingEncum = EncumTotal;
+        return EncumTotal;
+       
     }
 
     /**

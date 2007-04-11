@@ -30,8 +30,8 @@ public interface LaborDao {
     Collection getCSFTrackerData(Map fieldValues);
 
     Object getCSFTrackerTotal(Map fieldValues);
-    
-    Collection getCurrentYearFunds(Map fieldValues);
+
+    Object getEncumbranceTotal(Map fieldValues);
     
     Collection getBaseFunds(Map fieldValues);
     

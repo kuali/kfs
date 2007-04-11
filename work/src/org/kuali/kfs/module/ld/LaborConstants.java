@@ -41,7 +41,7 @@ public class LaborConstants {
         public static final String EXPENSE_TRANSFER_ET = "ET";
         public static final String EXPENSE_TRANSFER_SACH = "SACH";
         public static final String EXPENSE_TRANSFER_YEST = "YEST";
-        public static final String EXPENSE_TRANSFER_YEBT = "YEBT";
+        public static final String EXPENSE_TRANSFER_YEBT = "YEBT";      
     }
 
     public static class DestinationNames {
@@ -101,6 +101,11 @@ public class LaborConstants {
     public static class BalanceInquiries {
         public static final String ERROR_INVALID_LABOR_OBJECT_CODE = "error.labor.invalidLaborObjectCodeError";
         public static final String[] VALID_LABOR_OBJECT_CODES = {"2000","2001","2400","2401","2500"};
-        public static final String UnknownPersonName = "* Unknown Name *";
+        public static final String UnknownPersonName = "* Unknown Name *";        
+        public static final String ANNUAL_BALANCE = "ACLN_ANNL_BAL_AMT";
+        public static final String CONTRACT_GRANT_BB_AMOUNT = "CONTR_GR_BB_AC_AMT";
+        public static final String ENCUMBERENCE_CODE = "'IE'";
+        public static final String ACTUALS_CODE = "'AC'";
+        public static final String BALANCE_CODE = "'BB'";
 }
 }

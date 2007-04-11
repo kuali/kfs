@@ -36,6 +36,7 @@ public class AwardAccount extends PersistableBusinessObjectBase {
     private Account account;
     private Chart chartOfAccounts;
     private ProjectDirector projectDirector;
+    private Award award;
 
     /**
      * Default constructor.
@@ -189,4 +190,23 @@ public class AwardAccount extends PersistableBusinessObjectBase {
         m.put("accountNumber", this.accountNumber);
         return m;
     }
+
+    /**
+     * 
+     * This method returns the Award object associated with this AwardAccount.
+     * @return The Award object associated with this AwardAccount.
+     */
+    public Award getAward() {
+        return award;
+    }
+
+    /**
+     * 
+     * This method sets the associated award to the value provided.
+     * @param award Value to be assigned to the associated Award object.
+     */
+    public void setAward(Award award) {
+        this.award = award;
+    }
+
 }

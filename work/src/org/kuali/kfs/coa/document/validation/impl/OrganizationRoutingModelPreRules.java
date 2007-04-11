@@ -27,7 +27,7 @@ public class OrganizationRoutingModelPreRules extends MaintenancePreRulesBase {
     protected boolean doCustomPreRules(MaintenanceDocument maintDoc) {
         OrganizationRoutingModelName model = (OrganizationRoutingModelName)maintDoc.getNewMaintainableObject().getBusinessObject();
         copyKeyAttributesToModelDetail(model);
-        
+        setUnconditionalDefaults(model);
         return true;
     }
     

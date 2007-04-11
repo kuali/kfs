@@ -35,6 +35,15 @@ public interface ObjectCodeService {
      * Retrieves an ObjectCode object based on primary key.
      */
     public ObjectCode getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode);
+    
+    /**
+     * 
+     * This method returns an financial object code for the current fiscal year.
+     * @param chartOfAccountsCode chart of accounts code for object code
+     * @param financialObjectCode financial object code
+     * @return the object code specified
+     */
+    public ObjectCode getByPrimaryIdForCurrentYear(String chartOfAccountsCode, String financialObjectCode);
 
     /**
      * 

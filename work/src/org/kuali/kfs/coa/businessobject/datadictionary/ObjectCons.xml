@@ -117,6 +117,8 @@
             </attribute>
 
             <attributeReference name="finConsolidationObjActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+            
+            <attributeReference name="financialEliminationsObject.financialObjectCodeName" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCodeName"/>
 
             <attribute name="financialEliminationsObjectCode" forceUppercase="true">
                 <label>Elimination Object Code</label>

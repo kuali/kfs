@@ -100,6 +100,9 @@
 		<property name="objectCodeDao">
 			<ref bean="objectCodeDao" />
 		</property>
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>
 	</bean>
 
 	<bean id="objectLevelService" class="org.kuali.module.chart.service.impl.ObjectLevelServiceImpl">

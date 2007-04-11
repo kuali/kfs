@@ -23,6 +23,8 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.bo.ObjectCons;
+import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.kfs.util.SpringServiceLocator;
 
 public class ObjectConsRule extends MaintenanceDocumentRuleBase {
     /**
@@ -33,6 +35,7 @@ public class ObjectConsRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         checkObjLevelCode();
+        checkEliminationCode();
         return true;
     }
 
@@ -46,6 +49,7 @@ public class ObjectConsRule extends MaintenanceDocumentRuleBase {
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean success = true;
         success &= checkObjLevelCode();
+        success &= checkEliminationCode();
         return success;
     }
 
@@ -69,6 +73,22 @@ public class ObjectConsRule extends MaintenanceDocumentRuleBase {
         if (objLevel != null) {
             success = false;
             putFieldError("finConsolidationObjectCode", KeyConstants.ERROR_DOCUMENT_OBJCONSMAINT_ALREADY_EXISTS_AS_OBJLEVEL);
+        }
+        return success;
+    }
+    
+    /**
+     * This method checks that the eliminations object code is really a valid current object code.
+     * @return true if eliminations object code is a valid object code currently, false if otherwise
+     */
+    private boolean checkEliminationCode() {
+        boolean success = true;
+        ObjectCons objConsolidation = (ObjectCons) super.getNewBo();
+        Integer currentUniversityFiscalYear = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();
+        ObjectCode elimCode = SpringServiceLocator.getObjectCodeService().getByPrimaryId(currentUniversityFiscalYear, objConsolidation.getChartOfAccountsCode(), objConsolidation.getFinancialEliminationsObjectCode());
+        if (elimCode == null) {
+            success = false;
+            putFieldError("financialEliminationsObjectCode", KeyConstants.ERROR_DOCUMENT_OBJCONSMAINT_INVALID_ELIM_OBJCODE, new String[] { objConsolidation.getFinancialEliminationsObjectCode() });
         }
         return success;
     }

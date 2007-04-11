@@ -202,6 +202,9 @@ public class ObjectCons extends PersistableBusinessObjectBase {
      * @return Returns the financialEliminationsObject.
      */
     public ObjectCodeCurrent getFinancialEliminationsObject() {
+        if (financialEliminationsObjectCode != null && (financialEliminationsObject == null || (financialEliminationsObject.getFinancialObjectCode() != null && financialEliminationsObjectCode != null && !financialEliminationsObject.getFinancialObjectCode().equalsIgnoreCase(this.financialEliminationsObjectCode)))) {
+            refreshReferenceObject("financialEliminationsObject");
+        }
         return financialEliminationsObject;
     }
 

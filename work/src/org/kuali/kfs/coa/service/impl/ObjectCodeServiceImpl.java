@@ -24,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.dao.ObjectCodeDao;
 import org.kuali.module.chart.service.ObjectCodeService;
+import org.kuali.module.financial.service.UniversityDateService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -32,7 +33,9 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class ObjectCodeServiceImpl implements ObjectCodeService {
+
     private ObjectCodeDao objectCodeDao;
+    private UniversityDateService universityDateService;
 
     /**
      * Retrieves an Account object based on primary key.
@@ -57,6 +60,22 @@ public class ObjectCodeServiceImpl implements ObjectCodeService {
      */
     public void setObjectCodeDao(ObjectCodeDao objectCodeDao) {
         this.objectCodeDao = objectCodeDao;
+    }
+
+    /**
+     * Gets the universityDateService attribute. 
+     * @return Returns the universityDateService.
+     */
+    public UniversityDateService getUniversityDateService() {
+        return universityDateService;
+    }
+
+    /**
+     * Sets the universityDateService attribute value.
+     * @param universityDateService The universityDateService to set.
+     */
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
     }
 
     public List getYearList(String chartOfAccountsCode, String financialObjectCode) {
@@ -88,4 +107,10 @@ public class ObjectCodeServiceImpl implements ObjectCodeService {
         }
     }
 
+    /**
+     * @see org.kuali.module.chart.service.ObjectCodeService#getByPrimaryIdForCurrentYear(java.lang.String, java.lang.String)
+     */
+    public ObjectCode getByPrimaryIdForCurrentYear(String chartOfAccountsCode, String financialObjectCode) {
+        return this.getByPrimaryId(universityDateService.getCurrentFiscalYear(), chartOfAccountsCode, financialObjectCode);
+    }
 }

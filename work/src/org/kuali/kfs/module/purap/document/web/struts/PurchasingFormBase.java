@@ -15,7 +15,7 @@
  */
 package org.kuali.module.purap.web.struts.form;
 
-import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.purap.bo.PurchasingApItem;
 
 /**
@@ -23,7 +23,7 @@ import org.kuali.module.purap.bo.PurchasingApItem;
  * class which contains all of the common form methods and form attributes needed by the Purchasing documents.
  * 
  */
-public class PurchasingFormBase extends KualiTransactionalDocumentFormBase {
+public class PurchasingFormBase extends KualiAccountingDocumentFormBase {
     
     private PurchasingApItem newPurchasingItemLine;
     private Boolean notOtherDeliveryBuilding = true;

@@ -232,6 +232,14 @@ public class PurchaseOrderItem extends PurchasingItemBase {
             m.put("itemIdentifier", this.getItemIdentifier().toString());
         }
         return m;
+    }
+
+    /**
+     * @see org.kuali.module.purap.bo.PurApItemBase#getAccountingLineClass()
+     */
+    @Override
+    public Class getAccountingLineClass() {
+        return PurchaseOrderAccount.class;
     }    
     
 }

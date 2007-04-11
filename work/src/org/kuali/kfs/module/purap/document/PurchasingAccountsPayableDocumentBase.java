@@ -15,6 +15,7 @@
  */
 package org.kuali.module.purap.document;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -27,7 +28,6 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.purap.bo.PurApItemBase;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.bo.Status;
 import org.kuali.module.purap.bo.StatusHistory;
@@ -58,7 +58,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
     // CONSTRUCTORS
     public PurchasingAccountsPayableDocumentBase() {
-        items = new TypedArrayList(PurApItemBase.class);
+        items = new TypedArrayList(getItemClass());
         this.statusHistories = new ManageableArrayList();
     }
     
@@ -224,12 +224,15 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public void addItem(PurchasingApItem item) {
         int itemLinePosition = items.size();
         if(item.getItemLineNumber()!=null) {
-            itemLinePosition = item.getItemLineNumber().intValue();
+            itemLinePosition = item.getItemLineNumber().intValue()-1;
         }
        
         //if the user entered something set line number to that
-        if(itemLinePosition>0&&itemLinePosition<items.size()) {
-            itemLinePosition = item.getItemLineNumber() - 1;
+//        if(itemLinePosition>0&&itemLinePosition<items.size()) {
+//            itemLinePosition = itemLinePosition - 1;
+//        }
+        else if(itemLinePosition>items.size()) {
+            itemLinePosition=items.size();
         }
         
         items.add(itemLinePosition,item);
@@ -251,6 +254,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
     
     public PurchasingApItem getItem(int pos) {
+        //TODO: we probably don't need this because of the TypedArrayList
         while (getItems().size() <= pos) {
             
             try {

@@ -17,12 +17,12 @@ package org.kuali.module.purap.bo;
 
 import java.math.BigDecimal;
 
-import org.kuali.kfs.bo.AccountingLineBase;
+import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.SubAccount;
 
-public class PurApAccountingLineBase extends AccountingLineBase implements PurApAccountingLine {
+public abstract class PurApAccountingLineBase extends SourceAccountingLine implements PurApAccountingLine {
 
     private Chart chartOfAccounts;
     private Account account;

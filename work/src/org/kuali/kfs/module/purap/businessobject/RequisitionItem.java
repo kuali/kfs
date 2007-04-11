@@ -27,22 +27,6 @@ import org.kuali.module.purap.document.RequisitionDocument;
  */
 public class RequisitionItem extends PurchasingItemBase {
 
-    //Superclass contains
-    //private Integer itemIdentifier;
-    //private Integer itemLineNumber;
-    //private String capitalAssetTransactionTypeCode;
-    //private String itemUnitOfMeasureCode;
-    //private String itemCatalogNumber;
-    //private String itemDescription;
-    //private String itemCapitalAssetNoteText;
-    //private BigDecimal itemUnitPrice;
-    //private String itemTypeCode;
-    //private String requisitionLineIdentifier;
-    //private String itemAuxiliaryPartIdentifier;
-    //private String externalOrganizationB2bProductReferenceNumber;
-    //private String externalOrganizationB2bProductTypeName;
-    //private boolean itemAssignedToTradeInIndicator;
-
 	private Integer purapDocumentIdentifier;
 	private KualiDecimal itemQuantity;
 	private boolean itemRestrictedIndicator;
@@ -53,7 +37,7 @@ public class RequisitionItem extends PurchasingItemBase {
 	 * Default constructor.
 	 */
 	public RequisitionItem() {
-        //try adding an account for fun
+        //add the first blank accounting line
 //        RequisitionAccount ra = new RequisitionAccount();
 //        ra.setAccountLinePercent(new Integer(99));
 //        ra.setBudgetYear("2006");

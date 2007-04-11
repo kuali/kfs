@@ -28,7 +28,7 @@ import org.kuali.module.purap.PurapConstants;
 /**
  * 
  */
-public class PurApItemBase extends PersistableBusinessObjectBase implements PurchasingApItem {
+public abstract class PurApItemBase extends PersistableBusinessObjectBase implements PurchasingApItem {
 
 	private Integer itemIdentifier;
 	private Integer itemLineNumber;
@@ -47,6 +47,7 @@ public class PurApItemBase extends PersistableBusinessObjectBase implements Purc
     private KualiDecimal extendedPrice; //not currently in DB
     
     private List<PurApAccountingLine> accountingLines;
+    private transient PurApAccountingLine newAccountingLine;
     
 	private CapitalAssetTransactionType capitalAssetTransactionType;
 	private ItemType itemType;
@@ -57,7 +58,8 @@ public class PurApItemBase extends PersistableBusinessObjectBase implements Purc
 	public PurApItemBase() {
 	    //TODO: Chris - default itemType (should probably get this from spring or Constants file)
         itemTypeCode = "ITEM";
-        accountingLines = new TypedArrayList(PurApAccountingLineBase.class);
+        accountingLines = new TypedArrayList(getAccountingLineClass());
+        init();
 	}
 
 	/**
@@ -440,21 +442,37 @@ public class PurApItemBase extends PersistableBusinessObjectBase implements Purc
      * @see org.kuali.core.document.FinancialDocument#getTargetAccountingLine(int)
      */
     public PurApAccountingLine getAccountingLine(int index) {
-        while (getAccountingLines().size() <= index) {
-            try {
-                getAccountingLines().add((PurApAccountingLine)getAccountingLineClass().newInstance());
-            }
-            catch (InstantiationException e) {
-                throw new RuntimeException("Unable to get class");
-            }
-            catch (IllegalAccessException e) {
-                throw new RuntimeException("Unable to get class");
-            }
-            catch (NullPointerException e) {
-                throw new RuntimeException("Can't instantiate Purchasing Account from base");
-            }
-        }
+        //TODO: we probably don't need this because of the TypedArrayList
+//        while (getAccountingLines().size() <= index) {
+//            PurApAccountingLine newAccount = getNewAccount();
+//            getAccountingLines().add(newAccount);
+//        }
+        
         return (PurApAccountingLine) getAccountingLines().get(index);
+    }
+
+    /**
+     * This method...
+     * @param newAccount
+     * @return
+     * @throws RuntimeException
+     */
+    private PurApAccountingLine getNewAccount() throws RuntimeException {
+        
+        PurApAccountingLine newAccount=null;
+        try {
+            newAccount = (PurApAccountingLine)getAccountingLineClass().newInstance();
+        }
+        catch (InstantiationException e) {
+            throw new RuntimeException("Unable to get class");
+        }
+        catch (IllegalAccessException e) {
+            throw new RuntimeException("Unable to get class");
+        }
+        catch (NullPointerException e) {
+            throw new RuntimeException("Can't instantiate Purchasing Account from base");
+        }
+        return newAccount;
     }
 
     public Class getAccountingLineClass() {
@@ -462,6 +480,10 @@ public class PurApItemBase extends PersistableBusinessObjectBase implements Purc
         return null;
     }
     
+    public void init() {
+        //add a blank accounting line
+        setNewAccountingLine(getNewAccount());
+    }
     /**
      * @see org.kuali.core.document.DocumentBase#buildListOfDeletionAwareLists()
      */
@@ -483,5 +505,21 @@ public class PurApItemBase extends PersistableBusinessObjectBase implements Purc
             m.put("requisitionItemIdentifier", this.itemIdentifier.toString());
         }
 	    return m;
+    }
+
+    /**
+     * Gets the newAccountingLine attribute. 
+     * @return Returns the newAccountingLine.
+     */
+    public PurApAccountingLine getNewAccountingLine() {
+        return newAccountingLine;
+    }
+
+    /**
+     * Sets the newAccountingLine attribute value.
+     * @param newAccountingLine The newAccountingLine to set.
+     */
+    public void setNewAccountingLine(PurApAccountingLine newAccountingLine) {
+        this.newAccountingLine = newAccountingLine;
     }
 }

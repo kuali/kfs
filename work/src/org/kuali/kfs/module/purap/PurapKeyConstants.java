@@ -53,6 +53,8 @@ public class PurapKeyConstants {
     public static final String ERROR_USER_NONPURCHASING="errors.user.nonPurchasing";
     public static final String ERROR_PURCHASE_ORDER_PDF = "error.purchaseOrder.pdf";
     public static final String PURCHASE_ORDER_REOPEN_STATUS="purchaseOrder.reopen.status";
+    public static final String ERROR_PURCHASE_ORDER_TRANSMIT_PRIOR_TRANSMISSION = "error.transmit.purchaseOrder.priorTransmission";
+    public static final String ERROR_PURCHASE_ORDER_TRANSMIT_INVALID_TRANSMIT_TYPE= "error.transmit.purchaseOrder.invalidTransmitType";
     public static final String WARNING_PURCHASE_ORDER_NOT_CURRENT="warning.purchaseOrder.notCurrent";
     public static final String WARNING_PURCHASE_ORDER_PENDING_ACTION_NOT_CURRENT="warning.purchaseOrder.pendingAction.notCurrent";
     public static final String WARNING_PURCHASE_ORDER_PENDING_ACTION="warning.purchaseOrder.pendingAction";

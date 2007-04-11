@@ -134,6 +134,13 @@
         <property name="workflowDocumentService">
             <ref bean="workflowDocumentService" />
         </property>
+        <property name="printService">
+            <ref bean="printService" />
+        </property>	
+        <property name="kualiConfigurationService">
+            <ref bean="kualiConfigurationService" />
+        </property>	        
+        
 	</bean>
 
 	<!-- parent class, this is so we can override attributes if we add any later -->
@@ -146,6 +153,9 @@
         </property>	
         <property name="purapService">
             <ref bean="purapService" />
+        </property>	
+        <property name="dateTimeService">
+            <ref bean="dateTimeService" />
         </property>	
 	</bean>
 	
@@ -161,7 +171,9 @@
 	</bean>
 	<bean id="purchaseOrderPostProcessorVoidService" class="org.kuali.module.purap.service.impl.PurchaseOrderPostProcessorVoidServiceImpl" parent="purchaseOrderPostProcessServiceBase">
 	</bean>		
-  
+  	<bean id="purchaseOrderPostProcessorPrintService" class="org.kuali.module.purap.service.impl.PurchaseOrderPostProcessorPrintServiceImpl" parent="purchaseOrderPostProcessServiceBase">
+	</bean>
+	
 	<bean id="requisitionDao" class="org.kuali.module.purap.dao.ojb.RequisitionDaoOjb">
 		<property name="jcdAlias">
 			<value>dataSource</value>

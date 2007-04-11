@@ -55,4 +55,14 @@ public interface PurchaseOrderDao {
      * @return PurchaseOrderDocument
      */
     public PurchaseOrderDocument getOldestPurchaseOrder(Integer id);
+    
+    /**
+     * 
+     * This method gets the PurchaseOrderDocument whose status is Pending Print
+     * and purapDocumentIdentifier is the same as the id in the input parameter.
+     * 
+     * @param id Integer the purapDocumentIdentifier.
+     * @return PurchaseOrderDocument
+     */
+    public PurchaseOrderDocument getPurchaseOrderInPendingPrintStatus(Integer id);
 }

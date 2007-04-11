@@ -15,6 +15,9 @@
  */
 package org.kuali.module.purap.service.impl;
 
+import java.io.ByteArrayOutputStream;
+import java.sql.Date;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -24,16 +27,20 @@ import org.kuali.core.rule.event.RouteDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.NoteService;
+import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.module.purap.dao.PurchaseOrderDao;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.GeneralLedgerService;
+import org.kuali.module.purap.service.PrintService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderPostProcessorService;
 import org.kuali.module.purap.service.PurchaseOrderService;
@@ -51,8 +58,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private NoteService noteService;
     private GeneralLedgerService generalLedgerService;
     private PurapService purapService;
+    private PrintService printService;
     private PurchaseOrderDao purchaseOrderDao;
     private WorkflowDocumentService workflowDocumentService;
+    private KualiConfigurationService kualiConfigurationService;
     
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;    
@@ -78,12 +87,20 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         this.purapService = purapService;
     }
 
+    public void setPrintService(PrintService printService) {
+        this.printService = printService;
+    }
+
     public void setPurchaseOrderDao(PurchaseOrderDao purchaseOrderDao) {
         this.purchaseOrderDao = purchaseOrderDao;
     }
 
     public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
         this.workflowDocumentService = workflowDocumentService;
+    }
+    
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
     }
     
     public void save(PurchaseOrderDocument purchaseOrderDocument) {
@@ -121,6 +138,96 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             throw new RuntimeException("Error persisting document # " + poDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage());
         }
         return poDocument;
+    }
+    
+    /**
+     * Creates a PurchaseOrderPrintDocument from given PurchaseOrderDocument
+     * 
+     * @param reqDocument - RequisitionDocument that the PO is being created from
+     * @return PurchaseOrderDocument with document type PurchaseOrderPrintDocument
+     */
+    public PurchaseOrderDocument createPurchaseOrderPrintDocument(PurchaseOrderDocument poDocument) {
+
+        // get new document from doc service
+        try {
+            poDocument.toCopy(PurchaseOrderDocTypes.PURCHASE_ORDER_PRINT_DOCUMENT);
+            poDocument.setPurchaseOrderCurrentIndicator(true);
+            // TODO set other default info
+            // TODO set initiator of document as contract manager (is that right?)
+
+            documentService.updateDocument(poDocument);
+            documentService.prepareWorkflowDocument(poDocument);
+            workflowDocumentService.save(poDocument.getDocumentHeader().getWorkflowDocument(), "", null);
+
+        }
+        catch (WorkflowException e) {
+            LOG.error("Error creating PO Print document: " + e.getMessage());
+            throw new RuntimeException("Error creating PO Print document: " + e.getMessage());
+        }
+        catch (Exception e) {
+            LOG.error("Error persisting document # " + poDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage());
+            throw new RuntimeException("Error persisting document # " + poDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage());
+        }
+        return poDocument;
+    }
+    
+    public boolean firstPurchaseOrderTransmitViaPrint (PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients,
+        ByteArrayOutputStream baosPDF,  String environment) {
+        
+        boolean isRetransmit = false;
+        boolean result = true;
+        po.setPurchaseOrderFirstTransmissionDate(dateTimeService.getCurrentSqlDate());
+        result = updateFlagsAndRoute (po, docType, annotation, adhocRoutingRecipients);
+        Collection<String> generatePDFErrors = printService.generatePurchaseOrderPdf(po, baosPDF, isRetransmit, environment);
+        
+        if (generatePDFErrors.size() > 0) {
+            for (String error: generatePDFErrors) {
+                GlobalVariables.getErrorMap().putError(Constants.GLOBAL_ERRORS, PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, error);
+            }
+            result = false;
+        }
+        return result;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.module.purap.service.PurchaseOrderService#printPurchaseOrderPDF(org.kuali.module.purap.document.PurchaseOrderDocument, java.lang.String, java.lang.String, java.util.List, java.io.ByteArrayOutputStream, java.lang.String)
+     */
+    public boolean printPurchaseOrderPDF (PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients,
+        ByteArrayOutputStream baosPDF) {
+            
+        String environment = kualiConfigurationService.getPropertyString( Constants.ENVIRONMENT_KEY );
+        boolean isRetransmit = false;
+        boolean result = true;
+        Collection<String> generatePDFErrors = printService.generatePurchaseOrderPdf(po, baosPDF, isRetransmit, environment);
+            
+        if (generatePDFErrors.size() > 0) {
+            for (String error: generatePDFErrors) {
+                GlobalVariables.getErrorMap().putError(Constants.GLOBAL_ERRORS, PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, error);
+            }
+            result = false;
+        }
+        if (result) {
+            Date currentSqlDate = dateTimeService.getCurrentSqlDate();
+            po.setPurchaseOrderFirstTransmissionDate(currentSqlDate);
+            po.setPurchaseOrderInitialOpenDate(currentSqlDate);
+            po.setPurchaseOrderLastTransmitDate(currentSqlDate);
+            save(po);
+            
+            //Get the PurchaseOrderDocument of this print document whose status is Pending Print and update that PO's
+            //status to Open and set its firstTransmissionDate, initialOpenDate and lastTransmitDate to current date
+            PurchaseOrderDocument previousPo = getPurchaseOrderInPendingPrintStatus(po.getPurapDocumentIdentifier());
+            previousPo.setPurchaseOrderFirstTransmissionDate(currentSqlDate);
+            previousPo.setPurchaseOrderInitialOpenDate(currentSqlDate);
+            previousPo.setPurchaseOrderLastTransmitDate(currentSqlDate);
+            purapService.updateStatusAndStatusHistory( previousPo, PurapConstants.PurchaseOrderStatuses.OPEN );
+            save(previousPo);
+        }
+        return result;
+    }
+    
+    public PurchaseOrderDocument getPurchaseOrderInPendingPrintStatus(Integer id) {
+        return purchaseOrderDao.getPurchaseOrderInPendingPrintStatus(id);    
     }
     
     /**
@@ -180,7 +287,15 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             purapService.updateStatusAndStatusHistory(po, PurapConstants.PurchaseOrderStatuses.PENDING_PRINT);
             this.save(po);
             // TODO create PO print doc
-            // routingService.routePrintablePurchaseOrderFYI(po, u);
+            GlobalVariables.setErrorMap(new ErrorMap());
+            createPurchaseOrderPrintDocument(po);
+            try {
+                po = (PurchaseOrderDocument)SpringServiceLocator.getDocumentService().routeDocument(po, null, null);
+            }
+            catch (WorkflowException e) {
+                LOG.error("Error routing PO document: " + e.getMessage());
+                throw new RuntimeException("Error routing PO document: " + e.getMessage());
+            }
         }
         else {
             LOG.info("completePurchaseOrder() Unhandled Transmission Status: " + po.getPurchaseOrderTransmissionMethodCode() + " -- Defaulting Status to OPEN");

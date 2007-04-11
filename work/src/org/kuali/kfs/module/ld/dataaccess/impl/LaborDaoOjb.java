@@ -100,28 +100,58 @@ public class LaborDaoOjb extends PersistenceBrokerDaoSupport implements LaborDao
         return csfAmount;
     }
 
+    public Object getEncumbranceTotal(Map fieldValues) {
+
+        final String CSF_AMOUNT = "csfAmount";
+        System.out.println("accountNumber:" + fieldValues.get("accountNumber"));
+        System.out.println("universityFiscalYear:" + fieldValues.get("universityFiscalYear"));
+        System.out.println("chartOfAccountsCode:" + fieldValues.get("chartOfAccountsCode"));
+        System.out.println("accountNumber:" + fieldValues.get("accountNumber"));
+        System.out.println("subAccountNumber:" + fieldValues.get("subAccountNumber"));
+        System.out.println("financialObjectCode:" + fieldValues.get("financialObjectCode"));
+        System.out.println("financialSubObjectCode:" + fieldValues.get("financialSubObjectCode"));
+        System.out.println("emplid:" + fieldValues.get("emplid"));
+
+        Criteria criteria = new Criteria();
+        criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new CalculatedSalaryFoundationTracker()));
+
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(CalculatedSalaryFoundationTracker.class, criteria);
+
+        List groupByList = new ArrayList();
+        groupByList.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        groupByList.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        groupByList.add(PropertyConstants.ACCOUNT_NUMBER);
+        groupByList.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
+        groupByList.add(PropertyConstants.FINANCIAL_OBJECT_CODE);
+        groupByList.add(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
+
+        query.setAttributes(new String[] { "sum(" + CSF_AMOUNT + ")" });
+        query.addGroupBy(groupBy);
+
+        Object[] csf = null;
+
+        Iterator<Object[]> calculatedSalaryFoundationTracker = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+        while (calculatedSalaryFoundationTracker != null && calculatedSalaryFoundationTracker.hasNext()) {
+            csf = calculatedSalaryFoundationTracker.next();
+        }
+        KualiDecimal csfAmount = new KualiDecimal("0");
+        if (csf != null)
+            csfAmount = new KualiDecimal(csf[0].toString());
+        return csfAmount;
+    }
+
     /**
      * @see org.kuali.module.labor.dao.LaborDao#getCurrentYearFunds(java.util.Map)
      */
     public Collection getCurrentYearFunds(Map fieldValues) {
         Criteria criteria = new Criteria();
+        criteria.addEqualToField("financialBalanceTypeCode", "'IE'");
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new AccountStatusCurrentFunds()));
         QueryByCriteria query = QueryFactory.newQuery(AccountStatusCurrentFunds.class, criteria);
         OJBUtility.limitResultSize(query);
         Collection ledgerBalances = getPersistenceBrokerTemplate().getCollectionByQuery(query);
-/*        for (Iterator iter = ledgerBalances.iterator(); iter.hasNext();) {
-            AccountStatusCurrentFunds currentFund = (AccountStatusCurrentFunds) ledgerBalances;
-            new PersonPayrollId(currentFund.getEmplid());
-            UniversalUser universalUser = null;
-
-            try{
-            universalUser = SpringServiceLocator.getUniversalUserService().getUniversalUser(empl);
-            }catch(UserNotFoundException e){
-             return LaborConstants.BalanceInquiries.UnknownPersonName;
-             }
-             return universalUser.getPersonName();
-        }
-*/        return ledgerBalances;
+        return ledgerBalances;
     }
 
     /**
@@ -142,6 +172,7 @@ public class LaborDaoOjb extends PersistenceBrokerDaoSupport implements LaborDao
      */
     public Collection getCurrentFunds(Map fieldValues) {
         Criteria criteria = new Criteria();
+        criteria.addEqualToField("financialBalanceTypeCode", "'AC'");
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new AccountStatusCurrentFunds()));
         QueryByCriteria query = QueryFactory.newQuery(AccountStatusCurrentFunds.class, criteria);
         OJBUtility.limitResultSize(query);

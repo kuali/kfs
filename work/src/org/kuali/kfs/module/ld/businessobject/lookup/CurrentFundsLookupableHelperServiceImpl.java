@@ -69,16 +69,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
         if (defaultSortColumns.size() > 0) {
             Collections.sort(searchResults, new BeanPropertyComparator(defaultSortColumns, true));
         }
-        
-        // Get the result limit number from configuration
-        beanFactory = SpringServiceLocator.getBeanFactory();
-        kualiConfigurationService = (KualiConfigurationService) beanFactory.getBean("kualiConfigurationService");
-        String limitConfig = kualiConfigurationService.getApplicationParameterValue(Constants.ParameterGroups.SYSTEM, Constants.LOOKUP_RESULTS_LIMIT_URL_KEY);
-        Integer limit = null;
-        if (limitConfig != null) {
-            limit = Integer.valueOf(limitConfig);
-        }
-        Long collectionCount = new Long(searchResults.size());
+               
         Long actualCountIfTruncated = new Long(0);
 
         return new CollectionIncomplete(searchResults, actualCountIfTruncated);

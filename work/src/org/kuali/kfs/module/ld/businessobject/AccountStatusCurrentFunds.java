@@ -20,12 +20,8 @@ import org.kuali.core.bo.user.PersonPayrollId;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.bo.user.UserId;
 import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.ObjectType;
-import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.service.LaborBalanceInquiryService;
 
@@ -35,12 +31,14 @@ public class AccountStatusCurrentFunds extends LedgerBalance {
     private KualiDecimal ytdActualAmount;
     private KualiDecimal outstandingEncum;
 
+    private LaborBalanceInquiryService laborBalanceInquiryService;
+    
     /**
      * Constructs an AccountStatusCurrentFunds.java.
      */
     public AccountStatusCurrentFunds() {
         super();
-        this.setYtdActualAmount(KualiDecimal.ZERO);
+        this.setMonth1Amount(KualiDecimal.ZERO);
         this.setOutstandingEncum(KualiDecimal.ZERO);
     }
 
@@ -62,7 +60,6 @@ public class AccountStatusCurrentFunds extends LedgerBalance {
         return universalUser.getPersonName();
     }        
     
-
     /**
      * 
      * This method set thes persons name
@@ -78,25 +75,9 @@ public class AccountStatusCurrentFunds extends LedgerBalance {
      * This method...
      * @return
      */
-    public KualiDecimal getYtdActualAmount() {
-        return ytdActualAmount;
-    }
-
-    /**
-     * 
-     * This method...
-     * @param ytdActualAmount
-     */
-    public void setYtdActualAmount(KualiDecimal ytdActualAmount) {
-        this.ytdActualAmount = ytdActualAmount;
-    }
-
-    /**
-     * 
-     * This method...
-     * @return
-     */
     public KualiDecimal getOutstandingEncum() {
+        if ((getAccountLineAnnualBalanceAmount() != null) && (getContractsGrantsBeginningBalanceAmount() != null))
+            outstandingEncum = (getAccountLineAnnualBalanceAmount().add(getContractsGrantsBeginningBalanceAmount()));
         return outstandingEncum;
     }
 

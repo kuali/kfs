@@ -49,11 +49,12 @@ public class BaseFundsInquirableImpl extends AbstractLaborInquirableImpl {
     protected List buildUserDefinedAttributeKeyList() {
         List keys = new ArrayList();
 
+        keys.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        keys.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        keys.add(PropertyConstants.ACCOUNT_NUMBER);
         keys.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
         keys.add(PropertyConstants.OBJECT_CODE);
-        keys.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        keys.add(PropertyConstants.ACCOUNT_NUMBER);
-        keys.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        keys.add(PropertyConstants.SUB_OBJECT_CODE);
         keys.add(PropertyConstants.CSF_AMOUNT);
 
         return keys;
@@ -64,6 +65,7 @@ public class BaseFundsInquirableImpl extends AbstractLaborInquirableImpl {
      */
     protected Map getUserDefinedAttributeMap() {
         Map userDefinedAttributeMap = new HashMap();
+        userDefinedAttributeMap.put("csfAmount", Constants.MONTH1);        
         return userDefinedAttributeMap;
     }
 
@@ -96,8 +98,7 @@ public class BaseFundsInquirableImpl extends AbstractLaborInquirableImpl {
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getLookupableImplAttributeName()
      */
     protected String getLookupableImplAttributeName() {
-        // TODO: investigate change to this constant
-        return Constant.GL_LOOKUPABLE_ENTRY;
+        return "CSFTrackerBalanceLookupable";
     }
 
     /**

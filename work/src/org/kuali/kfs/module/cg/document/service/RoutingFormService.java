@@ -17,6 +17,7 @@ package org.kuali.module.kra.routingform.service;
 
 import java.util.List;
 
+import org.kuali.module.cg.bo.Proposal;
 import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.budget.web.struts.form.BudgetOverviewFormHelper;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
@@ -28,9 +29,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * 
  */
 public interface RoutingFormService {
-    
-    public void initializeRoutingForm(RoutingFormDocument routingFormDocument) throws WorkflowException;
-    
+
     /**
      * Prepares a Routing Form for save.
      * @param RoutingFormDocument
@@ -39,4 +38,6 @@ public interface RoutingFormService {
     public void prepareRoutingFormForSave(RoutingFormDocument RoutingFormDocument) throws WorkflowException;
     public BudgetDocument retrieveBudgetForLinking(String budgetDocumentNumber) throws WorkflowException;
     public void linkImportBudgetDataToRoutingForm(RoutingFormDocument routingFormDocument, String budgetDocumentHeaderId, List<BudgetOverviewFormHelper> periodOverviews) throws WorkflowException;
+    
+    public Long createAndRouteProposalMaintenanceDocument(RoutingFormDocument routingFormDocument);
 }

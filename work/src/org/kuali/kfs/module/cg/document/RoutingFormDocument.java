@@ -197,7 +197,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         }
                 
                 if (createProposal) {
-                    Long newProposalNumber = SpringServiceLocator.getProposalService().createAndRouteProposalMaintenanceDocument(this);
+                    Long newProposalNumber = SpringServiceLocator.getRoutingFormService().createAndRouteProposalMaintenanceDocument(this);
 
                     this.getContractGrantProposal().setProposalNumber(newProposalNumber);
                     SpringServiceLocator.getBusinessObjectService().save(this.getContractGrantProposal());

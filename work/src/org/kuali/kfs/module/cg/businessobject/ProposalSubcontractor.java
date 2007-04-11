@@ -44,18 +44,6 @@ public class ProposalSubcontractor extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Constructs a ProposalSubcontractor with a Proposal Number and uses a RoutingFormSubcontractor as a template.
-     * @param proposalNumber The proposalNumber for the Proposal that this ProposalSubcontractor will be associated with
-     * @param routingFormSubcontractor The routingFormSubcontractor that will act as a template for this ProposalSubcontractor
-     */
-    public ProposalSubcontractor(Long proposalNumber, RoutingFormSubcontractor routingFormSubcontractor) {
-        this.setProposalNumber(proposalNumber);
-        this.setProposalSubcontractorNumber(routingFormSubcontractor.getRoutingFormSubcontractorSequenceNumber().toString());
-        this.setSubcontractorNumber(routingFormSubcontractor.getRoutingFormSubcontractorNumber());
-        this.setProposalSubcontractorAmount(routingFormSubcontractor.getRoutingFormSubcontractorAmount().kualiDecimalValue());
-    }
-    
-    /**
      * Gets the proposalSubcontractorNumber attribute.
      * 
      * @return Returns the proposalSubcontractorNumber

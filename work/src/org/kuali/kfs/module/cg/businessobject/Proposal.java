@@ -45,7 +45,7 @@ import org.kuali.module.kra.routingform.document.RoutingFormDocument;
  */
 public class Proposal extends PersistableBusinessObjectBase {
 
-    private static final String PROPOSAL_CODE = "P";
+    public static final String PROPOSAL_CODE = "P";
     private Long proposalNumber;
     private Date proposalBeginningDate;
     private Date proposalEndingDate;
@@ -104,84 +104,6 @@ public class Proposal extends PersistableBusinessObjectBase {
         proposalResearchRisks = new TypedArrayList(ProposalResearchRisk.class);
     }
 
-    public Proposal(RoutingFormDocument routingFormDocument) {
-        this();
-        
-        Long newProposalNumber = NextProposalNumberFinder.getLongValue();
-        this.setProposalNumber(newProposalNumber);
-        this.setProposalStatusCode(PROPOSAL_CODE);
-
-        //Values coming from RoutingFormDocument (ER_RF_DOC_T)
-        this.setProposalProjectTitle(routingFormDocument.getRoutingFormProjectTitle().length() > 250 ? routingFormDocument.getRoutingFormProjectTitle().substring(0, 250) : routingFormDocument.getRoutingFormProjectTitle());
-        this.setProposalPurposeCode(routingFormDocument.getRoutingFormPurposeCode());
-        this.setGrantNumber(routingFormDocument.getGrantNumber());
-        this.setCfdaNumber(routingFormDocument.getRoutingFormCatalogOfFederalDomesticAssistanceNumber());
-        this.setProposalFellowName(routingFormDocument.getRoutingFormFellowFullName());
-        this.setProposalFederalPassThroughIndicator(routingFormDocument.getRoutingFormFederalPassThroughIndicator());
-        this.setFederalPassThroughAgencyNumber(routingFormDocument.getAgencyFederalPassThroughNumber());
-
-        //There could be multiple types on the RF, but only one of them will pass this rule, and that's the one that should be used to populate the Proposal field.
-        KualiParameterRule proposalCreateRule = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterRule(KraConstants.KRA_ADMIN_GROUP_NAME, "KraRoutingFormCreateProposalProjectTypes");
-        for (RoutingFormProjectType routingFormProjectType : routingFormDocument.getRoutingFormProjectTypes()) {
-            if (proposalCreateRule.succeedsRule(routingFormProjectType.getProjectTypeCode())) {
-                this.setProposalAwardTypeCode(routingFormProjectType.getProjectTypeCode());
-                break;
-            }
-        }
-        
-        
-        //Values coming from Routing Form Budget BO (ER_RF_BDGT_T)
-        RoutingFormBudget routingFormBudget = routingFormDocument.getRoutingFormBudget();
-        this.setProposalBeginningDate(routingFormBudget.getRoutingFormBudgetStartDate());
-        this.setProposalEndingDate(routingFormBudget.getRoutingFormBudgetEndDate());
-        this.setProposalTotalAmount((routingFormBudget.getRoutingFormBudgetDirectAmount() != null ? routingFormBudget.getRoutingFormBudgetDirectAmount() : new KualiInteger(0)).add(routingFormBudget.getRoutingFormBudgetIndirectCostAmount() != null ? routingFormBudget.getRoutingFormBudgetIndirectCostAmount() : new KualiInteger(0)).kualiDecimalValue());
-        this.setProposalDirectCostAmount((routingFormBudget.getRoutingFormBudgetDirectAmount() != null ? routingFormBudget.getRoutingFormBudgetDirectAmount() : new KualiInteger(0)).kualiDecimalValue());
-        this.setProposalIndirectCostAmount((routingFormBudget.getRoutingFormBudgetIndirectCostAmount() != null ? routingFormBudget.getRoutingFormBudgetIndirectCostAmount() : new KualiInteger(0)).kualiDecimalValue());
-        this.setProposalDueDate(routingFormDocument.getRoutingFormAgency().getRoutingFormDueDate());
-
-        //Values coming from RoutingFormAgency (ER_RF_AGNCY_T)
-        this.setAgencyNumber(routingFormDocument.getRoutingFormAgency().getAgencyNumber());
-
-        //Values coming from the list of Subcontractors (ER_RF_SUBCNR_T)
-        for (RoutingFormSubcontractor routingFormSubcontractor : routingFormDocument.getRoutingFormSubcontractors()) {
-            this.getProposalSubcontractors().add(new ProposalSubcontractor(newProposalNumber, routingFormSubcontractor));
-        }
-
-        //Get the RF Primary Project Director
-        for (RoutingFormPersonnel routingFormPerson : routingFormDocument.getRoutingFormPersonnel()) {
-            if (routingFormPerson.isProjectDirector()) {
-                RoutingFormPersonnel projectDirector = routingFormPerson;
-
-                this.getProposalProjectDirectors().add(new ProposalProjectDirector(projectDirector, newProposalNumber, true));
-                
-                ProposalOrganization projectDirectorOrganization = new ProposalOrganization();
-                projectDirectorOrganization.setProposalNumber(newProposalNumber);
-                projectDirectorOrganization.setChartOfAccountsCode(projectDirector.getChartOfAccountsCode());
-                projectDirectorOrganization.setOrganizationCode(projectDirector.getOrganizationCode());
-                projectDirectorOrganization.setProposalPrimaryOrganizationIndicator(true);
-                
-                this.getProposalOrganizations().add(projectDirectorOrganization);
-                break;
-            }
-        }
-
-        for (RoutingFormOrganization routingFormOrganization : routingFormDocument.getRoutingFormOrganizations()) {
-            //construct a new ProposalOrganization using the current RoutingFormOrganization as a template.
-            ProposalOrganization proposalOrganization = new ProposalOrganization(newProposalNumber, routingFormOrganization);
-
-            //check to see if the list or ProposalOrganizations already contains an entry with this key; add it to the list if it does not.
-            if (!ObjectUtils.collectionContainsObjectWithIdentitcalKey(this.getProposalOrganizations(), proposalOrganization)) {
-                this.getProposalOrganizations().add(proposalOrganization);
-            }
-        }
-
-        for (RoutingFormResearchRisk routingFormResearchRisk : routingFormDocument.getRoutingFormResearchRisks()) {
-            this.getProposalResearchRisks().add(new ProposalResearchRisk(newProposalNumber, routingFormResearchRisk));
-        }
-        
-        this.setProposalSubmissionDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
-
-    }
     
     /**
      * Gets the proposalNumber attribute.

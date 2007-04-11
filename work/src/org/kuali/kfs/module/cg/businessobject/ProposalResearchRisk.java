@@ -33,15 +33,7 @@ public class ProposalResearchRisk extends PersistableBusinessObjectBase {
     public ProposalResearchRisk() {
         super();
     }
-    
-    public ProposalResearchRisk(Long proposalNumber, RoutingFormResearchRisk routingFormResearchRisk) {
-        this.proposalNumber = proposalNumber;
-        this.researchRiskTypeCode = routingFormResearchRisk.getResearchRiskTypeCode();
-        this.isActive = 
-            routingFormResearchRisk.getResearchRiskStudies() != null && routingFormResearchRisk.getResearchRiskStudies().size() > 0 || routingFormResearchRisk.getResearchRiskDescription() != null;
-        this.researchRiskType = routingFormResearchRisk.getResearchRiskType();
-    }
-    
+        
     @Override
     protected LinkedHashMap toStringMapper() {
         

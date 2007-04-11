@@ -42,17 +42,6 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
     }
 
     /**
-     * Constructor from RoutingFormDocument.
-     */
-    public ProposalProjectDirector(RoutingFormPersonnel routingFormProjectDirector, Long proposalNumber, boolean primaryProjectDirector) {
-        // todo: not set proposalNumber?  Doesn't OJB do this automatically?
-        this.setProposalNumber(proposalNumber);
-        this.setPersonUniversalIdentifier(routingFormProjectDirector.getPersonUniversalIdentifier());
-        this.setProposalPrimaryProjectDirectorIndicator(primaryProjectDirector);
-    }
-
-    
-    /**
      * Gets the personUniversalIdentifier attribute.
      * 
      * @return Returns the personUniversalIdentifier

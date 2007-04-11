@@ -94,6 +94,10 @@
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
+    <property name="maintenanceDocumentDictionaryService">
+      		<ref bean="maintenanceDocumentDictionaryService" />
+    	</property>
+
 	</bean>
 
 	<bean id="budgetFringeRateService" class="org.kuali.module.kra.budget.service.impl.BudgetFringeRateServiceImpl">

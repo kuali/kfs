@@ -110,12 +110,6 @@
     	<property name="proposalDao">
       		<ref bean="proposalDao" />
     	</property>
-    	<property name="documentService">
-      		<ref bean="documentService" />
-    	</property>
-    	<property name="maintenanceDocumentDictionaryService">
-      		<ref bean="maintenanceDocumentDictionaryService" />
-    	</property>
 	</bean>
 
 	<bean id="proposalLookupableHelperService" class="org.kuali.module.cg.lookup.ProposalLookupableHelperServiceImpl" singleton="false" parent="kualiLookupableHelperService" />

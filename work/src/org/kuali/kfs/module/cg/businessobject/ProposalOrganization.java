@@ -44,19 +44,6 @@ public class ProposalOrganization extends PersistableBusinessObjectBase implemen
     }
 
     /**
-     * Constructs a ProposalOrganization with a Proposal Number and uses a RoutingFormOrganization as a template.
-     * @param proposalNumber The proposalNumber for the Proposal that this ProposalOrganization will be associated with
-     * @param routingFormOrganization The routingFormOrganization that will act as a template for this ProposalOrganization
-     */
-    public ProposalOrganization(Long proposalNumber, RoutingFormOrganization routingFormOrganization) {
-        this.setProposalNumber(proposalNumber);
-        this.setChartOfAccountsCode(routingFormOrganization.getChartOfAccountsCode());
-        this.setOrganizationCode(routingFormOrganization.getOrganizationCode());
-        this.setProposalPrimaryOrganizationIndicator(routingFormOrganization.getRoutingFormPrimaryOrganizationIndicator());
-        
-    }
-
-    /**
      * Gets the chartOfAccountsCode attribute.
      * 
      * @return Returns the chartOfAccountsCode

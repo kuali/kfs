@@ -307,19 +307,21 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
         documentService.updateDocument(bcDocument);
         
         PendingBudgetConstructionGeneralLedger pbglLine;
-        pbglLine = bcDocument.getPendingBudgetConstructionGeneralLedgerRevenueLines().get(this.getSelectedLine(request));
+        pbglLine = bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(this.getSelectedLine(request));
 
         String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
         Properties parameters = new Properties();
         parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, BCConstants.SALARY_SETTING_METHOD);
 
-//        parameters.put("documentNumber", pbglLine.getDocumentNumber());
+        parameters.put("documentNumber", pbglLine.getDocumentNumber());
         parameters.put("universityFiscalYear", pbglLine.getUniversityFiscalYear().toString());
         parameters.put("chartOfAccountsCode", pbglLine.getChartOfAccountsCode());
         parameters.put("accountNumber", pbglLine.getAccountNumber());
         parameters.put("subAccountNumber", pbglLine.getSubAccountNumber());
         parameters.put("financialObjectCode", pbglLine.getFinancialObjectCode());
         parameters.put("financialSubObjectCode", pbglLine.getFinancialSubObjectCode());
+        parameters.put("financialBalanceTypeCode", pbglLine.getFinancialBalanceTypeCode());
+        parameters.put("financialObjectTypeCode", pbglLine.getFinancialObjectTypeCode());
         
         // anchor, if it exists
         if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {

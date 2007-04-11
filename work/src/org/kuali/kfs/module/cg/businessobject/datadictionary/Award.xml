@@ -53,6 +53,7 @@
                 <field attributeName="federalPassThroughFundedAmount" />
                 <field attributeName="federalPassThroughIndicator" />
                 <field attributeName="workgroupName" />
+                <field attributeName="kualiGroupNames" />
                 <field attributeName="grantDescriptionCode" />
                 <field attributeName="letterOfCreditFundGroupCode" />
                 <field attributeName="oldProposalNumber" />
@@ -108,6 +109,14 @@
         <titleAttribute>proposalNumber</titleAttribute>
 
         <attributes>
+
+			<attributeReference name="kualiGroupNames" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBigText">
+				<label>Kuali Workgroup Users</label>
+				<shortLabel>Kuali Workgroup Users</shortLabel>
+				
+				<summary>Kuali Workgroup Users Names</summary>
+				<description>Collection of names of individuals associated with this awards financial system workgroup.</description>
+			</attributeReference>
 						
 			<attributeReference name="primaryAwardOrganization.organizationCode" sourceClassName="org.kuali.module.cg.bo.AwardOrganization" sourceAttributeName="organizationCode" >
 				<label>Primary Organization Code</label>

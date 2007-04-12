@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 function onblur_proposalDirectCostAmount( directAmountField ) {
-    updateProposalTotalAmount( directAmountField.name, findElPrefix( directAmountField.name ) + ".proposalIndirectCostAmount" );
+    updateTotalAmount( directAmountField.name, findElPrefix( directAmountField.name ) + ".proposalIndirectCostAmount", "proposalTotalAmount" );
 }
 
 function onblur_proposalIndirectCostAmount( indirectAmountField ) {
-    updateProposalTotalAmount( findElPrefix( indirectAmountField.name ) + ".proposalDirectCostAmount", indirectAmountField.name );
+    updateTotalAmount( findElPrefix( indirectAmountField.name ) + ".proposalDirectCostAmount", indirectAmountField.name, "proposalTotalAmount" );
 }
 
 function onblur_proposalStatusCode( proposalStatusCodeField ) {
@@ -75,10 +75,10 @@ function today() {
     return (1 + now.getMonth()) + "/" + now.getDate() + "/" + now.getFullYear();
 }
 
-function updateProposalTotalAmount( directAmountFieldName, indirectAmountFieldName ) {
+function updateTotalAmount( directAmountFieldName, indirectAmountFieldName, totalAmountFieldName ) {
     var directAmount = getElementValue( directAmountFieldName );
     var indirectAmount = getElementValue( indirectAmountFieldName );
-    var totalFieldName = findElPrefix( directAmountFieldName ) + ".proposalTotalAmount";
+    var totalFieldName = findElPrefix( directAmountFieldName ) + "."+ totalAmountFieldName;
     if ( isCurrencyNumber( directAmount ) && isCurrencyNumber( indirectAmount ) ) {
         var totalValue = formatCurrency( parseCurrency( directAmount ) + parseCurrency( indirectAmount ) );
         setRecipientValue( totalFieldName, totalValue );
@@ -113,4 +113,12 @@ function formatCurrency( amount ) {
     }
     // Kuali's CurrencyFormatter is not displaying the $ symbol, so this function doesn't either.
     return (negative ? "(" : "") + groups.join(",") + "." + fraction + (negative ? ")" : "");
+}
+
+function onblur_awardDirectCostAmount( directAmountField ) {
+    updateTotalAmount( directAmountField.name, findElPrefix( directAmountField.name ) + ".awardIndirectCostAmount", "awardTotalAmount" );
+}
+
+function onblur_awardIndirectCostAmount( indirectAmountField ) {
+    updateTotalAmount( findElPrefix( indirectAmountField.name ) + ".awardDirectCostAmount", indirectAmountField.name, "awardTotalAmount" );
 }

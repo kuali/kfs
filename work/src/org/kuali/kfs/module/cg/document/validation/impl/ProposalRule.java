@@ -15,24 +15,19 @@
  */
 package org.kuali.module.cg.rules;
 
-import java.util.Collection;
 import java.sql.Date;
 
+import org.kuali.KeyConstants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.bo.BusinessObject;
 import org.kuali.module.cg.bo.Proposal;
 import org.kuali.module.cg.bo.ProposalOrganization;
-import org.kuali.module.cg.bo.Primaryable;
 import org.kuali.module.cg.bo.ProposalProjectDirector;
-import org.kuali.PropertyConstants;
-import org.kuali.KeyConstants;
-import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
  * Rules for the Proposal maintenance document.
  */
-public class ProposalRule extends MaintenanceDocumentRuleBase {
+public class ProposalRule extends CGMaintenanceDocumentRuleBase {
 
     // private Proposal oldProposalCopy;
     private Proposal newProposalCopy;
@@ -46,50 +41,18 @@ public class ProposalRule extends MaintenanceDocumentRuleBase {
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument documentCopy) {
         boolean success = true;
-        success &= checkEndAfterBegin();
+        success &= checkEndAfterBegin(newProposalCopy.getProposalBeginningDate(),newProposalCopy.getProposalEndingDate(),PropertyConstants.PROPOSAL_ENDING_DATE);
         success &= checkPrimary(newProposalCopy.getProposalOrganizations(), ProposalOrganization.class, PropertyConstants.PROPOSAL_ORGANIZATIONS, Proposal.class);
         success &= checkPrimary(newProposalCopy.getProposalProjectDirectors(), ProposalProjectDirector.class, PropertyConstants.PROPOSAL_PROJECT_DIRECTORS, Proposal.class);
         return success;
     }
 
-    private boolean checkEndAfterBegin() {
-        boolean success = true;
-        Date begin = newProposalCopy.getProposalBeginningDate();
-        Date end = newProposalCopy.getProposalEndingDate();
-        if (begin != null && end != null && !end.after(begin)) {
-            putFieldError(PropertyConstants.PROPOSAL_ENDING_DATE, KeyConstants.ERROR_ENDING_DATE_NOT_AFTER_BEGIN);
-            success = false;
-        }
-        return success;
-    }
-
-    private <E extends Primaryable> boolean checkPrimary(Collection<E> primaryables, Class<E> elementClass, String collectionName, Class<? extends BusinessObject> boClass) {
-        boolean success = true;
-        int count = 0;
-        for (Primaryable p : primaryables) {
-            if (p.isPrimary()) {
-                count++;
-            }
-        }
-        if (count != 1) {
-            success = false;
-            String elementLabel = SpringServiceLocator.getDataDictionaryService().getCollectionElementLabel(boClass.getName(), collectionName, elementClass);
-            switch(count) {
-                case 0:
-                    putFieldError(collectionName, KeyConstants.ERROR_NO_PRIMARY, elementLabel);
-                    break;
-                default:
-                    putFieldError(collectionName, KeyConstants.ERROR_MULTIPLE_PRIMARY, elementLabel);
-            }
-        }
-        return success;
-    }
-
+    
     /**
-     * Performs convenience cast for Maintenance framework.
-     * Note that the MaintenanceDocumentRule events provide only a deep copy of the document (from KualiDocumentEventBase),
-     * so these BOs are a copy too.  The framework does this to prevent these rules from changing any data.
-     *
+     * Performs convenience cast for Maintenance framework. Note that the MaintenanceDocumentRule events provide only a deep copy of
+     * the document (from KualiDocumentEventBase), so these BOs are a copy too. The framework does this to prevent these rules from
+     * changing any data.
+     * 
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRule#setupConvenienceObjects()
      */
     @Override

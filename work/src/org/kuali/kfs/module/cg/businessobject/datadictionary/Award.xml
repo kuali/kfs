@@ -513,26 +513,30 @@
         
         <collections>
             <collection name="awardProjectDirectors">
-                <label>Principal Investigator</label>
-                <shortLabel>Prin Invest</shortLabel>
+                <label>Principal Investigators</label>
+                <shortLabel>Principal Investigator</shortLabel>
+                <elementLabel>Prinicipal Investigator</elementLabel>
                 <summary>Award Project Directors</summary>
                 <description>Award principal investigator</description>
             </collection>
             <collection name="awardAccounts">
-                <label>Account</label>
-                <shortLabel>Account</shortLabel>
+                <label>Award Accounts</label>
+                <shortLabel>Accounts</shortLabel>
+                <elementLabel>Account</elementLabel>
                 <summary>Award Accounts</summary>
                 <description>Award Account</description>
             </collection>
             <collection name="awardOrganizations">
-                <label>Organization</label>
-                <shortLabel>Org</shortLabel>
+                <label>Award Organizations</label>
+                <shortLabel>Organizations</shortLabel>
+                <elementLabel>Organization</elementLabel>
                 <summary>Award Organizations</summary>
                 <description>Award Organization</description>
             </collection>
             <collection name="awardSubcontractors">
-                <label>Subcontractor</label>
-                <shortLabel>Subcontractor</shortLabel>
+                <label>Award Subcontractors</label>
+                <shortLabel>Subcontractors</shortLabel>
+                <elementLabel>Subcontractor</elementLabel>
                 <summary>Award Subcontractors</summary>
                 <description>Award Subcontractor</description>
             </collection>

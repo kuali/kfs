@@ -18,17 +18,23 @@ package org.kuali.module.cg.maintenance;
 import static org.kuali.PropertyConstants.AWARD_ACCOUNTS;
 import static org.kuali.PropertyConstants.AWARD_PROJECT_DIRECTORS;
 import static org.kuali.PropertyConstants.AWARD_SUBCONTRACTORS;
+import static org.kuali.PropertyConstants.DOCUMENT;
+import static org.kuali.PropertyConstants.NEW_MAINTAINABLE_OBJECT;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
+import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Award;
 import org.kuali.module.cg.bo.AwardOrganization;
 import org.kuali.module.cg.bo.AwardProjectDirector;
@@ -37,6 +43,7 @@ import org.kuali.module.cg.bo.Proposal;
 import org.kuali.module.cg.bo.ProposalOrganization;
 import org.kuali.module.cg.bo.ProposalProjectDirector;
 import org.kuali.module.cg.bo.ProposalSubcontractor;
+import org.kuali.module.cg.rules.AwardRuleUtil;
 
 /**
  * Methods for the Award maintenance document UI.
@@ -69,6 +76,15 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
     @Override
     public void prepareForSave() {
         refreshAward();
+        List<AwardProjectDirector> directors = getAward().getAwardProjectDirectors();
+        if (directors.size() == 1) {
+            directors.get(0).setAwardPrimaryProjectDirectorIndicator(true);
+        }
+        List<AwardOrganization> organizations = getAward().getAwardOrganizations();
+        if (organizations.size() == 1) {
+            organizations.get(0).setAwardPrimaryOrganizationIndicator(true);
+        }
+
         super.prepareForSave();
     }
 
@@ -77,12 +93,20 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
      */
     @Override
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
+
         refreshAward();
         super.refresh(refreshCaller, fieldValues, document);
-        // copy over proposal values after refresh
         if (StringUtils.equals(PropertyConstants.PROPOSAL, (String) fieldValues.get(Constants.REFERENCES_TO_REFRESH))) {
+            if (AwardRuleUtil.isProposalAwarded(getAward())) {
+                String pathToMaintainable = DOCUMENT + "." + NEW_MAINTAINABLE_OBJECT;
+                GlobalVariables.getErrorMap().addToErrorPath(pathToMaintainable);
+                GlobalVariables.getErrorMap().putError(PropertyConstants.PROPOSAL_NUMBER, KeyConstants.ERROR_AWARD_PROPOSAL_AWARDED, new String[] { getAward().getProposalNumber().toString() });
+                GlobalVariables.getErrorMap().removeFromErrorPath(pathToMaintainable);
+            }
+            // copy over proposal values after refresh
             Award award = getAward();
             award.populateFromProposal(award.getProposal());
+
         }
     }
 

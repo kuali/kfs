@@ -24,7 +24,7 @@ import org.kuali.core.bo.user.UniversalUser;
 /**
  * 
  */
-public class AwardProjectDirector extends PersistableBusinessObjectBase {
+public class AwardProjectDirector extends PersistableBusinessObjectBase implements Primaryable {
 
     private String personUniversalIdentifier;
     private Long proposalNumber;
@@ -44,7 +44,6 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase {
      * Gets the personUniversalIdentifier attribute.
      * 
      * @return Returns the personUniversalIdentifier
-     * 
      */
     public String getPersonUniversalIdentifier() {
         return personUniversalIdentifier;
@@ -54,7 +53,6 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase {
      * Sets the personUniversalIdentifier attribute.
      * 
      * @param personUniversalIdentifier The personUniversalIdentifier to set.
-     * 
      */
     public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
         this.personUniversalIdentifier = personUniversalIdentifier;
@@ -65,7 +63,6 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase {
      * Gets the proposalNumber attribute.
      * 
      * @return Returns the proposalNumber
-     * 
      */
     public Long getProposalNumber() {
         return proposalNumber;
@@ -75,7 +72,6 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase {
      * Sets the proposalNumber attribute.
      * 
      * @param proposalNumber The proposalNumber to set.
-     * 
      */
     public void setProposalNumber(Long proposalNumber) {
         this.proposalNumber = proposalNumber;
@@ -86,7 +82,6 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase {
      * Gets the awardPrimaryProjectDirectorIndicator attribute.
      * 
      * @return Returns the awardPrimaryProjectDirectorIndicator
-     * 
      */
     public boolean isAwardPrimaryProjectDirectorIndicator() {
         return awardPrimaryProjectDirectorIndicator;
@@ -97,7 +92,6 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase {
      * Sets the awardPrimaryProjectDirectorIndicator attribute.
      * 
      * @param awardPrimaryProjectDirectorIndicator The awardPrimaryProjectDirectorIndicator to set.
-     * 
      */
     public void setAwardPrimaryProjectDirectorIndicator(boolean awardPrimaryProjectDirectorIndicator) {
         this.awardPrimaryProjectDirectorIndicator = awardPrimaryProjectDirectorIndicator;
@@ -108,7 +102,6 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase {
      * Gets the awardProjectDirectorProjectTitle attribute.
      * 
      * @return Returns the awardProjectDirectorProjectTitle
-     * 
      */
     public String getAwardProjectDirectorProjectTitle() {
         return awardProjectDirectorProjectTitle;
@@ -118,7 +111,6 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase {
      * Sets the awardProjectDirectorProjectTitle attribute.
      * 
      * @param awardProjectDirectorProjectTitle The awardProjectDirectorProjectTitle to set.
-     * 
      */
     public void setAwardProjectDirectorProjectTitle(String awardProjectDirectorProjectTitle) {
         this.awardProjectDirectorProjectTitle = awardProjectDirectorProjectTitle;
@@ -133,11 +125,19 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase {
 
     /**
      * Sets the projectDirector.
+     * 
      * @param projectDirector the projectDirector to set
      * @deprecated required by UniversalUserServiceImpl.isUniversalUserProperty() for PojoPropertyUtilsBean.getPropertyDescriptor()
      */
     public void setProjectDirector(ProjectDirector projectDirector) {
         this.projectDirector = projectDirector;
+    }
+
+    /**
+     * @see Primaryable#isPrimary()
+     */
+    public boolean isPrimary() {
+        return isAwardPrimaryProjectDirectorIndicator();
     }
 
     /**

@@ -429,5 +429,12 @@
 			<ref bean="accountLookupableHelperService" />
 		</property>
 	</bean>
+	
+	<bean id="organizationRoutingModelLookupableHelperService" class="org.kuali.module.chart.lookup.OrganizationRoutingModelNameLookupableHelperServiceImpl" singleton="false" parent="kualiLookupableHelperService" />
 
+	<bean id="organizationRoutingModelLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="organizationRoutingModelLookupableHelperService" />
+		</property>
+	</bean>
 </beans>

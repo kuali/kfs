@@ -27,11 +27,11 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
+import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.document.PurchasingDocumentBase;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.bo.VendorAddress;
@@ -96,8 +96,9 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
         PurchasingDocumentBase document = (PurchasingDocumentBase)baseForm.getDocument();
         if( ObjectUtils.isNotNull( document.isDeliveryBuildingOther() ) ) {
             if (document.isDeliveryBuildingOther()) {
-                document.setDeliveryBuildingName( PurapConstants.DELIVERY_BUILDING_OTHER );
-                document.setDeliveryBuildingCode( PurapConstants.DELIVERY_BUILDING_OTHER_CODE );
+// TODO check in referenced constants
+//                document.setDeliveryBuildingName( PurapConstants.DELIVERY_BUILDING_OTHER );
+//                document.setDeliveryBuildingCode( PurapConstants.DELIVERY_BUILDING_OTHER_CODE );
                 baseForm.setNotOtherDeliveryBuilding(false);
             }
             else {

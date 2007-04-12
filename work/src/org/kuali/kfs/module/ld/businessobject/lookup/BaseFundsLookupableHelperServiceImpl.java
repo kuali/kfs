@@ -20,25 +20,21 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.BeanPropertyComparator;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.service.BalanceService;
-import org.kuali.module.labor.LaborConstants;
-import org.kuali.module.labor.service.LaborBalanceInquiryService;
+import org.kuali.module.labor.dao.LaborDao;
 import org.kuali.module.labor.web.inquirable.BaseFundsInquirableImpl;
 import org.springframework.beans.factory.BeanFactory;
 
 public class BaseFundsLookupableHelperServiceImpl extends AbstractLaborLedgerLookupableHelperServiceImpl {
     private BalanceService balanceService;
     private Map fieldValues;
-    private LaborBalanceInquiryService laborBalanceInquiryService;
+    private LaborDao laborDao;
     private KualiConfigurationService kualiConfigurationService;
 
     /**
@@ -63,8 +59,10 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLaborLedgerLoo
                 
         // Parse the map and call the DAO to process the inquiry
         BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
-        laborBalanceInquiryService = (LaborBalanceInquiryService) beanFactory.getBean("laborBalanceInquiryService");
-        Collection searchResultsCollection = laborBalanceInquiryService.getBaseFunds(fieldValues);
+//        laborBalanceInquiryService = (LaborBalanceInquiryService) beanFactory.getBean("laborBalanceInquiryService");
+        laborDao = (LaborDao) beanFactory.getBean("laborDao");
+
+        Collection searchResultsCollection = laborDao.getBaseFunds(fieldValues);
 
         // sort list if default sort column given
         List searchResults = (List) searchResultsCollection;

@@ -85,5 +85,5 @@
         suppressRoutingControls="${KualiForm.editingMode['displayInitTab']}"
        	
     />
-    <!-- suppressRoutingControls="${KualiForm.editingMode['displayInitTab']}" -->
+   
 </kul:documentPage>

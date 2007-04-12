@@ -452,4 +452,14 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
         }
 	    return m;
     }
+    
+     /**
+     * @see org.kuali.module.purap.bo.PurchasingItemBase#getAccountingLineClass()
+     */
+    @Override
+    public Class getAccountingLineClass() {
+        // TODO Auto-generated method stub
+        return RequisitionAccount.class;
+    }
+
 }

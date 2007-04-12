@@ -15,13 +15,17 @@
  */
 package org.kuali.module.purap.rules;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -105,6 +109,9 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         return valid;
     }
     
+    boolean processPaymentRequestDateValidation(PaymentRequestDocument document){
+       return isInvoiceDateAfterToday(document.getInvoiceDate());
+    }
     // This moved to PaymentRequestService to be used from action logic for Continue  Button:
     
     boolean processPaymentRequestDuplicateValidation(PaymentRequestDocument document){  
@@ -152,6 +159,30 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         }
         return valid;
     } 
+
+    
+    public boolean isInvoiceDateAfterToday(Date invoiceDate) {
+        // Check invoice date to make sure it is today or before
+        DateTimeService dateTimeService = SpringServiceLocator.getDateTimeService();
+        
+        Calendar now = Calendar.getInstance();
+        now.set(Calendar.HOUR, 11);
+        now.set(Calendar.MINUTE, 59);
+        now.set(Calendar.SECOND, 59);
+        now.set(Calendar.MILLISECOND, 59);
+        Timestamp nowTime = new Timestamp(now.getTimeInMillis());
+        Calendar invoiceDateC = Calendar.getInstance();
+        invoiceDateC.setTime(invoiceDate);
+        // set time to midnight
+        invoiceDateC.set(Calendar.HOUR, 0);
+        invoiceDateC.set(Calendar.MINUTE, 0);
+        invoiceDateC.set(Calendar.SECOND, 0);
+        invoiceDateC.set(Calendar.MILLISECOND, 0);
+        Timestamp invoiceDateTime = new Timestamp(invoiceDateC.getTimeInMillis());
+        return ( (invoiceDateTime.compareTo(nowTime)) > 0 );
+      }
+    
+    // This has been moved to PaymentRequestService because we needed the return type of HashMap
 
     public HashMap<String, String> paymentRequestDuplicateMessages(PaymentRequestDocument document){
         HashMap<String,String> msgs; 

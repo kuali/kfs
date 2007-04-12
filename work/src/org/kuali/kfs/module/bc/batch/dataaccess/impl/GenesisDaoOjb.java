@@ -245,7 +245,11 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     //***********************************************************
     private Integer hashCapacity(Integer hashSize)
     {
-        Double tempValue = hashSize.floatValue()*(1.75);
+        // this corresponds to a little more than the default load factor of .75
+        // a rehash supposedly occurs when the actual number of elements exceeds
+        // (load factor)*capacity
+        // N rows < .75 capacity ==> capacity > 4N/3 or 1.3333N.  We add a little slop.
+        Double tempValue = hashSize.floatValue()*(1.45);
         return (Integer) tempValue.intValue();
     }
     
@@ -1927,9 +1931,6 @@ public class GenesisDaoOjb extends PersistenceBrokerDaoSupport
     {
         //  we have to read all the budget construction header objects so that
         //  we can use them to assign document numbers
-        //  the header objects have all been created in a previous, non-transactional
-        //  step (since the document number comes from workflow, and workflow cannot
-        //  be called from within a kuali transaction)
         //
         Integer RequestYear = BaseYear + 1;
         //

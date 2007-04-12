@@ -15,6 +15,10 @@
  */
 package org.kuali.module.budget.web.struts.action;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,7 +30,11 @@ import org.kuali.core.authorization.AuthorizationType;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.exceptions.ModuleAuthorizationException;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
+import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.budget.BCConstants;
+import org.kuali.module.budget.bo.BudgetConstructionPosition;
 import org.kuali.module.budget.web.struts.form.PositionSalarySettingForm;
 import org.kuali.rice.KNSServiceLocator;
 
@@ -71,13 +79,37 @@ public class PositionSalarySettingAction extends KualiAction {
     public ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{
         
         PositionSalarySettingForm positionSalarySettingForm = (PositionSalarySettingForm) form;
+
+        // use the passed url parms to get the record from DB 
+        Map fieldValues = new HashMap();
+        fieldValues.put("universityFiscalYear", positionSalarySettingForm.getUniversityFiscalYear());
+        fieldValues.put("positionNumber", positionSalarySettingForm.getPositionNumber());
+
+        BudgetConstructionPosition budgetConstructionPosition = (BudgetConstructionPosition) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(BudgetConstructionPosition.class,fieldValues);
+        if (budgetConstructionPosition == null){
+            //TODO this is an RI error need to report it
+        }
+        positionSalarySettingForm.setBudgetConstructionPosition(budgetConstructionPosition);
+        
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     public ActionForward returnToCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         PositionSalarySettingForm positionSalarySettingForm = (PositionSalarySettingForm) form;
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        BudgetConstructionPosition budgetConstructionPosition = positionSalarySettingForm.getBudgetConstructionPosition();
+
+        // TODO validate and store changes
+
+        // setup the return parms for the document and anchor
+        Properties parameters = new Properties();
+        parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, BCConstants.BC_DOCUMENT_REFRESH_METHOD);
+        parameters.put(Constants.DOC_FORM_KEY, positionSalarySettingForm.getReturnFormKey());
+        parameters.put(Constants.ANCHOR, positionSalarySettingForm.getReturnAnchor());
+        parameters.put(Constants.REFRESH_CALLER, BCConstants.POSITION_SALARY_SETTING_REFRESH_CALLER);
+        
+        String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.SALARY_SETTING_ACTION, parameters);
+        return new ActionForward(lookupUrl, true);
     }
 
 }

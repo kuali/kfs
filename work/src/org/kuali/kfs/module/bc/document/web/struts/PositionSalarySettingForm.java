@@ -77,4 +77,68 @@ public class PositionSalarySettingForm extends KualiForm {
         this.budgetConstructionPosition = budgetConstructionPosition;
     }
 
+    /**
+     * Gets the positionNumber attribute. 
+     * @return Returns the positionNumber.
+     */
+    public String getPositionNumber() {
+        return positionNumber;
+    }
+
+    /**
+     * Sets the positionNumber attribute value.
+     * @param positionNumber The positionNumber to set.
+     */
+    public void setPositionNumber(String positionNumber) {
+        this.positionNumber = positionNumber;
+    }
+
+    /**
+     * Gets the universityFiscalYear attribute. 
+     * @return Returns the universityFiscalYear.
+     */
+    public Integer getUniversityFiscalYear() {
+        return universityFiscalYear;
+    }
+
+    /**
+     * Sets the universityFiscalYear attribute value.
+     * @param universityFiscalYear The universityFiscalYear to set.
+     */
+    public void setUniversityFiscalYear(Integer universityFiscalYear) {
+        this.universityFiscalYear = universityFiscalYear;
+    }
+
+    /**
+     * Gets the returnAnchor attribute. 
+     * @return Returns the returnAnchor.
+     */
+    public String getReturnAnchor() {
+        return returnAnchor;
+    }
+
+    /**
+     * Sets the returnAnchor attribute value.
+     * @param returnAnchor The returnAnchor to set.
+     */
+    public void setReturnAnchor(String returnAnchor) {
+        this.returnAnchor = returnAnchor;
+    }
+
+    /**
+     * Gets the returnFormKey attribute. 
+     * @return Returns the returnFormKey.
+     */
+    public String getReturnFormKey() {
+        return returnFormKey;
+    }
+
+    /**
+     * Sets the returnFormKey attribute value.
+     * @param returnFormKey The returnFormKey to set.
+     */
+    public void setReturnFormKey(String returnFormKey) {
+        this.returnFormKey = returnFormKey;
+    }
+
 }

@@ -78,7 +78,7 @@ public class GLConstants {
     }
 
     public static class LookupableBeanKeys {
-        static final public String PENDING_ENTRY = "glPendingEntryLookupableImpl";
+        static final public String PENDING_ENTRY = "glPendingEntryLookupable";
         static final public String COLLECTOR_FILE_PARSER = "glCollectorFileParser";
     }
 

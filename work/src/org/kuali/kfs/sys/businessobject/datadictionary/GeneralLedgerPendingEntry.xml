@@ -59,7 +59,7 @@
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
         <lookup>
-            <lookupableID>glPendingEntryLookupableImpl</lookupableID>
+            <lookupableID>glPendingEntryLookupable</lookupableID>
             <title>General Ledger Pending Entry Lookup</title>
             <menubar>
                 <![CDATA[&nbsp;]]>

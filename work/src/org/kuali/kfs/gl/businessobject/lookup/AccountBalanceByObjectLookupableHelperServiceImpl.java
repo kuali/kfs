@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
+import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
@@ -49,7 +50,8 @@ public class AccountBalanceByObjectLookupableHelperServiceImpl extends AbstractL
      * @param propertyName the property which links to an inquirable
      * @return String url to inquiry
      */
-    public String getInquiryUrl(PersistableBusinessObject bo, String propertyName) {
+    @Override
+    public String getInquiryUrl(BusinessObject bo, String propertyName) {
         if (GLConstants.DummyBusinessObject.LINK_BUTTON_OPTION.equals(propertyName)) {
             return (new AccountBalanceByObjectInquirableImpl()).getInquiryUrl(bo, propertyName);
         }

@@ -77,7 +77,7 @@ public class AccountBalanceByObjectInquirableImpl extends AbstractGLInquirableIm
      */
     protected String getAttributeName(String attributeName) {
         if (attributeName.equals(GLConstants.DummyBusinessObject.LINK_BUTTON_OPTION)) {
-            attributeName = PropertyConstants.UNIVERSITY_FISCAL_YEAR;
+            attributeName = PropertyConstants.GENERAL_LEDGER_PENDING_ENTRY;
         }
         return attributeName;
     }
@@ -104,7 +104,7 @@ public class AccountBalanceByObjectInquirableImpl extends AbstractGLInquirableIm
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getLookupableImplAttributeName()
      */
     protected String getLookupableImplAttributeName() {
-        return Constant.GL_LOOKUPABLE_ACCOUNT_BALANCE_PENDING_ENTRY;
+        return Constant.GL_LOOKUPABLE_PENDING_ENTRY;
     }
 
     /**

@@ -56,7 +56,7 @@
         </inquiry>
 
         <lookup>
-            <lookupableID>glAccountBalancePendingEntryLookupable</lookupableID>
+            <lookupableID>glPendingEntryLookupable</lookupableID>
             <title>Account Balance Pending Entry Lookup</title>
 
             <instructions>Lookup General Ledger Pending Entries for Account Balance</instructions>

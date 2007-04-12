@@ -208,7 +208,7 @@
 		</property>
 	</bean>
 
-	<bean id="glPendingEntryLookupableImpl" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="glPendingEntryLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="glPendingEntryLookupableHelperServiceImpl" />
 		</property>
@@ -375,7 +375,7 @@
 			<ref bean="glAccountBalanceByObjectLookupableHelperService" />
 		</property>
 	</bean>
-	
+		
 	<bean id="glOrganizationReversionProcessService" class="org.kuali.module.gl.service.impl.OrganizationReversionProcessServiceImpl">
 		<property name="priorYearAccountService">
 			<ref bean="priorYearAccountService" />

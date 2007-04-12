@@ -307,6 +307,7 @@ public class MonthlyBudgetForm extends KualiForm {
 
     /**
      * Updates authorization-related form fields based on the current form contents
+     * TODO should probably move this to extension class
      */
     public void populateAuthorizationFields(BudgetConstructionDocumentAuthorizer documentAuthorizer) {
 
@@ -331,6 +332,10 @@ public class MonthlyBudgetForm extends KualiForm {
 */
     }
 
+    /*
+     * TODO should probably move this to extension class
+     * 
+     */
     protected void useBCAuthorizer(BudgetConstructionDocumentAuthorizer documentAuthorizer) {
         UniversalUser kualiUser = GlobalVariables.getUserSession().getUniversalUser();
 

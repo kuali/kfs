@@ -91,7 +91,7 @@
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingOther}" 
                     	property="document.deliveryBuildingOther"  readOnly="${not fullEntryMode}"/>&nbsp;
                     <c:if test="${fullEntryMode}">
-                    	<html:image property="methodToCall.refresh" src="images/buttonsmall_refresh.gif" alt="refresh" styleClass="tinybutton"/>
+                    	<html:image property="methodToCall.refreshDeliveryBuilding" src="images/buttonsmall_refresh.gif" alt="refresh" styleClass="tinybutton"/>
                     </c:if>
                 </td>
                 <th align=right valign=middle class="bord-l-b">

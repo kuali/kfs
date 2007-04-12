@@ -39,6 +39,8 @@ public class PurapPropertyConstants {
     public static final String CONTRACT_MANAGER_CODE = "contractManagerCode";
     public static final String VENDOR_STIPULATION = "purchaseOrderVendorStipulations";
     public static final String VENDOR_STIPULATION_DESCRIPTION = "vendorStipulationDescription";
+    public static final String VENDOR_CONTRACT_ID = "document.vendorContractGeneratedIdentifier";
+    public static final String VENDOR_ADDRESS_ID = "document.vendorAddressGeneratedIdentifier";
     
     // Payment Request
     public static final String PURCHASE_ORDER_IDENTIFIER = "document.purchaseOrderIdentifier";

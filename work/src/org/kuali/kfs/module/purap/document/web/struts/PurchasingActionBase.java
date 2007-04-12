@@ -18,6 +18,7 @@ package org.kuali.module.purap.web.struts.action;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -29,6 +30,8 @@ import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.document.PurchasingDocumentBase;
+import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.bo.VendorAddress;
@@ -53,24 +56,8 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
         document.setInstitutionContactPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getInstitutionContactPhoneNumber()));    
         document.setRequestorPersonPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getRequestorPersonPhoneNumber()));    
         document.setDeliveryToPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getDeliveryToPhoneNumber()));
-        
-        //Set a few fields on the delivery tag in a data-dependent manner (KULPURAP-260).
-        if (!( ObjectUtils.nullSafeEquals( refreshCaller, Constants.KUALI_LOOKUPABLE_IMPL ) ||
-               ObjectUtils.nullSafeEquals( refreshCaller, Constants.KUALI_USER_LOOKUPABLE_IMPL ) ) && 
-             ( ObjectUtils.isNotNull( document.isDeliveryBuildingOther() ) ) ) {
-            if (document.isDeliveryBuildingOther()) {
-                document.setDeliveryBuildingName("Other");
-                document.setDeliveryBuildingCode("OTH");
-                baseForm.setNotOtherDeliveryBuilding(false);
-            }
-            else {
-                document.setDeliveryBuildingName(null);
-                document.setDeliveryBuildingCode(null);
-                baseForm.setNotOtherDeliveryBuilding(true);
-            }
-        }
-        
-        if (VendorConstants.VENDOR_LOOKUPABLE_IMPL.equals(refreshCaller) &&
+               
+        if( StringUtils.equals( refreshCaller, VendorConstants.VENDOR_LOOKUPABLE_IMPL ) &&
             document.getVendorDetailAssignedIdentifier() != null &&
             document.getVendorHeaderGeneratedIdentifier() != null)  {
 
@@ -83,16 +70,16 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
             document.templateVendorDetail(refreshVendorDetail);
         }
 
-        if (Constants.KUALI_LOOKUPABLE_IMPL.equals(refreshCaller)) {
+        if( StringUtils.equals( refreshCaller, Constants.KUALI_LOOKUPABLE_IMPL ) ) {
             
-            if (request.getParameter("document.vendorContractGeneratedIdentifier") != null) {
+            if( StringUtils.isNotEmpty( request.getParameter( PurapPropertyConstants.VENDOR_CONTRACT_ID ) ) ) {
                 Integer vendorContractGeneratedId = document.getVendorContractGeneratedIdentifier();
                 VendorContract refreshVendorContract = new VendorContract();
                 refreshVendorContract.setVendorContractGeneratedIdentifier(vendorContractGeneratedId);
                 refreshVendorContract = (VendorContract)businessObjectService.retrieve(refreshVendorContract);
                 document.templateVendorContract(refreshVendorContract);
             }
-            if (request.getParameter("document.vendorAddressGeneratedIdentifier") != null) {
+            if( StringUtils.isNotEmpty( request.getParameter( PurapPropertyConstants.VENDOR_ADDRESS_ID ) ) ) {
                 Integer vendorAddressGeneratedId = document.getVendorAddressGeneratedIdentifier();
                 VendorAddress refreshVendorAddress = new VendorAddress();
                 refreshVendorAddress.setVendorAddressGeneratedIdentifier(vendorAddressGeneratedId);
@@ -101,6 +88,25 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
             }
         }
         return super.refresh(mapping, form, request, response);
+    }
+    
+    public ActionForward refreshDeliveryBuilding(ActionMapping mapping, ActionForm form, 
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingFormBase baseForm = (PurchasingFormBase) form;
+        PurchasingDocumentBase document = (PurchasingDocumentBase)baseForm.getDocument();
+        if( ObjectUtils.isNotNull( document.isDeliveryBuildingOther() ) ) {
+            if (document.isDeliveryBuildingOther()) {
+                document.setDeliveryBuildingName( PurapConstants.DELIVERY_BUILDING_OTHER );
+                document.setDeliveryBuildingCode( PurapConstants.DELIVERY_BUILDING_OTHER_CODE );
+                baseForm.setNotOtherDeliveryBuilding(false);
+            }
+            else {
+                document.setDeliveryBuildingName(null);
+                document.setDeliveryBuildingCode(null);
+                baseForm.setNotOtherDeliveryBuilding(true);
+            }
+        }       
+        return refresh(mapping, form, request, response);
     }
 
     /**

@@ -146,7 +146,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             purchaseOrder.isPurchaseOrderCurrentIndicator() &&
             !purchaseOrder.isPendingActionIndicator()) {
             ExtraButton closeButton = new ExtraButton();
-            closeButton.setExtraButtonProperty("methodToCall.closePO");
+            closeButton.setExtraButtonProperty("methodToCall.closePo");
             closeButton.setExtraButtonSource("images/buttonsmall_closeorder.gif");
             this.getExtraButtons().add(closeButton);
             ExtraButton voidButton = new ExtraButton();

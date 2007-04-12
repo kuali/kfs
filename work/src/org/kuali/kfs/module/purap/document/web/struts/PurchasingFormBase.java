@@ -19,9 +19,7 @@ import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.purap.bo.PurchasingApItem;
 
 /**
- * This class is the form class for the Purchasing documents. This method extends the parent KualiTransactionalDocumentFormBase
- * class which contains all of the common form methods and form attributes needed by the Purchasing documents.
- * 
+ * This class is the form class for the Purchasing documents.
  */
 public class PurchasingFormBase extends KualiAccountingDocumentFormBase {
     

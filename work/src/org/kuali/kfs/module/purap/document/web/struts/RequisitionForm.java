@@ -22,9 +22,7 @@ import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.document.RequisitionDocument;
 
 /**
- * This class is the form class for the Requisition document. This method extends the parent KualiTransactionalDocumentFormBase
- * class which contains all of the common form methods and form attributes needed by the Requisition document.
- * 
+ * This class is the form class for the Requisition document. 
  */
 public class RequisitionForm extends PurchasingFormBase {
 

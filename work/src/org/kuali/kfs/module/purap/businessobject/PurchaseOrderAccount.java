@@ -29,7 +29,13 @@ import org.kuali.module.chart.bo.SubAccount;
  */
 public class PurchaseOrderAccount extends PurApAccountingLineBase {
 
-    private String documentNumber;
+
+    /** 
+     * NOTE FOR POTENTIAL ACCOUNTING LINE REFACTORING
+     *  documentNumber is needed for PO accounts and not for other PURAP docs, however 
+     *  it is already defined in AccountingLineBase so we don't need to add it here 
+     */
+//    private String documentNumber;
 	private KualiDecimal itemAccountOutstandingEncumbranceAmount;
 
     private PurchaseOrderItem purchaseOrderItem;
@@ -41,22 +47,6 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
 	public PurchaseOrderAccount() {
 
 	}
-
-	/**
-     * Gets the documentNumber attribute. 
-     * @return Returns the documentNumber.
-     */
-    public String getDocumentNumber() {
-        return documentNumber;
-    }
-
-    /**
-     * Sets the documentNumber attribute value.
-     * @param documentNumber The documentNumber to set.
-     */
-    public void setDocumentNumber(String documentNumber) {
-        this.documentNumber = documentNumber;
-    }
 
 	/**
 	 * Gets the itemAccountOutstandingEncumbranceAmount attribute.
@@ -100,7 +90,7 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      
-        m.put("documentNumber", this.documentNumber);
+        m.put("documentNumber", getDocumentNumber());
         if (this.getAccountIdentifier() != null) {
             m.put("accountIdentifier", this.getAccountIdentifier().toString());
         }

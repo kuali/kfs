@@ -28,9 +28,7 @@ import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 
 /**
- * This class is the form class for the PaymentRequest document. This method extends the parent KualiTransactionalDocumentFormBase
- * class which contains all of the common form methods and form attributes needed by the PaymentRequest document.
- * 
+ * This class is the form class for the PaymentRequest document.
  */
 public class PaymentRequestForm extends AccountsPayableFormBase {
 

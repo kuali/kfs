@@ -27,9 +27,7 @@ import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 
 /**
- * This class is the form class for the PurchaseOrder document. This method extends the parent KualiTransactionalDocumentFormBase
- * class which contains all of the common form methods and form attributes needed by the PurchaseOrder document.
- * 
+ * This class is the form class for the PurchaseOrder document.
  */
 public class PurchaseOrderForm extends PurchasingFormBase {
 

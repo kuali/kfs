@@ -30,7 +30,6 @@ import org.kuali.module.chart.bo.SubAccount;
  */
 public class PaymentRequestAccount extends PurApAccountingLineBase {
 
-    private BigDecimal accountLinePercent;
 	private KualiDecimal itemAccountTotalAmount;
 	private KualiDecimal disencumberedAmount;
 
@@ -43,22 +42,6 @@ public class PaymentRequestAccount extends PurApAccountingLineBase {
 
 	}
     
-    /**
-     * Gets the accountLinePercent attribute. 
-     * @return Returns the accountLinePercent.
-     */
-    public BigDecimal getAccountLinePercent() {
-        return accountLinePercent;
-    }
-
-    /**
-     * Sets the accountLinePercent attribute value.
-     * @param accountLinePercent The accountLinePercent to set.
-     */
-    public void setAccountLinePercent(BigDecimal accountLinePercent) {
-        this.accountLinePercent = accountLinePercent;
-    }
-
     /**
      * Gets the disencumberedAmount attribute. 
      * @return Returns the disencumberedAmount.

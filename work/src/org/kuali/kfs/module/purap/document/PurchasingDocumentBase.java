@@ -104,6 +104,9 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private String externalOrganizationB2bSupplierIdentifier;
     private Integer contractManagerCode;
     private boolean purchaseOrderAutomaticIndicator;
+    private String vendorPaymentTermsCode;
+    private String vendorShippingTitleCode;
+    private String vendorShippingPaymentTermsCode;
 
     // NOT PERSISTED IN DB
     private String vendorNumber; 
@@ -1738,14 +1741,41 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
 
-    /**
-     * @see org.kuali.core.document.TransactionalDocumentBase#buildListOfDeletionAwareLists()
-     */
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(getItems());
         return managedLists;
+    }
+
+
+    public String getVendorPaymentTermsCode() {
+        return vendorPaymentTermsCode;
+    }
+
+
+    public void setVendorPaymentTermsCode(String vendorPaymentTermsCode) {
+        this.vendorPaymentTermsCode = vendorPaymentTermsCode;
+    }
+
+
+    public String getVendorShippingPaymentTermsCode() {
+        return vendorShippingPaymentTermsCode;
+    }
+
+
+    public void setVendorShippingPaymentTermsCode(String vendorShippingPaymentTermsCode) {
+        this.vendorShippingPaymentTermsCode = vendorShippingPaymentTermsCode;
+    }
+
+
+    public String getVendorShippingTitleCode() {
+        return vendorShippingTitleCode;
+    }
+
+
+    public void setVendorShippingTitleCode(String vendorShippingTitleCode) {
+        this.vendorShippingTitleCode = vendorShippingTitleCode;
     }
 
     

@@ -37,57 +37,46 @@
 
 <kul:tab tabTitle="Vendor" defaultOpen="true" tabErrorKey="${PurapConstants.VENDOR_ERRORS}">
     <div class="tab-container" align=center>
-        <div class="h2-container">
-            <h2>Vendor Info</h2>
-        </div>
-		<html:hidden property="document.vendorHeaderGeneratedIdentifier" />
-		<html:hidden property="document.vendorDetailAssignedIdentifier" />
+        <html:hidden property="document.vendorHeaderGeneratedIdentifier" />
+        <html:hidden property="document.vendorDetailAssignedIdentifier" />
+
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Vendor Section">
-            <c:if test="${displayPurchaseOrderFields}">
-                <tr>
-                    <th align=right valign=middle class="bord-l-b">
-                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderVendorChoiceCode}" /></div>
-                    </th>
-                    <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderVendorChoiceCode}" property="document.purchaseOrderVendorChoiceCode" readOnly="${not fullEntryMode}" />
-                    </td>
-                    <th align=right valign=middle class="bord-l-b">&nbsp;</th>
-                    <td align=left valign=middle class="datacell">&nbsp;</td>
-                </tr>
-            </c:if>
+            <tr>
+                <td colspan="4" class="subhead">Vendor Address</td>
+            </tr>
+
             <tr>
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorName}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorName}" property="document.vendorName" readOnly="${not fullEntryMode or vendorReadOnly}" />
-                        <c:if test="${fullEntryMode}">
-                            <kul:lookup  boClassName="org.kuali.module.vendor.bo.VendorDetail" 
-                             fieldConversions="vendorHeaderGeneratedIdentifier:document.vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:document.vendorDetailAssignedIdentifier,defaultAddressLine1:document.vendorLine1Address,defaultAddressLine2:document.vendorLine2Address,defaultAddressCity:document.vendorCityName,defaultAddressPostalCode:document.vendorPostalCode,defaultAddressStateCode:document.vendorStateCode,defaultAddressCountryCode:document.vendorCountryCode"/>
-                        </c:if>
+                    <c:if test="${fullEntryMode}">
+                        <kul:lookup  boClassName="org.kuali.module.vendor.bo.VendorDetail" 
+                         fieldConversions="vendorHeaderGeneratedIdentifier:document.vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:document.vendorDetailAssignedIdentifier,defaultAddressLine1:document.vendorLine1Address,defaultAddressLine2:document.vendorLine2Address,defaultAddressCity:document.vendorCityName,defaultAddressPostalCode:document.vendorPostalCode,defaultAddressStateCode:document.vendorStateCode,defaultAddressCountryCode:document.vendorCountryCode"/>
+                    </c:if>
                 </td>
-                <c:if test="${not displayPaymentRequestFields}">
-	                <th align=right valign=middle class="bord-l-b">
-	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.supplierDiversityLabel}" /></div>
-	                </th>
-	                <td align=left valign=middle class="datacell">
-	                      <c:if test="${not empty KualiForm.document.vendorDetail.vendorHeader.vendorSupplierDiversities}">
-	                          <c:forEach var="item" items="${KualiForm.document.vendorDetail.vendorHeader.vendorSupplierDiversities}" varStatus="status">
-	                              <c:if test="${!(status.first)}"><br></c:if>${item.vendorSupplierDiversity.vendorSupplierDiversityDescription}
-	                          </c:forEach>
-	                      </c:if>&nbsp;
-	                </td>
-	            </c:if> 
-	            <c:if test="${displayPaymentRequestFields}">
-	            	<th align=right valign=middle class="bord-l-b">
-	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderIdentifier}" /></div>
-	                </th>
-	                <td align=left valign=middle class="datacell">
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderIdentifier}" property="document.purchaseOrderIdentifier" />
-	                </td>
-	            
-	            
-	            </c:if>   
+                <th align=right valign=middle class="bord-l-b">
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorCityName}" /></div>
+                </th>
+                <td align=left valign=middle class="datacell">
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorCityName}" property="document.vendorCityName" readOnly="${not fullEntryMode}" />
+                </td>
+            </tr>
+
+            <tr>
+                <th align=right valign=middle class="bord-l-b">
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorHeaderGeneratedIdentifier}" /></div>
+                </th>
+                <td align=left valign=middle class="datacell">
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorHeaderGeneratedIdentifier}" property="document.vendorDetail.vendorNumber" readOnly="true" />
+                </td>
+                <th align=right valign=middle class="bord-l-b">
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorStateCode}" /></div>
+                </th>
+                <td align=left valign=middle class="datacell">
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorStateCode}" property="document.vendorStateCode" readOnly="${not fullEntryMode}" />
+                </td>
             </tr>
 
             <tr>
@@ -101,16 +90,14 @@
                         lookupParameters="document.vendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier,document.vendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier" fieldConversions="vendorAddressGeneratedIdentifier:document.vendorAddressGeneratedIdentifier"/>
                     </c:if>
                 </td>
-                <c:if test="${not displayPaymentRequestFields}">
-	                <th align=right valign=middle class="bord-l-b">
-	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorPhoneNumber}" /></div>
-	                </th>
-	                <td align=left valign=middle class="datacell">
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorPhoneNumber}" property="document.vendorPhoneNumber" readOnly="${not fullEntryMode}" />
-	                </td>
-                </c:if>
+                <th align=right valign=middle class="bord-l-b">
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorPostalCode}" /></div>
+                </th>
+                <td align=left valign=middle class="datacell">
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorPostalCode}" property="document.vendorPostalCode" readOnly="${not fullEntryMode}" />
+                </td>
             </tr>
-                        
+
             <tr>
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorLine2Address}" /></div>
@@ -119,123 +106,143 @@
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorLine2Address}" property="document.vendorLine2Address" readOnly="${not fullEntryMode}" />
                 </td>
                 <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorFaxNumber}" /></div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorCountryCode}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorFaxNumber}" property="document.vendorFaxNumber" readOnly="${not fullEntryMode}" />
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorCountryCode}" property="document.vendorCountryCode" readOnly="${not fullEntryMode}" />
                 </td>
             </tr>
-          
+
             <tr>
-                <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorCityName}" /></div>
-                </th>
-                <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorCityName}" property="document.vendorCityName" readOnly="${not fullEntryMode}" />
-                </td>
-                <c:if test="${not displayPaymentRequestFields}">
-	                <th align=right valign=middle class="bord-l-b">
-	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorContractName}" /></div>
-	                </th>
-	                <td align=left valign=middle class="datacell">
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorContractName}" property="document.vendorContractName" readOnly="true"/>
-                        <c:if test="${fullEntryMode}">
-	                      <kul:lookup  boClassName="org.kuali.module.vendor.bo.VendorContract" readOnlyFields="vendorCampusCode" lookupParameters="'${currentUserCampusCode}':vendorCampusCode" fieldConversions="vendorContractGeneratedIdentifier:document.vendorContractGeneratedIdentifier" />
-                        </c:if>
-	                </td>
-	          </c:if>
-            </tr>            
-            
+                <td colspan="4" class="subhead">Vendor Info</td>
+            </tr>
+
+            <c:if test="${displayPurchaseOrderFields}">
+                <tr>
+                    <th align=right valign=middle class="bord-l-b">
+                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderVendorChoiceCode}" /></div>
+                    </th>
+                    <td align=left valign=middle class="datacell">
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderVendorChoiceCode}" property="document.purchaseOrderVendorChoiceCode" readOnly="${not fullEntryMode}" />
+                    </td>
+                    <th align=right valign=middle class="bord-l-b">&nbsp;</th>
+                    <td align=left valign=middle class="datacell">&nbsp;</td>
+                </tr>
+            </c:if>
+
             <tr>
-                <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorStateCode}" /></div>
-                </th>
-                <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorStateCode}" property="document.vendorStateCode" readOnly="${not fullEntryMode}" />
-                </td>
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorCustomerNumber}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorCustomerNumber}" property="document.vendorCustomerNumber" readOnly="${not fullEntryMode}" />
                 </td>
-            </tr>  
-            
-            <tr>
-                <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorPostalCode}" /></div>
-                </th>
-                <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorPostalCode}" property="document.vendorPostalCode" readOnly="${not fullEntryMode}" />
-                </td>
-                <c:if test="${not displayPaymentRequestFields}">
-	                <th align=right valign=middle class="bord-l-b">
-	                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorContactsLabel}" /></div>
-	                </th>
-	                <td align=left valign=middle class="datacell">
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorContactsLabel}" property="document.vendorContactsLabel" readOnly="true"/>                    
-                        <c:if test="${vendorReadOnly}">
-                            <kul:lookup  boClassName="org.kuali.module.vendor.bo.VendorContact" readOnlyFields="vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier" autoSearch="yes" lookupParameters="document.vendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier,document.vendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier" hideReturnLink="true" extraButtonSource="images/buttonsmall_return.gif" />                    
-                        </c:if>
-	                </td>
-                </c:if>               
-            </tr>   
-            
-            <tr>
-                <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorCountryCode}" /></div>
-                </th>
-                <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorCountryCode}" property="document.vendorCountryCode" readOnly="${not fullEntryMode}" />
-                </td>
-                <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorNoteText}" /></div>
-                </th>
-                <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorNoteText}" property="document.vendorNoteText" readOnly="${not fullEntryMode}" />
-                </td>
-            </tr> 
-            <c:if test="${displayPurchaseOrderFields}">
-                <tr>
-                    <th align=right valign=middle class="bord-l-b">
-                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorPaymentTermsCode}" /></div>
-                    </th>
-                    <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorPaymentTermsCode}" property="document.vendorPaymentTermsCode" readOnly="${not fullEntryMode}" />
-                    </td>
+
+                <c:if test="${displayPurchaseOrderFields}">
                     <th align=right valign=middle class="bord-l-b">
                         <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.alternateVendorName}" /></div>
                     </th>
                     <td align=left valign=middle class="datacell">
                         <kul:htmlControlAttribute attributeEntry="${documentAttributes.alternateVendorName}" property="document.alternateVendorName" readOnly="true" />
-                        <kul:lookup  boClassName="org.kuali.module.vendor.bo.VendorDetail" fieldConversions="vendorHeaderGeneratedIdentifier:document.alternateVendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:document.alternateVendorDetailAssignedIdentifier"/>                    
-                    </td>                        
-                </tr>
-                <tr>
-                    <th align=right valign=middle class="bord-l-b">
-                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorShippingTitleCode}" /></div>
-                    </th>
-                    <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorShippingTitleCode}" property="document.vendorShippingTitleCode" readOnly="${not fullEntryMode}" />
+                        <c:if test="${not empty document.alternateVendorNumber}">
+                            &nbsp;(<kul:htmlControlAttribute attributeEntry="${documentAttributes.alternateVendorNumber}" property="document.alternateVendorNumber" readOnly="true" />)&nbsp;
+                        </c:if>
+                        <c:if test="${fullEntryMode}">
+                            <kul:lookup  boClassName="org.kuali.module.vendor.bo.VendorDetail" fieldConversions="vendorHeaderGeneratedIdentifier:document.alternateVendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:document.alternateVendorDetailAssignedIdentifier"/>
+                        </c:if>
                     </td>
-                    <th align=right valign=middle class="bord-l-b">
-                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.alternateVendorNumber}" /></div>
-                    </th>
-                    <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.alternateVendorNumber}" property="document.alternateVendorNumber" readOnly="true" />
-                    </td>                        
-                </tr>
-                <tr>
-                    <th align=right valign=middle class="bord-l-b">
-                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorShippingPaymentTermsCode}" /></div>
-                    </th>
-                    <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorShippingPaymentTermsCode}" property="document.vendorShippingPaymentTermsCode" readOnly="${not fullEntryMode}" />
-                    </td>
+                </c:if>                                                 
+                <c:if test="${not displayPurchaseOrderFields}">
                     <th align=right valign=middle class="bord-l-b">&nbsp;</th>
-                    <td align=left valign=middle class="datacell">&nbsp;</td>                        
+                    <td align=left valign=middle class="datacell">&nbsp;</td>
+                </c:if>                                                 
+            </tr>
+
+            <tr>
+                <th align=right valign=middle class="bord-l-b" rowspan="3">
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorNoteText}" /></div>
+                </th>
+                <td align=left valign=middle class="datacell" rowspan="3">
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorNoteText}" property="document.vendorNoteText" readOnly="${not fullEntryMode}" />
+                </td>
+                <th align=right valign=middle class="bord-l-b">
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorPaymentTermsCode}" /></div>
+                </th>
+                <td align=left valign=middle class="datacell">
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorPaymentTermsCode}" property="document.vendorPaymentTermsCode" readOnly="${not fullEntryMode or displayRequisitionFields}" />
+                </td>
+            </tr> 
+
+            <tr>
+                <!-- left column populated by note row span -->
+                <th align=right valign=middle class="bord-l-b">
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorShippingTitleCode}" /></div>
+                </th>
+                <td align=left valign=middle class="datacell">
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorShippingTitleCode}" property="document.vendorShippingTitleCode" readOnly="${not fullEntryMode or displayRequisitionFields}" />
+                </td>
+            </tr> 
+
+            <tr>
+                <!-- left column populated by note row span -->
+                <th align=right valign=middle class="bord-l-b">
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorShippingPaymentTermsCode}" /></div>
+                </th>
+                <td align=left valign=middle class="datacell">
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorShippingPaymentTermsCode}" property="document.vendorShippingPaymentTermsCode" readOnly="${not fullEntryMode or displayRequisitionFields}" />
+                </td>
+            </tr> 
+
+            <c:if test="${displayRequisitionFields or displayPurchaseOrderFields}">
+                <tr>
+                    <th align=right valign=middle class="bord-l-b">
+                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorContractName}" /></div>
+                    </th>
+                    <td align=left valign=middle class="datacell">
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorContractName}" property="document.vendorContractName" readOnly="true"/>
+                        <c:if test="${fullEntryMode}">
+                            <kul:lookup  boClassName="org.kuali.module.vendor.bo.VendorContract" readOnlyFields="vendorCampusCode" lookupParameters="'${currentUserCampusCode}':vendorCampusCode" fieldConversions="vendorContractGeneratedIdentifier:document.vendorContractGeneratedIdentifier" />
+                        </c:if>
+                    </td>
+                    <th align=right valign=middle class="bord-l-b">
+                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorContactsLabel}" /></div>
+                    </th>
+                    <td align=left valign=middle class="datacell">
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorContactsLabel}" property="document.vendorContactsLabel" readOnly="true"/>                    
+                        <c:if test="${vendorReadOnly}">
+                            <kul:lookup  boClassName="org.kuali.module.vendor.bo.VendorContact" readOnlyFields="vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier" autoSearch="yes" lookupParameters="document.vendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier,document.vendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier" hideReturnLink="true" extraButtonSource="images/buttonsmall_return.gif" />                    
+                        </c:if>
+                    </td>
+                </tr>            
+
+                <tr>
+                    <th align=right valign=middle class="bord-l-b">
+                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorPhoneNumber}" /></div>
+                    </th>
+                    <td align=left valign=middle class="datacell">
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorPhoneNumber}" property="document.vendorPhoneNumber" readOnly="${not fullEntryMode}" />
+                    </td>
+                    <th align=right valign=middle class="bord-l-b" rowspan="2">
+                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.supplierDiversityLabel}" /></div>
+                    </th>
+                    <td align=left valign=middle class="datacell" rowspan="2">
+                          <c:if test="${not empty KualiForm.document.vendorDetail.vendorHeader.vendorSupplierDiversities}">
+                              <c:forEach var="item" items="${KualiForm.document.vendorDetail.vendorHeader.vendorSupplierDiversities}" varStatus="status">
+                                  <c:if test="${!(status.first)}"><br></c:if>${item.vendorSupplierDiversity.vendorSupplierDiversityDescription}
+                              </c:forEach>
+                          </c:if>&nbsp;
+                    </td>
                 </tr>
-            </c:if>                                                 
+                <tr>
+                    <th align=right valign=middle class="bord-l-b">
+                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorFaxNumber}" /></div>
+                    </th>
+                    <td align=left valign=middle class="datacell">
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorFaxNumber}" property="document.vendorFaxNumber" readOnly="${not fullEntryMode}" />
+                    </td>
+                </tr>
+            </c:if>
+
         </table>
 
         <c:if test="${displayRequisitionFields}">

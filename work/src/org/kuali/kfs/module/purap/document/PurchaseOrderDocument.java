@@ -53,9 +53,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
     private Date purchaseOrderCreateDate;
     private Integer requisitionIdentifier;
     private String purchaseOrderVendorChoiceCode;
-    private String vendorPaymentTermsCode;
-    private String vendorShippingTitleCode;
-    private String vendorShippingPaymentTermsCode;
     private String recurringPaymentFrequencyCode;
     private KualiDecimal recurringPaymentAmount;
     private Date recurringPaymentDate;
@@ -395,30 +392,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
         this.requisitionIdentifier = requisitionIdentifier;
     }
 
-    public String getVendorPaymentTermsCode() {
-        return vendorPaymentTermsCode;
-    }
-
-    public void setVendorPaymentTermsCode(String vendorPaymentTermsCode) {
-        this.vendorPaymentTermsCode = vendorPaymentTermsCode;
-    }
-
-    public String getVendorShippingPaymentTermsCode() {
-        return vendorShippingPaymentTermsCode;
-    }
-
-    public void setVendorShippingPaymentTermsCode(String vendorShippingPaymentTermsCode) {
-        this.vendorShippingPaymentTermsCode = vendorShippingPaymentTermsCode;
-    }
-
-    public String getVendorShippingTitleCode() {
-        return vendorShippingTitleCode;
-    }
-
-    public void setVendorShippingTitleCode(String vendorShippingTitleCode) {
-        this.vendorShippingTitleCode = vendorShippingTitleCode;
-    }
-
     public PurchaseOrderVendorChoice getPurchaseOrderVendorChoice() {
         return purchaseOrderVendorChoice;
     }
@@ -651,6 +624,5 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
     public Class getItemClass() {
         // TODO Auto-generated method stub
         return PurchaseOrderItem.class;
-    }
-    
+}
 }

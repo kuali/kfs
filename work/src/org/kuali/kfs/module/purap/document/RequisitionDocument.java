@@ -368,6 +368,18 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     // SETTERS AND GETTERS
+    public String getVendorPaymentTermsCode() {
+        return getVendorDetail().getVendorPaymentTerms().getVendorPaymentTermsDescription();
+    }
+
+    public String getVendorShippingPaymentTermsCode() {
+        return getVendorDetail().getVendorShippingPaymentTerms().getVendorShippingPaymentTermsDescription();
+    }
+
+    public String getVendorShippingTitleCode() {
+        return getVendorDetail().getVendorShippingTitle().getVendorShippingTitleDescription();
+    }
+
 	/**
 	 * Gets the requisitionOrganizationReference1Text attribute.
 	 * 

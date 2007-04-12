@@ -578,7 +578,7 @@
     </validationPattern>
 
     <control>
-        <textarea rows="3" cols="80" />
+        <textarea rows="3" cols="50" />
     </control>
 
     <summary>vendorNoteText</summary>
@@ -619,4 +619,47 @@
 
 <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
+            <attribute name="vendorPaymentTermsCode" forceUppercase="true">
+                <label>Payment Terms</label>
+                <shortLabel>Payment Terms</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.PaymentTermsValuesFinder" />
+                </control>
+
+                <summary>vendorPaymentTermsCode</summary>
+                <description>vendorPaymentTermsCode description...</description>
+            </attribute>
+
+            <attribute name="vendorShippingPaymentTermsCode" forceUppercase="true">
+                <label>Shipping Payment Terms</label>
+                <shortLabel>Shipping Payment Terms</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.ShippingPaymentTermsValuesFinder" />
+                </control>
+                <summary>vendorShippingPaymentTermsCode</summary>
+                <description>vendorShippingPaymentTermsCode description...</description>
+            </attribute>
+
+            <attribute name="vendorShippingTitleCode" forceUppercase="true">
+                <label>Shipping Title</label>
+                <shortLabel>Shipping Title</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <select valuesFinderClass="org.kuali.module.vendor.lookup.keyvalues.ShippingTitleValuesFinder" />
+                </control>
+
+                <summary>vendorShippingTitleCode</summary>
+                <description>vendorShippingTitleCode description...</description>
+            </attribute>
 

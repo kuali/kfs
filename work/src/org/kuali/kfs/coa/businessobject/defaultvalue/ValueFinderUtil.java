@@ -38,7 +38,7 @@ public class ValueFinderUtil {
         UniversalUser currentUser = ValueFinderUtil.getCurrentUniversalUser();
         if (currentUser != null) {
             Map<String, KualiModuleUser> moduleUsers = KNSServiceLocator.getUniversalUserService().getModuleUsers(currentUser);
-            return (ChartUser)moduleUsers.get("chart");
+            return (ChartUser)moduleUsers.get(ChartUser.MODULE_ID);
         } else {
             return null;
         }

@@ -280,8 +280,5 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
        return total;
     }
 
-    public Class getItemClass() {
-        //should we throw unimplemented method here
-        return null;
-    }
+    public abstract Class getItemClass();
 }

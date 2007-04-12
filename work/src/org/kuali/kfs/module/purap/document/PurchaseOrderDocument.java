@@ -30,6 +30,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderStatusHistory;
 import org.kuali.module.purap.bo.PurchaseOrderVendorChoice;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
@@ -642,4 +643,14 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
         }
         return documentBusinessObject;
     }
+
+    /**
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getItemClass()
+     */
+    @Override
+    public Class getItemClass() {
+        // TODO Auto-generated method stub
+        return PurchaseOrderItem.class;
+    }
+    
 }

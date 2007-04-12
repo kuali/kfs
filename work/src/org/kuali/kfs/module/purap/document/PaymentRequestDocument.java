@@ -24,6 +24,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PaymentRequestStatus;
 import org.kuali.module.purap.bo.PaymentRequestStatusHistory;
 import org.kuali.module.vendor.bo.PaymentTermType;
@@ -1251,6 +1252,15 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         super.handleRouteLevelChange();
 
 
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getItemClass()
+     */
+    @Override
+    public Class getItemClass() {
+        return PaymentRequestItem.class;
     }
     
     /**

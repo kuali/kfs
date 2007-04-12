@@ -31,13 +31,13 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.service.BalanceService;
 import org.kuali.module.labor.LaborConstants;
-import org.kuali.module.labor.service.LaborBalanceInquiryService;
+import org.kuali.module.labor.dao.LaborDao;
 import org.springframework.beans.factory.BeanFactory;
 
 public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private BalanceService balanceService;
     private Map fieldValues;
-    private LaborBalanceInquiryService laborBalanceInquiryService;
+    private LaborDao laborDao;
     private KualiConfigurationService kualiConfigurationService;
     
     /**
@@ -60,8 +60,8 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
         }
         // Parse the map and call the DAO to process the inquiry
         BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
-        laborBalanceInquiryService = (LaborBalanceInquiryService) beanFactory.getBean("laborBalanceInquiryService");
-        Collection searchResultsCollection = laborBalanceInquiryService.getCurrentFunds(fieldValues);
+        laborDao = (LaborDao) beanFactory.getBean("laborDao");
+        Collection searchResultsCollection = laborDao.getCurrentFunds(fieldValues);
 
         // sort list if default sort column given
         List searchResults = (List) searchResultsCollection;

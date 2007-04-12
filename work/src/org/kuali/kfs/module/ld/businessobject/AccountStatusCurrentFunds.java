@@ -26,7 +26,7 @@ import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.labor.LaborConstants;
-import org.kuali.module.labor.service.LaborBalanceInquiryService;
+import org.kuali.module.labor.dao.LaborDao;
 import org.springframework.beans.factory.BeanFactory;
 
 public class AccountStatusCurrentFunds extends LedgerBalance {
@@ -35,7 +35,8 @@ public class AccountStatusCurrentFunds extends LedgerBalance {
     private KualiDecimal ytdActualAmount;
     private KualiDecimal outstandingEncum;
 
-    private LaborBalanceInquiryService laborBalanceInquiryService;
+    private LaborDao laborDao;
+    
     
     /**
      * Constructs an AccountStatusCurrentFunds.java.
@@ -92,8 +93,8 @@ public class AccountStatusCurrentFunds extends LedgerBalance {
         fieldValues.put("emplid", getEmplid());
         
         BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
-        laborBalanceInquiryService = (LaborBalanceInquiryService) beanFactory.getBean("laborBalanceInquiryService");
-        KualiDecimal EncumTotal = (KualiDecimal) laborBalanceInquiryService.getEncumbranceTotal(fieldValues);
+        laborDao = (LaborDao) beanFactory.getBean("laborDao");
+        KualiDecimal EncumTotal = (KualiDecimal) laborDao.getEncumbranceTotal(fieldValues);
         this.outstandingEncum = EncumTotal;
         return EncumTotal;
        

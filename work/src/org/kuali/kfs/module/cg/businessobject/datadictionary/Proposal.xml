@@ -135,10 +135,8 @@
                 <field attributeName="proposalEndingDate" />
 				<field attributeName="grantNumber" />
                 <field attributeName="proposalStatusCode" />
-                <field attributeName="primaryProposalOrganization.organizationCode" />
                 <field attributeName="proposalOrganizations" />
                 <field attributeName="proposalProjectDirectors" />
-                <field attributeName="proposalSubcontractors" />
             </resultFields>
 
         </lookup>
@@ -146,13 +144,6 @@
         <titleAttribute>proposalNumber</titleAttribute>
 
         <attributes>
-
-			<attributeReference name="primaryProposalOrganization.organizationCode" sourceClassName="org.kuali.module.cg.bo.ProposalOrganization" sourceAttributeName="organizationCode" >
-				<label>Primary Organization Code</label>
-				<shortLabel>Primary Org Cd</shortLabel>
-				<summary>Primary Organization Code</summary>
-				<description>Insert desc here...</description>
-			</attributeReference>
 
             <attributeReference name="proposalOrganizations.organization.organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
 				<label>Organization Code</label>
@@ -463,19 +454,6 @@
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
-            <!-- Column headers for lookup results ignore the labels of the <collection> elements below, but these fake duplicate attributes are not allowed
-
-            <attributeReference name="proposalOrganizations" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean" >
-                <label>Proposal Organizations</label>
-            </attributeReference>
-            <attributeReference name="proposalProjectDirectors" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean" >
-                <label>Proposal Project Directors</label>
-            </attributeReference>
-            <attributeReference name="proposalSubcontractors" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBoolean" >
-                <label>Proposal Subcontractors</label>
-            </attributeReference>
-            -->
-
         </attributes>
         
         <collections>
@@ -530,9 +508,6 @@
             </relationship>
             <relationship objectAttributeName="proposalProjectDirectors.projectDirector" >
                 <primitiveAttribute sourceName="proposalProjectDirectors.projectDirector.personUniversalIdentifier" targetName="personUniversalIdentifier" />
-            </relationship>
-            <relationship objectAttributeName="primaryProposalOrganization" >
-            	<primitiveAttribute sourceName="primaryProposalOrganization.organizationCode" targetName="organizationCode" />
             </relationship>
             <relationship objectAttributeName="lookupUniversalUser" >
                 <primitiveAttribute sourceName="lookupPersonUniversalIdentifier" targetName="personUniversalIdentifier" />

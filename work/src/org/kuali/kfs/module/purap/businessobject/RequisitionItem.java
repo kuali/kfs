@@ -125,7 +125,8 @@ public class RequisitionItem extends PurchasingItemBase {
     @Override
     public Class getAccountingLineClass() {
         // TODO Auto-generated method stub
-        return RequisitionAccount.class;
+       //return RequisitionAccount.class;
+        return PaymentRequestAccount.class;
     }
 
     

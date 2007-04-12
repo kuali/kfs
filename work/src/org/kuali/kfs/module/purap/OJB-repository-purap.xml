@@ -745,7 +745,7 @@
         <orderby name="statusHistoryIdentifier" sort="DESC" />
         <inverse-foreignkey field-ref="purapDocumentIdentifier" />
     </collection-descriptor -->
-    <collection-descriptor name="items" proxy="true" element-class-ref="org.kuali.module.purap.bo.RequisitionItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <collection-descriptor name="items" proxy="true" element-class-ref="org.kuali.module.purap.bo.PaymentRequestItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="itemLineNumber" sort="ASC" />
         <inverse-foreignkey field-ref="purapDocumentIdentifier" />
     </collection-descriptor>

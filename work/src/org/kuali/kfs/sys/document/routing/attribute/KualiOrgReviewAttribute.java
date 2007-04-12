@@ -671,6 +671,10 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
             Org docOrg2 = SpringServiceLocator.getOrganizationService().getByPrimaryIdWithCaching(chart2, org2);
             int distanceFromRoot1 = getDistanceFromRoot(docOrg1);
             int distanceFromRoot2 = getDistanceFromRoot(docOrg2);
+            if (distanceFromRoot1 == distanceFromRoot2) {
+                // if they are the same, compare names
+                return (chart1+"-"+org1).compareTo(chart2+"-"+org2);
+            }
             // sort descending
             return new Integer(distanceFromRoot2).compareTo(new Integer(distanceFromRoot1));
         }

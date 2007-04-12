@@ -30,6 +30,7 @@ import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.document.PurchasingDocumentBase;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
+import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorContract;
 import org.kuali.module.vendor.bo.VendorDetail;
@@ -69,7 +70,7 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
             }
         }
         
-        if (document.getVendorDetail() == null &&
+        if (VendorConstants.VENDOR_LOOKUPABLE_IMPL.equals(refreshCaller) &&
             document.getVendorDetailAssignedIdentifier() != null &&
             document.getVendorHeaderGeneratedIdentifier() != null)  {
 
@@ -82,7 +83,7 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
             document.templateVendorDetail(refreshVendorDetail);
         }
 
-        if (Constants.KUALI_LOOKUPABLE_IMPL.equals(baseForm.getRefreshCaller())) {
+        if (Constants.KUALI_LOOKUPABLE_IMPL.equals(refreshCaller)) {
             
             if (request.getParameter("document.vendorContractGeneratedIdentifier") != null) {
                 Integer vendorContractGeneratedId = document.getVendorContractGeneratedIdentifier();

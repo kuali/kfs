@@ -34,7 +34,7 @@ public class VendorConstants {
     public static final String NAME_DELIM = ", ";
     public static final String DASH = "-";
     public static final String VENDOR_HEADER_ATTR = "vendorHeader";
-    
+    public static final String VENDOR_LOOKUPABLE_IMPL = "vendorLookupable";
     //Vendor Tax Types
     public static final String TAX_TYPE_FEIN = "FEIN";
     public static final String TAX_TYPE_SSN = "SSN";

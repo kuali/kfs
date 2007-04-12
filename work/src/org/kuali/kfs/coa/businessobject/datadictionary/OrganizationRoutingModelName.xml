@@ -22,14 +22,30 @@
         <inquiry>
             <title>Organization Routing Model Name Inquiry</title>
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="organizationCode" />
-                <field attributeName="organizationRoutingModelName" />
-            </inquiryFields></inquirySection></inquirySections>
+            <inquirySections>
+            	<inquirySection title="Organization Routing Model Name">
+            		<inquiryFields>
+		                <field attributeName="chartOfAccountsCode" />
+		                <field attributeName="organizationCode" />
+		                <field attributeName="organizationRoutingModelName" />
+            		</inquiryFields>
+            	</inquirySection>
+            	<inquirySection title="Organization Routing Model Delegates">
+            		<inquiryFields>
+            			<inquiryCollection name="organizationRoutingModel" businessObjectClass="org.kuali.module.chart.bo.OrganizationRoutingModel">
+            				<field attributeName="financialDocumentTypeCode" />
+            				<field attributeName="accountDelegatePrimaryRoutingIndicator" />
+            				<field attributeName="approvalFromThisAmount" />
+            				<field attributeName="approvalToThisAmount" />
+            				<field attributeName="accountDelegate.personName" />
+            			</inquiryCollection>
+            		</inquiryFields>
+            	</inquirySection>
+            </inquirySections>
         </inquiry>
 
         <lookup>
+        	<lookupableID>organizationRoutingModelLookupable</lookupableID>
             <title>Organization Routing Model Name Lookup</title>
 
             <instructions>Look up an Organization Routing Model Name</instructions>
@@ -49,9 +65,11 @@
             <resultFields>
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="organizationCode" />
-                <field attributeName="organizationRoutingModelName" />
+                <field attributeName="organizationRoutingModelName" forceInquiry="true" />
             </resultFields>
         </lookup>
+        
+        <titleAttribute>organizationRoutingModelName</titleAttribute>
 
         <attributes>
 

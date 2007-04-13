@@ -141,4 +141,20 @@ public class PositionSalarySettingForm extends KualiForm {
         this.returnFormKey = returnFormKey;
     }
 
+    /**
+     * Gets the editingMode attribute. 
+     * @return Returns the editingMode.
+     */
+    public Map getEditingMode() {
+        return editingMode;
+    }
+
+    /**
+     * Sets the editingMode attribute value.
+     * @param editingMode The editingMode to set.
+     */
+    public void setEditingMode(Map editingMode) {
+        this.editingMode = editingMode;
+    }
+
 }

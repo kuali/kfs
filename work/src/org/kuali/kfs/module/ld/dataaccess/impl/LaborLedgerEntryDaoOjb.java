@@ -17,12 +17,16 @@ package org.kuali.module.labor.dao.ojb;
 
 import java.math.BigDecimal;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.PropertyConstants;
+import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
 import org.kuali.module.gl.bo.Entry;
+import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.dao.LaborLedgerEntryDao;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
@@ -52,7 +56,7 @@ public class LaborLedgerEntryDaoOjb extends PersistenceBrokerDaoSupport implemen
         criteria.addEqualTo(PropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, ledgerEntry.getFinancialSystemOriginationCode());
         criteria.addEqualTo(PropertyConstants.DOCUMENT_NUMBER, ledgerEntry.getDocumentNumber());
 
-        ReportQueryByCriteria query = QueryFactory.newReportQuery(LedgerEntry.class, criteria);
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(this.getEntryClass(), criteria);
         query.setAttributes(new String[] { "max(" + PropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER + ")" });
 
         Iterator iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
@@ -65,5 +69,22 @@ public class LaborLedgerEntryDaoOjb extends PersistenceBrokerDaoSupport implemen
             }
         }
         return maxSequenceNumber;
+    }
+
+    /**
+     * @see org.kuali.module.labor.dao.LaborLedgerEntryDao#find(java.util.Map)
+     */
+    public Iterator<LedgerEntry> find(Map<String, String> fieldValues) {
+        Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, this.getEntryClass());
+        
+        QueryByCriteria query = QueryFactory.newQuery(this.getEntryClass(), criteria);
+        return getPersistenceBrokerTemplate().getIteratorByQuery(query);
+    }
+    
+    /**
+     * @return the Class type of the business object accessed and managed 
+     */
+    private Class getEntryClass(){
+        return LedgerEntry.class;
     }
 }

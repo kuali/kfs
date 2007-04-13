@@ -15,7 +15,9 @@
  */
 package org.kuali.module.labor.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -24,9 +26,14 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.web.TestDataGenerator;
+import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
+import org.kuali.module.labor.bo.LaborOriginEntry;
+import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.util.ObjectUtil;
+import org.kuali.module.labor.util.testobject.LedgerEntryForTesting;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 import org.springframework.beans.factory.BeanFactory;
@@ -38,6 +45,7 @@ public class LaborLedgerEntryServiceTest extends KualiTestBase {
     private String fieldNames;
     private String deliminator;
     private List<String> keyFieldList;
+    private Map fieldValues;
 
     private BeanFactory beanFactory;
     private LaborLedgerEntryService laborLedgerEntryService;
@@ -56,6 +64,11 @@ public class LaborLedgerEntryServiceTest extends KualiTestBase {
         beanFactory = SpringServiceLocator.getBeanFactory();
         laborLedgerEntryService = (LaborLedgerEntryService) beanFactory.getBean("laborLedgerEntryService");
         businessObjectService = (BusinessObjectService) beanFactory.getBean("businessObjectService");
+        
+        LedgerEntry cleanup = new LedgerEntry();
+        ObjectUtil.populateBusinessObject(cleanup, properties, "dataCleanup", fieldNames, deliminator);
+        fieldValues = ObjectUtil.buildPropertyMap(cleanup, Arrays.asList(StringUtils.split(fieldNames, deliminator)));
+        businessObjectService.deleteMatching(LedgerEntry.class, fieldValues);
     }
 
     public void testSave() throws Exception {
@@ -112,5 +125,55 @@ public class LaborLedgerEntryServiceTest extends KualiTestBase {
 
         maxSeqNumber = laborLedgerEntryService.getMaxSequenceNumber(input2);
         assertEquals(Integer.valueOf(expectedSeqNumber2), maxSeqNumber);
+    }
+    
+    public void testFind() throws Exception {
+        String testTarget = "find.";
+        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
+        int expectedNumOfData = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfData"));
+
+        List<LedgerEntry> inputDataList = getInputDataList(testTarget + "testData", numberOfTestData);
+        businessObjectService.save(inputDataList);
+
+        laborLedgerEntryService.find(fieldValues);
+
+        Collection ledgerEntries = businessObjectService.findMatching(LedgerEntry.class, fieldValues);
+        List<LedgerEntryForTesting> expectedDataList = getExpectedValues(LedgerEntryForTesting.class, testTarget + "expected", fieldNames, expectedNumOfData);        
+        for (Object entry : ledgerEntries) {
+            LedgerEntryForTesting ledgerEntryForTesting = new LedgerEntryForTesting();
+            ObjectUtil.buildObject(ledgerEntryForTesting, entry);
+            assertTrue(expectedDataList.contains(ledgerEntryForTesting));
+        }
+        assertEquals(expectedNumOfData, ledgerEntries.size());
+    }    
+    
+    private List<LedgerEntry> getInputDataList(String propertyKeyPrefix, int numberOfInputData) {
+        List<LedgerEntry> inputDataList = new ArrayList<LedgerEntry>();
+        for (int i = 1; i <= numberOfInputData; i++) {
+            String propertyKey = propertyKeyPrefix + i;
+            LedgerEntry inputData = new LedgerEntry();
+            ObjectUtil.populateBusinessObject(inputData, properties, propertyKey, fieldNames, deliminator);
+            inputDataList.add(inputData);
+        }
+        return inputDataList;
+    }
+
+    private List getExpectedValues(Class clazz, String propertyKeyPrefix, String fieldNames, int numberOfInputData) {
+        List expectedDataList = new ArrayList();
+        for (int i = 1; i <= numberOfInputData; i++) {
+            String propertyKey = propertyKeyPrefix + i;
+            try {
+                Object expectedData = clazz.newInstance();
+                ObjectUtil.populateBusinessObject(expectedData, properties, propertyKey, fieldNames, deliminator);
+
+                if (!expectedDataList.contains(expectedData)) {
+                    expectedDataList.add(expectedData);
+                }
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return expectedDataList;
     }
 }

@@ -15,6 +15,9 @@
  */
 package org.kuali.module.labor.service;
 
+import java.util.Iterator;
+import java.util.Map;
+
 import org.kuali.module.labor.bo.LedgerEntry;
 
 /**
@@ -35,4 +38,11 @@ public interface LaborLedgerEntryService {
      * @return the maximum sequence number in a group of entries. If the group doesn't exist, return 0.
      */
     Integer getMaxSequenceNumber(LedgerEntry ledgerEntry);
+
+    /**
+     * Find the ledger entries that satisfy the all entries in the given field-value pair 
+     * @param fieldValues the given field-value pair
+     * @return the ledger entries that satisfy the all entries in the given field-value pair
+     */
+    Iterator<LedgerEntry> find(Map<String, String> fieldValues);
 }

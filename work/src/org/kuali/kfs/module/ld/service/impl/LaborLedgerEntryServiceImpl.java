@@ -15,6 +15,9 @@
  */
 package org.kuali.module.labor.service.impl;
 
+import java.util.Iterator;
+import java.util.Map;
+
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.dao.LaborLedgerEntryDao;
@@ -42,6 +45,15 @@ public class LaborLedgerEntryServiceImpl implements LaborLedgerEntryService {
      */
     public Integer getMaxSequenceNumber(LedgerEntry ledgerEntry) {
         return laborLedgerEntryDao.getMaxSquenceNumber(ledgerEntry);
+    }
+    
+    /**
+     * @see org.kuali.module.labor.service.LaborLedgerEntryService#find(java.util.Map)
+     */
+    public Iterator<LedgerEntry> find(Map<String, String> fieldValues) {
+        if(fieldValues == null) return null;
+        
+        return laborLedgerEntryDao.find(fieldValues);
     }
 
     /**

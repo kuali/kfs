@@ -25,9 +25,9 @@ import org.kuali.module.labor.dao.LaborDao;
 import org.springframework.beans.factory.BeanFactory;
 
 public class AccountStatusBaseFunds extends LedgerBalance {
-    
+
     private Integer universityFiscalYear;
-    
+
     private KualiDecimal accountLineAnnualBalanceAmount;
     private KualiDecimal financialBeginningBalanceLineAmount;
     private KualiDecimal contractsGrantsBeginningBalanceAmount;
@@ -46,33 +46,33 @@ public class AccountStatusBaseFunds extends LedgerBalance {
         this.setBaseCSFVarianceAmount(KualiDecimal.ZERO);
     }
 
-    
+
     /**
-     * 
      * This method calculates the Salary Foundation Amount and returns it
+     * 
      * @return
      */
     public KualiDecimal getCsfAmount() {
-        
-       Map fieldValues = new HashMap(); 
-     
-       fieldValues.put("universityFiscalYear", getUniversityFiscalYear());
-       fieldValues.put("chartOfAccountsCode", getChartOfAccountsCode());
-       fieldValues.put("accountNumber", getAccountNumber());
-       fieldValues.put("subAccountNumber", getSubAccountNumber());       
-       fieldValues.put("financialObjectCode", getFinancialObjectCode());
-       fieldValues.put("financialSubObjectCode", getFinancialSubObjectCode());
-       
-       BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
-       laborDao = (LaborDao) beanFactory.getBean("laborDao");
-       KualiDecimal CSFTotal = (KualiDecimal) laborDao.getCSFTrackerTotal(fieldValues);
-       this.csfAmount = CSFTotal;
-       return CSFTotal; 
+
+        Map fieldValues = new HashMap();
+
+        fieldValues.put("universityFiscalYear", getUniversityFiscalYear());
+        fieldValues.put("chartOfAccountsCode", getChartOfAccountsCode());
+        fieldValues.put("accountNumber", getAccountNumber());
+        fieldValues.put("subAccountNumber", getSubAccountNumber());
+        fieldValues.put("financialObjectCode", getFinancialObjectCode());
+        fieldValues.put("financialSubObjectCode", getFinancialSubObjectCode());
+
+        BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
+        laborDao = (LaborDao) beanFactory.getBean("laborDao");
+        KualiDecimal CSFTotal = (KualiDecimal) laborDao.getCSFTrackerTotal(fieldValues);
+        this.csfAmount = CSFTotal;
+        return CSFTotal;
     }
 
     /**
-     * 
      * This method set the calculated salary foundation amount
+     * 
      * @param calculatedSalaryFoundationAmount
      */
     public void setCsfAmount(KualiDecimal csfAmount) {
@@ -80,8 +80,8 @@ public class AccountStatusBaseFunds extends LedgerBalance {
     }
 
     /**
+     * This method sets the base CSF variance
      * 
-     * This method...
      * @param baseCSFVarianceAmount
      */
     public void setBaseCSFVarianceAmount(KualiDecimal baseCSFVarianceAmount) {
@@ -89,7 +89,6 @@ public class AccountStatusBaseFunds extends LedgerBalance {
     }
 
     /**
-     * 
      * @see org.kuali.module.labor.bo.LedgerBalance#getFinancialBeginningBalanceLineAmount()
      */
     public KualiDecimal getFinancialBeginningBalanceLineAmount() {
@@ -97,7 +96,6 @@ public class AccountStatusBaseFunds extends LedgerBalance {
     }
 
     /**
-     * 
      * @see org.kuali.module.labor.bo.LedgerBalance#setFinancialBeginningBalanceLineAmount(org.kuali.core.util.KualiDecimal)
      */
     public void setFinancialBeginningBalanceLineAmount(KualiDecimal financialBeginningBalanceLineAmount) {
@@ -105,8 +103,8 @@ public class AccountStatusBaseFunds extends LedgerBalance {
     }
 
     /**
-     * 
      * This method calculates the CFS variance amount
+     * 
      * @return
      */
     public KualiDecimal getBaseCSFVarianceAmount() {
@@ -114,9 +112,8 @@ public class AccountStatusBaseFunds extends LedgerBalance {
             baseCSFVarianceAmount = (this.accountLineAnnualBalanceAmount.add(this.csfAmount));
         return baseCSFVarianceAmount;
     }
-    
+
     /**
-     * 
      * @see org.kuali.module.gl.bo.Balance#getAccountLineAnnualBalanceAmount()
      */
     public KualiDecimal getAccountLineAnnualBalanceAmount() {
@@ -124,7 +121,6 @@ public class AccountStatusBaseFunds extends LedgerBalance {
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.bo.Balance#setAccountLineAnnualBalanceAmount(org.kuali.core.util.KualiDecimal)
      */
     public void setAccountLineAnnualBalanceAmount(KualiDecimal accountLineAnnualBalanceAmount) {
@@ -132,7 +128,6 @@ public class AccountStatusBaseFunds extends LedgerBalance {
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.bo.Balance#getContractsGrantsBeginningBalanceAmount()
      */
     public KualiDecimal getContractsGrantsBeginningBalanceAmount() {
@@ -140,7 +135,6 @@ public class AccountStatusBaseFunds extends LedgerBalance {
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.bo.Balance#setContractsGrantsBeginningBalanceAmount(org.kuali.core.util.KualiDecimal)
      */
     public void setContractsGrantsBeginningBalanceAmount(KualiDecimal contractsGrantsBeginningBalanceAmount) {
@@ -148,7 +142,6 @@ public class AccountStatusBaseFunds extends LedgerBalance {
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.bo.Balance#getUniversityFiscalYear()
      */
     public Integer getUniversityFiscalYear() {
@@ -156,7 +149,6 @@ public class AccountStatusBaseFunds extends LedgerBalance {
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.bo.Balance#setUniversityFiscalYear(java.lang.Integer)
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {

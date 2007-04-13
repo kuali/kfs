@@ -34,7 +34,7 @@ import org.kuali.module.labor.util.ObjectUtil;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * This class...
+ * This class is used to post a transaction into labor GL entry table
  */
 @Transactional
 public class LaborGLLedgerEntryPoster implements PostTransaction {
@@ -70,27 +70,42 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
         return operationType;
     }
 
+    /**
+     * @return the debit credit code
+     */
     private String getDebitCreditCode(Transaction transaction) {
         KualiDecimal transactionAmount = transaction.getTransactionLedgerEntryAmount();
         return transactionAmount.isNegative() ? Constants.GL_CREDIT_CODE : Constants.GL_DEBIT_CODE;
     }
 
+    /**
+     * @return the transaction amount
+     */
     private KualiDecimal getTransactionAmount(Transaction transaction) {
         KualiDecimal transactionAmount = transaction.getTransactionLedgerEntryAmount();
         return transactionAmount.abs();
     }
 
+    /**
+     * @return the encumbrance update code
+     */
     private String getEncumbranceUpdateCode(Transaction transaction) {
         String documentTypeCode = transaction.getFinancialDocumentTypeCode();
         boolean isEncumbrance = LaborConstants.PayrollDocumentTypeCode.ENCUMBRANCE.equals(documentTypeCode);
         return isEncumbrance ? Constants.ENCUMB_UPDT_DOCUMENT_CD : Constants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD;
     }
 
+    /**
+     * @return the transaction description
+     */
     private String getTransactionDescription(Transaction transaction) {
         String documentTypeCode = transaction.getFinancialDocumentTypeCode();
         return this.getDescriptionMap().get(documentTypeCode);
     }
 
+    /**
+     * @return the description dictionary that can be used to look up approperite description 
+     */
     private Map<String, String> getDescriptionMap() {
         Map<String, String> descriptionMap = new HashMap<String, String>();
 

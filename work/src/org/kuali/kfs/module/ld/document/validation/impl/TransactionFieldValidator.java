@@ -25,8 +25,17 @@ import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.util.Message;
 import org.kuali.module.labor.util.MessageBuilder;
 
+/**
+ * 
+ * This class provides a set of utilities that can be used to validate a transaction in the filed level.
+ */
 public class TransactionFieldValidator {
 
+    /**
+     * Check if the given transaction contains valid university fiscal year
+     * @param transaction the given transaction
+     * @return null if the university fiscal year is valid; otherwise, return error message
+     */
     public static Message checkUniversityFiscalYear(Transaction transaction) {
         Integer fiscalYear = transaction.getUniversityFiscalYear();
         if (fiscalYear == null) {
@@ -38,6 +47,11 @@ public class TransactionFieldValidator {
         return null;
     }
 
+    /**
+     * Check if the given transaction contains valid char of accounts code
+     * @param transaction the given transaction
+     * @return null if the char of accounts code is valid; otherwise, return error message
+     */
     public static Message checkChartOfAccountsCode(Transaction transaction) {
         String chartOfAccountsCode = transaction.getChartOfAccountsCode();
         if (StringUtils.isBlank(chartOfAccountsCode) || transaction.getChart() == null) {
@@ -50,6 +64,11 @@ public class TransactionFieldValidator {
         return null;
     }
 
+    /**
+     * Check if the given transaction contains valid account number
+     * @param transaction the given transaction
+     * @return null if the account number is valid; otherwise, return error message
+     */
     public static Message checkAccountNumber(Transaction transaction) {
         String accountNumber = transaction.getAccountNumber();
         if (StringUtils.isBlank(accountNumber) || transaction.getAccount() == null) {
@@ -60,6 +79,11 @@ public class TransactionFieldValidator {
         return null;
     }
 
+    /**
+     * Check if the given transaction contains valid sub account number
+     * @param transaction the given transaction
+     * @return null if the sub account number is valid; otherwise, return error message
+     */
     public static Message checkSubAccountNumber(Transaction transaction) {
         String subAccountNumber = transaction.getSubAccountNumber();
         String chartOfAccountsCode = transaction.getChartOfAccountsCode();
@@ -82,6 +106,11 @@ public class TransactionFieldValidator {
         return null;
     }
 
+    /**
+     * Check if the given transaction contains valid account number
+     * @param transaction the given transaction
+     * @return null if the account number is valid; otherwise, return error message
+     */
     public static Message checkFinancialObjectCode(Transaction transaction) {
         String objectCode = transaction.getFinancialObjectCode();
         if (StringUtils.isBlank(objectCode)) {
@@ -101,6 +130,11 @@ public class TransactionFieldValidator {
         return null;
     }
 
+    /**
+     * Check if the given transaction contains valid sub object code
+     * @param transaction the given transaction
+     * @return null if the sub object code is valid; otherwise, return error message
+     */
     public static Message checkFinancialSubObjectCode(Transaction transaction) {
         Integer fiscalYear = transaction.getUniversityFiscalYear();
         String chartOfAccountsCode = transaction.getChartOfAccountsCode();
@@ -120,6 +154,11 @@ public class TransactionFieldValidator {
         return null;
     }
 
+    /**
+     * Check if the given transaction contains valid balance type code
+     * @param transaction the given transaction
+     * @return null if the balance type code is valid; otherwise, return error message
+     */
     public static Message checkFinancialBalanceTypeCode(Transaction transaction) {
         String balanceTypeCode = transaction.getFinancialBalanceTypeCode();
         if (StringUtils.isBlank(balanceTypeCode) || transaction.getBalanceType() == null) {
@@ -128,6 +167,11 @@ public class TransactionFieldValidator {
         return null;
     }
 
+    /**
+     * Check if the given transaction contains valid object type code
+     * @param transaction the given transaction
+     * @return null if the object type code is valid; otherwise, return error message
+     */
     public static Message checkFinancialObjectTypeCode(Transaction transaction) {
         String objectTypeCode = transaction.getFinancialObjectTypeCode();
         if (StringUtils.isBlank(objectTypeCode) || transaction.getObjectType() == null) {
@@ -136,6 +180,11 @@ public class TransactionFieldValidator {
         return null;
     }
 
+    /**
+     * Check if the given transaction contains university fiscal period code
+     * @param transaction the given transaction
+     * @return null if the university fiscal period code is valid; otherwise, return error message
+     */
     public static Message checkUniversityFiscalPeriodCode(Transaction transaction) {
         String fiscalPeriodCode = transaction.getUniversityFiscalPeriodCode();
         if (StringUtils.isBlank(fiscalPeriodCode)) {
@@ -144,6 +193,11 @@ public class TransactionFieldValidator {
         return null;
     }
 
+    /**
+     * Check if the given transaction contains document type code
+     * @param transaction the given transaction
+     * @return null if the document type code is valid; otherwise, return error message
+     */
     public static Message checkFinancialDocumentTypeCode(Transaction transaction) {
         String documentTypeCode = transaction.getFinancialDocumentTypeCode();
         if (StringUtils.isBlank(documentTypeCode) || transaction.getDocumentType() == null) {
@@ -152,6 +206,11 @@ public class TransactionFieldValidator {
         return null;
     }
 
+    /**
+     * Check if the given transaction contains document number
+     * @param transaction the given transaction
+     * @return null if the document number is valid; otherwise, return error message
+     */
     public static Message checkFinancialDocumentNumber(Transaction transaction) {
         String documentNumber = transaction.getDocumentNumber();
         if (StringUtils.isBlank(documentNumber)) {
@@ -160,6 +219,11 @@ public class TransactionFieldValidator {
         return null;
     }
 
+    /**
+     * Check if the given transaction contains transaction sequence number
+     * @param transaction the given transaction
+     * @return null if the transaction sequence number is valid; otherwise, return error message
+     */
     public static Message checkTransactionLedgerEntrySequenceNumber(Transaction transaction) {
         Integer sequenceNumber = transaction.getTransactionLedgerEntrySequenceNumber();
         if (sequenceNumber == null) {
@@ -168,6 +232,11 @@ public class TransactionFieldValidator {
         return null;
     }
 
+    /**
+     * Check if the given transaction contains debit credit code
+     * @param transaction the given transaction
+     * @return null if the debit credit code is valid; otherwise, return error message
+     */
     public static Message checkTransactionDebitCreditCode(Transaction transaction) {
         String[] validDebitCreditCode = { Constants.GL_BUDGET_CODE, Constants.GL_CREDIT_CODE, Constants.GL_DEBIT_CODE };
         String debitCreditCode = transaction.getTransactionDebitCreditCode();
@@ -177,6 +246,11 @@ public class TransactionFieldValidator {
         return null;
     }
 
+    /**
+     * Check if the given transaction contains system origination code
+     * @param transaction the given transaction
+     * @return null if the system origination code is valid; otherwise, return error message
+     */
     public static Message checkFinancialSystemOriginationCode(Transaction transaction) {
         String originationCode = transaction.getFinancialSystemOriginationCode();
         if (StringUtils.isBlank(originationCode)) {
@@ -184,7 +258,13 @@ public class TransactionFieldValidator {
         }
         return null;
     }
-
+    
+    /**
+     * Check if the given transaction contains the posteable period code
+     * @param transaction the given transaction
+     * @param unpostableperidCodes the list of unpostable period code
+     * @return null if the perid code of the transaction is not in unpostableperidCodes; otherwise, return error message
+     */
     public static Message checkPostablePeridCode(Transaction transaction, String[] unpostableperidCodes) {
         String periodCode = transaction.getUniversityFiscalPeriodCode();
         if (ArrayUtils.contains(unpostableperidCodes, periodCode)) {
@@ -193,6 +273,12 @@ public class TransactionFieldValidator {
         return null;
     }
 
+    /**
+     * Check if the given transaction contains the posteable balance type code
+     * @param transaction the given transaction
+     * @param unpostableBalanceTypeCodes the list of unpostable balance type codes
+     * @return null if the balance type code of the transaction is not in unpostableBalanceTypeCodes; otherwise, return error message
+     */
     public static Message checkPostableBalanceTypeCode(Transaction transaction, String[] unpostableBalanceTypeCodes) {
         String balanceTypeCode = transaction.getFinancialBalanceTypeCode();
         if (ArrayUtils.contains(unpostableBalanceTypeCodes, balanceTypeCode)) {
@@ -201,6 +287,11 @@ public class TransactionFieldValidator {
         return null;
     }
 
+    /**
+     * Check if the transaction amount of the given transaction is ZERO
+     * @param transaction the given transaction
+     * @return null if the transaction amount is not ZERO or null; otherwise, return error message
+     */
     public static Message checkZeroTotalAmount(Transaction transaction) {
         KualiDecimal amount = transaction.getTransactionLedgerEntryAmount();
         if (amount == null || amount.isZero()) {
@@ -209,6 +300,12 @@ public class TransactionFieldValidator {
         return null;
     }
 
+    /**
+     * Check if the given transaction contains the posteable object code
+     * @param transaction the given transaction
+     * @param unpostableObjectCodes the list of unpostable object codes
+     * @return null if the object code of the transaction is not in unpostableObjectCodes; otherwise, return error message
+     */
     public static Message checkPostableObjectCode(Transaction transaction, String[] unpostableObjectCodes) {
         String objectCode = transaction.getFinancialObjectCode();
         if (ArrayUtils.contains(unpostableObjectCodes, objectCode)) {

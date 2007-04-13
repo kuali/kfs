@@ -29,7 +29,7 @@ import org.kuali.module.labor.util.ObjectUtil;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * This class...
+ * This class is used to post a transaction into Labor Ledger Balance Table
  */
 @Transactional
 public class LaborLedgerBalancePoster implements PostTransaction {

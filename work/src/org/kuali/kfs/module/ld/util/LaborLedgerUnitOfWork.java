@@ -176,7 +176,9 @@ public class LaborLedgerUnitOfWork {
         this.numOfMember = numOfMember;
     }
 
-    // Get the default key fields as a list
+    /**
+     * Get the default key fields as a list
+     **/
     private List<String> getDefaultKeyFields() {
         List<String> defaultKeyFields = new ArrayList<String>(LaborConstants.consolidationAttributesOfOriginEntry());
         defaultKeyFields.remove(PropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT);

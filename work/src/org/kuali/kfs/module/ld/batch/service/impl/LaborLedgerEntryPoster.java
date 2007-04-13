@@ -27,6 +27,10 @@ import org.kuali.module.labor.service.LaborLedgerEntryService;
 import org.kuali.module.labor.util.ObjectUtil;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * The class is used to post a transaction to labor ledger entry table
+ */
+
 @Transactional
 public class LaborLedgerEntryPoster implements PostTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerEntryPoster.class);    

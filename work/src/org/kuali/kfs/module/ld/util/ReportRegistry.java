@@ -48,15 +48,23 @@ public enum ReportRegistry {
         this.reportTitle = reportTitle;
     }
     
+    /**
+     * @return report file name
+     */
     public String reportFilename(){
         return this.reportFilename;
     }
     
+    /**
+     * @return report title
+     */
     public String reportTitle(){
         return this.reportTitle;
     }
     
-    // get the directory where the reports can be stored
+    /**
+     * get the directory where the reports can be stored
+     */ 
     public static String getReportsDirectory() {      
         return SpringServiceLocator.getKualiConfigurationService().getPropertyString(Constants.REPORTS_DIRECTORY_KEY);
     }

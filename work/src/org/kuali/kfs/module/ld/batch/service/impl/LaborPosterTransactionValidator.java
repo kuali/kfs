@@ -27,7 +27,7 @@ import org.kuali.module.labor.util.MessageBuilder;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * This class...
+ * This class is a validator for the transactions processed by Labor Poster.
  */
 @Transactional
 public class LaborPosterTransactionValidator implements VerifyTransaction {

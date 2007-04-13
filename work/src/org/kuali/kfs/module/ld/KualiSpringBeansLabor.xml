@@ -367,7 +367,7 @@
             <ref bean="laborReportService" />
         </property>
     </bean>  
-
+           
 	<bean id="laborScrubberStep" class="org.kuali.module.labor.batch.LaborScrubberStep">
 		<property name="laborScrubberService">
 			<ref bean="laborScrubberService" />
@@ -430,6 +430,12 @@
         	</list>
         </property>
     </bean> 
+    
+    <bean id="payrollAccrualStep" class="org.kuali.module.labor.batch.PayrollAccrualStep" singleton="false">
+		<property name="payrollAccrualService">
+			<ref bean="payrollAccrualService" />
+		</property>
+	</bean>
     
     <bean id="laborBenefitAccrualTransactionGenerator" class="org.kuali.module.labor.batch.payrollaccrual.impl.BenefitAccrualTransactionGenerator"/> 
     <bean id="laborBenefitReversalTransactionGenerator" class="org.kuali.module.labor.batch.payrollaccrual.impl.BenefitReversalTransactionGenerator"/>

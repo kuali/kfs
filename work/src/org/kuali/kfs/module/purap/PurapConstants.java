@@ -33,6 +33,9 @@ public class PurapConstants {
     public static final String ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING = "Unable to save the contract manager for the following Requisitions: ";
     public static final String NOTE_TAB_WARNING = "noteWarning";
     public static final String STATUS_HISTORY_TAB_WARNING = "statusHistoryWarning";
+    //Delivery Tag
+    public static final String DELIVERY_BUILDING_OTHER = "Other";
+    public static final String DELIVERY_BUILDING_OTHER_CODE = "OTH";
     
     //PDF Constants
     public static final String IMAGE_TEMP_PATH = "PURAP.IMAGE.TEMP.PATH";
@@ -169,7 +172,11 @@ public class PurapConstants {
         
         public static String VOID_QUESTION = "POVoid";
         public static String VOID_CONFIRM = "POVoidConfirm";
-        public static String VOID_NOTE_PREFIX = "Note entered while voiding a Purchasing Order : ";
+        public static String VOID_NOTE_PREFIX = "Note entered while voiding a Purchase Order : ";
+        
+        public static String PAYMENT_HOLD_QUESTION = "POPaymentHold";
+        public static String PAYMENT_HOLD_CONFIRM = "POPaymentHoldConfirm";
+        public static String PAYMENT_HOLD_NOTE_PREFIX = "Note entered while putting a Purchase Order in Payment Hold status :";
         
         public static String SINGLE_CONFIRMATION_QUESTION = "singleConfirmationQuestion";
     }

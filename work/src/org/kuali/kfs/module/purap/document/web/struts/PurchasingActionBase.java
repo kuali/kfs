@@ -96,9 +96,8 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
         PurchasingDocumentBase document = (PurchasingDocumentBase)baseForm.getDocument();
         if( ObjectUtils.isNotNull( document.isDeliveryBuildingOther() ) ) {
             if (document.isDeliveryBuildingOther()) {
-// TODO check in referenced constants
-//                document.setDeliveryBuildingName( PurapConstants.DELIVERY_BUILDING_OTHER );
-//                document.setDeliveryBuildingCode( PurapConstants.DELIVERY_BUILDING_OTHER_CODE );
+                document.setDeliveryBuildingName( PurapConstants.DELIVERY_BUILDING_OTHER );
+                document.setDeliveryBuildingCode( PurapConstants.DELIVERY_BUILDING_OTHER_CODE );
                 baseForm.setNotOtherDeliveryBuilding(false);
             }
             else {

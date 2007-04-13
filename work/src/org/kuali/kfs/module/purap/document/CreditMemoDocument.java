@@ -33,7 +33,14 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
 	public CreditMemoDocument() {
         super();
     }
-
+    
+    /**
+     * @see org.kuali.core.bo.PersistableBusinessObjectBase#isBoNotesSupport()
+     */
+    @Override
+    public boolean isBoNotesSupport() {
+        return true;
+    }
 
     public void refreshAllReferences() {
         super.refreshAllReferences();

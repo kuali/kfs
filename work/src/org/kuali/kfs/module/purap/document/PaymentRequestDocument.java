@@ -119,6 +119,16 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     */
 
     /**
+     * @see org.kuali.core.bo.PersistableBusinessObjectBase#isBoNotesSupport()
+     */
+    @Override
+    public boolean isBoNotesSupport() {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
+
+    /**
      * Gets the purchaseOrderIdentifier attribute. 
      * @return Returns the purchaseOrderIdentifier.
      */

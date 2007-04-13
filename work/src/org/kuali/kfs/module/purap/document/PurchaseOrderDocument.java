@@ -96,6 +96,14 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
         this.purchaseOrderVendorStipulations = new TypedArrayList( PurchaseOrderVendorStipulation.class );
     }
 
+    /**
+     * @see org.kuali.core.bo.PersistableBusinessObjectBase#isBoNotesSupport()
+     */
+    @Override
+    public boolean isBoNotesSupport() {
+        return true;
+    }
+
     public void populatePurchaseOrderFromRequisition(RequisitionDocument requisitionDocument) {
 // TODO fix this (is this data correct?  is there a better way of doing this?
 //        this.setPurchaseOrderCreateDate(requisitionDocument.getDocumentHeader().getWorkflowDocument().getCreateDate());

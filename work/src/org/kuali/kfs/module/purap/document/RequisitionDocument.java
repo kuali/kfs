@@ -68,6 +68,14 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         super();
     }
 
+    /**
+     * @see org.kuali.core.bo.PersistableBusinessObjectBase#isBoNotesSupport()
+     */
+    @Override
+    public boolean isBoNotesSupport() {
+        return true;
+    }
+
     public void refreshAllReferences() {
         super.refreshAllReferences();
     }

@@ -618,7 +618,7 @@
             </collection>
               
             <collection name="vendorHeader.vendorSupplierDiversities">
-                <label>Vendor Supplier Diversities</label>
+                <label>Supplier Diversities</label>
                 <shortLabel>Supplier Diversities</shortLabel>
                 <summary>
                     <![CDATA[&nbsp;]]>
@@ -656,13 +656,13 @@
             </collection>
             
             <collection name="vendorAliases">
-                <label>Alternate Names</label>
-                <shortLabel>Aliases</shortLabel>
-                <elementLabel>Alternate Names</elementLabel>
+                <label>Search Alias</label>
+                <shortLabel>Search Alias</shortLabel>
+                <elementLabel>Search Alias</elementLabel>
                 <summary>
                     <![CDATA[&nbsp;]]>
                 </summary>
-                <description>Vendor Search Aliases/Alternate Names</description>
+                <description>Vendor Search Aliases</description>
             </collection>
              
         </collections>    

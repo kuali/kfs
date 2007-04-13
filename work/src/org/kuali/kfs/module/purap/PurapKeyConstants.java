@@ -62,12 +62,13 @@ public class PurapKeyConstants {
     public static final String WARNING_PURCHASE_ORDER_ALL_NOTES="warning.purchaseOrder.allNotes";
     
     //Payment Request
-    public static final String ERROR_PURCHASE_ORDER_NOT_EXIST="error.paymentRequest.purchaseOrder.notExist";
-    public static final String ERROR_PURCHASE_ORDER_NOT_OPEN="error.paymentRequest.purchaseOrder.notOpen";
-    public static final String ERROR_PURCHASE_ORDER_IS_PENDING="error.paymentRequest.purchaseOrder.isPending";
+    public static final String ERROR_PURCHASE_ORDER_NOT_EXIST="error.invoice.purchaseOrder.notExist";
+    public static final String ERROR_PURCHASE_ORDER_NOT_OPEN="error.invoice.purchaseOrder.notOpen";
+    public static final String ERROR_PURCHASE_ORDER_IS_PENDING="error.invoice.purchaseOrder.isPending";
+    public static final String ERROR_INVALID_INVOICE_DATE="errors.invalid.invoice.date";
    
-    public static final String MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT="message.duplicate.preq.date.amount";
-    public static final String MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT_CANCELLEDORVOIDED="message.duplicate.preq.date.amount.cancelledOrVoided";
-    public static final String MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT_VOIDED="message.duplicate.preq.date.amount.voided";
-    public static final String MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT_CANCELLED="message.duplicate.preq.date.amount.cancelled";
+    public static final String MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT="message.duplicate.preq.date.amount";
+    public static final String MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLEDORVOIDED="message.duplicate.invoice.date.amount.cancelledOrVoided";
+    public static final String MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_VOIDED="message.duplicate.invoice.date.amount.voided";
+    public static final String MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLED="message.duplicate.invoice.date.amount.cancelled";
 }

@@ -49,6 +49,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         boolean valid = super.processValidation(purapDocument);
         valid &= processInvoiceValidation((PaymentRequestDocument)purapDocument);
         valid &= processPurchaseOrderIDValidation((PaymentRequestDocument)purapDocument);
+        valid &= processPaymentRequestDateValidation((PaymentRequestDocument)purapDocument);
         return valid;
     }
 
@@ -110,7 +111,14 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     }
     
     boolean processPaymentRequestDateValidation(PaymentRequestDocument document){
-       return isInvoiceDateAfterToday(document.getInvoiceDate());
+        
+        boolean valid = true;
+        //valid &= isInvoiceDateAfterToday(document.getInvoiceDate());
+        if (isInvoiceDateAfterToday(document.getInvoiceDate())) {
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.INVOICE_DATE, PurapKeyConstants.ERROR_INVALID_INVOICE_DATE);
+                 valid &= false;
+        }
+        return valid;
     }
     // This moved to PaymentRequestService to be used from action logic for Continue  Button:
     
@@ -129,7 +137,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             PaymentRequestDocument testPREQ = (PaymentRequestDocument) iter.next();
             if ( (!(PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE.equals(testPREQ.getStatus().getStatusCode()))) && 
                  (!(PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getStatusCode()))) ) {
-                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT);
+                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT);
               //addedError = true;s
                 valid &= false;
               break;
@@ -144,15 +152,15 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
           if (valid) {
             if ( (!(voided.isEmpty())) && (!(cancelled.isEmpty())) ) {
               //messages.add("errors.duplicate.invoice.date.amount.cancelledOrVoided");
-              GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT_CANCELLEDORVOIDED);
+              GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLEDORVOIDED);
               valid &= false;
             } else if ( (!(voided.isEmpty())) && (cancelled.isEmpty()) ) {
               //messages.add("errors.duplicate.invoice.date.amount.voided");
-              GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT_VOIDED);
+              GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_VOIDED);
               valid &= false;
             } else if ( (voided.isEmpty()) && (!(cancelled.isEmpty())) ) {
               //messages.add("errors.duplicate.invoice.date.amount.cancelled");
-              GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT_CANCELLED);
+              GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLED);
               valid &= false;
             }
           }
@@ -200,7 +208,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             PaymentRequestDocument testPREQ = (PaymentRequestDocument) iter.next();
             if ( (!(PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE.equals(testPREQ.getStatus().getStatusCode()))) && 
                  (!(PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getStatusCode()))) ) {
-                 msgs.put(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT);
+                 msgs.put(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT);
                  addedMessage = true;
               
               break;
@@ -215,16 +223,16 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
           //if (valid) {
             if ( (!(voided.isEmpty())) && (!(cancelled.isEmpty())) ) {
               //messages.add("errors.duplicate.invoice.date.amount.cancelledOrVoided");
-                msgs.put(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT_CANCELLEDORVOIDED);
+                msgs.put(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLEDORVOIDED);
               
             } else if ( (!(voided.isEmpty())) && (cancelled.isEmpty()) ) {
               //messages.add("errors.duplicate.invoice.date.amount.voided");
-                msgs.put(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT_VOIDED);
+                msgs.put(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_VOIDED);
                 addedMessage = true;
               //valid &= false;
             } else if ( (voided.isEmpty()) && (!(cancelled.isEmpty())) ) {
               //messages.add("errors.duplicate.invoice.date.amount.cancelled");
-                msgs.put(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT_CANCELLED);
+                msgs.put(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLED);
                 addedMessage = true;
             }
           }

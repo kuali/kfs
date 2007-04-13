@@ -194,17 +194,17 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         POID = document.getPurchaseOrderIdentifier();
 
         // This line is for test only to simulate duplicate messages, need to remove after Code review
-        msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_DATE_AMONT_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT));
+       // msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_DATE_AMONT_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT));
 
         if (preqs.size() > 0) {
             boolean addedMessage = false;
             List cancelled = new ArrayList();
             List voided = new ArrayList();
-            msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_DATE_AMONT_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT));
+            msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_DATE_AMONT_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT));
             for (Iterator iter = preqs.iterator(); iter.hasNext();) {
                 PaymentRequestDocument testPREQ = (PaymentRequestDocument) iter.next();
                 if ((!(PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE.equals(testPREQ.getStatus().getStatusCode()))) && (!(PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getStatusCode())))) {
-                    msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_DATE_AMONT_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT));
+                    msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_DATE_AMONT_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT));
                     addedMessage = true;
 
                     break;
@@ -221,18 +221,18 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 // if (valid) {
                 if ((!(voided.isEmpty())) && (!(cancelled.isEmpty()))) {
                     // messages.add("errors.duplicate.invoice.date.amount.cancelledOrVoided");
-                    msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_DATE_AMONT_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT_CANCELLEDORVOIDED));
+                    msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_DATE_AMONT_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLEDORVOIDED));
 
                 }
                 else if ((!(voided.isEmpty())) && (cancelled.isEmpty())) {
                     // messages.add("errors.duplicate.invoice.date.amount.voided");
-                    msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_DATE_AMONT_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT_VOIDED));
+                    msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_DATE_AMONT_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_VOIDED));
                     addedMessage = true;
                     // valid &= false;
                 }
                 else if ((voided.isEmpty()) && (!(cancelled.isEmpty()))) {
                     // messages.add("errors.duplicate.invoice.date.amount.cancelled");
-                    msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_DATE_AMONT_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_PREQ_DATE_AMOUNT_CANCELLED));
+                    msgs.put(PurapConstants.PREQDocumentsStrings.DUPLICATE_DATE_AMONT_QUESTION, kualiConfiguration.getPropertyString(PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLED));
                     addedMessage = true;
                 }
             }

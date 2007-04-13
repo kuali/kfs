@@ -44,5 +44,6 @@ public class PurapPropertyConstants {
     
     // Payment Request
     public static final String PURCHASE_ORDER_IDENTIFIER = "document.purchaseOrderIdentifier";
+    public static final String INVOICE_DATE = "document.invoiceDate";
     
 }

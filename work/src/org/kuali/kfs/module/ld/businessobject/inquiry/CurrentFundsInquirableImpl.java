@@ -25,6 +25,10 @@ import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.LookupService;
+import org.kuali.kfs.bo.Options;
+import org.kuali.kfs.service.OptionsService;
+import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.web.Constant;
 import org.kuali.module.labor.bo.LedgerBalance;
@@ -47,9 +51,10 @@ public class CurrentFundsInquirableImpl extends AbstractLaborInquirableImpl {
     protected List buildUserDefinedAttributeKeyList() {
         List keys = new ArrayList();
 
-        keys.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        keys.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
+        keys.add(PropertyConstants.SUB_OBJECT_CODE);
         keys.add(PropertyConstants.EMPLID);
-        keys.add(PropertyConstants.BALANCE_TYPE_CODE);        
+        keys.add(PropertyConstants.POSITION_NUMBER);
 
         return keys;
     }
@@ -58,9 +63,13 @@ public class CurrentFundsInquirableImpl extends AbstractLaborInquirableImpl {
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getUserDefinedAttributeMap()
      */
     protected Map getUserDefinedAttributeMap() {
+               
         Map userDefinedAttributeMap = new HashMap();
 
-        userDefinedAttributeMap.put("ytdActualAmount", Constants.MONTH1);  
+//        userDefinedAttributeMap.put(PropertyConstants.MONTH3_AMOUNT, Constants.MONTH3);
+  //      userDefinedAttributeMap.put(GLConstants.DummyBusinessObject.LINK_BUTTON_OPTION, "");
+       userDefinedAttributeMap.put("ytdActualAmount", "");  
+
         
         return userDefinedAttributeMap;
     }
@@ -94,8 +103,7 @@ public class CurrentFundsInquirableImpl extends AbstractLaborInquirableImpl {
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getLookupableImplAttributeName()
      */
     protected String getLookupableImplAttributeName() {
-        // TODO: investigate change to this constant
-        return Constant.GL_LOOKUPABLE_ENTRY;
+        return "laborLedgerBalanceLookupable";
     }
 
     /**
@@ -116,10 +124,6 @@ public class CurrentFundsInquirableImpl extends AbstractLaborInquirableImpl {
     /**
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#addMoreParameters(java.util.Properties, java.lang.String)
      */
-    protected void addMoreParameters(Properties parameter, String attributeName) {
-        parameter.put(Constants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME, getLookupableImplAttributeName());
-
-        String periodCode = (String) getUserDefinedAttributeMap().get(attributeName);
-        parameter.put(Constants.UNIVERSITY_FISCAL_PERIOD_CODE_PROPERTY_NAME, periodCode);
+    protected void addMoreParameters(Properties parameter, String attributeName) {     
     }
 }

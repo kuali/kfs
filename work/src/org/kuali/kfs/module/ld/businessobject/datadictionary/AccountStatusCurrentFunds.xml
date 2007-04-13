@@ -25,14 +25,10 @@
             <title>Account Status (Current Funds) Balance Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="accountNumber" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="financialBalanceTypeCode" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="financialObjectTypeCode" />
+                <field attributeName="subAccountNumber" />				
                 <field attributeName="financialSubObjectCode" />
-                <field attributeName="subAccountNumber" />
-                <field attributeName="universityFiscalYear" />
+                <field attributeName="positionNumber" />				
+				<field attributeName="month1Amount" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -44,8 +40,6 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="universityFiscalYear" />
-                    <sortAttribute attributeName="chartOfAccountsCode" />
                     <sortAttribute attributeName="accountNumber" />
                 </sortAttributes>
             </defaultSort>

@@ -250,19 +250,19 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
 
     /**
      * 
-     * @see org.kuali.core.maintenance.Maintainable#getLockingRepresentation()
+     * @see org.kuali.core.maintenance.Maintainable#generateMaintenanceLocks()
      * 
      * This method returns the locking representation of the vendor. If the 
      * vendor detail id is not null, call the super class implementation of
-     * getLockingRepresentation which will set the locking key to be the 
+     * generateMaintenanceLocks which will set the locking key to be the 
      * header and detail ids.  However, if the detail id is null, that means 
      * this is a new vendor (parent or division) and we should ignore locking.
      */
     @Override
-    public List<MaintenanceLock> getLockingRepresentation() {
+    public List<MaintenanceLock> generateMaintenanceLocks() {
         
         if (ObjectUtils.isNotNull(((VendorDetail)getBusinessObject()).getVendorDetailAssignedIdentifier())) {
-            return super.getLockingRepresentation();
+            return super.generateMaintenanceLocks();
         }
         else {
             return new ArrayList();

@@ -131,21 +131,7 @@
                 <summary>vendorBusinessToBusinessUrlAddress</summary>
                 <description>vendorBusinessToBusinessUrlAddress description...</description>
 			</attribute>
-
-            <attribute name="vendorFaxNumber" forceUppercase="true">
-                <label>Vendor Fax Number</label>
-                <shortLabel>Vendor Fax Number</shortLabel>
-
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="14" />
-                </control>
-
-                <summary>vendorFaxNumber</summary>
-                <description>vendorFaxNumber...</description>
-			</attribute>
+			
 			
             <attribute name="vendorDefaultAddressIndicator" forceUppercase="false">
                 <label>Set as Default Address</label>
@@ -161,6 +147,20 @@
                 <description>vendorDefaultAddressIndicator description...</description>
             </attribute>
 
+			<attributeReference name="vendorFaxNumber" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="phoneNumberWithValidation">
+                <label>Vendor Fax Number</label>
+                <shortLabel>Vendor Fax Number</shortLabel>
+
+                <maxLength>14</maxLength>
+ 
+                <control>
+                    <text size="14" />
+                </control>
+
+                <summary>vendorFaxNumber</summary>
+                <description>vendorFaxNumber...</description>
+			</attributeReference>
+			
 			<attributeReference name="vendorAddressTypeCode" sourceClassName="org.kuali.module.vendor.bo.AddressType" sourceAttributeName="vendorAddressTypeCode">
                 <label>Address Type</label>
                 <required>true</required>

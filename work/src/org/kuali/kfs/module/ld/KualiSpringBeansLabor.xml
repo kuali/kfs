@@ -46,6 +46,11 @@
 				<value>org/kuali/module/labor/OJB-repository-labor.xml</value>
 			</list>
 		</property>
+		<property name="scriptConfigurationFilePaths">
+			<list>
+				<value>org/kuali/module/labor/dwr-labor.xml</value>
+			</list>
+		</property>
 	</bean>
 
 	<bean id="laborLedgerPendingEntryDao" class="org.kuali.module.labor.dao.ojb.LaborLedgerPendingEntryDaoOjb">
@@ -57,6 +62,9 @@
     <!--  Section 1: Spring Beans for Business Objects -->
 
 	<bean id="laborUserService" class="org.kuali.module.labor.service.impl.LaborUserServiceImpl" parent="kualiModuleUserServiceBase">
+		<property name="universalUserService">
+			<ref bean="universalUserService" />
+		</property>	
 	</bean>
 		
 	<bean id="laborLedgerPendingEntryService" class="org.kuali.module.labor.service.impl.LaborLedgerPendingEntryServiceImpl">

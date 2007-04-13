@@ -30,7 +30,9 @@ import org.kuali.module.gl.web.Constant;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.service.LaborLedgerBalanceService;
 import org.kuali.module.labor.web.inquirable.LedgerBalanceInquirableImpl;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLaborLedgerLookupableHelperServiceImpl {
     private LaborLedgerBalanceService balanceService;
     private Map fieldValues;

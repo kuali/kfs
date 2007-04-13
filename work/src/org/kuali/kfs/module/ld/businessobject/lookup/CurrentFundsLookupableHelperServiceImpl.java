@@ -33,7 +33,9 @@ import org.kuali.module.gl.service.BalanceService;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.dao.LaborDao;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private BalanceService balanceService;
     private Map fieldValues;

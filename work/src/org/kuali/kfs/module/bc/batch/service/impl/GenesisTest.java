@@ -137,7 +137,10 @@ public class GenesisTest {
       //
       //
       // update current positions
-        genesisTestService.testPositionBuild(2007);
+      //  genesisTestService.testPositionBuild(2007);
+      LOG.warn("\nstarting fiscalYearMakers\n");
+      dateMakerTestService.fiscalYearMakers(2007);
+      LOG.warn("\nfiscalYearMakers finished\n");
       // create the proxy BC headers
       /*
  //     genesisTestService.clearDBForGenesis(2009);

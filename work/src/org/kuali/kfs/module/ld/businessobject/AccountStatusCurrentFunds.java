@@ -77,7 +77,7 @@ public class AccountStatusCurrentFunds extends LedgerBalance {
 
     /**
      * 
-     * This method...
+     * This method returns an outstanding encumberance value 
      * @return
      */
     public KualiDecimal getOutstandingEncum() {
@@ -96,13 +96,12 @@ public class AccountStatusCurrentFunds extends LedgerBalance {
         laborDao = (LaborDao) beanFactory.getBean("laborDao");
         KualiDecimal EncumTotal = (KualiDecimal) laborDao.getEncumbranceTotal(fieldValues);
         this.outstandingEncum = EncumTotal;
-        return EncumTotal;
-       
+        return EncumTotal;       
     }
 
     /**
      * 
-     * This method...
+     * This method sets an outstanding encumberance value 
      * @param outstandingEncum
      */
     public void setOutstandingEncum(KualiDecimal outstandingEncum) {

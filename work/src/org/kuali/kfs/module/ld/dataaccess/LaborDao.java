@@ -23,17 +23,47 @@ import org.kuali.core.bo.user.PersonPayrollId;
 import org.kuali.core.bo.user.UniversalUser;
 
 /**
- * This class is an interface for all new labor data access objects
+ * This class is an interface to data access objects for labor balance inquiries 
  */
 public interface LaborDao {
  
+    /**
+     * 
+     * This method returns CSF Tracker data
+     * @param fieldValues
+     * @return
+     */
     Collection getCSFTrackerData(Map fieldValues);
 
+    /**
+     * 
+     * This method returns a CSF Tracker total for a given selection criteria
+     * @param fieldValues
+     * @return
+     */
     Object getCSFTrackerTotal(Map fieldValues);
 
+    /**
+     * 
+     * This method returns an encumberence total for a given selection criteria
+     * @param fieldValues
+     * @return
+     */
     Object getEncumbranceTotal(Map fieldValues);
     
+    /**
+     * 
+     * This method returns base funds data
+     * @param fieldValues
+     * @return
+     */
     Collection getBaseFunds(Map fieldValues);
     
+    /**
+     * 
+     * This method returns current funds data
+     * @param fieldValues
+     * @return
+     */
     Collection getCurrentFunds(Map fieldValues);
 }

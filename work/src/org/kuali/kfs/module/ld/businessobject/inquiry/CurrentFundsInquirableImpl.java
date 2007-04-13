@@ -27,7 +27,7 @@ import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.LookupService;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.web.Constant;
-import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
+import org.kuali.module.labor.bo.LedgerBalance;
 
 /**
  * This class is used to generate the URL for the user-defined attributes for the Base Funds screen. It is entended the
@@ -47,8 +47,9 @@ public class CurrentFundsInquirableImpl extends AbstractLaborInquirableImpl {
     protected List buildUserDefinedAttributeKeyList() {
         List keys = new ArrayList();
 
-        keys.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
-        keys.add(PropertyConstants.OBJECT_CODE);
+        keys.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        keys.add(PropertyConstants.EMPLID);
+        keys.add(PropertyConstants.BALANCE_TYPE_CODE);        
 
         return keys;
     }
@@ -59,10 +60,8 @@ public class CurrentFundsInquirableImpl extends AbstractLaborInquirableImpl {
     protected Map getUserDefinedAttributeMap() {
         Map userDefinedAttributeMap = new HashMap();
 
-
-        userDefinedAttributeMap.put(PropertyConstants.BEGINNING_BALANCE_LINE_AMOUNT, Constants.BEGINNING_BALANCE);
-        userDefinedAttributeMap.put(PropertyConstants.CONTRACTS_GRANTS_BEGINNING_BALANCE_AMOUNT, Constants.CG_BEGINNING_BALANCE);
-
+        userDefinedAttributeMap.put("ytdActualAmount", Constants.MONTH1);  
+        
         return userDefinedAttributeMap;
     }
 
@@ -111,7 +110,7 @@ public class CurrentFundsInquirableImpl extends AbstractLaborInquirableImpl {
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getInquiryBusinessObjectClass(String)
      */
     protected Class getInquiryBusinessObjectClass(String attributeName) {
-        return AccountStatusCurrentFunds.class;
+        return LedgerBalance.class;
     }
 
     /**

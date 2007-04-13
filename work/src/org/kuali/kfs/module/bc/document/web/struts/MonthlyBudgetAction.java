@@ -59,6 +59,8 @@ public class MonthlyBudgetAction extends KualiAction {
         //since BC sets locks up front, but need to verify this
 
 
+        //TODO should probably use service locator and call
+        //DocumentAuthorizer documentAuthorizer = KNSServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer("<BCDoctype>");
         BudgetConstructionDocumentAuthorizer budgetConstructionDocumentAuthorizer = new BudgetConstructionDocumentAuthorizer();
         monthlyBudgetForm.populateAuthorizationFields(budgetConstructionDocumentAuthorizer);
 /*

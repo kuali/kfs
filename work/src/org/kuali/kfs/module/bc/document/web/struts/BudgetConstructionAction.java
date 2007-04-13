@@ -532,4 +532,29 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
         tForm.setHideDetails(true);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+    
+    public ActionForward performAccountPullup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        BudgetConstructionForm tForm = (BudgetConstructionForm) form;
+        GlobalVariables.getErrorMap().putError(Constants.GLOBAL_MESSAGES,KeyConstants.ERROR_UNIMPLEMENTED, "Pullup");
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    public ActionForward performAccountPushdown(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        BudgetConstructionForm tForm = (BudgetConstructionForm) form;
+        GlobalVariables.getErrorMap().putError(Constants.GLOBAL_MESSAGES,KeyConstants.ERROR_UNIMPLEMENTED, "Pushdown");
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    public ActionForward performReportDump(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        BudgetConstructionForm tForm = (BudgetConstructionForm) form;
+        GlobalVariables.getErrorMap().putError(Constants.GLOBAL_MESSAGES,KeyConstants.ERROR_UNIMPLEMENTED, "Report/Dump");
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
 }

@@ -22,7 +22,38 @@
 
     <kul:hiddenDocumentFields />
     <kul:documentOverview editingMode="${KualiForm.editingMode}" />
-    <kul:employeeLookup />
+    <kul:tab tabTitle="Employee Lookup" defaultOpen="true"
+        tabErrorKey="${Constants.EMPLOYEE_LOOKUP_ERRORS}">
+        <div class="tab-container" align=center>
+            <div class="h2-container"><b>Employee Lookup</b></div>
+            <table cellpadding="0" cellspacing="0" class="datatable"
+                summary="employee lookup">
+    
+                <kul:htmlAttributeHeaderCell
+                    attributeEntry="${DataDictionary.UniversalUser.attributes.personPayrollIdentifier}"
+                    horizontal="true"
+                    forceRequired="true"
+                    />
+                <td>
+                        <kul:employee userIdFieldName="personPayrollIdentifier" 
+                                  userNameFieldName="user.personName" 
+                                  fieldConversions="personPayrollIdentifier:personPayrollIdentifier"
+                                  lookupParameters="personPayrollIdentifier:personPayrollIdentifier"
+                                  hasErrors="${hasErrors}"
+                                  onblur="${onblur}"
+                                  highlight="${addHighlighting}">
+                            <jsp:attribute name="helpLink" trim="true">
+                                <kul:help
+                                    businessObjectClassName="${field.businessObjectClassName}"
+                                    attributeName="${field.fieldHelpName}"
+                                    altText="${field.fieldHelpSummary}" />      
+                            </jsp:attribute>
+                        </kul:employee>
+                </td>
+            </table>
+                <p>
+        </div>
+    </kul:tab>
 	<fin:accountingLines editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}" inherit="false"
 		optionalFields="positionNumber,payrollEndDateFiscalYear,payrollEndDateFiscalPeriodCode,payrollTotalHours">
@@ -53,7 +84,7 @@
                 <kul:balanceInquiryLookup
                     boClassName="org.kuali.module.labor.bo.LedgerBalance"
                     actionPath="${Constants.GL_BALANCE_INQUIRY_ACTION}"
-                    lookupParameters="user.personPayrollIdentifier:emplid"
+                    lookupParameters="personPayrollIdentifier:personPayrollIdentifier"
                     fieldConversions="chartOfAccountsCode:newSourceLine.chartOfAccountsCode"
                    hideReturnLink="false" />
             </jsp:attribute>

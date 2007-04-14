@@ -157,10 +157,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         // get new document from doc service
         try {
             poDocument.toCopy(PurchaseOrderDocTypes.PURCHASE_ORDER_PRINT_DOCUMENT);
-            poDocument.setPurchaseOrderCurrentIndicator(true);
-            // TODO set other default info
-            // TODO set initiator of document as contract manager (is that right?)
-
+            poDocument.setPendingActionIndicator(false);
+            poDocument.setPurchaseOrderCurrentIndicator(false);
             documentService.updateDocument(poDocument);
             documentService.prepareWorkflowDocument(poDocument);
             workflowDocumentService.save(poDocument.getDocumentHeader().getWorkflowDocument(), "", null);
@@ -218,14 +216,15 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             po.setPurchaseOrderFirstTransmissionDate(currentSqlDate);
             po.setPurchaseOrderInitialOpenDate(currentSqlDate);
             po.setPurchaseOrderLastTransmitDate(currentSqlDate);
+            po.setPurchaseOrderCurrentIndicator(true);
+            purapService.updateStatusAndStatusHistory( po, PurapConstants.PurchaseOrderStatuses.CLOSED );
             save(po);
             
             //Get the PurchaseOrderDocument of this print document whose status is Pending Print and update that PO's
             //status to Open and set its firstTransmissionDate, initialOpenDate and lastTransmitDate to current date
             PurchaseOrderDocument previousPo = getPurchaseOrderInPendingPrintStatus(po.getPurapDocumentIdentifier());
-            previousPo.setPurchaseOrderFirstTransmissionDate(currentSqlDate);
-            previousPo.setPurchaseOrderInitialOpenDate(currentSqlDate);
-            previousPo.setPurchaseOrderLastTransmitDate(currentSqlDate);
+            previousPo.setPurchaseOrderCurrentIndicator(false);
+            previousPo.setPendingActionIndicator(false);
             purapService.updateStatusAndStatusHistory( previousPo, PurapConstants.PurchaseOrderStatuses.OPEN );
             save(previousPo);
         }
@@ -241,6 +240,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      */
     public boolean updateFlagsAndRoute(PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients) {
         try {
+            po.setPendingActionIndicator(true);
+            save(po);
+            
             //call toCopy to give us a new documentHeader
             po.toCopy(docType);
             po.refreshNonUpdateableReferences();
@@ -252,6 +254,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 return false;
             } 
             else { 
+                
                 documentService.routeDocument(po, annotation, adhocRoutingRecipients);
             }
         }
@@ -290,6 +293,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
         if (PurapConstants.POTransmissionMethods.PRINT.equals(po.getPurchaseOrderTransmissionMethodCode())) {
             LOG.debug("completePurchaseOrder() Purchase Order Transmission Type is Print");
+            po.setPurchaseOrderCurrentIndicator(true);
+            po.setPendingActionIndicator(true);
             purapService.updateStatusAndStatusHistory(po, PurapConstants.PurchaseOrderStatuses.PENDING_PRINT);
             this.save(po);
             // TODO create PO print doc

@@ -23,6 +23,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
+import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.service.KualiConfigurationService;
@@ -32,6 +33,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.service.BalanceService;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.dao.LaborDao;
+import org.kuali.module.labor.web.inquirable.CurrentFundsInquirableImpl;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -75,5 +77,13 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
         Long actualCountIfTruncated = new Long(0);
 
         return new CollectionIncomplete(searchResults, actualCountIfTruncated);
+    }
+    
+    /**
+     * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
+     */
+    @Override
+    public String getInquiryUrl(BusinessObject bo, String propertyName) {
+        return (new CurrentFundsInquirableImpl()).getInquiryUrl(bo, propertyName);
     }
 }

@@ -25,9 +25,6 @@
             <title>Account Status (Current Funds) Balance Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="subAccountNumber" />				
-                <field attributeName="financialSubObjectCode" />
-                <field attributeName="positionNumber" />				
 				<field attributeName="month1Amount" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>

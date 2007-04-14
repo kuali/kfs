@@ -31,6 +31,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.web.Constant;
+import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LedgerBalance;
 
 /**
@@ -51,11 +52,10 @@ public class CurrentFundsInquirableImpl extends AbstractLaborInquirableImpl {
     protected List buildUserDefinedAttributeKeyList() {
         List keys = new ArrayList();
 
-        keys.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
-        keys.add(PropertyConstants.SUB_OBJECT_CODE);
         keys.add(PropertyConstants.EMPLID);
-        keys.add(PropertyConstants.POSITION_NUMBER);
-
+        keys.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        keys.add(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
+        
         return keys;
     }
 
@@ -65,12 +65,8 @@ public class CurrentFundsInquirableImpl extends AbstractLaborInquirableImpl {
     protected Map getUserDefinedAttributeMap() {
                
         Map userDefinedAttributeMap = new HashMap();
-
-//        userDefinedAttributeMap.put(PropertyConstants.MONTH3_AMOUNT, Constants.MONTH3);
-  //      userDefinedAttributeMap.put(GLConstants.DummyBusinessObject.LINK_BUTTON_OPTION, "");
-       userDefinedAttributeMap.put("ytdActualAmount", "");  
-
-        
+        userDefinedAttributeMap.put(PropertyConstants.MONTH1_AMOUNT, "");          
+        userDefinedAttributeMap.put(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, LaborConstants.BalanceInquiries.ACTUALS_CODE);          
         return userDefinedAttributeMap;
     }
 
@@ -113,6 +109,8 @@ public class CurrentFundsInquirableImpl extends AbstractLaborInquirableImpl {
         // TODO: investigate change to this constant
         return Constants.GL_MODIFIED_INQUIRY_ACTION;
     }
+    
+
 
     /**
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getInquiryBusinessObjectClass(String)

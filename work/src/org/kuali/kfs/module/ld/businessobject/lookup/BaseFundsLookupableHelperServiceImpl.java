@@ -61,7 +61,7 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLaborLedgerLoo
                 
         // Parse the map and call the DAO to process the inquiry
         BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
-//        laborBalanceInquiryService = (LaborBalanceInquiryService) beanFactory.getBean("laborBalanceInquiryService");
+
         laborDao = (LaborDao) beanFactory.getBean("laborDao");
 
         Collection searchResultsCollection = laborDao.getBaseFunds(fieldValues);

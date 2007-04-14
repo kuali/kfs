@@ -65,7 +65,7 @@ public class BaseFundsInquirableImpl extends AbstractLaborInquirableImpl {
      */
     protected Map getUserDefinedAttributeMap() {
         Map userDefinedAttributeMap = new HashMap();
-        userDefinedAttributeMap.put("csfAmount", Constants.MONTH1);        
+        userDefinedAttributeMap.put("csfAmount", "csfAmount");        
         return userDefinedAttributeMap;
     }
 

@@ -106,6 +106,6 @@ public class LaborConstants {
         public static final String CONTRACT_GRANT_BB_AMOUNT = "CONTR_GR_BB_AC_AMT";
         public static final String ENCUMBERENCE_CODE = "'IE'";
         public static final String ACTUALS_CODE = "'AC'";
-        public static final String BALANCE_CODE = "'AC'";
+        public static final String BALANCE_CODE = "'BB'";
 }
 }

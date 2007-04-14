@@ -18,7 +18,6 @@ package org.kuali.module.vendor.document.authorization;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
@@ -30,6 +29,8 @@ import org.kuali.module.vendor.VendorAuthorizationConstants;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorPropertyConstants;
 import org.kuali.module.vendor.VendorRuleConstants;
+import org.kuali.module.vendor.bo.VendorContract;
+import org.kuali.module.vendor.bo.VendorContractOrganization;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.bo.VendorHeader;
 import org.kuali.module.vendor.bo.VendorSupplierDiversity;
@@ -76,6 +77,7 @@ public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase 
                  !vendorHeader.getVendorType().isVendorTypeChangeAllowedIndicator()) {
             auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_TYPE_CODE);
         }
+        setVendorContractFieldsAuthorization(vendor, auths, user);
         return auths;
     }
 
@@ -95,4 +97,48 @@ public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase 
         return editMode;
     }
 
+    /**
+     * 
+     * This method sets the vendor contract and vendor contract organization fields to be 
+     * read only if the current user is not a member of purchasing workgroup.
+     * 
+     * @param vendor
+     * @param auths
+     * @param user
+     */
+    private void setVendorContractFieldsAuthorization(VendorDetail vendor, MaintenanceDocumentAuthorizations auths, UniversalUser user) {
+        String purchasingWorkgroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( VendorRuleConstants.PURAP_ADMIN_GROUP, VendorConstants.Workgroups.WORKGROUP_PURCHASING); 
+        if (!user.isMember(purchasingWorkgroup)) {
+            List<VendorContract> contracts = vendor.getVendorContracts();
+            int i = 0;
+            for (VendorContract contract : contracts) {
+                //contract fields
+                auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractName");
+                auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractDescription");
+                auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorCampusCode");
+                auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractBeginningDate");
+                auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractEndDate");
+                auths.addReadonlyAuthField("vendorContracts[" + i + "].contractManagerCode");
+                auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorB2bIndicator");
+                auths.addReadonlyAuthField("vendorContracts[" + i + "].purchaseOrderCostSourceCode");
+                auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorPaymentTermsCode");
+                auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorShippingPaymentTermsCode");
+                auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorShippingTitleCode");
+                auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractExtensionDate");
+                auths.addReadonlyAuthField("vendorContracts[" + i + "].organizationAutomaticPurchaseOrderLimit");
+                
+                //contract organization sub collection fields
+                int j = 0;
+                List<VendorContractOrganization> vendorContractOrganizations = contract.getVendorContractOrganizations();
+                for (VendorContractOrganization org : vendorContractOrganizations) {
+                    auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractOrganizations[" + j + "].chartOfAccountsCode");
+                    auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractOrganizations[" + j + "].organizationCode");
+                    auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractOrganizations[" + j + "].vendorContractPurchaseOrderLimitAmount");
+                    auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractOrganizations[" + j + "].vendorContractExcludeIndicator");
+                    j++;
+                }
+                i++;
+            }
+        }
+    }
 }

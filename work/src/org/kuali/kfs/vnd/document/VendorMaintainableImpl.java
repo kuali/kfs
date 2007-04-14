@@ -31,10 +31,12 @@ import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorPropertyConstants;
+import org.kuali.module.vendor.VendorRuleConstants;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.bo.VendorHeader;
 import org.kuali.module.vendor.service.VendorService;
@@ -293,6 +295,7 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
      */
     @Override
     public void overrideDataDictionaryFieldConfiguration(DataDictionaryDefinitionBase definition) {
+        UniversalUser currentUser = (UniversalUser)GlobalVariables.getUserSession().getUniversalUser();
         if (!(definition instanceof MaintainableCollectionDefinition)) {
             return;
         }
@@ -302,6 +305,13 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
             if (!((VendorDetail) super.getBusinessObject()).isVendorParentIndicator()) {
                 collectionDefinition.setIncludeAddLine(false);
             }
+        }
+        //If the user is not in Purchasing workgroup, don't include add line for vendor contract and vendor contract organization
+        String purchasingWorkgroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( VendorRuleConstants.PURAP_ADMIN_GROUP, VendorConstants.Workgroups.WORKGROUP_PURCHASING); 
+        if (!currentUser.isMember(purchasingWorkgroup) &&
+            (collectionDefinition.getName().equals(VendorPropertyConstants.VENDOR_CONTRACT) ||
+             collectionDefinition.getName().equals(VendorPropertyConstants.VENDOR_CONTRACT_ORGANIZATION))) {
+            collectionDefinition.setIncludeAddLine(false);
         }
     }
 

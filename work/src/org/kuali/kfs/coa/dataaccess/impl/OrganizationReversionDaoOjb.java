@@ -20,15 +20,12 @@ import java.util.List;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.module.chart.bo.OrganizationReversion;
 import org.kuali.module.chart.bo.OrganizationReversionCategory;
 import org.kuali.module.chart.dao.OrganizationReversionDao;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
-/**
- * 
- */
-public class OrganizationReversionDaoOjb extends PersistenceBrokerDaoSupport implements OrganizationReversionDao {
+public class OrganizationReversionDaoOjb extends PlatformAwareDaoBaseOjb implements OrganizationReversionDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionDaoOjb.class);
 
     /**

@@ -31,6 +31,7 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
@@ -42,13 +43,12 @@ import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.Encumbrance;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.util.OJBUtility;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * 
  * 
  */
-public class GeneralLedgerPendingEntryDaoOjb extends PersistenceBrokerDaoSupport implements GeneralLedgerPendingEntryDao {
+public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb implements GeneralLedgerPendingEntryDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GeneralLedgerPendingEntryDaoOjb.class);
 
     private final static String TRANSACTION_LEDGER_ENTRY_SEQUENCE_NUMBER = "transactionLedgerEntrySequenceNumber";
@@ -295,8 +295,11 @@ public class GeneralLedgerPendingEntryDaoOjb extends PersistenceBrokerDaoSupport
         Iterator i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
         if (i.hasNext()) {
             Object[] values = (Object[]) i.next();
-            BigDecimal count = (BigDecimal) values[0];
-            return count.intValue();
+            if (values[0] instanceof BigDecimal) {
+                return ((BigDecimal)values[0]).intValue();
+            } else {
+                return ((Long)values[0]).intValue();
+            }
         }
         else {
             return 0;
@@ -376,7 +379,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PersistenceBrokerDaoSupport
         // add the status codes into the criteria
         this.addStatusCode(criteria, isApproved);
 
-        LookupUtils.applySearchResultsLimit(criteria);
+        LookupUtils.applySearchResultsLimit(criteria, getDbPlatform());
 
         QueryByCriteria query = QueryFactory.newQuery(this.getEntryClass(), criteria);
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
@@ -629,7 +632,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PersistenceBrokerDaoSupport
         // add the status codes into the criteria
         this.addStatusCode(criteria, isApproved);
 
-        LookupUtils.applySearchResultsLimit(criteria);
+        LookupUtils.applySearchResultsLimit(criteria, getDbPlatform());
 
         QueryByCriteria query = QueryFactory.newQuery(this.getEntryClass(), criteria);
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);

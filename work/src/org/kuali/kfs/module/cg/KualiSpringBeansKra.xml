@@ -58,8 +58,6 @@
 	<bean id="dateTimeService" class="org.kuali.core.service.impl.DateTimeServiceImpl">
 	</bean>
 
-	<bean id="universityDateDao" class="org.kuali.module.gl.dao.ojb.UniversityDateDaoOjb" />
-
 	<bean id="budgetService" class="org.kuali.module.kra.budget.service.impl.BudgetServiceImpl">
 		<property name="documentService">
 			<ref bean="documentService" />

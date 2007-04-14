@@ -183,122 +183,47 @@
 		</property>
 	</bean>
 
-	<bean id="accountDao" class="org.kuali.module.chart.dao.ojb.AccountDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
+	<bean id="accountDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.AccountDaoOjb">
 		<property name="dateTimeService">
 			<ref bean="dateTimeService"/>
 		</property>
 	</bean>
 
-	<bean id="chartDao" class="org.kuali.module.chart.dao.ojb.ChartDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="chartDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.ChartDaoOjb" />
 
-	<bean id="organizationDao" class="org.kuali.module.chart.dao.ojb.OrganizationDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="organizationDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.OrganizationDaoOjb" />
 
-	<bean id="offsetDefinitionDao" class="org.kuali.module.chart.dao.ojb.OffsetDefinitionDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="offsetDefinitionDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.OffsetDefinitionDaoOjb" />
 
-	<bean id="objectCodeDao" class="org.kuali.module.chart.dao.ojb.ObjectCodeDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="objectCodeDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.ObjectCodeDaoOjb" />
 
-	<bean id="projectCodeDao" class="org.kuali.module.chart.dao.ojb.ProjectCodeDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="projectCodeDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.ProjectCodeDaoOjb" />
 
-	<bean id="objectLevelDao" class="org.kuali.module.chart.dao.ojb.ObjectLevelDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="objectLevelDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.ObjectLevelDaoOjb" />
 
-	<bean id="objectConsDao" class="org.kuali.module.chart.dao.ojb.ObjectConsDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="objectConsDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.ObjectConsDaoOjb" />
 
-	<bean id="subAccountDao" class="org.kuali.module.chart.dao.ojb.SubAccountDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="subAccountDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.SubAccountDaoOjb" />
 
-	<bean id="subObjectCodeDao" class="org.kuali.module.chart.dao.ojb.SubObjectCodeDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="subObjectCodeDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.SubObjectCodeDaoOjb" />
 
-	<bean id="organizationReversionDao" class="org.kuali.module.chart.dao.ojb.OrganizationReversionDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="organizationReversionDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.OrganizationReversionDaoOjb" />
 
-	<bean id="balanceTypeDao" class="org.kuali.module.chart.dao.ojb.BalanceTypeDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="balanceTypeDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.BalanceTypeDaoOjb" />
 
-	<bean id="priorYearAccountDao" class="org.kuali.module.chart.dao.ojb.PriorYearAccountDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="priorYearAccountDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.PriorYearAccountDaoOjb" />
 
-	<bean id="subFundGroupDao" class="org.kuali.module.chart.dao.ojb.SubFundGroupDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="subFundGroupDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.SubFundGroupDaoOjb" />
 
-	<bean id="objectTypeDao" class="org.kuali.module.chart.dao.ojb.ObjectTypeDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="objectTypeDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.ObjectTypeDaoOjb" />
 
-	<bean id="icrAutomatedEntryDao" class="org.kuali.module.chart.dao.ojb.IcrAutomatedEntryDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="icrAutomatedEntryDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.IcrAutomatedEntryDaoOjb" />
 
-	<bean id="indirectCostRecoveryExclusionAccountDao" class="org.kuali.module.chart.dao.ojb.IndirectCostRecoveryExclusionAccountDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="indirectCostRecoveryExclusionAccountDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.IndirectCostRecoveryExclusionAccountDaoOjb" />
 
-	<bean id="indirectCostRecoveryExclusionTypeDao" class="org.kuali.module.chart.dao.ojb.IndirectCostRecoveryExclusionTypeDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="indirectCostRecoveryExclusionTypeDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.IndirectCostRecoveryExclusionTypeDaoOjb" />
 
-	<bean id="a21SubAccountDao" class="org.kuali.module.chart.dao.ojb.A21SubAccountDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="a21SubAccountDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.A21SubAccountDaoOjb" />
 
 	<bean id="workflow-org.kuali.module.chart.bo.Chart-Lookupable" parent="workflowLookupable" singleton="false">
 		<property name="businessObjectClassName">
@@ -429,7 +354,7 @@
 			<ref bean="accountLookupableHelperService" />
 		</property>
 	</bean>
-	
+
 	<bean id="organizationRoutingModelLookupableHelperService" class="org.kuali.module.chart.lookup.OrganizationRoutingModelNameLookupableHelperServiceImpl" singleton="false" parent="kualiLookupableHelperService" />
 
 	<bean id="organizationRoutingModelLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">

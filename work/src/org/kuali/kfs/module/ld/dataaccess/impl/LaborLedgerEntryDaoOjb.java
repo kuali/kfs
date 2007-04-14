@@ -24,17 +24,12 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.PropertyConstants;
-import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
-import org.kuali.module.gl.bo.Entry;
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.dao.LaborLedgerEntryDao;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
-/**
- * This class...
- */
-public class LaborLedgerEntryDaoOjb extends PersistenceBrokerDaoSupport implements LaborLedgerEntryDao {
+public class LaborLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements LaborLedgerEntryDao {
 
     /**
      * @see org.kuali.module.labor.dao.LaborLedgerEntryDao#getMaxSquenceNumber(org.kuali.module.labor.bo.LedgerEntry)
@@ -79,8 +74,7 @@ public class LaborLedgerEntryDaoOjb extends PersistenceBrokerDaoSupport implemen
         
         QueryByCriteria query = QueryFactory.newQuery(this.getEntryClass(), criteria);
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
-    }
-    
+}
     /**
      * @return the Class type of the business object accessed and managed 
      */

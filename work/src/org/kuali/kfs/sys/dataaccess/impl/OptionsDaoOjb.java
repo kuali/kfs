@@ -18,15 +18,15 @@ package org.kuali.kfs.dao.ojb;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.dao.OptionsDao;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * 
  * 
  */
-public class OptionsDaoOjb extends PersistenceBrokerDaoSupport implements OptionsDao {
+public class OptionsDaoOjb extends PlatformAwareDaoBaseOjb implements OptionsDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OptionsDaoOjb.class);
 
     public OptionsDaoOjb() {

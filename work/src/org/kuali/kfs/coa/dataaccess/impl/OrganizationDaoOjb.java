@@ -17,26 +17,23 @@ package org.kuali.module.chart.dao.ojb;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Iterator;
-
+import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.apache.ojb.broker.query.*;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.Constants;
+import org.kuali.PropertyConstants;
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.dao.OrganizationDao;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
-import org.kuali.Constants;
-import org.kuali.PropertyConstants;
 
 /**
  * This class is the OJB implementation of the OrganizationDao interface.
- * 
- * 
  */
-public class OrganizationDaoOjb extends PersistenceBrokerDaoSupport implements OrganizationDao {
+public class OrganizationDaoOjb extends PlatformAwareDaoBaseOjb implements OrganizationDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationDaoOjb.class);
 
     /*

@@ -17,13 +17,12 @@ package org.kuali.module.budget.dao.ojb;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
 import org.kuali.module.budget.dao.BudgetConstructionOrganizationReportsDao;
-import org.kuali.module.chart.bo.Org;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 public class BudgetConstructionOrganizationReportsDaoOjb 
-    extends PersistenceBrokerDaoSupport 
+    extends PlatformAwareDaoBaseOjb 
     implements BudgetConstructionOrganizationReportsDao {
 
     // TODO Auto-generated method stub

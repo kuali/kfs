@@ -28,17 +28,13 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.PropertyConstants;
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.module.gl.bo.Entry;
 import org.kuali.module.gl.bo.Reversal;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.ReversalDao;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
-/**
- * 
- * 
- */
-public class ReversalDaoOjb extends PersistenceBrokerDaoSupport implements ReversalDao {
+public class ReversalDaoOjb extends PlatformAwareDaoBaseOjb implements ReversalDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReversalDaoOjb.class);
 
     private final static String UNIVERISITY_FISCAL_YEAR = "universityFiscalYear";

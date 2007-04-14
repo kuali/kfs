@@ -25,6 +25,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.util.Guid;
+import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.dao.OriginEntryDao;
@@ -116,10 +118,17 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         // Create the new group
         OriginEntryGroup backupGroup = this.createGroup(today, OriginEntrySource.BACKUP, true, true, true);
 
-        for (Iterator iter = groups.iterator(); iter.hasNext();) {
-            OriginEntryGroup group = (OriginEntryGroup) iter.next();
+        for (Iterator<OriginEntryGroup> iter = groups.iterator(); iter.hasNext();) {
+            OriginEntryGroup group = iter.next();
 
-            originEntryGroupDao.copyGroup(group, backupGroup);
+            for (Iterator<OriginEntry> entry_iter = originEntryDao.getEntriesByGroup(group, 0); entry_iter.hasNext();) {
+                OriginEntry entry = entry_iter.next();
+                
+                entry.setEntryId(null);
+                entry.setObjectId(new Guid().toString());
+                entry.setGroup(backupGroup);
+                originEntryDao.saveOriginEntry(entry);
+            }
 
             group.setProcess(false);
             group.setScrub(false);
@@ -174,7 +183,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         while (i.hasNext()) {
             Object[] rowCount = (Object[]) i.next();
             int id = ((BigDecimal) rowCount[0]).intValue();
-            int count = ((BigDecimal) rowCount[1]).intValue();
+            int count = ((Long) rowCount[1]).intValue();
 
             // Find the correct group to add the count
             for (Iterator iter = c.iterator(); iter.hasNext();) {

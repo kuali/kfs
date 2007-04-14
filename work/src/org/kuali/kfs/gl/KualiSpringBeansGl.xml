@@ -56,8 +56,9 @@
 				<value>glSufficientFundsJob</value>
 				<value>glPosterSummaryReportJob</value>
 				<value>glClearPendingJob</value>
-				<value>glManualPurgeJob</value>
 				<value>glYearEndJob</value>
+				<value>glManualPurgeJob</value>
+				<value>glClearOldOriginEntriesJob</value>
 			</list>
 		</property>
 		<property name="triggerNames">
@@ -70,11 +71,7 @@
 	<bean id="glUserService" class="org.kuali.module.gl.service.impl.GlUserServiceImpl" parent="kualiModuleUserServiceBase">
 	</bean>
 
-	<bean id="universityDateDao" class="org.kuali.module.gl.dao.ojb.UniversityDateDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="universityDateDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.UniversityDateDaoOjb" />
 
 	<bean id="glBalanceLookupableHelperService" class="org.kuali.module.gl.web.lookupable.BalanceLookupableHelperServiceImpl" singleton="false">
 		<property name="persistenceStructureService">
@@ -375,7 +372,7 @@
 			<ref bean="glAccountBalanceByObjectLookupableHelperService" />
 		</property>
 	</bean>
-		
+	
 	<bean id="glOrganizationReversionProcessService" class="org.kuali.module.gl.service.impl.OrganizationReversionProcessServiceImpl">
 		<property name="priorYearAccountService">
 			<ref bean="priorYearAccountService" />
@@ -906,43 +903,21 @@
 		</property>
 	</bean>
 
-	<bean id="glAccountBalanceDao" class="org.kuali.module.gl.dao.ojb.AccountBalanceDaoOjb">
+	<bean id="glAccountBalanceDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.AccountBalanceDaoOjb">
 		<property name="optionsService">
 			<ref bean="optionsService" />
 		</property>
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
 	</bean>
 
-	<bean id="glSufficientFundBalancesDao" class="org.kuali.module.gl.dao.ojb.SufficientFundBalancesDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="glSufficientFundBalancesDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.SufficientFundBalancesDaoOjb" />
 
-	<bean id="glEntryDao" class="org.kuali.module.gl.dao.ojb.EntryDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="glEntryDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.EntryDaoOjb" />
 
-	<bean id="glEncumbranceDao" class="org.kuali.module.gl.dao.ojb.EncumbranceDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="glEncumbranceDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.EncumbranceDaoOjb" />
 
-	<bean id="glOptionsDao" class="org.kuali.kfs.dao.ojb.OptionsDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="glOptionsDao" parent="platformAwareDao" class="org.kuali.kfs.dao.ojb.OptionsDaoOjb" />
 
-	<bean id="glOriginEntryDao" class="org.kuali.module.gl.dao.ojb.OriginEntryDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
+	<bean id="glOriginEntryDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.OriginEntryDaoOjb">
 		<property name="entryClass">
 			<bean class="java.lang.Class" factory-method="forName">
   			<constructor-arg value="org.kuali.module.gl.bo.OriginEntry"/>
@@ -950,50 +925,23 @@
 		</property>
 	</bean>
 
-	<bean id="glOriginEntryGroupDao" class="org.kuali.module.gl.dao.ojb.OriginEntryGroupDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="glOriginEntryGroupDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.OriginEntryGroupDaoOjb" />
 
-	<bean id="glBalanceDao" class="org.kuali.module.gl.dao.ojb.BalanceDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
+	<bean id="glBalanceDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.BalanceDaoOjb">
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
 	</bean>
 
-	<bean id="glExpenditureTransactionDao" class="org.kuali.module.gl.dao.ojb.ExpenditureTransactionDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="glExpenditureTransactionDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.ExpenditureTransactionDaoOjb" />
 
-	<bean id="glReversalDao" class="org.kuali.module.gl.dao.ojb.ReversalDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="glReversalDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.ReversalDaoOjb" />
 
-	<bean id="glUnitTestSqlDao" class="org.kuali.module.gl.dao.ojb.UnitTestSqlDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="glUnitTestSqlDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.UnitTestSqlDaoOjb" />
 
-	<bean id="glSufficientFundRebuildDao" class="org.kuali.module.gl.dao.ojb.SufficientFundRebuildDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="glSufficientFundRebuildDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.SufficientFundRebuildDaoOjb" />
 
-	<bean id="glInterDepartmentalBillingDao" class="org.kuali.module.gl.dao.ojb.InterDepartmentalBillingDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="glInterDepartmentalBillingDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.InterDepartmentalBillingDaoOjb" />
 
 	<!-- SUFFICIENT FUNDS SERVICE/DAO -->
 	<bean id="sufficientFundsService" class="org.kuali.module.gl.service.impl.SufficientFundsServiceImpl">
@@ -1023,11 +971,7 @@
 		</property>
 	</bean>
 
-	<bean id="glSufficientFundsDao" class="org.kuali.module.gl.dao.ojb.SufficientFundsDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="glSufficientFundsDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.SufficientFundsDaoOjb" />
 
 	<bean id="glCorrectionDocumentService" class="org.kuali.module.gl.service.impl.CorrectionDocumentServiceImpl">
 		<property name="correctionChangeGroupDao">
@@ -1044,23 +988,11 @@
 		</property>
 	</bean>
 
-	<bean id="glCorrectionChangeDao" class="org.kuali.module.gl.dao.ojb.CorrectionChangeDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="glCorrectionChangeDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.CorrectionChangeDaoOjb" />
 
-	<bean id="glCorrectionChangeGroupDao" class="org.kuali.module.gl.dao.ojb.CorrectionChangeGroupDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="glCorrectionChangeGroupDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.CorrectionChangeGroupDaoOjb" />
 
-	<bean id="glCorrectionCriteriaDao" class="org.kuali.module.gl.dao.ojb.CorrectionCriteriaDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="glCorrectionCriteriaDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.CorrectionCriteriaDaoOjb" />
 
 	<bean id="testDateTimeService" class="org.kuali.core.service.impl.ConfigurableDateTimeServiceImpl">
     </bean>
@@ -1169,6 +1101,14 @@
 				<entry key="glPosterSummaryReportJob" value="hardDependency" />
 			</map>
 		</property>
+	</bean>
+	
+	<bean id="glClearOldOriginEntriesJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="glClearOldOriginEntryStep" />
+			</list>
+		</property>		
 	</bean>
 	
 	<bean id="glManualPurgeJob" parent="unscheduledJobDescriptor">

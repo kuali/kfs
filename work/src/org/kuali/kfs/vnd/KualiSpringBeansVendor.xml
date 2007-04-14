@@ -51,10 +51,7 @@
 	<bean id="vendorUserService" class="org.kuali.module.vendor.service.impl.VendorUserServiceImpl" parent="kualiModuleUserServiceBase">
 	</bean>
 
-    <bean id="vendorDao" class="org.kuali.module.vendor.dao.ojb.VendorDaoOjb">
-        <property name="jcdAlias">
-            <value>dataSource</value>
-        </property>
+    <bean id="vendorDao" parent="platformAwareDao" class="org.kuali.module.vendor.dao.ojb.VendorDaoOjb">
         <property name="dateTimeService">
             <ref bean="dateTimeService" />
         </property>

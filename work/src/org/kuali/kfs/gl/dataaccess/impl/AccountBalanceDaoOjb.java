@@ -30,28 +30,18 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.PropertyConstants;
-import org.kuali.core.service.DateTimeService;
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.service.OptionsService;
-import org.kuali.module.gl.OracleSpecific;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.AccountBalanceDao;
 import org.kuali.module.gl.util.OJBUtility;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
-/**
- * 
- * 
- */
-public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements AccountBalanceDao, OracleSpecific {
+public class AccountBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements AccountBalanceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceDaoOjb.class);
 
     private OptionsService optionsService;
     static final private String OBJ_TYP_CD = "financialObject.financialObjectTypeCode";
-
-    public AccountBalanceDaoOjb() {
-        super();
-    }
 
     /**
      * 
@@ -221,7 +211,7 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
      * 
      */
     void deleteCostSharePendingEntries() {
-        sqlCommand("DELETE gl_pending_entry_mt WHERE ROWID IN (SELECT g.ROWID FROM gl_pending_entry_mt g,ca_a21_sub_acct_t a WHERE (a.fin_coa_cd = g.fin_coa_cd " + "AND a.account_nbr = g.account_nbr AND a.sub_acct_nbr = g.sub_acct_nbr AND a.sub_acct_typ_cd = 'CS') AND g.person_unvl_id = USERENV('SESSIONID'))");
+        sqlCommand("DELETE FROM gl_pending_entry_mt WHERE OBJ_ID IN (SELECT g.OBJ_ID FROM gl_pending_entry_mt g,ca_a21_sub_acct_t a WHERE (a.fin_coa_cd = g.fin_coa_cd " + "AND a.account_nbr = g.account_nbr AND a.sub_acct_nbr = g.sub_acct_nbr AND a.sub_acct_typ_cd = 'CS') AND g.person_unvl_id = " + Thread.currentThread().getId() + ")");
     }
 
     /**
@@ -232,7 +222,7 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
      * @return count
      */
     int countPendingEntries() {
-        List results = sqlSelect("select count(*) as COUNT from gl_pending_entry_mt WHERE person_unvl_id = USERENV('SESSIONID')");
+        List results = sqlSelect("select count(*) as COUNT from gl_pending_entry_mt WHERE person_unvl_id = " +  + Thread.currentThread().getId());
         Map row0 = (Map) results.get(0);
         BigDecimal count = (BigDecimal) row0.get("COUNT");
         return count.intValue();
@@ -247,7 +237,7 @@ public class AccountBalanceDaoOjb extends PersistenceBrokerDaoSupport implements
      */
     void cleanUpPendingEntries(Integer universityFiscalYear) {
         // Clean up the data
-        sqlCommand("update GL_PENDING_ENTRY_MT set univ_fiscal_yr = " + universityFiscalYear + " where PERSON_UNVL_ID = USERENV('SESSIONID')");
+        sqlCommand("update GL_PENDING_ENTRY_MT set univ_fiscal_yr = " + universityFiscalYear + " where PERSON_UNVL_ID = " + Thread.currentThread().getId());
         sqlCommand("update gl_pending_entry_mt set SUB_ACCT_NBR = '-----' where (SUB_ACCT_NBR is null or SUB_ACCT_NBR = '     ')");
     }
 

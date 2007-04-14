@@ -19,12 +19,12 @@ import java.util.Collection;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.module.cg.bo.Proposal;
 import org.kuali.module.cg.bo.ProposalClose;
 import org.kuali.module.cg.dao.ProposalDao;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
-public class ProposalDaoOjb extends PersistenceBrokerDaoSupport implements ProposalDao {
+public class ProposalDaoOjb extends PlatformAwareDaoBaseOjb implements ProposalDao {
 
     public Collection<Proposal> getProposalsToClose(ProposalClose close) {
         

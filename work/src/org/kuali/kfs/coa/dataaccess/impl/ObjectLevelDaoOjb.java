@@ -17,16 +17,14 @@ package org.kuali.module.chart.dao.ojb;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.dao.ObjectLevelDao;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * This class is the OJB implementation of the ObjectLevelDao interface.
- * 
- * 
  */
-public class ObjectLevelDaoOjb extends PersistenceBrokerDaoSupport implements ObjectLevelDao {
+public class ObjectLevelDaoOjb extends PlatformAwareDaoBaseOjb implements ObjectLevelDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectLevelDaoOjb.class);
 
     public ObjLevel getByPrimaryId(String chartOfAccountsCode, String objectLevelCode) {

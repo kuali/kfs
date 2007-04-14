@@ -26,6 +26,7 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.PropertyConstants;
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
@@ -34,12 +35,11 @@ import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.AccountStatusBaseFunds;
 import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
 import org.kuali.module.labor.dao.LaborDao;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * This class is a facade for Labor Distribution DAO balance inquiries
  */
-public class LaborDaoOjb extends PersistenceBrokerDaoSupport implements LaborDao {
+public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
     private LaborDaoOjb dao;
 
     /**
@@ -48,7 +48,7 @@ public class LaborDaoOjb extends PersistenceBrokerDaoSupport implements LaborDao
     public Collection getCSFTrackerData(Map fieldValues) {
         Criteria criteria = new Criteria();
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new CalculatedSalaryFoundationTracker()));
-        LookupUtils.applySearchResultsLimit(criteria);
+        LookupUtils.applySearchResultsLimit(criteria, getDbPlatform());
         QueryByCriteria query = QueryFactory.newQuery(CalculatedSalaryFoundationTracker.class, criteria);
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
@@ -117,12 +117,12 @@ public class LaborDaoOjb extends PersistenceBrokerDaoSupport implements LaborDao
         Iterator<Object[]> accountStatusCurrentFunds = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
         while (accountStatusCurrentFunds != null && accountStatusCurrentFunds.hasNext()) {
             encumbrances = accountStatusCurrentFunds.next();
-        }
+             }
         KualiDecimal encumbranceTotal = new KualiDecimal("0");
         if (encumbrances != null)
             encumbranceTotal = new KualiDecimal(encumbrances[0].toString());
         return encumbranceTotal;
-    }
+        }
 
     /**
      * @see org.kuali.module.labor.dao.LaborDao#getBaseFunds(java.util.Map)

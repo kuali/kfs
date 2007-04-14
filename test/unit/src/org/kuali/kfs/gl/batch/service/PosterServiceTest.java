@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.util.Guid;
 import org.kuali.module.gl.OriginEntryTestBase;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.test.WithTestSpringContext;
@@ -574,19 +575,19 @@ public class PosterServiceTest extends OriginEntryTestBase {
         // Add sub account for testing
         unitTestSqlDao.sqlCommand("delete from ca_sub_acct_t where fin_coa_cd = 'BL' and account_nbr = '4631464' and sub_acct_nbr = 'XXX'");
         unitTestSqlDao.sqlCommand("delete from ca_a21_sub_acct_t where fin_coa_cd = 'BL' and account_nbr = '4631464' and sub_acct_nbr = 'XXX'");
-        unitTestSqlDao.sqlCommand("insert into ca_sub_acct_t (FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,OBJ_ID,VER_NBR,SUB_ACCT_NM,SUB_ACCT_ACTV_CD,FIN_RPT_CHRT_CD,FIN_RPT_ORG_CD,FIN_RPT_CD) values ('BL','4631464','XXX',sys_guid(),1,'XXX','N',null,null,null)");
-        unitTestSqlDao.sqlCommand("INSERT INTO CA_A21_SUB_ACCT_T (FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, OBJ_ID, VER_NBR, SUB_ACCT_TYP_CD, ICR_TYP_CD, FIN_SERIES_ID, ICR_FIN_COA_CD, ICR_ACCOUNT_NBR, OFF_CMP_CD, CST_SHR_COA_CD, CST_SHRSRCACCT_NBR, CST_SRCSUBACCT_NBR) VALUES ('BL','4631464','XXX',sys_guid(),1,'EX',null,'000',null,null,null,'BL','1031400',null)");
+        unitTestSqlDao.sqlCommand("insert into ca_sub_acct_t (FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,OBJ_ID,VER_NBR,SUB_ACCT_NM,SUB_ACCT_ACTV_CD,FIN_RPT_CHRT_CD,FIN_RPT_ORG_CD,FIN_RPT_CD) values ('BL','4631464','XXX','" + new Guid().toString() + "',1,'XXX','N',null,null,null)");
+        unitTestSqlDao.sqlCommand("INSERT INTO CA_A21_SUB_ACCT_T (FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, OBJ_ID, VER_NBR, SUB_ACCT_TYP_CD, ICR_TYP_CD, FIN_SERIES_ID, ICR_FIN_COA_CD, ICR_ACCOUNT_NBR, OFF_CMP_CD, CST_SHR_COA_CD, CST_SHRSRCACCT_NBR, CST_SRCSUBACCT_NBR) VALUES ('BL','4631464','XXX','" + new Guid().toString() + "',1,'EX',null,'000',null,null,null,'BL','1031400',null)");
 
         // Modify account for testing
         unitTestSqlDao.sqlCommand("update ca_account_t set fin_series_id = '11' where account_nbr = '9019993'");
 
         // Exclude account
         unitTestSqlDao.sqlCommand("delete from ca_icr_excl_acct_t where account_nbr = '4431406'");
-        unitTestSqlDao.sqlCommand("insert into CA_ICR_EXCL_ACCT_T (FIN_COA_CD, ACCOUNT_NBR, FIN_OBJ_COA_CD, FIN_OBJECT_CD, OBJ_ID, VER_NBR) values ('BL','4431406','IU','2400',sys_guid(),1)");
+        unitTestSqlDao.sqlCommand("insert into CA_ICR_EXCL_ACCT_T (FIN_COA_CD, ACCOUNT_NBR, FIN_OBJ_COA_CD, FIN_OBJECT_CD, OBJ_ID, VER_NBR) values ('BL','4431406','IU','2400','" + new Guid().toString() + "',1)");
 
         // Exclude type
         unitTestSqlDao.sqlCommand("delete from ca_icr_excl_type_t where acct_icr_typ_cd = '23' and fin_coa_cd = 'BL'");
-        unitTestSqlDao.sqlCommand("insert into CA_ICR_EXCL_TYPE_T (ACCT_ICR_TYP_CD, FIN_COA_CD, FIN_OBJECT_CD, OBJ_ID, VER_NBR) values ('23','BL','2401',sys_guid(),1)");
+        unitTestSqlDao.sqlCommand("insert into CA_ICR_EXCL_TYPE_T (ACCT_ICR_TYP_CD, FIN_COA_CD, FIN_OBJECT_CD, OBJ_ID, VER_NBR) values ('23','BL','2401','" + new Guid().toString() + "',1)");
 
         loadInputTransactions(OriginEntrySource.SCRUBBER_VALID, inputTransactions);
         posterService.postMainEntries();
@@ -647,13 +648,13 @@ public class PosterServiceTest extends OriginEntryTestBase {
         unitTestSqlDao.sqlCommand("delete from gl_expend_trn_t");
 
         // This one shouldn't generate any entries
-        unitTestSqlDao.sqlCommand("INSERT INTO GL_EXPEND_TRN_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, PROJECT_CD, ORG_REFERENCE_ID, OBJ_ID, VER_NBR, ACCT_OBJ_DCST_AMT) VALUES ('2004', 'BL', '1031400', '-----', '4166', '---', 'AC', 'EX', '07', '----------', '12345678', sys_guid(), 1, 10000)");
+        unitTestSqlDao.sqlCommand("INSERT INTO GL_EXPEND_TRN_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, PROJECT_CD, ORG_REFERENCE_ID, OBJ_ID, VER_NBR, ACCT_OBJ_DCST_AMT) VALUES ('2004', 'BL', '1031400', '-----', '4166', '---', 'AC', 'EX', '07', '----------', '12345678','" + new Guid().toString() + "', 1, 10000)");
 
         // This one is fin_series_id 001 3.13% to 1 account (2 gl entries)
-        unitTestSqlDao.sqlCommand("INSERT INTO GL_EXPEND_TRN_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, PROJECT_CD, ORG_REFERENCE_ID, OBJ_ID, VER_NBR, ACCT_OBJ_DCST_AMT) VALUES ('2004', 'BL', '4531407', '-----', '4166', '---', 'AC', 'EX', '07', '----------', '12345678', sys_guid(), 1, 10000)");
+        unitTestSqlDao.sqlCommand("INSERT INTO GL_EXPEND_TRN_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, PROJECT_CD, ORG_REFERENCE_ID, OBJ_ID, VER_NBR, ACCT_OBJ_DCST_AMT) VALUES ('2004', 'BL', '4531407', '-----', '4166', '---', 'AC', 'EX', '07', '----------', '12345678','" + new Guid().toString() + "', 1, 10000)");
 
         // This one is fin_series_id 002 3.8% to 2 accounts (2.0% & 1.8%)
-        unitTestSqlDao.sqlCommand("INSERT INTO GL_EXPEND_TRN_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, PROJECT_CD, ORG_REFERENCE_ID, OBJ_ID, VER_NBR, ACCT_OBJ_DCST_AMT) VALUES ('2004', 'BL', '4531408', '-----', '4166', '---', 'AC', 'EX', '07', '----------', '12345678', sys_guid(), 1, 10000)");
+        unitTestSqlDao.sqlCommand("INSERT INTO GL_EXPEND_TRN_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, UNIV_FISCAL_PRD_CD, PROJECT_CD, ORG_REFERENCE_ID, OBJ_ID, VER_NBR, ACCT_OBJ_DCST_AMT) VALUES ('2004', 'BL', '4531408', '-----', '4166', '---', 'AC', 'EX', '07', '----------', '12345678','" + new Guid().toString() + "', 1, 10000)");
 
         // Clear origin entry & origin entry group
         clearOriginEntryTables();

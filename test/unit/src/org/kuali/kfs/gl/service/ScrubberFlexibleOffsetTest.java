@@ -18,10 +18,11 @@ package org.kuali.module.gl.service;
 import java.util.Calendar;
 
 import org.kuali.Constants;
-import org.kuali.test.WithTestSpringContext;
+import org.kuali.core.util.Guid;
 import org.kuali.module.gl.GLSpringBeansRegistry;
 import org.kuali.module.gl.OriginEntryTestBase;
 import org.kuali.module.gl.bo.OriginEntrySource;
+import org.kuali.test.WithTestSpringContext;
 
 /**
  * Test Flexible Offset in the scrubber
@@ -68,13 +69,33 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
         updateDocTypeForScrubberOffsetGeneration();
         setOffsetAccounts();
 
-        String[] input = new String[] { "2007BA9120656-----4190---ACEX02ID0101NOFLEX001     00000TEST FLEXIBLE OFFSET - NO FLEX                    2000.00D2006-01-01          ----------                                       ", "2007BA6044900-----4190---ACEX02ID0101NOFLEX002     00000TEST FLEXIBLE OFFSET - FLEX                       1000.00D2006-01-01          ----------                                       ", "2007BL1023200-----4190---ACEX02ID0101NOFLEX003     00000TEST FLEXIBLE OFFSET - FLEX                       3000.00D2006-01-01          ----------                                       ", "2007BL1023200-----7030---ACEX02ID0101NOFLEX004     00000TEST FLEXIBLE OFFSET - FLEX                       3500.00D2006-01-01          ----------                                       ", "2007BL2331473-----4190---ACEX02ID0101NOFLEX005     00000TEST FLEXIBLE OFFSET - FLEX                       4000.00D2006-01-01          ----------                                       ", };
+        String[] input = new String[] {
+                "2007BA9120656-----4190---ACEX02ID0101NOFLEX001     00000TEST FLEXIBLE OFFSET - NO FLEX                    2000.00D2006-01-01          ----------                                       ",
+                "2007BA6044900-----4190---ACEX02ID0101NOFLEX002     00000TEST FLEXIBLE OFFSET - FLEX                       1000.00D2006-01-01          ----------                                       ",
+                "2007BL1023200-----4190---ACEX02ID0101NOFLEX003     00000TEST FLEXIBLE OFFSET - FLEX                       3000.00D2006-01-01          ----------                                       ",
+                "2007BL1023200-----7030---ACEX02ID0101NOFLEX004     00000TEST FLEXIBLE OFFSET - FLEX                       3500.00D2006-01-01          ----------                                       ",
+                "2007BL2331473-----4190---ACEX02ID0101NOFLEX005     00000TEST FLEXIBLE OFFSET - FLEX                       4000.00D2006-01-01          ----------                                       "
+                };
 
-        EntryHolder[] output = new EntryHolder[] { new EntryHolder(OriginEntrySource.BACKUP, "2007BA9120656-----4190---ACEX02ID0101NOFLEX001     00000TEST FLEXIBLE OFFSET - NO FLEX                    2000.00D2006-01-01          ----------                                       "), new EntryHolder(OriginEntrySource.BACKUP, "2007BA6044900-----4190---ACEX02ID0101NOFLEX002     00000TEST FLEXIBLE OFFSET - FLEX                       1000.00D2006-01-01          ----------                                       "), new EntryHolder(OriginEntrySource.BACKUP, "2007BL1023200-----4190---ACEX02ID0101NOFLEX003     00000TEST FLEXIBLE OFFSET - FLEX                       3000.00D2006-01-01          ----------                                       "), new EntryHolder(OriginEntrySource.BACKUP, "2007BL1023200-----7030---ACEX02ID0101NOFLEX004     00000TEST FLEXIBLE OFFSET - FLEX                       3500.00D2006-01-01          ----------                                       "),
-                new EntryHolder(OriginEntrySource.BACKUP, "2007BL2331473-----4190---ACEX02ID0101NOFLEX005     00000TEST FLEXIBLE OFFSET - FLEX                       4000.00D2006-01-01          ----------                                       "), new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BA9120656-----4190---ACEX02ID0101NOFLEX001     00000TEST FLEXIBLE OFFSET - NO FLEX                    2000.00D2006-01-01          ----------                                       "), new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BA9120656-----8000---ACAS02ID0101NOFLEX001     00000GENERATED OFFSET                                  2000.00C2006-01-01          ----------                                       "), new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BA6044900-----4190---ACEX02ID0101NOFLEX002     00000TEST FLEXIBLE OFFSET - FLEX                       1000.00D2006-01-01          ----------                                       "),
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BA6044900-----8000---ACAS02ID0101NOFLEX002     00000GENERATED OFFSET                                  1000.00C2006-01-01          ----------                                       "), new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL1023200-----4190---ACEX02ID0101NOFLEX003     00000TEST FLEXIBLE OFFSET - FLEX                       3000.00D2006-01-01          ----------                                       "), new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL1023200-----8000---ACAS02ID0101NOFLEX003     00000GENERATED OFFSET                                  3000.00C2006-01-01          ----------                                       "), new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL9520004-----8611---ACAS02ID0101NOFLEX004     00000GENERATED CAPITALIZATION                          3500.00D2006-01-01          ----------                                       "),
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL9520004-----9899---ACFB02ID0101NOFLEX004     00000GENERATED CAPITALIZATION                          3500.00C2006-01-01          ----------                                       "), new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL1023200-----7030---ACEX02ID0101NOFLEX004     00000TEST FLEXIBLE OFFSET - FLEX                       3500.00D2006-01-01          ----------                                       "), new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL1023200-----8000---ACAS02ID0101NOFLEX004     00000GENERATED OFFSET                                  3500.00C2006-01-01          ----------                                       "), new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL2331473-----4190---ACEX02ID0101NOFLEX005     00000TEST FLEXIBLE OFFSET - FLEX                       4000.00D2006-01-01          ----------                                       "),
-                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL2331473-----8000---ACAS02ID0101NOFLEX005     00000GENERATED OFFSET                                  4000.00C2006-01-01          ----------                                       "), };
+        EntryHolder[] output = new EntryHolder[] {
+                new EntryHolder(OriginEntrySource.BACKUP, "2007BA6044900-----4190---ACEX02ID0101NOFLEX002     00000TEST FLEXIBLE OFFSET - FLEX                       1000.00D2006-01-01          ----------                                       "),
+                new EntryHolder(OriginEntrySource.BACKUP, "2007BA9120656-----4190---ACEX02ID0101NOFLEX001     00000TEST FLEXIBLE OFFSET - NO FLEX                    2000.00D2006-01-01          ----------                                       "),
+                new EntryHolder(OriginEntrySource.BACKUP, "2007BL1023200-----4190---ACEX02ID0101NOFLEX003     00000TEST FLEXIBLE OFFSET - FLEX                       3000.00D2006-01-01          ----------                                       "),
+                new EntryHolder(OriginEntrySource.BACKUP, "2007BL1023200-----7030---ACEX02ID0101NOFLEX004     00000TEST FLEXIBLE OFFSET - FLEX                       3500.00D2006-01-01          ----------                                       "),
+                new EntryHolder(OriginEntrySource.BACKUP, "2007BL2331473-----4190---ACEX02ID0101NOFLEX005     00000TEST FLEXIBLE OFFSET - FLEX                       4000.00D2006-01-01          ----------                                       "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BA6044900-----8000---ACAS02ID0101NOFLEX002     00000GENERATED OFFSET                                  1000.00C2006-01-01          ----------                                       "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BA6044900-----4190---ACEX02ID0101NOFLEX002     00000TEST FLEXIBLE OFFSET - FLEX                       1000.00D2006-01-01          ----------                                       "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BA9120656-----8000---ACAS02ID0101NOFLEX001     00000GENERATED OFFSET                                  2000.00C2006-01-01          ----------                                       "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BA9120656-----4190---ACEX02ID0101NOFLEX001     00000TEST FLEXIBLE OFFSET - NO FLEX                    2000.00D2006-01-01          ----------                                       "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL1023200-----4190---ACEX02ID0101NOFLEX003     00000TEST FLEXIBLE OFFSET - FLEX                       3000.00D2006-01-01          ----------                                       "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL1023200-----8000---ACAS02ID0101NOFLEX003     00000GENERATED OFFSET                                  3000.00C2006-01-01          ----------                                       "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL1023200-----8000---ACAS02ID0101NOFLEX004     00000GENERATED OFFSET                                  3500.00C2006-01-01          ----------                                       "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL1023200-----7030---ACEX02ID0101NOFLEX004     00000TEST FLEXIBLE OFFSET - FLEX                       3500.00D2006-01-01          ----------                                       "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL9520004-----9899---ACFB02ID0101NOFLEX004     00000GENERATED CAPITALIZATION                          3500.00C2006-01-01          ----------                                       "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL9520004-----8611---ACAS02ID0101NOFLEX004     00000GENERATED CAPITALIZATION                          3500.00D2006-01-01          ----------                                       "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL2331473-----4190---ACEX02ID0101NOFLEX005     00000TEST FLEXIBLE OFFSET - FLEX                       4000.00D2006-01-01          ----------                                       "),
+                new EntryHolder(OriginEntrySource.SCRUBBER_VALID, "2007BL2331473-----8000---ACAS02ID0101NOFLEX005     00000GENERATED OFFSET                                  4000.00C2006-01-01          ----------                                       ")
+                };
 
         scrub(input);
         assertOriginEntries(4, output);
@@ -130,10 +151,10 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
     }
 
     private void setOffsetAccounts() {
-        unitTestSqlDao.sqlCommand("insert into FP_OFST_ACCT_T (FIN_COA_CD,ACCOUNT_NBR,FIN_OFST_OBJ_CD,FIN_OFST_COA_CD,FIN_OFST_ACCT_NBR) values ('BL','2331473','8000','BA','9120657')");
-        unitTestSqlDao.sqlCommand("insert into FP_OFST_ACCT_T (FIN_COA_CD,ACCOUNT_NBR,FIN_OFST_OBJ_CD,FIN_OFST_COA_CD,FIN_OFST_ACCT_NBR) values ('BA','6044900','8000','BL','2231402')");
-        unitTestSqlDao.sqlCommand("insert into FP_OFST_ACCT_T (FIN_COA_CD,ACCOUNT_NBR,FIN_OFST_OBJ_CD,FIN_OFST_COA_CD,FIN_OFST_ACCT_NBR) values ('BL','1023200','9040','BL','2231419')");
-        unitTestSqlDao.sqlCommand("insert into FP_OFST_ACCT_T (FIN_COA_CD,ACCOUNT_NBR,FIN_OFST_OBJ_CD,FIN_OFST_COA_CD,FIN_OFST_ACCT_NBR) values ('BL','9520004','9899','BL','2231419')");
+        unitTestSqlDao.sqlCommand("insert into FP_OFST_ACCT_T (FIN_COA_CD,OBJ_ID,ACCOUNT_NBR,FIN_OFST_OBJ_CD,FIN_OFST_COA_CD,FIN_OFST_ACCT_NBR) values ('BL','" + new Guid().toString() + "','2331473','8000','BA','9120657')");
+        unitTestSqlDao.sqlCommand("insert into FP_OFST_ACCT_T (FIN_COA_CD,OBJ_ID,ACCOUNT_NBR,FIN_OFST_OBJ_CD,FIN_OFST_COA_CD,FIN_OFST_ACCT_NBR) values ('BA','" + new Guid().toString() + "','6044900','8000','BL','2231402')");
+        unitTestSqlDao.sqlCommand("insert into FP_OFST_ACCT_T (FIN_COA_CD,OBJ_ID,ACCOUNT_NBR,FIN_OFST_OBJ_CD,FIN_OFST_COA_CD,FIN_OFST_ACCT_NBR) values ('BL','" + new Guid().toString() + "','1023200','9040','BL','2231419')");
+        unitTestSqlDao.sqlCommand("insert into FP_OFST_ACCT_T (FIN_COA_CD,OBJ_ID,ACCOUNT_NBR,FIN_OFST_OBJ_CD,FIN_OFST_COA_CD,FIN_OFST_ACCT_NBR) values ('BL','" + new Guid().toString() + "','9520004','9899','BL','2231419')");
     }
 
     /**

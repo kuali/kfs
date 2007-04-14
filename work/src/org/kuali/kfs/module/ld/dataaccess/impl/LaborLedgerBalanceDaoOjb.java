@@ -30,6 +30,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.gl.GLConstants;
@@ -38,15 +39,10 @@ import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.dao.LaborLedgerBalanceDao;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
-public class LaborLedgerBalanceDaoOjb extends PersistenceBrokerDaoSupport implements LaborLedgerBalanceDao {
+public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements LaborLedgerBalanceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborLedgerBalanceDaoOjb.class);
     private KualiConfigurationService kualiConfigurationService;
-
-    public LaborLedgerBalanceDaoOjb() {
-        super();
-    }
 
     /**
      * @see org.kuali.module.gl.dao.LaborLedgerBalanceDao#getGlSummary(int, java.util.List)

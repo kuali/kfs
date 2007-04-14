@@ -59,23 +59,11 @@
 	</bean>
 	
 	<!-- DAOs -->
-	<bean id="awardDao" class="org.kuali.module.cg.dao.ojb.AwardDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="awardDao" parent="platformAwareDao" class="org.kuali.module.cg.dao.ojb.AwardDaoOjb" />
 
-	<bean id="proposalDao" class="org.kuali.module.cg.dao.ojb.ProposalDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="proposalDao" parent="platformAwareDao" class="org.kuali.module.cg.dao.ojb.ProposalDaoOjb" />
 	
-	<bean id="proposalCloseDao" class="org.kuali.module.cg.dao.ojb.ProposalCloseDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="proposalCloseDao" parent="platformAwareDao" class="org.kuali.module.cg.dao.ojb.ProposalCloseDaoOjb" />
 	
 	<!-- Services -->
 	<bean id="proposalCloseService" class="org.kuali.module.cg.service.impl.ProposalCloseServiceImpl">

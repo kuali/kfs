@@ -34,11 +34,7 @@
 		</property>
 	</bean>
 	
-	<bean id="universalUserDao" class="org.kuali.core.dao.ojb.UniversalUserDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="universalUserDao" parent="platformAwareDao" class="org.kuali.core.dao.ojb.UniversalUserDaoOjb" />
 	
 	<bean id="webAuthenticationService" class="org.kuali.core.service.impl.WebAuthenticationServiceCas">
 		<property name="validatePassword" value="false" />
@@ -52,11 +48,7 @@
 		</property>
 	</bean>
 	
-	<bean id="kualiCodeDao" class="org.kuali.kfs.dao.ojb.KualiCodeDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="kualiCodeDao" parent="platformAwareDao" class="org.kuali.kfs.dao.ojb.KualiCodeDaoOjb" />
 
 	<bean id="universityDateService" class="org.kuali.module.financial.service.impl.UniversityDateServiceImpl">
 		<property name="universityDateDao"><ref bean="universityDateDao" /></property>
@@ -64,40 +56,22 @@
 
 	<bean id="accountingLineService" class="org.kuali.kfs.service.impl.AccountingLineServiceImpl">
 		<property name="accountingLineDao">
-			<bean class="org.kuali.kfs.dao.ojb.AccountingLineDaoOjb">
-				<property name="jcdAlias">
-					<value>dataSource</value>
-				</property>
-			</bean>
+			<bean parent="platformAwareDao" class="org.kuali.kfs.dao.ojb.AccountingLineDaoOjb" />
 		</property>
 	</bean>
 
-	<bean id="homeOriginationDao" class="org.kuali.kfs.dao.ojb.HomeOriginationDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="homeOriginationDao" parent="platformAwareDao" class="org.kuali.kfs.dao.ojb.HomeOriginationDaoOjb" />
 
-	<bean id="originationCodeDao" class="org.kuali.kfs.dao.ojb.OriginationCodeDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="originationCodeDao" parent="platformAwareDao" class="org.kuali.kfs.dao.ojb.OriginationCodeDaoOjb" />
 
-	<bean id="optionsDao" class="org.kuali.kfs.dao.ojb.OptionsDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="optionsDao" parent="platformAwareDao" class="org.kuali.kfs.dao.ojb.OptionsDaoOjb" />
 	
-	<bean id="generalLedgerPendingEntryDao" class="org.kuali.kfs.dao.ojb.GeneralLedgerPendingEntryDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
+	<bean id="generalLedgerPendingEntryDao" parent="platformAwareDao" class="org.kuali.kfs.dao.ojb.GeneralLedgerPendingEntryDaoOjb">
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
 	</bean>
+
 	<bean id="homeOriginationService" class="org.kuali.kfs.service.impl.HomeOriginationServiceImpl">
 		<property name="homeOriginationDao">
 			<ref bean="homeOriginationDao" />
@@ -234,10 +208,40 @@
 
 	<bean id="cronTrigger" abstract="true" parent="trigger" class="org.kuali.core.batch.CronTriggerDescriptor" />
 
-	<bean id="scheduleJobTrigger" parent="cronTrigger">
+  	<bean id="scheduleJobTrigger" parent="cronTrigger">
 		<property name="jobName" value="scheduleJob" />
 		<property name="cronExpression" value="00 00 23 ? * *" />
 	</bean>
+	
+	<!-- database purging/creation/maintenance -->	
+	<bean id="databaseImportExportStep" abstract="true" parent="step">
+		<property name="databaseImportExportService">
+            <ref bean="databaseImportExportService" />
+        </property>
+    </bean>
+
+	<bean id="databaseUpdateStep" parent="databaseImportExportStep" class="org.kuali.core.batch.DatabaseUpdateStep">
+		<property name="updateFileList" value="${database.update.file.list}" />
+	</bean>
+
+	<bean id="dataExportStep" parent="databaseImportExportStep" class="org.kuali.core.batch.DataExportStep">
+		<property name="dataExportZipFile" value="${data.export.zip.file}" />
+	</bean>
+	
+	<bean id="postDataLoadEncryptionStep" parent="databaseImportExportStep" class="org.kuali.core.batch.PostDataLoadEncryptionStep">
+		<property name="attributesToEncryptProperties" value="${encrypt.attributes.properties.file}" />
+	</bean>
+
+	<bean id="generateDatabaseImportFileListStep" parent="databaseImportExportStep" class="org.kuali.core.batch.GenerateDatabaseImportFileListStep">
+		<property name="databaseFileDirectory" value="${database.file.directory}" />
+		<property name="dataExportZipFile" value="${data.export.zip.file}" />
+		<property name="updateFileList" value="${database.update.file.list}" />
+	</bean>
+
+	<bean id="databasePurgeStep" parent="databaseImportExportStep" class="org.kuali.core.batch.DatabasePurgeStep" />
+	
+	<bean id="purgeSequenceTablesStep" parent="databaseImportExportStep" class="org.kuali.core.batch.PurgeSequenceTablesStep" />
+	<!-- end database purging/creation/maintenance -->	
 
 	<bean id="purgeOldLookupResultsStep" class="org.kuali.core.batch.PurgeOldLookupResultsStep" parent="step">
 		<property name="lookupResultsService">

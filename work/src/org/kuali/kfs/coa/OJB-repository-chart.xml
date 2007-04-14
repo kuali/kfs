@@ -292,6 +292,7 @@
 <class-descriptor class="org.kuali.module.chart.bo.AccountGuideline" table="CA_ACCT_GDLNPRPS_T">
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="accountExpenseGuidelineText" column="ACCT_EXP_GDLN_TXT" jdbc-type="VARCHAR" />
     <field-descriptor name="accountIncomeGuidelineText" column="ACCT_INC_GDLN_TXT" jdbc-type="VARCHAR" />
     <field-descriptor name="accountPurposeText" column="ACCT_PURPOSE_TXT" jdbc-type="VARCHAR" />

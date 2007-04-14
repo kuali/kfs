@@ -17,16 +17,11 @@ package org.kuali.module.chart.dao.ojb;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.module.chart.bo.PriorYearAccount;
 import org.kuali.module.chart.dao.PriorYearAccountDao;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
-/**
- * This class...
- * 
- * 
- */
-public class PriorYearAccountDaoOjb extends PersistenceBrokerDaoSupport implements PriorYearAccountDao {
+public class PriorYearAccountDaoOjb extends PlatformAwareDaoBaseOjb implements PriorYearAccountDao {
 
     /**
      * @see org.kuali.module.chart.dao.PriorYearAccountDao#getByPrimaryId(java.lang.String, java.lang.String)

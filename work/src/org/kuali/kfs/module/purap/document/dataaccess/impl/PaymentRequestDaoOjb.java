@@ -23,15 +23,13 @@ import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.dao.PaymentRequestDao;
 import org.kuali.module.purap.document.PaymentRequestDocument;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
-
-
-public class PaymentRequestDaoOjb extends PersistenceBrokerDaoSupport implements PaymentRequestDao {
+public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements PaymentRequestDao {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestDaoOjb.class);
 

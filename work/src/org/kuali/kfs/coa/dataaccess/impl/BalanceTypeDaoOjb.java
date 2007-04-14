@@ -20,11 +20,11 @@ import java.util.Collection;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.chart.dao.BalanceTypeDao;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
-public class BalanceTypeDaoOjb extends PersistenceBrokerDaoSupport implements BalanceTypeDao {
+public class BalanceTypeDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceTypeDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceTypeDaoOjb.class);
 
     public Collection getEncumbranceBalanceTypes() {

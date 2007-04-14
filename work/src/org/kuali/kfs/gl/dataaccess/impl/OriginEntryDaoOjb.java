@@ -28,13 +28,13 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.OriginEntryDao;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
-public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements OriginEntryDao {
+public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements OriginEntryDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryDaoOjb.class);
 
     private static final String ENTRY_GROUP_ID = "entryGroupId";
@@ -109,8 +109,11 @@ public class OriginEntryDaoOjb extends PersistenceBrokerDaoSupport implements Or
         Iterator i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
         if ( i.hasNext() ) {
             Object[] data = (Object[])i.next();
-            BigDecimal d = (BigDecimal)data[0];
-            return d.intValue();
+            if (data[0] instanceof BigDecimal) {
+                return ((BigDecimal)data[0]).intValue();
+            } else {
+                return ((Long)data[0]).intValue();
+            }
         } else {
             return null;
         }

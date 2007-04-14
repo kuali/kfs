@@ -75,11 +75,7 @@
     <bean id="generalLedgerService" class="org.kuali.module.purap.service.impl.GeneralLedgerServiceImpl">
     </bean>
     
-    <bean id="paymentRequestDao" class="org.kuali.module.purap.dao.ojb.PaymentRequestDaoOjb">
-    	<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+    <bean id="paymentRequestDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.PaymentRequestDaoOjb" />
     
     <bean id="paymentRequestService" class="org.kuali.module.purap.service.impl.PaymentRequestServiceImpl">
     	<property name="businessObjectService">
@@ -175,23 +171,12 @@
 	</bean>		
   	<bean id="purchaseOrderPostProcessorPrintService" class="org.kuali.module.purap.service.impl.PurchaseOrderPostProcessorPrintServiceImpl" parent="purchaseOrderPostProcessServiceBase">
 	</bean>
+  
+	<bean id="requisitionDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.RequisitionDaoOjb" />
 	
-	<bean id="requisitionDao" class="org.kuali.module.purap.dao.ojb.RequisitionDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
-	
-	<bean id="purchaseOrderDao" class="org.kuali.module.purap.dao.ojb.PurchaseOrderDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="purchaseOrderDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.PurchaseOrderDaoOjb" />
 
-	<bean id="imageDao" class="org.kuali.module.purap.dao.ojb.ImageDaoNet">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
+	<bean id="imageDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.ImageDaoNet">
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>		

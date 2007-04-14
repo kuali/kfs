@@ -17,18 +17,16 @@ package org.kuali.module.purap.dao.ojb;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.dao.RequisitionDao;
 import org.kuali.module.purap.document.RequisitionDocument;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 
 /**
  * This class is the OJB implementation of the ProjectCodeDao interface.
- * 
- * 
  */
-public class RequisitionDaoOjb extends PersistenceBrokerDaoSupport implements RequisitionDao {
+public class RequisitionDaoOjb extends PlatformAwareDaoBaseOjb implements RequisitionDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RequisitionDaoOjb.class);
 
     /**

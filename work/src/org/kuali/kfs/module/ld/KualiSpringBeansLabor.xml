@@ -53,11 +53,7 @@
 		</property>
 	</bean>
 
-	<bean id="laborLedgerPendingEntryDao" class="org.kuali.module.labor.dao.ojb.LaborLedgerPendingEntryDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="laborLedgerPendingEntryDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborLedgerPendingEntryDaoOjb" />
 
     <!--  Section 1: Spring Beans for Business Objects -->
 
@@ -171,10 +167,7 @@
 	
     <!-- Section 2: Spring Beans for DAO -->
 
-	<bean id="laborOriginEntryDao" class="org.kuali.module.labor.dao.ojb.LaborOriginEntryDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
+	<bean id="laborOriginEntryDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborOriginEntryDaoOjb">
 	    <property name="entryClass">
             <bean class="java.lang.Class" factory-method="forName">
                  <constructor-arg value="org.kuali.module.labor.bo.LaborOriginEntry"/>
@@ -182,22 +175,11 @@
         </property>
 	</bean>
 	
-    <bean id="laborLedgerEntryDao" class="org.kuali.module.labor.dao.ojb.LaborLedgerEntryDaoOjb">
-        <property name="jcdAlias">
-            <value>dataSource</value>
-        </property>
-    </bean>
+    <bean id="laborLedgerEntryDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborLedgerEntryDaoOjb" />
 
-    <bean id="laborGeneralLedgerEntryDao" class="org.kuali.module.labor.dao.ojb.LaborGeneralLedgerEntryDaoOjb">
-        <property name="jcdAlias">
-            <value>dataSource</value>
-        </property>
-    </bean>
+    <bean id="laborGeneralLedgerEntryDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborGeneralLedgerEntryDaoOjb" />
 
-	<bean id="laborLedgerBalanceDao" class="org.kuali.module.labor.dao.ojb.LaborLedgerBalanceDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
+	<bean id="laborLedgerBalanceDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborLedgerBalanceDaoOjb">
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
@@ -518,10 +500,6 @@
 		</property>
 	</bean>    	
 	
-	<bean id="laborDao" class="org.kuali.module.labor.dao.ojb.LaborDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="laborDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborDaoOjb" />
 	
 </beans>

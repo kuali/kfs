@@ -20,11 +20,11 @@ import java.util.Collection;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.dao.OriginEntrySourceDao;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
-public class OriginEntrySourceDaoOjb extends PersistenceBrokerDaoSupport implements OriginEntrySourceDao {
+public class OriginEntrySourceDaoOjb extends PlatformAwareDaoBaseOjb implements OriginEntrySourceDao {
 
     private static final String FINANCIAL_DOCUMENT_REVERSAL_DATE = "financialDocumentReversalDate";
     private static final String UNIVERSITY_FISCAL_YEAR = "universityFiscalYear";

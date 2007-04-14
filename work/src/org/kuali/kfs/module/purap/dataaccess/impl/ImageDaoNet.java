@@ -17,15 +17,15 @@ import java.text.NumberFormat;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.Constants;
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.dao.ImageDao;
 import org.kuali.module.purap.exceptions.PurError;
 import org.kuali.module.purap.exceptions.PurapConfigurationException;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
-public class ImageDaoNet extends PersistenceBrokerDaoSupport implements ImageDao {
+public class ImageDaoNet extends PlatformAwareDaoBaseOjb implements ImageDao {
     private static Log LOG = LogFactory.getLog(ImageDaoNet.class);
     private KualiConfigurationService kualiConfigurationService;
 

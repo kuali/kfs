@@ -16,17 +16,13 @@
 package org.kuali.module.budget.dao.ojb;
 
 import java.math.BigDecimal;
-
-import java.sql.Date;
-
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-import java.text.ParseException;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -39,6 +35,7 @@ import org.kuali.Constants.BudgetConstructionConstants;
 import org.kuali.Constants.ParameterValues;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.dao.DocumentDao;
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
@@ -65,12 +62,11 @@ import org.kuali.module.financial.bo.FunctionControlCode;
 import org.kuali.module.gl.GLConstants.ColumnNames;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.labor.bo.LaborObject;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
 
-public class GenesisDaoOjb extends PersistenceBrokerDaoSupport 
+public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb 
              implements GenesisDao {
     /*
      *   These routines are written to try to mitigate the performance hit that

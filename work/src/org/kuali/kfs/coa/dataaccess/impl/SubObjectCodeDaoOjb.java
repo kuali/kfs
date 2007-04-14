@@ -17,17 +17,15 @@ package org.kuali.module.chart.dao.ojb;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.dao.SubObjectCodeDao;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 
 /**
  * This class is the OJB implementation of the SubObjectCodeDao interface.
- * 
- * 
  */
-public class SubObjectCodeDaoOjb extends PersistenceBrokerDaoSupport implements SubObjectCodeDao {
+public class SubObjectCodeDaoOjb extends PlatformAwareDaoBaseOjb implements SubObjectCodeDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SubObjectCodeDaoOjb.class);
 
     /**

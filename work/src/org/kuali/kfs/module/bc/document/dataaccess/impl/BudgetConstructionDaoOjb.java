@@ -22,18 +22,18 @@ import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.module.budget.bo.BudgetConstructionFundingLock;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.BudgetConstructionPosition;
 import org.kuali.module.budget.dao.BudgetConstructionDao;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * This class is the OJB implementation of the BudgetConstructionDao interface.
  *
  * 
  */
-public class BudgetConstructionDaoOjb extends PersistenceBrokerDaoSupport implements BudgetConstructionDao  {
+public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements BudgetConstructionDao  {
 
     /**
      * This gets a BudgetConstructionHeader using the candidate key

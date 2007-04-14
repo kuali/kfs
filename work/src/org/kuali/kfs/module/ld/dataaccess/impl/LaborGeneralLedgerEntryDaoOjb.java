@@ -22,14 +22,11 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.PropertyConstants;
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
 import org.kuali.module.labor.dao.LaborGeneralLedgerEntryDao;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
-/**
- * This class...
- */
-public class LaborGeneralLedgerEntryDaoOjb extends PersistenceBrokerDaoSupport implements LaborGeneralLedgerEntryDao {
+public class LaborGeneralLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements LaborGeneralLedgerEntryDao {
 
     /**
      * @see org.kuali.module.labor.dao.LaborGeneralLedgerEntryDao#getMaxSequenceNumber(org.kuali.module.labor.bo.LaborGeneralLedgerEntry)

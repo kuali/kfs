@@ -23,17 +23,15 @@ import java.util.Iterator;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.module.chart.dao.ojb.ChartDaoOjb;
 import org.kuali.module.financial.bo.TravelMileageRate;
 import org.kuali.module.financial.dao.TravelMileageRateDao;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * This class is the OJB implementation of the TravelMileageRate interface.
- * 
- * 
  */
-public class TravelMileageRateDaoOjb extends PersistenceBrokerDaoSupport implements TravelMileageRateDao {
+public class TravelMileageRateDaoOjb extends PlatformAwareDaoBaseOjb implements TravelMileageRateDao {
     private static Logger LOG = Logger.getLogger(ChartDaoOjb.class);
 
     /**

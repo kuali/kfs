@@ -73,10 +73,33 @@
 		<property name="base.cas.url" value="${test.environment.url}" />
 		<property name="application.url" value="${base.application.url}${ant.project.name}-${build.environment}" />
 		<property name="cas.url" value="${base.cas.url}${ant.project.name}-${build.environment}/cas" />
+		<condition property="datasource.url" value="${mysql.datasource.url}">
+			<equals arg1="${ojb.platform}" arg2="${mysql.ojb.platform}" />
+		</condition>
+		<property name="datasource.url" value="${oracle.datasource.url}" />
 		<condition property="driver.class" value="${p6spy.driver.class}">
 			<equals arg1="${use.p6spy.local}" arg2="true"/>
 		</condition>
+		<condition property="driver.class" value="${mysql.driver.class}">
+			<equals arg1="${ojb.platform}" arg2="${mysql.ojb.platform}" />
+		</condition>
 		<property name="driver.class" value="${oracle.driver.class}" />
+		<condition property="p6spy.real.driver.class" value="${mysql.driver.class}">
+			<equals arg1="${ojb.platform}" arg2="${mysql.ojb.platform}" />
+		</condition>
+		<property name="p6spy.real.driver.class" value="${oracle.driver.class}" />
+		<condition property="ojb.sequencemanager.class" value="${mysql.sequence.manager.class}">
+			<equals arg1="${ojb.platform}" arg2="${mysql.ojb.platform}" />
+		</condition>
+		<property name="ojb.sequencemanager.class" value="${oracle.sequence.manager.class}" />
+	    <condition property="database.platform.class" value="${mysql.database.platform}">
+	    		<equals arg1="${ojb.platform}" arg2="${mysql.ojb.platform}" />
+	    </condition>
+		<property name="database.platform.class" value="${oracle.database.platform}" />
+	    <condition property="workflow.database.platform.class" value="${mysql.workflow.database.platform}">
+	    		<equals arg1="${ojb.platform}" arg2="${mysql.ojb.platform}" />
+	    </condition>
+		<property name="workflow.database.platform.class" value="${oracle.workflow.database.platform}" />
 		<condition property="appenders" value="INFO, LogFile, StdOut">
 			<equals arg1="${is.local.build}" arg2="true" />
 		</condition>
@@ -90,6 +113,11 @@
 			<equals arg1="${is.local.build}" arg2="true" />
 		</condition>
 		<property name="use.quartz.jdbc.jobstore" value="true" />
+		<!-- todo this is hosed - need to figure out quartz solution or adapt p1 brte solution -->
+		<condition property="database.file.directory" value="${batch.program.directory}/db">
+			<equals arg1="${is.batch.dist}" arg2="true" />
+		</condition>
+		<property name="database.file.directory" value="${basedir}/${database.directory}" />
 	</target>
 
 	<target name="init-institution-override-properties" if="load.institution.override.properties" depends="init-logic-based-properties">
@@ -130,10 +158,15 @@
 			<filter token="web-authentication-service" value="${web.authentication.service}" />
 			<filter token="maintain-users-locally" value="${maintain.users.locally}" />
 			<filter token="production-environment-code" value="${production.environment.code}" />
-			<filter token="driver-class" value="${driver.class}" />
 			<filter token="datasource-url" value="${datasource.url}" />
 			<filter token="datasource-username" value="${datasource.username}" />
 			<filter token="datasource-password" value="${datasource.password}" />
+			<filter token="driver-class" value="${driver.class}" />
+			<filter token="p6spy-real-driver-class" value="${p6spy.real.driver.class}" />
+			<filter token="ojb-platform" value="${ojb.platform}" />
+			<filter token="ojb-sequencemanager-class" value="${ojb.sequencemanager.class}" />
+			<filter token="database-platform-class" value="${database.platform.class}" />
+			<filter token="workflow-database-platform-class" value="${workflow.database.platform.class}" />
 			<filter token="webservices-keystore-password" value="${webservices.keystore.password}" />
 			<filter token="workflow-webservices-keystore-password" value="${workflow.webservices.keystore.password}" />
 			<filter token="encryption-key" value="${encryption.key}" />
@@ -146,6 +179,10 @@
 			<filter token="use-quartz-jdbc-jobstore" value="${use.quartz.jdbc.jobstore}" />
 			<filter token="transaction-timeout" value="${transaction.timeout}"/>
 			<filter token="startup-stats-mailing-list" value="${startup.stats.mailing.list}"/>
+			<filter token="database-file-directory" value="${database.file.directory}" />
+			<filter token="database-update-file-list" value="${database.update.file.list}" />
+			<filter token="encrypt-attributes-properties-file" value="${encrypt.attributes.properties.file}" />
+			<filter token="data-export-zip-file" value="${data.export.zip.file}" />
 		</filterset>
 	</target>
 	
@@ -206,9 +243,15 @@
 
 	<target name="clean-local" if="is.local.build" depends="init-project-properties">
 		<delete failonerror="false">
-			<fileset dir="${appserver.lib.dir}" includes="${appserver.library.list}" />
+			<fileset dir="${appserver.lib.dir}">
+				<present targetdir="${build.appserver.directory}" />
+			</fileset>
 		</delete>
-		<delete file="${appserver.lib.dir}/${log4j.library}"/>
+		<delete failonerror="false">
+			<fileset dir="${appserver.lib.dir}">
+				<present targetdir="${drivers.directory}" />
+			</fileset>
+		</delete>
 		<delete failonerror="false">
 			<fileset dir="${appserver.localhost.dir}" includes="${ant.project.name}-*.xml" />
 		</delete>
@@ -266,8 +309,9 @@
 	</target>
 
 	<target name="filter-local" if="is.local.build" depends="init-filter-sets">
+		<copy file="${build.appserver.directory}/${p6spy.library}" todir="${appserver.lib.dir}" overwrite="true" />
 		<copy todir="${appserver.lib.dir}" overwrite="true">
-			<fileset dir="${build.appserver.directory}" includes="${appserver.library.list}" />
+			<fileset dir="${drivers.directory}" />
 		</copy>
 		<copy todir="${settings.directory}" overwrite="true">
 			<fileset dir="${build.settings.directory}" />
@@ -438,6 +482,7 @@
 		<property name="${workflow.application}.tomcat5.home" value="${appserver.home}" />
 		<property name="${workflow.application}.institution" value="${ant.project.name}" />
 		<property name="${workflow.application}.src.dist.loc" value="${workflow.project.directory}/dist" />
+		<property name="${workflow.application}.datasource.ojb.platform" value="${ojb.platform}" />
 		<propertyset id="en-properties">
 		  <propertyref prefix="${workflow.application}."/>
 		  <mapper type="glob" from="${workflow.application}.*" to="*"/>
@@ -451,6 +496,13 @@
 			<propertyset refid="${workflow.application}-properties" />
 		</ant>
 		<copy file="${workflow.project.directory}/dist/workflow-client-${workflow.version}.jar" todir="${lib.directory}" overwrite="true" />
+		<copy todir="${licenses.directory}/kew">
+			<fileset dir="${workflow.project.directory}/${licenses.directory}" />
+		</copy>
+		<delete dir="${database.workflow.directory}" failonerror="false" />
+		<copy todir="${database.workflow.directory}">
+			<fileset dir="${workflow.project.directory}/conf" includes="ddl/**/**" />
+		</copy>
 	</target>
 	
 	<target name="help" description="Describe public targets">

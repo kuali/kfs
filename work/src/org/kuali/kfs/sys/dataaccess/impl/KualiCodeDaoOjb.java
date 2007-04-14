@@ -25,6 +25,7 @@ import org.kuali.Constants;
 import org.kuali.core.bo.ApplicationConstant;
 import org.kuali.core.bo.KualiCode;
 import org.kuali.core.bo.KualiSystemCode;
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.kfs.dao.KualiCodeDao;
 import org.kuali.module.cg.bo.AgencyType;
 import org.kuali.module.chart.bo.FundGroup;
@@ -41,7 +42,6 @@ import org.kuali.module.financial.bo.PaymentReasonCode;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.kra.budget.bo.NonpersonnelSubCategory;
 import org.springframework.dao.DataAccessException;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * This class is the OJB implementation of the KualiCodeDao interface.
@@ -49,7 +49,7 @@ import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
  *
  */
 
-public class KualiCodeDaoOjb extends PersistenceBrokerDaoSupport implements KualiCodeDao {
+public class KualiCodeDaoOjb extends PlatformAwareDaoBaseOjb implements KualiCodeDao {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiCodeDaoOjb.class);
 

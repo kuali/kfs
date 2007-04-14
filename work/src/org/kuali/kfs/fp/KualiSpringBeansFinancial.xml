@@ -69,19 +69,11 @@
 		</property>
 	</bean>
 
-	<bean id="travelMileageRateDao" class="org.kuali.module.financial.dao.ojb.TravelMileageRateDaoOjb">
-		<property name="jcdAlias">
-			<value>dataSource</value>
-		</property>
-	</bean>
+	<bean id="travelMileageRateDao" parent="platformAwareDao" class="org.kuali.module.financial.dao.ojb.TravelMileageRateDaoOjb" />
 	
 	<bean id="checkService" class="org.kuali.module.financial.service.impl.CheckServiceImpl">
 		<property name="checkDao">
-			<bean class="org.kuali.module.financial.dao.ojb.CheckDaoOjb">
-				<property name="jcdAlias">
-					<value>dataSource</value>
-				</property>
-			</bean>
+			<bean class="org.kuali.module.financial.dao.ojb.CheckDaoOjb" parent="platformAwareDao" />
 		</property>
 	</bean>
 

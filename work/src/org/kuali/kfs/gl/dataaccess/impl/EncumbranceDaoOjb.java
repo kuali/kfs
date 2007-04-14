@@ -28,18 +28,14 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.module.gl.bo.Encumbrance;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.EncumbranceDao;
 import org.kuali.module.gl.util.OJBUtility;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
-public class EncumbranceDaoOjb extends PersistenceBrokerDaoSupport implements EncumbranceDao {
+public class EncumbranceDaoOjb extends PlatformAwareDaoBaseOjb implements EncumbranceDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EncumbranceDaoOjb.class);
-
-    public EncumbranceDaoOjb() {
-        super();
-    }
 
     /**
      * @see org.kuali.module.gl.dao.EncumbranceDao#getEncumbranceByTransaction(org.kuali.module.gl.bo.Transaction)

@@ -24,23 +24,16 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.dao.ChartDao;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * This class is the OJB implementation of the ChartDao interface.
- * 
- * 
  */
 
-
-public class ChartDaoOjb extends PersistenceBrokerDaoSupport implements ChartDao {
+public class ChartDaoOjb extends PlatformAwareDaoBaseOjb implements ChartDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ChartDaoOjb.class);
-
-    public ChartDaoOjb() {
-        super();
-    }
 
     /*
      * (non-Javadoc)

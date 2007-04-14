@@ -17,20 +17,18 @@ package org.kuali.module.purap.dao.ojb;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.dao.PurchaseOrderDao;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 
 /**
  * This class is the OJB implementation of the ProjectCodeDao interface.
- * 
- * 
  */
-public class PurchaseOrderDaoOjb extends PersistenceBrokerDaoSupport implements PurchaseOrderDao {
+public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements PurchaseOrderDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderDaoOjb.class);
 
     /**
@@ -107,5 +105,5 @@ public class PurchaseOrderDaoOjb extends PersistenceBrokerDaoSupport implements 
         criteria.addEqualTo(PurapPropertyConstants.STATUS_CODE, PurapConstants.PurchaseOrderStatuses.PENDING_PRINT);
         PurchaseOrderDocument thePO = (PurchaseOrderDocument)getPurchaseOrder(criteria);
         return thePO;
-    }
+}
 }

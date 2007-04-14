@@ -2,3 +2,5 @@ configuration.properties
 META-INF
 SpringBeans.xml
 SpringSchedulerBeans.xml
+OJB-repository.xml
+spy.properties

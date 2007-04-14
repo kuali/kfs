@@ -23,20 +23,18 @@ import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.module.chart.dao.ojb.ChartDaoOjb;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
 import org.kuali.module.financial.dao.CheckDao;
 import org.springframework.dao.DataAccessException;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 /**
  * This class is the OJB implementation of the AccountingLineDao interface.
- * 
- * 
  */
 
-public class CheckDaoOjb extends PersistenceBrokerDaoSupport implements CheckDao {
+public class CheckDaoOjb extends PlatformAwareDaoBaseOjb implements CheckDao {
     private static Logger LOG = Logger.getLogger(ChartDaoOjb.class);
 
     /**

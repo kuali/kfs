@@ -21,15 +21,11 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.module.chart.bo.IndirectCostRecoveryExclusionAccount;
 import org.kuali.module.chart.dao.IndirectCostRecoveryExclusionAccountDao;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
-/**
- * 
- * 
- */
-public class IndirectCostRecoveryExclusionAccountDaoOjb extends PersistenceBrokerDaoSupport implements IndirectCostRecoveryExclusionAccountDao {
+public class IndirectCostRecoveryExclusionAccountDaoOjb extends PlatformAwareDaoBaseOjb implements IndirectCostRecoveryExclusionAccountDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IndirectCostRecoveryExclusionAccountDaoOjb.class);
 
     public IndirectCostRecoveryExclusionAccountDaoOjb() {

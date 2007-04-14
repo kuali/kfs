@@ -15,18 +15,16 @@
  */
 package org.kuali.module.cg.dao.ojb;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.module.cg.bo.Award;
 import org.kuali.module.cg.bo.ProposalClose;
 import org.kuali.module.cg.dao.AwardDao;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
-public class AwardDaoOjb extends PersistenceBrokerDaoSupport implements AwardDao {
+public class AwardDaoOjb extends PlatformAwareDaoBaseOjb implements AwardDao {
 
     public void deleteAll() {
         getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(Award.class, new Criteria()));

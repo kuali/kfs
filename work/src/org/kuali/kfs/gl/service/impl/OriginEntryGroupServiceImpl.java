@@ -183,7 +183,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         while (i.hasNext()) {
             Object[] rowCount = (Object[]) i.next();
             int id = ((BigDecimal) rowCount[0]).intValue();
-            int count = ((Long) rowCount[1]).intValue();
+            int count = ((BigDecimal) rowCount[1]).intValue();
 
             // Find the correct group to add the count
             for (Iterator iter = c.iterator(); iter.hasNext();) {

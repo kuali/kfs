@@ -58,7 +58,7 @@
         <attributes>
 
             <attribute name="positionObjectGroupCode" forceUppercase="true">
-                <label>Position Object Group Code</label>
+                <label>Labor Position Object Group Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>
@@ -73,7 +73,7 @@
 			</attribute>
 
             <attribute name="positionObjectGroupName" forceUppercase="true">
-                <label>Position Object Group Name</label>
+                <label>Labor Position Object Group Name</label>
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>40</maxLength>

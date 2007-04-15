@@ -22,7 +22,7 @@
 
 
         <inquiry>
-            <title>Position Object Benefit Inquiry</title>
+            <title>Labor Object Benefits Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="universityFiscalYear" />

@@ -22,7 +22,7 @@
 
 
         <inquiry>
-            <title>Labor Object Inquiry</title>
+            <title>Labor Object Code Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="chartOfAccountsCode" />
@@ -37,7 +37,7 @@
         </inquiry>
 
         <lookup>
-            <title>Labor Object Lookup</title>
+            <title>Labor Object Code Lookup</title>
 
             <instructions>Look up a Labor Object</instructions>
 
@@ -163,7 +163,7 @@
 			</attribute>
 
             <attribute name="positionObjectGroupCode" forceUppercase="true">
-                <label>Position Object Group Code</label>
+                <label>Labor Position Object Group Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>

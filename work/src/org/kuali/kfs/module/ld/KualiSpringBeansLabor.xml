@@ -379,6 +379,9 @@
         <property name="originEntryGroupService">
             <ref bean="glOriginEntryGroupService" />
         </property>
+        <property name="laborLedgerEntryService">
+            <ref bean="laborLedgerEntryService" />
+        </property>
 
         <property name="accountService">
             <ref bean="accountService" />

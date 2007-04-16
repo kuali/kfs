@@ -50,9 +50,7 @@ public class LaborLedgerEntryServiceImpl implements LaborLedgerEntryService {
     /**
      * @see org.kuali.module.labor.service.LaborLedgerEntryService#find(java.util.Map)
      */
-    public Iterator<LedgerEntry> find(Map<String, String> fieldValues) {
-        if(fieldValues == null) return null;
-        
+    public Iterator<LedgerEntry> find(Map<String, String> fieldValues) {        
         return laborLedgerEntryDao.find(fieldValues);
     }
 

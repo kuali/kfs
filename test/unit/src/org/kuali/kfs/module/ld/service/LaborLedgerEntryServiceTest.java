@@ -18,6 +18,7 @@ package org.kuali.module.labor.service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -135,16 +136,19 @@ public class LaborLedgerEntryServiceTest extends KualiTestBase {
         List<LedgerEntry> inputDataList = getInputDataList(testTarget + "testData", numberOfTestData);
         businessObjectService.save(inputDataList);
 
-        laborLedgerEntryService.find(fieldValues);
+        Iterator<LedgerEntry> ledgerEntries = laborLedgerEntryService.find(fieldValues);
+        int counter = 0;
 
-        Collection ledgerEntries = businessObjectService.findMatching(LedgerEntry.class, fieldValues);
+        //Collection ledgerEntries = businessObjectService.findMatching(LedgerEntry.class, fieldValues);
         List<LedgerEntryForTesting> expectedDataList = getExpectedValues(LedgerEntryForTesting.class, testTarget + "expected", fieldNames, expectedNumOfData);        
-        for (Object entry : ledgerEntries) {
+        while (ledgerEntries != null && ledgerEntries.hasNext()) {
+            LedgerEntry entry = ledgerEntries.next();
             LedgerEntryForTesting ledgerEntryForTesting = new LedgerEntryForTesting();
             ObjectUtil.buildObject(ledgerEntryForTesting, entry);
             assertTrue(expectedDataList.contains(ledgerEntryForTesting));
+            counter++;
         }
-        assertEquals(expectedNumOfData, ledgerEntries.size());
+        assertEquals(expectedNumOfData, counter);
     }    
     
     private List<LedgerEntry> getInputDataList(String propertyKeyPrefix, int numberOfInputData) {

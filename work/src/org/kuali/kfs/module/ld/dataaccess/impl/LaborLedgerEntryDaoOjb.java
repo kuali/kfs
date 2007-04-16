@@ -70,8 +70,8 @@ public class LaborLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements L
      * @see org.kuali.module.labor.dao.LaborLedgerEntryDao#find(java.util.Map)
      */
     public Iterator<LedgerEntry> find(Map<String, String> fieldValues) {
-        Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, this.getEntryClass());
-        
+        Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new LedgerEntry());
+
         QueryByCriteria query = QueryFactory.newQuery(this.getEntryClass(), criteria);
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
 }

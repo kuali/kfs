@@ -2169,24 +2169,6 @@
     <field-descriptor name="financialDocumentBankAccountNumber" column="FDOC_BANK_ACCT_NBR" jdbc-type="VARCHAR" />
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.financial.bo.ServiceBillingExpenseDescription" table="FP_SB_EXP_DESC_T">
-    <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="financialDocumentLineNumber" column="FDOC_LINE_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="financialDocumentLineDescription" column="FDOC_LINE_DESC" jdbc-type="VARCHAR" />
-    <field-descriptor name="organizationDocumentNumber" column="ORG_DOC_NBR" jdbc-type="VARCHAR" />
-</class-descriptor>
-
-<class-descriptor class="org.kuali.module.financial.bo.ServiceBillingIncomeDescription" table="FP_SB_INC_DESC_T">
-    <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="financialDocumentLineNumber" column="FDOC_LINE_NBR" jdbc-type="INTEGER" primarykey="true" index="true" />
-    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="financialDocumentLineDescription" column="FDOC_LINE_DESC" jdbc-type="VARCHAR" />
-    <field-descriptor name="organizationDocumentNumber" column="ORG_DOC_NBR" jdbc-type="VARCHAR" />
-</class-descriptor>
-
 <class-descriptor class="org.kuali.module.financial.bo.CurrencyDetail" table="FP_CURRENCY_DTL_T">
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />

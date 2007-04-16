@@ -50,7 +50,7 @@ public class CurrentFundsInquirableImpl extends AbstractLaborInquirableImpl {
      * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#buildUserDefinedAttributeKeyList()
      */
     protected List buildUserDefinedAttributeKeyList() {
-        List keys = new ArrayList();
+        List<String> keys = new ArrayList<String>();
 
         keys.add(PropertyConstants.EMPLID);
         keys.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
@@ -109,8 +109,6 @@ public class CurrentFundsInquirableImpl extends AbstractLaborInquirableImpl {
         // TODO: investigate change to this constant
         return Constants.GL_MODIFIED_INQUIRY_ACTION;
     }
-    
-
 
     /**
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getInquiryBusinessObjectClass(String)

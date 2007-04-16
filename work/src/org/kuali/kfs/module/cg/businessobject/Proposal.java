@@ -103,7 +103,19 @@ public class Proposal extends PersistableBusinessObjectBase {
         proposalResearchRisks = new TypedArrayList(ProposalResearchRisk.class);
     }
 
-    
+    /**
+     * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     */
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List<List> managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(getProposalSubcontractors());
+        managedLists.add(getProposalOrganizations());
+        managedLists.add(getProposalProjectDirectors());
+        // research risks cannot be deleted (nor added)
+        return managedLists;
+    }
+
     /**
      * Gets the proposalNumber attribute.
      * 

@@ -84,7 +84,7 @@
 
                 <maxLength>5</maxLength>
                 <validationPattern>
-                    <numeric />
+                    <floatingPoint />
                 </validationPattern>
 
                 <control>

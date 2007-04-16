@@ -61,6 +61,8 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
             document.getVendorDetailAssignedIdentifier() != null &&
             document.getVendorHeaderGeneratedIdentifier() != null)  {
 
+            document.setVendorContractGeneratedIdentifier(null);
+            document.setVendorContractName(null);
             Integer vendorDetailAssignedId = document.getVendorDetailAssignedIdentifier();
             Integer vendorHeaderGeneratedId = document.getVendorHeaderGeneratedIdentifier();
             VendorDetail refreshVendorDetail = new VendorDetail();

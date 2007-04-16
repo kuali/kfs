@@ -16,16 +16,17 @@
 package org.kuali.module.budget.service.impl;
 
 import java.lang.*;
-import java.lang.Object;
 
 import org.kuali.Constants;
 import org.kuali.Constants.*;
 import org.kuali.module.budget.dao.GenesisDao;
+import org.kuali.module.budget.dao.ojb.GenesisDaoOjb;
 import org.kuali.module.budget.service.GenesisService;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+
 
  
 @Transactional
@@ -35,7 +36,7 @@ public class GenesisServiceImpl implements GenesisService {
     
       private GenesisDao genesisDao;
 
-      private static Logger LOG;
+      private static Logger LOG = org.apache.log4j.Logger.getLogger(GenesisServiceImpl.class);
       
       public final void testStep (Integer BaseYear)
       {
@@ -211,13 +212,20 @@ public class GenesisServiceImpl implements GenesisService {
 
      public void genesisStep(Integer BaseYear)
     {
+        LOG.warn(String.format("\nstarting Genesis:\n  flags")); 
         genesisDao.setControlFlagsAtTheStartOfGenesis(BaseYear);
+        LOG.warn(String.format("\n  clear database"));
         genesisDao.clearDBForGenesis(BaseYear);
+        LOG.warn(String.format("\n  referential integrity for object classes"));
         genesisDao.ensureObjectClassRIForBudget(BaseYear);
+        LOG.warn(String.format("\n  new BC documents"));
         genesisDao.createNewBCDocumentsFromGLCSF(BaseYear,
                 GLUpdatesAllowed(BaseYear), CSFUpdatesAllowed(BaseYear));
+        LOG.warn(String.format("\n  chart for budget"));
         genesisDao.createChartForNextBudgetCycle();
+        LOG.warn(String.format("\n  load to PBGL"));
         genesisDao.initialLoadToPBGL(BaseYear);
+        LOG.warn(String.format("\n  new positions"));
         boolean CSFOK     = CSFUpdatesAllowed(BaseYear);
         boolean PSSynchOK = BatchPositionSynchAllowed(BaseYear);
         genesisDao.createNewBCPosition(BaseYear,
@@ -225,10 +233,14 @@ public class GenesisServiceImpl implements GenesisService {
                                        CSFOK);
         if (CSFOK)
         {
+            LOG.warn("\n  appointment funding/BCSF");
             genesisDao.buildAppointmentFundingAndBCSF(BaseYear);
         }
+        LOG.warn("\n  organization hierarchy");
         genesisDao.rebuildOrganizationHierarchy(BaseYear);
+        LOG.warn("\n  reset control flags");
         genesisDao.setControlFlagsAtTheEndOfGenesis(BaseYear);
+        LOG.warn("\n  end of genesis");
     }
 
  //  these steps are no longer needed now that workflow runs locally in the same

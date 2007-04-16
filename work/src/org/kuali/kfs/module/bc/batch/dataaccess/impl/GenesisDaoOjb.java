@@ -425,6 +425,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
             new QueryByCriteria(BudgetConstructionCalculatedSalaryFoundationTracker.class,
                     criteriaId);
         getPersistenceBrokerTemplate().deleteByQuery(queryId);
+        getPersistenceBrokerTemplate().clearCache();
     }
 
     private void clearBothYearsBCSF(Integer BaseYear)
@@ -437,6 +438,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
             new QueryByCriteria(BudgetConstructionCalculatedSalaryFoundationTracker.class,
                                                       criteriaId);
         getPersistenceBrokerTemplate().deleteByQuery(queryId);
+        getPersistenceBrokerTemplate().clearCache();
     }
     
     private void clearBCSF()
@@ -445,6 +447,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
             new QueryByCriteria(BudgetConstructionCalculatedSalaryFoundationTracker.class,
                                 QueryByCriteria.CRITERIA_SELECT_ALL);
         getPersistenceBrokerTemplate().deleteByQuery(queryId);
+        getPersistenceBrokerTemplate().clearCache();
     }
 
     private void clearBaseYearBCPosition(Integer BaseYear)
@@ -456,6 +459,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
             new QueryByCriteria(BudgetConstructionPosition.class,
                     criteriaId);
         getPersistenceBrokerTemplate().deleteByQuery(queryId);
+        getPersistenceBrokerTemplate().clearCache();
     }
 
     private void clearBothYearsBCPosition(Integer BaseYear)
@@ -468,6 +472,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
             new QueryByCriteria(BudgetConstructionPosition.class,
                                                       criteriaId);
         getPersistenceBrokerTemplate().deleteByQuery(queryId);
+        getPersistenceBrokerTemplate().clearCache();
     }
     
     private void clearBCPosition()
@@ -476,6 +481,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
             new QueryByCriteria(BudgetConstructionPosition.class,
                                 QueryByCriteria.CRITERIA_SELECT_ALL);
         getPersistenceBrokerTemplate().deleteByQuery(queryId);
+        getPersistenceBrokerTemplate().clearCache();
     }
     
     private void clearRequestYearBCPosition(Integer BaseYear)
@@ -488,6 +494,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
             new QueryByCriteria(BudgetConstructionPosition.class,
                     criteriaId);
         getPersistenceBrokerTemplate().deleteByQuery(queryId);
+        getPersistenceBrokerTemplate().clearCache();
     }
     
     private void clearRequestYearBCSF(Integer BaseYear)
@@ -500,6 +507,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
             new QueryByCriteria(BudgetConstructionCalculatedSalaryFoundationTracker.class,
                     criteriaId);
         getPersistenceBrokerTemplate().deleteByQuery(queryId);
+        getPersistenceBrokerTemplate().clearCache();
     }
     
     private void clearBaseYearHeaders(Integer BaseYear)
@@ -510,6 +518,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         QueryByCriteria queryId = new QueryByCriteria(BudgetConstructionHeader.class,
                                                       criteriaId);
         getPersistenceBrokerTemplate().deleteByQuery(queryId);
+        getPersistenceBrokerTemplate().clearCache();
     }
     
     private void clearBothYearsHeaders(Integer BaseYear)
@@ -521,6 +530,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         QueryByCriteria queryId = new QueryByCriteria(BudgetConstructionHeader.class,
                                                       criteriaId);
         getPersistenceBrokerTemplate().deleteByQuery(queryId);
+        getPersistenceBrokerTemplate().clearCache();
     }
     
     private void clearHeaders()
@@ -528,6 +538,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         QueryByCriteria queryId = new QueryByCriteria(BudgetConstructionHeader.class,
                                                      QueryByCriteria.CRITERIA_SELECT_ALL);
         getPersistenceBrokerTemplate().deleteByQuery(queryId);
+        getPersistenceBrokerTemplate().clearCache();
     }
 
     private void clearBaseYearPBGL(Integer BaseYear)
@@ -551,6 +562,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
                 BaseYear));
         getPersistenceBrokerTemplate().deleteByQuery(queryID);
         LOG.debug(String.format("delete PBGL ended at %tT",dateTimeService.getCurrentDate()));
+        getPersistenceBrokerTemplate().clearCache();
     }
     
     private void clearBothYearsPBGL(Integer BaseYear)
@@ -570,6 +582,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
             new QueryByCriteria(PendingBudgetConstructionGeneralLedger.class,
                                 QueryByCriteria.CRITERIA_SELECT_ALL);
         getPersistenceBrokerTemplate().deleteByQuery(queryId);
+        getPersistenceBrokerTemplate().clearCache();
     }
     
     private void clearRequestYearPBGL(Integer BaseYear)
@@ -594,6 +607,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
                 RequestYear));
         getPersistenceBrokerTemplate().deleteByQuery(queryID);
         LOG.debug(String.format("\ndelete PBGL ended at %tT",dateTimeService.getCurrentDate()));
+        getPersistenceBrokerTemplate().clearCache();
     }
 
     private void clearBaseYearPendingApptFunding(Integer BaseYear)
@@ -605,6 +619,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
             new QueryByCriteria(PendingBudgetConstructionAppointmentFunding.class,
                     criteriaId);
         getPersistenceBrokerTemplate().deleteByQuery(queryId);
+        getPersistenceBrokerTemplate().clearCache();
     }
 
     private void clearBothYearsPendingApptFunding(Integer BaseYear)
@@ -617,6 +632,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
             new QueryByCriteria(PendingBudgetConstructionAppointmentFunding.class,
                                                       criteriaId);
         getPersistenceBrokerTemplate().deleteByQuery(queryId);
+        getPersistenceBrokerTemplate().clearCache();
     }
     
     private void clearPendingApptFunding()
@@ -625,6 +641,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
             new QueryByCriteria(PendingBudgetConstructionAppointmentFunding.class,
                                 QueryByCriteria.CRITERIA_SELECT_ALL);
         getPersistenceBrokerTemplate().deleteByQuery(queryId);
+        getPersistenceBrokerTemplate().clearCache();
     }
     
     private void clearRequestYearPendingApptFunding(Integer BaseYear)
@@ -637,6 +654,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
             new QueryByCriteria(PendingBudgetConstructionAppointmentFunding.class,
                     criteriaId);
         getPersistenceBrokerTemplate().deleteByQuery(queryId);
+        getPersistenceBrokerTemplate().clearCache();
     }
 
     /* 
@@ -1707,7 +1725,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     {
         // @@TODO: this is just here for testing purposes
         //         it will be handled by the clearDBForGenesis method in production
-        clearBothYearsPBGL(BaseYear);
+        // clearBothYearsPBGL(BaseYear);
         // we have to clean out account reports to
         // it is not fiscal year-specific
         // this implies that last year's data can't be there, because the
@@ -2259,7 +2277,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         baseYearInactiveObjects = 
             new HashMap<String,String[]>(hashObjectSize(ObjectCode.class,criteriaID));
         String[] queryAttr  = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
-                               PropertyConstants.OBJECT_CODE};
+                               PropertyConstants.FINANCIAL_OBJECT_CODE};
         ReportQueryByCriteria queryID = new ReportQueryByCriteria(ObjectCode.class,
                                                                   queryAttr,
                                                                   criteriaID);
@@ -2372,7 +2390,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
        //  ID first
        storeNewPositions();
        createNewPositionCleanUp();
-       getPersistenceBrokerTemplate().clearCache();
+       // getPersistenceBrokerTemplate().clearCache();
     }
     
     private String buildDeletedKey(Object[] returnedRow)
@@ -3065,7 +3083,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
        // at this point we should clear the cache
        // any objects fetched from the database (CSF and CSF Override) will not
        // be written back, and we may need the memory.
-       getPersistenceBrokerTemplate().clearCache();
+       //getPersistenceBrokerTemplate().clearCache();
        //  store bCSF rows matching current appointment funding
        readExistingAppointmentFunding(BaseYear);
        //  if all of the bCSF rows have been stored (they all already eixst in
@@ -3096,7 +3114,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
        // nothing that has been written needs to persist
        // all that exists at this point is a set of BCSF rows that have never
        // been in the database
-       getPersistenceBrokerTemplate().clearCache();
+       //getPersistenceBrokerTemplate().clearCache();
        readAndWriteBCSFAndNewAppointmentFundingAndNewPBGL(BaseYear);
        CSFDiagnostics();
        buildAppointmentFundingCleanUp();
@@ -3784,7 +3802,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     CSFOverrideDeletesRead = csfOverrideKeys.size();
     // the hashset of override keys must exist before BCSF can be built
     // so, we should be able to clear the cache to save on memory
-        getPersistenceBrokerTemplate().clearCache();
+    //    getPersistenceBrokerTemplate().clearCache();
     }
     
     private void setUpCurrentPBGLKeys(Integer BaseYear)

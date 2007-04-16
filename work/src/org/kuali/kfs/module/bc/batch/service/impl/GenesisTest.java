@@ -84,44 +84,6 @@ public class GenesisTest {
       }
       
   }
-  
-  private static void genesisStep (Integer BaseYear)
-  {
-      // OK.  This is the sequence as of February, 2007.  When workflow is embedded, 
-      // it should change.  we won't need to do the proxies.  But, to avoid a complete
-      // re-write, we probably should create all the documents first, then create
-      // the PBGL by reading GL again.  We should do the routing update change while
-      // the newly created documents are in memory.  we will modify updateGL to 
-      // create new documents on the fly (which can't be done now because workflow
-      // is a remote user which must read our data AFTER we have committed it.
-      LOG.info(String.format("\ngenesis started %tT",dateTimeService.getCurrentDate()));
-      LOG.info("\nDocument creation started: "+String.format("%tT",
-              dateTimeService.getCurrentDate()));
-      genesisTestService.genesisDocumentStep(BaseYear);
-      LOG.info("\nDocument creation ended: "+
-               String.format("%tT",dateTimeService.getCurrentDate()));
-      genesisTestService.genesisFinalStep(BaseYear);
-      LOG.info(String.format("\ngenesis ended %tT",dateTimeService.getCurrentDate()));
-  }
-  
-  private static void bcUpdateStep(Integer BaseYear)
-  {
-      Integer RequestYear = BaseYear + 1;
-      genesisDao.rebuildOrganizationHierarchy(BaseYear);
-      genesisDao.clearHangingBCLocks(BaseYear);
-      if (genesisDao.getBudgetConstructionControlFlag(RequestYear,
-              BudgetConstructionConstants.BUDGET_CONSTRUCTION_ACTIVE) &&
-          genesisDao.getBudgetConstructionControlFlag(BaseYear,
-              BudgetConstructionConstants.BASE_BUDGET_UPDATES_OK))
-      {
-          // use the log as a quick way to test whether the flags work
-          LOG.info(String.format("\nentered GL update block"));
-          //genesisDao.primeNewBCHeadersDocumentCreation(BaseYear);
-          //genesisDao.createNewBCDocuments(BaseYear);
-          genesisDao.updateToPBGL(BaseYear);
-          LOG.info(String.format("\nfinished GL update block"));
-      }
-  }
     
   public static void main(String args[])
   {
@@ -129,7 +91,7 @@ public class GenesisTest {
       //   these are the current run configurations (to change when workflow is embedded)
       //   for
       //   genesis
-      // genesisStep(2007);
+      genesisTestService.genesisStep(2007);
       //   budget construction update
       // bcUpdateStep(2009);
       //
@@ -138,9 +100,9 @@ public class GenesisTest {
       //
       // update current positions
       //  genesisTestService.testPositionBuild(2007);
-      LOG.warn("\nstarting fiscalYearMakers\n");
-      dateMakerTestService.fiscalYearMakers(2007);
-      LOG.warn("\nfiscalYearMakers finished\n");
+      //LOG.warn("\nstarting fiscalYearMakers\n");
+      //dateMakerTestService.fiscalYearMakers(2007);
+      //LOG.warn("\nfiscalYearMakers finished\n");
       // create the proxy BC headers
       /*
  //     genesisTestService.clearDBForGenesis(2009);

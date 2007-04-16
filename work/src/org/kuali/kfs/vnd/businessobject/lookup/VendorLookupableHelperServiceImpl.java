@@ -40,6 +40,7 @@ import org.kuali.module.vendor.VendorPropertyConstants;
 import org.kuali.module.vendor.VendorRuleConstants;
 import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.module.vendor.dao.VendorDao;
 import org.kuali.module.vendor.service.VendorService;
 
 public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
@@ -137,24 +138,31 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
         List<BusinessObject> processedSearchResults = new ArrayList();
         
         // loop through results
+        // if its a top level vendor, search for its divisions and add them to the appropriate list then add the vendor to the return results
+        // if its a division, see if we already have the parent and if not, retrieve it and its divisions then add the parent to the return results
+        
+        // loop through results
         for (BusinessObject object : searchResults) {
             VendorDetail vendor = (VendorDetail) object;
             //If this vendor is not already in the processedSearchResults, let's do further processing (e.g. setting the state for lookup from default address, etc)
             //and then add it in the processedSearchResults.
             if (!processedSearchResults.contains(vendor)) {
                 // populate state from default address
-                VendorAddress defaultAddress = vendorService.getVendorDefaultAddress(vendor.getVendorAddresses(), 
-                        vendor.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
-                if (defaultAddress != null && defaultAddress.getVendorState() != null) {
-                    vendor.setVendorStateForLookup(defaultAddress.getVendorState().getPostalStateName());
-                    vendor.setDefaultAddressLine1(defaultAddress.getVendorLine1Address());
-                    vendor.setDefaultAddressLine2(defaultAddress.getVendorLine2Address());
-                    vendor.setDefaultAddressCity(defaultAddress.getVendorCityName());
-                    vendor.setDefaultAddressPostalCode(defaultAddress.getVendorZipCode());
-                    vendor.setDefaultAddressStateCode(defaultAddress.getVendorStateCode());
-                    vendor.setDefaultAddressCountryCode(defaultAddress.getVendorCountryCode());
+                updatedefaultVendorAddress(vendor);
+                if (vendor.isVendorParentIndicator()) {
+                    processedSearchResults.add(vendor);
+                } else {
+                    // find the parent object in the details collection and add that
+                    for (VendorDetail division : vendor.getDivisions()) {
+                        if (division.isVendorParentIndicator() && !processedSearchResults.contains(division)) {
+                            // populate state from default address
+                            updatedefaultVendorAddress(division);
+                            processedSearchResults.add(division);
+                            break;
+                        }
+                    }
+
                 }
-                processedSearchResults.add(vendor);
             }
         }
         searchResults.clear();
@@ -166,6 +174,21 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
             Collections.sort(searchResults, new BeanPropertyComparator(getDefaultSortColumns(), true));
         }
         return searchResults;
+    }
+    
+    // populate state from default address
+    private void updatedefaultVendorAddress(VendorDetail vendor) { 
+        VendorAddress defaultAddress = vendorService.getVendorDefaultAddress(vendor.getVendorAddresses(), 
+                vendor.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
+        if (defaultAddress != null && defaultAddress.getVendorState() != null) {
+            vendor.setVendorStateForLookup(defaultAddress.getVendorState().getPostalStateName());
+            vendor.setDefaultAddressLine1(defaultAddress.getVendorLine1Address());
+            vendor.setDefaultAddressLine2(defaultAddress.getVendorLine2Address());
+            vendor.setDefaultAddressCity(defaultAddress.getVendorCityName());
+            vendor.setDefaultAddressPostalCode(defaultAddress.getVendorZipCode());
+            vendor.setDefaultAddressStateCode(defaultAddress.getVendorStateCode());
+            vendor.setDefaultAddressCountryCode(defaultAddress.getVendorCountryCode());
+        }
     }
     
     /**

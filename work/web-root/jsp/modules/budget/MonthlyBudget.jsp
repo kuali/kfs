@@ -25,6 +25,10 @@
 	>
 
 <%--	<kul:hiddenDocumentFields /> --%>
+    <c:forEach items="${KualiForm.editingMode}" var="mode">
+      <html:hidden property="editingMode(${mode.key})"/>
+    </c:forEach>
+
     <bc:monthlyBudget />
 	<kul:panelFooter />
 

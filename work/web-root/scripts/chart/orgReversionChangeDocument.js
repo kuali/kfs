@@ -67,8 +67,8 @@ function updateObjectNames( objField ) {
 	} else if ( objectCode == "" ) {
 		clearRecipients( nameFieldName );
 	} else if ( chartCodes.length == 0 ) {
-		setRecipientValue(nameFieldName, wrapError( 'there are no chart codes currently' ), true );
+		setRecipientValue(nameFieldName, 'there are no chart codes currently', true );
 	} else if ( fiscalYear == "" ) {
-		setRecipientValue(nameFieldName, wrapError( 'fiscal year is missing' ), true );	
+		setRecipientValue(nameFieldName, 'fiscal year is missing', true );	
 	}
 }

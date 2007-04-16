@@ -86,6 +86,9 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
                 refreshVendorDetail = (VendorDetail)businessObjectService.retrieve(refreshVendorDetail);
                 document.templateVendorDetail(refreshVendorDetail);
                 
+                // populate default address
+                populateDefaultAddress(refreshVendorDetail, document);
+                
             }
             if( StringUtils.isNotEmpty( request.getParameter( PurapPropertyConstants.VENDOR_ADDRESS_ID ) ) ) {
                 Integer vendorAddressGeneratedId = document.getVendorAddressGeneratedIdentifier();
@@ -97,7 +100,28 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
         }
         return super.refresh(mapping, form, request, response);
     }
-    
+
+    private void populateDefaultAddress(VendorDetail refreshVendorDetail, PurchasingDocumentBase document) {
+        VendorAddress defaultAddress = SpringServiceLocator.getVendorService().getVendorDefaultAddress(refreshVendorDetail.getVendorAddresses(), 
+                refreshVendorDetail.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
+        if (defaultAddress != null && defaultAddress.getVendorState() != null) {
+            refreshVendorDetail.setVendorStateForLookup(defaultAddress.getVendorState().getPostalStateName());
+            refreshVendorDetail.setDefaultAddressLine1(defaultAddress.getVendorLine1Address());
+            refreshVendorDetail.setDefaultAddressLine2(defaultAddress.getVendorLine2Address());
+            refreshVendorDetail.setDefaultAddressCity(defaultAddress.getVendorCityName());
+            refreshVendorDetail.setDefaultAddressPostalCode(defaultAddress.getVendorZipCode());
+            refreshVendorDetail.setDefaultAddressStateCode(defaultAddress.getVendorStateCode());
+            refreshVendorDetail.setDefaultAddressCountryCode(defaultAddress.getVendorCountryCode());
+        }        
+        document.setVendorAddressGeneratedIdentifier(defaultAddress.getVendorAddressGeneratedIdentifier());
+        document.setVendorLine1Address(defaultAddress.getVendorLine1Address());
+        document.setVendorLine2Address(defaultAddress.getVendorLine2Address());
+        document.setVendorCityName(defaultAddress.getVendorCityName());
+        document.setVendorPostalCode(defaultAddress.getVendorZipCode());
+        document.setVendorCountryCode(defaultAddress.getVendorCountryCode());
+        document.setVendorStateCode(defaultAddress.getVendorStateCode());
+    }
+
     public ActionForward refreshDeliveryBuilding(ActionMapping mapping, ActionForm form, 
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase baseForm = (PurchasingFormBase) form;

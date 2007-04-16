@@ -51,6 +51,11 @@
 	</bean>
 
 	<bean id="kraUserService" class="org.kuali.module.kra.service.impl.KraUserServiceImpl" parent="kualiModuleUserServiceBase">
+		<property name="kualiModuleUserDao" ref="kraUserDao" />
+	</bean>
+	
+	<bean id="kraUserDao" class="org.kuali.module.kra.budget.dao.ojb.KraUserDaoOjb">
+		<property name="configService" ref="kualiConfigurationService" />
 	</bean>
 
 	<!-- The following is temporary, only until SH_UNIV_DATE_T is corrected in the databse -->

@@ -15,10 +15,18 @@
  */
 package org.kuali.module.budget.web.struts.form;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.module.budget.bo.BudgetConstructionPosition;
+import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.rice.KNSServiceLocator;
 
 /**
  * This class...
@@ -61,6 +69,48 @@ public class PositionSalarySettingForm extends KualiForm {
         setBudgetConstructionPosition(new BudgetConstructionPosition());
     }
 
+    /**
+     * @see org.kuali.core.web.struts.form.KualiForm#populate(javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    public void populate(HttpServletRequest request) {
+
+        super.populate(request);
+
+        //TODO add insert line populate call here
+
+        populateBCAFLines();
+    }
+
+    /**
+     * This method iterates over all of the BCAF lines for the BudgetConstructionPosition
+     * TODO verify this - and calls prepareAccountingLineForValidationAndPersistence on each one.
+     * This is called to refresh ref objects for use by validation
+     */
+    protected void populateBCAFLines(){
+
+        //TODO add bcaf totaling here??
+
+        Iterator bcafLines = this.getBudgetConstructionPosition().getPendingBudgetConstructionAppointmentFunding().iterator();
+        while (bcafLines.hasNext()){
+            PendingBudgetConstructionAppointmentFunding bcafLine = (PendingBudgetConstructionAppointmentFunding) bcafLines.next();
+            this.populateBCAFLine(bcafLine);
+        }
+    }
+
+    /**
+     * Populates the dependent fields of objects contained within the BCAF line
+     * 
+     * @param line
+     */
+    private void populateBCAFLine(PendingBudgetConstructionAppointmentFunding line){
+
+//        final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject", "financialSubObject", "laborObject", "budgetConstructionMonthly"}));
+      final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] {"chartOfAccounts", "account", "subAccount", "financialObject", "financialSubObject"}));
+//        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(line, REFRESH_FIELDS);
+        KNSServiceLocator.getPersistenceService().retrieveReferenceObjects(line, REFRESH_FIELDS);
+
+    }
     /**
      * Gets the budgetConstructionPosition attribute. 
      * @return Returns the budgetConstructionPosition.
@@ -155,6 +205,31 @@ public class PositionSalarySettingForm extends KualiForm {
      */
     public void setEditingMode(Map editingMode) {
         this.editingMode = editingMode;
+    }
+
+    /**
+     * Gets the hideDetails attribute. 
+     * @return Returns the hideDetails.
+     */
+    public boolean isHideDetails() {
+        return hideDetails;
+    }
+
+    /**
+     * 
+     * @return hideDetails attribute
+     * @see #isHideDetails()
+     */
+    public boolean getHideDetails() {
+        return isHideDetails();
+    }
+
+   /**
+     * Sets the hideDetails attribute value.
+     * @param hideDetails The hideDetails to set.
+     */
+    public void setHideDetails(boolean hideDetails) {
+        this.hideDetails = hideDetails;
     }
 
 }

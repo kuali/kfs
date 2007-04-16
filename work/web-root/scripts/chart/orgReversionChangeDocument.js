@@ -39,7 +39,7 @@ function updateObjectNames( objField ) {
   }
   var orgCount = 0;
   var chartElementName = elPrefix + ".organizationReversionChangeOrganizations["+orgCount+"].chartOfAccountsCode";
-  while ($(chartElementName)) {
+  while (kualiElements[chartElementName]) {
     chartCode = getElementValue(chartElementName);
     if (chartCode && !arrayContains(chartCodes, chartCode)) {
       chartCodes.push(chartCode);

@@ -68,9 +68,9 @@
                     <div align="center">${status.index+1}</div>
                   </th> 
                   <td class="neutral">
-                    <kul:htmlControlAttribute property="document.routingFormOrganization[${status.index}].documentNumber" attributeEntry="${institutionCostShareAttributes.documentNumber}" />
-                    <kul:htmlControlAttribute property="document.routingFormOrganization[${status.index}].objectId" attributeEntry="${institutionCostShareAttributes.objectId}" />
-                    <kul:htmlControlAttribute property="document.routingFormOrganization[${status.index}].versionNumber" attributeEntry="${institutionCostShareAttributes.versionNumber}" />
+                    <html:hidden property="document.routingFormOrganization[${status.index}].documentNumber" />
+                    <kul:htmlControlAttribute property="document.routingFormOrganization[${status.index}].objectId" attributeEntry="${routingFormOrganizationAttributes.objectId}" />
+                    <kul:htmlControlAttribute property="document.routingFormOrganization[${status.index}].versionNumber" attributeEntry="${routingFormOrganizationAttributes.versionNumber}" />
                     <div align="center"><span class="infoline">
                       <kul:htmlControlAttribute property="document.routingFormOrganization[${status.index}].chartOfAccountsCode" attributeEntry="${routingFormOrganizationAttributes.chartOfAccountsCode}" />
                     </span></div>

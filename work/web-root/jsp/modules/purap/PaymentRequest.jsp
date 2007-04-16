@@ -58,20 +58,20 @@
 	</c:if>
 	
 	<c:if test="${not KualiForm.editingMode['displayInitTab']}" >
-		<!--  purap:vendor
+		< purap:vendor
 	        documentAttributes="${DataDictionary.KualiPaymentRequestDocument.attributes}" 
-	        displayPurchaseOrderFields="false" displayPaymentRequestFields="true"/ -->
-		<!-- c:out value="${KualiForm.paymentRequestInitiated}" /-->
+	        displayPurchaseOrderFields="false" displayPaymentRequestFields="true"/>
+		<!--  c:out value="${KualiForm.paymentRequestInitiated}" / -->
 		
 	
 		<purap:paymentRequestInvoiceInfo documentAttributes="${DataDictionary.KualiPaymentRequestDocument.attributes}"
 	 		 displayPaymentRequestInvoiceInfoFields="true" />        
 	
 	   
-	    <!-- kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}" / --> 
+	    < kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}" /> 
 	    
 	
-	    <!-- kul:adHocRecipients / -->
+	    < kul:adHocRecipients />
 	
 	    <kul:routeLog />
 	</c:if>

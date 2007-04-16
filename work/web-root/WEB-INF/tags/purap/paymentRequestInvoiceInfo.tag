@@ -36,18 +36,20 @@
 
             <tr>
                 <th align=right valign=middle class="bord-l-b">
-                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorCustomerNumber}" /></div>
+                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.invoiceNumber}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorCustomerNumber}" property="document.vendorCustomerNumber" />
+                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.invoiceNumber}" property="document.invoiceNumber"  />
                 </td>
                 <th align=right valign=middle class="bord-l-b">
-                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.paymentAttachmentIndicator}" /></div>
+                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderIdentifier}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentAttachmentIndicator}" property="document.paymentAttachmentIndicator" />
+                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderIdentifier}" property="document.purchaseOrderIdentifier"
+                   		readOnly="${not displayInitTab}" />
                 </td>
             </tr>
+            
             <tr>
                 <th align=right valign=middle class="bord-l-b">
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.paymentPaidDate}" /></div>
@@ -64,20 +66,7 @@
                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderDocument.statusChangeNote}" property="document.purchaseOrderDocument.statusChangeNote" />
                 </td>
             </tr>
-            <tr>
-                <th align=right valign=middle class="bord-l-b">
-                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorPaymentTermsCode}" /></div>
-                </th>
-                <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorPaymentTermsCode}" property="document.vendorPaymentTermsCode" />
-                </td>
-                <th align=right valign=middle class="bord-l-b">
-                   <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.vendorInvoiceAmount}" /></div>
-                </th>
-                <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorInvoiceAmount}" property="document.vendorInvoiceAmount" />
-                </td>
-            </tr>
+            
             <tr>
                 <th align=right valign=middle class="bord-l-b">
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.invoiceDate}" /></div>
@@ -92,52 +81,35 @@
                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentRequestCostSourceCode}" property="document.paymentRequestCostSourceCode" />
                 </td>
             </tr>
+            
             <tr>
                 <th align=right valign=middle class="bord-l-b">
-                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.paymentPaidDate}" /></div>
+                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderDocument.purchaseOrderEndDate}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentPaidDate}" property="document.paymentPaidDate" />
+                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderDocument.purchaseOrderEndDate}" property="document.purchaseOrderDocument.purchaseOrderEndDate" />
                 </td>
                 <th align=right valign=middle class="bord-l-b">
-                   <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.vendorInvoiceAmount}" /></div>
+                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderClassificationTypeDescription}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorInvoiceAmount}" property="document.vendorInvoiceAmount" />
+                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderClassificationTypeDescription}" property="document.purchaseOrderClassificationTypeDescription" />
                 </td>
             </tr>
+            
             <tr>
                 <th align=right valign=middle class="bord-l-b">
-                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.paymentPaidDate}" /></div>
+                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.paymentAttachmentIndicator}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentPaidDate}" property="document.paymentPaidDate" />
+                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentAttachmentIndicator}" property="document.paymentAttachmentIndicator" />
                 </td>
-                <th align=right valign=middle class="bord-l-b">
-                   <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.vendorShippingPaymentTermsCode}" /></div>
+                <th align=right valign=middle class="bord-l-b" colspan="2">
+                   <div align="right">&nbsp;</div>
                 </th>
-                <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorShippingPaymentTermsCode}" property="document.vendorShippingPaymentTermsCode" />
-                </td>
+                
             </tr>
-            <tr>
-                <th align=right valign=middle class="bord-l-b">
-                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.paymentSpecialHandlingInstructionLine1Text}" /></div>
-                </th>
-                <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentSpecialHandlingInstructionLine1Text}" property="document.paymentSpecialHandlingInstructionLine1Text" />
-                   <br/> 
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentSpecialHandlingInstructionLine2Text}" property="document.paymentSpecialHandlingInstructionLine2Text" />
-                   <br/>
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentSpecialHandlingInstructionLine3Text}" property="document.paymentSpecialHandlingInstructionLine3Text" />
-                </td>
-                <th align=right valign=middle class="bord-l-b">
-                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.paymentPaidDate}" /></div>
-                </th>
-                <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentPaidDate}" property="document.paymentPaidDate" />
-                </td>
-             </tr>
+            
 		</table> 
 		
 		

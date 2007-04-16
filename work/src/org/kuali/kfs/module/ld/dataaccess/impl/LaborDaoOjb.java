@@ -63,7 +63,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
 
         ReportQueryByCriteria query = QueryFactory.newReportQuery(CalculatedSalaryFoundationTracker.class, criteria);
 
-        List groupByList = new ArrayList();
+        List<String> groupByList = new ArrayList<String>();
         groupByList.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
         groupByList.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
         groupByList.add(PropertyConstants.ACCOUNT_NUMBER);
@@ -99,7 +99,7 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
 
         ReportQueryByCriteria query = QueryFactory.newReportQuery(AccountStatusCurrentFunds.class, criteria);
 
-        List groupByList = new ArrayList();
+        List<String> groupByList = new ArrayList<String>();
         groupByList.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
         groupByList.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
         groupByList.add(PropertyConstants.ACCOUNT_NUMBER);

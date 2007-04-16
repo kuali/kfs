@@ -47,7 +47,7 @@ public class BaseFundsInquirableImpl extends AbstractLaborInquirableImpl {
      * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#buildUserDefinedAttributeKeyList()
      */
     protected List buildUserDefinedAttributeKeyList() {
-        List keys = new ArrayList();
+        List<String> keys = new ArrayList<String>();
 
         keys.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
         keys.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);

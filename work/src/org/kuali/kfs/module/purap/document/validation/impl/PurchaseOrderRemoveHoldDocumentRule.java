@@ -33,7 +33,7 @@ import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 
-public class PurchaseOrderRetransmitDocumentRule extends TransactionalDocumentRuleBase {
+public class PurchaseOrderRemoveHoldDocumentRule extends TransactionalDocumentRuleBase {
 
     /**
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
@@ -62,16 +62,16 @@ public class PurchaseOrderRetransmitDocumentRule extends TransactionalDocumentRu
     private boolean processValidation(PurchaseOrderDocument document) {
         boolean valid = true;
 
-        // Check that the PO is not null.
+        // Check that the PO is not null
         if (ObjectUtils.isNull(document)) {
-            throw new ValidationException("Purchase Order Retransmit document was null on validation.");
+            throw new ValidationException("Purchase Order Remove Hold document was null on validation.");
         }
         else {
-            // TODO: Get this from Business Rules.           
-            // Check the PO status.
-            if (StringUtils.equalsIgnoreCase(document.getStatusCode(), PurchaseOrderStatuses.CLOSED)) {
+            // TODO: Get this from Business Rules.
+            // Check the PO status
+            if (!StringUtils.equalsIgnoreCase(document.getStatusCode(), PurchaseOrderStatuses.PAYMENT_HOLD)) {
                 valid = false;
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.STATUS_CODE, PurapKeyConstants.ERROR_PURCHASE_ORDER_STATUS_INCORRECT, PurchaseOrderStatuses.CLOSED);
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.STATUS_CODE, PurapKeyConstants.ERROR_PURCHASE_ORDER_STATUS_NOT_REQUIRED_STATUS, PurchaseOrderStatuses.PAYMENT_HOLD);
             }
 
             // Check that the user is in purchasing workgroup.
@@ -89,7 +89,6 @@ public class PurchaseOrderRetransmitDocumentRule extends TransactionalDocumentRu
                 valid = false;
             }
         }
-
         return valid;
     }
 }

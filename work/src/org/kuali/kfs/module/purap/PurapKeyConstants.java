@@ -41,18 +41,17 @@ public class PurapKeyConstants {
     //Purchase Order  
     public static final String PURCHASE_ORDER_QUESTION_DOCUMENT = "purchaseOrder.question.text";
     public static final String PURCHASE_ORDER_MESSAGE_CLOSE_DOCUMENT = "purchaseOrder.route.message.close.text";
-    public static final String PURCHASE_ORDER_CLOSE_NOTE_TEXT_INTRO = "purchaseOrder.message.close.noteTextIntro";
-    public static final String ERROR_PURCHASE_ORDER_CLOSE_REASON_REQUIRED = "error.close.purchaseOrder.reasonRequired";    
-    public static final String ERROR_PURCHASE_ORDER_CLOSE_STATUS = "error.close.purchaseOrder.status.incorrect";
+    public static final String ERROR_PURCHASE_ORDER_REASON_REQUIRED = "error.purchaseOrder.reasonRequired";    
+    public static final String ERROR_PURCHASE_ORDER_STATUS_INCORRECT = "error.purchaseOrder.status.incorrect";
+    public static final String ERROR_PURCHASE_ORDER_STATUS_NOT_REQUIRED_STATUS = "error.close.purchaseOrder.status.not.required.status";
     public static final String ERROR_PURCHASE_ORDER_CLOSE_NO_PREQ = "error.close.purchaseOrder.no.paymentRequest";
     public static final String ERROR_PURCHASE_ORDER_CLOSE_PREQ_IN_PROCESS = "error.close.purchaseOrder.paymentRequest.inProcess";
     public static final String PURCHASE_ORDER_MESSAGE_VOID_DOCUMENT = "purchaseOrder.route.message.void.text";
-    public static final String PURCHASE_ORDER_VOID_NOTE_TEXT_INTRO = "purchaseOrder.message.void.noteTextIntro";
-    public static final String ERROR_PURCHASE_ORDER_VOID_REASON_REQUIRED = "error.void.purchaseOrder.reasonRequired"; 
+    public static final String PURCHASE_ORDER_MESSAGE_PAYMENT_HOLD = "purchaseOrder.route.message.payment.hold.text";
+    public static final String PURCHASE_ORDER_MESSAGE_REMOVE_HOLD = "purchaseOrder.route.message.remove.hold.text";
     public static final String MESSAGE_ROUTE_REOPENED="message.route.reopened";
     public static final String ERROR_USER_NONPURCHASING="errors.user.nonPurchasing";
     public static final String ERROR_PURCHASE_ORDER_PDF = "error.purchaseOrder.pdf";
-    public static final String PURCHASE_ORDER_REOPEN_STATUS="purchaseOrder.reopen.status";
     public static final String ERROR_PURCHASE_ORDER_TRANSMIT_PRIOR_TRANSMISSION = "error.transmit.purchaseOrder.priorTransmission";
     public static final String ERROR_PURCHASE_ORDER_TRANSMIT_INVALID_TRANSMIT_TYPE= "error.transmit.purchaseOrder.invalidTransmitType";
     public static final String WARNING_PURCHASE_ORDER_NOT_CURRENT="warning.purchaseOrder.notCurrent";

@@ -111,18 +111,11 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         //TODO: Find out and add logic about which buttons to appear in 
         //which condition e.g. we might not want to display the close button 
         //on a PO with status CLOSE or the open button on a PO with status OPEN, etc.
-        
-
-        ExtraButton paymentHoldButton = new ExtraButton();
-        paymentHoldButton.setExtraButtonProperty("methodToCall.paymentHoldPo");
-        paymentHoldButton.setExtraButtonSource("images/buttonsmall_paymenthold.gif");
-        
+                
         ExtraButton retransmitButton = new ExtraButton();
         retransmitButton.setExtraButtonProperty("methodToCall.retransmitPo");
         retransmitButton.setExtraButtonSource("images/buttonsmall_retransmit.gif");
         
-
-        this.getExtraButtons().add(paymentHoldButton);
         this.getExtraButtons().add(retransmitButton);
 
         String documentType = this.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentType();
@@ -133,6 +126,10 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             printButton.setExtraButtonProperty("methodToCall.printPo");
             printButton.setExtraButtonSource("images/buttonsmall_print.gif");
             this.getExtraButtons().add(printButton);
+            ExtraButton paymentHoldButton = new ExtraButton();
+            paymentHoldButton.setExtraButtonProperty("methodToCall.paymentHoldPo");
+            paymentHoldButton.setExtraButtonSource("images/buttonsmall_paymenthold.gif");
+            this.getExtraButtons().add(paymentHoldButton);
         }
         if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CLOSED) &&
             purchaseOrder.isPurchaseOrderCurrentIndicator() &&
@@ -146,13 +143,25 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             purchaseOrder.isPurchaseOrderCurrentIndicator() &&
             !purchaseOrder.isPendingActionIndicator()) {
             ExtraButton closeButton = new ExtraButton();
-            closeButton.setExtraButtonProperty("methodToCall.closePO");
+            closeButton.setExtraButtonProperty("methodToCall.closePo");
             closeButton.setExtraButtonSource("images/buttonsmall_closeorder.gif");
             this.getExtraButtons().add(closeButton);
             ExtraButton voidButton = new ExtraButton();
             voidButton.setExtraButtonProperty("methodToCall.voidPo");
             voidButton.setExtraButtonSource("images/buttonsmall_voidorder.gif");            
-            this.getExtraButtons().add(voidButton); 
+            this.getExtraButtons().add(voidButton);
+            ExtraButton paymentHoldButton = new ExtraButton();
+            paymentHoldButton.setExtraButtonProperty("methodToCall.paymentHoldPo");
+            paymentHoldButton.setExtraButtonSource("images/buttonsmall_paymenthold.gif");
+            this.getExtraButtons().add(paymentHoldButton);           
+        }
+        if( purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD ) &&
+                purchaseOrder.isPurchaseOrderCurrentIndicator() &&
+                !purchaseOrder.isPendingActionIndicator() ) {
+            ExtraButton removeHoldButton = new ExtraButton();
+            removeHoldButton.setExtraButtonProperty("methodToCall.removeHoldPo");
+            removeHoldButton.setExtraButtonSource("images/buttonsmall_removehold.gif");
+            this.getExtraButtons().add(removeHoldButton);
         }
         /* We probably won't need this button */
         if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT) &&

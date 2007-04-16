@@ -15,19 +15,22 @@
  */
 package org.kuali.module.purap.rules;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
+import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.service.PurchaseOrderService;
 
 public class PurchaseOrderReopenDocumentRule extends TransactionalDocumentRuleBase {
 
@@ -58,27 +61,33 @@ public class PurchaseOrderReopenDocumentRule extends TransactionalDocumentRuleBa
     private boolean processValidation(PurchaseOrderDocument document) {
         boolean valid = true;
 
-        //check that the user is in purchasing workgroup
-        String initiatorNetworkId = document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
-        UniversalUserService uus = SpringServiceLocator.getUniversalUserService();
-        UniversalUser user = null;
-        try {
-            user = uus.getUniversalUserByAuthenticationUserId(initiatorNetworkId);
-            String purchasingGroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue("PurapAdminGroup", PurapConstants.Workgroups.WORKGROUP_PURCHASING);
-            if (!uus.isMember(user, purchasingGroup )) {
+        // Check that the PO is not null
+        if (ObjectUtils.isNull(document)) {
+            throw new ValidationException("Purchase Order Reopen document was null on validation.");
+        } else {
+            // TODO: Get this from Business Rules.
+            // Check the PO status.
+            if (!StringUtils.equalsIgnoreCase( document.getStatusCode(), PurapConstants.PurchaseOrderStatuses.CLOSED )) {
                 valid = false;
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURAP_DOC_ID, PurapKeyConstants.ERROR_USER_NONPURCHASING);
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.STATUS_CODE, PurapKeyConstants.ERROR_PURCHASE_ORDER_STATUS_INCORRECT, PurapConstants.PurchaseOrderStatuses.CLOSED );
+            }           
+            
+            // Check that the user is in purchasing workgroup.
+            String initiatorNetworkId = document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
+            UniversalUserService uus = SpringServiceLocator.getUniversalUserService();
+            UniversalUser user = null;
+            try {
+                user = uus.getUniversalUserByAuthenticationUserId(initiatorNetworkId);
+                String purchasingGroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_PURCHASING);
+                if (!uus.isMember(user, purchasingGroup)) {
+                    valid = false;
+                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURAP_DOC_ID, PurapKeyConstants.ERROR_USER_NONPURCHASING);
+                }
             }
-        } catch (UserNotFoundException ue) {
-            valid = false;
+            catch (UserNotFoundException ue) {
+                valid = false;
+            }  
         }
-
-        //check the PO status
-        if (!document.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CLOSED)) {
-            valid = false;
-            GlobalVariables.getErrorMap().putError(PurapPropertyConstants.STATUS_CODE, PurapKeyConstants.PURCHASE_ORDER_REOPEN_STATUS);
-        }
-        
         return valid;
     }
 

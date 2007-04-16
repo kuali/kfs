@@ -143,6 +143,7 @@ public class PurapConstants {
         public static String PURCHASE_ORDER_PRINT_DOCUMENT  = "KualiPurchaseOrderPrintDocument";
         public static String PURCHASE_ORDER_VOID_DOCUMENT  = "KualiPurchaseOrderVoidDocument";
         public static String PURCHASE_ORDER_PAYMENT_HOLD_DOCUMENT  = "KualiPurchaseOrderPaymentHoldDocument";
+        public static String PURCHASE_ORDER_REMOVE_HOLD_DOCUMENT = "KualiPurchaseOrderRemoveHoldDocument";
     }
 
     private static HashMap<String, String> purchaseOrderDocTypes()
@@ -155,6 +156,7 @@ public class PurapConstants {
         mapSLF.put(PurchaseOrderDocTypes.PURCHASE_ORDER_PRINT_DOCUMENT, "purchaseOrderPostProcessorPrintService");
         mapSLF.put(PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, "purchaseOrderPostProcessorRetransmitService");
         mapSLF.put(PurchaseOrderDocTypes.PURCHASE_ORDER_PAYMENT_HOLD_DOCUMENT, "purchaseOrderPostProcessorPaymentHoldService");
+        mapSLF.put(PurchaseOrderDocTypes.PURCHASE_ORDER_REMOVE_HOLD_DOCUMENT, "purchaseOrderPostProcessorRemoveHoldService");
         mapSLF.put(PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT, "purchaseOrderPostProcessorService");
         return mapSLF;
     }
@@ -164,7 +166,7 @@ public class PurapConstants {
     public static class PODocumentsStrings {
         public static String CLOSE_QUESTION = "POClose";
         public static String CLOSE_CONFIRM = "POCloseConfirm";
-        public static String CLOSE_NOTE_PREFIX = "Note entered while closing a Purchase Order : ";
+        public static String CLOSE_NOTE_PREFIX = "Note entered while closing a Purchase Order :";
         
         public static String REOPEN_PO_QUESTION = "ReopenPO";
         public static String CONFIRM_REOPEN_QUESTION = "ConfirmReopen"; 
@@ -172,11 +174,15 @@ public class PurapConstants {
         
         public static String VOID_QUESTION = "POVoid";
         public static String VOID_CONFIRM = "POVoidConfirm";
-        public static String VOID_NOTE_PREFIX = "Note entered while voiding a Purchase Order : ";
+        public static String VOID_NOTE_PREFIX = "Note entered while voiding a Purchase Order :";
         
         public static String PAYMENT_HOLD_QUESTION = "POPaymentHold";
         public static String PAYMENT_HOLD_CONFIRM = "POPaymentHoldConfirm";
-        public static String PAYMENT_HOLD_NOTE_PREFIX = "Note entered while putting a Purchase Order in Payment Hold status :";
+        public static String PAYMENT_HOLD_NOTE_PREFIX = "Note entered while putting a Purchase Order on payment hold :";
+
+        public static String REMOVE_HOLD_QUESTION = "PORemoveHold";
+        public static String REMOVE_HOLD_CONFIRM = "PORemoveHoldConfirm";
+        public static String REMOVE_HOLD_NOTE_PREFIX = "Note entered while removing a Purchase Order from payment hold :";       
         
         public static String SINGLE_CONFIRMATION_QUESTION = "singleConfirmationQuestion";
     }

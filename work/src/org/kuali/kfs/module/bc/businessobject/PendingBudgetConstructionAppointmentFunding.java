@@ -18,9 +18,12 @@ package org.kuali.module.budget.bo;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.kuali.PropertyConstants;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
@@ -799,6 +802,24 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
         this.bcnCalculatedSalaryFoundationTracker = bcnCalculatedSalaryFoundationTracker;
     }
 
+    /**
+     * Returns a map with the primitive field names as the key and the primitive values as the map value.
+     * 
+     * @return Map
+     */
+    public Map getValuesMap() {
+        Map simpleValues = new HashMap();
+
+        simpleValues.put("universityFiscalYear", getUniversityFiscalYear());
+        simpleValues.put("chartOfAccountsCode", getChartOfAccountsCode());
+        simpleValues.put("accountNumber", getAccountNumber());
+        simpleValues.put("subAccountNumber", getSubAccountNumber());
+        simpleValues.put("financialObjectCode", getFinancialObjectCode());
+        simpleValues.put("financialSubObjectCode", getFinancialSubObjectCode());
+
+        return simpleValues;
+    }
+  
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

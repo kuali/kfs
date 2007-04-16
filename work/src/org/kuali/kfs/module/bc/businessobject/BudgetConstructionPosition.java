@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ResponsibilityCenter;
@@ -71,7 +72,7 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
 	 */
 	public BudgetConstructionPosition() {
         budgetConstructionPositionSelect = new ArrayList();
-        pendingBudgetConstructionAppointmentFunding = new ArrayList();;
+        setPendingBudgetConstructionAppointmentFunding(new TypedArrayList(PendingBudgetConstructionAppointmentFunding.class));
 
 	}
 
@@ -713,6 +714,17 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
         this.universityFiscal = universityFiscal;
     }
     
+    /**
+     * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     */
+    @Override
+    public List buildListOfDeletionAwareLists() {
+
+        List managedLists =  super.buildListOfDeletionAwareLists();
+        managedLists.add(getPendingBudgetConstructionAppointmentFunding());
+        return managedLists; 
+    }
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

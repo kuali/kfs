@@ -80,6 +80,12 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
                 refreshVendorContract.setVendorContractGeneratedIdentifier(vendorContractGeneratedId);
                 refreshVendorContract = (VendorContract)businessObjectService.retrieve(refreshVendorContract);
                 document.templateVendorContract(refreshVendorContract);
+                VendorDetail refreshVendorDetail = new VendorDetail();
+                refreshVendorDetail.setVendorDetailAssignedIdentifier(refreshVendorContract.getVendorDetailAssignedIdentifier());
+                refreshVendorDetail.setVendorHeaderGeneratedIdentifier(refreshVendorContract.getVendorHeaderGeneratedIdentifier());
+                refreshVendorDetail = (VendorDetail)businessObjectService.retrieve(refreshVendorDetail);
+                document.templateVendorDetail(refreshVendorDetail);
+                
             }
             if( StringUtils.isNotEmpty( request.getParameter( PurapPropertyConstants.VENDOR_ADDRESS_ID ) ) ) {
                 Integer vendorAddressGeneratedId = document.getVendorAddressGeneratedIdentifier();

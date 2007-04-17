@@ -819,7 +819,7 @@ public class Options extends PersistableBusinessObjectBase {
      * 
      * @param monthlyBudgetFinancialBalanceTypeCode The monthlyBudgetFinancialBalanceTypeCode to set.
      */
-    public void setMonthlyBudgetFinancialBalanceTypeCode(String monthlyBudgetFinancialBalanceTypeCode) {
+    public void setMonthlyBudgetFinancialBalanceTypeCd(String monthlyBudgetFinancialBalanceTypeCode) {
         this.monthlyBudgetFinancialBalanceTypeCd = monthlyBudgetFinancialBalanceTypeCode;
     }
 

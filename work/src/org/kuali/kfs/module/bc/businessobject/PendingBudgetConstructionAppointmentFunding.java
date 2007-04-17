@@ -816,6 +816,8 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
         simpleValues.put("subAccountNumber", getSubAccountNumber());
         simpleValues.put("financialObjectCode", getFinancialObjectCode());
         simpleValues.put("financialSubObjectCode", getFinancialSubObjectCode());
+        simpleValues.put("positionNumber", getPositionNumber());
+        simpleValues.put("emplid", getEmplid());
 
         return simpleValues;
     }

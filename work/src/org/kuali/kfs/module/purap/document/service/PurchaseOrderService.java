@@ -25,7 +25,7 @@ import org.kuali.module.purap.document.RequisitionDocument;
 public interface PurchaseOrderService {
 
     public void save(PurchaseOrderDocument purchaseOrderDocument);
-
+    
     public PurchaseOrderDocument createAutomaticPurchaseOrderDocument(RequisitionDocument reqDocument);
     public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument);   
     public PurchaseOrderPostProcessorService convertDocTypeToService(String documentTypeId);  
@@ -41,5 +41,6 @@ public interface PurchaseOrderService {
 
     public PurchaseOrderDocument getOldestPurchaseOrder(Integer id);
     public PurchaseOrderDocument getPurchaseOrderInPendingPrintStatus(Integer id);
+    public void sendFYItoWorkgroup(PurchaseOrderDocument po, String annotation, Long workgroupId);
     
 }

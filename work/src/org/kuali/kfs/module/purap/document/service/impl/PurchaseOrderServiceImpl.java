@@ -32,6 +32,7 @@ import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.NoteService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -55,6 +56,8 @@ import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.service.VendorService;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.iu.uis.eden.EdenConstants;
+import edu.iu.uis.eden.clientapp.vo.WorkgroupIdVO;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 @Transactional
@@ -198,6 +201,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             documentService.updateDocument(poDocument);
             documentService.prepareWorkflowDocument(poDocument);
             workflowDocumentService.save(poDocument.getDocumentHeader().getWorkflowDocument(), "", null);
+
         }
         catch (WorkflowException e) {
             LOG.error("Error creating PO document: " + e.getMessage());
@@ -318,7 +322,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 return false;
             } 
             else { 
-                
                 documentService.routeDocument(po, annotation, adhocRoutingRecipients);
             }
         }
@@ -331,6 +334,42 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             throw new RuntimeException("Error during updateFlagsAndRoute on PO document: " + e.getMessage());      
         }
         return true;
+    }
+    
+    public void sendFYItoWorkgroup(PurchaseOrderDocument po, String annotation, Long workgroupId) {
+        LOG.debug("SendFYI started with annotation: "+ annotation);
+        try {
+            KualiWorkflowDocument workflowDoc = po.getDocumentHeader().getWorkflowDocument();
+            String currentNodeName = PurapConstants.DOC_ADHOC_NODE_NAME;
+            if (!(EdenConstants.ROUTE_HEADER_INITIATED_CD.equals(workflowDoc.getRouteHeader().getDocRouteStatus()))) {
+                if (getCurrentRouteNodeName(workflowDoc) != null) {
+                    currentNodeName = getCurrentRouteNodeName(workflowDoc);
+                }
+            }
+            
+            //We can't do this because we can't instantiate a new WorkgroupIdVO.
+            //workflowDoc.appSpecificRouteDocumentToWorkgroup(EdenConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, 0, 
+            //        annotation, new WorkgroupIdVO(workgroupId), "Initiator", true);
+        }
+        catch (WorkflowException we) {
+            LOG.error("Error during sendFYI on PO document: " + we.getMessage());
+            throw new RuntimeException("Error during sendFYI on PO document: " + we.getMessage());            
+        }
+        catch (Exception e) {
+            LOG.error("Error during sendFYI on PO document: " + e.getMessage());
+            throw new RuntimeException("Error during sendFYI on PO document: " + e.getMessage());      
+        }
+        LOG.debug("SendFYI ended.");
+    }
+    
+    private String getCurrentRouteNodeName(KualiWorkflowDocument wd) throws WorkflowException {
+        String[] nodeNames = wd.getNodeNames();
+        if ((nodeNames == null) || (nodeNames.length == 0)) {
+            return null;
+        }
+        else {
+            return nodeNames[0];
+        }
     }
 
     /**

@@ -2592,25 +2592,26 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     {
         QueryByCriteria queryId;
         Integer positionHashSize;
+        Integer RequestYear = BaseYear+1;  
         if (CSFUpdatesAllowed) 
         {
           // we only update the base year if CSF updates are allowed
           // we always update the request year
           // this code gets both years   
+          Criteria criteriaID = new Criteria();
+          criteriaID.addBetween(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+                                BaseYear,RequestYear);
           queryId = 
-              new QueryByCriteria(BudgetConstructionPosition.class,
-                                  QueryByCriteria.CRITERIA_SELECT_ALL);
+              new QueryByCriteria(BudgetConstructionPosition.class,criteriaID);
           // CSF could create a base and a request position
           positionHashSize = 
-              hashObjectSize(BudgetConstructionPosition.class,
-                             QueryByCriteria.CRITERIA_SELECT_ALL)+
+              hashObjectSize(BudgetConstructionPosition.class,criteriaID)+
                              2*countCSFPositions(BaseYear);
         }
         else
         {
           // base year budget construction positions are frozen
           // only update the request year positions  
-          Integer RequestYear = BaseYear+1;  
           Criteria criteriaID = new Criteria();
           criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
                                 RequestYear);

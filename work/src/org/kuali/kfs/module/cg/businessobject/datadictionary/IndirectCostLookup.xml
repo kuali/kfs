@@ -33,9 +33,9 @@
         </inquiry>
 
         <lookup>
-            <title>Indirect Cost Lookup Lookup</title>
+            <title>Indirect Cost Lookup</title>
 
-            <instructions>Lookup a Indirect Cost Lookup</instructions>
+            <instructions>Lookup an Indirect Cost Lookup</instructions>
 
             <defaultSort attributeName="budgetPurposeCode" sortAscending="true" />
 

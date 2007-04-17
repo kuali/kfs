@@ -23,6 +23,7 @@
         <businessObjectClass>org.kuali.module.chart.bo.ObjectType</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
+		<businessRulesClass>org.kuali.module.chart.rules.ObjectTypeRule</businessRulesClass>
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
 
         <authorizations>
@@ -54,6 +55,7 @@
                     <maintainableField name="finObjectTypeIcrSelectionIndicator"  />
                     <maintainableField name="fundBalanceIndicator"  />
                     <maintainableField name="financialReportingSortCode" required="true" />
+                    <maintainableField name="accountCategoryCode" required="true" />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

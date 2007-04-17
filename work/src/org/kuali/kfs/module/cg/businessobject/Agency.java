@@ -215,7 +215,7 @@ public class Agency extends PersistableBusinessObjectBase {
     /**
      * Sets the reportsToAgency attribute.
      * 
-     * @param reportsToAgency The reportsToAgency to set.
+     * @param reportsToAgencyNumber The reportsToAgency to set.
      * @deprecated
      */
     public void setReportsToAgency(Agency reportsToAgencyNumber) {

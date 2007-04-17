@@ -107,6 +107,8 @@
 
 <%@ attribute name="rowSpan" required="false"
               description="row span for the data cell" %>
+<%@ attribute name="colSpan" required="false"
+              description="col span for the data cell" %>
 <%@ attribute name="anchor" required="false"
               description="adds a named anchor inside the header cell.
               Also if lookup is true, returns to this anchor, unless lookupAnchor is set." %>
@@ -114,7 +116,8 @@
               description="The name of multiple fields in the business object containing details to be display.
 			  Any supplied field that starts with a semicolon will be treated as a text field, rather 
 			  than a database field. The semicolon will be ignored in the output." %>
-                         
+<%@ attribute name="formattedNumberValue" required="false"
+              description="number to format instead of property" %>
 
 <c:if test="${empty fieldAlign}">
     <c:set var="fieldAlign" value="left"/>
@@ -138,10 +141,11 @@
     </c:otherwise>
 </c:choose>
 <c:set var="rowSpan" value="${empty rowSpan ? 1 : rowSpan}"/>
+<c:set var="colSpan" value="${empty colSpan ? 1 : colSpan}"/>
 <c:set var="useXmlHttp" value="${(!readOnly) && (!empty detailFunction)}" />
 <%-- test to see if we are dealing with the extra JV fields here --%>
 <c:set var="specialRequiredField" value="${(field eq 'referenceOriginCode') || (field eq 'referenceNumber') || (field eq 'referenceTypeCode')}" />
-<td class="${dataCellCssClass}" valign="top" rowspan="${rowSpan}">
+<td class="${dataCellCssClass}" valign="top" rowspan="${rowSpan}" colspan="${colSpan}">
 <div align="${fieldAlign}">
     <c:if test="${not empty anchor}">
     	<a name="${anchor}"></a>
@@ -187,6 +191,7 @@
             inquiryKeys="${lookupOrInquiryKeys}"
             accountingLineValuesMap="${accountingLineValuesMap}"
             inquiryExtraKeyValues="${inquiryExtraKeyValues}"
+            formattedNumberValue="${formattedNumberValue}"
             />
     </kul:htmlControlAttribute>
 

@@ -16,6 +16,8 @@
 <%@ taglib prefix="kul" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="/tlds/c.tld" %>
 <%@ taglib prefix="html" uri="/tlds/struts-html.tld" %>
+<%@ taglib uri="/tlds/fmt.tld" prefix="fmt" %>
+
 <%@ attribute name="property" required="true"
               description="the fully qualified name of the property being displayed by this cell.
               This could be in the document instead of the accounting line." %>
@@ -37,6 +39,8 @@
               description="map of the accounting line primitive fields and values, for inquiry keys" %>
 <%@ attribute name="inquiryExtraKeyValues" required="false"
               description="ampersand separated list of inquiry key=value pairs not in accountingLineValuesMap" %>
+<%@ attribute name="formattedNumberValue" required="false"
+              description="number to format instead of property" %>
 
 <c:set var="aKeyIsMissing" value="${empty accountingLineValuesMap[field]}"/>
 <c:set var="keyValues" value="${conversionField}=${accountingLineValuesMap[field]}"/>
@@ -52,5 +56,14 @@
     keyValues="${keyValues}"
     render="${inquiry && canRenderInquiry}"
     >
-    <html:hidden write="true" property="${property}" style="${textStyle}" />
+    <c:choose>
+        <c:when test="${empty formattedNumberValue}">
+            <html:hidden write="true" property="${property}" style="${textStyle}" />
+        </c:when>
+        <c:otherwise>
+            <html:hidden write="false" property="${property}" style="${textStyle}" />
+            ${formattedNumberValue}
+        </c:otherwise>
+    </c:choose>
+    
 </kul:inquiry>

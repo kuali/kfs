@@ -18,7 +18,7 @@
 <kul:page showDocumentInfo="false"
 	htmlFormAction="budgetPositionSalarySetting" renderMultipart="true"
 	showTabButtons="true"
-	docTitle="Position Salary Setting"
+	docTitle="Salary Setting by Position"
     transactionalDocument="false"
 	>
 

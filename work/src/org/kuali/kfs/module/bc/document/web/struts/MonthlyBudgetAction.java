@@ -15,6 +15,8 @@
  */
 package org.kuali.module.budget.web.struts.action;
 
+import static org.kuali.rice.KNSServiceLocator.getBusinessObjectService;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -151,7 +153,8 @@ public class MonthlyBudgetAction extends KualiAction {
         MonthlyBudgetForm monthlyBudgetForm = (MonthlyBudgetForm) form;
         BudgetConstructionMonthly budgetConstructionMonthly = monthlyBudgetForm.getBudgetConstructionMonthly();
         
-        // TODO validate and store monthly changes
+        // TODO validate and store monthly changes, for now save using BOService
+        getBusinessObjectService().save(budgetConstructionMonthly);
 
         // setup the return parms for the document and anchor
         Properties parameters = new Properties();

@@ -37,7 +37,7 @@ public class AssignContractManagerDocumentRule extends TransactionalDocumentRule
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssignContractManagerDocumentRule.class);
 
     /**
-     * @see org.kuali.module.financial.rules.TransactionalDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
+     * @see org.kuali.core.rules.TransactionalDocumentRuleBase#processCustomRouteDocumentBusinessRules(Document)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -78,7 +78,7 @@ public class AssignContractManagerDocumentRule extends TransactionalDocumentRule
      * This method takes the list of AssignContractManagerDetails where the user has
      * entered ContractManagerCodes and validates that each code is valid.
      * 
-     * @param fieldValues   A Map containing the code to be validated.
+     * @param assignContractManagerDetails A Map containing the code to be validated.
      */
     public boolean validateContractManagerCodes(List assignContractManagerDetails){
         LOG.debug("validateContractManagerCodes(): entered method.");

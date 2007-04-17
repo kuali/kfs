@@ -42,7 +42,7 @@ public class TransferOfFundsDocument extends AccountingDocumentBase implements C
     /**
      * Overrides the base implementation to return "From".
      * 
-     * @see org.kuali.core.document.TransactionalDocument#getSourceAccountingLinesSectionTitle()
+     * @see org.kuali.kfs.document.AccountingDocument#getSourceAccountingLinesSectionTitle()
      */
     public String getSourceAccountingLinesSectionTitle() {
         return Constants.FROM;
@@ -51,7 +51,7 @@ public class TransferOfFundsDocument extends AccountingDocumentBase implements C
     /**
      * Overrides the base implementation to return "To".
      * 
-     * @see org.kuali.core.document.TransactionalDocument#getTargetAccountingLinesSectionTitle()
+     * @see org.kuali.kfs.document.AccountingDocument#getTargetAccountingLinesSectionTitle()
      */
     public String getTargetAccountingLinesSectionTitle() {
         return Constants.TO;

@@ -1008,10 +1008,10 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.PaymentRequestItem" table="AP_PMT_RQST_ITM_T">
-	<field-descriptor name="paymentRequestItemIdentifier" column="PMT_RQST_ITM_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="PMT_RQST_ITM_ID"/>
+	<field-descriptor name="itemIdentifier" column="PMT_RQST_ITM_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="PMT_RQST_ITM_ID"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="paymentRequestIdentifier" column="PMT_RQST_ID" jdbc-type="INTEGER" index="true"/>
+	<field-descriptor name="purapDocumentIdentifier" column="PMT_RQST_ID" jdbc-type="INTEGER" index="true"/>
 	<field-descriptor name="itemLineNumber" column="ITM_LN_NBR" jdbc-type="INTEGER" index="true"/>
 	<field-descriptor name="itemTypeCode" column="ITM_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="itemDescription" column="ITM_DESC" jdbc-type="VARCHAR"/>
@@ -1029,7 +1029,7 @@
 	<field-descriptor name="itemOutstandingInvoiceQuantity" column="ITM_OSTND_INV_QTY" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
     <field-descriptor name="itemOutstandingInvoiceAmount" column="ITM_OSTND_INV_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" /> 
 	<reference-descriptor name="paymentRequest" class-ref="org.kuali.module.purap.document.PaymentRequestDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="paymentRequestIdentifier" />
+		<foreignkey field-ref="purapDocumentIdentifier" />
 	</reference-descriptor>
 </class-descriptor>
 

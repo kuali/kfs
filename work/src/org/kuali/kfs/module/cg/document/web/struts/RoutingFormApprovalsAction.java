@@ -58,20 +58,6 @@ public class RoutingFormApprovalsAction extends RoutingFormAction {
         
         cacheAndLoad(mapping, form, request, response);
         
-//        routingForm.setAdHocRoutePersons(routingForm.getRoutingFormDocument().convertKraAdhocsToAdHocRoutePersons());
-//        routingForm.setAdHocRouteWorkgroups(routingForm.getRoutingFormDocument().convertKraAdhocsToAdHocRouteWorkgroups());
-//        // send FYIs, adhoc requests
-//        List<AdHocRouteWorkgroup> routeWorkgroups = new ArrayList<AdHocRouteWorkgroup>();
-//        List<String> workgroupNames = SpringServiceLocator.getRoutingFormResearchRiskService().getNotificationWorkgroups(routingForm.getRoutingFormDocument().getDocumentNumber());
-//        for (String workgroup : workgroupNames) {
-//            AdHocRouteWorkgroup routeWorkgroup = new AdHocRouteWorkgroup();
-//            routeWorkgroup.setActionRequested(Constants.WORKFLOW_FYI_REQUEST);
-//            routeWorkgroup.setdocumentNumber(routingForm.getRoutingFormDocument().getDocumentNumber());
-//            routeWorkgroup.setId(workgroup);
-//            routeWorkgroups.add(routeWorkgroup);
-//        }
-//        routingForm.setAdHocRouteWorkgroups(routeWorkgroups);
-        
         ActionForward forward = super.route(mapping, form, request, response);
         return forward;
     }
@@ -87,11 +73,13 @@ public class RoutingFormApprovalsAction extends RoutingFormAction {
         KualiWorkflowDocument workflowDoc = routingForm.getDocument().getDocumentHeader().getWorkflowDocument();
         if (new Integer(1).equals(workflowDoc.getRouteHeader().getDocRouteLevel())) {
             
-            //routingForm.setAdHocRoutePersons(routingForm.getRoutingFormDocument().convertKraAdhocsToAdHocRoutePersons());
-            //routingForm.setAdHocRouteWorkgroups(routingForm.getRoutingFormDocument().convertKraAdhocsToAdHocRouteWorkgroups());
             // send FYIs, adhoc requests
             List<AdHocRouteWorkgroup> routeWorkgroups = new ArrayList<AdHocRouteWorkgroup>();
             List<String> workgroupNames = SpringServiceLocator.getRoutingFormResearchRiskService().getNotificationWorkgroups(routingForm.getRoutingFormDocument().getDocumentNumber());
+            List<String> projectDetailsWorkgroupNames = SpringServiceLocator.getRoutingFormProjectDetailsService().getNotificationWorkgroups(routingForm.getRoutingFormDocument().getDocumentNumber());
+            // make sure there are no overlaps, then merge
+            workgroupNames.removeAll(projectDetailsWorkgroupNames);
+            workgroupNames.addAll(projectDetailsWorkgroupNames);
             for (String workgroup : workgroupNames) {
                 AdHocRouteWorkgroup routeWorkgroup = new AdHocRouteWorkgroup();
                 routeWorkgroup.setActionRequested(Constants.WORKFLOW_FYI_REQUEST);

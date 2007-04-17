@@ -442,7 +442,7 @@ public class BudgetDocument extends ResearchDocumentBase {
                 xml.append(projectDirector.getUser().getPersonUniversalIdentifier());
                 xml.append("</projectDirector>");
             }
-            if (!StringUtils.isBlank(projectDirector.getFiscalCampusCode())) {
+            if (!StringUtils.isBlank(projectDirector.getFiscalCampusCode()) && !StringUtils.isBlank(projectDirector.getPrimaryDepartmentCode())) {
                 xml.append("<chartOrg><chartOfAccountsCode>");
                 xml.append(projectDirector.getFiscalCampusCode());
                 xml.append("</chartOfAccountsCode><organizationCode>");

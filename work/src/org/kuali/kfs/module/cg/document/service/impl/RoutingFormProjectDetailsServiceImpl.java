@@ -69,6 +69,22 @@ public class RoutingFormProjectDetailsServiceImpl implements RoutingFormProjectD
                 QuestionType.class, criteria, "questionTypeSortNumber", true);
         return questionTypes;
     }
+    
+    public List<String> getNotificationWorkgroups(String documentNumber) {
+        Map fieldValues = new HashMap();
+        fieldValues.put("documentNumber", documentNumber);
+        List<RoutingFormQuestion> questions = new ArrayList<RoutingFormQuestion>(businessObjectService.findMatching(RoutingFormQuestion.class, fieldValues));
+        List<String> workgroups = new ArrayList<String>();
+        for (RoutingFormQuestion question : questions) {
+            if (question.getQuestion().getQuestionTypeWorkgroupName() != null
+                    && (question.getQuestion().getQuestionTypeNotificationValue() != null 
+                            && question.getYesNoIndicator().equals(question.getQuestion().getQuestionTypeNotificationValue())
+                            || question.getQuestion().getQuestionTypeNotificationValue().equals("A"))) {
+                workgroups.add(question.getQuestion().getQuestionTypeWorkgroupName());
+            }
+        }
+        return workgroups;
+    }
 
     /**
      * Sets the businessObjectService attribute value.

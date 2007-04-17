@@ -40,7 +40,6 @@ import org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.bo.AdhocOrg;
 import org.kuali.module.kra.bo.AdhocPerson;
-import org.kuali.module.kra.bo.AdhocWorkgroup;
 import org.kuali.module.kra.document.ResearchDocumentBase;
 import org.kuali.module.kra.routingform.bo.ContractGrantProposal;
 import org.kuali.module.kra.routingform.bo.Purpose;
@@ -1855,6 +1854,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         referenceObjects.add("adhocPersons");
         referenceObjects.add("adhocOrgs");
         referenceObjects.add("adhocWorkgroups");
+        referenceObjects.add("routingFormInstitutionCostShares");
         SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(this, referenceObjects);
         
         StringBuffer xml = new StringBuffer("<documentContent>");
@@ -1933,16 +1933,15 @@ public class RoutingFormDocument extends ResearchDocumentBase {
      */
     public String buildCostShareOrgReportXml(boolean encloseContent) {
         
-        //String costSharePermissionCode = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
-        //        KraConstants.KRA_ADMIN_GROUP_NAME, KraConstants.ROUTING_FORM_COST_SHARE_PERMISSION_CODE);
-        boolean costShareRouting = true;
+        String costSharePermissionCode = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(
+                KraConstants.KRA_ADMIN_GROUP_NAME, KraConstants.ROUTING_FORM_COST_SHARE_PERMISSION_CODE);
         
         StringBuffer xml = new StringBuffer();
         if (encloseContent) {
             xml.append("<documentContent>");
         }
         
-        if (!costShareRouting) {
+        if ("Y".equals(costSharePermissionCode)) {
             for (RoutingFormInstitutionCostShare costShare : this.getRoutingFormInstitutionCostShares()) {
                 xml.append("<chartOrg><chartOfAccountsCode>");
                 if (costShare.getChartOfAccountsCode() != null) {

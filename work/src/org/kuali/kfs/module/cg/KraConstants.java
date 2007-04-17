@@ -98,6 +98,8 @@ public class KraConstants extends JstlConstants {
     public static final String KRA_BUDGET_NUMBER_OF_ACADEMIC_YEAR_SUBDIVISIONS = "KraBudgetNumberOfAcademicYearSubdivisions";
     public static final String KRA_BUDGET_ACADEMIC_YEAR_SUBDIVISION_NAMES = "KraBudgetAcademicYearSubdivisionNames";
     
+    public static final String ROUTING_FORM_COST_SHARE_PERMISSION_CODE = "routingFormCostShareRoutingCode";
+    
     // Research Risks codes (system param names)
     public static final String RESEARCH_RISKS_HUMAN_SUBJECTS_ACTIVE_CODE = "researchRisksHumanSubjectsActiveCode";
     public static final String RESEARCH_RISKS_ANIMALS_ACTIVE_CODE = "researchRisksAnimalsActiveCode";

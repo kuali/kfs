@@ -15,6 +15,8 @@
  */
 package org.kuali.module.kra.routingform.service;
 
+import java.util.List;
+
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 
 public interface RoutingFormProjectDetailsService {
@@ -22,4 +24,6 @@ public interface RoutingFormProjectDetailsService {
     public void setupOtherProjectDetailsQuestions(RoutingFormDocument routingFormDocument);
     
     public void reconcileOtherProjectDetailsQuestions(RoutingFormDocument routingFormDocument);
+    
+    public List<String> getNotificationWorkgroups(String documentNumber);
 }

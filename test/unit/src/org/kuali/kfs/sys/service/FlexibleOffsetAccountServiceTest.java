@@ -25,6 +25,7 @@ import org.kuali.module.financial.bo.OffsetAccount;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.TestUtils;
 import org.kuali.test.WithTestSpringContext;
+import org.kuali.test.suite.RelatesTo;
 
 /**
  * This class...
@@ -32,6 +33,7 @@ import org.kuali.test.WithTestSpringContext;
 @WithTestSpringContext
 public class FlexibleOffsetAccountServiceTest extends KualiTestBase {
 
+    @RelatesTo(RelatesTo.JiraIssue.KULRNE4463)
     public void testGetByPrimaryId_valid() throws NoSuchMethodException, InvocationTargetException {
         TestUtils.mockConfigurationServiceForFlexibleOffsetEnabled(true);
         OffsetAccount offsetAccount = getFlexibleOffsetAccountService().getByPrimaryIdIfEnabled(OFFSET_ACCOUNT1.chartOfAccountsCode, OFFSET_ACCOUNT1.accountNumber, OFFSET_ACCOUNT1.financialOffsetObjectCode);

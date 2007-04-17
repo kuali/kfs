@@ -37,8 +37,8 @@
                 <field attributeName="itemTypeCode" />
                 <field attributeName="itemUnitOfMeasureCode" />
                 <field attributeName="itemUnitPrice" />
-                <field attributeName="paymentRequestIdentifier" />
-                <field attributeName="paymentRequestItemIdentifier" />
+                <field attributeName="purapDocumentIdentifier" />
+                <field attributeName="itemIdentifier" />
                 <field attributeName="purchaseOrderCommodityCode" />
                 <field attributeName="purchaseOrderItemUnitPrice" />
                 <field attributeName="itemOutstandingInvoiceQuantity" />
@@ -70,8 +70,8 @@
                 <lookupField attributeName="itemTypeCode" required="false" />
                 <lookupField attributeName="itemUnitOfMeasureCode" required="false" />
                 <lookupField attributeName="itemUnitPrice" required="false" />
-                <lookupField attributeName="paymentRequestIdentifier" required="false" />
-                <lookupField attributeName="paymentRequestItemIdentifier" required="false" />
+                <lookupField attributeName="purapDocumentIdentifier" required="false" />
+                <lookupField attributeName="itemIdentifier" required="false" />
                 <lookupField attributeName="purchaseOrderCommodityCode" required="false" />
                 <lookupField attributeName="purchaseOrderItemUnitPrice" required="false" />
                 <lookupField attributeName="itemOutstandingInvoiceQuantity" required="false" />
@@ -91,8 +91,8 @@
                 <field attributeName="itemTypeCode" />
                 <field attributeName="itemUnitOfMeasureCode" />
                 <field attributeName="itemUnitPrice" />
-                <field attributeName="paymentRequestIdentifier" />
-                <field attributeName="paymentRequestItemIdentifier" />
+                <field attributeName="purapDocumentIdentifier" />
+                <field attributeName="itemIdentifier" />
                 <field attributeName="purchaseOrderCommodityCode" />
                 <field attributeName="purchaseOrderItemUnitPrice" />
                 <field attributeName="itemOutstandingInvoiceQuantity" />
@@ -281,7 +281,7 @@
                 <description>itemUnitPrice description...</description>
 			</attribute>
 
-            <attribute name="paymentRequestIdentifier" forceUppercase="true">
+            <attribute name="purapDocumentIdentifier" forceUppercase="true">
                 <label>Payment Request Identifier</label>
                 <shortLabel>Identifier</shortLabel>
 
@@ -292,11 +292,11 @@
                     <text size="11" />
                 </control>
 
-                <summary>paymentRequestIdentifier</summary>
-                <description>paymentRequestIdentifier description...</description>
+                <summary>purapDocumentIdentifier</summary>
+                <description>purapDocumentIdentifier description...</description>
 			</attribute>
 
-            <attribute name="paymentRequestItemIdentifier" forceUppercase="true">
+            <attribute name="itemIdentifier" forceUppercase="true">
                 <label>Payment Request Item Identifier</label>
                 <shortLabel>Identifier</shortLabel>
 
@@ -307,8 +307,8 @@
                     <text size="12" />
                 </control>
 
-                <summary>paymentRequestItemIdentifier</summary>
-                <description>paymentRequestItemIdentifier description...</description>
+                <summary>itemIdentifier</summary>
+                <description>itemIdentifier description...</description>
 			</attribute>
 
             <attribute name="purchaseOrderCommodityCode" forceUppercase="true">

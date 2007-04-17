@@ -45,8 +45,8 @@ public class Award extends PersistableBusinessObjectBase {
      * This field is for write-only to the database via OJB, not the corresponding property of this BO. OJB uses reflection to read
      * it, so the compiler warns because it doesn't know.
      * 
-     * @see #getProposalTotalAmount
-     * @see #setProposalTotalAmount
+     * @see #getAwardTotalAmount
+     * @see #setAwardTotalAmount
      */
     @SuppressWarnings( { "UnusedDeclaration" })
     private KualiDecimal awardTotalAmount;

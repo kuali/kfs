@@ -258,12 +258,20 @@ public class BudgetPersonnelRule {
                 int userAppointmentTaskListIndex = 0;
 
                 for (Iterator userAppointmentTaskIter = budgetUser.getUserAppointmentTasks().iterator(); userAppointmentTaskIter.hasNext(); userAppointmentTaskListIndex++) {
+                    UserAppointmentTask userAppointmentTask = (UserAppointmentTask) userAppointmentTaskIter.next();
+
+                    GlobalVariables.getErrorMap().addToErrorPath("userAppointmentTask[" + userAppointmentTaskListIndex + "]");
+
                     int userAppointmentTaskPeriodIndex = 0;
 
-                    for (Iterator userAppointmentTaskPeriodIter = ((UserAppointmentTask) userAppointmentTaskIter.next()).getUserAppointmentTaskPeriods().iterator(); userAppointmentTaskPeriodIter.hasNext(); userAppointmentTaskPeriodIndex++) {
+                    for (Iterator userAppointmentTaskPeriodIter = userAppointmentTask.getUserAppointmentTaskPeriods().iterator(); userAppointmentTaskPeriodIter.hasNext(); userAppointmentTaskPeriodIndex++) {
+
                         Integer periodNumber = new Integer(userAppointmentTaskPeriodIndex + 1);
 
                         UserAppointmentTaskPeriod userAppointmentTaskPeriod = (UserAppointmentTaskPeriod) userAppointmentTaskPeriodIter.next();
+
+                        valid &= SpringServiceLocator.getDictionaryValidationService().isBusinessObjectValid(userAppointmentTaskPeriod, "userAppointmentTaskPeriod[" + userAppointmentTaskPeriodIndex + "]");
+                        
                         if (!StringUtils.equals(userAppointmentTaskPeriod.getInstitutionAppointmentTypeCode(), appointmentTypeMappings.get("academicSummer").toString()) &&
                                 !StringUtils.contains(appointmentTypeMappings.get("gradResAssistant").toString(), userAppointmentTaskPeriod.getInstitutionAppointmentTypeCode()) &&
                                 !StringUtils.contains(appointmentTypeMappings.get("hourly").toString(), userAppointmentTaskPeriod.getInstitutionAppointmentTypeCode())) {
@@ -283,6 +291,7 @@ public class BudgetPersonnelRule {
                             }
                         }
                     }
+                    GlobalVariables.getErrorMap().removeFromErrorPath("userAppointmentTask[" + userAppointmentTaskListIndex + "]");
                 }
 
                 for (Iterator periodSalaryIter = periodEffortMap.keySet().iterator(); periodSalaryIter.hasNext();) {

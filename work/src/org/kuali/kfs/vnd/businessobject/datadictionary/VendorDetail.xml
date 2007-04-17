@@ -252,7 +252,7 @@
 			
 			<attribute name="vendorNumber" forceUppercase="true">
 				<label>Vendor Number</label>
-				<shortLabel>Vendor Num.</shortLabel>
+				<shortLabel>Vendor #</shortLabel>
 				
 				<maxLength>20</maxLength>
 				<validationPattern><anyCharacter /></validationPattern>

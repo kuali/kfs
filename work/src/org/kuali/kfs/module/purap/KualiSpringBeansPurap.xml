@@ -163,6 +163,9 @@
         <property name="kualiRuleService">
             <ref bean="kualiRuleService" />
         </property>	        
+        <property name="vendorService">
+            <ref bean="vendorService" />
+        </property>
 	</bean>
 
 	<!-- parent class, this is so we can override attributes if we add any later -->

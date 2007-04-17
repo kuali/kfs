@@ -25,7 +25,8 @@ import org.kuali.module.purap.document.RequisitionDocument;
 public interface PurchaseOrderService {
 
     public void save(PurchaseOrderDocument purchaseOrderDocument);
-    
+
+    public PurchaseOrderDocument createAutomaticPurchaseOrderDocument(RequisitionDocument reqDocument);
     public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument);   
     public PurchaseOrderPostProcessorService convertDocTypeToService(String documentTypeId);  
     

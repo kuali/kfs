@@ -32,11 +32,17 @@ import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.NoteService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
+import org.kuali.module.purap.PurapConstants.POTransmissionMethods;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderDocTypes;
+import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.module.purap.PurapConstants.RequisitionSources;
+import org.kuali.module.purap.PurapConstants.RequisitionStatuses;
+import org.kuali.module.purap.PurapConstants.VendorChoice;
 import org.kuali.module.purap.dao.PurchaseOrderDao;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
@@ -45,6 +51,8 @@ import org.kuali.module.purap.service.PrintService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderPostProcessorService;
 import org.kuali.module.purap.service.PurchaseOrderService;
+import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.module.vendor.service.VendorService;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -64,6 +72,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private WorkflowDocumentService workflowDocumentService;
     private KualiConfigurationService kualiConfigurationService;
     private KualiRuleService kualiRuleService;
+    private VendorService vendorService;
     
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;    
@@ -109,31 +118,86 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         this.kualiRuleService = kualiRuleService;
     }
     
+    public void setVendorService(VendorService vendorService) {
+        this.vendorService = vendorService;
+    }
+    
+
     public void save(PurchaseOrderDocument purchaseOrderDocument) {
         purchaseOrderDao.save(purchaseOrderDocument);
     }
 
     /**
-     * Creates a PurchaseOrderDocument from given RequisitionDocument
+     * Creates an automatic PurchaseOrderDocument from given RequisitionDocument.  Both
+     * documents need to be saved after this method is called.
+     * 
+     * @param reqDocument - RequisitionDocument that the PO is being created from
+     * @return PurchaseOrderDocument
+     */
+    public PurchaseOrderDocument createAutomaticPurchaseOrderDocument(RequisitionDocument reqDocument) {
+        //update REQ data
+        reqDocument.setPurchaseOrderAutomaticIndicator(Boolean.TRUE);
+        reqDocument.setContractManagerCode(PurapConstants.APO_CONTRACT_MANAGER);
+
+        //create PO and populate with default data
+        PurchaseOrderDocument poDocument = createPurchaseOrderDocument(reqDocument);
+        poDocument.setPurchaseOrderAutomaticIndicator(Boolean.TRUE);
+
+        if (!RequisitionSources.B2B.equals(poDocument.getRequisitionSourceCode())) {
+            poDocument.setPurchaseOrderVendorChoiceCode(VendorChoice.SMALL_ORDER);
+        }
+
+        return poDocument;
+    }
+        
+    /**
+     * Creates a PurchaseOrderDocument from given RequisitionDocument.  Both
+     * documents need to be saved after this method is called.
      * 
      * @param reqDocument - RequisitionDocument that the PO is being created from
      * @return PurchaseOrderDocument
      */
     public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument) {
-        PurchaseOrderDocument poDocument = null;
+        //update REQ data
+        purapService.updateStatusAndStatusHistory(reqDocument, RequisitionStatuses.CLOSED);
 
-        // get new document from doc service
+        //create PO and populate with default data
+        PurchaseOrderDocument poDocument = null;
         try {
             poDocument = (PurchaseOrderDocument) documentService.getNewDocument(PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT);
             poDocument.populatePurchaseOrderFromRequisition(reqDocument);
+            poDocument.setStatusCode(PurchaseOrderStatuses.IN_PROCESS);
             poDocument.setPurchaseOrderCurrentIndicator(true);
-            // TODO set other default info
-            // TODO set initiator of document as contract manager (is that right?)
+            poDocument.setPendingActionIndicator(false);
+
+// TODO: need this?
+//            poDocument.setInternalPurchasingLimit(getInternalPurchasingDollarLimit(po, u.getOrganization().getChart().getCode(), u.getOrganization().getCode()));
+
+            if (RequisitionSources.B2B.equals(poDocument.getRequisitionSourceCode())) {
+                poDocument.setPurchaseOrderVendorChoiceCode(VendorChoice.CONTRACTED_PRICE);
+            }
+
+            VendorDetail vendor = vendorService.getVendorDetail(poDocument.getVendorHeaderGeneratedIdentifier(), poDocument.getVendorDetailAssignedIdentifier());
+
+            if (ObjectUtils.isNull(vendor)) {
+                LOG.error("Error creating PO document: vendor not found");
+                throw new RuntimeException("Error creating PO document: vendor not found");
+            }
+
+            if (ObjectUtils.isNotNull(poDocument.getVendorContract())) {
+                poDocument.setVendorPaymentTermsCode(poDocument.getVendorContract().getVendorPaymentTermsCode());
+                poDocument.setVendorShippingPaymentTermsCode(poDocument.getVendorContract().getVendorShippingPaymentTermsCode());
+                poDocument.setVendorShippingTitleCode(poDocument.getVendorContract().getVendorShippingTitleCode());
+            }
+            else {
+                poDocument.setVendorPaymentTermsCode(vendor.getVendorPaymentTermsCode());
+                poDocument.setVendorShippingPaymentTermsCode(vendor.getVendorShippingPaymentTermsCode());
+                poDocument.setVendorShippingTitleCode(vendor.getVendorShippingTitleCode());
+            }
 
             documentService.updateDocument(poDocument);
             documentService.prepareWorkflowDocument(poDocument);
             workflowDocumentService.save(poDocument.getDocumentHeader().getWorkflowDocument(), "", null);
-
         }
         catch (WorkflowException e) {
             LOG.error("Error creating PO document: " + e.getMessage());
@@ -217,7 +281,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             po.setPurchaseOrderInitialOpenDate(currentSqlDate);
             po.setPurchaseOrderLastTransmitDate(currentSqlDate);
             po.setPurchaseOrderCurrentIndicator(true);
-            purapService.updateStatusAndStatusHistory( po, PurapConstants.PurchaseOrderStatuses.CLOSED );
+            purapService.updateStatusAndStatusHistory( po, PurchaseOrderStatuses.CLOSED );
             save(po);
             
             //Get the PurchaseOrderDocument of this print document whose status is Pending Print and update that PO's
@@ -225,7 +289,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             PurchaseOrderDocument previousPo = getPurchaseOrderInPendingPrintStatus(po.getPurapDocumentIdentifier());
             previousPo.setPurchaseOrderCurrentIndicator(false);
             previousPo.setPendingActionIndicator(false);
-            purapService.updateStatusAndStatusHistory( previousPo, PurapConstants.PurchaseOrderStatuses.OPEN );
+            purapService.updateStatusAndStatusHistory( previousPo, PurchaseOrderStatuses.OPEN );
             save(previousPo);
         }
         return result;
@@ -291,11 +355,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         // create general ledger entries for this PO
         generalLedgerService.generateEntriesApprovePo(po);
 
-        if (PurapConstants.POTransmissionMethods.PRINT.equals(po.getPurchaseOrderTransmissionMethodCode())) {
+        if (POTransmissionMethods.PRINT.equals(po.getPurchaseOrderTransmissionMethodCode())) {
             LOG.debug("completePurchaseOrder() Purchase Order Transmission Type is Print");
             po.setPurchaseOrderCurrentIndicator(true);
             po.setPendingActionIndicator(true);
-            purapService.updateStatusAndStatusHistory(po, PurapConstants.PurchaseOrderStatuses.PENDING_PRINT);
+            purapService.updateStatusAndStatusHistory(po, PurchaseOrderStatuses.PENDING_PRINT);
             this.save(po);
             // TODO create PO print doc
             GlobalVariables.setErrorMap(new ErrorMap());
@@ -310,7 +374,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
         else {
             LOG.info("completePurchaseOrder() Unhandled Transmission Status: " + po.getPurchaseOrderTransmissionMethodCode() + " -- Defaulting Status to OPEN");
-            purapService.updateStatusAndStatusHistory(po, PurapConstants.PurchaseOrderStatuses.OPEN);
+            purapService.updateStatusAndStatusHistory(po, PurchaseOrderStatuses.OPEN);
             po.setPurchaseOrderInitialOpenDate(dateTimeService.getCurrentSqlDate());
             this.save(po);
         }

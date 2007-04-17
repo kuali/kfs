@@ -293,8 +293,9 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
             String newRequisitionStatus = PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN;
             if (SpringServiceLocator.getRequisitionService().isAutomaticPurchaseOrderAllowed(this)) {
                 newRequisitionStatus = PurapConstants.RequisitionStatuses.CLOSED;
-                PurchaseOrderDocument poDocument = SpringServiceLocator.getPurchaseOrderService().createPurchaseOrderDocument(this);
+                PurchaseOrderDocument poDocument = SpringServiceLocator.getPurchaseOrderService().createAutomaticPurchaseOrderDocument(this);
                 try {
+                    GlobalVariables.clear();
                     poDocument = (PurchaseOrderDocument)SpringServiceLocator.getDocumentService().routeDocument(poDocument, null, null);
                 }
                 catch (WorkflowException e) {

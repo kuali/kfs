@@ -32,6 +32,9 @@
 <%@ attribute name="displayPaymentRequestFields" required="false"
               description="Boolean to indicate if PREQ specific fields should be displayed" %>              
               
+<%@ attribute name="displayCreditMemoFields" required="false"
+              description="Boolean to indicate if CM specific fields should be displayed" %>              
+              
 <c:set var="vendorReadOnly" value="${not empty KualiForm.editingMode['lockVendorEntry']}" />
 <c:set var="currentUserCampusCode" value="${UserSession.universalUser.campusCode}" />
 
@@ -66,10 +69,10 @@
 
             <tr>
                 <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorHeaderGeneratedIdentifier}" /></div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorNumber}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorHeaderGeneratedIdentifier}" property="document.vendorDetail.vendorNumber" readOnly="true" />
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorNumber}" property="document.vendorDetail.vendorNumber" readOnly="true" />
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorStateCode}" /></div>
@@ -138,7 +141,7 @@
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorCustomerNumber}" property="document.vendorCustomerNumber" readOnly="${not fullEntryMode}" />
                 </td>
 
-                <c:if test="${displayPurchaseOrderFields}">
+                <c:if test="${displayPurchaseOrderFields or displayPaymentRequestFields}">
                     <th align=right valign=middle class="bord-l-b">
                         <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.alternateVendorName}" /></div>
                     </th>
@@ -147,25 +150,38 @@
                         <c:if test="${not empty document.alternateVendorNumber}">
                             &nbsp;(<kul:htmlControlAttribute attributeEntry="${documentAttributes.alternateVendorNumber}" property="document.alternateVendorNumber" readOnly="true" />)&nbsp;
                         </c:if>
-                        <c:if test="${fullEntryMode}">
+                        <c:if test="${fullEntryMode and displayPurchaseOrderFields}">
                             <kul:lookup  boClassName="org.kuali.module.vendor.bo.VendorDetail" fieldConversions="vendorHeaderGeneratedIdentifier:document.alternateVendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:document.alternateVendorDetailAssignedIdentifier"/>
+                        </c:if>
+                        <c:if test="${fullEntryMode and displayPaymentRequestFields}">
+                            select
                         </c:if>
                     </td>
                 </c:if>                                                 
-                <c:if test="${not displayPurchaseOrderFields}">
+                <c:if test="${not displayPurchaseOrderFields and not displayPaymentRequestFields}">
                     <th align=right valign=middle class="bord-l-b">&nbsp;</th>
                     <td align=left valign=middle class="datacell">&nbsp;</td>
                 </c:if>                                                 
             </tr>
 
             <tr>
-                <th align=right valign=middle class="bord-l-b" rowspan="3">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorNoteText}" /></div>
-                </th>
-                <td align=left valign=middle class="datacell" rowspan="3">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorNoteText}" property="document.vendorNoteText" readOnly="${not fullEntryMode}" />
-                </td>
+                <c:if test="${displayRequisitionFields or displayPurchaseOrderFields}">
+                    <th align=right valign=middle class="bord-l-b" rowspan="3">
+                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorNoteText}" /></div>
+                    </th>
+                    <td align=left valign=middle class="datacell" rowspan="3">
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorNoteText}" property="document.vendorNoteText" readOnly="${not fullEntryMode}" />
+                    </td>
+                </c:if>                                                 
                 <th align=right valign=middle class="bord-l-b">
+                <c:if test="${displayPaymentRequestFields or displayCreditMemoFields}">
+                    <th align=right valign=middle class="bord-l-b">
+                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.paymentNoteLine1Text}" /></div>
+                    </th>
+                    <td align=left valign=middle class="datacell">
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentNoteLine1Text}" property="document.paymentNoteLine1Text" readOnly="${not fullEntryMode}" />
+                    </td>
+                </c:if>                                                 
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorPaymentTermsCode}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
@@ -174,7 +190,15 @@
             </tr> 
 
             <tr>
-                <!-- left column populated by note row span -->
+                <!-- left column populated by note row span for PUR docs-->
+                <c:if test="${displayPaymentRequestFields or displayCreditMemoFields}">
+                    <th align=right valign=middle class="bord-l-b">
+                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.paymentNoteLine2Text}" /></div>
+                    </th>
+                    <td align=left valign=middle class="datacell">
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentNoteLine2Text}" property="document.paymentNoteLine2Text" readOnly="${not fullEntryMode}" />
+                    </td>
+                </c:if>                                                 
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorShippingTitleCode}" /></div>
                 </th>
@@ -184,7 +208,15 @@
             </tr> 
 
             <tr>
-                <!-- left column populated by note row span -->
+                <!-- left column populated by note row span for PUR docs-->
+                <c:if test="${displayPaymentRequestFields or displayCreditMemoFields}">
+                    <th align=right valign=middle class="bord-l-b">
+                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.paymentNoteLine3Text}" /></div>
+                    </th>
+                    <td align=left valign=middle class="datacell">
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentNoteLine3Text}" property="document.paymentNoteLine3Text" readOnly="${not fullEntryMode}" />
+                    </td>
+                </c:if>                                                 
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorShippingPaymentTermsCode}" /></div>
                 </th>

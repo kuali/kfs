@@ -85,6 +85,16 @@ public class PurapConstants {
         public static String B2B = "B2B";
     }
 
+    // PURCHASE ORDER VENDOR CHOICE CODES
+    public static class VendorChoice {
+        public static String CONTRACTED_PRICE = "CONT";
+        public static String SMALL_ORDER = "SMAL";
+        public static String PROFESSIONAL_SERVICE = "PROF";
+        public static String SUBCONTRACT = "SUBC";
+    }
+
+    public static Integer APO_CONTRACT_MANAGER = new Integer(99);
+    
     // Requisition Tab Errors
     public static final String DELIVERY_TAB_ERRORS = "document.delivery*";
     public static final String VENDOR_ERRORS = "document.vendor*";
@@ -166,7 +176,7 @@ public class PurapConstants {
     public static class PODocumentsStrings {
         public static String CLOSE_QUESTION = "POClose";
         public static String CLOSE_CONFIRM = "POCloseConfirm";
-        public static String CLOSE_NOTE_PREFIX = "Note entered while closing a Purchase Order :";
+        public static String CLOSE_NOTE_PREFIX = "Note entered while closing a Purchase Order : ";
         
         public static String REOPEN_PO_QUESTION = "ReopenPO";
         public static String CONFIRM_REOPEN_QUESTION = "ConfirmReopen"; 
@@ -174,12 +184,12 @@ public class PurapConstants {
         
         public static String VOID_QUESTION = "POVoid";
         public static String VOID_CONFIRM = "POVoidConfirm";
-        public static String VOID_NOTE_PREFIX = "Note entered while voiding a Purchase Order :";
+        public static String VOID_NOTE_PREFIX = "Note entered while voiding a Purchase Order : ";
         
         public static String PAYMENT_HOLD_QUESTION = "POPaymentHold";
         public static String PAYMENT_HOLD_CONFIRM = "POPaymentHoldConfirm";
         public static String PAYMENT_HOLD_NOTE_PREFIX = "Note entered while putting a Purchase Order on payment hold :";
-
+        
         public static String REMOVE_HOLD_QUESTION = "PORemoveHold";
         public static String REMOVE_HOLD_CONFIRM = "PORemoveHoldConfirm";
         public static String REMOVE_HOLD_NOTE_PREFIX = "Note entered while removing a Purchase Order from payment hold :";       

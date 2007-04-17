@@ -37,7 +37,7 @@ import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
 import org.kuali.module.labor.dao.LaborDao;
 
 /**
- * This class is a facade for Labor Distribution DAO balance inquiries
+ * This class is for Labor Distribution DAO balance inquiries
  */
 public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
     private LaborDaoOjb dao;

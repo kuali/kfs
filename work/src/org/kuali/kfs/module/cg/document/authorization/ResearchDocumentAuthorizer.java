@@ -23,16 +23,14 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.Constants;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentAuthorizerBase;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.bo.AdhocPerson;
-import org.kuali.module.kra.budget.document.BudgetDocument;
-import org.kuali.module.kra.budget.document.BudgetDocumentAuthorizer;
 import org.kuali.module.kra.service.ResearchDocumentPermissionsService;
+import org.kuali.workflow.KualiWorkflowUtils;
 
 public class ResearchDocumentAuthorizer extends DocumentAuthorizerBase {
     private static Log LOG = LogFactory.getLog(ResearchDocumentAuthorizer.class);
@@ -59,11 +57,11 @@ public class ResearchDocumentAuthorizer extends DocumentAuthorizerBase {
         }
         
         // Check ad-hoc org permissions (mod first, then read)
-        if (permissionsService.isUserInOrgHierarchy(researchDocument.buildAdhocOrgReportXml(KraConstants.PERMISSION_MOD_CODE, true), u.getPersonUniversalIdentifier())) {
+        if (permissionsService.isUserInOrgHierarchy(researchDocument.buildAdhocOrgReportXml(KraConstants.PERMISSION_MOD_CODE, true), KualiWorkflowUtils.KRA_ROUTING_FORM_DOC_TYPE, u.getPersonUniversalIdentifier())) {
             permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.FULL_ENTRY);
         }
         
-        if (permissionsService.isUserInOrgHierarchy(researchDocument.buildAdhocOrgReportXml(KraConstants.PERMISSION_READ_CODE, true), u.getPersonUniversalIdentifier())) {
+        if (permissionsService.isUserInOrgHierarchy(researchDocument.buildAdhocOrgReportXml(KraConstants.PERMISSION_READ_CODE, true), KualiWorkflowUtils.KRA_ROUTING_FORM_DOC_TYPE, u.getPersonUniversalIdentifier())) {
             permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.VIEW_ONLY);
         }
         

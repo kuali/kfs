@@ -30,6 +30,7 @@ import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.document.ResearchDocumentAuthorizer;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
 import org.kuali.module.kra.service.ResearchDocumentPermissionsService;
+import org.kuali.workflow.KualiWorkflowUtils;
 
 public class RoutingFormDocumentAuthorizer extends ResearchDocumentAuthorizer {
 
@@ -65,18 +66,18 @@ public class RoutingFormDocumentAuthorizer extends ResearchDocumentAuthorizer {
             }
         }
         
-        // TODO Check default org permissions - project director, cost sharing orgs.  Need to set up routing first. Update constants.
-        if (permissionsService.isUserInOrgHierarchy(routingFormDocument.buildProjectDirectorReportXml(true), u.getPersonUniversalIdentifier())) {
+        // TODO Update constants.
+        if (permissionsService.isUserInOrgHierarchy(routingFormDocument.buildProjectDirectorReportXml(true), KualiWorkflowUtils.KRA_ROUTING_FORM_DOC_TYPE, u.getPersonUniversalIdentifier())) {
             permissionCode = getPermissionCodeByPrecedence(permissionCode, kualiConfigurationService.getApplicationParameterValue(
                     KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.PROJECT_DIRECTOR_ORG_BUDGET_PERMISSION));
         }
         
-        if (permissionsService.isUserInOrgHierarchy(routingFormDocument.buildCostShareOrgReportXml(true), u.getPersonUniversalIdentifier())) {
+        if (permissionsService.isUserInOrgHierarchy(routingFormDocument.buildCostShareOrgReportXml(true), KualiWorkflowUtils.KRA_ROUTING_FORM_DOC_TYPE, u.getPersonUniversalIdentifier())) {
             permissionCode = getPermissionCodeByPrecedence(permissionCode, kualiConfigurationService.getApplicationParameterValue(
                     KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.COST_SHARE_ORGS_BUDGET_PERMISSION));
         }
         
-        if (permissionsService.isUserInOrgHierarchy(routingFormDocument.buildOtherOrgReportXml(true), u.getPersonUniversalIdentifier())) {
+        if (permissionsService.isUserInOrgHierarchy(routingFormDocument.buildOtherOrgReportXml(true), KualiWorkflowUtils.KRA_ROUTING_FORM_DOC_TYPE, u.getPersonUniversalIdentifier())) {
             permissionCode = getPermissionCodeByPrecedence(permissionCode, kualiConfigurationService.getApplicationParameterValue(
                     KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.COST_SHARE_ORGS_BUDGET_PERMISSION));
         }

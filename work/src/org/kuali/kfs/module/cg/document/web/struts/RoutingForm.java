@@ -63,6 +63,9 @@ public class RoutingForm extends ResearchDocumentFormBase {
     private boolean templateAdHocPermissions;
     private boolean templateAdHocApprovers;
     
+    // Approvals
+    private String approvalsMessage;
+    
     private Map systemParametersMap;
     
     /**
@@ -219,6 +222,14 @@ public class RoutingForm extends ResearchDocumentFormBase {
         this.allPeriodsSelected = allPeriodsSelected;
     }
     
+    public String getApprovalsMessage() {
+        return approvalsMessage;
+    }
+
+    public void setApprovalsMessage(String approvalsMessage) {
+        this.approvalsMessage = approvalsMessage;
+    }
+
     /**
      * Gets the two column size of routingFormProjectTypes, zero based. The result will be rounded up so that the left column has an additional element for odd sized lists.
      * @return half size of routingFormProjectTypes, rounded up, zero based

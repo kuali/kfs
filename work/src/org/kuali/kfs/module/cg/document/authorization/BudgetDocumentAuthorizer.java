@@ -15,12 +15,10 @@
  */
 package org.kuali.module.kra.budget.document;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.Constants;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
@@ -29,10 +27,9 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.KraConstants;
-import org.kuali.module.kra.bo.AdhocPerson;
-import org.kuali.module.kra.document.ResearchDocument;
 import org.kuali.module.kra.document.ResearchDocumentAuthorizer;
 import org.kuali.module.kra.service.ResearchDocumentPermissionsService;
+import org.kuali.workflow.KualiWorkflowUtils;
 
 /**
  * DocumentAuthorizer class for KRA Budget Documents.
@@ -66,14 +63,14 @@ public class BudgetDocumentAuthorizer extends ResearchDocumentAuthorizer {
         
         // Check default org permissions - project director
         if (!budgetDocument.getBudget().getPersonnel().isEmpty()) {
-            if (permissionsService.isUserInOrgHierarchy(budgetDocument.buildProjectDirectorReportXml(true), u.getPersonUniversalIdentifier())) {
+            if (permissionsService.isUserInOrgHierarchy(budgetDocument.buildProjectDirectorReportXml(true), KualiWorkflowUtils.KRA_BUDGET_DOC_TYPE, u.getPersonUniversalIdentifier())) {
                 permissionCode = getPermissionCodeByPrecedence(permissionCode, kualiConfigurationService.getApplicationParameterValue(
                         KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.PROJECT_DIRECTOR_ORG_BUDGET_PERMISSION));
             }
         }
         
         // Check default org permissions - cost sharing orgs
-        if (permissionsService.isUserInOrgHierarchy(budgetDocument.buildCostShareOrgReportXml(true), u.getPersonUniversalIdentifier())) {
+        if (permissionsService.isUserInOrgHierarchy(budgetDocument.buildCostShareOrgReportXml(true), KualiWorkflowUtils.KRA_BUDGET_DOC_TYPE, u.getPersonUniversalIdentifier())) {
             permissionCode = getPermissionCodeByPrecedence(permissionCode, kualiConfigurationService.getApplicationParameterValue(
                     KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.COST_SHARE_ORGS_BUDGET_PERMISSION));
         }

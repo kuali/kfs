@@ -60,5 +60,5 @@ public interface ResearchDocumentPermissionsService {
      * @param String uuid
      * @return boolean
      */
-    public boolean isUserInOrgHierarchy(String orgXml, String uuid);
+    public boolean isUserInOrgHierarchy(String orgXml, String documentType, String uuid);
 }

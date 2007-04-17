@@ -26,11 +26,21 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.core.bo.AdHocRouteWorkgroup;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.document.authorization.DocumentActionFlags;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 
 public class RoutingFormApprovalsAction extends RoutingFormAction {
+    
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = super.execute(mapping, form, request, response);
+        setApprovalsMessage((RoutingForm) form);
+        return forward;
+    }
     
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

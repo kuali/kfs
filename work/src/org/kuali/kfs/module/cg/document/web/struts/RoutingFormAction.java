@@ -26,10 +26,14 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.core.authorization.AuthorizationConstants;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.document.authorization.DocumentActionFlags;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.budget.web.struts.form.BudgetOverviewFormHelper;
 import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
+import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.rules.event.RunRoutingFormAuditEvent;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 import org.kuali.module.kra.web.struts.action.ResearchDocumentActionBase;
@@ -131,17 +135,15 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
     }
 
     public ActionForward approvals(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        this.load(mapping, form, request, response);
         RoutingForm routingForm = (RoutingForm) form;
-        List referenceObjects = new ArrayList();
-        referenceObjects.add("adhocPersons");
-        referenceObjects.add("adhocOrgs");
-        referenceObjects.add("adhocWorkgroups");
-        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(routingForm.getRoutingFormDocument(), referenceObjects);
         
         boolean auditErrorsPassed = SpringServiceLocator.getKualiRuleService().applyRules(new RunRoutingFormAuditEvent(routingForm.getRoutingFormDocument()));
         routingForm.setAuditErrorsPassed(auditErrorsPassed);
         if (!auditErrorsPassed) {
             routingForm.setAuditActivated(true);
+        } else {
+            setApprovalsMessage(routingForm);
         }
         
         routingForm.getRoutingFormDocument().populateDocumentForRouting();
@@ -163,5 +165,21 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
             return mapping.findForward("auditmode");
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    protected void setApprovalsMessage(RoutingForm routingForm) {
+        RoutingFormDocument routingFormDocument = routingForm.getRoutingFormDocument();
+        DocumentActionFlags flags = routingForm.getDocumentActionFlags();
+        
+        if (flags.getCanRoute() || flags.getCanApprove()) {
+            UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+            if (routingForm.getRoutingFormDocument().isUserProjectDirector(user.getPersonUniversalIdentifier())) {
+                routingForm.setApprovalsMessage(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue("KraAdminGroup", "routingFormApprovalsProjectDirectorWording"));
+            } else if (routingFormDocument.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId().equalsIgnoreCase(user.getPersonUserIdentifier())) {
+                routingForm.setApprovalsMessage(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue("KraAdminGroup", "routingFormApprovalsInitiatorWording"));
+            } else {
+                routingForm.setApprovalsMessage(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue("KraAdminGroup", "routingFormApprovalsDefaultWording"));
+            }
+        }
     }
 }

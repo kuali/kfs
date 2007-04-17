@@ -72,11 +72,11 @@ public class ResearchDocumentPermissionsServiceImpl implements ResearchDocumentP
     }
     
     /**
-     * @see org.kuali.module.kra.budget.service.BudgetPermissionsService#getBudgetPermissionType(String orgXml, String uuid)
+     * @see org.kuali.module.kra.budget.service.BudgetPermissionsService#getBudgetPermissionType(String orgXml, String documentType, String uuid)
      */
-    public boolean isUserInOrgHierarchy(String orgXml, String uuid) {
+    public boolean isUserInOrgHierarchy(String orgXml, String documentType, String uuid) {
         ReportCriteriaVO criteria = new ReportCriteriaVO();
-        criteria.setDocumentTypeName(KualiWorkflowUtils.KRA_BUDGET_DOC_TYPE);
+        criteria.setDocumentTypeName(documentType);
         criteria.setNodeNames(new String[] {KraConstants.ORG_REVIEW_NODE_NAME});
         criteria.setRuleTemplateNames(new String[] {KraConstants.ORG_REVIEW_TEMPLATE_NAME});
         criteria.setXmlContent(orgXml);

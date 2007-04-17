@@ -36,6 +36,8 @@
 		<div class="error"><center><strong>This document cannot be routed until all hard audit errors are fixed.</strong></center></div>
 	</c:if>
 	
+	<div style="color:green;font-weight:bold"><br/>${KualiForm.approvalsMessage}</div>
+	
 	<kul:documentControls transactionalDocument="false" suppressRoutingControls="${!KualiForm.auditErrorsPassed}" viewOnly="${KualiForm.editingMode['viewOnly']}" />
 	
 </kul:documentPage>

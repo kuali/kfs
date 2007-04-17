@@ -27,7 +27,6 @@ import org.kuali.module.purap.document.RequisitionDocument;
  */
 public class RequisitionItem extends PurchasingItemBase {
 
-	private Integer purapDocumentIdentifier;
 	private KualiDecimal itemQuantity;
 	private boolean itemRestrictedIndicator;
 
@@ -93,22 +92,6 @@ public class RequisitionItem extends PurchasingItemBase {
     }
 
     /**
-     * Gets the purapDocumentIdentifier attribute. 
-     * @return Returns the purapDocumentIdentifier.
-     */
-    public Integer getPurapDocumentIdentifier() {
-        return purapDocumentIdentifier;
-    }
-
-    /**
-     * Sets the purapDocumentIdentifier attribute value.
-     * @param purapDocumentIdentifier The purapDocumentIdentifier to set.
-     */
-    public void setPurapDocumentIdentifier(Integer purapDocumentIdentifier) {
-        this.purapDocumentIdentifier = purapDocumentIdentifier;
-    }
-
-    /**
      * @see org.kuali.module.purap.bo.PurchasingItemBase#getExtendedPrice()
      */
     @Override
@@ -124,10 +107,6 @@ public class RequisitionItem extends PurchasingItemBase {
      */
     @Override
     public Class getAccountingLineClass() {
-        // TODO Auto-generated method stub
-       //return RequisitionAccount.class;
-        return PaymentRequestAccount.class;
+       return RequisitionAccount.class;
     }
-
-    
 }

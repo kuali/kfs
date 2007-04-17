@@ -47,10 +47,11 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     private KualiDecimal extendedPrice; //not currently in DB
     
     private List<PurApAccountingLine> accountingLines;
-    private transient PurApAccountingLine newAccountingLine;
+    private transient PurApAccountingLine newSourceLine;
     
 	private CapitalAssetTransactionType capitalAssetTransactionType;
 	private ItemType itemType;
+    private Integer purapDocumentIdentifier;
 
 	/**
 	 * Default constructor.
@@ -441,7 +442,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
      * 
      * @see org.kuali.core.document.FinancialDocument#getTargetAccountingLine(int)
      */
-    public PurApAccountingLine getAccountingLine(int index) {
+    public PurApAccountingLine getSourceAccountingLine(int index) {
         //TODO: we probably don't need this because of the TypedArrayList
 //        while (getAccountingLines().size() <= index) {
 //            PurApAccountingLine newAccount = getNewAccount();
@@ -482,7 +483,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     
     public void init() {
         //add a blank accounting line
-        setNewAccountingLine(getNewAccount());
+        setNewSourceLine(getNewAccount());
     }
     /**
      * @see org.kuali.core.document.DocumentBase#buildListOfDeletionAwareLists()
@@ -508,18 +509,26 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     }
 
     /**
-     * Gets the newAccountingLine attribute. 
-     * @return Returns the newAccountingLine.
+     * Gets the newSourceLine attribute. 
+     * @return Returns the newSourceLine.
      */
-    public PurApAccountingLine getNewAccountingLine() {
-        return newAccountingLine;
+    public PurApAccountingLine getNewSourceLine() {
+        return newSourceLine;
     }
 
     /**
-     * Sets the newAccountingLine attribute value.
-     * @param newAccountingLine The newAccountingLine to set.
+     * Sets the newSourceLine attribute value.
+     * @param newSourceLine The newSourceLine to set.
      */
-    public void setNewAccountingLine(PurApAccountingLine newAccountingLine) {
-        this.newAccountingLine = newAccountingLine;
+    public void setNewSourceLine(PurApAccountingLine newAccountingLine) {
+        this.newSourceLine = newAccountingLine;
+    }
+
+    public Integer getPurapDocumentIdentifier() {
+        return purapDocumentIdentifier;
+    }
+
+    public void setPurapDocumentIdentifier(Integer purapDocumentIdentifier) {
+        this.purapDocumentIdentifier = purapDocumentIdentifier;
     }
 }

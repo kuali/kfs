@@ -37,8 +37,10 @@ public class ObjectType extends KualiCodeBase {
     private boolean finObjectTypeIcrSelectionIndicator;
     private boolean fundBalanceIndicator;
     private String financialReportingSortCode;
+    private String accountCategoryCode;
 
-
+    private AccountCategory accountCategory;
+    
     /**
      * Gets the finObjectTypeDebitcreditCd attribute.
      * 
@@ -117,6 +119,39 @@ public class ObjectType extends KualiCodeBase {
      */
     public void setFinancialReportingSortCode(String financialReportingSortCode) {
         this.financialReportingSortCode = financialReportingSortCode;
+    }
+
+    /**
+     * Gets the accountCategoryCode attribute. 
+     * @return Returns the accountCategoryCode.
+     */
+    public String getAccountCategoryCode() {
+        return accountCategoryCode;
+    }
+
+    /**
+     * Sets the accountCategoryCode attribute value.
+     * @param accountCategoryCode The accountCategoryCode to set.
+     */
+    public void setAccountCategoryCode(String accountCategoryCode) {
+        this.accountCategoryCode = accountCategoryCode;
+    }
+
+    /**
+     * Gets the accountCategory attribute. 
+     * @return Returns the accountCategory.
+     */
+    public AccountCategory getAccountCategory() {
+        return accountCategory;
+    }
+
+    /**
+     * Sets the accountCategory attribute value.
+     * @param accountCategory The accountCategory to set.
+     * @deprecated
+     */
+    public void setAccountCategory(AccountCategory accountCategory) {
+        this.accountCategory = accountCategory;
     }
 
 }

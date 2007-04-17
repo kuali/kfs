@@ -15,6 +15,7 @@
  */
 package org.kuali.module.purap.rules;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+
 
 public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase {
 
@@ -237,10 +239,154 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
             }
           }
         }
-       
-        
-        
+         
         return msgs;
     }
     
+    /**
+     * @param purchaseOrderId
+     * @param invoiceNumber
+     * @param invoiceAmount
+     * @param invoiceDate
+     * @param expiredAccounts
+     * @param closedAccounts
+     * @return
+     */
+   /*
+    public PaymentRequestInitializationValidationErrors verifyPreqInitialization(
+        Integer purchaseOrderId, String invoiceNumber, BigDecimal invoiceAmount, Timestamp invoiceDate,
+        List expiredAccounts, List closedAccounts, User u) {
+      SERVICELOG.debug("verifyPreqInitialization() started");
+        LOG.debug("verifyPreqInitialization started");
+      List messages = new ArrayList();
+      List expirAcctList = new ArrayList();
+      List closeAcctList = new ArrayList();
+      
+      PaymentRequestInitializationValidationErrors initValidationErrors = new PaymentRequestInitializationValidationErrors();
+
+      PurchaseOrder po = purchaseOrderService.getPurchaseOrderById(purchaseOrderId,u);
+      
+      if (po == null) {
+        // no PO was found in the system - notify the user
+        messages.add("errors.po.not.exist");
+        initValidationErrors.errorMessages = messages;
+        SERVICELOG.debug("verifyPreqInitialization() ended");    
+        return initValidationErrors;
+      }
+      
+      // Verify that there exists at least 1 item left to be invoiced
+      initValidationErrors.setPurchaseOrderNumberToUse(purchaseOrderId);
+      boolean zeroDollar = true;
+      for (Iterator itemIter = po.getItems().iterator(); itemIter.hasNext();) {
+        PurchaseOrderItem poi = (PurchaseOrderItem) itemIter.next();
+        BigDecimal encumberedQuantity = poi.getOutstandingEncumberedQuantity() == null ? zero : poi.getOutstandingEncumberedQuantity();
+        if (encumberedQuantity.compareTo(zero) == 1) {
+          zeroDollar = false;
+          break;
+        }
+      }
+      
+      // if messages exist now there is no need to check anything else
+      if (!messages.isEmpty()) {
+        initValidationErrors.errorMessages = messages;
+        SERVICELOG.debug("verifyPreqInitialization() ended");
+        return initValidationErrors;
+      }
+      
+      // Check invoice date to make sure it is today or before
+      if (this.isInvoiceDateAfterToday(invoiceDate)) {
+        messages.add("errors.invalid.invoice.date");
+      }
+//      Timestamp now = new Timestamp( (new Date()).getTime() );
+//      if ( invoiceDate.getTime() > now.getTime() ) {
+//        messages.add("errors.invalid.invoice.date");
+//      }
+      
+      if (EpicConstants.PO_STAT_OPEN.equals(po.getPurchaseOrderStatus().getCode())) {
+        //then check that there are no other non-cancelled PREQs for this vendor number and invoice number
+        Integer vendorDetailAssignedId = po.getVendorDetailAssignedId();
+        Integer vendorHeaderGeneratedId = po.getVendorHeaderGeneratedId();
+
+        List preqs = getPaymentRequestsByVendorNumberInvoiceNumber(vendorHeaderGeneratedId,vendorDetailAssignedId,invoiceNumber);
+        if (preqs.size() > 0) {
+          boolean addedError = false;
+          List cancelled = new ArrayList();
+          List voided = new ArrayList();
+          for (Iterator iter = preqs.iterator(); iter.hasNext();) {
+            PaymentRequest testPREQ = (PaymentRequest) iter.next();
+            if ( (!(EpicConstants.PREQ_STAT_CANCELLED_POST_APPROVE.equals(testPREQ.getStatus().getCode()))) && 
+                 (!(EpicConstants.PREQ_STAT_CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getCode()))) ) {
+              messages.add("errors.duplicate.vendor.invoice");
+              addedError = true;
+              break;
+            } else if (EpicConstants.PREQ_STAT_CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getCode())) {
+              voided.add(testPREQ);
+            } else if (EpicConstants.PREQ_STAT_CANCELLED_POST_APPROVE.equals(testPREQ.getStatus().getCode())) {
+              cancelled.add(testPREQ);
+            }
+          }
+          // custom error message for duplicates related to cancelled/voided PREQs
+          if (!addedError) {
+            if ( (!(voided.isEmpty())) && (!(cancelled.isEmpty())) ) {
+              messages.add("errors.duplicate.vendor.invoice.cancelledOrVoided");
+            } else if ( (!(voided.isEmpty())) && (cancelled.isEmpty()) ) {
+              messages.add("errors.duplicate.vendor.invoice.voided");
+            } else if ( (voided.isEmpty()) && (!(cancelled.isEmpty())) ) {
+              messages.add("errors.duplicate.vendor.invoice.cancelled");
+            }
+          }
+        }
+        
+        //check that the invoice date and invoice total amount entered are not on any existing non-cancelled PREQs for this PO
+        preqs = getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(po.getId(), invoiceAmount, invoiceDate);
+        if (preqs.size() > 0) {
+          boolean addedError = false;
+          List cancelled = new ArrayList();
+          List voided = new ArrayList();
+          for (Iterator iter = preqs.iterator(); iter.hasNext();) {
+            PaymentRequest testPREQ = (PaymentRequest) iter.next();
+            if ( (!(EpicConstants.PREQ_STAT_CANCELLED_POST_APPROVE.equals(testPREQ.getStatus().getCode()))) && 
+                 (!(EpicConstants.PREQ_STAT_CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getCode()))) ) {
+              messages.add("errors.duplicate.invoice.date.amount");
+              addedError = true;
+              break;
+            } else if (EpicConstants.PREQ_STAT_CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getCode())) {
+              voided.add(testPREQ);
+            } else if (EpicConstants.PREQ_STAT_CANCELLED_POST_APPROVE.equals(testPREQ.getStatus().getCode())) {
+              cancelled.add(testPREQ);
+            }
+          }
+          // custom error message for duplicates related to cancelled/voided PREQs
+          if (!addedError) {
+            if ( (!(voided.isEmpty())) && (!(cancelled.isEmpty())) ) {
+              messages.add("errors.duplicate.invoice.date.amount.cancelledOrVoided");
+            } else if ( (!(voided.isEmpty())) && (cancelled.isEmpty()) ) {
+              messages.add("errors.duplicate.invoice.date.amount.voided");
+            } else if ( (voided.isEmpty()) && (!(cancelled.isEmpty())) ) {
+              messages.add("errors.duplicate.invoice.date.amount.cancelled");
+            }
+          }
+        }
+        
+        this.checkForExpiredOrClosedAccounts(po, initValidationErrors, closedAccounts, expiredAccounts);
+        
+      } else if (EpicConstants.PO_STAT_PAYMENT_HOLD.equals(po.getPurchaseOrderStatus().getCode())) {
+        //PO is not open - notify the user
+        messages.add("errors.po.status.hold");
+      } else {
+        //PO is not open - notify the user
+        messages.add("errors.po.not.open");
+      }
+
+      if ( 1 == 2 ) {
+        // TODO 2006: delyea PREQ CLOSE PO: Add code to return encumberances check for auto close of PO
+        initValidationErrors.setCanAutoClosePO(false);
+        //initValidationErrors.setCanAutoClosePO(generalLedgerService.isPOAutoCloseEligible(prd.getPreq()) && (prd.getPreq().getPurchaseOrder().getRecurringPaymentType() == null));
+      }
+
+      initValidationErrors.errorMessages = messages;
+      SERVICELOG.debug("verifyPreqInitialization() ended");    
+      return initValidationErrors;
+    }
+    */
 }

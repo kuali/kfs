@@ -235,7 +235,7 @@ public class PurapConstants {
     }
 
     public static class PREQDocumentsStrings {
-        public static String DUPLICATE_DATE_AMONT_QUESTION = "PREQDuplicateDateAmount";
+        public static String DUPLICATE_INVOICE_QUESTION = "PREQDuplicateInvoice";
         
 }
 }

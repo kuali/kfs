@@ -210,12 +210,11 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
        * @param invoiceNumber            invoice number as entered by AP
        * @return List of Pay Reqs.
        */
-      public List getActivePaymentRequestsByVendorNumberInvoiceNumber(Integer vendorHeaderGeneratedId,
-          Integer vendorDetailAssignedId,String invoiceNumber) {
+      public List getActivePaymentRequestsByVendorNumberInvoiceNumber(Integer vendorHeaderGeneratedId, Integer vendorDetailAssignedId,String invoiceNumber) {
         LOG.debug("getActivePaymentRequestsByVendorNumberInvoiceNumber() started");
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("vendorHeaderGeneratedId", vendorHeaderGeneratedId);
-        criteria.addEqualTo("vendorDetailAssignedId", vendorDetailAssignedId);
+        criteria.addEqualTo("vendorHeaderGeneratedIdentifier", vendorHeaderGeneratedId);
+        criteria.addEqualTo("vendorDetailAssignedIdentifier", vendorDetailAssignedId);
         criteria.addEqualTo("invoiceNumber", invoiceNumber);
         QueryByCriteria qbc = new QueryByCriteria(PaymentRequestDocument.class,criteria);
         return this.getPaymentRequestsByQueryByCriteria(qbc);

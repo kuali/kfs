@@ -70,4 +70,9 @@ public class PurapKeyConstants {
     public static final String MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLEDORVOIDED="message.duplicate.invoice.date.amount.cancelledOrVoided";
     public static final String MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_VOIDED="message.duplicate.invoice.date.amount.voided";
     public static final String MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLED="message.duplicate.invoice.date.amount.cancelled";
+    
+    public static final String MESSAGE_DUPLICATE_INVOICE="errors.duplicate.vendor.invoice";
+    public static final String MESSAGE_DUPLICATE_INVOICE_CANCELLEDORVOIDED ="errors.duplicate.vendor.invoice.cancelledOrVoided";
+    public static final String MESSAGE_DUPLICATE_INVOICE_CANCELLED="errors.duplicate.vendor.invoice.cancelled";
+    public static final String MESSAGE_DUPLICATE_INVOICE_VOIDED="errors.duplicate.vendor.invoice.voided";
 }

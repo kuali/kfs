@@ -97,13 +97,13 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
   
             if (question == null) {
               // ask question if not already asked
-              return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.PREQDocumentsStrings.DUPLICATE_DATE_AMONT_QUESTION, duplicateMessages.get(PurapConstants.PREQDocumentsStrings.DUPLICATE_DATE_AMONT_QUESTION) , Constants.CONFIRMATION_QUESTION, Constants.ROUTE_METHOD, "");
+              return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, duplicateMessages.get(PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION) , Constants.CONFIRMATION_QUESTION, Constants.ROUTE_METHOD, "");
 
             } 
             
             Object buttonClicked = request.getParameter(Constants.QUESTION_CLICKED_BUTTON);
            
-            if ((PurapConstants.PREQDocumentsStrings.DUPLICATE_DATE_AMONT_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
+            if ((PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
                 
                 // if no button clicked just reload the doc in the INITIATE status and let the user to change the input values
                

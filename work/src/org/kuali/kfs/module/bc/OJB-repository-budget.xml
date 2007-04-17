@@ -478,7 +478,7 @@
 	<field-descriptor name="positionStatus" column="POSN_STATUS" jdbc-type="VARCHAR"/>
 	<field-descriptor name="budgetedPosition" column="BUDGETED_POSN" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 	<field-descriptor name="confidentialPosition" column="CONFIDENTIAL_POSN" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
-	<field-descriptor name="positionStandardHoursDefault" column="POS_STD_HRS_DFLT" jdbc-type="DECIMAL"/>
+	<field-descriptor name="positionStandardHoursDefault" column="POS_STD_HRS_DFLT" jdbc-type="DECIMAL" precision="4" scale="2"/>
 	<field-descriptor name="positionRegularTemporary" column="POS_REG_TEMP" jdbc-type="VARCHAR"/>
 	<field-descriptor name="positionFullTimeEquivalency" column="POS_FTE" jdbc-type="DECIMAL"/>
 	<field-descriptor name="iuNormalWorkMonths" column="IU_NORM_WORK_MONTHS" jdbc-type="INTEGER"/>

@@ -149,6 +149,9 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
             if (!processedSearchResults.contains(vendor)) {
                 // populate state from default address
                 updatedefaultVendorAddress(vendor);
+                processedSearchResults.add(vendor);
+/*
+ * TODO - AAP: This can be commented back in after RICE extraction and NS change to allow table decorators to be assigned based on Doc Type
                 if (vendor.isVendorParentIndicator()) {
                     processedSearchResults.add(vendor);
                 } else {
@@ -163,6 +166,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
                     }
 
                 }
+ */
             }
         }
         searchResults.clear();

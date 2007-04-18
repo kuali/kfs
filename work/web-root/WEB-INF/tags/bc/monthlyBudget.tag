@@ -36,6 +36,15 @@
           <kul:htmlAttributeHeaderCell align="left" attributeEntry="${pbglAttributes.universityFiscalYear}" >
               <html:hidden property="returnAnchor" />
               <html:hidden property="returnFormKey" />
+              <html:hidden property="documentNumber" />
+              <html:hidden property="universityFiscalYear" />
+              <html:hidden property="chartOfAccountsCode" />
+              <html:hidden property="accountNumber" />
+              <html:hidden property="subAccountNumber" />
+              <html:hidden property="financialObjectCode" />
+              <html:hidden property="financialSubObjectCode" />
+              <html:hidden property="financialBalanceTypeCode" />
+              <html:hidden property="financialObjectTypeCode" />
           </kul:htmlAttributeHeaderCell>
           <kul:htmlAttributeHeaderCell attributeEntry="${pbglAttributes.chartOfAccountsCode}" />
           <kul:htmlAttributeHeaderCell attributeEntry="${pbglAttributes.accountNumber}" />

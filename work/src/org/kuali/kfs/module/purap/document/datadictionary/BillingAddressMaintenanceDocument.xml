@@ -57,7 +57,9 @@
                     <maintainableField name="billingPostalCode" required="true"/>
                     <maintainableField name="billingCountryCode" required="true"/>
                     <maintainableField name="billingPhoneNumber" required="true"/>
-                    <maintainableField name="active" />
+                    <maintainableField name="active">
+                    	<defaultValue>true</defaultValue>
+                     </maintainableField>
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

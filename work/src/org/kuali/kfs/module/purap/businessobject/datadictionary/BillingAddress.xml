@@ -80,20 +80,10 @@
 
         <attributes>
 
-            <attribute name="billingCampusCode" forceUppercase="true">
-                <label>Billing Campus Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>billingCampusCode</summary>
-                <description>billingCampusCode description...</description>
-			</attribute>
+			<attributeReference name="billingCampusCode"
+				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" 
+				sourceAttributeName="campusCode">
+			</attributeReference>
 
             <attribute name="billingCityName" forceUppercase="true">
                 <label>Billing City Name</label>
@@ -110,21 +100,11 @@
                 <description>billingCityName description...</description>
 			</attribute>
 
-            <attribute name="billingCountryCode" forceUppercase="true">
-                <label>Billing Country Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>billingCountryCode</summary>
-                <description>billingCountryCode description...</description>
-			</attribute>
-
+			<attributeReference name="billingCountryCode"
+				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy"
+				sourceAttributeName="countryCode">
+			</attributeReference>
+			
             <attribute name="billingLine1Address" forceUppercase="true">
                 <label>Billing Line1 Address</label>
                 <shortLabel>Address</shortLabel>
@@ -200,20 +180,10 @@
                 <description>billingPostalCode description...</description>
 			</attribute>
 
-            <attribute name="billingStateCode" forceUppercase="true">
-                <label>Billing State Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>billingStateCode</summary>
-                <description>billingStateCode description...</description>
-			</attribute>
+			<attributeReference name="billingStateCode"
+				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy"
+				sourceAttributeName="stateCode">
+			</attributeReference>				
 
             <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
 

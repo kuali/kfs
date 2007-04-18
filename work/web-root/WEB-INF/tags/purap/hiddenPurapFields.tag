@@ -30,3 +30,4 @@
 <html:hidden property="document.requisitionSourceCode" />
 <html:hidden property="document.billingPhoneNumber" />
 <html:hidden property="document.vendorContractGeneratedIdentifier" />
+<html:hidden property="document.deliveryBuildingName" />

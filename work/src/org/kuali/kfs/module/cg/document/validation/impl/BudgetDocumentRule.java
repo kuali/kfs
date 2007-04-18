@@ -115,7 +115,7 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase {
         budgetDocument.getBudget().setAllUserAppointmentTasks(new ArrayList());
         budgetDocument.getBudget().setAllUserAppointmentTaskPeriods(new ArrayList());
 
-        SpringServiceLocator.getDictionaryValidationService().validateDocumentRecursively(budgetDocument, 1);
+        SpringServiceLocator.getDictionaryValidationService().validateDocumentRecursively(budgetDocument, 0);
 
         valid &= GlobalVariables.getErrorMap().isEmpty();
         valid &= budgetParametersRule.isParametersValid(budgetDocument);

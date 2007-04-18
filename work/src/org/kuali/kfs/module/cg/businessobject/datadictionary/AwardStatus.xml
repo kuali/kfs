@@ -72,7 +72,7 @@
 
                 <summary>Award Status Code</summary>
                 <description>
-					This is a one-letter code associated with a particular status 
+					This is a two character code associated with a particular status 
 					of the Award.  Examples include A=Awarded, R=Rejected, and U=Underwritten.  
 				</description>
 			</attribute>

@@ -55,8 +55,8 @@
 
         <attributes>
             <attribute name="code" forceUppercase="true">
-                <label>Type Code</label>
-                <shortLabel>Code</shortLabel>
+                <label>Agency Type Code</label>
+                <shortLabel>Agncy Typ Cd</shortLabel>
 
                 <maxLength>1</maxLength>
 
@@ -79,8 +79,8 @@
             </attribute>
 
             <attribute name="name" forceUppercase="false">
-                <label>Type Description</label>
-                <shortLabel>description</shortLabel>
+                <label>Agency Type Description</label>
+                <shortLabel>Type Desc</shortLabel>
 
                 <maxLength>30</maxLength>
 

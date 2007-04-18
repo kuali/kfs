@@ -16,6 +16,7 @@
 package org.kuali.module.labor.util;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -226,11 +227,22 @@ public class ObjectUtilTest extends TestCase {
     
     public void testValueOfDate() throws Exception{       
         String type = "Date";
-        String[] value = {"2000-1-1", "2000/1/1", "1/1/2000", "", "bad value"};
-        String[] expected = {"2000-1-1", null, null, null, null};        
+        String[] value = {"2000-01-31", "2000/1/1", "1/1/2000", "", "bad value"};
+        String[] expected = {"2000-01-31", null, null, null, null};        
         for(int i=0; i<value.length; i++){
             String tempvalue = expected[i];
             Date expectedValue = tempvalue != null ? Date.valueOf(expected[i]) : null;
+            assertEquals(expectedValue, ObjectUtil.valueOf(type, value[i]));
+        }
+    }
+    
+    public void testValueOfTimestamp() throws Exception{       
+        String type = "Timestamp";
+        String[] value = {"2000-01-31 00:12:00.55", "2000-01-31", "2000/1/1", "1/1/2000", "", "bad value"};
+        String[] expected = {"2000-01-31 00:12:00.55", "2000-01-31 00:00:00.0", null, null, null, null};        
+        for(int i=0; i<value.length; i++){
+            String tempvalue = expected[i];
+            Timestamp expectedValue = tempvalue != null ? Timestamp.valueOf(expected[i]) : null;
             assertEquals(expectedValue, ObjectUtil.valueOf(type, value[i]));
         }
     }

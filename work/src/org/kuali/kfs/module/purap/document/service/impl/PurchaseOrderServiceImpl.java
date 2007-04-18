@@ -182,17 +182,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
             VendorDetail vendor = vendorService.getVendorDetail(poDocument.getVendorHeaderGeneratedIdentifier(), poDocument.getVendorDetailAssignedIdentifier());
 
-            if (ObjectUtils.isNull(vendor)) {
-                LOG.error("Error creating PO document: vendor not found");
-                throw new RuntimeException("Error creating PO document: vendor not found");
-            }
-
             if (ObjectUtils.isNotNull(poDocument.getVendorContract())) {
                 poDocument.setVendorPaymentTermsCode(poDocument.getVendorContract().getVendorPaymentTermsCode());
                 poDocument.setVendorShippingPaymentTermsCode(poDocument.getVendorContract().getVendorShippingPaymentTermsCode());
                 poDocument.setVendorShippingTitleCode(poDocument.getVendorContract().getVendorShippingTitleCode());
             }
-            else {
+            else if (ObjectUtils.isNotNull(vendor)) {
                 poDocument.setVendorPaymentTermsCode(vendor.getVendorPaymentTermsCode());
                 poDocument.setVendorShippingPaymentTermsCode(vendor.getVendorShippingPaymentTermsCode());
                 poDocument.setVendorShippingTitleCode(vendor.getVendorShippingTitleCode());

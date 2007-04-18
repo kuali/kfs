@@ -16,13 +16,17 @@
 package org.kuali.module.cg.rules;
 
 import java.sql.Date;
+import java.util.List;
 
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.module.cg.bo.Proposal;
 import org.kuali.module.cg.bo.ProposalOrganization;
 import org.kuali.module.cg.bo.ProposalProjectDirector;
+import org.kuali.module.cg.bo.ProjectDirector;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Rules for the Proposal maintenance document.
@@ -44,10 +48,26 @@ public class ProposalRule extends CGMaintenanceDocumentRuleBase {
         success &= checkEndAfterBegin(newProposalCopy.getProposalBeginningDate(),newProposalCopy.getProposalEndingDate(),PropertyConstants.PROPOSAL_ENDING_DATE);
         success &= checkPrimary(newProposalCopy.getProposalOrganizations(), ProposalOrganization.class, PropertyConstants.PROPOSAL_ORGANIZATIONS, Proposal.class);
         success &= checkPrimary(newProposalCopy.getProposalProjectDirectors(), ProposalProjectDirector.class, PropertyConstants.PROPOSAL_PROJECT_DIRECTORS, Proposal.class);
+        success &= checkProjectDirectorsExist(newProposalCopy.getProposalProjectDirectors());
         return success;
     }
 
-    
+    private boolean checkProjectDirectorsExist(List<ProposalProjectDirector> proposalProjectDirectors) {
+        boolean success = true;
+        final String personUserPropertyName = PropertyConstants.PROJECT_DIRECTOR + "." + PropertyConstants.PERSON_USER_IDENTIFIER;
+        String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(ProposalProjectDirector.class, personUserPropertyName);
+        int i = 0;
+        for (ProposalProjectDirector ppd : proposalProjectDirectors) {
+            String propertyName = PropertyConstants.PROPOSAL_PROJECT_DIRECTORS + "[" + (i++) + "]." + personUserPropertyName;
+            String id = ppd.getPersonUniversalIdentifier();
+            if (StringUtils.isBlank(id) || !SpringServiceLocator.getProjectDirectorService().primaryIdExists(id)) {
+                putFieldError(propertyName, KeyConstants.ERROR_EXISTENCE, label);
+                success = false;
+            }
+        }
+        return success;
+    }
+
     /**
      * Performs convenience cast for Maintenance framework. Note that the MaintenanceDocumentRule events provide only a deep copy of
      * the document (from KualiDocumentEventBase), so these BOs are a copy too. The framework does this to prevent these rules from

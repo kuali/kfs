@@ -48,12 +48,30 @@ public class ProjectDirectorServiceImpl implements ProjectDirectorService {
     public ProjectDirector getByPersonUserIdentifier(String username) {
         try {
             UniversalUser user = universalUserService.getUniversalUserByAuthenticationUserId( username );
-            Map<String, Object> primaryKeys = new HashMap();
-            primaryKeys.put(PropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, user.getPersonUniversalIdentifier());
-            return (ProjectDirector) businessObjectService.findByPrimaryKey(ProjectDirector.class, primaryKeys);
+            return getByPrimaryId(user.getPersonUniversalIdentifier());
         } catch ( UserNotFoundException ex ) {
             return null;
         }
+    }
+
+    /**
+     * @see org.kuali.module.cg.service.ProjectDirectorService#getByPrimaryId(String)
+     */
+    public ProjectDirector getByPrimaryId(String universalIdentifier) {
+        return (ProjectDirector) businessObjectService.findByPrimaryKey(ProjectDirector.class, mapPrimaryKeys(universalIdentifier));
+    }
+
+    /**
+     * @see org.kuali.module.cg.service.ProjectDirectorService#primaryIdExists(String)
+     */
+    public boolean primaryIdExists(String universalIdentifier) {
+        return businessObjectService.countMatching(ProjectDirector.class, mapPrimaryKeys(universalIdentifier)) > 0;
+    }
+
+    private Map<String, Object> mapPrimaryKeys(String universalIdentifier) {
+        Map<String, Object> primaryKeys = new HashMap();
+        primaryKeys.put(PropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, universalIdentifier);
+        return primaryKeys;
     }
 
     public void setUniversalUserService(UniversalUserService universalUserService) {

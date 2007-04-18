@@ -212,9 +212,9 @@ public class LaborScrubberProcess {
         // Create the groups that will store the valid and error entries that come out of the scrubber
         // We don't need groups for the reportOnlyMode
         if (!reportOnlyMode) {
-            validGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_VALID, true, true, false);
-            errorGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_ERROR, false, true, false);
-            expiredGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.SCRUBBER_EXPIRED, false, true, false);
+            validGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.LABOR_SCRUBBER_VALID, true, true, false);
+            errorGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.LABOR_SCRUBBER_ERROR, false, true, false);
+            expiredGroup = originEntryGroupService.createGroup(runDate, OriginEntrySource.LABOR_SCRUBBER_EXPIRED, false, true, false);
         }
 
         // get the origin entry groups to be processed by Scrubber
@@ -224,7 +224,7 @@ public class LaborScrubberProcess {
             groupsToScrub.add(group);
         }
         else {
-            groupsToScrub = originEntryGroupService.getBackupGroups(runDate);
+            groupsToScrub = originEntryGroupService.getLaborBackupGroups(runDate);
         }
         LOG.debug("scrubEntries() number of groups to scrub: " + groupsToScrub.size());
 

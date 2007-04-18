@@ -15,7 +15,6 @@
  */
 package org.kuali.module.kra.budget.document;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -26,19 +25,16 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.user.AuthenticationUserId;
-
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.Document;
-import org.kuali.core.document.DocumentBase;
 import org.kuali.core.exceptions.IllegalObjectStateException;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.format.FormatException;
 import org.kuali.core.workflow.DocumentInitiator;
 import org.kuali.core.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
 import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.bo.AdhocOrg;
 import org.kuali.module.kra.budget.bo.Budget;
@@ -49,8 +45,6 @@ import org.kuali.module.kra.budget.bo.BudgetTask;
 import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
 import org.kuali.module.kra.budget.bo.BudgetUser;
 import org.kuali.module.kra.document.ResearchDocumentBase;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * Budget
@@ -442,11 +436,15 @@ public class BudgetDocument extends ResearchDocumentBase {
                 xml.append(projectDirector.getUser().getPersonUniversalIdentifier());
                 xml.append("</projectDirector>");
             }
-            if (!StringUtils.isBlank(projectDirector.getFiscalCampusCode()) && !StringUtils.isBlank(projectDirector.getPrimaryDepartmentCode())) {
+            if (!StringUtils.isBlank(projectDirector.getFiscalCampusCode())) {
                 xml.append("<chartOrg><chartOfAccountsCode>");
                 xml.append(projectDirector.getFiscalCampusCode());
                 xml.append("</chartOfAccountsCode><organizationCode>");
-                xml.append(projectDirector.getPrimaryDepartmentCode());
+                if (StringUtils.isBlank(projectDirector.getPrimaryDepartmentCode())) {
+                    xml.append(SpringServiceLocator.getChartUserService().getDefaultOrganizationCode(new ChartUser(projectDirector.getUser())));
+                } else {
+                    xml.append(projectDirector.getPrimaryDepartmentCode());
+                }
                 xml.append("</organizationCode></chartOrg>");
             }
         }

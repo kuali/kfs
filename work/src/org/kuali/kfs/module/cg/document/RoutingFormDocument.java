@@ -37,6 +37,7 @@ import org.kuali.core.workflow.KualiTransactionalDocumentInformation;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference;
+import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.bo.AdhocOrg;
 import org.kuali.module.kra.bo.AdhocPerson;
@@ -1904,7 +1905,11 @@ public class RoutingFormDocument extends ResearchDocumentBase {
                 xml.append("<chartOrg><chartOfAccountsCode>");
                 xml.append(projectDirector.getChartOfAccountsCode());
                 xml.append("</chartOfAccountsCode><organizationCode>");
-                xml.append(projectDirector.getOrganizationCode());
+                if (StringUtils.isBlank(projectDirector.getOrganizationCode())) {
+                    xml.append(SpringServiceLocator.getChartUserService().getDefaultOrganizationCode(new ChartUser(projectDirector.getUser())));
+                } else {
+                    xml.append(projectDirector.getOrganizationCode());
+                }
                 xml.append("</organizationCode></chartOrg>");
             }
         }

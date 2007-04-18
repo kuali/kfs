@@ -122,6 +122,61 @@
                 <description>campusPurchasingDirectorTitle description...</description>
 			</attribute>
 
+            <attribute name="purchasingInstitutionName" forceUppercase="true">
+                <label>Purchasing Institution Name</label>
+                <shortLabel>Institution Name</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>purchasingInstitutionName</summary>
+                <description>purchasingInstitutionName description...</description>
+			</attribute>
+
+            <attribute name="purchasingDepartmentName" forceUppercase="true">
+                <label>Purchasing Department Name</label>
+                <shortLabel>Dept Name</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter  allowWhitespace="true"/></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>purchasingDepartmentName</summary>
+                <description>purchasingDepartmentName description...</description>
+			</attribute>
+
+		
+			<attributeReference name="purchasingDepartmentLine1Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line1Address" >
+                <required>false</required>
+            </attributeReference>
+            	
+			<attributeReference name="purchasingDepartmentLine2Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line2Address" >
+                <required>false</required>
+            </attributeReference>
+                        		
+			<attributeReference name="purchasingDepartmentCityName" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="cityName" >
+                <required>false</required>
+            </attributeReference>
+
+			<attributeReference name="purchasingDepartmentStateCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="stateCode" >
+                <required>false</required>
+            </attributeReference>
+
+			<attributeReference name="purchasingDepartmentZipCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="zipCode" >
+                <required>false</required>
+            </attributeReference>
+            																		
+			<attributeReference name="purchasingDepartmentCountryCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="countryCode" >
+                <required>false</required>
+            </attributeReference>
+            
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>

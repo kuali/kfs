@@ -54,6 +54,14 @@
 					<maintainableField name="campusPurchasingDirectorName"/>
 					<maintainableField name="campusPurchasingDirectorTitle"/>
 					<maintainableField name="campusAccountsPayableEmailAddress"/>
+					<maintainableField name="purchasingInstitutionName"/>
+					<maintainableField name="purchasingDepartmentName"/>
+					<maintainableField name="purchasingDepartmentLine1Address"/>
+					<maintainableField name="purchasingDepartmentLine2Address"/>
+					<maintainableField name="purchasingDepartmentCityName"/>
+					<maintainableField name="purchasingDepartmentStateCode"/>
+					<maintainableField name="purchasingDepartmentZipCode"/>
+					<maintainableField name="purchasingDepartmentCountryCode"/>
 					<maintainableField name="versionNumber" />
 				</maintainableItems>
 			</maintainableSection>

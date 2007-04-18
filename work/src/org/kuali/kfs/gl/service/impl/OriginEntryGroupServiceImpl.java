@@ -32,6 +32,7 @@ import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.dao.OriginEntryDao;
 import org.kuali.module.gl.dao.OriginEntryGroupDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
+import org.kuali.module.labor.dao.LaborOriginEntryDao;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -41,6 +42,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
     private OriginEntryGroupDao originEntryGroupDao;
     private OriginEntryDao originEntryDao;
     private DateTimeService dateTimeService;
+    private LaborOriginEntryDao laborOriginEntryDao;
 
     public OriginEntryGroupServiceImpl() {
         super();
@@ -104,6 +106,17 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         return originEntryGroupDao.getBackupGroups(backupDate);
     }
 
+    
+    /**
+     * 
+     * @see org.kuali.module.gl.service.OriginEntryGroupService#getLaborBackupGroups(java.sql.Date)
+     */
+    public Collection getLaborBackupGroups(Date backupDate) {
+        LOG.debug("getBackupGroups() started");
+
+        return originEntryGroupDao.getLaborBackupGroups(backupDate);
+    }
+    
     /**
      * 
      * @see org.kuali.module.gl.service.OriginEntryGroupService#createBackupGroup()
@@ -136,6 +149,40 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         }
     }
 
+    
+    /**
+     * 
+     * @see org.kuali.module.gl.service.OriginEntryGroupService#createLaborBackupGroup()
+     */
+    public void createLaborBackupGroup() {
+        LOG.debug("createBackupGroup() started");
+
+        // Get the groups that need to be added
+        Date today = dateTimeService.getCurrentSqlDate();
+        Collection groups = originEntryGroupDao.getGroupsToBackup(today);
+
+        // Create the new group
+        OriginEntryGroup backupGroup = this.createGroup(today, OriginEntrySource.LABOR_BACKUP, true, true, true);
+
+        for (Iterator<OriginEntryGroup> iter = groups.iterator(); iter.hasNext();) {
+            OriginEntryGroup group = iter.next();
+
+            for (Iterator<OriginEntry> entry_iter = laborOriginEntryDao.getEntriesByGroup(group, 0); entry_iter.hasNext();) {
+                OriginEntry entry = entry_iter.next();
+                
+                entry.setEntryId(null);
+                entry.setObjectId(new Guid().toString());
+                entry.setGroup(backupGroup);
+                originEntryDao.saveOriginEntry(entry);
+            }
+
+            group.setProcess(false);
+            group.setScrub(false);
+            originEntryGroupDao.save(group);
+        }
+    }
+
+    
     /**
      * 
      * @see org.kuali.module.gl.service.OriginEntryGroupService#deleteOlderGroups(int)
@@ -305,6 +352,11 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
         originEntryDao = oed;
     }
 
+    public void setLaborOriginEntryDao(LaborOriginEntryDao loed) {
+        laborOriginEntryDao = loed;
+    }
+    
+    
     public void setDateTimeService(DateTimeService dts) {
         dateTimeService = dts;
     }

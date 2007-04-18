@@ -45,6 +45,13 @@ public interface OriginEntryGroupService {
     public void createBackupGroup();
 
     /**
+     * Create the backup group which has all the entries from all the groups where all the flags are set Y.
+     * 
+     */
+    public void createLaborBackupGroup();
+    
+    
+    /**
      * Delete all the groups (and entries) where the group is this many days old or older
      * 
      * @param days
@@ -80,6 +87,15 @@ public interface OriginEntryGroupService {
      */
     public Collection getBackupGroups(Date backupDate);
 
+    /**
+     * Get all the unscrubbed backup groups for Labor
+     * 
+     * @param backupDate
+     * @return
+     */
+    public Collection getLaborBackupGroups(Date backupDate);
+    
+    
     /**
      * Get all the groups that need to be put into the backup group
      * 

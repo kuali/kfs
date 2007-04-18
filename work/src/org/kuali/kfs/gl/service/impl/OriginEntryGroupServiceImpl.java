@@ -32,6 +32,7 @@ import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.dao.OriginEntryDao;
 import org.kuali.module.gl.dao.OriginEntryGroupDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
+import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.dao.LaborOriginEntryDao;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -166,14 +167,15 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 
         for (Iterator<OriginEntryGroup> iter = groups.iterator(); iter.hasNext();) {
             OriginEntryGroup group = iter.next();
-
-            for (Iterator<OriginEntry> entry_iter = laborOriginEntryDao.getEntriesByGroup(group, 0); entry_iter.hasNext();) {
-                OriginEntry entry = entry_iter.next();
+            Iterator entry_iter = laborOriginEntryDao.getEntriesByGroup(group, 0);
+            
+            while (entry_iter.hasNext()) {
+                LaborOriginEntry entry = (LaborOriginEntry) entry_iter.next();
                 
                 entry.setEntryId(null);
                 entry.setObjectId(new Guid().toString());
                 entry.setGroup(backupGroup);
-                originEntryDao.saveOriginEntry(entry);
+                laborOriginEntryDao.saveOriginEntry(entry);
             }
 
             group.setProcess(false);

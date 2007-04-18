@@ -53,6 +53,7 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
     private String personUniversalIdentifier;
     private UniversalUser user;
     private String appointmentTypeCode; // Not present in the database - only for the convenience of the user interface
+    private String appointmentTypeDescription; // Not present in the database - only for the convenience of the user interface
     private boolean personSeniorKeyIndicator;
     private boolean personSecretarialClericalIndicator;
     private boolean personPostDoctoralIndicator;
@@ -433,6 +434,24 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
     }
 
     /**
+     * Gets the appointmentTypeDescription attribute.
+     * 
+     * @return Returns the appointmentTypeDescription.
+     */
+    public String getAppointmentTypeDescription() {
+        return appointmentTypeDescription;
+    }
+
+    /**
+     * Sets the appointmentTypeDescription attribute value.
+     * 
+     * @param appointmentTypeDescription The appointmentTypeDescription to set.
+     */
+    public void setAppointmentTypeDescription(String appointmentTypeDescription) {
+        this.appointmentTypeDescription = appointmentTypeDescription;
+    }
+    
+    /**
      * Log the state of this object.
      */
     public void logState() {
@@ -445,6 +464,7 @@ public class BudgetUser extends PersistableBusinessObjectBase implements Compara
         LOG.info("  role: (" + this.role + ")");
         LOG.info("  personUniversalIdentifier: (" + this.personUniversalIdentifier + ")");
         LOG.info("  appointmentTypeCode: (" + this.appointmentTypeCode + ")");
+        LOG.info("  appointmentTypeDescription: (" + this.appointmentTypeDescription + ")");
         LOG.info("  personSeniorKeyIndicator: (" + this.personSeniorKeyIndicator + ")");
         LOG.info("  personSecretarialClericalIndicator: (" + this.personSecretarialClericalIndicator + ")");
         LOG.info("  personPostDoctoralIndicator: (" + this.personPostDoctoralIndicator + ")");

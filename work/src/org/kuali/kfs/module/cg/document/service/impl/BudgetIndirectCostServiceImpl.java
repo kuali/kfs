@@ -474,7 +474,8 @@ public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService 
      */
     public void refreshIndirectCost(BudgetDocument budgetDocument) {
         if (budgetDocument.getBudget().getIndirectCost() != null && budgetDocument.getBudget().getIndirectCost().getBudgetTaskPeriodIndirectCostItems() != null) {
-            List taskPeriodItems = budgetDocument.getBudget().getIndirectCost().getBudgetTaskPeriodIndirectCostItems();
+            BudgetIndirectCost budgetIndirectCost = budgetDocument.getBudget().getIndirectCost();
+            List taskPeriodItems = budgetIndirectCost.getBudgetTaskPeriodIndirectCostItems();
 
             for (Iterator i = taskPeriodItems.iterator(); i.hasNext();) {
                 BudgetTaskPeriodIndirectCost taskPeriod = (BudgetTaskPeriodIndirectCost) i.next();
@@ -486,6 +487,12 @@ public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService 
             budgetDocument.getBudget().refreshReferenceObject("personnel");
             budgetDocument.getBudget().refreshReferenceObject("nonpersonnelItems");
             calculateTaskPeriodIdcListValues(budgetDocument);
+            
+            if("N".equals(budgetIndirectCost.getBudgetManualRateIndicator())) {
+                budgetIndirectCost.setBudgetManualRateIndicatorDescription(kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.KRA_BUDGET_INDIRECT_COST_PROVIDED_SYSTEM));
+            } else {
+                budgetIndirectCost.setBudgetManualRateIndicatorDescription(kualiConfigurationService.getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, KraConstants.KRA_BUDGET_INDIRECT_COST_PROVIDED_MANUALLY));
+            }
         }
     }
 

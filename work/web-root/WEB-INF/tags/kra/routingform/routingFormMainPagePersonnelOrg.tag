@@ -149,11 +149,20 @@
 					<c:if test="${hasErrors==true}">
 					  <c:set var="personRoleCodeTextStyle" value="background-color: red"/>
 					</c:if>
-	                <html:select property="document.routingFormPersonnel[${status.index}].personRoleCode" style="${personRoleCodeTextStyle}" disabled="${viewOnly}"> 
-	                  <html:option value="">select:</html:option> 
-	                  <c:set var="routingFormPersonRoles" value="${KualiForm.document.routingFormPersonRoles}"/> 
-	                  <html:options collection="routingFormPersonRoles" property="personRoleCode" labelProperty="personRole.personRoleDescription"/> 
-	                </html:select>
+                    <c:choose>
+                      <c:when test="${!viewOnly}">
+    	                <html:select property="document.routingFormPersonnel[${status.index}].personRoleCode" style="${personRoleCodeTextStyle}" disabled="${viewOnly}"> 
+      	                  <html:option value="">select:</html:option> 
+      	                  <c:set var="routingFormPersonRoles" value="${KualiForm.document.routingFormPersonRoles}"/> 
+      	                  <html:options collection="routingFormPersonRoles" property="personRoleCode" labelProperty="personRole.personRoleDescription"/> 
+       	                </html:select>
+	                  </c:when>
+  		              <c:otherwise>
+                        <html:hidden property="document.routingFormPersonnel[${status.index}].personRoleCode" />
+                        <html:hidden property="document.routingFormPersonnel[${status.index}].personRole.personRoleDescription" />
+                        ${person.personRole.personRoleDescription}
+  		              </c:otherwise>
+  		            </c:choose>
                   </td>
                   <td><kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].personRoleText" attributeEntry="${routingFormPersonnel.personRoleText}" readOnly="${viewOnly or (budgetLinked and isProjectDirector)}"/></td>
                   <td>

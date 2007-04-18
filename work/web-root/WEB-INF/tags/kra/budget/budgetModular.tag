@@ -126,10 +126,14 @@
 						<div align="right"> 
 							<c:choose>
 								<c:when test="${KualiForm.document.budget.modularBudget.invalidMode}">N/A</c:when>
-								<c:otherwise>
+								<c:when test="${!viewOnly}">
 									<html:select value="${modularPeriod.budgetAdjustedModularDirectCostAmount}" property="document.budget.modularBudget.budgetModularPeriod[${i}].budgetAdjustedModularDirectCostAmount" disabled="${viewOnly}">
 										<html:options name="KualiForm" property="document.budget.modularBudget.increments"/> 
 									</html:select> 
+								</c:when>
+								<c:otherwise>
+								    <html:hidden property="document.budget.modularBudget.budgetModularPeriods[${i}].budgetAdjustedModularDirectCostAmount"/>
+								    <fmt:formatNumber value="${modularPeriod.budgetAdjustedModularDirectCostAmount}" type="currency" currencySymbol="" maxFractionDigits="0" /> <br/>
 								</c:otherwise>
 							</c:choose>
 						</div>

@@ -65,7 +65,7 @@
               <th width="20%" align="right"  ><kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetIndirectCost.attributes.budgetPurposeCode}" skipHelpUrl="true" /></th>
 
               <td width="30%"   >
-              	<kul:htmlControlAttribute property="document.budget.indirectCost.budgetPurposeCode" attributeEntry="${budgetIndirectCostAttributes.budgetPurposeCode}" readOnly="${viewOnly}"/>
+              	<kul:htmlControlAttribute property="document.budget.indirectCost.budgetPurposeCode" extraReadOnlyProperty="document.budget.indirectCost.purpose.purposeDescription" attributeEntry="${budgetIndirectCostAttributes.budgetPurposeCode}" readOnly="${viewOnly}"/>
               	<%--	
               		<c:set var="finderClass" value="${fn:replace(budgetIndirectCostAttributes.budgetPurposeCode.control.valuesFinder,'.','|')}"/>
               		<%-- <c:out value="validOptionsMap.${finderClass[document.budget.indirectCost.budgetPurposeCode]}.label"/> 
@@ -86,14 +86,14 @@
               <th width="20%" align="right"  ><kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetIndirectCost.attributes.budgetBaseCode}" skipHelpUrl="true" /></th>
 
               <td width="30%" >
-              	<kul:htmlControlAttribute property="document.budget.indirectCost.budgetBaseCode" attributeEntry="${budgetIndirectCostAttributes.budgetBaseCode}" readOnly="${viewOnly}"/>
+              	<kul:htmlControlAttribute property="document.budget.indirectCost.budgetBaseCode" extraReadOnlyProperty="document.budget.indirectCost.baseCode.budgetBaseDescription" attributeEntry="${budgetIndirectCostAttributes.budgetBaseCode}" readOnly="${viewOnly}"/>
               </td>
             </tr>
 
             <tr>
               <th width="20%" align="right"  ><kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetIndirectCost.attributes.budgetManualRateIndicator}" skipHelpUrl="true" /></th>
               <td width="30%" >
-                <kul:htmlControlAttribute property="document.budget.indirectCost.budgetManualRateIndicator" attributeEntry="${budgetIndirectCostAttributes.budgetManualRateIndicator}" readOnly="${viewOnly}"/>
+                <kul:htmlControlAttribute property="document.budget.indirectCost.budgetManualRateIndicator" extraReadOnlyProperty="document.budget.indirectCost.budgetManualRateIndicatorDescription" attributeEntry="${budgetIndirectCostAttributes.budgetManualRateIndicator}" readOnly="${viewOnly}"/>
               </td>
 
               <th width="20%" align="right"  ><kul:htmlAttributeLabel attributeEntry="${DataDictionary.BudgetIndirectCost.attributes.budgetIndirectCostJustificationText}" skipHelpUrl="true" /></th>

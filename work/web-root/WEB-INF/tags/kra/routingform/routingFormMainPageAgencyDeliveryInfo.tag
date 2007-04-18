@@ -72,11 +72,20 @@
 				  <c:if test="${hasErrors==true}">
 				    <c:set var="routingFormDueDateTypeCodeTextStyle" value="background-color: red"/>
 				  </c:if>
-                  <html:select property="document.routingFormAgency.routingFormDueDateTypeCode" style="${routingFormDueDateTypeCodeTextStyle}" disabled="${viewOnly}">
-                    <html:option value="">select:</html:option>
-                    <c:set var="routingFormDueDateTypes" value="${KualiForm.document.routingFormAgency.routingFormDueDateTypes}"/>
-                    <html:options collection="routingFormDueDateTypes" property="dueDateTypeCode" labelProperty="dueDateType.dueDateDescription"/>
-                  </html:select>
+                  <c:choose>
+                    <c:when test="${!viewOnly}">
+                      <html:select property="document.routingFormAgency.routingFormDueDateTypeCode" style="${routingFormDueDateTypeCodeTextStyle}" disabled="${viewOnly}">
+                        <html:option value="">select:</html:option>
+                        <c:set var="routingFormDueDateTypes" value="${KualiForm.document.routingFormAgency.routingFormDueDateTypes}"/>
+                        <html:options collection="routingFormDueDateTypes" property="dueDateTypeCode" labelProperty="dueDateType.dueDateDescription"/>
+                      </html:select>
+		            </c:when>
+		            <c:otherwise>
+                      <html:hidden property="document.routingFormAgency.routingFormDueDateTypeCode" />
+                      <html:hidden property="document.routingFormAgency.dueDateType.dueDateDescription" />
+                      ${KualiForm.document.routingFormAgency.dueDateType.dueDateDescription}&nbsp
+		            </c:otherwise>
+		          </c:choose>
                 </td>
 
               </tr>
@@ -101,11 +110,12 @@
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${cfdaAttributes.cfdaNumber}" skipHelpUrl="true" /></th>
 
                 <td align=left valign=middle >
-			    	<html:hidden write="true" property="document.routingFormCatalogOfFederalDomesticAssistanceNumber" /> 
-			    	<c:if test="${empty KualiForm.document.routingFormCatalogOfFederalDomesticAssistanceNumber}">(select)</c:if>
+			    	<html:hidden write="true" property="document.routingFormCatalogOfFederalDomesticAssistanceNumber" />
 			    	<c:if test="${!viewOnly}">
+			    	    <c:if test="${empty KualiForm.document.routingFormCatalogOfFederalDomesticAssistanceNumber}">(select)</c:if>
 			    		<kul:lookup boClassName="org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference" lookupParameters="document.routingFormCatalogOfFederalDomesticAssistanceNumber:cfdaNumber" fieldConversions="cfdaNumber:document.routingFormCatalogOfFederalDomesticAssistanceNumber" anchor="${currentTabIndex}" />
                 	</c:if>
+                	&nbsp
 				</td>
                 <th align=right valign=middle><kul:htmlAttributeLabel attributeEntry="${routingFormAgencyAttributes.routingFormRequiredCopyText}" skipHelpUrl="true" useShortLabel="true" /></th>
                 <td colspan="2" align=left valign=middle >

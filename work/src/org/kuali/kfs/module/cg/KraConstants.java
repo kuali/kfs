@@ -76,6 +76,8 @@ public class KraConstants extends JstlConstants {
     public static final String GRADUATE_ASSISTANT_NONPERSONNEL_SUB_CATEGORY_CODE = "graduateAssistantNonpersonnelSubCategoryCode";
     public static final String GRADUATE_ASSISTANT_NONPERSONNEL_CATEGORY_CODE = "graduateAssistantNonpersonnelCategoryCode";
 
+    public static final String KRA_BUDGET_INDIRECT_COST_PROVIDED_SYSTEM = "KraBudgetIndirectCostProvidedSystem";
+    public static final String KRA_BUDGET_INDIRECT_COST_PROVIDED_MANUALLY = "KraBudgetIndirectCostProvidedManually";
     public static final String KRA_BUDGET_PERSONNEL_SUMMER_GRID_APPOINTMENT_TYPES = "KraBudgetPersonnelSummerGridAppointmentTypes";
     public static final String KRA_BUDGET_PERSONNEL_SUMMER_GRID_APPOINTMENT_TYPE = "KraBudgetPersonnelSummerGridAppointmentType";
     public static final String KRA_BUDGET_PERSONNEL_FULL_YEAR_APPOINTMENT_TYPES = "KraBudgetPersonnelFullYearAppointmentTypes";

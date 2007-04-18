@@ -103,13 +103,13 @@
             <th align="right"><kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.personPrefixText}" skipHelpUrl="true"/></th>
             <td><kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].personPrefixText" attributeEntry="${routingFormPersonnel.personPrefixText}" readOnly="${viewOnly}"/></td>
             <th align="right"><kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.personStateCode}" skipHelpUrl="true"/></th>
-            <td><kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].personStateCode" attributeEntry="${routingFormPersonnel.personStateCode}" readOnly="${viewOnly}"/></td>
+            <td><kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].personStateCode" extraReadOnlyProperty="document.routingFormPersonnel[${status.index}].personState.postalStateName" attributeEntry="${routingFormPersonnel.personStateCode}" readOnly="${viewOnly}"/></td>
           </tr>
           <tr class="datatable">
             <th align="right"><kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.personSuffixText}" skipHelpUrl="true"/></th>
             <td><kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].personSuffixText" attributeEntry="${routingFormPersonnel.personSuffixText}" readOnly="${viewOnly}"/></td>
             <th align="right"><kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.personCountryCode}" skipHelpUrl="true"/></th>
-            <td><kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].personCountryCode" attributeEntry="${routingFormPersonnel.personCountryCode}" readOnly="${viewOnly}"/></td>
+            <td><kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].personCountryCode" extraReadOnlyProperty="document.routingFormPersonnel[${status.index}].personCountry.postalCountryName" attributeEntry="${routingFormPersonnel.personCountryCode}" readOnly="${viewOnly}"/></td>
           </tr>
           <tr class="datatable">
             <th align="right"><kul:htmlAttributeLabel attributeEntry="${routingFormPersonnel.personPositionTitle}" skipHelpUrl="true"/></th>

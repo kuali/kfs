@@ -576,6 +576,12 @@
     <field-descriptor name="budgetManualRateIndicator" column="BDGT_MAN_RT_IND" jdbc-type="VARCHAR" />
     <field-descriptor name="budgetPurposeCode" column="BDGT_PRPS_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="budgetUnrecoveredIndirectCostIndicator" column="BDGT_URCV_IDC_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+    <reference-descriptor name="purpose" proxy="true" class-ref="org.kuali.module.kra.routingform.bo.Purpose" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="budgetPurposeCode" />
+    </reference-descriptor>
+    <reference-descriptor name="baseCode" proxy="true" class-ref="org.kuali.module.kra.budget.bo.BudgetBaseCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="budgetBaseCode" />
+    </reference-descriptor>
     <collection-descriptor name="budgetTaskPeriodIndirectCostItems" proxy="true" element-class-ref="org.kuali.module.kra.budget.bo.BudgetTaskPeriodIndirectCost" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="budgetTaskSequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />

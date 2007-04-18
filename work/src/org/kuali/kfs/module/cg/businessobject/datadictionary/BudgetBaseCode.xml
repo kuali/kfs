@@ -61,7 +61,7 @@
                 <validationPattern>
                     <anyCharacter allowWhitespace="false" />
                 </validationPattern>
-                <required>true</required>
+                <required>false</required>
                 <control>
                     <text size="2" />
                 </control>

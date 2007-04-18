@@ -47,7 +47,10 @@
                         <c:when test="${!viewOnly}">
                           <html:radio property="document.submissionTypeCode" value="${routingFormSubmissionType.submissionTypeCode}" disabled="${viewOnly}"/>
                         </c:when>
-                        <c:when test="${KualiForm.document.submissionTypeCode eq routingFormSubmissionType.submissionTypeCode}"> Yes </c:when>
+                        <c:when test="${KualiForm.document.submissionTypeCode eq routingFormSubmissionType.submissionTypeCode}">
+                          <html:hidden property="document.submissionTypeCode" />
+                          Yes
+                        </c:when>
     				    <c:otherwise> No </c:otherwise>
                       </c:choose>
 		              ${routingFormSubmissionType.submissionType.submissionTypeDescription}
@@ -138,7 +141,10 @@
                         <c:when test="${!viewOnly and !budgetLinked}">
                           <html:radio property="document.routingFormPurposeCode" value="${routingFormPurpose.purposeCode}" disabled="${viewOnly}"/>
                         </c:when>
-                        <c:when test="${KualiForm.document.routingFormPurposeCode eq routingFormPurpose.purposeCode}"> Yes </c:when>
+                        <c:when test="${KualiForm.document.routingFormPurposeCode eq routingFormPurpose.purposeCode}">
+                          <html:hidden property="document.routingFormPurposeCode" />
+                          Yes
+                        </c:when>
     				    <c:otherwise> No </c:otherwise>
                       </c:choose>
 		              ${routingFormPurpose.purpose.purposeDescription}
@@ -155,11 +161,20 @@
 						<c:if test="${hasErrors==true}">
 						  <c:set var="researchTypeCodeTextStyle" value="background-color: red"/>
 						</c:if>
-		                <html:select property="document.researchTypeCode" style="${researchTypeCodeTextStyle}" disabled="${viewOnly}"> 
-		                  <html:option value="">select:</html:option> 
-		                  <c:set var="routingFormResearchTypeCodes" value="${KualiForm.document.routingFormResearchTypeCodes}"/> 
-		                  <html:options collection="routingFormResearchTypeCodes" property="researchTypeCode" labelProperty="researchType.researchTypeDescription"/> 
-		                </html:select>
+                        <c:choose>
+                          <c:when test="${!viewOnly}">
+      		                <html:select property="document.researchTypeCode" style="${researchTypeCodeTextStyle}" disabled="${viewOnly}"> 
+      		                  <html:option value="">select:</html:option> 
+      		                  <c:set var="routingFormResearchTypeCodes" value="${KualiForm.document.routingFormResearchTypeCodes}"/> 
+      		                  <html:options collection="routingFormResearchTypeCodes" property="researchTypeCode" labelProperty="researchType.researchTypeDescription"/> 
+      		                </html:select>
+		                  </c:when>
+      		              <c:otherwise>
+                            <html:hidden property="document.researchTypeCode" />
+                            <html:hidden property="document.researchType.researchTypeDescription" />
+                            ${KualiForm.document.researchType.researchTypeDescription}
+      		              </c:otherwise>
+      		            </c:choose>
 		              </c:when>
 		              <c:when test="${routingFormPurpose.purposeCode eq KualiForm.systemParametersMap[KraConstants.PURPOSE_OTHER]}">
 		                &nbsp;<kul:htmlControlAttribute property="document.routingFormOtherPurposeDescription" attributeEntry="${routingFormAttributes.routingFormOtherPurposeDescription}" readOnly="${viewOnly}"/>

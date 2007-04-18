@@ -171,7 +171,7 @@
 
                     <td height="30" colspan="10" class="datacell">
                       <span class="tab-subhead">
-                        <kul:htmlControlAttribute property="document.budget.personFromList[${listIndex}].appointmentTypeCode" attributeEntry="${budgetUserAttributes.appointmentTypeCode}" readOnly="${viewOnly}" />
+                        <kul:htmlControlAttribute property="document.budget.personFromList[${listIndex}].appointmentTypeCode" extraReadOnlyProperty="document.budget.personFromList[${listIndex}].appointmentTypeDescription" attributeEntry="${budgetUserAttributes.appointmentTypeCode}" readOnly="${viewOnly}" />
                         <c:if test="${! viewOnly }">
                           &nbsp;&nbsp;&nbsp; 
                           <html:hidden property="document.budget.personFromList[${listIndex}].previousAppointmentTypeCode" value="${KualiForm.document.budget.personnel[listIndex].appointmentTypeCode}" />

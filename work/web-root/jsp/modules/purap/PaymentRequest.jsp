@@ -58,9 +58,9 @@
 	</c:if>
 	
 	<c:if test="${not KualiForm.editingMode['displayInitTab']}" >
-		< purap:vendor
+		<!--  purap:vendor
 	        documentAttributes="${DataDictionary.KualiPaymentRequestDocument.attributes}" 
-	        displayPurchaseOrderFields="false" displayPaymentRequestFields="true"/>
+	        displayPurchaseOrderFields="false" displayPaymentRequestFields="true"/ -->
 		<!--  c:out value="${KualiForm.paymentRequestInitiated}" / -->
 		
 	

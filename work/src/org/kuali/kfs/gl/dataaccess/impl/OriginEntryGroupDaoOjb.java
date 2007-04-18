@@ -138,6 +138,25 @@ public class OriginEntryGroupDaoOjb extends PlatformAwareDaoBaseOjb implements O
 
     /**
      * 
+     * @see org.kuali.module.gl.dao.OriginEntryGroupDao#getLaborBackupGroups(java.sql.Date)
+     */
+    public Collection getLaborBackupGroups(Date groupDate) {
+        LOG.debug("getGroupsToBackup() started");
+
+        Criteria criteria = new Criteria();
+        criteria.addLessOrEqualThan(DATE, groupDate);
+        criteria.addEqualTo(SOURCE_CODE, OriginEntrySource.LABOR_BACKUP);
+        criteria.addEqualTo(SCRUB, Boolean.TRUE);
+        criteria.addEqualTo(PROCESS, Boolean.TRUE);
+        criteria.addEqualTo(VALID, Boolean.TRUE);
+
+        QueryByCriteria qbc = QueryFactory.newQuery(OriginEntryGroup.class, criteria);
+        return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+    }
+    
+    
+    /**
+     * 
      * @see org.kuali.module.gl.dao.OriginEntryGroupDao#getScrubberGroups(java.sql.Date)
      */
     public Collection getGroupsToBackup(Date groupDate) {

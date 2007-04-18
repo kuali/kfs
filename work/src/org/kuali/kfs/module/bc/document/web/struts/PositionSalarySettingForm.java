@@ -23,9 +23,14 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.kuali.core.authorization.AuthorizationConstants;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.AuthorizationException;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.module.budget.bo.BudgetConstructionPosition;
 import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
+import org.kuali.module.budget.document.authorization.BudgetConstructionDocumentAuthorizer;
 import org.kuali.rice.KNSServiceLocator;
 
 /**
@@ -192,6 +197,86 @@ public class PositionSalarySettingForm extends KualiForm {
     }
 
     /**
+     * Gets the accountNumber attribute. 
+     * @return Returns the accountNumber.
+     */
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    /**
+     * Sets the accountNumber attribute value.
+     * @param accountNumber The accountNumber to set.
+     */
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    /**
+     * Gets the chartOfAccountsCode attribute. 
+     * @return Returns the chartOfAccountsCode.
+     */
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
+
+    /**
+     * Sets the chartOfAccountsCode attribute value.
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
+     */
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
+
+    /**
+     * Gets the financialObjectCode attribute. 
+     * @return Returns the financialObjectCode.
+     */
+    public String getFinancialObjectCode() {
+        return financialObjectCode;
+    }
+
+    /**
+     * Sets the financialObjectCode attribute value.
+     * @param financialObjectCode The financialObjectCode to set.
+     */
+    public void setFinancialObjectCode(String financialObjectCode) {
+        this.financialObjectCode = financialObjectCode;
+    }
+
+    /**
+     * Gets the financialSubObjectCode attribute. 
+     * @return Returns the financialSubObjectCode.
+     */
+    public String getFinancialSubObjectCode() {
+        return financialSubObjectCode;
+    }
+
+    /**
+     * Sets the financialSubObjectCode attribute value.
+     * @param financialSubObjectCode The financialSubObjectCode to set.
+     */
+    public void setFinancialSubObjectCode(String financialSubObjectCode) {
+        this.financialSubObjectCode = financialSubObjectCode;
+    }
+
+    /**
+     * Gets the subAccountNumber attribute. 
+     * @return Returns the subAccountNumber.
+     */
+    public String getSubAccountNumber() {
+        return subAccountNumber;
+    }
+
+    /**
+     * Sets the subAccountNumber attribute value.
+     * @param subAccountNumber The subAccountNumber to set.
+     */
+    public void setSubAccountNumber(String subAccountNumber) {
+        this.subAccountNumber = subAccountNumber;
+    }
+
+    /**
      * Gets the editingMode attribute. 
      * @return Returns the editingMode.
      */
@@ -205,6 +290,52 @@ public class PositionSalarySettingForm extends KualiForm {
      */
     public void setEditingMode(Map editingMode) {
         this.editingMode = editingMode;
+    }
+
+    /**
+     * Updates authorization-related form fields based on the current form contents
+     * TODO should probably move this to extension class
+     */
+    public void populateAuthorizationFields(BudgetConstructionDocumentAuthorizer documentAuthorizer) {
+
+        useBCAuthorizer(documentAuthorizer);
+
+        //TODO probably need BCAuthorizationConstants extension
+        if (getEditingMode().containsKey(AuthorizationConstants.EditMode.UNVIEWABLE)) {
+            throw new AuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonName(), "view", this.getAccountNumber()+", "+this.getSubAccountNumber());
+        }
+
+/*
+//TODO from KualiDocumentFormBase - remove when ready
+        if (isFormDocumentInitialized()) {
+            useBCAuthorizer(documentAuthorizer);
+
+            // graceless hack which takes advantage of the fact that here and only here will we have guaranteed access to the
+            // correct DocumentAuthorizer
+            if (getEditingMode().containsKey(AuthorizationConstants.EditMode.UNVIEWABLE)) {
+                throw new AuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonName(), "view", this.getAccountNumber()+", "+this.getSubAccountNumber());
+            }
+        }
+*/
+    }
+
+    /*
+     * TODO should probably move this to extension class
+     * 
+     */
+    protected void useBCAuthorizer(BudgetConstructionDocumentAuthorizer documentAuthorizer) {
+        UniversalUser kualiUser = GlobalVariables.getUserSession().getUniversalUser();
+
+//TODO need to create getEditMode() signature for kualiuser to check if user is an org approver.
+        if (this.getAccountNumber() != null){
+            setEditingMode(documentAuthorizer.getEditMode(this.getUniversityFiscalYear(), this.getChartOfAccountsCode(), this.getAccountNumber(), this.getSubAccountNumber(), kualiUser));
+        } else {
+            //this case should handle authorization for Salary Setting by Organization subsystem vector
+        }
+
+
+//TODO probably don't need these, editingmode drives expansion screen actions
+//        setDocumentActionFlags(documentAuthorizer.getDocumentActionFlags(document, kualiUser));
     }
 
     /**

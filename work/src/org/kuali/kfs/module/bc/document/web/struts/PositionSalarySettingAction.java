@@ -35,6 +35,7 @@ import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.bo.BudgetConstructionPosition;
+import org.kuali.module.budget.document.authorization.BudgetConstructionDocumentAuthorizer;
 import org.kuali.module.budget.web.struts.form.PositionSalarySettingForm;
 import org.kuali.rice.KNSServiceLocator;
 
@@ -59,6 +60,11 @@ public class PositionSalarySettingAction extends KualiAction {
 
         //TODO form.populateAuthorizationFields(budgetConstructionDocumentAuthorizer) would normally happen here
         //but each line needs to be authorized, so need to figure out how to implement this
+
+        //TODO should probably use service locator and call
+        //DocumentAuthorizer documentAuthorizer = KNSServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer("<BCDoctype>");
+        BudgetConstructionDocumentAuthorizer budgetConstructionDocumentAuthorizer = new BudgetConstructionDocumentAuthorizer();
+        positionSalarySettingForm.populateAuthorizationFields(budgetConstructionDocumentAuthorizer);
 
         return forward;
     }

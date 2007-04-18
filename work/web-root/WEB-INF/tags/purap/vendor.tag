@@ -141,7 +141,8 @@
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorCustomerNumber}" property="document.vendorCustomerNumber" readOnly="${not fullEntryMode}" />
                 </td>
 
-                <c:if test="${displayPurchaseOrderFields or displayPaymentRequestFields}">
+                <c:if test="false">
+                <!-- Placeholder for alternate payee logic -->
                     <th align=right valign=middle class="bord-l-b">
                         <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.alternateVendorName}" /></div>
                     </th>
@@ -158,7 +159,7 @@
                         </c:if>
                     </td>
                 </c:if>                                                 
-                <c:if test="${not displayPurchaseOrderFields and not displayPaymentRequestFields}">
+                <c:if test="true">
                     <th align=right valign=middle class="bord-l-b">&nbsp;</th>
                     <td align=left valign=middle class="datacell">&nbsp;</td>
                 </c:if>                                                 

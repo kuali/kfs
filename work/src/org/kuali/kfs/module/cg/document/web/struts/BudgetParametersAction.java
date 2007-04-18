@@ -140,6 +140,10 @@ public class BudgetParametersAction extends BudgetAction {
             if (budgetForm.isAuditActivated()) {
                 return mapping.findForward("auditmode");
             }
+            
+            // This is so that tab states are not shared between parameters and overview. 
+            budgetForm.newTabState(true, true); 
+            
             return super.overview(mapping, budgetForm, request, response);
         }
 

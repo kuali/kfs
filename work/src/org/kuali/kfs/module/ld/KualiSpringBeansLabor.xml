@@ -51,6 +51,12 @@
 				<value>org/kuali/module/labor/dwr-labor.xml</value>
 			</list>
 		</property>
+		
+		<property name="jobNames">
+			<list>
+				<value>laborBatchJob</value>
+			</list>
+		</property>
 	</bean>
 
 	<bean id="laborLedgerPendingEntryDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborLedgerPendingEntryDaoOjb" />
@@ -419,6 +425,16 @@
     <bean id="payrollAccrualStep" class="org.kuali.module.labor.batch.PayrollAccrualStep" singleton="false">
 		<property name="payrollAccrualService">
 			<ref bean="payrollAccrualService" />
+		</property>
+	</bean>
+	
+	<bean id="laborBatchJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="laborNightlyOutStep"/>
+				<ref bean="laborScrubberStep"/>
+				<ref bean="laborPosterStep"/>
+			</list>
 		</property>
 	</bean>
     

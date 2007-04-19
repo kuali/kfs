@@ -41,7 +41,7 @@ public class LaborConstants {
         public static final String EXPENSE_TRANSFER_ET = "ET";
         public static final String EXPENSE_TRANSFER_SACH = "SACH";
         public static final String EXPENSE_TRANSFER_YEST = "YEST";
-        public static final String EXPENSE_TRANSFER_YEBT = "YEBT";      
+        public static final String EXPENSE_TRANSFER_YEBT = "YEBT";
     }
 
     public static class DestinationNames {
@@ -50,7 +50,7 @@ public class LaborConstants {
         public static final String LABOR_GL_ENTRY = "LD_LABOR_GL_ENTRY_T";
         public static final String ORIGN_ENTRY = "LD_ORIGIN_ENTRY_T";
     }
-    
+
     public static class TransactionGeneratorNames {
         public static final String SALARY_ACCRUAL = "SALARY ACCRUAL";
         public static final String BENEFIT_ACCRUAL = "BENEFIT ACCRUAL";
@@ -97,15 +97,28 @@ public class LaborConstants {
     public static class BenefitExpenseTransfer {
         public static final String LABOR_LEDGER_BENEFIT_CODE = "F";
     }
-    
+
     public static class BalanceInquiries {
         public static final String ERROR_INVALID_LABOR_OBJECT_CODE = "error.labor.invalidLaborObjectCodeError";
-        public static final String[] VALID_LABOR_OBJECT_CODES = {"2000","2001","2400","2401","2500"};
-        public static final String UnknownPersonName = "* Unknown Name *";        
+        public static final String[] VALID_LABOR_OBJECT_CODES = { "2000", "2001", "2400", "2401", "2500" };
+        public static final String UnknownPersonName = "* Unknown Name *";
         public static final String ANNUAL_BALANCE = "ACLN_ANNL_BAL_AMT";
         public static final String CONTRACT_GRANT_BB_AMOUNT = "CONTR_GR_BB_AC_AMT";
         public static final String ENCUMBERENCE_CODE = "'IE'";
         public static final String ACTUALS_CODE = "'AC'";
         public static final String BALANCE_CODE = "'BB'";
-}
+    }
+
+    public static class PayrollAccrual {
+        public static final String ACCRUAL_DAYS = "Labor.payrollAccrual.input.accrualDays";
+        public static final String WORK_DAYS = "Labor.payrollAccrual.input.workDays";
+        public static final String FISCAL_YEAR = "Labor.payrollAccrual.input.fiscalYear";
+        public static final String FISCAL_PERIOD = "Labor.payrollAccrual.input.fiscalPeriod";
+        public static final String REVERSAL_FISCAL_YEAR = "Labor.payrollAccrual.input.reversalFiscalYear";
+        public static final String REVERSAL_FISCAL_PERIOD = "Labor.payrollAccrual.input.reversalFiscalPeriod";
+        public static final String DOCUMENT_NUMBER = "Labor.payrollAccrual.input.documentNumber";
+        public static final String EARN_CODES = "Labor.payrollAccrual.input.earnCodes";
+        public static final String RUN_ID = "Labor.payrollAccrual.input.runId";
+        public static final String EXCLUDED_SUB_FUND_GROUPS = "Labor.payrollAccrual.input.excludedSubFundGroups";
+    }
 }

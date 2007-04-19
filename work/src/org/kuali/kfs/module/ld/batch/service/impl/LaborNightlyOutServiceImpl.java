@@ -60,7 +60,7 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
     public void copyApprovedPendingLedgerEntries() {
         Date runDate = dateTimeService.getCurrentSqlDate();
         String reportDirectory = ReportRegistry.getReportsDirectory();
-        OriginEntryGroup group = originEntryGroupService.createGroup(runDate, OriginEntrySource.GENERATE_BY_EDOC, true, true, true);
+        OriginEntryGroup group = originEntryGroupService.createGroup(runDate, OriginEntrySource.LABOR_EDOC, true, true, true);
 
         Iterator<PendingLedgerEntry> pendingEntries = laborLedgerPendingEntryService.findApprovedPendingLedgerEntries();
         while (pendingEntries != null && pendingEntries.hasNext()) {

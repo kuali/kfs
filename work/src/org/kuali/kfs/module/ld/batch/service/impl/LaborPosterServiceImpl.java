@@ -163,7 +163,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
             Summary.updateReportSummary(reportSummary, laborLedgerBalancePoster.getDestinationName(), operationOnLedgerBalance, STEP, 0);
         }
         catch (Exception e) {
-            LOG.error(e);
+            LOG.error("Cannot post the input transaction." + e);
             return false;
         }
         return true;

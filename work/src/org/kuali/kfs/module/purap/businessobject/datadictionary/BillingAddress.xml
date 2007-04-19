@@ -83,57 +83,32 @@
 			<attributeReference name="billingCampusCode"
 				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" 
 				sourceAttributeName="campusCode">
+				<label>Billing Campus Code</label>
 			</attributeReference>
-
-            <attribute name="billingCityName" forceUppercase="true">
-                <label>Billing City Name</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-
-                <control>
-                    <text size="47" />
-                </control>
-
-                <summary>billingCityName</summary>
-                <description>billingCityName description...</description>
-			</attribute>
+			
+			<attributeReference name="billingCityName"
+				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" 
+				sourceAttributeName="cityName">
+				<label>Billing City Name</label>
+			</attributeReference>
 
 			<attributeReference name="billingCountryCode"
 				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy"
 				sourceAttributeName="countryCode">
+				<label>Billing Country Code</label>
+			</attributeReference>
+
+			<attributeReference name="billingLine1Address"
+				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy"
+				sourceAttributeName="line1Address">
+				<label>Billing Line 1 Address</label>
 			</attributeReference>
 			
-            <attribute name="billingLine1Address" forceUppercase="true">
-                <label>Billing Line1 Address</label>
-                <shortLabel>Address</shortLabel>
-
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-
-                <control>
-                    <text size="47" />
-                </control>
-
-                <summary>billingLine1Address</summary>
-                <description>billingLine1Address description...</description>
-			</attribute>
-
-            <attribute name="billingLine2Address" forceUppercase="true">
-                <label>Billing Line2 Address</label>
-                <shortLabel>Address</shortLabel>
-
-                <maxLength>45</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-
-                <control>
-                    <text size="47" />
-                </control>
-
-                <summary>billingLine2Address</summary>
-                <description>billingLine2Address description...</description>
-			</attribute>
+			<attributeReference name="billingLine2Address"
+				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy"
+				sourceAttributeName="line2Address">
+				<label>Billing Line 2 Address</label>
+			</attributeReference>			
 
             <attribute name="billingName" forceUppercase="true">
                 <label>Billing Name</label>
@@ -149,40 +124,23 @@
                 <summary>billingName</summary>
                 <description>billingName description...</description>
 			</attribute>
-
-            <attribute name="billingPhoneNumber">
-                <label>Billing Phone Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>45</maxLength>
-                <validationPattern><phoneNumber /></validationPattern>
-
-                <control>
-                    <text size="47" />
-                </control>
-
-                <summary>billingPhoneNumber</summary>
-                <description>billingPhoneNumber description...</description>
-			</attribute>
-
-            <attribute name="billingPostalCode">
-                <label>Billing Postal Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>20</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="22" />
-                </control>
-
-                <summary>billingPostalCode</summary>
-                <description>billingPostalCode description...</description>
-			</attribute>
+			
+			<attributeReference name="billingPhoneNumber"
+				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy"
+				sourceAttributeName="phoneNumberWithValidation">
+				<label>Billing Phone Number</label>
+			</attributeReference>
+			
+			<attributeReference name="billingPostalCode"
+				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy"
+				sourceAttributeName="zipCode">
+				<label>Billing Postal Code</label>
+			</attributeReference>						
 
 			<attributeReference name="billingStateCode"
 				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy"
 				sourceAttributeName="stateCode">
+				<label>Billing State Code</label>
 			</attributeReference>				
 
             <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />

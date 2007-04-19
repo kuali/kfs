@@ -38,7 +38,8 @@ public class RoutingFormApprovalsAction extends RoutingFormAction {
     
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.execute(mapping, form, request, response);
-        setApprovalsMessage((RoutingForm) form);
+        RoutingForm routingForm = (RoutingForm) form;
+        activateAndCountAuditErrors(routingForm);
         return forward;
     }
     
@@ -62,7 +63,7 @@ public class RoutingFormApprovalsAction extends RoutingFormAction {
     public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         RoutingForm routingForm = (RoutingForm) form;
         
-        if (!routingForm.isAuditErrorsPassed()) {
+        if (routingForm.getNumAuditErrors() != 0) {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
         
@@ -102,6 +103,42 @@ public class RoutingFormApprovalsAction extends RoutingFormAction {
         
         ActionForward forward = super.approve(mapping, form, request, response);
         return forward;
+    }
+    
+    @Override
+    public ActionForward insertAdHocRoutePerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        cacheAndLoad(mapping, form, request, response);
+        return super.insertAdHocRoutePerson(mapping, form, request, response);
+    }
+    
+    @Override
+    public ActionForward insertAdHocRouteWorkgroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        cacheAndLoad(mapping, form, request, response);
+        return super.insertAdHocRouteWorkgroup(mapping, form, request, response);
+    }
+    
+    @Override
+    public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        cacheAndLoad(mapping, form, request, response);
+        return super.delete(mapping, form, request, response);
+    }
+    
+    @Override
+    public ActionForward deleteWorkgroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        cacheAndLoad(mapping, form, request, response);
+        return super.deleteWorkgroup(mapping, form, request, response);
+    }
+    
+    @Override
+    public ActionForward addOrg(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        cacheAndLoad(mapping, form, request, response);
+        return super.addOrg(mapping, form, request, response);
+    }
+    
+    @Override
+    public ActionForward deleteOrg(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        cacheAndLoad(mapping, form, request, response);
+        return super.deleteOrg(mapping, form, request, response);
     }
     
     private void cacheAndLoad(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

@@ -197,7 +197,7 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
      * @return ActionForward
      * @throws Exception
      */
-    public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         ResearchDocumentFormBase researchForm = (ResearchDocumentFormBase) form;
         ResearchDocument researchDocument = (ResearchDocument) researchForm.getDocument();
@@ -216,7 +216,7 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
      * @return ActionForward
      * @throws Exception
      */
-    public ActionForward deleteWorkgroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    public ActionForward deleteWorkgroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         ResearchDocumentFormBase researchForm = (ResearchDocumentFormBase) form;
         ResearchDocument researchDocument = (ResearchDocument) researchForm.getDocument();
@@ -235,7 +235,7 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
      * @return ActionForward
      * @throws Exception
      */
-    public ActionForward addOrg(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    public ActionForward addOrg(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         ResearchDocumentFormBase researchForm = (ResearchDocumentFormBase) form;
         ResearchDocument researchDocument = (ResearchDocument) researchForm.getDocument();
@@ -270,7 +270,7 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
      * @return ActionForward
      * @throws Exception
      */
-    public ActionForward deleteOrg(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    public ActionForward deleteOrg(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         ResearchDocumentFormBase researchForm = (ResearchDocumentFormBase) form;
         ResearchDocument researchDocument = (ResearchDocument) researchForm.getDocument();

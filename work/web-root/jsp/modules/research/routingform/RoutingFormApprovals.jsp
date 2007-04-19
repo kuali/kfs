@@ -31,13 +31,13 @@
 	
 	<kul:panelFooter />
 	
-	<html:hidden property="auditErrorsPassed"/>
-	<c:if test="${!KualiForm.auditErrorsPassed}">
-		<div class="error"><center><strong>This document cannot be routed until all hard audit errors are fixed.</strong></center></div>
+	<html:hidden property="numAuditErrors"/>
+	<c:if test="${KualiForm.numAuditErrors != 0}">
+		<div style="color:orange;font-weight:bold"><center>ATTENTION: You must fix ${KualiForm.numAuditErrors} error(s) before routing this Routing Form. Navigate to the "Audit Mode" tab to view all of the errors.</center></div>
 	</c:if>
 	
-	<div style="color:green;font-weight:bold"><br/>${KualiForm.approvalsMessage}</div>
+	<div style="color:green;font-weight:bold"><br/><center>${KualiForm.approvalsMessage}</center></div>
 	
-	<kul:documentControls transactionalDocument="false" suppressRoutingControls="${!KualiForm.auditErrorsPassed}" viewOnly="${KualiForm.editingMode['viewOnly']}" />
+	<kul:documentControls transactionalDocument="false" suppressRoutingControls="${KualiForm.numAuditErrors != 0}" viewOnly="${KualiForm.editingMode['viewOnly']}" />
 	
 </kul:documentPage>

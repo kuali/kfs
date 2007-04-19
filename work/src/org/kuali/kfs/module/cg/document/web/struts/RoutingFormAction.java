@@ -16,7 +16,9 @@
 package org.kuali.module.kra.routingform.web.struts.action;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,6 +38,7 @@ import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.rules.event.RunRoutingFormAuditEvent;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
+import org.kuali.module.kra.util.AuditCluster;
 import org.kuali.module.kra.web.struts.action.ResearchDocumentActionBase;
 
 public class RoutingFormAction extends ResearchDocumentActionBase {
@@ -138,13 +141,7 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
         this.load(mapping, form, request, response);
         RoutingForm routingForm = (RoutingForm) form;
         
-        boolean auditErrorsPassed = SpringServiceLocator.getKualiRuleService().applyRules(new RunRoutingFormAuditEvent(routingForm.getRoutingFormDocument()));
-        routingForm.setAuditErrorsPassed(auditErrorsPassed);
-        if (!auditErrorsPassed) {
-            routingForm.setAuditActivated(true);
-        } else {
-            setApprovalsMessage(routingForm);
-        }
+        activateAndCountAuditErrors(routingForm);
         
         routingForm.getRoutingFormDocument().populateDocumentForRouting();
         routingForm.getRoutingFormDocument().getDocumentHeader().getWorkflowDocument().saveRoutingData();
@@ -180,6 +177,24 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
             } else {
                 routingForm.setApprovalsMessage(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue("KraAdminGroup", "routingFormApprovalsDefaultWording"));
             }
+        }
+    }
+    
+    protected void activateAndCountAuditErrors(RoutingForm routingForm) {
+        boolean auditErrorsPassed = SpringServiceLocator.getKualiRuleService().applyRules(new RunRoutingFormAuditEvent(routingForm.getRoutingFormDocument()));
+        
+        Map auditErrorMap = GlobalVariables.getAuditErrorMap();
+        int auditCount = 0;
+        for (Iterator iter = auditErrorMap.keySet().iterator(); iter.hasNext();) {
+            AuditCluster auditCluster = (AuditCluster) auditErrorMap.get(iter.next());
+            auditCount += auditCluster.getSize();
+        }
+        
+        routingForm.setNumAuditErrors(auditCount);
+        if (!auditErrorsPassed) {
+            routingForm.setAuditActivated(true);
+        } else {
+            setApprovalsMessage(routingForm);
         }
     }
 }

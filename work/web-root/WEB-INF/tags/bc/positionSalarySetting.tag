@@ -46,7 +46,7 @@
 
 <kul:tabTop tabTitle="Salary Setting by Position" defaultOpen="true" tabErrorKey="${Constants.BUDGET_CONSTRUCTION_POSITION_SALARY_SETTING_TAB_ERRORS}">
 <div class="tab-container" align=center>
-    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable" summary="">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
         <bc:subheadingWithDetailToggleRow
           columnCount="15"
           subheading="Position" />
@@ -195,38 +195,39 @@
         
     <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
         <tr>
-            <td colspan="11" class="subhead">
+            <td colspan="12" class="subhead">
             <span class="subhead-left">Funding</span>
             </td>
         </tr>
         <c:forEach items="${KualiForm.budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding}" var="item" varStatus="status">
         <tr>
-            <kul:htmlAttributeHeaderCell literalLabel="Del" scope="row">
+            <kul:htmlAttributeHeaderCell />
+            <kul:htmlAttributeHeaderCell literalLabel="<span class=\"nowrap\">Del&nbsp;</span>" scope="row">
             </kul:htmlAttributeHeaderCell>
             <kul:htmlAttributeHeaderCell
                 labelFor="KualiForm.budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding.chartOfAccountCode"
-                literalLabel="Cht" />
+                literalLabel="<span class=\"nowrap\">Cht</span>" />
             <kul:htmlAttributeHeaderCell
                 labelFor="KualiForm.budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding.accountNumber"
-                literalLabel="Acct" />
+                literalLabel="<span class=\"nowrap\">Acct</span>" />
             <kul:htmlAttributeHeaderCell
                 labelFor="KualiForm.budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding.subAccountNumber"
-                literalLabel="SAcct" />
+                literalLabel="<span class=\"nowrap\">SAcct</span>" />
             <kul:htmlAttributeHeaderCell
                 labelFor="KualiForm.budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding.financialObjectCode"
-                literalLabel="Obj" />
+                literalLabel="<span class=\"nowrap\">Obj</span>" />
             <kul:htmlAttributeHeaderCell
                 labelFor="KualiForm.budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding.financialSubObjectCode"
-                literalLabel="SObj" />
+                literalLabel="<span class=\"nowrap\">SObj</span>" />
             <kul:htmlAttributeHeaderCell
                 labelFor="KualiForm.budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding.emplid"
-                literalLabel="Emplid" />
+                literalLabel="<span class=\"nowrap\">Emplid</span>" />
             <kul:htmlAttributeHeaderCell
                 labelFor="KualiForm.budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding.budgetConstructionIntendedIncumbent.personName"
-                literalLabel="Name" />
+                literalLabel="<span class=\"nowrap\">Name</span>" />
             <kul:htmlAttributeHeaderCell
                 labelFor="KualiForm.budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding.budgetConstructionIntendedIncumbent.iuClassificationLevel"
-                literalLabel="Lvl" />
+                literalLabel="<span class=\"nowrap\">Lvl</span>" />
 <%-- TODO add administrative post table ref to BCAF --%>
             <th>
                 AdmPst
@@ -237,15 +238,21 @@
               
         </tr>
         <tr>
-            <td valign="top">
-                <%-- these hidden fields are inside a table cell to keep the HTML valid --%>
-                <a name="salaryexistingLineLineAnchor${status.index}"></a>
-                ${item.appointmentFundingDeleteIndicator}
+           <kul:htmlAttributeHeaderCell scope="row" rowspan="1" >
 <%-- TODO add the others --%>
                 <html:hidden property="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}].universityFiscalYear" />
                 <html:hidden property="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}].positionNumber" />
                 <html:hidden property="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}].versionNumber" />
-           </td>
+           </kul:htmlAttributeHeaderCell>
+           <bc:pbglLineDataCell dataCellCssClass="datacell"
+               accountingLine="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}]"
+               cellProperty="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}].appointmentFundingDeleteIndicator"
+               attributes="${bcafAttributes}"
+               field="appointmentFundingDeleteIndicator"
+               fieldAlign="center"
+               readOnly="${readOnly}"
+               rowSpan="1 "dataFieldCssClass="nobord"
+               anchor="salaryexistingLineLineAnchor${status.index}" />
            <bc:pbglLineDataCell dataCellCssClass="datacell"
                accountingLine="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}]"
                field="chartOfAccountsCode"
@@ -359,7 +366,7 @@
             </c:choose>
 
             <td class="datacell" nowrap>
-                <div align="center">
+                <div align="center"><span class=nobord">&nbsp;
                   <c:if test="${item.emplid ne Constants.BudgetConstructionConstants.VACANT_EMPLID}">
                     <c:if test="${!readOnly}">
                         <html:image property="methodToCall.performVacateSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" src="images/tinybutton-clear1.gif" title="Vacate Salary Setting Line ${status.index}" alt="Vacate Salary Setting Line ${status.index}" styleClass="tinybutton" />
@@ -369,22 +376,19 @@
                   <c:if test="${!empty item.bcnCalculatedSalaryFoundationTracker && !readOnly}">
                     <html:image property="methodToCall.performPercentAdjustmentSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" src="images/tinybutton-percentincdec.gif" title="Percent Adjustment For Line ${status.index}" alt="Percent Adjustment For Line ${status.index}" styleClass="tinybutton" />
                   </c:if>
-                  &nbsp;
-                </div>
+                </span></div>
             </td>
         </tr>
                                         
         <tr>
-            <th>
-                &nbsp;
-            </th>
-            <kul:htmlAttributeHeaderCell colspan="2" align="left" literalLabel="CSF" scope="col" />
-            <kul:htmlAttributeHeaderCell colspan="3" align="left" literalLabel="Request" scope="col" />
+            <kul:htmlAttributeHeaderCell colspan="2" align="left" scope="col" />
+            <kul:htmlAttributeHeaderCell colspan="3" align="left" literalLabel="CSF" scope="col" />
+            <kul:htmlAttributeHeaderCell colspan="2" align="left" literalLabel="Request" scope="col" />
             <kul:htmlAttributeHeaderCell colspan="2" align="left" literalLabel="Leaves Req.CSF" scope="col" />
             <kul:htmlAttributeHeaderCell colspan="3" align="left" literalLabel="Tot.Int." scope="col" />
         </tr>
         <tr>
-            <kul:htmlAttributeHeaderCell scope="col" />
+            <kul:htmlAttributeHeaderCell colspan="2" scope="col" />
 
             <c:choose>
             <c:when test="${!empty item.bcnCalculatedSalaryFoundationTracker}">
@@ -394,19 +398,21 @@
                     fieldAlign="right"
                     attributes="${bcsfAttributes}"
                     readOnly="true"
+                    colSpan="2" dataFieldCssClass="amount"
                     displayHidden="false" />
                 <fmt:formatNumber value="${KualiForm.budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[status.index].bcnCalculatedSalaryFoundationTracker[0].csfFullTimeEmploymentQuantity}" var="formattedNumber" type="number" groupingUsed="true" minFractionDigits="5" />
                 <bc:pbglLineDataCell dataCellCssClass="datacell"
                     cellProperty="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}].bcnCalculatedSalaryFoundationTracker[0].csfFullTimeEmploymentQuantity"
-                    field="csfTimePercent"
+                    field="csfFullTimeEmploymentQuantity"
                     fieldAlign="right"
                     attributes="${bcsfAttributes}"
                     readOnly="true"
-                    formattedNumberValue="${formattedNumber}"
+                    formattedNumberValue="${formattedNumber}&nbsp;"
+                    dataFieldCssClass="amount"
                     displayHidden="false" />
             </c:when>
             <c:otherwise>
-                <td>&nbsp;</td>
+                <td colspan="2">&nbsp;</td>
                 <td>&nbsp;</td>
             </c:otherwise>
             </c:choose>
@@ -427,8 +433,8 @@
                 field="appointmentRequestedFteQuantity"
                 fieldAlign="right"
                 readOnly="true"
-                formattedNumberValue="${formattedNumber}"
-                colSpan="2" rowSpan="1" dataFieldCssClass="amount" />
+                formattedNumberValue="${formattedNumber}&nbsp;"
+                rowSpan="1" dataFieldCssClass="amount" />
             <bc:pbglLineDataCell dataCellCssClass="datacell"
                 accountingLine="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}]"
                 cellProperty="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}].appointmentRequestedCsfAmount"
@@ -445,22 +451,87 @@
                 field="appointmentRequestedCsfFteQuantity"
                 fieldAlign="right"
                 readOnly="true"
-                formattedNumberValue="${formattedNumber}"
+                formattedNumberValue="${formattedNumber}&nbsp;"
                 rowSpan="1" dataFieldCssClass="amount" />
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
+            <bc:pbglLineDataCell dataCellCssClass="datacell"
+                accountingLine="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}]"
+                cellProperty="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}].appointmentTotalIntendedAmount"
+                attributes="${bcafAttributes}"
+                field="appointmentTotalIntendedAmount"
+                fieldAlign="right"
+                readOnly="${readOnly}"
+                colSpan="2" rowSpan="1" dataFieldCssClass="amount" />
+            <bc:pbglLineDataCell dataCellCssClass="datacell"
+                accountingLine="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}]"
+                cellProperty="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}].appointmentTotalIntendedFteQuantity"
+                attributes="${bcafAttributes}"
+                field="appointmentTotalIntendedFteQuantity"
+                fieldAlign="right"
+                readOnly="${readOnly}"
+                rowSpan="1" dataFieldCssClass="amount" />
         </tr>
         <tr>
+            <kul:htmlAttributeHeaderCell colspan="4" scope="col" />
+
+            <c:choose>
+            <c:when test="${!empty item.bcnCalculatedSalaryFoundationTracker}">
+                <fmt:formatNumber value="${KualiForm.budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[status.index].bcnCalculatedSalaryFoundationTracker[0].csfTimePercent}" var="formattedNumber" type="number" groupingUsed="true" minFractionDigits="2" />
+                <bc:pbglLineDataCell dataCellCssClass="datacell"
+                    cellProperty="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}].bcnCalculatedSalaryFoundationTracker[0].csfFullTimeEmploymentQuantity"
+                    field="csfTimePercent"
+                    fieldAlign="right"
+                    attributes="${bcsfAttributes}"
+                    readOnly="true"
+                    fieldTrailerValue="<small>%</small>"
+                    formattedNumberValue="${formattedNumber}"
+                    dataFieldCssClass="amount"
+                    displayHidden="false" />
+            </c:when>
+            <c:otherwise>
+                <td>&nbsp;</td>
+            </c:otherwise>
+            </c:choose>
+
+<%-- TODO figure out handling of reason annotation functionality, like BA monthly? or BC monthly? or? --%>
+
+            <bc:pbglLineDataCell dataCellCssClass="datacell"
+                accountingLine="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}]"
+                cellProperty="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}].appointmentFundingMonth"
+                attributes="${bcafAttributes}"
+                field="appointmentFundingMonth"
+                fieldAlign="right"
+                readOnly="${readOnly}"
+                rowSpan="1" dataFieldCssClass="amount" />
+            <bc:pbglLineDataCell dataCellCssClass="datacell"
+                accountingLine="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}]"
+                cellProperty="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}].appointmentRequestedTimePercent"
+                attributes="${bcafAttributes}"
+                field="appointmentRequestedTimePercent"
+                fieldTrailerValue="<small>%</small>"
+                fieldAlign="right"
+                readOnly="${readOnly}"
+                rowSpan="1" dataFieldCssClass="amount" />
+<%-- TODO need ajax javascript to handle detail field changes --%>
+           <bc:pbglLineDataCell dataCellCssClass="datacell"
+               accountingLine="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}]"
+               field="appointmentFundingDurationCode"
+               detailField="budgetConstructionDuration.appointmentDurationDescription"
+               attributes="${bcafAttributes}" inquiry="true"
+               boClassSimpleName="BudgetConstructionDuration"
+               lookupUnkeyedFieldConversions="appointmentDurationCode:budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}].appointmentFundingDurationCode,"
+               readOnly="${readOnly}"
+               displayHidden="false"
+               accountingLineValuesMap="${item.valuesMap}" />
+            <bc:pbglLineDataCell dataCellCssClass="datacell"
+                accountingLine="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}]"
+                cellProperty="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}].appointmentRequestedCsfTimePercent"
+                attributes="${bcafAttributes}"
+                field="appointmentRequestedCsfTimePercent"
+                fieldTrailerValue="<small>%</small>"
+                fieldAlign="right"
+                readOnly="${readOnly}"
+                rowSpan="1" dataFieldCssClass="amount" />
             <td colspan="3">&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
         </tr>
 
         </c:forEach>

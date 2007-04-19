@@ -50,6 +50,7 @@ public class OriginEntrySource extends KualiCodeBase {
     public static final String LABOR_SCRUBBER_VALID = "LSCV";
     public static final String LABOR_BACKUP = "LBAK";
     public static final String LABOR_SCRUBBER_EXPIRED = "LSCX";
+    public static final String LABOR_EDOC = "LDOC";
     
     public static final String LABOR_YEAR_END_BALANCE_FORWARD = "LBF";
     

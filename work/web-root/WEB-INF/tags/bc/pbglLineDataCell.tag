@@ -118,6 +118,8 @@
 			  than a database field. The semicolon will be ignored in the output." %>
 <%@ attribute name="formattedNumberValue" required="false"
               description="number to format instead of property" %>
+<%@ attribute name="fieldTrailerValue" required="false"
+              description="Extra text added right after the field" %>
 
 <c:if test="${empty fieldAlign}">
     <c:set var="fieldAlign" value="left"/>
@@ -193,7 +195,7 @@
             inquiryExtraKeyValues="${inquiryExtraKeyValues}"
             formattedNumberValue="${formattedNumberValue}"
             />
-    </kul:htmlControlAttribute>
+    </kul:htmlControlAttribute>${fieldTrailerValue}
 
     <%-- lookup control --%>
     <c:if test="${!readOnly}">

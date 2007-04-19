@@ -34,7 +34,9 @@ public class DisbursementVoucherNonEmployeeExpense extends PersistableBusinessOb
     private KualiDecimal disbVchrExpenseAmount;
 
     private TravelExpenseTypeCode disbVchrExpense;
-
+    private TravelCompanyCode disbVchrExpenseCompany;
+    private DisbursementVoucherNonEmployeeTravel disbursementVoucherNonEmployeeTravel;
+    
     private boolean isPrepaid;
 
     /**
@@ -207,6 +209,40 @@ public class DisbursementVoucherNonEmployeeExpense extends PersistableBusinessOb
      */
     public void setDisbVchrExpense(TravelExpenseTypeCode disbVchrExpense) {
         this.disbVchrExpense = disbVchrExpense;
+    }
+
+    /**
+     * Gets the disbVchrExpenseCompany attribute. 
+     * @return Returns the disbVchrExpenseCompany.
+     */
+    public TravelCompanyCode getDisbVchrExpenseCompany() {
+        return disbVchrExpenseCompany;
+    }
+
+    /**
+     * Sets the disbVchrExpenseCompany attribute value.
+     * @param disbVchrExpenseCompany The disbVchrExpenseCompany to set.
+     * @deprecated
+     */
+    public void setDisbVchrExpenseCompany(TravelCompanyCode disbVchrExpenseCompany) {
+        this.disbVchrExpenseCompany = disbVchrExpenseCompany;
+    }
+
+    /**
+     * Gets the disbursementVoucherNonEmployeeTravel attribute. 
+     * @return Returns the disbursementVoucherNonEmployeeTravel.
+     */
+    public DisbursementVoucherNonEmployeeTravel getDisbursementVoucherNonEmployeeTravel() {
+        return disbursementVoucherNonEmployeeTravel;
+    }
+
+    /**
+     * Sets the disbursementVoucherNonEmployeeTravel attribute value.
+     * @param disbursementVoucherNonEmployeeTravel The disbursementVoucherNonEmployeeTravel to set.
+     * @deprecated
+     */
+    public void setDisbursementVoucherNonEmployeeTravel(DisbursementVoucherNonEmployeeTravel disbursementVoucherNonEmployeeTravel) {
+        this.disbursementVoucherNonEmployeeTravel = disbursementVoucherNonEmployeeTravel;
     }
 
     /**

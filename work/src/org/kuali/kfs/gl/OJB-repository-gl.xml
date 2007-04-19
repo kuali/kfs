@@ -678,6 +678,9 @@
         <foreignkey field-ref="universityFiscalYear" />
         <foreignkey field-ref="universityFiscalAccountingPeriod" />
     </reference-descriptor>
+    <reference-descriptor name="options" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="universityFiscalYear" />
+    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.gl.bo.SufficientFundRebuild" table="GL_SF_REBUILD_T">

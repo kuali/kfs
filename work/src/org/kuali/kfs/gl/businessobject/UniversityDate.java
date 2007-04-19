@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.bo.Options;
 import org.kuali.module.chart.bo.AccountingPeriod;
 
 /**
@@ -33,7 +34,8 @@ public class UniversityDate extends PersistableBusinessObjectBase {
     private String universityFiscalAccountingPeriod;
 
     private AccountingPeriod accountingPeriod;
-
+    private Options options;
+    
     /*
      * (non-Javadoc)
      * 
@@ -101,4 +103,22 @@ public class UniversityDate extends PersistableBusinessObjectBase {
     public void setAccountingPeriod(AccountingPeriod accountingPeriod) {
         this.accountingPeriod = accountingPeriod;
     }
+
+    /**
+     * Gets the options attribute. 
+     * @return Returns the options.
+     */
+    public Options getOptions() {
+        return options;
+    }
+
+    /**
+     * Sets the options attribute value.
+     * @param options The options to set.
+     * @deprecated
+     */
+    public void setOptions(Options options) {
+        this.options = options;
+    }
+
 }

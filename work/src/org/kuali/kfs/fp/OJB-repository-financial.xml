@@ -1444,6 +1444,13 @@
     <reference-descriptor name="disbVchrExpense" class-ref="org.kuali.module.financial.bo.TravelExpenseTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="disbVchrExpenseCode" />
     </reference-descriptor>
+    <reference-descriptor name="disbursementVoucherNonEmployeeTravel" class-ref="org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeTravel" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="documentNumber" />
+    </reference-descriptor>
+    <reference-descriptor name="disbVchrExpenseCompany" class-ref="org.kuali.module.financial.bo.TravelCompanyCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="disbVchrExpenseCode" />
+        <foreignkey field-ref="disbVchrExpenseCompanyName" />
+    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.financial.bo.TravelPerDiem" table="FP_DV_DIEM_T">

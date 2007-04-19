@@ -35,8 +35,8 @@
 	<!--  I could not use hiddenPurapFields, because I was not sure if PREQ needs to have a requisitionSourceCode --> 
 	<html:hidden property="document.purapDocumentIdentifier" />
 	<html:hidden property="document.statusCode" />
-	<!--  html:hidden property="document.vendorHeaderGeneratedIdentifier" / -->
-	<!--  html:hidden property="document.vendorDetailAssignedIdentifier" / -->
+	<html:hidden property="document.vendorHeaderGeneratedIdentifier" />
+	<html:hidden property="document.vendorDetailAssignedIdentifier" />
    
     <!-- html:hidden property="document.purchaseOrderEncumbranceFiscalYear" / --> 
     <html:hidden property="document.paymentRequestCostSourceCode" />
@@ -58,9 +58,9 @@
 	</c:if>
 	
 	<c:if test="${not KualiForm.editingMode['displayInitTab']}" >
-		<!--  purap:vendor
+		< purap:vendor
 	        documentAttributes="${DataDictionary.KualiPaymentRequestDocument.attributes}" 
-	        displayPurchaseOrderFields="false" displayPaymentRequestFields="true"/ -->
+	        displayPurchaseOrderFields="false" displayPaymentRequestFields="true"/>
 		<!--  c:out value="${KualiForm.paymentRequestInitiated}" / -->
 		
 	

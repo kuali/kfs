@@ -60,10 +60,11 @@
                    &nbsp; &nbsp;(<kul:htmlAttributeLabel attributeEntry="${documentAttributes.immediatePaymentIndicator}" />)
                 </td>
                 <th align=right valign=middle class="bord-l-b">
-                   <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.purchaseOrderDocument.statusChangeNote}" /></div>
+                   <div align="right"><kul:htmlAttributeLabel  attributeEntry="${DataDictionary.KualiPurchaseOrderDocument.attributes.statusChangeNote}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderDocument.statusChangeNote}" property="document.purchaseOrderDocument.statusChangeNote" />
+                   <kul:htmlControlAttribute attributeEntry="${DataDictionary.KualiPurchaseOrderDocument.attributes.statusChangeNote}" property="document.purchaseOrderDocument.statusChangeNote" 
+                   readOnly="true" />
                 </td>
             </tr>
             
@@ -78,16 +79,17 @@
                    <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.paymentRequestCostSourceCode}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentRequestCostSourceCode}" property="document.paymentRequestCostSourceCode" />
+                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentRequestCostSourceCode}" property="document.paymentRequestCostSourceCode"  />
                 </td>
             </tr>
             
             <tr>
                 <th align=right valign=middle class="bord-l-b">
-                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderDocument.purchaseOrderEndDate}" /></div>
+                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.KualiPurchaseOrderDocument.attributes.purchaseOrderEndDate}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderDocument.purchaseOrderEndDate}" property="document.purchaseOrderDocument.purchaseOrderEndDate" />
+                   <kul:htmlControlAttribute attributeEntry="${DataDictionary.KualiPurchaseOrderDocument.attributes.purchaseOrderEndDate}" property="document.purchaseOrderDocument.purchaseOrderEndDate" 
+                   readOnly="true" />
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderClassificationTypeDescription}" /></div>

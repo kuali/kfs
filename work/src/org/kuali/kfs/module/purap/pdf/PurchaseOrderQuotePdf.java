@@ -179,7 +179,7 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         infoTable.setSplitLate(false);
     
         p = new Paragraph();
-        ContractManager contractManager = po.getContractManager();
+        ContractManager contractManager = po.getVendorContract().getContractManager();
         p.add(new Chunk("\n Return this form to:\n", ver_8_bold));
         p.add(new Chunk(purchasingAddressFull+"\n", cour_10_normal));
         p.add(new Chunk("\n", cour_10_normal));

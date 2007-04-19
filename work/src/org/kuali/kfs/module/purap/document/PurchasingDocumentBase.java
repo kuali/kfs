@@ -158,9 +158,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
 
     /**
-     * Convenience method to set vendor detail fields based on a given VendorDetail.
-     * 
-     * @param vendorDetail
+     * @see org.kuali.module.purap.document.PurchasingDocument#templateVendorDetail(org.kuali.module.vendor.bo.VendorDetail)
      */
     public void templateVendorDetail(VendorDetail vendorDetail) {
         if (vendorDetail == null) {
@@ -173,9 +171,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
     
     /**
-     * Convenience method to set vendor contract fields based on a given VendorContract.
-     * 
-     * @param vendorContract
+     * @see org.kuali.module.purap.document.PurchasingDocument#templateVendorContract(org.kuali.module.vendor.bo.VendorContract)
      */
     public void templateVendorContract(VendorContract vendorContract) {
         if (vendorContract == null) {
@@ -187,9 +183,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
     
     /**
-     * Convenience method to set vendor address fields based on a given VendorAddress.
-     * 
-     * @param vendorAddress
+     * @see org.kuali.module.purap.document.PurchasingDocument#templateVendorAddress(org.kuali.module.vendor.bo.VendorAddress)
      */
     public void templateVendorAddress(VendorAddress vendorAddress) {
         if (vendorAddress == null) {
@@ -1711,19 +1705,10 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         this.contractManagerName = contractManagerName;
     }
 
-
-    /**
-     * Gets the deliveryBuildingOther attribute. 
-     * @return Returns the deliveryBuildingOther.
-     */
     public boolean isDeliveryBuildingOther() {
         return deliveryBuildingOther;
     }
 
-    /**
-     * Sets the deliveryBuildingOther attribute value.
-     * @param deliveryBuildingOther The deliveryBuildingOther to set.
-     */
     public void setDeliveryBuildingOther(boolean deliveryBuildingOther) {
         this.deliveryBuildingOther = deliveryBuildingOther;
     }

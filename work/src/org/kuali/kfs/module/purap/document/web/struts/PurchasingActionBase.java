@@ -47,19 +47,17 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
 
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase baseForm = (PurchasingFormBase) form;
-        PurchasingDocumentBase document = (PurchasingDocumentBase)baseForm.getDocument();
+        PurchasingDocument document = (PurchasingDocument) baseForm.getDocument();
         String refreshCaller = baseForm.getRefreshCaller();
-        BusinessObjectService businessObjectService = SpringServiceLocator.getBusinessObjectService();        
+        BusinessObjectService businessObjectService = SpringServiceLocator.getBusinessObjectService();
         PhoneNumberService phoneNumberService = SpringServiceLocator.getPhoneNumberService();
-        
-        // Format phone numbers        
-        document.setInstitutionContactPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getInstitutionContactPhoneNumber()));    
-        document.setRequestorPersonPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getRequestorPersonPhoneNumber()));    
+
+        // Format phone numbers
+        document.setInstitutionContactPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getInstitutionContactPhoneNumber()));
+        document.setRequestorPersonPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getRequestorPersonPhoneNumber()));
         document.setDeliveryToPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getDeliveryToPhoneNumber()));
-               
-        if( StringUtils.equals( refreshCaller, VendorConstants.VENDOR_LOOKUPABLE_IMPL ) &&
-            document.getVendorDetailAssignedIdentifier() != null &&
-            document.getVendorHeaderGeneratedIdentifier() != null)  {
+
+        if (StringUtils.equals(refreshCaller, VendorConstants.VENDOR_LOOKUPABLE_IMPL) && document.getVendorDetailAssignedIdentifier() != null && document.getVendorHeaderGeneratedIdentifier() != null) {
 
             document.setVendorContractGeneratedIdentifier(null);
             document.setVendorContractName(null);
@@ -68,42 +66,41 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
             VendorDetail refreshVendorDetail = new VendorDetail();
             refreshVendorDetail.setVendorDetailAssignedIdentifier(vendorDetailAssignedId);
             refreshVendorDetail.setVendorHeaderGeneratedIdentifier(vendorHeaderGeneratedId);
-            refreshVendorDetail = (VendorDetail)businessObjectService.retrieve(refreshVendorDetail);
+            refreshVendorDetail = (VendorDetail) businessObjectService.retrieve(refreshVendorDetail);
             document.templateVendorDetail(refreshVendorDetail);
         }
 
-        if( StringUtils.equals( refreshCaller, Constants.KUALI_LOOKUPABLE_IMPL ) ) {
-            
-            if( StringUtils.isNotEmpty( request.getParameter( PurapPropertyConstants.VENDOR_CONTRACT_ID ) ) ) {
+        if (StringUtils.equals(refreshCaller, Constants.KUALI_LOOKUPABLE_IMPL)) {
+
+            if (StringUtils.isNotEmpty(request.getParameter(PurapPropertyConstants.VENDOR_CONTRACT_ID))) {
                 Integer vendorContractGeneratedId = document.getVendorContractGeneratedIdentifier();
                 VendorContract refreshVendorContract = new VendorContract();
                 refreshVendorContract.setVendorContractGeneratedIdentifier(vendorContractGeneratedId);
-                refreshVendorContract = (VendorContract)businessObjectService.retrieve(refreshVendorContract);
+                refreshVendorContract = (VendorContract) businessObjectService.retrieve(refreshVendorContract);
                 document.templateVendorContract(refreshVendorContract);
                 VendorDetail refreshVendorDetail = new VendorDetail();
                 refreshVendorDetail.setVendorDetailAssignedIdentifier(refreshVendorContract.getVendorDetailAssignedIdentifier());
                 refreshVendorDetail.setVendorHeaderGeneratedIdentifier(refreshVendorContract.getVendorHeaderGeneratedIdentifier());
-                refreshVendorDetail = (VendorDetail)businessObjectService.retrieve(refreshVendorDetail);
+                refreshVendorDetail = (VendorDetail) businessObjectService.retrieve(refreshVendorDetail);
                 document.templateVendorDetail(refreshVendorDetail);
-                
+
                 // populate default address
                 populateDefaultAddress(refreshVendorDetail, document);
-                
+
             }
-            if( StringUtils.isNotEmpty( request.getParameter( PurapPropertyConstants.VENDOR_ADDRESS_ID ) ) ) {
+            if (StringUtils.isNotEmpty(request.getParameter(PurapPropertyConstants.VENDOR_ADDRESS_ID))) {
                 Integer vendorAddressGeneratedId = document.getVendorAddressGeneratedIdentifier();
                 VendorAddress refreshVendorAddress = new VendorAddress();
                 refreshVendorAddress.setVendorAddressGeneratedIdentifier(vendorAddressGeneratedId);
-                refreshVendorAddress = (VendorAddress)businessObjectService.retrieve(refreshVendorAddress);
+                refreshVendorAddress = (VendorAddress) businessObjectService.retrieve(refreshVendorAddress);
                 document.templateVendorAddress(refreshVendorAddress);
             }
         }
         return super.refresh(mapping, form, request, response);
     }
 
-    private void populateDefaultAddress(VendorDetail refreshVendorDetail, PurchasingDocumentBase document) {
-        VendorAddress defaultAddress = SpringServiceLocator.getVendorService().getVendorDefaultAddress(refreshVendorDetail.getVendorAddresses(), 
-                refreshVendorDetail.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
+    private void populateDefaultAddress(VendorDetail refreshVendorDetail, PurchasingDocument document) {
+        VendorAddress defaultAddress = SpringServiceLocator.getVendorService().getVendorDefaultAddress(refreshVendorDetail.getVendorAddresses(), refreshVendorDetail.getVendorHeader().getVendorType().getAddressType().getVendorAddressTypeCode(), "");
         if (defaultAddress != null && defaultAddress.getVendorState() != null) {
             refreshVendorDetail.setVendorStateForLookup(defaultAddress.getVendorState().getPostalStateName());
             refreshVendorDetail.setDefaultAddressLine1(defaultAddress.getVendorLine1Address());
@@ -112,7 +109,7 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
             refreshVendorDetail.setDefaultAddressPostalCode(defaultAddress.getVendorZipCode());
             refreshVendorDetail.setDefaultAddressStateCode(defaultAddress.getVendorStateCode());
             refreshVendorDetail.setDefaultAddressCountryCode(defaultAddress.getVendorCountryCode());
-        }        
+        }
         document.setVendorAddressGeneratedIdentifier(defaultAddress.getVendorAddressGeneratedIdentifier());
         document.setVendorLine1Address(defaultAddress.getVendorLine1Address());
         document.setVendorLine2Address(defaultAddress.getVendorLine2Address());
@@ -122,14 +119,25 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
         document.setVendorStateCode(defaultAddress.getVendorStateCode());
     }
 
-    public ActionForward refreshDeliveryBuilding(ActionMapping mapping, ActionForm form, 
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
+    /**
+     * This method is intended to be used by the refresh button that appears in the delivery tab to refresh the delivery building,
+     * as specified in KULPURAP-260. Since this is a refresh method, it is calling the general refresh method when it's done.
+     * Typical Struts signature.
+     * 
+     * @param mapping An ActionMapping
+     * @param form An ActionForm
+     * @param request A HttpServletRequest
+     * @param response A HttpServletResponse
+     * @return An ActionForward
+     * @throws Exception
+     */
+    public ActionForward refreshDeliveryBuilding(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase baseForm = (PurchasingFormBase) form;
-        PurchasingDocumentBase document = (PurchasingDocumentBase)baseForm.getDocument();
-        if( ObjectUtils.isNotNull( document.isDeliveryBuildingOther() ) ) {
+        PurchasingDocument document = (PurchasingDocument) baseForm.getDocument();
+        if (ObjectUtils.isNotNull(document.isDeliveryBuildingOther())) {
             if (document.isDeliveryBuildingOther()) {
-                document.setDeliveryBuildingName( PurapConstants.DELIVERY_BUILDING_OTHER );
-                document.setDeliveryBuildingCode( PurapConstants.DELIVERY_BUILDING_OTHER_CODE );
+                document.setDeliveryBuildingName(PurapConstants.DELIVERY_BUILDING_OTHER);
+                document.setDeliveryBuildingCode(PurapConstants.DELIVERY_BUILDING_OTHER_CODE);
                 baseForm.setNotOtherDeliveryBuilding(false);
             }
             else {
@@ -137,7 +145,7 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
                 document.setDeliveryBuildingCode(null);
                 baseForm.setNotOtherDeliveryBuilding(true);
             }
-        }       
+        }
         return refresh(mapping, form, request, response);
     }
 

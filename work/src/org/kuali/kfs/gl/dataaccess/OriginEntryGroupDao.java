@@ -86,6 +86,14 @@ public interface OriginEntryGroupDao {
     public Collection getGroupsToBackup(Date groupDate);
     
     /**
+     * Get all the groups to be copied into the backup group
+     * 
+     * @param groupDate
+     * @return
+     */
+    public Collection getLaborGroupsToBackup(Date groupDate);
+    
+    /**
      * Save a group
      * 
      * @param group

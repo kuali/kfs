@@ -108,7 +108,6 @@
               description="The name of multiple fields in the business object containing details to be display.
 			  Any supplied field that starts with a semicolon will be treated as a text field, rather 
 			  than a database field. The semicolon will be ignored in the output." %>
-                         
 
 <c:set var="qualifiedField" value="${accountingLine}.${field}"/>
 <c:if test="${empty cellProperty}">

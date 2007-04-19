@@ -1,3 +1,4 @@
+
 <%--
  Copyright 2005-2007 The Kuali Foundation.
  
@@ -83,6 +84,16 @@ It's followed by 0 or more rows for the accounting lines that have already been 
               description="map containing accounting line field names that should be marked as read only." %>
 <%@ attribute name="importRowOverride" required="false" fragment="true"
               description="Encapsulates a fragment of code that passed in through the body that overrides how rows are imported." %>
+<%@ attribute name="accountPrefix" required="false"
+              description="an optional prefix to specify a different location for acocunting lines rather
+              than just on the document." %>
+<%@ attribute name="hideTotalLine" required="false"
+              description="an optional attribute to hide the total line." %>
+<%@ attribute name="hideFields" required="false"
+              description="comma delimited list of fields to hide for this type of accounting line; currently only works with amount." %>
+<%@ attribute name="accountingAddLineIndex" required="false"
+			  description="index for multiple add new source lines"%>
+
 <c:set var="sourceOrTarget" value="${isSource ? 'source' : 'target'}"/>
 <c:set var="baselineSourceOrTarget" value="${isSource ? 'baselineSource' : 'baselineTarget'}"/>
 <c:set var="capitalSourceOrTarget" value="${isSource ? 'Source' : 'Target'}"/>
@@ -96,7 +107,23 @@ It's followed by 0 or more rows for the accounting lines that have already been 
             <c:set var="accountingLineAttributes" value="${DataDictionary[KualiForm.document.targetAccountingLineEntryName].attributes}" />
     </c:if>
 
-</c:if>  
+</c:if>
+
+<c:choose>  
+	<c:when test="${empty accountPrefix}">
+		<c:set var="accountPrefix" value="document." />
+		<c:set var="newAccountPrefix" value="" />
+	</c:when>
+	<c:otherwise>
+		<c:set var="newAccountPrefix" value="${accountPrefix}" />
+	</c:otherwise>
+</c:choose>
+
+<c:if test="${currentBaseAmount}">
+	<%-- Make sure and hide the total line if it's currentBaseAmount --%>
+	<!-- KULEDOCS-1631: Removed Current & Base total as requested. -->
+	<c:set var="hideTotalLine" value="true" />
+</c:if>
 <c:set var="hasActionsColumn" value="${empty editingMode['viewOnly']}"/>
 
 <c:set var="displayHidden" value="false" />
@@ -159,8 +186,12 @@ It's followed by 0 or more rows for the accounting lines that have already been 
     <c:forTokens items="${optionalFields}" delims=" ," var="currentField">
         <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes[currentField]}" rowspan="2"/>
     </c:forTokens>
-    <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.amount}" rowspan="${debitCreditAmount || currentBaseAmount ? 1 : 2}" colspan="${debitCreditAmount || currentBaseAmount ? 2 : 1}"/>
-
+    <c:set var="delimitedhideFields" value=",${hideFields}," />
+	<%-- this is hard coded here but could be done in a more general purpose way --%>
+	<c:set var="delimitedField" value=",amount," />
+	<c:if test="${not fn:contains(delimitedhideFields, delimitedField)}">
+    	<kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.amount}" rowspan="${debitCreditAmount || currentBaseAmount ? 1 : 2}" colspan="${debitCreditAmount || currentBaseAmount ? 2 : 1}"/>
+	</c:if>
     <c:if test="${hasActionsColumn}">
         <kul:htmlAttributeHeaderCell literalLabel="Actions" rowspan="2"/>
     </c:if>
@@ -192,12 +223,23 @@ It's followed by 0 or more rows for the accounting lines that have already been 
       </c:otherwise>
     </c:choose>  
     
+    <c:choose>
+      <c:when test="${not empty accountingAddLineIndex}">
+    	<c:set var="newActionGroup" value="newGroupLine"/>
+     </c:when>
+      <c:otherwise>
+    	<c:set var="newActionGroup" value="newLine"/>
+      </c:otherwise>
+    </c:choose>  
+    
+    
+    
     <fin:accountingLineRow
-        accountingLine="new${capitalSourceOrTarget}Line"
+        accountingLine="${newAccountPrefix}new${capitalSourceOrTarget}Line"
         accountingLineAttributes="${accountingLineAttributes}"
         dataCellCssClass="infoline"
         rowHeader="add"
-        actionGroup="newLine"
+        actionGroup="${newActionGroup}"
         actionInfix="${capitalSourceOrTarget}"
         optionalFields="${optionalFields}"
         extraRowFields="${extraRowFields}"
@@ -215,6 +257,8 @@ It's followed by 0 or more rows for the accounting lines that have already been 
         displayHidden="${displayHidden}"
         accountingLineValuesMap="${valuesMap}"
         forcedReadOnlyFields="${forcedReadOnlyFields}"
+        hideFields="${hideFields}"
+        accountingAddLineIndex="${accountingAddLineIndex}"        
         />
 
     <c:if test="${displayMonthlyAmounts}">
@@ -224,7 +268,7 @@ It's followed by 0 or more rows for the accounting lines that have already been 
     </c:if>
 
 </c:if>
-<logic:iterate indexId="ctr" name="KualiForm" property="document.${sourceOrTarget}AccountingLines" id="currentLine">
+<logic:iterate indexId="ctr" name="KualiForm" property="${accountPrefix}${sourceOrTarget}AccountingLines" id="currentLine">
     <%-- readonlyness of accountingLines depends on editingMode and user's account-list --%>
     <c:choose>
         <c:when test="${!empty editingMode['fullEntry']}">
@@ -243,10 +287,13 @@ It's followed by 0 or more rows for the accounting lines that have already been 
             <c:set var="accountIsEditable" value="${!empty editableAccounts[baselineAccountKey]}" />
         </c:otherwise>
     </c:choose>
-
+    <%-- TODO: fix for now accountPrefix does not support baseline --%>
+    <c:if test="${empty accountPrefix}">
+		<c:set var="baselineLine" value="${baselineSourceOrTarget}AccountingLine[${ctr}]" />
+	</c:if>
     <fin:accountingLineRow
-        accountingLine="document.${sourceOrTarget}AccountingLine[${ctr}]"
-        baselineAccountingLine="${baselineSourceOrTarget}AccountingLine[${ctr}]"
+        accountingLine="${accountPrefix}${sourceOrTarget}AccountingLine[${ctr}]"
+        baselineAccountingLine="${baselineLine}"
         accountingLineIndex="${ctr}"
         accountingLineAttributes="${accountingLineAttributes}"
         dataCellCssClass="datacell"
@@ -271,6 +318,7 @@ It's followed by 0 or more rows for the accounting lines that have already been 
         decorator="${sourceOrTarget}LineDecorator[${ctr}]"
         accountingLineValuesMap="${currentLine.valuesMap}"
         forcedReadOnlyFields="${forcedReadOnlyFields}"
+        hideFields="${hideFields}"  
         />
 
     <c:if test="${displayMonthlyAmounts}">
@@ -281,7 +329,6 @@ It's followed by 0 or more rows for the accounting lines that have already been 
     </c:if>
 
 </logic:iterate>
-
 <tr>
     <td class="total-line" colspan="${columnCountUntilAmount}">&nbsp;</td>
     <c:choose>
@@ -290,15 +337,14 @@ It's followed by 0 or more rows for the accounting lines that have already been 
             <td class="total-line" style="border-left: 0px;"><strong>Debit Total: $${KualiForm.currencyFormattedDebitTotal}</strong></td>
             <td class="total-line" style="border-left: 0px;"><strong>Credit Total: $${KualiForm.currencyFormattedCreditTotal}</strong></td>
         </c:when>
-        <c:when test="${currentBaseAmount}" >
-            <!-- KULEDOCS-1631: Removed Current & Base total as requested. -->
+        <c:when test="${hideTotalLine}" >
             <c:if test="${isSource}">
-              <td class="total-line" style="border-left: 0px;">&nbsp;<!-- <strong>Current Total: $${KualiForm.document.currencyFormattedSourceCurrentBudgetTotal}</strong> --></td>
-              <td class="total-line" style="border-left: 0px;">&nbsp;<!-- <strong>Base Total: $${KualiForm.document.currencyFormattedSourceBaseBudgetTotal}</strong> --></td>
+              <td class="total-line" style="border-left: 0px;">&nbsp;</td>
+              <td class="total-line" style="border-left: 0px;">&nbsp;</td>
             </c:if>
             <c:if test="${!isSource}">
-              <td class="total-line" style="border-left: 0px;">&nbsp;<!-- <strong>Current Total: $${KualiForm.document.currencyFormattedTargetCurrentBudgetTotal}</strong> --></td>
-              <td class="total-line" style="border-left: 0px;">&nbsp;<!-- <strong>Base Total: $${KualiForm.document.currencyFormattedTargetBaseBudgetTotal}</strong> --></td>
+              <td class="total-line" style="border-left: 0px;">&nbsp;</td>
+              <td class="total-line" style="border-left: 0px;">&nbsp;</td>
             </c:if>
         </c:when>
         <c:otherwise>

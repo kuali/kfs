@@ -82,6 +82,15 @@
               description="Should the default Financial Transactions Accounting Line tags be used?" %>
 <%@ attribute name="groupsOverride" required="false" fragment="true"
               description="Fragment of code to override the default accountingline groups" %>
+<%@ attribute name="accountPrefix" required="false"
+              description="an optional prefix to specify a different location for acocunting lines rather
+              than just on the document." %>
+<%@ attribute name="hideTotalLine" required="false" type="java.lang.Boolean"
+              description="an optional attribute to hide the total line." %>
+<%@ attribute name="hideFields" required="false"
+              description="comma delimited list of fields to hide for this type of accounting line" %>
+<%@ attribute name="accountingAddLineIndex" required="false"
+			  description="index for multiple add new source lines"%>
 
 <c:if test="${!accountingLineScriptsLoaded}">
 	<script type='text/javascript' src="dwr/interface/ChartService.js"></script>
@@ -109,9 +118,12 @@
 <c:set var="columnCountUntilAmount" value="${8
                                         + (includeObjectTypeCode ? 1 : 0)
                                         + optionalFieldCount}" />
+<c:set var="arrHideFields" value="${fn:split(hideFields,',') }"/>
+<c:set var="numHideFields" value="${fn:length(numHideFields) }"/>
 <%-- add extra columns count for the "Action" button and/or dual amounts --%>
 <c:set var="columnCount" value="${columnCountUntilAmount
                                         + (debitCreditAmount || currentBaseAmount ? 2 : 1)
+                                        - (not empty hideFields ? 0 : numHideFields)
                                         + (empty editingMode['viewOnly'] ? 1 : 0)}" />
 
 <%@ include file="/WEB-INF/tags/fin/accountingLinesVariablesOverride.tag" %>
@@ -141,6 +153,10 @@
           displayMonthlyAmounts="${displayMonthlyAmounts}"
           forcedReadOnlyFields="${forcedReadOnlyFields}"
           accountingLineAttributes="${accountingLineAttributes}"
+          accountPrefix="${accountPrefix}"
+          hideTotalLine="${hideTotalLine}"
+          hideFields="${hideFields}"
+          accountingAddLineIndex="${accountingAddLineIndex}"
           />
       <c:if test="${!sourceAccountingLinesOnly}">
         <fin:accountingLineGroup
@@ -160,6 +176,9 @@
             displayMonthlyAmounts="${displayMonthlyAmounts}"
             forcedReadOnlyFields="${forcedReadOnlyFields}"
             accountingLineAttributes="${accountingLineAttributes}"
+            accountPrefix="${accountPrefix}"
+            hideTotalLine="${hideTotalLine}"
+            hideFields="${hideFields}"      
             />
       </c:if>
     </table>

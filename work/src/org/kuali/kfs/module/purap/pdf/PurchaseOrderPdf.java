@@ -101,7 +101,7 @@ public class PurchaseOrderPdf extends PurapPdf {
                 // New nestedHeaderTable row, spans both columns
                 p = new Paragraph();
                 p.add(new Chunk("Contract Manager: ", ver_11_normal));
-                p.add(new Chunk(po.getVendorContract().getContractManager().getContractManagerName(), cour_10_normal));
+                p.add(new Chunk(po.getContractManager().getContractManagerName(), cour_10_normal));
                 cell = new PdfPCell(p);
                 cell.setColspan(2);
                 cell.setHorizontalAlignment(Element.ALIGN_RIGHT);

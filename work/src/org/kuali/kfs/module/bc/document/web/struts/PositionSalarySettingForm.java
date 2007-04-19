@@ -111,7 +111,7 @@ public class PositionSalarySettingForm extends KualiForm {
     private void populateBCAFLine(PendingBudgetConstructionAppointmentFunding line){
 
 //        final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject", "financialSubObject", "laborObject", "budgetConstructionMonthly"}));
-      final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] {"chartOfAccounts", "account", "subAccount", "financialObject", "financialSubObject"}));
+      final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] {"chartOfAccounts", "account", "subAccount", "financialObject", "financialSubObject", "budgetConstructionDuration"}));
 //        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(line, REFRESH_FIELDS);
         KNSServiceLocator.getPersistenceService().retrieveReferenceObjects(line, REFRESH_FIELDS);
 

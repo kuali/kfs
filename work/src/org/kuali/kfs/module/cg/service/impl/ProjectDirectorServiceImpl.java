@@ -70,7 +70,7 @@ public class ProjectDirectorServiceImpl implements ProjectDirectorService {
 
     private Map<String, Object> mapPrimaryKeys(String universalIdentifier) {
         Map<String, Object> primaryKeys = new HashMap();
-        primaryKeys.put(PropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, universalIdentifier);
+        primaryKeys.put(PropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, universalIdentifier == null ? null : universalIdentifier.trim());
         return primaryKeys;
     }
 

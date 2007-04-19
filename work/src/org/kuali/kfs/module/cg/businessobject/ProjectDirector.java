@@ -33,17 +33,20 @@ public class ProjectDirector extends PersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -8864103362445919041L;
     private String personUniversalIdentifier;
+    private String personUserIdentifier; // secondary key from user input, not persisted but takes priority over primary key.
     private UniversalUser universalUser;
 
     /**
      * Default no-arg constructor.
      */
     public ProjectDirector() {
-        universalUser = new UniversalUser();
     }
 
     public UniversalUser getUniversalUser() {
-        universalUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(personUniversalIdentifier, universalUser);
+        // If personUserIdentifier is not set, then fall back to personUniversalIdentifier.
+        if (personUserIdentifier == null) {
+            universalUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary(personUniversalIdentifier, universalUser);
+        }
         return universalUser;
     }
 
@@ -85,14 +88,8 @@ public class ProjectDirector extends PersistableBusinessObjectBase {
     }
 
     public String getPersonName() {
-        if ( !StringUtils.isEmpty( personUniversalIdentifier ) ) {
-            universalUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary( personUniversalIdentifier, universalUser );
-        }
-        if ( universalUser != null ) {
-            return universalUser.getPersonName();
-        } else {
-            return "";
-        }
+        UniversalUser u = getUniversalUser();
+        return u == null ? "" : u.getPersonName();
     }
 
     public void setPersonName(String personName) {
@@ -103,24 +100,22 @@ public class ProjectDirector extends PersistableBusinessObjectBase {
     }
 
     public String getPersonUserIdentifier() {
-        if ( !StringUtils.isEmpty( personUniversalIdentifier ) ) {
-            universalUser = SpringServiceLocator.getUniversalUserService().updateUniversalUserIfNecessary( personUniversalIdentifier, universalUser );
+        if (personUserIdentifier != null) {
+            return personUserIdentifier;
         }
-        if ( universalUser != null ) {
-            return universalUser.getPersonUserIdentifier();
-        } else {
-            return "";
-        }
+        UniversalUser u = getUniversalUser();
+        return u == null ? "" : u.getPersonUserIdentifier();
     }
 
     public void setPersonUserIdentifier(String personUserIdentifier) {
-        try {
-            universalUser = SpringServiceLocator.getUniversalUserService().getUniversalUserByAuthenticationUserId( personUserIdentifier );
-        } catch ( UserNotFoundException ex ) {
-            universalUser = new UniversalUser();
-            universalUser.setPersonUserIdentifier( personUserIdentifier );
+        this.personUserIdentifier = personUserIdentifier;
+        if (universalUser == null || !personUserIdentifier.equals(universalUser.getPersonUserIdentifier())) {
+            try {
+                universalUser = SpringServiceLocator.getUniversalUserService().getUniversalUserByAuthenticationUserId( personUserIdentifier );
+            } catch ( UserNotFoundException ex ) {
+                universalUser = null;
+            }
         }
-        
     }
 
 }

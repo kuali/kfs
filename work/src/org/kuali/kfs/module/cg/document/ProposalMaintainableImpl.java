@@ -29,9 +29,12 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Proposal;
 import org.kuali.module.cg.bo.ProposalResearchRisk;
 import org.kuali.module.cg.bo.ProposalProjectDirector;
+import org.kuali.module.cg.bo.ProjectDirector;
 import org.kuali.module.cg.lookup.valuefinder.NextProposalNumberFinder;
 import org.kuali.module.kra.routingform.bo.ResearchRiskType;
-import org.kuali.PropertyConstants;
+import org.kuali.Constants;
+import org.kuali.rice.KNSServiceLocator;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Methods for the Proposal maintenance document UI.
@@ -62,7 +65,7 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
      */
     @Override
     public void processAfterRetrieve() {
-        refreshProposal();
+        refreshProposal(false);
         super.processAfterRetrieve();
     }
 
@@ -76,7 +79,7 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
      */
     @Override
     public void prepareForSave() {
-        refreshProposal();
+        refreshProposal(false);
         List<ProposalProjectDirector> directors = getProposal().getProposalProjectDirectors();
         if (directors.size() == 1) {
             directors.get(0).setProposalPrimaryProjectDirectorIndicator(true);
@@ -85,11 +88,11 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
-     * This method is called for refreshing the Agency after a lookup to display its full name without AJAX.
+     * This method is called for refreshing the Agency and other related BOs after a lookup, to display their full name & etc without AJAX.
      */
     @Override
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
-        refreshProposal();
+        refreshProposal(fieldValues.get(Constants.REFRESH_CALLER).equals(KNSServiceLocator.KUALI_LOOKUPABLE));
         super.refresh(refreshCaller, fieldValues, document);
     }
 
@@ -121,23 +124,60 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
         }
     }
 
-    private void refreshProposal() {
-        Proposal p = getProposal();
-        p.refreshNonUpdateableReferences();
+    private void refreshProposal(boolean refreshFromLookup) {
+        getProposal().refreshNonUpdateableReferences();
 
         getNewCollectionLine(PROPOSAL_SUBCONTRACTORS).refreshNonUpdateableReferences();
-        getNewCollectionLine(PROPOSAL_PROJECT_DIRECTORS).refreshNonUpdateableReferences();
 
         // the org list doesn't need any refresh
-        refreshNonUpdateableReferences(p.getProposalProjectDirectors());
-        refreshNonUpdateableReferences(p.getProposalSubcontractors());
-        refreshNonUpdateableReferences(p.getProposalResearchRisks());
+        refreshNonUpdateableReferences(getProposal().getProposalSubcontractors());
+        refreshNonUpdateableReferences(getProposal().getProposalResearchRisks());
+
+        refreshProposalProjectDirectors(refreshFromLookup);
+    }
+
+    /**
+     * Refreshs this maintainable's ProposalProjectDirectors.
+     *
+     * @param refreshFromLookup a lookup returns only the primary key, so ignore the secondary key when true
+     */
+    private void refreshProposalProjectDirectors(boolean refreshFromLookup) {
+        if (refreshFromLookup) {
+            getNewCollectionLine(PROPOSAL_PROJECT_DIRECTORS).refreshNonUpdateableReferences();
+            refreshNonUpdateableReferences(getProposal().getProposalProjectDirectors());
+        } else {
+            refreshWithSecondaryKey((ProposalProjectDirector) getNewCollectionLine(PROPOSAL_PROJECT_DIRECTORS));
+            for (ProposalProjectDirector ppd : getProposal().getProposalProjectDirectors()) {
+                refreshWithSecondaryKey(ppd);
+            }
+        }
     }
 
     // todo: move to ObjectUtils?
     private static void refreshNonUpdateableReferences(Collection<? extends PersistableBusinessObject> collection) {
         for (PersistableBusinessObject item : collection) {
             item.refreshNonUpdateableReferences();
+        }
+    }
+
+    /**
+     * Refreshes the reference to ProjectDirector, giving priority to its secondary key.
+     * Any secondary key that it has may be user input, so that overrides the primary key, setting the primary key.
+     * If its primary key is blank or nonexistent, then leave the current reference as it is, because it may be a
+     * nonexistent instance which is holding the secondary key (the username, i.e., personUserIdentifier)
+     * so we can redisplay it to the user for correction.  If it only has a primary key then use that,
+     * because it may be coming from the database, without any user input.
+     *
+     * @param ppd the ProposalProjectDirector to refresh
+     */
+    private static void refreshWithSecondaryKey(ProposalProjectDirector ppd) {
+        String secondaryKey = ppd.getProjectDirector().getPersonUserIdentifier();
+        if (StringUtils.isNotBlank(secondaryKey)) {
+            ProjectDirector dir = SpringServiceLocator.getProjectDirectorService().getByPersonUserIdentifier(secondaryKey);
+            ppd.setPersonUniversalIdentifier(dir == null ? null : dir.getPersonUniversalIdentifier());
+        }
+        if (StringUtils.isNotBlank(ppd.getPersonUniversalIdentifier()) && SpringServiceLocator.getProjectDirectorService().primaryIdExists(ppd.getPersonUniversalIdentifier())) {
+            ppd.refreshNonUpdateableReferences();
         }
     }
 
@@ -153,7 +193,7 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
      */
     @Override
     public void addNewLineToCollection(String collectionName) {
-        refreshProposal();
+        refreshProposal(false);
         super.addNewLineToCollection(collectionName);
     }
 }

@@ -70,6 +70,7 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
     private BudgetConstructionAccountReports budgetConstructionAccountReports;
 //    private BudgetConstructionCalculatedSalaryFoundationTracker bcnCalculatedSalaryFoundationTracker;
     private BudgetConstructionIntendedIncumbent budgetConstructionIntendedIncumbent;
+    private BudgetConstructionDuration budgetConstructionDuration;
     
     private List bcnCalculatedSalaryFoundationTracker;
     private List budgetConstructionSalaryFunding;
@@ -768,6 +769,22 @@ public class PendingBudgetConstructionAppointmentFunding extends PersistableBusi
         this.budgetConstructionAccountReports = budgetConstructionAccountReports;
     }    
     
+    /**
+     * Gets the budgetConstructionDuration attribute. 
+     * @return Returns the budgetConstructionDuration.
+     */
+    public BudgetConstructionDuration getBudgetConstructionDuration() {
+        return budgetConstructionDuration;
+    }
+
+    /**
+     * Sets the budgetConstructionDuration attribute value.
+     * @param budgetConstructionDuration The budgetConstructionDuration to set.
+     */
+    public void setBudgetConstructionDuration(BudgetConstructionDuration budgetConstructionDuration) {
+        this.budgetConstructionDuration = budgetConstructionDuration;
+    }
+
     /**
      * Gets the budgetConstructionIntendedIncumbent attribute. 
      * @return Returns the budgetConstructionIntendedIncumbent.

@@ -961,6 +961,9 @@
 		<foreignkey field-ref="emplid" />
 		<foreignkey field-ref="positionNumber" />
 	</reference-descriptor>
+	<reference-descriptor name="budgetConstructionDuration" class-ref="org.kuali.module.budget.bo.BudgetConstructionDuration" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="appointmentFundingDurationCode" />
+	</reference-descriptor>
 	<reference-descriptor name="budgetConstructionAccountReports" class-ref="org.kuali.module.budget.bo.BudgetConstructionAccountReports" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="accountNumber" />

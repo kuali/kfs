@@ -160,7 +160,7 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 
         // Get the groups that need to be added
         Date today = dateTimeService.getCurrentSqlDate();
-        Collection groups = originEntryGroupDao.getGroupsToBackup(today);
+        Collection groups = originEntryGroupDao.getLaborGroupsToBackup(today);
 
         // Create the new group
         OriginEntryGroup backupGroup = this.createGroup(today, OriginEntrySource.LABOR_BACKUP, true, true, true);

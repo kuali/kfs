@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.lookup.LookupableHelperService;
 import org.kuali.core.service.BusinessObjectService;
@@ -37,7 +36,7 @@ import org.kuali.test.WithTestSpringContext;
 import org.springframework.beans.factory.BeanFactory;
 
 /**
- * This class contains the test cases that can be applied to the method in AccountBalanceLookupableImpl class.
+ * This class contains test cases that can be applied to methods in Account Status Base Funds class.
  */
 @WithTestSpringContext
 public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
@@ -55,6 +54,10 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
     private int baseFundsExpectedInsertion;    
 
     @Override
+
+    /**
+     * Get things ready for the test
+     */
     protected void setUp() throws Exception {
         super.setUp();
 
@@ -73,6 +76,12 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
         businessObjectService.deleteMatching(CalculatedSalaryFoundationTracker.class, keys);        
     }
 
+    /**
+     * 
+     * This method will run the base funds balance inquiry to test that the BaseFundsLookupableHelperService 
+     * is returning data correctly.
+     * @throws Exception
+     */
     public void testGetSearchResults() throws Exception {
         insertBaseFundsRecords();
         insertCSFRecords();
@@ -84,8 +93,16 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
 
         // test the search results before the specified entry is inserted into the database
         Map fieldValues = buildFieldValues(accountStatusBaseFunds, this.getLookupFields(false));
-        List searchResults = lookupableHelperService.getSearchResults(fieldValues);
-
+        List<String> groupByList = new ArrayList<String>();
+        List<AccountStatusBaseFunds> searchResults = lookupableHelperService.getSearchResults(fieldValues);
+        
+        // Make sure the basic search parameters are returned from the inquiry
+        for (AccountStatusBaseFunds accountStatusBaseFundsReturn : searchResults) {
+              assertFalse(!(accountStatusBaseFundsReturn.getAccountNumber().equals(accountStatusBaseFunds.getAccountNumber()) &&
+              accountStatusBaseFundsReturn.getUniversityFiscalYear().equals(accountStatusBaseFunds.getUniversityFiscalYear()) &&
+              accountStatusBaseFundsReturn.getChartOfAccountsCode().equals(accountStatusBaseFunds.getChartOfAccountsCode())));
+        }            
+               
         if (searchResults != null) {
             System.out.println("Results Size:" + searchResults.size());
         }
@@ -94,6 +111,13 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
         assertEquals(this.baseFundsExpectedInsertion,searchResults.size());
     }
 
+    /**
+     * 
+     * This method uses property file parameters to create insert database records for this test   
+     * @param accountStatusBaseFunds
+     * @param lookupFields
+     * @return
+     */
     private Map<String, String> buildFieldValues(AccountStatusBaseFunds accountStatusBaseFunds, List<String> lookupFields) {
         Map<String, String> fieldValues = new HashMap<String, String>();
 
@@ -104,6 +128,12 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
         return fieldValues;
     }
 
+    /**
+     * 
+     * This method adds property constatants for future lookups
+     * @param isExtended
+     * @return
+     */
     private List<String> getLookupFields(boolean isExtended) {
         List<String> lookupFields = new ArrayList<String>();
 
@@ -114,6 +144,9 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
         return lookupFields;
     }
 
+    /**
+     * This method will add temporary test data to the CSF Tracker table 
+     */
     protected void insertCSFRecords() {
         String messageFileName = "test/src/org/kuali/module/labor/web/testdata/message.properties";
         String propertiesFileName = "test/src/org/kuali/module/labor/web/testdata/csfTracker.properties";
@@ -144,6 +177,9 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
         businessObjectService.save(inputDataList);
     }
     
+    /**
+     * This method will add temporary test data to the Ledger Balance table 
+     */
     protected void insertBaseFundsRecords() {
         String messageFileName = "test/src/org/kuali/module/labor/web/testdata/message.properties";
         String propertiesFileName = "test/src/org/kuali/module/labor/web/testdata/accountStatusBaseFunds.properties";

@@ -27,7 +27,9 @@ import org.kuali.core.util.KualiDecimal;
  */
 public class CreditMemoItem extends AccountsPayableItemBase {
 
-	private Integer creditMemoItemIdentifier;
+
+
+    private Integer creditMemoItemIdentifier;
 	private Integer creditMemoIdentifier;
 	private Integer itemLineNumber;
 	private String itemTypeCode;
@@ -232,6 +234,14 @@ public class CreditMemoItem extends AccountsPayableItemBase {
 	public void setCreditMemo(CreditMemo creditMemo) {
 		this.creditMemo = creditMemo;
 	}
+    
+    /**
+     * @see org.kuali.module.purap.bo.PurApItemBase#getAccountingLineClass()
+     */
+    @Override
+    public Class getAccountingLineClass() {
+        return CreditMemoAccount.class;
+    }
 
 	/**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()

@@ -43,9 +43,13 @@
 		<foreignkey field-ref="documentNumber" />
 		<foreignkey field-ref="purchaseOrderItemIdentifier" />
 	</reference-descriptor>
-	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
+	<reference-descriptor name="objectCode" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="chartOfAccountsCode" />
+        <foreignkey field-ref="financialObjectCode" />
+    </reference-descriptor>
 	<reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="accountNumber" />
@@ -192,8 +196,8 @@
 	<reference-descriptor name="itemType" class-ref="org.kuali.module.purap.bo.ItemType" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="itemTypeCode" />
 	</reference-descriptor>
-    <collection-descriptor name="accountingLines" proxy="true" element-class-ref="org.kuali.module.purap.bo.RequisitionAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="chartOfAccount" sort="ASC" />
+    <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.module.purap.bo.RequisitionAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="account" sort="ASC" />
         <inverse-foreignkey field-ref="itemIdentifier" />
 	</collection-descriptor>
@@ -940,7 +944,7 @@
     <reference-descriptor name="creditMemoItem" class-ref="org.kuali.module.purap.bo.CreditMemoItem" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="creditMemoItemIdentifier" />
 	</reference-descriptor>
-	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
 	<reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -993,7 +997,7 @@
     <reference-descriptor name="paymentRequestItem" class-ref="org.kuali.module.purap.bo.PaymentRequestItem" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="paymentRequestItemIdentifier" />
 	</reference-descriptor>
-	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
 	<reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -1067,9 +1071,13 @@
     <reference-descriptor name="requisitionItem" class-ref="org.kuali.module.purap.bo.RequisitionItem" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="itemIdentifier" />
 	</reference-descriptor>
-	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
+	<reference-descriptor name="objectCode" class-ref="org.kuali.module.chart.bo.ObjectCodeCurrent" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="chartOfAccountsCode" />
+        <foreignkey field-ref="financialObjectCode" />
+    </reference-descriptor>
 	<reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="accountNumber" />

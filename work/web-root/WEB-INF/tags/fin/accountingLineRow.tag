@@ -114,6 +114,9 @@
 <%@ attribute name="forcedReadOnlyFields" required="false"
 	type="java.util.Map"
 	description="foces the object code to become a read only field regardless of document state"%>
+<%@ attribute name="hideFields" required="false"
+    description="Comma delimited list of fields to hide for this type of accounting line" %>
+        
 <c:set var="rowCount" value="${empty extraRowFields ? 1 : 2}" />
 
 <tr>
@@ -238,7 +241,10 @@
 			field="${currentField}" attributes="${accountingLineAttributes}"
 			readOnly="${readOnly}" displayHidden="${displayHidden}" />
 	</c:forTokens>
-	<c:choose>
+	<c:set var="delimitedhideFields" value=",${hideFields}," />
+	<c:set var="delimitedField" value=",amount," />
+	<c:if test="${not fn:contains(delimitedhideFields, delimitedField)}">
+	  <c:choose>
 		<c:when test="${debitCreditAmount}">
 			<fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
 				cellProperty="${debitCellProperty}"
@@ -278,7 +284,8 @@
 				displayHidden="${displayHidden}" rowSpan="${rowCount}"
 				dataFieldCssClass="amount" />
 		</c:otherwise>
-	</c:choose>
+	  </c:choose>
+	</c:if>
 	<c:if test="${!readOnly}">
 		<c:choose>
 			<c:when test="${rowCount == 1}">

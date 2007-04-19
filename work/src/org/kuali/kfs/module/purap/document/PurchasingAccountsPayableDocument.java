@@ -18,7 +18,9 @@ package org.kuali.module.purap.document;
 import java.util.List;
 
 import org.kuali.core.bo.Note;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.bo.Status;
 
 
@@ -83,5 +85,19 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
     public void addToStatusHistories(String oldStatus, String newStatus, Note statusHistoryNote);
 
     public void setStatusHistories(List statusHistories);
+
+    public List getItems();
+    
+    public void addItem(PurchasingApItem item);
+    
+    public void setItems(List items);
+    
+    public void deleteItem(int lineNum);
+    
+    public PurchasingApItem getItem(int pos);
+    
+    public KualiDecimal getTotal();
+    
+    public abstract Class getItemClass();
     
 }

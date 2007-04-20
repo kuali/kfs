@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -27,12 +28,17 @@ import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.kuali.Constants;
 import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.core.web.struts.form.KualiTableRenderFormMetadata;
+import org.kuali.core.web.ui.Column;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.CorrectionChange;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
 import org.kuali.module.gl.bo.CorrectionCriteria;
@@ -44,7 +50,17 @@ public class CorrectionForm extends KualiDocumentFormBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionForm.class);
 
     private String chooseSystem;
+    /**
+     * Used to store the previously selected system, in case the user changed the selection when it's not appropriate, so that it can be restored
+     */
+    private String previousChooseSystem;
+    
     private String editMethod;
+    /**
+     * Used to store the previously selected edit method, in case the user changed the selection when it's not appropriate, so that it can be restored
+     */
+    private String previousEditMethod;
+    
     private Integer inputGroupId;
     private Integer outputGroupId;
     private String inputFileName;
@@ -57,18 +73,26 @@ public class CorrectionForm extends KualiDocumentFormBase {
     private boolean deleteFileFlag = false;
     private boolean showOutputFlag = false;
     private boolean showSummaryOutputFlag = false;
-    private Collection allEntries;
-    private Collection matchingEntries;
+    private boolean restrictedFunctionalityMode = false;
+    private List<OriginEntry> allEntries;
+    private List<OriginEntry> displayEntries;
     private String entryUniversityFiscalYear;
     private String entryFinancialDocumentReversalDate;
     private String entryTransactionDate;
     private String entryTransactionLedgerEntrySequenceNumber;
     private String entryTransactionLedgerEntryAmount;
 
+    /**
+     * Used to identify the search results on the form
+     */
+    private String glcpSearchResultsSequenceNumber;
+    
     private OriginEntry entryForManualEdit;
 
     private List<GroupHolder> groups;
 
+    private KualiTableRenderFormMetadata originEntrySearchResultTableMetadata;
+    
     public CorrectionForm() {
         super();
 
@@ -85,6 +109,51 @@ public class CorrectionForm extends KualiDocumentFormBase {
 
         entryForManualEdit = new OriginEntry();
         entryForManualEdit.setEntryId(0);
+        
+        originEntrySearchResultTableMetadata = new KualiTableRenderFormMetadata();
+    }
+
+    /**
+     * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#populate(javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    public void populate(HttpServletRequest request) {
+        super.populate(request);
+        
+        if (Constants.TableRenderConstants.SWITCH_TO_PAGE_METHOD.equals(getMethodToCall())) {
+            // look for the page number to switch to
+            originEntrySearchResultTableMetadata.setSwitchToPageNumber(-1);
+            
+            // the param we're looking for looks like: methodToCall.switchToPage.1.x , where 1 is the page nbr
+            String paramPrefix = Constants.DISPATCH_REQUEST_PARAMETER + "." + Constants.TableRenderConstants.SWITCH_TO_PAGE_METHOD + ".";
+            for (Enumeration i = request.getParameterNames(); i.hasMoreElements();) {
+                String parameterName = (String) i.nextElement();
+                if (parameterName.startsWith(paramPrefix) && parameterName.endsWith(".x")) {
+                    String switchToPageNumberStr = StringUtils.substringBetween(parameterName, paramPrefix, ".");
+                    originEntrySearchResultTableMetadata.setSwitchToPageNumber(Integer.parseInt(switchToPageNumberStr));
+                }
+            }
+            if (originEntrySearchResultTableMetadata.getSwitchToPageNumber() == -1) {
+                throw new RuntimeException("Couldn't find page number");
+            }
+        }
+        
+        if (Constants.TableRenderConstants.SORT_METHOD.equals(getMethodToCall())) {
+            originEntrySearchResultTableMetadata.setColumnToSortIndex(-1);
+            
+            // the param we're looking for looks like: methodToCall.sort.1.x , where 1 is the column to sort on
+            String paramPrefix = Constants.DISPATCH_REQUEST_PARAMETER + "." + Constants.TableRenderConstants.SORT_METHOD + ".";
+            for (Enumeration i = request.getParameterNames(); i.hasMoreElements();) {
+                String parameterName = (String) i.nextElement();
+                if (parameterName.startsWith(paramPrefix) && parameterName.endsWith(".x")) {
+                    String columnToSortStr = StringUtils.substringBetween(parameterName, paramPrefix, ".");
+                    originEntrySearchResultTableMetadata.setColumnToSortIndex(Integer.parseInt(columnToSortStr));
+                }
+            }
+            if (originEntrySearchResultTableMetadata.getColumnToSortIndex() == -1) {
+                throw new RuntimeException("Couldn't find column to sort");
+            }
+        }
     }
 
     public void syncGroups() {
@@ -112,9 +181,11 @@ public class CorrectionForm extends KualiDocumentFormBase {
         manualEditFlag = false;
         deleteFileFlag = false;
         showOutputFlag = false;
-        allEntries = new ArrayList();
-        matchingEntries = new ArrayList();
+        allEntries = new ArrayList<OriginEntry>();
+        displayEntries = new ArrayList<OriginEntry>();
 
+        restrictedFunctionalityMode = false;
+        
         setDocument(new CorrectionDocument());
 
         // create a blank TransactionalDocumentActionFlags instance, since form-recreation needs it
@@ -170,9 +241,11 @@ public class CorrectionForm extends KualiDocumentFormBase {
         deleteFileFlag = c.deleteFileFlag;
         showOutputFlag = c.showOutputFlag;
         allEntries = c.allEntries;
-        matchingEntries = c.matchingEntries;
+        displayEntries = c.displayEntries;
         entryForManualEdit = c.entryForManualEdit;
         groups = c.groups;
+        restrictedFunctionalityMode = c.restrictedFunctionalityMode;
+        
         setDocument(c.getDocument());
         setDocTypeName(c.getDocTypeName());
         setDocumentActionFlags(c.getDocumentActionFlags());
@@ -187,12 +260,12 @@ public class CorrectionForm extends KualiDocumentFormBase {
         return entryFinancialDocumentReversalDate;
     }
 
-    public Collection getMatchingEntries() {
-        return matchingEntries;
+    public List<OriginEntry> getDisplayEntries() {
+        return displayEntries;
     }
 
-    public void setMatchingEntries(Collection matchingEntries) {
-        this.matchingEntries = matchingEntries;
+    public void setDisplayEntries(List<OriginEntry> displayEntries) {
+        this.displayEntries = displayEntries;
     }
 
     public void setEntryFinancialDocumentReversalDate(String entryFinancialDocumentReversalDate) {
@@ -287,11 +360,11 @@ public class CorrectionForm extends KualiDocumentFormBase {
         this.processInBatch = processInBatch;
     }
 
-    public Collection getAllEntries() {
+    public List<OriginEntry> getAllEntries() {
         return allEntries;
     }
 
-    public void setAllEntries(Collection allEntriesForManualEdit) {
+    public void setAllEntries(List<OriginEntry> allEntriesForManualEdit) {
         this.allEntries = allEntriesForManualEdit;
     }
 
@@ -357,5 +430,81 @@ public class CorrectionForm extends KualiDocumentFormBase {
 
     public void setShowSummaryOutputFlag(boolean showSummaryOutputFlag) {
         this.showSummaryOutputFlag = showSummaryOutputFlag;
+    }
+
+    /**
+     * Gets the originEntrySearchResultTableMetadata attribute. 
+     * @return Returns the originEntrySearchResultTableMetadata.
+     */
+    public KualiTableRenderFormMetadata getOriginEntrySearchResultTableMetadata() {
+        return originEntrySearchResultTableMetadata;
+    }
+    
+    public List<Column> getTableRenderColumnMetadata() {
+        return SpringServiceLocator.getCorrectionDocumentService().getTableRenderColumnMetadata(getDocument().getDocumentNumber());
+    }
+
+    /**
+     * Gets the restrictedFunctionalityMode attribute. 
+     * @return Returns the restrictedFunctionalityMode.
+     */
+    public boolean isRestrictedFunctionalityMode() {
+        return restrictedFunctionalityMode;
+    }
+
+    /**
+     * Sets the restrictedFunctionalityMode attribute value.
+     * @param restrictedFunctionalityMode The restrictedFunctionalityMode to set.
+     */
+    public void setRestrictedFunctionalityMode(boolean restrictedFunctionalityMode) {
+        this.restrictedFunctionalityMode = restrictedFunctionalityMode;
+    }
+
+    /**
+     * Gets the glcpSearchResuiltsSequenceNumber attribute. 
+     * @return Returns the glcpSearchResuiltsSequenceNumber.
+     */
+    public String getGlcpSearchResultsSequenceNumber() {
+        return glcpSearchResultsSequenceNumber;
+    }
+
+    /**
+     * Sets the glcpSearchResuiltsSequenceNumber attribute value.
+     * @param glcpSearchResuiltsSequenceNumber The glcpSearchResuiltsSequenceNumber to set.
+     */
+    public void setGlcpSearchResultsSequenceNumber(String glcpSearchResuiltsSequenceNumber) {
+        this.glcpSearchResultsSequenceNumber = glcpSearchResuiltsSequenceNumber;
+    }
+
+    /**
+     * Gets the previousChooseSystem attribute. 
+     * @return Returns the previousChooseSystem.
+     */
+    public String getPreviousChooseSystem() {
+        return previousChooseSystem;
+    }
+
+    /**
+     * Sets the previousChooseSystem attribute value.
+     * @param previousChooseSystem The previousChooseSystem to set.
+     */
+    public void setPreviousChooseSystem(String previousChooseSystem) {
+        this.previousChooseSystem = previousChooseSystem;
+    }
+
+    /**
+     * Gets the previousEditMethod attribute. 
+     * @return Returns the previousEditMethod.
+     */
+    public String getPreviousEditMethod() {
+        return previousEditMethod;
+    }
+
+    /**
+     * Sets the previousEditMethod attribute value.
+     * @param previousEditMethod The previousEditMethod to set.
+     */
+    public void setPreviousEditMethod(String previousEditMethod) {
+        this.previousEditMethod = previousEditMethod;
     }
 }

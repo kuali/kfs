@@ -57,7 +57,7 @@ public class CorrectionDocument extends TransactionalDocumentBase {
     private Integer correctionOutputGroupId; // Group ID that has output data
     private Integer correctionChangeGroupNextLineNumber;
 
-    private List correctionChangeGroup;
+    private List<CorrectionChangeGroup> correctionChangeGroup;
 
     public CorrectionDocument() {
         super();
@@ -256,12 +256,12 @@ public class CorrectionDocument extends TransactionalDocumentBase {
         this.correctionOutputFileName = correctionOutputFileName;
     }
 
-    public List getCorrectionChangeGroup() {
+    public List<CorrectionChangeGroup> getCorrectionChangeGroup() {
         Collections.sort(correctionChangeGroup);
         return correctionChangeGroup;
     }
 
-    public void setCorrectionChangeGroup(List correctionChangeGroup) {
+    public void setCorrectionChangeGroup(List<CorrectionChangeGroup> correctionChangeGroup) {
         this.correctionChangeGroup = correctionChangeGroup;
     }
 

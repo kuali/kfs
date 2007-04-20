@@ -160,7 +160,7 @@ public interface OriginEntryService {
      */
     public LedgerEntryHolder getSummaryByGroupId(Collection groupIdList);
 
-    public Collection getMatchingEntriesByCollection(Map searchCriteria);
+    public Collection<OriginEntry> getMatchingEntriesByCollection(Map searchCriteria);
 
     public OriginEntry getExactMatchingEntry(Integer entryId);
 
@@ -171,4 +171,9 @@ public interface OriginEntryService {
      * @return a map of summarized information of poster input entries within the specified groups
      */    
     public Map<String,PosterOutputSummaryEntry> getPosterOutputSummaryByGroupId(Collection groupIdList);
+    
+    /**
+     * Get count of transactions in a group
+     */
+    public Integer getGroupCount(Integer groupId);
 }

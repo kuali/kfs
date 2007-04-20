@@ -17,6 +17,7 @@ package org.kuali.module.gl.service;
 
 import java.util.List;
 
+import org.kuali.core.web.ui.Column;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
 import org.kuali.module.gl.document.CorrectionDocument;
 
@@ -34,4 +35,6 @@ public interface CorrectionDocumentService {
     public List findByDocumentNumberAndCorrectionGroupNumber(String docId, int i);
 
     public CorrectionDocument findByCorrectionDocumentHeaderId(String docId);
+    
+    public List<Column> getTableRenderColumnMetadata(String docId);
 }

@@ -1360,4 +1360,10 @@
 			<ref bean="glCollectorService" />
 		</property>
 	</bean>
+	
+	<bean id="glCorrectionProcessOriginEntryService" class="org.kuali.module.gl.service.impl.GlCorrectionProcessOriginEntryServiceImpl">
+		<property name="businessObjectService">
+			<ref bean="businessObjectService"/>
+		</property>
+	</bean>
 </beans>

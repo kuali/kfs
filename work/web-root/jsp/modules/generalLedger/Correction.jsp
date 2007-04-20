@@ -14,6 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/core/tldHeader.jsp" %>
+<%@ taglib tagdir="/WEB-INF/tags/gl/glcp" prefix="glcp"%>
 
 <kul:page showDocumentInfo="true" docTitle="General Ledger Correction Process"
 	htmlFormAction="generalLedgerCorrection"transactionalDocument="false"
@@ -31,7 +32,8 @@
   <html:hidden property="showOutputFlag"/>
   <html:hidden property="inputFileName"/>
   <html:hidden property="showSummaryOutputFlag"/>
- 
+  <html:hidden property="glcpSearchResultsSequenceNumber"/>
+  <html:hidden property="restrictedFunctionalityMode"/>
 
   <c:if test="${debug == true}">
     <kul:tab tabTitle="Debug" defaultOpen="true" tabErrorKey="debug">
@@ -108,9 +110,11 @@
                 <html:select property="chooseSystem">
                   <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|module|gl|web|optionfinder|CorrectionChooseSystemValuesFinder" label="label" value="key"/>
                 </html:select>
+                <html:hidden property="previousChooseSystem"/>
                 <html:select property="editMethod">
                   <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|module|gl|web|optionfinder|CorrectionEditMethodValuesFinder" label="label" value="key"/>
                 </html:select>
+                <html:hidden property="previousEditMethod"/>
                 <html:image property="methodToCall.selectSystemEditMethod.anchor${currentTabIndex}" src="images/tinybutton-select.gif" styleClass="tinybutton" alt="Select System and Edit Method" title="Select System and Edit Method"/>
               </center>
             </td>
@@ -162,6 +166,18 @@
       </c:if>
     </kul:tab>
     <kul:tab tabTitle="Search Results" defaultOpen="true" tabErrorKey="searchResults">
+      <c:if test="${KualiForm.restrictedFunctionalityMode}">
+        <div class="tab-container" align="center">
+          <table cellpadding=0 class="datatable" summary=""> 
+            <tr>
+              <td align="left" valign="middle" class="subhead">Search Results</td>
+            </tr>
+            <tr>
+              <td><bean:message key="gl.correction.restricted.functionality.search.results.label" /></td>
+            </tr>
+          </table>
+        </div>
+      </c:if>
       <c:if test="${KualiForm.chooseSystem != null and KualiForm.editMethod != null and KualiForm.dataLoadedFlag == true}" >
         <div class="tab-container" align="left" style="overflow: scroll; width: 100% ;"> 
           <table cellpadding=0 class="datatable" summary=""> 
@@ -183,56 +199,7 @@
             </tr>
             <tr>
               <td>
-                <input type="hidden" name="d-2339813-p" value="${displayTablePageNumber}"/> 
-                <input type="hidden" name="d-2339813-s" value="${displayTableColumnNumber}"/> 
-                <input type="hidden" name="d-2339813-d" value="ASC"/>
-                <c:choose>
-                  <c:when test="${KualiForm.showOutputFlag == true and KualiForm.editMethod == 'M'}">
-                    <c:set var="groupForTable" value="${KualiForm.matchingEntries}"/>
-                  </c:when>
-                  <c:otherwise>
-                    <c:set var="groupForTable" value="${KualiForm.allEntries}"/>
-                  </c:otherwise>
-                </c:choose>
-                <display:table class="datatable-100" cellspacing="0" cellpadding="0" name="${groupForTable}" id="allEntries" pagesize="10"
-                    requestURI="generalLedgerCorrection.do?methodToCall=viewResults&document.documentNumber=${KualiForm.document.documentHeader.documentNumber}" >
-                  <c:choose>
-                    <c:when test="${KualiForm.editableFlag == true and KualiForm.showOutputFlag == false}">
-                      <display:column title="Manual Edit" >
-                        <html:image property="methodToCall.editManualEntry.entryId${allEntries.entryId}.anchor${currentTabIndex}" src="images/tinybutton-edit1.gif" styleClass="tinybutton" alt="edit" />
-                        <html:image property="methodToCall.deleteManualEntry.entryId${allEntries.entryId}.anchor${currentTabIndex}" src="images/tinybutton-delete1.gif" styleClass="tinybutton" alt="delete" />
-                      </display:column>
-                    </c:when>
-                    <c:otherwise>
-                      <display:column title="" > </display:column>
-                    </c:otherwise>
-                  </c:choose>
-                  <display:column class="infocell" sortable="true" title="Fiscal Year" ><c:out value="${allEntries.universityFiscalYear}" />&nbsp;</display:column>
-                  <display:column class="infocell" sortable="true" title="Chart Code" ><c:out value="${allEntries.chartOfAccountsCode}" />&nbsp;</display:column>
-                  <display:column class="infocell" sortable="true" title="Account Number" ><c:out value="${allEntries.accountNumber}" />&nbsp;</display:column>
-                  <display:column class="infocell" sortable="true" title="Sub Account Number" ><c:out value="${allEntries.subAccountNumber}" />&nbsp;</display:column>
-                  <display:column class="infocell" sortable="true" title="Object Code" ><c:out value="${allEntries.financialObjectCode}" />&nbsp;</display:column>
-                  <display:column class="infocell" sortable="true" title="Sub Object Code" ><c:out value="${allEntries.financialSubObjectCode}" />&nbsp;</display:column>
-                  <display:column class="infocell" sortable="true" title="Balance Type" ><c:out value="${allEntries.financialBalanceTypeCode}" />&nbsp;</display:column>
-                  <display:column class="infocell" sortable="true" title="Object Type" ><c:out value="${allEntries.financialObjectTypeCode}" />&nbsp;</display:column>
-                  <display:column class="infocell" sortable="true" title="Fiscal Period" ><c:out value="${allEntries.universityFiscalPeriodCode}" />&nbsp;</display:column>
-                  <display:column class="infocell" sortable="true" title="Document Type" ><c:out value="${allEntries.financialDocumentTypeCode}" />&nbsp;</display:column>
-                  <display:column class="infocell" sortable="true" title="Origin Code" ><c:out value="${allEntries.financialSystemOriginationCode}" />&nbsp;</display:column>
-                  <display:column class="infocell" sortable="true" title="Document Number" ><c:out value="${allEntries.documentNumber}" />&nbsp;</display:column>
-                  <display:column class="infocell" sortable="true" comparator="org.kuali.core.web.comparator.NumericCellComparator" title="Sequence Number" ><c:out value="${allEntries.transactionLedgerEntrySequenceNumber}" />&nbsp;</display:column>
-                  <display:column class="infocell" sortable="true" title="Description" ><c:out value="${allEntries.transactionLedgerEntryDescription}" />&nbsp;</display:column>
-                  <display:column class="infocell" sortable="true" comparator="org.kuali.core.web.comparator.NumericCellComparator" title="Amount" ><c:out value="${allEntries.transactionLedgerEntryAmount}" />&nbsp;</display:column>
-                  <display:column class="infocell" sortable="true" title="Debit Credit Indicator" ><c:out value="${allEntries.transactionDebitCreditCode}" />&nbsp;</display:column>
-                  <display:column class="infocell" sortable="true" title="Transaction Date" ><c:out value="${allEntries.transactionDate}" />&nbsp;</display:column>
-                  <display:column class="infocell" sortable="true" title="Org Doc Number" ><c:out value="${allEntries.organizationDocumentNumber}" />&nbsp;</display:column>
-                  <display:column class="infocell" sortable="true" title="Project Code" ><c:out value="${allEntries.projectCode}" />&nbsp;</display:column>
-                  <display:column class="infocell" sortable="true" title="Org Ref ID" ><c:out value="${allEntries.organizationReferenceId}" />&nbsp;</display:column>
-                  <display:column class="infocell" sortable="true" title="Ref Doc Type" ><c:out value="${allEntries.referenceFinancialDocumentTypeCode}" />&nbsp;</display:column>
-                  <display:column class="infocell" sortable="true" title="Ref Origin Code" ><c:out value="${allEntries.referenceFinancialSystemOriginationCode}" />&nbsp;</display:column>
-                  <display:column class="infocell" sortable="true" title="Ref Doc Number" ><c:out value="${allEntries.referenceFinancialDocumentNumber}" />&nbsp;</display:column>
-                  <display:column class="infocell" sortable="true" title="Reversal Date" ><c:out value="${allEntries.financialDocumentReversalDate}" />&nbsp;</display:column>
-                  <display:column class="infocell" sortable="true" title="Enc Update Code" ><c:out value="${allEntries.transactionEncumbranceUpdateCode}" />&nbsp;</display:column>
-                </display:table>
+                <glcp:displayOriginEntrySearchResults originEntries="${KualiForm.displayEntries}"/>
               </td>
             </tr>
             <c:if test="${KualiForm.editMethod == 'M' and KualiForm.editableFlag == true and KualiForm.showOutputFlag == false}">
@@ -245,31 +212,11 @@
                     <thead>
                       <tr>
                         <th>Manual Edit</th>
-                        <th>Fiscal Year</th>
-                        <th>Chart Code</th>
-                        <th>Account Number</th>
-                        <th>Sub Account Number</th>
-                        <th>Object Code</th>
-                        <th>Sub Object Code</th>
-                        <th>Balance Type</th>
-                        <th>Object Type</th>
-                        <th>Fiscal Period</th>
-                        <th>Document Type</th>
-                        <th>Origin Code</th>
-                        <th>Document Number</th>
-                        <th>Sequence Number</th>
-                        <th>Description</th>
-                        <th>Amount</th>
-                        <th>Debit Credit Indicator</th>
-                        <th>Transaction Date</th>
-                        <th>Org Doc Number</th>
-                        <th>Project Code</th>
-                        <th>Org Ref ID</th>
-                        <th>Ref Doc Type</th>
-                        <th>Ref Origin Code</th>
-                        <th>Ref Doc Number</th>
-                        <th>Reversal Date</th>
-                        <th>Enc Update Code</th>
+			            <c:forEach items="${KualiForm.tableRenderColumnMetadata}" var="column">
+				          <th class="sortable">
+					        <c:out value="${column.columnTitle}"/><c:if test="${empty column.columnTitle}">$nbsp;</c:if>
+				          </th>
+			            </c:forEach>
                       </tr>
                     </thead>
                     <tbody>
@@ -298,7 +245,7 @@
                         <td><html:text property="entryForManualEdit.universityFiscalPeriodCode" size="6"/></td>
                         <td><html:text property="entryForManualEdit.financialDocumentTypeCode" size="10"/></td>
                         <td><html:text property="entryForManualEdit.financialSystemOriginationCode" size="6"/></td>
-                        <td><html:text property="entryForManualEdit.documentNumber" size="9"/></td>
+                        <td><html:text property="entryForManualEdit.documentNumber" size="14"/></td>
                         <td><html:text property="entryTransactionLedgerEntrySequenceNumber" size="9"/></td>
                         <td><html:text property="entryForManualEdit.transactionLedgerEntryDescription" size="11"/></td>
                         <td><html:text property="entryTransactionLedgerEntryAmount" size="7"/></td>
@@ -337,7 +284,7 @@
       </c:if>
     </kul:tab>
     <kul:tab tabTitle="Edit Options and Action" defaultOpen="true" tabErrorKey="Edit Options and Action">
-      <c:if test="${KualiForm.deleteFileFlag == false and KualiForm.dataLoadedFlag == true and ((KualiForm.editMethod == 'C') or (KualiForm.editMethod == 'M' and KualiForm.editableFlag == true))}">
+      <c:if test="${KualiForm.deleteFileFlag == false and (KualiForm.dataLoadedFlag == true || KualiForm.restrictedFunctionalityMode) and ((KualiForm.editMethod == 'C') or (KualiForm.editMethod == 'M' and KualiForm.editableFlag == true))}">
         <div class="tab-container" align="center">
           <table cellpadding=0 class="datatable" summary="">
             <c:if test="${KualiForm.editMethod == 'C'}">
@@ -348,24 +295,28 @@
                 <td>
                   <center>
                     <html:checkbox property="processInBatch" title="processInBatch" /> <STRONG> Process In Batch </STRONG> &nbsp; &nbsp; &nbsp; &nbsp;  
-                    <html:checkbox property="matchCriteriaOnly" title="matchCriteriaOnly"/> <STRONG> Output only records which match criteria? </STRONG>
-                  </center>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <center>
-                    <c:if test="${KualiForm.showOutputFlag == true}">
-                      <strong>Show Input Group</strong>
-                      <html:image property="methodToCall.showOutputGroup.anchor${currentTabIndex - 1}" src="images/tinybutton-show.gif" styleClass="tinybutton" alt="show Input Group" />
-                    </c:if>
-                    <c:if test="${KualiForm.showOutputFlag == false}">
-                      <strong>Show Output Group</strong>
-                      <html:image property="methodToCall.showOutputGroup.anchor${currentTabIndex - 1}" src="images/tinybutton-show.gif" styleClass="tinybutton" alt="show Output Group" />
+                    <c:if test="${KualiForm.restrictedFunctionalityMode == false}">
+                      <html:checkbox property="matchCriteriaOnly" title="matchCriteriaOnly"/> <STRONG> Output only records which match criteria? </STRONG>
                     </c:if>
                   </center>
                 </td>
               </tr>
+              <c:if test="${KualiForm.restrictedFunctionalityMode == false}">
+                <tr>
+                  <td>
+                    <center>
+                      <c:if test="${KualiForm.showOutputFlag == true}">
+                        <strong>Show Input Group</strong>
+                        <html:image property="methodToCall.showOutputGroup.anchor${currentTabIndex - 1}" src="images/tinybutton-show.gif" styleClass="tinybutton" alt="show Input Group" />
+                      </c:if>
+                      <c:if test="${KualiForm.showOutputFlag == false}">
+                        <strong>Show Output Group</strong>
+                        <html:image property="methodToCall.showOutputGroup.anchor${currentTabIndex - 1}" src="images/tinybutton-show.gif" styleClass="tinybutton" alt="show Output Group" />
+                      </c:if>
+                    </center>
+                  </td>
+                </tr>
+              </c:if>
             </c:if>
             <c:if test="${KualiForm.editMethod == 'M' and KualiForm.editableFlag == true}">
               <tr>
@@ -384,7 +335,7 @@
       </c:if>
     </kul:tab>
     <kul:tab tabTitle="Edit Criteria" defaultOpen="true" tabErrorKey="editCriteria">
-      <c:if test="${KualiForm.deleteFileFlag == false and KualiForm.editMethod == 'C' and KualiForm.dataLoadedFlag == true}">
+      <c:if test="${KualiForm.deleteFileFlag == false and KualiForm.editMethod == 'C' and (KualiForm.dataLoadedFlag == true || KualiForm.restrictedFunctionalityMode == true)}">
         <div class="tab-container" align="center"> 
           <table cellpadding=0 class="datatable" summary="">
             <tr>
@@ -619,34 +570,7 @@
         </tr>
         <tr>
           <td>
-            <display:table class="datatable-100" cellspacing="0" requestURIcontext="false" cellpadding="0" name="${KualiForm.allEntries}" id="allEntries" pagesize="10" requestURI="generalLedgerCorrection.do?methodToCall=viewResults&document.documentNumber=${KualiForm.document.documentHeader.documentNumber}" >
-              <display:column class="infocell" sortable="true" title="Origin Entry Id" ><c:out value="${allEntries.entryId}" />&nbsp;</display:column>
-              <display:column class="infocell" sortable="true" title="Fiscal Year" ><c:out value="${allEntries.universityFiscalYear}" />&nbsp;</display:column>
-              <display:column class="infocell" sortable="true" title="Chart Code" ><c:out value="${allEntries.chartOfAccountsCode}" />&nbsp;</display:column>
-              <display:column class="infocell" sortable="true" title="Account Number" ><c:out value="${allEntries.accountNumber}" />&nbsp;</display:column>
-              <display:column class="infocell" sortable="true" title="Sub Account Number" ><c:out value="${allEntries.subAccountNumber}" />&nbsp;</display:column>
-              <display:column class="infocell" sortable="true" title="Object Code" ><c:out value="${allEntries.financialObjectCode}" />&nbsp;</display:column>
-              <display:column class="infocell" sortable="true" title="Sub Object Code" ><c:out value="${allEntries.financialSubObjectCode}" />&nbsp;</display:column>
-              <display:column class="infocell" sortable="true" title="Balance Type" ><c:out value="${allEntries.financialBalanceTypeCode}" />&nbsp;</display:column>
-              <display:column class="infocell" sortable="true" title="Object Type" ><c:out value="${allEntries.financialObjectTypeCode}" />&nbsp;</display:column>
-              <display:column class="infocell" sortable="true" title="Fiscal Period" ><c:out value="${allEntries.universityFiscalPeriodCode}" />&nbsp;</display:column>
-              <display:column class="infocell" sortable="true" title="Document Type" ><c:out value="${allEntries.financialDocumentTypeCode}" />&nbsp;</display:column>
-              <display:column class="infocell" sortable="true" title="Origin Code" ><c:out value="${allEntries.financialSystemOriginationCode}" />&nbsp;</display:column>
-              <display:column class="infocell" sortable="true" title="Document Number" ><c:out value="${allEntries.documentNumber}" />&nbsp;</display:column>
-              <display:column class="infocell" sortable="true" title="Sequence Number" ><c:out value="${allEntries.transactionLedgerEntrySequenceNumber}" />&nbsp;</display:column>
-              <display:column class="infocell" sortable="true" title="Description" ><c:out value="${allEntries.transactionLedgerEntryDescription}" />&nbsp;</display:column>
-              <display:column class="infocell" sortable="true" title="Amount" ><c:out value="${allEntries.transactionLedgerEntryAmount}" />&nbsp;</display:column>
-              <display:column class="infocell" sortable="true" title="Debit Credit Indicator" ><c:out value="${allEntries.transactionDebitCreditCode}" />&nbsp;</display:column>
-              <display:column class="infocell" sortable="true" title="Transaction Date" ><c:out value="${allEntries.transactionDate}" />&nbsp;</display:column>
-              <display:column class="infocell" sortable="true" title="Org Doc Number" ><c:out value="${allEntries.organizationDocumentNumber}" />&nbsp;</display:column>
-              <display:column class="infocell" sortable="true" title="Project Code" ><c:out value="${allEntries.projectCode}" />&nbsp;</display:column>
-              <display:column class="infocell" sortable="true" title="Org Ref ID" ><c:out value="${allEntries.organizationReferenceId}" />&nbsp;</display:column>
-              <display:column class="infocell" sortable="true" title="Ref Doc Type" ><c:out value="${allEntries.referenceFinancialDocumentTypeCode}" />&nbsp;</display:column>
-              <display:column class="infocell" sortable="true" title="Ref Origin Code" ><c:out value="${allEntries.referenceFinancialSystemOriginationCode}" />&nbsp;</display:column>
-              <display:column class="infocell" sortable="true" title="Ref Doc Number" ><c:out value="${allEntries.documentNumber}" />&nbsp;</display:column>
-              <display:column class="infocell" sortable="true" title="Reversal Date" ><c:out value="${allEntries.documentNumber}" />&nbsp;</display:column>
-              <display:column class="infocell" sortable="true" title="Enc Update Code" ><c:out value="${allEntries.transactionEncumbranceUpdateCode}" />&nbsp;</display:column>
-            </display:table>
+            <glcp:displayOriginEntrySearchResults originEntries="${KualiForm.displayEntries}"/>
           </td>
         </tr>
       </table>
@@ -662,6 +586,7 @@
               <html:checkbox property="processInBatch" title="processInBatch" disabled="true"/> <STRONG> Process In Batch </STRONG> &nbsp; &nbsp; &nbsp; &nbsp;  
               <c:if test="${KualiForm.document.correctionTypeCode == 'C'}" >
                 <html:checkbox property="matchCriteriaOnly" alt="matchCriteriaOnly" disabled="true"/> <STRONG> Output only records which match criteria? </STRONG>
+                <html:hidden property="matchCriteriaOnly"/><%--disabled checkbox above is not submitted, so we create a hidden input --%>
               </c:if>
             </center>
           </td>

@@ -15,9 +15,16 @@
  */
 package org.kuali.module.gl.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.collections.comparators.ComparableComparator;
 import org.kuali.core.dao.DocumentDao;
+import org.kuali.core.web.comparator.NumericValueComparator;
+import org.kuali.core.web.comparator.StringValueComparator;
+import org.kuali.core.web.comparator.TemporalValueComparator;
+import org.kuali.core.web.ui.Column;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
 import org.kuali.module.gl.dao.CorrectionChangeDao;
 import org.kuali.module.gl.dao.CorrectionChangeGroupDao;
@@ -84,5 +91,172 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
 
     public void setDocumentDao(DocumentDao documentDao) {
         this.documentDao = documentDao;
+    }
+
+    private List<Column> cachedColumns = null;
+    
+    /**
+     * @see org.kuali.module.gl.service.CorrectionDocumentService#getTableRenderColumnMetadata(java.lang.String)
+     */
+    public List<Column> getTableRenderColumnMetadata(String docId) {
+        synchronized (this) {
+            if (cachedColumns == null) {
+                cachedColumns = new ArrayList<Column>();
+                Column columnToAdd;
+                
+                columnToAdd = new Column();
+                columnToAdd.setColumnTitle("Fiscal Year");
+                columnToAdd.setPropertyName("universityFiscalYear");
+                columnToAdd.setValueComparator(NumericValueComparator.getInstance());
+                cachedColumns.add(columnToAdd);
+
+                columnToAdd = new Column();
+                columnToAdd.setColumnTitle("Chart Code");
+                columnToAdd.setPropertyName("chartOfAccountsCode");
+                columnToAdd.setValueComparator(StringValueComparator.getInstance());
+                cachedColumns.add(columnToAdd);
+
+                columnToAdd = new Column();
+                columnToAdd.setColumnTitle("Account Number");
+                columnToAdd.setPropertyName("accountNumber");
+                columnToAdd.setValueComparator(StringValueComparator.getInstance());
+                cachedColumns.add(columnToAdd);
+
+                columnToAdd = new Column();
+                columnToAdd.setColumnTitle("Sub Account Number");
+                columnToAdd.setPropertyName("subAccountNumber");
+                columnToAdd.setValueComparator(StringValueComparator.getInstance());
+                cachedColumns.add(columnToAdd);
+
+                columnToAdd = new Column();
+                columnToAdd.setColumnTitle("Object Code");
+                columnToAdd.setPropertyName("financialObjectCode");
+                columnToAdd.setValueComparator(StringValueComparator.getInstance());
+                cachedColumns.add(columnToAdd);
+
+                columnToAdd = new Column();
+                columnToAdd.setColumnTitle("Sub Object Code");
+                columnToAdd.setPropertyName("financialSubObjectCode");
+                columnToAdd.setValueComparator(StringValueComparator.getInstance());
+                cachedColumns.add(columnToAdd);
+
+                columnToAdd = new Column();
+                columnToAdd.setColumnTitle("Balance Type");
+                columnToAdd.setPropertyName("financialBalanceTypeCode");
+                columnToAdd.setValueComparator(StringValueComparator.getInstance());
+                cachedColumns.add(columnToAdd);
+
+                columnToAdd = new Column();
+                columnToAdd.setColumnTitle("Object Type");
+                columnToAdd.setPropertyName("financialObjectTypeCode");
+                columnToAdd.setValueComparator(StringValueComparator.getInstance());
+                cachedColumns.add(columnToAdd);
+
+                columnToAdd = new Column();
+                columnToAdd.setColumnTitle("Fiscal Period");
+                columnToAdd.setPropertyName("universityFiscalPeriodCode");
+                columnToAdd.setValueComparator(StringValueComparator.getInstance());
+                cachedColumns.add(columnToAdd);
+
+                columnToAdd = new Column();
+                columnToAdd.setColumnTitle("Document Type");
+                columnToAdd.setPropertyName("financialDocumentTypeCode");
+                columnToAdd.setValueComparator(StringValueComparator.getInstance());
+                cachedColumns.add(columnToAdd);
+
+                columnToAdd = new Column();
+                columnToAdd.setColumnTitle("Origin Code");
+                columnToAdd.setPropertyName("financialSystemOriginationCode");
+                columnToAdd.setValueComparator(StringValueComparator.getInstance());
+                cachedColumns.add(columnToAdd);
+
+                columnToAdd = new Column();
+                columnToAdd.setColumnTitle("Document Number");
+                columnToAdd.setPropertyName("documentNumber");
+                columnToAdd.setValueComparator(StringValueComparator.getInstance());
+                cachedColumns.add(columnToAdd);
+
+                columnToAdd = new Column();
+                columnToAdd.setColumnTitle("Sequence Number");
+                columnToAdd.setValueComparator(NumericValueComparator.getInstance());
+                columnToAdd.setPropertyName("transactionLedgerEntrySequenceNumber");
+                cachedColumns.add(columnToAdd);
+
+                columnToAdd = new Column();
+                columnToAdd.setColumnTitle("Description");
+                columnToAdd.setPropertyName("transactionLedgerEntryDescription");
+                columnToAdd.setValueComparator(StringValueComparator.getInstance());
+                cachedColumns.add(columnToAdd);
+
+                columnToAdd = new Column();
+                columnToAdd.setColumnTitle("Amount");
+                columnToAdd.setValueComparator(NumericValueComparator.getInstance());
+                columnToAdd.setPropertyName("transactionLedgerEntryAmount");
+                cachedColumns.add(columnToAdd);
+
+                columnToAdd = new Column();
+                columnToAdd.setColumnTitle("Debit Credit Indicator");
+                columnToAdd.setPropertyName("transactionDebitCreditCode");
+                columnToAdd.setValueComparator(StringValueComparator.getInstance());
+                cachedColumns.add(columnToAdd);
+
+                columnToAdd = new Column();
+                columnToAdd.setColumnTitle("Transaction Date");
+                columnToAdd.setPropertyName("transactionDate");
+                columnToAdd.setValueComparator(TemporalValueComparator.getInstance());
+                cachedColumns.add(columnToAdd);
+
+                columnToAdd = new Column();
+                columnToAdd.setColumnTitle("Org Doc Number");
+                columnToAdd.setPropertyName("organizationDocumentNumber");
+                columnToAdd.setValueComparator(StringValueComparator.getInstance());
+                cachedColumns.add(columnToAdd);
+
+                columnToAdd = new Column();
+                columnToAdd.setColumnTitle("Project Code");
+                columnToAdd.setPropertyName("projectCode");
+                columnToAdd.setValueComparator(StringValueComparator.getInstance());
+                cachedColumns.add(columnToAdd);
+
+                columnToAdd = new Column();
+                columnToAdd.setColumnTitle("Org Ref ID");
+                columnToAdd.setPropertyName("organizationReferenceId");
+                columnToAdd.setValueComparator(StringValueComparator.getInstance());
+                cachedColumns.add(columnToAdd);
+
+                columnToAdd = new Column();
+                columnToAdd.setColumnTitle("Ref Doc Type");
+                columnToAdd.setPropertyName("referenceFinancialDocumentTypeCode");
+                columnToAdd.setValueComparator(StringValueComparator.getInstance());
+                cachedColumns.add(columnToAdd);
+
+                columnToAdd = new Column();
+                columnToAdd.setColumnTitle("Ref Origin Code");
+                columnToAdd.setPropertyName("referenceFinancialSystemOriginationCode");
+                columnToAdd.setValueComparator(StringValueComparator.getInstance());
+                cachedColumns.add(columnToAdd);
+
+                columnToAdd = new Column();
+                columnToAdd.setColumnTitle("Ref Doc Number");
+                columnToAdd.setPropertyName("referenceFinancialDocumentNumber");
+                columnToAdd.setValueComparator(StringValueComparator.getInstance());
+                cachedColumns.add(columnToAdd);
+
+                columnToAdd = new Column();
+                columnToAdd.setColumnTitle("Reversal Date");
+                columnToAdd.setPropertyName("financialDocumentReversalDate");
+                columnToAdd.setValueComparator(StringValueComparator.getInstance());
+                cachedColumns.add(columnToAdd);
+
+                columnToAdd = new Column();
+                columnToAdd.setColumnTitle("Enc Update Code");
+                columnToAdd.setPropertyName("transactionEncumbranceUpdateCode");
+                columnToAdd.setValueComparator(StringValueComparator.getInstance());
+                cachedColumns.add(columnToAdd);
+                
+                cachedColumns = Collections.unmodifiableList(cachedColumns);
+            }
+        }
+        return cachedColumns;
     }
 }

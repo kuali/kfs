@@ -372,7 +372,7 @@ public class OriginEntryServiceImpl implements OriginEntryService {
      * 
      * @see org.kuali.module.gl.service.OriginEntryService#getMatchingEntriesByCollection(java.util.Map)
      */
-    public Collection getMatchingEntriesByCollection(Map searchCriteria) {
+    public Collection<OriginEntry> getMatchingEntriesByCollection(Map searchCriteria) {
         LOG.debug("getMatchingEntriesByCollection() started");
 
         return originEntryDao.getMatchingEntriesByCollection(searchCriteria);
@@ -446,6 +446,13 @@ public class OriginEntryServiceImpl implements OriginEntryService {
         return output;
     }
     
+
+    /**
+     * @see org.kuali.module.gl.service.OriginEntryService#getGroupCount(java.lang.Integer)
+     */
+    public Integer getGroupCount(Integer groupId) {
+        return originEntryDao.getGroupCount(groupId);
+    }
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;

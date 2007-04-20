@@ -39,7 +39,8 @@ import org.kuali.rice.KNSServiceLocator;
 public class PositionSalarySettingForm extends KualiForm {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PositionSalarySettingForm.class);
 
-    private BudgetConstructionPosition budgetConstructionPosition; 
+    private BudgetConstructionPosition budgetConstructionPosition;
+    private PendingBudgetConstructionAppointmentFunding newBCAFLine;
 
     //TODO probably need to push these and some url parms to new superclass BCExpansionForm??
     private boolean hideDetails = false;
@@ -111,7 +112,7 @@ public class PositionSalarySettingForm extends KualiForm {
     private void populateBCAFLine(PendingBudgetConstructionAppointmentFunding line){
 
 //        final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject", "financialSubObject", "laborObject", "budgetConstructionMonthly"}));
-      final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] {"chartOfAccounts", "account", "subAccount", "financialObject", "financialSubObject", "budgetConstructionDuration"}));
+      final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] {"chartOfAccounts", "account", "subAccount", "financialObject", "financialSubObject", "bcnCalculatedSalaryFoundationTracker", "budgetConstructionDuration"}));
 //        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(line, REFRESH_FIELDS);
         KNSServiceLocator.getPersistenceService().retrieveReferenceObjects(line, REFRESH_FIELDS);
 
@@ -336,6 +337,41 @@ public class PositionSalarySettingForm extends KualiForm {
 
 //TODO probably don't need these, editingmode drives expansion screen actions
 //        setDocumentActionFlags(documentAuthorizer.getDocumentActionFlags(document, kualiUser));
+    }
+
+    /**
+     * Gets the newBCAFLine attribute. 
+     * @return Returns the newBCAFLine.
+     */
+    public PendingBudgetConstructionAppointmentFunding getNewBCAFLine() {
+        if (this.newBCAFLine == null){
+            this.setNewBCAFLine(new PendingBudgetConstructionAppointmentFunding());
+            this.initNewLine(this.newBCAFLine);
+        }
+        return newBCAFLine;
+    }
+
+    /**
+     * Sets the newBCAFLine attribute value.
+     * @param newBCAFLine The newBCAFLine to set.
+     */
+    public void setNewBCAFLine(PendingBudgetConstructionAppointmentFunding newBCAFLine) {
+        this.newBCAFLine = newBCAFLine;
+    }
+
+    /**
+     * This sets the default fields not setable by the user for added lines
+     * and any other required initialization
+     * 
+     * @param line
+     */
+    private void initNewLine(PendingBudgetConstructionAppointmentFunding line){
+
+        BudgetConstructionPosition bcPosn = this.getBudgetConstructionPosition();
+        line.setUniversityFiscalYear(bcPosn.getUniversityFiscalYear());
+        line.setPositionNumber(bcPosn.getPositionNumber());
+        line.setAppointmentFundingDeleteIndicator(false);
+        
     }
 
     /**

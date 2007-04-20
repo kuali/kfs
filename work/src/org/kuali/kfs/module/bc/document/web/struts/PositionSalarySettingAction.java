@@ -15,7 +15,10 @@
  */
 package org.kuali.module.budget.web.struts.action;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -116,6 +119,32 @@ public class PositionSalarySettingAction extends KualiAction {
         
         String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.SALARY_SETTING_ACTION, parameters);
         return new ActionForward(lookupUrl, true);
+    }
+
+    /**
+     * @see org.kuali.core.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        PositionSalarySettingForm positionSalarySettingForm = (PositionSalarySettingForm) form;
+
+        // Do specific refresh stuff here based on refreshCaller parameter
+        // typical refresh callers would be kualiLookupable or reasoncode??
+        // need to look at optmistic locking problems since we will be storing the values in the form before hand
+        // this locking problem may workout if we store first then put the form in session
+        String refreshCaller = request.getParameter(Constants.REFRESH_CALLER);
+
+        //TODO may need to check for reason code called refresh here
+
+        //TODO this should figure out if user is returning to a rev or exp line and refresh just that
+        //TODO this should also keep original values of obj, sobj to compare and null out dependencies when needed
+        if (refreshCaller != null && refreshCaller.equalsIgnoreCase(Constants.KUALI_LOOKUPABLE_IMPL)){
+            final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] {"chartOfAccounts", "account", "subAccount", "financialObject", "financialSubObject", "budgetConstructionDuration"}));
+            KNSServiceLocator.getPersistenceService().retrieveReferenceObjects(positionSalarySettingForm.getNewBCAFLine(), REFRESH_FIELDS);            
+        }
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**

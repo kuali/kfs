@@ -48,29 +48,24 @@
 <div class="tab-container" align=center>
     <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
         <bc:subheadingWithDetailToggleRow
-          columnCount="15"
+          columnCount="12"
           subheading="Position" />
         <tr>
             <kul:htmlAttributeHeaderCell
-                labelFor="KualiForm.budgetConstructionPosition.positionNumber"
-                literalLabel="Fy/Pos#:"
-                horizontal="true" >
+                labelFor="KualiForm.budgetConstructionPosition.universityFiscalYear"
+                literalLabel="<span class=\"nowrap\">Pos#/Fy:</span>"
+                horizontal="true" colspan="3" >
               <html:hidden property="returnAnchor" />
               <html:hidden property="returnFormKey" />
+              <html:hidden property="universityFiscalYear" />
               <html:hidden property="chartOfAccountsCode" />
               <html:hidden property="accountNumber" />
               <html:hidden property="subAccountNumber" />
               <html:hidden property="financialObjectCode" />
               <html:hidden property="financialSubObjectCode" />
+              <html:hidden property="positionNumber" />
               <html:hidden property="returnFormKey" />
             </kul:htmlAttributeHeaderCell>
-
-            <bc:pbglLineDataCell dataCellCssClass="datacell"
-                cellProperty="budgetConstructionPosition.universityFiscalYear"
-                field="universityFiscalYear"
-                attributes="${positionAttributes}"
-                readOnly="true"
-                displayHidden="false" />
             <bc:pbglLineDataCell dataCellCssClass="datacell"
                 accountingLine="budgetConstructionPosition"
                 field="positionNumber"
@@ -82,37 +77,47 @@
                 lookupOrInquiryKeys="universityFiscalYear"
                 accountingLineValuesMap="${KualiForm.budgetConstructionPosition.valuesMap}" />
             <bc:pbglLineDataCell dataCellCssClass="datacell"
-                cellProperty="budgetConstructionPosition.positionDescription"
-                field="positionDescription"
+                cellProperty="budgetConstructionPosition.universityFiscalYear"
+                field="universityFiscalYear"
                 attributes="${positionAttributes}"
-                colSpan="8"
                 readOnly="true"
                 displayHidden="false" />
             <kul:htmlAttributeHeaderCell
-                labelFor="KualiForm.budgetConstructionPosition.iuDefaultObjectCode"
-                literalLabel="Dflt.Obj:"
+                labelFor="KualiForm.budgetConstructionPosition.positionDescription"
+                literalLabel="<span class=\"nowrap\">Pos.Desc:</span>"
                 horizontal="true" />
+            <bc:pbglLineDataCell dataCellCssClass="datacell"
+                cellProperty="budgetConstructionPosition.positionDescription"
+                field="positionDescription"
+                attributes="${positionAttributes}"
+                colSpan="6"
+                readOnly="true"
+                displayHidden="false" />
+       </tr>
+        <tr>
+            <kul:htmlAttributeHeaderCell
+                labelFor="KualiForm.budgetConstructionPosition.iuDefaultObjectCode"
+                literalLabel="<span class=\"nowrap\">Dflt.Obj:</span>"
+                horizontal="true" colspan="3" />
             <bc:pbglLineDataCell dataCellCssClass="datacell"
                 cellProperty="budgetConstructionPosition.iuDefaultObjectCode"
                 field="iuDefaultObjectCode"
                 attributes="${positionAttributes}"
                 readOnly="true"
-                displayHidden="false" />
+                displayHidden="false" colSpan="2" />
             <kul:htmlAttributeHeaderCell
                 labelFor="KualiForm.budgetConstructionPosition.positionDepartmentIdentifier"
-                literalLabel="Dflt.Obj:"
+                literalLabel="<span class=\"nowrap\">Coa-Org:</span>"
                 horizontal="true" />
             <bc:pbglLineDataCell dataCellCssClass="datacell"
                 cellProperty="budgetConstructionPosition.positionDepartmentIdentifier"
                 field="positionDepartmentIdentifier"
                 attributes="${positionAttributes}"
                 readOnly="true"
-                displayHidden="false" />
-        </tr>
-        <tr>
+                displayHidden="false" colSpan="2" />
             <kul:htmlAttributeHeaderCell
                 labelFor="KualiForm.budgetConstructionPosition.jobCode"
-                literalLabel="SetId/JCode:"
+                literalLabel="<span class=\"nowrap\">SetId:</span>"
                 horizontal="true" />
             <bc:pbglLineDataCell dataCellCssClass="datacell"
                 cellProperty="budgetConstructionPosition.setidJobCode"
@@ -120,26 +125,28 @@
                 attributes="${positionAttributes}"
                 readOnly="true"
                 displayHidden="false" />
+            <kul:htmlAttributeHeaderCell
+                labelFor="KualiForm.budgetConstructionPosition.jobCode"
+                literalLabel="<span class=\"nowrap\">JCode:</span>"
+                horizontal="true" />
             <bc:pbglLineDataCell dataCellCssClass="datacell"
                 cellProperty="budgetConstructionPosition.jobCode"
                 field="jobCode"
                 attributes="${positionAttributes}"
                 readOnly="true"
                 displayHidden="false" />
+        </tr>
+        <tr>
             <kul:htmlAttributeHeaderCell
                 labelFor="KualiForm.budgetConstructionPosition.positionSalaryPlanDefault"
-                literalLabel="SalPln:"
-                horizontal="true" />
+                literalLabel="<span class=\"nowrap\">SalPln/Grd:</span>"
+                horizontal="true" colspan="3" />
             <bc:pbglLineDataCell dataCellCssClass="datacell"
                 cellProperty="budgetConstructionPosition.positionSalaryPlanDefault"
                 field="positionSalaryPlanDefault"
                 attributes="${positionAttributes}"
                 readOnly="true"
                 displayHidden="false" />
-            <kul:htmlAttributeHeaderCell
-                labelFor="KualiForm.budgetConstructionPosition.positionGradeDefault"
-                literalLabel="Grd:"
-                horizontal="true" />
             <bc:pbglLineDataCell dataCellCssClass="datacell"
                 cellProperty="budgetConstructionPosition.positionGradeDefault"
                 field="positionGradeDefault"
@@ -148,7 +155,7 @@
                 displayHidden="false" />
             <kul:htmlAttributeHeaderCell
                 labelFor="KualiForm.budgetConstructionPosition.iuNormalWorkMonths"
-                literalLabel="WM:"
+                literalLabel="<span class=\"nowrap\">WM/PM:</span>"
                 horizontal="true" />
             <bc:pbglLineDataCell dataCellCssClass="datacell"
                 cellProperty="budgetConstructionPosition.iuNormalWorkMonths"
@@ -156,10 +163,6 @@
                 attributes="${positionAttributes}"
                 readOnly="true"
                 displayHidden="false" />
-            <kul:htmlAttributeHeaderCell
-                labelFor="KualiForm.budgetConstructionPosition.iuPayMonths"
-                literalLabel="PM:"
-                horizontal="true" />
             <bc:pbglLineDataCell dataCellCssClass="datacell"
                 cellProperty="budgetConstructionPosition.iuPayMonths"
                 field="iuPayMonths"
@@ -168,7 +171,7 @@
                 displayHidden="false" />
             <kul:htmlAttributeHeaderCell
                 labelFor="KualiForm.budgetConstructionPosition.positionStandardHoursDefault"
-                literalLabel="SHr:"
+                literalLabel="<span class=\"nowrap\">SHr:</span>"
                 horizontal="true" />
             <fmt:formatNumber value="${KualiForm.budgetConstructionPosition.positionStandardHoursDefault}" var="formattedNumber" type="number" groupingUsed="true" minFractionDigits="2" />
             <bc:pbglLineDataCell dataCellCssClass="datacell"
@@ -179,8 +182,8 @@
                 formattedNumberValue="${formattedNumber}"
                 displayHidden="false" dataFieldCssClass="amount" />
             <kul:htmlAttributeHeaderCell
-                labelFor="KualiForm.budgetConstructionPosition.positionFullTimeEquivalency"
-                literalLabel="FTE:"
+                labelFor="KualiForm.budgetConstructionPosition.positionStandardHoursDefault"
+                literalLabel="<span class=\"nowrap\">FTE:</span>"
                 horizontal="true" />
             <fmt:formatNumber value="${KualiForm.budgetConstructionPosition.positionFullTimeEquivalency}" var="formattedNumber" type="number" groupingUsed="true" minFractionDigits="2" />
             <bc:pbglLineDataCell dataCellCssClass="datacell"
@@ -191,14 +194,185 @@
                 formattedNumberValue="${formattedNumber}"
                 displayHidden="false" />
         </tr>
+<%--
     </table>
         
     <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
+--%>
         <tr>
             <td colspan="12" class="subhead">
             <span class="subhead-left">Funding</span>
             </td>
         </tr>
+
+        <%-- Add line header for newBCAFLine--%>
+        <tr>
+            <kul:htmlAttributeHeaderCell colspan="2" >
+            </kul:htmlAttributeHeaderCell>
+            <kul:htmlAttributeHeaderCell
+                labelFor="KualiForm.newBCAFLine.chartOfAccountCode"
+                literalLabel="<span class=\"nowrap\">Cht</span>" />
+            <kul:htmlAttributeHeaderCell
+                labelFor="KualiForm.newBCAFLine.accountNumber"
+                literalLabel="<span class=\"nowrap\">Acct</span>" />
+            <kul:htmlAttributeHeaderCell
+                labelFor="KualiForm.newBCAFLine.subAccountNumber"
+                literalLabel="<span class=\"nowrap\">SAcct</span>" />
+            <kul:htmlAttributeHeaderCell
+                labelFor="KualiForm.newBCAFLine.financialObjectCode"
+                literalLabel="<span class=\"nowrap\">Obj</span>" />
+            <kul:htmlAttributeHeaderCell
+                labelFor="KualiForm.newBCAFLine.financialSubObjectCode"
+                literalLabel="<span class=\"nowrap\">SObj</span>" />
+            <kul:htmlAttributeHeaderCell
+                labelFor="KualiForm.newBCAFLine.emplid"
+                literalLabel="<span class=\"nowrap\">Emplid</span>" />
+            <kul:htmlAttributeHeaderCell
+                labelFor="KualiForm.newBCAFLine.budgetConstructionIntendedIncumbent.personName"
+                literalLabel="<span class=\"nowrap\">Name</span>" />
+            <kul:htmlAttributeHeaderCell
+                labelFor="KualiForm.newBCAFLine.budgetConstructionIntendedIncumbent.iuClassificationLevel"
+                literalLabel="<span class=\"nowrap\">Lvl</span>" />
+<%-- TODO add administrative post table ref to BCAF --%>
+            <th>
+                AdmPst
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+
+        <%-- add line data key line --%>
+        <tr>
+           <kul:htmlAttributeHeaderCell
+               scope="row" rowspan="1" colspan="2"
+               literalLabel="Add:" >
+<%-- TODO add the others --%>
+                <html:hidden property="newBCAFLine.universityFiscalYear" />
+                <html:hidden property="newBCAFLine.positionNumber" />
+                <html:hidden property="newBCAFLine.appointmentFundingDeleteIndicator" />
+                <html:hidden property="newBCAFLine.versionNumber" />
+           </kul:htmlAttributeHeaderCell>
+
+           <bc:pbglLineDataCell dataCellCssClass="infoline"
+               accountingLine="newBCAFLine"
+               field="chartOfAccountsCode" detailFunction="loadChartInfo"
+               detailField="chartOfAccounts.finChartOfAccountDescription"
+               attributes="${bcafAttributes}" lookup="true" inquiry="true"
+               boClassSimpleName="Chart"
+               readOnly="${readOnly}"
+               displayHidden="false"
+               accountingLineValuesMap="${KualiForm.newBCAFLine.valuesMap}"
+               anchor="salarynewLineLineAnchor" />
+
+           <bc:pbglLineDataCell dataCellCssClass="infoline"
+               accountingLine="newBCAFLine"
+               field="accountNumber" detailFunction="loadAccountInfo"
+               detailField="account.accountName"
+               attributes="${bcafAttributes}" lookup="true" inquiry="true"
+               boClassSimpleName="Account"
+               readOnly="${readOnly}"
+               displayHidden="false"
+               lookupOrInquiryKeys="chartOfAccountsCode"
+               accountingLineValuesMap="${KualiForm.newBCAFLine.valuesMap}"
+               anchor="salarynewLineLineFYAnchor" />
+           
+           <bc:pbglLineDataCell dataCellCssClass="infoline"
+               accountingLine="newBCAFLine"
+               field="subAccountNumber" detailFunction="loadSubAccountInfo"
+               detailField="subAccount.subAccountName"
+               attributes="${bcafAttributes}" lookup="true" inquiry="true"
+               boClassSimpleName="SubAccount"
+               readOnly="${readOnly}"
+               displayHidden="false"
+               lookupOrInquiryKeys="chartOfAccountsCode,accountNumber"
+               accountingLineValuesMap="${KualiForm.newBCAFLine.valuesMap}" />
+
+           <bc:pbglLineDataCell dataCellCssClass="infoline"
+               accountingLine="newBCAFLine"
+               field="financialObjectCode" detailFunction="loadObjectInfo"
+               detailFunctionExtraParam="'KualiForm.newBCAFLine.universityFiscalYear', "
+               detailField="financialObject.financialObjectCodeShortName"
+               attributes="${bcafAttributes}" lookup="true" inquiry="true"
+               boClassSimpleName="ObjectCode"
+               readOnly="${readOnly}"
+               displayHidden="false"
+               lookupOrInquiryKeys="chartOfAccountsCode"
+               accountingLineValuesMap="${KualiForm.newBCAFLine.valuesMap}"
+               inquiryExtraKeyValues="universityFiscalYear=${KualiForm.newBCAFLine.universityFiscalYear}" />
+
+           <c:set var="doLookupOrInquiry" value="false"/>
+           <c:if test="${KualiForm.newBCAFLine.financialSubObjectCode ne Constants.DASHES_SUB_OBJECT_CODE}">
+               <c:set var="doLookupOrInquiry" value="true"/>
+           </c:if>
+           <bc:pbglLineDataCell dataCellCssClass="datacell"
+               accountingLine="newBCAFLine"
+               field="financialSubObjectCode" detailFunction="loadSubObjectInfo"
+               detailFunctionExtraParam="'KualiForm.newBCAFLine.universityFiscalYear', "
+               detailField="financialSubObject.financialSubObjectCdshortNm"
+               attributes="${bcafAttributes}" inquiry="${doLookupOrInquiry}"
+               boClassSimpleName="SubObjCd"
+               readOnly="${readOnly}"
+               displayHidden="false"
+               lookupOrInquiryKeys="chartOfAccountsCode,financialObjectCode,accountNumber"
+               accountingLineValuesMap="${KualiForm.newBCAFLine.valuesMap}"
+               inquiryExtraKeyValues="universityFiscalYear=${KualiForm.newBCAFLine.universityFiscalYear}" />
+
+           <c:set var="doLookupOrInquiry" value="false"/>
+           <c:if test="${KualiForm.newBCAFLine.emplid ne Constants.BudgetConstructionConstants.VACANT_EMPLID}">
+               <c:set var="doLookupOrInquiry" value="true"/>
+           </c:if>
+           <bc:pbglLineDataCell dataCellCssClass="datacell"
+               accountingLine="newBCAFLine"
+               field="emplid"
+               attributes="${bcafAttributes}" inquiry="${doLookupOrInquiry}"
+               boClassSimpleName="BudgetConstructionIntendedIncumbent"
+               boPackageName="org.kuali.module.budget.bo"
+               readOnly="${readOnly}"
+               displayHidden="false"
+               accountingLineValuesMap="${KualiForm.newBCAFLine.valuesMap}" />
+
+<%-- TODO format name to break into separate lines at comma to save horizontal screen realestate --%>
+            <c:choose>
+            <c:when test="${KualiForm.newBCAFLine.emplid ne Constants.BudgetConstructionConstants.VACANT_EMPLID}">
+                <bc:pbglLineDataCell dataCellCssClass="datacell"
+                    cellProperty="newBCAFLine.budgetConstructionIntendedIncumbent.personName"
+                    field="personName"
+                    attributes="${intincAttributes}"
+                    readOnly="true"
+                    displayHidden="false" />
+                <bc:pbglLineDataCell dataCellCssClass="datacell"
+                    cellProperty="newBCAFLine.budgetConstructionIntendedIncumbent.iuClassificationLevel"
+                    field="iuClassificationLevel"
+                    attributes="${intincAttributes}"
+                    readOnly="true"
+                    displayHidden="false" />
+<%--
+                <td>${item.budgetConstructionIntendedIncumbent.iuClassificationLevel}</td>
+--%>
+<%-- TODO add adminstrative post ref to BCAF and here --%>
+                <td>&nbsp;</td>
+            </c:when>
+            <c:otherwise>
+                <bc:pbglLineDataCell dataCellCssClass="datacell"
+                    cellProperty="newBCAFLine.budgetConstructionIntendedIncumbent.personName"
+                    field="personName"
+                    attributes="${intincAttributes}"
+                    readOnly="true"
+                    formattedNumberValue="${Constants.BudgetConstructionConstants.VACANT_EMPLID}"
+                    displayHidden="false" />
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </c:otherwise>
+            </c:choose>
+
+            <td class="infoline" nowrap>
+                <div align="center"><span class=nobord">
+                <html:image property="methodToCall.insertBCAFLine.anchorsalarynewLineLineAnchor" src="images/tinybutton-add1.gif" title="Add an Appointment Funding Line" alt="Add an Appointment Funding Line" styleClass="tinybutton"/>
+                </span></div>
+            </td>
+        </tr>
+
         <c:forEach items="${KualiForm.budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding}" var="item" varStatus="status">
         <tr>
             <kul:htmlAttributeHeaderCell />
@@ -238,7 +412,7 @@
               
         </tr>
         <tr>
-           <kul:htmlAttributeHeaderCell scope="row" rowspan="1" >
+           <kul:htmlAttributeHeaderCell scope="row" rowspan="1">
 <%-- TODO add the others --%>
                 <html:hidden property="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}].universityFiscalYear" />
                 <html:hidden property="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}].positionNumber" />
@@ -266,7 +440,7 @@
                accountingLine="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}]"
                field="accountNumber" detailFunction="loadAccountInfo"
                detailField="account.accountName"
-               attributes="${bcafLineAttributes}" inquiry="true"
+               attributes="${bcafAttributes}" inquiry="true"
                boClassSimpleName="Account"
                readOnly="true"
                displayHidden="false"
@@ -281,7 +455,7 @@
                accountingLine="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}]"
                field="subAccountNumber" detailFunction="loadSubAccountInfo"
                detailField="subAccount.subAccountName"
-               attributes="${bcafLineAttributes}" inquiry="${doAccountLookupOrInquiry}"
+               attributes="${bcafAttributes}" inquiry="${doAccountLookupOrInquiry}"
                boClassSimpleName="SubAccount"
                readOnly="true"
                displayHidden="false"
@@ -332,6 +506,7 @@
                displayHidden="false"
                accountingLineValuesMap="${item.valuesMap}" />
 
+<%-- TODO format name to break into separate lines at comma to save horizontal screen realestate --%>
             <c:choose>
             <c:when test="${item.emplid ne Constants.BudgetConstructionConstants.VACANT_EMPLID}">
                 <bc:pbglLineDataCell dataCellCssClass="datacell"
@@ -354,9 +529,9 @@
             </c:when>
             <c:otherwise>
                 <bc:pbglLineDataCell dataCellCssClass="datacell"
-                    cellProperty="budgetConstructionPosition.positionFullTimeEquivalency"
-                    field="positionFullTimeEquivalency"
-                    attributes="${positionAttributes}"
+                    cellProperty="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}].budgetConstructionIntendedIncumbent.personName"
+                    field="personName"
+                    attributes="${intincAttributes}"
                     readOnly="true"
                     formattedNumberValue="${Constants.BudgetConstructionConstants.VACANT_EMPLID}"
                     displayHidden="false" />

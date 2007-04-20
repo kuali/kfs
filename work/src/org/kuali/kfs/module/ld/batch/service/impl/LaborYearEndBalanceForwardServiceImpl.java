@@ -80,7 +80,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
     private KualiConfigurationService kualiConfigurationService;
 
     private final static int LINE_INTERVAL = 2;
-    
+
 
     /**
      * @see org.kuali.module.labor.service.LaborYearEndBalanceForwardService#forwardBalance()
@@ -210,7 +210,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
 
             KualiDecimal transactionAmount = balance.getAccountLineAnnualBalanceAmount();
             transactionAmount = transactionAmount.add(balance.getContractsGrantsBeginningBalanceAmount());
-            
+
             originEntry.setTransactionLedgerEntryAmount(transactionAmount.abs());
             originEntry.setTransactionDebitCreditCode(TransactionTemplate.getDebitCreditCode(transactionAmount, false));
 
@@ -324,6 +324,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
 
     /**
      * Sets the laborReportService attribute value.
+     * 
      * @param laborReportService The laborReportService to set.
      */
     public void setLaborReportService(LaborReportService laborReportService) {

@@ -85,12 +85,12 @@
             
             <tr>
                 <th align=right valign=middle class="bord-l-b">
-                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderDocument.purchaseOrderEndDate}" /></div>
+                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.KualiPurchaseOrderDocument.attributes.purchaseOrderEndDate}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrder.purchaseOrderEndDate}" property="document.purchaseOrderDocument.purchaseOrderEndDate" 
-                   readOnly="false" />
-               </td>    
+                   <kul:htmlControlAttribute property="document.purchaseOrderDocument.purchaseOrderEndDate" attributeEntry="${DataDictionary.KualiPurchaseOrderDocument.attributes.purchaseOrderEndDate}" 
+                   readOnly="true" />
+               </td>
                 <th align=right valign=middle class="bord-l-b">
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderClassificationTypeDescription}" /></div>
                 </th>

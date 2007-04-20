@@ -15,6 +15,16 @@
  */
 package org.kuali.module.purap.bo;
 
-public abstract class PurchasingItemBase extends PurApItemBase implements PurchasingItem {
+import org.kuali.core.util.KualiDecimal;
 
+public abstract class PurchasingItemBase extends PurApItemBase implements PurchasingItem {
+    private KualiDecimal itemQuantity;
+
+    public KualiDecimal getItemQuantity() {
+        return itemQuantity;
+    }
+
+    public void setItemQuantity(KualiDecimal itemQuantity) {
+        this.itemQuantity = itemQuantity;
+    }
 }

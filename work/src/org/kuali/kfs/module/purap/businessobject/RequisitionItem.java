@@ -27,7 +27,6 @@ import org.kuali.module.purap.document.RequisitionDocument;
  */
 public class RequisitionItem extends PurchasingItemBase {
 
-	private KualiDecimal itemQuantity;
 	private boolean itemRestrictedIndicator;
 
     private RequisitionDocument requisition;
@@ -42,22 +41,6 @@ public class RequisitionItem extends PurchasingItemBase {
 //        ra.setBudgetYear("2006");
 //        getAccountingLines().add(ra);
 	}
-
-    /**
-     * Gets the itemQuantity attribute. 
-     * @return Returns the itemQuantity.
-     */
-    public KualiDecimal getItemQuantity() {
-        return itemQuantity;
-    }
-
-    /**
-     * Sets the itemQuantity attribute value.
-     * @param itemQuantity The itemQuantity to set.
-     */
-    public void setItemQuantity(KualiDecimal itemQuantity) {
-        this.itemQuantity = itemQuantity;
-    }
 
     /**
      * Gets the itemRestrictedIndicator attribute. 

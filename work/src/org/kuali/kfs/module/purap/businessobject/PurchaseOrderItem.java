@@ -242,4 +242,13 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         return PurchaseOrderAccount.class;
     }    
     
+    @Override
+    public KualiDecimal getItemQuantity() {
+        return this.itemOrderedQuantity;
+    }
+    
+    @Override
+    public void setItemQuantity(KualiDecimal quantity) {
+        this.itemOrderedQuantity = quantity;
+    }
 }

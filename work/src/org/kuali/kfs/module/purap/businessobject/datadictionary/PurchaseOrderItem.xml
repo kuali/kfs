@@ -295,6 +295,21 @@
                 <description>itemLineNumber description...</description>
 			</attribute>
 
+            <attribute name="itemQuantity" forceUppercase="true">
+                <label>Item Quantity</label>
+                <shortLabel>Quantity</shortLabel>
+
+                <maxLength>11</maxLength>
+                <validationPattern><fixedPoint allowNegative="false" precision="11" scale="2" /></validationPattern>
+
+                <control>
+                    <text size="13" />
+                </control>
+
+                <summary>itemQuantity</summary>
+                <description>itemQuantity description...</description>
+			</attribute>
+			
             <attribute name="itemOrderedQuantity" forceUppercase="true">
                 <label>Item Ordered Quantity</label>
                 <shortLabel>Ordered Quantity</shortLabel>

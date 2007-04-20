@@ -29,7 +29,7 @@
 	<field-descriptor name="purchaseOrderAccountIdentifier" column="PO_ACCT_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="PO_ACCT_ID"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="purchaseOrderItemIdentifier" column="PO_ITM_ID" jdbc-type="INTEGER" index="true"/>
+	<field-descriptor name="itemIdentifier" column="PO_ITM_ID" jdbc-type="INTEGER" index="true"/>
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" index="true"/>
@@ -906,11 +906,11 @@
 	<field-descriptor name="purchaseOrderItemCapitalAssetIdentifier" column="PO_ITM_CPTL_AST_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="PO_ITM_CPTL_AST_ID"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="purchaseOrderItemIdentifier" column="PO_ITM_ID" jdbc-type="INTEGER" index="true"/>
+	<field-descriptor name="itemIdentifier" column="PO_ITM_ID" jdbc-type="INTEGER" index="true"/>
 	<field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT"/>
     <reference-descriptor name="purchaseOrderItem" class-ref="org.kuali.module.purap.bo.PurchaseOrderItem" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="documentNumber" />
-		<foreignkey field-ref="purchaseOrderItemIdentifier" />
+		<foreignkey field-ref="itemIdentifier" />
 	</reference-descriptor>
 </class-descriptor>
 

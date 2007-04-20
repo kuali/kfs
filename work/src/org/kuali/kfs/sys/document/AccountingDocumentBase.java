@@ -351,11 +351,11 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
     }
 
     public void prepareForSave(KualiDocumentEvent event) {
-        super.prepareForSave(event);
         if (!SpringServiceLocator.getGeneralLedgerPendingEntryService().generateGeneralLedgerPendingEntries(this)) {
             logErrors();
             throw new ValidationException("general ledger GLPE generation failed");
         }
+        super.prepareForSave(event);
     }
 
     @Override

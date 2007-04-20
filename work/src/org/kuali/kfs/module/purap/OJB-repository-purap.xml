@@ -543,6 +543,11 @@
     	<foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </reference-descriptor>
+    <collection-descriptor name="items" proxy="true" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderItem" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="itemLineNumber" sort="ASC" />
+        <inverse-foreignkey field-ref="purapDocumentIdentifier" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
 
     <!-- COMMON TO REQ AND PO DOCUMENTS -->
     <reference-descriptor name="fundingSource" class-ref="org.kuali.module.purap.bo.FundingSource" auto-retrieve="true" auto-update="none" auto-delete="none">

@@ -21,6 +21,9 @@ import static org.kuali.test.util.KualiTestAssertionUtils.assertSparselyEqualBea
 
 import java.lang.reflect.InvocationTargetException;
 
+import org.kuali.Constants;
+import org.kuali.core.bo.FinancialSystemParameter;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.OffsetAccount;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.TestUtils;
@@ -33,11 +36,12 @@ import org.kuali.test.suite.RelatesTo;
 @WithTestSpringContext
 public class FlexibleOffsetAccountServiceTest extends KualiTestBase {
 
-    @RelatesTo(RelatesTo.JiraIssue.KULRNE4463)
-    public void testGetByPrimaryId_valid() throws NoSuchMethodException, InvocationTargetException {
-        TestUtils.mockConfigurationServiceForFlexibleOffsetEnabled(true);
+    public void testGetByPrimaryId_valid() throws Exception {
+        boolean enabled = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterIndicator(Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG);
+   
+        TestUtils.setFlexibleOffsetSystemParameter(true);
         OffsetAccount offsetAccount = getFlexibleOffsetAccountService().getByPrimaryIdIfEnabled(OFFSET_ACCOUNT1.chartOfAccountsCode, OFFSET_ACCOUNT1.accountNumber, OFFSET_ACCOUNT1.financialOffsetObjectCode);
-        if (offsetAccount != null) {
+        if (offsetAccount == null) {
            throw new RuntimeException("Offset Account came back null, cannot perform asserts.");
         }
 

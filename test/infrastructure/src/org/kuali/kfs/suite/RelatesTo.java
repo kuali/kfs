@@ -53,7 +53,6 @@ public @interface RelatesTo {
         KULLAB54,
         KULLAB96,
         KULUT10,
-        KULRNE4463,
         KULRNE34
         ;
         

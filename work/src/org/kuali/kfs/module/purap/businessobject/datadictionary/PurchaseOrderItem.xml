@@ -178,7 +178,7 @@
 
             <attribute name="itemAssignedToTradeInIndicator" forceUppercase="true">
                 <label>Item Assigned To Trade In Indicator</label>
-                <shortLabel>Indicator</shortLabel>
+                <shortLabel>Trade In</shortLabel>
 
                 <maxLength>1</maxLength>
 
@@ -222,7 +222,7 @@
 
             <attribute name="itemCatalogNumber" forceUppercase="true">
                 <label>Item Catalog Number</label>
-                <shortLabel>Number</shortLabel>
+                <shortLabel>Catalog Number</shortLabel>
 
                 <maxLength>30</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -282,7 +282,7 @@
 
             <attribute name="itemLineNumber" forceUppercase="true">
                 <label>Item Line Number</label>
-                <shortLabel>Number</shortLabel>
+                <shortLabel>#</shortLabel>
 
                 <maxLength>3</maxLength>
                 <validationPattern><numeric /></validationPattern>
@@ -297,7 +297,7 @@
 
             <attribute name="itemOrderedQuantity" forceUppercase="true">
                 <label>Item Ordered Quantity</label>
-                <shortLabel>Quantity</shortLabel>
+                <shortLabel>Ordered Quantity</shortLabel>
 
                 <maxLength>11</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
@@ -312,7 +312,7 @@
 
             <attribute name="itemOutstandingEncumberedQuantity" forceUppercase="true">
                 <label>Item Outstanding Encumbered Quantity</label>
-                <shortLabel>Quantity</shortLabel>
+                <shortLabel>Outstanding Encumbered Quantity</shortLabel>
 
                 <maxLength>11</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
@@ -327,7 +327,7 @@
 
             <attribute name="itemOutstandingEncumbranceAmount" forceUppercase="true">
                 <label>Item Outstanding Encumbrance Amount</label>
-                <shortLabel>Amount</shortLabel>
+                <shortLabel>Outstanding Encumbrance Amount</shortLabel>
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
@@ -342,7 +342,7 @@
 
             <attribute name="itemReceivedTotalQuantity" forceUppercase="true">
                 <label>Item Received Total Quantity</label>
-                <shortLabel>Quantity</shortLabel>
+                <shortLabel>Received Total Quantity</shortLabel>
 
                 <maxLength>11</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
@@ -357,7 +357,7 @@
 
             <attribute name="itemReturnedTotalQuantity" forceUppercase="true">
                 <label>Item Returned Total Quantity</label>
-                <shortLabel>Quantity</shortLabel>
+                <shortLabel>Returned Total Quantity</shortLabel>
 
                 <maxLength>11</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
@@ -372,7 +372,7 @@
 
             <attribute name="itemTypeCode" forceUppercase="true">
                 <label>Item Type Code</label>
-                <shortLabel>Code</shortLabel>
+                <shortLabel>Type Code</shortLabel>
 
                 <maxLength>4</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -387,7 +387,7 @@
 
             <attribute name="itemUnitOfMeasureCode" forceUppercase="true">
                 <label>Item Unit Of Measure Code</label>
-                <shortLabel>Code</shortLabel>
+                <shortLabel>UOM</shortLabel>
 
                 <maxLength>4</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -415,9 +415,24 @@
                 <description>itemUnitPrice description...</description>
 			</attribute>
 
+            <attribute name="extendedPrice" forceUppercase="true">
+                <label>Extended Price</label>
+                <shortLabel>Extended Price</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>extendedPrice</summary>
+                <description>extendedPrice description...</description>
+			</attribute>
+			
             <attribute name="purchaseOrderCommodityCd" forceUppercase="true">
                 <label>Purchase Order Commodity Cd</label>
-                <shortLabel>Cd</shortLabel>
+                <shortLabel>Purchase Order Commodity Cd</shortLabel>
 
                 <maxLength>11</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>

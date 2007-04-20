@@ -56,10 +56,10 @@
     <purap:stipulationsAndInfo
         documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" />
 
-<%-- 
+
     <purap:puritems itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}"
         accountingLineAttributes="${DataDictionary.PurchaseOrderAccountingLine.attributes}"/> 
---%>
+
      
     <purap:paymentinfo
         documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" 

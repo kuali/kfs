@@ -57,13 +57,13 @@
                 <td align=left valign=middle class="datacell">
                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentPaidDate}" property="document.paymentPaidDate" />
                    &nbsp; &nbsp;<kul:htmlControlAttribute attributeEntry="${documentAttributes.immediatePaymentIndicator}" property="document.immediatePaymentIndicator" />
-                   &nbsp; &nbsp; "(immediate PaymentIndicator)"
+                   (immediate Pay)
                 </td>
                 <th align=right valign=middle class="bord-l-b">
-                   <div align="right"><kul:htmlAttributeLabel  attributeEntry="${DataDictionary.KualiPurchaseOrderDocument.attributes.statusChangeNote}" /></div>
+                   <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.purchaseOrderNotes}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${DataDictionary.KualiPurchaseOrderDocument.attributes.statusChangeNote}" property="document.purchaseOrderDocument.statusChangeNote" 
+                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderNotes}" property="document.purchaseOrderNotes" 
                    readOnly="true" />
                 </td>
             </tr>

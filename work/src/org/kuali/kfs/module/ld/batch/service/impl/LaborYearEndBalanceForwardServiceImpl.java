@@ -15,10 +15,11 @@
  */
 package org.kuali.module.labor.service.impl;
 
-import static org.kuali.Constants.ParameterGroups.SYSTEM;
 import static org.kuali.module.gl.bo.OriginEntrySource.LABOR_YEAR_END_BALANCE_FORWARD;
 import static org.kuali.module.labor.LaborConstants.DestinationNames.LEDGER_BALANCE;
 import static org.kuali.module.labor.LaborConstants.DestinationNames.ORIGN_ENTRY;
+import static org.kuali.module.labor.LaborConstants.ParameterGroups.SYSTEM;
+import static org.kuali.module.labor.LaborConstants.ParameterGroups.YEAR_END;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -46,6 +47,7 @@ import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.util.Message;
 import org.kuali.module.gl.util.Summary;
+import org.kuali.module.labor.LaborConstants.YearEnd;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.service.LaborLedgerBalanceService;
@@ -56,7 +58,6 @@ import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.util.ReportRegistry;
 import org.kuali.module.labor.util.TransactionTemplate;
 import org.springframework.transaction.annotation.Transactional;
-import org.kuali.module.labor.LaborConstants.YearEnd;
 
 /**
  * Labor Ledger Year End – Inception to Date Beginning Balance process moves the Year-to-Date Total plus the Contracts and Grants
@@ -79,6 +80,15 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
     private KualiConfigurationService kualiConfigurationService;
 
     private final static int LINE_INTERVAL = 2;
+    
+
+    /**
+     * @see org.kuali.module.labor.service.LaborYearEndBalanceForwardService#forwardBalance()
+     */
+    public void forwardBalance() {
+        Integer fiscalYear = Integer.valueOf(kualiConfigurationService.getApplicationParameterValue(YEAR_END, YearEnd.OLD_FISCAL_YEAR));
+        this.forwardBalance(fiscalYear);
+    }
 
     /**
      * @see org.kuali.module.labor.service.LaborYearEndBalanceForwardService#forwardBalance(java.lang.Integer)

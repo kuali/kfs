@@ -24,36 +24,15 @@ import org.kuali.module.labor.service.LaborYearEndBalanceForwardService;
 public class LaborYearEndBalanceForwardStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborYearEndBalanceForwardStep.class);
 
-    private LaborYearEndBalanceForwardService laborYearEndBalanceForwardService;
-    private Integer fiscalYear;  // TODO: this variable makes the step cannot be thread-safe. 
+    private LaborYearEndBalanceForwardService laborYearEndBalanceForwardService; 
 
     /**
      * @see org.kuali.core.batch.Step#execute()
      */
     public boolean execute() {
-        if(fiscalYear == null){
-            LOG.fatal("Cannot execute Labor Year End Balance Forward step: University Fiscal Year must be numeric.");
-            return false;
-        }
-        laborYearEndBalanceForwardService.forwardBalance(this.getFiscalYear());
+        laborYearEndBalanceForwardService.forwardBalance();
         return true;
     }
-
-    /**
-     * Gets the fiscalYear attribute. 
-     * @return Returns the fiscalYear.
-     */
-    public Integer getFiscalYear() {
-        return fiscalYear;
-    }
-
-    /**
-     * Sets the fiscalYear attribute value.
-     * @param fiscalYear The fiscalYear to set.
-     */
-    public void setFiscalYear(Integer fiscalYear) {
-        this.fiscalYear = fiscalYear;
-    }   
 
     /**
      * Sets the laborYearEndBalanceForwardService attribute value.

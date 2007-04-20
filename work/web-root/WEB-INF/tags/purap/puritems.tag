@@ -24,10 +24,7 @@
               description="The DataDictionary entry containing attributes for this row's fields."%>
 <%@ attribute name="accountingLineAttributes" required="true" type="java.util.Map" 
               description="The DataDictionary entry containing attributes for this row's fields."%>
-<%--
-<c:set var="itemAttributes" value="${DataDictionary['RequisitionItem'].attributes}" />
-<c:set var="accountingLineAttributes" value="${DataDictionary['RequisitionAccountingLine'].attributes}" />
---%>
+
 <kul:tab tabTitle="Items" defaultOpen="true">
     <div class="tab-container" align=center>
         <div class="h2-container">
@@ -64,13 +61,11 @@
 		<td class="infoline"><div align="center"><html:image property="methodToCall.addItem" src="images/tinybutton-add1.gif" alt="Insert an Item" title="Add an Item" styleClass="tinybutton"/></div></td>
 		</tr>
 		<tr><td width="100%" colspan="12"><!-- begin accounting lines -->
-		<span align="center"><%-- 
-		<purap:purapaccountingLines editingMode="${KualiForm.editingMode}"
-		editableAccounts="${KualiForm.editableAccounts}" /> 
-		--%>
+		<span align="center">
+		
 		<fin:accountingLines editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}" sourceAccountingLinesOnly="true" optionalFields="accountLinePercent"
-		accountPrefix="newPurchasingItemLine." hideTotalLine="true" hideFields="amount" accountingAddLineIndex="-1"/>
+		accountingLineAttributes="${accountingLineAttributes}" accountPrefix="newPurchasingItemLine." hideTotalLine="true" hideFields="amount" accountingAddLineIndex="-1"/>
 		
 		</span>
 		</tr></td><!-- end accounting line -->					
@@ -100,7 +95,7 @@
 				
 					<fin:accountingLines editingMode="${KualiForm.editingMode}"
 						editableAccounts="${KualiForm.editableAccounts}" sourceAccountingLinesOnly="true" optionalFields="accountLinePercent" extraHiddenFields=",accountIdentifier,itemIdentifier"
-						accountPrefix="document.item[${ctr}]." hideTotalLine="true" hideFields="amount" accountingAddLineIndex="${ctr}"/>					
+						accountingLineAttributes="${accountingLineAttributes}" accountPrefix="document.item[${ctr}]." hideTotalLine="true" hideFields="amount" accountingAddLineIndex="${ctr}"/>					
 		
 				</td>
 			</tr>

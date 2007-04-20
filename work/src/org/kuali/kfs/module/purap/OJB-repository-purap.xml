@@ -41,7 +41,7 @@
 	<field-descriptor name="itemAccountOutstandingEncumbranceAmount" column="ITM_ACCT_OSTND_ENCUM_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
     <reference-descriptor name="purchaseOrderItem" class-ref="org.kuali.module.purap.bo.PurchaseOrderItem" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="documentNumber" />
-		<foreignkey field-ref="purchaseOrderItemIdentifier" />
+		<foreignkey field-ref="itemIdentifier" />
 	</reference-descriptor>
 	<reference-descriptor name="chart" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />

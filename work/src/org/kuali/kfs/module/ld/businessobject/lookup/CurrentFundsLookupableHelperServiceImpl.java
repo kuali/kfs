@@ -54,8 +54,8 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
 
         setBackLocation((String) fieldValues.get(Constants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(Constants.DOC_FORM_KEY));
-        
-        if ((fieldValues.get(PropertyConstants.FINANCIAL_OBJECT_CODE).toString().length() > 0)) {
+
+        if (((fieldValues.get(PropertyConstants.FINANCIAL_OBJECT_CODE) != null) && (fieldValues.get(PropertyConstants.FINANCIAL_OBJECT_CODE).toString().length() > 0))) {
 
             // Check for a valid labor object code for this inquiry
             if (StringUtils.indexOfAny(fieldValues.get(PropertyConstants.FINANCIAL_OBJECT_CODE).toString(), LaborConstants.BalanceInquiries.VALID_LABOR_OBJECT_CODES) != 0)

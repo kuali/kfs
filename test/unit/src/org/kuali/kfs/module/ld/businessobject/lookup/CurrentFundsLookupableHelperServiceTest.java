@@ -16,11 +16,13 @@
 package org.kuali.module.labor.web.lookupable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.PropertyConstants;
 import org.kuali.core.lookup.LookupableHelperService;
 import org.kuali.core.service.BusinessObjectService;
@@ -52,7 +54,7 @@ public class CurrentFundsLookupableHelperServiceTest extends KualiTestBase {
     private int currentFundsExpectedInsertion;        
 
     /**
-     * Get things ready for the test
+     * Get ready for the test
      */
     @Override
     protected void setUp() throws Exception {
@@ -64,8 +66,8 @@ public class CurrentFundsLookupableHelperServiceTest extends KualiTestBase {
         lookupableHelperService = (LookupableHelperService) beanFactory.getBean("CurrentFundsLookupableHelperService");
         lookupableHelperService.setBusinessObjectClass(AccountStatusCurrentFunds.class);
 
-        // Clear up the datacurrent so that any existing data cannot affact your test result
-        HashMap keys = new HashMap();
+        // Clear up the data so that any existing data cannot affact your test result
+        Map keys = new HashMap();
         keys.put(PropertyConstants.ACCOUNT_NUMBER, "6044906");
         keys.put(PropertyConstants.UNIVERSITY_FISCAL_YEAR, "2004");
         keys.put(PropertyConstants.CHART_OF_ACCOUNTS_CODE, "BA");        
@@ -84,15 +86,12 @@ public class CurrentFundsLookupableHelperServiceTest extends KualiTestBase {
         accountStatusCurrentFunds.setAccountNumber("6044906");
         accountStatusCurrentFunds.setUniversityFiscalYear(2004);
         accountStatusCurrentFunds.setChartOfAccountsCode("BA");
-        if (1 == 1) {
-            assertTrue(true);
-            return;
-            }
 
-        // test the search results before the specified entry is inserted into the datacurrent
+        // test the search results before the specified entry is inserted
         Map fieldValues = buildFieldValues(accountStatusCurrentFunds, this.getLookupFields(false));
         List<String> groupByList = new ArrayList<String>();
         List<AccountStatusCurrentFunds> searchResults = lookupableHelperService.getSearchResults(fieldValues);
+        
         // Make sure the basic search parameters are returned from the inquiry
         for (AccountStatusCurrentFunds accountStatusCurrentFundsReturn : searchResults) {
               assertFalse(!(accountStatusCurrentFundsReturn.getAccountNumber().equals(accountStatusCurrentFunds.getAccountNumber()) &&
@@ -152,6 +151,11 @@ public class CurrentFundsLookupableHelperServiceTest extends KualiTestBase {
         fieldNames = properties.getProperty("fieldNames");
         documentFieldNames = properties.getProperty("fieldNames");
         deliminator = properties.getProperty("deliminator");
+
+        CalculatedSalaryFoundationTracker cleanup = new CalculatedSalaryFoundationTracker();
+        ObjectUtil.populateBusinessObject(cleanup, properties, "dataCleanup", fieldNames, deliminator);
+        Map fieldValues = ObjectUtil.buildPropertyMap(cleanup, Arrays.asList(StringUtils.split(fieldNames, deliminator)));
+        businessObjectService.deleteMatching(CalculatedSalaryFoundationTracker.class, fieldValues);
 
         TestDataGenerator testDataGenerator = new TestDataGenerator(propertiesFileName, messageFileName);
 

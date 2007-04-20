@@ -41,4 +41,11 @@
 	    </c:if>
         <html:image src="images/buttonsmall_close.gif" styleClass="globalbuttons" property="methodToCall.returnToCaller" title="close" alt="close"/>
     </div>
+
+<%-- Need these here to override and initialize vars used by objectinfo.js to BC specific --%>
+<SCRIPT type="text/javascript">
+  subObjectCodeNameSuffix = ".financialSubObject.financialSubObjectCdshortNm";
+  var kualiForm = document.forms['KualiForm'];
+  var kualiElements = kualiForm.elements;
+</SCRIPT>
 </kul:page>

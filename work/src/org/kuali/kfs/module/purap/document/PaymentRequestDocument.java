@@ -17,12 +17,14 @@
 package org.kuali.module.purap.document;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PaymentRequestStatus;
@@ -80,6 +82,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private Integer alternateVendorDetailAssignedIdentifier;
     private boolean continuationAccountIndicator;
     private Integer accountsPayablePurchasingDocumentLinkIdentifier;
+    private String purchaseOrderNotes;
+   // private Date purchaseOrderEndDate;
 
     private PaymentRequestStatus paymentRequestStatus;
     private Campus processingCampus;
@@ -1272,7 +1276,34 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public Class getItemClass() {
         return PaymentRequestItem.class;
     }
-    
+
+
+    /**
+     * Gets the purchaseOrderNotes attribute. 
+     * @return Returns the purchaseOrderNotes.
+     */
+    public String getPurchaseOrderNotes() {
+        ArrayList poNotes = SpringServiceLocator.getNoteService().getByRemoteObjectId((this.getPurchaseOrderIdentifier()).toString());
+        
+        if (poNotes.size() > 0){
+            return "Yes";
+            
+        }else{
+            
+        }
+        return "No";
+    }
+
+
+    /**
+     * Gets the purchaseOrderEndDate attribute. 
+     * @return Returns the purchaseOrderEndDate.
+     */
+  /*
+    public Date getPurchaseOrderEndDate() {
+        return purchaseOrderEndDate;
+    }
+    */
     /**
      * Gets the DisplayInitiateTab attribute for JSP 
      * @return Returns the DisplayInitiateTab.

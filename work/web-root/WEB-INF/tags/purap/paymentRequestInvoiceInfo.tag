@@ -57,7 +57,7 @@
                 <td align=left valign=middle class="datacell">
                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentPaidDate}" property="document.paymentPaidDate" />
                    &nbsp; &nbsp;<kul:htmlControlAttribute attributeEntry="${documentAttributes.immediatePaymentIndicator}" property="document.immediatePaymentIndicator" />
-                   &nbsp; &nbsp;(<kul:htmlAttributeLabel attributeEntry="${documentAttributes.immediatePaymentIndicator}" />)
+                   &nbsp; &nbsp; "(immediate PaymentIndicator)"
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                    <div align="right"><kul:htmlAttributeLabel  attributeEntry="${DataDictionary.KualiPurchaseOrderDocument.attributes.statusChangeNote}" /></div>
@@ -85,12 +85,12 @@
             
             <tr>
                 <th align=right valign=middle class="bord-l-b">
-                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.KualiPurchaseOrderDocument.attributes.purchaseOrderEndDate}" /></div>
+                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderDocument.purchaseOrderEndDate}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${DataDictionary.KualiPurchaseOrderDocument.attributes.purchaseOrderEndDate}" property="document.purchaseOrderDocument.purchaseOrderEndDate" 
-                   readOnly="true" />
-                </td>
+                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrder.purchaseOrderEndDate}" property="document.purchaseOrderDocument.purchaseOrderEndDate" 
+                   readOnly="false" />
+               </td>    
                 <th align=right valign=middle class="bord-l-b">
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderClassificationTypeDescription}" /></div>
                 </th>

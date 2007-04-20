@@ -26,12 +26,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
 import org.kuali.core.bo.AdHocRouteWorkgroup;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.kra.routingform.document.RoutingFormDocument;
+import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 
 public class RoutingFormApprovalsAction extends RoutingFormAction {
@@ -82,7 +79,7 @@ public class RoutingFormApprovalsAction extends RoutingFormAction {
         RoutingForm routingForm = (RoutingForm) form;
         
         KualiWorkflowDocument workflowDoc = routingForm.getDocument().getDocumentHeader().getWorkflowDocument();
-        if (new Integer(1).equals(workflowDoc.getRouteHeader().getDocRouteLevel())) {
+        if (new Integer(KraConstants.projectDirectorRouteLevel).equals(workflowDoc.getRouteHeader().getDocRouteLevel())) {
             
             // send FYIs, adhoc requests
             List<AdHocRouteWorkgroup> routeWorkgroups = new ArrayList<AdHocRouteWorkgroup>();

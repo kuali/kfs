@@ -119,11 +119,13 @@
             <td align=left valign=middle colspan=4 class="datacell"><b>$${KualiForm.document.totalDollarAmount}</b><td>
         </tr>
 
-        <tr>
-            <th align=right width='75%' colspan=8 scope="row">APO Limit:</th>
-            <td align=left valign=middle colspan=4 class="datacell">$${KualiForm.document.organizationAutomaticPurchaseOrderLimit}<td>
-            <html:hidden property="document.organizationAutomaticPurchaseOrderLimit" />
-        </tr>
+        <c:if test="${KualiForm.document.documentHeader.workflowDocument.documentType == 'KualiRequisitionDocument'}">
+            <tr>
+                <th align=right width='75%' colspan=8 scope="row">APO Limit:</th>
+                <td align=left valign=middle colspan=4 class="datacell">$${KualiForm.document.organizationAutomaticPurchaseOrderLimit}<td>
+                <html:hidden property="document.organizationAutomaticPurchaseOrderLimit" />
+            </tr>
+        </c:if>
 <!-- END TOTAL SECTION -->
 
         </table>

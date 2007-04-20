@@ -27,6 +27,8 @@ import org.kuali.module.labor.util.ObjectUtil;
  * This class...
  */
 public class LaborOriginEntryForTesting extends LaborOriginEntry {
+    private List<String> keyValueList;
+    
     @ Override
     public boolean equals(Object otherOriginEntry){
         return ObjectUtil.compareObject(this, otherOriginEntry, this.getKeyValueList());
@@ -36,7 +38,7 @@ public class LaborOriginEntryForTesting extends LaborOriginEntry {
         return ObjectUtil.buildPropertyMap(this, this.getKeyValueList());
     }
     
-    public List<String> getKeyValueList(){
+    public List<String> getDefaultKeyValueList(){
         List<String> keyValueList = new ArrayList<String>();
         keyValueList.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
         keyValueList.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
@@ -61,4 +63,23 @@ public class LaborOriginEntryForTesting extends LaborOriginEntry {
         keyValueList.add(PropertyConstants.EMPLID);
         return keyValueList;
     }
+    
+    /**
+     * Gets the keyValueList attribute. 
+     * @return Returns the keyValueList.
+     */
+    public List<String> getKeyValueList() {
+        if(keyValueList == null){
+            keyValueList = this.getDefaultKeyValueList();
+        }
+        return keyValueList;
+    }
+
+    /**
+     * Sets the keyValueList attribute value.
+     * @param keyValueList The keyValueList to set.
+     */
+    public void setKeyValueList(List<String> keyValueList) {
+        this.keyValueList = keyValueList;
+    }  
 }

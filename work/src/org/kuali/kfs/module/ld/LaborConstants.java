@@ -109,16 +109,37 @@ public class LaborConstants {
         public static final String BALANCE_CODE = "'BB'";
     }
 
+    public static class ParameterGroups {
+        public static final String PAYROLL_ACCRUAL = "Labor.PayrollAccrual";
+        public static final String YEAR_END = "Labor.YearEnd";
+        public static final String POSTER = "Labor.Poster";
+        public static final String SYSTEM = "SYSTEM"; // TODO: remove it
+    }
+    
     public static class PayrollAccrual {
-        public static final String ACCRUAL_DAYS = "Labor.payrollAccrual.input.accrualDays";
-        public static final String WORK_DAYS = "Labor.payrollAccrual.input.workDays";
-        public static final String FISCAL_YEAR = "Labor.payrollAccrual.input.fiscalYear";
-        public static final String FISCAL_PERIOD = "Labor.payrollAccrual.input.fiscalPeriod";
-        public static final String REVERSAL_FISCAL_YEAR = "Labor.payrollAccrual.input.reversalFiscalYear";
-        public static final String REVERSAL_FISCAL_PERIOD = "Labor.payrollAccrual.input.reversalFiscalPeriod";
-        public static final String DOCUMENT_NUMBER = "Labor.payrollAccrual.input.documentNumber";
-        public static final String EARN_CODES = "Labor.payrollAccrual.input.earnCodes";
-        public static final String RUN_ID = "Labor.payrollAccrual.input.runId";
-        public static final String EXCLUDED_SUB_FUND_GROUPS = "Labor.payrollAccrual.input.excludedSubFundGroups";
+        public static final String ACCRUAL_DAYS = "input.accrualDays";
+        public static final String WORK_DAYS = "input.workDays";
+        public static final String FISCAL_YEAR = "input.fiscalYear";
+        public static final String FISCAL_PERIOD = "input.fiscalPeriod";
+        public static final String REVERSAL_FISCAL_YEAR = "input.reversalFiscalYear";
+        public static final String REVERSAL_FISCAL_PERIOD = "input.reversalFiscalPeriod";
+        public static final String DOCUMENT_NUMBER = "input.documentNumber";
+        public static final String EARN_CODES = "input.earnCodes";
+        public static final String RUN_ID = "input.runId";
+        public static final String EXCLUDED_SUB_FUND_GROUPS = "input.excludedSubFundGroups";
+        
+        public static final String ORIGINATION_CODE = "Labor.payrollAccrual.originationCode";
+    }
+    
+    public static class Poster {
+        public static final String PERIOD_CODES_NOT_PROCESSED = "Labor.Poster.PeriodCodesNotProcessed";
+        public static final String OBJECT_CODES_NOT_PROCESSED = "Labor.Poster.ObjectsNotProcessed";
+        public static final String BALANCE_TYPES_NOT_PROCESSED = "Labor.Poster.BalanceTypesNotProcessed";
+    }
+    
+    public static class YearEnd {
+        public static final String FUND_GROUP_PROCESSED = "Labor.YearEnd.BalanceForward.FundGroupProcessed";
+        public static final String DOCUMENT_TYPE_CODE = "Labor.YearEnd.BalanceForward.DocumentTypeCode";
+        public static final String ORIGINATION_CODE = "Labor.YearEnd.BalanceForward.OriginationCode";
     }
 }

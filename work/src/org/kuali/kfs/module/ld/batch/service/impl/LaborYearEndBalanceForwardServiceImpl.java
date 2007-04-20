@@ -16,9 +16,6 @@
 package org.kuali.module.labor.service.impl;
 
 import static org.kuali.Constants.ParameterGroups.SYSTEM;
-import static org.kuali.Constants.SystemGroupParameterNames.LABOR_YEAR_END_DOCUMENT_TYPE_CODE;
-import static org.kuali.Constants.SystemGroupParameterNames.LABOR_YEAR_END_FUND_GROUP_PROCESSED;
-import static org.kuali.Constants.SystemGroupParameterNames.LABOR_YEAR_END_ORIGINATION_CODE;
 import static org.kuali.module.gl.bo.OriginEntrySource.LABOR_YEAR_END_BALANCE_FORWARD;
 import static org.kuali.module.labor.LaborConstants.DestinationNames.LEDGER_BALANCE;
 import static org.kuali.module.labor.LaborConstants.DestinationNames.ORIGN_ENTRY;
@@ -59,6 +56,7 @@ import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.util.ReportRegistry;
 import org.kuali.module.labor.util.TransactionTemplate;
 import org.springframework.transaction.annotation.Transactional;
+import org.kuali.module.labor.LaborConstants.YearEnd;
 
 /**
  * Labor Ledger Year End – Inception to Date Beginning Balance process moves the Year-to-Date Total plus the Contracts and Grants
@@ -219,7 +217,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
 
     // get the fund group codes that are acceptable by year-end process
     private String[] getFundGroupProcessed() {
-        return kualiConfigurationService.getApplicationParameterValues(SYSTEM, LABOR_YEAR_END_FUND_GROUP_PROCESSED);
+        return kualiConfigurationService.getApplicationParameterValues(SYSTEM, YearEnd.FUND_GROUP_PROCESSED);
     }
 
     // get the balance type codes that are acceptable by year-end process
@@ -238,12 +236,12 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
 
     // get the document type code of the transaction posted by year-end process
     private String getDocumentTypeCode() {
-        return kualiConfigurationService.getApplicationParameterValue(SYSTEM, LABOR_YEAR_END_DOCUMENT_TYPE_CODE);
+        return kualiConfigurationService.getApplicationParameterValue(SYSTEM, YearEnd.DOCUMENT_TYPE_CODE);
     }
 
     // get the origination code of the transaction posted by year-end process
     private String getOriginationCode() {
-        return kualiConfigurationService.getApplicationParameterValue(SYSTEM, LABOR_YEAR_END_ORIGINATION_CODE);
+        return kualiConfigurationService.getApplicationParameterValue(SYSTEM, YearEnd.ORIGINATION_CODE);
     }
 
     // get the description of the transaction posted by year-end process

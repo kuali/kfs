@@ -52,12 +52,12 @@
     <tr>
         <th align=right valign=middle class="bord-l-b">
             <div align="right">
-            	<kul:htmlAttributeLabel attributeEntry="${documentAttributes.contractManagerName}" />
+            	<kul:htmlAttributeLabel attributeEntry="${documentAttributes.contractManager}" />
             </div>
         </th>
         <td align=left valign=middle class="datacell">
             <kul:htmlControlAttribute 
-                property="document.contractManagerName" 
+                property="document.contractManager.contractManagerName" 
                 attributeEntry="${documentAttributes.contractManagerName}" 
                 readOnly="true" />
         </td>

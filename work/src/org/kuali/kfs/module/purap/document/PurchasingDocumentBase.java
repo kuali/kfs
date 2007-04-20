@@ -32,6 +32,7 @@ import org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod;
 import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.bo.RequisitionSource;
 import org.kuali.module.vendor.VendorConstants;
+import org.kuali.module.vendor.bo.ContractManager;
 import org.kuali.module.vendor.bo.PurchaseOrderCostSource;
 import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorContract;
@@ -114,7 +115,6 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private String vendorContractName;
     private String supplierDiversityLabel;
     private String vendorContactsLabel;
-    private String contractManagerName;
     private boolean deliveryBuildingOther; 
     
     // REFERENCE OBJECTS
@@ -133,7 +133,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private Chart nonInstitutionFundChartOfAccounts;
     private VendorContract vendorContract;
     private Country vendorCountry;
-    
+    private ContractManager contractManager;
     
 
     public PurchasingDocumentBase() {
@@ -1697,18 +1697,18 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         this.vendorContract = vendorContract;
     }
 
-    public String getContractManagerName() {
-        return contractManagerName;
-    }
-
-    public void setContractManagerName(String contractManagerName) {
-        this.contractManagerName = contractManagerName;
-    }
-
+    /**
+     * Gets the deliveryBuildingOther attribute. 
+     * @return Returns the deliveryBuildingOther.
+     */
     public boolean isDeliveryBuildingOther() {
         return deliveryBuildingOther;
     }
 
+    /**
+     * Sets the deliveryBuildingOther attribute value.
+     * @param deliveryBuildingOther The deliveryBuildingOther to set.
+     */
     public void setDeliveryBuildingOther(boolean deliveryBuildingOther) {
         this.deliveryBuildingOther = deliveryBuildingOther;
     }
@@ -1723,6 +1723,14 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
 
     public void setVendorCountry(Country vendorCountry) {
         this.vendorCountry = vendorCountry;
+    }
+
+    public ContractManager getContractManager() {
+        return contractManager;
+    }
+
+    public void setContractManager(ContractManager contractManager) {
+        this.contractManager = contractManager;
     }
 
 

@@ -133,7 +133,7 @@
     <description>contractManagerCode description...</description>
 </attributeReference>
 
-<attributeReference name="contractManagerName" sourceClassName="org.kuali.module.vendor.bo.ContractManager" sourceAttributeName="contractManagerName">
+<attributeReference name="contractManager" sourceClassName="org.kuali.module.vendor.bo.ContractManager" sourceAttributeName="contractManagerName">
     <label>Contract Manager</label>
     <shortLabel>Contract Manager</shortLabel>
     <summary>contractManagerName</summary>

@@ -31,3 +31,4 @@
 <html:hidden property="document.billingPhoneNumber" />
 <html:hidden property="document.vendorContractGeneratedIdentifier" />
 <html:hidden property="document.deliveryBuildingName" />
+<html:hidden property="document.contractManagerCode" />

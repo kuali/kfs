@@ -101,7 +101,7 @@ public class PurchaseOrderPdf extends PurapPdf {
                 // New nestedHeaderTable row, spans both columns
                 p = new Paragraph();
                 p.add(new Chunk("Contract Manager: ", ver_11_normal));
-                p.add(new Chunk(po.getVendorContract().getContractManager().getContractManagerName(), cour_10_normal));
+                p.add(new Chunk(po.getContractManager().getContractManagerName(), cour_10_normal));
                 cell = new PdfPCell(p);
                 cell.setColspan(2);
                 cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -660,7 +660,7 @@ public class PurchaseOrderPdf extends PurapPdf {
             cell.setBorderWidth(0);
             signaturesTable.addCell(cell);
       
-            cell = new PdfPCell(new Paragraph(po.getVendorContract().getContractManager().getContractManagerName()+"  "+po.getVendorContract().getContractManager().getContractManagerPhoneNumber(),cour_10_normal));
+            cell = new PdfPCell(new Paragraph(po.getContractManager().getContractManagerName()+"  "+po.getContractManager().getContractManagerPhoneNumber(),cour_10_normal));
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
             cell.setVerticalAlignment(Element.ALIGN_TOP);
             cell.setBorderWidth(0);

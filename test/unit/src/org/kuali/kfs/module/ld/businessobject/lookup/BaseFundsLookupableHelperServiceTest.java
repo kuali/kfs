@@ -70,7 +70,7 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
         lookupableHelperService.setBusinessObjectClass(AccountStatusBaseFunds.class);
 
         // Clear up the database so that any existing data cannot affact your test result
-        HashMap keys = new HashMap();
+        Map keys = new HashMap();
         keys.put(PropertyConstants.ACCOUNT_NUMBER, "1031400");
         keys.put(PropertyConstants.UNIVERSITY_FISCAL_YEAR, "2007");
         keys.put(PropertyConstants.CHART_OF_ACCOUNTS_CODE, "BL");        

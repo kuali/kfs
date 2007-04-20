@@ -402,6 +402,23 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
      *  BC only allows one fiscal year at a time                       *
      *  (this could be modified to clear things out by fiscal year)    *
      *  it should be modified to add more tables                       * 
+     *                                                                 *
+     *  NOTE (IMPORTANT):                                              *
+     *  In order to do a bulk delete, we MUST use deleteByQuery.  The  *
+     *  only alternative is to fetch each existing row and delete it,  *
+     *  one at a time.  This is unrealistic in a batch process dealing *
+     *  with many rows. deleteByQuery does NOT "synchronize" the cache:*
+     *  the deleted rows remain in the cache and will be fetched on a  *
+     *  subsequent database call if they fit the criteria.  The OJB    *
+     *  documentation explicitly states this.  So, after a             *
+     *  deleteByQuery we need to call clearCache.  This will not remove*
+     *  instantiated objects but will remove the database rows that    *
+     *  were used to build them.  One consequence is that every store  *
+     *  of an object that was instantiated before the cache was cleared*
+     *  will generate a select on the first key field (to test whether *
+     *  the object exists) and then an INSERT if it does not or an     *
+     *  UPDATE if it does.  This same process happens if on changes the*
+     *  key (for example, the Fiscal Year) of an instantiated object.  *  
      *  ****************************************************************
      */
     public void clearDBForGenesis(Integer BaseYear)

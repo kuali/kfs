@@ -91,7 +91,7 @@ public class GenesisTest {
       //   these are the current run configurations (to change when workflow is embedded)
       //   for
       //   genesis
-      genesisTestService.genesisStep(2007);
+      // genesisTestService.genesisStep(2007);
       //   budget construction update
       // bcUpdateStep(2009);
       //
@@ -100,9 +100,9 @@ public class GenesisTest {
       //
       // update current positions
       //  genesisTestService.testPositionBuild(2007);
-      //LOG.warn("\nstarting fiscalYearMakers\n");
-      //dateMakerTestService.fiscalYearMakers(2007);
-      //LOG.warn("\nfiscalYearMakers finished\n");
+      LOG.warn("\nstarting fiscalYearMakers\n");
+      dateMakerTestService.fiscalYearMakers(2042,true);
+      LOG.warn("\nfiscalYearMakers finished\n");
       // create the proxy BC headers
       /*
  //     genesisTestService.clearDBForGenesis(2009);

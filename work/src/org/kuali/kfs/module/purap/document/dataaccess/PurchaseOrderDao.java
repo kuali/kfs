@@ -65,4 +65,14 @@ public interface PurchaseOrderDao {
      * @return PurchaseOrderDocument
      */
     public PurchaseOrderDocument getPurchaseOrderInPendingPrintStatus(Integer id);
+    
+    /**
+     * 
+     * This method gets the PurchaseOrderDocument whose document number is the
+     * same as the document number in the input parameter.
+     * 
+     * @param documentNumber the document number of the PO we're looking for
+     * @return PurchaseOrderDocument
+     */
+    public PurchaseOrderDocument getPurchaseOrderByDocumentNumber(String documentNumber); 
 }

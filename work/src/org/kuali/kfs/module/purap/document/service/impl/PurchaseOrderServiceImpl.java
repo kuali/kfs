@@ -193,6 +193,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 poDocument.setVendorShippingTitleCode(vendor.getVendorShippingTitleCode());
             }
 
+
             documentService.updateDocument(poDocument);
             documentService.prepareWorkflowDocument(poDocument);
             workflowDocumentService.save(poDocument.getDocumentHeader().getWorkflowDocument(), "", null);
@@ -293,6 +294,36 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
         return result;
     }
+
+    /**
+     * 
+     * @see org.kuali.module.purap.service.PurchaseOrderService#printPurchaseOrderPDF(org.kuali.module.purap.document.PurchaseOrderDocument, java.lang.String, java.lang.String, java.util.List, java.io.ByteArrayOutputStream, java.lang.String)
+     */
+    public boolean retransmitPurchaseOrderPDF (PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients,
+        ByteArrayOutputStream baosPDF) {
+            
+        String environment = kualiConfigurationService.getPropertyString( Constants.ENVIRONMENT_KEY );
+        boolean isRetransmit = true;
+        boolean result = true;
+        Collection<String> generatePDFErrors = printService.generatePurchaseOrderPdf(po, baosPDF, isRetransmit, environment);
+            
+        if (generatePDFErrors.size() > 0) {
+            for (String error: generatePDFErrors) {
+                GlobalVariables.getErrorMap().putError(Constants.GLOBAL_ERRORS, PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, error);
+            }
+            result = false;
+        }
+        if (result) {
+            Date currentSqlDate = dateTimeService.getCurrentSqlDate();
+            //po.setPurchaseOrderFirstTransmissionDate(currentSqlDate);
+            //po.setPurchaseOrderInitialOpenDate(currentSqlDate);
+            po.setPurchaseOrderLastTransmitDate(currentSqlDate);
+            po.setPurchaseOrderCurrentIndicator(true);
+            //purapService.updateStatusAndStatusHistory( po, PurapConstants.PurchaseOrderStatuses.CLOSED );
+            save(po);
+        }
+        return result;
+    }
     
     public PurchaseOrderDocument getPurchaseOrderInPendingPrintStatus(Integer id) {
         return purchaseOrderDao.getPurchaseOrderInPendingPrintStatus(id);    
@@ -317,6 +348,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 return false;
             } 
             else { 
+                save(po);
                 documentService.routeDocument(po, annotation, adhocRoutingRecipients);
             }
         }
@@ -416,6 +448,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     
     public PurchaseOrderDocument getCurrentPurchaseOrder(Integer id) {
         return purchaseOrderDao.getCurrentPurchaseOrder(id);        
+    }
+    
+    public PurchaseOrderDocument getPurchaseOrderByDocumentNumber(String documentNumber) {
+        return purchaseOrderDao.getPurchaseOrderByDocumentNumber(documentNumber);    
     }
     
     public PurchaseOrderDocument getOldestPurchaseOrder(Integer id) {

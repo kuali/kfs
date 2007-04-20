@@ -35,8 +35,11 @@ public interface PurchaseOrderService {
         ByteArrayOutputStream baosPDF,  String environment);
     public boolean printPurchaseOrderPDF (PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients,
             ByteArrayOutputStream baosPDF);
+    public boolean retransmitPurchaseOrderPDF (PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients,
+            ByteArrayOutputStream baosPDF);
     public void completePurchaseOrder(PurchaseOrderDocument po);
     public PurchaseOrderDocument getCurrentPurchaseOrder(Integer id);
+    public PurchaseOrderDocument getPurchaseOrderByDocumentNumber(String documentNumber);
     public void setCurrentAndPendingIndicatorsInPostProcessor(PurchaseOrderDocument newPO, String workflowState);
 
     public PurchaseOrderDocument getOldestPurchaseOrder(Integer id);

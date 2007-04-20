@@ -53,6 +53,7 @@ import edu.iu.uis.eden.clientapp.vo.WorkgroupVO;
 
 /**
  * This class handles specific Actions requests for the Requisition.
+ * 
  */
 public class PurchaseOrderAction extends PurchasingActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderAction.class);
@@ -63,33 +64,33 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+ 
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
         BusinessObjectService businessObjectService = SpringServiceLocator.getBusinessObjectService();
 
-        // Handling lookups for alternate vendor for escrow payment that are only specific to Purchase Order
+        //Handling lookups for alternate vendor for escrow payment that are only specific to Purchase Order
         if (request.getParameter("document.alternateVendorHeaderGeneratedIdentifier") != null && request.getParameter("document.alternateVendorDetailAssignedIdentifier") != null) {
             Integer alternateVendorDetailAssignedId = document.getAlternateVendorDetailAssignedIdentifier();
             Integer alternateVendorHeaderGeneratedId = document.getAlternateVendorHeaderGeneratedIdentifier();
             VendorDetail refreshVendorDetail = new VendorDetail();
             refreshVendorDetail.setVendorDetailAssignedIdentifier(alternateVendorDetailAssignedId);
             refreshVendorDetail.setVendorHeaderGeneratedIdentifier(alternateVendorHeaderGeneratedId);
-            refreshVendorDetail = (VendorDetail) businessObjectService.retrieve(refreshVendorDetail);
+            refreshVendorDetail = (VendorDetail)businessObjectService.retrieve(refreshVendorDetail);
             document.templateAlternateVendor(refreshVendorDetail);
-        }
-
+        } 
+        
         String newStipulation = request.getParameter("document.vendorStipulationDescription");
         if (StringUtils.isNotEmpty(newStipulation)) {
             poForm.getNewPurchaseOrderVendorStipulationLine().setVendorStipulationDescription(newStipulation);
-        }
+        }    
         return super.refresh(mapping, form, request, response);
     }
 
     public ActionForward viewRelatedDocuments(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("viewRelatedDocuments() enter action");
 
-        // TODO add code
+        //TODO add code
 
         return mapping.findForward("viewRelatedDocuments");
     }
@@ -97,11 +98,11 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward viewPaymentHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("viewPaymentHistory() enter action");
 
-        // TODO add code
+        //TODO add code
 
         return mapping.findForward("viewPaymentHistory");
     }
-
+    
     /**
      * This method...
      * 
@@ -119,10 +120,10 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * @throws Exception
      */
     private ActionForward askQuestionsAndRoute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionType, String confirmType, String documentType, String notePrefix, String messageType) throws Exception {
-
+    
         LOG.debug("AskQuestionsAndRoute started.");
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
+        PurchaseOrderDocument po = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
 
         Object question = request.getParameter(Constants.QUESTION_INST_ATTRIBUTE_NAME);
         String reason = request.getParameter(Constants.QUESTION_REASON_ATTRIBUTE_NAME);
@@ -136,13 +137,13 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             return this.performQuestionWithInput(mapping, form, request, response, questionType, kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_DOCUMENT), Constants.CONFIRMATION_QUESTION, questionType, "");
         }
         else {
-            Object buttonClicked = request.getParameter(Constants.QUESTION_CLICKED_BUTTON);
+            Object buttonClicked = request.getParameter( Constants.QUESTION_CLICKED_BUTTON );
             if (question.equals(questionType) && buttonClicked.equals(ConfirmationQuestion.NO)) {
-                // If 'No' is the button clicked, just reload the doc
+                //If 'No' is the button clicked, just reload the doc
                 return mapping.findForward(Constants.MAPPING_BASIC);
             }
             else if (question.equals(confirmType) && buttonClicked.equals(SingleConfirmationQuestion.OK)) {
-                // This is the case when the user clicks on "OK" in the end.
+                // This is the case when the user clicks on "OK" in the end. 
                 // After we inform the user that the close has been rerouted, we'll redirect to the portal page.
                 return mapping.findForward(Constants.MAPPING_PORTAL);
             }
@@ -167,10 +168,10 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                     }
                     return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, questionType, kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_DOCUMENT), Constants.CONFIRMATION_QUESTION, questionType, "", reason, PurapKeyConstants.ERROR_PURCHASE_ORDER_REASON_REQUIRED, Constants.QUESTION_REASON_ATTRIBUTE_NAME, new Integer(reasonLimit).toString());
                 }
-            }
+            }   
         }
         boolean success = SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(po, documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
-
+                    
         if (!success) {
             return mapping.findForward(Constants.MAPPING_ERROR);
         }
@@ -180,11 +181,11 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         newNote.setNoteTypeCode("BO");
         kualiDocumentFormBase.setNewNote(newNote);
         insertBONote(mapping, form, request, response);
-
+                
         GlobalVariables.getMessageList().add(messageType);
         return this.performQuestionWithoutInput(mapping, form, request, response, confirmType, kualiConfiguration.getPropertyString(messageType), PODocumentsStrings.SINGLE_CONFIRMATION_QUESTION, questionType, "");
     }
-
+    
     public ActionForward closePo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("ClosePO started.");
         return askQuestionsAndRoute(mapping, form, request, response, PODocumentsStrings.CLOSE_QUESTION, PODocumentsStrings.CLOSE_CONFIRM, PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT, PODocumentsStrings.CLOSE_NOTE_PREFIX, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_CLOSE_DOCUMENT);
@@ -225,7 +226,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward reopenPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("Reopen PO started");
         return askQuestionsAndRoute(mapping, form, request, response, PODocumentsStrings.REOPEN_PO_QUESTION, PODocumentsStrings.CONFIRM_REOPEN_QUESTION, PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT, PODocumentsStrings.REOPEN_NOTE_PREFIX, PurapKeyConstants.MESSAGE_ROUTE_REOPENED);
-    }
+    } 
 
     public ActionForward voidPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("Void PO started");
@@ -246,7 +247,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      */
     public ActionForward printPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
+        PurchaseOrderDocument po = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
         try {
             StringBuffer sbFilename = new StringBuffer();
@@ -255,8 +256,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             sbFilename.append("_");
             sbFilename.append(System.currentTimeMillis());
             sbFilename.append(".pdf");
-
-            // for testing Generate PO PDF, set the APO to true
+            
+            //for testing Generate PO PDF, set the APO to true
             po.setPurchaseOrderAutomaticIndicator(true);
             boolean success = SpringServiceLocator.getPurchaseOrderService().printPurchaseOrderPDF(po, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PRINT_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), baosPDF);
 
@@ -274,29 +275,29 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             sbContentDispValue.append(sbFilename);
 
             response.setHeader("Content-disposition", sbContentDispValue.toString());
-
+    
             response.setContentLength(baosPDF.size());
-
+       
             ServletOutputStream sos;
 
             sos = response.getOutputStream();
-
+          
             baosPDF.writeTo(sos);
-
+        
             sos.flush();
-
+            
         }
         finally {
             if (baosPDF != null) {
-                baosPDF.reset();
+              baosPDF.reset();
             }
         }
-        return null;
+        return null;        
     }
-
+    
     public ActionForward firstTransmitPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
+        PurchaseOrderDocument po = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
         try {
             String environment = "dev";
@@ -306,8 +307,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             sbFilename.append("_");
             sbFilename.append(System.currentTimeMillis());
             sbFilename.append(".pdf");
-
-            // for testing Generate PO PDF, set the APO to true
+            
+            //for testing Generate PO PDF, set the APO to true
             po.setPurchaseOrderAutomaticIndicator(true);
             boolean success = SpringServiceLocator.getPurchaseOrderService().firstPurchaseOrderTransmitViaPrint(po, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PRINT_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), baosPDF, environment);
 
@@ -325,89 +326,92 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             sbContentDispValue.append(sbFilename);
 
             response.setHeader("Content-disposition", sbContentDispValue.toString());
-
+    
             response.setContentLength(baosPDF.size());
-
+       
             ServletOutputStream sos;
 
             sos = response.getOutputStream();
-
+          
             baosPDF.writeTo(sos);
-
+        
             sos.flush();
-
+            
         }
         finally {
             if (baosPDF != null) {
-                baosPDF.reset();
+              baosPDF.reset();
             }
         }
-        return null;
+        return null;        
     }
-
+    
     public ActionForward retransmitPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // TODO: Remove this temporary method when the PurchaseOrderPrintAction is ready
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
-        ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
-        try {
-            String environment = "dev";
-            StringBuffer sbFilename = new StringBuffer();
-            sbFilename.append("PURAP_PO_");
-            sbFilename.append(po.getPurapDocumentIdentifier());
-            sbFilename.append("_");
-            sbFilename.append(System.currentTimeMillis());
-            sbFilename.append(".pdf");
+        if (!po.getDocumentHeader().getWorkflowDocument().getDocumentType().equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT)) {
+            String documentType = PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT;
+            boolean success = SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(po, documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
 
-            // for testing Generate PO PDF
-            po.setPurchaseOrderAutomaticIndicator(true);
-            Collection<String> generatePDFErrors = SpringServiceLocator.getPrintService().generatePurchaseOrderPdf(po, baosPDF, false, environment);
+            if (!success) {
+                return mapping.findForward(Constants.MAPPING_ERROR);
+            }
+            else {
+                ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
+                return mapping.findForward(Constants.MAPPING_BASIC);
+            }
+        }
+        else {
+            // This is a PurchaseOrderRetransmitDocument, so we'll display the pdf now
 
-            // for testing Generate Quote
-            // PurchaseOrderVendorQuote povq = createDummyPOVQ(po);
-            // Collection<String> generatePDFErrors = SpringServiceLocator.getPrintService().generatePurchaseOrderQuotePdf(po, povq,
-            // baosPDF, environment);
+            po = SpringServiceLocator.getPurchaseOrderService().getPurchaseOrderByDocumentNumber(po.getDocumentNumber());
 
-            if (generatePDFErrors.size() > 0) {
-                for (String error : generatePDFErrors) {
-                    GlobalVariables.getErrorMap().putError(Constants.GLOBAL_ERRORS, PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, error);
+            ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
+            try {
+                StringBuffer sbFilename = new StringBuffer();
+                sbFilename.append("PURAP_PO_");
+                sbFilename.append(po.getPurapDocumentIdentifier());
+                sbFilename.append("_");
+                sbFilename.append(System.currentTimeMillis());
+                sbFilename.append(".pdf");
+
+                boolean success = SpringServiceLocator.getPurchaseOrderService().retransmitPurchaseOrderPDF(po, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PRINT_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), baosPDF);
+
+                if (!success) {
+                    if (baosPDF != null) {
+                        baosPDF.reset();
+                    }
+                    return mapping.findForward(Constants.MAPPING_ERROR);
                 }
+                response.setHeader("Cache-Control", "max-age=30");
+                response.setContentType("application/pdf");
+                StringBuffer sbContentDispValue = new StringBuffer();
+                sbContentDispValue.append("inline");
+                sbContentDispValue.append("; filename=");
+                sbContentDispValue.append(sbFilename);
+
+                response.setHeader("Content-disposition", sbContentDispValue.toString());
+
+                response.setContentLength(baosPDF.size());
+
+                ServletOutputStream sos;
+
+                sos = response.getOutputStream();
+
+                baosPDF.writeTo(sos);
+
+                sos.flush();
+
+            }
+            finally {
                 if (baosPDF != null) {
                     baosPDF.reset();
                 }
-                return mapping.findForward(Constants.MAPPING_ERROR);
             }
-            response.setHeader("Cache-Control", "max-age=30");
-            response.setContentType("application/pdf");
-            StringBuffer sbContentDispValue = new StringBuffer();
-            sbContentDispValue.append("inline");
-            sbContentDispValue.append("; filename=");
-            sbContentDispValue.append(sbFilename);
-
-            response.setHeader("Content-disposition", sbContentDispValue.toString());
-
-            response.setContentLength(baosPDF.size());
-
-            ServletOutputStream sos;
-
-            sos = response.getOutputStream();
-
-            baosPDF.writeTo(sos);
-
-            sos.flush();
-
-            SpringServiceLocator.getPrintService().savePurchaseOrderPdf(po, false, "MYDEV");
-            // for testing Save Quote
-            // SpringServiceLocator.getPrintService().savePurchaseOrderQuotePdf(po, povq, "DEV");
+            return null;
         }
-        finally {
-            if (baosPDF != null) {
-                baosPDF.reset();
-            }
-        }
-        return null;
     }
-
+    
     /**
      * TODO: Remove this dummy method when we have the actual PrintAction working
      * 
@@ -428,7 +432,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         povq.setPurchaseOrder(po);
         return povq;
     }
-
+    
     /**
      * This method is to check on a few conditions that would cause a warning message to be displayed on top of the Purchase Order
      * page.
@@ -449,7 +453,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         // "There is a pending action on this Purchase Order." (pend_action = Y)
         if (po.isPendingActionIndicator()) {
             GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PURCHASE_ORDER_PENDING_ACTION);
-        }
+        }   
 
         if (!po.isPurchaseOrderCurrentIndicator()) {
             ActionMessage noteMessage = new ActionMessage(PurapKeyConstants.WARNING_PURCHASE_ORDER_ALL_NOTES);
@@ -458,7 +462,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             messages.add(PurapConstants.STATUS_HISTORY_TAB_WARNING, statusHistoryMessage);
         }
     }
-
+    
     /**
      * Add a stipulation to the document.
      * 
@@ -513,8 +517,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.docHandler(mapping, form, request, response);
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
-        PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
+        ((PurchaseOrderForm)kualiDocumentFormBase).addButtons();
+        PurchaseOrderDocument po = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
         ActionMessages messages = new ActionMessages();
         checkForPOWarnings(po, messages);
         saveMessages(request, messages);

@@ -43,6 +43,12 @@
             detailSectionLabel="Purchase Order Detail" />
     </kul:documentOverview>
 
+    <c:if test="${KualiForm.editingMode['displayRetransmitTab']}" >
+        <purap:purchaseOrderRetransmit documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}"
+            displayPurchaseOrderFields="true" />
+    </c:if>
+    	 		 
+<c:if test="${not KualiForm.editingMode['displayRetransmitTab']}" >
     <purap:vendor
         documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" 
         displayPurchaseOrderFields="true" />
@@ -50,9 +56,11 @@
     <purap:stipulationsAndInfo
         documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" />
 
-    <!-- purap:items
-        documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}/ -->
-
+<%-- 
+    <purap:puritems itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}"
+        accountingLineAttributes="${DataDictionary.PurchaseOrderAccountingLine.attributes}"/> 
+--%>
+     
     <purap:paymentinfo
         documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" 
         displayPurchaseOrderFields="true"/>
@@ -80,6 +88,7 @@
 
     <kul:routeLog />
 
+</c:if>
     <kul:panelFooter />
 
     <c:set var="extraButtons" value="${KualiForm.extraButtons}"/>  	
@@ -88,5 +97,6 @@
         transactionalDocument="true" 
         extraButtons="${extraButtons}"
         />
+
 
 </kul:documentPage>

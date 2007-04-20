@@ -105,5 +105,12 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         criteria.addEqualTo(PurapPropertyConstants.STATUS_CODE, PurapConstants.PurchaseOrderStatuses.PENDING_PRINT);
         PurchaseOrderDocument thePO = (PurchaseOrderDocument)getPurchaseOrder(criteria);
         return thePO;
-}
+    }
+    
+    public PurchaseOrderDocument getPurchaseOrderByDocumentNumber(String documentNumber) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(PurapPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+        PurchaseOrderDocument thePO = (PurchaseOrderDocument)getPurchaseOrder(criteria);
+        return thePO;
+    }
 }

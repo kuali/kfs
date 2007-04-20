@@ -69,11 +69,12 @@ public class PurchaseOrderRetransmitDocumentRule extends TransactionalDocumentRu
         else {
             // TODO: Get this from Business Rules.           
             // Check the PO status.
+            /*  TODO: Is it really supposed to fail when the status is CLOSE ?
             if (StringUtils.equalsIgnoreCase(document.getStatusCode(), PurchaseOrderStatuses.CLOSED)) {
                 valid = false;
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.STATUS_CODE, PurapKeyConstants.ERROR_PURCHASE_ORDER_STATUS_INCORRECT, PurchaseOrderStatuses.CLOSED);
             }
-
+            */
             // Check that the user is in purchasing workgroup.
             String initiatorNetworkId = document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
             UniversalUserService uus = SpringServiceLocator.getUniversalUserService();

@@ -16,11 +16,13 @@
 package org.kuali.module.labor.web.lookupable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.PropertyConstants;
 import org.kuali.core.lookup.LookupableHelperService;
 import org.kuali.core.service.BusinessObjectService;
@@ -155,6 +157,11 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
         fieldNames = properties.getProperty("fieldNames");
         documentFieldNames = properties.getProperty("fieldNames");
         deliminator = properties.getProperty("deliminator");
+        
+        CalculatedSalaryFoundationTracker cleanup = new CalculatedSalaryFoundationTracker();
+        ObjectUtil.populateBusinessObject(cleanup, properties, "dataCleanup", fieldNames, deliminator);
+        Map fieldValues = ObjectUtil.buildPropertyMap(cleanup, Arrays.asList(StringUtils.split(fieldNames, deliminator)));
+        businessObjectService.deleteMatching(CalculatedSalaryFoundationTracker.class, fieldValues);
 
         TestDataGenerator testDataGenerator = new TestDataGenerator(propertiesFileName, messageFileName);
 
@@ -169,6 +176,7 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
             CalculatedSalaryFoundationTracker inputData = new CalculatedSalaryFoundationTracker();
             ObjectUtil.populateBusinessObject(inputData, properties, propertyKey, documentFieldNames, deliminator);
             inputDataList.add(inputData);
+            //System.out.println(ObjectUtil.buildPropertyMap(inputData, ObjectUtil.split(fieldNames, deliminator)));
         }
         
         String testTarget = "getCSFTracker.";

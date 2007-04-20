@@ -124,7 +124,9 @@
                 <lookupField attributeName="proposalFellowName" required="false" />
                 <lookupField attributeName="proposalOrganizations.organization.organizationCode" required="false" />
                 <lookupField attributeName="proposalSubcontractors.subcontractor.subcontractorNumber" required="false" />
+                <lookupField attributeName="lookupPersonUniversalIdentifier" required="false" />
                 <lookupField attributeName="lookupUniversalUser.personUserIdentifier" required="false" />
+                <lookupField attributeName="lookupUniversalUser.personName" required="false" />
             </lookupFields>
 
             <resultFields>
@@ -157,12 +159,9 @@
 				<shortLabel>Subcontr Num</shortLabel>
 				<summary>Proposal Subcontractor Number</summary>
                 <description>
-					The number which corresponds to the Subcontractor Name.  
-					It is expressed as 5-digit numeric text, including leading zeros.  
-					When creating a new Subcontractor in the database, this number is 
-					automatically assigned by the system.  When adding an existing 
-					Subcontractor to a Proposal or Award, the user may search for the 
-					subcontractor using the search icon, or may manually enter the 
+					The number which corresponds to the Subcontractor Name.  It is expressed as 5-digit numeric text, including leading zeros.
+					When creating a new Subcontractor in the database, this number is automatically assigned by the system.  When adding an existing
+					Subcontractor to a Proposal or Award, the user may search for the subcontractor using the search icon, or may manually enter the
 					Subcontractor Number into the field.
 				</description>
             </attributeReference>
@@ -174,14 +173,37 @@
    				<description>Insert desc here...</description>
             </attributeReference>
 
+            <attributeReference name="lookupPersonUniversalIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier">
+                <label>Project Director Unvl ID</label>
+                <shortLabel>ProjDirUnvlId</shortLabel>
+                <displayLabelAttribute>lookupUniversalUser.personUserIdentifier</displayLabelAttribute>
+                <required>true</required>
+                <control>
+                    <hidden />
+                </control>
+            </attributeReference>
+
             <attributeReference name="lookupUniversalUser.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
 				<label>Project Director User ID</label>
 				<shortLabel>Proj Dir User ID</shortLabel>
                 <control>
                     <kualiUser universalIdAttributeName="lookupPersonUniversalIdentifier" userIdAttributeName="lookupUniversalUser.personUserIdentifier" personNameAttributeName="lookupUniversalUser.personName" />
                 </control>
-				<summary>Proposal Project Director User ID</summary>
+				<summary>Project Director User ID</summary>
    				<description>Insert desc here...</description>
+            </attributeReference>
+
+            <attributeReference name="lookupUniversalUser.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
+                <label>Project Director User Name</label>
+                <shortLabel>Name</shortLabel>
+                <required>false</required>
+                <control>
+                    <hidden />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The Name of the Project Director.</description>
             </attributeReference>
 
             <attributeReference name="proposal.grantNumber" sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="grantNumber">

@@ -36,6 +36,44 @@ function onblur_proposalStatusCode( proposalStatusCodeField ) {
     }
 }
 
+function onblur_subcontractorNumber( subcontractorNumberField ) {
+    singleKeyLookup( SubcontractorService.getByPrimaryId, subcontractorNumberField, "subcontractor", "subcontractorName" );
+}
+
+function onblur_agencyNumber( agencyNumberField ) {
+    singleKeyLookup( AgencyService.getByPrimaryId, agencyNumberField, "agency", "fullName" );
+}
+
+function onblur_federalPassThroughAgencyNumber( federalPassThroughAgencyNumberField ) {
+    singleKeyLookup( AgencyService.getByPrimaryId, federalPassThroughAgencyNumberField, "federalPassThroughAgency", "fullName" );
+}
+
+function singleKeyLookup( dwrFunction, primaryKeyField, boName, propertyName ) {
+    var primaryKeyValue = DWRUtil.getValue( primaryKeyField.name );
+    var targetFieldName = findElPrefix( primaryKeyField.name ) + "." + boName + "." + propertyName;
+    if (primaryKeyValue == "") {
+        clearRecipients( targetFieldName );
+    } else {
+        var friendlyBoName = boName.replace(/([A-Z])/g, ' $1').toLowerCase();
+        dwrFunction( primaryKeyValue, makeDwrSingleReply( friendlyBoName, propertyName, targetFieldName));
+    }
+}
+
+function makeDwrSingleReply( boName, propertyName, targetFieldName ) {
+    return {
+        callback:function(data) {
+            if (data != null && typeof data == 'object') {
+                setRecipientValue( targetFieldName, data[propertyName] );
+            } else {
+                setRecipientValue( targetFieldName, wrapError( boName + " not found" ), true );
+            }
+        },
+        errorHandler:function(errorMessage) {
+            setRecipientValue( targetFieldName, wrapError( boName + " not found" ), true );
+        }
+    };
+}
+
 function organizationNameLookup( anyFieldOnProposalOrganization ) {
     var elPrefix = findElPrefix( anyFieldOnProposalOrganization.name );
     var chartOfAccountsCode = DWRUtil.getValue( elPrefix + ".chartOfAccountsCode" ).toUpperCase();
@@ -44,19 +82,8 @@ function organizationNameLookup( anyFieldOnProposalOrganization ) {
     if (chartOfAccountsCode == "" || organizationCode == "") {
         clearRecipients( targetFieldName );
     } else {
-        var dwrReply = {
-            callback:function(data) {
-                if (data != null && typeof data == 'object') {
-                    setRecipientValue( targetFieldName, data.organizationName );
-                } else {
-                    setRecipientValue( targetFieldName, wrapError( "organization not found" ), true );
-                }
-            },
-            errorHandler:function(errorMessage) {
-                setRecipientValue( targetFieldName, wrapError( "organization not found" ), true );
-            }
-        };
-        OrganizationService.getByPrimaryIdWithCaching( chartOfAccountsCode, organizationCode, dwrReply );
+        var dwrReply = makeDwrSingleReply( "organization", "organizationName", targetFieldName);
+        OrganizationService.getByPrimaryIdWithCaching( chartOfAccountsCode, organizationCode, dwrReply);
     }
 }
 

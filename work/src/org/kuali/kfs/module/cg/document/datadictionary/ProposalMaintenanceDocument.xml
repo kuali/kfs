@@ -36,9 +36,11 @@
         <documentTypeName>KualiProposalMaintenanceDocument</documentTypeName>
         <documentTypeCode>PRPL</documentTypeCode>
 
-		<webScriptFile>scripts/cg/proposalDocument.js</webScriptFile>
-        <webScriptFile>dwr/interface/ProjectDirectorService.js</webScriptFile>
+        <webScriptFile>dwr/interface/AgencyService.js</webScriptFile>
         <webScriptFile>dwr/interface/OrganizationService.js</webScriptFile>
+        <webScriptFile>dwr/interface/ProjectDirectorService.js</webScriptFile>
+        <webScriptFile>dwr/interface/SubcontractorService.js</webScriptFile>
+        <webScriptFile>scripts/cg/proposalDocument.js</webScriptFile>
 
         <label>Proposal Maintenance Document</label>
         <shortLabel>PrpslMaintDoc</shortLabel>
@@ -71,7 +73,7 @@
                     <maintainableField name="proposalStatusCode" required="true" webUILeaveFieldFunction="onblur_proposalStatusCode" >
                         <defaultValue>P</defaultValue>
                     </maintainableField>
-                    <maintainableField name="agencyNumber" required="true" />
+                    <maintainableField name="agencyNumber" required="true" webUILeaveFieldFunction="onblur_agencyNumber" />
                     <maintainableField name="agency.fullName" readOnly="true" />
                     <maintainableField name="proposalProjectTitle" required="true" />
                     <maintainableField name="proposalBeginningDate" required="true" />
@@ -87,7 +89,8 @@
                     <maintainableField name="proposalPurposeCode" required="true" />
                     <maintainableField name="grantNumber" />
                     <maintainableField name="proposalFederalPassThroughIndicator" />
-                    <maintainableField name="federalPassThroughAgencyNumber" />
+                    <maintainableField name="federalPassThroughAgencyNumber" webUILeaveFieldFunction="onblur_federalPassThroughAgencyNumber" />
+                    <maintainableField name="federalPassThroughAgency.fullName" readOnly="true" />
                     <maintainableField name="cfdaNumber" />
                     <maintainableField name="proposalFellowName" />
                     <maintainableField name="proposalDueDate" />
@@ -137,7 +140,7 @@
             <maintainableSection title="Subcontractors">
                 <maintainableItems>
                     <maintainableCollection name="proposalSubcontractors" businessObjectClass="org.kuali.module.cg.bo.ProposalSubcontractor" attributeToHighlightOnDuplicateKey="subcontractorNumber">
-                        <maintainableField name="subcontractorNumber" required="true" />
+                        <maintainableField name="subcontractorNumber" required="true" webUILeaveFieldFunction="onblur_subcontractorNumber" />
                         <maintainableField name="subcontractor.subcontractorName" readOnly="true" />
 						<maintainableField name="proposalSubcontractorDescription" />
                         <maintainableField name="proposalSubcontractorAmount">

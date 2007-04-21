@@ -24,5 +24,19 @@
             <param name="beanName" value="projectDirectorService" />
             <include method="getByPersonUserIdentifier" />
         </create>
+        <convert converter="bean" match="org.kuali.module.cg.bo.Subcontractor">
+            <param name="include" value="subcontractorName" />
+        </convert>
+        <create creator="spring" javascript="SubcontractorService">
+            <param name="beanName" value="subcontractorService" />
+            <include method="getByPrimaryId" />
+        </create>
+        <convert converter="bean" match="org.kuali.module.cg.bo.Agency">
+            <param name="include" value="fullName" />
+        </convert>
+        <create creator="spring" javascript="AgencyService">
+            <param name="beanName" value="agencyService" />
+            <include method="getByPrimaryId" />
+        </create>
     </allow>
 </dwr>

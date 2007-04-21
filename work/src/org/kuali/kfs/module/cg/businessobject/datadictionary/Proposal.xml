@@ -251,6 +251,11 @@
                 <description>federalPassThroughAgencyNumber description...</description>
 			</attribute>
 
+            <attributeReference name="federalPassThroughAgency.fullName" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="fullName">
+                <label>Federal Pass Through Agency Full Name</label>
+                <shortLabel>FPT Agency Name</shortLabel>
+            </attributeReference>
+
             <attribute name="grantNumber" forceUppercase="true">
                 <label>Grant Number</label>
                 <shortLabel>Number</shortLabel>

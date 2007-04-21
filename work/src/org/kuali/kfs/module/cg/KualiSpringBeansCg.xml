@@ -117,6 +117,18 @@
         </property>
     </bean>
 
+    <bean id="subcontractorService" class="org.kuali.module.cg.service.impl.SubcontractorServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+    </bean>
+
+    <bean id="agencyService" class="org.kuali.module.cg.service.impl.AgencyServiceImpl">
+        <property name="businessObjectService">
+            <ref bean="businessObjectService" />
+        </property>
+    </bean>
+
     <!-- Batch Steps -->
     <bean id="proposalCloseBatchStep" class="org.kuali.module.cg.batch.ProposalCloseBatchStep">
         <property name="proposalCloseService">

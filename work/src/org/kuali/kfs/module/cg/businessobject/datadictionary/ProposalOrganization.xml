@@ -76,6 +76,8 @@
             	<summary>Proposal Organization Code</summary>
             </attributeReference>
 
+            <attributeReference name="organization.organizationName" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationName"/>
+
             <attributeReference name="proposalNumber" sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="proposalNumber"/>
 
             <attribute name="proposalPrimaryOrganizationIndicator" forceUppercase="true">

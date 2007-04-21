@@ -38,6 +38,7 @@
 
 		<webScriptFile>scripts/cg/proposalDocument.js</webScriptFile>
         <webScriptFile>dwr/interface/ProjectDirectorService.js</webScriptFile>
+        <webScriptFile>dwr/interface/OrganizationService.js</webScriptFile>
 
         <label>Proposal Maintenance Document</label>
         <shortLabel>PrpslMaintDoc</shortLabel>
@@ -98,8 +99,9 @@
             <maintainableSection title="Organizations">
                 <maintainableItems>
                     <maintainableCollection name="proposalOrganizations" businessObjectClass="org.kuali.module.cg.bo.ProposalOrganization" attributeToHighlightOnDuplicateKey="organizationCode">
-                        <maintainableField name="chartOfAccountsCode" required="true" />
-                        <maintainableField name="organizationCode" required="true" />
+                        <maintainableField name="chartOfAccountsCode" required="true" webUILeaveFieldFunction="organizationNameLookup" />
+                        <maintainableField name="organizationCode" required="true" webUILeaveFieldFunction="organizationNameLookup" />
+                        <maintainableField name="organization.organizationName" readOnly="true" />
                         <maintainableField name="proposalPrimaryOrganizationIndicator" required="false" />
                         <maintainableField name="newCollectionRecord" />
                         <maintainableField name="versionNumber" />

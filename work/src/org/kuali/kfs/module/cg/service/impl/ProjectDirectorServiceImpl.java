@@ -29,7 +29,9 @@ import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.spring.Cached;
 import org.kuali.PropertyConstants;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -37,6 +39,7 @@ import java.util.HashMap;
 /**
  * Implementation of the ProjectDirector service.
  */
+@Transactional
 public class ProjectDirectorServiceImpl implements ProjectDirectorService {
 
     private UniversalUserService universalUserService;
@@ -45,6 +48,7 @@ public class ProjectDirectorServiceImpl implements ProjectDirectorService {
     /**
      * @see org.kuali.module.cg.service.ProjectDirectorService#getByPersonUserIdentifier(String)
      */
+    @Cached
     public ProjectDirector getByPersonUserIdentifier(String username) {
         try {
             UniversalUser user = universalUserService.getUniversalUserByAuthenticationUserId( username );
@@ -57,6 +61,7 @@ public class ProjectDirectorServiceImpl implements ProjectDirectorService {
     /**
      * @see org.kuali.module.cg.service.ProjectDirectorService#getByPrimaryId(String)
      */
+    @Cached
     public ProjectDirector getByPrimaryId(String universalIdentifier) {
         return (ProjectDirector) businessObjectService.findByPrimaryKey(ProjectDirector.class, mapPrimaryKeys(universalIdentifier));
     }
@@ -64,6 +69,7 @@ public class ProjectDirectorServiceImpl implements ProjectDirectorService {
     /**
      * @see org.kuali.module.cg.service.ProjectDirectorService#primaryIdExists(String)
      */
+    @Cached
     public boolean primaryIdExists(String universalIdentifier) {
         return businessObjectService.countMatching(ProjectDirector.class, mapPrimaryKeys(universalIdentifier)) > 0;
     }

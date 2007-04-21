@@ -129,7 +129,7 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
 
         getNewCollectionLine(PROPOSAL_SUBCONTRACTORS).refreshNonUpdateableReferences();
 
-        // the org list doesn't need any refresh
+        refreshNonUpdateableReferences(getProposal().getProposalOrganizations());
         refreshNonUpdateableReferences(getProposal().getProposalSubcontractors());
         refreshNonUpdateableReferences(getProposal().getProposalResearchRisks());
 

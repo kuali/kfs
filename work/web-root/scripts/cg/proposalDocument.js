@@ -36,6 +36,30 @@ function onblur_proposalStatusCode( proposalStatusCodeField ) {
     }
 }
 
+function organizationNameLookup( anyFieldOnProposalOrganization ) {
+    var elPrefix = findElPrefix( anyFieldOnProposalOrganization.name );
+    var chartOfAccountsCode = DWRUtil.getValue( elPrefix + ".chartOfAccountsCode" ).toUpperCase();
+    var organizationCode = DWRUtil.getValue( elPrefix + ".organizationCode" ).toUpperCase();
+    var targetFieldName = elPrefix + ".organization.organizationName";
+    if (chartOfAccountsCode == "" || organizationCode == "") {
+        clearRecipients( targetFieldName );
+    } else {
+        var dwrReply = {
+            callback:function(data) {
+                if (data != null && typeof data == 'object') {
+                    setRecipientValue( targetFieldName, data.organizationName );
+                } else {
+                    setRecipientValue( targetFieldName, wrapError( "organization not found" ), true );
+                }
+            },
+            errorHandler:function(errorMessage) {
+                setRecipientValue( targetFieldName, wrapError( "organization not found" ), true );
+            }
+        };
+        OrganizationService.getByPrimaryIdWithCaching( chartOfAccountsCode, organizationCode, dwrReply );
+    }
+}
+
 function proposalDirectorIDLookup( userIdField ) {
     var elPrefix = findElPrefix( userIdField.name );
 	var userNameFieldName = elPrefix + ".personName";
@@ -48,8 +72,8 @@ function loadDirectorInfo( userIdFieldName, universalIdFieldName, userNameFieldN
     var userId = DWRUtil.getValue( userIdFieldName );
 
     if (userId == "") {
-        clearRecipients( universalIdFieldName, "" );
-        clearRecipients( userNameFieldName, "" );
+        clearRecipients( universalIdFieldName );
+        clearRecipients( userNameFieldName );
     } else {
         var dwrReply = {
             callback:function(data) {
@@ -57,11 +81,11 @@ function loadDirectorInfo( userIdFieldName, universalIdFieldName, userNameFieldN
                     setRecipientValue( universalIdFieldName, data.personUniversalIdentifier );
                     setRecipientValue( userNameFieldName, data.personName );
                 } else {
-                    setRecipientValue( universalIdFieldName, "" );
+                    clearRecipients( universalIdFieldName );
                     setRecipientValue( userNameFieldName, wrapError( "director not found" ), true );
                 } },
             errorHandler:function( errorMessage ) {
-                setRecipientValue( universalIdFieldName, "" );
+                clearRecipients( universalIdFieldName );
                 setRecipientValue( userNameFieldName, wrapError( "director not found" ), true );
             }
         };

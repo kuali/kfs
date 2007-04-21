@@ -169,7 +169,7 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
         businessObjectService = (BusinessObjectService) beanFactory.getBean("businessObjectService");
         persistenceService = (PersistenceService) beanFactory.getBean("persistenceService");
 
-        int numberOfDocuments = Integer.valueOf(properties.getProperty("getCSFTracker.numOfData"));
+        int numberOfDocuments = Integer.valueOf(properties.getProperty("getCSFTracker.numberOfDocuments"));
         List<CalculatedSalaryFoundationTracker> inputDataList = new ArrayList<CalculatedSalaryFoundationTracker>();
         for (int i = 1; i <= numberOfDocuments; i++) {
             String propertyKey = "getCSFTracker.testData" + i;
@@ -180,7 +180,7 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
         }
         
         String testTarget = "getCSFTracker.";
-        this.csfNumberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
+        this.csfNumberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numberOfDocuments"));
         this.csfExpectedInsertion = Integer.valueOf(properties.getProperty(testTarget + "expectedInsertion"));
         businessObjectService.save(inputDataList);
     }

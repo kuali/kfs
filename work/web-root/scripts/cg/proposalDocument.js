@@ -49,35 +49,35 @@ function onblur_federalPassThroughAgencyNumber( federalPassThroughAgencyNumberFi
 }
 
 function singleKeyLookup( dwrFunction, primaryKeyField, boName, propertyName ) {
-    var primaryKeyValue = DWRUtil.getValue( primaryKeyField.name );
+    var primaryKeyValue = DWRUtil.getValue( primaryKeyField.name ).trim();
     var targetFieldName = findElPrefix( primaryKeyField.name ) + "." + boName + "." + propertyName;
     if (primaryKeyValue == "") {
         clearRecipients( targetFieldName );
     } else {
-        var friendlyBoName = boName.replace(/([A-Z])/g, ' $1').toLowerCase();
-        dwrFunction( primaryKeyValue, makeDwrSingleReply( friendlyBoName, propertyName, targetFieldName));
+        dwrFunction( primaryKeyValue, makeDwrSingleReply( boName, propertyName, targetFieldName));
     }
 }
 
 function makeDwrSingleReply( boName, propertyName, targetFieldName ) {
+    var friendlyBoName = boName.replace(/([A-Z])/g, ' $1').toLowerCase();
     return {
         callback:function(data) {
             if (data != null && typeof data == 'object') {
                 setRecipientValue( targetFieldName, data[propertyName] );
             } else {
-                setRecipientValue( targetFieldName, wrapError( boName + " not found" ), true );
+                setRecipientValue( targetFieldName, wrapError( friendlyBoName + " not found" ), true );
             }
         },
         errorHandler:function(errorMessage) {
-            setRecipientValue( targetFieldName, wrapError( boName + " not found" ), true );
+            setRecipientValue( targetFieldName, wrapError( friendlyBoName + " not found" ), true );
         }
     };
 }
 
 function organizationNameLookup( anyFieldOnProposalOrganization ) {
     var elPrefix = findElPrefix( anyFieldOnProposalOrganization.name );
-    var chartOfAccountsCode = DWRUtil.getValue( elPrefix + ".chartOfAccountsCode" ).toUpperCase();
-    var organizationCode = DWRUtil.getValue( elPrefix + ".organizationCode" ).toUpperCase();
+    var chartOfAccountsCode = DWRUtil.getValue( elPrefix + ".chartOfAccountsCode" ).toUpperCase().trim();
+    var organizationCode = DWRUtil.getValue( elPrefix + ".organizationCode" ).toUpperCase().trim();
     var targetFieldName = elPrefix + ".organization.organizationName";
     if (chartOfAccountsCode == "" || organizationCode == "") {
         clearRecipients( targetFieldName );
@@ -96,7 +96,7 @@ function proposalDirectorIDLookup( userIdField ) {
 }
 
 function loadDirectorInfo( userIdFieldName, universalIdFieldName, userNameFieldName ) {
-    var userId = DWRUtil.getValue( userIdFieldName );
+    var userId = DWRUtil.getValue( userIdFieldName ).trim();
 
     if (userId == "") {
         clearRecipients( universalIdFieldName );

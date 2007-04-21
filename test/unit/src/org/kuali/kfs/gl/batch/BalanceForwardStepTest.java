@@ -30,6 +30,7 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.OriginEntryTestBase;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
+import org.kuali.module.gl.dao.UnitTestSqlDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.util.GeneralLedgerTestHelper;
@@ -61,17 +62,16 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
     /**
      * Test the encumbrance forwarding process in one fell swoop.
      * 
-     * IF THIS TEST FAILS, READ https://test.kuali.org/jira/browse/KULRNE-34 regarding reference numbers
+     * IF THIS TEST FAILS, READ https://test.kuali.org/jira/browse/KULRNE-34 regarding reference numbers and the year end dates
      * 
      * @throws Exception ## WARNING: DO NOT run this test or rename this method. WARNING ## ## WARNING: This one test takes just
      *         under 3 hours to run WARNING ## ## WARNING: over the vpn. WARNING ##
      */
-    @RelatesTo(RelatesTo.JiraIssue.KULRNE34)
     public void testAll() throws Exception {
 
         clearOriginEntryTables();
         BalanceTestHelper.populateBalanceTable();
-
+        
         // Execute the step ...
         BalanceForwardStep step = (BalanceForwardStep) beanFactory.getBean("glBalanceForwardStep");
         step.execute();
@@ -150,4 +150,16 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
 
     }
 
+    
+    /**
+     * This method resets the application params to values that are appropriate for year end dates
+     * 
+     * @see org.kuali.module.gl.OriginEntryTestBase#setApplicationConfigurationFlag(java.lang.String, boolean)
+     */
+    @Override
+    protected void setApplicationConfigurationFlag(String name, boolean value) {
+        super.setApplicationConfigurationFlag(name, value);
+        unitTestSqlDao.sqlCommand("update FS_PARM_T set FS_PARM_TXT = '2004-01-01' where FS_SCR_NM = 'fis_gl_year_end.sh' and FS_PARM_NM = 'TRANSACTION_DT'");
+        unitTestSqlDao.sqlCommand("update FS_PARM_T set FS_PARM_TXT = '2004' where FS_SCR_NM = 'fis_gl_year_end.sh' and FS_PARM_NM = 'UNIV_FISCAL_YR'");
+    }
 }

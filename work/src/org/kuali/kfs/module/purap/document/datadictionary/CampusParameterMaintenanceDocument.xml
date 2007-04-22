@@ -62,6 +62,9 @@
 					<maintainableField name="purchasingDepartmentStateCode"/>
 					<maintainableField name="purchasingDepartmentZipCode"/>
 					<maintainableField name="purchasingDepartmentCountryCode"/>
+                    <maintainableField name="active">
+                    	<defaultValue>true</defaultValue>
+                     </maintainableField>					
 					<maintainableField name="versionNumber" />
 				</maintainableItems>
 			</maintainableSection>

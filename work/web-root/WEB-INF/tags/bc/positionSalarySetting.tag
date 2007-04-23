@@ -275,7 +275,7 @@
                displayHidden="false"
                lookupOrInquiryKeys="chartOfAccountsCode"
                accountingLineValuesMap="${KualiForm.newBCAFLine.valuesMap}"
-               anchor="salarynewLineLineFYAnchor" />
+               anchor="salarynewLineLineAccountAnchor" />
            
            <bc:pbglLineDataCell dataCellCssClass="infoline"
                accountingLine="newBCAFLine"
@@ -286,7 +286,8 @@
                readOnly="${readOnly}"
                displayHidden="false"
                lookupOrInquiryKeys="chartOfAccountsCode,accountNumber"
-               accountingLineValuesMap="${KualiForm.newBCAFLine.valuesMap}" />
+               accountingLineValuesMap="${KualiForm.newBCAFLine.valuesMap}"
+               anchor="salarynewLineLineSubAccountAnchor" />
 
            <bc:pbglLineDataCell dataCellCssClass="infoline"
                accountingLine="newBCAFLine"
@@ -299,43 +300,39 @@
                displayHidden="false"
                lookupOrInquiryKeys="chartOfAccountsCode"
                accountingLineValuesMap="${KualiForm.newBCAFLine.valuesMap}"
-               inquiryExtraKeyValues="universityFiscalYear=${KualiForm.newBCAFLine.universityFiscalYear}" />
+               inquiryExtraKeyValues="universityFiscalYear=${KualiForm.newBCAFLine.universityFiscalYear}"
+               anchor="salarynewLineLineObjectCodeAnchor" />
 
-           <c:set var="doLookupOrInquiry" value="false"/>
-           <c:if test="${KualiForm.newBCAFLine.financialSubObjectCode ne Constants.DASHES_SUB_OBJECT_CODE}">
-               <c:set var="doLookupOrInquiry" value="true"/>
-           </c:if>
-           <bc:pbglLineDataCell dataCellCssClass="datacell"
+           <bc:pbglLineDataCell dataCellCssClass="infoline"
                accountingLine="newBCAFLine"
                field="financialSubObjectCode" detailFunction="loadSubObjectInfo"
                detailFunctionExtraParam="'KualiForm.newBCAFLine.universityFiscalYear', "
                detailField="financialSubObject.financialSubObjectCdshortNm"
-               attributes="${bcafAttributes}" inquiry="${doLookupOrInquiry}"
+               attributes="${bcafAttributes}" lookup="true" inquiry="true"
                boClassSimpleName="SubObjCd"
                readOnly="${readOnly}"
                displayHidden="false"
-               lookupOrInquiryKeys="chartOfAccountsCode,financialObjectCode,accountNumber"
+               lookupOrInquiryKeys="universityFiscalYear,chartOfAccountsCode,financialObjectCode,accountNumber"
                accountingLineValuesMap="${KualiForm.newBCAFLine.valuesMap}"
-               inquiryExtraKeyValues="universityFiscalYear=${KualiForm.newBCAFLine.universityFiscalYear}" />
+               inquiryExtraKeyValues="universityFiscalYear=${KualiForm.newBCAFLine.universityFiscalYear}"
+               anchor="salarynewLineLineSubObjectCodeAnchor" />
 
-           <c:set var="doLookupOrInquiry" value="false"/>
-           <c:if test="${KualiForm.newBCAFLine.emplid ne Constants.BudgetConstructionConstants.VACANT_EMPLID}">
-               <c:set var="doLookupOrInquiry" value="true"/>
-           </c:if>
-           <bc:pbglLineDataCell dataCellCssClass="datacell"
+<%-- TODO need javascript to implement AJAX like call to refresh name --%>
+           <bc:pbglLineDataCell dataCellCssClass="infoline"
                accountingLine="newBCAFLine"
                field="emplid"
-               attributes="${bcafAttributes}" inquiry="${doLookupOrInquiry}"
+               attributes="${bcafAttributes}" lookup="true" inquiry="true"
                boClassSimpleName="BudgetConstructionIntendedIncumbent"
                boPackageName="org.kuali.module.budget.bo"
                readOnly="${readOnly}"
                displayHidden="false"
-               accountingLineValuesMap="${KualiForm.newBCAFLine.valuesMap}" />
+               accountingLineValuesMap="${KualiForm.newBCAFLine.valuesMap}"
+               anchor="salarynewLineLineEmplidAnchor" />
 
 <%-- TODO format name to break into separate lines at comma to save horizontal screen realestate --%>
             <c:choose>
             <c:when test="${KualiForm.newBCAFLine.emplid ne Constants.BudgetConstructionConstants.VACANT_EMPLID}">
-                <bc:pbglLineDataCell dataCellCssClass="datacell"
+                <bc:pbglLineDataCell dataCellCssClass="infoline"
                     cellProperty="newBCAFLine.budgetConstructionIntendedIncumbent.personName"
                     field="personName"
                     attributes="${intincAttributes}"

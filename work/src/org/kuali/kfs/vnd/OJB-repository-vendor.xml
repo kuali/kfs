@@ -136,10 +136,6 @@
         <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
         <inverse-foreignkey field-ref="vendorDetailAssignedIdentifier" />
     </collection-descriptor>
-    <collection-descriptor name="divisions" element-class-ref="org.kuali.module.vendor.bo.VendorDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true">
-        <orderby name="vendorDetailAssignedIdentifier" sort="ASC" />
-        <inverse-foreignkey field-ref="vendorHeaderGeneratedIdentifier" />
-    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.vendor.bo.VendorAddress" table="PUR_VNDR_ADDR_T">

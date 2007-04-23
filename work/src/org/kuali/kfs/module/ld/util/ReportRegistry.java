@@ -43,6 +43,11 @@ public enum ReportRegistry {
     private String reportFilename;
     private String reportTitle;
     
+    /**
+     * Constructs a ReportRegistry.java.
+     * @param reportFilename the report file name
+     * @param reportTitle the report title
+     */
     private ReportRegistry(String reportFilename, String reportTitle){
         this.reportFilename = reportFilename;
         this.reportTitle = reportTitle;

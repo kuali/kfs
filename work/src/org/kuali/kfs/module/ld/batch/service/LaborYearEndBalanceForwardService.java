@@ -24,10 +24,11 @@ public interface LaborYearEndBalanceForwardService {
 
     /**
      * moves the Year-to-Date Total plus the Contracts and Grants Beginning Balances to the Contracts and Grants Beginning Balances
-     * of the new fiscal year for a designated group of accounts
+     * of the new fiscal year for a designated group of accounts. The fiscal year is given through application parameter table. The
+     * new fiscal year is (fiscalYear + 1) by default.
      */
     public void forwardBalance();
-    
+
     /**
      * moves the Year-to-Date Total plus the Contracts and Grants Beginning Balances to the Contracts and Grants Beginning Balances
      * of the new fiscal year for a designated group of accounts
@@ -35,4 +36,13 @@ public interface LaborYearEndBalanceForwardService {
      * @param fiscalYear the fiscal year to be processed. The new fiscal year is (fiscalYear + 1) by default.
      */
     public void forwardBalance(Integer fiscalYear);
+
+    /**
+     * moves the Year-to-Date Total plus the Contracts and Grants Beginning Balances to the Contracts and Grants Beginning Balances
+     * of the new fiscal year for a designated group of accounts
+     * 
+     * @param fiscalYear the fiscal year to be processed.
+     * @param newFiscalYear the new fiscal year
+     */
+    public void forwardBalance(Integer fiscalYear, Integer newFiscalYear);
 }

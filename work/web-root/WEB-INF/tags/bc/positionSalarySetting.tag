@@ -338,7 +338,7 @@
                     attributes="${intincAttributes}"
                     readOnly="true"
                     displayHidden="false" />
-                <bc:pbglLineDataCell dataCellCssClass="datacell"
+                <bc:pbglLineDataCell dataCellCssClass="infoline"
                     cellProperty="newBCAFLine.budgetConstructionIntendedIncumbent.iuClassificationLevel"
                     field="iuClassificationLevel"
                     attributes="${intincAttributes}"
@@ -348,18 +348,18 @@
                 <td>${item.budgetConstructionIntendedIncumbent.iuClassificationLevel}</td>
 --%>
 <%-- TODO add adminstrative post ref to BCAF and here --%>
-                <td>&nbsp;</td>
+                <td class="infoline">&nbsp;</td>
             </c:when>
             <c:otherwise>
-                <bc:pbglLineDataCell dataCellCssClass="datacell"
+                <bc:pbglLineDataCell dataCellCssClass="infoline"
                     cellProperty="newBCAFLine.budgetConstructionIntendedIncumbent.personName"
                     field="personName"
                     attributes="${intincAttributes}"
                     readOnly="true"
                     formattedNumberValue="${Constants.BudgetConstructionConstants.VACANT_EMPLID}"
                     displayHidden="false" />
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
+                <td class="infoline">&nbsp;</td>
+                <td class="infoline">&nbsp;</td>
             </c:otherwise>
             </c:choose>
 

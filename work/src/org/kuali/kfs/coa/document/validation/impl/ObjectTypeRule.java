@@ -21,7 +21,7 @@ import java.util.HashMap;
 import org.kuali.KeyConstants;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.module.chart.bo.AccountCategory;
+import org.kuali.module.chart.bo.BasicAccountingCategory;
 import org.kuali.module.chart.bo.ObjectType;
 
 public class ObjectTypeRule extends MaintenanceDocumentRuleBase {
@@ -49,11 +49,11 @@ public class ObjectTypeRule extends MaintenanceDocumentRuleBase {
         boolean result = true;
         ObjectType objectType = (ObjectType)document.getNewMaintainableObject().getBusinessObject();
         Map pkMap = new HashMap();
-        pkMap.put("accountCategoryCode", objectType.getAccountCategoryCode());
-        AccountCategory accountCategory = (AccountCategory)this.getBoService().findByPrimaryKey(AccountCategory.class, pkMap);
-        if (accountCategory == null) {
+        pkMap.put("accountCategoryCode", objectType.getBasicAccountingCategoryCode());
+        BasicAccountingCategory basicAccountingCategory = (BasicAccountingCategory)this.getBoService().findByPrimaryKey(BasicAccountingCategory.class, pkMap);
+        if (basicAccountingCategory == null) {
             result = false;
-            putFieldError("accountCategoryCode", KeyConstants.ERROR_DOCUMENT_OBJTYPE_INVALID_ACCT_CTGRY, new String[] { objectType.getAccountCategoryCode() });
+            putFieldError("basicAccountingCategoryCode", KeyConstants.ERROR_DOCUMENT_OBJTYPE_INVALID_ACCT_CTGRY, new String[] { objectType.getBasicAccountingCategoryCode() });
         }
         return result;
     }

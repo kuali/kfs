@@ -37,9 +37,9 @@ public class ObjectType extends KualiCodeBase {
     private boolean finObjectTypeIcrSelectionIndicator;
     private boolean fundBalanceIndicator;
     private String financialReportingSortCode;
-    private String accountCategoryCode;
+    private String basicAccountingCategoryCode;
 
-    private AccountCategory accountCategory;
+    private BasicAccountingCategory basicAccountingCategory;
     
     /**
      * Gets the finObjectTypeDebitcreditCd attribute.
@@ -125,33 +125,33 @@ public class ObjectType extends KualiCodeBase {
      * Gets the accountCategoryCode attribute. 
      * @return Returns the accountCategoryCode.
      */
-    public String getAccountCategoryCode() {
-        return accountCategoryCode;
+    public String getBasicAccountingCategoryCode() {
+        return basicAccountingCategoryCode;
     }
 
     /**
      * Sets the accountCategoryCode attribute value.
      * @param accountCategoryCode The accountCategoryCode to set.
      */
-    public void setAccountCategoryCode(String accountCategoryCode) {
-        this.accountCategoryCode = accountCategoryCode;
+    public void setBasicAccountingCategoryCode(String accountCategoryCode) {
+        this.basicAccountingCategoryCode = accountCategoryCode;
     }
 
     /**
-     * Gets the accountCategory attribute. 
-     * @return Returns the accountCategory.
+     * Gets the basicAccountingCategory attribute. 
+     * @return Returns the basicAccountingCategory.
      */
-    public AccountCategory getAccountCategory() {
-        return accountCategory;
+    public BasicAccountingCategory getBasicAccountingCategory() {
+        return basicAccountingCategory;
     }
 
     /**
-     * Sets the accountCategory attribute value.
-     * @param accountCategory The accountCategory to set.
+     * Sets the basicAccountingCategory attribute value.
+     * @param basicAccountingCategory The basicAccountingCategory to set.
      * @deprecated
      */
-    public void setAccountCategory(AccountCategory accountCategory) {
-        this.accountCategory = accountCategory;
+    public void setBasicAccountingCategory(BasicAccountingCategory basicAccountingCategory) {
+        this.basicAccountingCategory = basicAccountingCategory;
     }
 
 }

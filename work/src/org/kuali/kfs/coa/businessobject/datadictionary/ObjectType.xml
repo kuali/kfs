@@ -31,7 +31,7 @@
                 <field attributeName="finObjectTypeIcrSelectionIndicator" />
                 <field attributeName="fundBalanceIndicator" />
                 <field attributeName="financialReportingSortCode" />
-                <field attributeName="accountCategory.codeAndDescription" />
+                <field attributeName="basicAccountingCategory.codeAndDescription" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -45,7 +45,7 @@
             <lookupFields>
                 <lookupField attributeName="code" required="false" />
                 <lookupField attributeName="name" required="false" />
-                <lookupField attributeName="accountCategoryCode" required="false" />
+                <lookupField attributeName="basicAccountingCategoryCode" required="false" />
             </lookupFields>
 
             <resultFields>
@@ -55,7 +55,7 @@
                 <field attributeName="finObjectTypeIcrSelectionIndicator" />
                 <field attributeName="fundBalanceIndicator" />
                 <field attributeName="financialReportingSortCode" />
-				<field attributeName="accountCategoryCode" />
+				<field attributeName="basicAccountingCategoryCode" />
             </resultFields>
         </lookup>
 
@@ -142,17 +142,17 @@
                 <description>Fund Balance Indicator</description>
             </attributeReference>
 
-			<attributeReference name="accountCategoryCode" sourceClassName="org.kuali.module.chart.bo.AccountCategory" sourceAttributeName="accountCategoryCode">
-				<label>Account Category</label>
-				<shortLabel>AccountCategory</shortLabel>
+			<attributeReference name="basicAccountingCategoryCode" sourceClassName="org.kuali.module.chart.bo.BasicAccountingCategory" sourceAttributeName="code">
+				<label>Basic Accounting Category</label>
+				<shortLabel>BasicAcctngCategory</shortLabel>
 				
 				<required>true</required>
                 <control>
-                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.AccountCategoryValuesFinder" />
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.BasicAccountingCategoryValuesFinder" />
                 </control>
 				
-				<summary>Account Category</summary>
-				<description>Account Category</description>
+				<summary>Basic Accounting Category</summary>
+				<description>Basic Accounting Category</description>
 			</attributeReference>
 
             <attributeReference name="objectId" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="objectId" />

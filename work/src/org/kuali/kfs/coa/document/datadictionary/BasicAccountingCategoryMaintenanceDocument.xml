@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2005-2007 The Kuali Foundation.
+ Copyright 2007 The Kuali Foundation.
  
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -20,12 +20,10 @@
 
 <dictionaryEntry>
     <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.chart.bo.ObjectType</businessObjectClass>
+        <businessObjectClass>org.kuali.module.chart.bo.BasicAccountingCategory</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
 
-		<businessRulesClass>org.kuali.module.chart.rules.ObjectTypeRule</businessRulesClass>
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
@@ -34,28 +32,29 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiObjectTypeMaintenanceDocument</documentTypeName>
-        <documentTypeCode>OTYP</documentTypeCode>
-        <label>Object Type Maintenance Document</label>
-        <shortLabel>ObjTypeMaintDoc</shortLabel>
-        <summary>Object Type Maintenance Document</summary>
-        <description>Maintenance document which allows you to create new Object Types, or modify existing Object Types.</description>
-        <help securityGroupName="ChartMaintenanceEDoc" parameterName="CHART_HELP_OBJECT_TYPE" />
+        <documentTypeName>KualiBasicAccountingCategoryMaintenanceDocument</documentTypeName>
+        <documentTypeCode>ACTY</documentTypeCode>
+
+        <label>Basic Accounting Category Maintenance Document</label>
+        <shortLabel>BasicAcctngCategoryMaintDoc</shortLabel>
+
+        <summary>Basic Accounting Category maintenance document</summary>
+        <description>Document used to create or update Basic Accounting Category objects</description>
 
         <lockingKeys>
             <field attributeName="code" />
         </lockingKeys>
 
         <maintainableSections>
-            <maintainableSection title="Edit Object Type">
+            <maintainableSection title="Edit Basic Accounting Category Code">
                 <maintainableItems>
                     <maintainableField name="code" required="true" />
-                    <maintainableField name="name" required="true" />
-                    <maintainableField name="finObjectTypeDebitcreditCd" required="true" />
-                    <maintainableField name="finObjectTypeIcrSelectionIndicator"  />
-                    <maintainableField name="fundBalanceIndicator"  />
-                    <maintainableField name="financialReportingSortCode" required="true" />
-                    <maintainableField name="basicAccountingCategoryCode" required="true" />
+                    <maintainableField name="description" required="true" />
+                    <maintainableField name="shortName" />
+                    <maintainableField name="sortCode" required="true" />
+					<maintainableField name="active" required="false">
+						<defaultValue>true</defaultValue>
+					</maintainableField>
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

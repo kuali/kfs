@@ -22,7 +22,8 @@
 
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for this row's fields." %>
-
+<%@ attribute name="itemAttributes" required="true" type="java.util.Map"
+              description="The DataDictionary entry containing attributes for item's fields." %>
 <%@ attribute name="displayPurchaseOrderFields" required="false"
               description="Boolean to indicate if PO specific fields should be displayed" %>
              
@@ -66,19 +67,20 @@
         <table width="100%" border=0 align=center cellpadding=0 cellspacing=0 class="bord-r-t" id="itemsTable">
             <tbody>
                 <tr>
-                    <th align=left valign=top class="datacell" colspan=7>
+                    <th align=left valign=top class="datacell" colspan=8>
                         <p><strong><br>Items<br><br></strong></p>
                     </th>
                 </tr>
                 <tr>
-                    <th align=left valign=top class="datacell" colspan=7>
-                        <input type="image" name="btnSelectAll" src="images/buttonsmall_selectall.gif" alt="Select all items." hspace=4 align=absmiddle>
+                    <th align=left valign=top class="datacell" colspan=8>
+                        <input type="image" name="methodToCall.selectAllForRetransmit" src="images/buttonsmall_selectall.gif" alt="Select all items." hspace=4 align=absmiddle>
 		  		        &nbsp;&nbsp;
-                        <input type="image" name="btnDeselectAll" src="images/buttonsmall_deselect.gif" alt="Deselect all items." hspace=4 align=absmiddle>
+                        <input type="image" name="methodToCall.deselectAllForRetransmit" src="images/buttonsmall_deselect.gif" alt="Deselect all items." hspace=4 align=absmiddle>
                     </th>
                 </tr>
                 <tr>
                     <th width=20 align=center><b>Select</b></th>
+                    <th width=20 align=center><b>Item Type Code</b></th>
                     <th width=72 align=center><b>Qty</b></th>
                     <th width=48 align=center><b>UOM</b></th>
                     <th width=112 align=center><b>Catalog Number</b></th>
@@ -86,35 +88,55 @@
                     <th width=89 align=center><b>Unit Cost</b></th>
                     <th width=141 align=center><b>Extended Cost</b></th>
                 </tr>
-                <nested:iterate name="KualiForm" property="purchaseOrderDocument.items" id="item" indexId="itemIndex">
-                    <c:if test="${ (item.active) and (not item.retransmitDisplay) }">
-                        <tr>
+                <logic:iterate indexId="ctr" name="KualiForm" property="document.items" id="itemLine">
+                    <%-- c:if test="${ (item.active) and (not item.retransmitDisplay) }" --%>
+                        <%--tr>
+                            <td valign="top" align="left" class="datacell" nowrap="nowrap" --%>
+                                <%-- html:multibox property="retransmitItemsSelected" value="${item.itemLineNumber}" --%>
+                                
+                                    <%-- bean:write name="item"/ --%>
+                                <%-- /html:multibox --%>
+                            <%--/td>
                             <td valign="top" align="left" class="datacell" nowrap="nowrap">
-                                <html:multibox property="retransmitItemsSelected" value="${item.itemLineNumber}">
-                                    <bean:write name="item"/>
-                                </html:multibox>
+                                <bean:write property="document.item[${ctr}].itemOrderedQuantity"/>
                             </td>
                             <td valign="top" align="left" class="datacell" nowrap="nowrap">
-                                <bean:write name="item" property="itemOrderedQuantity"/>
+                                <bean:write property="document.item[${ctr}].itemUnitOfMeasureCode"/>
                             </td>
                             <td valign="top" align="left" class="datacell" nowrap="nowrap">
-                                <bean:write name="item" property="itemUnitOfMeasureCode"/>
-                            </td>
-                            <td valign="top" align="left" class="datacell" nowrap="nowrap">
-                                <bean:write name="item" property="itemCatalogNumber"/>
+                                <bean:write name="item" property="document.item[${ctr}].itemCatalogNumber"/>
                             </td>
                             <td valign="top" align="left" class="datacell">
-                                <bean:write name="item" property="itemDescription"/>
+                                <bean:write name="item" property="document.item[${ctr}].itemDescription"/>
                             </td>
                             <td valign="top" align="left" class="datacell" nowrap="nowrap">
-                                <bean:write name="item" property="itemUnitPrice"/>
+                                <bean:write name="item" property="document.item[${ctr}].itemUnitPrice"/>
                             </td>
                             <td valign="top" align="left" class="datacell" nowrap="nowrap">
-                                <bean:write name="item" property="extendedPrice"/>
+                                <bean:write name="item" property="document.item[${ctr}].extendedPrice"/>
                             </td>
-                        </tr>
-                    </c:if>
-                </nested:iterate>
+                        </tr --%>
+                    <%-- /c:if --%>
+                    			<tr>
+			
+				<kul:htmlAttributeHeaderCell scope="row">
+                    <html:hidden property="document.item[${ctr}].documentNumber" />
+           		    <html:hidden property="document.item[${ctr}].itemIdentifier" />
+           		    <html:hidden property="document.item[${ctr}].itemLineNumber" />
+           		    <html:hidden property="document.item[${ctr}].itemOrderedQuantity" />
+                    <html:hidden property="document.item[${ctr}].versionNumber" />
+                    <div align="center"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemSelectedForRetransmitIndicator}" property="document.item[${ctr}].itemSelectedForRetransmitIndicator" /></div>
+                </kul:htmlAttributeHeaderCell>
+
+                <td class="datacell"><kul:htmlControlAttribute readOnly="true" attributeEntry="${itemAttributes.itemTypeCode}" property="document.item[${ctr}].itemTypeCode" /></td>
+                <td class="datacell"><kul:htmlControlAttribute readOnly="true" attributeEntry="${itemAttributes.itemQuantity}" property="document.item[${ctr}].itemQuantity" /></td>			
+ 				<td class="datacell"><kul:htmlControlAttribute readOnly="true" attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" property="document.item[${ctr}].itemUnitOfMeasureCode" /></td>
+ 				<td class="datacell"><kul:htmlControlAttribute readOnly="true" attributeEntry="${itemAttributes.itemCatalogNumber}" property="document.item[${ctr}].itemCatalogNumber" /></td>
+ 				<td class="datacell"><kul:htmlControlAttribute readOnly="true" attributeEntry="${itemAttributes.itemDescription}" property="document.item[${ctr}].itemDescription" /></td>
+ 				<td class="datacell"><kul:htmlControlAttribute readOnly="true" attributeEntry="${itemAttributes.itemUnitPrice}" property="document.item[${ctr}].itemUnitPrice" /></td>
+ 				<td class="datacell"><kul:htmlControlAttribute readOnly="true" attributeEntry="${itemAttributes.extendedPrice}" property="document.item[${ctr}].extendedPrice" /></td>
+			</tr>
+                </logic:iterate>
             </tbody>
         </table>
 

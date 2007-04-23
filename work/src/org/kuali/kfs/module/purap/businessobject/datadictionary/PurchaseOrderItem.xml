@@ -490,6 +490,20 @@
                 <description>requisitionLineIdentifier description...</description>
 			</attribute>
 
+            <attribute name="itemSelectedForRetransmitIndicator" forceUppercase="true">
+                <label>Item Selected For Retransmit Indicator</label>
+                <shortLabel>Selected For Retransmit</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>itemSelectedForRetransmitIndicator</summary>
+                <description>itemSelectedForRetransmitIndicator description...</description>
+			</attribute>
+			
             <attribute name="versionNumber" forceUppercase="true">
                 <label>Version Number</label>
                 <shortLabel>Number</shortLabel>

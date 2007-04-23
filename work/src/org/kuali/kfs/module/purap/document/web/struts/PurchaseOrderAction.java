@@ -17,7 +17,7 @@ package org.kuali.module.purap.web.struts.action;
 
 import java.io.ByteArrayOutputStream;
 import java.sql.Date;
-import java.util.Collection;
+import java.util.List;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -42,6 +42,7 @@ import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.PODocumentsStrings;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderDocTypes;
+import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
@@ -346,6 +347,53 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return null;        
     }
     
+    /**
+     * 
+     * This method is invoked when the user clicks on the Select All button on a Purchase Order Retransmit
+     * document. It will select the checkboxes of all the items to be included in the retransmission of the
+     * PO.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward selectAllForRetransmit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
+        List <PurchaseOrderItem> items = po.getItems();
+        for (PurchaseOrderItem item : items) {
+            item.setItemSelectedForRetransmitIndicator(true);
+        }
+        ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * This method is invoked when the user clicks on the Deselect All button on a Purchase Order Retransmit
+     * document. It will uncheck the checkboxes of all the items to be excluded from the retransmission of the
+     * PO.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward deselectAllForRetransmit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
+        List <PurchaseOrderItem> items = po.getItems();
+        for (PurchaseOrderItem item : items) {
+            item.setItemSelectedForRetransmitIndicator(false);
+        }
+        ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
     public ActionForward retransmitPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
@@ -363,9 +411,10 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         }
         else {
             // This is a PurchaseOrderRetransmitDocument, so we'll display the pdf now
-
+            List items = po.getItems();
             po = SpringServiceLocator.getPurchaseOrderService().getPurchaseOrderByDocumentNumber(po.getDocumentNumber());
-
+            po.setItems(items);
+            
             ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
             try {
                 StringBuffer sbFilename = new StringBuffer();

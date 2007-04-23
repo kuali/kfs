@@ -17,6 +17,7 @@ package org.kuali.module.purap.service.impl;
 
 import java.io.ByteArrayOutputStream;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -32,8 +33,8 @@ import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.NoteService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
@@ -44,6 +45,7 @@ import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.module.purap.PurapConstants.RequisitionSources;
 import org.kuali.module.purap.PurapConstants.RequisitionStatuses;
 import org.kuali.module.purap.PurapConstants.VendorChoice;
+import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.dao.PurchaseOrderDao;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
@@ -57,7 +59,6 @@ import org.kuali.module.vendor.service.VendorService;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.clientapp.vo.WorkgroupIdVO;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 @Transactional
@@ -305,6 +306,15 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         String environment = kualiConfigurationService.getPropertyString( Constants.ENVIRONMENT_KEY );
         boolean isRetransmit = true;
         boolean result = true;
+        List<PurchaseOrderItem> items = po.getItems();
+        List<PurchaseOrderItem> retransmitItems = new ArrayList();
+        for (PurchaseOrderItem item : items) {
+            if (item.isItemSelectedForRetransmitIndicator()) {
+                item.refreshNonUpdateableReferences();
+                retransmitItems.add(item);
+            }
+        }
+        po.setItems(retransmitItems);
         Collection<String> generatePDFErrors = printService.generatePurchaseOrderPdf(po, baosPDF, isRetransmit, environment);
             
         if (generatePDFErrors.size() > 0) {

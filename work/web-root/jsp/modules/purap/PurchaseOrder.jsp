@@ -44,7 +44,9 @@
     </kul:documentOverview>
 
     <c:if test="${KualiForm.editingMode['displayRetransmitTab']}" >
-        <purap:purchaseOrderRetransmit documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}"
+        <purap:purchaseOrderRetransmit 
+            documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}"
+            itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}"
             displayPurchaseOrderFields="true" />
     </c:if>
     	 		 

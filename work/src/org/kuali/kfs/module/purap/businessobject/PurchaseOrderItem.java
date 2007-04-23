@@ -16,9 +16,11 @@
 
 package org.kuali.module.purap.bo;
 
+import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 
 /**
@@ -39,6 +41,9 @@ public class PurchaseOrderItem extends PurchasingItemBase {
 
     private PurchaseOrderDocument purchaseOrder;
 
+    //Not persisted to DB
+    private boolean itemSelectedForRetransmitIndicator;
+    
 	/**
 	 * Default constructor.
 	 */
@@ -222,6 +227,14 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         this.documentNumber = documentNumber;
     }
 
+    public boolean isItemSelectedForRetransmitIndicator() {
+        return itemSelectedForRetransmitIndicator;
+    }
+
+    public void setItemSelectedForRetransmitIndicator(boolean itemSelectedForRetransmitIndicator) {
+        this.itemSelectedForRetransmitIndicator = itemSelectedForRetransmitIndicator;
+    }
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
@@ -251,4 +264,15 @@ public class PurchaseOrderItem extends PurchasingItemBase {
     public void setItemQuantity(KualiDecimal quantity) {
         this.itemOrderedQuantity = quantity;
     }
+    
+    /**
+     * @see org.kuali.module.purap.bo.PurchasingItemBase#getExtendedPrice()
+     */
+    @Override
+    public KualiDecimal getExtendedPrice() {
+        if((this.getItemQuantity()==null) || (this.getItemUnitPrice()==null)) {
+            return new KualiDecimal("0");
+        }
+        return new KualiDecimal(this.getItemUnitPrice().multiply(new BigDecimal(this.getItemQuantity().toString())).toString()).setScale(PurapConstants.DOLLAR_AMOUNT_MIN_SCALE);
+    }    
 }

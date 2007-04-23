@@ -139,8 +139,11 @@ public class PositionSalarySettingAction extends KualiAction {
 
         //TODO this should figure out if user is returning to a rev or exp line and refresh just that
         //TODO this should also keep original values of obj, sobj to compare and null out dependencies when needed
-        if (refreshCaller != null && refreshCaller.equalsIgnoreCase(Constants.KUALI_LOOKUPABLE_IMPL)){
-            final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] {"chartOfAccounts", "account", "subAccount", "financialObject", "financialSubObject", "budgetConstructionDuration"}));
+//TODO need a better way to detect return from lookups
+//returning from account lookup sets refreshcaller to accountLookupable, due to setting in account.xml
+//        if (refreshCaller != null && refreshCaller.equalsIgnoreCase(Constants.KUALI_LOOKUPABLE_IMPL)){
+        if (refreshCaller != null && (refreshCaller.endsWith("Lookupable") || (refreshCaller.endsWith("LOOKUPABLE")))){
+            final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] {"chartOfAccounts", "account", "subAccount", "financialObject", "financialSubObject", "budgetConstructionIntendedIncumbent", "budgetConstructionDuration"}));
             KNSServiceLocator.getPersistenceService().retrieveReferenceObjects(positionSalarySettingForm.getNewBCAFLine(), REFRESH_FIELDS);            
         }
 

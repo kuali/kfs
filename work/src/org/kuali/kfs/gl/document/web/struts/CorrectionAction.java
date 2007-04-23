@@ -493,12 +493,6 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             int inputGroupSize = originEntryService.getGroupCount(correctionForm.getInputGroupId());
             int recordCountFunctionalityLimit = CorrectionDocumentUtils.getRecordCountFunctionalityLimit();
             
-            try {
-                throw new Exception("Testing code " + inputGroupSize + " " + recordCountFunctionalityLimit + " " + CorrectionDocumentUtils.isRestrictedFunctionalityMode(inputGroupSize, recordCountFunctionalityLimit));
-            }
-            catch (Exception e) {
-                e.printStackTrace(System.out);
-            }
             if (CorrectionDocumentUtils.isRestrictedFunctionalityMode(inputGroupSize, recordCountFunctionalityLimit)) {
                 correctionForm.setRestrictedFunctionalityMode(true);
                 correctionForm.setDataLoadedFlag(false);

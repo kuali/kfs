@@ -691,7 +691,7 @@ public class PurchaseOrderPdf extends PurapPdf {
             //If the unit price is not null and either the unit price > 0 or the item type is full order discount or trade in, we'll display this
             //line item on pdf.
             if ( (poi.getItemUnitPrice() != null) && 
-                 ((poi.getItemUnitPrice().compareTo(zero) == 1) || (poi.getItemType().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE)) ||
+                 ((poi.getItemUnitPrice().compareTo(zero.bigDecimalValue()) == 1) || (poi.getItemType().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE)) ||
                   (poi.getItemType().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE))) ) {
                 LOG.debug("lineItemDisplaysOnPdf() Item type is "+poi.getItemType().getItemTypeCode()+". Unit price is "+poi.getItemUnitPrice()+". Display on pdf.");
                 return true;
@@ -705,7 +705,7 @@ public class PurchaseOrderPdf extends PurapPdf {
                 LOG.debug("lineItemDisplaysOnPdf() Item type is "+poi.getItemType().getItemTypeCode()+" OrderQuantity and unit price are both null. Display on pdf.");
                 return true;
             }
-            if ( (poi.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE) && ((poi.getItemUnitPrice() != null) && (poi.getItemUnitPrice().compareTo(zero) >= 0)) ) ||
+            if ( (poi.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE) && ((poi.getItemUnitPrice() != null) && (poi.getItemUnitPrice().compareTo(zero.bigDecimalValue()) >= 0)) ) ||
                  ( ((!poi.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE)) && (poi.getItemOrderedQuantity().compareTo(zero) == 1)) && (poi.getItemUnitPrice() != null) ) ) {
                 LOG.debug("lineItemDisplaysOnPdf() Item type is "+poi.getItemType().getItemTypeCode()+" OrderQuantity is "+poi.getItemOrderedQuantity()+". Unit price is "+poi.getItemUnitPrice()+". Display on pdf.");
                 return true;

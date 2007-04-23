@@ -2,9 +2,9 @@
 package org.kuali.module.purap.pdf;
 
 import java.io.File;
-import java.math.BigDecimal;
 
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
@@ -57,7 +57,7 @@ public class PurapPdf extends PdfPageEventHelper {
     
     Font cour_10_normal = FontFactory.getFont("COURIER",10,0);
     
-    static BigDecimal zero = new BigDecimal(0);
+    static KualiDecimal zero = new KualiDecimal(0);
 
     private DateTimeService dateTimeService;
     

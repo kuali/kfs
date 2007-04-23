@@ -20,6 +20,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.DocumentHeader;
@@ -28,14 +29,20 @@ import org.kuali.core.document.Copyable;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.bo.BillingAddress;
+import org.kuali.module.purap.bo.CreditMemoView;
+import org.kuali.module.purap.bo.PaymentRequestView;
+import org.kuali.module.purap.bo.PurchaseOrderView;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.bo.RequisitionStatusHistory;
+import org.kuali.module.purap.bo.RequisitionView;
+import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.vendor.bo.VendorContract;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.service.PhoneNumberService;
@@ -60,6 +67,12 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     private Integer accountsPayablePurchasingDocumentLinkIdentifier;
     
     private PhoneNumberService phoneNumberService;
+    private PurapService purapService;
+
+//    private List<RequisitionView> relatedRequisitionViews;
+    private List<PurchaseOrderView> relatedPurchaseOrderViews;
+    private List<PaymentRequestView> relatedPaymentRequestViews;
+    private List<CreditMemoView> relatedCreditMemoViews;
 
 	/**
 	 * Default constructor.
@@ -84,7 +97,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
      * Perform logic needed to initiate Requisition Document
      */
     public void initiateDocument() {
-
         this.setRequisitionSourceCode( PurapConstants.RequisitionSources.STANDARD_ORDER );
         this.setStatusCode( PurapConstants.RequisitionStatuses.IN_PROCESS );
         this.setPurchaseOrderCostSourceCode( PurapConstants.POCostSources.ESTIMATE );
@@ -101,6 +113,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setRequestorPersonEmailAddress(currentUser.getUniversalUser().getPersonEmailAddress());
         this.phoneNumberService = SpringServiceLocator.getPhoneNumberService();
         this.setRequestorPersonPhoneNumber(phoneNumberService.formatNumberIfPossible(currentUser.getUniversalUser().getPersonLocalPhoneNumber()));
+        this.purapService = SpringServiceLocator.getPurapService();
         
         // set the APO limit
         this.setOrganizationAutomaticPurchaseOrderLimit(SpringServiceLocator.getRequisitionService().getApoLimit(this.getVendorContractGeneratedIdentifier(), this.getChartOfAccountsCode(), this.getOrganizationCode()));
@@ -592,6 +605,50 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
      */
     public void setAccountsPayablePurchasingDocumentLinkIdentifier(Integer accountsPayablePurchasingDocumentLinkIdentifier) {
         this.accountsPayablePurchasingDocumentLinkIdentifier = accountsPayablePurchasingDocumentLinkIdentifier;
+    }
+
+    public List<RequisitionView> getRelatedRequisitionViews() {
+        return null;
+    }
+
+    public List<CreditMemoView> getRelatedCreditMemoViews() {
+        if (relatedCreditMemoViews == null) {
+            relatedCreditMemoViews = new TypedArrayList(CreditMemoView.class);
+            List<CreditMemoView> tmpViews = getPurapService().getRelatedViews(CreditMemoView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            for (CreditMemoView view : tmpViews) {
+                relatedCreditMemoViews.add(view);
+            }
+        }
+        return relatedCreditMemoViews;
+    }
+
+    public List<PaymentRequestView> getRelatedPaymentRequestViews() {
+        if (relatedPaymentRequestViews == null) {
+            relatedPaymentRequestViews = new TypedArrayList(PaymentRequestView.class);
+            List<PaymentRequestView> tmpViews = getPurapService().getRelatedViews(PaymentRequestView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            for (PaymentRequestView view : tmpViews) {
+                relatedPaymentRequestViews.add(view);
+            }
+        }
+        return relatedPaymentRequestViews;
+    }
+
+    public List<PurchaseOrderView> getRelatedPurchaseOrderViews() {
+        if (relatedPurchaseOrderViews == null) {
+            relatedPurchaseOrderViews = new TypedArrayList(PurchaseOrderView.class);
+            List<PurchaseOrderView> tmpViews = getPurapService().getRelatedViews(PurchaseOrderView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            for (PurchaseOrderView view : tmpViews) {
+                relatedPurchaseOrderViews.add(view);
+            }
+        }
+        return relatedPurchaseOrderViews;
+    }
+    
+    private PurapService getPurapService() {
+        if (purapService == null) {
+            purapService = SpringServiceLocator.getPurapService();
+        }
+        return purapService;
     }
 
     /**

@@ -15,9 +15,23 @@
  */
 package org.kuali.module.purap.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ojb.broker.query.Criteria;
 import org.kuali.core.bo.Note;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.bo.Country;
+import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.SubAccount;
+import org.kuali.module.purap.bo.CreditMemoView;
+import org.kuali.module.purap.bo.PaymentRequestView;
+import org.kuali.module.purap.bo.PurchaseOrderView;
+import org.kuali.module.purap.bo.RequisitionView;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.service.PurapService;
 
@@ -118,7 +132,13 @@ public class PurapServiceImpl implements PurapService {
         LOG.debug("updateStatusHistory(): leaving method.");
         return success;
     }
-    
 
+    public List getRelatedViews(Class clazz, Integer accountsPayablePurchasingDocumentLinkIdentifier) {
+        BusinessObjectService boService = SpringServiceLocator.getBusinessObjectService();
+        Map<String, Integer> criteria = new HashMap();
+        criteria.put("accountsPayablePurchasingDocumentLinkIdentifier", accountsPayablePurchasingDocumentLinkIdentifier);
+        List boList = (List) boService.findMatching(clazz, criteria);
+        return boList;
+    }
 
 }

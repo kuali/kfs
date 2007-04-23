@@ -18,17 +18,24 @@ package org.kuali.module.purap.document;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.bo.CreditMemoView;
 import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PaymentRequestStatus;
 import org.kuali.module.purap.bo.PaymentRequestStatusHistory;
+import org.kuali.module.purap.bo.PaymentRequestView;
+import org.kuali.module.purap.bo.PurchaseOrderView;
+import org.kuali.module.purap.bo.RequisitionView;
+import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.vendor.bo.PaymentTermType;
 import org.kuali.module.vendor.bo.ShippingPaymentTerms;
 
@@ -85,11 +92,17 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private String purchaseOrderNotes;
    // private Date purchaseOrderEndDate;
 
+    private PurapService purapService;
+
     private PaymentRequestStatus paymentRequestStatus;
     private Campus processingCampus;
     private PurchaseOrderDocument purchaseOrderDocument;
     private PaymentTermType vendorPaymentTerms;
     private ShippingPaymentTerms vendorShippingPaymentTerms;
+
+    private List<RequisitionView> relatedRequisitionViews;
+    private List<PurchaseOrderView> relatedPurchaseOrderViews;
+    private List<CreditMemoView> relatedCreditMemoViews;
    
     // private ShippingTitle vendorShippingTitle;
    // private RecurringPaymentFrequency recurringPaymentFrequency;
@@ -1294,7 +1307,51 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         return "No";
     }
 
+    public List<PaymentRequestView> getRelatedPaymentRequestViews() {
+        return null;
+    }
 
+    public List<RequisitionView> getRelatedRequisitionViews() {
+        if (relatedRequisitionViews == null) {
+            relatedRequisitionViews = new TypedArrayList(RequisitionView.class);
+            List<RequisitionView> tmpViews = getPurapService().getRelatedViews(RequisitionView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            for (RequisitionView view : tmpViews) {
+                relatedRequisitionViews.add(view);
+            }
+        }
+        return relatedRequisitionViews;
+    }
+
+    public List<CreditMemoView> getRelatedCreditMemoViews() {
+        if (relatedCreditMemoViews == null) {
+            relatedCreditMemoViews = new TypedArrayList(CreditMemoView.class);
+            List<CreditMemoView> tmpViews = getPurapService().getRelatedViews(CreditMemoView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            for (CreditMemoView view : tmpViews) {
+                relatedCreditMemoViews.add(view);
+            }
+        }
+        return relatedCreditMemoViews;
+    }
+
+    public List<PurchaseOrderView> getRelatedPurchaseOrderViews() {
+        if (relatedPurchaseOrderViews == null) {
+            relatedPurchaseOrderViews = new TypedArrayList(PurchaseOrderView.class);
+            List<PurchaseOrderView> tmpViews = getPurapService().getRelatedViews(PurchaseOrderView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            for (PurchaseOrderView view : tmpViews) {
+                relatedPurchaseOrderViews.add(view);
+            }
+        }
+        return relatedPurchaseOrderViews;
+    }
+    
+    private PurapService getPurapService() {
+        if (purapService == null) {
+            purapService = SpringServiceLocator.getPurapService();
+        }
+        return purapService;
+    }
+
+    
     /**
      * Gets the purchaseOrderEndDate attribute. 
      * @return Returns the purchaseOrderEndDate.

@@ -173,6 +173,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             poDocument.setStatusCode(PurchaseOrderStatuses.IN_PROCESS);
             poDocument.setPurchaseOrderCurrentIndicator(true);
             poDocument.setPendingActionIndicator(false);
+            poDocument.setAccountsPayablePurchasingDocumentLinkIdentifier(reqDocument.getAccountsPayablePurchasingDocumentLinkIdentifier());
 
 // TODO: need this?
 //            poDocument.setInternalPurchasingLimit(getInternalPurchasingDollarLimit(po, u.getOrganization().getChart().getCode(), u.getOrganization().getCode()));
@@ -193,7 +194,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 poDocument.setVendorShippingPaymentTermsCode(vendor.getVendorShippingPaymentTermsCode());
                 poDocument.setVendorShippingTitleCode(vendor.getVendorShippingTitleCode());
             }
-
 
             documentService.updateDocument(poDocument);
             documentService.prepareWorkflowDocument(poDocument);

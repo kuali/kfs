@@ -75,6 +75,11 @@
 	
 	    <kul:routeLog />
 	</c:if>
+	
+    <purap:relatedDocuments
+           documentAttributes="${DataDictionary.RelatedDocuments.attributes}"
+           />
+
     <kul:panelFooter />
     <c:if test="${KualiForm.editingMode['displayInitTab']}">
  		<c:set var="extraButtons" value="${KualiForm.extraButtons}" />

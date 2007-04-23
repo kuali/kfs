@@ -15,7 +15,14 @@
  */
 package org.kuali.module.purap.service;
 
+import java.util.List;
+
 import org.kuali.core.bo.Note;
+import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.purap.bo.CreditMemoView;
+import org.kuali.module.purap.bo.PaymentRequestView;
+import org.kuali.module.purap.bo.PurchaseOrderView;
+import org.kuali.module.purap.bo.RequisitionView;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 
 public interface PurapService {
@@ -32,4 +39,6 @@ public interface PurapService {
     public boolean updateStatusHistory( PurchasingAccountsPayableDocument document,
             String statusToSet, Note statusHistoryNote );
     
+    public List getRelatedViews(Class clazz, Integer accountsPayablePurchasingDocumentLinkIdentifier);
+
 }

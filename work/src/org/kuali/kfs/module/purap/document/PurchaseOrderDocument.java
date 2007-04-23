@@ -30,11 +30,16 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.bo.CreditMemoView;
+import org.kuali.module.purap.bo.PaymentRequestView;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderStatusHistory;
 import org.kuali.module.purap.bo.PurchaseOrderVendorChoice;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
+import org.kuali.module.purap.bo.PurchaseOrderView;
 import org.kuali.module.purap.bo.RecurringPaymentFrequency;
+import org.kuali.module.purap.bo.RequisitionView;
+import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderPostProcessorService;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.bo.PaymentTermType;
@@ -85,8 +90,13 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
     private ShippingPaymentTerms vendorShippingPaymentTerms;
     private RecurringPaymentFrequency recurringPaymentFrequency;
     
+    private PurapService purapService;
+
     //COLLECTIONS
     private List<PurchaseOrderVendorStipulation> purchaseOrderVendorStipulations;
+    private List<RequisitionView> relatedRequisitionViews;
+    private List<PaymentRequestView> relatedPaymentRequestViews;
+    private List<CreditMemoView> relatedCreditMemoViews;
     
     /**
 	 * Default constructor.
@@ -625,6 +635,50 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
         return documentBusinessObject;
     }
 
+    public List<PurchaseOrderView> getRelatedPurchaseOrderViews() {
+        return null;
+    }
+
+    public List<RequisitionView> getRelatedRequisitionViews() {
+        if (relatedRequisitionViews == null) {
+            relatedRequisitionViews = new TypedArrayList(RequisitionView.class);
+            List<RequisitionView> tmpViews = getPurapService().getRelatedViews(RequisitionView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            for (RequisitionView view : tmpViews) {
+                relatedRequisitionViews.add(view);
+            }
+        }
+        return relatedRequisitionViews;
+    }
+
+    public List<CreditMemoView> getRelatedCreditMemoViews() {
+        if (relatedCreditMemoViews == null) {
+            relatedCreditMemoViews = new TypedArrayList(CreditMemoView.class);
+            List<CreditMemoView> tmpViews = getPurapService().getRelatedViews(CreditMemoView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            for (CreditMemoView view : tmpViews) {
+                relatedCreditMemoViews.add(view);
+            }
+        }
+        return relatedCreditMemoViews;
+    }
+
+    public List<PaymentRequestView> getRelatedPaymentRequestViews() {
+        if (relatedPaymentRequestViews == null) {
+            relatedPaymentRequestViews = new TypedArrayList(PaymentRequestView.class);
+            List<PaymentRequestView> tmpViews = getPurapService().getRelatedViews(PaymentRequestView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            for (PaymentRequestView view : tmpViews) {
+                relatedPaymentRequestViews.add(view);
+            }
+        }
+        return relatedPaymentRequestViews;
+    }
+    
+    private PurapService getPurapService() {
+        if (purapService == null) {
+            purapService = SpringServiceLocator.getPurapService();
+        }
+        return purapService;
+    }
+    
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getItemClass()
      */

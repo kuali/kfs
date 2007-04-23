@@ -73,6 +73,10 @@
     <purap:additional
         documentAttributes="${DataDictionary.KualiPurchaseOrderDocument.attributes}" />
 
+    <purap:relatedDocuments
+            documentAttributes="${DataDictionary.RelatedDocuments.attributes}"
+            />
+
     <purap:statushistory 
         documentAttributes="${DataDictionary.PurchaseOrderStatusHistory.attributes}">
           <html:messages id="warnings" property="statusHistoryWarning" message="true">

@@ -19,7 +19,7 @@ import static org.kuali.module.gl.bo.OriginEntrySource.LABOR_MAIN_POSTER_ERROR;
 import static org.kuali.module.gl.bo.OriginEntrySource.LABOR_MAIN_POSTER_VALID;
 import static org.kuali.module.gl.bo.OriginEntrySource.LABOR_SCRUBBER_VALID;
 import static org.kuali.module.labor.LaborConstants.DestinationNames.ORIGN_ENTRY;
-import static org.kuali.module.labor.LaborConstants.ParameterGroups.SYSTEM;
+import static org.kuali.module.labor.LaborConstants.ParameterGroups.POSTER;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -315,7 +315,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * @return a set of the balance type codes that are bypassed by Labor Poster
      */
     public String[] getBalanceTypesNotProcessed() {
-        return kualiConfigurationService.getApplicationParameterValues(SYSTEM, Poster.BALANCE_TYPES_NOT_PROCESSED);
+        return kualiConfigurationService.getApplicationParameterValues(POSTER, Poster.BALANCE_TYPES_NOT_PROCESSED);
     }
 
     /**
@@ -324,7 +324,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * @return a set of the object codes that are bypassed by Labor Poster
      */
     public String[] getObjectsNotProcessed() {
-        return kualiConfigurationService.getApplicationParameterValues(SYSTEM, Poster.OBJECT_CODES_NOT_PROCESSED);
+        return kualiConfigurationService.getApplicationParameterValues(POSTER, Poster.OBJECT_CODES_NOT_PROCESSED);
     }
 
     /**
@@ -333,7 +333,7 @@ public class LaborPosterServiceImpl implements LaborPosterService {
      * @return a set of the fiscal period codes that are bypassed by Labor Poster
      */
     public String[] getPeriodCodesNotProcessed() {
-        return kualiConfigurationService.getApplicationParameterValues(SYSTEM, Poster.PERIOD_CODES_NOT_PROCESSED);
+        return kualiConfigurationService.getApplicationParameterValues(POSTER, Poster.PERIOD_CODES_NOT_PROCESSED);
     }
 
     /**

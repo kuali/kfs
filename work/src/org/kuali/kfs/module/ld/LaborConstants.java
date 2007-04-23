@@ -113,7 +113,6 @@ public class LaborConstants {
         public static final String PAYROLL_ACCRUAL = "Labor.PayrollAccrual";
         public static final String YEAR_END = "Labor.YearEnd";
         public static final String POSTER = "Labor.Poster";
-        public static final String SYSTEM = "SYSTEM"; // TODO: remove it
     }
     
     public static class PayrollAccrual {
@@ -128,21 +127,19 @@ public class LaborConstants {
         public static final String RUN_ID = "input.runId";
         public static final String EXCLUDED_SUB_FUND_GROUPS = "input.excludedSubFundGroups";
         
-        public static final String ORIGINATION_CODE = "Labor.payrollAccrual.originationCode"; //TODO; remove prefix: Labor.payrollAccrual.
+        public static final String ORIGINATION_CODE = "originationCode";
     }
     
-    //TODO: remove prefix: Labor.Poster. change the first letters
     public static class Poster {
-        public static final String PERIOD_CODES_NOT_PROCESSED = "Labor.Poster.PeriodCodesNotProcessed";
-        public static final String OBJECT_CODES_NOT_PROCESSED = "Labor.Poster.ObjectsNotProcessed";
-        public static final String BALANCE_TYPES_NOT_PROCESSED = "Labor.Poster.BalanceTypesNotProcessed";
+        public static final String PERIOD_CODES_NOT_PROCESSED = "periodCodesNotProcessed";
+        public static final String OBJECT_CODES_NOT_PROCESSED = "objectsNotProcessed";
+        public static final String BALANCE_TYPES_NOT_PROCESSED = "balanceTypesNotProcessed";
     }
     
-    //TODO: remove prefix: Labor.YearEnd.BalanceForward. change the first letters
     public static class YearEnd {
-        public static final String FUND_GROUP_PROCESSED = "Labor.YearEnd.BalanceForward.FundGroupProcessed";
-        public static final String DOCUMENT_TYPE_CODE = "Labor.YearEnd.BalanceForward.DocumentTypeCode";
-        public static final String ORIGINATION_CODE = "Labor.YearEnd.BalanceForward.OriginationCode";
+        public static final String FUND_GROUP_PROCESSED = "fundGroupProcessed";
+        public static final String DOCUMENT_TYPE_CODE = "documentTypeCode";
+        public static final String ORIGINATION_CODE = "originationCode";
         public static final String OLD_FISCAL_YEAR = "oldFiscalYear";
     }
 }

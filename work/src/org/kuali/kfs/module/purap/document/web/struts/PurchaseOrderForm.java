@@ -124,18 +124,16 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         String documentType = this.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentType();
         PurchaseOrderDocument purchaseOrder = (PurchaseOrderDocument) this.getDocument();
 
-        /* TODO: Uncomment this if condition before resolving the jira. Just for now, to make testing easier,
-         * I'm making the retransmit button to appear at no condition
         
         if ((purchaseOrder.isPurchaseOrderCurrentIndicator() && purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN)) || 
-             (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT)) &&
-              (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) || purchaseOrder.getDocumentHeader().getWorkflowDocument().stateIsEnroute())) {
-*/
+             (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT) &&
+              (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) || purchaseOrder.getDocumentHeader().getWorkflowDocument().stateIsEnroute()))) {
+
             ExtraButton retransmitButton = new ExtraButton();
             retransmitButton.setExtraButtonProperty("methodToCall.retransmitPo");
             retransmitButton.setExtraButtonSource("images/buttonsmall_retransmit.gif");
             this.getExtraButtons().add(retransmitButton);
-//        }
+        }
         if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PRINT_DOCUMENT)) {
             ExtraButton printButton = new ExtraButton();
             printButton.setExtraButtonProperty("methodToCall.printPo");

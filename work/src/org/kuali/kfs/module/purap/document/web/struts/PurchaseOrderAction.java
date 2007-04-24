@@ -171,8 +171,13 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 }
             }   
         }
-        boolean success = SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(po, documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
-                    
+        boolean success;
+        if (po.isPendingActionIndicator()) {
+            success = false;   
+        }
+        else {
+            success = SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(po, documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
+        }        
         if (!success) {
             return mapping.findForward(Constants.MAPPING_ERROR);
         }
@@ -394,13 +399,44 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    /**
+     * 
+     * This method is invoked when the user clicks on the Retransmit button on both the PO tabbed page
+     * and on the Purchase Order Retransmit Document page, which is essentially a PO tabbed page with
+     * the other irrelevant tabs being hidden.
+     * If it was invoked from the PO tabbed page, if the PO's pending indicator is false, this method
+     * will invoke the updateFlagsAndRoute in the PurchaseOrderService to update the flags, create 
+     * the PurchaseOrderRetransmitDocument and route it. If the routing was successful, we'll display
+     * the Purchase Order Retransmit Document page to the user, containing the newly created and routed
+     * PurchaseOrderRetransmitDocument and a retransmit button as well as a list of items that the user
+     * can select to be retransmitted.
+     * 
+     * If it was invoked from the Purchase Order Retransmit Document page, we'll invoke the 
+     * retransmitPurchaseOrderPDF method to create a PDF document based on the PO information and the
+     * items that were selected by the user on the Purchase Order Retransmit Document page to be
+     * retransmitted, then display the PDF to the browser.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward retransmitPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
         if (!po.getDocumentHeader().getWorkflowDocument().getDocumentType().equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT)) {
+            
             String documentType = PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT;
-            boolean success = SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(po, documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
-
+            
+            boolean success;
+            if (po.isPendingActionIndicator()) {
+                success = false;
+            }
+            else {
+                success = SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(po, documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
+            }
             if (!success) {
                 return mapping.findForward(Constants.MAPPING_ERROR);
             }
@@ -412,9 +448,10 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         else {
             // This is a PurchaseOrderRetransmitDocument, so we'll display the pdf now
             List items = po.getItems();
+            String retransmitHeader = po.getRetransmitHeader();
             po = SpringServiceLocator.getPurchaseOrderService().getPurchaseOrderByDocumentNumber(po.getDocumentNumber());
             po.setItems(items);
-            
+            po.setRetransmitHeader(retransmitHeader);
             ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
             try {
                 StringBuffer sbFilename = new StringBuffer();

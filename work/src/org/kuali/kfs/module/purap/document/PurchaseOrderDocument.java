@@ -89,12 +89,16 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
     private ShippingTitle vendorShippingTitle;
     private ShippingPaymentTerms vendorShippingPaymentTerms;
     private RecurringPaymentFrequency recurringPaymentFrequency;
-
+    
     //COLLECTIONS
     private List<PurchaseOrderVendorStipulation> purchaseOrderVendorStipulations;
     private List<RequisitionView> relatedRequisitionViews;
     private List<PaymentRequestView> relatedPaymentRequestViews;
     private List<CreditMemoView> relatedCreditMemoViews;
+    
+    //Not persisted in db
+    private String purchaseOrderRetransmissionMethodCode;
+    private String retransmitHeader;
     
     /**
 	 * Default constructor.
@@ -473,6 +477,23 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
         this.statusChangeNote = statusChangeNote;
     }
 
+    
+    public String getPurchaseOrderRetransmissionMethodCode() {
+        return purchaseOrderRetransmissionMethodCode;
+    }
+
+    public void setPurchaseOrderRetransmissionMethodCode(String purchaseOrderRetransmissionMethodCode) {
+        this.purchaseOrderRetransmissionMethodCode = purchaseOrderRetransmissionMethodCode;
+    }
+
+    public String getRetransmitHeader() {
+        return retransmitHeader;
+    }
+
+    public void setRetransmitHeader(String retransmitHeader) {
+        this.retransmitHeader = retransmitHeader;
+    }
+
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#addToStatusHistories(java.lang.String, java.lang.String)
      */
@@ -669,7 +690,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
         }
         return relatedPaymentRequestViews;
     }
-   
+    
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getItemClass()
      */

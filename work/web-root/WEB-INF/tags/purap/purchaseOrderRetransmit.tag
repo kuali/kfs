@@ -43,10 +43,10 @@
             </tr>
             <tr>
                 <th align=right valign=middle class="bord-l-b">
-                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderTransmissionMethodCode}" /></div>
+                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderRetransmissionMethodCode}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderTransmissionMethodCode}" property="document.purchaseOrderTransmissionMethodCode" />
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderRetransmissionMethodCode}" property="document.purchaseOrderRetransmissionMethodCode" />
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorFaxNumber}" /></div>
@@ -55,10 +55,10 @@
                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorFaxNumber}" property="document.vendorFaxNumber"  />
                 </td>
                 <th align=right valign=middle class="bord-l-b">
-                   <div align="right">PO Header:</div>
+                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.retransmitHeader}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   Retransmission of Purchase Order
+                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.retransmitHeader}" property="document.retransmitHeader" />
                 </td>
             </tr>
 

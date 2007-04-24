@@ -201,11 +201,11 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         LOG.debug("RemoveHoldPO started.");
         ActionForward forward = askQuestionsAndRoute(mapping, form, request, response, PODocumentsStrings.REMOVE_HOLD_QUESTION, PODocumentsStrings.REMOVE_HOLD_CONFIRM, PurchaseOrderDocTypes.PURCHASE_ORDER_REMOVE_HOLD_DOCUMENT, PODocumentsStrings.REMOVE_HOLD_NOTE_PREFIX, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_REMOVE_HOLD);
 
-        // Also need to send an FYI to the AP workgroup.
-        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
-        WorkgroupVO workgroupVO = SpringServiceLocator.getWorkflowGroupService().getWorkgroupByGroupName(PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
-        SpringServiceLocator.getPurchaseOrderService().sendFYItoWorkgroup(po, kualiDocumentFormBase.getAnnotation(), workgroupVO.getWorkgroupId() );
+        // Also need to send an FYI to the AP workgroup. 
+        //KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        //PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
+        //WorkgroupVO workgroupVO = SpringServiceLocator.getWorkflowGroupService().getWorkgroupByGroupName(PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
+        //SpringServiceLocator.getPurchaseOrderService().sendFYItoWorkgroup(po, kualiDocumentFormBase.getAnnotation(), workgroupVO.getWorkgroupId() );
     
         return forward;
     }

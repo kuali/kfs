@@ -44,6 +44,6 @@ public interface PurchaseOrderService {
 
     public PurchaseOrderDocument getOldestPurchaseOrder(Integer id);
     public PurchaseOrderDocument getPurchaseOrderInPendingPrintStatus(Integer id);
-    public void sendFYItoWorkgroup(PurchaseOrderDocument po, String annotation, Long workgroupId);
+    //public void sendFYItoWorkgroup(PurchaseOrderDocument po, String annotation, Long workgroupId);
     
 }

@@ -373,6 +373,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return true;
     }
     
+    /*
     public void sendFYItoWorkgroup(PurchaseOrderDocument po, String annotation, Long workgroupId) {
         LOG.debug("SendFYI started with annotation: "+ annotation);
         try {
@@ -398,6 +399,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
         LOG.debug("SendFYI ended.");
     }
+    */
     
     private String getCurrentRouteNodeName(KualiWorkflowDocument wd) throws WorkflowException {
         String[] nodeNames = wd.getNodeNames();

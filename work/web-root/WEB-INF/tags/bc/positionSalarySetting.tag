@@ -206,6 +206,8 @@
         </tr>
 
         <%-- Add line header for newBCAFLine--%>
+        <c:if test="${!readOnly}">
+                
         <tr>
             <kul:htmlAttributeHeaderCell colspan="2" >
             </kul:htmlAttributeHeaderCell>
@@ -229,16 +231,14 @@
                 literalLabel="<span class=\"nowrap\">Emplid</span>" />
             <kul:htmlAttributeHeaderCell
                 labelFor="KualiForm.newBCAFLine.budgetConstructionIntendedIncumbent.personName"
-                literalLabel="<span class=\"nowrap\">Name</span>" />
+                literalLabel="<span class=\"nowrap\">Name</span>"
+                colspan="2" />
             <kul:htmlAttributeHeaderCell
                 labelFor="KualiForm.newBCAFLine.budgetConstructionIntendedIncumbent.iuClassificationLevel"
                 literalLabel="<span class=\"nowrap\">Lvl</span>" />
 <%-- TODO add administrative post table ref to BCAF --%>
             <th>
                 AdmPst
-            </th>
-            <th>
-                Actions
             </th>
         </tr>
 
@@ -252,6 +252,8 @@
                 <html:hidden property="newBCAFLine.positionNumber" />
                 <html:hidden property="newBCAFLine.appointmentFundingDeleteIndicator" />
                 <html:hidden property="newBCAFLine.versionNumber" />
+                <html:hidden property="newBCAFLine.financialObject.financialObjectTypeCode"/>
+                <html:hidden property="newBCAFLine.financialObject.financialObjectType.name"/>
            </kul:htmlAttributeHeaderCell>
 
            <bc:pbglLineDataCell dataCellCssClass="infoline"
@@ -292,13 +294,13 @@
            <bc:pbglLineDataCell dataCellCssClass="infoline"
                accountingLine="newBCAFLine"
                field="financialObjectCode" detailFunction="loadObjectInfo"
-               detailFunctionExtraParam="'KualiForm.newBCAFLine.universityFiscalYear', "
+               detailFunctionExtraParam="'${KualiForm.newBCAFLine.universityFiscalYear}', 'newBCAFLine.financialObject.financialObjectType.name', 'newBCAFLine.financialObject.financialObjectTypeCode',"
                detailField="financialObject.financialObjectCodeShortName"
                attributes="${bcafAttributes}" lookup="true" inquiry="true"
                boClassSimpleName="ObjectCode"
                readOnly="${readOnly}"
                displayHidden="false"
-               lookupOrInquiryKeys="chartOfAccountsCode"
+               lookupOrInquiryKeys="universityFiscalYear,chartOfAccountsCode"
                accountingLineValuesMap="${KualiForm.newBCAFLine.valuesMap}"
                inquiryExtraKeyValues="universityFiscalYear=${KualiForm.newBCAFLine.universityFiscalYear}"
                anchor="salarynewLineLineObjectCodeAnchor" />
@@ -306,7 +308,7 @@
            <bc:pbglLineDataCell dataCellCssClass="infoline"
                accountingLine="newBCAFLine"
                field="financialSubObjectCode" detailFunction="loadSubObjectInfo"
-               detailFunctionExtraParam="'KualiForm.newBCAFLine.universityFiscalYear', "
+               detailFunctionExtraParam="'${KualiForm.newBCAFLine.universityFiscalYear}', "
                detailField="financialSubObject.financialSubObjectCdshortNm"
                attributes="${bcafAttributes}" lookup="true" inquiry="true"
                boClassSimpleName="SubObjCd"
@@ -337,7 +339,8 @@
                     field="personName"
                     attributes="${intincAttributes}"
                     readOnly="true"
-                    displayHidden="false" />
+                    displayHidden="false"
+                    colSpan="2" />
                 <bc:pbglLineDataCell dataCellCssClass="infoline"
                     cellProperty="newBCAFLine.budgetConstructionIntendedIncumbent.iuClassificationLevel"
                     field="iuClassificationLevel"
@@ -357,19 +360,139 @@
                     attributes="${intincAttributes}"
                     readOnly="true"
                     formattedNumberValue="${Constants.BudgetConstructionConstants.VACANT_EMPLID}"
-                    displayHidden="false" />
+                    displayHidden="false"
+                    colSpan="2" />
                 <td class="infoline">&nbsp;</td>
                 <td class="infoline">&nbsp;</td>
             </c:otherwise>
             </c:choose>
 
+        </tr>
+
+        <%-- add line amount line header --%>
+        <tr>
+            <kul:htmlAttributeHeaderCell colspan="5" align="left" scope="col" />
+            <kul:htmlAttributeHeaderCell colspan="2" align="left" literalLabel="Request" scope="col" />
+            <kul:htmlAttributeHeaderCell colspan="2" align="left" literalLabel="Leaves Req.CSF" scope="col" />
+            <kul:htmlAttributeHeaderCell colspan="3" align="left" literalLabel="Tot.Int." scope="col" />
+        </tr>
+        <tr>
+            <kul:htmlAttributeHeaderCell colspan="5" scope="col" />
+
+            <bc:pbglLineDataCell dataCellCssClass="infoline"
+                accountingLine="newBCAFLine"
+                cellProperty="newBCAFLine.appointmentRequestedAmount"
+                attributes="${bcafAttributes}"
+                field="appointmentRequestedAmount"
+                fieldAlign="right"
+                readOnly="${readOnly}"
+                rowSpan="1" dataFieldCssClass="amount" />
+            <fmt:formatNumber value="${KualiForm.newBCAFLine.appointmentRequestedFteQuantity}" var="formattedNumber" type="number" groupingUsed="true" minFractionDigits="5" />
+            <bc:pbglLineDataCell dataCellCssClass="infoline"
+                accountingLine="newBCAFLine"
+                cellProperty="newBCAFLine.appointmentRequestedFteQuantity"
+                attributes="${bcafAttributes}"
+                field="appointmentRequestedFteQuantity"
+                fieldAlign="right"
+                readOnly="true"
+                formattedNumberValue="${formattedNumber}&nbsp;"
+                rowSpan="1" dataFieldCssClass="amount" />
+            <bc:pbglLineDataCell dataCellCssClass="infoline"
+                accountingLine="newBCAFLine"
+                cellProperty="newBCAFLine.appointmentRequestedCsfAmount"
+                attributes="${bcafAttributes}"
+                field="appointmentRequestedCsfAmount"
+                fieldAlign="right"
+                readOnly="${readOnly}"
+                rowSpan="1" dataFieldCssClass="amount" />
+            <fmt:formatNumber value="${KualiForm.newBCAFLine.appointmentRequestedCsfFteQuantity}" var="formattedNumber" type="number" groupingUsed="true" minFractionDigits="5" />
+            <bc:pbglLineDataCell dataCellCssClass="infoline"
+                accountingLine="newBCAFLine"
+                cellProperty="newBCAFLine.appointmentRequestedCsfFteQuantity"
+                attributes="${bcafAttributes}"
+                field="appointmentRequestedCsfFteQuantity"
+                fieldAlign="right"
+                readOnly="true"
+                formattedNumberValue="${formattedNumber}&nbsp;"
+                rowSpan="1" dataFieldCssClass="amount" />
+            <bc:pbglLineDataCell dataCellCssClass="infoline"
+                accountingLine="newBCAFLine"
+                cellProperty="newBCAFLine.appointmentTotalIntendedAmount"
+                attributes="${bcafAttributes}"
+                field="appointmentTotalIntendedAmount"
+                fieldAlign="right"
+                readOnly="${readOnly}"
+                colSpan="2" rowSpan="1" dataFieldCssClass="amount" />
+            <bc:pbglLineDataCell dataCellCssClass="infoline"
+                accountingLine="newBCAFLine"
+                cellProperty="newBCAFLine.appointmentTotalIntendedFteQuantity"
+                attributes="${bcafAttributes}"
+                field="appointmentTotalIntendedFteQuantity"
+                fieldAlign="right"
+                readOnly="${readOnly}"
+                rowSpan="1" dataFieldCssClass="amount" />
+        </tr>
+        <tr>
+            <kul:htmlAttributeHeaderCell colspan="4" scope="col" />
+
+            <td class="infoline">&nbsp;</td>
+
+<%-- TODO figure out handling of reason annotation functionality, like BA monthly? or BC monthly? or? --%>
+
+            <bc:pbglLineDataCell dataCellCssClass="infoline"
+                accountingLine="newBCAFLine"
+                cellProperty="newBCAFLine.appointmentFundingMonth"
+                attributes="${bcafAttributes}"
+                field="appointmentFundingMonth"
+                fieldAlign="right"
+                readOnly="${readOnly}"
+                rowSpan="1" dataFieldCssClass="amount" />
+            <bc:pbglLineDataCell dataCellCssClass="infoline"
+                accountingLine="newBCAFLine"
+                cellProperty="newBCAFLine.appointmentRequestedTimePercent"
+                attributes="${bcafAttributes}"
+                field="appointmentRequestedTimePercent"
+                fieldTrailerValue="<small>%</small>"
+                fieldAlign="right"
+                readOnly="${readOnly}"
+                rowSpan="1" dataFieldCssClass="amount" />
+<%-- TODO need ajax javascript to handle detail field changes --%>
+           <bc:pbglLineDataCell dataCellCssClass="infoline"
+               accountingLine="newBCAFLine"
+               field="appointmentFundingDurationCode"
+               detailField="budgetConstructionDuration.appointmentDurationDescription"
+               attributes="${bcafAttributes}" inquiry="true"
+               boClassSimpleName="BudgetConstructionDuration"
+               lookupUnkeyedFieldConversions="appointmentDurationCode:newBCAFLine.appointmentFundingDurationCode,"
+               readOnly="${readOnly}"
+               displayHidden="false"
+               accountingLineValuesMap="${newBCAFLine.valuesMap}" />
+            <bc:pbglLineDataCell dataCellCssClass="infoline"
+                accountingLine="newBCAFLine"
+                cellProperty="newBCAFLine.appointmentRequestedCsfTimePercent"
+                attributes="${bcafAttributes}"
+                field="appointmentRequestedCsfTimePercent"
+                fieldTrailerValue="<small>%</small>"
+                fieldAlign="right"
+                readOnly="${readOnly}"
+                rowSpan="1" dataFieldCssClass="amount" />
+            <kul:htmlAttributeHeaderCell
+                scope="row" rowspan="1" colspan="2"
+                literalLabel="Actions:"
+                horizontal="true" />
             <td class="infoline" nowrap>
                 <div align="center"><span class=nobord">
                 <html:image property="methodToCall.insertBCAFLine.anchorsalarynewLineLineAnchor" src="images/tinybutton-add1.gif" title="Add an Appointment Funding Line" alt="Add an Appointment Funding Line" styleClass="tinybutton"/>
                 </span></div>
             </td>
-        </tr>
 
+<%--
+            <td colspan="3">&nbsp;</td>
+--%>
+        </tr>
+        </c:if>
+
+        <%-- normal datalines --%>
         <c:forEach items="${KualiForm.budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding}" var="item" varStatus="status">
         <tr>
             <kul:htmlAttributeHeaderCell />
@@ -395,16 +518,14 @@
                 literalLabel="<span class=\"nowrap\">Emplid</span>" />
             <kul:htmlAttributeHeaderCell
                 labelFor="KualiForm.budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding.budgetConstructionIntendedIncumbent.personName"
-                literalLabel="<span class=\"nowrap\">Name</span>" />
+                literalLabel="<span class=\"nowrap\">Name</span>"
+                colspan="2" />
             <kul:htmlAttributeHeaderCell
                 labelFor="KualiForm.budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding.budgetConstructionIntendedIncumbent.iuClassificationLevel"
                 literalLabel="<span class=\"nowrap\">Lvl</span>" />
 <%-- TODO add administrative post table ref to BCAF --%>
             <th>
                 AdmPst
-            </th>
-            <th>
-                Actions
             </th>
               
         </tr>
@@ -468,7 +589,7 @@
                boClassSimpleName="ObjectCode"
                readOnly="true"
                displayHidden="false"
-               lookupOrInquiryKeys="chartOfAccountsCode"
+               lookupOrInquiryKeys="universityFiscalYear,chartOfAccountsCode"
                accountingLineValuesMap="${item.valuesMap}"
                inquiryExtraKeyValues="universityFiscalYear=${item.universityFiscalYear}" />
 
@@ -511,7 +632,8 @@
                     field="personName"
                     attributes="${intincAttributes}"
                     readOnly="true"
-                    displayHidden="false" />
+                    displayHidden="false"
+                    colSpan="2" />
                 <bc:pbglLineDataCell dataCellCssClass="datacell"
                     cellProperty="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}].budgetConstructionIntendedIncumbent.iuClassificationLevel"
                     field="iuClassificationLevel"
@@ -531,25 +653,13 @@
                     attributes="${intincAttributes}"
                     readOnly="true"
                     formattedNumberValue="${Constants.BudgetConstructionConstants.VACANT_EMPLID}"
-                    displayHidden="false" />
+                    displayHidden="false"
+                    colSpan="2" />
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
             </c:otherwise>
             </c:choose>
 
-            <td class="datacell" nowrap>
-                <div align="center"><span class=nobord">&nbsp;
-                  <c:if test="${item.emplid ne Constants.BudgetConstructionConstants.VACANT_EMPLID}">
-                    <c:if test="${!readOnly}">
-                        <html:image property="methodToCall.performVacateSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" src="images/tinybutton-clear1.gif" title="Vacate Salary Setting Line ${status.index}" alt="Vacate Salary Setting Line ${status.index}" styleClass="tinybutton" />
-                        <br>
-                    </c:if>
-                  </c:if>
-                  <c:if test="${!empty item.bcnCalculatedSalaryFoundationTracker && !readOnly}">
-                    <html:image property="methodToCall.performPercentAdjustmentSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" src="images/tinybutton-percentincdec.gif" title="Percent Adjustment For Line ${status.index}" alt="Percent Adjustment For Line ${status.index}" styleClass="tinybutton" />
-                  </c:if>
-                </span></div>
-            </td>
         </tr>
                                         
         <tr>
@@ -579,7 +689,7 @@
                     fieldAlign="right"
                     attributes="${bcsfAttributes}"
                     readOnly="true"
-                    formattedNumberValue="${formattedNumber}&nbsp;"
+                    formattedNumberValue="${formattedNumber}"
                     dataFieldCssClass="amount"
                     displayHidden="false" />
             </c:when>
@@ -605,7 +715,7 @@
                 field="appointmentRequestedFteQuantity"
                 fieldAlign="right"
                 readOnly="true"
-                formattedNumberValue="${formattedNumber}&nbsp;"
+                formattedNumberValue="${formattedNumber}"
                 rowSpan="1" dataFieldCssClass="amount" />
             <bc:pbglLineDataCell dataCellCssClass="datacell"
                 accountingLine="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}]"
@@ -623,7 +733,7 @@
                 field="appointmentRequestedCsfFteQuantity"
                 fieldAlign="right"
                 readOnly="true"
-                formattedNumberValue="${formattedNumber}&nbsp;"
+                formattedNumberValue="${formattedNumber}"
                 rowSpan="1" dataFieldCssClass="amount" />
             <bc:pbglLineDataCell dataCellCssClass="datacell"
                 accountingLine="budgetConstructionPosition.pendingBudgetConstructionAppointmentFunding[${status.index}]"
@@ -703,10 +813,116 @@
                 fieldAlign="right"
                 readOnly="${readOnly}"
                 rowSpan="1" dataFieldCssClass="amount" />
+
+            <kul:htmlAttributeHeaderCell
+                scope="row" rowspan="1" colspan="2"
+                literalLabel="Actions:"
+                horizontal="true" />
+            <td class="datacell" nowrap>
+                <div align="center"><span class=nobord">&nbsp;
+                  <c:if test="${item.emplid ne Constants.BudgetConstructionConstants.VACANT_EMPLID}">
+                    <c:if test="${!readOnly}">
+                        <html:image property="methodToCall.performVacateSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" src="images/tinybutton-clear1.gif" title="Vacate Salary Setting Line ${status.index}" alt="Vacate Salary Setting Line ${status.index}" styleClass="tinybutton" />
+                        <br>
+                    </c:if>
+                  </c:if>
+                  <c:if test="${!empty item.bcnCalculatedSalaryFoundationTracker && !readOnly}">
+                    <html:image property="methodToCall.performPercentAdjustmentSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" src="images/tinybutton-percentincdec.gif" title="Percent Adjustment For Line ${status.index}" alt="Percent Adjustment For Line ${status.index}" styleClass="tinybutton" />
+                  </c:if>
+                </span></div>
+            </td>
+        </tr>
+        </c:forEach>
+
+<%--TODO what to do about defining attributes at the form level?? may need to forgo tag calls --%>
+        <%-- Totals rows --%>
+        <tr>
+            <kul:htmlAttributeHeaderCell
+                scope="row" rowspan="1" colspan="2"
+                literalLabel="<span class=\"nowrap\">TOTALS:</span>"
+                horizontal="true" />
+            <bc:pbglLineDataCell dataCellCssClass="datacell"
+                cellProperty="csfAmountTotal"
+                field="csfAmountTotal"
+                fieldAlign="right"
+                attributes="${bcsfAttributes}"
+                readOnly="true"
+                colSpan="2" dataFieldCssClass="amount"
+                displayHidden="false" />
+            <bc:pbglLineDataCell dataCellCssClass="datacell"
+                cellProperty="csfFullTimeEmploymentQuantityTotal"
+                field="csfFullTimeEmploymentQuantityTotal"
+                fieldAlign="right"
+                attributes="${bcsfAttributes}"
+                readOnly="true"
+                colSpan="1" dataFieldCssClass="amount"
+                displayHidden="false" />
+            <bc:pbglLineDataCell dataCellCssClass="datacell"
+                cellProperty="appointmentRequestedAmountTotal"
+                field="appointmentRequestedAmountTotal"
+                fieldAlign="right"
+                attributes="${bcsfAttributes}"
+                readOnly="true"
+                colSpan="1" dataFieldCssClass="amount"
+                displayHidden="false" />
+            <bc:pbglLineDataCell dataCellCssClass="datacell"
+                cellProperty="appointmentRequestedFteQuantityTotal"
+                field="appointmentRequestedFteQuantityTotal"
+                fieldAlign="right"
+                attributes="${bcsfAttributes}"
+                readOnly="true"
+                colSpan="1" dataFieldCssClass="amount"
+                displayHidden="false" />
+            <bc:pbglLineDataCell dataCellCssClass="datacell"
+                cellProperty="appointmentRequestedCsfAmountTotal"
+                field="appointmentRequestedCsfAmountTotal"
+                fieldAlign="right"
+                attributes="${bcsfAttributes}"
+                readOnly="true"
+                colSpan="1" dataFieldCssClass="amount"
+                displayHidden="false" />
+            <bc:pbglLineDataCell dataCellCssClass="datacell"
+                cellProperty="appointmentRequestedCsfFteQuantityTotal"
+                field="appointmentRequestedCsfFteQuantityTotal"
+                fieldAlign="right"
+                attributes="${bcsfAttributes}"
+                readOnly="true"
+                colSpan="1" dataFieldCssClass="amount"
+                displayHidden="false" />
+            <td colspan="3">&nbsp;</td>
+        </tr>
+        <tr>
+            <kul:htmlAttributeHeaderCell
+                scope="row" rowspan="1" colspan="4"
+                literalLabel="<span class=\"nowrap\">Tot.SHr:</span>"
+                horizontal="true" />
+            <bc:pbglLineDataCell dataCellCssClass="datacell"
+                cellProperty="csfStandardHoursTotal"
+                field="csfStandardHoursTotal"
+                fieldAlign="right"
+                attributes="${bcsfAttributes}"
+                readOnly="true"
+                colSpan="1" dataFieldCssClass="amount"
+                displayHidden="false" />
+            <bc:pbglLineDataCell dataCellCssClass="datacell"
+                cellProperty="appointmentRequestedStandardHoursTotal"
+                field="appointmentRequestedStandardHoursTotal"
+                fieldAlign="right"
+                attributes="${bcsfAttributes}"
+                readOnly="true"
+                colSpan="2" dataFieldCssClass="amount"
+                displayHidden="false" />
+            <bc:pbglLineDataCell dataCellCssClass="datacell"
+                cellProperty="appointmentRequestedCsfStandardHoursTotal"
+                field="appointmentRequestedCsfStandardHoursTotal"
+                fieldAlign="right"
+                attributes="${bcsfAttributes}"
+                readOnly="true"
+                colSpan="2" dataFieldCssClass="amount"
+                displayHidden="false" />
             <td colspan="3">&nbsp;</td>
         </tr>
 
-        </c:forEach>
     </table>
 </div>
 </kul:tabTop>

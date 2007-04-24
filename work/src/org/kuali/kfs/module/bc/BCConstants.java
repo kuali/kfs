@@ -45,5 +45,6 @@ public class BCConstants extends JstlConstants {
     public static final String FINANCIAL_BALANCE_TYPE_CODE_BB = "BB";
     public static final String FINANCIAL_OBJECT_TYPE_CODE_REV = "IN";
     public static final String FINANCIAL_OBJECT_TYPE_CODE_EXP = "EX";
+    public static final String APPOINTMENT_FUNDING_DURATION_DEFAULT = "NONE";
 
 }

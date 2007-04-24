@@ -325,12 +325,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
         if (result) {
             Date currentSqlDate = dateTimeService.getCurrentSqlDate();
-            //po.setPurchaseOrderFirstTransmissionDate(currentSqlDate);
-            //po.setPurchaseOrderInitialOpenDate(currentSqlDate);
             po.setPurchaseOrderLastTransmitDate(currentSqlDate);
             po.setPurchaseOrderCurrentIndicator(true);
-            //purapService.updateStatusAndStatusHistory( po, PurapConstants.PurchaseOrderStatuses.CLOSED );
-            save(po);
         }
         return result;
     }

@@ -70,13 +70,13 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase implemen
     private boolean paymentRequestElectronicInvoiceIndicator;
     private Integer vendorHeaderGeneratedIdentifier;
     private Integer vendorDetailAssignedIdentifier;
-    private String vendorName;
-    private String vendorLine1Address;
-    private String vendorLine2Address;
-    private String vendorCityName;
-    private String vendorStateCode;
-    private String vendorPostalCode;
-    private String vendorCountryCode;
+   // private String vendorName;
+   // private String vendorLine1Address;
+   // private String vendorLine2Address;
+   // private String vendorCityName;
+   // private String vendorStateCode;
+   // private String vendorPostalCode;
+   // private String vendorCountryCode;
     private Date paymentExtractedDate;
     private String accountsPayableProcessorIdentifier;
     private String accountsPayableRequestCancelIdentifier;
@@ -641,152 +641,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase implemen
     public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
         this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
     }
-
-
-    /**
-     * Gets the vendorName attribute.
-     * 
-     * @return Returns the vendorName
-     * 
-     */
-    public String getVendorName() { 
-        return vendorName;
-    }
-
-    /**
-     * Sets the vendorName attribute.
-     * 
-     * @param vendorName The vendorName to set.
-     * 
-     */
-    public void setVendorName(String vendorName) {
-        this.vendorName = vendorName;
-    }
-  
-    /**
-     * Gets the vendorLine1Address attribute.
-     * 
-     * @return Returns the vendorLine1Address
-     * 
-     */
-    public String getVendorLine1Address() { 
-        return vendorLine1Address;
-    }
-
-    /**
-     * Sets the vendorLine1Address attribute.
-     * 
-     * @param vendorLine1Address The vendorLine1Address to set.
-     * 
-     */
-    public void setVendorLine1Address(String vendorLine1Address) {
-        this.vendorLine1Address = vendorLine1Address;
-    }
-
-
-    /**
-     * Gets the vendorLine2Address attribute.
-     * 
-     * @return Returns the vendorLine2Address
-     * 
-     */
-    public String getVendorLine2Address() { 
-        return vendorLine2Address;
-    }
-
-    /**
-     * Sets the vendorLine2Address attribute.
-     * 
-     * @param vendorLine2Address The vendorLine2Address to set.
-     * 
-     */
-    public void setVendorLine2Address(String vendorLine2Address) {
-        this.vendorLine2Address = vendorLine2Address;
-    }
-
-    /**
-     * Gets the vendorCityName attribute.
-     * 
-     * @return Returns the vendorCityName
-     * 
-     */
-    public String getVendorCityName() { 
-        return vendorCityName;
-    }
-
-    /**
-     * Sets the vendorCityName attribute.
-     * 
-     * @param vendorCityName The vendorCityName to set.
-     * 
-     */
-    public void setVendorCityName(String vendorCityName) {
-        this.vendorCityName = vendorCityName;
-    }
-
-
-    /**
-     * Gets the vendorStateCode attribute.
-     * 
-     * @return Returns the vendorStateCode
-     * 
-     */
-    public String getVendorStateCode() { 
-        return vendorStateCode;
-    }
-
-    /**
-     * Sets the vendorStateCode attribute.
-     * 
-     * @param vendorStateCode The vendorStateCode to set.
-     * 
-     */
-    public void setVendorStateCode(String vendorStateCode) {
-        this.vendorStateCode = vendorStateCode;
-    }
-
-
-    /**
-     * Gets the vendorPostalCode attribute.
-     * 
-     * @return Returns the vendorPostalCode
-     * 
-     */
-    public String getVendorPostalCode() { 
-        return vendorPostalCode;
-    }
-
-    /**
-     * Sets the vendorPostalCode attribute.
-     * 
-     * @param vendorPostalCode The vendorPostalCode to set.
-     * 
-     */
-    public void setVendorPostalCode(String vendorPostalCode) {
-        this.vendorPostalCode = vendorPostalCode;
-    }
-
-
-    /**
-     * Gets the vendorCountryCode attribute.
-     * 
-     * @return Returns the vendorCountryCode
-     * 
-     */
-    public String getVendorCountryCode() { 
-        return vendorCountryCode;
-    }
-
-    /**
-     * Sets the vendorCountryCode attribute.
-     * 
-     * @param vendorCountryCode The vendorCountryCode to set.
-     * 
-     */
-    public void setVendorCountryCode(String vendorCountryCode) {
-        this.vendorCountryCode = vendorCountryCode;
-    }
-
 
     /**
      * Gets the paymentExtractedDate attribute.

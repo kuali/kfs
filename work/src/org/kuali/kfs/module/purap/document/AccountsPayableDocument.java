@@ -22,5 +22,6 @@ package org.kuali.module.purap.document;
  * 
  */
 public interface AccountsPayableDocument extends PurchasingAccountsPayableDocument {
-    
+    public Integer getVendorAddressGeneratedIdentifier();
+    public void setVendorAddressGeneratedIdentifier(Integer vendorAddressGeneratedIdentifier);
 }

@@ -482,7 +482,7 @@
                 horizontal="true" />
             <td class="infoline" nowrap>
                 <div align="center"><span class=nobord">
-                <html:image property="methodToCall.insertBCAFLine.anchorsalarynewLineLineAnchor" src="images/tinybutton-add1.gif" title="Add an Appointment Funding Line" alt="Add an Appointment Funding Line" styleClass="tinybutton"/>
+                <html:image property="methodToCall.insertBCAFLine.anchorsalarynewLineLineAnchor" src="images/tinybutton-add1.gif" title="Add a Salary Setting Line" alt="Add a Salary Setting Line" styleClass="tinybutton"/>
                 </span></div>
             </td>
 

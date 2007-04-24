@@ -76,4 +76,8 @@ public class VendorPropertyConstants {
     public static final String VENDOR_CONTRACT_CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
     public static final String VENDOR_CONTRACT_ORGANIZATION_CODE = "organizationCode";
     
+    // Vendor customer number
+    public static final String VENDOR_CUSTOMER_NUMBER_CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
+    public static final String VENDOR_CUSTOMER_NUMBER_ORGANIZATION_CODE = "vendorOrganizationCode";
+    
 }

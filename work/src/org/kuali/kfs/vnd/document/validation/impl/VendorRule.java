@@ -48,6 +48,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorKeyConstants;
@@ -59,6 +60,7 @@ import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorContact;
 import org.kuali.module.vendor.bo.VendorContract;
 import org.kuali.module.vendor.bo.VendorContractOrganization;
+import org.kuali.module.vendor.bo.VendorCustomerNumber;
 import org.kuali.module.vendor.bo.VendorDefaultAddress;
 import org.kuali.module.vendor.bo.VendorDetail;
 
@@ -985,7 +987,33 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
 
     private boolean processCustomerNumberValidation(MaintenanceDocument document) {
         boolean valid = true;
-        // leaving stub method here as placeholder for future Customer Number Validation
+        
+        List<VendorCustomerNumber> customerNumbers = newVendor.getVendorCustomerNumbers();       
+        for( VendorCustomerNumber customerNumber : customerNumbers ){
+            valid &= validateVendorCustomerNumber( customerNumber );
+        }
+        return valid;
+    }
+    
+    boolean validateVendorCustomerNumber(VendorCustomerNumber customerNumber){
+        boolean valid = true;
+        
+        //The chart and org must exist in the database.
+        String chartOfAccountsCode = customerNumber.getChartOfAccountsCode();
+        String orgCode = customerNumber.getVendorOrganizationCode();
+        if (!StringUtils.isBlank( chartOfAccountsCode ) && !StringUtils.isBlank( orgCode )) {
+            Map chartOrgMap = new HashMap();
+            chartOrgMap.put("chartOfAccountsCode", chartOfAccountsCode);        
+            if (SpringServiceLocator.getBusinessObjectService().countMatching(Chart.class, chartOrgMap) < 1) {
+                GlobalVariables.getErrorMap().putError( VendorPropertyConstants.VENDOR_CUSTOMER_NUMBER_CHART_OF_ACCOUNTS_CODE, KeyConstants.ERROR_EXISTENCE, chartOfAccountsCode);
+                valid &= false; 
+            }
+            chartOrgMap.put("organizationCode", orgCode);
+            if (SpringServiceLocator.getBusinessObjectService().countMatching(Org.class, chartOrgMap) < 1) {
+                GlobalVariables.getErrorMap().putError( VendorPropertyConstants.VENDOR_CUSTOMER_NUMBER_ORGANIZATION_CODE, KeyConstants.ERROR_EXISTENCE, orgCode);
+                valid &= false;               
+            }
+        }
         return valid;
     }
     
@@ -1114,14 +1142,16 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
         String orgCode = organization.getOrganizationCode();
         if (!StringUtils.isBlank( chartOfAccountsCode ) && !StringUtils.isBlank( orgCode )) {
             Map chartOrgMap = new HashMap();
-            chartOrgMap.put("chartOfAccountsCode", chartOfAccountsCode);
-            chartOrgMap.put("organizationCode", orgCode);
-        
-            if (SpringServiceLocator.getBusinessObjectService().countMatching(Org.class, chartOrgMap) < 1) {
+            chartOrgMap.put("chartOfAccountsCode", chartOfAccountsCode);       
+            if (SpringServiceLocator.getBusinessObjectService().countMatching(Chart.class, chartOrgMap) < 1) {
                 GlobalVariables.getErrorMap().putError( VendorPropertyConstants.VENDOR_CONTRACT_CHART_OF_ACCOUNTS_CODE, KeyConstants.ERROR_EXISTENCE, chartOfAccountsCode);
-                GlobalVariables.getErrorMap().putError( VendorPropertyConstants.VENDOR_CONTRACT_ORGANIZATION_CODE, KeyConstants.ERROR_EXISTENCE, orgCode);
                 valid &= false;
             }
+            chartOrgMap.put("organizationCode", orgCode);
+            if (SpringServiceLocator.getBusinessObjectService().countMatching(Org.class, chartOrgMap) < 1) {
+                GlobalVariables.getErrorMap().putError( VendorPropertyConstants.VENDOR_CONTRACT_ORGANIZATION_CODE, KeyConstants.ERROR_EXISTENCE, orgCode);
+                valid &= false;
+            }            
         }
         
         return valid;
@@ -1149,8 +1179,10 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
             VendorContractOrganization contractOrg = (VendorContractOrganization)bo;
             success &= validateVendorContractOrganization(contractOrg);
         }
-
-   
+        if(bo instanceof VendorCustomerNumber) {
+            VendorCustomerNumber customerNumber = (VendorCustomerNumber)bo;
+            success &= validateVendorCustomerNumber(customerNumber);
+        }
         if(bo instanceof VendorDefaultAddress) {
             VendorDefaultAddress defaultAddress = (VendorDefaultAddress)bo;
             

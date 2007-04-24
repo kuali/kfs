@@ -52,7 +52,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 /**
  * Purchase Order Document
  */
-public class PurchaseOrderDocument extends PurchasingDocumentBase implements Copyable {
+public class PurchaseOrderDocument extends PurchasingDocumentBase implements Copyable, PurapRelatable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderDocument.class);
 
     private Date purchaseOrderCreateDate;
@@ -89,8 +89,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
     private ShippingTitle vendorShippingTitle;
     private ShippingPaymentTerms vendorShippingPaymentTerms;
     private RecurringPaymentFrequency recurringPaymentFrequency;
-    
-    private PurapService purapService;
 
     //COLLECTIONS
     private List<PurchaseOrderVendorStipulation> purchaseOrderVendorStipulations;
@@ -642,7 +640,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
     public List<RequisitionView> getRelatedRequisitionViews() {
         if (relatedRequisitionViews == null) {
             relatedRequisitionViews = new TypedArrayList(RequisitionView.class);
-            List<RequisitionView> tmpViews = getPurapService().getRelatedViews(RequisitionView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            List<RequisitionView> tmpViews = SpringServiceLocator.getPurapService().getRelatedViews(RequisitionView.class, accountsPayablePurchasingDocumentLinkIdentifier);
             for (RequisitionView view : tmpViews) {
                 relatedRequisitionViews.add(view);
             }
@@ -653,7 +651,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
     public List<CreditMemoView> getRelatedCreditMemoViews() {
         if (relatedCreditMemoViews == null) {
             relatedCreditMemoViews = new TypedArrayList(CreditMemoView.class);
-            List<CreditMemoView> tmpViews = getPurapService().getRelatedViews(CreditMemoView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            List<CreditMemoView> tmpViews = SpringServiceLocator.getPurapService().getRelatedViews(CreditMemoView.class, accountsPayablePurchasingDocumentLinkIdentifier);
             for (CreditMemoView view : tmpViews) {
                 relatedCreditMemoViews.add(view);
             }
@@ -664,21 +662,14 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
     public List<PaymentRequestView> getRelatedPaymentRequestViews() {
         if (relatedPaymentRequestViews == null) {
             relatedPaymentRequestViews = new TypedArrayList(PaymentRequestView.class);
-            List<PaymentRequestView> tmpViews = getPurapService().getRelatedViews(PaymentRequestView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            List<PaymentRequestView> tmpViews = SpringServiceLocator.getPurapService().getRelatedViews(PaymentRequestView.class, accountsPayablePurchasingDocumentLinkIdentifier);
             for (PaymentRequestView view : tmpViews) {
                 relatedPaymentRequestViews.add(view);
             }
         }
         return relatedPaymentRequestViews;
     }
-    
-    private PurapService getPurapService() {
-        if (purapService == null) {
-            purapService = SpringServiceLocator.getPurapService();
-        }
-        return purapService;
-    }
-    
+   
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getItemClass()
      */

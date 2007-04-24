@@ -43,7 +43,7 @@ import org.kuali.module.vendor.bo.ShippingPaymentTerms;
 /**
  * Payment Request Document
  */
-public class PaymentRequestDocument extends AccountsPayableDocumentBase {
+public class PaymentRequestDocument extends AccountsPayableDocumentBase implements PurapRelatable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestDocument.class);
     //private Integer purchaseOrderEncumbranceFiscalYear;
     private Integer purchaseOrderIdentifier;
@@ -91,8 +91,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private Integer accountsPayablePurchasingDocumentLinkIdentifier;
     private String purchaseOrderNotes;
    // private Date purchaseOrderEndDate;
-
-    private PurapService purapService;
 
     private PaymentRequestStatus paymentRequestStatus;
     private Campus processingCampus;
@@ -1314,7 +1312,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public List<RequisitionView> getRelatedRequisitionViews() {
         if (relatedRequisitionViews == null) {
             relatedRequisitionViews = new TypedArrayList(RequisitionView.class);
-            List<RequisitionView> tmpViews = getPurapService().getRelatedViews(RequisitionView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            List<RequisitionView> tmpViews = SpringServiceLocator.getPurapService().getRelatedViews(RequisitionView.class, accountsPayablePurchasingDocumentLinkIdentifier);
             for (RequisitionView view : tmpViews) {
                 relatedRequisitionViews.add(view);
             }
@@ -1325,7 +1323,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public List<CreditMemoView> getRelatedCreditMemoViews() {
         if (relatedCreditMemoViews == null) {
             relatedCreditMemoViews = new TypedArrayList(CreditMemoView.class);
-            List<CreditMemoView> tmpViews = getPurapService().getRelatedViews(CreditMemoView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            List<CreditMemoView> tmpViews = SpringServiceLocator.getPurapService().getRelatedViews(CreditMemoView.class, accountsPayablePurchasingDocumentLinkIdentifier);
             for (CreditMemoView view : tmpViews) {
                 relatedCreditMemoViews.add(view);
             }
@@ -1336,21 +1334,13 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     public List<PurchaseOrderView> getRelatedPurchaseOrderViews() {
         if (relatedPurchaseOrderViews == null) {
             relatedPurchaseOrderViews = new TypedArrayList(PurchaseOrderView.class);
-            List<PurchaseOrderView> tmpViews = getPurapService().getRelatedViews(PurchaseOrderView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            List<PurchaseOrderView> tmpViews = SpringServiceLocator.getPurapService().getRelatedViews(PurchaseOrderView.class, accountsPayablePurchasingDocumentLinkIdentifier);
             for (PurchaseOrderView view : tmpViews) {
                 relatedPurchaseOrderViews.add(view);
             }
         }
         return relatedPurchaseOrderViews;
     }
-    
-    private PurapService getPurapService() {
-        if (purapService == null) {
-            purapService = SpringServiceLocator.getPurapService();
-        }
-        return purapService;
-    }
-
     
     /**
      * Gets the purchaseOrderEndDate attribute. 

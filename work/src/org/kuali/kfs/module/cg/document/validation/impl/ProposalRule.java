@@ -45,26 +45,10 @@ public class ProposalRule extends CGMaintenanceDocumentRuleBase {
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument documentCopy) {
         boolean success = true;
-        success &= checkEndAfterBegin(newProposalCopy.getProposalBeginningDate(),newProposalCopy.getProposalEndingDate(),PropertyConstants.PROPOSAL_ENDING_DATE);
+        success &= checkEndAfterBegin(newProposalCopy.getProposalBeginningDate(), newProposalCopy.getProposalEndingDate(), PropertyConstants.PROPOSAL_ENDING_DATE);
         success &= checkPrimary(newProposalCopy.getProposalOrganizations(), ProposalOrganization.class, PropertyConstants.PROPOSAL_ORGANIZATIONS, Proposal.class);
         success &= checkPrimary(newProposalCopy.getProposalProjectDirectors(), ProposalProjectDirector.class, PropertyConstants.PROPOSAL_PROJECT_DIRECTORS, Proposal.class);
-        success &= checkProjectDirectorsExist(newProposalCopy.getProposalProjectDirectors());
-        return success;
-    }
-
-    private boolean checkProjectDirectorsExist(List<ProposalProjectDirector> proposalProjectDirectors) {
-        boolean success = true;
-        final String personUserPropertyName = PropertyConstants.PROJECT_DIRECTOR + "." + PropertyConstants.PERSON_USER_IDENTIFIER;
-        String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(ProposalProjectDirector.class, personUserPropertyName);
-        int i = 0;
-        for (ProposalProjectDirector ppd : proposalProjectDirectors) {
-            String propertyName = PropertyConstants.PROPOSAL_PROJECT_DIRECTORS + "[" + (i++) + "]." + personUserPropertyName;
-            String id = ppd.getPersonUniversalIdentifier();
-            if (StringUtils.isBlank(id) || !SpringServiceLocator.getProjectDirectorService().primaryIdExists(id)) {
-                putFieldError(propertyName, KeyConstants.ERROR_EXISTENCE, label);
-                success = false;
-            }
-        }
+        success &= checkProjectDirectorsExist(newProposalCopy.getProposalProjectDirectors(), ProposalProjectDirector.class, PropertyConstants.PROPOSAL_PROJECT_DIRECTORS);
         return success;
     }
 

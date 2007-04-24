@@ -24,7 +24,7 @@ import org.kuali.core.bo.user.UniversalUser;
 /**
  * 
  */
-public class AwardProjectDirector extends PersistableBusinessObjectBase implements Primaryable {
+public class AwardProjectDirector extends PersistableBusinessObjectBase implements Primaryable, CGProjectDirector {
 
     private String personUniversalIdentifier;
     private Long proposalNumber;
@@ -41,18 +41,14 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
     }
 
     /**
-     * Gets the personUniversalIdentifier attribute.
-     * 
-     * @return Returns the personUniversalIdentifier
+     * @see org.kuali.module.cg.bo.CGProjectDirector#getPersonUniversalIdentifier()
      */
     public String getPersonUniversalIdentifier() {
         return personUniversalIdentifier;
     }
 
     /**
-     * Sets the personUniversalIdentifier attribute.
-     * 
-     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     * @see org.kuali.module.cg.bo.CGProjectDirector#setPersonUniversalIdentifier(java.lang.String)
      */
     public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
         this.personUniversalIdentifier = personUniversalIdentifier;
@@ -60,18 +56,14 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
 
 
     /**
-     * Gets the proposalNumber attribute.
-     * 
-     * @return Returns the proposalNumber
+     * @see org.kuali.module.cg.bo.CGProjectDirector#getProposalNumber()
      */
     public Long getProposalNumber() {
         return proposalNumber;
     }
 
     /**
-     * Sets the proposalNumber attribute.
-     * 
-     * @param proposalNumber The proposalNumber to set.
+     * @see org.kuali.module.cg.bo.CGProjectDirector#setProposalNumber(java.lang.Long)
      */
     public void setProposalNumber(Long proposalNumber) {
         this.proposalNumber = proposalNumber;
@@ -117,17 +109,14 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
     }
 
     /**
-     * @return the projectDirector.
+     * @see org.kuali.module.cg.bo.CGProjectDirector#getProjectDirector()
      */
     public ProjectDirector getProjectDirector() {
         return projectDirector;
     }
 
     /**
-     * Sets the projectDirector.
-     * 
-     * @param projectDirector the projectDirector to set
-     * @deprecated required by UniversalUserServiceImpl.isUniversalUserProperty() for PojoPropertyUtilsBean.getPropertyDescriptor()
+     * @see org.kuali.module.cg.bo.CGProjectDirector#setProjectDirector(org.kuali.module.cg.bo.ProjectDirector)
      */
     public void setProjectDirector(ProjectDirector projectDirector) {
         this.projectDirector = projectDirector;

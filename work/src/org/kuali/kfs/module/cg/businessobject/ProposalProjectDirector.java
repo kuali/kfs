@@ -25,7 +25,7 @@ import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
 /**
  * 
  */
-public class ProposalProjectDirector extends PersistableBusinessObjectBase implements Primaryable {
+public class ProposalProjectDirector extends PersistableBusinessObjectBase implements Primaryable, CGProjectDirector {
 
     private String personUniversalIdentifier;
     private Long proposalNumber;
@@ -43,44 +43,32 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
     }
 
     /**
-     * Gets the personUniversalIdentifier attribute.
-     * 
-     * @return Returns the personUniversalIdentifier
-     * 
+     * @see org.kuali.module.cg.bo.CGProjectDirector#getPersonUniversalIdentifier()
      */
     public String getPersonUniversalIdentifier() {
         return personUniversalIdentifier;
     }
 
     /**
-     * Sets the personUniversalIdentifier attribute.
-     * 
-     * @param personUniversalIdentifier The personUniversalIdentifier to set.
-     * 
+     * @see org.kuali.module.cg.bo.CGProjectDirector#setPersonUniversalIdentifier(java.lang.String)
      */
     public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
         this.personUniversalIdentifier = personUniversalIdentifier;
-        if ( projectDirector != null ) {
-            projectDirector.setPersonUniversalIdentifier( personUniversalIdentifier );
+        if (projectDirector != null) {
+            projectDirector.setPersonUniversalIdentifier(personUniversalIdentifier);
         }
     }
 
 
     /**
-     * Gets the proposalNumber attribute.
-     * 
-     * @return Returns the proposalNumber
-     * 
+     * @see org.kuali.module.cg.bo.CGProjectDirector#getProposalNumber()
      */
     public Long getProposalNumber() {
         return proposalNumber;
     }
 
     /**
-     * Sets the proposalNumber attribute.
-     * 
-     * @param proposalNumber The proposalNumber to set.
-     * 
+     * @see org.kuali.module.cg.bo.CGProjectDirector#setProposalNumber(java.lang.Long)
      */
     public void setProposalNumber(Long proposalNumber) {
         this.proposalNumber = proposalNumber;
@@ -91,7 +79,6 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
      * Gets the proposalPrimaryProjectDirectorIndicator attribute.
      * 
      * @return Returns the proposalPrimaryProjectDirectorIndicator
-     * 
      */
     public boolean isProposalPrimaryProjectDirectorIndicator() {
         return proposalPrimaryProjectDirectorIndicator;
@@ -108,7 +95,6 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
      * Sets the proposalPrimaryProjectDirectorIndicator attribute.
      * 
      * @param proposalPrimaryProjectDirectorIndicator The proposalPrimaryProjectDirectorIndicator to set.
-     * 
      */
     public void setProposalPrimaryProjectDirectorIndicator(boolean proposalPrimaryProjectDirectorIndicator) {
         this.proposalPrimaryProjectDirectorIndicator = proposalPrimaryProjectDirectorIndicator;
@@ -119,7 +105,6 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
      * Gets the proposalProjectDirectorProjectTitle attribute.
      * 
      * @return Returns the proposalProjectDirectorProjectTitle
-     * 
      */
     public String getProposalProjectDirectorProjectTitle() {
         return proposalProjectDirectorProjectTitle;
@@ -129,23 +114,20 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
      * Sets the proposalProjectDirectorProjectTitle attribute.
      * 
      * @param proposalProjectDirectorProjectTitle The proposalProjectDirectorProjectTitle to set.
-     * 
      */
     public void setProposalProjectDirectorProjectTitle(String proposalProjectDirectorProjectTitle) {
         this.proposalProjectDirectorProjectTitle = proposalProjectDirectorProjectTitle;
     }
 
     /**
-     * @return the projectDirector.
+     * @see org.kuali.module.cg.bo.CGProjectDirector#getProjectDirector()
      */
     public ProjectDirector getProjectDirector() {
         return projectDirector;
     }
 
     /**
-     * Sets the projectDirector.
-     * @param projectDirector the projectDirector to set
-     * @deprecated required by UniversalUserServiceImpl.isUniversalUserProperty() for PojoPropertyUtilsBean.getPropertyDescriptor()
+     * @see org.kuali.module.cg.bo.CGProjectDirector#setProjectDirector(org.kuali.module.cg.bo.ProjectDirector)
      */
     public void setProjectDirector(ProjectDirector projectDirector) {
         this.projectDirector = projectDirector;
@@ -165,6 +147,7 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
 
     /**
      * This can be displayed by Proposal.xml lookup results.
+     * 
      * @see Object#toString()
      */
     @Override

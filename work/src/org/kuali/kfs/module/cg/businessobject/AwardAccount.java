@@ -26,7 +26,7 @@ import org.kuali.module.chart.bo.Chart;
 /**
  * 
  */
-public class AwardAccount extends PersistableBusinessObjectBase {
+public class AwardAccount extends PersistableBusinessObjectBase implements CGProjectDirector{
 
     private Long proposalNumber;
     private String chartOfAccountsCode;

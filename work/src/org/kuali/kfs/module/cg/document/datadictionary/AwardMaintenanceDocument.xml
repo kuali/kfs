@@ -60,9 +60,7 @@
             <reference attributeName="awardPurpose" activeIndicatorAttributeName="rowActiveIndicator" attributeToHighlightOnFail="awardPurposeCode" />
             
 			<reference collection="awardAccounts" attributeName="account" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="accountNumber" />
-			<reference collection="awardAccounts" attributeName="projectDirector" attributeToHighlightOnFail="personUniversalIdentifier" />
 			<reference collection="awardOrganizations" attributeName="organization" activeIndicatorAttributeName="organizationActiveIndicator" attributeToHighlightOnFail="organizationCode" />
-			<reference collection="awardProjectDirectors" attributeName="projectDirector" attributeToHighlightOnFail="personUniversalIdentifier" />
 			<reference collection="awardSubcontractors" attributeName="subcontractor" activeIndicatorAttributeName="active" attributeToHighlightOnFail="subcontractorNumber" />
  
 		</defaultExistenceChecks>
@@ -111,15 +109,15 @@
 					<maintainableCollection name="awardAccounts" businessObjectClass="org.kuali.module.cg.bo.AwardAccount">
 						<maintainableField name="chartOfAccountsCode" required="true" />
 						<maintainableField name="accountNumber" required="true" />
-						<maintainableField name="personUniversalIdentifier" required="true" />
-						<!-- commented out for KULCG-230 -->
-						<!--maintainableField name="projectDirector.universalUser.personName" required="false" readOnly="true" /-->
+
+                        <maintainableField name="projectDirector.personUserIdentifier" required="true"/>
+						<maintainableField name="projectDirector.personName" readOnly="true"/>
+						<maintainableField name="personUniversalIdentifier" readOnly="true" />
 						<!-- hidden fields -->
 						<maintainableField name="newCollectionRecord" />
 						<maintainableField name="versionNumber" />
 						<summaryFields>
-							<!-- commented out for KULCG-230 -->
-							<!--summaryField name="projectDirector.universalUser.personName" / -->
+							<summaryField name="projectDirector.personName"/>
 							<summaryField name="chartOfAccountsCode" />
 							<summaryField name="accountNumber" />
 						</summaryFields>
@@ -130,17 +128,16 @@
 			<maintainableSection title="Project Directors">
 				<maintainableItems>
 					<maintainableCollection name="awardProjectDirectors" businessObjectClass="org.kuali.module.cg.bo.AwardProjectDirector">
-						<maintainableField name="personUniversalIdentifier" required="true" />
-						<!-- commented out for KULCG-230 -->
-						<!--maintainableField name="projectDirector.universalUser.personName" required="false" readOnly="true" /-->
+                        <maintainableField name="projectDirector.personUserIdentifier" required="true" />
+						<maintainableField name="projectDirector.personName" readOnly="true"/>
+						<maintainableField name="personUniversalIdentifier" readOnly="true" />
 						<maintainableField name="awardPrimaryProjectDirectorIndicator" required="false" />
 						<maintainableField name="awardProjectDirectorProjectTitle" required="false" />
 						<!-- hidden fields -->
 						<maintainableField name="newCollectionRecord" />
 						<maintainableField name="versionNumber" />
 						<summaryFields>
-							<!-- commented out for KULCG-230 -->
-							<!--summaryField name="projectDirector.universalUser.personName" /-->
+							<summaryField name="projectDirector.personName"/>
 							<summaryField name="awardPrimaryProjectDirectorIndicator" />
 							<summaryField name="awardProjectDirectorProjectTitle" />
 						</summaryFields>

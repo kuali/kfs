@@ -20,14 +20,20 @@ import static org.kuali.PropertyConstants.NEW_MAINTAINABLE_OBJECT;
 
 import java.sql.Date;
 import java.util.Collection;
+import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.KeyConstants;
+import org.kuali.PropertyConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.cg.bo.CGProjectDirector;
 import org.kuali.module.cg.bo.Primaryable;
+import org.kuali.module.cg.bo.ProjectDirector;
+import org.kuali.module.cg.bo.ProposalProjectDirector;
 
 /**
  * Rules for the Proposal/Award maintenance document.
@@ -69,6 +75,22 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
                     putFieldError(collectionName, KeyConstants.ERROR_MULTIPLE_PRIMARY, elementLabel);
             }
 
+        }
+        return success;
+    }
+
+    protected <T extends CGProjectDirector> boolean checkProjectDirectorsExist(List<T> projectDirectors, Class<T> elementClass, String collectionName) {
+        boolean success = true;
+        final String personUserPropertyName = PropertyConstants.PROJECT_DIRECTOR + "." + PropertyConstants.PERSON_USER_IDENTIFIER;
+        String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(elementClass, personUserPropertyName);
+        int i = 0;
+        for (T pd : projectDirectors) {
+            String propertyName = collectionName + "[" + (i++) + "]." + personUserPropertyName;
+            String id = pd.getPersonUniversalIdentifier();
+            if (StringUtils.isBlank(id) || !SpringServiceLocator.getProjectDirectorService().primaryIdExists(id)) {
+                putFieldError(propertyName, KeyConstants.ERROR_EXISTENCE, label);
+                success = false;
+            }
         }
         return success;
     }

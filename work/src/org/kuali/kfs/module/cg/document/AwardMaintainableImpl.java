@@ -33,16 +33,11 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Award;
 import org.kuali.module.cg.bo.AwardOrganization;
 import org.kuali.module.cg.bo.AwardProjectDirector;
-import org.kuali.module.cg.bo.AwardSubcontractor;
-import org.kuali.module.cg.bo.Proposal;
-import org.kuali.module.cg.bo.ProposalOrganization;
-import org.kuali.module.cg.bo.ProposalProjectDirector;
-import org.kuali.module.cg.bo.ProposalSubcontractor;
+import org.kuali.module.cg.bo.ProjectDirector;
 import org.kuali.module.cg.rules.AwardRuleUtil;
 
 /**
@@ -119,15 +114,54 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
         getNewCollectionLine(AWARD_ACCOUNTS).refreshNonUpdateableReferences();
 
         // the org list doesn't need any refresh
+        refreshNonUpdateableReferences(award.getAwardOrganizations());
         refreshNonUpdateableReferences(award.getAwardAccounts());
         refreshNonUpdateableReferences(award.getAwardSubcontractors());
         refreshNonUpdateableReferences(award.getAwardProjectDirectors());
+    }
+
+    /**
+     * Refreshs this maintainable's AwardProjectDirectors.
+     * 
+     * @param refreshFromLookup a lookup returns only the primary key, so ignore the secondary key when true
+     */
+    private void refreshAwardProjectDirectors(boolean refreshFromLookup) {
+        if (refreshFromLookup) {
+            getNewCollectionLine(AWARD_PROJECT_DIRECTORS).refreshNonUpdateableReferences();
+            refreshNonUpdateableReferences(getAward().getAwardProjectDirectors());
+        }
+        else {
+            refreshWithSecondaryKey((AwardProjectDirector) getNewCollectionLine(AWARD_PROJECT_DIRECTORS));
+            for (AwardProjectDirector apd : getAward().getAwardProjectDirectors()) {
+                refreshWithSecondaryKey(apd);
+            }
+        }
     }
 
     // todo: move to ObjectUtils?
     private static void refreshNonUpdateableReferences(Collection<? extends PersistableBusinessObject> collection) {
         for (PersistableBusinessObject item : collection) {
             item.refreshNonUpdateableReferences();
+        }
+    }
+
+    /**
+     * Refreshes the reference to ProjectDirector, giving priority to its secondary key. Any secondary key that it has may be user
+     * input, so that overrides the primary key, setting the primary key. If its primary key is blank or nonexistent, then leave the
+     * current reference as it is, because it may be a nonexistent instance which is holding the secondary key (the username, i.e.,
+     * personUserIdentifier) so we can redisplay it to the user for correction. If it only has a primary key then use that, because
+     * it may be coming from the database, without any user input.
+     * 
+     * @param apd the AwardProjectDirector to refresh
+     */
+    private static void refreshWithSecondaryKey(AwardProjectDirector apd) {
+        String secondaryKey = apd.getProjectDirector().getPersonUserIdentifier();
+        if (StringUtils.isNotBlank(secondaryKey)) {
+            ProjectDirector dir = SpringServiceLocator.getProjectDirectorService().getByPersonUserIdentifier(secondaryKey);
+            apd.setPersonUniversalIdentifier(dir == null ? null : dir.getPersonUniversalIdentifier());
+        }
+        if (StringUtils.isNotBlank(apd.getPersonUniversalIdentifier()) && SpringServiceLocator.getProjectDirectorService().primaryIdExists(apd.getPersonUniversalIdentifier())) {
+            apd.refreshNonUpdateableReferences();
         }
     }
 

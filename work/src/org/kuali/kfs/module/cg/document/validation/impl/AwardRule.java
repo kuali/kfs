@@ -54,13 +54,15 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         success &= checkPrimary(newAwardCopy.getAwardOrganizations(), AwardOrganization.class, PropertyConstants.AWARD_ORGRANIZATIONS, Award.class);
         success &= checkPrimary(newAwardCopy.getAwardProjectDirectors(), AwardProjectDirector.class, PropertyConstants.AWARD_PROJECT_DIRECTORS, Award.class);
         success &= checkAccounts();
+        success &= checkProjectDirectorsExist(newAwardCopy.getAwardProjectDirectors(), AwardProjectDirector.class, PropertyConstants.AWARD_PROJECT_DIRECTORS);
+        success &= checkProjectDirectorsExist(newAwardCopy.getAwardAccounts(), AwardAccount.class, PropertyConstants.AWARD_ACCOUNTS);
         return success;
     }
 
     private boolean checkAccounts() {
         boolean success = true;
         Collection<AwardAccount> awardAccounts = newAwardCopy.getAwardAccounts();
-        
+
         if (ObjectUtils.isNull(awardAccounts) || awardAccounts.isEmpty()) {
             String elementLabel = SpringServiceLocator.getDataDictionaryService().getCollectionElementLabel(Award.class.getName(), PropertyConstants.AWARD_ACCOUNTS, AwardAccount.class);
             putFieldError(PropertyConstants.AWARD_ACCOUNTS, KeyConstants.ERROR_ONE_REQUIRED, elementLabel);

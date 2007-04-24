@@ -63,12 +63,21 @@
             <attributeReference name="personUniversalIdentifier" sourceClassName="org.kuali.module.cg.bo.ProjectDirector" sourceAttributeName="personUniversalIdentifier">
             	<label>Project Director ID</label>
             	<shortLabel>Proj Dir ID</shortLabel>
+                <control>
+                    <hidden/>
+                </control>
 
                 <summary>Project Director ID</summary>
                 <description>Universal identifier for the Project Director.</description>
             </attributeReference>
             
-            <attributeReference name="projectDirector.universalUser.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
+            <attributeReference name="projectDirector.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
+            	<label>Project Director User ID</label>
+            	<required>false</required>
+            </attributeReference>
+
+            <attributeReference name="projectDirector.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
+            	<required>false</required>
                 <control>
                     <text size="40" />
                 </control>

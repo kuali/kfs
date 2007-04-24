@@ -34,6 +34,7 @@ import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.AccountStatusBaseFunds;
 import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
+import org.kuali.module.labor.bo.PersonFunding;
 import org.kuali.module.labor.dao.LaborDao;
 
 /**
@@ -145,6 +146,17 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
         criteria.addEqualToField("financialBalanceTypeCode", LaborConstants.BalanceInquiries.ACTUALS_CODE);
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new AccountStatusCurrentFunds()));
         QueryByCriteria query = QueryFactory.newQuery(AccountStatusCurrentFunds.class, criteria);
+        OJBUtility.limitResultSize(query);
+        return getPersistenceBrokerTemplate().getCollectionByQuery(query);
+    }
+    /**
+     * @see org.kuali.module.labor.dao.LaborDao#getPersonFunding(java.util.Map)
+     */
+    public Collection getPersonFunding(Map fieldValues) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualToField("financialBalanceTypeCode", LaborConstants.BalanceInquiries.ENCUMBERENCE_CODE);
+        criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new PersonFunding()));
+        QueryByCriteria query = QueryFactory.newQuery(PersonFunding.class, criteria);
         OJBUtility.limitResultSize(query);
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }

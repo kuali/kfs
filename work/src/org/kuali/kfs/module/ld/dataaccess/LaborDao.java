@@ -66,4 +66,12 @@ public interface LaborDao {
      * @return
      */
     Collection getCurrentFunds(Map fieldValues);
+    
+    /**
+     * 
+     * This method returns current funds data
+     * @param fieldValues
+     * @return
+     */
+    Collection getPersonFunding(Map fieldValues);
 }

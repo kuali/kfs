@@ -29,6 +29,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
+import org.kuali.KeyConstants;
 import org.kuali.core.authorization.AuthorizationType;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.exceptions.ModuleAuthorizationException;
@@ -184,4 +185,28 @@ public class PositionSalarySettingAction extends KualiAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    public ActionForward insertBCAFLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        PositionSalarySettingForm tForm = (PositionSalarySettingForm) form;
+        GlobalVariables.getErrorMap().putError(Constants.GLOBAL_MESSAGES,KeyConstants.ERROR_UNIMPLEMENTED, "Add Salary Setting Line");
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    public ActionForward performVacateSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        PositionSalarySettingForm tForm = (PositionSalarySettingForm) form;
+        GlobalVariables.getErrorMap().putError(Constants.GLOBAL_MESSAGES,KeyConstants.ERROR_UNIMPLEMENTED, "Vacate Salary Setting Line");
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    public ActionForward performPercentAdjustmentSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        PositionSalarySettingForm tForm = (PositionSalarySettingForm) form;
+        GlobalVariables.getErrorMap().putError(Constants.GLOBAL_MESSAGES,KeyConstants.ERROR_UNIMPLEMENTED, "Percent Adjustment For Salary Setting Line");
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
 }

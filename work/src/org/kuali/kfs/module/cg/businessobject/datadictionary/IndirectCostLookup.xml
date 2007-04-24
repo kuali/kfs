@@ -75,7 +75,7 @@
                 <label>Budget Purpose Code</label>
                 <shortLabel>BdgtPrpsCd</shortLabel>
                 <summary>Budget Purpose Code</summary>
-                <description>Budget Purpose Code</description>
+                <description>Budget Purpose Code entered has to correspond to an existing Purpose. See Purpose lookup for details.</description>
             </attributeReference>
 
             <attribute name="budgetIndirectCostRate">

@@ -104,14 +104,10 @@
                 <description>chartOfAccountsCode description...</description>
 			</attribute>
 
-			<attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
-                <label>Account Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <summary>AccountNumber</summary>
-                <description>accountNumber description...</description>
-			</attributeReference>
+			<attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber"/>
 			
+			<attributeReference name="account.accountName" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountName"/>
+  
              
 			<attributeReference name="award.proposal.federalPassThroughAgencyNumber" sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="federalPassThroughAgencyNumber">
 				<label>Proposal Federal Pass Through Agency Number</label>

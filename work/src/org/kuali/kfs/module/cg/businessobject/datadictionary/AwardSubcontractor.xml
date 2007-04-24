@@ -78,6 +78,8 @@
             <attributeReference name="proposalNumber" sourceClassName="org.kuali.module.cg.bo.Award" sourceAttributeName="proposalNumber"/>
 
             <attributeReference name="subcontractorNumber" sourceClassName="org.kuali.module.cg.bo.Subcontractor" sourceAttributeName="subcontractorNumber"/>
+			
+			<attributeReference name="subcontractor.subcontractorName" sourceClassName="org.kuali.module.cg.bo.Subcontractor" sourceAttributeName="subcontractorName"/>
   
             <attribute name="awardSubcontractorAmendmentNumber" forceUppercase="true">
                 <label>Award Subcontractor Amendment Number</label>

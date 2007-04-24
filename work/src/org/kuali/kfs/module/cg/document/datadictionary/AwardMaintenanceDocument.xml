@@ -35,7 +35,12 @@
 
         <documentTypeName>KualiResearchAdminPostAwardMaintenanceDocument</documentTypeName>
         <documentTypeCode>AWRD</documentTypeCode>
-
+		
+        <webScriptFile>dwr/interface/AccountService.js</webScriptFile>
+        <webScriptFile>dwr/interface/AgencyService.js</webScriptFile>
+        <webScriptFile>dwr/interface/OrganizationService.js</webScriptFile>
+        <webScriptFile>dwr/interface/ProjectDirectorService.js</webScriptFile>
+        <webScriptFile>dwr/interface/SubcontractorService.js</webScriptFile>
 		<webScriptFile>scripts/cg/proposalDocument.js</webScriptFile>
 
         <label>Award Maintenance Document</label>
@@ -68,11 +73,11 @@
         <maintainableSections>
             <maintainableSection title="Award Maintenance">
                 <maintainableItems>
-                    <maintainableField name="proposalNumber" required="true"/>
+                    <maintainableField name="proposalNumber" required="true" readOnlyAfterAdd="true"/>
                     <maintainableField name="awardStatusCode" required="true">
 						<defaultValue>A</defaultValue>
 					</maintainableField>
-                    <maintainableField name="agencyNumber" required="true" />
+                    <maintainableField name="agencyNumber" required="true" webUILeaveFieldFunction="onblur_agencyNumber"/>
                     <maintainableField name="agency.fullName" readOnly="true" />
                     <maintainableField name="awardProjectTitle" required="true" />
                     <maintainableField name="awardBeginningDate" required="true" />
@@ -91,7 +96,8 @@
                     <maintainableField name="awardPurposeCode" required="true" />
                     <maintainableField name="federalFundedAmount" readOnly="true" />
                     <maintainableField name="federalPassThroughIndicator" required="true" />
-                    <maintainableField name="federalPassThroughAgencyNumber" />
+                    <maintainableField name="federalPassThroughAgencyNumber" webUILeaveFieldFunction="onblur_federalPassThroughAgencyNumber" />
+                    <maintainableField name="federalPassThroughAgency.fullName" readOnly="true" />
 					<maintainableField name="federalPassThroughFundedAmount" />
                     <maintainableField name="awardAllocatedUniversityComputingServicesAmount" />
                     <maintainableField name="awardAddendumNumber" />
@@ -107,10 +113,11 @@
 			<maintainableSection title="Accounts">
 				<maintainableItems>
 					<maintainableCollection name="awardAccounts" businessObjectClass="org.kuali.module.cg.bo.AwardAccount">
-						<maintainableField name="chartOfAccountsCode" required="true" />
-						<maintainableField name="accountNumber" required="true" />
+						<maintainableField name="chartOfAccountsCode" required="true" webUILeaveFieldFunction="accountNameLookup"/>
+						<maintainableField name="accountNumber" required="true" webUILeaveFieldFunction="accountNameLookup"/>
+						<maintainableField name="account.accountName" readOnly="true" />
 
-                        <maintainableField name="projectDirector.personUserIdentifier" required="true"/>
+                        <maintainableField name="projectDirector.personUserIdentifier" required="true" webUILeaveFieldFunction="proposalDirectorIDLookup"/>
 						<maintainableField name="projectDirector.personName" readOnly="true"/>
 						<maintainableField name="personUniversalIdentifier" readOnly="true" />
 						<!-- hidden fields -->
@@ -128,7 +135,7 @@
 			<maintainableSection title="Project Directors">
 				<maintainableItems>
 					<maintainableCollection name="awardProjectDirectors" businessObjectClass="org.kuali.module.cg.bo.AwardProjectDirector">
-                        <maintainableField name="projectDirector.personUserIdentifier" required="true" />
+                        <maintainableField name="projectDirector.personUserIdentifier" required="true" webUILeaveFieldFunction="proposalDirectorIDLookup"/>
 						<maintainableField name="projectDirector.personName" readOnly="true"/>
 						<maintainableField name="personUniversalIdentifier" readOnly="true" />
 						<maintainableField name="awardPrimaryProjectDirectorIndicator" required="false" />
@@ -148,8 +155,9 @@
             <maintainableSection title="Organizations">
                 <maintainableItems>
                     <maintainableCollection name="awardOrganizations" businessObjectClass="org.kuali.module.cg.bo.AwardOrganization" attributeToHighlightOnDuplicateKey="organizationCode">
-                        <maintainableField name="chartOfAccountsCode" required="true" />
-                        <maintainableField name="organizationCode" required="true" />
+                        <maintainableField name="chartOfAccountsCode" required="true" webUILeaveFieldFunction="organizationNameLookup"/>
+                        <maintainableField name="organizationCode" required="true" webUILeaveFieldFunction="organizationNameLookup"/>
+						<maintainableField name="organization.organizationName" readOnly="true" />
                         <maintainableField name="awardPrimaryOrganizationIndicator" required="false" />
                         <maintainableField name="newCollectionRecord" />
                         <maintainableField name="versionNumber" />
@@ -165,7 +173,7 @@
 			<maintainableSection title="Subcontractors">
 				<maintainableItems>
 					<maintainableCollection name="awardSubcontractors" businessObjectClass="org.kuali.module.cg.bo.AwardSubcontractor" attributeToHighlightOnDuplicateKey="subcontractorNumber">
-						<maintainableField name="subcontractorNumber" required="true" />
+						<maintainableField name="subcontractorNumber" required="true"  webUILeaveFieldFunction="onblur_subcontractorNumber"/>
 						<maintainableField name="subcontractor.subcontractorName" readOnly="true" />
 						<maintainableField name="awardSubcontractorDescription" />
 						<maintainableField name="subcontractorAmount">

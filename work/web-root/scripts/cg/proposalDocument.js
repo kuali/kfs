@@ -173,3 +173,16 @@ function onblur_awardDirectCostAmount( directAmountField ) {
 function onblur_awardIndirectCostAmount( indirectAmountField ) {
     updateTotalAmount( findElPrefix( indirectAmountField.name ) + ".awardDirectCostAmount", indirectAmountField.name, "awardTotalAmount" );
 }
+
+function accountNameLookup( anyFieldOnAwardAccount ) {
+    var elPrefix = findElPrefix( anyFieldOnAwardAccount.name );
+    var chartOfAccountsCode = DWRUtil.getValue( elPrefix + ".chartOfAccountsCode" ).toUpperCase().trim();
+    var accountNumber = DWRUtil.getValue( elPrefix + ".accountNumber" ).toUpperCase().trim();
+    var targetFieldName = elPrefix + ".account.accountName";
+    if (chartOfAccountsCode == "" || accountNumber == "") {
+        clearRecipients( targetFieldName );
+    } else {
+        var dwrReply = makeDwrSingleReply( "account", "accountName", targetFieldName);
+        AccountService.getByPrimaryIdWithCaching( chartOfAccountsCode, accountNumber, dwrReply);
+    }
+}

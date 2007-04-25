@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.kuali.Constants;
 import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.BeanPropertyComparator;
@@ -33,7 +34,7 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-public class BaseFundsLookupableHelperServiceImpl extends AbstractLaborLedgerLookupableHelperServiceImpl {
+public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private BalanceService balanceService;
     private Map fieldValues;
     private LaborDao laborDao;

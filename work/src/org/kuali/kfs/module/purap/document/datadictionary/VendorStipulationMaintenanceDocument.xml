@@ -48,9 +48,9 @@
         <maintainableSections>
             <maintainableSection title="Edit Vendor Stipulation">
                 <maintainableItems>
-                    <maintainableField name="vendorStipulationIdentifier" readOnly="true" />
+                    <maintainableField name="vendorStipulationIdentifier" />
                     <maintainableField name="vendorStipulationName" required="true" />
-                    <maintainableField name="vendorStipulationDescription" required="false" />
+                    <maintainableField name="vendorStipulationDescription" required="true" />
                     <maintainableField name="active" />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>

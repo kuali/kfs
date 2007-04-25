@@ -147,6 +147,7 @@ public class Award extends PersistableBusinessObjectBase {
                 awardSubcontractor.setAwardSubcontractorNumber(pSubcontractor.getProposalSubcontractorNumber());
                 awardSubcontractor.setSubcontractorAmount(pSubcontractor.getProposalSubcontractorAmount());
                 awardSubcontractor.setAwardSubcontractorDescription(pSubcontractor.getProposalSubcontractorDescription());
+                awardSubcontractor.setSubcontractorNumber(pSubcontractor.getSubcontractorNumber());
                 getAwardSubcontractors().add(awardSubcontractor);
             }
             

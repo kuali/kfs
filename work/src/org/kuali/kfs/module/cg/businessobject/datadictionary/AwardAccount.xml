@@ -83,6 +83,7 @@
             </attributeReference>
 
             <attributeReference name="projectDirector.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
+                <label>Director Name</label>
             	<required>false</required>
                 <control>
                     <text size="40" />

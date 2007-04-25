@@ -150,7 +150,7 @@
             <attributeReference name="proposalOrganizations.organization.organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
 				<label>Organization Code</label>
 				<shortLabel>Org Cd</shortLabel>
-				<summary>Proposal Organization Code</summary>
+				<summary>Organization Code</summary>
    				<description>Insert desc here...</description>
             </attributeReference>
 
@@ -207,11 +207,12 @@
             </attributeReference>
 
             <attributeReference name="proposal.grantNumber" sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="grantNumber">
-				<summary>Proposal Grant Number</summary>
+				<summary>Grant Number</summary>
 				<description>Insert desc here...</description>
             </attributeReference>
 
             <attributeReference name="agency.fullName" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="fullName">
+                <label>Agency Name</label>
 				<summary>Agency Name</summary>
 				<description>Insert desc here...</description>
             </attributeReference>
@@ -252,7 +253,7 @@
 			</attribute>
 
             <attributeReference name="federalPassThroughAgency.fullName" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="fullName">
-                <label>Federal Pass Through Agency Full Name</label>
+                <label>Federal Pass Through Agency Name</label>
                 <shortLabel>FPT Agency Name</shortLabel>
             </attributeReference>
 
@@ -287,8 +288,8 @@
 			</attribute>
 
             <attributeReference name="proposalAwardTypeCode" sourceClassName="org.kuali.module.cg.bo.ProposalAwardType" sourceAttributeName="proposalAwardTypeCode">
-                <label>Proposal Type Code</label>
-                <shortLabel>Code</shortLabel>
+                <label>Type</label>
+                <shortLabel>Type</shortLabel>
 
                 <control>
                     <select valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.ProposalAwardTypeValuesFinder" />
@@ -299,8 +300,8 @@
 			</attributeReference>
 
             <attributeReference name="proposalBeginningDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Proposal Beginning Date</label>
-                <shortLabel>Date</shortLabel>
+                <label>Start Date</label>
+                <shortLabel>Start</shortLabel>
 
                 <summary>
                     Proposal Beginning Date
@@ -309,16 +310,16 @@
 			</attributeReference>
 
             <attributeReference name="proposalClosingDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Proposal Closing Date</label>
-                <shortLabel>Date</shortLabel>
+                <label>Close Date</label>
+                <shortLabel>Close</shortLabel>
 
                 <summary>Proposal Closing Date</summary>
                 <description>proposalClosingDate description...</description>
 			</attributeReference>
 
             <attributeReference name="proposalDirectCostAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Proposal Direct Cost Amount</label>
-                <shortLabel>Amount</shortLabel>
+                <label>Direct Cost Amount</label>
+                <shortLabel>Direct</shortLabel>
 
                 <exclusiveMin>-0.001</exclusiveMin>
 
@@ -328,24 +329,24 @@
             </attributeReference>
 
             <attributeReference name="proposalDueDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Proposal Due Date</label>
-                <shortLabel>Date</shortLabel>
+                <label>Due Date</label>
+                <shortLabel>Due</shortLabel>
 
                 <summary>Proposal Due Date</summary>
                 <description>proposalDueDate description...</description>
 			</attributeReference>
 
             <attributeReference name="proposalEndingDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Proposal Ending Date</label>
-                <shortLabel>Date</shortLabel>
+                <label>Stop Date</label>
+                <shortLabel>Stop</shortLabel>
 
                 <summary>Proposal Ending Date</summary>
                 <description>proposalEndingDate description...</description>
 			</attributeReference>
 
             <attribute name="proposalFederalPassThroughIndicator" forceUppercase="true">
-                <label>Proposal Federal Pass Through Indicator</label>
-                <shortLabel>Indicator</shortLabel>
+                <label>Federal Pass Through</label>
+                <shortLabel>FPT</shortLabel>
 
                 <maxLength>1</maxLength>
 
@@ -358,8 +359,8 @@
 			</attribute>
 
             <attribute name="proposalFellowName" forceUppercase="true">
-                <label>Proposal Fellow Name</label>
-                <shortLabel>Name</shortLabel>
+                <label>Fellow Name</label>
+                <shortLabel>Fellow</shortLabel>
 
                 <maxLength>30</maxLength>
                 <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
@@ -373,8 +374,8 @@
 			</attribute>
 
             <attributeReference name="proposalIndirectCostAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Proposal Indirect Cost Amount</label>
-                <shortLabel>Amount</shortLabel>
+                <label>Indirect Cost Amount</label>
+                <shortLabel>Indirect</shortLabel>
 
                 <exclusiveMin>-0.001</exclusiveMin>
 
@@ -384,8 +385,8 @@
 			</attributeReference>
 
             <attributeReference name="proposalLastUpdateDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Proposal Last Update Date</label>
-                <shortLabel>Date</shortLabel>
+                <label>Last Update</label>
+                <shortLabel>Update</shortLabel>
 
                 <summary>Proposal Last Update Date</summary>
                 <description>proposalLastUpdateDate description...</description>
@@ -407,7 +408,7 @@
 			</attribute>
 
             <attribute name="proposalProjectTitle" forceUppercase="true">
-                <label>Proposal Project Title</label>
+                <label>Project Title</label>
                 <shortLabel>Title</shortLabel>
 
                 <maxLength>250</maxLength>
@@ -423,8 +424,8 @@
 
             <attributeReference name="proposalPurposeCode" sourceClassName="org.kuali.module.cg.bo.ProposalPurpose" sourceAttributeName="proposalPurposeCode">
 
-                <label>Proposal Purpose Code</label>
-                <shortLabel>ProposalPurpose</shortLabel>
+                <label>Purpose</label>
+                <shortLabel>Purpose</shortLabel>
                 <control>
                     <select valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.ProposalPurposeValuesFinder" />
                 </control>
@@ -436,8 +437,8 @@
             </attributeReference>
 
             <attributeReference name="proposalRejectedDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Proposal Rejected Date</label>
-                <shortLabel>Date</shortLabel>
+                <label>Rejected Date</label>
+                <shortLabel>Rejected</shortLabel>
 
                 <summary>Proposal Rejected Date</summary>
                 <description>proposalRejectedDate description...</description>
@@ -445,8 +446,8 @@
 
             <attributeReference name="proposalStatusCode" sourceClassName="org.kuali.module.cg.bo.ProposalStatus" sourceAttributeName="proposalStatusCode">
 
-                <label>Proposal Status Code</label>
-                <shortLabel>ProposalStatus</shortLabel>
+                <label>Status</label>
+                <shortLabel>Status</shortLabel>
                 <control>
                     <select valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.ProposalStatusValuesFinder" />
                 </control>
@@ -458,16 +459,16 @@
             </attributeReference>
 
             <attributeReference name="proposalSubmissionDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Proposal Submission Date</label>
-                <shortLabel>Date</shortLabel>
+                <label>Submission Date</label>
+                <shortLabel>Submit</shortLabel>
 
                 <summary>Proposal Submission Date</summary>
                 <description>proposalSubmissionDate description...</description>
 			</attributeReference>
 
             <attributeReference name="proposalTotalAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Proposal Total Amount</label>
-                <shortLabel>Amount</shortLabel>
+                <label>Total Amount</label>
+                <shortLabel>Total</shortLabel>
 
                 <exclusiveMin>-0.001</exclusiveMin>
 
@@ -477,8 +478,8 @@
 			</attributeReference>
 
             <attributeReference name="proposalTotalProjectAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
-                <label>Proposal Total Project Amount</label>
-                <shortLabel>Amount</shortLabel>
+                <label>Total Project Amount</label>
+                <shortLabel>Total Project</shortLabel>
 
                 <exclusiveMin>-0.001</exclusiveMin>
                 

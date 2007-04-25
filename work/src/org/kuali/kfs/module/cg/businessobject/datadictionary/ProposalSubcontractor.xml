@@ -93,7 +93,7 @@
 
 
 			<attribute name="proposalSubcontractorDescription">
-                <label>Proposal Subcontractor Description</label>
+                <label>Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>30</maxLength>
@@ -111,9 +111,11 @@
                 <description>Proposal Subcontractor Description</description>
             </attribute>
 
-			<attributeReference name="subcontractor.subcontractorName" sourceClassName="org.kuali.module.cg.bo.Subcontractor" sourceAttributeName="subcontractorName"/>
-			
-		    <attributeReference name="newCollectionRecord" 
+			<attributeReference name="subcontractor.subcontractorName" sourceClassName="org.kuali.module.cg.bo.Subcontractor" sourceAttributeName="subcontractorName">
+                <label>Name</label>
+            </attributeReference>
+
+            <attributeReference name="newCollectionRecord"
                                 sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
                                 sourceAttributeName="newCollectionRecord" />
                                 

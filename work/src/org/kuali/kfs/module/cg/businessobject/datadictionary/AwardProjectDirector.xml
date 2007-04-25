@@ -77,6 +77,7 @@
             </attributeReference>
 
             <attributeReference name="projectDirector.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
+                <label>Name</label>
             	<required>false</required>
                 <control>
                     <text size="40" />
@@ -86,8 +87,8 @@
             <attributeReference name="proposalNumber" sourceClassName="org.kuali.module.cg.bo.Award" sourceAttributeName="proposalNumber"/>
 
             <attribute name="awardPrimaryProjectDirectorIndicator" forceUppercase="true">
-                <label>Award Primary Project Director Indicator</label>
-                <shortLabel>Indicator</shortLabel>
+                <label>Primary</label>
+                <shortLabel>Primary</shortLabel>
 
                 <maxLength>1</maxLength>
 
@@ -100,7 +101,7 @@
 			</attribute>
 
             <attribute name="awardProjectDirectorProjectTitle" forceUppercase="true">
-                <label>Award Project Director Project Title</label>
+                <label>Title</label>
                 <shortLabel>Title</shortLabel>
 
                 <maxLength>100</maxLength>

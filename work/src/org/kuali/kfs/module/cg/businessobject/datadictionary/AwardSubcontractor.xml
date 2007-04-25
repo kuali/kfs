@@ -79,11 +79,13 @@
 
             <attributeReference name="subcontractorNumber" sourceClassName="org.kuali.module.cg.bo.Subcontractor" sourceAttributeName="subcontractorNumber"/>
 			
-			<attributeReference name="subcontractor.subcontractorName" sourceClassName="org.kuali.module.cg.bo.Subcontractor" sourceAttributeName="subcontractorName"/>
-  
+			<attributeReference name="subcontractor.subcontractorName" sourceClassName="org.kuali.module.cg.bo.Subcontractor" sourceAttributeName="subcontractorName">
+                <label>Name</label>
+            </attributeReference>
+
             <attribute name="awardSubcontractorAmendmentNumber" forceUppercase="true">
-                <label>Award Subcontractor Amendment Number</label>
-                <shortLabel>Number</shortLabel>
+                <label>Amendment Number</label>
+                <shortLabel>Amendment</shortLabel>
 
                 <maxLength>2</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -97,8 +99,8 @@
 			</attribute>
 
             <attribute name="awardSubcontractorNumber" forceUppercase="true">
-                <label>Award Subcontractor Number</label>
-                <shortLabel>Number</shortLabel>
+                <label>Subcontractor Number</label>
+                <shortLabel>Subcontractor</shortLabel>
 
                 <maxLength>2</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -112,7 +114,7 @@
 			</attribute>
 
 			<attribute name="awardSubcontractorDescription">
-                <label>Award Subcontractor Description</label>
+                <label>Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>30</maxLength>
@@ -136,8 +138,8 @@
 			</attributeReference>	
 
             <attribute name="subcontractorAuditHistoryText" forceUppercase="true">
-                <label>Subcontractor Audit History Text</label>
-                <shortLabel>Text</shortLabel>
+                <label>Audit History</label>
+                <shortLabel>History</shortLabel>
 
                 <maxLength>2000</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -151,8 +153,8 @@
 			</attribute>
 
             <attribute name="subcontractorContactFirstName" forceUppercase="true">
-                <label>Subcontractor Contact First Name</label>
-                <shortLabel>Name</shortLabel>
+                <label>Contact First Name</label>
+                <shortLabel>First Name</shortLabel>
 
                 <maxLength>15</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -166,8 +168,8 @@
 			</attribute>
 
             <attribute name="subcontractorContactLastName" forceUppercase="true">
-                <label>Subcontractor Contact Last Name</label>
-                <shortLabel>Name</shortLabel>
+                <label>Contact Last Name</label>
+                <shortLabel>Last Name</shortLabel>
 
                 <maxLength>25</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>

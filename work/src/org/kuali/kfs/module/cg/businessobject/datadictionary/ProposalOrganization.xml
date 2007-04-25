@@ -70,18 +70,23 @@
             </attributeReference>
 
             <attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
-            	<label>Proposal Organization Code</label>
-            	<shortLabel>Proposal Org Code</shortLabel>
+            	<label>Organization Code</label>
+            	<shortLabel>Org Code</shortLabel>
 
             	<summary>Proposal Organization Code</summary>
             </attributeReference>
 
-            <attributeReference name="organization.organizationName" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationName"/>
+            <attributeReference name="organization.organizationName" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationName">
+                <label>Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <summary>Proposal Organization Name</summary>
+            </attributeReference>
 
             <attributeReference name="proposalNumber" sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="proposalNumber"/>
 
             <attribute name="proposalPrimaryOrganizationIndicator" forceUppercase="true">
-                <label>Proposal Primary Organization Indicator</label>
+                <label>Primary</label>
                 <shortLabel>Primary</shortLabel>
 
                 <maxLength>1</maxLength>

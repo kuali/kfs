@@ -43,7 +43,7 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
      */
     protected boolean checkEndAfterBegin(Date begin, Date end, String propertyName) {
         boolean success = true;
-        if (ObjectUtils.isNotNull(begin) && ObjectUtils.isNotNull(begin) && !end.after(begin)) {
+        if (ObjectUtils.isNotNull(begin) && ObjectUtils.isNotNull(end) && !end.after(begin)) {
             putFieldError(propertyName, KeyConstants.ERROR_ENDING_DATE_NOT_AFTER_BEGIN);
             success = false;
         }

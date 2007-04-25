@@ -44,6 +44,11 @@
             <field attributeName="budgetNonpersonnelCategoryCode" />
             <field attributeName="budgetNonpersonnelSubCategoryCode" />
         </lockingKeys>
+        
+        <defaultExistenceChecks>
+        	<reference attributeName="nonpersonnelCategory" activeIndicatorAttributeName="active" attributeToHighlightOnFail="budgetNonpersonnelCategoryCode" />
+        	<reference attributeName="nonpersonnelSubCategory" activeIndicatorAttributeName="active" attributeToHighlightOnFail="budgetNonpersonnelSubCategoryCode" />
+        </defaultExistenceChecks>
 
         <maintainableSections>
             <maintainableSection title="Edit Nonpersonnel Object Code">

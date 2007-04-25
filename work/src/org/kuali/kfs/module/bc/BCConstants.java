@@ -21,6 +21,8 @@ public class BCConstants extends JstlConstants {
 
     public static final String BC_DOCUMENT_ACTION="budgetBudgetConstruction.do";
     public static final String BC_DOCUMENT_REFRESH_METHOD="refresh";
+    public static final String BC_DOCUMENT_METHOD="docHandler";
+    
     public static final String MONTHLY_BUDGET_REFRESH_CALLER="MonthlyBudget";
     public static final String MONTHLY_BUDGET_ACTION="budgetMonthlyBudget.do";
     public static final String MONTHLY_BUDGET_METHOD="loadExpansionScreen";

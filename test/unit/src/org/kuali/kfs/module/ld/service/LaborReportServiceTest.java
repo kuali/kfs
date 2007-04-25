@@ -199,7 +199,6 @@ public class LaborReportServiceTest extends KualiTestBase {
             LaborOriginEntry originEntry = entry.next();
 
             List<Message> errors = laborPosterTransactionValidator.verifyTransaction(originEntry);
-            ;
             if (!errors.isEmpty()) {
                 errorMap.put(originEntry, errors);
             }

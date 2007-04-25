@@ -1449,7 +1449,6 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="organizationAutomaticPurchaseOrderLimit" column="ORG_AUTO_PO_LMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
@@ -1474,7 +1473,6 @@
 	<field-descriptor name="purchasingDepartmentStateCode" column="PUR_DEPT_ST_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="purchasingDepartmentZipCode" column="PUR_DEPT_ZIP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="purchasingDepartmentCountryCode" column="PUR_DEPT_CNTRY_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<reference-descriptor name="campus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="campusCode" />
 	</reference-descriptor>

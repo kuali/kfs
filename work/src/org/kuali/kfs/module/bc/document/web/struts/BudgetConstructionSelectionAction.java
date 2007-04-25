@@ -15,6 +15,8 @@
  */
 package org.kuali.module.budget.web.struts.action;
 
+import java.util.Properties;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,7 +28,9 @@ import org.kuali.core.authorization.AuthorizationType;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.exceptions.ModuleAuthorizationException;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
+import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.document.authorization.BudgetConstructionDocumentAuthorizer;
 import org.kuali.module.budget.web.struts.form.BudgetConstructionSelectionForm;
 import org.kuali.rice.KNSServiceLocator;
@@ -80,6 +84,21 @@ public class BudgetConstructionSelectionAction extends KualiAction {
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+
+    public ActionForward performBCDocumentOpen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+//TODO do lookup of header and call open if found, otherwise create blank doc and account hierarchy, then open if no error
+//TODO for now just return an error if the doc does not exist
+
+        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+        Properties parameters = new Properties();
+        parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, BCConstants.BC_DOCUMENT_METHOD);
+        String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_DOCUMENT_ACTION, parameters);
+        return new ActionForward(lookupUrl, true);
+
+//        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
 
     public ActionForward returnToCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 

@@ -26,21 +26,18 @@ import org.kuali.Constants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rule.event.AddAccountingLineEvent;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.kfs.web.ui.AccountingLineDecorator;
-import org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
-import org.kuali.module.purap.document.PurchasingDocumentBase;
+import org.kuali.module.purap.rule.event.AddPurchasingAccountsPayableItemEvent;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.bo.VendorAddress;
@@ -173,7 +170,12 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
         // TODO: should call add line event/rules here
         PurchasingApItem item = purchasingForm.getAndResetNewPurchasingItemLine();
         PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
-        purDocument.addItem(item);
+        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new AddPurchasingAccountsPayableItemEvent("item",purDocument,item));
+//        AddAccountingLineEvent(Constants.NEW_TARGET_ACCT_LINES_PROPERTY_NAME + "[" + Integer.toString(itemIndex) + "]", purchasingForm.getDocument(), (AccountingLine) line)
+        if (rulePassed) {
+
+            purDocument.addItem(item);
+        }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 

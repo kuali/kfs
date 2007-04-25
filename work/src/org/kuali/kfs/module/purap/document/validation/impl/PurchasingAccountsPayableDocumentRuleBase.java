@@ -18,9 +18,12 @@ package org.kuali.module.purap.rules;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
+import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.module.purap.rule.AddPurchasingAccountsPayableItemRule;
 
-public class PurchasingAccountsPayableDocumentRuleBase extends TransactionalDocumentRuleBase {
+public class PurchasingAccountsPayableDocumentRuleBase extends TransactionalDocumentRuleBase implements AddPurchasingAccountsPayableItemRule {
 
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -95,6 +98,11 @@ public class PurchasingAccountsPayableDocumentRuleBase extends TransactionalDocu
         boolean valid = true;
         // TODO code validation
         return valid;
+    }
+
+    public boolean processAddItemBusinessRules(AccountingDocument financialDocument, PurchasingApItem item) {
+        // TODO Auto-generated method stub
+        return true;
     }
 
 }

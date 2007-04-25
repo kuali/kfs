@@ -121,7 +121,7 @@
 
             <attribute name="budgetManualMtdcAmount">
                 <label>Manual MTDC Amount</label>
-                <maxLength>9</maxLength>
+                <maxLength>12</maxLength>
                 <validationPattern>
                     <floatingPoint />
                 </validationPattern>

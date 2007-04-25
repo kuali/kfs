@@ -16,11 +16,8 @@
 package org.kuali.module.labor.dao;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Map;
-
-import org.kuali.core.bo.user.PersonPayrollId;
-import org.kuali.core.bo.user.UniversalUser;
 
 /**
  * This class is an interface to data access objects for labor balance inquiries 
@@ -73,5 +70,5 @@ public interface LaborDao {
      * @param fieldValues
      * @return
      */
-    Collection getPersonFunding(Map fieldValues);
+    Iterator getPersonFunding(Map fieldValues);
 }

@@ -216,7 +216,7 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
             // else go to close logic below
         }
     }
-
+//TODO this needs to return to bc doc selection
     return returnToSender(mapping, docForm);
 }
 

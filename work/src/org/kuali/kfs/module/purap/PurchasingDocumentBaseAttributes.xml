@@ -13,15 +13,6 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
-<attributeReference name="postingYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-    <required>true</required>
-    <control>
-        <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.FiscalYearValuesFinder" />
-    </control>
-</attributeReference>
-
 <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
     <label>Chart</label>
     <shortLabel>Code</shortLabel>
@@ -34,10 +25,6 @@
     <shortLabel>Chart/Org</shortLabel>
     <summary>organizationCode</summary>
     <description>organizationCode description...</description>
-</attributeReference>
-
-<attributeReference name="vendorNumber" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorNumber">
-    <required>false</required>
 </attributeReference>
 
 <attributeReference name="vendorAddressGeneratedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorAddress" sourceAttributeName="vendorAddressGeneratedIdentifier">
@@ -499,12 +486,6 @@
     <summary>vendorRestrictedIndicator</summary>
     <description>vendorRestrictedIndicator description...</description>
 </attributeReference>
-
-<attributeReference name="vendorLine2Address" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="line2Address"/>
-
-<attributeReference name="vendorStateCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="stateCode"/>
-
-<attributeReference name="vendorPostalCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="zipCode"/>
 
 <attributeReference name="vendorPaymentTermsCode" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorPaymentTermsCode"/>
 

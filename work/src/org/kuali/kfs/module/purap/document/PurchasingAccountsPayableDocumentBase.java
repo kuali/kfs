@@ -45,6 +45,16 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     private Integer vendorHeaderGeneratedIdentifier;
     private Integer vendorDetailAssignedIdentifier;
     private String vendorCustomerNumber;
+    private String vendorName;
+    private String vendorLine1Address;
+    private String vendorLine2Address;
+    private String vendorCityName;
+    private String vendorStateCode;
+    private String vendorPostalCode;
+    private String vendorCountryCode;
+
+    // NOT PERSISTED IN DB
+    private String vendorNumber; 
 
     // COMMON ELEMENTS
     protected List statusHistories;
@@ -102,6 +112,17 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
                 throw new RuntimeException("Unable to create or save status history note " + e.getMessage());
             }
         }
+    }
+
+    public String getVendorNumber() {
+        if (ObjectUtils.isNotNull(vendorDetail)) {
+            return vendorDetail.getVendorNumber();
+        }
+        return "";
+    }
+
+    public void setVendorNumber(String vendorNumber) {
+        this.vendorNumber = vendorNumber;
     }
 
     // GETTERS AND SETTERS
@@ -296,6 +317,62 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
             accounts.addAll(item.getSourceAccountingLines());
         }
         return (accounts==null)?new ArrayList():accounts;
+    }
+
+    public String getVendorCityName() {
+        return vendorCityName;
+    }
+
+    public void setVendorCityName(String vendorCityName) {
+        this.vendorCityName = vendorCityName;
+    }
+
+    public String getVendorCountryCode() {
+        return vendorCountryCode;
+    }
+
+    public void setVendorCountryCode(String vendorCountryCode) {
+        this.vendorCountryCode = vendorCountryCode;
+    }
+
+    public String getVendorLine1Address() {
+        return vendorLine1Address;
+    }
+
+    public void setVendorLine1Address(String vendorLine1Address) {
+        this.vendorLine1Address = vendorLine1Address;
+    }
+
+    public String getVendorLine2Address() {
+        return vendorLine2Address;
+    }
+
+    public void setVendorLine2Address(String vendorLine2Address) {
+        this.vendorLine2Address = vendorLine2Address;
+    }
+
+    public String getVendorName() {
+        return vendorName;
+    }
+
+    public void setVendorName(String vendorName) {
+        this.vendorName = vendorName;
+    }
+
+    public String getVendorPostalCode() {
+        return vendorPostalCode;
+    }
+
+    public void setVendorPostalCode(String vendorPostalCode) {
+        this.vendorPostalCode = vendorPostalCode;
+    }
+
+    public String getVendorStateCode() {
+        return vendorStateCode;
+    }
+
+    public void setVendorStateCode(String vendorStateCode) {
+        this.vendorStateCode = vendorStateCode;
     }
     
     

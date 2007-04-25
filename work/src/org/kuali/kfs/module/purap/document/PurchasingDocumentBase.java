@@ -31,7 +31,6 @@ import org.kuali.module.purap.bo.FundingSource;
 import org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod;
 import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.bo.RequisitionSource;
-import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.bo.ContractManager;
 import org.kuali.module.vendor.bo.PurchaseOrderCostSource;
 import org.kuali.module.vendor.bo.VendorAddress;
@@ -56,13 +55,6 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private String organizationCode;
     private String deliveryCampusCode;
     private KualiDecimal purchaseOrderTotalLimit;
-    private String vendorName;
-    private String vendorLine1Address;
-    private String vendorLine2Address;
-    private String vendorCityName;
-    private String vendorStateCode;
-    private String vendorPostalCode;
-    private String vendorCountryCode;
     private boolean vendorRestrictedIndicator;
     private String vendorPhoneNumber;
     private String vendorFaxNumber;
@@ -110,7 +102,6 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private String vendorShippingPaymentTermsCode;
 
     // NOT PERSISTED IN DB
-    private String vendorNumber; 
     private Integer vendorAddressGeneratedIdentifier;
     private String vendorContractName;
     private String supplierDiversityLabel;
@@ -134,6 +125,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private VendorContract vendorContract;
     private Country vendorCountry;
     private ContractManager contractManager;
+    
     
 
     public PurchasingDocumentBase() {
@@ -166,7 +158,6 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         }
     
         this.setVendorDetail(vendorDetail);
-        this.setVendorNumber(vendorDetail.getVendorHeaderGeneratedIdentifier() + VendorConstants.DASH + vendorDetail.getVendorDetailAssignedIdentifier());
         this.setVendorName(vendorDetail.getVendorName());
     }
     
@@ -415,146 +406,6 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
      */
     public void setPurchaseOrderTotalLimit(KualiDecimal purchaseOrderTotalLimit) {
         this.purchaseOrderTotalLimit = purchaseOrderTotalLimit;
-    }
-
-    /**
-     * Gets the vendorName attribute.
-     * 
-     * @return Returns the vendorName
-     * 
-     */
-    public String getVendorName() { 
-        return vendorName;
-    }
-
-    /**
-     * Sets the vendorName attribute.
-     * 
-     * @param vendorName The vendorName to set.
-     * 
-     */
-    public void setVendorName(String vendorName) {
-        this.vendorName = vendorName;
-    }
-
-    /**
-     * Gets the vendorLine1Address attribute.
-     * 
-     * @return Returns the vendorLine1Address
-     * 
-     */
-    public String getVendorLine1Address() { 
-        return vendorLine1Address;
-    }
-
-    /**
-     * Sets the vendorLine1Address attribute.
-     * 
-     * @param vendorLine1Address The vendorLine1Address to set.
-     * 
-     */
-    public void setVendorLine1Address(String vendorLine1Address) {
-        this.vendorLine1Address = vendorLine1Address;
-    }
-
-    /**
-     * Gets the vendorLine2Address attribute.
-     * 
-     * @return Returns the vendorLine2Address
-     * 
-     */
-    public String getVendorLine2Address() { 
-        return vendorLine2Address;
-    }
-
-    /**
-     * Sets the vendorLine2Address attribute.
-     * 
-     * @param vendorLine2Address The vendorLine2Address to set.
-     * 
-     */
-    public void setVendorLine2Address(String vendorLine2Address) {
-        this.vendorLine2Address = vendorLine2Address;
-    }
-
-    /**
-     * Gets the vendorCityName attribute.
-     * 
-     * @return Returns the vendorCityName
-     * 
-     */
-    public String getVendorCityName() { 
-        return vendorCityName;
-    }
-
-    /**
-     * Sets the vendorCityName attribute.
-     * 
-     * @param vendorCityName The vendorCityName to set.
-     * 
-     */
-    public void setVendorCityName(String vendorCityName) {
-        this.vendorCityName = vendorCityName;
-    }
-
-    /**
-     * Gets the vendorStateCode attribute.
-     * 
-     * @return Returns the vendorStateCode
-     * 
-     */
-    public String getVendorStateCode() { 
-        return vendorStateCode;
-    }
-
-    /**
-     * Sets the vendorStateCode attribute.
-     * 
-     * @param vendorStateCode The vendorStateCode to set.
-     * 
-     */
-    public void setVendorStateCode(String vendorStateCode) {
-        this.vendorStateCode = vendorStateCode;
-    }
-
-    /**
-     * Gets the vendorPostalCode attribute.
-     * 
-     * @return Returns the vendorPostalCode
-     * 
-     */
-    public String getVendorPostalCode() { 
-        return vendorPostalCode;
-    }
-
-    /**
-     * Sets the vendorPostalCode attribute.
-     * 
-     * @param vendorPostalCode The vendorPostalCode to set.
-     * 
-     */
-    public void setVendorPostalCode(String vendorPostalCode) {
-        this.vendorPostalCode = vendorPostalCode;
-    }
-
-    /**
-     * Gets the vendorCountryCode attribute.
-     * 
-     * @return Returns the vendorCountryCode
-     * 
-     */
-    public String getVendorCountryCode() { 
-        return vendorCountryCode;
-    }
-
-    /**
-     * Sets the vendorCountryCode attribute.
-     * 
-     * @param vendorCountryCode The vendorCountryCode to set.
-     * 
-     */
-    public void setVendorCountryCode(String vendorCountryCode) {
-        this.vendorCountryCode = vendorCountryCode;
     }
 
     /**
@@ -1655,14 +1506,6 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
      */
     public void setNonInstitutionFundChartOfAccounts(Chart nonInstitutionFundChartOfAccounts) {
         this.nonInstitutionFundChartOfAccounts = nonInstitutionFundChartOfAccounts;
-    }
-
-    public String getVendorNumber() {
-        return vendorNumber;
-    }
-
-    public void setVendorNumber(String vendorNumber) {
-        this.vendorNumber = vendorNumber;
     }
 
     public Integer getVendorAddressGeneratedIdentifier() {

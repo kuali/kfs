@@ -68,14 +68,14 @@
             </tr>
             <tr>
                 <th align=right valign=middle class="bord-l-b">
-                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.paymentSpecialHandlingInstructionLine1Text}" /></div>
+                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.specialHandlingInstructionLine1Text}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentSpecialHandlingInstructionLine1Text}" property="document.paymentSpecialHandlingInstructionLine1Text" />
+                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.specialHandlingInstructionLine1Text}" property="document.specialHandlingInstructionLine1Text" />
                    <br/> 
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentSpecialHandlingInstructionLine2Text}" property="document.paymentSpecialHandlingInstructionLine2Text" />
+                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.specialHandlingInstructionLine2Text}" property="document.specialHandlingInstructionLine2Text" />
                    <br/>
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentSpecialHandlingInstructionLine3Text}" property="document.paymentSpecialHandlingInstructionLine3Text" />
+                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.specialHandlingInstructionLine3Text}" property="document.specialHandlingInstructionLine3Text" />
                 </td>
                 <th align=right valign=middle class="bord-l-b" colspan="2">
                    <div align="right">&nbsp;</div>

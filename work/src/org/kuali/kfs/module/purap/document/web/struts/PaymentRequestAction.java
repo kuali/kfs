@@ -123,6 +123,8 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
             PurchaseOrderDocument purchaseOrderDocument = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderIdentifier());
             paymentRequestDocument.populatePaymentRequestFromPurchaseOrder(purchaseOrderDocument);
             paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.IN_PROCESS);
+            paymentRequestDocument.refreshAllReferences();
+
             //editMode.put(PurapAuthorizationConstants.PaymentRequestEditMode.DISPLAY_INIT_TAB, "FALSE");
             
         } else {

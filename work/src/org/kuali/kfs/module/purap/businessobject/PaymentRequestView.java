@@ -14,4 +14,12 @@ public class PaymentRequestView extends AbstractRelatedView {
     public List<Note> getNotes() {
         return super.getNotes();
     }
+    
+    public Integer getPurapDocumentIdentifier() {
+        return super.getPurapDocumentIdentifier();
+    }
+    
+    public String getUrl() {
+        return super.getUrl();
+    }
 }

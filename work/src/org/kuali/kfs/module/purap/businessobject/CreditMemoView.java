@@ -9,7 +9,15 @@ import org.kuali.core.bo.Note;
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class CreditMemoView extends AbstractRelatedView {
+    public Integer getPurapDocumentIdentifier() {
+        return super.getPurapDocumentIdentifier();
+    }
+
     public List<Note> getNotes() {
         return super.getNotes();
+    }
+    
+    public String getUrl() {
+        return super.getUrl();
     }
 }

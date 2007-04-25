@@ -3,6 +3,7 @@ package org.kuali.module.purap.bo;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.Constants;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.TypedArrayList;
@@ -89,4 +90,9 @@ abstract class AbstractRelatedView extends PersistableBusinessObjectBase {
         }
         return notes;
     }
+    
+    public String getUrl() {
+        return SpringServiceLocator.getKualiConfigurationService().getPropertyString(Constants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + getDocumentNumber() + "&command=displayDocSearchView";
+    }
+
  }

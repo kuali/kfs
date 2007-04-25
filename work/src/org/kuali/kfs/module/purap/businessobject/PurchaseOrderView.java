@@ -2,7 +2,10 @@ package org.kuali.module.purap.bo;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.Constants;
 import org.kuali.core.bo.Note;
+import org.kuali.kfs.util.SpringServiceLocator;
 
 
 /**
@@ -35,7 +38,15 @@ public class PurchaseOrderView extends AbstractRelatedView {
         this.purchaseOrderCurrentIndicator = purchaseOrderCurrentIndicator;
     }
 
+    public Integer getPurapDocumentIdentifier() {
+        return super.getPurapDocumentIdentifier();
+    }
+
     public List<Note> getNotes() {
         return super.getNotes();
+    }
+    
+    public String getUrl() {
+        return super.getUrl();
     }
 }

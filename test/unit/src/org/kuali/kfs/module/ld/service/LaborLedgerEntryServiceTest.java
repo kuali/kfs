@@ -34,6 +34,7 @@ import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.util.ObjectUtil;
+import org.kuali.module.labor.util.TestDataPreparator;
 import org.kuali.module.labor.util.testobject.LedgerEntryForTesting;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
@@ -73,11 +74,12 @@ public class LaborLedgerEntryServiceTest extends KualiTestBase {
     }
 
     public void testSave() throws Exception {
+        String testTarget = "save.";
         LedgerEntry input1 = new LedgerEntry();
-        ObjectUtil.populateBusinessObject(input1, properties, "save.testData1", fieldNames, deliminator);
+        ObjectUtil.populateBusinessObject(input1, properties, testTarget + "testData1", fieldNames, deliminator);
 
         LedgerEntry expected1 = new LedgerEntry();
-        ObjectUtil.populateBusinessObject(expected1, properties, "save.expected1", fieldNames, deliminator);
+        ObjectUtil.populateBusinessObject(expected1, properties, testTarget + "expected1", fieldNames, deliminator);
         Map fieldValues = ObjectUtil.buildPropertyMap(expected1, keyFieldList);
 
         businessObjectService.deleteMatching(LedgerEntry.class, fieldValues);
@@ -87,7 +89,7 @@ public class LaborLedgerEntryServiceTest extends KualiTestBase {
         assertEquals(1, businessObjectService.countMatching(LedgerEntry.class, fieldValues));
 
         LedgerEntry input2 = new LedgerEntry();
-        ObjectUtil.populateBusinessObject(input2, properties, "save.testData2", fieldNames, deliminator);
+        ObjectUtil.populateBusinessObject(input2, properties, testTarget + "testData2", fieldNames, deliminator);
         try {
             laborLedgerEntryService.save(input2);
             fail();
@@ -97,8 +99,9 @@ public class LaborLedgerEntryServiceTest extends KualiTestBase {
     }
 
     public void testGetMaxSequenceNumber() throws Exception {
+        String testTarget = "maxSeqNumber.";
         LedgerEntry input1 = new LedgerEntry();
-        ObjectUtil.populateBusinessObject(input1, properties, "maxSeqNumber.testData1", fieldNames, deliminator);
+        ObjectUtil.populateBusinessObject(input1, properties, testTarget + "testData1", fieldNames, deliminator);
 
         Map fieldValues = ObjectUtil.buildPropertyMap(input1, keyFieldList);
         fieldValues.remove(PropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER);
@@ -108,17 +111,17 @@ public class LaborLedgerEntryServiceTest extends KualiTestBase {
         assertEquals(Integer.valueOf(0), maxSeqNumber);
 
         LedgerEntry ledgerEntryExpected1 = new LedgerEntry();
-        String expectedSeqNumber1 = properties.getProperty("maxSeqNumber.expected1");
+        String expectedSeqNumber1 = properties.getProperty(testTarget + "expected1");
 
         laborLedgerEntryService.save(input1);
         maxSeqNumber = laborLedgerEntryService.getMaxSequenceNumber(input1);
         assertEquals(Integer.valueOf(expectedSeqNumber1), maxSeqNumber);
 
         LedgerEntry input2 = new LedgerEntry();
-        ObjectUtil.populateBusinessObject(input2, properties, "maxSeqNumber.testData2", fieldNames, deliminator);
+        ObjectUtil.populateBusinessObject(input2, properties, testTarget + "testData2", fieldNames, deliminator);
 
         LedgerEntry expected2 = new LedgerEntry();
-        String expectedSeqNumber2 = properties.getProperty("maxSeqNumber.expected2");
+        String expectedSeqNumber2 = properties.getProperty(testTarget + "expected2");
 
         laborLedgerEntryService.save(input2);
         maxSeqNumber = laborLedgerEntryService.getMaxSequenceNumber(input1);
@@ -133,14 +136,12 @@ public class LaborLedgerEntryServiceTest extends KualiTestBase {
         int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
         int expectedNumOfData = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfData"));
 
-        List<LedgerEntry> inputDataList = getInputDataList(testTarget + "testData", numberOfTestData);
+        List inputDataList = TestDataPreparator.buildTestDataList(LedgerEntry.class, properties, testTarget + "testData", numberOfTestData);
         businessObjectService.save(inputDataList);
 
         Iterator<LedgerEntry> ledgerEntries = laborLedgerEntryService.find(fieldValues);
         int counter = 0;
-
-        //Collection ledgerEntries = businessObjectService.findMatching(LedgerEntry.class, fieldValues);
-        List<LedgerEntryForTesting> expectedDataList = getExpectedValues(LedgerEntryForTesting.class, testTarget + "expected", fieldNames, expectedNumOfData);        
+        List expectedDataList = TestDataPreparator.buildExpectedValueList(LedgerEntryForTesting.class, properties, testTarget + "expected", fieldNames, deliminator, expectedNumOfData);       
         while (ledgerEntries != null && ledgerEntries.hasNext()) {
             LedgerEntry entry = ledgerEntries.next();
             LedgerEntryForTesting ledgerEntryForTesting = new LedgerEntryForTesting();
@@ -150,34 +151,4 @@ public class LaborLedgerEntryServiceTest extends KualiTestBase {
         }
         assertEquals(expectedNumOfData, counter);
     }    
-    
-    private List<LedgerEntry> getInputDataList(String propertyKeyPrefix, int numberOfInputData) {
-        List<LedgerEntry> inputDataList = new ArrayList<LedgerEntry>();
-        for (int i = 1; i <= numberOfInputData; i++) {
-            String propertyKey = propertyKeyPrefix + i;
-            LedgerEntry inputData = new LedgerEntry();
-            ObjectUtil.populateBusinessObject(inputData, properties, propertyKey, fieldNames, deliminator);
-            inputDataList.add(inputData);
-        }
-        return inputDataList;
-    }
-
-    private List getExpectedValues(Class clazz, String propertyKeyPrefix, String fieldNames, int numberOfInputData) {
-        List expectedDataList = new ArrayList();
-        for (int i = 1; i <= numberOfInputData; i++) {
-            String propertyKey = propertyKeyPrefix + i;
-            try {
-                Object expectedData = clazz.newInstance();
-                ObjectUtil.populateBusinessObject(expectedData, properties, propertyKey, fieldNames, deliminator);
-
-                if (!expectedDataList.contains(expectedData)) {
-                    expectedDataList.add(expectedData);
-                }
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return expectedDataList;
-    }
 }

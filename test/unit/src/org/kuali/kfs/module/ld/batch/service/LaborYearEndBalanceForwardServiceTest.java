@@ -36,7 +36,9 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.bo.LedgerBalance;
+import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.util.ObjectUtil;
+import org.kuali.module.labor.util.TestDataPreparator;
 import org.kuali.module.labor.util.testobject.LaborOriginEntryForTesting;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
@@ -94,16 +96,16 @@ public class LaborYearEndBalanceForwardServiceTest extends KualiTestBase {
         int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
         int expectedNumOfData = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfOriginEntry"));
 
-        List<LedgerBalance> inputDataList = getInputDataList(testTarget + "testData", numberOfTestData);
+        List inputDataList = TestDataPreparator.buildTestDataList(LedgerBalance.class, properties, testTarget + "testData", numberOfTestData);
         businessObjectService.save(inputDataList);
 
-        for (LedgerBalance entry : inputDataList) {
+        for (Object entry : inputDataList) {
             persistenceService.retrieveNonKeyFields(entry);
         }
 
         laborYearEndBalanceForwardService.forwardBalance(fiscalYear);
        
-        List<LaborOriginEntryForTesting> expectedDataList = getExpectedValues(LaborOriginEntryForTesting.class, testTarget + "expected", transactionFieldNames, expectedNumOfData);        
+        List expectedDataList = TestDataPreparator.buildExpectedValueList(LaborOriginEntryForTesting.class, properties, testTarget + "expected", transactionFieldNames, deliminator, expectedNumOfData);       
         Collection originEntries = businessObjectService.findMatching(LaborOriginEntry.class, fieldValues);       
         for (Object entry : originEntries) {
             LaborOriginEntryForTesting originEntryForTesting = new LaborOriginEntryForTesting();
@@ -118,45 +120,15 @@ public class LaborYearEndBalanceForwardServiceTest extends KualiTestBase {
         int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
         int expectedNumOfData = Integer.valueOf(properties.getProperty(testTarget + "expectedNumOfOriginEntry"));
 
-        List<LedgerBalance> inputDataList = getInputDataList(testTarget + "testData", numberOfTestData);
+        List inputDataList = TestDataPreparator.buildTestDataList(LedgerBalance.class, properties, testTarget + "testData", numberOfTestData);
         businessObjectService.save(inputDataList);
 
-        for (LedgerBalance entry : inputDataList) {
+        for (Object entry : inputDataList) {
             persistenceService.retrieveNonKeyFields(entry);
         }
 
         laborYearEndBalanceForwardService.forwardBalance(fiscalYear);
 
         assertEquals(expectedNumOfData, businessObjectService.countMatching(LaborOriginEntry.class, fieldValues));
-    }
-    
-    private List<LedgerBalance> getInputDataList(String propertyKeyPrefix, int numberOfInputData) {
-        List<LedgerBalance> inputDataList = new ArrayList<LedgerBalance>();
-        for (int i = 1; i <= numberOfInputData; i++) {
-            String propertyKey = propertyKeyPrefix + i;
-            LedgerBalance inputData = new LedgerBalance();
-            ObjectUtil.populateBusinessObject(inputData, properties, propertyKey, fieldNames, deliminator);
-            inputDataList.add(inputData);
-        }
-        return inputDataList;
-    }
-
-    private List getExpectedValues(Class clazz, String propertyKeyPrefix, String fieldNames, int numberOfInputData) {
-        List expectedDataList = new ArrayList();
-        for (int i = 1; i <= numberOfInputData; i++) {
-            String propertyKey = propertyKeyPrefix + i;
-            try {
-                Object expectedData = clazz.newInstance();
-                ObjectUtil.populateBusinessObject(expectedData, properties, propertyKey, fieldNames, deliminator);
-                
-                if (!expectedDataList.contains(expectedData)) {
-                    expectedDataList.add(expectedData);
-                }
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return expectedDataList;
     }
 }

@@ -43,6 +43,7 @@ import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.service.LaborGeneralLedgerEntryService;
 import org.kuali.module.labor.service.LaborLedgerEntryService;
 import org.kuali.module.labor.util.ObjectUtil;
+import org.kuali.module.labor.util.TestDataPreparator;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 import org.springframework.beans.factory.BeanFactory;
@@ -94,7 +95,7 @@ public class LaborLedgerBalancePosterTest extends KualiTestBase {
         int expectedNumberOfRecords = Integer.valueOf(properties.getProperty("post.expectedNumberOfRecords")); 
         int expectedNumberOfOperation = Integer.valueOf(properties.getProperty("post.expectedNumberOfOperation"));
         
-        List<LaborOriginEntry> transactionList = getInputDataList("post.testData", numberOfTestData, group1);
+        List<LaborOriginEntry> transactionList = TestDataPreparator.getLaborOriginEntryList(properties, "post.testData", numberOfTestData, group1);
         Map<String, Integer> operationType = new HashMap<String, Integer>();
         
         for(LaborOriginEntry transaction : transactionList){
@@ -113,19 +114,6 @@ public class LaborLedgerBalancePosterTest extends KualiTestBase {
         
         LedgerBalance expected1 = new LedgerBalance();
         ObjectUtil.populateBusinessObject(expected1, properties, "post.expected1", fieldNames, deliminator);
-    }
-    
-    private List<LaborOriginEntry> getInputDataList(String propertyKeyPrefix, int numberOfInputData, OriginEntryGroup group) {
-        List inputDataList = new ArrayList();
-        for (int i = 1; i <= numberOfInputData; i++) {
-            String propertyKey = propertyKeyPrefix + i;
-            LaborOriginEntry inputData = new LaborOriginEntry();
-            ObjectUtil.populateBusinessObject(inputData, properties, propertyKey, fieldNames, deliminator);
-            inputData.setEntryGroupId(group.getId());
-            inputData.setGroup(group);
-            inputDataList.add(inputData);
-        }
-        return inputDataList;
     }
 }
 

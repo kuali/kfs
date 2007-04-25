@@ -38,6 +38,7 @@ import org.kuali.module.gl.util.PosterOutputSummaryEntry;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.util.ObjectUtil;
+import org.kuali.module.labor.util.TestDataPreparator;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 import org.springframework.beans.factory.BeanFactory;
@@ -188,16 +189,7 @@ public class LaborOriginEntryServiceTest extends KualiTestBase {
     }
 
     private List getInputDataList(String propertyKeyPrefix, int numberOfInputData, OriginEntryGroup group) {
-        List inputDataList = new ArrayList();
-        for (int i = 1; i <= numberOfInputData; i++) {
-            String propertyKey = propertyKeyPrefix + i;
-            LaborOriginEntry inputData = new LaborOriginEntry();
-            ObjectUtil.populateBusinessObject(inputData, properties, propertyKey, fieldNames, deliminator);
-            inputData.setEntryGroupId(group.getId());
-            inputData.setGroup(group);
-            inputDataList.add(inputData);
-        }
-        return inputDataList;
+        return TestDataPreparator.getLaborOriginEntryList(properties, propertyKeyPrefix, numberOfInputData, group);
     }
 
     private List<LaborOriginEntry> convertIteratorAsList(Iterator<LaborOriginEntry> entries) {

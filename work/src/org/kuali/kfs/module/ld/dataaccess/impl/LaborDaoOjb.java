@@ -153,11 +153,37 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
      * @see org.kuali.module.labor.dao.LaborDao#getPersonFunding(java.util.Map)
      */
     public Collection getPersonFunding(Map fieldValues) {
+
+        ArrayList objectTypeCodes = new ArrayList();
+        objectTypeCodes.add(LaborConstants.BalanceInquiries.PERSON_FUNDING_CURRENT_OBJECT_TYPE_CODE_ES);
+        objectTypeCodes.add(LaborConstants.BalanceInquiries.PERSON_FUNDING_CURRENT_OBJECT_TYPE_CODE_EX);
+
         Criteria criteria = new Criteria();
-        criteria.addEqualToField("financialBalanceTypeCode", LaborConstants.BalanceInquiries.ENCUMBERENCE_CODE);
+        criteria.addEqualToField("financialBalanceTypeCode", LaborConstants.BalanceInquiries.ACTUALS_CODE);
+        criteria.addIn("financialObjectTypeCode", objectTypeCodes);
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new PersonFunding()));
-        QueryByCriteria query = QueryFactory.newQuery(PersonFunding.class, criteria);
-        OJBUtility.limitResultSize(query);
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(PersonFunding.class, criteria);
+
+   /*     List<String> groupByList = new ArrayList<String>();
+        groupByList.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        groupByList.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        groupByList.add(PropertyConstants.ACCOUNT_NUMBER);
+        groupByList.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
+        groupByList.add(PropertyConstants.FINANCIAL_OBJECT_CODE);
+        groupByList.add(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        groupByList.add(PropertyConstants.POSITION_NUMBER);
+        groupByList.add(PropertyConstants.EMPLID);
+        String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
+
+        List<String> attributeList = new ArrayList<String>(groupByList);
+
+        attributeList.add(0, "sum(" + PropertyConstants.ACCOUNTING_LINE_ANNUAL_BALANCE_AMOUNT + ")");
+
+        query.setAttributes((String[]) attributeList.toArray(new String[attributeList.size()]));
+
+        query.addGroupBy(groupBy);
+*/        OJBUtility.limitResultSize(query);
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
+
 }

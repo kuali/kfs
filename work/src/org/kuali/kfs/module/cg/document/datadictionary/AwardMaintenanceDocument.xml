@@ -172,7 +172,7 @@
 
 			<maintainableSection title="Subcontractors">
 				<maintainableItems>
-					<maintainableCollection name="awardSubcontractors" businessObjectClass="org.kuali.module.cg.bo.AwardSubcontractor" attributeToHighlightOnDuplicateKey="subcontractorNumber">
+					<maintainableCollection name="awardSubcontractors" businessObjectClass="org.kuali.module.cg.bo.AwardSubcontractor" >
 						<maintainableField name="subcontractorNumber" required="true"  webUILeaveFieldFunction="onblur_subcontractorNumber"/>
 						<maintainableField name="subcontractor.subcontractorName" readOnly="true" />
 						<maintainableField name="awardSubcontractorDescription" />

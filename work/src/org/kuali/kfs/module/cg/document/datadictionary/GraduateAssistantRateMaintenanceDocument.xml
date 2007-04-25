@@ -45,6 +45,10 @@
             <field attributeName="campusCode" />
         </lockingKeys>
 
+        <defaultExistenceChecks>
+            <reference attributeName="campus" attributeToHighlightOnFail="campusCode" />
+        </defaultExistenceChecks>
+
         <maintainableSections>
             <maintainableSection title="Edit Graduate Assistant Rate">
                 <maintainableItems>

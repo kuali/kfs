@@ -53,10 +53,10 @@ public class AwardPreRules extends MaintenancePreRulesBase {
         setupConvenienceObjects(document);
         boolean proceed = true;
         if (proceed) {
-            proceed = checkForEntryDateBeforeBeginDate();
+            proceed = continueIfEntryDateBeforeBeginDate();
         }
         if (proceed) {
-            proceed = checkSubcontractorTotalGreaterThanAwardTotal();
+            proceed = continueIfSubcontractorTotalGreaterThanAwardTotal();
         }
 
         if (!proceed) {
@@ -67,9 +67,12 @@ public class AwardPreRules extends MaintenancePreRulesBase {
     }
 
     /**
-     * checks if the entry date is before the begin date
+     * checks if the entry date is before the begin date. if so asks the user if they want to continue validation. if no is selected
+     * further validation is aborted and the user is returned to the award document
+     * 
+     * @return true if the user selects yes, false otherwise
      */
-    private boolean checkForEntryDateBeforeBeginDate() {
+    private boolean continueIfEntryDateBeforeBeginDate() {
         boolean proceed = true;
         Date entryDate = newAward.getAwardEntryDate();
         Date beginDate = newAward.getAwardBeginningDate();
@@ -83,9 +86,12 @@ public class AwardPreRules extends MaintenancePreRulesBase {
     }
 
     /**
-     * checks if the subcontractor total amount is greater thant award total
+     * checks if the subcontractor total amount is greater thant award total. if so asks the user if they want to continue
+     * validation. if no is selected further validation is aborted and the user is returned to the award document
+     * 
+     * @return true if the user selects yes, false otherwise
      */
-    private boolean checkSubcontractorTotalGreaterThanAwardTotal() {
+    private boolean continueIfSubcontractorTotalGreaterThanAwardTotal() {
         boolean proceed = true;
 
         KualiDecimal awardTotal = newAward.getAwardTotalAmount();

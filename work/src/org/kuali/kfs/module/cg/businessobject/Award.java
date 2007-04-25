@@ -110,6 +110,20 @@ public class Award extends PersistableBusinessObjectBase {
         awardOrganizations = new TypedArrayList(AwardOrganization.class);
     }
 
+    /**
+     * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     */
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List<List> managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(getAwardAccounts());
+        managedLists.add(getAwardOrganizations());
+        managedLists.add(getAwardProjectDirectors());
+        managedLists.add(getAwardSubcontractors());
+        return managedLists;
+    }
+
+    
     public Award(Proposal proposal) {
         populateFromProposal(proposal);
     }
@@ -239,6 +253,7 @@ public class Award extends PersistableBusinessObjectBase {
      * 
      * @param awardTotalAmount The awardTotalAmount to set.
      */
+    @Deprecated
     public void setAwardTotalAmount(KualiDecimal awardTotalAmount) {
         // do nothing
     }

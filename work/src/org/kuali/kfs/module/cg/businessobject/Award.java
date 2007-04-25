@@ -48,7 +48,7 @@ public class Award extends PersistableBusinessObjectBase {
      * @see #getAwardTotalAmount
      * @see #setAwardTotalAmount
      */
-    @SuppressWarnings( { "UnusedDeclaration" })
+    @SuppressWarnings("unused")
     private KualiDecimal awardTotalAmount;
 
     private String awardAddendumNumber;
@@ -101,7 +101,6 @@ public class Award extends PersistableBusinessObjectBase {
     /**
      * Default constructor.
      */
-    @SuppressWarnings( { "unchecked" })
     // todo: generify TypedArrayList and rename to something appropriate like AlwaysGettableArrayList
     public Award() {
         // Must use TypedArrayList because its get() method automatically grows the array for Struts.
@@ -852,6 +851,7 @@ public class Award extends PersistableBusinessObjectBase {
      * @param proposal The proposal to set.
      * @deprecated
      */
+    @Deprecated
     public void setProposal(Proposal proposal) {
         this.proposal = proposal;
     }
@@ -871,6 +871,7 @@ public class Award extends PersistableBusinessObjectBase {
      * @param proposalAwardType The proposalAwardType to set.
      * @deprecated
      */
+    @Deprecated
     public void setProposalAwardType(ProposalAwardType proposalAwardType) {
         this.proposalAwardType = proposalAwardType;
     }
@@ -890,6 +891,7 @@ public class Award extends PersistableBusinessObjectBase {
      * @param awardStatus The awardStatus to set.
      * @deprecated
      */
+    @Deprecated
     public void setAwardStatus(AwardStatus awardStatus) {
         this.awardStatus = awardStatus;
     }
@@ -909,6 +911,7 @@ public class Award extends PersistableBusinessObjectBase {
      * @param letterOfCreditFundGroup The letterOfCreditFundGroup to set.
      * @deprecated
      */
+    @Deprecated
     public void setLetterOfCreditFundGroup(LetterOfCreditFundGroup letterOfCreditFundGroup) {
         this.letterOfCreditFundGroup = letterOfCreditFundGroup;
     }
@@ -928,6 +931,7 @@ public class Award extends PersistableBusinessObjectBase {
      * @param grantDescription The grantDescription to set.
      * @deprecated
      */
+    @Deprecated
     public void setGrantDescription(GrantDescription grantDescription) {
         this.grantDescription = grantDescription;
     }
@@ -947,6 +951,7 @@ public class Award extends PersistableBusinessObjectBase {
      * @param agency The agency to set.
      * @deprecated
      */
+    @Deprecated
     public void setAgency(Agency agency) {
         this.agency = agency;
     }
@@ -966,6 +971,7 @@ public class Award extends PersistableBusinessObjectBase {
      * @param federalPassThroughAgency The federalPassThroughAgency to set.
      * @deprecated
      */
+    @Deprecated
     public void setFederalPassThroughAgency(Agency federalPassThroughAgency) {
         this.federalPassThroughAgency = federalPassThroughAgency;
     }
@@ -985,6 +991,7 @@ public class Award extends PersistableBusinessObjectBase {
      * @param awardPurpose The awardPurpose to set.
      * @deprecated
      */
+    @Deprecated
     public void setAwardPurpose(ProposalPurpose awardPurpose) {
         this.awardPurpose = awardPurpose;
     }
@@ -1146,6 +1153,8 @@ public class Award extends PersistableBusinessObjectBase {
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
+    @Override
+    @SuppressWarnings("unchecked")
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         if (this.proposalNumber != null) {
@@ -1156,7 +1165,7 @@ public class Award extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the awardTotalAmount attribute.
+     * sums the total for all award subcontractors
      * 
      * @return Returns the awardTotalAmount
      */

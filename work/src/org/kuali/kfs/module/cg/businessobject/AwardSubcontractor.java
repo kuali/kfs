@@ -35,7 +35,7 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase {
     private String subcontractorContactLastName;
     private String subcontractorAuditHistoryText;
     private String awardSubcontractorDescription;
-    
+
     private Subcontractor subcontractor;
 
     /**
@@ -49,7 +49,6 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase {
      * Gets the awardSubcontractorAmendmentNumber attribute.
      * 
      * @return Returns the awardSubcontractorAmendmentNumber
-     * 
      */
     public String getAwardSubcontractorAmendmentNumber() {
         return awardSubcontractorAmendmentNumber;
@@ -59,7 +58,6 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase {
      * Sets the awardSubcontractorAmendmentNumber attribute.
      * 
      * @param awardSubcontractorAmendmentNumber The awardSubcontractorAmendmentNumber to set.
-     * 
      */
     public void setAwardSubcontractorAmendmentNumber(String awardSubcontractorAmendmentNumber) {
         this.awardSubcontractorAmendmentNumber = awardSubcontractorAmendmentNumber;
@@ -70,7 +68,6 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase {
      * Gets the awardSubcontractorNumber attribute.
      * 
      * @return Returns the awardSubcontractorNumber
-     * 
      */
     public String getAwardSubcontractorNumber() {
         return awardSubcontractorNumber;
@@ -80,7 +77,6 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase {
      * Sets the awardSubcontractorNumber attribute.
      * 
      * @param awardSubcontractorNumber The awardSubcontractorNumber to set.
-     * 
      */
     public void setAwardSubcontractorNumber(String awardSubcontractorNumber) {
         this.awardSubcontractorNumber = awardSubcontractorNumber;
@@ -91,7 +87,6 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase {
      * Gets the subcontractorNumber attribute.
      * 
      * @return Returns the subcontractorNumber
-     * 
      */
     public String getSubcontractorNumber() {
         return subcontractorNumber;
@@ -101,7 +96,6 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase {
      * Sets the subcontractorNumber attribute.
      * 
      * @param subcontractorNumber The subcontractorNumber to set.
-     * 
      */
     public void setSubcontractorNumber(String subcontractorNumber) {
         this.subcontractorNumber = subcontractorNumber;
@@ -112,7 +106,6 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase {
      * Gets the proposalNumber attribute.
      * 
      * @return Returns the proposalNumber
-     * 
      */
     public Long getProposalNumber() {
         return proposalNumber;
@@ -122,7 +115,6 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase {
      * Sets the proposalNumber attribute.
      * 
      * @param proposalNumber The proposalNumber to set.
-     * 
      */
     public void setProposalNumber(Long proposalNumber) {
         this.proposalNumber = proposalNumber;
@@ -133,7 +125,6 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase {
      * Gets the subcontractorAmount attribute.
      * 
      * @return Returns the subcontractorAmount
-     * 
      */
     public KualiDecimal getSubcontractorAmount() {
         return subcontractorAmount;
@@ -143,7 +134,6 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase {
      * Sets the subcontractorAmount attribute.
      * 
      * @param subcontractorAmount The subcontractorAmount to set.
-     * 
      */
     public void setSubcontractorAmount(KualiDecimal subcontractorAmount) {
         this.subcontractorAmount = subcontractorAmount;
@@ -154,7 +144,6 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase {
      * Gets the subcontractorContactFirstName attribute.
      * 
      * @return Returns the subcontractorContactFirstName
-     * 
      */
     public String getSubcontractorContactFirstName() {
         return subcontractorContactFirstName;
@@ -164,7 +153,6 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase {
      * Sets the subcontractorContactFirstName attribute.
      * 
      * @param subcontractorContactFirstName The subcontractorContactFirstName to set.
-     * 
      */
     public void setSubcontractorContactFirstName(String subcontractorContactFirstName) {
         this.subcontractorContactFirstName = subcontractorContactFirstName;
@@ -175,7 +163,6 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase {
      * Gets the subcontractorContactLastName attribute.
      * 
      * @return Returns the subcontractorContactLastName
-     * 
      */
     public String getSubcontractorContactLastName() {
         return subcontractorContactLastName;
@@ -185,7 +172,6 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase {
      * Sets the subcontractorContactLastName attribute.
      * 
      * @param subcontractorContactLastName The subcontractorContactLastName to set.
-     * 
      */
     public void setSubcontractorContactLastName(String subcontractorContactLastName) {
         this.subcontractorContactLastName = subcontractorContactLastName;
@@ -196,7 +182,6 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase {
      * Gets the subcontractorAuditHistoryText attribute.
      * 
      * @return Returns the subcontractorAuditHistoryText
-     * 
      */
     public String getSubcontractorAuditHistoryText() {
         return subcontractorAuditHistoryText;
@@ -206,14 +191,14 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase {
      * Sets the subcontractorAuditHistoryText attribute.
      * 
      * @param subcontractorAuditHistoryText The subcontractorAuditHistoryText to set.
-     * 
      */
     public void setSubcontractorAuditHistoryText(String subcontractorAuditHistoryText) {
         this.subcontractorAuditHistoryText = subcontractorAuditHistoryText;
     }
 
     /**
-     * Gets the awardSubcontractorDescription attribute. 
+     * Gets the awardSubcontractorDescription attribute.
+     * 
      * @return Returns the awardSubcontractorDescription.
      */
     public String getAwardSubcontractorDescription() {
@@ -222,12 +207,13 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase {
 
     /**
      * Sets the awardSubcontractorDescription attribute value.
+     * 
      * @param awardSubcontractorDescription The awardSubcontractorDescription to set.
      */
     public void setAwardSubcontractorDescription(String awardSubcontractorDescription) {
         this.awardSubcontractorDescription = awardSubcontractorDescription;
-    }    
-    
+    }
+
     /**
      * @return Returns the subcontractor.
      */
@@ -239,6 +225,7 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase {
      * @param subcontractor The subcontractor to set.
      * @deprecated
      */
+    @Deprecated
     public void setSubcontractor(Subcontractor subcontractor) {
         this.subcontractor = subcontractor;
     }
@@ -246,6 +233,8 @@ public class AwardSubcontractor extends PersistableBusinessObjectBase {
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
+    @SuppressWarnings("unchecked")
+    @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("awardSubcontractorAmendmentNumber", this.awardSubcontractorAmendmentNumber);

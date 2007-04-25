@@ -15,15 +15,11 @@
  */
 package org.kuali.module.cg.rules;
 
-import static org.kuali.PropertyConstants.DOCUMENT;
-import static org.kuali.PropertyConstants.NEW_MAINTAINABLE_OBJECT;
-
 import java.util.Collection;
 
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Award;
@@ -49,7 +45,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean success = true;
-        success &= checkProposalAlreadyAwarded();
+        success &= checkProposal();
         success &= checkEndAfterBegin(newAwardCopy.getAwardBeginningDate(), newAwardCopy.getAwardEndingDate(), PropertyConstants.AWARD_ENDING_DATE);
         success &= checkPrimary(newAwardCopy.getAwardOrganizations(), AwardOrganization.class, PropertyConstants.AWARD_ORGRANIZATIONS, Award.class);
         success &= checkPrimary(newAwardCopy.getAwardProjectDirectors(), AwardProjectDirector.class, PropertyConstants.AWARD_PROJECT_DIRECTORS, Award.class);
@@ -59,6 +55,11 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         return success;
     }
 
+    /**
+     * checks to see if at least 1 award account exists
+     * 
+     * @return true if the award contains at least 1 {@link AwardAccount}, false otherwise
+     */
     private boolean checkAccounts() {
         boolean success = true;
         Collection<AwardAccount> awardAccounts = newAwardCopy.getAwardAccounts();
@@ -76,15 +77,21 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
      * checks to see if:
      * <ol>
      * <li> a proposal has already been awarded
+     * <li> a proposal is inactive
      * </ol>
      * 
      * @return
      */
-    private boolean checkProposalAlreadyAwarded() {
+    private boolean checkProposal() {
         boolean success = true;
         if (AwardRuleUtil.isProposalAwarded(newAwardCopy)) {
             putFieldError(PropertyConstants.PROPOSAL_NUMBER, KeyConstants.ERROR_AWARD_PROPOSAL_AWARDED, newAwardCopy.getProposalNumber().toString());
+            success = false;
         }
+        else if (AwardRuleUtil.isProposalInactive(newAwardCopy)) {
+            putFieldError(PropertyConstants.PROPOSAL_NUMBER, KeyConstants.ERROR_AWARD_PROPOSAL_INACTIVE, newAwardCopy.getProposalNumber().toString());
+        }
+
         return success;
     }
 

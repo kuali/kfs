@@ -24,6 +24,7 @@ import org.kuali.module.chart.bo.Org;
 
 /**
  * 
+ * 
  */
 public class AwardOrganization extends PersistableBusinessObjectBase implements Primaryable {
 
@@ -134,6 +135,7 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
      * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */
+    @Deprecated
     public void setChartOfAccounts(Chart chartOfAccounts) {
         this.chartOfAccounts = chartOfAccounts;
     }
@@ -153,6 +155,7 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
      * @param organization The organization to set.
      * @deprecated
      */
+    @Deprecated
     public void setOrganization(Org organization) {
         this.organization = organization;
     }
@@ -167,6 +170,8 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
+    @SuppressWarnings("unchecked")
+    @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);

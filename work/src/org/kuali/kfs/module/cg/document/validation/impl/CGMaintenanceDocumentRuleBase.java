@@ -15,9 +15,6 @@
  */
 package org.kuali.module.cg.rules;
 
-import static org.kuali.PropertyConstants.DOCUMENT;
-import static org.kuali.PropertyConstants.NEW_MAINTAINABLE_OBJECT;
-
 import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
@@ -27,13 +24,10 @@ import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.CGProjectDirector;
 import org.kuali.module.cg.bo.Primaryable;
-import org.kuali.module.cg.bo.ProjectDirector;
-import org.kuali.module.cg.bo.ProposalProjectDirector;
 
 /**
  * Rules for the Proposal/Award maintenance document.

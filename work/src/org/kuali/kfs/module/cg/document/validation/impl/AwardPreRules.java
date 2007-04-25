@@ -16,16 +16,12 @@
 package org.kuali.module.cg.rules;
 
 import java.sql.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -41,25 +37,18 @@ public class AwardPreRules extends MaintenancePreRulesBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AwardPreRules.class);
 
-    private static final String CHART_MAINTENANCE_EDOC = "ChartMaintenanceEDoc";
-    private static final String DEFAULT_STATE_CODE = "Account.Defaults.StateCode";
-    private static final String DEFAULT_ACCOUNT_TYPE_CODE = "Account.Defaults.AccountType";
-
-    private DateTimeService dateTimeService;
     private KualiConfigurationService configService;
     private DataDictionaryService dataDictionaryService;
-    private BusinessObjectService businessObjectService;
 
     private Award newAward;
 
 
     public AwardPreRules() {
-        dateTimeService = SpringServiceLocator.getDateTimeService();
         dataDictionaryService = SpringServiceLocator.getDataDictionaryService();
         configService = SpringServiceLocator.getKualiConfigurationService();
-        businessObjectService = SpringServiceLocator.getBusinessObjectService();
     }
 
+    @Override
     protected boolean doCustomPreRules(MaintenanceDocument document) {
         setupConvenienceObjects(document);
         boolean proceed = true;
@@ -69,7 +58,7 @@ public class AwardPreRules extends MaintenancePreRulesBase {
         if (proceed) {
             proceed = checkSubcontractorTotalGreaterThanAwardTotal();
         }
-        
+
         if (!proceed) {
             abortRulesCheck();
         }
@@ -122,13 +111,6 @@ public class AwardPreRules extends MaintenancePreRulesBase {
         return result;
     }
 
-    /**
-     * This method sets the convenience objects like newAccount and oldAccount, so you have short and easy handles to the new and
-     * old objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load
-     * all sub-objects from the DB by their primary keys, if available.
-     * 
-     * @param document - the maintenanceDocument being evaluated
-     */
     private void setupConvenienceObjects(MaintenanceDocument document) {
 
         // setup newAccount convenience objects, make sure all possible sub-objects are populated

@@ -45,9 +45,29 @@ public class AwardRuleUtil {
         awardPrimaryKeys.put(PropertyConstants.PROPOSAL_NUMBER, proposalNumber);
         Award result = (Award) getBusinessObjectService().findByPrimaryKey(Award.class, awardPrimaryKeys);
 
-        boolean awarded=ObjectUtils.isNotNull(result) && !StringUtils.equals(award.getObjectId(), result.getObjectId());
-        
+        boolean awarded = ObjectUtils.isNotNull(result) && !StringUtils.equals(award.getObjectId(), result.getObjectId());
+
         return awarded;
     }
-   
+
+    /**
+     * determines if a proposal is inactive
+     * 
+     * @param award the award to check the proposal for
+     * @return true if the award's proposal has already been set to inactive
+     */
+    public static boolean isProposalInactive(Award award) {
+        if (ObjectUtils.isNull(award)) {
+            return false;
+        }
+
+        Long proposalNumber = award.getProposalNumber();
+        Map<String, Object> awardPrimaryKeys = new HashMap<String, Object>();
+        awardPrimaryKeys.put(PropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+        Award result = (Award) getBusinessObjectService().findByPrimaryKey(Award.class, awardPrimaryKeys);
+
+        boolean inactive = ObjectUtils.isNotNull(result) && !result.isActive();
+
+        return inactive;
+    }
 }

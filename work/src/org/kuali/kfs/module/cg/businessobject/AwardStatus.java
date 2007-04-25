@@ -28,7 +28,7 @@ public class AwardStatus extends PersistableBusinessObjectBase {
     private String awardStatusCode;
     private String awardStatusDescription;
     private boolean rowActiveIndicator;
-   
+
     /**
      * Default constructor.
      */
@@ -40,7 +40,6 @@ public class AwardStatus extends PersistableBusinessObjectBase {
      * Gets the awardStatusCode attribute.
      * 
      * @return Returns the awardStatusCode
-     * 
      */
     public String getAwardStatusCode() {
         return awardStatusCode;
@@ -50,7 +49,6 @@ public class AwardStatus extends PersistableBusinessObjectBase {
      * Sets the awardStatusCode attribute.
      * 
      * @param awardStatusCode The awardStatusCode to set.
-     * 
      */
     public void setAwardStatusCode(String awardStatusCode) {
         this.awardStatusCode = awardStatusCode;
@@ -61,7 +59,6 @@ public class AwardStatus extends PersistableBusinessObjectBase {
      * Gets the awardStatusDescription attribute.
      * 
      * @return Returns the awardStatusDescription
-     * 
      */
     public String getAwardStatusDescription() {
         return awardStatusDescription;
@@ -71,14 +68,14 @@ public class AwardStatus extends PersistableBusinessObjectBase {
      * Sets the awardStatusDescription attribute.
      * 
      * @param awardStatusDescription The awardStatusDescription to set.
-     * 
      */
     public void setAwardStatusDescription(String awardStatusDescription) {
         this.awardStatusDescription = awardStatusDescription;
     }
 
     /**
-     * Gets the rowActiveIndicator attribute. 
+     * Gets the rowActiveIndicator attribute.
+     * 
      * @return Returns the rowActiveIndicator.
      */
     public boolean isRowActiveIndicator() {
@@ -87,6 +84,7 @@ public class AwardStatus extends PersistableBusinessObjectBase {
 
     /**
      * Sets the rowActiveIndicator attribute value.
+     * 
      * @param rowActiveIndicator The rowActiveIndicator to set.
      */
     public void setRowActiveIndicator(boolean rowActiveIndicator) {
@@ -96,6 +94,8 @@ public class AwardStatus extends PersistableBusinessObjectBase {
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
+    @SuppressWarnings("unchecked")
+    @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("awardStatusCode", this.awardStatusCode);

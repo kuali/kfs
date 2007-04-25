@@ -19,7 +19,6 @@ package org.kuali.module.cg.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.bo.user.UniversalUser;
 
 /**
  * 
@@ -37,7 +36,8 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
      * Default constructor.
      */
     public AwardProjectDirector() {
-
+        // Struts needs this instance to populate the secondary key, personUserIdentifier.
+        projectDirector = new ProjectDirector();
     }
 
     /**
@@ -132,6 +132,8 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
+    @SuppressWarnings("unchecked")
+    @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("personUniversalIdentifier", this.personUniversalIdentifier);

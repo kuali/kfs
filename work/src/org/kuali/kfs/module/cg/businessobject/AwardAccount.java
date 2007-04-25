@@ -19,14 +19,13 @@ package org.kuali.module.cg.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 
 /**
  * 
  */
-public class AwardAccount extends PersistableBusinessObjectBase implements CGProjectDirector{
+public class AwardAccount extends PersistableBusinessObjectBase implements CGProjectDirector {
 
     private Long proposalNumber;
     private String chartOfAccountsCode;
@@ -42,7 +41,8 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
      * Default constructor.
      */
     public AwardAccount() {
-
+        // Struts needs this instance to populate the secondary key, personUserIdentifier.
+        projectDirector = new ProjectDirector();
     }
 
     /**
@@ -136,6 +136,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
      * @param account The account to set.
      * @deprecated
      */
+    @Deprecated
     public void setAccount(Account account) {
         this.account = account;
     }
@@ -155,6 +156,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
      * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */
+    @Deprecated
     public void setChartOfAccounts(Chart chartOfAccounts) {
         this.chartOfAccounts = chartOfAccounts;
     }
@@ -174,6 +176,7 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
      * @param projectDirector the projectDirector to set
      * @deprecated
      */
+    @Deprecated
     public void setProjectDirector(ProjectDirector projectDirector) {
         this.projectDirector = projectDirector;
     }
@@ -181,6 +184,8 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
+    @SuppressWarnings("unchecked")
+    @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         if (this.proposalNumber != null) {
@@ -192,8 +197,8 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     }
 
     /**
-     * 
      * This method returns the Award object associated with this AwardAccount.
+     * 
      * @return The Award object associated with this AwardAccount.
      */
     public Award getAward() {
@@ -201,8 +206,8 @@ public class AwardAccount extends PersistableBusinessObjectBase implements CGPro
     }
 
     /**
-     * 
      * This method sets the associated award to the value provided.
+     * 
      * @param award Value to be assigned to the associated Award object.
      */
     public void setAward(Award award) {

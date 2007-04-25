@@ -34,20 +34,14 @@
 <table cellpadding="0" cellspacing="0" class="datatable" summary="Detail Section">
     <tr>
         <th align=right valign=middle class="bord-l-b">
-            <div align="right">Related Documents:</div>
-        </th>
-        <td align=left valign=middle class="datacell">
-        <!-- "View" links only work if you comment out lines 130 and 131 of KualiDocumentActionBase (but don't commit the lines commented out!!) -->
-            <!--  html:image property="methodToCall.viewRelatedDocuments" src="images/tinybutton-view.gif" title="View Related Documents" alt="View Related Documents" styleClass="tinybutton"/ -->
-            <a href="purapRequisition.do?methodToCall=viewRelatedDocuments" tabindex="1000000" target="purapWindow"  title="View Related Documents">View</a>
-        </td>
-        <th align=right valign=middle class="bord-l-b">
             <div align="right">Payment History:</div>
         </th>
         <td align=left valign=middle class="datacell">
             <!-- html:image property="methodToCall.viewPaymentHistory" src="images/tinybutton-view.gif" title="View Related Documents" alt="View Related Documents" styleClass="tinybutton"/ -->
             <a href="purapRequisition.do?methodToCall=viewPaymentHistory&docTypeName=KualiRequisitionDocument" tabindex="1000000" target="purapWindow"  title="View Payment History">View R</a>
         </td>
+        <th>&nbsp;</th>
+        <td>&nbsp;</td>
     </tr>
     <tr>
         <th align=right valign=middle class="bord-l-b">

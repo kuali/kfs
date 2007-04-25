@@ -68,7 +68,7 @@
 		accountingLineAttributes="${accountingLineAttributes}" accountPrefix="newPurchasingItemLine." hideTotalLine="true" hideFields="amount" accountingAddLineIndex="-1"/>
 		
 		</span>
-		</tr></td><!-- end accounting line -->					
+		</td></tr><!-- end accounting line -->					
 		<logic:iterate indexId="ctr" name="KualiForm" property="document.items" id="itemLine">
 			<tr>
 			

@@ -92,7 +92,7 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
      */
     @Override
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
-        refreshProposal(fieldValues.get(Constants.REFRESH_CALLER).equals(KNSServiceLocator.KUALI_LOOKUPABLE));
+        refreshProposal(KNSServiceLocator.KUALI_LOOKUPABLE.equals(fieldValues.get(Constants.REFRESH_CALLER)));
         super.refresh(refreshCaller, fieldValues, document);
     }
 

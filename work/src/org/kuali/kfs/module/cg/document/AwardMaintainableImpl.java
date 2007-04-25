@@ -93,8 +93,7 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
     @SuppressWarnings("unchecked")
     @Override
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
-
-        refreshAward(fieldValues.get(Constants.REFRESH_CALLER).equals(KNSServiceLocator.KUALI_LOOKUPABLE));
+        refreshAward(KNSServiceLocator.KUALI_LOOKUPABLE.equals(fieldValues.get(Constants.REFRESH_CALLER)));
         super.refresh(refreshCaller, fieldValues, document);
         if (StringUtils.equals(PropertyConstants.PROPOSAL, (String) fieldValues.get(Constants.REFERENCES_TO_REFRESH))) {
             String pathToMaintainable = DOCUMENT + "." + NEW_MAINTAINABLE_OBJECT;
@@ -111,8 +110,9 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
             // copy over proposal values after refresh
             Award award = getAward();
             award.populateFromProposal(award.getProposal());
-
+            refreshAward(KNSServiceLocator.KUALI_LOOKUPABLE.equals(fieldValues.get(Constants.REFRESH_CALLER)));
         }
+        
     }
 
     private void refreshAward(boolean refreshFromLookup) {

@@ -33,7 +33,7 @@
 	   	<logic:notEmpty name="KualiForm" property="document.relatedRequisitionViews">
 			<logic:iterate id="po" name="KualiForm" property="document.relatedRequisitionViews" indexId="viewCtr">
 			    <div class="h2-container">
-			        <h2>Requisition - <a href=""><bean:write name="KualiForm" property="document.relatedRequisitionViews[${viewCtr}].purapDocumentIdentifier" /></a>
+			        <h2>Requisition - <a href="<c:out value="${po.url}" />" target="_BLANK"><c:out value="${po.purapDocumentIdentifier}" /></a></h2>
 			    </div>
 			    <table cellpadding="0" cellspacing="0" class="datatable" summary="Notes">
 		        	<logic:notEmpty name="KualiForm" property="document.relatedRequisitionViews[${viewCtr}].notes">
@@ -45,13 +45,13 @@
 			 			<logic:iterate id="note" name="KualiForm" property="document.relatedRequisitionViews[${viewCtr}].notes" indexId="noteCtr">
 			        		<tr>
 			        			<td align="left" valign="middle" class="datacell">
-				        			<bean:write name="KualiForm" property="document.relatedRequisitionViews[${viewCtr}].notes[${noteCtr}].notePostedTimestamp" />
+			        				<c:out value="${note.notePostedTimestamp}" />
 				        		</td>
 				        		<td align="left" valign="middle" class="datacell">
-				        			<bean:write name="KualiForm" property="document.relatedRequisitionViews[${viewCtr}].notes[${noteCtr}].authorUniversal.personName" />
+			        				<c:out value="${note.authorUniversal.personName}" />
 				        		</td>
 				        		<td align="left" valign="middle" class="datacell">
-				        			<bean:write name="KualiForm" property="document.relatedRequisitionViews[${viewCtr}].notes[${noteCtr}].noteText" />
+			        				<c:out value="${note.noteText}" />
 				        		</td>
 				        	</tr>
 			        	</logic:iterate>
@@ -70,7 +70,7 @@
 	   	<logic:notEmpty name="KualiForm" property="document.relatedPurchaseOrderViews">
 			<logic:iterate id="po" name="KualiForm" property="document.relatedPurchaseOrderViews" indexId="viewCtr">
 			    <div class="h2-container">
-			        <h2>Purchase Order - <a href=""><bean:write name="KualiForm" property="document.relatedPurchaseOrderViews[${viewCtr}].purapDocumentIdentifier" /></a>
+			        <h2>Purchase Order - <a href="<c:out value="${po.url}" />" target="_BLANK"><c:out value="${po.purapDocumentIdentifier}" /></a></h2>
 			    </div>
 			    <table cellpadding="0" cellspacing="0" class="datatable" summary="Notes">
 		        	<logic:notEmpty name="KualiForm" property="document.relatedPurchaseOrderViews[${viewCtr}].notes">
@@ -82,13 +82,13 @@
 			 			<logic:iterate id="note" name="KualiForm" property="document.relatedPurchaseOrderViews[${viewCtr}].notes" indexId="noteCtr">
 			        		<tr>
 			        			<td align="left" valign="middle" class="datacell">
-				        			<bean:write name="KualiForm" property="document.relatedPurchaseOrderViews[${viewCtr}].notes[${noteCtr}].notePostedTimestamp" />
+			        				<c:out value="${note.notePostedTimestamp}" />
 				        		</td>
 				        		<td align="left" valign="middle" class="datacell">
-				        			<bean:write name="KualiForm" property="document.relatedPurchaseOrderViews[${viewCtr}].notes[${noteCtr}].authorUniversal.personName" />
+			        				<c:out value="${note.authorUniversal.personName}" />
 				        		</td>
 				        		<td align="left" valign="middle" class="datacell">
-				        			<bean:write name="KualiForm" property="document.relatedPurchaseOrderViews[${viewCtr}].notes[${noteCtr}].noteText" />
+			        				<c:out value="${note.noteText}" />
 				        		</td>
 				        	</tr>
 			        	</logic:iterate>
@@ -107,7 +107,7 @@
 	   	<logic:notEmpty name="KualiForm" property="document.relatedPaymentRequestViews">
 			<logic:iterate id="po" name="KualiForm" property="document.relatedPaymentRequestViews" indexId="viewCtr">
 			    <div class="h2-container">
-			        <h2>Payment Request - <a href=""><bean:write name="KualiForm" property="document.relatedPaymentRequestViews[${viewCtr}].purapDocumentIdentifier" /></a>
+			        <h2>Payment Request - <a href="<c:out value="${po.url}" />" target="_BLANK"><c:out value="${po.purapDocumentIdentifier}" /></a></h2>
 			    </div>
 			    <table cellpadding="0" cellspacing="0" class="datatable" summary="Notes">
 		        	<logic:notEmpty name="KualiForm" property="document.relatedPaymentRequestViews[${viewCtr}].notes">
@@ -119,13 +119,13 @@
 			 			<logic:iterate id="note" name="KualiForm" property="document.relatedPaymentRequestViews[${viewCtr}].notes" indexId="noteCtr">
 			        		<tr>
 			        			<td align="left" valign="middle" class="datacell">
-				        			<bean:write name="KualiForm" property="document.relatedPaymentRequestViews[${viewCtr}].notes[${noteCtr}].notePostedTimestamp" />
+			        				<c:out value="${note.notePostedTimestamp}" />
 				        		</td>
 				        		<td align="left" valign="middle" class="datacell">
-				        			<bean:write name="KualiForm" property="document.relatedPaymentRequestViews[${viewCtr}].notes[${noteCtr}].authorUniversal.personName" />
+			        				<c:out value="${note.authorUniversal.personName}" />
 				        		</td>
 				        		<td align="left" valign="middle" class="datacell">
-				        			<bean:write name="KualiForm" property="document.relatedPaymentRequestViews[${viewCtr}].notes[${noteCtr}].noteText" />
+			        				<c:out value="${note.noteText}" />
 				        		</td>
 				        	</tr>
 			        	</logic:iterate>
@@ -144,7 +144,7 @@
 	   	<logic:notEmpty name="KualiForm" property="document.relatedCreditMemoViews">
 			<logic:iterate id="po" name="KualiForm" property="document.relatedCreditMemoViews" indexId="viewCtr">
 			    <div class="h2-container">
-			        <h2>Credit Memo - <a href=""><bean:write name="KualiForm" property="document.relatedCreditMemoViews[${viewCtr}].purapDocumentIdentifier" /></a>
+			        <h2>Credit Memo - <a href="<c:out value="${po.url}" />" target="_BLANK"><c:out value="${po.purapDocumentIdentifier}" /></a></h2>
 			    </div>
 			    <table cellpadding="0" cellspacing="0" class="datatable" summary="Notes">
 		        	<logic:notEmpty name="KualiForm" property="document.relatedCreditMemoViews[${viewCtr}].notes">
@@ -156,13 +156,13 @@
 			 			<logic:iterate id="note" name="KualiForm" property="document.relatedCreditMemoViews[${viewCtr}].notes" indexId="noteCtr">
 			        		<tr>
 			        			<td align="left" valign="middle" class="datacell">
-				        			<bean:write name="KualiForm" property="document.relatedCreditMemoViews[${viewCtr}].notes[${noteCtr}].notePostedTimestamp" />
+			        				<c:out value="${note.notePostedTimestamp}" />
 				        		</td>
 				        		<td align="left" valign="middle" class="datacell">
-				        			<bean:write name="KualiForm" property="document.relatedCreditMemoViews[${viewCtr}].notes[${noteCtr}].authorUniversal.personName" />
+			        				<c:out value="${note.authorUniversal.personName}" />
 				        		</td>
 				        		<td align="left" valign="middle" class="datacell">
-				        			<bean:write name="KualiForm" property="document.relatedCreditMemoViews[${viewCtr}].notes[${noteCtr}].noteText" />
+			        				<c:out value="${note.noteText}" />
 				        		</td>
 				        	</tr>
 			        	</logic:iterate>

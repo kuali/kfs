@@ -647,8 +647,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
      */
     @Override
     public PersistableBusinessObject getDocumentBusinessObject() {
-        if (ObjectUtils.isNotNull(getPurapDocumentIdentifier()) &&
-            ObjectUtils.isNull(this.documentBusinessObject)) {
+        if (ObjectUtils.isNotNull(getPurapDocumentIdentifier())) {
                 documentBusinessObject = SpringServiceLocator.getPurchaseOrderService().getOldestPurchaseOrder(getPurapDocumentIdentifier());
         }
         return documentBusinessObject;

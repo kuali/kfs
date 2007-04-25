@@ -252,6 +252,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setOrganizationAutomaticPurchaseOrderLimit(null);
         this.setPurchaseOrderAutomaticIndicator(false);
         this.setStatusHistories(null);
+        this.setAccountsPayablePurchasingDocumentLinkIdentifier(null);
         
         // Fill the BO Notes with an empty List.
         this.setBoNotes(new ArrayList());

@@ -82,11 +82,12 @@
 
             <attribute name="accountNumber" forceUppercase="true">
                 <label>Account Number</label>
-                <shortLabel>Number</shortLabel>
+                <shortLabel>Account</shortLabel>
 
                 <maxLength>7</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
 
+                <required>true</required>
                 <control>
                     <text size="9" />
                 </control>
@@ -127,13 +128,15 @@
 
             <attribute name="chartOfAccountsCode" forceUppercase="true">
                 <label>Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
+                <shortLabel>Chart</shortLabel>
 
                 <maxLength>2</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
 
+                <required>true</required>
                 <control>
-                    <text size="4" />
+                    <!-- <text size="4" /-->
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.SimpleChartValuesFinder" />
                 </control>
 
                 <summary>chartOfAccountsCode</summary>
@@ -142,11 +145,12 @@
 
             <attribute name="documentNumber" forceUppercase="true">
                 <label>Document Number</label>
-                <shortLabel>Number</shortLabel>
+                <shortLabel>Doc#</shortLabel>
 
                 <maxLength>14</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
 
+                <required>true</required>
                 <control>
                     <text size="16" />
                 </control>
@@ -202,11 +206,12 @@
 
             <attribute name="subAccountNumber" forceUppercase="true">
                 <label>Sub Account Number</label>
-                <shortLabel>Number</shortLabel>
+                <shortLabel>Sub Account</shortLabel>
 
                 <maxLength>5</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
 
+                <required>true</required>
                 <control>
                     <text size="7" />
                 </control>
@@ -222,6 +227,7 @@
                 <maxLength>4</maxLength>
                 <validationPattern><numeric /></validationPattern>
 
+                <required>true</required>
                 <control>
                     <text size="6" />
                 </control>

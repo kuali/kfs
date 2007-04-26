@@ -93,13 +93,13 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
     @SuppressWarnings("unchecked")
     @Override
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
-        refreshAward(KNSServiceLocator.KUALI_LOOKUPABLE.equals(fieldValues.get(Constants.REFRESH_CALLER)));
-        super.refresh(refreshCaller, fieldValues, document);
+        
         if (StringUtils.equals(PropertyConstants.PROPOSAL, (String) fieldValues.get(Constants.REFERENCES_TO_REFRESH))) {
             String pathToMaintainable = DOCUMENT + "." + NEW_MAINTAINABLE_OBJECT;
             GlobalVariables.getErrorMap().addToErrorPath(pathToMaintainable);
 
-            if (AwardRuleUtil.isProposalAwarded(getAward())) {
+            boolean awarded = AwardRuleUtil.isProposalAwarded(getAward());
+            if (awarded) {
                 GlobalVariables.getErrorMap().putError(PropertyConstants.PROPOSAL_NUMBER, KeyConstants.ERROR_AWARD_PROPOSAL_AWARDED, new String[] { getAward().getProposalNumber().toString() });
             }
             if (AwardRuleUtil.isProposalInactive(getAward())) {
@@ -108,11 +108,18 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
             GlobalVariables.getErrorMap().removeFromErrorPath(pathToMaintainable);
 
             // copy over proposal values after refresh
-            Award award = getAward();
-            award.populateFromProposal(award.getProposal());
+            if (!awarded) {
+                refreshAward(KNSServiceLocator.KUALI_LOOKUPABLE.equals(fieldValues.get(Constants.REFRESH_CALLER)));
+                super.refresh(refreshCaller, fieldValues, document);
+                Award award = getAward();
+                award.populateFromProposal(award.getProposal());
+                refreshAward(KNSServiceLocator.KUALI_LOOKUPABLE.equals(fieldValues.get(Constants.REFRESH_CALLER)));
+            }
+        }else{
             refreshAward(KNSServiceLocator.KUALI_LOOKUPABLE.equals(fieldValues.get(Constants.REFRESH_CALLER)));
+            super.refresh(refreshCaller, fieldValues, document);
         }
-        
+
     }
 
     private void refreshAward(boolean refreshFromLookup) {

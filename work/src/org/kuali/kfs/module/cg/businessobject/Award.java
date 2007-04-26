@@ -141,6 +141,7 @@ public class Award extends PersistableBusinessObjectBase {
             setAwardPurposeCode(proposal.getProposalPurposeCode());
 
             // copy proposal organizations to award organizations
+            getAwardOrganizations().clear();
             for (ProposalOrganization pOrg : proposal.getProposalOrganizations()) {
                 AwardOrganization awardOrg = new AwardOrganization();
                 //newCollectionRecord is set to true to allow deletion of this record after being populated from proposal
@@ -153,6 +154,7 @@ public class Award extends PersistableBusinessObjectBase {
             }
 
             // copy proposal subcontractors to award subcontractors
+            getAwardSubcontractors().clear();
             for (ProposalSubcontractor pSubcontractor : proposal.getProposalSubcontractors()) {
                 AwardSubcontractor awardSubcontractor = new AwardSubcontractor();
                 //newCollectionRecord is set to true to allow deletion of this record after being populated from proposal
@@ -166,6 +168,7 @@ public class Award extends PersistableBusinessObjectBase {
             }
             
             //copy proposal project directors to award propject directors
+            getAwardProjectDirectors().clear();
             for(ProposalProjectDirector pDirector:proposal.getProposalProjectDirectors()){
                 AwardProjectDirector awardDirector= new AwardProjectDirector();
                 //newCollectionRecord is set to true to allow deletion of this record after being populated from proposal

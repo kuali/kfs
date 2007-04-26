@@ -117,7 +117,7 @@
                 anchor="budgetConstructionHeaderSubAccountAnchor" />
             <td class="grid" nowrap>
             <div align="center">
-                <html:image property="methodToCall.performBCDocumentOpen.anchorbcheaderLineAnchor" src="images/tinybutton-loaddoc.gif" title="Load Budget Construction Document" alt="Load Budget Construction Document" styleClass="tinybutton" />
+                <html:image property="methodToCall.performBCDocumentOpen.anchorbudgetConstructionHeaderAnchor" src="images/tinybutton-loaddoc.gif" title="Load Budget Construction Document" alt="Load Budget Construction Document" styleClass="tinybutton" />
             </div>
             </td>
 	    </tr>

@@ -21,8 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.PropertyConstants;
-import org.kuali.core.bo.AdHocRouteWorkgroup;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.kra.KraPropertyConstants;
 import org.kuali.module.kra.routingform.bo.ResearchRiskType;
@@ -84,8 +84,10 @@ public class RoutingFormResearchRiskServiceImpl implements RoutingFormResearchRi
         List<RoutingFormResearchRisk> researchRisks = new ArrayList<RoutingFormResearchRisk>(businessObjectService.findMatching(RoutingFormResearchRisk.class, fieldValues));
         List<String> workgroups = new ArrayList<String>();
         for (RoutingFormResearchRisk researchRisk : researchRisks) {
-            if (researchRisk.getResearchRiskType().getResearchRiskTypeNotificationGroupText() != null) {
-                workgroups.add(researchRisk.getResearchRiskType().getResearchRiskTypeNotificationGroupText());
+            if (!StringUtils.isBlank(researchRisk.getResearchRiskDescription()) || !researchRisk.getResearchRiskStudies().isEmpty()) {
+                if (researchRisk.getResearchRiskType().getResearchRiskTypeNotificationGroupText() != null) {
+                    workgroups.add(researchRisk.getResearchRiskType().getResearchRiskTypeNotificationGroupText());
+                }
             }
         }
         return workgroups;

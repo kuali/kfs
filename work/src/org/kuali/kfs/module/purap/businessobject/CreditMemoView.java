@@ -2,6 +2,7 @@ package org.kuali.module.purap.bo;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.kuali.core.bo.Note;
@@ -20,6 +21,8 @@ public class CreditMemoView extends AbstractRelatedView {
     private String vendorCustomerNumber;    
     private Date accountsPayableApprovalDate;
     private Date creditMemoExtractedDate;    
+    private Timestamp creditMemoPaidTimestamp;
+    private String vendorName;
     private BigDecimal totalAmount;    
    
     /**
@@ -132,6 +135,38 @@ public class CreditMemoView extends AbstractRelatedView {
      */
     public void setPurchaseOrderIdentifier(Integer purchaseOrderIdentifier) {
         this.purchaseOrderIdentifier = purchaseOrderIdentifier;
+    }
+
+    /**
+     * Gets the creditMemoPaidTimestamp attribute. 
+     * @return Returns the creditMemoPaidTimestamp.
+     */
+    public Timestamp getCreditMemoPaidTimestamp() {
+        return creditMemoPaidTimestamp;
+    }
+
+    /**
+     * Sets the creditMemoPaidTimestamp attribute value.
+     * @param creditMemoPaidTimestamp The creditMemoPaidTimestamp to set.
+     */
+    public void setCreditMemoPaidTimestamp(Timestamp creditMemoPaidTimestamp) {
+        this.creditMemoPaidTimestamp = creditMemoPaidTimestamp;
+    }
+
+    /**
+     * Gets the vendorName attribute. 
+     * @return Returns the vendorName.
+     */
+    public String getVendorName() {
+        return vendorName;
+    }
+
+    /**
+     * Sets the vendorName attribute value.
+     * @param vendorName The vendorName to set.
+     */
+    public void setVendorName(String vendorName) {
+        this.vendorName = vendorName;
     }
 
     /**

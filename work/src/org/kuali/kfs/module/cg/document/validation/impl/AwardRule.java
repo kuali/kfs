@@ -17,6 +17,7 @@ package org.kuali.module.cg.rules;
 
 import java.util.Collection;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.KeyConstants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.document.MaintenanceDocument;
@@ -52,6 +53,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         success &= checkAccounts();
         success &= checkProjectDirectorsExist(newAwardCopy.getAwardProjectDirectors(), AwardProjectDirector.class, PropertyConstants.AWARD_PROJECT_DIRECTORS);
         success &= checkProjectDirectorsExist(newAwardCopy.getAwardAccounts(), AwardAccount.class, PropertyConstants.AWARD_ACCOUNTS);
+        success &= checkFederalPassThrough();
         return success;
     }
 
@@ -92,6 +94,30 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
             putFieldError(PropertyConstants.PROPOSAL_NUMBER, KeyConstants.ERROR_AWARD_PROPOSAL_INACTIVE, newAwardCopy.getProposalNumber().toString());
         }
 
+        return success;
+    }
+
+    /**
+     * checks if the required federal pass through fields are filled in if the federal pass through indicator is yes
+     * 
+     * @return
+     */
+    private boolean checkFederalPassThrough() {
+        boolean success = true;
+        if (newAwardCopy.getFederalPassThroughIndicator()) {
+
+            String indicatorLabel = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(Award.class, PropertyConstants.FEDERAL_PASS_THROUGH_INDICATOR);
+            if (null == newAwardCopy.getFederalPassThroughFundedAmount()) {
+                String amountLabel = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(Award.class, PropertyConstants.FEDERAL_PASS_THROUGH_FUNDED_AMOUNT);
+                putFieldError(PropertyConstants.FEDERAL_PASS_THROUGH_FUNDED_AMOUNT, KeyConstants.ERROR_AWARD_FEDERAL_PASS_THROUGH_INDICATOR_DEPENDENCY_REQUIRED, new String[] { amountLabel, indicatorLabel });
+                success = false;
+            }
+            if (StringUtils.isBlank(newAwardCopy.getFederalPassThroughAgencyNumber())) {
+                String agencyLabel = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(Award.class, PropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER);
+                putFieldError(PropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER, KeyConstants.ERROR_AWARD_FEDERAL_PASS_THROUGH_INDICATOR_DEPENDENCY_REQUIRED, new String[] { agencyLabel, indicatorLabel });
+                success = false;
+            }
+        }
         return success;
     }
 

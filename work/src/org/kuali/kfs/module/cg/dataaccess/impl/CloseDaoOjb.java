@@ -15,34 +15,25 @@
  */
 package org.kuali.module.cg.dao.ojb;
 
-import java.util.Collection;
-
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.module.cg.bo.Award;
 import org.kuali.module.cg.bo.Close;
-import org.kuali.module.cg.dao.AwardDao;
+import org.kuali.module.cg.dao.CloseDao;
 
-public class AwardDaoOjb extends PlatformAwareDaoBaseOjb implements AwardDao {
+public class CloseDaoOjb extends PlatformAwareDaoBaseOjb implements CloseDao {
 
-    public void deleteAll() {
-        getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(Award.class, new Criteria()));
-    }
-    
-    public Collection<Award> getAwardsToClose(Close close) {
+    public Close getMaxClose() {
 
         Criteria criteria = new Criteria();
-        criteria.addIsNull("awardClosingDate");
-        criteria.addLessOrEqualThan("awardEntryDate", close.getCloseOnOrBeforeDate());
-        criteria.addNotEqualTo("awardStatusCode", "U");
+        criteria.addSql("CG_PRPSL_CLOSE_NBR = (SELECT MAX(CG_PRPSL_CLOSE_NBR) FROM CG_PRPSL_CLOSE_T)");
         
-        return (Collection<Award>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Award.class, criteria));
+        return (Close) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(Close.class, criteria));
         
     }
 
-    public void save(Award award) {
-        getPersistenceBrokerTemplate().store(award);
+    public void save(Close close) {
+        getPersistenceBrokerTemplate().store(close);
     }
     
 }

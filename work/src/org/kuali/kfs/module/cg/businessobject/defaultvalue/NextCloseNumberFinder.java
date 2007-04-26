@@ -13,16 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cg.dao;
+package org.kuali.module.cg.lookup.valuefinder;
 
-import java.util.Collection;
+import org.kuali.core.lookup.valueFinder.ValueFinder;
+import org.kuali.kfs.util.SpringServiceLocator;
 
-import org.kuali.module.cg.bo.Proposal;
-import org.kuali.module.cg.bo.Close;
+public class NextCloseNumberFinder implements ValueFinder {
 
-public interface ProposalDao {
+    public String getValue() {
+        return getLongValue().toString();
+    }
     
-    public Collection<Proposal> getProposalsToClose(Close c);
-    public void save(Proposal proposal);
+    public static Long getLongValue() {
+        return SpringServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("CG_PRPSL_CLOSE_NBR_SEQ");
+    }
 
 }

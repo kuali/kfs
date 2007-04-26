@@ -15,8 +15,9 @@
  */
 package org.kuali.module.cg.rules;
 
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.core.rules.TransactionalDocumentRuleBase;
 import org.kuali.core.document.Document;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.module.cg.bo.Close;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.KeyConstants;
@@ -24,18 +25,12 @@ import org.kuali.KeyConstants;
 import java.sql.Date;
 
 /**
- * Created by IntelliJ IDEA.
- * User: evans
- * Date: Apr 6, 2007
- * Time: 1:25:50 PM
+ * User: Laran Evans <lc278@cornell.edu>
+ * Date: Apr 17, 2007
+ * Time: 5:35:09 PM
  */
-public class ProposalCloseRule extends MaintenanceDocumentRuleBase {
+public class CloseDocumentRule extends TransactionalDocumentRuleBase {
 
-    /**
-     *
-     * @param document
-     * @return true if
-     */
     @Override
     public boolean processSaveDocument(Document document) {
         boolean isOk = super.processSaveDocument(document);
@@ -47,8 +42,11 @@ public class ProposalCloseRule extends MaintenanceDocumentRuleBase {
         Date today = SpringServiceLocator.getDateTimeService().getCurrentSqlDateMidnight();
         isOk = today.getTime() <= userDate.getTime();
         if(!isOk) {
-            putFieldError("userInitiatedCloseDate", KeyConstants.ContractsAndGrants.USER_INITIATED_DATE_TOO_EARLY, userDate.toString());
+            GlobalVariables.getErrorMap().putError(
+                    "userInitiatedCloseDate",
+                    KeyConstants.ContractsAndGrants.USER_INITIATED_DATE_TOO_EARLY, userDate.toString());
         }
         return isOk;
     }
+    
 }

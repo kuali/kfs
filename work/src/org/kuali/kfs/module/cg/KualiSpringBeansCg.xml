@@ -63,18 +63,18 @@
 
 	<bean id="proposalDao" parent="platformAwareDao" class="org.kuali.module.cg.dao.ojb.ProposalDaoOjb" />
 	
-	<bean id="proposalCloseDao" parent="platformAwareDao" class="org.kuali.module.cg.dao.ojb.ProposalCloseDaoOjb" />
+	<bean id="closeDao" parent="platformAwareDao" class="org.kuali.module.cg.dao.ojb.CloseDaoOjb" />
 	
 	<!-- Services -->
-	<bean id="proposalCloseService" class="org.kuali.module.cg.service.impl.ProposalCloseServiceImpl">
+	<bean id="closeService" class="org.kuali.module.cg.service.impl.CloseServiceImpl">
 		<property name="awardDao">
 			<ref bean="awardDao" />
 		</property>
 		<property name="proposalDao">
 			<ref bean="proposalDao" />
 		</property>
-		<property name="proposalCloseDao">
-			<ref bean="proposalCloseDao" />
+		<property name="closeDao">
+			<ref bean="closeDao" />
 		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
@@ -130,16 +130,16 @@
     </bean>
 
     <!-- Batch Steps -->
-    <bean id="proposalCloseBatchStep" class="org.kuali.module.cg.batch.ProposalCloseBatchStep">
-        <property name="proposalCloseService">
-            <ref bean="proposalCloseService" />
+    <bean id="closeBatchStep" class="org.kuali.module.cg.batch.CloseBatchStep">
+        <property name="closeService">
+            <ref bean="closeService" />
         </property>
     </bean>
 
-    <bean id="proposalCloseJob" parent="scheduledJobDescriptor">
+    <bean id="closeJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
-				<ref bean="proposalCloseBatchStep" />
+				<ref bean="closeBatchStep" />
 			</list>
 		</property>
 	</bean>

@@ -15,14 +15,11 @@
  */
 package org.kuali.module.cg.dao;
 
-import java.util.Collection;
-
-import org.kuali.module.cg.bo.Proposal;
 import org.kuali.module.cg.bo.Close;
 
-public interface ProposalDao {
-    
-    public Collection<Proposal> getProposalsToClose(Close c);
-    public void save(Proposal proposal);
+public interface CloseDao {
 
+    public Close getMaxClose();
+    public void save(Close close);
+    
 }

@@ -21,16 +21,16 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.module.cg.bo.Proposal;
-import org.kuali.module.cg.bo.ProposalClose;
+import org.kuali.module.cg.bo.Close;
 import org.kuali.module.cg.dao.ProposalDao;
 
 public class ProposalDaoOjb extends PlatformAwareDaoBaseOjb implements ProposalDao {
 
-    public Collection<Proposal> getProposalsToClose(ProposalClose close) {
+    public Collection<Proposal> getProposalsToClose(Close close) {
         
         Criteria criteria = new Criteria();
         criteria.addIsNull("proposalClosingDate");
-        criteria.addLessOrEqualThan("proposalSubmissionDate", close.getLastClosedDate());
+        criteria.addLessOrEqualThan("proposalSubmissionDate", close.getCloseOnOrBeforeDate());
         
         return (Collection<Proposal>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Proposal.class, criteria));
     }

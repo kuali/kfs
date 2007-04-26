@@ -265,11 +265,11 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.cg.bo.ProposalClose" table="CG_PRPSL_CLOSE_T">
-    <field-descriptor name="proposalCloseNumber" column="CG_PRPSL_CLOSE_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
+<class-descriptor class="org.kuali.module.cg.bo.Close" table="CG_PRPSL_CLOSE_T">
+    <field-descriptor name="closeNumber" column="CG_PRPSL_CLOSE_NBR" jdbc-type="BIGINT" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="lastClosedDate" column="CG_LAST_CLOSED_DT" jdbc-type="DATE" />
+    <field-descriptor name="closeOnOrBeforeDate" column="CG_LAST_CLOSED_DT" jdbc-type="DATE" />
     <field-descriptor name="awardClosedCount" column="CGAWD_CLOSED_CNT" jdbc-type="BIGINT" />
     <field-descriptor name="proposalClosedCount" column="CGPRPSL_CLOSED_CNT" jdbc-type="BIGINT" />
     <field-descriptor name="personUserIdentifier" column="PERSON_USER_ID" jdbc-type="VARCHAR" />

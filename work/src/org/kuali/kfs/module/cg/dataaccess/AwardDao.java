@@ -18,10 +18,10 @@ package org.kuali.module.cg.dao;
 import java.util.Collection;
 
 import org.kuali.module.cg.bo.Award;
-import org.kuali.module.cg.bo.ProposalClose;
+import org.kuali.module.cg.bo.Close;
 
 public interface AwardDao {
-    public Collection<Award> getAwardsToClose(ProposalClose c);
+    public Collection<Award> getAwardsToClose(Close c);
     public void save(Award award);
     public void deleteAll();
 }

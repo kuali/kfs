@@ -13,16 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.cg.dao;
+package org.kuali.module.cg.service;
 
-import java.util.Collection;
-
-import org.kuali.module.cg.bo.Proposal;
 import org.kuali.module.cg.bo.Close;
 
-public interface ProposalDao {
-    
-    public Collection<Proposal> getProposalsToClose(Close c);
-    public void save(Proposal proposal);
+import java.sql.Date;
 
+public interface CloseService {
+
+    public void close();
+    public void save(Close close);
+    public Close getNewClose();
+    public Close getMostRecentClose();
+    
 }

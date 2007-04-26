@@ -34,14 +34,21 @@ public class RequisitionView extends AbstractRelatedView {
 		this.requisitionIdentifier = requisitionIdentifier;
 	}
 
+    /**
+     * The next three methods are overridden but shouldnt be!
+     * If they arent overridden, they dont show up in the tag, not sure why at this point! (AAP)
+     */
+    @Override
     public Integer getPurapDocumentIdentifier() {
         return super.getPurapDocumentIdentifier();
     }
 
+    @Override
     public List<Note> getNotes() {
         return super.getNotes();
     }
     
+    @Override
     public String getUrl() {
         return super.getUrl();
     }

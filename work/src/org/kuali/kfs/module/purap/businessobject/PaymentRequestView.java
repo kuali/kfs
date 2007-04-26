@@ -23,18 +23,6 @@ public class PaymentRequestView extends AbstractRelatedView {
     private Date paymentPaidDate;
     private KualiDecimal totalAmount;    
 
-    public List<Note> getNotes() {
-        return super.getNotes();
-    }
-    
-    public Integer getPurapDocumentIdentifier() {
-        return super.getPurapDocumentIdentifier();
-    }
-    
-    public String getUrl() {
-        return super.getUrl();
-    }
-
     /**
      * Gets the invoiceNumber attribute. 
      * @return Returns the invoiceNumber.
@@ -209,5 +197,24 @@ public class PaymentRequestView extends AbstractRelatedView {
      */
     public void setVendorName(String vendorName) {
         this.vendorName = vendorName;
+    }
+
+    /**
+     * The next three methods are overridden but shouldnt be!
+     * If they arent overridden, they dont show up in the tag, not sure why at this point! (AAP)
+     */
+    @Override
+    public Integer getPurapDocumentIdentifier() {
+        return super.getPurapDocumentIdentifier();
+    }
+
+    @Override
+    public List<Note> getNotes() {
+        return super.getNotes();
+    }
+    
+    @Override
+    public String getUrl() {
+        return super.getUrl();
     }
 }

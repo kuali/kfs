@@ -30,16 +30,12 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.bo.CreditMemoView;
-import org.kuali.module.purap.bo.PaymentRequestView;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderStatusHistory;
 import org.kuali.module.purap.bo.PurchaseOrderVendorChoice;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.bo.PurchaseOrderView;
 import org.kuali.module.purap.bo.RecurringPaymentFrequency;
-import org.kuali.module.purap.bo.RequisitionView;
-import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderPostProcessorService;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.bo.PaymentTermType;
@@ -52,7 +48,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 /**
  * Purchase Order Document
  */
-public class PurchaseOrderDocument extends PurchasingDocumentBase implements Copyable, PurapRelatable {
+public class PurchaseOrderDocument extends PurchasingDocumentBase implements Copyable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderDocument.class);
 
     private Date purchaseOrderCreateDate;
@@ -82,7 +78,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
     private boolean purchaseOrderCurrentIndicator;
     private boolean pendingActionIndicator;
     private Date purchaseOrderFirstTransmissionDate;
-    private Integer accountsPayablePurchasingDocumentLinkIdentifier;
     
     private PurchaseOrderVendorChoice purchaseOrderVendorChoice;
     private PaymentTermType vendorPaymentTerms;
@@ -92,9 +87,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
     
     //COLLECTIONS
     private List<PurchaseOrderVendorStipulation> purchaseOrderVendorStipulations;
-    private List<RequisitionView> relatedRequisitionViews;
-    private List<PaymentRequestView> relatedPaymentRequestViews;
-    private List<CreditMemoView> relatedCreditMemoViews;
     
     //Not persisted in db
     private String purchaseOrderRetransmissionMethodCode;
@@ -553,22 +545,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
     }    
     
     /**
-     * Gets the accountsPayablePurchasingDocumentLinkIdentifier attribute. 
-     * @return Returns the accountsPayablePurchasingDocumentLinkIdentifier.
-     */
-    public Integer getAccountsPayablePurchasingDocumentLinkIdentifier() {
-        return accountsPayablePurchasingDocumentLinkIdentifier;
-    }
-
-    /**
-     * Sets the accountsPayablePurchasingDocumentLinkIdentifier attribute value.
-     * @param accountsPayablePurchasingDocumentLinkIdentifier The accountsPayablePurchasingDocumentLinkIdentifier to set.
-     */
-    public void setAccountsPayablePurchasingDocumentLinkIdentifier(Integer accountsPayablePurchasingDocumentLinkIdentifier) {
-        this.accountsPayablePurchasingDocumentLinkIdentifier = accountsPayablePurchasingDocumentLinkIdentifier;
-    }
-
-    /**
      * Gets the alternateVendorNumber attribute. 
      * @return Returns the alternateVendorNumber.
      */
@@ -653,41 +629,9 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
         return documentBusinessObject;
     }
 
+    @Override
     public List<PurchaseOrderView> getRelatedPurchaseOrderViews() {
         return null;
-    }
-
-    public List<RequisitionView> getRelatedRequisitionViews() {
-        if (relatedRequisitionViews == null) {
-            relatedRequisitionViews = new TypedArrayList(RequisitionView.class);
-            List<RequisitionView> tmpViews = SpringServiceLocator.getPurapService().getRelatedViews(RequisitionView.class, accountsPayablePurchasingDocumentLinkIdentifier);
-            for (RequisitionView view : tmpViews) {
-                relatedRequisitionViews.add(view);
-            }
-        }
-        return relatedRequisitionViews;
-    }
-
-    public List<CreditMemoView> getRelatedCreditMemoViews() {
-        if (relatedCreditMemoViews == null) {
-            relatedCreditMemoViews = new TypedArrayList(CreditMemoView.class);
-            List<CreditMemoView> tmpViews = SpringServiceLocator.getPurapService().getRelatedViews(CreditMemoView.class, accountsPayablePurchasingDocumentLinkIdentifier);
-            for (CreditMemoView view : tmpViews) {
-                relatedCreditMemoViews.add(view);
-            }
-        }
-        return relatedCreditMemoViews;
-    }
-
-    public List<PaymentRequestView> getRelatedPaymentRequestViews() {
-        if (relatedPaymentRequestViews == null) {
-            relatedPaymentRequestViews = new TypedArrayList(PaymentRequestView.class);
-            List<PaymentRequestView> tmpViews = SpringServiceLocator.getPurapService().getRelatedViews(PaymentRequestView.class, accountsPayablePurchasingDocumentLinkIdentifier);
-            for (PaymentRequestView view : tmpViews) {
-                relatedPaymentRequestViews.add(view);
-            }
-        }
-        return relatedPaymentRequestViews;
     }
     
     /**

@@ -28,7 +28,11 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.purap.bo.CreditMemoView;
+import org.kuali.module.purap.bo.PaymentRequestView;
+import org.kuali.module.purap.bo.PurchaseOrderView;
 import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.bo.RequisitionView;
 import org.kuali.module.purap.bo.Status;
 import org.kuali.module.purap.bo.StatusHistory;
 import org.kuali.module.vendor.bo.VendorDetail;
@@ -52,6 +56,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     private String vendorStateCode;
     private String vendorPostalCode;
     private String vendorCountryCode;
+    private Integer accountsPayablePurchasingDocumentLinkIdentifier;
 
     // NOT PERSISTED IN DB
     private String vendorNumber; 
@@ -61,7 +66,11 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
     // COLLECTIONS
     private List<PurchasingApItem> items;
-    
+    private List<RequisitionView> relatedRequisitionViews;
+    private List<PurchaseOrderView> relatedPurchaseOrderViews;
+    private List<PaymentRequestView> relatedPaymentRequestViews;
+    private List<CreditMemoView> relatedCreditMemoViews;
+
     // REFERENCE OBJECTS
     private Status status;
     private VendorDetail vendorDetail;
@@ -375,5 +384,64 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         this.vendorStateCode = vendorStateCode;
     }
     
-    
+    /**
+     * Gets the accountsPayablePurchasingDocumentLinkIdentifier attribute. 
+     * @return Returns the accountsPayablePurchasingDocumentLinkIdentifier.
+     */
+    public Integer getAccountsPayablePurchasingDocumentLinkIdentifier() {
+        return accountsPayablePurchasingDocumentLinkIdentifier;
+    }
+
+    /**
+     * Sets the accountsPayablePurchasingDocumentLinkIdentifier attribute value.
+     * @param accountsPayablePurchasingDocumentLinkIdentifier The accountsPayablePurchasingDocumentLinkIdentifier to set.
+     */
+    public void setAccountsPayablePurchasingDocumentLinkIdentifier(Integer accountsPayablePurchasingDocumentLinkIdentifier) {
+        this.accountsPayablePurchasingDocumentLinkIdentifier = accountsPayablePurchasingDocumentLinkIdentifier;
+    }
+
+    public List<RequisitionView> getRelatedRequisitionViews() {
+        if (relatedRequisitionViews == null) {
+            relatedRequisitionViews = new TypedArrayList(RequisitionView.class);
+            List<RequisitionView> tmpViews = SpringServiceLocator.getPurapService().getRelatedViews(RequisitionView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            for (RequisitionView view : tmpViews) {
+                relatedRequisitionViews.add(view);
+            }
+        }
+        return relatedRequisitionViews;
+    }
+
+    public List<CreditMemoView> getRelatedCreditMemoViews() {
+        if (relatedCreditMemoViews == null) {
+            relatedCreditMemoViews = new TypedArrayList(CreditMemoView.class);
+            List<CreditMemoView> tmpViews = SpringServiceLocator.getPurapService().getRelatedViews(CreditMemoView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            for (CreditMemoView view : tmpViews) {
+                relatedCreditMemoViews.add(view);
+            }
+        }
+        return relatedCreditMemoViews;
+    }
+
+    public List<PaymentRequestView> getRelatedPaymentRequestViews() {
+        if (relatedPaymentRequestViews == null) {
+            relatedPaymentRequestViews = new TypedArrayList(PaymentRequestView.class);
+            List<PaymentRequestView> tmpViews = SpringServiceLocator.getPurapService().getRelatedViews(PaymentRequestView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            for (PaymentRequestView view : tmpViews) {
+                relatedPaymentRequestViews.add(view);
+            }
+        }
+        return relatedPaymentRequestViews;
+    }
+
+    public List<PurchaseOrderView> getRelatedPurchaseOrderViews() {
+        if (relatedPurchaseOrderViews == null) {
+            relatedPurchaseOrderViews = new TypedArrayList(PurchaseOrderView.class);
+            List<PurchaseOrderView> tmpViews = SpringServiceLocator.getPurapService().getRelatedViews(PurchaseOrderView.class, accountsPayablePurchasingDocumentLinkIdentifier);
+            for (PurchaseOrderView view : tmpViews) {
+                relatedPurchaseOrderViews.add(view);
+            }
+        }
+        return relatedPurchaseOrderViews;
+    }
+        
 }

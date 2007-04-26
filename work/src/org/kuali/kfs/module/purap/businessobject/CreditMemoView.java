@@ -22,18 +22,6 @@ public class CreditMemoView extends AbstractRelatedView {
     private Date creditMemoExtractedDate;    
     private BigDecimal totalAmount;    
    
-    public Integer getPurapDocumentIdentifier() {
-        return super.getPurapDocumentIdentifier();
-    }
-
-    public List<Note> getNotes() {
-        return super.getNotes();
-    }
-    
-    public String getUrl() {
-        return super.getUrl();
-    }
-
     /**
      * Gets the accountsPayableApprovalDate attribute. 
      * @return Returns the accountsPayableApprovalDate.
@@ -176,5 +164,24 @@ public class CreditMemoView extends AbstractRelatedView {
      */
     public void setVendorCustomerNumber(String vendorCustomerNumber) {
         this.vendorCustomerNumber = vendorCustomerNumber;
+    }
+
+    /**
+     * The next three methods are overridden but shouldnt be!
+     * If they arent overridden, they dont show up in the tag, not sure why at this point! (AAP)
+     */
+    @Override
+    public Integer getPurapDocumentIdentifier() {
+        return super.getPurapDocumentIdentifier();
+    }
+
+    @Override
+    public List<Note> getNotes() {
+        return super.getNotes();
+    }
+    
+    @Override
+    public String getUrl() {
+        return super.getUrl();
     }
 }

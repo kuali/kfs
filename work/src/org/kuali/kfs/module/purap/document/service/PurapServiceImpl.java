@@ -135,8 +135,11 @@ public class PurapServiceImpl implements PurapService {
 
     public List getRelatedViews(Class clazz, Integer accountsPayablePurchasingDocumentLinkIdentifier) {
         BusinessObjectService boService = SpringServiceLocator.getBusinessObjectService();
-        Map<String, Integer> criteria = new HashMap();
+        Map criteria = new HashMap();
         criteria.put("accountsPayablePurchasingDocumentLinkIdentifier", accountsPayablePurchasingDocumentLinkIdentifier);
+        if (clazz == PurchaseOrderView.class) {
+            criteria.put("purchaseOrderCurrentIndicator", true);
+        }
         List boList = (List) boService.findMatching(clazz, criteria);
         return boList;
     }

@@ -1643,11 +1643,11 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER"/>
-  <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-  <field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" index="true" />
-  <field-descriptor name="financialSubObjectCodeName" column="FIN_SUB_OBJ_CD_NM" jdbc-type="VARCHAR" />
-  <field-descriptor name="financialSubObjectCdshortNm" column="FIN_SUBOBJ_SHRT_NM" jdbc-type="VARCHAR" />
-  <field-descriptor name="financialSubObjectActiveIndicator" column="FIN_SUBOBJ_ACTV_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+  	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" index="true" />
+  	<field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR" index="true" />
+  	<field-descriptor name="financialSubObjectCodeName" column="FIN_SUB_OBJ_CD_NM" jdbc-type="VARCHAR" />
+  	<field-descriptor name="financialSubObjectCodeShortName" column="FIN_SUBOBJ_SHRT_NM" jdbc-type="VARCHAR" />
+  	<field-descriptor name="financialSubObjectActiveIndicator" column="FIN_SUBOBJ_ACTV_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
 	
 	<reference-descriptor name="financialDocument" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="documentNumber" />
@@ -1661,15 +1661,15 @@
 	
 	<collection-descriptor name="accountChangeDetails" element-class-ref="org.kuali.module.chart.bo.AccountChangeDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
     <!-- no real need to sort by chart b/c they're all the same, but is it best to list the full foreign key to account? -->
-    <orderby name="chartOfAccountsCode" sort="ASC" />
-    <orderby name="accountNumber" sort="ASC" />
-    <inverse-foreignkey field-ref="documentNumber" />
-  </collection-descriptor>
+    	<orderby name="chartOfAccountsCode" sort="ASC" />
+    	<orderby name="accountNumber" sort="ASC" />
+    	<inverse-foreignkey field-ref="documentNumber" />
+  	</collection-descriptor>
 	<collection-descriptor name="subObjectCodeChangeDetails" element-class-ref="org.kuali.module.chart.bo.SubObjectCodeChangeDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="true" auto-delete="true">
     <!-- no real need to sort by fiscal year or chart b/c they're all the same, but is it best to list the full foreign key to object code? -->
-    <orderby name="universityFiscalYear" sort="ASC" />
-    <orderby name="chartOfAccountsCode" sort="ASC" />
-    <orderby name="financialObjectCode" sort="ASC" />
+    	<orderby name="universityFiscalYear" sort="ASC" />
+    	<orderby name="chartOfAccountsCode" sort="ASC" />
+    	<orderby name="financialObjectCode" sort="ASC" />
     <inverse-foreignkey field-ref="documentNumber" />
   </collection-descriptor>
 </class-descriptor>

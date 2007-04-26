@@ -381,7 +381,7 @@
                 <description>awardLastUpdateDate description...</description>
 			</attributeReference>
 
-            <attribute name="awardProjectTitle" forceUppercase="true">
+            <attribute name="awardProjectTitle">
                 <label>Project Title</label>
                 <shortLabel>Title</shortLabel>
 

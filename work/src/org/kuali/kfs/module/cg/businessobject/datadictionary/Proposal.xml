@@ -407,7 +407,7 @@
                 <description>proposalNumber description...</description>
 			</attribute>
 
-            <attribute name="proposalProjectTitle" forceUppercase="true">
+            <attribute name="proposalProjectTitle">
                 <label>Project Title</label>
                 <shortLabel>Title</shortLabel>
 

@@ -56,6 +56,7 @@ public class LaborOriginEntryServiceTest extends KualiTestBase {
     private OriginEntryGroupService originEntryGroupService;
     private BusinessObjectService businessObjectService;
 
+    @Override
     public void setUp() throws Exception {
         super.setUp();
         String messageFileName = "test/src/org/kuali/module/labor/testdata/message.properties";

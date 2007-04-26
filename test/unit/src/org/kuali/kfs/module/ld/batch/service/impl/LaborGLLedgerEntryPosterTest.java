@@ -17,7 +17,6 @@ package org.kuali.module.labor.batch.poster;
 
 import static org.kuali.module.gl.bo.OriginEntrySource.LABOR_MAIN_POSTER_VALID;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -28,7 +27,6 @@ import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -38,7 +36,6 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
 import org.kuali.module.labor.bo.LaborOriginEntry;
-import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.service.LaborGeneralLedgerEntryService;
 import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.util.TestDataPreparator;
@@ -62,6 +59,7 @@ public class LaborGLLedgerEntryPosterTest extends KualiTestBase {
     private OriginEntryGroupService originEntryGroupService;
     private LaborGeneralLedgerEntryService laborGeneralLedgerEntryService;
 
+    @Override
     public void setUp() throws Exception {
         super.setUp();
         String messageFileName = "test/src/org/kuali/module/labor/testdata/message.properties";

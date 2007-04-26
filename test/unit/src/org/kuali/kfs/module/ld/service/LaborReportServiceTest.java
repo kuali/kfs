@@ -28,8 +28,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -74,6 +72,7 @@ public class LaborReportServiceTest extends KualiTestBase {
     private VerifyTransaction laborPosterTransactionValidator;
     private PersistenceService persistenceService;
 
+    @Override
     public void setUp() throws Exception {
         super.setUp();
         String messageFileName = "test/src/org/kuali/module/labor/testdata/message.properties";

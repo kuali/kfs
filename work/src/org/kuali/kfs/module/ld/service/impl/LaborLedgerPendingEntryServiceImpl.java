@@ -59,9 +59,11 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
         Collection<PendingLedgerEntry> pendingEntries = businessObjectService.findMatching(PendingLedgerEntry.class, fieldValues);
 
         // When the financial Document Approved Code equals 'X' it means the pending labor ledger transaction has been processed
-        for (PendingLedgerEntry pendingLedgerEntry : pendingEntries)
-            if ((pendingLedgerEntry.getFinancialDocumentApprovedCode() == null) || (!pendingLedgerEntry.getFinancialDocumentApprovedCode().trim().equals("X")))
+        for (PendingLedgerEntry pendingLedgerEntry : pendingEntries) {
+            if ((pendingLedgerEntry.getFinancialDocumentApprovedCode() == null) || (!pendingLedgerEntry.getFinancialDocumentApprovedCode().trim().equals("X"))) {
                 return true;
+            }
+        }
         return false;
     }
 
@@ -89,7 +91,7 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
 
         LOG.info("generating ll pending ledger entries for document " + document.getDocumentNumber());
         GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
-        AccountingDocument transactionalDocument = (AccountingDocument) document;
+        AccountingDocument transactionalDocument = document;
 
         // process accounting lines, generate labor ledger pending entries
         List sourceAccountingLines = transactionalDocument.getSourceAccountingLines();

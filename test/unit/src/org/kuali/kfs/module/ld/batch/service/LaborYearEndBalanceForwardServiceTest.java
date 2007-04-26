@@ -17,7 +17,6 @@ package org.kuali.module.labor.service;
 
 import static org.kuali.module.gl.bo.OriginEntrySource.LABOR_YEAR_END_BALANCE_FORWARD;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -36,7 +35,6 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.bo.LedgerBalance;
-import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.util.TestDataPreparator;
 import org.kuali.module.labor.util.testobject.LaborOriginEntryForTesting;
@@ -51,16 +49,14 @@ public class LaborYearEndBalanceForwardServiceTest extends KualiTestBase {
     private String deliminator;
     private Integer fiscalYear;
     
-    private OriginEntryGroup groupToPost;
     private Map fieldValues, groupFieldValues;
-    private Date today;
-
     private LaborOriginEntryService laborOriginEntryService;
     private OriginEntryGroupService originEntryGroupService;
     private BusinessObjectService businessObjectService;
     private LaborYearEndBalanceForwardService laborYearEndBalanceForwardService;
     private PersistenceService persistenceService;
 
+    @Override
     public void setUp() throws Exception {
         super.setUp();
         String messageFileName = "test/src/org/kuali/module/labor/testdata/message.properties";

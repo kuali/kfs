@@ -18,7 +18,6 @@ package org.kuali.module.labor.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.PropertyConstants;
 import org.kuali.core.util.KualiDecimal;
@@ -122,6 +121,7 @@ public class LaborLedgerUnitOfWork {
     /**
      * @see java.lang.Object#toString()
      */
+    @Override
     public String toString() {
         List<String> printablekeyFields = new ArrayList<String>(this.getKeyFields());
         printablekeyFields.add(PropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT);

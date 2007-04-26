@@ -43,6 +43,7 @@ public class LaborGeneralLedgerEntryServiceTest extends KualiTestBase {
     private LaborGeneralLedgerEntryService laborGeneralLedgerEntryService;
     private BusinessObjectService businessObjectService;
 
+    @Override
     public void setUp() throws Exception {
         super.setUp();
         String messageFileName = "test/src/org/kuali/module/labor/testdata/message.properties";

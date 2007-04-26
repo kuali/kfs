@@ -24,6 +24,7 @@ import org.springframework.beans.factory.BeanFactory;
 public class LaborPosterStepTest extends KualiTestBase {
     private LaborPosterStep laborPosterStep;
 
+    @Override
     public void setUp() throws Exception {
         super.setUp();
         

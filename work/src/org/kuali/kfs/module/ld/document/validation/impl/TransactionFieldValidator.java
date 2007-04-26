@@ -74,7 +74,7 @@ public class TransactionFieldValidator {
         if (StringUtils.isBlank(accountNumber) || transaction.getAccount() == null) {
             String chartOfAccountsCode = transaction.getChartOfAccountsCode();
             String accountKey = chartOfAccountsCode + "-" + accountNumber;
-            return MessageBuilder.buildErrorMessage(KeyConstants.ERROR_ACCOUNT_NOT_FOUND, accountNumber, Message.TYPE_FATAL);
+            return MessageBuilder.buildErrorMessage(KeyConstants.ERROR_ACCOUNT_NOT_FOUND, accountKey, Message.TYPE_FATAL);
         }
         return null;
     }

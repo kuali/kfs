@@ -15,9 +15,7 @@
  */
 package org.kuali.module.labor.service;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -27,11 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.web.TestDataGenerator;
-import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
-import org.kuali.module.labor.bo.LaborOriginEntry;
-import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.util.TestDataPreparator;
@@ -53,6 +47,7 @@ public class LaborLedgerEntryServiceTest extends KualiTestBase {
     private LaborLedgerEntryService laborLedgerEntryService;
     private BusinessObjectService businessObjectService;
 
+    @Override
     public void setUp() throws Exception {
         super.setUp();
         String messageFileName = "test/src/org/kuali/module/labor/testdata/message.properties";

@@ -17,7 +17,6 @@ package org.kuali.module.labor.batch.poster;
 
 import static org.kuali.module.gl.bo.OriginEntrySource.LABOR_MAIN_POSTER_VALID;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Arrays;
@@ -28,20 +27,15 @@ import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.bo.LedgerBalance;
-import org.kuali.module.labor.bo.LedgerEntry;
-import org.kuali.module.labor.service.LaborGeneralLedgerEntryService;
-import org.kuali.module.labor.service.LaborLedgerEntryService;
 import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.util.TestDataPreparator;
 import org.kuali.test.KualiTestBase;
@@ -63,6 +57,7 @@ public class LaborLedgerBalancePosterTest extends KualiTestBase {
     private PostTransaction laborLedgerBalancePoster;
     private OriginEntryGroupService originEntryGroupService;
 
+    @Override
     public void setUp() throws Exception {
         super.setUp();
         String messageFileName = "test/src/org/kuali/module/labor/testdata/message.properties";

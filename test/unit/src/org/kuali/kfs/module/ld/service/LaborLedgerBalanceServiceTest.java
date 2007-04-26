@@ -15,7 +15,6 @@
  */
 package org.kuali.module.labor.service;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -28,7 +27,6 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
 import org.kuali.module.labor.bo.LedgerBalance;
-import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.util.TestDataPreparator;
 import org.kuali.test.KualiTestBase;
@@ -47,6 +45,7 @@ public class LaborLedgerBalanceServiceTest extends KualiTestBase {
     private LaborLedgerBalanceService laborLedgerBalanceService;
     private BusinessObjectService businessObjectService;
 
+    @Override
     public void setUp() throws Exception {
         super.setUp();
         String messageFileName = "test/src/org/kuali/module/labor/testdata/message.properties";

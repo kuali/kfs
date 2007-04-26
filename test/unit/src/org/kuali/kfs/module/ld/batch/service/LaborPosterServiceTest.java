@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -36,7 +35,6 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.util.PosterOutputSummaryEntry;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
 import org.kuali.module.labor.bo.LaborOriginEntry;
@@ -48,7 +46,6 @@ import org.kuali.module.labor.util.testobject.LaborGeneralLedgerEntryForTesting;
 import org.kuali.module.labor.util.testobject.LedgerBalanceForTesting;
 import org.kuali.module.labor.util.testobject.LedgerEntryForTesting;
 import org.kuali.module.labor.util.testobject.OriginEntryGroupForTesting;
-import org.kuali.module.labor.util.testobject.PendingLedgerEntryForTesting;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 import org.springframework.beans.factory.BeanFactory;
@@ -61,8 +58,6 @@ public class LaborPosterServiceTest extends KualiTestBase {
     private String deliminator;
     private OriginEntryGroup groupToPost;
     private Map fieldValues, groupFieldValues;
-    private String reportsDirectory;
-    private Date today;
 
     private LaborOriginEntryService laborOriginEntryService;
     private OriginEntryGroupService originEntryGroupService;
@@ -70,6 +65,7 @@ public class LaborPosterServiceTest extends KualiTestBase {
     private LaborPosterService laborPosterService;
     private PersistenceService persistenceService;
 
+    @Override
     public void setUp() throws Exception {
         super.setUp();
         String messageFileName = "test/src/org/kuali/module/labor/testdata/message.properties";
@@ -91,7 +87,7 @@ public class LaborPosterServiceTest extends KualiTestBase {
         originEntryGroupService.deleteOlderGroups(0);
         businessObjectService.deleteMatching(OriginEntryGroup.class, groupFieldValues);
 
-        today = ((DateTimeService) beanFactory.getBean("dateTimeService")).getCurrentSqlDate();
+        Date today = ((DateTimeService) beanFactory.getBean("dateTimeService")).getCurrentSqlDate();
         groupToPost = originEntryGroupService.createGroup(today, LABOR_SCRUBBER_VALID, true, true, false);
 
         LaborOriginEntry cleanup = new LaborOriginEntry();

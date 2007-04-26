@@ -18,7 +18,7 @@ package org.kuali.module.purap;
 /**
  * Holds constants for PURAP business rules.
  */
-public interface PurapRuleConstants {
+public class PurapRuleConstants {
 
     // GROUP NAMES
     public static String PURAP_ADMIN_GROUP = "PurapAdminGroup";

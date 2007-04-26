@@ -15,22 +15,30 @@
  */
 package org.kuali.module.budget.web.struts.action;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
+import org.kuali.KeyConstants;
 import org.kuali.core.authorization.AuthorizationType;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.exceptions.ModuleAuthorizationException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
+import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.module.budget.BCConstants;
+import org.kuali.module.budget.bo.BudgetConstructionHeader;
+import org.kuali.module.budget.dao.ojb.BudgetConstructionDaoOjb;
 import org.kuali.module.budget.document.authorization.BudgetConstructionDocumentAuthorizer;
 import org.kuali.module.budget.web.struts.form.BudgetConstructionSelectionForm;
 import org.kuali.rice.KNSServiceLocator;
@@ -80,25 +88,82 @@ public class BudgetConstructionSelectionAction extends KualiAction {
     public ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
+
+//TODO this needs to call the bc fiscal year function service
         budgetConstructionSelectionForm.setUniversityFiscalYear(new Integer(2008));
+
+        budgetConstructionSelectionForm.getBudgetConstructionHeader().setUniversityFiscalYear(budgetConstructionSelectionForm.getUniversityFiscalYear());
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     public ActionForward performBCDocumentOpen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-//TODO do lookup of header and call open if found, otherwise create blank doc and account hierarchy, then open if no error
-//TODO for now just return an error if the doc does not exist
+//      TODO do lookup of header and call open if found, otherwise create blank doc and account hierarchy, then open if no error
+//      TODO for now just return an error if the doc does not exist
+        BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
+        BudgetConstructionHeader bcHeader = budgetConstructionSelectionForm.getBudgetConstructionHeader();
 
-        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-        Properties parameters = new Properties();
-        parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, BCConstants.BC_DOCUMENT_METHOD);
-        String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_DOCUMENT_ACTION, parameters);
-        return new ActionForward(lookupUrl, true);
+        BudgetConstructionDaoOjb bcHeaderDao;
+        Integer universityFiscalYear = bcHeader.getUniversityFiscalYear();
+        String chartOfAccountsCode = bcHeader.getChartOfAccountsCode();
+        String accountNumber = bcHeader.getAccountNumber() ;
+        String subAccountNumber;
+        if (StringUtils.isBlank(bcHeader.getSubAccountNumber())){
+            subAccountNumber = Constants.DASHES_SUB_ACCOUNT_NUMBER;
+        } else {
+            subAccountNumber = bcHeader.getSubAccountNumber();
+        }
 
-//        return mapping.findForward(Constants.MAPPING_BASIC);
+        bcHeaderDao = new BudgetConstructionDaoOjb();
+        BudgetConstructionHeader tHeader = bcHeaderDao.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
+        if (tHeader == null){
+            //error ERROR_EXISTENCE
+            GlobalVariables.getErrorMap().putError(Constants.GLOBAL_MESSAGES,KeyConstants.ERROR_EXISTENCE, "BC Document");
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        } else {
+            String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+
+            Properties parameters = new Properties();
+            parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, BCConstants.BC_DOCUMENT_METHOD);
+            parameters.put("universityFiscalYear", tHeader.getUniversityFiscalYear().toString());
+            parameters.put("chartOfAccountsCode", tHeader.getChartOfAccountsCode());
+            parameters.put("accountNumber", tHeader.getAccountNumber());
+            parameters.put("subAccountNumber", tHeader.getSubAccountNumber());
+
+            // anchor, if it exists
+            if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
+                parameters.put(BCConstants.RETURN_ANCHOR, ((KualiForm) form).getAnchor());
+            }
+
+            // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
+            parameters.put(BCConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form));
+
+            String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_DOCUMENT_ACTION, parameters);
+            return new ActionForward(lookupUrl, true);
+        }
     }
 
+
+    /**
+     * @see org.kuali.core.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
+        String refreshCaller = request.getParameter(Constants.REFRESH_CALLER);
+
+//      TODO need a better way to detect return from lookups
+//      returning from account lookup sets refreshcaller to accountLookupable, due to setting in account.xml
+//              if (refreshCaller != null && refreshCaller.equalsIgnoreCase(Constants.KUALI_LOOKUPABLE_IMPL)){
+        if (refreshCaller != null && (refreshCaller.endsWith("Lookupable") || (refreshCaller.endsWith("LOOKUPABLE")))){
+            final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] {"chartOfAccounts", "account", "subAccount"}));
+            KNSServiceLocator.getPersistenceService().retrieveReferenceObjects(budgetConstructionSelectionForm.getBudgetConstructionHeader(), REFRESH_FIELDS);            
+        }
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 
     public ActionForward returnToCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 

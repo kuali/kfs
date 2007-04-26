@@ -149,38 +149,28 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
  */
     private void loadDocument(BudgetConstructionForm budgetConstructionForm) throws WorkflowException {
 
+        // use the passed url autoloaded parms to get the record from DB 
         BudgetConstructionDaoOjb bcHeaderDao;
-        String chartOfAccountsCode = "BA";
-        String accountNumber = "6044900" ;
-        String subAccountNumber = "-----";
-        Integer universityFiscalYear = new Integer(2008);
+        String chartOfAccountsCode = budgetConstructionForm.getChartOfAccountsCode();
+        String accountNumber = budgetConstructionForm.getAccountNumber();
+        String subAccountNumber = budgetConstructionForm.getSubAccountNumber();
+        Integer universityFiscalYear = budgetConstructionForm.getUniversityFiscalYear();
 
         bcHeaderDao = new BudgetConstructionDaoOjb();
         BudgetConstructionHeader budgetConstructionHeader = bcHeaderDao.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
-        Map fieldValues = new HashMap();
-        fieldValues.put("FDOC_NBR", budgetConstructionHeader.getDocumentNumber());
-        fieldValues.put("UNIV_FISCAL_YR", budgetConstructionHeader.getUniversityFiscalYear());
-        fieldValues.put("FIN_COA_CD", budgetConstructionHeader.getChartOfAccountsCode());
-        fieldValues.put("ACCOUNT_NBR", budgetConstructionHeader.getAccountNumber());
-        fieldValues.put("SUB_ACCT_NBR", budgetConstructionHeader.getSubAccountNumber());
+        
+        //TODO need to check for existence and throw error
+        //BC doc select will create any missing bc doc and its account hierarchy before calling this
+        //for now we assume the doc exists
 
-//        BudgetConstructionDocument budgetConstructionDocument = new BudgetConstructionDocument();
-//        BudgetConstructionDocument budgetConstructionDocument = (BudgetConstructionDocument) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(BudgetConstructionDocument.class, fieldValues);
-      BudgetConstructionDocument budgetConstructionDocument = (BudgetConstructionDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(budgetConstructionHeader.getDocumentNumber());
+        BudgetConstructionDocument budgetConstructionDocument = (BudgetConstructionDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(budgetConstructionHeader.getDocumentNumber());
         budgetConstructionForm.setDocument(budgetConstructionDocument);
 
         KualiWorkflowDocument workflowDoc = budgetConstructionDocument.getDocumentHeader().getWorkflowDocument();
         budgetConstructionForm.setDocTypeName(workflowDoc.getDocumentType());
+
         // KualiDocumentFormBase.populate() needs this updated in the session
         GlobalVariables.getUserSession().setWorkflowDocument(workflowDoc);
-
-// from kualiDocumentActionBase.loadDocument()
-//        kualiDocumentFormBase.setDocument(doc);
-//        KualiWorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
-//        kualiDocumentFormBase.setDocTypeName(workflowDoc.getDocumentType());
-//        // KualiDocumentFormBase.populate() needs this updated in the session
-//        GlobalVariables.getUserSession().setWorkflowDocument(workflowDoc);
-        
     }
 
 
@@ -216,8 +206,19 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
             // else go to close logic below
         }
     }
+
+    // setup the return parms for the document and anchor
+    Properties parameters = new Properties();
+    parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, BCConstants.BC_SELECTION_REFRESH_METHOD);
+    parameters.put(Constants.DOC_FORM_KEY, docForm.getReturnFormKey());
+    parameters.put(Constants.ANCHOR, docForm.getReturnAnchor());
+    parameters.put(Constants.REFRESH_CALLER, BCConstants.BC_DOCUMENT_REFRESH_CALLER);
+    
+    String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_SELECTION_ACTION, parameters);
+    return new ActionForward(lookupUrl, true);
+    
 //TODO this needs to return to bc doc selection
-    return returnToSender(mapping, docForm);
+//    return returnToSender(mapping, docForm);
 }
 
     /**

@@ -27,6 +27,8 @@
 	<kul:hiddenDocumentFields
 		isFinancialDocument="true"
 		isTransactionalDocument="false" />
+	<html-el:hidden name="KualiForm" property="returnAnchor" />
+	<html-el:hidden name="KualiForm" property="returnFormKey" />
 
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <%--

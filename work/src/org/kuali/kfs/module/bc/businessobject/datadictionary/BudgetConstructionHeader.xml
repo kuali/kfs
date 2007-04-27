@@ -104,7 +104,7 @@
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="12" />
+                    <text size="11" />
                 </control>
 
                 <summary>budgetLockUserIdentifier</summary>
@@ -119,7 +119,7 @@
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="12" />
+                    <text size="11" />
                 </control>
 
                 <summary>budgetTransactionLockUserIdentifier</summary>
@@ -152,7 +152,7 @@
 
                 <required>true</required>
                 <control>
-                    <text size="16" />
+                    <text size="15" />
                 </control>
 
                 <summary>documentNumber</summary>
@@ -167,7 +167,7 @@
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="4" />
+                    <text size="3" />
                 </control>
 
                 <summary>organizationLevelChartOfAccountsCode</summary>
@@ -182,7 +182,7 @@
                 <validationPattern><numeric /></validationPattern>
 
                 <control>
-                    <text size="9" />
+                    <text size="8" />
                 </control>
 
                 <summary>organizationLevelCode</summary>
@@ -197,7 +197,7 @@
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="6" />
+                    <text size="5" />
                 </control>
 
                 <summary>organizationLevelOrganizationCode</summary>
@@ -211,9 +211,8 @@
                 <maxLength>5</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
 
-                <required>true</required>
                 <control>
-                    <text size="7" />
+                    <text size="6" />
                 </control>
 
                 <summary>subAccountNumber</summary>
@@ -229,7 +228,7 @@
 
                 <required>true</required>
                 <control>
-                    <text size="6" />
+                    <text size="5" />
                 </control>
 
                 <summary>universityFiscalYear</summary>

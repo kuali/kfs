@@ -193,7 +193,8 @@ public class RoutingFormServiceImpl implements RoutingFormService {
             routingFormInstitutionCostShare.setRoutingFormCostShareAmount(KualiInteger.ZERO);
             
             for (BudgetPeriodInstitutionCostShare budgetPeriodInstitutionCostShare : budgetInstitutionCostShare.getBudgetPeriodCostShare()) {
-                if (budgetPeriodInstitutionCostShare.getBudgetPeriodSequenceNumber().compareTo(minPeriod) >= 0 &&
+                if (budgetPeriodInstitutionCostShare.getBudgetCostShareAmount() != null &&
+                        budgetPeriodInstitutionCostShare.getBudgetPeriodSequenceNumber().compareTo(minPeriod) >= 0 &&
                         budgetPeriodInstitutionCostShare.getBudgetPeriodSequenceNumber().compareTo(maxPeriod) <= 0) {
                     routingFormInstitutionCostShare.setRoutingFormCostShareAmount(routingFormInstitutionCostShare.getRoutingFormCostShareAmount().add(budgetPeriodInstitutionCostShare.getBudgetCostShareAmount()));
                 }                

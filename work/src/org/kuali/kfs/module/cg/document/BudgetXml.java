@@ -422,7 +422,7 @@ public class BudgetXml {
 
                 Element thirdPartyCostSharePeriodAmount = xmlDoc.createElement("THIRD_PARTY_COST_SHARE_PERIOD_AMOUNT");
                 thirdPartyCostSharePeriodAmount.setAttribute("PERIOD_NUMBER", Integer.toString(j + 1));
-                thirdPartyCostSharePeriodAmount.appendChild(xmlDoc.createTextNode(periodThirdPartyCostShare.getBudgetCostShareAmount().toString()));
+                thirdPartyCostSharePeriodAmount.appendChild(xmlDoc.createTextNode(periodThirdPartyCostShare.getBudgetCostShareAmount() != null ? periodThirdPartyCostShare.getBudgetCostShareAmount().toString() : "0"));
 
                 thirdPartyCostShareSourcesElement.appendChild(thirdPartyCostSharePeriodAmount);
             }

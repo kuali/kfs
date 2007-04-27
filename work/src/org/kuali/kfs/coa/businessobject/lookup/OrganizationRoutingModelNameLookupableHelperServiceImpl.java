@@ -25,6 +25,7 @@ import org.kuali.core.util.UrlFactory;
 import org.kuali.module.chart.bo.DelegateChangeContainer;
 
 public class OrganizationRoutingModelNameLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+    private boolean initializingDelegate = true;
 
     /**
      * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getBackLocation()
@@ -45,9 +46,34 @@ public class OrganizationRoutingModelNameLookupableHelperServiceImpl extends Kua
         parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, Constants.MAINTENANCE_NEWWITHEXISTING_ACTION);
         parameters.put(Constants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DelegateChangeContainer.class.getName());
         parameters.put(Constants.OVERRIDE_KEYS, "modelName"+Constants.FIELD_CONVERSIONS_SEPERATOR+"modelChartOfAccountsCode"+Constants.FIELD_CONVERSIONS_SEPERATOR+"modelOrganizationCode");
-        return UrlFactory.parameterizeUrl(getBackLocation(), parameters);
+        return UrlFactory.parameterizeUrl(Constants.MAINTENANCE_ACTION, parameters);
     }
-    
-    
 
+    /**
+     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#setFieldConversions(java.util.Map)
+     */
+    @Override
+    public void setFieldConversions(Map fieldConversions) {
+        super.setFieldConversions(fieldConversions);
+        if (fieldConversions == null || fieldConversions.size() == 0) {
+            // if we don't have any field conversions, then we must be 
+            // actually dealing with the model, instead of looking up the model
+            // in order to initalize a new global account delegate
+            //
+            // yeah, it's a hack...but at least a semi-clever hack
+            initializingDelegate = false;
+        }
+    }
+
+    /**
+     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.core.bo.BusinessObject)
+     */
+    @Override
+    public String getActionUrls(BusinessObject businessObject) {
+        if (!initializingDelegate) {
+            return super.getActionUrls(businessObject);
+        } else {
+            return "";
+        }
+    }
 }

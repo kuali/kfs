@@ -709,6 +709,15 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
                 result &= checkEmptyBOField("indirectCostRecoveryAcctNbr", newAccount.getIndirectCostRecoveryAcctNbr(), replaceTokens(KeyConstants.ERROR_DOCUMENT_ACCMAINT_ICR_ACCOUNT_CANNOT_BE_EMPTY));
                 result &= checkEmptyBOField("accountCfdaNumber", newAccount.getAccountCfdaNumber(), replaceTokens(KeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FEDERAL_ASSISTANCE_NUMBER_CANNOT_BE_EMPTY));
                 result &= checkContractControlAccountNumberRequired(newAccount);
+            } else {
+                // this is not a C&G fund group.  So users should not fill in any fields in the C&G tab.
+                result &= checkCGFieldNotFilledIn(newAccount, "contractControlFinCoaCode");
+                result &= checkCGFieldNotFilledIn(newAccount, "contractControlAccountNumber");
+                result &= checkCGFieldNotFilledIn(newAccount, "acctIndirectCostRcvyTypeCd");
+                result &= checkCGFieldNotFilledIn(newAccount, "financialIcrSeriesIdentifier");
+                result &= checkCGFieldNotFilledIn(newAccount, "indirectCostRcvyFinCoaCode");
+                result &= checkCGFieldNotFilledIn(newAccount, "indirectCostRecoveryAcctNbr");
+                result &= checkCGFieldNotFilledIn(newAccount, "accountCfdaNumber");
             }
         }
         return result;
@@ -1001,6 +1010,17 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      */
     public final void setAccountService(AccountService accountService) {
         this.accountService = accountService;
+    }
+    
+    protected boolean checkCGFieldNotFilledIn(Account account, String propertyName) {
+        boolean success = true;
+        Object value = ObjectUtils.getPropertyValue(account, propertyName);
+        if ((value instanceof String && !StringUtils.isBlank(value.toString())) || (value != null)) {
+            success = false;
+            putFieldError(propertyName, KeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT, new String[] { account.getSubFundGroupCode() });
+        }
+        
+        return success;
     }
 
 }

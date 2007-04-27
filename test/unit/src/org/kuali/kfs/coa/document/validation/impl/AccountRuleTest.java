@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 
 import org.apache.commons.lang.time.DateUtils;
+import org.kuali.Constants;
 import org.kuali.KeyConstants;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.UniversalUser;
@@ -1148,6 +1149,133 @@ private void disableBeginBalanceLoadInd(){
         result = rule.checkCgRequiredFields(newAccount);
         assertGlobalErrorMapEmpty();
         assertEquals("Rule should return true with no missing fields.", true, result);
+    }
+    
+    /**
+     * @RelatesTo KULRNE-4662
+     * 
+     * This test makes sure that if the account has a non-CG subfund group, no fields are allowed to be
+     * filled in.
+     * (The contrary test--that if we have an account with a CG fund group, all fields are now required--
+     *  should be tested by testCGFields_RequiredCGFields_AllPresent()).
+     */
+    @SuppressWarnings("deprecation")
+    public void testCGFields_NotCGSubFund_NoFieldsPresent() {
+        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+
+        // create the populated CG subfundgroup
+        SubFundGroup subFundGroup = new SubFundGroup();
+        subFundGroup.setSubFundGroupCode(Accounts.SubFund.Code.EN1);
+        subFundGroup.setFundGroupCode(Accounts.SubFund.FundGroupCode.EN1);
+        subFundGroup.setSubfundgrpActivityIndicator(true);
+
+        // add the subFundGroup info to Account
+        newAccount.setSubFundGroupCode(Accounts.SubFund.Code.EN1);
+        newAccount.setSubFundGroup(subFundGroup);
+
+        // make sure all the required fields are present, so the rule creates validation errors for all of them
+        newAccount.setContractControlFinCoaCode(Accounts.ChartCode.GOOD1);
+        newAccount.setContractControlAccountNumber(Accounts.AccountNumber.GOOD1);
+        newAccount.setAcctIndirectCostRcvyTypeCd("10");
+        newAccount.setFinancialIcrSeriesIdentifier("001");
+        newAccount.setIndirectCostRcvyFinCoaCode(Accounts.ChartCode.GOOD1);
+        newAccount.setIndirectCostRecoveryAcctNbr(Accounts.AccountNumber.GOOD1);
+        newAccount.setAccountCfdaNumber("001");
+
+        // run the rule
+        result = rule.checkCgRequiredFields(newAccount);
+        assertFieldErrorExists("contractControlFinCoaCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
+        assertFieldErrorExists("contractControlAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
+        assertFieldErrorExists("acctIndirectCostRcvyTypeCd", KeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
+        assertFieldErrorExists("financialIcrSeriesIdentifier", KeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
+        assertFieldErrorExists("indirectCostRcvyFinCoaCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
+        assertFieldErrorExists("indirectCostRecoveryAcctNbr", KeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
+        assertFieldErrorExists("accountCfdaNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
+        assertFalse("We do not have a C&G sub fund group, but we have all the fields filled; the rule run result should be false",result);
+    }
+    
+    /**
+     * @RelatesTo KULRNE-4662
+     * @RelatesTo KULCG-111
+     * 
+     * This method makes sure that the new account can act as its own contract control account.
+     */
+    @SuppressWarnings("deprecation")
+    public void testCGFields_AccountCanBeCGAccount() {
+        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+
+        // create the populated CG subfundgroup
+        SubFundGroup subFundGroup = new SubFundGroup();
+        subFundGroup.setSubFundGroupCode(Accounts.SubFund.Code.CG1);
+        subFundGroup.setFundGroupCode(Accounts.SubFund.FundGroupCode.CG1);
+        subFundGroup.setSubfundgrpActivityIndicator(true);
+
+        // add the subFundGroup info to Account
+        newAccount.setSubFundGroupCode(Accounts.SubFund.Code.CG1);
+        newAccount.setSubFundGroup(subFundGroup);
+        
+        // set chart of accounts and account #, just for this test run
+        String oldNewAccountChart = newAccount.getChartOfAccountsCode();
+        String oldNewAccountsAcctNum = newAccount.getAccountNumber();
+        newAccount.setChartOfAccountsCode(Accounts.ChartCode.GOOD1);
+        newAccount.setAccountNumber(Accounts.AccountNumber.BAD1);
+
+        // make sure all the required fields are present
+        newAccount.setContractControlFinCoaCode(newAccount.getChartOfAccountsCode());
+        newAccount.setContractControlAccountNumber(newAccount.getAccountNumber());
+        newAccount.setAcctIndirectCostRcvyTypeCd("10");
+        newAccount.setFinancialIcrSeriesIdentifier("001");
+        newAccount.setIndirectCostRcvyFinCoaCode(Accounts.ChartCode.GOOD1);
+        newAccount.setIndirectCostRecoveryAcctNbr(Accounts.AccountNumber.GOOD1);
+        newAccount.setAccountCfdaNumber("001");
+
+        // run the rule
+        result = rule.checkCgRequiredFields(newAccount);
+        assertGlobalErrorMapEmpty();
+        assertTrue("Rule should allow new account to be the contract control account.", result);
+        
+        newAccount.setChartOfAccountsCode(oldNewAccountChart);
+        newAccount.setAccountNumber(oldNewAccountsAcctNum);
+    }
+    
+    /**
+     * @RelatesTo KULCG-111
+     * 
+     * This method makes sure that any account specified as the contract control account must actually exist.
+     */
+    @SuppressWarnings("deprecation")
+    public void testCGFields_AccountMustBeReal() {
+        MaintenanceDocument maintDoc = newMaintDoc(newAccount);
+        AccountRule rule = (AccountRule) setupMaintDocRule(maintDoc, AccountRule.class);
+        boolean result;
+
+        // create the populated CG subfundgroup
+        SubFundGroup subFundGroup = new SubFundGroup();
+        subFundGroup.setSubFundGroupCode(Accounts.SubFund.Code.CG1);
+        subFundGroup.setFundGroupCode(Accounts.SubFund.FundGroupCode.CG1);
+        subFundGroup.setSubfundgrpActivityIndicator(true);
+
+        // add the subFundGroup info to Account
+        newAccount.setSubFundGroupCode(Accounts.SubFund.Code.CG1);
+        newAccount.setSubFundGroup(subFundGroup);
+
+        // make sure all the required fields exist...we don't really want to test for that
+        newAccount.setContractControlFinCoaCode(Accounts.ChartCode.BAD1);
+        newAccount.setContractControlAccountNumber(Accounts.AccountNumber.BAD1);
+        newAccount.setAcctIndirectCostRcvyTypeCd("10");
+        newAccount.setFinancialIcrSeriesIdentifier("001");
+        newAccount.setIndirectCostRcvyFinCoaCode(Accounts.ChartCode.GOOD1);
+        newAccount.setIndirectCostRecoveryAcctNbr(Accounts.AccountNumber.GOOD1);
+        newAccount.setAccountCfdaNumber("001");
+
+        // run the rule
+        result = rule.checkCgRequiredFields(newAccount);
+        assertFieldErrorExists("contractControlAccountNumber", KeyConstants.ERROR_EXISTENCE);
+        assertFalse("Rule should require contract account to be real.", result);
     }
 
     @SuppressWarnings("deprecation")

@@ -343,33 +343,36 @@ public class BudgetDocument extends ResearchDocumentBase {
         list.add(this.getAdhocWorkgroups());
             
         Budget budget = this.getBudget();
-            list.add(budget.getTasks());
-            list.add(budget.getPeriods());
-            list.add(budget.getNonpersonnelItems());
-            list.add(budget.getAllUserAppointmentTaskPeriods(this.isForceRefreshOfBOSubListsForSave()));
-            list.add(budget.getAllUserAppointmentTasks(this.isForceRefreshOfBOSubListsForSave()));
-            list.add(budget.getPersonnel());
+        list.add(budget.getNonpersonnelItems());
+        list.add(budget.getAllUserAppointmentTaskPeriods(this.isForceRefreshOfBOSubListsForSave()));
+        list.add(budget.getAllUserAppointmentTasks(this.isForceRefreshOfBOSubListsForSave()));
+        list.add(budget.getPersonnel());
 
-            list.add(budget.getAllThirdPartyCostSharePeriods(this.isForceRefreshOfBOSubListsForSave()));
-            list.add(budget.getThirdPartyCostShareItems());
+        list.add(budget.getAllThirdPartyCostSharePeriods(this.isForceRefreshOfBOSubListsForSave()));
+        list.add(budget.getThirdPartyCostShareItems());
 
-            list.add(budget.getAllInstitutionCostSharePeriods(this.isForceRefreshOfBOSubListsForSave()));
-            list.add(budget.getInstitutionCostShareItems());
+        list.add(budget.getAllInstitutionCostSharePeriods(this.isForceRefreshOfBOSubListsForSave()));
+        list.add(budget.getInstitutionCostShareItems());
 
-            list.add(budget.getInstitutionCostSharePersonnelItems());
-            
-            if (budget.getIndirectCost() != null && budget.getIndirectCost().getBudgetTaskPeriodIndirectCostItems() != null) {
-                list.add(budget.getIndirectCost().getBudgetTaskPeriodIndirectCostItems());
-            } else {
-                list.add(new ArrayList());
-            }
-            
-            if (budget.getModularBudget() != null) {
-                list.add(budget.getModularBudget().getBudgetModularPeriods());
-            } else {
-                list.add(new ArrayList());
-            }
-            
+        list.add(budget.getInstitutionCostSharePersonnelItems());
+        
+        if (budget.getIndirectCost() != null && budget.getIndirectCost().getBudgetTaskPeriodIndirectCostItems() != null) {
+            list.add(budget.getIndirectCost().getBudgetTaskPeriodIndirectCostItems());
+        } else {
+            list.add(new ArrayList());
+        }
+        
+        if (budget.getModularBudget() != null) {
+            list.add(budget.getModularBudget().getBudgetModularPeriods());
+        } else {
+            list.add(new ArrayList());
+        }
+
+        //Lots of FKs from previous collections point to these two, so they need to handled last
+        list.add(budget.getTasks());
+        list.add(budget.getPeriods());
+
+        
         return list;
     }
     

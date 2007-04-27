@@ -854,12 +854,12 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         if(this.getVendorShippingPaymentTerms()!=null) {
             this.setVendorShippingPaymentTermsCode(this.getVendorShippingPaymentTerms().getVendorShippingPaymentTermsCode());
         }
-        /*
+        
         this.setRecurringPaymentType(po.getRecurringPaymentType());
         if(this.getRecurringPaymentType()!=null) {
-            this.setRecurringPaymentTypeCode(this.getRecurringPaymentType().getCode());
+            this.setRecurringPaymentTypeCode(this.getRecurringPaymentType().getRecurringPaymentTypeCode());
         }
-        */
+        
         //this.setRecurringPaymentTypeCode(po.getRecurringPaymentTypeCode());
         this.setVendorHeaderGeneratedIdentifier(po.getVendorHeaderGeneratedIdentifier());
         this.setVendorDetailAssignedIdentifier(po.getVendorDetailAssignedIdentifier());

@@ -53,7 +53,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     private String purchaseOrderTransmissionMethodCode;
     private String purchaseOrderCostSourceCode;
     private String deliveryRequiredDateReasonCode;
-    private String recurringPaymentTypeCode;
+    
     private String chartOfAccountsCode;
     private String organizationCode;
     private String deliveryCampusCode;
@@ -71,6 +71,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     private String vendorFaxNumber;
     private Integer vendorContractGeneratedIdentifier;
     private String vendorNoteText;
+    private String recurringPaymentTypeCode;
     /*
     private String requestorPersonName;
     private String requestorPersonEmailAddress;
@@ -142,6 +143,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     private ContractManager contractManager;
     */
     private Country vendorCountry;
+    private RecurringPaymentType recurringPaymentType;
 
     public AccountsPayableDocumentBase() {
         super();
@@ -467,6 +469,42 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
 
     public void setVendorCountry(Country vendorCountry) {
         this.vendorCountry = vendorCountry;
+    }
+
+
+    /**
+     * Gets the recurringPaymentType attribute. 
+     * @return Returns the recurringPaymentType.
+     */
+    public RecurringPaymentType getRecurringPaymentType() {
+        return recurringPaymentType;
+    }
+
+
+    /**
+     * Sets the recurringPaymentType attribute value.
+     * @param recurringPaymentType The recurringPaymentType to set.
+     */
+    public void setRecurringPaymentType(RecurringPaymentType recurringPaymentType) {
+        this.recurringPaymentType = recurringPaymentType;
+    }
+
+
+    /**
+     * Gets the recurringPaymentTypeCode attribute. 
+     * @return Returns the recurringPaymentTypeCode.
+     */
+    public String getRecurringPaymentTypeCode() {
+        return recurringPaymentTypeCode;
+    }
+
+
+    /**
+     * Sets the recurringPaymentTypeCode attribute value.
+     * @param recurringPaymentTypeCode The recurringPaymentTypeCode to set.
+     */
+    public void setRecurringPaymentTypeCode(String recurringPaymentTypeCode) {
+        this.recurringPaymentTypeCode = recurringPaymentTypeCode;
     }
 
 

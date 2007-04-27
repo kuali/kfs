@@ -89,11 +89,11 @@
             <defaultSort attributeName="chartOfAccountsCode" sortAscending="false" />
 
             <lookupFields>
+                <lookupField attributeName="organizationName" required="false" />
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
                 <lookupField attributeName="organizationCode" required="false" forceLookup="true" />
                 <lookupField attributeName="responsibilityCenterCode" required="false" />
                 <lookupField attributeName="organizationTypeCode" required="false" />
-                <lookupField attributeName="organizationName" required="false" />
                 <lookupField attributeName="reportsToChartOfAccountsCode" required="false"  />
                 <lookupField attributeName="reportsToOrganizationCode" required="false" />
                 <lookupField attributeName="organizationActiveIndicator" required="false">

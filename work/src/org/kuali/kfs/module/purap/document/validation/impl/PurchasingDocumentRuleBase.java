@@ -37,6 +37,7 @@ import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.ItemTypeCodes;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.bo.PurchasingItemBase;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
@@ -80,6 +81,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         valid &= validateItemUnitPrice(itemList); 
         valid &= validateUniqueAccountingString(itemList);
         valid &= validateTotalCost(purDocument);
+        valid &= validateUnitOfMeasureUnitPriceAndDescription(itemList);
         return valid;
     }
     
@@ -129,7 +131,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             for (PurApAccountingLine accountingLine : accountingLines) {
                 if (accountingStringSet.contains(accountingLine.toString())) {
                     valid = false;
-                    GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_ACCOUNTING_NOT_UNIQUE, item.getItemLineNumber().toString() );
+                    GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_ACCOUNTING_NOT_UNIQUE, "Item " + item.getItemLineNumber().toString() );
                 }
                 else {
                     accountingStringSet.add(accountingLine.toString());
@@ -139,11 +141,61 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         return valid;
     }
     
+    /**
+     * 
+     * This method validates that the total cost must be greater or equal to zero
+     * 
+     * @param purDocument
+     * @return
+     */
     private boolean validateTotalCost(PurchasingDocument purDocument) {
         boolean valid = true;
         if (purDocument.getTotal().isLessThan(new KualiDecimal(zero))) {
             valid = false;
             GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_TOTAL_NEGATIVE);
+        }
+        return valid;
+    }
+    
+    private boolean validateUnitOfMeasureUnitPriceAndDescription(List<PurchasingApItem> itemList) {
+        boolean valid = true;
+        for (PurchasingApItem item : itemList) {
+            PurchasingItemBase purItem = (PurchasingItemBase)item;
+            //Validations for item type "ITEM"
+            if (purItem.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ITEM_CODE)) {
+                if (ObjectUtils.isNotNull(purItem.getItemQuantity())) {
+                    if (zero.compareTo(purItem.getItemQuantity().bigDecimalValue()) < 0 && 
+                        StringUtils.isEmpty(purItem.getItemUnitOfMeasureCode())) {
+                        
+                        valid = false;
+                        GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_QUANTITY_NOT_ZERO, "UOM", "Item " + item.getItemLineNumber().toString());
+                    }
+                }
+                if (StringUtils.isEmpty(item.getItemDescription())) {
+                    valid = false;
+                    GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_EMPTY, "Description", "Item " + item.getItemLineNumber().toString());
+                } 
+                if (ObjectUtils.isNull(item.getItemUnitPrice())) {
+                    valid = false;
+                    GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_EMPTY, "Unit Cost", "Item " + item.getItemLineNumber().toString());
+                }
+            }
+            //Validations for non "ITEM" item type
+            else {
+                if (ObjectUtils.isNotNull(item.getItemUnitPrice()) && (zero.compareTo(item.getItemUnitPrice()) != 0)) {
+                    //if unit price is entered (non-zero), desc is required
+                    if(StringUtils.isEmpty(item.getItemDescription())) {
+                        valid = false;
+                        GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_DESCRIPTION_EMPTY, "Description", "Item " + item.getItemLineNumber().toString());
+                    }
+                } else if (StringUtils.isNotEmpty(item.getItemDescription())) {
+                    //if description is entered, unit price is required and cannot be zero
+                    if (ObjectUtils.isNull(item.getItemUnitPrice()) || (zero.compareTo(item.getItemUnitPrice()) == 0)) {
+                        valid = false;
+                        GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_UNIT_PRICE_EMPTY, "Unit Cost", "Item " + item.getItemLineNumber().toString());
+                    }
+                }                
+            }
         }
         return valid;
     }

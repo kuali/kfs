@@ -81,4 +81,8 @@ public class PurapKeyConstants {
     public static final String ERROR_ITEM_AMOUNT_NOT_BELOW_ZERO="errors.item.amount.notBelowZero";
     public static final String ERROR_ITEM_ACCOUNTING_NOT_UNIQUE="errors.item.accounting.notunique";
     public static final String ERROR_ITEM_TOTAL_NEGATIVE="errors.item.total.negative";
+    public static final String ERROR_ITEM_QUANTITY_NOT_ZERO="errors.item.quantity.notZero";
+    public static final String ERROR_ITEM_EMPTY="errors.item.empty";
+    public static final String ERROR_ITEM_DESCRIPTION_EMPTY="errors.item.description.empty";
+    public static final String ERROR_ITEM_UNIT_PRICE_EMPTY="errors.item.unitPrice.empty";
 }

@@ -68,9 +68,14 @@ public class RequisitionAccount extends PurApAccountingLineBase {
 	 */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
-        if (this.accountIdentifier != null) {
-            m.put("requisitionAccountIdentifier", this.accountIdentifier.toString());
-        }
-	    return m;
+        
+        m.put("chartOfAccountsCode", this.getChartOfAccountsCode());
+        m.put("accountNumber", this.getAccountNumber());
+        m.put("subAccountNumber", this.getSubAccountNumber());
+        m.put("financialObjectCode", this.getFinancialObjectCode());
+        m.put("financialSubObjectCode", this.getFinancialSubObjectCode());
+        m.put("projectCode", this.getProjectCode());
+        m.put("organizationReferenceId", this.getOrganizationReferenceId());
+        return m;
     }
 }

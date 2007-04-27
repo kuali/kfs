@@ -75,4 +75,10 @@ public class PurapKeyConstants {
     public static final String MESSAGE_DUPLICATE_INVOICE_CANCELLEDORVOIDED ="errors.duplicate.vendor.invoice.cancelledOrVoided";
     public static final String MESSAGE_DUPLICATE_INVOICE_CANCELLED="errors.duplicate.vendor.invoice.cancelled";
     public static final String MESSAGE_DUPLICATE_INVOICE_VOIDED="errors.duplicate.vendor.invoice.voided";
+    
+    //Item
+    public static final String ERROR_ITEM_AMOUNT_BELOW_ZERO="errors.item.amount.belowZero";
+    public static final String ERROR_ITEM_AMOUNT_NOT_BELOW_ZERO="errors.item.amount.notBelowZero";
+    public static final String ERROR_ITEM_ACCOUNTING_NOT_UNIQUE="errors.item.accounting.notunique";
+    public static final String ERROR_ITEM_TOTAL_NEGATIVE="errors.item.total.negative";
 }

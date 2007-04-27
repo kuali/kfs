@@ -48,17 +48,17 @@
  		</tr>
  		<tr>
  		<kul:htmlAttributeHeaderCell literalLabel="add:" scope="row"/>
- 		<td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemLineNumber}" property="newPurchasingItemLine.itemLineNumber" /></td>
-        <td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemTypeCode}" property="newPurchasingItemLine.itemTypeCode" /></td>
- 		<td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemQuantity}" property="newPurchasingItemLine.itemQuantity" /></td>
- 		<td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" property="newPurchasingItemLine.itemUnitOfMeasureCode" /></td>
-		<td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemCatalogNumber}" property="newPurchasingItemLine.itemCatalogNumber" /></td>
-		<td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="newPurchasingItemLine.itemDescription" /></td>
- 		<td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitPrice}" property="newPurchasingItemLine.itemUnitPrice" /></td>
- 		<td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.extendedPrice}" property="newPurchasingItemLine.extendedPrice" /></td>
-        <%--<td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemRestrictedIndicator}" property="newPurchasingItemLine.itemRestrictedIndicator" /></td>--%>
-        <td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" property="newPurchasingItemLine.itemAssignedToTradeInIndicator" /></td>
-		<td class="infoline"><div align="center"><html:image property="methodToCall.addItem" src="images/tinybutton-add1.gif" alt="Insert an Item" title="Add an Item" styleClass="tinybutton"/></div></td>
+ 		<td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemLineNumber}" property="newPurchasingItemLine.itemLineNumber" readOnly="${not fullEntryMode}"/></td>
+        <td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemTypeCode}" property="newPurchasingItemLine.itemTypeCode" readOnly="${not fullEntryMode}"/></td>
+ 		<td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemQuantity}" property="newPurchasingItemLine.itemQuantity" readOnly="${not fullEntryMode}"/></td>
+ 		<td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" property="newPurchasingItemLine.itemUnitOfMeasureCode"readOnly="${not fullEntryMode}" /></td>
+		<td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemCatalogNumber}" property="newPurchasingItemLine.itemCatalogNumber" readOnly="${not fullEntryMode}"/></td>
+		<td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="newPurchasingItemLine.itemDescription" readOnly="${not fullEntryMode}"/></td>
+ 		<td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitPrice}" property="newPurchasingItemLine.itemUnitPrice" readOnly="${not fullEntryMode}"/></td>
+ 		<td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.extendedPrice}" property="newPurchasingItemLine.extendedPrice" readOnly="${not fullEntryMode}"/></td>
+        <%--<td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemRestrictedIndicator}" property="newPurchasingItemLine.itemRestrictedIndicator" readOnly="${not fullEntryMode}"/></td>--%>
+        <td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" property="newPurchasingItemLine.itemAssignedToTradeInIndicator" readOnly="${not fullEntryMode}"/></td>
+		<td class="infoline"><div align="center"><html:image property="methodToCall.addItem" src="images/tinybutton-add1.gif" alt="Insert an Item" title="Add an Item" styleClass="tinybutton" /></div></td>
 		</tr>
 		<tr><td width="100%" colspan="12"><!-- begin accounting lines -->
 		<span align="center">
@@ -75,19 +75,19 @@
 				<kul:htmlAttributeHeaderCell scope="row">
            		    <html:hidden property="document.item[${ctr}].itemIdentifier" />
                     <html:hidden property="document.item[${ctr}].versionNumber" />
-                    <div align="center"><html:image property="methodToCall.editItem" src="images/tinybutton-edit1.gif" alt="Edit an Item" title="Edit an Item" styleClass="tinybutton"/></div>
+                    <div align="center"><html:image property="methodToCall.editItem" src="images/tinybutton-edit1.gif" alt="Edit an Item" title="Edit an Item" styleClass="tinybutton" /></div>
                 </kul:htmlAttributeHeaderCell>
 			
  				<td class="infoline"><html:hidden write="true" property="document.item[${ctr}].itemLineNumber" /><html:image property="methodToCall.editItem" src="images/purap-up.gif" alt="Move Item Up" title="Move Item Up" styleClass="tinybutton"/><html:image property="methodToCall.editItem" src="images/purap-down.gif" alt="Move Item Down" title="Move Item Down" styleClass="tinybutton"/></td>
-                <td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemTypeCode}" property="document.item[${ctr}].itemTypeCode" /></td>
- 				<td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemQuantity}" property="document.item[${ctr}].itemQuantity" /></td>
-		 		<td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" property="document.item[${ctr}].itemUnitOfMeasureCode" /></td>
-				<td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemCatalogNumber}" property="document.item[${ctr}].itemCatalogNumber" /></td>
-				<td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="document.item[${ctr}].itemDescription" /></td>
- 				<td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitPrice}" property="document.item[${ctr}].itemUnitPrice" /></td>
+                <td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemTypeCode}" property="document.item[${ctr}].itemTypeCode" readOnly="${not fullEntryMode}" /></td>
+ 				<td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemQuantity}" property="document.item[${ctr}].itemQuantity" readOnly="${not fullEntryMode}" /></td>
+		 		<td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" property="document.item[${ctr}].itemUnitOfMeasureCode" readOnly="${not fullEntryMode}" /></td>
+				<td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemCatalogNumber}" property="document.item[${ctr}].itemCatalogNumber" readOnly="${not fullEntryMode}" /></td>
+				<td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="document.item[${ctr}].itemDescription" readOnly="${not fullEntryMode}" /></td>
+ 				<td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitPrice}" property="document.item[${ctr}].itemUnitPrice" readOnly="${not fullEntryMode}" /></td>
  				<td class="infoline"><html:hidden write="true" property="document.item[${ctr}].extendedPrice" />&nbsp;</td>
                 <%--<td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemRestrictedIndicator}" property="newPurchasingItemLine.itemRestrictedIndicator" /></td>--%>
-                <td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" property="newPurchasingItemLine.itemAssignedToTradeInIndicator" /></td>
+                <td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" property="newPurchasingItemLine.itemAssignedToTradeInIndicator" readOnly="${not fullEntryMode}" /></td>
 				<td class="infoline"><div align="center"><html:image property="methodToCall.deleteItem.line${ctr}" src="images/tinybutton-delete1.gif" alt="Delete Item ${ctr+1}" title="Delete Item ${ctr+1}" styleClass="tinybutton"/></div></td>
 			</tr>
 			<tr>

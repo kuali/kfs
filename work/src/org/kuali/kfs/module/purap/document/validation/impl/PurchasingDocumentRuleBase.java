@@ -15,7 +15,11 @@
  */
 package org.kuali.module.purap.rules;
 
+import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
@@ -24,11 +28,15 @@ import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.PurapConstants.ItemTypeCodes;
+import org.kuali.module.purap.bo.PurApAccountingLine;
+import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
@@ -37,6 +45,8 @@ import org.kuali.module.vendor.VendorPropertyConstants;
 
 public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumentRuleBase {
 
+    BigDecimal zero = new BigDecimal("0.00");
+    
     /**
      * Tabs included on Purchasing Documents are:
      *   Payment Info
@@ -48,12 +58,96 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     @Override
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processValidation(purapDocument);
+        valid &= processItemValidation((PurchasingDocument)purapDocument);
         valid &= processPaymentInfoValidation((PurchasingDocument)purapDocument);
         valid &= processDeliveryValidation((PurchasingDocument)purapDocument);
         valid &= processAdditionalValidation((PurchasingDocument)purapDocument);
         return valid;
     }
 
+    /**
+     * 
+     * This method performs any validation for the Item tab
+     * @param purDocument
+     * @return
+     */
+    public boolean processItemValidation(PurchasingDocument purDocument) {
+        boolean valid = true;
+        List<PurchasingApItem> itemList = purDocument.getItems();
+        for (PurchasingApItem item : itemList) {
+            SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(item);
+        }
+        valid &= validateItemUnitPrice(itemList); 
+        valid &= validateUniqueAccountingString(itemList);
+        valid &= validateTotalCost(purDocument);
+        return valid;
+    }
+    
+    /**
+     * 
+     * This method validates the unit price for all applicable item types
+     * @param purDocumente
+     * @return
+     */
+    private boolean validateItemUnitPrice(List<PurchasingApItem> itemList) {
+        boolean valid = true;
+        for (PurchasingApItem item : itemList) {
+            if (ObjectUtils.isNotNull(item.getItemUnitPrice())) {
+                if ( (zero.compareTo(item.getItemUnitPrice()) > 0) && 
+                     ( (!item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE)) && 
+                       (!item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)))) {
+                    
+                    // If the item type is not full order discount or trade in items, don't allow negative unit price.
+                    GlobalVariables.getErrorMap().putError("newPurchasingItemLine.itemUnitPrice", PurapKeyConstants.ERROR_ITEM_AMOUNT_BELOW_ZERO, "Unit Cost", "Item " + item.getItemLineNumber().toString());
+                    valid = false;
+                }
+                else if ( (zero.compareTo(item.getItemUnitPrice()) < 0) && 
+                          ( (item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE)) || 
+                            (item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)))) {
+                    
+                    // If the item type is full order discount or trade in items, its unit price must be negative.
+                    GlobalVariables.getErrorMap().putError("newPurchasingItemLine.itemUnitPrice", PurapKeyConstants.ERROR_ITEM_AMOUNT_NOT_BELOW_ZERO, "Unit Cost", "Item " + item.getItemLineNumber().toString());
+                    valid  = false;
+                }
+            }
+        }        
+        return valid;
+    }
+    
+    /**
+     * 
+     * This method validates that all the accounting strings in all of the items must be unique
+     * 
+     * @param itemList
+     * @return
+     */
+    private boolean validateUniqueAccountingString(List<PurchasingApItem> itemList) {
+        boolean valid = true;
+        Set<String> accountingStringSet = new HashSet();
+        for (PurchasingApItem item : itemList) {
+            List<PurApAccountingLine> accountingLines = item.getSourceAccountingLines();
+            for (PurApAccountingLine accountingLine : accountingLines) {
+                if (accountingStringSet.contains(accountingLine.toString())) {
+                    valid = false;
+                    GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_ACCOUNTING_NOT_UNIQUE, item.getItemLineNumber().toString() );
+                }
+                else {
+                    accountingStringSet.add(accountingLine.toString());
+                }
+            }
+        }
+        return valid;
+    }
+    
+    private boolean validateTotalCost(PurchasingDocument purDocument) {
+        boolean valid = true;
+        if (purDocument.getTotal().isLessThan(new KualiDecimal(zero))) {
+            valid = false;
+            GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_TOTAL_NEGATIVE);
+        }
+        return valid;
+    }
+    
     /**
      * This method performs any validation for the Payment Info tab.
      * 

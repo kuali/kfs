@@ -25,6 +25,7 @@
 
 <c:set var="bcHeaderAttributes" value="${DataDictionary.BudgetConstructionHeader.attributes}" />
 <c:set var="accountAttributes" value="${DataDictionary.Account.attributes}" />
+<c:set var="subFundGroupAttributes" value="${DataDictionary.SubFundGroup.attributes}" />
 
 <kul:page showDocumentInfo="false"
 	htmlFormAction="budgetBudgetConstructionSelection" renderMultipart="true"
@@ -38,12 +39,6 @@
 	<kul:messages/>
 
     <table align="center" cellpadding="0" cellspacing="0" class="datatable-100">
-    	<tr>
-            <th class="grid" colspan="6" align="left">
-                Budget Construction Document Open
-                <br><br>
-		    </th>
-		</tr>
 	    <tr>
 <%--TODO probably should assign width in css --%>
             <th class="grid" align="right" width="10%" colspan="1">
@@ -59,6 +54,13 @@
 			    &nbsp;
             </th>
 	    </tr>
+    	<tr>
+            <th class="grid" colspan="6" align="left">
+                <br>
+                Budget Construction Document Open
+                <br><br>
+		    </th>
+		</tr>
 	    <tr>
             <th class="grid" colspan="2" rowspan="2">&nbsp;</th>
 		    <th class="grid" align="center" colspan="1">
@@ -125,30 +127,26 @@
 		    <th class="grid" align="right" colspan="2">
 		        Sub-Fund Group:
 		    </th>
-            <td class="grid" valign="center" rowspan="1" colspan="3">
-	      	<kul:htmlControlAttribute
-	      		property="budgetConstructionHeader.account.subFundGroupCode"
-	      		attributeEntry="${accountAttributes.subFundGroupCode}"
-	      		readOnly="true"
-	      		readOnlyBody="true">
-	      		<kul:inquiry
-				    boClassName="org.kuali.module.chart.bo.SubFundGroup"
-				    keyValues="subFundGroupCode=${KualiForm.budgetConstructionHeader.account.subFundGroupCode}"
-				    render="true">
-			    	<html:hidden write="true" property="budgetConstructionHeader.account.subFundGroupCode" />
-				</kul:inquiry>
-	      	</kul:htmlControlAttribute>
+            <td class="grid" valign="center" rowspan="1" colspan="1">
+                <kul:htmlControlAttribute
+                    property="budgetConstructionHeader.account.subFundGroupCode"
+                    attributeEntry="${accountAttributes.subFundGroupCode}"
+                    readOnly="true"
+                    readOnlyBody="true">
+                    <kul:inquiry
+                        boClassName="org.kuali.module.chart.bo.SubFundGroup"
+                        keyValues="subFundGroupCode=${KualiForm.budgetConstructionHeader.account.subFundGroupCode}"
+                        render="true">
+                        <html:hidden write="true" property="budgetConstructionHeader.account.subFundGroupCode" />
+                    </kul:inquiry>
+                </kul:htmlControlAttribute>
             </td>
-            <bc:pbglLineDataCell dataCellCssClass="grid"
-                accountingLine="budgetConstructionHeader.account"
-                field="subFundGroupCode"
-                attributes="${accountAttributes}" inquiry="true"
-                boClassSimpleName="Account"
-                readOnly="True"
-                displayHidden="false"
-                lookupOrInquiryKeys="subFundGroupCode"
-                lookupUnkeyedFieldConversions="subFundGroupCode:KualiForm.budgetConstructionHeader.account.subFundGroupCode"
-                accountingLineValuesMap="${budgetConstructionHeader.valuesMap}" />
+            <td class="grid" valign="center" rowspan="1" colspan="1">
+                <kul:htmlControlAttribute
+                    property="budgetConstructionHeader.account.subFundGroup.subFundGroupDescription"
+                    attributeEntry="${subFundGroupAttributes.subfundGroupDescription}"
+                    readOnly="true"/>
+            </td>
             <td class="grid" valign="center" rowspan="1" colspan="2">
 			    &nbsp;
             </td>
@@ -169,6 +167,13 @@
 			    &nbsp;
             </td>
 	    </tr>
+    	<tr>
+            <th class="grid" colspan="6" align="left">
+                <br>
+                Budget Construction Organization Salary Setting/Report/Control
+                <br><br>
+		    </th>
+		</tr>
 	</table>
 
     <div id="globalbuttons" class="globalbuttons">

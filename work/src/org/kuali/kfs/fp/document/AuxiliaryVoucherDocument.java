@@ -54,7 +54,7 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
 
     /**
      * 
-     * @see org.kuali.core.document.TransactionalDocumentBase#documentPerformsSufficientFundsCheck()
+     * @see org.kuali.kfs.document.AccountingDocumentBase#documentPerformsSufficientFundsCheck()
      */
     @Override
     public boolean documentPerformsSufficientFundsCheck() {
@@ -225,7 +225,7 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
     /**
      * Overrides the base implementation to return "From".
      * 
-     * @see org.kuali.core.document.TransactionalDocument#getSourceAccountingLinesSectionTitle()
+     * @see org.kuali.kfs.document.AccountingDocument#getSourceAccountingLinesSectionTitle()
      */
     @Override
     public String getSourceAccountingLinesSectionTitle() {
@@ -233,7 +233,7 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
     }
 
     /**
-     * @see org.kuali.core.document.TransactionalDocumentBase#getAccountingLineParser()
+     * @see org.kuali.kfs.document.AccountingDocumentBase#getAccountingLineParser()
      */
     @Override
     public AccountingLineParser getAccountingLineParser() {
@@ -241,7 +241,7 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
     }
 
     /**
-     * @see org.kuali.module.financial.document.FinancialDocumentBase#toErrorCorrection()
+     * @see org.kuali.kfs.document.AccountingDocumentBase#toErrorCorrection()
      */
     @Override
     public void toErrorCorrection() throws WorkflowException {

@@ -108,7 +108,7 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
     /**
      * Override to set the accounting line in the transaction detail object.
      * 
-     * @see org.kuali.core.document.TransactionalDocument#addSourceAccountingLine(org.kuali.core.bo.SourceAccountingLine)
+     * @see org.kuali.kfs.document.AccountingDocument#addSourceAccountingLine(SourceAccountingLine)
      */
     @Override
     public void addSourceAccountingLine(SourceAccountingLine sourceLine) {
@@ -129,7 +129,7 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
     /**
      * Override to set the accounting line in the transaction detail object.
      * 
-     * @see org.kuali.core.document.TransactionalDocument#addTargetAccountingLine(org.kuali.core.bo.TargetAccountingLine)
+     * @see org.kuali.kfs.document.AccountingDocument#addTargetAccountingLine(TargetAccountingLine)
      */
     @Override
     public void addTargetAccountingLine(TargetAccountingLine targetLine) {
@@ -150,7 +150,7 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
     /**
      * Override to get source accounting lines out of transactions
      * 
-     * @see org.kuali.core.document.TransactionalDocument#getSourceAccountingLines()
+     * @see org.kuali.kfs.document.AccountingDocument#getSourceAccountingLines()
      */
     @Override
     public List getSourceAccountingLines() {
@@ -170,7 +170,7 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
     /**
      * Override to get target accounting lines out of transactions
      * 
-     * @see org.kuali.core.document.TransactionalDocument#getTargetAccountingLines()
+     * @see org.kuali.kfs.document.AccountingDocument#getTargetAccountingLines()
      */
     @Override
     public List getTargetAccountingLines() {

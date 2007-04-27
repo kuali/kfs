@@ -36,7 +36,7 @@ public class DistributionOfIncomeAndExpenseDocument extends AccountingDocumentBa
     }
 
     /**
-     * @see org.kuali.core.document.TransactionalDocument#getSourceAccountingLinesSectionTitle()
+     * @see org.kuali.kfs.document.AccountingDocument#getSourceAccountingLinesSectionTitle()
      */
     @Override
     public String getSourceAccountingLinesSectionTitle() {
@@ -44,7 +44,7 @@ public class DistributionOfIncomeAndExpenseDocument extends AccountingDocumentBa
     }
 
     /**
-     * @see org.kuali.core.document.TransactionalDocument#getTargetAccountingLinesSectionTitle()
+     * @see org.kuali.kfs.document.AccountingDocument#getTargetAccountingLinesSectionTitle()
      */
     @Override
     public String getTargetAccountingLinesSectionTitle() {

@@ -47,7 +47,7 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase {
     /**
      * Documents in the CashReceiptFamily do not perform Sufficient Funds checking
      * 
-     * @see org.kuali.core.document.TransactionalDocumentBase#documentPerformsSufficientFundsCheck()
+     * @see org.kuali.kfs.document.AccountingDocumentBase#documentPerformsSufficientFundsCheck()
      */
     @Override
     public boolean documentPerformsSufficientFundsCheck() {
@@ -97,7 +97,7 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase {
      * having the 'income' object type, less the sum of the amounts on accounting lines belonging to object codes having the
      * 'expense' object type.
      * 
-     * @see org.kuali.core.document.TransactionalDocument#getSourceTotal()
+     * @see org.kuali.kfs.document.AccountingDocument#getSourceTotal()
      */
     @Override
     public KualiDecimal getSourceTotal() {
@@ -134,7 +134,7 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase {
     /**
      * Cash Receipts only have source lines, so this should always return 0.
      * 
-     * @see org.kuali.core.document.TransactionalDocument#getTargetTotal()
+     * @see org.kuali.kfs.document.AccountingDocument#getTargetTotal()
      */
     @Override
     public KualiDecimal getTargetTotal() {
@@ -144,7 +144,7 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase {
     /**
      * Overrides the base implementation to return an empty string.
      * 
-     * @see org.kuali.core.document.TransactionalDocument#getSourceAccountingLinesSectionTitle()
+     * @see org.kuali.kfs.document.AccountingDocument#getSourceAccountingLinesSectionTitle()
      */
     @Override
     public String getSourceAccountingLinesSectionTitle() {
@@ -154,7 +154,7 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase {
     /**
      * Overrides the base implementation to return an empty string.
      * 
-     * @see org.kuali.core.document.TransactionalDocument#getTargetAccountingLinesSectionTitle()
+     * @see org.kuali.kfs.document.AccountingDocument#getTargetAccountingLinesSectionTitle()
      */
     @Override
     public String getTargetAccountingLinesSectionTitle() {
@@ -163,7 +163,7 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase {
 
 
     /**
-     * @see org.kuali.core.document.TransactionalDocumentBase#getAccountingLineParser()
+     * @see org.kuali.kfs.document.AccountingDocumentBase#getAccountingLineParser()
      */
     @Override
     public AccountingLineParser getAccountingLineParser() {

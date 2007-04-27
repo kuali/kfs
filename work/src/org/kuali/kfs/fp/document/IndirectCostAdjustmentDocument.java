@@ -40,7 +40,7 @@ public class IndirectCostAdjustmentDocument extends AccountingDocumentBase imple
 
     /**
      * 
-     * @see org.kuali.core.document.TransactionalDocument#getSourceAccountingLinesSectionTitle()
+     * @see org.kuali.kfs.document.AccountingDocument#getSourceAccountingLinesSectionTitle()
      */
     @Override
     public String getSourceAccountingLinesSectionTitle() {
@@ -49,7 +49,7 @@ public class IndirectCostAdjustmentDocument extends AccountingDocumentBase imple
 
     /**
      * 
-     * @see org.kuali.core.document.TransactionalDocument#getTargetAccountingLinesSectionTitle()
+     * @see org.kuali.kfs.document.AccountingDocument#getTargetAccountingLinesSectionTitle()
      */
     @Override
     public String getTargetAccountingLinesSectionTitle() {
@@ -68,7 +68,7 @@ public class IndirectCostAdjustmentDocument extends AccountingDocumentBase imple
      * 
      * </ol>
      * 
-     * @see org.kuali.core.document.TransactionalDocumentBase#addSourceAccountingLine(org.kuali.core.bo.SourceAccountingLine)
+     * @see org.kuali.kfs.document.AccountingDocumentBase#addSourceAccountingLine(SourceAccountingLine)
      */
     @Override
     public void addSourceAccountingLine(SourceAccountingLine line) {
@@ -98,7 +98,7 @@ public class IndirectCostAdjustmentDocument extends AccountingDocumentBase imple
     }
 
     /**
-     * @see org.kuali.core.document.TransactionalDocumentBase#getAccountingLineParser()
+     * @see org.kuali.kfs.document.AccountingDocumentBase#getAccountingLineParser()
      */
     @Override
     public AccountingLineParser getAccountingLineParser() {

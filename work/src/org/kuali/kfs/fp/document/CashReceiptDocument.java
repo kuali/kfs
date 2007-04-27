@@ -177,7 +177,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
 
     /**
      * 
-     * @see org.kuali.core.document.TransactionalDocumentBase#checkSufficientFunds()
+     * @see org.kuali.kfs.document.AccountingDocumentBase#checkSufficientFunds()
      */
     @Override
     public List<SufficientFundsItem> checkSufficientFunds() {

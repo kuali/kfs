@@ -63,7 +63,7 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
 
     /**
      * 
-     * @see org.kuali.core.document.TransactionalDocumentBase#checkSufficientFunds()
+     * @see org.kuali.kfs.document.AccountingDocumentBase#checkSufficientFunds()
      */
     @Override
     public List<SufficientFundsItem> checkSufficientFunds() {
@@ -226,7 +226,7 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
     }
 
     /**
-     * @see org.kuali.module.financial.document.FinancialDocumentBase#toErrorCorrection()
+     * @see org.kuali.kfs.document.AccountingDocumentBase#toErrorCorrection()
      */
     @Override
     public void toErrorCorrection() throws WorkflowException {

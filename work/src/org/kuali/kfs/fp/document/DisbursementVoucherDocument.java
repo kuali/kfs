@@ -105,7 +105,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
 
     
     /**
-     * @see org.kuali.core.document.TransactionalDocumentBase#getPendingLedgerEntriesForSufficientFundsChecking()
+     * @see org.kuali.kfs.document.AccountingDocumentBase#getPendingLedgerEntriesForSufficientFundsChecking()
      */
     @Override
     public List<GeneralLedgerPendingEntry> getPendingLedgerEntriesForSufficientFundsChecking() {
@@ -814,7 +814,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     }
 
     /**
-     * @see org.kuali.core.document.TransactionalDocumentBase#convertIntoCopy()
+     * @see org.kuali.kfs.document.AccountingDocumentBase#toCopy()
      */
     @Override
     public void toCopy() throws WorkflowException {
@@ -912,7 +912,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     }
 
     /**
-     * @see org.kuali.core.document.TransactionalDocumentBase#getAccountingLineParser()
+     * @see org.kuali.kfs.document.AccountingDocumentBase#getAccountingLineParser()
      */
     @Override
     public AccountingLineParser getAccountingLineParser() {

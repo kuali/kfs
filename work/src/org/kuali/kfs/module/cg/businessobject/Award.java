@@ -20,6 +20,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.ArrayList;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
@@ -125,6 +126,7 @@ public class Award extends PersistableBusinessObjectBase {
 
     
     public Award(Proposal proposal) {
+        this();
         populateFromProposal(proposal);
     }
     

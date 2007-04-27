@@ -75,7 +75,7 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private Integer alternateVendorDetailAssignedIdentifier;
     private boolean continuationAccountIndicator;
     private String purchaseOrderNotes;
-   // private Date purchaseOrderEndDate;
+    private Date purchaseOrderEndDate;
 
     private Campus processingCampus;
     private PurchaseOrderDocument purchaseOrderDocument;
@@ -956,11 +956,11 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      * Gets the purchaseOrderEndDate attribute. 
      * @return Returns the purchaseOrderEndDate.
      */
-  /*
+
     public Date getPurchaseOrderEndDate() {
         return purchaseOrderEndDate;
     }
-    */
+
     /**
      * Gets the DisplayInitiateTab attribute for JSP 
      * @return Returns the DisplayInitiateTab.

@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
+import org.kuali.core.bo.Note;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.rule.event.RouteDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
@@ -31,9 +32,11 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.NoteService;
+import org.kuali.core.service.impl.NoteServiceImpl;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -58,7 +61,6 @@ import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.service.VendorService;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.iu.uis.eden.EdenConstants;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 @Transactional
@@ -464,6 +466,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     
     public PurchaseOrderDocument getOldestPurchaseOrder(Integer id) {
         return purchaseOrderDao.getOldestPurchaseOrder(id);
+    }
+    
+    public ArrayList<Note> getPurchaseOrderNotes(Integer id) {
+        ArrayList notes = new TypedArrayList(Note.class);
+        PurchaseOrderDocument po = getOldestPurchaseOrder(id);
+        notes = noteService.getByRemoteObjectId(po.getObjectId());
+        return notes;
     }
 
     public void setCurrentAndPendingIndicatorsInPostProcessor(PurchaseOrderDocument newPO, String workflowState) {

@@ -292,7 +292,7 @@
 	    <tr>
 	   	  <kul:htmlAttributeHeaderCell
 	          labelFor="document.organizationLevelCode"
-	          literalLabel="Current Level::"
+	          literalLabel="Current Level:"
 	          horizontal="true"
 	          />
 	      <td align="center" valign="middle">

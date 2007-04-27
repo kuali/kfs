@@ -32,6 +32,7 @@
         </inquiry>
 
         <lookup>
+        	<lookupableID>indirectCostRecoveryExclusionByTypeLookupable</lookupableID>
             <title>Indirect Cost Recovery Exclusion by Type Lookup</title>
 
             <instructions>Lookup an Indirect Cost Recovery Exclusion by type</instructions>

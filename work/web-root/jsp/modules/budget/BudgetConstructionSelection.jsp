@@ -23,8 +23,8 @@
 	<c:set var="accountingLineScriptsLoaded" value="true" scope="page" />
 </c:if>
 
-<c:set var="bcHeaderAttributes"
-	value="${DataDictionary['BudgetConstructionHeader'].attributes}" />
+<c:set var="bcHeaderAttributes" value="${DataDictionary.BudgetConstructionHeader.attributes}" />
+<c:set var="accountAttributes" value="${DataDictionary.Account.attributes}" />
 
 <kul:page showDocumentInfo="false"
 	htmlFormAction="budgetBudgetConstructionSelection" renderMultipart="true"
@@ -119,6 +119,54 @@
             <div align="center">
                 <html:image property="methodToCall.performBCDocumentOpen.anchorbudgetConstructionHeaderAnchor" src="images/tinybutton-loaddoc.gif" title="Load Budget Construction Document" alt="Load Budget Construction Document" styleClass="tinybutton" />
             </div>
+            </td>
+	    </tr>
+	    <tr>
+		    <th class="grid" align="right" colspan="2">
+		        Sub-Fund Group:
+		    </th>
+            <td class="grid" valign="center" rowspan="1" colspan="3">
+	      	<kul:htmlControlAttribute
+	      		property="budgetConstructionHeader.account.subFundGroupCode"
+	      		attributeEntry="${accountAttributes.subFundGroupCode}"
+	      		readOnly="true"
+	      		readOnlyBody="true">
+	      		<kul:inquiry
+				    boClassName="org.kuali.module.chart.bo.SubFundGroup"
+				    keyValues="subFundGroupCode=${KualiForm.budgetConstructionHeader.account.subFundGroupCode}"
+				    render="true">
+			    	<html:hidden write="true" property="budgetConstructionHeader.account.subFundGroupCode" />
+				</kul:inquiry>
+	      	</kul:htmlControlAttribute>
+            </td>
+            <bc:pbglLineDataCell dataCellCssClass="grid"
+                accountingLine="budgetConstructionHeader.account"
+                field="subFundGroupCode"
+                attributes="${accountAttributes}" inquiry="true"
+                boClassSimpleName="Account"
+                readOnly="True"
+                displayHidden="false"
+                lookupOrInquiryKeys="subFundGroupCode"
+                lookupUnkeyedFieldConversions="subFundGroupCode:KualiForm.budgetConstructionHeader.account.subFundGroupCode"
+                accountingLineValuesMap="${budgetConstructionHeader.valuesMap}" />
+            <td class="grid" valign="center" rowspan="1" colspan="2">
+			    &nbsp;
+            </td>
+	    </tr>
+	    <tr>
+		    <th class="grid" align="right" colspan="2">
+		        Current Year Org:
+		    </th>
+            <td class="grid" valign="center" rowspan="1" colspan="4">
+			    &nbsp;
+            </td>
+	    </tr>
+	    <tr>
+		    <th class="grid" align="right" colspan="2">
+		        Next Year Org:
+		    </th>
+            <td class="grid" valign="center" rowspan="1" colspan="4">
+			    &nbsp;
             </td>
 	    </tr>
 	</table>

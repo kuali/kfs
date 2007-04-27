@@ -356,4 +356,12 @@
 			<ref bean="organizationRoutingModelLookupableHelperService" />
 		</property>
 	</bean>
+	
+	<bean id="indirectCostRecoveryExclusionByTypeLookupableHelperService" class="org.kuali.module.chart.lookup.IndirectCostRecoveryExclusionByTypeLookupableHelperServiceImpl" singleton="false" parent="kualiLookupableHelperService" />
+
+	<bean id="indirectCostRecoveryExclusionByTypeLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="indirectCostRecoveryExclusionByTypeLookupableHelperService" />
+		</property>
+	</bean>
 </beans>

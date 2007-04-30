@@ -361,7 +361,6 @@
 			<ref bean="laborScrubberService" />
 		</property>
 	</bean>
-
            
 	<bean id="laborPosterStep" class="org.kuali.module.labor.batch.LaborPosterStep">
 		<property name="laborPosterService">
@@ -369,7 +368,7 @@
 		</property>
 	</bean>
     
-    <bean id="laborYearEndBalanceForwardStep" class="org.kuali.module.labor.batch.LaborYearEndBalanceForwardStep" singleton="false">
+    <bean id="laborYearEndBalanceForwardStep" class="org.kuali.module.labor.batch.LaborYearEndBalanceForwardStep">
 		<property name="laborYearEndBalanceForwardService">
 			<ref bean="laborYearEndBalanceForwardService" />
 		</property>
@@ -378,6 +377,12 @@
 	<bean id="laborNightlyOutStep" class="org.kuali.module.labor.batch.LaborNightlyOutStep">
 		<property name="laborNightlyOutService">
 			<ref bean="laborNightlyOutService" />
+		</property>
+	</bean>
+	
+	<bean id="clearLaborPendingEntriesForCancelledOrDisapprovedDocumentStep" class="org.kuali.module.labor.batch.ClearLaborPendingEntriesForCancelledOrDisapprovedDocumentStep">
+		<property name="laborLedgerPendingEntryService">
+			<ref bean="laborLedgerPendingEntryService" />
 		</property>
 	</bean>
 
@@ -422,7 +427,7 @@
         </property>
     </bean> 
     
-    <bean id="payrollAccrualStep" class="org.kuali.module.labor.batch.PayrollAccrualStep" singleton="false">
+    <bean id="payrollAccrualStep" class="org.kuali.module.labor.batch.PayrollAccrualStep">
 		<property name="payrollAccrualService">
 			<ref bean="payrollAccrualService" />
 		</property>

@@ -47,7 +47,7 @@ public class LedgerPostingDocumentBase extends TransactionalDocumentBase impleme
     /**
      * Used during initialization to provide a base <code>{@link AccountingPeriod}</code>.<br/>
      * <p>
-     * This is a hack right now because its intended to be set by the <code>{@link AccountingPeriodService}</code>
+     * This is a hack right now because its intended to be set by the <code>{@link org.kuali.module.chart.service.AccountingPeriodService}</code>
      * 
      * @return AccountingPeriod
      */
@@ -59,14 +59,14 @@ public class LedgerPostingDocumentBase extends TransactionalDocumentBase impleme
     }
     
     /**
-     * @see org.kuali.core.document.LedgerPostingDocument#getPostingYear()
+     * @see org.kuali.kfs.document.LedgerPostingDocument#getPostingYear()
      */
     public Integer getPostingYear() {
         return postingYear;
     }
 
     /**
-     * @see org.kuali.core.document.LedgerPostingDocument#setPostingYear(java.lang.Integer)
+     * @see org.kuali.kfs.document.LedgerPostingDocument#setPostingYear(java.lang.Integer)
      */
     public void setPostingYear(Integer postingYear) {
         this.tmpPostingYear = postingYear;
@@ -74,14 +74,14 @@ public class LedgerPostingDocumentBase extends TransactionalDocumentBase impleme
     }
     
     /**
-     * @see org.kuali.core.document.TransactionalDocument#getPostingPeriodCode()
+     * @see org.kuali.kfs.document.LedgerPostingDocument#getPostingPeriodCode()
      */
     public String getPostingPeriodCode() {
         return postingPeriodCode;
     }
 
     /**
-     * @see org.kuali.core.document.TransactionalDocument#setPostingPeriodCode(java.lang.String)
+     * @see org.kuali.kfs.document.LedgerPostingDocument#setPostingPeriodCode(java.lang.String)
      */
     public void setPostingPeriodCode(String postingPeriodCode) {
         this.tmpPostingPeriodCode = postingPeriodCode;
@@ -89,14 +89,14 @@ public class LedgerPostingDocumentBase extends TransactionalDocumentBase impleme
     }
 
     /**
-     * @see org.kuali.core.document.TransactionalDocument#getAccountingPeriod()
+     * @see org.kuali.kfs.document.LedgerPostingDocument#getAccountingPeriod()
      */
     public AccountingPeriod getAccountingPeriod() {
         return accountingPeriod;
     }
 
     /**
-     * @see org.kuali.core.document.TransactionalDocument#setAccountingPeriod(org.kuali.module.chart.bo.AccountingPeriod)
+     * @see org.kuali.kfs.document.LedgerPostingDocument#setAccountingPeriod(AccountingPeriod)
      */
     public void setAccountingPeriod(AccountingPeriod accountingPeriod) {
         Integer postingYear = null;

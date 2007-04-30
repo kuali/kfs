@@ -25,7 +25,7 @@
     <field-descriptor name="reportingName" column="CG_AGENCY_RPT_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="fullName" column="CG_AGENCY_FULL_NM" jdbc-type="VARCHAR" />
     <field-descriptor name="indirectAmount" column="CG_AGNCY_INDR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
-    <field-descriptor name="historicalIndicator" column="CG_AGENCY_HIST_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+    <field-descriptor name="historicalIndicator" column="CG_AGENCY_HIST_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanFieldInverseConversion" />
     <field-descriptor name="inStateIndicator" column="CG_AGNCY_IN_ST_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <field-descriptor name="agencyTypeCode" column="CG_AGENCY_TYP_CD" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="reportsToAgencyNumber" column="CG_RPTTO_AGNCY_NBR" jdbc-type="VARCHAR" />

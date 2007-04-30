@@ -29,6 +29,7 @@
                 <field attributeName="reportingName" />
                 <field attributeName="fullName" />
                 <field attributeName="agencyType.name" />
+                <!-- Using historical indicator as the active row indicator -->
                 <field attributeName="historicalIndicator" />
                 <field attributeName="inStateIndicator" />
                 <field attributeName="indirectAmount" />
@@ -48,6 +49,7 @@
                 <lookupField attributeName="reportingName" required="false" />
                 <lookupField attributeName="fullName" required="false" />
                 <lookupField attributeName="agencyType.name" required="false" />
+                <!-- Using historical indicator as the active row indicator -->
                 <lookupField attributeName="historicalIndicator" required="false" />
             </lookupFields>
 
@@ -56,10 +58,11 @@
                 <field attributeName="reportingName" />
                 <field attributeName="fullName" />
                 <field attributeName="agencyType.name" />
-                <field attributeName="historicalIndicator" />
                 <field attributeName="inStateIndicator" />
                 <field attributeName="indirectAmount" />
                 <field attributeName="reportsToAgencyNumber" />
+                <!-- Using historical indicator as the active row indicator -->
+                <field attributeName="historicalIndicator" /> 
             </resultFields>
 
         </lookup>
@@ -152,6 +155,20 @@
                 </description>
             </attributeReference>
 
+            <!-- 
+            Historical Indicator is a contradiction in terms now. This value stored in the DD and in the BO no longer represents 
+            the historical, or 'inactive', state of the agency, but rather the 'active' state of the agency.  The value retrieved 
+            from the DB is being inverted by OjbCharBooleanFieldInverseConversion in the ojb-repository-cg.xml file so that 
+            historical indicator could become a representation of an active indicator.  Historical indicator is no longer an appropriate
+            name for this attribute, but cannot be changed due to mapping issues.  This path was chosen because it was determined that 
+            we could not add another column to the agency table for the active indicator, so this was the next best solution found.
+            
+            This issue really needs to be revisited down the road as this code change leads to all kinds of problems with misrepresented 
+            data and the wrong label names, which can cause a great deal of confusion and frustration to the users or future developers 
+            that have to maintain this code.  
+            
+            Please see KULCG-263 for details on why this was performed and what the goal of this code change was.
+            -->
             <attribute name="historicalIndicator" forceUppercase="false">
                 <label>Active Indicator</label>
                 <shortLabel>Active Indicator</shortLabel>
@@ -164,6 +181,13 @@
 
                 <summary>Active Indicator</summary>
                 <description>
+					This field identifies whether the Agency is active in the system or not.  
+
+					<!-- 
+					
+					**** NOTE the commented text below if the desc for the real historical indicator
+					**** and is being replaced with an active indicator desc for the time being.
+					
 					This field identifies whether the Agency is active in the system or not.  
 					Agencies are typically marked as Active.  Examples of instances when an 
 					Agency may be marked Inactive include:
@@ -178,6 +202,7 @@
 					marked Inactive, and a new Agency is added to the system with a new Agency 
 					Number.  This allows historical records to reference the original Agency 
 					while restricting new proposals and awards from referencing it.
+					-->
 				</description>
             </attribute>
 

@@ -558,4 +558,36 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    public ActionForward performPercentChange(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        BudgetConstructionForm tForm = (BudgetConstructionForm) form;
+        GlobalVariables.getErrorMap().putError(Constants.GLOBAL_MESSAGES,KeyConstants.ERROR_UNIMPLEMENTED, "Percent Change");
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    public ActionForward performMonthSpread(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        BudgetConstructionForm tForm = (BudgetConstructionForm) form;
+        GlobalVariables.getErrorMap().putError(Constants.GLOBAL_MESSAGES,KeyConstants.ERROR_UNIMPLEMENTED, "Month Spread");
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    public ActionForward performMonthDelete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        BudgetConstructionForm tForm = (BudgetConstructionForm) form;
+        GlobalVariables.getErrorMap().putError(Constants.GLOBAL_MESSAGES,KeyConstants.ERROR_UNIMPLEMENTED, "Month Delete");
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    public ActionForward performCalculateBenfits(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        BudgetConstructionForm tForm = (BudgetConstructionForm) form;
+        GlobalVariables.getErrorMap().putError(Constants.GLOBAL_MESSAGES,KeyConstants.ERROR_UNIMPLEMENTED, "Calculate Benefits");
+
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
 }

@@ -524,7 +524,7 @@
 		</property>
 	</bean>    	
 
-		<bean id="PersonFundingLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	<bean id="PersonFundingLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">
 			<ref bean="PersonFundingLookupableHelperService" />
 		</property>

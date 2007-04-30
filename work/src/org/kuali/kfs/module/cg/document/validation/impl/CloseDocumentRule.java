@@ -19,6 +19,7 @@ import org.kuali.core.rules.TransactionalDocumentRuleBase;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.module.cg.bo.Close;
+import org.kuali.module.cg.document.CloseDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.KeyConstants;
 
@@ -37,10 +38,10 @@ public class CloseDocumentRule extends TransactionalDocumentRuleBase {
         if(!isOk) {
             return isOk;
         }
-        Close close = (Close) document.getDocumentBusinessObject();
-        Date userDate = close.getUserInitiatedCloseDate();
+        CloseDocument closeDocument = (CloseDocument) document;
+        Date userDate = closeDocument.getUserInitiatedCloseDate();
         Date today = SpringServiceLocator.getDateTimeService().getCurrentSqlDateMidnight();
-        isOk = today.getTime() <= userDate.getTime();
+        isOk = null != userDate && today.getTime() <= userDate.getTime();
         if(!isOk) {
             GlobalVariables.getErrorMap().putError(
                     "userInitiatedCloseDate",

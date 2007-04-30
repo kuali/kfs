@@ -16,6 +16,11 @@
 package org.kuali.module.cg.web.struts.action;
 
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
+import org.kuali.module.cg.bo.Close;
+import org.kuali.module.cg.document.CloseDocument;
+import org.kuali.module.cg.web.struts.form.CloseForm;
+import org.kuali.module.cg.lookup.valuefinder.NextCloseNumberFinder;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionForm;
@@ -30,8 +35,19 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class CloseAction extends KualiTransactionalDocumentActionBase {
 
-    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return super.save(mapping, form, request, response);
+    public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CloseForm closeForm = (CloseForm) form;
+        CloseDocument document = closeForm.getCloseDocument();
+
+        Close close = new Close();
+        close.setCloseNumber(NextCloseNumberFinder.getLongValue());
+        close.setCloseOnOrBeforeDate(document.getCloseOnOrBeforeDate());
+        close.setUserInitiatedCloseDate(document.getUserInitiatedCloseDate());
+        SpringServiceLocator.getCloseService().save(close);
+
+        return super.approve(mapping, form, request, response);
     }
+
     
+
 }

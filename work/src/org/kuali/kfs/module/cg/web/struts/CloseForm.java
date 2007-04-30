@@ -16,11 +16,12 @@
 package org.kuali.module.cg.web.struts.form;
 
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.core.web.format.DateFormatter;
 import org.kuali.module.cg.document.CloseDocument;
 import org.kuali.module.cg.bo.Close;
 import org.kuali.kfs.util.SpringServiceLocator;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * User: Laran Evans <lc278@cornell.edu>
@@ -28,36 +29,40 @@ import java.sql.Date;
  * Time: 12:01:34 PM
  */
 public class CloseForm extends KualiTransactionalDocumentFormBase {
-    private Date closeDate;
-    private Date closeOnOrBeforeDate;
 
     public CloseForm() {
         super();
         setDocument(new CloseDocument());
+        setFormatterType("document.userInitiatedCloseDate", DateFormatter.class);
+        setFormatterType("document.closeOnOrBeforeDate", DateFormatter.class);
     }
 
     public Close getMostRecentClose() {
         return SpringServiceLocator.getCloseService().getMostRecentClose();
     }
 
-    public Close getLastClose() {
-        return SpringServiceLocator.getCloseService().getMostRecentClose();
+    public CloseDocument getCloseDocument() {
+        return (CloseDocument) getDocument();
     }
 
-    public Date getCloseDate() {
-        return closeDate;
+    public void setCloseDocument(CloseDocument document) {
+        setDocument(document);
     }
 
-    public void setCloseDate(Date closeDate) {
-        this.closeDate = closeDate;
+    public Date getUserInitiatedCloseDate() {
+        return getCloseDocument().getUserInitiatedCloseDate();
+    }
+
+    public void setUserInitiatedCloseDate(Date date) {
+        getCloseDocument().setUserInitiatedCloseDate(new java.sql.Date(date.getTime()));
     }
 
     public Date getCloseOnOrBeforeDate() {
-        return closeOnOrBeforeDate;
+        return getCloseDocument().getCloseOnOrBeforeDate();
     }
 
-    public void setCloseOnOrBeforeDate(Date closeOnOrBeforeDate) {
-        this.closeOnOrBeforeDate = closeOnOrBeforeDate;
+    public void setCloseOnOrBeforeDate(Date date) {
+        getCloseDocument().setCloseOnOrBeforeDate(new java.sql.Date(date.getTime()));
     }
 
 }

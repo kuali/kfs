@@ -17,7 +17,7 @@ package org.kuali.module.cg.document;
 
 import org.kuali.core.document.TransactionalDocumentBase;
 
-import java.util.Date;
+import java.sql.Date;
 
 /**
  * User: Laran Evans <lc278@cornell.edu>
@@ -25,5 +25,22 @@ import java.util.Date;
  * Time: 5:33:17 PM
  */
 public class CloseDocument extends TransactionalDocumentBase {
-    private Date closeDate;
+    private Date userInitiatedCloseDate;
+    private Date closeOnOrBeforeDate;
+
+    public Date getUserInitiatedCloseDate() {
+        return userInitiatedCloseDate;
+    }
+
+    public void setUserInitiatedCloseDate(Date userInitiatedCloseDate) {
+        this.userInitiatedCloseDate = userInitiatedCloseDate;
+    }
+
+    public Date getCloseOnOrBeforeDate() {
+        return closeOnOrBeforeDate;
+    }
+
+    public void setCloseOnOrBeforeDate(Date closeOnOrBeforeDate) {
+        this.closeOnOrBeforeDate = closeOnOrBeforeDate;
+    }
 }

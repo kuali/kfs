@@ -18,8 +18,9 @@
 	htmlFormAction="cgClose"
     renderMultipart="true"
 	docTitle="Close Document"
-    transactionalDocument="true">
+    transactionalDocument="false">
 
+    <kul:hiddenDocumentFields isTransactionalDocument="false" />
     <kul:documentOverview editingMode="${KualiForm.editingMode}" />
     <kul:tab tabTitle="Close" defaultOpen="true"
              tabErrorKey="${CGConstants.CLOSE_DOCUMENT_TAB_ERRORS}">
@@ -33,13 +34,13 @@
                     <tr>
                         <th style="text-align: right;">Date Closed: </th>
                         <td style="width:50%">
-                            <%--<kul:dateInput attributeEntry="closeAttributes.userInitiatedCloseDate" property="KualiForm.closeDate" />--%>
+                            <kul:dateInput attributeEntry="${closeAttributes.userInitiatedCloseDate}" property="document.userInitiatedCloseDate" />
                         </td>
                     </tr>
                     <tr>
                         <th style="text-align: right;">Close on or before:</th>
                         <td style="width:50%">
-                            <%--<kul:dateInput attributeEntry="closeAttributes.closeOnOrBeforeDate" property="KualiForm.closeOnOrBeforeDate" />--%>
+                            <kul:dateInput attributeEntry="${closeAttributes.closeOnOrBeforeDate}" property="document.closeOnOrBeforeDate" />
                         </td>
                     </tr>
                 </table>

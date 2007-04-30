@@ -53,7 +53,7 @@
 		</property>
 		<property name="jobNames">
 			<list>
-				<value>proposalCloseJob</value>
+				<value>closeJob</value>
 			</list>
 		</property>
 	</bean>

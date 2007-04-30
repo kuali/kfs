@@ -490,6 +490,9 @@
             <attributeReference name="accountCreateDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
                 <label>Account Create Date</label>
                 <shortLabel>CreateDate</shortLabel>
+                <control>
+                	<hidden />
+                </control>
                 <summary>
                     <![CDATA[&nbsp;]]>
                 </summary>

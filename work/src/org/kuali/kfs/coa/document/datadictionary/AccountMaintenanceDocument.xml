@@ -82,6 +82,7 @@
                     <maintainableField name="accountName" required="true" />
                     <maintainableField name="organizationCode" required="true" />
                     <maintainableField name="accountPhysicalCampusCode" required="true" />
+                    <maintainableField name="accountCreateDate" />
                     <maintainableField name="accountEffectiveDate" required="true">
                         <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
                     </maintainableField>

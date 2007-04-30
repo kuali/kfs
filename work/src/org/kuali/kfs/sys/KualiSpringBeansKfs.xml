@@ -118,6 +118,17 @@
 		</property>
 	</bean>
 
+    <bean id="batchJobStatusLookupableHelperService" class="org.kuali.kfs.lookup.BatchJobStatusLookupableHelperServiceImpl" singleton="false" parent="kualiLookupableHelperService">
+    	<property name="schedulerService" ref="schedulerService" />
+    	<property name="configService" ref="kualiConfigurationService" />
+    </bean>
+	
+	<bean id="batchJobStatusLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	    <property name="lookupableHelperService">
+	        <ref bean="batchJobStatusLookupableHelperService" />
+	    </property>
+	</bean>
+	
 	<bean class="org.kuali.core.util.spring.NamedOrderedListBean">
 		<property name="name" value="databaseRepositoryFilePaths" />
 		<property name="listItem" value="org/kuali/kfs/OJB-repository-kfs.xml" />
@@ -166,6 +177,7 @@
 		<property name="moduleService" ref="kualiModuleService" />
 		<property name="configurationService" ref="kualiConfigurationService" />
 		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="mailService" ref="mailService" />		
 	</bean>
 
 	<bean id="jobListener" class="org.kuali.core.batch.JobListener">

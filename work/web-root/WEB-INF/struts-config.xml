@@ -171,28 +171,12 @@
             <forward name="dvPerDiemLinks" path="/jsp/modules/financial/DisbursementVoucherTravelPerDiemLinks.jsp" />
         </action>
 
-        <action path="/loadObjectInfo" parameter="methodToCall" scope="request" type="org.kuali.kfs.web.struts.action.LoadObjectInfoAction">
-            <forward name="chart" path="/jsp/xmlhttp/chart.jsp" />
-            <forward name="account" path="/jsp/xmlhttp/account.jsp" />
-            <forward name="subAccount" path="/jsp/xmlhttp/subAccount.jsp" />
-            <forward name="objectCode" path="/jsp/xmlhttp/object.jsp" />
-            <forward name="subObjectCode" path="/jsp/xmlhttp/subObject.jsp" />
-            <forward name="project" path="/jsp/xmlhttp/project.jsp" />
-            <forward name="organization" path="/jsp/xmlhttp/organization.jsp" />
-            <forward name="objectType" path="/jsp/xmlhttp/objectType.jsp" />
-            <forward name="user" path="/jsp/xmlhttp/user.jsp" />
-            <forward name="userObject" path="/jsp/xmlhttp/userObject.jsp" />
-            <forward name="originationCode" path="/jsp/xmlhttp/originationCode.jsp" />
-            <forward name="documentType" path="/jsp/xmlhttp/documentType.jsp" />
-            <forward name="bank" path="/jsp/xmlhttp/bank.jsp" />
-            <forward name="bankAccount" path="/jsp/xmlhttp/bankAccount.jsp" />
-            <forward name="objectTypeCode" path="/jsp/xmlhttp/objectTypeCode.jsp" />
-            <forward name="accountICR" path="/jsp/xmlhttp/accountICR.jsp" />
-	    	<forward name="orgLocation" path="/jsp/xmlhttp/orgLocation.jsp" />
-            <forward name="accountRestrictedStatusCode" path="/jsp/xmlhttp/accountRestrictedStatusCode.jsp" />
-            <forward name="bcPositionFTE" path="/jsp/xmlhttp/bcPositionFTE.jsp" />
-            
+		<!-- KFS Action Mappings -->
+		<action path="/batchModify" name="KualiForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.kfs.web.struts.action.KualiBatchJobModifyAction">
+            <set-property property="cancellable" value="true" />
+            <forward name="basic" path="/jsp/kfs/KualiBatchJobModify.jsp" />
         </action>
+		
 
         <!--  Module Action Mappings -->
         <action path="/financial*" name="{1}Form" input="/jsp/modules/financial/{1}.jsp" type="org.kuali.module.financial.web.struts.action.{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">

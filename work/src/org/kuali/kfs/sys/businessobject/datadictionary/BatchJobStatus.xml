@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.core.batch.BatchJobStatus">
+
+        <lookup>
+        	<lookupableID>batchJobStatusLookupable</lookupableID>
+            <title>Batch Job Lookup</title>
+
+            <instructions>Batch Job Lookup</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="name" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="name" required="false" />
+                <lookupField attributeName="group" required="false" />
+                <lookupField attributeName="status" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="name" />
+                <field attributeName="group" />
+                <field attributeName="status" />
+                <field attributeName="nextRunDate" />
+                <field attributeName="stepList" />
+                <field attributeName="dependencyList" />
+            </resultFields>
+        </lookup>
+        
+        <titleAttribute>name</titleAttribute>
+
+        <attributes>
+
+            <attribute name="name" forceUppercase="false">
+                <label>Job Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>40</maxLength>
+
+                <control>
+                    <text size="20" />
+                </control>
+
+                <summary>Job Name</summary>
+                <description>Job Name description...</description>
+			</attribute>
+
+            <attribute name="group" forceUppercase="false">
+                <label>Job Group</label>
+                <shortLabel>Group</shortLabel>
+
+                <maxLength>40</maxLength>
+
+                <control>
+                    <select valuesFinderClass="org.kuali.kfs.lookup.keyvalues.SchedulerGroupValuesFinder" />
+                </control>
+
+                <summary>Job Group</summary>
+                <description>Job Group description...</description>
+			</attribute>
+
+            <attribute name="dependencyList" forceUppercase="false">
+                <label>Dependencies</label>
+                <shortLabel>Dependencies</shortLabel>
+
+                <maxLength>40</maxLength>
+
+                <control>
+                    <text size="40" />
+                </control>
+
+                <summary>Dependencies</summary>
+                <description>Dependencies description...</description>
+			</attribute>
+
+            <attribute name="stepList" forceUppercase="false">
+                <label>Steps</label>
+                <shortLabel>Steps</shortLabel>
+
+                <maxLength>40</maxLength>
+
+                <control>
+                    <text size="40" />
+                </control>
+
+                <summary>Steps</summary>
+                <description>Steps description...</description>
+			</attribute>
+
+            <attribute name="nextRunDate" forceUppercase="false">
+                <label>Next Run Time</label>
+                <shortLabel>Run Time</shortLabel>
+
+                <maxLength>40</maxLength>
+
+                <control>
+                    <text size="40" />
+                </control>
+
+                <summary>Next Run Time</summary>
+                <description>Next Run Time description...</description>
+                <formatterClass>org.kuali.core.web.format.TimestampAMPMFormatter</formatterClass>
+			</attribute>
+
+            <attribute name="status" forceUppercase="false">
+                <label>Job Status</label>
+                <shortLabel>Status</shortLabel>
+
+                <maxLength>40</maxLength>
+
+                <control>
+                    <select valuesFinderClass="org.kuali.kfs.lookup.keyvalues.ScheduledJobStatusValuesFinder" />
+                </control>
+
+                <summary>Job Status</summary>
+                <description>Job Status description...</description>
+			</attribute>
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

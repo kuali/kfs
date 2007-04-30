@@ -55,7 +55,7 @@
 
         <defaultExistenceChecks>
             <reference attributeName="proposalStatus" activeIndicatorAttributeName="rowActiveIndicator" attributeToHighlightOnFail="proposalStatusCode" />
-            <reference attributeName="agency" activeIndicatorAttributeName="historicalIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="agencyNumber" />
+            <reference attributeName="agency" activeIndicatorAttributeName="historicalIndicator" attributeToHighlightOnFail="agencyNumber" />
             <reference attributeName="proposalAwardType" activeIndicatorAttributeName="rowActiveIndicator" attributeToHighlightOnFail="proposalAwardTypeCode" />
             <reference attributeName="proposalPurpose" activeIndicatorAttributeName="rowActiveIndicator" attributeToHighlightOnFail="proposalPurposeCode" />
             <reference attributeName="federalPassThroughAgency" activeIndicatorAttributeName="historicalIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="federalPassThroughAgencyNumber" />

@@ -21,12 +21,7 @@ import java.sql.Date;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.DocumentType;
 import org.kuali.kfs.bo.OriginationCode;
-import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.SubAccount;
-import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.gl.bo.Transaction;
 
 public interface LaborTransaction extends Transaction {
@@ -56,19 +51,11 @@ public interface LaborTransaction extends Transaction {
     public String getHrmsCompany();
     public String getSetid();
     //public Date transactionDateTimeStamp;
-
-    public ObjectCode getLaborLedgerOriginalFinancialObject();
-    public Chart getLaborLedgerOriginalChartOfAccounts();
-    public Account getLaborLedgerOriginalAccount();
-    
+   
     public DocumentHeader getFinancialDocument();
     public DocumentType getReferenceFinancialDocumentType();
     public OriginationCode getReferenceFinancialSystemOrigination();
     public AccountingPeriod getPayrollEndDateFiscalPeriod();
-    public SubAccount getLaborLedgerOriginalSubAccount();
-    public SubObjCd getLaborLedgerOriginalFinancialSubObject();
-    
-    
     
     
 }

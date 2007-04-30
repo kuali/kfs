@@ -857,16 +857,10 @@ public class LaborScrubberProcess {
         scrubbedEntry.setHrmsCompany(unscrubbedEntry.getHrmsCompany());
         scrubbedEntry.setSetid(unscrubbedEntry.getSetid());
         scrubbedEntry.setTransactionDateTimeStamp(unscrubbedEntry.getTransactionDateTimeStamp());
-        scrubbedEntry.setLaborLedgerOriginalFinancialObject(unscrubbedEntry.getLaborLedgerOriginalFinancialObject());
-        scrubbedEntry.setLaborLedgerOriginalChartOfAccounts(unscrubbedEntry.getLaborLedgerOriginalChartOfAccounts());
-        scrubbedEntry.setLaborLedgerOriginalAccount(unscrubbedEntry.getLaborLedgerOriginalAccount());
         scrubbedEntry.setFinancialDocument(unscrubbedEntry.getFinancialDocument());
         scrubbedEntry.setReferenceFinancialDocumentType(unscrubbedEntry.getReferenceFinancialDocumentType());
         scrubbedEntry.setReferenceFinancialSystemOrigination(unscrubbedEntry.getReferenceFinancialSystemOrigination());
         scrubbedEntry.setPayrollEndDateFiscalPeriod(unscrubbedEntry.getPayrollEndDateFiscalPeriod());
-        scrubbedEntry.setLaborLedgerOriginalSubAccount(unscrubbedEntry.getLaborLedgerOriginalSubAccount());
-        scrubbedEntry.setLaborLedgerOriginalFinancialSubObject(unscrubbedEntry.getLaborLedgerOriginalFinancialSubObject());
-        
         
     }
 }

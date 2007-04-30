@@ -27,14 +27,8 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.OriginationCode;
-import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.SubAccount;
-import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.gl.bo.OriginEntry;
-import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.exception.LoadException;
 
 /**
@@ -71,18 +65,11 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
     private String setid;
     private Date transactionDateTimeStamp;
 
-    private ObjectCode laborLedgerOriginalFinancialObject;
-    private Chart laborLedgerOriginalChartOfAccounts;
-    private Account laborLedgerOriginalAccount;
-    
     private DocumentHeader financialDocument;
     private DocumentType referenceFinancialDocumentType;
     private OriginationCode referenceFinancialSystemOrigination;
     private AccountingPeriod payrollEndDateFiscalPeriod;
-    private SubAccount laborLedgerOriginalSubAccount;
-    private SubObjCd laborLedgerOriginalFinancialSubObject;
-    
-    
+   
     
     /**
      * Default constructor.
@@ -127,21 +114,11 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
         setHrmsCompany(getHrmsCompany());
         setSetid(t.getSetid());
         //public Date transactionDateTimeStamp;
-
-        setLaborLedgerOriginalFinancialObject(t.getLaborLedgerOriginalFinancialObject());
-        setLaborLedgerOriginalChartOfAccounts(t.getLaborLedgerOriginalChartOfAccounts());
-        
-        setLaborLedgerOriginalAccount(t.getLaborLedgerOriginalAccount());
-        
+       
         setFinancialDocument(t.getFinancialDocument());
         setReferenceFinancialDocumentType(t.getReferenceFinancialDocumentType());
         setReferenceFinancialSystemOrigination(t.getReferenceFinancialSystemOrigination());
         setPayrollEndDateFiscalPeriod(t.getPayrollEndDateFiscalPeriod());
-        setLaborLedgerOriginalSubAccount(t.getLaborLedgerOriginalSubAccount());
-        setLaborLedgerOriginalFinancialSubObject(t.getLaborLedgerOriginalFinancialSubObject());
-        
-        
-        
         
     }
 
@@ -665,67 +642,6 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
         this.transactionDateTimeStamp = transactionDateTimeStamp;
     }
 
-
-    /**
-     * Gets the laborLedgerOriginalFinancialObject attribute.
-     * 
-     * @return Returns the laborLedgerOriginalFinancialObject
-     * 
-     */
-    public ObjectCode getLaborLedgerOriginalFinancialObject() { 
-        return laborLedgerOriginalFinancialObject;
-    }
-
-    /**
-     * Sets the laborLedgerOriginalFinancialObject attribute.
-     * 
-     * @param laborLedgerOriginalFinancialObject The laborLedgerOriginalFinancialObject to set.
-     */
-    @Deprecated
-    public void setLaborLedgerOriginalFinancialObject(ObjectCode laborLedgerOriginalFinancialObject) {
-        this.laborLedgerOriginalFinancialObject = laborLedgerOriginalFinancialObject;
-    }
-
-        /**
-     * Gets the laborLedgerOriginalChartOfAccounts attribute.
-     * 
-     * @return Returns the laborLedgerOriginalChartOfAccounts
-     * 
-     */
-    public Chart getLaborLedgerOriginalChartOfAccounts() { 
-        return laborLedgerOriginalChartOfAccounts;
-    }
-
-    /**
-     * Sets the laborLedgerOriginalChartOfAccounts attribute.
-     * 
-     * @param laborLedgerOriginalChartOfAccounts The laborLedgerOriginalChartOfAccounts to set.
-     */
-    @Deprecated
-    public void setLaborLedgerOriginalChartOfAccounts(Chart laborLedgerOriginalChartOfAccounts) {
-        this.laborLedgerOriginalChartOfAccounts = laborLedgerOriginalChartOfAccounts;
-    }
-
-    /**
-     * Gets the laborLedgerOriginalAccount attribute.
-     * 
-     * @return Returns the laborLedgerOriginalAccount
-     * 
-     */
-    public Account getLaborLedgerOriginalAccount() { 
-        return laborLedgerOriginalAccount;
-    }
-
-    /**
-     * Sets the laborLedgerOriginalAccount attribute.
-     * 
-     * @param laborLedgerOriginalAccount The laborLedgerOriginalAccount to set.
-     */
-    @Deprecated
-    public void setLaborLedgerOriginalAccount(Account laborLedgerOriginalAccount) {
-        this.laborLedgerOriginalAccount = laborLedgerOriginalAccount;
-    }
-
     /**
      * Gets the financialDocument attribute. 
      * @return Returns the financialDocument.
@@ -741,40 +657,6 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
     @Deprecated
     public void setFinancialDocument(DocumentHeader financialDocument) {
         this.financialDocument = financialDocument;
-    }
-
-    /**
-     * Gets the laborLedgerOriginalFinancialSubObject attribute. 
-     * @return Returns the laborLedgerOriginalFinancialSubObject.
-     */
-    public SubObjCd getLaborLedgerOriginalFinancialSubObject() {
-        return laborLedgerOriginalFinancialSubObject;
-    }
-
-    /**
-     * Sets the laborLedgerOriginalFinancialSubObject attribute value.
-     * @param laborLedgerOriginalFinancialSubObject The laborLedgerOriginalFinancialSubObject to set.
-     */
-    @Deprecated
-    public void setLaborLedgerOriginalFinancialSubObject(SubObjCd laborLedgerOriginalFinancialSubObject) {
-        this.laborLedgerOriginalFinancialSubObject = laborLedgerOriginalFinancialSubObject;
-    }
-
-    /**
-     * Gets the laborLedgerOriginalSubAccount attribute. 
-     * @return Returns the laborLedgerOriginalSubAccount.
-     */
-    public SubAccount getLaborLedgerOriginalSubAccount() {
-        return laborLedgerOriginalSubAccount;
-    }
-
-    /**
-     * Sets the laborLedgerOriginalSubAccount attribute value.
-     * @param laborLedgerOriginalSubAccount The laborLedgerOriginalSubAccount to set.
-     */
-    @Deprecated
-    public void setLaborLedgerOriginalSubAccount(SubAccount laborLedgerOriginalSubAccount) {
-        this.laborLedgerOriginalSubAccount = laborLedgerOriginalSubAccount;
     }
 
     /**
@@ -947,17 +829,6 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
         sb.append(getField(2, laborLedgerOriginalChartOfAccountsCode));
         sb.append(getField(7, laborLedgerOriginalAccountNumber));
         sb.append(getField(5, laborLedgerOriginalSubAccountNumber));
-        
-        if (laborLedgerOriginalFinancialObject == null){
-            sb.append("    ");
-        } else {
-            sb.append(getField(4, laborLedgerOriginalFinancialObject.toString()));
-        }
-        if (laborLedgerOriginalFinancialSubObject == null){
-            sb.append("   ");
-        } else {
-            sb.append(getField(3, laborLedgerOriginalFinancialSubObject.toString()));
-        }
         
         sb.append(getField(3, hrmsCompany));
         sb.append(getField(5, setid));

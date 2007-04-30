@@ -46,6 +46,7 @@ public class SchedulerServiceImplTest extends KualiTestBase {
     /**
      * Test the running of a job.  There is not much to test on the results, except that this does not cause an error.
      */
+    /*
     public void testRunJob() throws Exception {
         SchedulerService s = SpringServiceLocator.getSchedulerService();
         BatchJobStatus job = s.getJob(SchedulerService.UNSCHEDULED_GROUP, "glScrubberJob" );
@@ -70,12 +71,13 @@ public class SchedulerServiceImplTest extends KualiTestBase {
         System.out.println( s.getRunningJobs() );
         System.out.println( s.getJob(SchedulerService.UNSCHEDULED_GROUP, "glScrubberJob" ) );
     }
-    
+    */
     /**
      * Test that the unschedule job function works and removes the job from the standard scheduled group.
      * 
      * Assumes: glScrubberJob exists as a job in the scheduled group.
      */
+    /*
     public void testUnscheduleJob() throws Exception {
         SchedulerService s = SpringServiceLocator.getSchedulerService();
         BatchJobStatus job = s.getJob(SchedulerService.SCHEDULED_GROUP, "glScrubberJob" );
@@ -91,13 +93,14 @@ public class SchedulerServiceImplTest extends KualiTestBase {
         assertNotNull( "job must not be null", job );
         assertFalse( "must return isScheduled == false", job.isScheduled() );
     }
-
+    */
     /**
      * Test that the schedule job function works and puts the job into the standard scheduled group.  Also tests 
      * to make sure that BatchJobStatus detects the scheduled status even if it is in the unscheduled group.
      * 
      * Assumes: glClearOldOriginEntriesJob exists as a job in the unscheduled group.
      */
+    /*
     public void testScheduleJob() throws Exception {
         SchedulerService s = SpringServiceLocator.getSchedulerService();
         BatchJobStatus job = s.getJob(SchedulerService.UNSCHEDULED_GROUP, "glClearOldOriginEntriesJob" );
@@ -116,7 +119,7 @@ public class SchedulerServiceImplTest extends KualiTestBase {
         assertTrue( "must return isScheduled == true", job.isScheduled() );
         
     }
-
+    */
     /* This test has problems with timing.  It needs a job that it can rely on running for a specified period of time
      * before being included  in the automated tests.
      */

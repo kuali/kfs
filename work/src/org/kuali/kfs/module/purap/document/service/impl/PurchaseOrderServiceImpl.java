@@ -213,35 +213,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return poDocument;
     }
     
-    /**
-     * Creates a PurchaseOrderPrintDocument from given PurchaseOrderDocument
-     * 
-     * @param reqDocument - RequisitionDocument that the PO is being created from
-     * @return PurchaseOrderDocument with document type PurchaseOrderPrintDocument
-     */
-    public PurchaseOrderDocument createPurchaseOrderPrintDocument(PurchaseOrderDocument poDocument) {
-
-        // get new document from doc service
-        try {
-            poDocument.toCopy(PurchaseOrderDocTypes.PURCHASE_ORDER_PRINT_DOCUMENT);
-            poDocument.setPendingActionIndicator(false);
-            poDocument.setPurchaseOrderCurrentIndicator(false);
-            documentService.updateDocument(poDocument);
-            documentService.prepareWorkflowDocument(poDocument);
-            workflowDocumentService.save(poDocument.getDocumentHeader().getWorkflowDocument(), "", null);
-
-        }
-        catch (WorkflowException e) {
-            LOG.error("Error creating PO Print document: " + e.getMessage());
-            throw new RuntimeException("Error creating PO Print document: " + e.getMessage());
-        }
-        catch (Exception e) {
-            LOG.error("Error persisting document # " + poDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage());
-            throw new RuntimeException("Error persisting document # " + poDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage());
-        }
-        return poDocument;
-    }
-    
     public boolean firstPurchaseOrderTransmitViaPrint (PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients,
         ByteArrayOutputStream baosPDF,  String environment) {
         
@@ -437,16 +408,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             po.setPendingActionIndicator(true);
             purapService.updateStatusAndStatusHistory(po, PurchaseOrderStatuses.PENDING_PRINT);
             this.save(po);
-            // TODO create PO print doc
-            GlobalVariables.setErrorMap(new ErrorMap());
-            createPurchaseOrderPrintDocument(po);
-            try {
-                po = (PurchaseOrderDocument)documentService.routeDocument(po, null, null);
-            }
-            catch (WorkflowException e) {
-                LOG.error("Error routing PO document: " + e.getMessage());
-                throw new RuntimeException("Error routing PO document: " + e.getMessage());
-            }
         }
         else {
             LOG.info("completePurchaseOrder() Unhandled Transmission Status: " + po.getPurchaseOrderTransmissionMethodCode() + " -- Defaulting Status to OPEN");

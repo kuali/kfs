@@ -43,7 +43,7 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="awardStatusCode" required="false" />
+                <lookupField attributeName="awardStatusCodeDropDown" required="false" />
                 <lookupField attributeName="awardStatusDescription" required="false" />
                 <lookupField attributeName="rowActiveIndicator" required="false" />
             </lookupFields>
@@ -76,6 +76,13 @@
 					of the Award.  Examples include A=Awarded, R=Rejected, and U=Underwritten.  
 				</description>
 			</attribute>
+
+			<attributeReference name="awardStatusCodeDropDown" sourceClassName="org.kuali.module.cg.bo.AwardStatus" sourceAttributeName="awardStatusCode" >
+                <control>
+                    <select valuesFinderClass="org.kuali.module.cg.lookup.keyvalues.AwardStatusValuesFinder" />
+                </control>
+			</attributeReference>
+
 
             <attribute name="awardStatusDescription" forceUppercase="true">
                 <label>Award Status Description</label>

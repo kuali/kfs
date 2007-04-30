@@ -61,6 +61,10 @@
             documentAttributes="${DataDictionary.RelatedDocuments.attributes}"
             />
     
+    <purap:paymentHistory
+            documentAttributes="${DataDictionary.RelatedDocuments.attributes}"
+            />
+	            
 	<purap:statushistory 
 		documentAttributes="${DataDictionary.RequisitionStatusHistory.attributes}" />
 

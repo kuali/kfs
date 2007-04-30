@@ -401,7 +401,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     public List<RequisitionView> getRelatedRequisitionViews() {
-        if (relatedRequisitionViews == null) {
+        if (!(this instanceof RequisitionDocument) && relatedRequisitionViews == null) {
             relatedRequisitionViews = new TypedArrayList(RequisitionView.class);
             List<RequisitionView> tmpViews = SpringServiceLocator.getPurapService().getRelatedViews(RequisitionView.class, accountsPayablePurchasingDocumentLinkIdentifier);
             for (RequisitionView view : tmpViews) {
@@ -412,7 +412,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     public List<CreditMemoView> getRelatedCreditMemoViews() {
-        if (relatedCreditMemoViews == null) {
+        if (!(this instanceof CreditMemoDocument) && relatedCreditMemoViews == null) {
             relatedCreditMemoViews = new TypedArrayList(CreditMemoView.class);
             List<CreditMemoView> tmpViews = SpringServiceLocator.getPurapService().getRelatedViews(CreditMemoView.class, accountsPayablePurchasingDocumentLinkIdentifier);
             for (CreditMemoView view : tmpViews) {
@@ -423,7 +423,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     public List<PaymentRequestView> getRelatedPaymentRequestViews() {
-        if (relatedPaymentRequestViews == null) {
+        if (!(this instanceof PaymentRequestDocument) && relatedPaymentRequestViews == null) {
             relatedPaymentRequestViews = new TypedArrayList(PaymentRequestView.class);
             List<PaymentRequestView> tmpViews = SpringServiceLocator.getPurapService().getRelatedViews(PaymentRequestView.class, accountsPayablePurchasingDocumentLinkIdentifier);
             for (PaymentRequestView view : tmpViews) {
@@ -434,7 +434,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     public List<PurchaseOrderView> getRelatedPurchaseOrderViews() {
-        if (relatedPurchaseOrderViews == null) {
+        if (!(this instanceof PurchaseOrderDocument) && relatedPurchaseOrderViews == null) {
             relatedPurchaseOrderViews = new TypedArrayList(PurchaseOrderView.class);
             List<PurchaseOrderView> tmpViews = SpringServiceLocator.getPurapService().getRelatedViews(PurchaseOrderView.class, accountsPayablePurchasingDocumentLinkIdentifier);
             for (PurchaseOrderView view : tmpViews) {

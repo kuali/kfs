@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.Constants;
 import org.kuali.core.bo.Note;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.util.SpringServiceLocator;
 
 
@@ -13,6 +14,8 @@ import org.kuali.kfs.util.SpringServiceLocator;
  */
 public class PurchaseOrderView extends AbstractRelatedView {
 	private Boolean purchaseOrderCurrentIndicator;
+
+    private List<Note> notes;
 
     /**
      * Gets the purchaseOrderCurrentIndicator attribute. 
@@ -49,7 +52,18 @@ public class PurchaseOrderView extends AbstractRelatedView {
 
     @Override
     public List<Note> getNotes() {
-        return super.getNotes();
+        if (this.isPurchaseOrderCurrentIndicator()) {
+            if (notes == null) {
+                notes = new TypedArrayList(Note.class);
+                List<Note> tmpNotes = SpringServiceLocator.getPurchaseOrderService().getPurchaseOrderNotes(this.getPurapDocumentIdentifier());
+                for (Note note : tmpNotes) {
+                    notes.add(note);
+                }
+            }
+        } else {
+            notes = null;
+        }
+        return notes;
     }
     
     @Override

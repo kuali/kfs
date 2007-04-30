@@ -34,17 +34,6 @@
 <table cellpadding="0" cellspacing="0" class="datatable" summary="Detail Section">
     <tr>
         <th align=right valign=middle class="bord-l-b">
-            <div align="right">Payment History:</div>
-        </th>
-        <td align=left valign=middle class="datacell">
-            <!-- html:image property="methodToCall.viewPaymentHistory" src="images/tinybutton-view.gif" title="View Related Documents" alt="View Related Documents" styleClass="tinybutton"/ -->
-            <a href="purapRequisition.do?methodToCall=viewPaymentHistory&docTypeName=KualiRequisitionDocument" tabindex="1000000" target="purapWindow"  title="View Payment History">View R</a>
-        </td>
-        <th>&nbsp;</th>
-        <td>&nbsp;</td>
-    </tr>
-    <tr>
-        <th align=right valign=middle class="bord-l-b">
             <div align="right">
             	<kul:htmlAttributeLabel attributeEntry="${documentAttributes.contractManager}" />
             </div>

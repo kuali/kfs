@@ -168,9 +168,9 @@
                 <maxLength>4</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
 
-                <control>
-                    <text size="6" />
-                </control>
+    			<control>
+        			<select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.ItemTypeValuesFinder"/>
+    			</control>
 
                 <summary>itemTypeCode</summary>
                 <description>itemTypeCode description...</description>

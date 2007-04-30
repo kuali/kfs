@@ -61,6 +61,17 @@
                 <br><br>
 		    </th>
 		</tr>
+    	<tr>
+            <td class="grid" colspan="4">
+            <div align="center">
+              <html:image property="methodToCall.performMyAccounts.anchoraccountControlsAnchor" src="images/buttonsmall_namelater.gif" title="Find My Budgeted Accounts" alt="Find My Budgeted Accounts" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
+              <html:image property="methodToCall.performMyOrganization.anchoraccountControlsAnchor" src="images/buttonsmall_namelater.gif" title="Find My Organization Budgeted Accounts" alt="Find My Organization Budgeted Accounts" styleClass="tinybutton"/>
+            </div>
+		    </td>
+            <td class="grid" colspan="2">
+			    &nbsp;
+		    </td>
+		</tr>
 	    <tr>
             <th class="grid" colspan="2" rowspan="2">&nbsp;</th>
 		    <th class="grid" align="center" colspan="1">
@@ -68,6 +79,7 @@
                 <html:hidden property="budgetConstructionHeader.documentNumber"/>
 			    <kul:htmlAttributeLabel
 			        attributeEntry="${bcHeaderAttributes.chartOfAccountsCode}"
+			        labelFor="budgetConstructionHeader.chartOfAccountsCode"
 			        useShortLabel="true" noColon="true" />
 		    </th>
 		    <th class="grid" align="center" colspan="1">
@@ -173,6 +185,21 @@
                 Budget Construction Organization Salary Setting/Report/Control
                 <br><br>
 		    </th>
+		</tr>
+    	<tr>
+            <td class="grid" colspan="4">
+            <div align="center">
+              <html:image property="methodToCall.performOrgSalarySetting.anchororgControlsAnchor" src="images/buttonsmall_orgsalsetting.gif" title="Organization Salary Setting" alt="Organization Salary Setting" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
+              <html:image property="methodToCall.performReportDump.anchororgControlsAnchor" src="images/buttonsmall_orgreportdump.gif" title="Organization Report/Dump" alt="Organization Report/Dump" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
+              <html:image property="methodToCall.performRequestImport.anchororgControlsAnchor" src="images/buttonsmall_reqimport.gif" title="Organization Request Import" alt="Organization Request Import" styleClass="tinybutton" />
+            </div>
+		    </td>
+            <td class="grid" colspan="2">
+            <div align="center">
+              <html:image property="methodToCall.performOrgPullup.anchororgControlsAnchor" src="images/buttonsmall_orgpullup.gif" title="Organization Pull Up" alt="Organization Pull Up" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
+              <html:image property="methodToCall.performOrgPushdown.anchororgControlsAnchor" src="images/buttonsmall_orgpushdown.gif" title="Organization Push Down" alt="Organization Push Down" styleClass="tinybutton" />
+            </div>
+		    </td>
 		</tr>
 	</table>
 

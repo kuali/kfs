@@ -822,7 +822,7 @@
                 <div align="center"><span class=nobord">&nbsp;
                   <c:if test="${item.emplid ne Constants.BudgetConstructionConstants.VACANT_EMPLID}">
                     <c:if test="${!readOnly}">
-                        <html:image property="methodToCall.performVacateSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" src="images/tinybutton-clear1.gif" title="Vacate Salary Setting Line ${status.index}" alt="Vacate Salary Setting Line ${status.index}" styleClass="tinybutton" />
+                        <html:image property="methodToCall.performVacateSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" src="images/tinybutton-vacate.gif" title="Vacate Salary Setting Line ${status.index}" alt="Vacate Salary Setting Line ${status.index}" styleClass="tinybutton" />
                         <br>
                     </c:if>
                   </c:if>

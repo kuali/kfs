@@ -62,6 +62,8 @@ public class CorrectionForm extends KualiDocumentFormBase {
     private String previousEditMethod;
     
     private Integer inputGroupId;
+    private Integer previousInputGroupId;
+    
     private Integer outputGroupId;
     private String inputFileName;
     protected FormFile sourceFile;
@@ -506,5 +508,21 @@ public class CorrectionForm extends KualiDocumentFormBase {
      */
     public void setPreviousEditMethod(String previousEditMethod) {
         this.previousEditMethod = previousEditMethod;
+    }
+
+    /**
+     * Gets the previousInputGroupId attribute. 
+     * @return Returns the previousInputGroupId.
+     */
+    public Integer getPreviousInputGroupId() {
+        return previousInputGroupId;
+    }
+
+    /**
+     * Sets the previousInputGroupId attribute value.
+     * @param previousInputGroupId The previousInputGroupId to set.
+     */
+    public void setPreviousInputGroupId(Integer previousInputGroupId) {
+        this.previousInputGroupId = previousInputGroupId;
     }
 }

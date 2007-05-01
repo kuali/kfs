@@ -35,8 +35,8 @@ public class CorrectionChangeGroup extends PersistableBusinessObjectBase impleme
     private Integer correctionChangeGroupLineNumber;
     private Integer correctionCriteriaNextLineNumber;
     private Integer correctionChangeNextLineNumber;
-    private List correctionCriteria;
-    private List correctionChange;
+    private List<CorrectionCriteria> correctionCriteria;
+    private List<CorrectionChange> correctionChange;
 
     public CorrectionChangeGroup(String documentNumber,Integer correctionChangeGroupLineNumber) {
         setCorrectionChangeGroupLineNumber(correctionChangeGroupLineNumber);
@@ -159,21 +159,21 @@ public class CorrectionChangeGroup extends PersistableBusinessObjectBase impleme
         this.correctionChangeNextLineNumber = correctionChangeNextLineNumber;
     }
 
-    public List getCorrectionCriteria() {
+    public List<CorrectionCriteria> getCorrectionCriteria() {
         Collections.sort(correctionCriteria);
         return correctionCriteria;
     }
 
-    public void setCorrectionCriteria(List correctionCriteria) {
+    public void setCorrectionCriteria(List<CorrectionCriteria> correctionCriteria) {
         this.correctionCriteria = correctionCriteria;
     }
 
-    public List getCorrectionChange() {
+    public List<CorrectionChange> getCorrectionChange() {
         Collections.sort(correctionChange);
         return correctionChange;
     }
 
-    public void setCorrectionChange(List correctionChange) {
+    public void setCorrectionChange(List<CorrectionChange> correctionChange) {
         this.correctionChange = correctionChange;
     }
 

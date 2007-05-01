@@ -986,6 +986,10 @@
 		<property name="documentDao">
 			<ref bean="documentDao" />
 		</property>
+		<property name="originEntryService">
+			<ref bean="glOriginEntryService" />
+		</property>
+		<property name="glcpDirectoryName" value="${staging.directory}/GLCP"/>
 	</bean>
 
 	<bean id="glCorrectionChangeDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.CorrectionChangeDaoOjb" />

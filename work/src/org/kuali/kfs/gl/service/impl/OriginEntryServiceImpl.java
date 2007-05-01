@@ -352,13 +352,22 @@ public class OriginEntryServiceImpl implements OriginEntryService {
      */
     public void flatFile(Integer groupId, BufferedOutputStream bw) {
         LOG.debug("flatFile() started");
-
+        OriginEntryGroup oeg = new OriginEntryGroup();
+        oeg.setId(groupId);
+        flatFile(getEntriesByGroup(oeg), bw);
+    }
+    
+    /**
+     * This method writes origin entries into a file format.  This particular implementation
+     * will use the OriginEntry.getLine method to generate the text for this file.
+     * 
+     * @param entries An iterator of OriginEntries
+     * @param bw an opened, ready-for-output bufferedOutputStream.
+     */
+    public void flatFile(Iterator<OriginEntry> entries, BufferedOutputStream bw) {
         try {
-            OriginEntryGroup oeg = new OriginEntryGroup();
-            oeg.setId(groupId);
-            Iterator i = getEntriesByGroup(oeg);
-            while (i.hasNext()) {
-                OriginEntry e = (OriginEntry) i.next();
+            while (entries.hasNext()) {
+                OriginEntry e = entries.next();
                 bw.write((e.getLine() + "\n").getBytes());
             }
         }

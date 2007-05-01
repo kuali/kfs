@@ -63,7 +63,7 @@
     </kul:tab>
   </c:if>
   <kul:tab tabTitle="Summary" defaultOpen="true" tabErrorKey="summary">
-    <c:if test="${KualiForm.document.correctionRowCount != null}" >
+    <c:if test="${KualiForm.dataLoadedFlag}" >
       <html:hidden property="document.correctionDebitTotalAmount"/>
       <html:hidden property="document.correctionCreditTotalAmount"/>
       <html:hidden property="document.correctionRowCount"/>
@@ -73,7 +73,7 @@
             <c:if test="${KualiForm.showOutputFlag == true or KualiForm.showSummaryOutputFlag == true}">
               <td align="left" valign="middle" class="subhead"><span class="subhead-left">Summary of Output Group</span></td>
             </c:if>
-            <c:if test="${KualiForm.showOutputFlag == false or KualiForm.showSummaryOutputFlag == true}">
+            <c:if test="${KualiForm.showOutputFlag == false}">
               <td align="left" valign="middle" class="subhead"><span class="subhead-left">Summary of Input Group</span></td>
             </c:if>
           </tr>
@@ -90,6 +90,25 @@
           <tr>
             <td width="20%" align="left" valign="middle" > Rows output: </td> 
             <td align="right" valign="middle"> <fmt:formatNumber value="${KualiForm.document.correctionRowCount}" groupingUsed="true"/></td>
+          </tr>
+        </table>
+      </div>
+    </c:if>
+    <c:if test="${KualiForm.restrictedFunctionalityMode}" >
+      <div class="tab-container" align="center"> 
+	    <table cellpadding="0" class="datatable" summary=""> 
+          <tr>
+            <c:if test="${KualiForm.showOutputFlag == true or KualiForm.showSummaryOutputFlag == true}">
+              <td align="left" valign="middle" class="subhead"><span class="subhead-left">Summary of Output Group</span></td>
+            </c:if>
+            <c:if test="${KualiForm.showOutputFlag == false or KualiForm.showSummaryOutputFlag == true}">
+              <td align="left" valign="middle" class="subhead"><span class="subhead-left">Summary of Input Group</span></td>
+            </c:if>
+          </tr>
+        </table>
+        <table cellpadding="0" class="datatable">
+          <tr>
+            <td>The summary is unavailable because the selected origin entry group is too large.</td> 
           </tr>
         </table>
       </div>
@@ -178,7 +197,7 @@
           </table>
         </div>
       </c:if>
-      <c:if test="${KualiForm.chooseSystem != null and KualiForm.editMethod != null and KualiForm.dataLoadedFlag == true}" >
+      <c:if test="${KualiForm.chooseSystem != null and KualiForm.editMethod != null and KualiForm.dataLoadedFlag == true and !KualiForm.restrictedFunctionalityMode}" >
         <div class="tab-container" align="left" style="overflow: scroll; width: 100% ;"> 
           <table cellpadding=0 class="datatable" summary=""> 
             <tr>
@@ -295,9 +314,7 @@
                 <td>
                   <center>
                     <html:checkbox property="processInBatch" title="processInBatch" /> <STRONG> Process In Batch </STRONG> &nbsp; &nbsp; &nbsp; &nbsp;  
-                    <c:if test="${KualiForm.restrictedFunctionalityMode == false}">
-                      <html:checkbox property="matchCriteriaOnly" title="matchCriteriaOnly"/> <STRONG> Output only records which match criteria? </STRONG>
-                    </c:if>
+                    <html:checkbox property="matchCriteriaOnly" title="matchCriteriaOnly"/> <STRONG> Output only records which match criteria? </STRONG>
                   </center>
                 </td>
               </tr>
@@ -549,12 +566,15 @@
             <td align="left" valign="middle" > <c:out value="${KualiForm.document.correctionInputGroupId}" /></td>
           </tr>
         </c:if>
-        <c:if test="${KualiForm.document.correctionOutputGroupId != null}">
-          <tr>
-            <td width="20%" align="left" valign="middle" > Output Group ID: </td> 
+        <tr>
+          <td width="20%" align="left" valign="middle" > Output Group ID: </td> 
+          <c:if test="${KualiForm.document.correctionOutputGroupId != null}">
             <td align="left" valign="middle" > <c:out value="${KualiForm.document.correctionOutputGroupId}" /></td>
-          </tr>
-        </c:if>
+          </c:if>
+          <c:if test="${KualiForm.document.correctionOutputGroupId == null}">
+            <td align="left" valign="middle" > The output group ID is unavailable until the document has a status of FINAL.</td>
+          </c:if>
+        </tr>
         <c:if test="${KualiForm.document.correctionInputFileName != null}">
           <tr>
             <td width="20%" align="left" valign="middle" > Input File Name: </td> 

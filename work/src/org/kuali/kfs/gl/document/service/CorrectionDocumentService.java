@@ -15,10 +15,12 @@
  */
 package org.kuali.module.gl.service;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.web.ui.Column;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
+import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.document.CorrectionDocument;
 
 public interface CorrectionDocumentService {
@@ -37,4 +39,29 @@ public interface CorrectionDocumentService {
     public CorrectionDocument findByCorrectionDocumentHeaderId(String docId);
     
     public List<Column> getTableRenderColumnMetadata(String docId);
+    
+    /**
+     * This method persists an Iterator of input origin entries for a document that is in the initiated or saved state
+     * 
+     * @param document an initiated or saved document
+     * @param entries
+     */
+    public void persistInputOriginEntriesForInitiatedOrSavedDocument(CorrectionDocument document, Iterator<OriginEntry> entries);
+    
+    public void removePersistedInputOriginEntries(CorrectionDocument document);
+    
+    public List<OriginEntry> retrievePersistedInputOriginEntries(CorrectionDocument document);
+    
+    
+    /**
+     * This method persists an Iterator of input origin entries for a document that is in the initiated or saved state
+     * 
+     * @param document an initiated or saved document
+     * @param entries
+     */
+    public void persistOutputOriginEntriesForInitiatedOrSavedDocument(CorrectionDocument document, Iterator<OriginEntry> entries);
+    
+    public void removePersistedOutputOriginEntries(CorrectionDocument document);
+    
+    public List<OriginEntry> retrievePersistedOutputOriginEntries(CorrectionDocument document);
 }

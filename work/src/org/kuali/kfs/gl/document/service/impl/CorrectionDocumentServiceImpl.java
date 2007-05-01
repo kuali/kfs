@@ -15,31 +15,53 @@
  */
 package org.kuali.module.gl.service.impl;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.collections.comparators.ComparableComparator;
+import org.apache.log4j.Logger;
+import org.kuali.Constants;
 import org.kuali.core.dao.DocumentDao;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.comparator.NumericValueComparator;
 import org.kuali.core.web.comparator.StringValueComparator;
 import org.kuali.core.web.comparator.TemporalValueComparator;
 import org.kuali.core.web.ui.Column;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
+import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.dao.CorrectionChangeDao;
 import org.kuali.module.gl.dao.CorrectionChangeGroupDao;
 import org.kuali.module.gl.dao.CorrectionCriteriaDao;
 import org.kuali.module.gl.document.CorrectionDocument;
 import org.kuali.module.gl.service.CorrectionDocumentService;
+import org.kuali.module.gl.service.OriginEntryService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class CorrectionDocumentServiceImpl implements CorrectionDocumentService {
-
+    private static Logger LOG = Logger.getLogger(CorrectionDocumentServiceImpl.class);
+    
     private CorrectionChangeGroupDao correctionChangeGroupDao;
     private CorrectionChangeDao correctionChangeDao;
     private CorrectionCriteriaDao correctionCriteriaDao;
     private DocumentDao documentDao;
+    private KualiConfigurationService kualiConfigurationService;
+    private OriginEntryService originEntryService;
+    private String glcpDirectoryName;
+    
+    protected static final String INPUT_ORIGIN_ENTRIES_FILE_SUFFIX = "-input.txt";
+    protected static final String OUTPUT_ORIGIN_ENTRIES_FILE_SUFFIX = "-output.txt";
 
     /**
      * 
@@ -258,5 +280,189 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
             }
         }
         return cachedColumns;
+    }
+
+    protected String generateInputOriginEntryFileName(CorrectionDocument document) {
+        String docId = document.getDocumentHeader().getDocumentNumber();
+        return getOriginEntryStagingDirectoryPath() + File.separator + docId + INPUT_ORIGIN_ENTRIES_FILE_SUFFIX;
+    }
+    
+    protected String generateOutputOriginEntryFileName(CorrectionDocument document) {
+        String docId = document.getDocumentHeader().getDocumentNumber();
+        return getOriginEntryStagingDirectoryPath() + File.separator + docId + OUTPUT_ORIGIN_ENTRIES_FILE_SUFFIX;
+    }
+    
+    /**
+     * @see org.kuali.module.gl.service.CorrectionDocumentService#persistOriginEntriesToFile(java.lang.String, java.util.Iterator)
+     */
+    public void persistInputOriginEntriesForInitiatedOrSavedDocument(CorrectionDocument document, Iterator<OriginEntry> entries) {
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        if (!workflowDocument.stateIsInitiated() && !workflowDocument.stateIsSaved()) {
+            LOG.error("This method may only be called when the document is in the initiated or saved state.");
+        }
+        String fullPathUniqueFileName = generateInputOriginEntryFileName(document);
+        persistOriginEntries(fullPathUniqueFileName, entries);
+    }
+
+    
+    /**
+     * @see org.kuali.module.gl.service.CorrectionDocumentService#persistOutputOriginEntriesForInitiatedOrSavedDocument(org.kuali.module.gl.document.CorrectionDocument, java.util.Iterator)
+     */
+    public void persistOutputOriginEntriesForInitiatedOrSavedDocument(CorrectionDocument document, Iterator<OriginEntry> entries) {
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        if (!workflowDocument.stateIsInitiated() && !workflowDocument.stateIsSaved()) {
+            LOG.error("This method may only be called when the document is in the initiated or saved state.");
+        }
+        String fullPathUniqueFileName = generateOutputOriginEntryFileName(document);
+        persistOriginEntries(fullPathUniqueFileName, entries);
+    }
+
+    protected void persistOriginEntries(String fullPathUniqueFileName, Iterator<OriginEntry> entries) {
+        File fileOut = new File(fullPathUniqueFileName);
+        FileOutputStream streamOut = null;
+        BufferedOutputStream bufferedStreamOut = null;
+        try {
+            streamOut = new FileOutputStream(fileOut);
+            bufferedStreamOut = new BufferedOutputStream(streamOut);
+            
+            originEntryService.flatFile(entries, bufferedStreamOut);
+        }
+        catch (IOException e) {
+            LOG.error("unable to persist origin entries to file: " + fullPathUniqueFileName, e);
+            throw new RuntimeException("unable to persist origin entries to file.");
+        }
+        finally {
+            try {
+                bufferedStreamOut.close();
+                streamOut.close();
+            }
+            catch (IOException e) {
+                LOG.error("unable to close output streams for file: " + fullPathUniqueFileName, e);
+                throw new RuntimeException("unable to close output streams");
+            }
+        }
+    }
+    
+    
+    /**
+     * @see org.kuali.module.gl.service.CorrectionDocumentService#removePersistedInputOriginEntriesForInitiatedOrSavedDocument(org.kuali.module.gl.document.CorrectionDocument)
+     */
+    public void removePersistedInputOriginEntries(CorrectionDocument document) {
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        if (!workflowDocument.stateIsInitiated() && !workflowDocument.stateIsSaved()) {
+            LOG.error("This method may only be called when the document is in the initiated or saved state.");
+        }
+        String docId = document.getDocumentHeader().getDocumentNumber();
+        String fullPathUniqueFileName = getOriginEntryStagingDirectoryPath() + File.separator + docId + INPUT_ORIGIN_ENTRIES_FILE_SUFFIX;
+        removePersistedOriginEntries(fullPathUniqueFileName);
+    }
+
+    /**
+     * @see org.kuali.module.gl.service.CorrectionDocumentService#removePersistedOutputOriginEntriesForInitiatedOrSavedDocument(org.kuali.module.gl.document.CorrectionDocument)
+     */
+    public void removePersistedOutputOriginEntries(CorrectionDocument document) {
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        if (!workflowDocument.stateIsInitiated() && !workflowDocument.stateIsSaved()) {
+            LOG.error("This method may only be called when the document is in the initiated or saved state.");
+        }
+        String docId = document.getDocumentHeader().getDocumentNumber();
+        String fullPathUniqueFileName = getOriginEntryStagingDirectoryPath() + File.separator + docId + OUTPUT_ORIGIN_ENTRIES_FILE_SUFFIX;
+        removePersistedOriginEntries(fullPathUniqueFileName);
+    }
+    
+    protected void removePersistedOriginEntries(String fullPathUniqueFileName) {
+        File fileOut = new File(fullPathUniqueFileName);
+        if (fileOut.exists() && fileOut.isFile()) {
+            fileOut.delete();
+        }
+    }
+
+    
+    /**
+     * @see org.kuali.module.gl.service.CorrectionDocumentService#retrievePersistedInputOriginEntries(org.kuali.module.gl.document.CorrectionDocument)
+     */
+    public List<OriginEntry> retrievePersistedInputOriginEntries(CorrectionDocument document) {
+        return retrievePersistedOriginEntries(generateInputOriginEntryFileName(document));
+    }
+
+    /**
+     * @see org.kuali.module.gl.service.CorrectionDocumentService#retrievePersistedOutputOriginEntries(org.kuali.module.gl.document.CorrectionDocument)
+     */
+    public List<OriginEntry> retrievePersistedOutputOriginEntries(CorrectionDocument document) {
+        return retrievePersistedOriginEntries(generateOutputOriginEntryFileName(document));
+    }
+    
+    protected List<OriginEntry> retrievePersistedOriginEntries(String fullPathUniqueFileName) {
+        File fileIn = new File(fullPathUniqueFileName);
+        if (!fileIn.exists()) {
+            return new ArrayList<OriginEntry>();
+        }
+        BufferedReader reader = null;
+        
+        List<OriginEntry> entries = new ArrayList<OriginEntry>();
+        try {
+            reader = new BufferedReader(new FileReader(fileIn));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                OriginEntry entry = new OriginEntry(line);
+                entries.add(entry);
+            }
+        }
+        catch (IOException e) {
+            LOG.error("retrievePersistedOriginEntries() Error reading file", e);
+            throw new IllegalArgumentException("Error reading file");
+        }
+        return entries;
+    }
+
+    protected String getOriginEntryStagingDirectoryPath() {
+        return getGlcpDirectoryName();
+    }
+    /**
+     * Gets the kualiConfigurationService attribute. 
+     * @return Returns the kualiConfigurationService.
+     */
+    public KualiConfigurationService getKualiConfigurationService() {
+        return kualiConfigurationService;
+    }
+
+    /**
+     * Sets the kualiConfigurationService attribute value.
+     * @param kualiConfigurationService The kualiConfigurationService to set.
+     */
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;
+    }
+
+    /**
+     * Gets the originEntryService attribute. 
+     * @return Returns the originEntryService.
+     */
+    public OriginEntryService getOriginEntryService() {
+        return originEntryService;
+    }
+
+    /**
+     * Sets the originEntryService attribute value.
+     * @param originEntryService The originEntryService to set.
+     */
+    public void setOriginEntryService(OriginEntryService originEntryService) {
+        this.originEntryService = originEntryService;
+    }
+
+    /**
+     * Gets the glcpDirectoryName attribute. 
+     * @return Returns the glcpDirectoryName.
+     */
+    public String getGlcpDirectoryName() {
+        return glcpDirectoryName;
+    }
+
+    /**
+     * Sets the glcpDirectoryName attribute value.
+     * @param glcpDirectoryName The glcpDirectoryName to set.
+     */
+    public void setGlcpDirectoryName(String glcpDirectoryName) {
+        this.glcpDirectoryName = glcpDirectoryName;
     }
 }

@@ -153,6 +153,14 @@ public interface OriginEntryService {
     public void flatFile(Integer groupId, BufferedOutputStream bw);
 
     /**
+     * writes out a list of origin entries to an output stream.
+     * 
+     * @param entries
+     * @param bw
+     */
+    public void flatFile(Iterator<OriginEntry> entries, BufferedOutputStream bw);
+    
+    /**
      * get the summarized information of the entries that belong to the entry groups with the given group id list
      * 
      * @param groupIdList the origin entry groups

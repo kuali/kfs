@@ -26,6 +26,15 @@
 <c:set var="bcHeaderAttributes" value="${DataDictionary.BudgetConstructionHeader.attributes}" />
 <c:set var="accountAttributes" value="${DataDictionary.Account.attributes}" />
 <c:set var="subFundGroupAttributes" value="${DataDictionary.SubFundGroup.attributes}" />
+<c:set var="orgAttributes" value="${DataDictionary.Org.attributes}" />
+<c:set var="orgPropString" value="budgetConstructionHeader.account.organization" />
+<c:set var="orgVals" value="${KualiForm.budgetConstructionHeader.account.organization}" />
+<c:set var="accountRptsAttributes" value="${DataDictionary.BudgetConstructionAccountReports.attributes}" />
+<c:set var="accountRptsPropString" value="budgetConstructionHeader.budgetConstructionAccountReports" />
+<c:set var="accountRptsVals" value="${KualiForm.budgetConstructionHeader.budgetConstructionAccountReports}" />
+<c:set var="orgRptsAttributes" value="${DataDictionary.BudgetConstructionOrganizationReports.attributes}" />
+<c:set var="orgRptsVals" value="${KualiForm.budgetConstructionHeader.budgetConstructionAccountReports.budgetConstructionOrganizationReports}" />
+<c:set var="orgRptsPropString" value="budgetConstructionHeader.budgetConstructionAccountReports.budgetConstructionOrganizationReports" />
 
 <kul:page showDocumentInfo="false"
 	htmlFormAction="budgetBudgetConstructionSelection" renderMultipart="true"
@@ -50,12 +59,12 @@
                 ${KualiForm.universityFiscalYear}&nbsp;
             </span>
             </td>
-            <th class="grid" colspan="4">
+            <th class="grid" colspan="5">
 			    &nbsp;
             </th>
 	    </tr>
     	<tr>
-            <th class="grid" colspan="6" align="left">
+            <th class="grid" colspan="7" align="left">
                 <br>
                 Budget Construction Document Open
                 <br><br>
@@ -64,11 +73,11 @@
     	<tr>
             <td class="grid" colspan="4">
             <div align="center">
-              <html:image property="methodToCall.performMyAccounts.anchoraccountControlsAnchor" src="images/buttonsmall_namelater.gif" title="Find My Budgeted Accounts" alt="Find My Budgeted Accounts" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
-              <html:image property="methodToCall.performMyOrganization.anchoraccountControlsAnchor" src="images/buttonsmall_namelater.gif" title="Find My Organization Budgeted Accounts" alt="Find My Organization Budgeted Accounts" styleClass="tinybutton"/>
+              <html:image property="methodToCall.performMyAccounts.anchoraccountControlsAnchor" src="images/buttonsmall_myaccounts.gif" title="Find My Budgeted Accounts" alt="Find My Budgeted Accounts" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
+              <html:image property="methodToCall.performMyOrganization.anchoraccountControlsAnchor" src="images/buttonsmall_myorganization.gif" title="Find My Organization Budgeted Accounts" alt="Find My Organization Budgeted Accounts" styleClass="tinybutton"/>
             </div>
 		    </td>
-            <td class="grid" colspan="2">
+            <td class="grid" colspan="3">
 			    &nbsp;
 		    </td>
 		</tr>
@@ -92,11 +101,12 @@
 			        attributeEntry="${bcHeaderAttributes.subAccountNumber}"
 			        useShortLabel="true" noColon="true" />
 		    </th>
-		    <th class="grid" align="center" colspan="1">
+		    <th class="grid" align="center" colspan="2">
 			    Action
 		    </th>
 	    </tr>
 	    <tr>
+            <%--first cell in row above spans two rows --%>
             <bc:pbglLineDataCell dataCellCssClass="grid"
                 accountingLine="budgetConstructionHeader"
                 field="chartOfAccountsCode" detailFunction="loadChartInfo"
@@ -105,6 +115,7 @@
                 boClassSimpleName="Chart"
                 readOnly="false"
                 displayHidden="false"
+                colSpan="1"
                 accountingLineValuesMap="${KualiForm.budgetConstructionHeader.valuesMap}"
                 anchor="budgetConstructionHeaderAnchor" />
             <bc:pbglLineDataCell dataCellCssClass="grid"
@@ -115,6 +126,7 @@
                 boClassSimpleName="Account"
                 readOnly="false"
                 displayHidden="false"
+                colSpan="1"
                 lookupOrInquiryKeys="chartOfAccountsCode"
                 accountingLineValuesMap="${KualiForm.budgetConstructionHeader.valuesMap}"
                 anchor="budgetConstructionHeaderAccountAnchor" />
@@ -126,10 +138,11 @@
                 boClassSimpleName="SubAccount"
                 readOnly="false"
                 displayHidden="false"
+                colSpan="1"
                 lookupOrInquiryKeys="chartOfAccountsCode,accountNumber"
                 accountingLineValuesMap="${KualiForm.budgetConstructionHeader.valuesMap}"
                 anchor="budgetConstructionHeaderSubAccountAnchor" />
-            <td class="grid" nowrap>
+            <td class="grid" nowrap colspan="2">
             <div align="center">
                 <html:image property="methodToCall.performBCDocumentOpen.anchorbudgetConstructionHeaderAnchor" src="images/tinybutton-loaddoc.gif" title="Load Budget Construction Document" alt="Load Budget Construction Document" styleClass="tinybutton" />
             </div>
@@ -139,7 +152,7 @@
 		    <th class="grid" align="right" colspan="2">
 		        Sub-Fund Group:
 		    </th>
-            <td class="grid" valign="center" rowspan="1" colspan="1">
+            <td class="grid" valign="center" rowspan="1" colspan="2">
                 <kul:htmlControlAttribute
                     property="budgetConstructionHeader.account.subFundGroupCode"
                     attributeEntry="${accountAttributes.subFundGroupCode}"
@@ -153,34 +166,160 @@
                     </kul:inquiry>
                 </kul:htmlControlAttribute>
             </td>
-            <td class="grid" valign="center" rowspan="1" colspan="1">
+            <td class="grid" valign="center" rowspan="1" colspan="3">
                 <kul:htmlControlAttribute
                     property="budgetConstructionHeader.account.subFundGroup.subFundGroupDescription"
                     attributeEntry="${subFundGroupAttributes.subfundGroupDescription}"
                     readOnly="true"/>
-            </td>
-            <td class="grid" valign="center" rowspan="1" colspan="2">
-			    &nbsp;
             </td>
 	    </tr>
 	    <tr>
 		    <th class="grid" align="right" colspan="2">
 		        Current Year Org:
 		    </th>
-            <td class="grid" valign="center" rowspan="1" colspan="4">
+            <td class="grid" valign="center" rowspan="1" colspan="1">
 			    &nbsp;
+            </td>
+            <td class="grid" valign="center" rowspan="1" colspan="1">
+            <kul:htmlControlAttribute
+                property="budgetConstructionHeader.account.organizationCode"
+                attributeEntry="${accountAttributes.organizationCode}"
+                readOnly="true"
+                readOnlyBody="true">
+                <kul:inquiry
+                    boClassName="org.kuali.module.chart.bo.Org"
+                    keyValues="chartOfAccountsCode=${KualiForm.budgetConstructionHeader.account.chartOfAccountsCode}&amp;organizationCode=${KualiForm.budgetConstructionHeader.account.organizationCode}"
+                    render="true">
+                	<html:hidden write="true" property="budgetConstructionHeader.account.organizationCode" />
+                </kul:inquiry>
+	      	</kul:htmlControlAttribute>
+            </td>
+            <td class="grid" valign="center" rowspan="1" colspan="3">
+            <kul:htmlControlAttribute
+                property="${orgPropString}.organizationName"
+                attributeEntry="${orgAttributes.organizationName}"
+                readOnly="true"/>
+            </td>
+	    </tr>
+	    <tr>
+		    <th class="grid" align="right" colspan="2">
+		        Rpts To:
+		    </th>
+            <td class="grid" valign="center" rowspan="1" colspan="1">
+                <kul:htmlControlAttribute
+                    property="${orgPropString}.reportsToChartOfAccountsCode"
+                    attributeEntry="${orgAttributes.reportsToChartOfAccountsCode}"
+                    readOnly="true"
+                    readOnlyBody="true">
+                    <kul:inquiry
+                        boClassName="org.kuali.module.chart.bo.Chart"
+                        keyValues="chartOfAccountsCode=${orgVals.reportsToChartOfAccountsCode}"
+                        render="true">
+                    <html:hidden write="true" property="${orgPropString}.reportsToChartOfAccountsCode" />
+                </kul:inquiry>
+	      	</kul:htmlControlAttribute>
+            </td>
+            <td class="grid" valign="center" rowspan="1" colspan="1">
+	      	<kul:htmlControlAttribute
+	      		property="${orgPropString}.reportsToOrganizationCode"
+	      		attributeEntry="${orgAttributes.reportsToOrganizationCode}"
+	      		readOnly="true"
+	      		readOnlyBody="true">
+	      		<kul:inquiry
+				    boClassName="org.kuali.module.chart.bo.Org"
+				    keyValues="chartOfAccountsCode=${orgVals.reportsToChartOfAccountsCode}&amp;organizationCode=${orgVals.reportsToOrganizationCode}"
+				    render="true">
+			    	<html:hidden write="true" property="${orgPropString}.reportsToOrganizationCode" />
+				</kul:inquiry>
+	      	</kul:htmlControlAttribute>
+            </td>
+            <td class="grid" valign="center" rowspan="1" colspan="3">
+            <kul:htmlControlAttribute
+                property="${orgPropString}.reportsToOrganization.organizationName"
+                attributeEntry="${organizationAttributes.organizationName}"
+                readOnly="${true}"/>
             </td>
 	    </tr>
 	    <tr>
 		    <th class="grid" align="right" colspan="2">
 		        Next Year Org:
 		    </th>
-            <td class="grid" valign="center" rowspan="1" colspan="4">
-			    &nbsp;
+            <td class="grid" valign="center" rowspan="1" colspan="1">
+            <kul:htmlControlAttribute
+                property="${accountRptsPropString}.reportsToChartOfAccountsCode"
+                attributeEntry="${accountRptsAttributes.reportsToChartOfAccountsCode}"
+                readOnly="true"
+                readOnlyBody="true">
+                <kul:inquiry
+                    boClassName="org.kuali.module.chart.bo.Chart"
+                    keyValues="chartOfAccountsCode=${accountRptsVals.reportsToChartOfAccountsCode}"
+                    render="true">
+                	<html:hidden write="true" property="${accountRptsPropString}.reportsToChartOfAccountsCode" />
+                </kul:inquiry>
+            </kul:htmlControlAttribute>
+            </td>
+            <td class="grid" valign="center" rowspan="1" colspan="1">
+            <kul:htmlControlAttribute
+                property="${accountRptsPropString}.reportsToOrganizationCode"
+                attributeEntry="${accountRptsAttributes.reportsToOrganizationCode}"
+                readOnly="true"
+                readOnlyBody="true">
+                <kul:inquiry
+                    boClassName="org.kuali.module.budget.bo.BudgetConstructionOrganizationReports"
+                    keyValues="chartOfAccountsCode=${accountRptsVals.reportsToChartOfAccountsCode}&amp;organizationCode=${accountRptsVals.reportsToOrganizationCode}"
+                    render="true">
+                	<html:hidden write="true" property="${accountRptsPropString}.reportsToOrganizationCode" />
+                </kul:inquiry>
+            </kul:htmlControlAttribute>
+            </td>
+            <td class="grid" valign="center" rowspan="1" colspan="3">
+            <kul:htmlControlAttribute
+                property="${accountRptsPropString}.reportsToOrganization.organizationName"
+                attributeEntry="${orgAttributes.organizationName}"
+                readOnly="true"/>
             </td>
 	    </tr>
+	    <tr>
+		    <th class="grid" align="right" colspan="2">
+		        Rpts To:
+		    </th>
+            <td class="grid" valign="center" rowspan="1" colspan="1">
+            <kul:htmlControlAttribute
+                property="${orgRptsPropString}.reportsToChartOfAccountsCode"
+                attributeEntry="${orgRptsAttributes.reportsToChartOfAccountsCode}"
+                readOnly="true"
+                readOnlyBody="true">
+                <kul:inquiry
+                    boClassName="org.kuali.module.chart.bo.Chart"
+                    keyValues="chartOfAccountsCode=${orgRptsVals.reportsToChartOfAccountsCode}"
+                    render="true">
+                    <html:hidden write="true" property="${orgRptsPropString}.reportsToChartOfAccountsCode" />
+                </kul:inquiry>
+            </kul:htmlControlAttribute>
+            </td>
+            <td class="grid" valign="center" rowspan="1" colspan="1">
+	      	<kul:htmlControlAttribute
+	      		property="${orgRptsPropString}.reportsToOrganizationCode"
+	      		attributeEntry="${orgRptsAttributes.reportsToOrganizationCode}"
+	      		readOnly="true"
+	      		readOnlyBody="true">
+	      		<kul:inquiry
+				    boClassName="org.kuali.module.chart.bo.Org"
+				    keyValues="chartOfAccountsCode=${orgRptsVals.reportsToChartOfAccountsCode}&amp;organizationCode=${orgRptsVals.reportsToOrganizationCode}"
+				    render="true">
+			    	<html:hidden write="true" property="${orgRptsPropString}.reportsToOrganizationCode" />
+				</kul:inquiry>
+	      	</kul:htmlControlAttribute>
+            </td>
+            <td class="grid" valign="center" rowspan="1" colspan="3">
+            <kul:htmlControlAttribute
+                property="${orgRptsPropString}.reportsToOrganization.organizationName"
+                attributeEntry="${organizationAttributes.organizationName}"
+                readOnly="${true}"/>
+            </td>
+		</tr>
     	<tr>
-            <th class="grid" colspan="6" align="left">
+            <th class="grid" colspan="7" align="left">
                 <br>
                 Budget Construction Organization Salary Setting/Report/Control
                 <br><br>
@@ -194,7 +333,7 @@
               <html:image property="methodToCall.performRequestImport.anchororgControlsAnchor" src="images/buttonsmall_reqimport.gif" title="Organization Request Import" alt="Organization Request Import" styleClass="tinybutton" />
             </div>
 		    </td>
-            <td class="grid" colspan="2">
+            <td class="grid" colspan="3">
             <div align="center">
               <html:image property="methodToCall.performOrgPullup.anchororgControlsAnchor" src="images/buttonsmall_orgpullup.gif" title="Organization Pull Up" alt="Organization Pull Up" styleClass="tinybutton"/>&nbsp;&nbsp;&nbsp;
               <html:image property="methodToCall.performOrgPushdown.anchororgControlsAnchor" src="images/buttonsmall_orgpushdown.gif" title="Organization Push Down" alt="Organization Push Down" styleClass="tinybutton" />

@@ -42,15 +42,28 @@
 				<c:if test="${canRunJob}">
 					<td rowspan="2">
 						<c:if test="${job.group == 'unscheduled' && !job.running}">
-							<button type="submit" name="methodToCall" value="runJob">Run Job</button>
-							<br />
-							Start Step: <input type="text" name="startStep" value="1" /> 
-							<br />
-							End Step: <input type="text" name="endStep" value="${job.numSteps}" />
-							<br />
-							Start Date/Time: <input type="text" name="startTime" id="startTime" value="" />
-							<img src="images/cal.gif" id="startTime_datepicker" style="cursor: pointer;" alt="Date selector" title="Date selector" onmouseover="this.style.background='#F00';" onmouseout="this.style.background='#FFF';" />    
-							(format: mm/dd/yy hh:mm)
+							<table cellpadding="0" cellspacing="0" border="0" style="border: 0;">
+								<tr>
+									<td style="border: 0;">Start Step: </td>
+									<td style="border: 0;"><input type="text" name="startStep" value="1" size="3" /></td>
+								</tr>
+								<tr>
+									<td style="border: 0;">End Step: </td>
+									<td style="border: 0;"><input type="text" name="endStep" value="${job.numSteps}" size="3" /></td>
+								</tr>
+								<tr>
+									<td style="border: 0;">Start Date/Time: </td>
+									<td style="border: 0;">
+										<input type="text" name="startTime" id="startTime" value="" />
+										<img src="images/cal.gif" id="startTime_datepicker" style="cursor: pointer;" alt="Date selector" title="Date selector" onmouseover="this.style.background='#F00';" onmouseout="this.style.background='#FFF';" />    
+										(format: mm/dd/yy hh:mm)
+									</td>
+								</tr>
+								<tr>
+									<td></td>
+									<td style="border: 0;"><button type="submit" name="methodToCall" value="runJob">Run Job</button></td>
+								</tr>
+							</table>
 							<script type="text/javascript">
 								var today = new Date();
 								var years = new Array(1);

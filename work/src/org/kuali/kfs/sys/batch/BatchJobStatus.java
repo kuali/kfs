@@ -27,7 +27,7 @@ import org.quartz.JobDetail;
 
 public class BatchJobStatus extends TransientBusinessObjectBase {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchJobStatus.class);
+    //private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchJobStatus.class);
     
     private JobDescriptor jobDescriptor;
     
@@ -74,8 +74,12 @@ public class BatchJobStatus extends TransientBusinessObjectBase {
             return SchedulerService.RUNNING_JOB_STATUS_CODE;
         }
         String tempStatus = jobDetail.getJobDataMap().getString(SchedulerService.JOB_STATUS_PARAMETER);
-        if ( tempStatus == null && getGroup().equals( SchedulerService.SCHEDULED_GROUP )) {
-            return SchedulerService.PENDING_JOB_STATUS_CODE;
+        if ( tempStatus == null ) {
+        	if ( getNextRunDate() != null ) {
+        		return SchedulerService.SCHEDULED_JOB_STATUS_CODE;
+        	} else if (  getGroup().equals( SchedulerService.SCHEDULED_GROUP )) {
+                return SchedulerService.PENDING_JOB_STATUS_CODE;
+        	}        
         }
         return tempStatus;
     }

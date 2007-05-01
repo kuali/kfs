@@ -132,7 +132,7 @@
 
             <attribute name="iuNormalWorkMonths" forceUppercase="true">
                 <label>Normal Work Months</label>
-                <shortLabel>Work Months</shortLabel>
+                <shortLabel>WM</shortLabel>
 
                 <maxLength>2</maxLength>
                 <validationPattern><numeric /></validationPattern>
@@ -147,7 +147,7 @@
 
             <attribute name="iuPayMonths" forceUppercase="true">
                 <label>Pay Months</label>
-                <shortLabel>Pay Months</shortLabel>
+                <shortLabel>PM</shortLabel>
 
                 <maxLength>2</maxLength>
                 <validationPattern><numeric /></validationPattern>
@@ -276,7 +276,7 @@
 
             <attribute name="positionGradeDefault" forceUppercase="true">
                 <label>Position Salary Grade Default</label>
-                <shortLabel>Default</shortLabel>
+                <shortLabel>Grd</shortLabel>
 
                 <maxLength>3</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -336,7 +336,7 @@
 
             <attribute name="positionSalaryPlanDefault" forceUppercase="true">
                 <label>Position Salary Plan Default</label>
-                <shortLabel>Sal Plan Default</shortLabel>
+                <shortLabel>SPln</shortLabel>
 
                 <maxLength>4</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>

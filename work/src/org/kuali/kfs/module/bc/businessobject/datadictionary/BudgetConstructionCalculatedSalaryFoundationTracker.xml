@@ -117,8 +117,8 @@
 			</attribute>
 
             <attribute name="csfAmount" forceUppercase="true">
-                <label>Csf Amount</label>
-                <shortLabel>Amount</shortLabel>
+                <label>CSF Amount</label>
+                <shortLabel>CSF Amt</shortLabel>
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
@@ -133,7 +133,7 @@
 
             <attribute name="csfFullTimeEmploymentQuantity" forceUppercase="true">
                 <label>Csf Full Time Employment Quantity</label>
-                <shortLabel>Quantity</shortLabel>
+                <shortLabel>CSF FTE</shortLabel>
 
                 <maxLength>9</maxLength>
                 <validationPattern><numeric /></validationPattern>

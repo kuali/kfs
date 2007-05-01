@@ -133,7 +133,7 @@
 
             <attribute name="appointmentFundingDeleteIndicator" forceUppercase="true">
                 <label>Appointment Funding Delete Indicator</label>
-                <shortLabel>Indicator</shortLabel>
+                <shortLabel>D L</shortLabel>
 
                 <maxLength>1</maxLength>
 
@@ -162,7 +162,7 @@
 
             <attribute name="appointmentFundingMonth" forceUppercase="true">
                 <label>Appointment Funding Month</label>
-                <shortLabel>Month</shortLabel>
+                <shortLabel>Rq Mt</shortLabel>
 
                 <maxLength>2</maxLength>
                 <validationPattern><numeric /></validationPattern>
@@ -177,7 +177,7 @@
 
             <attribute name="appointmentRequestedAmount" forceUppercase="true">
                 <label>Appointment Requested Amount</label>
-                <shortLabel>Amount</shortLabel>
+                <shortLabel>Rqst Salary</shortLabel>
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
@@ -192,7 +192,7 @@
 			
 			<attribute name="percentChange" forceUppercase="true">
                 <label>Requested Change Amount</label>
-                <shortLabel>%Change</shortLabel>
+                <shortLabel>%Chge</shortLabel>
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
@@ -252,7 +252,7 @@
 
             <attribute name="appointmentRequestedFteQuantity" forceUppercase="true">
                 <label>Appointment Requested Fte Quantity</label>
-                <shortLabel>Quantity</shortLabel>
+                <shortLabel>Rqst FTE</shortLabel>
 
                 <maxLength>9</maxLength>
                 <validationPattern><numeric /></validationPattern>
@@ -387,7 +387,7 @@
 
             <attribute name="positionNumber" forceUppercase="true">
                 <label>Position Number</label>
-                <shortLabel>Number</shortLabel>
+                <shortLabel>Pos.Nbr</shortLabel>
 
                 <maxLength>8</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>

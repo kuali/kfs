@@ -314,6 +314,7 @@
                 <td>
                   <center>
                     <html:checkbox property="processInBatch" title="processInBatch" /> <STRONG> Process In Batch </STRONG> &nbsp; &nbsp; &nbsp; &nbsp;  
+                    <input type="hidden" name="processInBatch${Constants.CHECKBOX_PRESENT_ON_FORM_ANNOTATION}" value="checkboxOnScreen"/>
                     <html:checkbox property="matchCriteriaOnly" title="matchCriteriaOnly"/> <STRONG> Output only records which match criteria? </STRONG>
                   </center>
                 </td>
@@ -343,6 +344,7 @@
                 <td>
                   <center>
                     <html:checkbox property="processInBatch" title="processInBatch" /> <STRONG> Process In Batch </STRONG>
+                    <input type="hidden" name="processInBatch${Constants.CHECKBOX_PRESENT_ON_FORM_ANNOTATION}" value="checkboxOnScreen"/>
                   </center>
                 </td>
               </tr>

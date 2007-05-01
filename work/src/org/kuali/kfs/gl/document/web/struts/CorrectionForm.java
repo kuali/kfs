@@ -32,6 +32,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.kuali.Constants;
 import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
@@ -155,6 +156,13 @@ public class CorrectionForm extends KualiDocumentFormBase {
             if (originEntrySearchResultTableMetadata.getColumnToSortIndex() == -1) {
                 throw new RuntimeException("Couldn't find column to sort");
             }
+        }
+        
+        // since the processInBatch option defaults to true, there's no built in POJO way to detect whether it's been unchecked
+        // this code takes care of that
+        if (StringUtils.isNotBlank(request.getParameter("processInBatch" + Constants.CHECKBOX_PRESENT_ON_FORM_ANNOTATION)) && 
+                StringUtils.isBlank(request.getParameter("processInBatch"))) {
+            setProcessInBatch(false);
         }
     }
 

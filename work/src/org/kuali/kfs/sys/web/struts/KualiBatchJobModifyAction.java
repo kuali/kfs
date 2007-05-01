@@ -39,7 +39,6 @@ public class KualiBatchJobModifyAction extends KualiAction {
     
     private static final String JOB_NAME_PARAMETER = "name";
     private static final String JOB_GROUP_PARAMETER = "group";
-    private static final String JOB_STEP_PARAMETER = "stepName";
     private static final String START_STEP_PARAMETER = "startStep";
     private static final String END_STEP_PARAMETER = "endStep";
     private static final String START_TIME_PARAMETER = "startTime";
@@ -81,7 +80,15 @@ public class KualiBatchJobModifyAction extends KualiAction {
         return true;
     }
     
-    private void checkJobAuthorization( BatchJobStatus job, String actionType ) throws AuthorizationException {
+    /**
+     * Performs the actual authorization check for a given job and action against the current user.  This 
+     * method can be overridden by sub-classes if more granular controls are desired.
+     * 
+     * @param job
+     * @param actionType
+     * @throws AuthorizationException
+     */
+    protected void checkJobAuthorization( BatchJobStatus job, String actionType ) throws AuthorizationException {
         if ( getConfigService().hasApplicationParameter(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.JOB_ADMIN_WORKGROUP) ) {            
             String adminWorkgroup = getConfigService().getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.JOB_ADMIN_WORKGROUP);
             if ( !GlobalVariables.getUserSession().getUniversalUser().isMember(adminWorkgroup) ) {

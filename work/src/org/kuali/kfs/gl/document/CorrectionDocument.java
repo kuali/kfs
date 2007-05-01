@@ -134,14 +134,8 @@ public class CorrectionDocument extends TransactionalDocumentBase {
     @Override
     public void handleRouteStatusChange() {
         LOG.debug("handleRouteStatusChange() started");
-        System.out.println();
-        System.out.println();
-        System.out.println("CorrectionDocument.handleRouteStatusChange() " + getDocumentHeader().getWorkflowDocument().getStatusDisplayValue());
-        
         super.handleRouteStatusChange();
 
-        ReportService reportService = SpringServiceLocator.getReportService();
-        ScrubberService scrubberService = SpringServiceLocator.getScrubberService();
         CorrectionDocumentService correctionDocumentService = SpringServiceLocator.getCorrectionDocumentService();
         OriginEntryGroupService originEntryGroupService = SpringServiceLocator.getOriginEntryGroupService();
 
@@ -170,15 +164,6 @@ public class CorrectionDocument extends TransactionalDocumentBase {
     @Override
     public void handleRouteLevelChange() {
         super.handleRouteLevelChange();
-        try {
-            System.out.println(getDocumentHeader().getWorkflowDocument().getDocRouteLevel());
-            System.out.println(getDocumentHeader().getWorkflowDocument().getDocRouteLevelName());
-            
-            throw new Exception("Testing code LEVEL");
-        }
-        catch (Exception e) {
-            e.printStackTrace(System.out);
-        }
         Integer routeLevel = getDocumentHeader().getWorkflowDocument().getDocRouteLevel();
         if (routeLevel == null) {
             LOG.error("Null routing level");
@@ -193,6 +178,7 @@ public class CorrectionDocument extends TransactionalDocumentBase {
             CorrectionDocumentService correctionDocumentService = SpringServiceLocator.getCorrectionDocumentService();
             
             List<OriginEntry> outputEntries = correctionDocumentService.retrievePersistedOutputOriginEntries(this);
+            System.out.println(outputEntries.size());
             
             // Create output group
             java.sql.Date today = dateTimeService.getCurrentSqlDate();

@@ -584,16 +584,30 @@
       </table>
     </div>
     <div class="tab-container" align="left" style="overflow: scroll; max-width: 100%;">
-      <table cellpadding=0 class="datatable" summary=""> 
-        <tr>
-          <td align="left" valign="middle" class="subhead"><span class="subhead-left">Search Results - Output Group</span></td>
-        </tr>
-        <tr>
-          <td>
-            <glcp:displayOriginEntrySearchResults originEntries="${KualiForm.displayEntries}"/>
-          </td>
-        </tr>
-      </table>
+      <c:if test="${KualiForm.restrictedFunctionalityMode}">
+        <div class="tab-container" align="center">
+          <table cellpadding=0 class="datatable" summary=""> 
+            <tr>
+              <td align="left" valign="middle" class="subhead">Search Results</td>
+            </tr>
+            <tr>
+              <td><bean:message key="gl.correction.restricted.functionality.search.results.label" /></td>
+            </tr>
+          </table>
+        </div>
+      </c:if>
+      <c:if test="${!KualiForm.restrictedFunctionalityMode}">
+        <table cellpadding=0 class="datatable" summary=""> 
+          <tr>
+            <td align="left" valign="middle" class="subhead"><span class="subhead-left">Search Results - Output Group</span></td>
+          </tr>
+          <tr>
+            <td>
+              <glcp:displayOriginEntrySearchResults originEntries="${KualiForm.displayEntries}"/>
+            </td>
+          </tr>
+        </table>
+      </c:if>
     </div>
     <div class="tab-container" align="center"> 
       <table cellpadding=0 class="datatable" summary="">

@@ -129,7 +129,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
                         // reapply the any criteria to pare down the list if the match criteria only flag is checked
                         CorrectionDocument document = rForm.getCorrectionDocument();
                         List<CorrectionChangeGroup> groups = document.getCorrectionChangeGroup();
-                        updateEntriesFromCriteria(rForm);
+                        updateEntriesFromCriteria(rForm, rForm.isRestrictedFunctionalityMode());
                     }
                     if (!KFSConstants.TableRenderConstants.SORT_METHOD.equals(rForm.getMethodToCall())) {
                         // if sorting, we'll let the action take care of the sorting
@@ -256,7 +256,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         // Get the output group if necessary
         if (CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionForm.getEditMethod())) {
             loadAllEntries(correctionForm.getInputGroupId(), correctionForm);
-            updateEntriesFromCriteria(correctionForm);
+            updateEntriesFromCriteria(correctionForm, false);
             correctionForm.setShowOutputFlag(true);
         }
         else {
@@ -557,6 +557,11 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
                     GlobalVariables.getErrorMap().putError("documentsInSystem", KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_NO_RECORDS);
                 }
             }
+            
+            CorrectionDocument document = correctionForm.getCorrectionDocument();
+            if (document.getCorrectionChangeGroup().isEmpty()) {
+                document.addCorrectionChangeGroup(new CorrectionChangeGroup());
+            }
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -677,6 +682,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             }
         }
         else {
+            correctionForm.setRestrictedFunctionalityMode(false);
             if (loadedCount > 0) {
                 // Set all the data that we know
                 correctionForm.setDataLoadedFlag(true);
@@ -694,6 +700,9 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             }
         }
 
+        if (document.getCorrectionChangeGroup().isEmpty()) {
+            document.addCorrectionChangeGroup(new CorrectionChangeGroup());
+        }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -709,13 +718,14 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         document.addCorrectionChangeGroup(new CorrectionChangeGroup());
         correctionForm.syncGroups();
 
-        correctionForm.getDisplayEntries().clear();
-        correctionForm.getDisplayEntries().addAll(correctionForm.getAllEntries());
-        
-        if (correctionForm.getShowOutputFlag()) {
-            updateEntriesFromCriteria(correctionForm);
+        if (!correctionForm.isRestrictedFunctionalityMode()) {
+            correctionForm.getDisplayEntries().clear();
+            correctionForm.getDisplayEntries().addAll(correctionForm.getAllEntries());
+            
+            if (correctionForm.getShowOutputFlag()) {
+                updateEntriesFromCriteria(correctionForm, correctionForm.isRestrictedFunctionalityMode());
+            }
         }
-        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -739,7 +749,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         correctionForm.getDisplayEntries().addAll(correctionForm.getAllEntries());
         
         if (correctionForm.getShowOutputFlag()) {
-            updateEntriesFromCriteria(correctionForm);
+            updateEntriesFromCriteria(correctionForm, correctionForm.isRestrictedFunctionalityMode());
         }
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -772,7 +782,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             correctionForm.getDisplayEntries().addAll(correctionForm.getAllEntries());
             
             if (correctionForm.getShowOutputFlag()) {
-                updateEntriesFromCriteria(correctionForm);
+                updateEntriesFromCriteria(correctionForm, correctionForm.isRestrictedFunctionalityMode());
             }
         }
         
@@ -802,7 +812,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             correctionForm.getDisplayEntries().addAll(correctionForm.getAllEntries());
             
             if (correctionForm.getShowOutputFlag()) {
-                updateEntriesFromCriteria(correctionForm);
+                updateEntriesFromCriteria(correctionForm, correctionForm.isRestrictedFunctionalityMode());
             }
         }
         
@@ -832,7 +842,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             correctionForm.getDisplayEntries().addAll(correctionForm.getAllEntries());
             
             if (correctionForm.getShowOutputFlag()) {
-                updateEntriesFromCriteria(correctionForm);
+                updateEntriesFromCriteria(correctionForm, correctionForm.isRestrictedFunctionalityMode());
             }
         }
 
@@ -865,7 +875,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             correctionForm.getDisplayEntries().addAll(correctionForm.getAllEntries());
             
             if (correctionForm.getShowOutputFlag()) {
-                updateEntriesFromCriteria(correctionForm);
+                updateEntriesFromCriteria(correctionForm, correctionForm.isRestrictedFunctionalityMode());
             }
         }
         
@@ -1031,7 +1041,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             
             if (!correctionForm.getShowOutputFlag()) {
                 LOG.debug("showOutputGroup() Changing to output group");
-                updateEntriesFromCriteria(correctionForm);
+                updateEntriesFromCriteria(correctionForm, correctionForm.isRestrictedFunctionalityMode());
             }
             correctionForm.setShowOutputFlag(!correctionForm.getShowOutputFlag());
         }
@@ -1136,16 +1146,19 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
         updateDocumentSummary(document, correctionForm.getAllEntries(), correctionForm.isRestrictedFunctionalityMode());
         
-        SequenceAccessorService sequenceAccessorService = KNSServiceLocator.getSequenceAccessorService();
-        String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KFSConstants.LOOKUP_RESULTS_SEQUENCE));
+        if (!correctionForm.isRestrictedFunctionalityMode()) {
+            // if not in restricted functionality mode, then we can store these results temporarily in the GLCP origin entry service
+            SequenceAccessorService sequenceAccessorService = KNSServiceLocator.getSequenceAccessorService();
+            String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KFSConstants.LOOKUP_RESULTS_SEQUENCE));
+            
+            SpringServiceLocator.getGlCorrectionProcessOriginEntryService().persistAllEntries(glcpSearchResultsSequenceNumber, searchResults);
+            correctionForm.setGlcpSearchResultsSequenceNumber(glcpSearchResultsSequenceNumber);
         
-        SpringServiceLocator.getGlCorrectionProcessOriginEntryService().persistAllEntries(glcpSearchResultsSequenceNumber, searchResults);
-        correctionForm.setGlcpSearchResultsSequenceNumber(glcpSearchResultsSequenceNumber);
-        
-        int maxRowsPerPage = CorrectionDocumentUtils.getRecordsPerPage();
-        KualiTableRenderFormMetadata originEntrySearchResultTableMetadata = correctionForm.getOriginEntrySearchResultTableMetadata();
-        originEntrySearchResultTableMetadata.jumpToFirstPage(correctionForm.getDisplayEntries().size(), maxRowsPerPage);
-        originEntrySearchResultTableMetadata.setColumnToSortIndex(-1);
+            int maxRowsPerPage = CorrectionDocumentUtils.getRecordsPerPage();
+            KualiTableRenderFormMetadata originEntrySearchResultTableMetadata = correctionForm.getOriginEntrySearchResultTableMetadata();
+            originEntrySearchResultTableMetadata.jumpToFirstPage(correctionForm.getDisplayEntries().size(), maxRowsPerPage);
+            originEntrySearchResultTableMetadata.setColumnToSortIndex(-1);
+        }
     }
     
     /**
@@ -1321,7 +1334,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         }
     }
 
-    private void updateEntriesFromCriteria(CorrectionForm correctionForm) {
+    private void updateEntriesFromCriteria(CorrectionForm correctionForm, boolean clearOutSummary) {
         LOG.debug("updateEntriesFromCriteria() started");
 
         CorrectionDocument document = correctionForm.getCorrectionDocument();
@@ -1330,7 +1343,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         applyCriteriaOnEntries(correctionForm.getDisplayEntries(), correctionForm.getMatchCriteriaOnly(), changeCriteriaGroups);
         
         // Calculate the debit/credit/row count
-        updateDocumentSummary(document, correctionForm.getDisplayEntries(), correctionForm.isRestrictedFunctionalityMode());
+        updateDocumentSummary(document, correctionForm.getDisplayEntries(), clearOutSummary);
         
         // update the table rendering info
         int maxRowsPerPage = CorrectionDocumentUtils.getRecordsPerPage();
@@ -1546,7 +1559,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             return;
         }
         
-        if (!correctionForm.getDataLoadedFlag()) {
+        if (!correctionForm.getDataLoadedFlag() && !correctionForm.isRestrictedFunctionalityMode()) {
             // data is not loaded (maybe user selected a new group)
             // clear out existing data
             correctionDocumentService.removePersistedInputOriginEntries(document);

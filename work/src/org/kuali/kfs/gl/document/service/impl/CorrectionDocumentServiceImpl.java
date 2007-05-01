@@ -352,8 +352,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
         if (!workflowDocument.stateIsInitiated() && !workflowDocument.stateIsSaved()) {
             LOG.error("This method may only be called when the document is in the initiated or saved state.");
         }
-        String docId = document.getDocumentHeader().getDocumentNumber();
-        String fullPathUniqueFileName = getOriginEntryStagingDirectoryPath() + File.separator + docId + INPUT_ORIGIN_ENTRIES_FILE_SUFFIX;
+        String fullPathUniqueFileName = generateInputOriginEntryFileName(document);
         removePersistedOriginEntries(fullPathUniqueFileName);
     }
 
@@ -365,8 +364,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
         if (!workflowDocument.stateIsInitiated() && !workflowDocument.stateIsSaved()) {
             LOG.error("This method may only be called when the document is in the initiated or saved state.");
         }
-        String docId = document.getDocumentHeader().getDocumentNumber();
-        String fullPathUniqueFileName = getOriginEntryStagingDirectoryPath() + File.separator + docId + OUTPUT_ORIGIN_ENTRIES_FILE_SUFFIX;
+        String fullPathUniqueFileName = generateOutputOriginEntryFileName(document);
         removePersistedOriginEntries(fullPathUniqueFileName);
     }
     

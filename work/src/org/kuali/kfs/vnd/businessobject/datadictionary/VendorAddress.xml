@@ -181,8 +181,19 @@
 			<attributeReference name="vendorCityName" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="cityName" >
                 <required>true</required>
             </attributeReference>
-			<attributeReference name="vendorStateCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="stateCode" />
-			<attributeReference name="vendorZipCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="zipCode" />
+            
+			<attributeReference name="vendorStateCode" 
+				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" 
+				sourceAttributeName="stateCode">
+				<description>State and Postal Code are required fields when United States is selected as the country.</description>
+			</attributeReference>
+			
+			<attributeReference name="vendorZipCode" 
+				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" 
+				sourceAttributeName="zipCode" >
+				<description>State and Postal Code are required fields when United States is selected as the country.</description>
+			</attributeReference>
+			
 			<attributeReference name="vendorCountryCode" sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" sourceAttributeName="countryCode" >
                 <required>true</required>
             </attributeReference>

@@ -15,8 +15,8 @@
  */
 package org.kuali.module.gl.batch;
 
-import org.kuali.core.batch.AbstractStep;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 
 public class ClearOldOriginEntryStep extends AbstractStep {

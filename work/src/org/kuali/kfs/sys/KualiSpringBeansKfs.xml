@@ -182,7 +182,7 @@
 		<property name="listItem" value="scheduleJobTrigger" />
 	</bean>
 	
-	<bean id="scheduler" class="org.kuali.core.util.spring.SchedulerFactoryBean">
+	<bean id="scheduler" class="org.kuali.kfs.batch.SchedulerFactoryBean">
 		<property name="useQuartzScheduling" value="${use.quartz.scheduling}" />
 		<property name="useJdbcJobstore" value="${use.quartz.jdbc.jobstore}" />
 		<property name="dataSourceReference" ref="dataSource" />
@@ -198,7 +198,7 @@
 		</property>
 	</bean>
 	
-	<bean id="schedulerService" class="org.kuali.core.service.impl.SchedulerServiceImpl">
+	<bean id="schedulerService" class="org.kuali.kfs.service.impl.SchedulerServiceImpl">
 		<property name="scheduler" ref="scheduler" />
 		<property name="jobListener" ref="jobListener" />
 		<property name="moduleService" ref="kualiModuleService" />
@@ -207,17 +207,17 @@
 		<property name="mailService" ref="mailService" />		
 	</bean>
 
-	<bean id="jobListener" class="org.kuali.core.batch.JobListener">
+	<bean id="jobListener" class="org.kuali.kfs.batch.JobListener">
 		<property name="configurationService" ref="kualiConfigurationService" />
 		<property name="mailService" ref="mailService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 	</bean>
 
-	<bean id="scheduledJobDescriptor" abstract="true" class="org.kuali.core.batch.JobDescriptor">
+	<bean id="scheduledJobDescriptor" abstract="true" class="org.kuali.kfs.batch.JobDescriptor">
 		<property name="group" value="scheduled" />
 	</bean>
 
-	<bean id="unscheduledJobDescriptor" abstract="true" class="org.kuali.core.batch.JobDescriptor">
+	<bean id="unscheduledJobDescriptor" abstract="true" class="org.kuali.kfs.batch.JobDescriptor">
 		<property name="group" value="unscheduled" />
 	</bean>
 
@@ -234,7 +234,7 @@
 		</property>
 	</bean>
 	
-	<bean id="scheduleStep" parent="step" class="org.kuali.core.batch.ScheduleStep">
+	<bean id="scheduleStep" parent="step" class="org.kuali.kfs.batch.ScheduleStep">
 		<property name="schedulerService" ref="schedulerService" />
 	</bean>
 
@@ -243,9 +243,9 @@
 		<property name="dateTimeService" ref="dateTimeService" />
 	</bean>
 
-	<bean id="simpleTrigger" abstract="true" parent="trigger" class="org.kuali.core.batch.SimpleTriggerDescriptor" />
+	<bean id="simpleTrigger" abstract="true" parent="trigger" class="org.kuali.kfs.batch.SimpleTriggerDescriptor" />
 
-	<bean id="cronTrigger" abstract="true" parent="trigger" class="org.kuali.core.batch.CronTriggerDescriptor" />
+	<bean id="cronTrigger" abstract="true" parent="trigger" class="org.kuali.kfs.batch.CronTriggerDescriptor" />
 
   	<bean id="scheduleJobTrigger" parent="cronTrigger">
 		<property name="jobName" value="scheduleJob" />
@@ -259,30 +259,30 @@
         </property>
     </bean>
 
-	<bean id="databaseUpdateStep" parent="databaseImportExportStep" class="org.kuali.core.batch.DatabaseUpdateStep">
+	<bean id="databaseUpdateStep" parent="databaseImportExportStep" class="org.kuali.kfs.batch.DatabaseUpdateStep">
 		<property name="updateFileList" value="${database.update.file.list}" />
 	</bean>
 
-	<bean id="dataExportStep" parent="databaseImportExportStep" class="org.kuali.core.batch.DataExportStep">
+	<bean id="dataExportStep" parent="databaseImportExportStep" class="org.kuali.kfs.batch.DataExportStep">
 		<property name="dataExportZipFile" value="${data.export.zip.file}" />
 	</bean>
 	
-	<bean id="postDataLoadEncryptionStep" parent="databaseImportExportStep" class="org.kuali.core.batch.PostDataLoadEncryptionStep">
+	<bean id="postDataLoadEncryptionStep" parent="databaseImportExportStep" class="org.kuali.kfs.batch.PostDataLoadEncryptionStep">
 		<property name="attributesToEncryptProperties" value="${encrypt.attributes.properties.file}" />
 	</bean>
 
-	<bean id="generateDatabaseImportFileListStep" parent="databaseImportExportStep" class="org.kuali.core.batch.GenerateDatabaseImportFileListStep">
+	<bean id="generateDatabaseImportFileListStep" parent="databaseImportExportStep" class="org.kuali.kfs.batch.GenerateDatabaseImportFileListStep">
 		<property name="databaseFileDirectory" value="${database.file.directory}" />
 		<property name="dataExportZipFile" value="${data.export.zip.file}" />
 		<property name="updateFileList" value="${database.update.file.list}" />
 	</bean>
 
-	<bean id="databasePurgeStep" parent="databaseImportExportStep" class="org.kuali.core.batch.DatabasePurgeStep" />
+	<bean id="databasePurgeStep" parent="databaseImportExportStep" class="org.kuali.kfs.batch.DatabasePurgeStep" />
 	
-	<bean id="purgeSequenceTablesStep" parent="databaseImportExportStep" class="org.kuali.core.batch.PurgeSequenceTablesStep" />
+	<bean id="purgeSequenceTablesStep" parent="databaseImportExportStep" class="org.kuali.kfs.batch.PurgeSequenceTablesStep" />
 	<!-- end database purging/creation/maintenance -->	
 
-	<bean id="purgeOldLookupResultsStep" class="org.kuali.core.batch.PurgeOldLookupResultsStep" parent="step">
+	<bean id="purgeOldLookupResultsStep" class="org.kuali.kfs.batch.PurgeOldLookupResultsStep" parent="step">
 		<property name="lookupResultsService">
 			<ref bean="lookupResultsService" />
 		</property>
@@ -298,13 +298,13 @@
 		</property>
 	</bean>
 
-	<bean id="corePurgeDocumentContentsStep" class="org.kuali.core.batch.PurgeDocumentContentsStep" parent="step">
+	<bean id="corePurgeDocumentContentsStep" class="org.kuali.kfs.batch.PurgeDocumentContentsStep" parent="step">
 		<property name="documentService">
 			<ref bean="documentService" />
 		</property>
 	</bean>
 
-	<bean id="purgePendingAttachmentsStep" class="org.kuali.core.batch.PurgePendingAttachmentsStep" parent="step">
+	<bean id="purgePendingAttachmentsStep" class="org.kuali.kfs.batch.PurgePendingAttachmentsStep" parent="step">
 		<property name="attachmentService">
 			<ref bean="attachmentService" />
 		</property>

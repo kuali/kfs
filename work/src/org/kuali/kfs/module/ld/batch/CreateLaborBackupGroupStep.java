@@ -15,7 +15,7 @@
  */
 package org.kuali.module.labor.batch;
 
-import org.kuali.core.batch.AbstractStep;
+import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 
 public class CreateLaborBackupGroupStep extends AbstractStep {

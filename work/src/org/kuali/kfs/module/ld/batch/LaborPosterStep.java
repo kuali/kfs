@@ -15,7 +15,7 @@
  */
 package org.kuali.module.labor.batch;
 
-import org.kuali.core.batch.AbstractStep;
+import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.labor.service.LaborPosterService;
 
 /**
@@ -26,7 +26,7 @@ public class LaborPosterStep extends AbstractStep {
     private LaborPosterService laborPosterService;
 
     /**
-     * @see org.kuali.core.batch.Step#execute()
+     * @see org.kuali.kfs.batch.Step#execute()
      */
     public boolean execute() {
         laborPosterService.postMainEntries();

@@ -26,14 +26,14 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.Constants;
-import org.kuali.core.batch.BatchJobStatus;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.service.SchedulerService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.kfs.KfsConstants;
+import org.kuali.kfs.batch.BatchJobStatus;
+import org.kuali.kfs.service.SchedulerService;
 import org.kuali.kfs.util.SpringServiceLocator;
 
 public class KualiBatchJobModifyAction extends KualiAction {

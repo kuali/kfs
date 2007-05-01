@@ -15,7 +15,7 @@
  */
 package org.kuali.module.labor.batch;
 
-import org.kuali.core.batch.AbstractStep;
+import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.labor.service.LaborNightlyOutService;
 
 /**
@@ -27,7 +27,7 @@ public class LaborNightlyOutStep extends AbstractStep {
     private LaborNightlyOutService laborNightlyOutService;
 
     /**
-     * @see org.kuali.core.batch.Step#execute()
+     * @see org.kuali.kfs.batch.Step#execute()
      */
     public boolean execute() {
         try{

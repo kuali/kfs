@@ -18,7 +18,7 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../core/datadictionary/dataDictionary-1_0.dtd">
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.core.batch.BatchJobStatus">
+    <businessObject businessObjectClass="org.kuali.kfs.batch.BatchJobStatus">
 
         <lookup>
         	<lookupableID>batchJobStatusLookupable</lookupableID>

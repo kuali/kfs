@@ -15,8 +15,8 @@
  */
 package org.kuali.module.labor.batch;
 
-import org.kuali.core.batch.AbstractStep;
-import org.kuali.core.batch.Step;
+import org.kuali.kfs.batch.AbstractStep;
+import org.kuali.kfs.batch.Step;
 import org.kuali.module.labor.service.LaborScrubberService;
 
 public class LaborScrubberStep extends AbstractStep {

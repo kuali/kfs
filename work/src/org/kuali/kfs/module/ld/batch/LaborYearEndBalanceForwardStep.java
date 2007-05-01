@@ -15,7 +15,7 @@
  */
 package org.kuali.module.labor.batch;
 
-import org.kuali.core.batch.AbstractStep;
+import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.labor.service.LaborYearEndBalanceForwardService;
 
 /**
@@ -27,7 +27,7 @@ public class LaborYearEndBalanceForwardStep extends AbstractStep {
     private LaborYearEndBalanceForwardService laborYearEndBalanceForwardService; 
 
     /**
-     * @see org.kuali.core.batch.Step#execute()
+     * @see org.kuali.kfs.batch.Step#execute()
      */
     public boolean execute() {
         laborYearEndBalanceForwardService.forwardBalance();

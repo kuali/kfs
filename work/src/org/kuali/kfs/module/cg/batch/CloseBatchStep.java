@@ -15,7 +15,7 @@
  */
 package org.kuali.module.cg.batch;
 
-import org.kuali.core.batch.AbstractStep;
+import org.kuali.kfs.batch.AbstractStep;
 
 /**
  * Created by ...

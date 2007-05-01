@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2007 The Kuali Foundation.
+ * Copyright 2007 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,26 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.gl.batch;
+package org.kuali.kfs.batch;
 
-import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.module.gl.batch.closing.year.service.YearEndService;
+import org.kuali.kfs.service.SchedulerService;
 
-public class NominalActivityClosingStep extends AbstractStep {
-    public YearEndService yearEndService;
+public class ScheduleStep extends AbstractStep {
+    private SchedulerService schedulerService;
 
     /**
-     * @see org.kuali.kfs.batch.Step#performStep()
+     * @see org.kuali.kfs.batch.Step#execute()
      */
     public boolean execute() {
-        yearEndService.closeNominalActivity();
+        while (schedulerService.hasIncompleteJob()) {
+            schedulerService.processWaitingJobs();
+        }
+        schedulerService.logScheduleResults();
         return true;
     }
 
     /**
-     * @param yearEndService
+     * Sets the schedulerService attribute value.
+     * 
+     * @param schedulerService The schedulerService to set.
      */
-    public void setYearEndService(YearEndService yearEndService) {
-        this.yearEndService = yearEndService;
+    public void setSchedulerService(SchedulerService schedulerService) {
+        this.schedulerService = schedulerService;
     }
 }

@@ -15,7 +15,7 @@
  */
 package org.kuali.module.gl.batch;
 
-import org.kuali.core.batch.AbstractStep;
+import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.gl.service.NightlyOutService;
 
 public class ClearPendingStep extends AbstractStep {

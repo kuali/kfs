@@ -20,9 +20,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.batch.Step;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.Guid;
+import org.kuali.kfs.batch.Step;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.dao.UnitTestSqlDao;
 import org.kuali.test.KualiTestBase;

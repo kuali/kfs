@@ -15,7 +15,6 @@
  */
 package org.kuali.module.chart.lookup.keyvalues;
 
-import org.kuali.core.lookup.keyvalues.KualiSystemCodeValuesFinder;
 import org.kuali.module.chart.bo.codes.SufficientFundsCode;
 
 

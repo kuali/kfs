@@ -9,8 +9,8 @@ package org.kuali.module.labor.util;
 
 import java.util.List;
 
-import org.kuali.core.batch.JobDescriptor;
-import org.kuali.core.batch.Step;
+import org.kuali.kfs.batch.JobDescriptor;
+import org.kuali.kfs.batch.Step;
 import org.kuali.kfs.util.SpringServiceLocator;
 
 public class LaborBatchRunner {

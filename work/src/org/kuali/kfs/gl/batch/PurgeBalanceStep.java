@@ -19,8 +19,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.Constants;
-import org.kuali.core.batch.AbstractStep;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.chart.service.ChartService;
 import org.kuali.module.gl.service.BalanceService;
 

@@ -15,7 +15,7 @@
 -->
 <descriptor-repository version="1.0">
 
-<class-descriptor class="org.kuali.core.bo.KualiSystemCode" table="FS_CODES_DESC_T">
+<class-descriptor class="org.kuali.module.chart.bo.KualiSystemCode" table="FS_CODES_DESC_T">
     <field-descriptor name="code" column="CODE" jdbc-type="VARCHAR" primarykey="true" />
     <field-descriptor name="name" column="NAME" jdbc-type="VARCHAR" />
     <field-descriptor name="className" column="CLASS_NAME" jdbc-type="VARCHAR" primarykey="true" />

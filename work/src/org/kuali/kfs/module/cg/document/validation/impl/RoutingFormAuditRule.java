@@ -150,7 +150,7 @@ public class RoutingFormAuditRule {
      * @return
      */
     private static boolean processRoutingFormMainPagePersonnelUnitsAuditChecks(List<AuditError> auditErrors, RoutingFormDocument routingFormDocument) {
-        final String PERSON_ROLE_CODE_OTHER = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "KraRoutingFormPersonRoleCodeOther");;
+        final String PERSON_ROLE_CODE_OTHER = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(KraConstants.KRA_DEVELOPMENT_GROUP, "KraRoutingFormPersonRoleCodeOther");
         
         boolean valid = true;
         int projectDirectorCount = 0;

@@ -50,7 +50,7 @@ public class BudgetConstructionSelectionForm extends KualiForm {
 
         super.populate(request);
         
-        final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] {"chartOfAccounts", "account", "subAccount"}));
+        final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] {"chartOfAccounts", "account", "subAccount", "budgetConstructionAccountReports"}));
         KNSServiceLocator.getPersistenceService().retrieveReferenceObjects(this.getBudgetConstructionHeader(), REFRESH_FIELDS);
         
     }

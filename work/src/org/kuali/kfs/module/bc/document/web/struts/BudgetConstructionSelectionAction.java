@@ -158,7 +158,7 @@ public class BudgetConstructionSelectionAction extends KualiAction {
 //      returning from account lookup sets refreshcaller to accountLookupable, due to setting in account.xml
 //              if (refreshCaller != null && refreshCaller.equalsIgnoreCase(Constants.KUALI_LOOKUPABLE_IMPL)){
         if (refreshCaller != null && (refreshCaller.endsWith("Lookupable") || (refreshCaller.endsWith("LOOKUPABLE")))){
-            final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] {"chartOfAccounts", "account", "subAccount"}));
+            final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] {"chartOfAccounts", "account", "subAccount", "budgetConstructionAccountReports"}));
             KNSServiceLocator.getPersistenceService().retrieveReferenceObjects(budgetConstructionSelectionForm.getBudgetConstructionHeader(), REFRESH_FIELDS);            
         }
 

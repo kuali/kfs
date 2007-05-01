@@ -29,7 +29,7 @@ import org.kuali.core.service.KualiModuleService;
 import org.kuali.core.service.MailService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.spring.NamedOrderedListBean;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.batch.BatchJobStatus;
 import org.kuali.kfs.batch.Job;
 import org.kuali.kfs.batch.JobDescriptor;
@@ -79,7 +79,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         } catch (SchedulerException e) {
             throw new RuntimeException("SchedulerServiceImpl encountered an exception when trying to register the global job listener", e);
         }
-        for (NamedOrderedListBean namedOrderedListBean : SpringServiceLocator.getNamedOrderedListBeans(Constants.JOB_NAMES_LIST_NAME)) {
+        for (NamedOrderedListBean namedOrderedListBean : SpringServiceLocator.getNamedOrderedListBeans(KFSConstants.JOB_NAMES_LIST_NAME)) {
             for (String jobName : namedOrderedListBean.getList()) {
                 try {
                     loadJob(SpringServiceLocator.getJobDescriptor(jobName));
@@ -88,7 +88,7 @@ public class SchedulerServiceImpl implements SchedulerService {
                 }
             }
         }
-        for (NamedOrderedListBean namedOrderedListBean : SpringServiceLocator.getNamedOrderedListBeans(Constants.TRIGGER_NAMES_LIST_NAME)) {
+        for (NamedOrderedListBean namedOrderedListBean : SpringServiceLocator.getNamedOrderedListBeans(KFSConstants.TRIGGER_NAMES_LIST_NAME)) {
             for (String triggerName : namedOrderedListBean.getList()) {
                 try {
                     addTrigger(SpringServiceLocator.getTriggerDescriptor(triggerName).getTrigger());

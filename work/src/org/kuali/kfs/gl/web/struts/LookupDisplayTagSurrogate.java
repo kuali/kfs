@@ -117,7 +117,7 @@ public interface LookupDisplayTagSurrogate {
      * if someone wants to implement something where a user can decide how many results to display per page, 
      * this method is the place to do it.  Make this method read form values to determine the max rows per page based on the user inputs
      * 
-     * @see org.kuali.kfs.Constants.SystemGroupParameterNames#MULTIPLE_VALUE_LOOKUP_RESULTS_PER_PAGE
+     * @see org.kuali.kfs.KFSConstants.SystemGroupParameterNames#MULTIPLE_VALUE_LOOKUP_RESULTS_PER_PAGE
      * @see #DEFAULT_MAX_ROWS_PER_PAGE
      * @param multipleValueLookupForm the form
      * @return

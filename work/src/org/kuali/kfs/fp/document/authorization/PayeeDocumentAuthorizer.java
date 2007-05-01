@@ -22,7 +22,7 @@ import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
@@ -40,7 +40,7 @@ public class PayeeDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
     public Map getEditMode(Document document, UniversalUser user) {
         Map editMode = super.getEditMode(document, user);
 
-        if ( user.isMember( SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( Constants.FinancialApcParms.GROUP_DV_DOCUMENT, Constants.FinancialApcParms.DV_TAX_WORKGROUP ) ) ) {
+        if ( user.isMember( SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( KFSConstants.FinancialApcParms.GROUP_DV_DOCUMENT, KFSConstants.FinancialApcParms.DV_TAX_WORKGROUP ) ) ) {
             editMode.put(AuthorizationConstants.DisbursementVoucherEditMode.TAX_ENTRY, "TRUE");
         }
 

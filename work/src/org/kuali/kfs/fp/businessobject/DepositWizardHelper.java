@@ -17,7 +17,7 @@ package org.kuali.module.financial.bo;
 
 import java.sql.Timestamp;
 
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 
 /**
  * This helper class works in conjunction with the DepositWizardForm to help build the UI for the Deposit Wizard.
@@ -32,7 +32,7 @@ public class DepositWizardHelper {
      * Constructs a JournalVoucherAccountingLineHelper.java.
      */
     public DepositWizardHelper() {
-        selectedValue = Constants.ParameterValues.NO;
+        selectedValue = KFSConstants.ParameterValues.NO;
         cashReceiptCreateDate = new Timestamp(0);
     }
 

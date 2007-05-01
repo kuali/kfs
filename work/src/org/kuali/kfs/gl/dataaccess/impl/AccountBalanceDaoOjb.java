@@ -30,7 +30,7 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.bo.Transaction;
@@ -51,12 +51,12 @@ public class AccountBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements Acc
         LOG.debug("getByTransaction() started");
 
         Criteria crit = new Criteria();
-        crit.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR, t.getUniversityFiscalYear());
-        crit.addEqualTo(PropertyConstants.CHART_OF_ACCOUNTS_CODE, t.getChartOfAccountsCode());
-        crit.addEqualTo(PropertyConstants.ACCOUNT_NUMBER, t.getAccountNumber());
-        crit.addEqualTo(PropertyConstants.SUB_ACCOUNT_NUMBER, t.getSubAccountNumber());
-        crit.addEqualTo(PropertyConstants.OBJECT_CODE, t.getFinancialObjectCode());
-        crit.addEqualTo(PropertyConstants.SUB_OBJECT_CODE, t.getFinancialSubObjectCode());
+        crit.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, t.getUniversityFiscalYear());
+        crit.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, t.getChartOfAccountsCode());
+        crit.addEqualTo(KFSPropertyConstants.ACCOUNT_NUMBER, t.getAccountNumber());
+        crit.addEqualTo(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, t.getSubAccountNumber());
+        crit.addEqualTo(KFSPropertyConstants.OBJECT_CODE, t.getFinancialObjectCode());
+        crit.addEqualTo(KFSPropertyConstants.SUB_OBJECT_CODE, t.getFinancialSubObjectCode());
 
         QueryByCriteria qbc = QueryFactory.newQuery(AccountBalance.class, crit);
         return (AccountBalance) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
@@ -81,9 +81,9 @@ public class AccountBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements Acc
         Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new AccountBalance());
         ReportQueryByCriteria query = QueryFactory.newReportQuery(AccountBalance.class, criteria);
 
-        String[] attributes = new String[] { PropertyConstants.UNIVERSITY_FISCAL_YEAR, PropertyConstants.CHART_OF_ACCOUNTS_CODE, PropertyConstants.ACCOUNT_NUMBER, PropertyConstants.OBJECT_CODE, OBJ_TYP_CD, "sum(currentBudgetLineBalanceAmount)", "sum(accountLineActualsBalanceAmount)", "sum(accountLineEncumbranceBalanceAmount)" };
+        String[] attributes = new String[] { KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.ACCOUNT_NUMBER, KFSPropertyConstants.OBJECT_CODE, OBJ_TYP_CD, "sum(currentBudgetLineBalanceAmount)", "sum(accountLineActualsBalanceAmount)", "sum(accountLineEncumbranceBalanceAmount)" };
 
-        String[] groupBy = new String[] { PropertyConstants.UNIVERSITY_FISCAL_YEAR, PropertyConstants.CHART_OF_ACCOUNTS_CODE, PropertyConstants.ACCOUNT_NUMBER, PropertyConstants.OBJECT_CODE, OBJ_TYP_CD };
+        String[] groupBy = new String[] { KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.ACCOUNT_NUMBER, KFSPropertyConstants.OBJECT_CODE, OBJ_TYP_CD };
 
         query.setAttributes(attributes);
         query.addGroupBy(groupBy);
@@ -103,7 +103,7 @@ public class AccountBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements Acc
 
         query.setAttributes(new String[] { "count(*)" });
 
-        String[] groupBy = new String[] { PropertyConstants.UNIVERSITY_FISCAL_YEAR, PropertyConstants.CHART_OF_ACCOUNTS_CODE, PropertyConstants.ACCOUNT_NUMBER, PropertyConstants.OBJECT_CODE, OBJ_TYP_CD };
+        String[] groupBy = new String[] { KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.ACCOUNT_NUMBER, KFSPropertyConstants.OBJECT_CODE, OBJ_TYP_CD };
         query.addGroupBy(groupBy);
 
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
@@ -193,8 +193,8 @@ public class AccountBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements Acc
         LOG.debug("purgeYearByChart() started");
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(PropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
-        criteria.addLessThan(PropertyConstants.UNIVERSITY_FISCAL_YEAR, new Integer(year));
+        criteria.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        criteria.addLessThan(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, new Integer(year));
 
         getPersistenceBrokerTemplate().deleteByQuery(new QueryByCriteria(AccountBalance.class, criteria));
 

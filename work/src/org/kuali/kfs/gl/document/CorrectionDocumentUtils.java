@@ -15,7 +15,7 @@
  */
 package org.kuali.module.gl.util;
 
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.gl.web.struts.form.CorrectionForm;
 import org.kuali.rice.KNSServiceLocator;
 
@@ -36,8 +36,8 @@ public class CorrectionDocumentUtils {
     public static final int DEFAULT_RECORDS_PER_PAGE = 10;
     
     public static int getRecordCountFunctionalityLimit() {
-        String limitString = KNSServiceLocator.getKualiConfigurationService().getApplicationParameterValue(Constants.ParameterGroups.GENERAL_LEDGER_CORRECTION_PROCESS,
-                Constants.GeneralLedgerCorrectionProcessApplicationParameterKeys.RECORD_COUNT_FUNCTIONALITY_LIMIT);
+        String limitString = KNSServiceLocator.getKualiConfigurationService().getApplicationParameterValue(KFSConstants.ParameterGroups.GENERAL_LEDGER_CORRECTION_PROCESS,
+                KFSConstants.GeneralLedgerCorrectionProcessApplicationParameterKeys.RECORD_COUNT_FUNCTIONALITY_LIMIT);
         if (limitString != null) {
             return Integer.valueOf(limitString);
         }
@@ -46,8 +46,8 @@ public class CorrectionDocumentUtils {
     }
     
     public static int getRecordsPerPage() {
-        String limitString = KNSServiceLocator.getKualiConfigurationService().getApplicationParameterValue(Constants.ParameterGroups.GENERAL_LEDGER_CORRECTION_PROCESS,
-                Constants.GeneralLedgerCorrectionProcessApplicationParameterKeys.RECORDS_PER_PAGE);
+        String limitString = KNSServiceLocator.getKualiConfigurationService().getApplicationParameterValue(KFSConstants.ParameterGroups.GENERAL_LEDGER_CORRECTION_PROCESS,
+                KFSConstants.GeneralLedgerCorrectionProcessApplicationParameterKeys.RECORDS_PER_PAGE);
         if (limitString != null) {
             return Integer.valueOf(limitString);
         }

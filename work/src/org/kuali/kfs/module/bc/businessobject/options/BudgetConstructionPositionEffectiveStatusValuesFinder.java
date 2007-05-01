@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.Constants.BudgetConstructionPositionConstants;
+import org.kuali.kfs.KFSConstants.BudgetConstructionPositionConstants;
 
 /**
  * This class returns list of ba fund restriction levels.

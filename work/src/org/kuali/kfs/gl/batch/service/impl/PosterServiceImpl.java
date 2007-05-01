@@ -30,8 +30,8 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.IcrAutomatedEntry;
@@ -230,11 +230,11 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
             Reversal reversal = new Reversal(tran);
 
             // Reverse the debit/credit code
-            if (Constants.GL_DEBIT_CODE.equals(reversal.getTransactionDebitCreditCode())) {
-                reversal.setTransactionDebitCreditCode(Constants.GL_CREDIT_CODE);
+            if (KFSConstants.GL_DEBIT_CODE.equals(reversal.getTransactionDebitCreditCode())) {
+                reversal.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
             }
-            else if (Constants.GL_CREDIT_CODE.equals(reversal.getTransactionDebitCreditCode())) {
-                reversal.setTransactionDebitCreditCode(Constants.GL_DEBIT_CODE);
+            else if (KFSConstants.GL_CREDIT_CODE.equals(reversal.getTransactionDebitCreditCode())) {
+                reversal.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
             }
 
             UniversityDate udate = universityDateDao.getByPrimaryKey(reversal.getFinancialDocumentReversalDate());
@@ -244,23 +244,23 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
 
                 AccountingPeriod ap = accountingPeriodService.getByPeriod(reversal.getUniversityFiscalPeriodCode(), reversal.getUniversityFiscalYear());
                 if (ap != null) {
-                    if (Constants.ACCOUNTING_PERIOD_STATUS_CLOSED.equals(ap.getUniversityFiscalPeriodStatusCode())) {
+                    if (KFSConstants.ACCOUNTING_PERIOD_STATUS_CLOSED.equals(ap.getUniversityFiscalPeriodStatusCode())) {
                         reversal.setUniversityFiscalYear(runUniversityDate.getUniversityFiscalYear());
                         reversal.setUniversityFiscalPeriodCode(runUniversityDate.getUniversityFiscalAccountingPeriod());
                     }
                     reversal.setFinancialDocumentReversalDate(null);
-                    String newDescription = Constants.GL_REVERSAL_DESCRIPTION_PREFIX + reversal.getTransactionLedgerEntryDescription();
+                    String newDescription = KFSConstants.GL_REVERSAL_DESCRIPTION_PREFIX + reversal.getTransactionLedgerEntryDescription();
                     if (newDescription.length() > 40) {
                         newDescription = newDescription.substring(0, 40);
                     }
                     reversal.setTransactionLedgerEntryDescription(newDescription);
                 }
                 else {
-                    errors.add(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_UNIV_DATE_NOT_IN_ACCOUNTING_PERIOD_TABLE));
+                    errors.add(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_UNIV_DATE_NOT_IN_ACCOUNTING_PERIOD_TABLE));
                 }
             }
             else {
-                errors.add(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_REVERSAL_DATE_NOT_IN_UNIV_DATE_TABLE));
+                errors.add(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_REVERSAL_DATE_NOT_IN_UNIV_DATE_TABLE));
             }
 
             PersistenceService ps = SpringServiceLocator.getPersistenceService();
@@ -444,7 +444,7 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
         else if ("#".equals(icrEntry.getAccountNumber())) {
             e.setAccountNumber(et.getAccount().getIndirectCostRecoveryAcctNbr());
             e.setChartOfAccountsCode(et.getAccount().getIndirectCostRcvyFinCoaCode());
-            e.setSubAccountNumber(Constants.DASHES_SUB_ACCOUNT_NUMBER);
+            e.setSubAccountNumber(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER);
         }
         else {
             e.setAccountNumber(icrEntry.getAccountNumber());
@@ -453,11 +453,11 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
             // TODO Reporting thing line 1946
         }
 
-        e.setFinancialDocumentTypeCode(kualiConfigurationService.getApplicationParameterValue(Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.GL_INDIRECT_COST_RECOVERY));
-        e.setFinancialSystemOriginationCode(kualiConfigurationService.getApplicationParameterValue(Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.GL_ORIGINATION_CODE));
+        e.setFinancialDocumentTypeCode(kualiConfigurationService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.GL_INDIRECT_COST_RECOVERY));
+        e.setFinancialSystemOriginationCode(kualiConfigurationService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE));
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_STRING);
         e.setDocumentNumber(sdf.format(runDate));
-        if (Constants.GL_DEBIT_CODE.equals(icrEntry.getTransactionDebitIndicator())) {
+        if (KFSConstants.GL_DEBIT_CODE.equals(icrEntry.getTransactionDebitIndicator())) {
             e.setTransactionLedgerEntryDescription(getChargeDescription(pct, et.getObjectCode(), et.getAccount().getAcctIndirectCostRcvyTypeCd(), et.getAccountObjectDirectCostAmount().abs()));
         }
         else {
@@ -472,16 +472,16 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
         ObjectCode oc = objectCodeService.getByPrimaryId(e.getUniversityFiscalYear(), e.getChartOfAccountsCode(), e.getFinancialObjectCode());
         if (oc == null) {
             // TODO This should be a report thing, not an exception
-            throw new IllegalArgumentException(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_OBJECT_CODE_NOT_FOUND_FOR) + e.getUniversityFiscalYear() + "," + e.getChartOfAccountsCode() + "," + e.getFinancialObjectCode());
+            throw new IllegalArgumentException(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_OBJECT_CODE_NOT_FOUND_FOR) + e.getUniversityFiscalYear() + "," + e.getChartOfAccountsCode() + "," + e.getFinancialObjectCode());
         }
         e.setFinancialObjectTypeCode(oc.getFinancialObjectTypeCode());
 
         if (generatedTransactionAmount.isNegative()) {
-            if (Constants.GL_DEBIT_CODE.equals(icrEntry.getTransactionDebitIndicator())) {
-                e.setTransactionDebitCreditCode(Constants.GL_CREDIT_CODE);
+            if (KFSConstants.GL_DEBIT_CODE.equals(icrEntry.getTransactionDebitIndicator())) {
+                e.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
             }
             else {
-                e.setTransactionDebitCreditCode(Constants.GL_DEBIT_CODE);
+                e.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
             }
             e.setTransactionLedgerEntryAmount(generatedTransactionAmount.negated());
         }
@@ -490,7 +490,7 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
         }
 
         if (et.getBalanceTypeCode().equals(et.getOption().getExtrnlEncumFinBalanceTypCd()) || et.getBalanceTypeCode().equals(et.getOption().getIntrnlEncumFinBalanceTypCd()) || et.getBalanceTypeCode().equals(et.getOption().getPreencumbranceFinBalTypeCd()) || et.getBalanceTypeCode().equals(et.getOption().getCostShareEncumbranceBalanceTypeCd())) {
-            e.setDocumentNumber(kualiConfigurationService.getApplicationParameterValue(Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.GL_INDIRECT_COST_RECOVERY));
+            e.setDocumentNumber(kualiConfigurationService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.GL_INDIRECT_COST_RECOVERY));
         }
         e.setProjectCode(et.getProjectCode());
         if (GLConstants.DASH_ORGANIZATION_REFERENCE_ID.equals(et.getOrganizationReferenceId())) {
@@ -505,26 +505,26 @@ public class PosterServiceImpl implements PosterService, BeanFactoryAware {
 
         // Now generate Offset
         e = new OriginEntry(e);
-        if (Constants.GL_DEBIT_CODE.equals(e.getTransactionDebitCreditCode())) {
-            e.setTransactionDebitCreditCode(Constants.GL_CREDIT_CODE);
+        if (KFSConstants.GL_DEBIT_CODE.equals(e.getTransactionDebitCreditCode())) {
+            e.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
         }
         else {
-            e.setTransactionDebitCreditCode(Constants.GL_DEBIT_CODE);
+            e.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
         }
-        e.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
+        e.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
         e.setFinancialObjectCode(icrEntry.getOffsetBalanceSheetObjectCodeNumber());
 
         ObjectCode balSheetObjectCode = objectCodeService.getByPrimaryId(icrEntry.getUniversityFiscalYear(), e.getChartOfAccountsCode(), icrEntry.getOffsetBalanceSheetObjectCodeNumber());
         if (balSheetObjectCode == null) {
             List warnings = new ArrayList();
-            warnings.add(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_INVALID_OFFSET_OBJECT_CODE) + icrEntry.getUniversityFiscalYear() + "-" + e.getChartOfAccountsCode() + "-" + icrEntry.getOffsetBalanceSheetObjectCodeNumber());
+            warnings.add(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_INVALID_OFFSET_OBJECT_CODE) + icrEntry.getUniversityFiscalYear() + "-" + e.getChartOfAccountsCode() + "-" + icrEntry.getOffsetBalanceSheetObjectCodeNumber());
             reportErrors.put(e, warnings);
         }
         else {
             e.setFinancialObjectTypeCode(balSheetObjectCode.getFinancialObjectTypeCode());
         }
 
-        if (Constants.GL_DEBIT_CODE.equals(icrEntry.getTransactionDebitIndicator())) {
+        if (KFSConstants.GL_DEBIT_CODE.equals(icrEntry.getTransactionDebitIndicator())) {
             e.setTransactionLedgerEntryDescription(getChargeDescription(pct, et.getObjectCode(), et.getAccount().getAcctIndirectCostRcvyTypeCd(), et.getAccountObjectDirectCostAmount().abs()));
         }
         else {

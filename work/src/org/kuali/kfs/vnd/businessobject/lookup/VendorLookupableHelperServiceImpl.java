@@ -33,7 +33,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.format.Formatter;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorKeyConstants;
 import org.kuali.module.vendor.VendorPropertyConstants;
@@ -57,7 +57,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
         actions.append("&nbsp;&nbsp;");
         if (vendor.isVendorParentIndicator() && vendor.isActiveIndicator()) {
             // only allow active parent vendors to create new divisions
-            actions.append(getMaintenanceUrl(bo, Constants.MAINTENANCE_NEWWITHEXISTING_ACTION));
+            actions.append(getMaintenanceUrl(bo, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION));
         }
         return actions.toString();
     }
@@ -74,10 +74,10 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
      */
     @Override
     public String getMaintenanceUrl(BusinessObject bo, String methodToCall) {
-        if (!methodToCall.equals(Constants.COPY_METHOD)) {
+        if (!methodToCall.equals(KFSConstants.COPY_METHOD)) {
             Properties parameters = new Properties();
-            parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, methodToCall);
-            parameters.put(Constants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, bo.getClass().getName());
+            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
+            parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, bo.getClass().getName());
 
             List pkNames = getPersistenceStructureService().listPrimaryKeyFieldNames(getBusinessObjectClass());
             for (Iterator<String> iter = pkNames.iterator(); iter.hasNext();) {
@@ -85,13 +85,13 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
                 if (!fieldNm.equals(VendorPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID) || 
                         !((VendorDetail) bo).isVendorParentIndicator() || 
                         (((VendorDetail) bo).isVendorParentIndicator()) && 
-                        !methodToCall.equals(Constants.MAINTENANCE_NEWWITHEXISTING_ACTION)) {
+                        !methodToCall.equals(KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION)) {
                     Object fieldVal = ObjectUtils.getPropertyValue(bo, fieldNm);
                     if (fieldVal == null) {
-                        fieldVal = Constants.EMPTY_STRING;
+                        fieldVal = KFSConstants.EMPTY_STRING;
                     }
                     if (fieldVal instanceof java.sql.Date) {
-                        String formattedString = Constants.EMPTY_STRING;
+                        String formattedString = KFSConstants.EMPTY_STRING;
                         if (Formatter.findFormatter(fieldVal.getClass()) != null) {
                             Formatter formatter = Formatter.getFormatter(fieldVal.getClass());
                             formattedString = (String) formatter.format(fieldVal);
@@ -101,15 +101,15 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
                     parameters.put(fieldNm, fieldVal.toString());
                 }
             }
-            if (methodToCall.equals(Constants.MAINTENANCE_NEWWITHEXISTING_ACTION)) {
+            if (methodToCall.equals(KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION)) {
                 methodToCall = VendorConstants.CREATE_NEW_DIVISION;
             }
-            String url = UrlFactory.parameterizeUrl(Constants.MAINTENANCE_ACTION, parameters);
+            String url = UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
             url = "<a href=\"" + url + "\">" + methodToCall + "</a>";
             return url;
         }
         else {
-            return Constants.EMPTY_STRING;
+            return KFSConstants.EMPTY_STRING;
         }
     }
 
@@ -124,8 +124,8 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
     @Override
     public List<BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         boolean unbounded = false;
-        super.setBackLocation((String) fieldValues.get(Constants.BACK_LOCATION));
-        super.setDocFormKey((String) fieldValues.get(Constants.DOC_FORM_KEY));
+        super.setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
+        super.setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
         String vendorName = fieldValues.get(VendorPropertyConstants.VENDOR_NAME);
         if (StringUtils.isNotEmpty(vendorName)) {

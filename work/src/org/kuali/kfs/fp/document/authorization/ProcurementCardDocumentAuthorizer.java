@@ -28,7 +28,7 @@ import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
 import org.kuali.core.exceptions.DocumentTypeAuthorizationException;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
 
@@ -94,7 +94,7 @@ public class ProcurementCardDocumentAuthorizer extends AccountingDocumentAuthori
      */
     @Override
     public void canInitiate(String documentTypeName, UniversalUser user) {
-        if (!Constants.SYSTEM_USER.equalsIgnoreCase(user.getPersonUserIdentifier())) {
+        if (!KFSConstants.SYSTEM_USER.equalsIgnoreCase(user.getPersonUserIdentifier())) {
             throw new DocumentTypeAuthorizationException(user.getPersonUserIdentifier(), "initiate", documentTypeName);
         }
     }

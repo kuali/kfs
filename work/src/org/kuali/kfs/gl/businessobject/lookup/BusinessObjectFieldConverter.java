@@ -21,7 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 
 /**
  * This class...
@@ -134,14 +134,14 @@ public class BusinessObjectFieldConverter {
     private static Map getPropertyMappingTable() {
         Map propertyMappingTable = new HashMap();
 
-        propertyMappingTable.put(PropertyConstants.OBJECT_CODE, PropertyConstants.FINANCIAL_OBJECT_CODE);
-        propertyMappingTable.put(PropertyConstants.SUB_OBJECT_CODE, PropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
-        propertyMappingTable.put(PropertyConstants.OBJECT_TYPE_CODE, PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
+        propertyMappingTable.put(KFSPropertyConstants.OBJECT_CODE, KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        propertyMappingTable.put(KFSPropertyConstants.SUB_OBJECT_CODE, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        propertyMappingTable.put(KFSPropertyConstants.OBJECT_TYPE_CODE, KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
 
-        propertyMappingTable.put(PropertyConstants.BALANCE_TYPE_CODE, PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
-        propertyMappingTable.put(PropertyConstants.DOCUMENT_TYPE_CODE, PropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
-        propertyMappingTable.put(PropertyConstants.ORIGIN_CODE, PropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE);
-        propertyMappingTable.put(PropertyConstants.DOCUMENT_NUMBER, PropertyConstants.DOCUMENT_NUMBER);
+        propertyMappingTable.put(KFSPropertyConstants.BALANCE_TYPE_CODE, KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
+        propertyMappingTable.put(KFSPropertyConstants.DOCUMENT_TYPE_CODE, KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
+        propertyMappingTable.put(KFSPropertyConstants.ORIGIN_CODE, KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE);
+        propertyMappingTable.put(KFSPropertyConstants.DOCUMENT_NUMBER, KFSPropertyConstants.DOCUMENT_NUMBER);
 
         return propertyMappingTable;
     }

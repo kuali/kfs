@@ -43,9 +43,9 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Chart;
@@ -247,7 +247,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
                     // if anything has changed, complain
                     if (changed) {
                         String humanReadableFieldName = ddService.getAttributeLabel(document.getNewMaintainableObject().getBoClass(), fieldName);
-                        putFieldError(fieldName, KeyConstants.ERROR_DOCUMENT_AUTHORIZATION_RESTRICTED_FIELD_CHANGED, humanReadableFieldName);
+                        putFieldError(fieldName, KFSKeyConstants.ERROR_DOCUMENT_AUTHORIZATION_RESTRICTED_FIELD_CHANGED, humanReadableFieldName);
                         success &= false;
                     }
                 }
@@ -453,7 +453,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
         Map criteria = new HashMap();
         criteria.put(VendorPropertyConstants.VENDOR_TAX_TYPE_CODE, vendorDetail.getVendorHeader().getVendorTaxTypeCode());
         criteria.put(VendorPropertyConstants.VENDOR_TAX_NUMBER, vendorDetail.getVendorHeader().getVendorTaxNumber());
-        criteria.put(PropertyConstants.ACTIVE_INDICATOR, true);
+        criteria.put(KFSPropertyConstants.ACTIVE_INDICATOR, true);
         Map negativeCriteria = new HashMap();
         int existingVendor = 0;
         //If this is editing an existing vendor, we have to include the current vendor's
@@ -784,7 +784,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
         boolean valid = true;
       
             Country country = address.getVendorCountry();
-            if(ObjectUtils.isNotNull(country) && StringUtils.equals(Constants.COUNTRY_CODE_UNITED_STATES,country.getPostalCountryCode())) {
+            if(ObjectUtils.isNotNull(country) && StringUtils.equals(KFSConstants.COUNTRY_CODE_UNITED_STATES,country.getPostalCountryCode())) {
                
                 if(StringUtils.isEmpty(address.getVendorZipCode())) {
                     GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_ADDRESS_ZIP, VendorKeyConstants.ERROR_US_REQUIRES_ZIP);
@@ -1005,12 +1005,12 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
             Map chartOrgMap = new HashMap();
             chartOrgMap.put("chartOfAccountsCode", chartOfAccountsCode);        
             if (SpringServiceLocator.getBusinessObjectService().countMatching(Chart.class, chartOrgMap) < 1) {
-                GlobalVariables.getErrorMap().putError( VendorPropertyConstants.VENDOR_CUSTOMER_NUMBER_CHART_OF_ACCOUNTS_CODE, KeyConstants.ERROR_EXISTENCE, chartOfAccountsCode);
+                GlobalVariables.getErrorMap().putError( VendorPropertyConstants.VENDOR_CUSTOMER_NUMBER_CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.ERROR_EXISTENCE, chartOfAccountsCode);
                 valid &= false; 
             }
             chartOrgMap.put("organizationCode", orgCode);
             if (SpringServiceLocator.getBusinessObjectService().countMatching(Org.class, chartOrgMap) < 1) {
-                GlobalVariables.getErrorMap().putError( VendorPropertyConstants.VENDOR_CUSTOMER_NUMBER_ORGANIZATION_CODE, KeyConstants.ERROR_EXISTENCE, orgCode);
+                GlobalVariables.getErrorMap().putError( VendorPropertyConstants.VENDOR_CUSTOMER_NUMBER_ORGANIZATION_CODE, KFSKeyConstants.ERROR_EXISTENCE, orgCode);
                 valid &= false;               
             }
         }
@@ -1144,12 +1144,12 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
             Map chartOrgMap = new HashMap();
             chartOrgMap.put("chartOfAccountsCode", chartOfAccountsCode);       
             if (SpringServiceLocator.getBusinessObjectService().countMatching(Chart.class, chartOrgMap) < 1) {
-                GlobalVariables.getErrorMap().putError( VendorPropertyConstants.VENDOR_CONTRACT_CHART_OF_ACCOUNTS_CODE, KeyConstants.ERROR_EXISTENCE, chartOfAccountsCode);
+                GlobalVariables.getErrorMap().putError( VendorPropertyConstants.VENDOR_CONTRACT_CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.ERROR_EXISTENCE, chartOfAccountsCode);
                 valid &= false;
             }
             chartOrgMap.put("organizationCode", orgCode);
             if (SpringServiceLocator.getBusinessObjectService().countMatching(Org.class, chartOrgMap) < 1) {
-                GlobalVariables.getErrorMap().putError( VendorPropertyConstants.VENDOR_CONTRACT_ORGANIZATION_CODE, KeyConstants.ERROR_EXISTENCE, orgCode);
+                GlobalVariables.getErrorMap().putError( VendorPropertyConstants.VENDOR_CONTRACT_ORGANIZATION_CODE, KFSKeyConstants.ERROR_EXISTENCE, orgCode);
                 valid &= false;
             }            
         }

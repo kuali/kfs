@@ -37,7 +37,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.struts.form.KualiTableRenderFormMetadata;
 import org.kuali.core.web.ui.Column;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.CorrectionChange;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
@@ -122,12 +122,12 @@ public class CorrectionForm extends KualiDocumentFormBase {
     public void populate(HttpServletRequest request) {
         super.populate(request);
         
-        if (Constants.TableRenderConstants.SWITCH_TO_PAGE_METHOD.equals(getMethodToCall())) {
+        if (KFSConstants.TableRenderConstants.SWITCH_TO_PAGE_METHOD.equals(getMethodToCall())) {
             // look for the page number to switch to
             originEntrySearchResultTableMetadata.setSwitchToPageNumber(-1);
             
             // the param we're looking for looks like: methodToCall.switchToPage.1.x , where 1 is the page nbr
-            String paramPrefix = Constants.DISPATCH_REQUEST_PARAMETER + "." + Constants.TableRenderConstants.SWITCH_TO_PAGE_METHOD + ".";
+            String paramPrefix = KFSConstants.DISPATCH_REQUEST_PARAMETER + "." + KFSConstants.TableRenderConstants.SWITCH_TO_PAGE_METHOD + ".";
             for (Enumeration i = request.getParameterNames(); i.hasMoreElements();) {
                 String parameterName = (String) i.nextElement();
                 if (parameterName.startsWith(paramPrefix) && parameterName.endsWith(".x")) {
@@ -140,11 +140,11 @@ public class CorrectionForm extends KualiDocumentFormBase {
             }
         }
         
-        if (Constants.TableRenderConstants.SORT_METHOD.equals(getMethodToCall())) {
+        if (KFSConstants.TableRenderConstants.SORT_METHOD.equals(getMethodToCall())) {
             originEntrySearchResultTableMetadata.setColumnToSortIndex(-1);
             
             // the param we're looking for looks like: methodToCall.sort.1.x , where 1 is the column to sort on
-            String paramPrefix = Constants.DISPATCH_REQUEST_PARAMETER + "." + Constants.TableRenderConstants.SORT_METHOD + ".";
+            String paramPrefix = KFSConstants.DISPATCH_REQUEST_PARAMETER + "." + KFSConstants.TableRenderConstants.SORT_METHOD + ".";
             for (Enumeration i = request.getParameterNames(); i.hasMoreElements();) {
                 String parameterName = (String) i.nextElement();
                 if (parameterName.startsWith(paramPrefix) && parameterName.endsWith(".x")) {

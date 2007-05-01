@@ -21,7 +21,7 @@ import static org.kuali.rice.KNSServiceLocator.getBusinessObjectService;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.test.KualiTestBase;
@@ -78,7 +78,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
 
         // verify that it is open
         CashDrawer drawer = getCashDrawerService().getByWorkgroupName(workgroup, false);
-        assertEquals(Constants.CashDrawerConstants.STATUS_OPEN, drawer.getStatusCode());
+        assertEquals(KFSConstants.CashDrawerConstants.STATUS_OPEN, drawer.getStatusCode());
         assertEquals(VALID_DOC_ID, drawer.getReferenceFinancialDocumentNumber());
     }
 
@@ -93,7 +93,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
 
         // make sure it is open
         CashDrawer drawer = getCashDrawerService().getByWorkgroupName(workgroup, false);
-        assertEquals(Constants.CashDrawerConstants.STATUS_OPEN, drawer.getStatusCode());
+        assertEquals(KFSConstants.CashDrawerConstants.STATUS_OPEN, drawer.getStatusCode());
         assertEquals(VALID_DOC_ID, drawer.getReferenceFinancialDocumentNumber());
     }
 
@@ -122,7 +122,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
 
         // verify that it is closed
         CashDrawer drawer = getCashDrawerService().getByWorkgroupName(workgroup, false);
-        assertEquals(Constants.CashDrawerConstants.STATUS_CLOSED, drawer.getStatusCode());
+        assertEquals(KFSConstants.CashDrawerConstants.STATUS_CLOSED, drawer.getStatusCode());
         assertNull(drawer.getReferenceFinancialDocumentNumber());
     }
 
@@ -137,7 +137,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
 
         // make sure it is closed
         CashDrawer drawer = getCashDrawerService().getByWorkgroupName(workgroup, false);
-        assertEquals(Constants.CashDrawerConstants.STATUS_CLOSED, drawer.getStatusCode());
+        assertEquals(KFSConstants.CashDrawerConstants.STATUS_CLOSED, drawer.getStatusCode());
         assertNull(drawer.getReferenceFinancialDocumentNumber());
     }
 
@@ -241,7 +241,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
 
         // verify that it is locked
         CashDrawer drawer = getCashDrawerService().getByWorkgroupName(workgroup, false);
-        assertEquals(Constants.CashDrawerConstants.STATUS_LOCKED, drawer.getStatusCode());
+        assertEquals(KFSConstants.CashDrawerConstants.STATUS_LOCKED, drawer.getStatusCode());
         assertEquals(VALID_DOC_ID, drawer.getReferenceFinancialDocumentNumber());
     }
 
@@ -307,7 +307,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
 
         // verify that it is unlocked
         CashDrawer drawer = getCashDrawerService().getByWorkgroupName(workgroup, false);
-        assertEquals(Constants.CashDrawerConstants.STATUS_OPEN, drawer.getStatusCode());
+        assertEquals(KFSConstants.CashDrawerConstants.STATUS_OPEN, drawer.getStatusCode());
         assertEquals(VALID_DOC_ID, drawer.getReferenceFinancialDocumentNumber());
     }
 
@@ -360,7 +360,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
 
         assertNotNull(d);
         assertEquals(workgroup, d.getWorkgroupName());
-        assertEquals(Constants.CashDrawerConstants.STATUS_CLOSED, d.getStatusCode());
+        assertEquals(KFSConstants.CashDrawerConstants.STATUS_CLOSED, d.getStatusCode());
     }
 
 
@@ -374,7 +374,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
 
         CashDrawer created = new CashDrawer();
         created.setWorkgroupName(RANDOM_WORKGROUP_NAME);
-        created.setStatusCode(Constants.CashDrawerConstants.STATUS_CLOSED);
+        created.setStatusCode(KFSConstants.CashDrawerConstants.STATUS_CLOSED);
 
         CashDrawer retrieved = null;
         try {
@@ -413,7 +413,7 @@ public class CashDrawerServiceTest extends KualiTestBase {
 
         CashDrawer cd = new CashDrawer();
         cd.setWorkgroupName(workgroupName);
-        cd.setStatusCode(Constants.CashDrawerConstants.STATUS_CLOSED);
+        cd.setStatusCode(KFSConstants.CashDrawerConstants.STATUS_CLOSED);
         getBusinessObjectService().save(cd);
     }
 }

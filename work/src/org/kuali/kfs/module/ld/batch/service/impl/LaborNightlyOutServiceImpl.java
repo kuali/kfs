@@ -22,7 +22,7 @@ import java.util.Iterator;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.service.OriginEntryGroupService;
@@ -51,7 +51,7 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
      * @see org.kuali.module.labor.service.LaborNightlyOutService#deleteCopiedPendingLedgerEntries()
      */
     public void deleteCopiedPendingLedgerEntries() {
-        laborLedgerPendingEntryService.deleteByFinancialDocumentApprovedCode(Constants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED);
+        laborLedgerPendingEntryService.deleteByFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED);
     }
 
     /**
@@ -70,7 +70,7 @@ public class LaborNightlyOutServiceImpl implements LaborNightlyOutService {
             saveAsOriginEntry(pendingEntry, group);
 
             // update the pending entry to indicate it has been copied
-            pendingEntry.setFinancialDocumentApprovedCode(Constants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED);
+            pendingEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED);
             pendingEntry.setTransactionDate(runDate);
             businessObjectService.save(pendingEntry);
         }

@@ -27,7 +27,7 @@ import org.kuali.core.mail.MailMessage;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.MailService;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.collector.xml.CollectorFileHandler;
 import org.kuali.module.gl.collector.xml.CollectorFileParser;
@@ -166,7 +166,7 @@ public class CollectorServiceImpl implements CollectorService, BeanFactoryAware 
     }
 
     public String getStagingDirectory() {
-        return kualiConfigurationService.getPropertyString(Constants.GL_COLLECTOR_STAGING_DIRECTORY);
+        return kualiConfigurationService.getPropertyString(KFSConstants.GL_COLLECTOR_STAGING_DIRECTORY);
     }
 
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {

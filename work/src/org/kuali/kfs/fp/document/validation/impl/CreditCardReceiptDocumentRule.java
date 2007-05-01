@@ -24,9 +24,9 @@ import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
@@ -36,9 +36,9 @@ import org.kuali.module.financial.bo.BankAccount;
 import org.kuali.module.financial.document.CashReceiptFamilyBase;
 import org.kuali.module.financial.document.CreditCardReceiptDocument;
 
-import static org.kuali.kfs.Constants.DOCUMENT_PROPERTY_NAME;
-import static org.kuali.kfs.KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_TOTAL_INVALID;
-import static org.kuali.kfs.PropertyConstants.CREDIT_CARD_RECEIPTS_TOTAL;
+import static org.kuali.kfs.KFSConstants.DOCUMENT_PROPERTY_NAME;
+import static org.kuali.kfs.KFSKeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_TOTAL_INVALID;
+import static org.kuali.kfs.KFSPropertyConstants.CREDIT_CARD_RECEIPTS_TOTAL;
 
 /**
  * Business rules applicable to Credit Card Receipt documents.
@@ -58,7 +58,7 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule impleme
         boolean isValid = ccr.getSourceTotal().equals(ccr.getTotalDollarAmount());
 
         if (!isValid) {
-            GlobalVariables.getErrorMap().putError(PropertyConstants.NEW_CREDIT_CARD_RECEIPT, KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_OUT_OF_BALANCE);
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.NEW_CREDIT_CARD_RECEIPT, KFSKeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_OUT_OF_BALANCE);
         }
 
         return isValid;
@@ -97,7 +97,7 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule impleme
         CreditCardReceiptDocument ccr = (CreditCardReceiptDocument) document;
 
         if (ccr.getCreditCardReceipts().size() == 0) {
-            GlobalVariables.getErrorMap().putError(PropertyConstants.NEW_CREDIT_CARD_RECEIPT, KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_REQ_NUMBER_RECEIPTS_NOT_MET);
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.NEW_CREDIT_CARD_RECEIPT, KFSKeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_REQ_NUMBER_RECEIPTS_NOT_MET);
             return false;
         }
         return true;
@@ -113,7 +113,7 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule impleme
         GlobalVariables.getErrorMap().addToErrorPath(DOCUMENT_PROPERTY_NAME);
         boolean isValid = true;
         for (int i = 0; i < creditCardReceiptDocument.getCreditCardReceipts().size(); i++) {
-            String propertyName = PropertyConstants.CREDIT_CARD_RECEIPT + "[" + i + "]";
+            String propertyName = KFSPropertyConstants.CREDIT_CARD_RECEIPT + "[" + i + "]";
             GlobalVariables.getErrorMap().addToErrorPath(propertyName);
             isValid &= CreditCardReceiptDocumentRuleUtil.validateCreditCardReceipt(creditCardReceiptDocument.getCreditCardReceipt(i));
             GlobalVariables.getErrorMap().removeFromErrorPath(propertyName);
@@ -135,11 +135,11 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule impleme
             // todo: what if the total is 0? e.g., 5 minus 5, should we generate a 0 amount GLPE and offset? I think the other rules
             // combine to prevent a 0 total, though.
             GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
-            success &= AccountingDocumentRuleUtil.populateBankOffsetGeneralLedgerPendingEntry(getOffsetBankAccount(), depositTotal, ccrDoc, ccrDoc.getPostingYear(), sequenceHelper, bankOffsetEntry, Constants.CREDIT_CARD_RECEIPTS_LINE_ERRORS);
+            success &= AccountingDocumentRuleUtil.populateBankOffsetGeneralLedgerPendingEntry(getOffsetBankAccount(), depositTotal, ccrDoc, ccrDoc.getPostingYear(), sequenceHelper, bankOffsetEntry, KFSConstants.CREDIT_CARD_RECEIPTS_LINE_ERRORS);
             // An unsuccessfully populated bank offset entry may contain invalid relations, so don't add it at all if not
             // successful.
             if (success) {
-                bankOffsetEntry.setTransactionLedgerEntryDescription(AccountingDocumentRuleUtil.formatProperty(KeyConstants.CreditCardReceipt.DESCRIPTION_GLPE_BANK_OFFSET));
+                bankOffsetEntry.setTransactionLedgerEntryDescription(AccountingDocumentRuleUtil.formatProperty(KFSKeyConstants.CreditCardReceipt.DESCRIPTION_GLPE_BANK_OFFSET));
                 ccrDoc.getGeneralLedgerPendingEntries().add(bankOffsetEntry);
                 sequenceHelper.increment();
 
@@ -169,8 +169,8 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule impleme
         final String bankCode = parameterValues[0];
         final String bankAccountNumber = parameterValues[1];
         final Map<String, Object> primaryKeys = new HashMap<String, Object>();
-        primaryKeys.put(PropertyConstants.FINANCIAL_DOCUMENT_BANK_CODE, bankCode);
-        primaryKeys.put(PropertyConstants.FIN_DOCUMENT_BANK_ACCOUNT_NUMBER, bankAccountNumber);
+        primaryKeys.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_BANK_CODE, bankCode);
+        primaryKeys.put(KFSPropertyConstants.FIN_DOCUMENT_BANK_ACCOUNT_NUMBER, bankAccountNumber);
         final BankAccount offsetBankAccount = (BankAccount) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(BankAccount.class, primaryKeys);
         if (ObjectUtils.isNull(offsetBankAccount)) {
             throw new ApplicationParameterException(scriptName, parameter, "invalid parameter contents: bank " + bankCode + " account " + bankAccountNumber + " does not exist.");

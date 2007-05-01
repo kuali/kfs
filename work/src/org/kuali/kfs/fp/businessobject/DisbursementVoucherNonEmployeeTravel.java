@@ -25,7 +25,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.format.TimestampAMPMFormatter;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 
 /**
  * 
@@ -844,7 +844,7 @@ public class DisbursementVoucherNonEmployeeTravel extends PersistableBusinessObj
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
+        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return m;
     }
 }

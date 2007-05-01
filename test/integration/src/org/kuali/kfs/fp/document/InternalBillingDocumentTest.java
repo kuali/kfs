@@ -35,7 +35,7 @@ import org.kuali.core.exceptions.DocumentAuthorizationException;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
@@ -256,7 +256,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
             approveDocument(retrieved, getDocumentService());
         }
         catch (ValidationException e) {
-            failedAsExpected = GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_ACCOUNTINGLINE_LASTACCESSIBLE_DELETE);
+            failedAsExpected = GlobalVariables.getErrorMap().containsMessageKey(KFSKeyConstants.ERROR_ACCOUNTINGLINE_LASTACCESSIBLE_DELETE);
         }
         catch (DocumentAuthorizationException dae) {
             // this means that the workflow status didn't change in time for the check, so this is
@@ -341,7 +341,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
             approveDocument(retrieved, getDocumentService());
         }
         catch (ValidationException e) {
-            failedAsExpected = GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE);
+            failedAsExpected = GlobalVariables.getErrorMap().containsMessageKey(KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE);
         }
         catch (DocumentAuthorizationException dae) {
             // this means that the workflow status didn't change in time for the check, so this is
@@ -378,7 +378,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
             approveDocument(retrieved, getDocumentService());
         }
         catch (ValidationException e) {
-            failedAsExpected = GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE);
+            failedAsExpected = GlobalVariables.getErrorMap().containsMessageKey(KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE);
         }
         catch (DocumentAuthorizationException dae) {
             // this means that the workflow status didn't change in time for the check, so this is

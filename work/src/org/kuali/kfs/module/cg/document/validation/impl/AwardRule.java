@@ -20,8 +20,8 @@ import java.util.Collection;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KeyConstants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Award;
 import org.kuali.module.cg.bo.AwardAccount;
@@ -47,12 +47,12 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean success = true;
         success &= checkProposal();
-        success &= checkEndAfterBegin(newAwardCopy.getAwardBeginningDate(), newAwardCopy.getAwardEndingDate(), PropertyConstants.AWARD_ENDING_DATE);
-        success &= checkPrimary(newAwardCopy.getAwardOrganizations(), AwardOrganization.class, PropertyConstants.AWARD_ORGRANIZATIONS, Award.class);
-        success &= checkPrimary(newAwardCopy.getAwardProjectDirectors(), AwardProjectDirector.class, PropertyConstants.AWARD_PROJECT_DIRECTORS, Award.class);
+        success &= checkEndAfterBegin(newAwardCopy.getAwardBeginningDate(), newAwardCopy.getAwardEndingDate(), KFSPropertyConstants.AWARD_ENDING_DATE);
+        success &= checkPrimary(newAwardCopy.getAwardOrganizations(), AwardOrganization.class, KFSPropertyConstants.AWARD_ORGRANIZATIONS, Award.class);
+        success &= checkPrimary(newAwardCopy.getAwardProjectDirectors(), AwardProjectDirector.class, KFSPropertyConstants.AWARD_PROJECT_DIRECTORS, Award.class);
         success &= checkAccounts();
-        success &= checkProjectDirectorsExist(newAwardCopy.getAwardProjectDirectors(), AwardProjectDirector.class, PropertyConstants.AWARD_PROJECT_DIRECTORS);
-        success &= checkProjectDirectorsExist(newAwardCopy.getAwardAccounts(), AwardAccount.class, PropertyConstants.AWARD_ACCOUNTS);
+        success &= checkProjectDirectorsExist(newAwardCopy.getAwardProjectDirectors(), AwardProjectDirector.class, KFSPropertyConstants.AWARD_PROJECT_DIRECTORS);
+        success &= checkProjectDirectorsExist(newAwardCopy.getAwardAccounts(), AwardAccount.class, KFSPropertyConstants.AWARD_ACCOUNTS);
         success &= checkFederalPassThrough();
         return success;
     }
@@ -67,8 +67,8 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         Collection<AwardAccount> awardAccounts = newAwardCopy.getAwardAccounts();
 
         if (ObjectUtils.isNull(awardAccounts) || awardAccounts.isEmpty()) {
-            String elementLabel = SpringServiceLocator.getDataDictionaryService().getCollectionElementLabel(Award.class.getName(), PropertyConstants.AWARD_ACCOUNTS, AwardAccount.class);
-            putFieldError(PropertyConstants.AWARD_ACCOUNTS, KeyConstants.ERROR_ONE_REQUIRED, elementLabel);
+            String elementLabel = SpringServiceLocator.getDataDictionaryService().getCollectionElementLabel(Award.class.getName(), KFSPropertyConstants.AWARD_ACCOUNTS, AwardAccount.class);
+            putFieldError(KFSPropertyConstants.AWARD_ACCOUNTS, KFSKeyConstants.ERROR_ONE_REQUIRED, elementLabel);
             success = false;
         }
 
@@ -87,11 +87,11 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
     private boolean checkProposal() {
         boolean success = true;
         if (AwardRuleUtil.isProposalAwarded(newAwardCopy)) {
-            putFieldError(PropertyConstants.PROPOSAL_NUMBER, KeyConstants.ERROR_AWARD_PROPOSAL_AWARDED, newAwardCopy.getProposalNumber().toString());
+            putFieldError(KFSPropertyConstants.PROPOSAL_NUMBER, KFSKeyConstants.ERROR_AWARD_PROPOSAL_AWARDED, newAwardCopy.getProposalNumber().toString());
             success = false;
         }
         else if (AwardRuleUtil.isProposalInactive(newAwardCopy)) {
-            putFieldError(PropertyConstants.PROPOSAL_NUMBER, KeyConstants.ERROR_AWARD_PROPOSAL_INACTIVE, newAwardCopy.getProposalNumber().toString());
+            putFieldError(KFSPropertyConstants.PROPOSAL_NUMBER, KFSKeyConstants.ERROR_AWARD_PROPOSAL_INACTIVE, newAwardCopy.getProposalNumber().toString());
         }
 
         return success;
@@ -106,15 +106,15 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         boolean success = true;
         if (newAwardCopy.getFederalPassThroughIndicator()) {
 
-            String indicatorLabel = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(Award.class, PropertyConstants.FEDERAL_PASS_THROUGH_INDICATOR);
+            String indicatorLabel = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(Award.class, KFSPropertyConstants.FEDERAL_PASS_THROUGH_INDICATOR);
             if (null == newAwardCopy.getFederalPassThroughFundedAmount()) {
-                String amountLabel = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(Award.class, PropertyConstants.FEDERAL_PASS_THROUGH_FUNDED_AMOUNT);
-                putFieldError(PropertyConstants.FEDERAL_PASS_THROUGH_FUNDED_AMOUNT, KeyConstants.ERROR_AWARD_FEDERAL_PASS_THROUGH_INDICATOR_DEPENDENCY_REQUIRED, new String[] { amountLabel, indicatorLabel });
+                String amountLabel = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(Award.class, KFSPropertyConstants.FEDERAL_PASS_THROUGH_FUNDED_AMOUNT);
+                putFieldError(KFSPropertyConstants.FEDERAL_PASS_THROUGH_FUNDED_AMOUNT, KFSKeyConstants.ERROR_AWARD_FEDERAL_PASS_THROUGH_INDICATOR_DEPENDENCY_REQUIRED, new String[] { amountLabel, indicatorLabel });
                 success = false;
             }
             if (StringUtils.isBlank(newAwardCopy.getFederalPassThroughAgencyNumber())) {
-                String agencyLabel = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(Award.class, PropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER);
-                putFieldError(PropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER, KeyConstants.ERROR_AWARD_FEDERAL_PASS_THROUGH_INDICATOR_DEPENDENCY_REQUIRED, new String[] { agencyLabel, indicatorLabel });
+                String agencyLabel = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(Award.class, KFSPropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER);
+                putFieldError(KFSPropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER, KFSKeyConstants.ERROR_AWARD_FEDERAL_PASS_THROUGH_INDICATOR_DEPENDENCY_REQUIRED, new String[] { agencyLabel, indicatorLabel });
                 success = false;
             }
         }

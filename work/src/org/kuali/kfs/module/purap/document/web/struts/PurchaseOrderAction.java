@@ -35,7 +35,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
@@ -126,8 +126,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         PurchaseOrderDocument po = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
 
-        Object question = request.getParameter(Constants.QUESTION_INST_ATTRIBUTE_NAME);
-        String reason = request.getParameter(Constants.QUESTION_REASON_ATTRIBUTE_NAME);
+        Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        String reason = request.getParameter(KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         String noteText = "";
 
         KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
@@ -135,29 +135,29 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         // Start in logic for confirming the close.
         if (question == null) {
             // Ask question if not already asked.
-            return this.performQuestionWithInput(mapping, form, request, response, questionType, kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_DOCUMENT), Constants.CONFIRMATION_QUESTION, questionType, "");
+            return this.performQuestionWithInput(mapping, form, request, response, questionType, kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_DOCUMENT), KFSConstants.CONFIRMATION_QUESTION, questionType, "");
         }
         else {
-            Object buttonClicked = request.getParameter( Constants.QUESTION_CLICKED_BUTTON );
+            Object buttonClicked = request.getParameter( KFSConstants.QUESTION_CLICKED_BUTTON );
             if (question.equals(questionType) && buttonClicked.equals(ConfirmationQuestion.NO)) {
                 //If 'No' is the button clicked, just reload the doc
-                return mapping.findForward(Constants.MAPPING_BASIC);
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
             else if (question.equals(confirmType) && buttonClicked.equals(SingleConfirmationQuestion.OK)) {
                 // This is the case when the user clicks on "OK" in the end. 
                 // After we inform the user that the close has been rerouted, we'll redirect to the portal page.
-                return mapping.findForward(Constants.MAPPING_PORTAL);
+                return mapping.findForward(KFSConstants.MAPPING_PORTAL);
             }
             else {
                 // Have to check length on value entered.
-                String introNoteMessage = notePrefix + Constants.BLANK_SPACE;
+                String introNoteMessage = notePrefix + KFSConstants.BLANK_SPACE;
 
                 // Build out full message.
                 noteText = introNoteMessage + reason;
                 int noteTextLength = noteText.length();
 
                 // Get note text max length from DD.
-                int noteTextMaxLength = SpringServiceLocator.getDataDictionaryService().getAttributeMaxLength(Note.class, Constants.NOTE_TEXT_PROPERTY_NAME).intValue();
+                int noteTextMaxLength = SpringServiceLocator.getDataDictionaryService().getAttributeMaxLength(Note.class, KFSConstants.NOTE_TEXT_PROPERTY_NAME).intValue();
 
                 if (StringUtils.isBlank(reason) || (noteTextLength > noteTextMaxLength)) {
                     // Figure out exact number of characters that the user can enter.
@@ -167,7 +167,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                         // Prevent a NPE by setting the reason to a blank string.
                         reason = "";
                     }
-                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, questionType, kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_DOCUMENT), Constants.CONFIRMATION_QUESTION, questionType, "", reason, PurapKeyConstants.ERROR_PURCHASE_ORDER_REASON_REQUIRED, Constants.QUESTION_REASON_ATTRIBUTE_NAME, new Integer(reasonLimit).toString());
+                    return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, questionType, kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_DOCUMENT), KFSConstants.CONFIRMATION_QUESTION, questionType, "", reason, PurapKeyConstants.ERROR_PURCHASE_ORDER_REASON_REQUIRED, KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME, new Integer(reasonLimit).toString());
                 }
             }   
         }
@@ -179,7 +179,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             success = SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(po, documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
         }        
         if (!success) {
-            return mapping.findForward(Constants.MAPPING_ERROR);
+            return mapping.findForward(KFSConstants.MAPPING_ERROR);
         }
 
         Note newNote = new Note();
@@ -271,7 +271,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 if (baosPDF != null) {
                     baosPDF.reset();
                 }
-                return mapping.findForward(Constants.MAPPING_ERROR);
+                return mapping.findForward(KFSConstants.MAPPING_ERROR);
             }
             response.setHeader("Cache-Control", "max-age=30");
             response.setContentType("application/pdf");
@@ -322,7 +322,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 if (baosPDF != null) {
                     baosPDF.reset();
                 }
-                return mapping.findForward(Constants.MAPPING_ERROR);
+                return mapping.findForward(KFSConstants.MAPPING_ERROR);
             }
             response.setHeader("Cache-Control", "max-age=30");
             response.setContentType("application/pdf");
@@ -373,7 +373,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             item.setItemSelectedForRetransmitIndicator(true);
         }
         ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     /**
@@ -396,7 +396,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             item.setItemSelectedForRetransmitIndicator(false);
         }
         ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     /**
@@ -438,11 +438,11 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 success = SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(po, documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
             }
             if (!success) {
-                return mapping.findForward(Constants.MAPPING_ERROR);
+                return mapping.findForward(KFSConstants.MAPPING_ERROR);
             }
             else {
                 ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
-                return mapping.findForward(Constants.MAPPING_BASIC);
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
         }
         else {
@@ -467,7 +467,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                     if (baosPDF != null) {
                         baosPDF.reset();
                     }
-                    return mapping.findForward(Constants.MAPPING_ERROR);
+                    return mapping.findForward(KFSConstants.MAPPING_ERROR);
                 }
                 response.setHeader("Cache-Control", "max-age=30");
                 response.setContentType("application/pdf");
@@ -572,7 +572,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             document.getPurchaseOrderVendorStipulations().add(newStipulation);
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -589,7 +589,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
         document.getPurchaseOrderVendorStipulations().remove(getSelectedLine(request));
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**

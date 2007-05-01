@@ -27,7 +27,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.budget.rules.event.UpdateNonpersonnelEventBase;
@@ -70,7 +70,7 @@ public class BudgetNonpersonnelAction extends BudgetAction {
         // convert the array back to a list and set into the form
         budgetForm.setNewNonpersonnelList(Arrays.asList(newNonpersonnelArray));
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward deleteNonpersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -101,7 +101,7 @@ public class BudgetNonpersonnelAction extends BudgetAction {
             }
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward saveNonpersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -114,7 +114,7 @@ public class BudgetNonpersonnelAction extends BudgetAction {
         if (!rulePassed) {
             budgetForm.setCurrentTaskNumber(budgetForm.getPreviousTaskNumber());
             budgetForm.setCurrentPeriodNumber(budgetForm.getPreviousPeriodNumber());
-            return mapping.findForward(Constants.MAPPING_BASIC);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
         // check if any "Check All" checkbox is checked.
@@ -178,7 +178,7 @@ public class BudgetNonpersonnelAction extends BudgetAction {
         if (!rulePassed) {
             budgetForm.setCurrentTaskNumber(budgetForm.getPreviousTaskNumber());
             budgetForm.setCurrentPeriodNumber(budgetForm.getPreviousPeriodNumber());
-            return mapping.findForward(Constants.MAPPING_BASIC);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
         // Refresh reference objects so that NonpersonnelObjectCode is populated. This
@@ -190,7 +190,7 @@ public class BudgetNonpersonnelAction extends BudgetAction {
         budgetForm.setBudgetNonpersonnelCopyOverFormHelper(new BudgetNonpersonnelCopyOverFormHelper(budgetForm));
 
         // preparee what category was selected
-        String parameterName = (String) request.getAttribute(Constants.METHOD_TO_CALL_ATTRIBUTE);
+        String parameterName = (String) request.getAttribute(KFSConstants.METHOD_TO_CALL_ATTRIBUTE);
         String lineCode = StringUtils.substringBetween(parameterName, ".code", ".");
         budgetForm.setCurrentNonpersonnelCategoryCode(lineCode);
 

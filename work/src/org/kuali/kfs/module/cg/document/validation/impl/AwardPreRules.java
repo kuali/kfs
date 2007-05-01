@@ -23,8 +23,8 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KeyConstants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Award;
 import org.kuali.module.chart.rules.MaintenancePreRulesBase;
@@ -78,9 +78,9 @@ public class AwardPreRules extends MaintenancePreRulesBase {
         Date beginDate = newAward.getAwardBeginningDate();
 
         if (ObjectUtils.isNotNull(entryDate) && ObjectUtils.isNotNull(beginDate) && entryDate.before(beginDate)) {
-            String entryDateLabel = dataDictionaryService.getAttributeErrorLabel(Award.class, PropertyConstants.AWARD_ENTRY_DATE);
-            String beginDateLabel = dataDictionaryService.getAttributeErrorLabel(Award.class, PropertyConstants.AWARD_BEGINNING_DATE);
-            proceed = askOrAnalyzeYesNoQuestion("entryDateBeforeStartDate", buildConfirmationQuestion(KeyConstants.WARNING_AWARD_ENTRY_BEFORE_START_DATE, entryDateLabel, beginDateLabel));
+            String entryDateLabel = dataDictionaryService.getAttributeErrorLabel(Award.class, KFSPropertyConstants.AWARD_ENTRY_DATE);
+            String beginDateLabel = dataDictionaryService.getAttributeErrorLabel(Award.class, KFSPropertyConstants.AWARD_BEGINNING_DATE);
+            proceed = askOrAnalyzeYesNoQuestion("entryDateBeforeStartDate", buildConfirmationQuestion(KFSKeyConstants.WARNING_AWARD_ENTRY_BEFORE_START_DATE, entryDateLabel, beginDateLabel));
         }
         return proceed;
     }
@@ -98,10 +98,10 @@ public class AwardPreRules extends MaintenancePreRulesBase {
         KualiDecimal subcontractorTotal = newAward.getAwardSubcontractorsTotalAmount();
         if ((ObjectUtils.isNotNull(awardTotal) && subcontractorTotal.isGreaterThan(awardTotal)) || (ObjectUtils.isNull(awardTotal) && subcontractorTotal.isPositive())) {
 
-            String subcontracorLabel = dataDictionaryService.getCollectionLabel(Award.class, PropertyConstants.AWARD_SUBCONTRACTORS);
-            String awardLabel = dataDictionaryService.getAttributeErrorLabel(Award.class, PropertyConstants.AWARD_TOTAL_AMOUNT);
+            String subcontracorLabel = dataDictionaryService.getCollectionLabel(Award.class, KFSPropertyConstants.AWARD_SUBCONTRACTORS);
+            String awardLabel = dataDictionaryService.getAttributeErrorLabel(Award.class, KFSPropertyConstants.AWARD_TOTAL_AMOUNT);
 
-            proceed = askOrAnalyzeYesNoQuestion("subcontractorTotalGreaterThanAwardTotal", buildConfirmationQuestion(KeyConstants.WARNING_AWARD_SUBCONTRACTOR_TOTAL_GREATER_THAN_AWARD_TOTAL, subcontracorLabel, awardLabel));
+            proceed = askOrAnalyzeYesNoQuestion("subcontractorTotalGreaterThanAwardTotal", buildConfirmationQuestion(KFSKeyConstants.WARNING_AWARD_SUBCONTRACTOR_TOTAL_GREATER_THAN_AWARD_TOTAL, subcontracorLabel, awardLabel));
         }
 
         return proceed;

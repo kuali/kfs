@@ -15,13 +15,13 @@
  */
 package org.kuali.module.financial.web.struts.form;
 
-import static org.kuali.kfs.Constants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE;
-import static org.kuali.kfs.Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE;
-import static org.kuali.kfs.Constants.AuxiliaryVoucher.RECODE_DOC_TYPE;
+import static org.kuali.kfs.KFSConstants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE;
+import static org.kuali.kfs.KFSConstants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE;
+import static org.kuali.kfs.KFSConstants.AuxiliaryVoucher.RECODE_DOC_TYPE;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 
@@ -31,7 +31,7 @@ import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
  * 
  */
 public class AuxiliaryVoucherForm extends VoucherForm {
-    private String originalVoucherType = Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE; // keep this in sync with the default
+    private String originalVoucherType = KFSConstants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE; // keep this in sync with the default
                                                                                             // value set in the document business
                                                                                             // object
 
@@ -116,14 +116,14 @@ public class AuxiliaryVoucherForm extends VoucherForm {
         String voucherTypeCode = getAuxiliaryVoucherDocument().getTypeCode();
         String formattedVoucherType = new String();
 
-        if (Constants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE.equals(voucherTypeCode)) {
-            formattedVoucherType = Constants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE_NAME;
+        if (KFSConstants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE.equals(voucherTypeCode)) {
+            formattedVoucherType = KFSConstants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE_NAME;
         }
-        else if (Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE.equals(voucherTypeCode)) {
-            formattedVoucherType = Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE_NAME;
+        else if (KFSConstants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE.equals(voucherTypeCode)) {
+            formattedVoucherType = KFSConstants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE_NAME;
         }
-        else if (Constants.AuxiliaryVoucher.RECODE_DOC_TYPE.equals(voucherTypeCode)) {
-            formattedVoucherType = Constants.AuxiliaryVoucher.RECODE_DOC_TYPE_NAME;
+        else if (KFSConstants.AuxiliaryVoucher.RECODE_DOC_TYPE.equals(voucherTypeCode)) {
+            formattedVoucherType = KFSConstants.AuxiliaryVoucher.RECODE_DOC_TYPE_NAME;
         }
         else {
             throw new IllegalStateException("Invalid auxiliary voucher type code: " + voucherTypeCode);

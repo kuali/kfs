@@ -23,8 +23,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KeyConstants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.CGProjectDirector;
 import org.kuali.module.cg.bo.Primaryable;
@@ -44,7 +44,7 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
     protected boolean checkEndAfterBegin(Date begin, Date end, String propertyName) {
         boolean success = true;
         if (ObjectUtils.isNotNull(begin) && ObjectUtils.isNotNull(end) && !end.after(begin)) {
-            putFieldError(propertyName, KeyConstants.ERROR_ENDING_DATE_NOT_AFTER_BEGIN);
+            putFieldError(propertyName, KFSKeyConstants.ERROR_ENDING_DATE_NOT_AFTER_BEGIN);
             success = false;
         }
         return success;
@@ -63,10 +63,10 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
             String elementLabel = SpringServiceLocator.getDataDictionaryService().getCollectionElementLabel(boClass.getName(), collectionName, elementClass);
             switch (count) {
                 case 0:
-                    putFieldError(collectionName, KeyConstants.ERROR_NO_PRIMARY, elementLabel);
+                    putFieldError(collectionName, KFSKeyConstants.ERROR_NO_PRIMARY, elementLabel);
                     break;
                 default:
-                    putFieldError(collectionName, KeyConstants.ERROR_MULTIPLE_PRIMARY, elementLabel);
+                    putFieldError(collectionName, KFSKeyConstants.ERROR_MULTIPLE_PRIMARY, elementLabel);
             }
 
         }
@@ -75,14 +75,14 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
 
     protected <T extends CGProjectDirector> boolean checkProjectDirectorsExist(List<T> projectDirectors, Class<T> elementClass, String collectionName) {
         boolean success = true;
-        final String personUserPropertyName = PropertyConstants.PROJECT_DIRECTOR + "." + PropertyConstants.PERSON_USER_IDENTIFIER;
+        final String personUserPropertyName = KFSPropertyConstants.PROJECT_DIRECTOR + "." + KFSPropertyConstants.PERSON_USER_IDENTIFIER;
         String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(elementClass, personUserPropertyName);
         int i = 0;
         for (T pd : projectDirectors) {
             String propertyName = collectionName + "[" + (i++) + "]." + personUserPropertyName;
             String id = pd.getPersonUniversalIdentifier();
             if (StringUtils.isBlank(id) || !SpringServiceLocator.getProjectDirectorService().primaryIdExists(id)) {
-                putFieldError(propertyName, KeyConstants.ERROR_EXISTENCE, label);
+                putFieldError(propertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
                 success = false;
             }
         }

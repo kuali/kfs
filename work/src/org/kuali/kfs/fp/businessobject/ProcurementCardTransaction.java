@@ -24,7 +24,7 @@ import org.apache.commons.beanutils.converters.SqlDateConverter;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 
 /**
  * 
@@ -648,7 +648,7 @@ public class ProcurementCardTransaction extends PersistableBusinessObjectBase {
     }
 
     public void setTransactionTaxExemptIndicator(String transactionTaxExemptIndicator) {
-        if (Constants.ACTIVE_INDICATOR.equals(transactionTaxExemptIndicator)) {
+        if (KFSConstants.ACTIVE_INDICATOR.equals(transactionTaxExemptIndicator)) {
             this.transactionTaxExemptIndicator = true;
         }
         else {
@@ -678,7 +678,7 @@ public class ProcurementCardTransaction extends PersistableBusinessObjectBase {
     }
 
     public void setTransactionPurchaseIdentifierIndicator(String transactionPurchaseIdentifierIndicator) {
-        if (Constants.ACTIVE_INDICATOR.equals(transactionPurchaseIdentifierIndicator)) {
+        if (KFSConstants.ACTIVE_INDICATOR.equals(transactionPurchaseIdentifierIndicator)) {
             this.transactionPurchaseIdentifierIndicator = true;
         }
         else {

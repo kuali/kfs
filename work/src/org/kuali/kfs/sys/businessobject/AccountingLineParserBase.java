@@ -16,18 +16,18 @@
 
 package org.kuali.kfs.bo;
 
-import static org.kuali.kfs.KeyConstants.AccountingLineParser.*;
-import static org.kuali.kfs.PropertyConstants.ACCOUNT_NUMBER;
-import static org.kuali.kfs.PropertyConstants.AMOUNT;
-import static org.kuali.kfs.PropertyConstants.CHART_OF_ACCOUNTS_CODE;
-import static org.kuali.kfs.PropertyConstants.FINANCIAL_OBJECT_CODE;
-import static org.kuali.kfs.PropertyConstants.FINANCIAL_SUB_OBJECT_CODE;
-import static org.kuali.kfs.PropertyConstants.ORGANIZATION_REFERENCE_ID;
-import static org.kuali.kfs.PropertyConstants.OVERRIDE_CODE;
-import static org.kuali.kfs.PropertyConstants.POSTING_YEAR;
-import static org.kuali.kfs.PropertyConstants.PROJECT_CODE;
-import static org.kuali.kfs.PropertyConstants.SEQUENCE_NUMBER;
-import static org.kuali.kfs.PropertyConstants.SUB_ACCOUNT_NUMBER;
+import static org.kuali.kfs.KFSKeyConstants.AccountingLineParser.*;
+import static org.kuali.kfs.KFSPropertyConstants.ACCOUNT_NUMBER;
+import static org.kuali.kfs.KFSPropertyConstants.AMOUNT;
+import static org.kuali.kfs.KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
+import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
+import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE;
+import static org.kuali.kfs.KFSPropertyConstants.ORGANIZATION_REFERENCE_ID;
+import static org.kuali.kfs.KFSPropertyConstants.OVERRIDE_CODE;
+import static org.kuali.kfs.KFSPropertyConstants.POSTING_YEAR;
+import static org.kuali.kfs.KFSPropertyConstants.PROJECT_CODE;
+import static org.kuali.kfs.KFSPropertyConstants.SEQUENCE_NUMBER;
+import static org.kuali.kfs.KFSPropertyConstants.SUB_ACCOUNT_NUMBER;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -45,7 +45,7 @@ import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.FormatException;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.exceptions.AccountingLineParserException;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -193,7 +193,7 @@ public class AccountingLineParserBase implements AccountingLineParser {
      * @param sequenceNumber
      */
     private final void putCommonAttributesInMap(Map<String, String> attributeValueMap, AccountingDocument document, Integer sequenceNumber) {
-        attributeValueMap.put(PropertyConstants.DOCUMENT_NUMBER, document.getDocumentNumber());
+        attributeValueMap.put(KFSPropertyConstants.DOCUMENT_NUMBER, document.getDocumentNumber());
         attributeValueMap.put(POSTING_YEAR, document.getPostingYear().toString());
         attributeValueMap.put(SEQUENCE_NUMBER, sequenceNumber.toString());
     }

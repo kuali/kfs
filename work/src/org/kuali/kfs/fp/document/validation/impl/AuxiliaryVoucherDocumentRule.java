@@ -15,36 +15,36 @@
  */
 package org.kuali.module.financial.rules;
 
-import static org.kuali.kfs.Constants.ACCOUNTING_LINE_ERRORS;
-import static org.kuali.kfs.Constants.ACCOUNTING_PERIOD_STATUS_CLOSED;
-import static org.kuali.kfs.Constants.ACCOUNTING_PERIOD_STATUS_CODE_FIELD;
-import static org.kuali.kfs.Constants.AUXILIARY_LINE_HELPER_PROPERTY_NAME;
-import static org.kuali.kfs.Constants.CREDIT_AMOUNT_PROPERTY_NAME;
-import static org.kuali.kfs.Constants.DEBIT_AMOUNT_PROPERTY_NAME;
-import static org.kuali.kfs.Constants.DOCUMENT_ERRORS;
-import static org.kuali.kfs.Constants.GL_CREDIT_CODE;
-import static org.kuali.kfs.Constants.GL_DEBIT_CODE;
-import static org.kuali.kfs.Constants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME;
-import static org.kuali.kfs.Constants.SQUARE_BRACKET_LEFT;
-import static org.kuali.kfs.Constants.SQUARE_BRACKET_RIGHT;
-import static org.kuali.kfs.Constants.VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME;
-import static org.kuali.kfs.Constants.VOUCHER_LINE_HELPER_DEBIT_PROPERTY_NAME;
-import static org.kuali.kfs.KeyConstants.ERROR_DOCUMENT_ACCOUNTING_PERIOD_CLOSED;
-import static org.kuali.kfs.KeyConstants.ERROR_DOCUMENT_ACCOUNTING_PERIOD_THREE_OPEN;
-import static org.kuali.kfs.KeyConstants.ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS;
-import static org.kuali.kfs.KeyConstants.ERROR_DOCUMENT_AV_INCORRECT_FISCAL_YEAR_AVRC;
-import static org.kuali.kfs.KeyConstants.ERROR_DOCUMENT_AV_INCORRECT_POST_PERIOD_AVRC;
-import static org.kuali.kfs.KeyConstants.ERROR_DOCUMENT_BALANCE;
-import static org.kuali.kfs.KeyConstants.ERROR_DOCUMENT_BALANCE_CONSIDERING_CREDIT_AND_DEBIT_AMOUNTS;
-import static org.kuali.kfs.KeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_SUB_TYPE_OBJ_LEVEL_AND_OBJ_TYPE;
-import static org.kuali.kfs.KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT;
-import static org.kuali.kfs.KeyConstants.AuxiliaryVoucher.ERROR_ACCOUNTING_PERIOD_OUT_OF_RANGE;
-import static org.kuali.kfs.KeyConstants.AuxiliaryVoucher.ERROR_DIFFERENT_CHARTS;
-import static org.kuali.kfs.KeyConstants.AuxiliaryVoucher.ERROR_DIFFERENT_SUB_FUND_GROUPS;
-import static org.kuali.kfs.KeyConstants.AuxiliaryVoucher.ERROR_DOCUMENT_AUXILIARY_VOUCHER_INVALID_OBJECT_SUB_TYPE_CODE;
-import static org.kuali.kfs.KeyConstants.AuxiliaryVoucher.ERROR_INVALID_ACCRUAL_REVERSAL_DATE;
-import static org.kuali.kfs.PropertyConstants.FINANCIAL_OBJECT_CODE;
-import static org.kuali.kfs.PropertyConstants.REVERSAL_DATE;
+import static org.kuali.kfs.KFSConstants.ACCOUNTING_LINE_ERRORS;
+import static org.kuali.kfs.KFSConstants.ACCOUNTING_PERIOD_STATUS_CLOSED;
+import static org.kuali.kfs.KFSConstants.ACCOUNTING_PERIOD_STATUS_CODE_FIELD;
+import static org.kuali.kfs.KFSConstants.AUXILIARY_LINE_HELPER_PROPERTY_NAME;
+import static org.kuali.kfs.KFSConstants.CREDIT_AMOUNT_PROPERTY_NAME;
+import static org.kuali.kfs.KFSConstants.DEBIT_AMOUNT_PROPERTY_NAME;
+import static org.kuali.kfs.KFSConstants.DOCUMENT_ERRORS;
+import static org.kuali.kfs.KFSConstants.GL_CREDIT_CODE;
+import static org.kuali.kfs.KFSConstants.GL_DEBIT_CODE;
+import static org.kuali.kfs.KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME;
+import static org.kuali.kfs.KFSConstants.SQUARE_BRACKET_LEFT;
+import static org.kuali.kfs.KFSConstants.SQUARE_BRACKET_RIGHT;
+import static org.kuali.kfs.KFSConstants.VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME;
+import static org.kuali.kfs.KFSConstants.VOUCHER_LINE_HELPER_DEBIT_PROPERTY_NAME;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_PERIOD_CLOSED;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_PERIOD_THREE_OPEN;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_AV_INCORRECT_FISCAL_YEAR_AVRC;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_AV_INCORRECT_POST_PERIOD_AVRC;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_BALANCE;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_BALANCE_CONSIDERING_CREDIT_AND_DEBIT_AMOUNTS;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_CODE_WITH_SUB_TYPE_OBJ_LEVEL_AND_OBJ_TYPE;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT;
+import static org.kuali.kfs.KFSKeyConstants.AuxiliaryVoucher.ERROR_ACCOUNTING_PERIOD_OUT_OF_RANGE;
+import static org.kuali.kfs.KFSKeyConstants.AuxiliaryVoucher.ERROR_DIFFERENT_CHARTS;
+import static org.kuali.kfs.KFSKeyConstants.AuxiliaryVoucher.ERROR_DIFFERENT_SUB_FUND_GROUPS;
+import static org.kuali.kfs.KFSKeyConstants.AuxiliaryVoucher.ERROR_DOCUMENT_AUXILIARY_VOUCHER_INVALID_OBJECT_SUB_TYPE_CODE;
+import static org.kuali.kfs.KFSKeyConstants.AuxiliaryVoucher.ERROR_INVALID_ACCRUAL_REVERSAL_DATE;
+import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
+import static org.kuali.kfs.KFSPropertyConstants.REVERSAL_DATE;
 import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 import static org.kuali.kfs.util.SpringServiceLocator.getAccountingPeriodService;
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.AUXILIARY_VOUCHER_SECURITY_GROUPING;
@@ -66,8 +66,8 @@ import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KeyConstants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.Options;
@@ -135,7 +135,7 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
     @Override
     protected boolean isSourceAccountingLinesRequiredNumberForRoutingMet(AccountingDocument FinancialDocument) {
         if (0 == FinancialDocument.getSourceAccountingLines().size()) {
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + PropertyConstants.SOURCE_ACCOUNTING_LINES, KeyConstants.ERROR_DOCUMENT_SINGLE_SECTION_NO_ACCOUNTING_LINES);
+            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.ERROR_DOCUMENT_SINGLE_SECTION_NO_ACCOUNTING_LINES);
             return false;
         }
         else {

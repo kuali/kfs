@@ -17,7 +17,7 @@ package org.kuali.module.gl.service.impl.orgreversion;
 
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
 
@@ -35,7 +35,7 @@ public class GenericOrganizationReversionCategory implements OrganizationReversi
 
     public void setCategoryCode(String code) {
         categoryCode = code;
-        isExpense = kualiConfigurationService.getApplicationParameterIndicator(Constants.ORG_REVERSION, categoryCode + Constants.EXPENSE_FLAG);
+        isExpense = kualiConfigurationService.getApplicationParameterIndicator(KFSConstants.ORG_REVERSION, categoryCode + KFSConstants.EXPENSE_FLAG);
     }
 
     public void setCategoryName(String name) {
@@ -50,10 +50,10 @@ public class GenericOrganizationReversionCategory implements OrganizationReversi
         String objTyp = oc.getFinancialObjectTypeCode();
         String objSubTyp = oc.getFinancialObjectSubType().getCode();
 
-        KualiParameterRule consolidationRules = kualiConfigurationService.getApplicationParameterRule(Constants.ORG_REVERSION, categoryCode + Constants.CONSOLIDATION);
-        KualiParameterRule levelRules = kualiConfigurationService.getApplicationParameterRule(Constants.ORG_REVERSION, categoryCode + Constants.LEVEL);
-        KualiParameterRule objectTypeRules = kualiConfigurationService.getApplicationParameterRule(Constants.ORG_REVERSION, categoryCode + Constants.OBJECT_TYPE);
-        KualiParameterRule objectSubTypeRules = kualiConfigurationService.getApplicationParameterRule(Constants.ORG_REVERSION, categoryCode + Constants.OBJECT_SUB_TYPE);
+        KualiParameterRule consolidationRules = kualiConfigurationService.getApplicationParameterRule(KFSConstants.ORG_REVERSION, categoryCode + KFSConstants.CONSOLIDATION);
+        KualiParameterRule levelRules = kualiConfigurationService.getApplicationParameterRule(KFSConstants.ORG_REVERSION, categoryCode + KFSConstants.LEVEL);
+        KualiParameterRule objectTypeRules = kualiConfigurationService.getApplicationParameterRule(KFSConstants.ORG_REVERSION, categoryCode + KFSConstants.OBJECT_TYPE);
+        KualiParameterRule objectSubTypeRules = kualiConfigurationService.getApplicationParameterRule(KFSConstants.ORG_REVERSION, categoryCode + KFSConstants.OBJECT_SUB_TYPE);
 
         return consolidationRules.succeedsRule(cons) && levelRules.succeedsRule(level) && objectTypeRules.succeedsRule(objTyp) && objectSubTypeRules.succeedsRule(objSubTyp);
     }

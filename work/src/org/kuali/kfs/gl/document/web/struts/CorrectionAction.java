@@ -58,8 +58,8 @@ import org.kuali.core.web.struts.form.KualiTableRenderFormMetadata;
 import org.kuali.core.web.struts.form.KualiTableRenderFormMetadata;
 import org.kuali.core.web.ui.Column;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.CorrectionChange;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
@@ -131,7 +131,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
                         List<CorrectionChangeGroup> groups = document.getCorrectionChangeGroup();
                         updateEntriesFromCriteria(rForm);
                     }
-                    if (!Constants.TableRenderConstants.SORT_METHOD.equals(rForm.getMethodToCall())) {
+                    if (!KFSConstants.TableRenderConstants.SORT_METHOD.equals(rForm.getMethodToCall())) {
                         // if sorting, we'll let the action take care of the sorting
                         KualiTableRenderFormMetadata originEntrySearchResultTableMetadata = rForm.getOriginEntrySearchResultTableMetadata();
                         if (originEntrySearchResultTableMetadata.getPreviouslySortedColumnIndex() != -1) {
@@ -166,10 +166,10 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
         // Did they pick the edit method and system?
         if (!checkMainDropdown(correctionForm)) {
-            return mapping.findForward(Constants.MAPPING_BASIC);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         if (!checkRestrictedFunctionalityModeForManualEdit(correctionForm)) {
-            return mapping.findForward(Constants.MAPPING_BASIC);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
         // Populate document
@@ -228,7 +228,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
         // Is there a description?
         if (StringUtils.isEmpty(document.getDocumentHeader().getFinancialDocumentDescription())) {
-            GlobalVariables.getErrorMap().putError("document.documentHeader.financialDocumentDescription", KeyConstants.ERROR_DOCUMENT_NO_DESCRIPTION);
+            GlobalVariables.getErrorMap().putError("document.documentHeader.financialDocumentDescription", KFSKeyConstants.ERROR_DOCUMENT_NO_DESCRIPTION);
             return false;
         }
 
@@ -238,7 +238,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         }
 
         // were the system and edit methods inappropriately changed?
-        if (GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_GL_ERROR_CORRECTION_INVALID_SYSTEM_OR_EDIT_METHOD_CHANGE)) {
+        if (GlobalVariables.getErrorMap().containsMessageKey(KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_INVALID_SYSTEM_OR_EDIT_METHOD_CHANGE)) {
             return false;
         }
         
@@ -296,7 +296,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             return super.blanketApprove(mapping, form, request, response);
         }
         else {
-            return mapping.findForward(Constants.MAPPING_BASIC);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
     }
 
@@ -318,7 +318,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             return super.route(mapping, form, request, response);
         }
         else {
-            return mapping.findForward(Constants.MAPPING_BASIC);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
     }
 
@@ -335,7 +335,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
         document.addCorrectionChangeGroup(new CorrectionChangeGroup());
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -407,7 +407,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             }
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -456,7 +456,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
                     }
                 }
                 else {
-                    GlobalVariables.getErrorMap().putError("systemAndEditMethod", KeyConstants.ERROR_NO_ORIGIN_ENTRY_GROUPS);
+                    GlobalVariables.getErrorMap().putError("systemAndEditMethod", KFSKeyConstants.ERROR_NO_ORIGIN_ENTRY_GROUPS);
                     correctionForm.setChooseSystem("");
                 }
             }
@@ -468,7 +468,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         correctionForm.setPreviousChooseSystem(correctionForm.getChooseSystem());
         correctionForm.setPreviousEditMethod(correctionForm.getEditMethod());
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -502,7 +502,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             return null;
         }
         else {
-            return mapping.findForward(Constants.MAPPING_BASIC);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
     }
 
@@ -530,11 +530,11 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
                     // the group size is not suitable for manual editing because it is too large
                     if (recordCountFunctionalityLimit == CorrectionDocumentUtils.RECORD_COUNT_FUNCTIONALITY_LIMIT_IS_NONE) {
                         GlobalVariables.getErrorMap().putError("systemAndEditMethod",
-                                KeyConstants.ERROR_GL_ERROR_CORRECTION_UNABLE_TO_MANUAL_EDIT_ANY_GROUP);
+                                KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_UNABLE_TO_MANUAL_EDIT_ANY_GROUP);
                     }
                     else {
                         GlobalVariables.getErrorMap().putError("systemAndEditMethod",
-                                KeyConstants.ERROR_GL_ERROR_CORRECTION_UNABLE_TO_MANUAL_EDIT_LARGE_GROUP, String.valueOf(recordCountFunctionalityLimit));
+                                KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_UNABLE_TO_MANUAL_EDIT_LARGE_GROUP, String.valueOf(recordCountFunctionalityLimit));
                     }
                 }
             }
@@ -554,12 +554,12 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
                     correctionForm.getCorrectionDocument().addCorrectionChangeGroup(new CorrectionChangeGroup());
                 }
                 else {
-                    GlobalVariables.getErrorMap().putError("documentsInSystem", KeyConstants.ERROR_GL_ERROR_CORRECTION_NO_RECORDS);
+                    GlobalVariables.getErrorMap().putError("documentsInSystem", KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_NO_RECORDS);
                 }
             }
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -578,11 +578,11 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
                 correctionForm.setDataLoadedFlag(true);
             }
             else {
-                GlobalVariables.getErrorMap().putError("documentsInSystem", KeyConstants.ERROR_GL_ERROR_GROUP_ALREADY_MARKED_NO_PROCESS);
+                GlobalVariables.getErrorMap().putError("documentsInSystem", KFSKeyConstants.ERROR_GL_ERROR_GROUP_ALREADY_MARKED_NO_PROCESS);
             }
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
 
@@ -609,7 +609,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         correctionForm.setShowOutputFlag(false);
         correctionForm.setAllEntries(new ArrayList());
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /*
@@ -668,11 +668,11 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
                 // the group size is not suitable for manual editing because it is too large
                 if (recordCountFunctionalityLimit == CorrectionDocumentUtils.RECORD_COUNT_FUNCTIONALITY_LIMIT_IS_NONE) {
                     GlobalVariables.getErrorMap().putError("systemAndEditMethod",
-                            KeyConstants.ERROR_GL_ERROR_CORRECTION_UNABLE_TO_MANUAL_EDIT_ANY_GROUP);
+                            KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_UNABLE_TO_MANUAL_EDIT_ANY_GROUP);
                 }
                 else {
                     GlobalVariables.getErrorMap().putError("systemAndEditMethod",
-                            KeyConstants.ERROR_GL_ERROR_CORRECTION_UNABLE_TO_MANUAL_EDIT_LARGE_GROUP, String.valueOf(recordCountFunctionalityLimit));
+                            KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_UNABLE_TO_MANUAL_EDIT_LARGE_GROUP, String.valueOf(recordCountFunctionalityLimit));
                 }
             }
         }
@@ -690,11 +690,11 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
                 }
             }
             else {
-                GlobalVariables.getErrorMap().putError("fileUpload", KeyConstants.ERROR_GL_ERROR_CORRECTION_NO_RECORDS);
+                GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_NO_RECORDS);
             }
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -716,7 +716,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             updateEntriesFromCriteria(correctionForm);
         }
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -742,7 +742,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             updateEntriesFromCriteria(correctionForm);
         }
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -776,7 +776,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             }
         }
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -806,7 +806,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             }
         }
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -836,7 +836,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             }
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -869,7 +869,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             }
         }
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -907,7 +907,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         // list has changed, we'll need to repage and resort
         applyPagingAndSortingFromPreviousPageView(correctionForm);
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -943,7 +943,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         
         // list has changed, we'll need to repage and resort
         applyPagingAndSortingFromPreviousPageView(correctionForm);
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -973,7 +973,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
         correctionForm.setShowSummaryOutputFlag(true);
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -1013,7 +1013,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         // list has changed, we'll need to repage and resort
         applyPagingAndSortingFromPreviousPageView(correctionForm);
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -1036,7 +1036,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             correctionForm.setShowOutputFlag(!correctionForm.getShowOutputFlag());
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward searchForManualEdit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -1054,7 +1054,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         int maxRowsPerPage = CorrectionDocumentUtils.getRecordsPerPage();
         correctionForm.getOriginEntrySearchResultTableMetadata().jumpToFirstPage(correctionForm.getDisplayEntries().size(), maxRowsPerPage);
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward searchCancelForManualEdit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -1065,7 +1065,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
         correctionForm.setShowOutputFlag(false);
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     private boolean validOriginEntry(CorrectionForm correctionForm) {
@@ -1107,12 +1107,12 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             // Now check that the data is valid
             if (!StringUtils.isEmpty(fieldValue)) {
                 if (!oeff.isValidValue(fieldName, fieldValue)) {
-                    GlobalVariables.getErrorMap().putError("searchResults", KeyConstants.ERROR_GL_ERROR_CORRECTION_INVALID_VALUE, new String[] { fieldDisplayName, fieldValue });
+                    GlobalVariables.getErrorMap().putError("searchResults", KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_INVALID_VALUE, new String[] { fieldDisplayName, fieldValue });
                     valid = false;
                 }
             }
             else if (!oeff.allowNull(fieldName)) {
-                GlobalVariables.getErrorMap().putError("searchResults", KeyConstants.ERROR_GL_ERROR_CORRECTION_INVALID_VALUE, new String[] { fieldDisplayName, fieldValue });
+                GlobalVariables.getErrorMap().putError("searchResults", KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_INVALID_VALUE, new String[] { fieldDisplayName, fieldValue });
                 valid = false;
             }
         }
@@ -1137,7 +1137,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         updateDocumentSummary(document, correctionForm.getAllEntries(), correctionForm.isRestrictedFunctionalityMode());
         
         SequenceAccessorService sequenceAccessorService = KNSServiceLocator.getSequenceAccessorService();
-        String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(Constants.LOOKUP_RESULTS_SEQUENCE));
+        String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KFSConstants.LOOKUP_RESULTS_SEQUENCE));
         
         SpringServiceLocator.getGlCorrectionProcessOriginEntryService().persistAllEntries(glcpSearchResultsSequenceNumber, searchResults);
         correctionForm.setGlcpSearchResultsSequenceNumber(glcpSearchResultsSequenceNumber);
@@ -1167,7 +1167,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         updateDocumentSummary(document, correctionForm.getAllEntries(), correctionForm.isRestrictedFunctionalityMode());
         
         SequenceAccessorService sequenceAccessorService = KNSServiceLocator.getSequenceAccessorService();
-        String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(Constants.LOOKUP_RESULTS_SEQUENCE));
+        String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KFSConstants.LOOKUP_RESULTS_SEQUENCE));
         
         SpringServiceLocator.getGlCorrectionProcessOriginEntryService().persistAllEntries(glcpSearchResultsSequenceNumber, searchResults);
         correctionForm.setGlcpSearchResultsSequenceNumber(glcpSearchResultsSequenceNumber);
@@ -1210,7 +1210,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
     }
 
     private boolean isDebitBudget(OriginEntry oe) {
-        return (oe.getTransactionDebitCreditCode() == null || Constants.GL_BUDGET_CODE.equals(oe.getTransactionDebitCreditCode()) || Constants.GL_DEBIT_CODE.equals(oe.getTransactionDebitCreditCode()));
+        return (oe.getTransactionDebitCreditCode() == null || KFSConstants.GL_BUDGET_CODE.equals(oe.getTransactionDebitCreditCode()) || KFSConstants.GL_DEBIT_CODE.equals(oe.getTransactionDebitCreditCode()));
     }
 
     /**
@@ -1221,11 +1221,11 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
         boolean ret = true;
         if (StringUtils.isEmpty(errorCorrectionForm.getChooseSystem())) {
-            GlobalVariables.getErrorMap().putError("systemAndEditMethod", KeyConstants.ERROR_GL_ERROR_CORRECTION_SYSTEMFIELD_REQUIRED);
+            GlobalVariables.getErrorMap().putError("systemAndEditMethod", KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_SYSTEMFIELD_REQUIRED);
             ret = false;
         }
         if (StringUtils.isEmpty(errorCorrectionForm.getEditMethod())) {
-            GlobalVariables.getErrorMap().putError("systemAndEditMethod", KeyConstants.ERROR_GL_ERROR_CORRECTION_EDITMETHODFIELD_REQUIRED);
+            GlobalVariables.getErrorMap().putError("systemAndEditMethod", KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_EDITMETHODFIELD_REQUIRED);
             ret = false;
         }
         return ret;
@@ -1235,7 +1235,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         LOG.debug("checkOriginEntryGroupSelection() started");
 
         if (correctionForm.getInputGroupId() == null) {
-            GlobalVariables.getErrorMap().putError("documentLoadError", KeyConstants.ERROR_GL_ERROR_CORRECTION_ORIGINGROUP_REQUIRED);
+            GlobalVariables.getErrorMap().putError("documentLoadError", KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_ORIGINGROUP_REQUIRED);
             return false;
         }
         return true;
@@ -1270,14 +1270,14 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             for (Iterator iterator = ccg.getCorrectionCriteria().iterator(); iterator.hasNext();) {
                 CorrectionCriteria cc = (CorrectionCriteria) iterator.next();
                 if (!oeff.isValidValue(cc.getCorrectionFieldName(), cc.getCorrectionFieldValue())) {
-                    GlobalVariables.getErrorMap().putError(tab, KeyConstants.ERROR_GL_ERROR_CORRECTION_INVALID_VALUE, new String[] { oeff.getFieldDisplayName(cc.getCorrectionFieldName()), cc.getCorrectionFieldValue() });
+                    GlobalVariables.getErrorMap().putError(tab, KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_INVALID_VALUE, new String[] { oeff.getFieldDisplayName(cc.getCorrectionFieldName()), cc.getCorrectionFieldValue() });
                     allValid = false;
                 }
             }
             for (Iterator iterator = ccg.getCorrectionChange().iterator(); iterator.hasNext();) {
                 CorrectionChange cc = (CorrectionChange) iterator.next();
                 if (!oeff.isValidValue(cc.getCorrectionFieldName(), cc.getCorrectionFieldValue())) {
-                    GlobalVariables.getErrorMap().putError(tab, KeyConstants.ERROR_GL_ERROR_CORRECTION_INVALID_VALUE, new String[] { oeff.getFieldDisplayName(cc.getCorrectionFieldName()), cc.getCorrectionFieldValue() });
+                    GlobalVariables.getErrorMap().putError(tab, KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_INVALID_VALUE, new String[] { oeff.getFieldDisplayName(cc.getCorrectionFieldName()), cc.getCorrectionFieldValue() });
                     allValid = false;
                 }
             }
@@ -1456,7 +1456,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         KualiTableRenderFormMetadata originEntrySearchResultTableMetadata = correctionForm.getOriginEntrySearchResultTableMetadata();
         originEntrySearchResultTableMetadata.jumpToPage(originEntrySearchResultTableMetadata.getSwitchToPageNumber(), correctionForm.getDisplayEntries().size(), maxRowsPerPage);
         originEntrySearchResultTableMetadata.setColumnToSortIndex(originEntrySearchResultTableMetadata.getPreviouslySortedColumnIndex());
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -1486,7 +1486,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         // sorting, so go back to the first page
         originEntrySearchResultTableMetadata.jumpToFirstPage(correctionForm.getDisplayEntries().size(), maxRowsPerPage);
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     private void sortList(List<OriginEntry> list, String propertyToSortName, Comparator valueComparator, boolean sortDescending) {
@@ -1530,7 +1530,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
                     !StringUtils.equals(correctionForm.getPreviousChooseSystem(), correctionForm.getChooseSystem())) {
                 correctionForm.setChooseSystem(correctionForm.getPreviousChooseSystem());
                 correctionForm.setEditMethod(correctionForm.getPreviousEditMethod());
-                GlobalVariables.getErrorMap().putError("systemAndEditMethod", KeyConstants.ERROR_GL_ERROR_CORRECTION_INVALID_SYSTEM_OR_EDIT_METHOD_CHANGE);
+                GlobalVariables.getErrorMap().putError("systemAndEditMethod", KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_INVALID_SYSTEM_OR_EDIT_METHOD_CHANGE);
                 return true;
             }
         }
@@ -1620,11 +1620,11 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             
             if (recordCountFunctionalityLimit == CorrectionDocumentUtils.RECORD_COUNT_FUNCTIONALITY_LIMIT_IS_NONE) {
                 GlobalVariables.getErrorMap().putError("systemAndEditMethod",
-                        KeyConstants.ERROR_GL_ERROR_CORRECTION_UNABLE_TO_MANUAL_EDIT_ANY_GROUP);
+                        KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_UNABLE_TO_MANUAL_EDIT_ANY_GROUP);
             }
             else {
                 GlobalVariables.getErrorMap().putError("systemAndEditMethod",
-                        KeyConstants.ERROR_GL_ERROR_CORRECTION_UNABLE_TO_MANUAL_EDIT_LARGE_GROUP, String.valueOf(recordCountFunctionalityLimit));
+                        KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_UNABLE_TO_MANUAL_EDIT_LARGE_GROUP, String.valueOf(recordCountFunctionalityLimit));
             }
             return false;
         }

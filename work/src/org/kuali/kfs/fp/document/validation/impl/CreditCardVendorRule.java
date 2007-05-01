@@ -22,7 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
@@ -96,13 +96,13 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
 
                 // check existence of Sub-Account
                 if (existenceSubAccount == null) {
-                    putFieldError("incomeSubAccountNumber", KeyConstants.ERROR_CCV_INVALIDSUBACCOUNT, "Income Sub-Account Number, " + newCreditCardVendor.getIncomeSubAccountNumber());
+                    putFieldError("incomeSubAccountNumber", KFSKeyConstants.ERROR_CCV_INVALIDSUBACCOUNT, "Income Sub-Account Number, " + newCreditCardVendor.getIncomeSubAccountNumber());
                 }
                 else
 
                 // check the Sub-Account is active
                 if (!existenceSubAccount.isSubAccountActiveIndicator()) {
-                    putFieldError("incomeSubAccountNumber", KeyConstants.ERROR_INACTIVE, "Income Sub-Account");
+                    putFieldError("incomeSubAccountNumber", KFSKeyConstants.ERROR_INACTIVE, "Income Sub-Account");
                 }
             }
         }
@@ -114,14 +114,14 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
                 // check existence of Sub-Account
                 SubAccount existenceSubAccount = checkExistenceSubAccount("Expense");
                 if (existenceSubAccount == null) {
-                    putFieldError("expenseSubAccountNumber", KeyConstants.ERROR_CCV_INVALIDSUBACCOUNT, "Expense Sub-Account Number, " + newCreditCardVendor.getExpenseSubAccountNumber());
+                    putFieldError("expenseSubAccountNumber", KFSKeyConstants.ERROR_CCV_INVALIDSUBACCOUNT, "Expense Sub-Account Number, " + newCreditCardVendor.getExpenseSubAccountNumber());
 
                 }
                 else
 
                 // check the Sub-Account is active
                 if (!existenceSubAccount.isSubAccountActiveIndicator()) {
-                    putFieldError("expenseSubAccountNumber", KeyConstants.ERROR_INACTIVE, "Expense Sub-Account");
+                    putFieldError("expenseSubAccountNumber", KFSKeyConstants.ERROR_INACTIVE, "Expense Sub-Account");
                 }
             }
         }
@@ -133,12 +133,12 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
                 // check existence of Sub-Object
                 SubObjCd existenceSubObj = checkExistenceSubObj("Income");
                 if (existenceSubObj == null) {
-                    putFieldError("incomeFinancialSubObjectCode", KeyConstants.ERROR_CCV_INVALIDSUBOBJECT, "Income Sub-Object Code, " + newCreditCardVendor.getIncomeFinancialSubObjectCode());
+                    putFieldError("incomeFinancialSubObjectCode", KFSKeyConstants.ERROR_CCV_INVALIDSUBOBJECT, "Income Sub-Object Code, " + newCreditCardVendor.getIncomeFinancialSubObjectCode());
                 }
                 else
                 // check the Sub-Object is active
                 if (!existenceSubObj.isFinancialSubObjectActiveIndicator()) {
-                    putFieldError("incomeFinancialSubObjectCode", KeyConstants.ERROR_INACTIVE, "Income Sub-Object");
+                    putFieldError("incomeFinancialSubObjectCode", KFSKeyConstants.ERROR_INACTIVE, "Income Sub-Object");
                 }
 
             }
@@ -151,12 +151,12 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
                 // check existence of Sub-Object
                 SubObjCd existenceSubObj = checkExistenceSubObj("Expense");
                 if (existenceSubObj == null) {
-                    putFieldError("expenseFinancialSubObjectCode", KeyConstants.ERROR_CCV_INVALIDSUBOBJECT, "Expense Sub-Object Code, " + newCreditCardVendor.getExpenseFinancialSubObjectCode());
+                    putFieldError("expenseFinancialSubObjectCode", KFSKeyConstants.ERROR_CCV_INVALIDSUBOBJECT, "Expense Sub-Object Code, " + newCreditCardVendor.getExpenseFinancialSubObjectCode());
                 }
                 else
                 // check the Sub-Object is active
                 if (!existenceSubObj.isFinancialSubObjectActiveIndicator()) {
-                    putFieldError("expenseFinancialSubObjectCode", KeyConstants.ERROR_INACTIVE, "Expense Sub-Object");
+                    putFieldError("expenseFinancialSubObjectCode", KFSKeyConstants.ERROR_INACTIVE, "Expense Sub-Object");
                 }
             }
         }
@@ -173,13 +173,13 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
             return false;
         }
         else if (!StringUtils.isNumeric(ccvNumber)) {
-            putFieldError("financialDocumentCreditCardVendorNumber", KeyConstants.ERROR_NUMERIC, "Vendor Credit Card Number");
+            putFieldError("financialDocumentCreditCardVendorNumber", KFSKeyConstants.ERROR_NUMERIC, "Vendor Credit Card Number");
             return false;
         }
         else if (ccvNumber.length() < 5) {
             String errorMessage[] = null;
             errorMessage = new String[] { "Vendor Credit Card Number", "5" };
-            putFieldError("financialDocumentCreditCardVendorNumber", KeyConstants.ERROR_MIN_LENGTH, errorMessage);
+            putFieldError("financialDocumentCreditCardVendorNumber", KFSKeyConstants.ERROR_MIN_LENGTH, errorMessage);
             return false;
         }
 
@@ -200,19 +200,19 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
 
         // if the object doesnt exist, then we cant continue, so exit
         if (ObjectUtils.isNull(account)) {
-            putFieldError(fieldName, KeyConstants.ERROR_EXISTENCE, errorMessage);
+            putFieldError(fieldName, KFSKeyConstants.ERROR_EXISTENCE, errorMessage);
             return result;
         }
 
         // check whether expired or not
         if (account.isExpired()) {
-            putFieldError(fieldName, KeyConstants.ERROR_EXPIRED, errorMessage);
+            putFieldError(fieldName, KFSKeyConstants.ERROR_EXPIRED, errorMessage);
             return result;
         }
 
         // check whether closed or not
         if (account.isAccountClosedIndicator()) {
-            putFieldError(fieldName, KeyConstants.ERROR_CLOSED, errorMessage);
+            putFieldError(fieldName, KFSKeyConstants.ERROR_CLOSED, errorMessage);
             return result;
         }
 
@@ -224,12 +224,12 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
         boolean returnVal = true;
         if (string.equals("Income")) {
             if (newCreditCardVendor.getIncomeFinancialChartOfAccountsCode() == null) {
-                putFieldError("incomeFinancialChartOfAccountsCode", KeyConstants.ERROR_CCV_INCOME_SUBACCOUNT_REQUIRED, "Income Chart");
+                putFieldError("incomeFinancialChartOfAccountsCode", KFSKeyConstants.ERROR_CCV_INCOME_SUBACCOUNT_REQUIRED, "Income Chart");
                 returnVal = false;
             }
 
             if (newCreditCardVendor.getIncomeAccountNumber() == null) {
-                putFieldError("incomeAccountNumber", KeyConstants.ERROR_CCV_INCOME_SUBACCOUNT_REQUIRED, "Income Account Number");
+                putFieldError("incomeAccountNumber", KFSKeyConstants.ERROR_CCV_INCOME_SUBACCOUNT_REQUIRED, "Income Account Number");
                 returnVal = false;
             }
         }
@@ -237,12 +237,12 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
 
         if (string.equals("Expense")) {
             if (newCreditCardVendor.getExpenseFinancialChartOfAccountsCode() == null) {
-                putFieldError("expenseFinancialChartOfAccountsCode", KeyConstants.ERROR_CCV_EXPENSE_SUBACCOUNT_REQUIRED, "Expense Chart");
+                putFieldError("expenseFinancialChartOfAccountsCode", KFSKeyConstants.ERROR_CCV_EXPENSE_SUBACCOUNT_REQUIRED, "Expense Chart");
                 returnVal = false;
             }
 
             if (newCreditCardVendor.getExpenseAccountNumber() == null) {
-                putFieldError("expenseAccountNumber", KeyConstants.ERROR_CCV_EXPENSE_SUBACCOUNT_REQUIRED, "Expense Account Number");
+                putFieldError("expenseAccountNumber", KFSKeyConstants.ERROR_CCV_EXPENSE_SUBACCOUNT_REQUIRED, "Expense Account Number");
                 returnVal = false;
             }
         }
@@ -281,17 +281,17 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
         boolean returnVal = true;
         if (string.equals("Income")) {
             if (newCreditCardVendor.getIncomeFinancialChartOfAccountsCode() == null) {
-                putFieldError("incomeFinancialChartOfAccountsCode", KeyConstants.ERROR_CCV_INCOME_SUBOBJ_REQUIRED, "Income Chart");
+                putFieldError("incomeFinancialChartOfAccountsCode", KFSKeyConstants.ERROR_CCV_INCOME_SUBOBJ_REQUIRED, "Income Chart");
                 returnVal = false;
             }
 
             if (newCreditCardVendor.getIncomeAccountNumber() == null) {
-                putFieldError("incomeAccountNumber", KeyConstants.ERROR_CCV_INCOME_SUBOBJ_REQUIRED, "Income Account Number");
+                putFieldError("incomeAccountNumber", KFSKeyConstants.ERROR_CCV_INCOME_SUBOBJ_REQUIRED, "Income Account Number");
                 returnVal = false;
             }
 
             if (newCreditCardVendor.getIncomeFinancialObjectCode() == null) {
-                putFieldError("incomeFinancialObjectCode", KeyConstants.ERROR_CCV_INCOME_SUBOBJ_REQUIRED, "Income Object Code");
+                putFieldError("incomeFinancialObjectCode", KFSKeyConstants.ERROR_CCV_INCOME_SUBOBJ_REQUIRED, "Income Object Code");
                 returnVal = false;
             }
 
@@ -300,17 +300,17 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
 
         if (string.equals("Expense")) {
             if (newCreditCardVendor.getExpenseFinancialChartOfAccountsCode() == null) {
-                putFieldError("expenseFinancialChartOfAccountsCode", KeyConstants.ERROR_CCV_EXPENSE_SUBOBJ_REQUIRED, "Expense Chart");
+                putFieldError("expenseFinancialChartOfAccountsCode", KFSKeyConstants.ERROR_CCV_EXPENSE_SUBOBJ_REQUIRED, "Expense Chart");
                 returnVal = false;
             }
 
             if (newCreditCardVendor.getExpenseAccountNumber() == null) {
-                putFieldError("expenseAccountNumber", KeyConstants.ERROR_CCV_EXPENSE_SUBOBJ_REQUIRED, "Expense Account Number");
+                putFieldError("expenseAccountNumber", KFSKeyConstants.ERROR_CCV_EXPENSE_SUBOBJ_REQUIRED, "Expense Account Number");
                 returnVal = false;
             }
 
             if (newCreditCardVendor.getExpenseFinancialObjectCode() == null) {
-                putFieldError("expenseFinancialObjectCode", KeyConstants.ERROR_CCV_EXPENSE_SUBOBJ_REQUIRED, "Expense Object Code");
+                putFieldError("expenseFinancialObjectCode", KFSKeyConstants.ERROR_CCV_EXPENSE_SUBOBJ_REQUIRED, "Expense Object Code");
                 returnVal = false;
             }
 

@@ -24,8 +24,8 @@ import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.kra.budget.bo.AppointmentType;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetFringeRate;
@@ -44,13 +44,13 @@ public class BudgetGraduateAssistantRateServiceImpl implements BudgetGraduateAss
      */
     public List getAllGraduateAssistantRates() {
         Map fieldValues = new HashMap();
-        fieldValues.put(PropertyConstants.ACTIVE, Constants.ACTIVE_INDICATOR);
+        fieldValues.put(KFSPropertyConstants.ACTIVE, KFSConstants.ACTIVE_INDICATOR);
         
         return new ArrayList(businessObjectService.findMatching(GraduateAssistantRate.class, fieldValues));
     }
 
     public boolean isValidGraduateAssistantRate(KualiDecimal fringeRate) {
-        return fringeRate == null ? false : fringeRate.isLessEqual(Constants.GRADUATE_ASSISTANT_RATE_MAX);
+        return fringeRate == null ? false : fringeRate.isLessEqual(KFSConstants.GRADUATE_ASSISTANT_RATE_MAX);
     }
 
     /**

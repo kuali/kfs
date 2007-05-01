@@ -28,8 +28,8 @@ import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.rule.event.RouteDocumentEvent;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.bo.AccountingLineParser;
@@ -173,14 +173,14 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
      * @see org.kuali.kfs.document.AccountingDocument#getSourceAccountingLinesSectionTitle()
      */
     public String getSourceAccountingLinesSectionTitle() {
-        return Constants.SOURCE;
+        return KFSConstants.SOURCE;
     }
 
     /**
      * @see org.kuali.kfs.document.AccountingDocument#getTargetAccountingLinesSectionTitle()
      */
     public String getTargetAccountingLinesSectionTitle() {
-        return Constants.TARGET;
+        return KFSConstants.TARGET;
     }
 
     /**
@@ -370,7 +370,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
         List persistedSourceLines = SpringServiceLocator.getAccountingLineService().getByDocumentHeaderId(getSourceAccountingLineClass(), getDocumentNumber());
         List currentSourceLines = getSourceAccountingLines();
 
-        List sourceEvents = generateEvents(persistedSourceLines, currentSourceLines, Constants.DOCUMENT_PROPERTY_NAME + "." + Constants.EXISTING_SOURCE_ACCT_LINE_PROPERTY_NAME, this);
+        List sourceEvents = generateEvents(persistedSourceLines, currentSourceLines, KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.EXISTING_SOURCE_ACCT_LINE_PROPERTY_NAME, this);
         for (Iterator i = sourceEvents.iterator(); i.hasNext();) {
             AccountingLineEvent sourceEvent = (AccountingLineEvent) i.next();
             events.add(sourceEvent);
@@ -379,7 +379,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
         List persistedTargetLines = SpringServiceLocator.getAccountingLineService().getByDocumentHeaderId(getTargetAccountingLineClass(), getDocumentNumber());
         List currentTargetLines = getTargetAccountingLines();
 
-        List targetEvents = generateEvents(persistedTargetLines, currentTargetLines, Constants.DOCUMENT_PROPERTY_NAME + "." + Constants.EXISTING_TARGET_ACCT_LINE_PROPERTY_NAME, this);
+        List targetEvents = generateEvents(persistedTargetLines, currentTargetLines, KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.EXISTING_TARGET_ACCT_LINE_PROPERTY_NAME, this);
         for (Iterator i = targetEvents.iterator(); i.hasNext();) {
             AccountingLineEvent targetEvent = (AccountingLineEvent) i.next();
             events.add(targetEvent);
@@ -442,7 +442,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
         // detect deletions
         for (Iterator i = persistedLineMap.entrySet().iterator(); i.hasNext();) {
             // the deleted line is not displayed on the page, so associate the error with the whole group
-            String groupErrorPathPrefix = errorPathPrefix + Constants.ACCOUNTING_LINE_GROUP_SUFFIX;
+            String groupErrorPathPrefix = errorPathPrefix + KFSConstants.ACCOUNTING_LINE_GROUP_SUFFIX;
             Map.Entry e = (Map.Entry) i.next();
             AccountingLine persistedLine = (AccountingLine) e.getValue();
             DeleteAccountingLineEvent deleteEvent = new DeleteAccountingLineEvent(groupErrorPathPrefix, document, persistedLine, true);

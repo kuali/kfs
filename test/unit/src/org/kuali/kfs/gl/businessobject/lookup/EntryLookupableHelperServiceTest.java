@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.test.WithTestSpringContext;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.GLSpringBeansRegistry;
 import org.kuali.module.gl.bo.Entry;
 import org.kuali.module.gl.bo.Transaction;
@@ -84,23 +84,23 @@ public class EntryLookupableHelperServiceTest extends AbstractGLLookupableHelper
     public List getLookupFields(boolean isExtended) {
         List lookupFields = new ArrayList();
 
-        lookupFields.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        lookupFields.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        lookupFields.add(PropertyConstants.ACCOUNT_NUMBER);
-        lookupFields.add(PropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
-        lookupFields.add(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
+        lookupFields.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        lookupFields.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        lookupFields.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        lookupFields.add(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
+        lookupFields.add(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
 
         // include the extended fields
         if (isExtended) {
-            lookupFields.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
-            lookupFields.add(PropertyConstants.FINANCIAL_OBJECT_CODE);
-            lookupFields.add(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+            lookupFields.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+            lookupFields.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+            lookupFields.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
 
-            lookupFields.add(PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
-            lookupFields.add(PropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE);
-            lookupFields.add(PropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
-            lookupFields.add(PropertyConstants.DOCUMENT_NUMBER);
-            lookupFields.add(PropertyConstants.ORGANIZATION_DOCUMENT_NUMBER);
+            lookupFields.add(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
+            lookupFields.add(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE);
+            lookupFields.add(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
+            lookupFields.add(KFSPropertyConstants.DOCUMENT_NUMBER);
+            lookupFields.add(KFSPropertyConstants.ORGANIZATION_DOCUMENT_NUMBER);
         }
         return lookupFields;
     }

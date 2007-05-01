@@ -25,7 +25,7 @@ import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
 import org.kuali.core.web.ui.Section;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 
 /**
  * 
@@ -49,7 +49,7 @@ public class KualiOrgMaintainable extends KualiMaintainableImpl {
         boolean fieldFound = false;
         boolean sectionFound = false;
 
-        String orgPostalCodeFieldName = PropertyConstants.ORGANIZATION_ZIP_CODE;
+        String orgPostalCodeFieldName = KFSPropertyConstants.ORGANIZATION_ZIP_CODE;
 
         // walk the sections
         List sections = super.getCoreSections();
@@ -80,9 +80,9 @@ public class KualiOrgMaintainable extends KualiMaintainableImpl {
 
                             // build the fieldConversions for the UserID field lookup
                             Map fieldConversions = new HashMap();
-                            fieldConversions.put(PropertyConstants.POSTAL_ZIP_CODE, PropertyConstants.ORGANIZATION_ZIP_CODE );
-                            fieldConversions.put(PropertyConstants.POSTAL_STATE_CODE, PropertyConstants.ORGANIZATION_STATE_CODE );
-                            fieldConversions.put(PropertyConstants.POSTAL_CITY_NAME, PropertyConstants.ORGANIZATION_CITY_NAME );
+                            fieldConversions.put(KFSPropertyConstants.POSTAL_ZIP_CODE, KFSPropertyConstants.ORGANIZATION_ZIP_CODE );
+                            fieldConversions.put(KFSPropertyConstants.POSTAL_STATE_CODE, KFSPropertyConstants.ORGANIZATION_STATE_CODE );
+                            fieldConversions.put(KFSPropertyConstants.POSTAL_CITY_NAME, KFSPropertyConstants.ORGANIZATION_CITY_NAME );
                             
                             
                             // add the fieldConversions, lookupParameters and the lookup class
@@ -102,7 +102,7 @@ public class KualiOrgMaintainable extends KualiMaintainableImpl {
         }
         // if the field was not found, fail loudly
         else if (!fieldFound) {
-            throw new RuntimeException("There is no longer a field titled '" + PropertyConstants.ORGANIZATION_ZIP_CODE + "'. " + "As a result, the lookup setup will not work as expected and the maintenance document " + "will be broken.  The correct name needs to be set in the PropertyConstants class.");
+            throw new RuntimeException("There is no longer a field titled '" + KFSPropertyConstants.ORGANIZATION_ZIP_CODE + "'. " + "As a result, the lookup setup will not work as expected and the maintenance document " + "will be broken.  The correct name needs to be set in the KFSPropertyConstants class.");
         }
 
         return sections;

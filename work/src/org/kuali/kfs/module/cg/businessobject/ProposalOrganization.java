@@ -185,7 +185,7 @@ public class ProposalOrganization extends PersistableBusinessObjectBase implemen
      */
     @Override
     public String toString() {
-        // todo: get "primary" and "secondary" from ApplicationResources.properties via KeyConstants?
+        // todo: get "primary" and "secondary" from ApplicationResources.properties via KFSKeyConstants?
         return getChartOfAccountsCode() + "-" + getOrganizationCode() + " " + (isProposalPrimaryOrganizationIndicator() ? "primary" : "secondary");
     }
 }

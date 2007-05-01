@@ -25,7 +25,7 @@ import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.cg.bo.ProjectDirector;
@@ -391,7 +391,7 @@ public class Budget extends PersistableBusinessObjectBase {
     protected LinkedHashMap toStringMapper() {
         // TODO Auto-generated method stub
         LinkedHashMap map = new LinkedHashMap();
-        map.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
+        map.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return map;
     }
 

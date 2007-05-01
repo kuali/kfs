@@ -18,8 +18,8 @@ package org.kuali.module.financial.rules;
 import org.kuali.core.document.Document;
 import org.kuali.core.rules.PreRulesContinuationBase;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.financial.document.BudgetAdjustmentDocument;
@@ -56,8 +56,8 @@ public class BudgetAdjustmentDocumentPreRules extends PreRulesContinuationBase {
         boolean hasLaborObjectCodes = SpringServiceLocator.getBudgetAdjustmentLaborBenefitsService().hasLaborObjectCodes(budgetDocument);
 
         if (hasLaborObjectCodes) {
-            String questionText = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KeyConstants.QUESTION_GENERATE_LABOR_BENEFIT_LINES);
-            boolean generateBenefits = super.askOrAnalyzeYesNoQuestion(Constants.BudgetAdjustmentDocumentConstants.GENERATE_BENEFITS_QUESTION_ID, questionText);
+            String questionText = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KFSKeyConstants.QUESTION_GENERATE_LABOR_BENEFIT_LINES);
+            boolean generateBenefits = super.askOrAnalyzeYesNoQuestion(KFSConstants.BudgetAdjustmentDocumentConstants.GENERATE_BENEFITS_QUESTION_ID, questionText);
             if (generateBenefits) {
                 SpringServiceLocator.getBudgetAdjustmentLaborBenefitsService().generateLaborBenefitsAccountingLines(budgetDocument);
                 // update baselines in form
@@ -65,7 +65,7 @@ public class BudgetAdjustmentDocumentPreRules extends PreRulesContinuationBase {
                 ((KualiAccountingDocumentFormBase) form).setBaselineTargetAccountingLines(budgetDocument.getTargetAccountingLines());
 
                 // return to document after lines are generated
-                super.event.setActionForwardName(Constants.MAPPING_BASIC);
+                super.event.setActionForwardName(KFSConstants.MAPPING_BASIC);
                 return false;
             }
         }

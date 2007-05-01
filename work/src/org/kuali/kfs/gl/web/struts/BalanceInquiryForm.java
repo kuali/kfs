@@ -28,7 +28,7 @@ import org.kuali.core.lookup.Lookupable;
 import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.GLConstants;
@@ -66,10 +66,10 @@ public class BalanceInquiryForm extends LookupForm {
             Lookupable localLookupable = null;
             Lookupable localPendingEntryLookupable = null;
 
-            if (StringUtils.isBlank(request.getParameter(Constants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME)) && StringUtils.isBlank(getLookupableImplServiceName())) {
+            if (StringUtils.isBlank(request.getParameter(KFSConstants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME)) && StringUtils.isBlank(getLookupableImplServiceName())) {
 
                 // get the business object class for the lookup
-                String localBusinessObjectClassName = request.getParameter(Constants.BUSINESS_OBJECT_CLASS_ATTRIBUTE);
+                String localBusinessObjectClassName = request.getParameter(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE);
                 setBusinessObjectClassName(localBusinessObjectClassName);
 
                 if (StringUtils.isBlank(localBusinessObjectClassName)) {
@@ -97,23 +97,23 @@ public class BalanceInquiryForm extends LookupForm {
                 localPendingEntryLookupable = SpringServiceLocator.getLookupable(GLConstants.LookupableBeanKeys.PENDING_ENTRY);
             }
 
-            if (request.getParameter(Constants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME) != null) {
-                setLookupableImplServiceName(request.getParameter(Constants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME));
+            if (request.getParameter(KFSConstants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME) != null) {
+                setLookupableImplServiceName(request.getParameter(KFSConstants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME));
             }
 
             // check the doc form key is empty before setting so we don't override a restored lookup form
-            if (request.getAttribute(Constants.DOC_FORM_KEY) != null && StringUtils.isBlank(this.getFormKey())) {
-                setFormKey((String) request.getAttribute(Constants.DOC_FORM_KEY));
+            if (request.getAttribute(KFSConstants.DOC_FORM_KEY) != null && StringUtils.isBlank(this.getFormKey())) {
+                setFormKey((String) request.getAttribute(KFSConstants.DOC_FORM_KEY));
             }
-            else if (request.getParameter(Constants.DOC_FORM_KEY) != null && StringUtils.isBlank(this.getFormKey())) {
-                setFormKey(request.getParameter(Constants.DOC_FORM_KEY));
+            else if (request.getParameter(KFSConstants.DOC_FORM_KEY) != null && StringUtils.isBlank(this.getFormKey())) {
+                setFormKey(request.getParameter(KFSConstants.DOC_FORM_KEY));
             }
 
-            if (request.getParameter(Constants.RETURN_LOCATION_PARAMETER) != null) {
-                setBackLocation(request.getParameter(Constants.RETURN_LOCATION_PARAMETER));
+            if (request.getParameter(KFSConstants.RETURN_LOCATION_PARAMETER) != null) {
+                setBackLocation(request.getParameter(KFSConstants.RETURN_LOCATION_PARAMETER));
             }
-            if (request.getParameter(Constants.CONVERSION_FIELDS_PARAMETER) != null) {
-                setConversionFields(request.getParameter(Constants.CONVERSION_FIELDS_PARAMETER));
+            if (request.getParameter(KFSConstants.CONVERSION_FIELDS_PARAMETER) != null) {
+                setConversionFields(request.getParameter(KFSConstants.CONVERSION_FIELDS_PARAMETER));
             }
 
             // init lookupable with bo class
@@ -167,8 +167,8 @@ public class BalanceInquiryForm extends LookupForm {
                     }
                 }
             }
-            fieldValues.put(Constants.DOC_FORM_KEY, this.getFormKey());
-            fieldValues.put(Constants.BACK_LOCATION, this.getBackLocation());
+            fieldValues.put(KFSConstants.DOC_FORM_KEY, this.getFormKey());
+            fieldValues.put(KFSConstants.BACK_LOCATION, this.getBackLocation());
 
             this.setFields(fieldValues);
 

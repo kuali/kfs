@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -760,7 +760,7 @@ public class EntryMove extends PersistableBusinessObjectBase {
         m.put("universityFiscalPeriodCode", this.universityFiscalPeriodCode);
         m.put("financialDocumentTypeCode", this.financialDocumentTypeCode);
         m.put("financialSystemOriginationCode", this.financialSystemOriginationCode);
-        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
+        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         if (this.transactionLedgerEntrySequenceNumber != null) {
             m.put("transactionLedgerEntrySequenceNumber", this.transactionLedgerEntrySequenceNumber.toString());
         }

@@ -26,7 +26,7 @@ import org.kuali.module.cg.service.ProjectDirectorService;
 import org.kuali.module.cg.service.SubcontractorService;
 import org.kuali.module.cg.bo.ProjectDirector;
 import org.kuali.module.cg.bo.Subcontractor;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.bo.user.UniversalUser;
@@ -56,7 +56,7 @@ public class SubcontractorServiceImpl implements SubcontractorService {
 
     private Map<String, Object> mapPrimaryKeys(String subcontractorNumber) {
         Map<String, Object> primaryKeys = new HashMap();
-        primaryKeys.put(PropertyConstants.SUBCONTRACTOR_NUMBER, subcontractorNumber.trim());
+        primaryKeys.put(KFSPropertyConstants.SUBCONTRACTOR_NUMBER, subcontractorNumber.trim());
         return primaryKeys;
     }
 

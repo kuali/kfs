@@ -18,7 +18,7 @@ package org.kuali.module.gl.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 
 public class Summary implements Comparable {
     /**
@@ -100,9 +100,9 @@ public class Summary implements Comparable {
     // build a report summary list for labor general ledger posting
     public static List<Summary> buildDefualtReportSummary(String destination, int startingOrder) {
         List<Summary> reportSummary = new ArrayList<Summary>();
-        updateReportSummary(reportSummary, destination, Constants.OperationType.INSERT, 0, startingOrder++);
-        updateReportSummary(reportSummary, destination, Constants.OperationType.UPDATE, 0, startingOrder++);
-        updateReportSummary(reportSummary, destination, Constants.OperationType.DELETE, 0, startingOrder++);
+        updateReportSummary(reportSummary, destination, KFSConstants.OperationType.INSERT, 0, startingOrder++);
+        updateReportSummary(reportSummary, destination, KFSConstants.OperationType.UPDATE, 0, startingOrder++);
+        updateReportSummary(reportSummary, destination, KFSConstants.OperationType.DELETE, 0, startingOrder++);
         return reportSummary;
     }
 

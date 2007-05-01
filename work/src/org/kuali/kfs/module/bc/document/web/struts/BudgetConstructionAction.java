@@ -44,8 +44,8 @@ import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLineOverride;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.budget.BCConstants;
@@ -105,7 +105,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
             loadDocument(budgetConstructionForm);
 //        }
             
-            return mapping.findForward(Constants.MAPPING_BASIC);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         
 /** from KualiDocumentActionBase,docHandler()
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
@@ -137,7 +137,7 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         if (IDocHandler.SUPERUSER_COMMAND.equalsIgnoreCase(command)) {
             kualiDocumentFormBase.setSuppressAllButtons(true);
         }
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
 **/
     }
 
@@ -185,17 +185,17 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
 
     // only want to prompt them to save if they already can save
     if (docForm.getDocumentActionFlags().getCanSave()) {
-        Object question = request.getParameter(Constants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         KualiConfigurationService kualiConfiguration = KNSServiceLocator.getKualiConfigurationService();
 
         // logic for close question
         if (question == null) {
             // ask question if not already asked
-            return this.performQuestionWithoutInput(mapping, form, request, response, Constants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, kualiConfiguration.getPropertyString(KeyConstants.QUESTION_SAVE_BEFORE_CLOSE), Constants.CONFIRMATION_QUESTION, Constants.MAPPING_CLOSE, "");
+            return this.performQuestionWithoutInput(mapping, form, request, response, KFSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, kualiConfiguration.getPropertyString(KFSKeyConstants.QUESTION_SAVE_BEFORE_CLOSE), KFSConstants.CONFIRMATION_QUESTION, KFSConstants.MAPPING_CLOSE, "");
         }
         else {
-            Object buttonClicked = request.getParameter(Constants.QUESTION_CLICKED_BUTTON);
-            if ((Constants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+            Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
+            if ((KFSConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                 // if yes button clicked - save the doc
 
                 //KNSServiceLocator.getDocumentService().saveDocument(docForm.getDocument());
@@ -209,10 +209,10 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
 
     // setup the return parms for the document and anchor
     Properties parameters = new Properties();
-    parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, BCConstants.BC_SELECTION_REFRESH_METHOD);
-    parameters.put(Constants.DOC_FORM_KEY, docForm.getReturnFormKey());
-    parameters.put(Constants.ANCHOR, docForm.getReturnAnchor());
-    parameters.put(Constants.REFRESH_CALLER, BCConstants.BC_DOCUMENT_REFRESH_CALLER);
+    parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.BC_SELECTION_REFRESH_METHOD);
+    parameters.put(KFSConstants.DOC_FORM_KEY, docForm.getReturnFormKey());
+    parameters.put(KFSConstants.ANCHOR, docForm.getReturnAnchor());
+    parameters.put(KFSConstants.REFRESH_CALLER, BCConstants.BC_DOCUMENT_REFRESH_CALLER);
     
     String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_SELECTION_ACTION, parameters);
     return new ActionForward(lookupUrl, true);
@@ -235,13 +235,13 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
         // TODO for now just do trivial save eventually need to add validation, routelog stuff, etc
         documentService.updateDocument(bcDocument);
 
-        GlobalVariables.getMessageList().add(KeyConstants.MESSAGE_SAVED);
+        GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_SAVED);
         
         //TODO not sure this is needed in BC
         budgetConstructionForm.setAnnotation("");
 
         // TODO this should eventually be set to return to AccountSelect
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward performMonthlyRevenueBudget(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -273,7 +273,7 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
 
         String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
         Properties parameters = new Properties();
-        parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, BCConstants.MONTHLY_BUDGET_METHOD);
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.MONTHLY_BUDGET_METHOD);
         parameters.put("documentNumber", pbglLine.getDocumentNumber());
         parameters.put("universityFiscalYear", pbglLine.getUniversityFiscalYear().toString());
         parameters.put("chartOfAccountsCode", pbglLine.getChartOfAccountsCode());
@@ -312,7 +312,7 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
 
         String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
         Properties parameters = new Properties();
-        parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, BCConstants.SALARY_SETTING_METHOD);
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.SALARY_SETTING_METHOD);
 
         parameters.put("documentNumber", pbglLine.getDocumentNumber());
         parameters.put("universityFiscalYear", pbglLine.getUniversityFiscalYear().toString());
@@ -370,7 +370,7 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
 
         }
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -405,7 +405,7 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
             budgetConstructionForm.setNewExpenditureLine(null);
         }
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -448,7 +448,7 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
         // KualiDocumentFormBase.populate() needs this updated in the session
         GlobalVariables.getUserSession().setWorkflowDocument(workflowDoc);
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
         
     }
 */
@@ -465,7 +465,7 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
         // typical refresh callers would be monthlyBudget or salarySetting or kualiLookupable
         // need to look at optmistic locking problems since we will be storing the values in the form before hand
         // this locking problem may workout if we store first then put the form in session
-        String refreshCaller = request.getParameter(Constants.REFRESH_CALLER);
+        String refreshCaller = request.getParameter(KFSConstants.REFRESH_CALLER);
 
         if (refreshCaller != null && refreshCaller.equalsIgnoreCase(BCConstants.MONTHLY_BUDGET_REFRESH_CALLER)){
             
@@ -491,13 +491,13 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
 */
         //TODO this should figure out if user is returning to a rev or exp line and refresh just that
         //TODO this should also keep original values of obj, sobj to compare and null out dependencies when needed
-        if (refreshCaller != null && refreshCaller.equalsIgnoreCase(Constants.KUALI_LOOKUPABLE_IMPL)){
+        if (refreshCaller != null && refreshCaller.equalsIgnoreCase(KFSConstants.KUALI_LOOKUPABLE_IMPL)){
             final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject", "financialSubObject" }));
             KNSServiceLocator.getPersistenceService().retrieveReferenceObjects(budgetConstructionForm.getNewRevenueLine(), REFRESH_FIELDS);            
             KNSServiceLocator.getPersistenceService().retrieveReferenceObjects(budgetConstructionForm.getNewExpenditureLine(), REFRESH_FIELDS);            
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -514,7 +514,7 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
     public ActionForward showDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetConstructionForm tForm = (BudgetConstructionForm) form;
         tForm.setHideDetails(false);
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -531,63 +531,63 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
     public ActionForward hideDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetConstructionForm tForm = (BudgetConstructionForm) form;
         tForm.setHideDetails(true);
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     public ActionForward performAccountPullup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         BudgetConstructionForm tForm = (BudgetConstructionForm) form;
-        GlobalVariables.getErrorMap().putError(Constants.GLOBAL_MESSAGES,KeyConstants.ERROR_UNIMPLEMENTED, "Pullup");
+        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES,KFSKeyConstants.ERROR_UNIMPLEMENTED, "Pullup");
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward performAccountPushdown(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         BudgetConstructionForm tForm = (BudgetConstructionForm) form;
-        GlobalVariables.getErrorMap().putError(Constants.GLOBAL_MESSAGES,KeyConstants.ERROR_UNIMPLEMENTED, "Pushdown");
+        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES,KFSKeyConstants.ERROR_UNIMPLEMENTED, "Pushdown");
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward performReportDump(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         BudgetConstructionForm tForm = (BudgetConstructionForm) form;
-        GlobalVariables.getErrorMap().putError(Constants.GLOBAL_MESSAGES,KeyConstants.ERROR_UNIMPLEMENTED, "Report/Dump");
+        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES,KFSKeyConstants.ERROR_UNIMPLEMENTED, "Report/Dump");
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward performPercentChange(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         BudgetConstructionForm tForm = (BudgetConstructionForm) form;
-        GlobalVariables.getErrorMap().putError(Constants.GLOBAL_MESSAGES,KeyConstants.ERROR_UNIMPLEMENTED, "Percent Change");
+        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES,KFSKeyConstants.ERROR_UNIMPLEMENTED, "Percent Change");
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward performMonthSpread(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         BudgetConstructionForm tForm = (BudgetConstructionForm) form;
-        GlobalVariables.getErrorMap().putError(Constants.GLOBAL_MESSAGES,KeyConstants.ERROR_UNIMPLEMENTED, "Month Spread");
+        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES,KFSKeyConstants.ERROR_UNIMPLEMENTED, "Month Spread");
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward performMonthDelete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         BudgetConstructionForm tForm = (BudgetConstructionForm) form;
-        GlobalVariables.getErrorMap().putError(Constants.GLOBAL_MESSAGES,KeyConstants.ERROR_UNIMPLEMENTED, "Month Delete");
+        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES,KFSKeyConstants.ERROR_UNIMPLEMENTED, "Month Delete");
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward performCalculateBenfits(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         BudgetConstructionForm tForm = (BudgetConstructionForm) form;
-        GlobalVariables.getErrorMap().putError(Constants.GLOBAL_MESSAGES,KeyConstants.ERROR_UNIMPLEMENTED, "Calculate Benefits");
+        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES,KFSKeyConstants.ERROR_UNIMPLEMENTED, "Calculate Benefits");
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
 }

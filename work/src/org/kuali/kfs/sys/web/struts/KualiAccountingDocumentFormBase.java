@@ -34,8 +34,8 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.core.web.format.SimpleBooleanFormatter;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.bo.AccountingLineOverride;
 import org.kuali.kfs.bo.SourceAccountingLine;
@@ -110,18 +110,18 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
         // handle new accountingLine, if one is being added
         String methodToCall = this.getMethodToCall();
         if (StringUtils.isNotBlank(methodToCall)) {
-            if (methodToCall.equals(Constants.INSERT_SOURCE_LINE_METHOD)) {
+            if (methodToCall.equals(KFSConstants.INSERT_SOURCE_LINE_METHOD)) {
                 populateSourceAccountingLine(getNewSourceLine());
             }
 
-            if (methodToCall.equals(Constants.INSERT_TARGET_LINE_METHOD)) {
+            if (methodToCall.equals(KFSConstants.INSERT_TARGET_LINE_METHOD)) {
                 populateTargetAccountingLine(getNewTargetLine());
             }
         }
 
         // don't call populateAccountingLines if you are copying or errorCorrecting a document,
         // since you want the accountingLines in the copy to be "identical" to those in the original
-        if (!StringUtils.equals(methodToCall, Constants.COPY_METHOD) && !StringUtils.equals(methodToCall, Constants.ERRORCORRECT_METHOD)) {
+        if (!StringUtils.equals(methodToCall, KFSConstants.COPY_METHOD) && !StringUtils.equals(methodToCall, KFSConstants.ERRORCORRECT_METHOD)) {
             populateAccountingLines();
         }
 

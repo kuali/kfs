@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.util.ObjectUtil;
@@ -37,10 +37,10 @@ public class OriginEntryGroupForTesting extends OriginEntryGroup {
     
     public List<String> getKeyValueList(){
         List<String> keyValueList = new ArrayList<String>();
-        keyValueList.add(PropertyConstants.SOURCE_CODE);
-        keyValueList.add(PropertyConstants.PROCESS);
-        keyValueList.add(PropertyConstants.VALID);
-        keyValueList.add(PropertyConstants.SCRUB);
+        keyValueList.add(KFSPropertyConstants.SOURCE_CODE);
+        keyValueList.add(KFSPropertyConstants.PROCESS);
+        keyValueList.add(KFSPropertyConstants.VALID);
+        keyValueList.add(KFSPropertyConstants.SCRUB);
         return keyValueList;
     }
 }

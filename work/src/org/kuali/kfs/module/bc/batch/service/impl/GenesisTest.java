@@ -15,8 +15,8 @@
  */
 package org.kuali.module.budget.service.impl;
 
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.Constants.*;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSConstants.*;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.kfs.util.SpringServiceLocator.*;
 import org.kuali.module.budget.service.*;
@@ -51,7 +51,7 @@ public class GenesisTest {
   {
       //    this supposedly configures a logger that everybody can fetch and use
       PropertyConfigurator.configure(ResourceBundle.getBundle(
-        Constants.CONFIGURATION_FILE_NAME).getString(Constants.LOG4J_SETTINGS_FILE_KEY));
+        KFSConstants.CONFIGURATION_FILE_NAME).getString(KFSConstants.LOG4J_SETTINGS_FILE_KEY));
   //  get one for this routine
       LOG = org.apache.log4j.Logger.getLogger(GenesisTest.class);
      

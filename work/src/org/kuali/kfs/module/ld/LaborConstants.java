@@ -18,7 +18,7 @@ package org.kuali.module.labor;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 
 /**
  * This class contains the constants used by Labor Distribution.
@@ -63,29 +63,29 @@ public class LaborConstants {
     public static List<String> consolidationAttributesOfOriginEntry() {
         List<String> consolidationAttributes = new ArrayList<String>();
 
-        consolidationAttributes.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        consolidationAttributes.add(PropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
+        consolidationAttributes.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        consolidationAttributes.add(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
 
-        consolidationAttributes.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        consolidationAttributes.add(PropertyConstants.ACCOUNT_NUMBER);
-        consolidationAttributes.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
+        consolidationAttributes.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        consolidationAttributes.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        consolidationAttributes.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
 
-        consolidationAttributes.add(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
-        consolidationAttributes.add(PropertyConstants.FINANCIAL_OBJECT_CODE);
-        consolidationAttributes.add(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
-        consolidationAttributes.add(PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
+        consolidationAttributes.add(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
+        consolidationAttributes.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        consolidationAttributes.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        consolidationAttributes.add(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
 
-        consolidationAttributes.add(PropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
-        consolidationAttributes.add(PropertyConstants.DOCUMENT_NUMBER);
-        consolidationAttributes.add(PropertyConstants.ORGANIZATION_DOCUMENT_NUMBER);
+        consolidationAttributes.add(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
+        consolidationAttributes.add(KFSPropertyConstants.DOCUMENT_NUMBER);
+        consolidationAttributes.add(KFSPropertyConstants.ORGANIZATION_DOCUMENT_NUMBER);
 
-        consolidationAttributes.add(PropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE);
-        consolidationAttributes.add(PropertyConstants.REFERENCE_FINANCIAL_SYSTEM_ORIGINATION_CODE);
-        consolidationAttributes.add(PropertyConstants.PROJECT_CODE);
-        consolidationAttributes.add(PropertyConstants.ORGANIZATION_REFERENCE_ID);
+        consolidationAttributes.add(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE);
+        consolidationAttributes.add(KFSPropertyConstants.REFERENCE_FINANCIAL_SYSTEM_ORIGINATION_CODE);
+        consolidationAttributes.add(KFSPropertyConstants.PROJECT_CODE);
+        consolidationAttributes.add(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID);
 
-        consolidationAttributes.add(PropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE);
-        consolidationAttributes.add(PropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT);
+        consolidationAttributes.add(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE);
+        consolidationAttributes.add(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT);
 
         return consolidationAttributes;
     }

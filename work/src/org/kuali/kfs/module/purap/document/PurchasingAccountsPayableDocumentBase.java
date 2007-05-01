@@ -83,7 +83,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     
     public KualiDecimal getTotalDollarAmount() {
         //FIXME get real total
-//        return Constants.ZERO;
+//        return KFSConstants.ZERO;
         return new KualiDecimal(100);
     }
 

@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.financial.bo.FiscalYearFunctionControl;
 import org.kuali.module.financial.service.FiscalYearFunctionControlService;
 
@@ -47,8 +47,8 @@ public class FiscalYearFunctionControlServiceImpl implements FiscalYearFunctionC
      */
     private boolean getActiveIndByPrimaryId(Integer postingYear, String financialSystemFunctionControlCode) {
         HashMap keys = new HashMap();
-        keys.put(PropertyConstants.UNIVERSITY_FISCAL_YEAR, postingYear);
-        keys.put(PropertyConstants.FINANCIAL_SYSTEM_FUNCTION_CONTROL_CODE, financialSystemFunctionControlCode);
+        keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, postingYear);
+        keys.put(KFSPropertyConstants.FINANCIAL_SYSTEM_FUNCTION_CONTROL_CODE, financialSystemFunctionControlCode);
         FiscalYearFunctionControl control = (FiscalYearFunctionControl) businessObjectService.findByPrimaryKey(FiscalYearFunctionControl.class, keys);
         return (control != null) && control.isFinancialSystemFunctionActiveIndicator();
     }
@@ -61,8 +61,8 @@ public class FiscalYearFunctionControlServiceImpl implements FiscalYearFunctionC
      */
     private List getByFunctionControlCodeAndActiveInd(String financialSystemFunctionControlCode, String financialSystemFunctionActiveIndicator) {
         HashMap values = new HashMap();
-        values.put(PropertyConstants.FINANCIAL_SYSTEM_FUNCTION_CONTROL_CODE, financialSystemFunctionControlCode);
-        values.put(PropertyConstants.FINANCIAL_SYSTEM_FUNCTION_ACTIVE_INDICATOR, financialSystemFunctionActiveIndicator);
+        values.put(KFSPropertyConstants.FINANCIAL_SYSTEM_FUNCTION_CONTROL_CODE, financialSystemFunctionControlCode);
+        values.put(KFSPropertyConstants.FINANCIAL_SYSTEM_FUNCTION_ACTIVE_INDICATOR, financialSystemFunctionActiveIndicator);
         Collection controls = businessObjectService.findMatching(FiscalYearFunctionControl.class, values);
         return new ArrayList(controls);
     }

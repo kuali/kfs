@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.budget.bo.NonpersonnelCategory;
 import org.kuali.module.kra.budget.bo.NonpersonnelObjectCode;
@@ -65,16 +65,16 @@ public class BudgetNonpersonnelServiceImpl implements BudgetNonpersonnelService 
      */
     public List getAllNonpersonnelCategories() {
         Map fieldValuesNonpersonnelCategories = new HashMap();
-        fieldValuesNonpersonnelCategories.put(PropertyConstants.ACTIVE, true);
+        fieldValuesNonpersonnelCategories.put(KFSPropertyConstants.ACTIVE, true);
         List<NonpersonnelCategory> nonpersonnelCategories = 
-            new ArrayList<NonpersonnelCategory>(businessObjectService.findMatchingOrderBy(NonpersonnelCategory.class, fieldValuesNonpersonnelCategories, PropertyConstants.SORT_NUMBER, true));
+            new ArrayList<NonpersonnelCategory>(businessObjectService.findMatchingOrderBy(NonpersonnelCategory.class, fieldValuesNonpersonnelCategories, KFSPropertyConstants.SORT_NUMBER, true));
         
         for(NonpersonnelCategory nonpersonnelCategory : nonpersonnelCategories) {
             Map fieldValuesNonpersonnelObjectCodes = new HashMap();
-            fieldValuesNonpersonnelObjectCodes.put(PropertyConstants.BUDGET_NONPERSONNEL_CATEGORY_CODE, nonpersonnelCategory.getCode());
-            fieldValuesNonpersonnelObjectCodes.put(PropertyConstants.ACTIVE, true);
+            fieldValuesNonpersonnelObjectCodes.put(KFSPropertyConstants.BUDGET_NONPERSONNEL_CATEGORY_CODE, nonpersonnelCategory.getCode());
+            fieldValuesNonpersonnelObjectCodes.put(KFSPropertyConstants.ACTIVE, true);
             nonpersonnelCategory.setNonpersonnelObjectCodes(
-                    new ArrayList(businessObjectService.findMatchingOrderBy(NonpersonnelObjectCode.class, fieldValuesNonpersonnelObjectCodes, PropertyConstants.BUDGET_NONPERSONNEL_SUB_CATEGORY_CODE, true)));
+                    new ArrayList(businessObjectService.findMatchingOrderBy(NonpersonnelObjectCode.class, fieldValuesNonpersonnelObjectCodes, KFSPropertyConstants.BUDGET_NONPERSONNEL_SUB_CATEGORY_CODE, true)));
         }
         
         return nonpersonnelCategories;

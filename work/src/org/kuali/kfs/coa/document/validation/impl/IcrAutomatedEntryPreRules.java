@@ -18,7 +18,7 @@ package org.kuali.module.chart.rules;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.IcrAutomatedEntry;
 
@@ -65,14 +65,14 @@ public class IcrAutomatedEntryPreRules extends MaintenancePreRulesBase {
     protected void setSubAccountToDashesIfBlank() {
         String newSubAccount = newAccount.getSubAccountNumber();
         if (StringUtils.isBlank(newSubAccount)) {
-            newAccount.setSubAccountNumber(Constants.DASHES_SUB_ACCOUNT_NUMBER);
+            newAccount.setSubAccountNumber(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER);
         }
     }
     
     protected void setSubObjectToDashesIfBlank() {
         String newSubObject = newAccount.getFinancialSubObjectCode();
         if (StringUtils.isBlank(newSubObject)) {
-            newAccount.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
+            newAccount.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
         }
     }
     

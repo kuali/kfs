@@ -19,7 +19,7 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 
 
 /**
@@ -115,7 +115,7 @@ public class BudgetTask extends PersistableBusinessObjectBase implements Compara
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
+        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         m.put("budgetTaskSequenceNumber", this.budgetTaskSequenceNumber);
         return m;
 

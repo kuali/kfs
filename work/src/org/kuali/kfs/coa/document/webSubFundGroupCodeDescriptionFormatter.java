@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.SubFundGroup;
 
@@ -35,7 +35,7 @@ public class SubFundGroupCodeDescriptionFormatter extends CodeDescriptionFormatt
     @Override
     protected Map<String, PersistableBusinessObject> getValuesToBusinessObjectsMap(Set values) {
         Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(Constants.SUB_FUND_GROUP_CODE_PROPERTY_NAME, values);
+        criteria.put(KFSConstants.SUB_FUND_GROUP_CODE_PROPERTY_NAME, values);
 
         Map<String, PersistableBusinessObject> map = new HashMap<String, PersistableBusinessObject>();
 

@@ -28,10 +28,10 @@ import org.kuali.core.document.Document;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
-import org.kuali.kfs.PropertyConstants;
-import org.kuali.kfs.Constants.DocumentStatusCodes.CashReceipt;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.KFSConstants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
@@ -129,18 +129,18 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
         boolean isValid = true;
         boolean isInitiated = cmd.getDocumentHeader().getWorkflowDocument().stateIsInitiated();
 
-        GlobalVariables.getErrorMap().addToErrorPath(PropertyConstants.DOCUMENT);
+        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
         int index = 0;
         for (Iterator deposits = cmd.getDeposits().iterator(); deposits.hasNext(); index++) {
             Deposit deposit = (Deposit) deposits.next();
 
-            GlobalVariables.getErrorMap().addToErrorPath(PropertyConstants.DEPOSIT + "[" + index + "]");
+            GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DEPOSIT + "[" + index + "]");
             isValid &= validateDeposit(deposit, isInitiated);
-            GlobalVariables.getErrorMap().removeFromErrorPath(PropertyConstants.DEPOSIT + "[" + index + "]");
+            GlobalVariables.getErrorMap().removeFromErrorPath(KFSPropertyConstants.DEPOSIT + "[" + index + "]");
         }
 
-        GlobalVariables.getErrorMap().removeFromErrorPath(PropertyConstants.DOCUMENT);
+        GlobalVariables.getErrorMap().removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
 
         return isValid;
     }
@@ -211,7 +211,7 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
         if (StringUtils.isNotBlank(deposit.getDepositBankCode()) && StringUtils.isNotBlank(deposit.getDepositBankAccountNumber())) {
             BankAccount bankAccount = deposit.getBankAccount();
             if (ObjectUtils.isNull(bankAccount)) {
-                GlobalVariables.getErrorMap().putError(PropertyConstants.DEPOSIT_BANK_ACCOUNT_NUMBER, KeyConstants.ERROR_EXISTENCE, "Bank Account");
+                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.DEPOSIT_BANK_ACCOUNT_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, "Bank Account");
             }
         }
 
@@ -232,10 +232,10 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
             for (Iterator iterator = cashManagementDocument.getDeposits().iterator(); iterator.hasNext();) {
                 // todo: getDeposits() should return List<Deposit> not List
                 Deposit deposit = (Deposit) iterator.next();
-                deposit.refreshReferenceObject(PropertyConstants.BANK_ACCOUNT);
+                deposit.refreshReferenceObject(KFSPropertyConstants.BANK_ACCOUNT);
 
                 GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
-                if (!AccountingDocumentRuleUtil.populateBankOffsetGeneralLedgerPendingEntry(deposit.getBankAccount(), deposit.getDepositAmount(), cashManagementDocument, universityFiscalYear, sequenceHelper, bankOffsetEntry, Constants.CASH_MANAGEMENT_DEPOSIT_ERRORS)) {
+                if (!AccountingDocumentRuleUtil.populateBankOffsetGeneralLedgerPendingEntry(deposit.getBankAccount(), deposit.getDepositAmount(), cashManagementDocument, universityFiscalYear, sequenceHelper, bankOffsetEntry, KFSConstants.CASH_MANAGEMENT_DEPOSIT_ERRORS)) {
                     success = false;
                     continue; // An unsuccessfully populated bank offset entry may contain invalid relations, so don't add it at
                                 // all.
@@ -260,12 +260,12 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
      */
     private static String createDescription(Deposit deposit, int interimDepositNumber) {
         String descriptionKey;
-        if (Constants.DepositConstants.DEPOSIT_TYPE_FINAL.equals(deposit.getDepositTypeCode())) {
-            descriptionKey = KeyConstants.CashManagement.DESCRIPTION_GLPE_BANK_OFFSET_FINAL;
+        if (KFSConstants.DepositConstants.DEPOSIT_TYPE_FINAL.equals(deposit.getDepositTypeCode())) {
+            descriptionKey = KFSKeyConstants.CashManagement.DESCRIPTION_GLPE_BANK_OFFSET_FINAL;
         }
         else {
-            assertThat(Constants.DepositConstants.DEPOSIT_TYPE_INTERIM.equals(deposit.getDepositTypeCode()), deposit.getDepositTypeCode());
-            descriptionKey = KeyConstants.CashManagement.DESCRIPTION_GLPE_BANK_OFFSET_INTERIM;
+            assertThat(KFSConstants.DepositConstants.DEPOSIT_TYPE_INTERIM.equals(deposit.getDepositTypeCode()), deposit.getDepositTypeCode());
+            descriptionKey = KFSKeyConstants.CashManagement.DESCRIPTION_GLPE_BANK_OFFSET_INTERIM;
         }
         return AccountingDocumentRuleUtil.formatProperty(descriptionKey, interimDepositNumber);
     }

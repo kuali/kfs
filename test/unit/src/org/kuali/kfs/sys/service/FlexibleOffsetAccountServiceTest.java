@@ -22,7 +22,7 @@ import static org.kuali.test.util.KualiTestAssertionUtils.assertSparselyEqualBea
 import java.lang.reflect.InvocationTargetException;
 
 import org.kuali.core.bo.FinancialSystemParameter;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.OffsetAccount;
 import org.kuali.test.KualiTestBase;
@@ -37,7 +37,7 @@ import org.kuali.test.suite.RelatesTo;
 public class FlexibleOffsetAccountServiceTest extends KualiTestBase {
 
     public void testGetByPrimaryId_valid() throws Exception {
-        boolean enabled = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterIndicator(Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG);
+        boolean enabled = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterIndicator(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG);
    
         TestUtils.setFlexibleOffsetSystemParameter(true);
         OffsetAccount offsetAccount = getFlexibleOffsetAccountService().getByPrimaryIdIfEnabled(OFFSET_ACCOUNT1.chartOfAccountsCode, OFFSET_ACCOUNT1.accountNumber, OFFSET_ACCOUNT1.financialOffsetObjectCode);

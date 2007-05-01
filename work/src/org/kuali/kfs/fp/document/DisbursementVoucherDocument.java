@@ -32,8 +32,8 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.document.AccountingDocumentBase;
@@ -118,7 +118,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             if (kualiConfigurationService.getApplicationParameterRule("SYSTEM", "SufficientFundsExpenseObjectTypes").succeedsRule(ple.getFinancialObjectTypeCode())) {
                 //is an expense object type, keep checking
                 ple.refreshNonUpdateableReferences();
-                if (ple.getAccount().isPendingAcctSufficientFundsIndicator() && ple.getAccount().getAccountSufficientFundsCode().equals(Constants.SF_TYPE_CASH_AT_ACCOUNT)) {
+                if (ple.getAccount().isPendingAcctSufficientFundsIndicator() && ple.getAccount().getAccountSufficientFundsCode().equals(KFSConstants.SF_TYPE_CASH_AT_ACCOUNT)) {
                     //is a cash account
                     if (flexibleOffsetAccountService.getByPrimaryIdIfEnabled(ple.getChartOfAccountsCode(), ple.getAccountNumber(), ple.getChart().getFinancialCashObjectCode()) == null
                             && flexibleOffsetAccountService.getByPrimaryIdIfEnabled(ple.getChartOfAccountsCode(), ple.getAccountNumber(), ple.getChart().getFinAccountsPayableObjectCode()) == null) {
@@ -126,7 +126,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
                         
                         ple = (GeneralLedgerPendingEntry)ObjectUtils.deepCopy(ple);
                         ple.setFinancialObjectCode(ple.getChart().getFinancialCashObjectCode());
-                        ple.setTransactionDebitCreditCode(ple.getTransactionDebitCreditCode().equals(Constants.GL_DEBIT_CODE) ? Constants.GL_CREDIT_CODE : Constants.GL_DEBIT_CODE);
+                        ple.setTransactionDebitCreditCode(ple.getTransactionDebitCreditCode().equals(KFSConstants.GL_DEBIT_CODE) ? KFSConstants.GL_CREDIT_CODE : KFSConstants.GL_DEBIT_CODE);
                         ples.add(ple);
                     }
                     
@@ -849,7 +849,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             payee = (Payee) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(Payee.class, keys);
             if (payee == null) {
                 getDvPayeeDetail().setDisbVchrPayeeIdNumber("");
-                GlobalVariables.getMessageList().add(KeyConstants.WARNING_DV_PAYEE_NONEXISTANT_CLEARED);
+                GlobalVariables.getMessageList().add(KFSKeyConstants.WARNING_DV_PAYEE_NONEXISTANT_CLEARED);
             }
             else {
                 templatePayee(payee);
@@ -863,7 +863,7 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
             employee = (UniversalUser) SpringServiceLocator.getBusinessObjectService().retrieve(employee);
             if (employee == null) {
                 getDvPayeeDetail().setDisbVchrPayeeIdNumber("");
-                GlobalVariables.getMessageList().add(KeyConstants.WARNING_DV_PAYEE_NONEXISTANT_CLEARED);
+                GlobalVariables.getMessageList().add(KFSKeyConstants.WARNING_DV_PAYEE_NONEXISTANT_CLEARED);
             }
             else {
                 templateEmployee(employee);

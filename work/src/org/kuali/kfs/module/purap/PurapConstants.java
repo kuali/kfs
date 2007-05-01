@@ -38,7 +38,7 @@ public class PurapConstants {
     public static final String DELIVERY_BUILDING_OTHER = "Other";
     public static final String DELIVERY_BUILDING_OTHER_CODE = "OTH";
     
-    //PDF Constants
+    //PDF KFSConstants
     public static final String IMAGE_TEMP_PATH = "PURAP.IMAGE.TEMP.PATH";
     public static final String PDF_DIRECTORY = "PURAP.PDF.DIRECTORY";
     public static final String STATUS_INQUIRY_URL = "PURAP.STATUS.INQUIRY.URL";

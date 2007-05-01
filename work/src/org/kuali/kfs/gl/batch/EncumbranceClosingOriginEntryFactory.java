@@ -17,7 +17,7 @@ package org.kuali.module.gl.batch.closing.year.util;
 
 import java.sql.Date;
 
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -71,19 +71,19 @@ public class EncumbranceClosingOriginEntryFactory {
         // The subAccountNumber is set to dashes in the OriginEntry constructor.
         if ("".equals(encumbrance.getSubAccountNumber().trim())) {
 
-            entry.setSubAccountNumber(Constants.DASHES_SUB_ACCOUNT_NUMBER);
+            entry.setSubAccountNumber(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER);
 
         }
 
         entry.setFinancialBalanceTypeCode("CE");
-        entry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
+        entry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
         entry.setTransactionLedgerEntrySequenceNumber(new Integer(0));
 
         if (null == debitCreditCode || "".equals(debitCreditCode.trim())) {
 
             if (encumbrance.getAccountLineEncumbranceAmount().isPositive()) {
 
-                entry.setTransactionDebitCreditCode(Constants.GL_DEBIT_CODE);
+                entry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
 
             }
 
@@ -94,7 +94,7 @@ public class EncumbranceClosingOriginEntryFactory {
 
             if (encumbrance.getAccountLineEncumbranceAmount().isNegative()) {
 
-                entry.setTransactionDebitCreditCode(Constants.GL_CREDIT_CODE);
+                entry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
                 entry.setTransactionLedgerEntryAmount(encumbrance.getAccountLineEncumbranceAmount().negated());
 
             }
@@ -117,7 +117,7 @@ public class EncumbranceClosingOriginEntryFactory {
         if (null != offsetDefinition) {
 
             offset.setFinancialObjectCode(offsetDefinition.getFinancialObjectCode());
-            offset.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
+            offset.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
         }
         else { // Log an exception if the offset definition was not found.
 
@@ -146,20 +146,20 @@ public class EncumbranceClosingOriginEntryFactory {
         }
 
         // If the explicit entry is a credit, make the offset a debit and vice/versa.
-        if (Constants.GL_CREDIT_CODE.equals(entry.getTransactionDebitCreditCode())) {
+        if (KFSConstants.GL_CREDIT_CODE.equals(entry.getTransactionDebitCreditCode())) {
 
-            offset.setTransactionDebitCreditCode(Constants.GL_DEBIT_CODE);
+            offset.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
 
         }
         else {
 
-            offset.setTransactionDebitCreditCode(Constants.GL_CREDIT_CODE);
+            offset.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
 
         }
 
         offset.setTransactionEncumbranceUpdateCode(null);
         offset.setOrganizationDocumentNumber(null);
-        offset.setProjectCode(Constants.DASHES_PROJECT_CODE);
+        offset.setProjectCode(KFSConstants.DASHES_PROJECT_CODE);
         offset.setOrganizationReferenceId(null);
         offset.setReferenceFinancialDocumentTypeCode(null);
         offset.setReferenceFinancialSystemOriginationCode(null);
@@ -232,7 +232,7 @@ public class EncumbranceClosingOriginEntryFactory {
         }
         else {
 
-            entry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
+            entry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
 
         }
 
@@ -248,24 +248,24 @@ public class EncumbranceClosingOriginEntryFactory {
         if (entry.getTransactionLedgerEntryAmount().isNegative()) {
 
             entry.setTransactionLedgerEntryAmount(entry.getTransactionLedgerEntryAmount().negated());
-            entry.setTransactionDebitCreditCode(Constants.GL_CREDIT_CODE);
+            entry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
 
         }
         else {
 
-            entry.setTransactionDebitCreditCode(Constants.GL_DEBIT_CODE);
+            entry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
 
         }
 
         entry.setTransactionDate(transactionDate);
         entry.setOrganizationDocumentNumber(null);
-        entry.setProjectCode(Constants.DASHES_PROJECT_CODE);
+        entry.setProjectCode(KFSConstants.DASHES_PROJECT_CODE);
         entry.setOrganizationReferenceId(null);
         entry.setReferenceFinancialDocumentTypeCode(null);
         entry.setReferenceFinancialSystemOriginationCode(null);
         entry.setReferenceFinancialDocumentNumber(null);
         entry.setReversalDate(null);
-        entry.setTransactionEncumbranceUpdateCode(Constants.ENCUMB_UPDT_DOCUMENT_CD);
+        entry.setTransactionEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_DOCUMENT_CD);
 
         pair.setEntry(entry);
 
@@ -288,14 +288,14 @@ public class EncumbranceClosingOriginEntryFactory {
         offset.setFinancialObjectTypeCode(SpringServiceLocator.getOptionsService().getCurrentYearOptions().getFinObjectTypeFundBalanceCd());
         offset.setTransactionLedgerEntryDescription("BEGINNING FUND BALANCE OFFSET");
 
-        if (Constants.GL_DEBIT_CODE.equals(entry.getTransactionDebitCreditCode())) {
+        if (KFSConstants.GL_DEBIT_CODE.equals(entry.getTransactionDebitCreditCode())) {
 
-            offset.setTransactionDebitCreditCode(Constants.GL_CREDIT_CODE);
+            offset.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
 
         }
         else {
 
-            offset.setTransactionDebitCreditCode(Constants.GL_DEBIT_CODE);
+            offset.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
 
         }
 

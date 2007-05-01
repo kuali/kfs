@@ -29,8 +29,8 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.module.financial.exceptions.CashDrawerStateException;
@@ -72,7 +72,7 @@ public class CashManagementStatusAction extends KualiAction {
         // generate the status message
         String[] msgParams = { cform.getVerificationUnit(), cform.getControllingDocumentId(), cform.getCurrentDrawerStatus(), cform.getDesiredDrawerStatus() };
 
-        ActionMessage message = new ActionMessage(KeyConstants.CashDrawer.MSG_CASH_DRAWER_ALREADY_OPEN, msgParams);
+        ActionMessage message = new ActionMessage(KFSKeyConstants.CashDrawer.MSG_CASH_DRAWER_ALREADY_OPEN, msgParams);
 
         ActionMessages messages = new ActionMessages();
         messages.add(ActionMessages.GLOBAL_MESSAGE, message);
@@ -92,7 +92,7 @@ public class CashManagementStatusAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward displayPage(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -105,7 +105,7 @@ public class CashManagementStatusAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward returnToIndex(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return mapping.findForward(Constants.MAPPING_CLOSE);
+        return mapping.findForward(KFSConstants.MAPPING_CLOSE);
     }
 
 

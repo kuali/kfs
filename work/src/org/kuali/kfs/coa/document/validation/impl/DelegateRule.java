@@ -29,8 +29,8 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Delegate;
 import org.kuali.module.chart.bo.ChartUser;
@@ -163,7 +163,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
             Timestamp today = getDateTimeService().getCurrentTimestamp();
             today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime());
             if (newDelegate.getAccountDelegateStartDate().before(today)) {
-                putFieldError("accountDelegateStartDate", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_STARTDATE_IN_PAST);
+                putFieldError("accountDelegateStartDate", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_STARTDATE_IN_PAST);
                 success &= false;
             }
         }
@@ -171,13 +171,13 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         // FROM amount must be >= 0 (may not be negative)
         if (ObjectUtils.isNotNull(fromAmount)) {
             if (fromAmount.isLessThan(new KualiDecimal(0))) {
-                putFieldError("finDocApprovalFromThisAmt", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_FROM_AMOUNT_NONNEGATIVE);
+                putFieldError("finDocApprovalFromThisAmt", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_FROM_AMOUNT_NONNEGATIVE);
                 success &= false;
             }
         }
 
         if (ObjectUtils.isNotNull(fromAmount) && ObjectUtils.isNull(toAmount)) {
-            putFieldError("finDocApprovalToThisAmount", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
+            putFieldError("finDocApprovalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
             success &= false;
         }
 
@@ -187,14 +187,14 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
             if (ObjectUtils.isNull(fromAmount)) {
                 // case if FROM amount is null then TO amount must be zero
                 if (!toAmount.equals(new KualiDecimal(0))) {
-                    putFieldError("finDocApprovalToThisAmount", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
+                    putFieldError("finDocApprovalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
                     success &= false;
                 }
             }
             else {
                 // case if FROM amount is non-null and positive, disallow TO amount being less
                 if (toAmount.isLessThan(fromAmount)) {
-                    putFieldError("finDocApprovalToThisAmount", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
+                    putFieldError("finDocApprovalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
                     success &= false;
                 }
             }
@@ -204,7 +204,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         Account account = newDelegate.getAccount();
         if (ObjectUtils.isNotNull(account)) {
             if (account.isAccountClosedIndicator()) {
-                putFieldError("accountNumber", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_ACCT_NOT_CLOSED);
+                putFieldError("accountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_ACCT_NOT_CLOSED);
                 success &= false;
             }
         }
@@ -294,7 +294,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
 
         // if there is at least one result, then this business rule is tripped
         if (primaryRoutes.size() > 0) {
-            putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_PRIMARY_ROUTE_ALL_TYPES_ALREADY_EXISTS);
+            putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_PRIMARY_ROUTE_ALL_TYPES_ALREADY_EXISTS);
             success &= false;
             return success; // we're done, no sense in continuing
         }
@@ -338,7 +338,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
                 // add the error if blocking document found
 
                 if (blockingDocumentExists == true) {
-                    putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_PRIMARY_ROUTE_ALREADY_EXISTS_FOR_NEW_ALL, blockingDocType);
+                    putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_PRIMARY_ROUTE_ALREADY_EXISTS_FOR_NEW_ALL, blockingDocType);
                     success &= false;
                     return success; // we're done, no sense in continuing
                 }
@@ -364,7 +364,7 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
 
             // if there is at least one result, then this business rule is tripped
             if (primaryRoutes.size() > 0) {
-                putGlobalError(KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_PRIMARY_ROUTE_ALREADY_EXISTS_FOR_DOCTYPE);
+                putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_PRIMARY_ROUTE_ALREADY_EXISTS_FOR_DOCTYPE);
                 success &= false;
                 return success; // we're done, no sense in continuing
             }
@@ -385,19 +385,19 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         // user must be an active kuali user
         if (!user.isActiveForModule( ChartUser.MODULE_ID ) ) {
             success = false;
-            putFieldError("accountDelegate.personUserIdentifier", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE_KUALI_USER);
+            putFieldError("accountDelegate.personUserIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE_KUALI_USER);
         }
         
         // user must be of the allowable statuses (A - Active)
-        if (apcRuleFails(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, Constants.ChartApcParms.DELEGATE_USER_EMP_STATUSES, user.getEmployeeStatusCode())) {
+        if (apcRuleFails(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, KFSConstants.ChartApcParms.DELEGATE_USER_EMP_STATUSES, user.getEmployeeStatusCode())) {
             success = false;
-            putFieldError("accountDelegate.personUserIdentifier", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE);
+            putFieldError("accountDelegate.personUserIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE);
         }
         
         // user must be of the allowable types (P - Professional)
-        if (apcRuleFails(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, Constants.ChartApcParms.DELEGATE_USER_EMP_TYPES, user.getEmployeeTypeCode())) {
+        if (apcRuleFails(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, KFSConstants.ChartApcParms.DELEGATE_USER_EMP_TYPES, user.getEmployeeTypeCode())) {
             success = false;
-            putFieldError("accountDelegate.personUserIdentifier", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_PROFESSIONAL);
+            putFieldError("accountDelegate.personUserIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_PROFESSIONAL);
         }
 
         return success;

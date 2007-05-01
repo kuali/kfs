@@ -18,7 +18,7 @@ package org.kuali.module.gl.service;
 import java.util.Calendar;
 
 import org.kuali.core.util.Guid;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.gl.GLSpringBeansRegistry;
 import org.kuali.module.gl.OriginEntryTestBase;
 import org.kuali.module.gl.bo.OriginEntrySource;
@@ -143,7 +143,7 @@ public class ScrubberFlexibleOffsetTest extends OriginEntryTestBase {
      * @param flag the given value of the flag.
      */
     private void resetFlexibleOffsetEnableFlag(boolean flag) {
-        unitTestSqlDao.sqlCommand("update fs_parm_t set fs_parm_txt = '" + (flag ? "Y" : "N") + "' where fs_scr_nm = '" + Constants.ParameterGroups.SYSTEM + "' and fs_parm_nm = '" + Constants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG + "'");
+        unitTestSqlDao.sqlCommand("update fs_parm_t set fs_parm_txt = '" + (flag ? "Y" : "N") + "' where fs_scr_nm = '" + KFSConstants.ParameterGroups.SYSTEM + "' and fs_parm_nm = '" + KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG + "'");
     }
 
     private void scrub(String[] inputTransactions) {

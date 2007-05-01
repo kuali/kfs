@@ -18,8 +18,8 @@ package org.kuali.module.financial.rules;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.KeyConstants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.Check;
@@ -102,11 +102,11 @@ public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements Ad
 
         // check to make sure the amount is also valid
         if (check.getAmount().isZero()) {
-            GlobalVariables.getErrorMap().putError(PropertyConstants.CHECK_AMOUNT, KeyConstants.CashReceipt.ERROR_ZERO_CHECK_AMOUNT, PropertyConstants.CHECKS);
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CHECK_AMOUNT, KFSKeyConstants.CashReceipt.ERROR_ZERO_CHECK_AMOUNT, KFSPropertyConstants.CHECKS);
             isValid = false;
         }
         else if (check.getAmount().isNegative()) {
-            GlobalVariables.getErrorMap().putError(PropertyConstants.CHECK_AMOUNT, KeyConstants.CashReceipt.ERROR_NEGATIVE_CHECK_AMOUNT, PropertyConstants.CHECKS);
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.CHECK_AMOUNT, KFSKeyConstants.CashReceipt.ERROR_NEGATIVE_CHECK_AMOUNT, KFSPropertyConstants.CHECKS);
             isValid = false;
         }
 

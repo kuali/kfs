@@ -25,7 +25,7 @@ import java.security.*;
 public class GrantorCache extends ActiveTicketCache {
 
   //*********************************************************************
-  // Constants
+  // KFSConstants
 
   /** Length of random ticket identifiers. */
   private static final int TICKET_ID_LENGTH = 50;

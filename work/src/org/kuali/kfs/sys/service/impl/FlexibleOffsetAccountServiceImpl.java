@@ -20,7 +20,7 @@ import java.util.HashMap;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -67,7 +67,7 @@ public class FlexibleOffsetAccountServiceImpl implements FlexibleOffsetAccountSe
         LOG.debug("getEnabled() started");
 
         // KualiConfigurationService needs to be gotten dynamically here so TransferOfFundsDocumentRuleTest can mock it.
-        return SpringServiceLocator.getKualiConfigurationService().getApplicationParameterIndicator(Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG);
+        return SpringServiceLocator.getKualiConfigurationService().getApplicationParameterIndicator(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG);
     }
 
     /**
@@ -126,8 +126,8 @@ public class FlexibleOffsetAccountServiceImpl implements FlexibleOffsetAccountSe
         originEntry.setChartOfAccountsCode(offsetChartOfAccountsCode);
 
         // blank out the sub account and sub object since the account has been replaced
-        originEntry.setSubAccountNumber(Constants.DASHES_SUB_ACCOUNT_NUMBER);
-        originEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
+        originEntry.setSubAccountNumber(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER);
+        originEntry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
         return true;
     }
 

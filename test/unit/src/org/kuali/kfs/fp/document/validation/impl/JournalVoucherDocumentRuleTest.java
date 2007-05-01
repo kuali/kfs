@@ -15,8 +15,8 @@
  */
 package org.kuali.module.financial.rules;
 
-import static org.kuali.kfs.Constants.GL_CREDIT_CODE;
-import static org.kuali.kfs.Constants.GL_DEBIT_CODE;
+import static org.kuali.kfs.KFSConstants.GL_CREDIT_CODE;
+import static org.kuali.kfs.KFSConstants.GL_DEBIT_CODE;
 import static org.kuali.kfs.util.SpringServiceLocator.getDataDictionaryService;
 import static org.kuali.kfs.util.SpringServiceLocator.getDocumentService;
 import static org.kuali.kfs.util.SpringServiceLocator.getDocumentTypeService;
@@ -48,9 +48,9 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
@@ -74,7 +74,7 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
     public void testProcessAddAccountingLineBusinessRules_emptyReferenceOriginCode() throws Exception {
         AccountingLine line = EXTERNAL_ENCUMBRANCE_LINE.createSourceAccountingLine();
         line.setReferenceOriginCode("");
-        testProcessAddAccountingLineBusinessRules(line, PropertyConstants.REFERENCE_ORIGIN_CODE, KeyConstants.ERROR_REQUIRED);
+        testProcessAddAccountingLineBusinessRules(line, KFSPropertyConstants.REFERENCE_ORIGIN_CODE, KFSKeyConstants.ERROR_REQUIRED);
     }
 
     public void testProcessAddAccountingLineBusinessRules_emptyReferences() throws Exception {
@@ -82,9 +82,9 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
         line.setReferenceOriginCode("");
         line.setReferenceNumber("");
         line.setReferenceTypeCode("");
-        testProcessAddAccountingLineBusinessRules(line, PropertyConstants.REFERENCE_ORIGIN_CODE, KeyConstants.ERROR_REQUIRED);
-        assertGlobalErrorMapContains(PropertyConstants.REFERENCE_NUMBER, KeyConstants.ERROR_REQUIRED);
-        assertGlobalErrorMapContains(PropertyConstants.REFERENCE_TYPE_CODE, KeyConstants.ERROR_REQUIRED);
+        testProcessAddAccountingLineBusinessRules(line, KFSPropertyConstants.REFERENCE_ORIGIN_CODE, KFSKeyConstants.ERROR_REQUIRED);
+        assertGlobalErrorMapContains(KFSPropertyConstants.REFERENCE_NUMBER, KFSKeyConstants.ERROR_REQUIRED);
+        assertGlobalErrorMapContains(KFSPropertyConstants.REFERENCE_TYPE_CODE, KFSKeyConstants.ERROR_REQUIRED);
     }
 
     public void testProcessAddAccountingLineBusinessRules_validReferences() throws Exception {
@@ -94,14 +94,14 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
     public void testProcessAddAccountingLineBusinessRules_invalidReferenceOriginCode() throws Exception {
         AccountingLine line = EXTERNAL_ENCUMBRANCE_LINE.createSourceAccountingLine();
         line.setReferenceOriginCode("42");
-        testProcessAddAccountingLineBusinessRules(line, PropertyConstants.REFERENCE_ORIGIN_CODE, KeyConstants.ERROR_EXISTENCE);
+        testProcessAddAccountingLineBusinessRules(line, KFSPropertyConstants.REFERENCE_ORIGIN_CODE, KFSKeyConstants.ERROR_EXISTENCE);
     }
 
     public void testProcessAddAccountingLineBusinessRules_invalidReferenceTypeCode() throws Exception {
         AccountingLine line = EXTERNAL_ENCUMBRANCE_LINE.createSourceAccountingLine();
         line.setReferenceTypeCode("42");
-        testProcessAddAccountingLineBusinessRules(line, PropertyConstants.REFERENCE_TYPE_CODE, KeyConstants.ERROR_EXISTENCE);
-        assertGlobalErrorMapNotContains(line.toString(), PropertyConstants.REFERENCE_TYPE_CODE, KeyConstants.ERROR_REQUIRED);
+        testProcessAddAccountingLineBusinessRules(line, KFSPropertyConstants.REFERENCE_TYPE_CODE, KFSKeyConstants.ERROR_EXISTENCE);
+        assertGlobalErrorMapNotContains(line.toString(), KFSPropertyConstants.REFERENCE_TYPE_CODE, KFSKeyConstants.ERROR_REQUIRED);
         assertGlobalErrorMapSize(line.toString(), 1);
     }
 
@@ -138,7 +138,7 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
         boolean failedAsExpected = !rule.processCustomRouteDocumentBusinessRules(document);
 
         assertTrue(failedAsExpected);
-        assertTrue(GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_ACCOUNTING_LINES_DIFFERENT_BUDGET_YEAR));
+        assertTrue(GlobalVariables.getErrorMap().containsMessageKey(KFSKeyConstants.ERROR_ACCOUNTING_LINES_DIFFERENT_BUDGET_YEAR));
     }
 
     public void testProcessCustomRouteDocumentBusinessRules_accountingLines_matching_budgetYear() throws Exception {
@@ -159,7 +159,7 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
         boolean passedAsExpected = rule.processCustomRouteDocumentBusinessRules(document);
 
         assertTrue(passedAsExpected);
-        assertFalse(GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_ACCOUNTING_LINES_DIFFERENT_BUDGET_YEAR));
+        assertFalse(GlobalVariables.getErrorMap().containsMessageKey(KFSKeyConstants.ERROR_ACCOUNTING_LINES_DIFFERENT_BUDGET_YEAR));
     }
 
     public void testIsDebit_debitCode() throws Exception {
@@ -285,7 +285,7 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
 
     private JournalVoucherDocument buildDocument() throws Exception {
         JournalVoucherDocument retval = DocumentTestUtils.createDocument(getDocumentService(), JournalVoucherDocument.class);
-        retval.setBalanceTypeCode(Constants.BALANCE_TYPE_ACTUAL);
+        retval.setBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
         return retval;
     }
 

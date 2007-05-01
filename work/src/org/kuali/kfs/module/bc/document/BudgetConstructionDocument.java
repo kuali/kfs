@@ -25,9 +25,9 @@ import java.util.Map;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.PropertyConstants;
-import org.kuali.kfs.Constants.BudgetConstructionConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.KFSConstants.BudgetConstructionConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.budget.bo.BudgetConstructionAccountReports;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
@@ -516,12 +516,12 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
     @Override
     public void handleRouteStatusChange() {
         if (getDocumentHeader().getWorkflowDocument().stateIsEnroute()) {
-            getDocumentHeader().setFinancialDocumentStatusCode(Constants.DocumentStatusCodes.ENROUTE);
+            getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.ENROUTE);
         }
         /*  the status below is comparable to "approved" status for other documents */
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             getDocumentHeader().setFinancialDocumentStatusCode(
-                Constants.BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_INITIAL_STATUS);
+                KFSConstants.BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_INITIAL_STATUS);
         }
         LOG.info("Status is: " + getDocumentHeader().getFinancialDocumentStatusCode());
     }
@@ -532,7 +532,7 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
+        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         if (this.universityFiscalYear != null) {
             m.put("universityFiscalYear", this.universityFiscalYear.toString());
         }

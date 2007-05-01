@@ -19,7 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.datadictionary.validation.fieldlevel.ZipcodeValidationPattern;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
@@ -54,7 +54,7 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
         RequisitionDocument reqDocument = (RequisitionDocument)purapDocument;
         if (reqDocument.getRequisitionSourceCode().equals(PurapConstants.RequisitionSources.STANDARD_ORDER)) { 
             if (!StringUtils.isBlank(reqDocument.getVendorCountryCode()) &&
-                    reqDocument.getVendorCountryCode().equals(Constants.COUNTRY_CODE_UNITED_STATES) && 
+                    reqDocument.getVendorCountryCode().equals(KFSConstants.COUNTRY_CODE_UNITED_STATES) && 
                 !StringUtils.isBlank(reqDocument.getVendorPostalCode())) {
                 ZipcodeValidationPattern zipPattern = new ZipcodeValidationPattern();
                 if (!zipPattern.matches(reqDocument.getVendorPostalCode())) {

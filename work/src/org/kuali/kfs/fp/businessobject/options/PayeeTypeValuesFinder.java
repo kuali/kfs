@@ -36,7 +36,7 @@ public class PayeeTypeValuesFinder extends KeyValuesBase {
         List keyValues = new ArrayList();
         keyValues.add(new KeyLabelPair(DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_PAYEE, DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_PAYEE + " - DV Payee"));
         keyValues.add(new KeyLabelPair(DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE, DisbursementVoucherRuleConstants.DV_PAYEE_TYPE_EMPLOYEE + " - Employee"));
-        // keyValues.add(new KeyLabelPair(Constants.DV_PAYEE_TYPE_VENDOR, "Vendor"));
+        // keyValues.add(new KeyLabelPair(KFSConstants.DV_PAYEE_TYPE_VENDOR, "Vendor"));
 
         return keyValues;
     }

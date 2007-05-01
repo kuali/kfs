@@ -23,7 +23,7 @@ import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.AccountingLineParserBase;
 import org.kuali.kfs.document.AccountingDocumentBase;
@@ -138,7 +138,7 @@ public class InternalBillingDocument extends AccountingDocumentBase implements C
      */
     @Override
     public String getSourceAccountingLinesSectionTitle() {
-        return Constants.INCOME;
+        return KFSConstants.INCOME;
     }
 
     /**
@@ -146,7 +146,7 @@ public class InternalBillingDocument extends AccountingDocumentBase implements C
      */
     @Override
     public String getTargetAccountingLinesSectionTitle() {
-        return Constants.EXPENSE;
+        return KFSConstants.EXPENSE;
     }
 
     /**

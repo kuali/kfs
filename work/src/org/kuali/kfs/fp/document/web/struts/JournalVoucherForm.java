@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -106,8 +106,8 @@ public class JournalVoucherForm extends VoucherForm {
             sourceLine.setBalanceTypeCode(selectedBalanceType.getCode());
 
             // set the encumbrance update code appropriately
-            if (Constants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE.equals(selectedBalanceType.getCode())) {
-                sourceLine.setEncumbranceUpdateCode(Constants.JOURNAL_VOUCHER_ENCUMBRANCE_UPDATE_CODE_BALANCE_TYPE_EXTERNAL_ENCUMBRANCE);
+            if (KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE.equals(selectedBalanceType.getCode())) {
+                sourceLine.setEncumbranceUpdateCode(KFSConstants.JOURNAL_VOUCHER_ENCUMBRANCE_UPDATE_CODE_BALANCE_TYPE_EXTERNAL_ENCUMBRANCE);
             }
             else {
                 sourceLine.setEncumbranceUpdateCode(null);
@@ -116,7 +116,7 @@ public class JournalVoucherForm extends VoucherForm {
         else {
             // it's the first time in, the form will be empty the first time in
             // set up default selection
-            selectedBalanceType = SpringServiceLocator.getBalanceTypService().getBalanceTypByCode(Constants.BALANCE_TYPE_ACTUAL); // default
+            selectedBalanceType = SpringServiceLocator.getBalanceTypService().getBalanceTypByCode(KFSConstants.BALANCE_TYPE_ACTUAL); // default
             // value
             setSelectedBalanceType(selectedBalanceType);
             setOriginalBalanceType(selectedBalanceType.getCode());
@@ -218,7 +218,7 @@ public class JournalVoucherForm extends VoucherForm {
         }
         else { // it's the first time in, the form will be empty the first time in
             // set up default selection
-            selectedBalanceType = getPopulatedBalanceTypeInstance(Constants.BALANCE_TYPE_ACTUAL); // default
+            selectedBalanceType = getPopulatedBalanceTypeInstance(KFSConstants.BALANCE_TYPE_ACTUAL); // default
             // value
             setSelectedBalanceType(selectedBalanceType);
             setOriginalBalanceType(selectedBalanceType.getCode());

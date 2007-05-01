@@ -17,8 +17,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.CampusParameter;
@@ -212,7 +212,7 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
             vendorInfo.append("\n");
         }
 
-        if (! Constants.COUNTRY_CODE_UNITED_STATES.equalsIgnoreCase(poqv.getVendorCountryCode())) {
+        if (! KFSConstants.COUNTRY_CODE_UNITED_STATES.equalsIgnoreCase(poqv.getVendorCountryCode())) {
             vendorInfo.append("     "+poqv.getPurchaseOrder().getVendorCountry().getPostalCountryName()+"\n\n");
         } else {
             vendorInfo.append("\n\n");
@@ -511,7 +511,7 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
     
     private CampusParameter getCampusParameter(String contractManagerCampusCode) {
         Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(PropertyConstants.CAMPUS_CODE, po.getDeliveryCampusCode());
+        criteria.put(KFSPropertyConstants.CAMPUS_CODE, po.getDeliveryCampusCode());
         CampusParameter campusParameter = (CampusParameter)((List) SpringServiceLocator.getBusinessObjectService().findMatching(CampusParameter.class, criteria)).get(0);
         
         return campusParameter;

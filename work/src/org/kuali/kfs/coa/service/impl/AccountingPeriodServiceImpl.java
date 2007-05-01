@@ -26,8 +26,8 @@ import java.util.TreeSet;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.spring.Cached;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.service.AccountingPeriodService;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,9 +66,9 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
     @Cached
     public Collection getOpenAccountingPeriods() {
         HashMap map = new HashMap();
-        map.put(Constants.ACCOUNTING_PERIOD_STATUS_CODE_FIELD, Constants.ACCOUNTING_PERIOD_STATUS_OPEN);
+        map.put(KFSConstants.ACCOUNTING_PERIOD_STATUS_CODE_FIELD, KFSConstants.ACCOUNTING_PERIOD_STATUS_OPEN);
 
-        return businessObjectService.findMatchingOrderBy(AccountingPeriod.class, map, PropertyConstants.ACCTING_PERIOD_UNIV_FISCAL_PERIOD_END_DATE, true);
+        return businessObjectService.findMatchingOrderBy(AccountingPeriod.class, map, KFSPropertyConstants.ACCTING_PERIOD_UNIV_FISCAL_PERIOD_END_DATE, true);
     }
 
     /**

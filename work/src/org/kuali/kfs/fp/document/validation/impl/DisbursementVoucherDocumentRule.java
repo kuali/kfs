@@ -15,8 +15,8 @@
  */
 package org.kuali.module.financial.rules;
 
-import static org.kuali.kfs.Constants.GL_CREDIT_CODE;
-import static org.kuali.kfs.Constants.GL_DEBIT_CODE;
+import static org.kuali.kfs.KFSConstants.GL_CREDIT_CODE;
+import static org.kuali.kfs.KFSConstants.GL_DEBIT_CODE;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -41,9 +41,9 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.document.AccountingDocument;
@@ -111,7 +111,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         // report (and log) errors
         if (!isAccessible) {
             String[] errorParams = new String[] { accountingLine.getAccountNumber(), GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier() };
-            GlobalVariables.getErrorMap().putError(PropertyConstants.ACCOUNT_NUMBER, action.accessibilityErrorKey, errorParams);
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, action.accessibilityErrorKey, errorParams);
         }
 
         return isAccessible;
@@ -151,7 +151,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
                 else {
                     // check total cannot decrease
                     if (persistedDocument.getDisbVchrCheckTotalAmount().isLessThan(dvDocument.getDisbVchrCheckTotalAmount())) {
-                        GlobalVariables.getErrorMap().putError(PropertyConstants.DOCUMENT + "." + PropertyConstants.DISB_VCHR_CHECK_TOTAL_AMOUNT, KeyConstants.ERROR_DV_CHECK_TOTAL_CHANGE);
+                        GlobalVariables.getErrorMap().putError(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.DISB_VCHR_CHECK_TOTAL_AMOUNT, KFSKeyConstants.ERROR_DV_CHECK_TOTAL_CHANGE);
                         approveOK = false;
                     }
                 }
@@ -189,16 +189,16 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
 
         /* payment reason must be selected before an accounting line can be entered */
         if (StringUtils.isBlank(dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode())) {
-            if(!errors.containsMessageKey(KeyConstants.ERROR_DV_ADD_LINE_MISSING_PAYMENT_REASON)) {
-                errors.putErrorWithoutFullErrorPath(PropertyConstants.DOCUMENT + "." + PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE, KeyConstants.ERROR_DV_ADD_LINE_MISSING_PAYMENT_REASON);
+            if(!errors.containsMessageKey(KFSKeyConstants.ERROR_DV_ADD_LINE_MISSING_PAYMENT_REASON)) {
+                errors.putErrorWithoutFullErrorPath(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE, KFSKeyConstants.ERROR_DV_ADD_LINE_MISSING_PAYMENT_REASON);
             }
             allow = false;
         }
 
         /* payee must be selected before an accounting line can be entered */
         if (StringUtils.isBlank(dvDocument.getDvPayeeDetail().getDisbVchrPayeeIdNumber())) {
-            if(!errors.containsMessageKey(KeyConstants.ERROR_DV_ADD_LINE_MISSING_PAYEE)) {
-                errors.putErrorWithoutFullErrorPath(PropertyConstants.DOCUMENT + "." + PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER, KeyConstants.ERROR_DV_ADD_LINE_MISSING_PAYEE);
+            if(!errors.containsMessageKey(KFSKeyConstants.ERROR_DV_ADD_LINE_MISSING_PAYEE)) {
+                errors.putErrorWithoutFullErrorPath(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER, KFSKeyConstants.ERROR_DV_ADD_LINE_MISSING_PAYEE);
             }
             allow = false;
         }
@@ -226,7 +226,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) document;
         DisbursementVoucherPayeeDetail payeeDetail = dvDocument.getDvPayeeDetail();
 
-        GlobalVariables.getErrorMap().addToErrorPath(PropertyConstants.DOCUMENT);
+        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.DOCUMENT);
 
         LOG.debug("processing route rules for document " + document.getDocumentNumber());
 
@@ -291,7 +291,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         LOG.debug("validating documentaton location");
         validateDocumentationLocation(dvDocument);
 
-        GlobalVariables.getErrorMap().removeFromErrorPath(PropertyConstants.DOCUMENT);
+        GlobalVariables.getErrorMap().removeFromErrorPath(KFSPropertyConstants.DOCUMENT);
 
         LOG.debug("finished route validation for document, has errors: " + !GlobalVariables.getErrorMap().isEmpty());
 
@@ -371,7 +371,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         explicitEntry.setFinancialObjectTypeCode(SpringServiceLocator.getOptionsService().getCurrentYearOptions().getFinObjTypeExpenditureexpCd());
         explicitEntry.setTransactionDebitCreditCode(GL_DEBIT_CODE);
 
-        if (Constants.COUNTRY_CODE_UNITED_STATES.equals(dvDocument.getDvWireTransfer().getDisbVchrBankCountryCode())) {
+        if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(dvDocument.getDvWireTransfer().getDisbVchrBankCountryCode())) {
             explicitEntry.setTransactionLedgerEntryAmount(wireCharge.getDomesticChargeAmt());
         }
         else {
@@ -454,9 +454,9 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
 
         // validate document required fields, and payee fields, and formatting
         SpringServiceLocator.getDictionaryValidationService().validateDocument(document);
-        errors.addToErrorPath(PropertyConstants.DV_PAYEE_DETAIL);
+        errors.addToErrorPath(KFSPropertyConstants.DV_PAYEE_DETAIL);
         SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(document.getDvPayeeDetail());
-        errors.removeFromErrorPath(PropertyConstants.DV_PAYEE_DETAIL);
+        errors.removeFromErrorPath(KFSPropertyConstants.DV_PAYEE_DETAIL);
         if (!errors.isEmpty()) {
             return;
         }
@@ -464,41 +464,41 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         /* remit name & address required if special handling is indicated */
         if (document.isDisbVchrSpecialHandlingCode()) {
             if (StringUtils.isBlank(document.getDvPayeeDetail().getDisbVchrRemitPersonName()) || StringUtils.isBlank(document.getDvPayeeDetail().getDisbVchrPayeeLine1Addr())) {
-                errors.putErrorWithoutFullErrorPath(Constants.GENERAL_SPECHAND_TAB_ERRORS, KeyConstants.ERROR_DV_SPECIAL_HANDLING);
+                errors.putErrorWithoutFullErrorPath(KFSConstants.GENERAL_SPECHAND_TAB_ERRORS, KFSKeyConstants.ERROR_DV_SPECIAL_HANDLING);
             }
         }
 
         /* if no documentation is selected, must be a note explaining why */
         if (NO_DOCUMENTATION_LOCATION.equals(document.getDisbursementVoucherDocumentationLocationCode()) && hasNoNotes(document)) {
-            errors.putError(PropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE, KeyConstants.ERROR_DV_NO_DOCUMENTATION_NOTE_MISSING);
+            errors.putError(KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE, KFSKeyConstants.ERROR_DV_NO_DOCUMENTATION_NOTE_MISSING);
         }
 
         /* if special handling indicated, must be a note exlaining why */
         if (document.isDisbVchrSpecialHandlingCode() && hasNoNotes(document)) {
-            errors.putErrorWithoutFullErrorPath(Constants.GENERAL_PAYMENT_TAB_ERRORS, KeyConstants.ERROR_DV_SPECIAL_HANDLING_NOTE_MISSING);
+            errors.putErrorWithoutFullErrorPath(KFSConstants.GENERAL_PAYMENT_TAB_ERRORS, KFSKeyConstants.ERROR_DV_SPECIAL_HANDLING_NOTE_MISSING);
         }
 
         /* if exception attached indicated, must be a note exlaining why */
         if (document.isExceptionIndicator() && hasNoNotes(document)) {
-            errors.putErrorWithoutFullErrorPath(Constants.GENERAL_PAYMENT_TAB_ERRORS, KeyConstants.ERROR_DV_EXCEPTION_ATTACHED_NOTE_MISSING);
+            errors.putErrorWithoutFullErrorPath(KFSConstants.GENERAL_PAYMENT_TAB_ERRORS, KFSKeyConstants.ERROR_DV_EXCEPTION_ATTACHED_NOTE_MISSING);
         }
 
         /* city, state & zip must be given for us */
-        if (Constants.COUNTRY_CODE_UNITED_STATES.equals(document.getDvPayeeDetail().getDisbVchrPayeeCountryCode())) {
+        if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(document.getDvPayeeDetail().getDisbVchrPayeeCountryCode())) {
             if (StringUtils.isBlank(document.getDvPayeeDetail().getDisbVchrPayeeCityName())) {
-                errors.putError(PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYEE_CITY_NAME, KeyConstants.ERROR_DV_PAYEE_CITY_NAME);
+                errors.putError(KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYEE_CITY_NAME, KFSKeyConstants.ERROR_DV_PAYEE_CITY_NAME);
             }
             if (StringUtils.isBlank(document.getDvPayeeDetail().getDisbVchrPayeeStateCode())) {
-                errors.putError(PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYEE_STATE_CODE, KeyConstants.ERROR_DV_PAYEE_STATE_CODE);
+                errors.putError(KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYEE_STATE_CODE, KFSKeyConstants.ERROR_DV_PAYEE_STATE_CODE);
             }
             if (StringUtils.isBlank(document.getDvPayeeDetail().getDisbVchrPayeeZipCode())) {
-                errors.putError(PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYEE_ZIP_CODE, KeyConstants.ERROR_DV_PAYEE_ZIP_CODE);
+                errors.putError(KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYEE_ZIP_CODE, KFSKeyConstants.ERROR_DV_PAYEE_ZIP_CODE);
             }
         }
 
         /* country required except for employee payees */
         if (!document.getDvPayeeDetail().isEmployee() && StringUtils.isBlank(document.getDvPayeeDetail().getDisbVchrPayeeCountryCode())) {
-            errors.putError(PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYEE_COUNTRY_CODE, KeyConstants.ERROR_REQUIRED, "Payee Country ");
+            errors.putError(KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYEE_COUNTRY_CODE, KFSKeyConstants.ERROR_REQUIRED, "Payee Country ");
         }
     }
 
@@ -519,23 +519,23 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
     private void validateWireTransfer(DisbursementVoucherDocument document) {
         ErrorMap errors = GlobalVariables.getErrorMap();
 
-        errors.addToErrorPath(PropertyConstants.DV_WIRE_TRANSFER);
+        errors.addToErrorPath(KFSPropertyConstants.DV_WIRE_TRANSFER);
         SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(document.getDvWireTransfer());
 
-        if (Constants.COUNTRY_CODE_UNITED_STATES.equals(document.getDvWireTransfer().getDisbVchrBankCountryCode()) && StringUtils.isBlank(document.getDvWireTransfer().getDisbVchrBankRoutingNumber())) {
-            errors.putError(PropertyConstants.DISB_VCHR_BANK_ROUTING_NUMBER, KeyConstants.ERROR_DV_BANK_ROUTING_NUMBER);
+        if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(document.getDvWireTransfer().getDisbVchrBankCountryCode()) && StringUtils.isBlank(document.getDvWireTransfer().getDisbVchrBankRoutingNumber())) {
+            errors.putError(KFSPropertyConstants.DISB_VCHR_BANK_ROUTING_NUMBER, KFSKeyConstants.ERROR_DV_BANK_ROUTING_NUMBER);
         }
 
-        if (Constants.COUNTRY_CODE_UNITED_STATES.equals(document.getDvWireTransfer().getDisbVchrBankCountryCode()) && StringUtils.isBlank(document.getDvWireTransfer().getDisbVchrBankStateCode())) {
-            errors.putError(PropertyConstants.DISB_VCHR_BANK_STATE_CODE, KeyConstants.ERROR_REQUIRED, "Bank State");
+        if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(document.getDvWireTransfer().getDisbVchrBankCountryCode()) && StringUtils.isBlank(document.getDvWireTransfer().getDisbVchrBankStateCode())) {
+            errors.putError(KFSPropertyConstants.DISB_VCHR_BANK_STATE_CODE, KFSKeyConstants.ERROR_REQUIRED, "Bank State");
         }
 
         /* cannot have attachment checked for wire transfer */
         if (document.isDisbVchrAttachmentCode()) {
-            errors.putErrorWithoutFullErrorPath(PropertyConstants.DOCUMENT + "." + PropertyConstants.DISB_VCHR_ATTACHMENT_CODE, KeyConstants.ERROR_DV_WIRE_ATTACHMENT);
+            errors.putErrorWithoutFullErrorPath(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.DISB_VCHR_ATTACHMENT_CODE, KFSKeyConstants.ERROR_DV_WIRE_ATTACHMENT);
         }
 
-        errors.removeFromErrorPath(PropertyConstants.DV_WIRE_TRANSFER);
+        errors.removeFromErrorPath(KFSPropertyConstants.DV_WIRE_TRANSFER);
     }
 
     /**
@@ -545,19 +545,19 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      */
     private void validateForeignDraft(DisbursementVoucherDocument document) {
         ErrorMap errors = GlobalVariables.getErrorMap();
-        errors.addToErrorPath(PropertyConstants.DV_WIRE_TRANSFER);
+        errors.addToErrorPath(KFSPropertyConstants.DV_WIRE_TRANSFER);
 
         /* currency type code required */
         if (StringUtils.isBlank(document.getDvWireTransfer().getDisbursementVoucherForeignCurrencyTypeCode())) {
-            GlobalVariables.getErrorMap().putError(PropertyConstants.DISB_VCHR_FD_CURRENCY_TYPE_CODE, KeyConstants.ERROR_DV_CURRENCY_TYPE_CODE);
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.DISB_VCHR_FD_CURRENCY_TYPE_CODE, KFSKeyConstants.ERROR_DV_CURRENCY_TYPE_CODE);
         }
 
         /* currency type name required */
         if (StringUtils.isBlank(document.getDvWireTransfer().getDisbursementVoucherForeignCurrencyTypeName())) {
-            GlobalVariables.getErrorMap().putError(PropertyConstants.DISB_VCHR_FD_CURRENCY_TYPE_NAME, KeyConstants.ERROR_DV_CURRENCY_TYPE_NAME);
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.DISB_VCHR_FD_CURRENCY_TYPE_NAME, KFSKeyConstants.ERROR_DV_CURRENCY_TYPE_NAME);
         }
 
-        errors.removeFromErrorPath(PropertyConstants.DV_WIRE_TRANSFER);
+        errors.removeFromErrorPath(KFSPropertyConstants.DV_WIRE_TRANSFER);
     }
 
     /**
@@ -568,35 +568,35 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
     public void validateNonResidentAlienInformation(DisbursementVoucherDocument document) {
         ErrorMap errors = GlobalVariables.getErrorMap();
 
-        errors.addToErrorPath(PropertyConstants.DV_NON_RESIDENT_ALIEN_TAX);
+        errors.addToErrorPath(KFSPropertyConstants.DV_NON_RESIDENT_ALIEN_TAX);
 
         /* income class code required */
         if (StringUtils.isBlank(document.getDvNonResidentAlienTax().getIncomeClassCode())) {
-            errors.putError(PropertyConstants.INCOME_CLASS_CODE, KeyConstants.ERROR_REQUIRED, "Income class code ");
+            errors.putError(KFSPropertyConstants.INCOME_CLASS_CODE, KFSKeyConstants.ERROR_REQUIRED, "Income class code ");
         }
         else {
             /* for foreign source or treaty exempt, non reportable, tax percents must be 0 and gross indicator can not be checked */
             if (document.getDvNonResidentAlienTax().isForeignSourceIncomeCode() || document.getDvNonResidentAlienTax().isIncomeTaxTreatyExemptCode() || NRA_TAX_INCOME_CLASS_NON_REPORTABLE.equals(document.getDvNonResidentAlienTax().getIncomeClassCode())) {
 
                 if ((document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent() != null && !(new KualiDecimal(0).equals(document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent())))) {
-                    errors.putError(PropertyConstants.FEDERAL_INCOME_TAX_PERCENT, KeyConstants.ERROR_DV_FEDERAL_TAX_NOT_ZERO);
+                    errors.putError(KFSPropertyConstants.FEDERAL_INCOME_TAX_PERCENT, KFSKeyConstants.ERROR_DV_FEDERAL_TAX_NOT_ZERO);
                 }
 
                 if ((document.getDvNonResidentAlienTax().getStateIncomeTaxPercent() != null && !(new KualiDecimal(0).equals(document.getDvNonResidentAlienTax().getStateIncomeTaxPercent())))) {
-                    errors.putError(PropertyConstants.STATE_INCOME_TAX_PERCENT, KeyConstants.ERROR_DV_STATE_TAX_NOT_ZERO);
+                    errors.putError(KFSPropertyConstants.STATE_INCOME_TAX_PERCENT, KFSKeyConstants.ERROR_DV_STATE_TAX_NOT_ZERO);
                 }
 
                 if (document.getDvNonResidentAlienTax().isIncomeTaxGrossUpCode()) {
-                    errors.putError(PropertyConstants.INCOME_TAX_GROSS_UP_CODE, KeyConstants.ERROR_DV_GROSS_UP_INDICATOR);
+                    errors.putError(KFSPropertyConstants.INCOME_TAX_GROSS_UP_CODE, KFSKeyConstants.ERROR_DV_GROSS_UP_INDICATOR);
                 }
 
                 if (NRA_TAX_INCOME_CLASS_NON_REPORTABLE.equals(document.getDvNonResidentAlienTax().getIncomeClassCode()) && StringUtils.isNotBlank(document.getDvNonResidentAlienTax().getPostalCountryCode())) {
-                    errors.putError(PropertyConstants.POSTAL_COUNTRY_CODE, KeyConstants.ERROR_DV_POSTAL_COUNTRY_CODE);
+                    errors.putError(KFSPropertyConstants.POSTAL_COUNTRY_CODE, KFSKeyConstants.ERROR_DV_POSTAL_COUNTRY_CODE);
                 }
             }
             else {
                 if (document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent() == null) {
-                    errors.putError(PropertyConstants.FEDERAL_INCOME_TAX_PERCENT, KeyConstants.ERROR_REQUIRED, "Federal tax percent ");
+                    errors.putError(KFSPropertyConstants.FEDERAL_INCOME_TAX_PERCENT, KFSKeyConstants.ERROR_REQUIRED, "Federal tax percent ");
                 }
                 else {
                     // check tax percent is in nra tax pct table for income class code
@@ -607,12 +607,12 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
 
                     PersistableBusinessObject retrievedPercent = SpringServiceLocator.getBusinessObjectService().retrieve(taxPercent);
                     if (retrievedPercent == null) {
-                        errors.putError(PropertyConstants.FEDERAL_INCOME_TAX_PERCENT, KeyConstants.ERROR_DV_INVALID_FED_TAX_PERCENT, new String[] { document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent().toString(), document.getDvNonResidentAlienTax().getIncomeClassCode() });
+                        errors.putError(KFSPropertyConstants.FEDERAL_INCOME_TAX_PERCENT, KFSKeyConstants.ERROR_DV_INVALID_FED_TAX_PERCENT, new String[] { document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent().toString(), document.getDvNonResidentAlienTax().getIncomeClassCode() });
                     }
                 }
 
                 if (document.getDvNonResidentAlienTax().getStateIncomeTaxPercent() == null) {
-                    errors.putError(PropertyConstants.STATE_INCOME_TAX_PERCENT, KeyConstants.ERROR_REQUIRED, "State tax percent ");
+                    errors.putError(KFSPropertyConstants.STATE_INCOME_TAX_PERCENT, KFSKeyConstants.ERROR_REQUIRED, "State tax percent ");
                 }
                 else {
                     NonResidentAlienTaxPercent taxPercent = new NonResidentAlienTaxPercent();
@@ -622,7 +622,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
 
                     PersistableBusinessObject retrievedPercent = SpringServiceLocator.getBusinessObjectService().retrieve(taxPercent);
                     if (retrievedPercent == null) {
-                        errors.putError(PropertyConstants.STATE_INCOME_TAX_PERCENT, KeyConstants.ERROR_DV_INVALID_STATE_TAX_PERCENT, new String[] { document.getDvNonResidentAlienTax().getStateIncomeTaxPercent().toString(), document.getDvNonResidentAlienTax().getIncomeClassCode() });
+                        errors.putError(KFSPropertyConstants.STATE_INCOME_TAX_PERCENT, KFSKeyConstants.ERROR_DV_INVALID_STATE_TAX_PERCENT, new String[] { document.getDvNonResidentAlienTax().getStateIncomeTaxPercent().toString(), document.getDvNonResidentAlienTax().getIncomeClassCode() });
                     }
                 }
             }
@@ -630,10 +630,10 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
 
         /* country code required, unless income type is nonreportable */
         if (StringUtils.isBlank(document.getDvNonResidentAlienTax().getPostalCountryCode()) && !NRA_TAX_INCOME_CLASS_NON_REPORTABLE.equals(document.getDvNonResidentAlienTax().getIncomeClassCode())) {
-            errors.putError(PropertyConstants.POSTAL_COUNTRY_CODE, KeyConstants.ERROR_REQUIRED, "Country code ");
+            errors.putError(KFSPropertyConstants.POSTAL_COUNTRY_CODE, KFSKeyConstants.ERROR_REQUIRED, "Country code ");
         }
 
-        errors.removeFromErrorPath(PropertyConstants.DV_NON_RESIDENT_ALIEN_TAX);
+        errors.removeFromErrorPath(KFSPropertyConstants.DV_NON_RESIDENT_ALIEN_TAX);
     }
 
     /**
@@ -644,19 +644,19 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
     private void validateNonEmployeeTravel(DisbursementVoucherDocument document) {
         ErrorMap errors = GlobalVariables.getErrorMap();
 
-        errors.addToErrorPath(PropertyConstants.DV_NON_EMPLOYEE_TRAVEL);
+        errors.addToErrorPath(KFSPropertyConstants.DV_NON_EMPLOYEE_TRAVEL);
         SpringServiceLocator.getDictionaryValidationService().validateBusinessObjectsRecursively(document.getDvNonEmployeeTravel(), 1);
 
         /* travel from and to state required if country is us */
-        if (Constants.COUNTRY_CODE_UNITED_STATES.equals(document.getDvNonEmployeeTravel().getDvTravelFromCountryCode()) && StringUtils.isBlank(document.getDvNonEmployeeTravel().getDisbVchrTravelFromStateCode())) {
-            errors.putError(PropertyConstants.DISB_VCHR_TRAVEL_FROM_STATE_CODE, KeyConstants.ERROR_DV_TRAVEL_FROM_STATE);
+        if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(document.getDvNonEmployeeTravel().getDvTravelFromCountryCode()) && StringUtils.isBlank(document.getDvNonEmployeeTravel().getDisbVchrTravelFromStateCode())) {
+            errors.putError(KFSPropertyConstants.DISB_VCHR_TRAVEL_FROM_STATE_CODE, KFSKeyConstants.ERROR_DV_TRAVEL_FROM_STATE);
         }
-        if (Constants.COUNTRY_CODE_UNITED_STATES.equals(document.getDvNonEmployeeTravel().getDisbVchrTravelToCountryCode()) && StringUtils.isBlank(document.getDvNonEmployeeTravel().getDisbVchrTravelToStateCode())) {
-            errors.putError(PropertyConstants.DISB_VCHR_TRAVEL_TO_STATE_CODE, KeyConstants.ERROR_DV_TRAVEL_TO_STATE);
+        if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(document.getDvNonEmployeeTravel().getDisbVchrTravelToCountryCode()) && StringUtils.isBlank(document.getDvNonEmployeeTravel().getDisbVchrTravelToStateCode())) {
+            errors.putError(KFSPropertyConstants.DISB_VCHR_TRAVEL_TO_STATE_CODE, KFSKeyConstants.ERROR_DV_TRAVEL_TO_STATE);
         }
 
         if (!errors.isEmpty()) {
-            errors.removeFromErrorPath(PropertyConstants.DV_NON_EMPLOYEE_TRAVEL);
+            errors.removeFromErrorPath(KFSPropertyConstants.DV_NON_EMPLOYEE_TRAVEL);
             return;
         }
 
@@ -669,7 +669,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         /* must have per diem change message if actual amount is different from calculated amount */
         if (perDiemSectionComplete) { // Only validate if per diem section is filled in
             if (document.getDvNonEmployeeTravel().getDisbVchrPerdiemCalculatedAmt().compareTo(document.getDvNonEmployeeTravel().getDisbVchrPerdiemActualAmount()) != 0 && StringUtils.isBlank(document.getDvNonEmployeeTravel().getDvPerdiemChangeReasonText())) {
-                errors.putError(PropertyConstants.DV_PERDIEM_CHANGE_REASON_TEXT, KeyConstants.ERROR_DV_PERDIEM_CHANGE_REQUIRED);
+                errors.putError(KFSPropertyConstants.DV_PERDIEM_CHANGE_REASON_TEXT, KFSKeyConstants.ERROR_DV_PERDIEM_CHANGE_REQUIRED);
             }
         }
 
@@ -677,7 +677,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         if (perDiemSectionComplete) { // Only validate if per diem section is filled in
             KualiDecimal calculatedPerDiem = SpringServiceLocator.getDisbursementVoucherTravelService().calculatePerDiemAmount(document.getDvNonEmployeeTravel().getDvPerdiemStartDttmStamp(), document.getDvNonEmployeeTravel().getDvPerdiemEndDttmStamp(), document.getDvNonEmployeeTravel().getDisbVchrPerdiemRate());
             if (calculatedPerDiem.compareTo(document.getDvNonEmployeeTravel().getDisbVchrPerdiemCalculatedAmt()) != 0) {
-                errors.putErrorWithoutFullErrorPath(Constants.GENERAL_NONEMPLOYEE_TAB_ERRORS, KeyConstants.ERROR_DV_PER_DIEM_CALC_CHANGE);
+                errors.putErrorWithoutFullErrorPath(KFSConstants.GENERAL_NONEMPLOYEE_TAB_ERRORS, KFSKeyConstants.ERROR_DV_PER_DIEM_CALC_CHANGE);
             }
         }
 
@@ -686,7 +686,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         KualiDecimal paidAmount = document.getDisbVchrCheckTotalAmount();
         paidAmount = paidAmount.add(SpringServiceLocator.getDisbursementVoucherTaxService().getNonResidentAlienTaxAmount(document));
         if (paidAmount.compareTo(document.getDvNonEmployeeTravel().getTotalTravelAmount()) != 0) {
-            errors.putErrorWithoutFullErrorPath(Constants.DV_CHECK_TRAVEL_TOTAL_ERROR, KeyConstants.ERROR_DV_TRAVEL_CHECK_TOTAL);
+            errors.putErrorWithoutFullErrorPath(KFSConstants.DV_CHECK_TRAVEL_TOTAL_ERROR, KFSKeyConstants.ERROR_DV_TRAVEL_CHECK_TOTAL);
         }
 
         /* make sure mileage fields have not changed since the mileage amount calculation */
@@ -696,7 +696,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
             if (ObjectUtils.isNotNull(currentCalcAmt) && ObjectUtils.isNotNull(currentActualAmt)) {
                 KualiDecimal calculatedMileageAmount = SpringServiceLocator.getDisbursementVoucherTravelService().calculateMileageAmount(document.getDvNonEmployeeTravel().getDvPersonalCarMileageAmount(), document.getDvNonEmployeeTravel().getDvPerdiemStartDttmStamp());
                 if (calculatedMileageAmount.compareTo(document.getDvNonEmployeeTravel().getDisbVchrMileageCalculatedAmt()) != 0) {
-                    errors.putErrorWithoutFullErrorPath(Constants.GENERAL_NONEMPLOYEE_TAB_ERRORS, KeyConstants.ERROR_DV_MILEAGE_CALC_CHANGE);
+                    errors.putErrorWithoutFullErrorPath(KFSConstants.GENERAL_NONEMPLOYEE_TAB_ERRORS, KFSKeyConstants.ERROR_DV_MILEAGE_CALC_CHANGE);
                 }
 
                 // determine if the rule is flagged off in the parm setting
@@ -704,13 +704,13 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
                 if (performTravelMileageLimitInd) {
                     // if actual amount is greater than calculated amount
                     if (currentCalcAmt.subtract(currentActualAmt).isNegative()) {
-                        errors.putError(PropertyConstants.DV_PERSONAL_CAR_AMOUNT, KeyConstants.ERROR_DV_ACTUAL_MILEAGE_TOO_HIGH);
+                        errors.putError(KFSPropertyConstants.DV_PERSONAL_CAR_AMOUNT, KFSKeyConstants.ERROR_DV_ACTUAL_MILEAGE_TOO_HIGH);
                     }
                 }
             }
         }
 
-        errors.removeFromErrorPath(PropertyConstants.DV_NON_EMPLOYEE_TRAVEL);
+        errors.removeFromErrorPath(KFSPropertyConstants.DV_NON_EMPLOYEE_TRAVEL);
     }
 
     /**
@@ -731,19 +731,19 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         // If any per diem fields contain data, validates that all required per diem fields are filled in
         if (perDiemUsed) {
             if (StringUtils.isBlank(document.getDvNonEmployeeTravel().getDisbVchrPerdiemCategoryName())) {
-                errors.putError(PropertyConstants.DISB_VCHR_PERDIEM_CATEGORY_NAME, KeyConstants.ERROR_DV_PER_DIEM_CATEGORY);
+                errors.putError(KFSPropertyConstants.DISB_VCHR_PERDIEM_CATEGORY_NAME, KFSKeyConstants.ERROR_DV_PER_DIEM_CATEGORY);
                 perDiemSectionComplete = false;
             }
             if (ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrPerdiemRate())) {
-                errors.putError(PropertyConstants.DISB_VCHR_PERDIEM_RATE, KeyConstants.ERROR_DV_PER_DIEM_RATE);
+                errors.putError(KFSPropertyConstants.DISB_VCHR_PERDIEM_RATE, KFSKeyConstants.ERROR_DV_PER_DIEM_RATE);
                 perDiemSectionComplete = false;
             }
             if (ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrPerdiemCalculatedAmt())) {
-                errors.putError(PropertyConstants.DISB_VCHR_PERDIEM_CALCULATED_AMT, KeyConstants.ERROR_DV_PER_DIEM_CALC_AMT);
+                errors.putError(KFSPropertyConstants.DISB_VCHR_PERDIEM_CALCULATED_AMT, KFSKeyConstants.ERROR_DV_PER_DIEM_CALC_AMT);
                 perDiemSectionComplete = false;
             }
             if (ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrPerdiemActualAmount())) {
-                errors.putError(PropertyConstants.DISB_VCHR_PERDIEM_ACTUAL_AMOUNT, KeyConstants.ERROR_DV_PER_DIEM_ACTUAL_AMT);
+                errors.putError(KFSPropertyConstants.DISB_VCHR_PERDIEM_ACTUAL_AMOUNT, KFSKeyConstants.ERROR_DV_PER_DIEM_ACTUAL_AMT);
                 perDiemSectionComplete = false;
             }
         }
@@ -770,36 +770,36 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         // If any per diem fields contain data, validates that all required per diem fields are filled in
         if (personalVehilcleUsed) {
             if (ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrAutoFromCityName())) {
-                errors.putError(PropertyConstants.DISB_VCHR_AUTO_FROM_CITY_NAME, KeyConstants.ERROR_DV_AUTO_FROM_CITY);
+                errors.putError(KFSPropertyConstants.DISB_VCHR_AUTO_FROM_CITY_NAME, KFSKeyConstants.ERROR_DV_AUTO_FROM_CITY);
                 personalVehicleSectionComplete = false;
             }
             if (ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrAutoToCityName())) {
-                errors.putError(PropertyConstants.DISB_VCHR_AUTO_TO_CITY_NAME, KeyConstants.ERROR_DV_AUTO_TO_CITY);
+                errors.putError(KFSPropertyConstants.DISB_VCHR_AUTO_TO_CITY_NAME, KFSKeyConstants.ERROR_DV_AUTO_TO_CITY);
                 personalVehicleSectionComplete = false;
             }
 
             // are state fields required always or only for US travel?
             if (ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrAutoFromStateCode())) {
-                errors.putError(PropertyConstants.DISB_VCHR_AUTO_FROM_STATE_CODE, KeyConstants.ERROR_DV_AUTO_FROM_STATE);
+                errors.putError(KFSPropertyConstants.DISB_VCHR_AUTO_FROM_STATE_CODE, KFSKeyConstants.ERROR_DV_AUTO_FROM_STATE);
                 personalVehicleSectionComplete = false;
             }
             if (ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrAutoToStateCode())) {
-                errors.putError(PropertyConstants.DISB_VCHR_AUTO_TO_STATE_CODE, KeyConstants.ERROR_DV_AUTO_TO_STATE);
+                errors.putError(KFSPropertyConstants.DISB_VCHR_AUTO_TO_STATE_CODE, KFSKeyConstants.ERROR_DV_AUTO_TO_STATE);
                 personalVehicleSectionComplete = false;
             }
             // end state field validation
 
 
             if (ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDvPersonalCarMileageAmount())) {
-                errors.putError(PropertyConstants.DV_PERSONAL_CAR_MILEAGE_AMOUNT, KeyConstants.ERROR_DV_MILEAGE_AMT);
+                errors.putError(KFSPropertyConstants.DV_PERSONAL_CAR_MILEAGE_AMOUNT, KFSKeyConstants.ERROR_DV_MILEAGE_AMT);
                 personalVehicleSectionComplete = false;
             }
             if (ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrMileageCalculatedAmt())) {
-                errors.putError(PropertyConstants.DISB_VCHR_MILEAGE_CALCULATED_AMT, KeyConstants.ERROR_DV_MILEAGE_CALC_AMT);
+                errors.putError(KFSPropertyConstants.DISB_VCHR_MILEAGE_CALCULATED_AMT, KFSKeyConstants.ERROR_DV_MILEAGE_CALC_AMT);
                 personalVehicleSectionComplete = false;
             }
             if (ObjectUtils.isNull(document.getDvNonEmployeeTravel().getDisbVchrPersonalCarAmount())) {
-                errors.putError(PropertyConstants.DISB_VCHR_PERSONAL_CAR_AMOUNT, KeyConstants.ERROR_DV_MILEAGE_ACTUAL_AMT);
+                errors.putError(KFSPropertyConstants.DISB_VCHR_PERSONAL_CAR_AMOUNT, KFSKeyConstants.ERROR_DV_MILEAGE_ACTUAL_AMT);
                 personalVehicleSectionComplete = false;
             }
         }
@@ -816,16 +816,16 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
     private void validatePrePaidTravel(DisbursementVoucherDocument document) {
         ErrorMap errors = GlobalVariables.getErrorMap();
 
-        errors.addToErrorPath(PropertyConstants.DV_PRE_CONFERENCE_DETAIL);
+        errors.addToErrorPath(KFSPropertyConstants.DV_PRE_CONFERENCE_DETAIL);
         SpringServiceLocator.getDictionaryValidationService().validateBusinessObjectsRecursively(document.getDvPreConferenceDetail(), 1);
         if (!errors.isEmpty()) {
-            errors.removeFromErrorPath(PropertyConstants.DV_PRE_CONFERENCE_DETAIL);
+            errors.removeFromErrorPath(KFSPropertyConstants.DV_PRE_CONFERENCE_DETAIL);
             return;
         }
 
         /* check conference end date is not before conference start date */
         if (document.getDvPreConferenceDetail().getDisbVchrConferenceEndDate().compareTo(document.getDvPreConferenceDetail().getDisbVchrConferenceStartDate()) < 0) {
-            errors.putError(PropertyConstants.DISB_VCHR_CONFERENCE_END_DATE, KeyConstants.ERROR_DV_CONF_END_DATE);
+            errors.putError(KFSPropertyConstants.DISB_VCHR_CONFERENCE_END_DATE, KFSKeyConstants.ERROR_DV_CONF_END_DATE);
         }
 
         /* total on prepaid travel must equal Check Total */
@@ -833,10 +833,10 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         KualiDecimal paidAmount = document.getDisbVchrCheckTotalAmount();
         paidAmount = paidAmount.add(SpringServiceLocator.getDisbursementVoucherTaxService().getNonResidentAlienTaxAmount(document));
         if (paidAmount.compareTo(document.getDvPreConferenceDetail().getDisbVchrConferenceTotalAmt()) != 0) {
-            errors.putErrorWithoutFullErrorPath(Constants.GENERAL_PREPAID_TAB_ERRORS, KeyConstants.ERROR_DV_PREPAID_CHECK_TOTAL);
+            errors.putErrorWithoutFullErrorPath(KFSConstants.GENERAL_PREPAID_TAB_ERRORS, KFSKeyConstants.ERROR_DV_PREPAID_CHECK_TOTAL);
         }
 
-        errors.removeFromErrorPath(PropertyConstants.DV_PRE_CONFERENCE_DETAIL);
+        errors.removeFromErrorPath(KFSPropertyConstants.DV_PRE_CONFERENCE_DETAIL);
     }
 
 
@@ -864,11 +864,11 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
                 String errorMsgKey = null;
                 String endConjunction = null;
                 if (rule.isAllowedRule()) {
-                    errorMsgKey = KeyConstants.ERROR_PAYMENT_REASON_ALLOWED_RESTRICTION;
+                    errorMsgKey = KFSKeyConstants.ERROR_PAYMENT_REASON_ALLOWED_RESTRICTION;
                     endConjunction = "or";
                 }
                 else {
-                    errorMsgKey = KeyConstants.ERROR_PAYMENT_REASON_DENIED_RESTRICTION;
+                    errorMsgKey = KFSKeyConstants.ERROR_PAYMENT_REASON_DENIED_RESTRICTION;
                     endConjunction = "and";
                 }
 
@@ -904,7 +904,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      * @param document
      */
     private void validateDocumentationLocation(DisbursementVoucherDocument document) {
-        String errorKey = PropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE;
+        String errorKey = KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE;
 
         // payment reason restrictions
         executePaymentReasonRestriction(PAYMENT_DOC_LOCATION_GROUP_NM, PAYMENT_PARM_PREFIX + document.getDvPayeeDetail().getDisbVchrPaymentReasonCode(), document.getDisbursementVoucherDocumentationLocationCode(), errorKey, "Documentation location", document.getDvPayeeDetail().getDisbVchrPaymentReasonCode(), new DocumentationLocationCodeDescriptionFormatter());
@@ -927,7 +927,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
     public void validatePaymentReason(DisbursementVoucherDocument document) {
         ErrorMap errors = GlobalVariables.getErrorMap();
         String paymentReasonCode = document.getDvPayeeDetail().getDisbVchrPaymentReasonCode();
-        String errorKey = PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE;
+        String errorKey = KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE;
 
         // restrictions on payment reason when alien indicator is checked
         if (document.getDvPayeeDetail().isDisbVchrAlienPaymentCode()) {
@@ -939,7 +939,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         String[] revolvingFundPaymentReasonCodes = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValues(DV_DOCUMENT_PARAMETERS_GROUP_NM, REVOLVING_FUND_PAY_REASONS_PARM_NM);
 
         if (RulesUtils.makeSet(revolvingFundPaymentReasonCodes).contains(paymentReasonCode) && !document.getDvPayeeDetail().isDvPayeeRevolvingFundCode() && !document.getDvPayeeDetail().isVendor()) {
-            errors.putError(errorKey, KeyConstants.ERROR_DV_REVOLVING_PAYMENT_REASON, paymentReasonCode);
+            errors.putError(errorKey, KFSKeyConstants.ERROR_DV_REVOLVING_PAYMENT_REASON, paymentReasonCode);
         }
 
         /* if payment reason is moving, payee must be an employee or have payee ownership type I (individual) */
@@ -961,7 +961,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
                 }
 
                 if (invalidMovingPayee) {
-                    errors.putError(PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER, KeyConstants.ERROR_DV_MOVING_PAYMENT_PAYEE);
+                    errors.putError(KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER, KFSKeyConstants.ERROR_DV_MOVING_PAYMENT_PAYEE);
                 }
             }
         }
@@ -977,7 +977,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         // check rule is active
         if (researchPayRule.isUsable()) {
             if (RulesUtils.makeSet(researchPaymentReasonCodes).contains(document.getDvPayeeDetail().getDisbVchrPaymentReasonCode()) && document.getDisbVchrCheckTotalAmount().isGreaterEqual(payLimit) && !document.getDvPayeeDetail().isVendor()) {
-                errors.putError(PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER, KeyConstants.ERROR_DV_RESEARCH_PAYMENT_PAYEE, payLimit.toString());
+                errors.putError(KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER, KFSKeyConstants.ERROR_DV_RESEARCH_PAYMENT_PAYEE, payLimit.toString());
             }
         }
     }
@@ -1013,7 +1013,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         if (StringUtils.isNotBlank(uuid)) {
             UniversalUser initUser = getInitiator(document);
             if (uuid.equals(initUser.getPersonUniversalIdentifier())) {
-                GlobalVariables.getErrorMap().putError(PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER, KeyConstants.ERROR_PAYEE_INITIATOR);
+                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER, KFSKeyConstants.ERROR_PAYEE_INITIATOR);
             }
         }
     }
@@ -1032,25 +1032,25 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
 
         ErrorMap errors = GlobalVariables.getErrorMap();
 
-        errors.addToErrorPath(PropertyConstants.DV_PAYEE_DETAIL);
+        errors.addToErrorPath(KFSPropertyConstants.DV_PAYEE_DETAIL);
 
         /* Retrieve Payee */
         Payee dvPayee = retrievePayee(payeeDetail.getDisbVchrPayeeIdNumber());
         if (dvPayee == null) {
-            errors.putError(PropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER, KeyConstants.ERROR_EXISTENCE, "Payee ID ");
-            errors.removeFromErrorPath(PropertyConstants.DV_PAYEE_DETAIL);
+            errors.putError(KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, "Payee ID ");
+            errors.removeFromErrorPath(KFSPropertyConstants.DV_PAYEE_DETAIL);
             return;
         }
 
         /* DV Payee must be active */
         if (!dvPayee.isPayeeActiveCode()) {
-            errors.putError(PropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER, KeyConstants.ERROR_INACTIVE, "Payee ID ");
-            errors.removeFromErrorPath(PropertyConstants.DV_PAYEE_DETAIL);
+            errors.putError(KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER, KFSKeyConstants.ERROR_INACTIVE, "Payee ID ");
+            errors.removeFromErrorPath(KFSPropertyConstants.DV_PAYEE_DETAIL);
             return;
         }
 
         /* check payment reason is allowed for payee type */
-        executeApplicationParameterRestriction(PAYEE_PAYMENT_GROUP_NM, DVPAYEE_PAYEE_PAYMENT_PARM, document.getDvPayeeDetail().getDisbVchrPaymentReasonCode(), PropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE, "Payment reason code");
+        executeApplicationParameterRestriction(PAYEE_PAYMENT_GROUP_NM, DVPAYEE_PAYEE_PAYMENT_PARM, document.getDvPayeeDetail().getDisbVchrPaymentReasonCode(), KFSPropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE, "Payment reason code");
 
         /* for payees with tax type ssn, check employee restrictions */
         if (TAX_TYPE_SSN.equals(dvPayee.getTaxpayerTypeCode())) {
@@ -1062,7 +1062,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
                     /* active payee employees cannot be paid for prepaid travel */
                     String[] travelPrepaidPaymentReasonCodes = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValues(DV_DOCUMENT_PARAMETERS_GROUP_NM, PREPAID_TRAVEL_PAY_REASONS_PARM_NM);
                     if (RulesUtils.makeSet(travelPrepaidPaymentReasonCodes).contains(payeeDetail.getDisbVchrPaymentReasonCode())) {
-                        errors.putError(PropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER, KeyConstants.ERROR_ACTIVE_EMPLOYEE_PREPAID_TRAVEL);
+                        errors.putError(KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER, KFSKeyConstants.ERROR_ACTIVE_EMPLOYEE_PREPAID_TRAVEL);
                     }
 
                 }
@@ -1074,13 +1074,13 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
                 if (performPaidOutsidePayrollInd) {
                     /* If payee is type payee and employee, payee record must be flagged as paid outside of payroll */
                     if (!dvPayee.isPayeeEmployeeCode()) {
-                        errors.putError(PropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER, KeyConstants.ERROR_EMPLOYEE_PAID_OUTSIDE_PAYROLL);
+                        errors.putError(KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER, KFSKeyConstants.ERROR_EMPLOYEE_PAID_OUTSIDE_PAYROLL);
                     }
                 }
             }
         }
 
-        errors.removeFromErrorPath(PropertyConstants.DV_PAYEE_DETAIL);
+        errors.removeFromErrorPath(KFSPropertyConstants.DV_PAYEE_DETAIL);
     }
 
     /**
@@ -1097,20 +1097,20 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
 
         ErrorMap errors = GlobalVariables.getErrorMap();
 
-        errors.addToErrorPath(PropertyConstants.DV_PAYEE_DETAIL);
+        errors.addToErrorPath(KFSPropertyConstants.DV_PAYEE_DETAIL);
 
         /* check existence of employee */
         UniversalUser employee = retrieveEmployee(payeeDetail.getDisbVchrPayeeIdNumber());
         if (employee == null) {
-            errors.putError(PropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER, KeyConstants.ERROR_EXISTENCE, "Payee ID ");
-            errors.removeFromErrorPath(PropertyConstants.DV_PAYEE_DETAIL);
+            errors.putError(KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, "Payee ID ");
+            errors.removeFromErrorPath(KFSPropertyConstants.DV_PAYEE_DETAIL);
             return;
         }
 
         /* check payment reason is allowed for employee type */
-        executeApplicationParameterRestriction(PAYEE_PAYMENT_GROUP_NM, EMPLOYEE_PAYEE_PAYMENT_PARM, document.getDvPayeeDetail().getDisbVchrPaymentReasonCode(), PropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE, "Payment reason code");
+        executeApplicationParameterRestriction(PAYEE_PAYMENT_GROUP_NM, EMPLOYEE_PAYEE_PAYMENT_PARM, document.getDvPayeeDetail().getDisbVchrPaymentReasonCode(), KFSPropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE, "Payment reason code");
 
-        errors.removeFromErrorPath(PropertyConstants.DV_PAYEE_DETAIL);
+        errors.removeFromErrorPath(KFSPropertyConstants.DV_PAYEE_DETAIL);
     }
 
     /**
@@ -1123,7 +1123,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         ErrorMap errors = GlobalVariables.getErrorMap();
 
         if (dvDocument.getSourceAccountingLines().size() < 1) {
-            errors.putErrorWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_NO_ACCOUNTING_LINES);
+            errors.putErrorWithoutFullErrorPath(KFSConstants.ACCOUNTING_LINE_ERRORS, KFSKeyConstants.ERROR_NO_ACCOUNTING_LINES);
         }
     }
 
@@ -1137,17 +1137,17 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
 
         /* check total cannot be negative or zero */
         if (!document.getDisbVchrCheckTotalAmount().isPositive()) {
-            errors.putError(PropertyConstants.DISB_VCHR_CHECK_TOTAL_AMOUNT, KeyConstants.ERROR_NEGATIVE_OR_ZERO_CHECK_TOTAL);
+            errors.putError(KFSPropertyConstants.DISB_VCHR_CHECK_TOTAL_AMOUNT, KFSKeyConstants.ERROR_NEGATIVE_OR_ZERO_CHECK_TOTAL);
         }
 
         /* total accounting lines cannot be negative */
-        if (Constants.ZERO.compareTo(document.getSourceTotal()) == 1) {
-            errors.putErrorWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_NEGATIVE_ACCOUNTING_TOTAL);
+        if (KFSConstants.ZERO.compareTo(document.getSourceTotal()) == 1) {
+            errors.putErrorWithoutFullErrorPath(KFSConstants.ACCOUNTING_LINE_ERRORS, KFSKeyConstants.ERROR_NEGATIVE_ACCOUNTING_TOTAL);
         }
 
         /* total of accounting lines must match check total */
         if (document.getDisbVchrCheckTotalAmount().compareTo(document.getSourceTotal()) != 0) {
-            errors.putErrorWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_CHECK_ACCOUNTING_TOTAL);
+            errors.putErrorWithoutFullErrorPath(KFSConstants.ACCOUNTING_LINE_ERRORS, KFSKeyConstants.ERROR_CHECK_ACCOUNTING_TOTAL);
         }
     }
 
@@ -1162,7 +1162,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) FinancialDocument;
         ErrorMap errors = GlobalVariables.getErrorMap();
 
-        String errorKey = PropertyConstants.FINANCIAL_OBJECT_CODE;
+        String errorKey = KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
         boolean objectCodeAllowed = true;
 
         /* object code exist done in super, check we have a valid object */
@@ -1172,7 +1172,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
 
         /* make sure object code is active */
         if (!accountingLine.getObjectCode().isFinancialObjectActiveCode()) {
-            errors.putError(errorKey, KeyConstants.ERROR_INACTIVE, "object code");
+            errors.putError(errorKey, KFSKeyConstants.ERROR_INACTIVE, "object code");
             objectCodeAllowed = false;
         }
 
@@ -1197,10 +1197,10 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         objectCodeAllowed = objectCodeAllowed && executePaymentReasonRestriction(PAYMENT_OBJECT_CODE_GROUP_NM, PAYMENT_PARM_PREFIX + documentPaymentReason, accountingLine.getFinancialObjectCode(), errorKey, "Object code", documentPaymentReason, new ObjectCodeDescriptionFormatter(accountingLine.getPostingYear(), accountingLine.getChartOfAccountsCode()));
 
         /* check payment reason is valid for object code */
-        objectCodeAllowed = objectCodeAllowed && executeApplicationParameterRestriction(OBJECT_CODE_PAYMENT_GROUP_NM, OBJECT_CODE_PARM_PREFIX + accountingLine.getFinancialObjectCode(), dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode(), PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE, "Payment reason code");
+        objectCodeAllowed = objectCodeAllowed && executeApplicationParameterRestriction(OBJECT_CODE_PAYMENT_GROUP_NM, OBJECT_CODE_PARM_PREFIX + accountingLine.getFinancialObjectCode(), dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode(), KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE, "Payment reason code");
 
         /* check payment reason is valid for object level */
-        objectCodeAllowed = objectCodeAllowed && executeApplicationParameterRestriction(OBJECT_LEVEL_PAYMENT_GROUP_NM, OBJECT_LEVEL_PARM_PREFIX + accountingLine.getObjectCode().getFinancialObjectLevelCode(), dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode(), PropertyConstants.DV_PAYEE_DETAIL + "." + PropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE, "Payment reason code");
+        objectCodeAllowed = objectCodeAllowed && executeApplicationParameterRestriction(OBJECT_LEVEL_PAYMENT_GROUP_NM, OBJECT_LEVEL_PARM_PREFIX + accountingLine.getObjectCode().getFinancialObjectLevelCode(), dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode(), KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE, "Payment reason code");
 
         return objectCodeAllowed;
     }
@@ -1216,7 +1216,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) FinancialDocument;
         ErrorMap errors = GlobalVariables.getErrorMap();
 
-        String errorKey = PropertyConstants.ACCOUNT_NUMBER;
+        String errorKey = KFSPropertyConstants.ACCOUNT_NUMBER;
         boolean accountNumberAllowed = true;
 
         /* account exist and object exist done in super, check we have a valid object */
@@ -1293,7 +1293,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      */
     private boolean isUserInTaxGroup() {
         if ( taxGroupName == null ) {
-            taxGroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( Constants.FinancialApcParms.GROUP_DV_DOCUMENT, Constants.FinancialApcParms.DV_TAX_WORKGROUP );
+            taxGroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( KFSConstants.FinancialApcParms.GROUP_DV_DOCUMENT, KFSConstants.FinancialApcParms.DV_TAX_WORKGROUP );
         }
         return GlobalVariables.getUserSession().getUniversalUser().isMember( taxGroupName );
     }
@@ -1305,7 +1305,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      */
     private boolean isUserInTravelGroup() {
         if ( travelGroupName == null ) {
-            travelGroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( Constants.FinancialApcParms.GROUP_DV_DOCUMENT, Constants.FinancialApcParms.DV_TRAVEL_WORKGROUP );
+            travelGroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( KFSConstants.FinancialApcParms.GROUP_DV_DOCUMENT, KFSConstants.FinancialApcParms.DV_TRAVEL_WORKGROUP );
         }
         return GlobalVariables.getUserSession().getUniversalUser().isMember( travelGroupName );
     }
@@ -1317,7 +1317,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      */
     private boolean isUserInFRNGroup() {
         if ( frnGroupName == null ) {
-            frnGroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( Constants.FinancialApcParms.GROUP_DV_DOCUMENT, Constants.FinancialApcParms.DV_FOREIGNDRAFT_WORKGROUP );
+            frnGroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( KFSConstants.FinancialApcParms.GROUP_DV_DOCUMENT, KFSConstants.FinancialApcParms.DV_FOREIGNDRAFT_WORKGROUP );
         }
         return GlobalVariables.getUserSession().getUniversalUser().isMember( frnGroupName );
     }
@@ -1329,7 +1329,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      */
     private boolean isUserInWireGroup() {
         if ( wireTransferGroupName == null ) {
-            wireTransferGroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( Constants.FinancialApcParms.GROUP_DV_DOCUMENT, Constants.FinancialApcParms.DV_WIRETRANSFER_WORKGROUP );
+            wireTransferGroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( KFSConstants.FinancialApcParms.GROUP_DV_DOCUMENT, KFSConstants.FinancialApcParms.DV_WIRETRANSFER_WORKGROUP );
         }
         return GlobalVariables.getUserSession().getUniversalUser().isMember( wireTransferGroupName );
     }
@@ -1341,7 +1341,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      */
     private boolean isUserInDvAdminGroup() {
         if ( adminGroupName == null ) {
-            adminGroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( Constants.FinancialApcParms.GROUP_DV_DOCUMENT, Constants.FinancialApcParms.DV_ADMIN_WORKGROUP );
+            adminGroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( KFSConstants.FinancialApcParms.GROUP_DV_DOCUMENT, KFSConstants.FinancialApcParms.DV_ADMIN_WORKGROUP );
         }
         return GlobalVariables.getUserSession().getUniversalUser().isMember( adminGroupName );
     }
@@ -1440,7 +1440,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         employee.setPersonTaxIdentifier(ssnNumber);
         UniversalUser foundEmployee = (UniversalUser) SpringServiceLocator.getBusinessObjectService().retrieve(employee);
 
-        if (foundEmployee != null && Constants.EMPLOYEE_ACTIVE_STATUS.equals(foundEmployee.getEmployeeStatusCode())) {
+        if (foundEmployee != null && KFSConstants.EMPLOYEE_ACTIVE_STATUS.equals(foundEmployee.getEmployeeStatusCode())) {
             isActiveEmployee = true;
         }
 

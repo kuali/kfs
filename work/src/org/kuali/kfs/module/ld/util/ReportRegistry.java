@@ -15,7 +15,7 @@
  */
 package org.kuali.module.labor.util;
 
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.rice.KNSServiceLocator;
 
@@ -71,6 +71,6 @@ public enum ReportRegistry {
      * get the directory where the reports can be stored
      */ 
     public static String getReportsDirectory() {      
-        return KNSServiceLocator.getKualiConfigurationService().getPropertyString(Constants.REPORTS_DIRECTORY_KEY);
+        return KNSServiceLocator.getKualiConfigurationService().getPropertyString(KFSConstants.REPORTS_DIRECTORY_KEY);
     }
 }

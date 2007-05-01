@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.test.WithTestSpringContext;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.GLSpringBeansRegistry;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.service.AccountBalanceService;
@@ -179,16 +179,16 @@ public class AccountBalanceLookupableHelperServiceTest extends AbstractGLLookupa
     public List getLookupFields(boolean isExtended) {
         List lookupFields = new ArrayList();
 
-        lookupFields.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        lookupFields.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        lookupFields.add(PropertyConstants.ACCOUNT_NUMBER);
+        lookupFields.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        lookupFields.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        lookupFields.add(KFSPropertyConstants.ACCOUNT_NUMBER);
         lookupFields.add(Constant.CONSOLIDATION_OPTION);
 
         // include the extended fields
         if (isExtended) {
-            lookupFields.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
-            lookupFields.add(PropertyConstants.OBJECT_CODE);
-            lookupFields.add(PropertyConstants.SUB_OBJECT_CODE);
+            lookupFields.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+            lookupFields.add(KFSPropertyConstants.OBJECT_CODE);
+            lookupFields.add(KFSPropertyConstants.SUB_OBJECT_CODE);
         }
         return lookupFields;
     }

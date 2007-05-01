@@ -29,7 +29,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.budget.bo.BudgetUser;
 import org.kuali.module.kra.budget.bo.UserAppointmentTask;
@@ -66,11 +66,11 @@ public class BudgetPersonnelAction extends BudgetAction {
         if (rulePassed) {
             SpringServiceLocator.getBudgetPersonnelService().calculateAllPersonnelCompensation(budgetForm.getBudgetDocument());
             return super.execute(mapping, form, request, response);
-        } else if (StringUtils.equals(Constants.RELOAD_METHOD_TO_CALL, budgetForm.getMethodToCall())) {
+        } else if (StringUtils.equals(KFSConstants.RELOAD_METHOD_TO_CALL, budgetForm.getMethodToCall())) {
             GlobalVariables.getErrorMap().clear();
             return this.reload(mapping, form, request, response);
         } else {
-            return mapping.findForward(Constants.MAPPING_BASIC);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
     }
 
@@ -80,7 +80,7 @@ public class BudgetPersonnelAction extends BudgetAction {
 
         boolean rulePassed = runRule(budgetForm, new UpdatePersonnelEventBase(budgetForm.getDocument(), budgetForm.getBudgetDocument().getBudget().getPersonnel()));
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward insertPersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -103,7 +103,7 @@ public class BudgetPersonnelAction extends BudgetAction {
 
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward savePersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -156,7 +156,7 @@ public class BudgetPersonnelAction extends BudgetAction {
 //        }
 //        budgetForm.setDeleteValues(new String[personnel.size()]);
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward clearNewPersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -165,7 +165,7 @@ public class BudgetPersonnelAction extends BudgetAction {
         budgetForm.setNewPersonnel(new BudgetUser());
         budgetForm.setNewPersonnelType(PERSON);
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -177,7 +177,7 @@ public class BudgetPersonnelAction extends BudgetAction {
         
         SpringServiceLocator.getBudgetPersonnelService().calculateAllPersonnelCompensation(budgetForm.getBudgetDocument());
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     private boolean runRule(BudgetForm budgetForm, KualiDocumentEventBase event) {

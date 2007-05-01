@@ -18,21 +18,21 @@ package org.kuali.module.vendor.fixtures;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.vendor.bo.VendorAddress;
 
 public enum VendorRuleAddressStateZipFixture implements VendorRuleAddressStateZipFixtureCompatible {
 
-    BOTH_US_BOTH_STATES_BOTH_ZIPS(Constants.COUNTRY_CODE_UNITED_STATES, stateCd, zipCode,
-            Constants.COUNTRY_CODE_UNITED_STATES, stateCd, zipCode),
-    BOTH_US_WITHOUT_STATES_WITHOUT_ZIPS(Constants.COUNTRY_CODE_UNITED_STATES, null, null,
-            Constants.COUNTRY_CODE_UNITED_STATES, null, null),
-    BOTH_US_EMPTY_STATES_EMPTY_ZIPS(Constants.COUNTRY_CODE_UNITED_STATES, "", "",
-            Constants.COUNTRY_CODE_UNITED_STATES, "", ""),
-    BOTH_US_BOTH_STATES_ONE_ZIP_ONE_NULL(Constants.COUNTRY_CODE_UNITED_STATES, stateCd, zipCode,
-            Constants.COUNTRY_CODE_UNITED_STATES, stateCd, null),
-    BOTH_US_BOTH_STATES_ONE_ZIP_ONE_EMPTY(Constants.COUNTRY_CODE_UNITED_STATES, stateCd, zipCode,
-            Constants.COUNTRY_CODE_UNITED_STATES, stateCd, ""),
+    BOTH_US_BOTH_STATES_BOTH_ZIPS(KFSConstants.COUNTRY_CODE_UNITED_STATES, stateCd, zipCode,
+            KFSConstants.COUNTRY_CODE_UNITED_STATES, stateCd, zipCode),
+    BOTH_US_WITHOUT_STATES_WITHOUT_ZIPS(KFSConstants.COUNTRY_CODE_UNITED_STATES, null, null,
+            KFSConstants.COUNTRY_CODE_UNITED_STATES, null, null),
+    BOTH_US_EMPTY_STATES_EMPTY_ZIPS(KFSConstants.COUNTRY_CODE_UNITED_STATES, "", "",
+            KFSConstants.COUNTRY_CODE_UNITED_STATES, "", ""),
+    BOTH_US_BOTH_STATES_ONE_ZIP_ONE_NULL(KFSConstants.COUNTRY_CODE_UNITED_STATES, stateCd, zipCode,
+            KFSConstants.COUNTRY_CODE_UNITED_STATES, stateCd, null),
+    BOTH_US_BOTH_STATES_ONE_ZIP_ONE_EMPTY(KFSConstants.COUNTRY_CODE_UNITED_STATES, stateCd, zipCode,
+            KFSConstants.COUNTRY_CODE_UNITED_STATES, stateCd, ""),
     WITHOUT_US_BOTH_STATES_WITHOUT_ZIPS( "", stateCd, null,
             "", stateCd, null ),
     WITHOUT_US_BOTH_STATES_EMPTY_ZIPS( "", stateCd, "",
@@ -62,7 +62,7 @@ public enum VendorRuleAddressStateZipFixture implements VendorRuleAddressStateZi
      * of the requirement that, if a vendor address's country is the United States,
      * the address must have a state and a zip code.
      * 
-     * @param country1  Any String, really, but possibly a country value from Constants.
+     * @param country1  Any String, really, but possibly a country value from KFSConstants.
      * @param zip1      Also any String, intended to be a Zip code.
      * @param country2  Country for the second address of the collection
      * @param zip2      Zip code for the second address of the collection

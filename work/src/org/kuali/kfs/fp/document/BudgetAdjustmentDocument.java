@@ -29,8 +29,8 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.CurrencyFormatter;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.document.AccountingDocumentBase;
@@ -82,7 +82,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
         
         
         for (GeneralLedgerPendingEntry ple : copiedBa.getGeneralLedgerPendingEntries()) {
-            if (!Constants.BALANCE_TYPE_BASE_BUDGET.equals(ple.getFinancialBalanceTypeCode()) && !Constants.BALANCE_TYPE_MONTHLY_BUDGET.equals(ple.getFinancialBalanceTypeCode())) {
+            if (!KFSConstants.BALANCE_TYPE_BASE_BUDGET.equals(ple.getFinancialBalanceTypeCode()) && !KFSConstants.BALANCE_TYPE_MONTHLY_BUDGET.equals(ple.getFinancialBalanceTypeCode())) {
                 pendingLedgerEntries.add(ple);
             }
         }
@@ -467,7 +467,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
+        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return m;
     }
 
@@ -504,7 +504,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
      */
     @Override
     public String getSourceAccountingLinesSectionTitle() {
-        return Constants.BudgetAdjustmentDocumentConstants.SOURCE_BA;
+        return KFSConstants.BudgetAdjustmentDocumentConstants.SOURCE_BA;
     }
 
     /**
@@ -512,7 +512,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
      */
     @Override
     public String getTargetAccountingLinesSectionTitle() {
-        return Constants.BudgetAdjustmentDocumentConstants.TARGET_BA;
+        return KFSConstants.BudgetAdjustmentDocumentConstants.TARGET_BA;
     }
 
     /**

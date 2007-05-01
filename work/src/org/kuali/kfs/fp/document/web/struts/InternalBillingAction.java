@@ -21,8 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.module.financial.bo.InternalBillingItem;
@@ -49,7 +49,7 @@ public class InternalBillingAction extends KualiAccountingDocumentActionBase {
             internalBillingForm.getInternalBillingDocument().addItem(internalBillingForm.getNewItem());
             internalBillingForm.setNewItem(new InternalBillingItem());
         }
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -59,7 +59,7 @@ public class InternalBillingAction extends KualiAccountingDocumentActionBase {
      * @return whether the new item is valid
      */
     private static boolean validateNewItem(InternalBillingForm internalBillingForm) {
-        return SpringServiceLocator.getDictionaryValidationService().isBusinessObjectValid(internalBillingForm.getNewItem(), PropertyConstants.NEW_ITEM);
+        return SpringServiceLocator.getDictionaryValidationService().isBusinessObjectValid(internalBillingForm.getNewItem(), KFSPropertyConstants.NEW_ITEM);
     }
 
     /**
@@ -75,6 +75,6 @@ public class InternalBillingAction extends KualiAccountingDocumentActionBase {
     public ActionForward deleteItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         InternalBillingForm internalBillingForm = (InternalBillingForm) form;
         internalBillingForm.getInternalBillingDocument().getItems().remove(getLineToDelete(request));
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 }

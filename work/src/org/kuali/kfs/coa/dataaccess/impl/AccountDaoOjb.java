@@ -27,7 +27,7 @@ import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountResponsibility;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
@@ -93,12 +93,12 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
 
     private Criteria getDelegateByExampleCriteria(Delegate delegateExample, String totalDollarAmount, String accountsDelegatePrmrtIndicator) {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, delegateExample.getChartOfAccountsCode());
-        criteria.addEqualTo(Constants.ACCOUNT_NUMBER_PROPERTY_NAME, delegateExample.getAccountNumber());
+        criteria.addEqualTo(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, delegateExample.getChartOfAccountsCode());
+        criteria.addEqualTo(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, delegateExample.getAccountNumber());
         Criteria docTypeMatchCriteria = new Criteria();
-        docTypeMatchCriteria.addEqualTo(Constants.FINANCIAL_DOCUMENT_TYPE_CODE, delegateExample.getFinancialDocumentTypeCode());
+        docTypeMatchCriteria.addEqualTo(KFSConstants.FINANCIAL_DOCUMENT_TYPE_CODE, delegateExample.getFinancialDocumentTypeCode());
         Criteria docTypeAllCriteria = new Criteria();
-        docTypeAllCriteria.addEqualTo(Constants.FINANCIAL_DOCUMENT_TYPE_CODE, "ALL");
+        docTypeAllCriteria.addEqualTo(KFSConstants.FINANCIAL_DOCUMENT_TYPE_CODE, "ALL");
         Criteria docTypeOrCriteria = new Criteria();
         docTypeOrCriteria.addOrCriteria(docTypeMatchCriteria);
         docTypeOrCriteria.addOrCriteria(docTypeAllCriteria);

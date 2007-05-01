@@ -17,7 +17,7 @@ package org.kuali.module.gl.util;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 
 public class PosterOutputSummaryEntry implements Comparable {
     private static String[] assetExpenseObjectTypeCodeList = new String[] { "AS", "EE", "ES", "EX", "TE" };
@@ -65,7 +65,7 @@ public class PosterOutputSummaryEntry implements Comparable {
      */
     public void setAmount(String debitCreditCode, String objectTypeCode, KualiDecimal amount) {
 
-        if (Constants.GL_CREDIT_CODE.equals(debitCreditCode)) {
+        if (KFSConstants.GL_CREDIT_CODE.equals(debitCreditCode)) {
             setCreditAmount(creditAmount.add(amount));
             if (ArrayUtils.contains(assetExpenseObjectTypeCodeList, objectTypeCode)) {
                 setNetAmount(netAmount.subtract(amount));
@@ -74,7 +74,7 @@ public class PosterOutputSummaryEntry implements Comparable {
                 setNetAmount(netAmount.add(amount));
             }
         }
-        else if (Constants.GL_DEBIT_CODE.equals(debitCreditCode)) {
+        else if (KFSConstants.GL_DEBIT_CODE.equals(debitCreditCode)) {
             setDebitAmount(debitAmount.add(amount));
             if (ArrayUtils.contains(assetExpenseObjectTypeCodeList, objectTypeCode)) {
                 setNetAmount(netAmount.add(amount));
@@ -136,7 +136,7 @@ public class PosterOutputSummaryEntry implements Comparable {
         posterOutputSummaryEntry.setObjectTypeCode(objectTypeCode);
 
         tempEntry = entrySummary[indexOfField++];
-        String debitCreditCode = (tempEntry == null) ? Constants.GL_BUDGET_CODE : tempEntry.toString();
+        String debitCreditCode = (tempEntry == null) ? KFSConstants.GL_BUDGET_CODE : tempEntry.toString();
 
         tempEntry = entrySummary[indexOfField];
         entry = (tempEntry == null) ? "0" : tempEntry.toString();

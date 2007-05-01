@@ -25,7 +25,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.bo.user.UserId;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
@@ -674,64 +674,64 @@ public class LedgerBalance extends Balance {
     
     @Override
     public void addAmount(String period, KualiDecimal amount) {
-        if (Constants.ANNUAL_BALANCE.equals(period)) {
+        if (KFSConstants.ANNUAL_BALANCE.equals(period)) {
             this.setAccountLineAnnualBalanceAmount(this.getAccountLineAnnualBalanceAmount().add(amount));
         }
-        else if (Constants.BEGINNING_BALANCE.equals(period)) {
+        else if (KFSConstants.BEGINNING_BALANCE.equals(period)) {
             this.setFinancialBeginningBalanceLineAmount(this.getFinancialBeginningBalanceLineAmount().add(amount));
         }
-        else if (Constants.CG_BEGINNING_BALANCE.equals(period)) {
+        else if (KFSConstants.CG_BEGINNING_BALANCE.equals(period)) {
             this.setContractsGrantsBeginningBalanceAmount(this.getContractsGrantsBeginningBalanceAmount().add(amount));
         }
-        else if (Constants.MONTH1.equals(period)) {
+        else if (KFSConstants.MONTH1.equals(period)) {
             this.month1AccountLineAmount = month1AccountLineAmount.add(amount);
             this.setAccountLineAnnualBalanceAmount(this.getAccountLineAnnualBalanceAmount().add(amount));
         }
-        else if (Constants.MONTH2.equals(period)) {
+        else if (KFSConstants.MONTH2.equals(period)) {
             this.month2AccountLineAmount = month2AccountLineAmount.add(amount);
             this.setAccountLineAnnualBalanceAmount(this.getAccountLineAnnualBalanceAmount().add(amount));
         }
-        else if (Constants.MONTH3.equals(period)) {
+        else if (KFSConstants.MONTH3.equals(period)) {
             this.month3AccountLineAmount = month3AccountLineAmount.add(amount);
             this.setAccountLineAnnualBalanceAmount(this.getAccountLineAnnualBalanceAmount().add(amount));
         }
-        else if (Constants.MONTH4.equals(period)) {
+        else if (KFSConstants.MONTH4.equals(period)) {
             this.month4AccountLineAmount = month4AccountLineAmount.add(amount);
             this.setAccountLineAnnualBalanceAmount(this.getAccountLineAnnualBalanceAmount().add(amount));
         }
-        else if (Constants.MONTH5.equals(period)) {
+        else if (KFSConstants.MONTH5.equals(period)) {
             this.month5AccountLineAmount = month5AccountLineAmount.add(amount);
             this.setAccountLineAnnualBalanceAmount(this.getAccountLineAnnualBalanceAmount().add(amount));
         }
-        else if (Constants.MONTH6.equals(period)) {
+        else if (KFSConstants.MONTH6.equals(period)) {
             this.month6AccountLineAmount = month6AccountLineAmount.add(amount);
             this.setAccountLineAnnualBalanceAmount(this.getAccountLineAnnualBalanceAmount().add(amount));
         }
-        else if (Constants.MONTH7.equals(period)) {
+        else if (KFSConstants.MONTH7.equals(period)) {
             this.month7AccountLineAmount = month7AccountLineAmount.add(amount);
             this.setAccountLineAnnualBalanceAmount(this.getAccountLineAnnualBalanceAmount().add(amount));
         }
-        else if (Constants.MONTH8.equals(period)) {
+        else if (KFSConstants.MONTH8.equals(period)) {
             this.month8AccountLineAmount = month8AccountLineAmount.add(amount);
             this.setAccountLineAnnualBalanceAmount(this.getAccountLineAnnualBalanceAmount().add(amount));
         }
-        else if (Constants.MONTH9.equals(period)) {
+        else if (KFSConstants.MONTH9.equals(period)) {
             this.month9AccountLineAmount = month9AccountLineAmount.add(amount);
             this.setAccountLineAnnualBalanceAmount(this.getAccountLineAnnualBalanceAmount().add(amount));
         }
-        else if (Constants.MONTH10.equals(period)) {
+        else if (KFSConstants.MONTH10.equals(period)) {
             this.month10AccountLineAmount = month10AccountLineAmount.add(amount);
             this.setAccountLineAnnualBalanceAmount(this.getAccountLineAnnualBalanceAmount().add(amount));
         }
-        else if (Constants.MONTH11.equals(period)) {
+        else if (KFSConstants.MONTH11.equals(period)) {
             this.month11AccountLineAmount = month11AccountLineAmount.add(amount);
             this.setAccountLineAnnualBalanceAmount(this.getAccountLineAnnualBalanceAmount().add(amount));
         }
-        else if (Constants.MONTH12.equals(period)) {
+        else if (KFSConstants.MONTH12.equals(period)) {
             this.month12AccountLineAmount = month12AccountLineAmount.add(amount);
             this.setAccountLineAnnualBalanceAmount(this.getAccountLineAnnualBalanceAmount().add(amount));
         }
-        else if (Constants.MONTH13.equals(period)) {
+        else if (KFSConstants.MONTH13.equals(period)) {
             this.month13AccountLineAmount = month13AccountLineAmount.add(amount);
             this.setAccountLineAnnualBalanceAmount(this.getAccountLineAnnualBalanceAmount().add(amount));
         }

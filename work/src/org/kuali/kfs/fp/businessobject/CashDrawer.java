@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 
 /**
  * 
@@ -66,7 +66,7 @@ public class CashDrawer extends PersistableBusinessObjectBase {
      * @return boolean
      */
     public boolean isOpen() {
-        return StringUtils.equals(Constants.CashDrawerConstants.STATUS_OPEN, statusCode);
+        return StringUtils.equals(KFSConstants.CashDrawerConstants.STATUS_OPEN, statusCode);
     }
 
     /**
@@ -75,7 +75,7 @@ public class CashDrawer extends PersistableBusinessObjectBase {
      * @return boolean
      */
     public boolean isClosed() {
-        return StringUtils.equals(Constants.CashDrawerConstants.STATUS_CLOSED, statusCode);
+        return StringUtils.equals(KFSConstants.CashDrawerConstants.STATUS_CLOSED, statusCode);
     }
 
     /**
@@ -84,7 +84,7 @@ public class CashDrawer extends PersistableBusinessObjectBase {
      * @return boolean
      */
     public boolean isLocked() {
-        return StringUtils.equals(Constants.CashDrawerConstants.STATUS_LOCKED, statusCode);
+        return StringUtils.equals(KFSConstants.CashDrawerConstants.STATUS_LOCKED, statusCode);
     }
 
 

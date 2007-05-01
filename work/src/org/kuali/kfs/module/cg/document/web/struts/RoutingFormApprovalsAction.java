@@ -26,7 +26,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.bo.AdHocRouteWorkgroup;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
@@ -61,7 +61,7 @@ public class RoutingFormApprovalsAction extends RoutingFormAction {
         RoutingForm routingForm = (RoutingForm) form;
         
         if (routingForm.getNumAuditErrors() != 0) {
-            return mapping.findForward(Constants.MAPPING_BASIC);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         
         cacheAndLoad(mapping, form, request, response);
@@ -90,7 +90,7 @@ public class RoutingFormApprovalsAction extends RoutingFormAction {
             workgroupNames.addAll(projectDetailsWorkgroupNames);
             for (String workgroup : workgroupNames) {
                 AdHocRouteWorkgroup routeWorkgroup = new AdHocRouteWorkgroup();
-                routeWorkgroup.setActionRequested(Constants.WORKFLOW_FYI_REQUEST);
+                routeWorkgroup.setActionRequested(KFSConstants.WORKFLOW_FYI_REQUEST);
                 routeWorkgroup.setdocumentNumber(routingForm.getRoutingFormDocument().getDocumentNumber());
                 routeWorkgroup.setId(workgroup);
                 routeWorkgroups.add(routeWorkgroup);

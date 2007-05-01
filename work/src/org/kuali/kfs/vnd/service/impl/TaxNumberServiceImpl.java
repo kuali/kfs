@@ -19,7 +19,7 @@ import org.kuali.core.bo.BusinessRule;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.FormatException;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorRuleConstants;
@@ -51,10 +51,10 @@ public class TaxNumberServiceImpl implements TaxNumberService {
             new Integer (SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue("PurapAdminGroup","PURAP.DEFAULT_TAX_NUM_DIGITS"));
 
         if (digits.length() < defaultTaxNumberDigits) {
-            throw new FormatException("Tax number has fewer than " + defaultTaxNumberDigits + " digits.", KeyConstants.ERROR_CUSTOM, taxNbr);
+            throw new FormatException("Tax number has fewer than " + defaultTaxNumberDigits + " digits.", KFSKeyConstants.ERROR_CUSTOM, taxNbr);
         }
         else if (digits.length() > defaultTaxNumberDigits) {
-            throw new FormatException("Tax number has more than " + defaultTaxNumberDigits + " digits.", KeyConstants.ERROR_CUSTOM, taxNbr);
+            throw new FormatException("Tax number has more than " + defaultTaxNumberDigits + " digits.", KFSKeyConstants.ERROR_CUSTOM, taxNbr);
         }
         else {
             return digits;

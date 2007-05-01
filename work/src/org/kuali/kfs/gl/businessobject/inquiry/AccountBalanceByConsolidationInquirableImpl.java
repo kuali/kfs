@@ -23,8 +23,8 @@ import java.util.Properties;
 
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.LookupService;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.AccountBalanceByLevel;
 import org.kuali.module.gl.web.Constant;
@@ -48,10 +48,10 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
     protected List buildUserDefinedAttributeKeyList() {
         List keys = new ArrayList();
 
-        keys.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        keys.add(PropertyConstants.ACCOUNT_NUMBER);
-        keys.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        keys.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
+        keys.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        keys.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        keys.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        keys.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
         keys.add("financialObject.financialObjectLevel.financialConsolidationObject.finConsolidationObjectCode");
         keys.add(Constant.COST_SHARE_OPTION);
         keys.add(Constant.CONSOLIDATION_OPTION);
@@ -109,7 +109,7 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getBaseUrl()
      */
     protected String getBaseUrl() {
-        return Constants.GL_MODIFIED_INQUIRY_ACTION;
+        return KFSConstants.GL_MODIFIED_INQUIRY_ACTION;
     }
 
     /**
@@ -127,6 +127,6 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#addMoreParameters(java.util.Properties, java.lang.String)
      */
     protected void addMoreParameters(Properties parameter, String attributeName) {
-        parameter.put(Constants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME, getLookupableImplAttributeName());
+        parameter.put(KFSConstants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME, getLookupableImplAttributeName());
     }
 }

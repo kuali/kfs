@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.labor.LaborConstants;
@@ -45,7 +45,7 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
      * @see org.kuali.module.gl.batch.poster.PostTransaction#post(org.kuali.module.gl.bo.Transaction, int, java.util.Date)
      */
     public String post(Transaction transaction, int mode, java.util.Date postDate) {
-        String operationType = Constants.OperationType.INSERT;
+        String operationType = KFSConstants.OperationType.INSERT;
         LaborGeneralLedgerEntry laborGeneralLedgerEntry = new LaborGeneralLedgerEntry();
         ObjectUtil.buildObject(laborGeneralLedgerEntry, transaction);
 
@@ -75,7 +75,7 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
      */
     private String getDebitCreditCode(Transaction transaction) {
         KualiDecimal transactionAmount = transaction.getTransactionLedgerEntryAmount();
-        return transactionAmount.isNegative() ? Constants.GL_CREDIT_CODE : Constants.GL_DEBIT_CODE;
+        return transactionAmount.isNegative() ? KFSConstants.GL_CREDIT_CODE : KFSConstants.GL_DEBIT_CODE;
     }
 
     /**
@@ -92,7 +92,7 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
     private String getEncumbranceUpdateCode(Transaction transaction) {
         String documentTypeCode = transaction.getFinancialDocumentTypeCode();
         boolean isEncumbrance = LaborConstants.PayrollDocumentTypeCode.ENCUMBRANCE.equals(documentTypeCode);
-        return isEncumbrance ? Constants.ENCUMB_UPDT_DOCUMENT_CD : Constants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD;
+        return isEncumbrance ? KFSConstants.ENCUMB_UPDT_DOCUMENT_CD : KFSConstants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD;
     }
 
     /**

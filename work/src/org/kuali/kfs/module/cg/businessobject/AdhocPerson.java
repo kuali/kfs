@@ -19,7 +19,7 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 
 /**
  * This class represents an ad-hoc person.
@@ -100,7 +100,7 @@ public class AdhocPerson extends AbstractAdhoc {
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put(PropertyConstants.DOCUMENT_NUMBER, this.getDocumentNumber());
+        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.getDocumentNumber());
         m.put("personUniversalIdentifier", this.personUniversalIdentifier);
         return m;
     }

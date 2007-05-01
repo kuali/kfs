@@ -22,7 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
@@ -141,7 +141,7 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
 
         // fail if the subAccount isnt found
         if (testSubAccount == null) {
-            putFieldError("cashOffsetSubAccountNumber", KeyConstants.ERROR_EXISTENCE, getDdService().getAttributeLabel(BankAccount.class, "cashOffsetSubAccountNumber"));
+            putFieldError("cashOffsetSubAccountNumber", KFSKeyConstants.ERROR_EXISTENCE, getDdService().getAttributeLabel(BankAccount.class, "cashOffsetSubAccountNumber"));
             success &= false;
         }
 
@@ -185,7 +185,7 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
 
         // fail if the subObjectCode isnt found
         if (testSubObjCd == null) {
-            putFieldError("cashOffsetSubObjectCode", KeyConstants.ERROR_EXISTENCE, getDdService().getAttributeLabel(BankAccount.class, "cashOffsetSubObjectCode"));
+            putFieldError("cashOffsetSubObjectCode", KFSKeyConstants.ERROR_EXISTENCE, getDdService().getAttributeLabel(BankAccount.class, "cashOffsetSubObjectCode"));
             success &= false;
         }
 
@@ -211,7 +211,7 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
         if (StringUtils.isNotEmpty(newBankAcct.getFinancialDocumentBankCode())) {
             if (ObjectUtils.isNull(newBankAcct.getBank())) {
                 success &= false;
-                putFieldError("financialDocumentBankCode", KeyConstants.ERROR_DOCUMENT_BANKACCMAINT_INVALID_BANK);
+                putFieldError("financialDocumentBankCode", KFSKeyConstants.ERROR_DOCUMENT_BANKACCMAINT_INVALID_BANK);
             }
         }
 

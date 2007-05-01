@@ -57,7 +57,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
 	 * Default constructor.
 	 */
 	public PurApItemBase() {
-	    //TODO: Chris - default itemType (should probably get this from spring or Constants file)
+	    //TODO: Chris - default itemType (should probably get this from spring or KFSConstants file)
         itemTypeCode = "ITEM";
         sourceAccountingLines = new TypedArrayList(getAccountingLineClass());
         resetAccount();

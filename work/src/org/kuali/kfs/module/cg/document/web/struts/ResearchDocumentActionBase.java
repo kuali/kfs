@@ -35,7 +35,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.action.KualiDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiForm;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.KraKeyConstants;
@@ -71,7 +71,7 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
         researchForm.setDocId(researchForm.getDocument().getDocumentNumber());
         super.loadDocument(researchForm);
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     @Override
@@ -149,7 +149,7 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
             researchForm.setNewAdHocRoutePerson(new AdHocRoutePerson());
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     @Override
@@ -184,7 +184,7 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
             researchForm.setNewAdHocRouteWorkgroup(new AdHocRouteWorkgroup());
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     /**
@@ -203,7 +203,7 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
         ResearchDocument researchDocument = (ResearchDocument) researchForm.getDocument();
         researchDocument.getAdhocPersons().remove(getLineToDelete(request));
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     /**
@@ -222,7 +222,7 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
         ResearchDocument researchDocument = (ResearchDocument) researchForm.getDocument();
         researchDocument.getAdhocWorkgroups().remove(getLineToDelete(request));
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     /**
@@ -257,7 +257,7 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
             researchForm.setNewAdHocOrg(new AdhocOrg());
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     } 
 
     /**
@@ -276,6 +276,6 @@ public abstract class ResearchDocumentActionBase extends KualiDocumentActionBase
         ResearchDocument researchDocument = (ResearchDocument) researchForm.getDocument();
         researchDocument.getAdhocOrgs().remove(getLineToDelete(request));
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 }

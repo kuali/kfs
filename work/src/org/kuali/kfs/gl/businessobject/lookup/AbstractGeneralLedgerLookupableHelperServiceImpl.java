@@ -28,8 +28,8 @@ import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.gl.web.Constant;
 
@@ -55,7 +55,7 @@ public abstract class AbstractGLLookupableHelperServiceImpl extends AbstractLook
      */
     @Override
     public String getActionUrls(BusinessObject bo) {
-        return Constants.EMPTY_STRING;
+        return KFSConstants.EMPTY_STRING;
     }
     
     /**
@@ -107,21 +107,21 @@ public abstract class AbstractGLLookupableHelperServiceImpl extends AbstractLook
         }
 
         // if the subAccountNumber is specified, detail option could be used
-        String subAccountNumber = (String) fieldValues.get(PropertyConstants.SUB_ACCOUNT_NUMBER);
+        String subAccountNumber = (String) fieldValues.get(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
         if (!StringUtils.isBlank(subAccountNumber)) {
             this.changeFieldValue(Constant.CONSOLIDATION_OPTION, Constant.DETAIL);
             return false;
         }
 
         // if the subObjectCode is specified, detail option could be used
-        String subObjectCode = (String) fieldValues.get(PropertyConstants.SUB_OBJECT_CODE);
+        String subObjectCode = (String) fieldValues.get(KFSPropertyConstants.SUB_OBJECT_CODE);
         if (!StringUtils.isBlank(subObjectCode)) {
             this.changeFieldValue(Constant.CONSOLIDATION_OPTION, Constant.DETAIL);
             return false;
         }
 
         // if the objectTypeCode is specified, detail option could be used
-        String objectTypeCode = (String) fieldValues.get(PropertyConstants.OBJECT_TYPE_CODE);
+        String objectTypeCode = (String) fieldValues.get(KFSPropertyConstants.OBJECT_TYPE_CODE);
         if (!StringUtils.isBlank(objectTypeCode)) {
             this.changeFieldValue(Constant.CONSOLIDATION_OPTION, Constant.DETAIL);
             return false;

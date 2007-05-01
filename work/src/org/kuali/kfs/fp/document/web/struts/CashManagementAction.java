@@ -35,10 +35,10 @@ import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.Constants.CashDrawerConstants;
-import org.kuali.kfs.Constants.DepositConstants;
-import org.kuali.kfs.KeyConstants.CashManagement;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSConstants.CashDrawerConstants;
+import org.kuali.kfs.KFSConstants.DepositConstants;
+import org.kuali.kfs.KFSKeyConstants.CashManagement;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.Deposit;
 import org.kuali.module.financial.document.CashManagementDocument;
@@ -231,7 +231,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
         // display status message
         GlobalVariables.getMessageList().add(CashManagement.STATUS_DEPOSIT_CANCELED);
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
 
@@ -271,7 +271,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
 
         cmForm.getCashDrawerSummary().resummarize(cmDoc);
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
 
@@ -308,7 +308,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
         // update the CashDrawerSummary to reflect the change
         cmForm.populateCashDrawerSummary();
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
 

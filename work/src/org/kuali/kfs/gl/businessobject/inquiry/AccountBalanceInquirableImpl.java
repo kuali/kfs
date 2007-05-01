@@ -23,8 +23,8 @@ import java.util.Properties;
 
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.LookupService;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -50,12 +50,12 @@ public class AccountBalanceInquirableImpl extends AbstractGLInquirableImpl {
     protected List buildUserDefinedAttributeKeyList() {
         List keys = new ArrayList();
 
-        keys.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        keys.add(PropertyConstants.ACCOUNT_NUMBER);
-        keys.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        keys.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
-        keys.add(PropertyConstants.OBJECT_CODE);
-        keys.add(PropertyConstants.SUB_OBJECT_CODE);
+        keys.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        keys.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        keys.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        keys.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        keys.add(KFSPropertyConstants.OBJECT_CODE);
+        keys.add(KFSPropertyConstants.SUB_OBJECT_CODE);
         keys.add(Constant.CONSOLIDATION_OPTION);
         keys.add(Constant.PENDING_ENTRY_OPTION);
 
@@ -71,9 +71,9 @@ public class AccountBalanceInquirableImpl extends AbstractGLInquirableImpl {
         OptionsService os = SpringServiceLocator.getOptionsService();
         Options o = os.getCurrentYearOptions();
 
-        userDefinedAttributeMap.put(PropertyConstants.CURRENT_BUDGET_LINE_BALANCE_AMOUNT, Constant.BALANCE_TYPE_CB);
-        userDefinedAttributeMap.put(PropertyConstants.ACCOUNT_LINE_ACTUALS_BALANCE_AMOUNT, o.getActualFinancialBalanceTypeCd());
-        userDefinedAttributeMap.put(PropertyConstants.ACCOUNT_LINE_ENCUMBRANCE_BALANCE_AMOUNT, Constants.AGGREGATE_ENCUMBRANCE_BALANCE_TYPE_CODE);
+        userDefinedAttributeMap.put(KFSPropertyConstants.CURRENT_BUDGET_LINE_BALANCE_AMOUNT, Constant.BALANCE_TYPE_CB);
+        userDefinedAttributeMap.put(KFSPropertyConstants.ACCOUNT_LINE_ACTUALS_BALANCE_AMOUNT, o.getActualFinancialBalanceTypeCd());
+        userDefinedAttributeMap.put(KFSPropertyConstants.ACCOUNT_LINE_ENCUMBRANCE_BALANCE_AMOUNT, KFSConstants.AGGREGATE_ENCUMBRANCE_BALANCE_TYPE_CODE);
 
         return userDefinedAttributeMap;
     }
@@ -113,7 +113,7 @@ public class AccountBalanceInquirableImpl extends AbstractGLInquirableImpl {
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getBaseUrl()
      */
     protected String getBaseUrl() {
-        return Constants.GL_BALANCE_INQUIRY_ACTION;
+        return KFSConstants.GL_BALANCE_INQUIRY_ACTION;
     }
 
     /**
@@ -127,10 +127,10 @@ public class AccountBalanceInquirableImpl extends AbstractGLInquirableImpl {
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#addMoreParameters(java.util.Properties, java.lang.String)
      */
     protected void addMoreParameters(Properties parameter, String attributeName) {
-        parameter.put(Constants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME, getLookupableImplAttributeName());
+        parameter.put(KFSConstants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME, getLookupableImplAttributeName());
         parameter.put(Constant.AMOUNT_VIEW_OPTION, Constant.MONTHLY);
 
         String balanceTypeCode = (String) getUserDefinedAttributeMap().get(getAttributeName(attributeName));
-        parameter.put(Constants.BALANCE_TYPE_PROPERTY_NAME, balanceTypeCode);
+        parameter.put(KFSConstants.BALANCE_TYPE_PROPERTY_NAME, balanceTypeCode);
     }
 }

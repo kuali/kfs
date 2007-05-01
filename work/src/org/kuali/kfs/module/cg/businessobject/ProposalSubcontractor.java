@@ -176,7 +176,7 @@ public class ProposalSubcontractor extends PersistableBusinessObjectBase {
      */
     @Override
     public String toString() {
-        // todo: get "nonexistent" from ApplicationResources.properties via KeyConstants?
+        // todo: get "nonexistent" from ApplicationResources.properties via KFSKeyConstants?
         String name = ObjectUtils.isNull(getSubcontractor()) ? "nonexistent" : getSubcontractor().getSubcontractorName();
         String description = getProposalSubcontractorDescription() == null ? "" : " " + getProposalSubcontractorDescription();
         return name + " " + getProposalSubcontractorAmount() + description;

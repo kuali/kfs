@@ -21,10 +21,10 @@ import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
-import org.kuali.kfs.PropertyConstants;
-import org.kuali.kfs.KeyConstants.CashReceipt;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.KFSKeyConstants.CashReceipt;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.document.AccountingDocument;
@@ -52,8 +52,8 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
     public boolean isAmountValid(AccountingDocument document, AccountingLine accountingLine) {
         KualiDecimal amount = accountingLine.getAmount();
 
-        if (Constants.ZERO.compareTo(amount) == 0) { // amount == 0
-            GlobalVariables.getErrorMap().putError(Constants.AMOUNT_PROPERTY_NAME, KeyConstants.ERROR_ZERO_AMOUNT, "an accounting line");
+        if (KFSConstants.ZERO.compareTo(amount) == 0) { // amount == 0
+            GlobalVariables.getErrorMap().putError(KFSConstants.AMOUNT_PROPERTY_NAME, KFSKeyConstants.ERROR_ZERO_AMOUNT, "an accounting line");
             return false;
         }
 
@@ -79,7 +79,7 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
                 throw new IllegalStateException("There is no cash drawer associated with unitName '" + unitName + "' from cash receipt " + crd.getDocumentNumber());
             }
             else if (cd.isClosed()) {
-                GlobalVariables.getErrorMap().putError(Constants.GLOBAL_ERRORS, KeyConstants.CashReceipt.MSG_CASH_DRAWER_CLOSED_VERIFICATION_NOT_ALLOWED, cd.getWorkgroupName());
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.CashReceipt.MSG_CASH_DRAWER_CLOSED_VERIFICATION_NOT_ALLOWED, cd.getWorkgroupName());
                 valid = false;
             }
         }
@@ -98,9 +98,9 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
         CashReceiptFamilyBase cr = (CashReceiptFamilyBase) FinancialDocument;
 
         // make sure that cash reconciliation total is greater than zero
-        boolean isValid = cr.getTotalDollarAmount().compareTo(Constants.ZERO) > 0;
+        boolean isValid = cr.getTotalDollarAmount().compareTo(KFSConstants.ZERO) > 0;
         if (!isValid) {
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + PropertyConstants.SUM_TOTAL_AMOUNT, KeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_NO_CASH_RECONCILIATION_TOTAL);
+            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + KFSPropertyConstants.SUM_TOTAL_AMOUNT, KFSKeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_NO_CASH_RECONCILIATION_TOTAL);
         }
 
         if (isValid) {
@@ -108,7 +108,7 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
             isValid = cr.getSourceTotal().compareTo(cr.getTotalDollarAmount()) == 0;
 
             if (!isValid) {
-                GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + PropertyConstants.SUM_TOTAL_AMOUNT, KeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_BALANCE);
+                GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + KFSPropertyConstants.SUM_TOTAL_AMOUNT, KFSKeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_BALANCE);
             }
         }
 
@@ -132,14 +132,14 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
 
             ObjectCode objectCode = accountingLine.getObjectCode();
             if (ObjectUtils.isNull(objectCode)) {
-                accountingLine.refreshReferenceObject(PropertyConstants.OBJECT_CODE);
+                accountingLine.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
             }
 
             if (rule.failsRule(objectCode.getFinancialObjectTypeCode())) {
                 valid = false;
 
                 // add message
-                GlobalVariables.getErrorMap().putError(PropertyConstants.FINANCIAL_OBJECT_CODE, KeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_INVALID_OBJECT_TYPE_CODE_FOR_OBJECT_CODE, new String[] { objectCode.getFinancialObjectCode(), objectCode.getFinancialObjectTypeCode() });
+                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_INVALID_OBJECT_TYPE_CODE_FOR_OBJECT_CODE, new String[] { objectCode.getFinancialObjectCode(), objectCode.getFinancialObjectTypeCode() });
             }
         }
 
@@ -163,12 +163,12 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
 
             ObjectCode objectCode = accountingLine.getObjectCode();
             if (ObjectUtils.isNull(objectCode)) {
-                accountingLine.refreshReferenceObject(PropertyConstants.OBJECT_CODE);
+                accountingLine.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
             }
 
             ObjLevel objectLevel = objectCode.getFinancialObjectLevel();
             if (ObjectUtils.isNull(objectCode)) {
-                accountingLine.refreshReferenceObject(PropertyConstants.OBJECT_CODE);
+                accountingLine.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
             }
 
             String consolidatedObjectCode = objectLevel.getConsolidatedObjectCode();
@@ -177,7 +177,7 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
                 valid = false;
 
                 // add message
-                GlobalVariables.getErrorMap().putError(PropertyConstants.FINANCIAL_OBJECT_CODE, KeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_INVALID_CONSOLIDATED_OBJECT_CODE, new String[] { objectCode.getFinancialObjectCode(), objectLevel.getFinancialObjectLevelCode(), consolidatedObjectCode });
+                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_INVALID_CONSOLIDATED_OBJECT_CODE, new String[] { objectCode.getFinancialObjectCode(), objectLevel.getFinancialObjectLevelCode(), consolidatedObjectCode });
             }
         }
 
@@ -201,14 +201,14 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
 
             ObjectCode objectCode = accountingLine.getObjectCode();
             if (ObjectUtils.isNull(objectCode)) {
-                accountingLine.refreshReferenceObject(PropertyConstants.OBJECT_CODE);
+                accountingLine.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
             }
 
             if (rule.failsRule(objectCode.getFinancialObjectSubTypeCode())) {
                 valid = false;
 
                 // add message
-                GlobalVariables.getErrorMap().putError(PropertyConstants.FINANCIAL_OBJECT_CODE, KeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_INVALID_OBJECT_SUB_TYPE_CODE, new String[] { objectCode.getFinancialObjectCode(), objectCode.getFinancialObjectSubTypeCode() });
+                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.CashReceipt.ERROR_DOCUMENT_CASH_RECEIPT_INVALID_OBJECT_SUB_TYPE_CODE, new String[] { objectCode.getFinancialObjectCode(), objectCode.getFinancialObjectSubTypeCode() });
             }
         }
 
@@ -234,7 +234,7 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
     @Override
     protected boolean isSourceAccountingLinesRequiredNumberForRoutingMet(AccountingDocument FinancialDocument) {
         if (0 == FinancialDocument.getSourceAccountingLines().size()) {
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + PropertyConstants.SOURCE_ACCOUNTING_LINES, KeyConstants.ERROR_DOCUMENT_SINGLE_SECTION_NO_ACCOUNTING_LINES);
+            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.ERROR_DOCUMENT_SINGLE_SECTION_NO_ACCOUNTING_LINES);
             return false;
         }
         else {
@@ -276,7 +276,7 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
         boolean isValid = true;
 
         if (crdoc.getSourceTotal().isZero()) {
-            String errorProperty = DOCUMENT_ERROR_PREFIX + PropertyConstants.SOURCE_ACCOUNTING_LINES;
+            String errorProperty = DOCUMENT_ERROR_PREFIX + KFSPropertyConstants.SOURCE_ACCOUNTING_LINES;
 
             isValid = false;
             GlobalVariables.getErrorMap().putError(errorProperty, CashReceipt.ERROR_ZERO_TOTAL, "Accounting Line Total");

@@ -28,7 +28,7 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.PersistenceService;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OriginEntryGroupService;
@@ -76,7 +76,7 @@ public class LaborYearEndBalanceForwardServiceTest extends KualiTestBase {
         persistenceService = (PersistenceService) beanFactory.getBean("persistenceService");
 
         groupFieldValues = new HashMap();
-        groupFieldValues.put(PropertyConstants.SOURCE_CODE, LABOR_YEAR_END_BALANCE_FORWARD);
+        groupFieldValues.put(KFSPropertyConstants.SOURCE_CODE, LABOR_YEAR_END_BALANCE_FORWARD);
         originEntryGroupService.deleteOlderGroups(0);
         businessObjectService.deleteMatching(OriginEntryGroup.class, groupFieldValues);
 

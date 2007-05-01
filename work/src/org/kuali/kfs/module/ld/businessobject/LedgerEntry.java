@@ -24,7 +24,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.DocumentType;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.bo.OriginationCode;
 import org.kuali.module.chart.bo.Account;
@@ -1392,7 +1392,7 @@ public class LedgerEntry extends Entry {
         m.put("financialObjectTypeCode", this.financialObjectTypeCode);
         m.put("universityFiscalPeriodCode", this.universityFiscalPeriodCode);
         m.put("financialDocumentTypeCode", this.financialDocumentTypeCode);
-        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
+        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         if (this.transactionLedgerEntrySequenceNumber != null) {
             m.put("transactionLedgerEntrySequenceNumber", this.transactionLedgerEntrySequenceNumber.toString());
         }

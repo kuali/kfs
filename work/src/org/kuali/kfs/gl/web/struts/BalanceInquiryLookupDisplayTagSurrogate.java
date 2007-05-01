@@ -43,7 +43,7 @@ import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.ui.Column;
 import org.kuali.core.web.ui.ResultRow;
 import org.kuali.rice.KNSServiceLocator;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.gl.web.struts.form.LookupResultsSelectable;
 
 /**
@@ -92,7 +92,7 @@ public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTag
         selectable.jumpToFirstPage(resultTable.size(), getMaxRowsPerPage(selectable));
         
         SequenceAccessorService sequenceAccessorService = KNSServiceLocator.getSequenceAccessorService();
-        String lookupResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(Constants.LOOKUP_RESULTS_SEQUENCE));
+        String lookupResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KFSConstants.LOOKUP_RESULTS_SEQUENCE));
         selectable.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);
         try {
             LookupResultsService lookupResultsService = KNSServiceLocator.getLookupResultsService();

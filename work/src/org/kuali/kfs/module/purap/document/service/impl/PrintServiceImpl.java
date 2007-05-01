@@ -13,7 +13,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.ApplicationParameterException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.bo.CampusParameter;
@@ -173,7 +173,7 @@ public class PrintServiceImpl implements PrintService {
         logoImage = imageDao.getLogo(key, campusCode, imageTempLocation); 
         }
         Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(PropertyConstants.CAMPUS_CODE, po.getDeliveryCampusCode());
+        criteria.put(KFSPropertyConstants.CAMPUS_CODE, po.getDeliveryCampusCode());
         CampusParameter campusParameter = (CampusParameter)((List) businessObjectService.findMatching(CampusParameter.class, criteria)).get(0);
 
         // Get the contract manager's campus
@@ -320,7 +320,7 @@ public class PrintServiceImpl implements PrintService {
         }
 
         Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(PropertyConstants.CAMPUS_CODE, po.getDeliveryCampusCode());
+        criteria.put(KFSPropertyConstants.CAMPUS_CODE, po.getDeliveryCampusCode());
         CampusParameter campusParameter = (CampusParameter)((List) businessObjectService.findMatching(CampusParameter.class, criteria)).get(0);
 
         String statusInquiryUrl = kualiConfigurationService.getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.STATUS_INQUIRY_URL);
@@ -330,7 +330,7 @@ public class PrintServiceImpl implements PrintService {
         }
          
         StringBuffer contractLanguage = new StringBuffer();
-        criteria.put(PropertyConstants.ACTIVE, true);
+        criteria.put(KFSPropertyConstants.ACTIVE, true);
         List<PurchaseOrderContractLanguage> contractLanguageList = (List<PurchaseOrderContractLanguage>) (businessObjectService.findMatching(PurchaseOrderContractLanguage.class, criteria));
         if (!contractLanguageList.isEmpty()) {
             int lineNumber = 1;

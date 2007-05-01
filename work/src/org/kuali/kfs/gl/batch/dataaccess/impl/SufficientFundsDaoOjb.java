@@ -24,8 +24,8 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.bo.SufficientFundBalances;
 import org.kuali.module.gl.dao.SufficientFundsDao;
@@ -46,13 +46,13 @@ public class SufficientFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Su
      */
     public KualiDecimal calculateM113PfyrBudget(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber) {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(Constants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, new Integer(universityFiscalYear.intValue() - 1));
-        criteria.addEqualTo(Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
-        criteria.addEqualTo(Constants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
-        criteria.addEqualTo(Constants.ACCOUNT_SUFFICIENT_FUNDS_CODE_PROPERTY_NAME, Constants.SF_TYPE_CASH_AT_ACCOUNT);
+        criteria.addEqualTo(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, new Integer(universityFiscalYear.intValue() - 1));
+        criteria.addEqualTo(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
+        criteria.addEqualTo(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
+        criteria.addEqualTo(KFSConstants.ACCOUNT_SUFFICIENT_FUNDS_CODE_PROPERTY_NAME, KFSConstants.SF_TYPE_CASH_AT_ACCOUNT);
 
         ReportQueryByCriteria reportQuery = QueryFactory.newReportQuery(SufficientFundBalances.class, criteria);
-        reportQuery.setAttributes(new String[] { Constants.CURRENT_BUDGET_BALANCE_AMOUNT_PROPERTY_NAME });
+        reportQuery.setAttributes(new String[] { KFSConstants.CURRENT_BUDGET_BALANCE_AMOUNT_PROPERTY_NAME });
 
 
         return executeReportQuery(reportQuery);
@@ -64,13 +64,13 @@ public class SufficientFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Su
      */
     public KualiDecimal calculateM113PfyrEncum(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber) {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(Constants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, new Integer(universityFiscalYear.intValue() - 1));
-        criteria.addEqualTo(Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
-        criteria.addEqualTo(Constants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
-        criteria.addEqualTo(Constants.ACCOUNT_SUFFICIENT_FUNDS_CODE_PROPERTY_NAME, Constants.SF_TYPE_CASH_AT_ACCOUNT);
+        criteria.addEqualTo(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, new Integer(universityFiscalYear.intValue() - 1));
+        criteria.addEqualTo(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
+        criteria.addEqualTo(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
+        criteria.addEqualTo(KFSConstants.ACCOUNT_SUFFICIENT_FUNDS_CODE_PROPERTY_NAME, KFSConstants.SF_TYPE_CASH_AT_ACCOUNT);
 
         ReportQueryByCriteria reportQuery = QueryFactory.newReportQuery(SufficientFundBalances.class, criteria);
-        reportQuery.setAttributes(new String[] { Constants.ACCOUNT_ENCUMBRANCE_AMOUNT_PROPERTY_NAME });
+        reportQuery.setAttributes(new String[] { KFSConstants.ACCOUNT_ENCUMBRANCE_AMOUNT_PROPERTY_NAME });
 
         return executeReportQuery(reportQuery);
     }
@@ -109,22 +109,22 @@ public class SufficientFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Su
      */
     public KualiDecimal calculatePendBudget(boolean isYearEndDocument, String budgetCheckingBalanceTypeCd, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String acctSufficientFundsFinObjCd, List expenditureCodes) {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(Constants.FINANCIAL_BALANCE_TYPE_CODE_PROPERTY_NAME, budgetCheckingBalanceTypeCd);
-        criteria.addEqualTo(Constants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
-        criteria.addEqualTo(Constants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
-        criteria.addIn(Constants.FINANCIAL_OBJECT_TYPE_CODE, expenditureCodes);
-        criteria.addEqualTo(Constants.ACCOUNT_SUFFICIENT_FUNDS_FINANCIAL_OBJECT_CODE_PROPERTY_NAME, acctSufficientFundsFinObjCd);
-        criteria.addNotEqualTo(Constants.DOCUMENT_HEADER_PROPERTY_NAME + "." + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, Constants.DocumentStatusCodes.CANCELLED);
+        criteria.addEqualTo(KFSConstants.FINANCIAL_BALANCE_TYPE_CODE_PROPERTY_NAME, budgetCheckingBalanceTypeCd);
+        criteria.addEqualTo(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
+        criteria.addEqualTo(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
+        criteria.addIn(KFSConstants.FINANCIAL_OBJECT_TYPE_CODE, expenditureCodes);
+        criteria.addEqualTo(KFSConstants.ACCOUNT_SUFFICIENT_FUNDS_FINANCIAL_OBJECT_CODE_PROPERTY_NAME, acctSufficientFundsFinObjCd);
+        criteria.addNotEqualTo(KFSConstants.DOCUMENT_HEADER_PROPERTY_NAME + "." + KFSConstants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, KFSConstants.DocumentStatusCodes.CANCELLED);
 
         if (isYearEndDocument) {
-            criteria.addLike(Constants.FINANCIAL_DOCUMENT_TYPE_CODE, YEAR_END_DOC_PREFIX);
+            criteria.addLike(KFSConstants.FINANCIAL_DOCUMENT_TYPE_CODE, YEAR_END_DOC_PREFIX);
         }
         else {
-            criteria.addNotLike(Constants.FINANCIAL_DOCUMENT_TYPE_CODE, YEAR_END_DOC_PREFIX);
+            criteria.addNotLike(KFSConstants.FINANCIAL_DOCUMENT_TYPE_CODE, YEAR_END_DOC_PREFIX);
         }
 
         ReportQueryByCriteria reportQuery = QueryFactory.newReportQuery(GeneralLedgerPendingEntry.class, criteria);
-        reportQuery.setAttributes(new String[] { "sum(" + Constants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")" });
+        reportQuery.setAttributes(new String[] { "sum(" + KFSConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")" });
 
         return executeReportQuery(reportQuery);
 
@@ -159,40 +159,40 @@ public class SufficientFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Su
         Criteria criteria = new Criteria();
 
         Criteria sub1 = new Criteria();
-        sub1.addEqualTo(Constants.FINANCIAL_BALANCE_TYPE_CODE_PROPERTY_NAME, extrnlEncumFinBalanceTypCd);
+        sub1.addEqualTo(KFSConstants.FINANCIAL_BALANCE_TYPE_CODE_PROPERTY_NAME, extrnlEncumFinBalanceTypCd);
         Criteria sub1_1 = new Criteria();
-        sub1_1.addEqualTo(Constants.FINANCIAL_BALANCE_TYPE_CODE_PROPERTY_NAME, intrnlEncumFinBalanceTypCd);
+        sub1_1.addEqualTo(KFSConstants.FINANCIAL_BALANCE_TYPE_CODE_PROPERTY_NAME, intrnlEncumFinBalanceTypCd);
         Criteria sub1_2 = new Criteria();
-        sub1_2.addEqualTo(Constants.FINANCIAL_BALANCE_TYPE_CODE_PROPERTY_NAME, preencumbranceFinBalTypeCd);
+        sub1_2.addEqualTo(KFSConstants.FINANCIAL_BALANCE_TYPE_CODE_PROPERTY_NAME, preencumbranceFinBalTypeCd);
         sub1_1.addOrCriteria(sub1_2);
         sub1.addOrCriteria(sub1_1);
         criteria.addOrCriteria(sub1);
 
 
-        criteria.addEqualTo(Constants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
-        criteria.addEqualTo(Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
-        criteria.addEqualTo(Constants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
-        criteria.addEqualTo(Constants.ACCOUNT_SUFFICIENT_FUNDS_FINANCIAL_OBJECT_CODE_PROPERTY_NAME, acctSufficientFundsFinObjCd);
-        criteria.addIn(Constants.FINANCIAL_OBJECT_TYPE_CODE, expenditureCodes);
+        criteria.addEqualTo(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
+        criteria.addEqualTo(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
+        criteria.addEqualTo(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
+        criteria.addEqualTo(KFSConstants.ACCOUNT_SUFFICIENT_FUNDS_FINANCIAL_OBJECT_CODE_PROPERTY_NAME, acctSufficientFundsFinObjCd);
+        criteria.addIn(KFSConstants.FINANCIAL_OBJECT_TYPE_CODE, expenditureCodes);
 
         if (isEqualDebitCode) {
-            criteria.addEqualTo(Constants.TRANSACTION_DEBIT_CREDIT_CODE, Constants.GL_DEBIT_CODE);
+            criteria.addEqualTo(KFSConstants.TRANSACTION_DEBIT_CREDIT_CODE, KFSConstants.GL_DEBIT_CODE);
         }
         else {
-            criteria.addNotEqualTo(Constants.TRANSACTION_DEBIT_CREDIT_CODE, Constants.GL_DEBIT_CODE);
+            criteria.addNotEqualTo(KFSConstants.TRANSACTION_DEBIT_CREDIT_CODE, KFSConstants.GL_DEBIT_CODE);
         }
 
-        criteria.addNotEqualTo(Constants.DOCUMENT_HEADER_PROPERTY_NAME + "." + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, Constants.DocumentStatusCodes.CANCELLED);
+        criteria.addNotEqualTo(KFSConstants.DOCUMENT_HEADER_PROPERTY_NAME + "." + KFSConstants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, KFSConstants.DocumentStatusCodes.CANCELLED);
 
         if (isYearEndDocument) {
-            criteria.addLike(Constants.FINANCIAL_DOCUMENT_TYPE_CODE, YEAR_END_DOC_PREFIX);
+            criteria.addLike(KFSConstants.FINANCIAL_DOCUMENT_TYPE_CODE, YEAR_END_DOC_PREFIX);
         }
         else {
-            criteria.addNotLike(Constants.FINANCIAL_DOCUMENT_TYPE_CODE, YEAR_END_DOC_PREFIX);
+            criteria.addNotLike(KFSConstants.FINANCIAL_DOCUMENT_TYPE_CODE, YEAR_END_DOC_PREFIX);
         }
 
         ReportQueryByCriteria reportQuery = QueryFactory.newReportQuery(GeneralLedgerPendingEntry.class, criteria);
-        reportQuery.setAttributes(new String[] { "sum(" + Constants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")" });
+        reportQuery.setAttributes(new String[] { "sum(" + KFSConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")" });
 
         return executeReportQuery(reportQuery);
 
@@ -212,30 +212,30 @@ public class SufficientFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Su
      */
     KualiDecimal calculatePendActual1(boolean isYearEndDocument, String actualFinancialBalanceTypeCd, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String acctSufficientFundsFinObjCd, boolean isEqualDebitCode, List expenditureCodes) {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(Constants.FINANCIAL_BALANCE_TYPE_CODE_PROPERTY_NAME, actualFinancialBalanceTypeCd);
-        criteria.addEqualTo(Constants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
-        criteria.addEqualTo(Constants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
-        criteria.addEqualTo(Constants.ACCOUNT_SUFFICIENT_FUNDS_FINANCIAL_OBJECT_CODE_PROPERTY_NAME, acctSufficientFundsFinObjCd);
-        criteria.addIn(Constants.FINANCIAL_OBJECT_TYPE_CODE, expenditureCodes);
+        criteria.addEqualTo(KFSConstants.FINANCIAL_BALANCE_TYPE_CODE_PROPERTY_NAME, actualFinancialBalanceTypeCd);
+        criteria.addEqualTo(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
+        criteria.addEqualTo(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
+        criteria.addEqualTo(KFSConstants.ACCOUNT_SUFFICIENT_FUNDS_FINANCIAL_OBJECT_CODE_PROPERTY_NAME, acctSufficientFundsFinObjCd);
+        criteria.addIn(KFSConstants.FINANCIAL_OBJECT_TYPE_CODE, expenditureCodes);
 
         if (isEqualDebitCode) {
-            criteria.addEqualTo(Constants.TRANSACTION_DEBIT_CREDIT_CODE, Constants.GL_DEBIT_CODE);
+            criteria.addEqualTo(KFSConstants.TRANSACTION_DEBIT_CREDIT_CODE, KFSConstants.GL_DEBIT_CODE);
         }
         else {
-            criteria.addNotEqualTo(Constants.TRANSACTION_DEBIT_CREDIT_CODE, Constants.GL_DEBIT_CODE);
+            criteria.addNotEqualTo(KFSConstants.TRANSACTION_DEBIT_CREDIT_CODE, KFSConstants.GL_DEBIT_CODE);
         }
 
-        criteria.addNotEqualTo(Constants.DOCUMENT_HEADER_PROPERTY_NAME + "." + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, Constants.DocumentStatusCodes.CANCELLED);
+        criteria.addNotEqualTo(KFSConstants.DOCUMENT_HEADER_PROPERTY_NAME + "." + KFSConstants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, KFSConstants.DocumentStatusCodes.CANCELLED);
 
         if (isYearEndDocument) {
-            criteria.addLike(Constants.FINANCIAL_DOCUMENT_TYPE_CODE, YEAR_END_DOC_PREFIX);
+            criteria.addLike(KFSConstants.FINANCIAL_DOCUMENT_TYPE_CODE, YEAR_END_DOC_PREFIX);
         }
         else {
-            criteria.addNotLike(Constants.FINANCIAL_DOCUMENT_TYPE_CODE, YEAR_END_DOC_PREFIX);
+            criteria.addNotLike(KFSConstants.FINANCIAL_DOCUMENT_TYPE_CODE, YEAR_END_DOC_PREFIX);
         }
 
         ReportQueryByCriteria reportQuery = QueryFactory.newReportQuery(GeneralLedgerPendingEntry.class, criteria);
-        reportQuery.setAttributes(new String[] { "sum(" + Constants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")" });
+        reportQuery.setAttributes(new String[] { "sum(" + KFSConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")" });
         return executeReportQuery(reportQuery);
     }
 
@@ -249,35 +249,35 @@ public class SufficientFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Su
      */
     KualiDecimal calculateM113PendActual1(boolean financialBeginBalanceLoadInd, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isEqualDebitCode, String financialObjectCodeForCashInBank) {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(Constants.FINANCIAL_BALANCE_TYPE_CODE_PROPERTY_NAME, Constants.BALANCE_TYPE_ACTUAL);
+        criteria.addEqualTo(KFSConstants.FINANCIAL_BALANCE_TYPE_CODE_PROPERTY_NAME, KFSConstants.BALANCE_TYPE_ACTUAL);
 
         if (financialBeginBalanceLoadInd) {
-            criteria.addEqualTo(Constants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
+            criteria.addEqualTo(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
         }
         else {
             Criteria sub1 = new Criteria();
-            sub1.addEqualTo(Constants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
+            sub1.addEqualTo(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
             Criteria sub1_1 = new Criteria();
-            sub1_1.addEqualTo(Constants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, new Integer(universityFiscalYear.intValue() - 1));
+            sub1_1.addEqualTo(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, new Integer(universityFiscalYear.intValue() - 1));
             sub1.addOrCriteria(sub1_1);
             criteria.addAndCriteria(sub1);
         }
 
-        criteria.addEqualTo(Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
-        criteria.addEqualTo(Constants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
-        criteria.addEqualTo(Constants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, financialObjectCodeForCashInBank);
+        criteria.addEqualTo(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
+        criteria.addEqualTo(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
+        criteria.addEqualTo(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, financialObjectCodeForCashInBank);
 
         if (isEqualDebitCode) {
-            criteria.addEqualTo(Constants.TRANSACTION_DEBIT_CREDIT_CODE, Constants.GL_DEBIT_CODE);
+            criteria.addEqualTo(KFSConstants.TRANSACTION_DEBIT_CREDIT_CODE, KFSConstants.GL_DEBIT_CODE);
         }
         else {
-            criteria.addNotEqualTo(Constants.TRANSACTION_DEBIT_CREDIT_CODE, Constants.GL_DEBIT_CODE);
+            criteria.addNotEqualTo(KFSConstants.TRANSACTION_DEBIT_CREDIT_CODE, KFSConstants.GL_DEBIT_CODE);
         }
 
-        criteria.addNotEqualTo(Constants.DOCUMENT_HEADER_PROPERTY_NAME + "." + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, Constants.DocumentStatusCodes.CANCELLED);
+        criteria.addNotEqualTo(KFSConstants.DOCUMENT_HEADER_PROPERTY_NAME + "." + KFSConstants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, KFSConstants.DocumentStatusCodes.CANCELLED);
 
         ReportQueryByCriteria reportQuery = QueryFactory.newReportQuery(GeneralLedgerPendingEntry.class, criteria);
-        reportQuery.setAttributes(new String[] { "sum(" + Constants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")" });
+        reportQuery.setAttributes(new String[] { "sum(" + KFSConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")" });
 
         return executeReportQuery(reportQuery);
     }
@@ -292,35 +292,35 @@ public class SufficientFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Su
      */
     KualiDecimal calculateM113PendActual2(boolean financialBeginBalanceLoadInd, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isEqualDebitCode, List specialFinancialObjectCodes) {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(Constants.FINANCIAL_BALANCE_TYPE_CODE_PROPERTY_NAME, Constants.BALANCE_TYPE_ACTUAL);
+        criteria.addEqualTo(KFSConstants.FINANCIAL_BALANCE_TYPE_CODE_PROPERTY_NAME, KFSConstants.BALANCE_TYPE_ACTUAL);
 
         if (financialBeginBalanceLoadInd) {
-            criteria.addEqualTo(Constants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
+            criteria.addEqualTo(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
         }
         else {
             Criteria sub1 = new Criteria();
-            sub1.addEqualTo(Constants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
+            sub1.addEqualTo(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
             Criteria sub1_1 = new Criteria();
-            sub1_1.addEqualTo(Constants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, new Integer(universityFiscalYear.intValue() - 1));
+            sub1_1.addEqualTo(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, new Integer(universityFiscalYear.intValue() - 1));
             sub1.addOrCriteria(sub1_1);
             criteria.addAndCriteria(sub1);
         }
 
-        criteria.addEqualTo(Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
-        criteria.addEqualTo(Constants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
-        criteria.addIn(Constants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, specialFinancialObjectCodes);
+        criteria.addEqualTo(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
+        criteria.addEqualTo(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
+        criteria.addIn(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, specialFinancialObjectCodes);
 
         if (isEqualDebitCode) {
-            criteria.addEqualTo(Constants.TRANSACTION_DEBIT_CREDIT_CODE, Constants.GL_DEBIT_CODE);
+            criteria.addEqualTo(KFSConstants.TRANSACTION_DEBIT_CREDIT_CODE, KFSConstants.GL_DEBIT_CODE);
         }
         else {
-            criteria.addNotEqualTo(Constants.TRANSACTION_DEBIT_CREDIT_CODE, Constants.GL_DEBIT_CODE);
+            criteria.addNotEqualTo(KFSConstants.TRANSACTION_DEBIT_CREDIT_CODE, KFSConstants.GL_DEBIT_CODE);
         }
 
-        criteria.addNotEqualTo(Constants.DOCUMENT_HEADER_PROPERTY_NAME + "." + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, Constants.DocumentStatusCodes.CANCELLED);
+        criteria.addNotEqualTo(KFSConstants.DOCUMENT_HEADER_PROPERTY_NAME + "." + KFSConstants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, KFSConstants.DocumentStatusCodes.CANCELLED);
 
         ReportQueryByCriteria reportQuery = QueryFactory.newReportQuery(GeneralLedgerPendingEntry.class, criteria);
-        reportQuery.setAttributes(new String[] { "sum(" + Constants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")" });
+        reportQuery.setAttributes(new String[] { "sum(" + KFSConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")" });
 
         return executeReportQuery(reportQuery);
     }
@@ -335,8 +335,8 @@ public class SufficientFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Su
         LOG.debug("purgeYearByChart() started");
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(PropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
-        criteria.addLessThan(PropertyConstants.UNIVERSITY_FISCAL_YEAR, new Integer(year));
+        criteria.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        criteria.addLessThan(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, new Integer(year));
 
         getPersistenceBrokerTemplate().deleteByQuery(new QueryByCriteria(SufficientFundBalances.class, criteria));
 

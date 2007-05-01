@@ -29,8 +29,8 @@ import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapCo
 import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KeyConstants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
@@ -79,7 +79,7 @@ public class InternalBillingDocumentRuleTest extends KualiTestBase {
         line.refresh();
         assertGlobalErrorMapEmpty();
         boolean actual = new InternalBillingDocumentRule().isSubFundGroupAllowed(line);
-        assertGlobalErrorMapContains(PropertyConstants.ACCOUNT_NUMBER, KeyConstants.ERROR_APC_INDIRECT_DENIED_MULTIPLE, new String[] { INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING + ":" + RESTRICTED_SUB_FUND_GROUP_CODES, null, // ignore
+        assertGlobalErrorMapContains(KFSPropertyConstants.ACCOUNT_NUMBER, KFSKeyConstants.ERROR_APC_INDIRECT_DENIED_MULTIPLE, new String[] { INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING + ":" + RESTRICTED_SUB_FUND_GROUP_CODES, null, // ignore
                 // source
                 // line
                 // number

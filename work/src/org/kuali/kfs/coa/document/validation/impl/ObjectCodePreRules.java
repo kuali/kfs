@@ -21,8 +21,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.rules.PreRulesContinuationBase;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -79,13 +79,13 @@ public class ObjectCodePreRules extends PreRulesContinuationBase {
                 String objectLevelFinancialObjectLevelCode = financialObjectLevel.getFinancialObjectLevelCode();
                 String objectLevelFinancialObjectLevelName = financialObjectLevel.getFinancialObjectLevelName();
                 String questionText = SpringServiceLocator.getKualiConfigurationService().getPropertyString(
-                        KeyConstants.ObjectCode.QUESTION_INACTIVE_OBJECT_LEVEL_CONFIRMATION);
+                        KFSKeyConstants.ObjectCode.QUESTION_INACTIVE_OBJECT_LEVEL_CONFIRMATION);
                 questionText = StringUtils.replace(questionText, "{0}", objectLevelChartOfAccountCode);
                 questionText = StringUtils.replace(questionText, "{1}", objectLevelFinancialObjectLevelCode);
                 questionText = StringUtils.replace(questionText, "{2}", objectLevelFinancialObjectLevelName);
-                boolean useInactiveObjectLevel = super.askOrAnalyzeYesNoQuestion(Constants.ObjectCodeConstants.INACTIVE_OBJECT_LEVEL_QUESTION_ID, questionText);
+                boolean useInactiveObjectLevel = super.askOrAnalyzeYesNoQuestion(KFSConstants.ObjectCodeConstants.INACTIVE_OBJECT_LEVEL_QUESTION_ID, questionText);
                 if (!useInactiveObjectLevel) {
-                    event.setActionForwardName(Constants.MAPPING_BASIC);
+                    event.setActionForwardName(KFSConstants.MAPPING_BASIC);
                     return false;
                 }                                     
             }

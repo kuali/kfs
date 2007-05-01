@@ -22,7 +22,7 @@ import java.util.Iterator;
 import org.apache.log4j.Logger;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.service.DocumentService;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -37,7 +37,7 @@ public class PurgeDocumentContentsStep extends AbstractStep {
      * @see org.kuali.kfs.batch.Step#performStep()
      */
     public boolean execute() {
-        int numberOfDaysFinal = Integer.parseInt(getConfigurationService().getApplicationParameterValue(Constants.ParameterGroups.SYSTEM, getName() + "_NUMBER_OF_DAYS_FINAL"));
+        int numberOfDaysFinal = Integer.parseInt(getConfigurationService().getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, getName() + "_NUMBER_OF_DAYS_FINAL"));
         Calendar financialDocumentFinalCalendar = getDateTimeService().getCurrentCalendar();
         financialDocumentFinalCalendar.add(GregorianCalendar.DAY_OF_YEAR, -numberOfDaysFinal);
         try {

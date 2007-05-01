@@ -31,7 +31,7 @@ import edu.yale.its.tp.cas.util.*;
 public class ServiceValidate extends HttpServlet {
 
   //*********************************************************************
-  // Constants
+  // KFSConstants
 
   // failure codes
   private static final String INVALID_REQUEST = "INVALID_REQUEST";

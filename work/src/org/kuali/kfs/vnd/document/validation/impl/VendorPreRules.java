@@ -23,7 +23,7 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.rules.MaintenancePreRulesBase;
 import org.kuali.module.vendor.VendorConstants;
@@ -196,7 +196,7 @@ public class VendorPreRules extends MaintenancePreRulesBase {
      * @return result String the vendorName after the delimiters have been removed
      */
     private String removeDelimiter(String str) {
-        String result = str.replaceAll(VendorConstants.NAME_DELIM, Constants.BLANK_SPACE);
+        String result = str.replaceAll(VendorConstants.NAME_DELIM, KFSConstants.BLANK_SPACE);
         return result;
     }
 

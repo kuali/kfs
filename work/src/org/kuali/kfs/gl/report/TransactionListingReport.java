@@ -23,7 +23,7 @@ import java.util.Date;
 import java.util.Iterator;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.gl.bo.Transaction;
 
 import com.lowagie.text.Document;
@@ -186,7 +186,7 @@ public class TransactionListingReport {
 
                     DecimalFormat decimalFormat = new DecimalFormat();
 
-                    if (Constants.GL_DEBIT_CODE.equals(tran.getTransactionDebitCreditCode())) {
+                    if (KFSConstants.GL_DEBIT_CODE.equals(tran.getTransactionDebitCreditCode())) {
                         cell = new PdfPCell(new Phrase(nf.format(tran.getTransactionLedgerEntryAmount().doubleValue()), textFont));
                         debitTotal = debitTotal.add(tran.getTransactionLedgerEntryAmount());
                     }
@@ -196,7 +196,7 @@ public class TransactionListingReport {
                     cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
                     transactionList.addCell(cell);
 
-                    if (Constants.GL_CREDIT_CODE.equals(tran.getTransactionDebitCreditCode())) {
+                    if (KFSConstants.GL_CREDIT_CODE.equals(tran.getTransactionDebitCreditCode())) {
                         cell = new PdfPCell(new Phrase(nf.format(tran.getTransactionLedgerEntryAmount().doubleValue()), textFont));
                         creditTotal = creditTotal.add(tran.getTransactionLedgerEntryAmount());
                     }
@@ -206,7 +206,7 @@ public class TransactionListingReport {
                     cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
                     transactionList.addCell(cell);
                     
-                    if (!Constants.GL_CREDIT_CODE.equals(tran.getTransactionDebitCreditCode()) && !Constants.GL_DEBIT_CODE.equals(tran.getTransactionDebitCreditCode())){
+                    if (!KFSConstants.GL_CREDIT_CODE.equals(tran.getTransactionDebitCreditCode()) && !KFSConstants.GL_DEBIT_CODE.equals(tran.getTransactionDebitCreditCode())){
                         cell = new PdfPCell(new Phrase(nf.format(tran.getTransactionLedgerEntryAmount().doubleValue()), textFont));
                         budgetTotal = budgetTotal.add(tran.getTransactionLedgerEntryAmount());
                     }

@@ -31,8 +31,8 @@ import static org.kuali.test.fixtures.ObjectCodeFixture.OBJECT_CODE_NON_BUDGET_O
 import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapContains;
 import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineOverride;
 import org.kuali.kfs.bo.SourceAccountingLine;
@@ -69,11 +69,11 @@ public class AccountingLineRuleUtilTest extends KualiTestBase {
     }
 
     public void testIsValidAccount_null() {
-        testIsValidAccount(null, KeyConstants.ERROR_EXISTENCE);
+        testIsValidAccount(null, KFSKeyConstants.ERROR_EXISTENCE);
     }
 
     public void testIsValidAccount_closed() {
-        testIsValidAccount(CLOSED_ACCOUNT.createAccount(), KeyConstants.ERROR_DOCUMENT_ACCOUNT_CLOSED);
+        testIsValidAccount(CLOSED_ACCOUNT.createAccount(), KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_CLOSED);
     }
 
     private void testIsValidAccount(Account account, String expectedErrorKey) {
@@ -84,7 +84,7 @@ public class AccountingLineRuleUtilTest extends KualiTestBase {
             assertGlobalErrorMapEmpty();
         }
         else {
-            assertGlobalErrorMapContains(Constants.ACCOUNT_NUMBER_PROPERTY_NAME, expectedErrorKey);
+            assertGlobalErrorMapContains(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, expectedErrorKey);
         }
     }
 
@@ -101,19 +101,19 @@ public class AccountingLineRuleUtilTest extends KualiTestBase {
     }
 
     public void testHasRequiredOverrides_expired() {
-        testHasRequiredOverrides(EXPIRIED_ACCOUNT.createAccount(), AccountingLineOverride.CODE.NONE, KeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED, new String[]{ EXPIRIED_ACCOUNT.accountNumber, EXPIRIED_ACCOUNT.chartOfAccountsCode, EXPIRIED_ACCOUNT.continuationAccountNumber});
+        testHasRequiredOverrides(EXPIRIED_ACCOUNT.createAccount(), AccountingLineOverride.CODE.NONE, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED, new String[]{ EXPIRIED_ACCOUNT.accountNumber, EXPIRIED_ACCOUNT.chartOfAccountsCode, EXPIRIED_ACCOUNT.continuationAccountNumber});
     }
 
     public void testHasRequiredOverrides_expiredContinuationsClosedAndExpired() {
-        testHasRequiredOverrides(EXPIRIED_ACCOUNT_EXPIRIED_AND_CLOSED_CONTINUATION.createAccount(), AccountingLineOverride.CODE.NONE, KeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED, new String[]{EXPIRIED_ACCOUNT_EXPIRIED_AND_CLOSED_CONTINUATION.accountNumber, EXPIRIED_ACCOUNT_EXPIRIED_AND_CLOSED_CONTINUATION.continuationFinChrtOfAcctCd, EXPIRIED_ACCOUNT.continuationAccountNumber });
+        testHasRequiredOverrides(EXPIRIED_ACCOUNT_EXPIRIED_AND_CLOSED_CONTINUATION.createAccount(), AccountingLineOverride.CODE.NONE, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED, new String[]{EXPIRIED_ACCOUNT_EXPIRIED_AND_CLOSED_CONTINUATION.accountNumber, EXPIRIED_ACCOUNT_EXPIRIED_AND_CLOSED_CONTINUATION.continuationFinChrtOfAcctCd, EXPIRIED_ACCOUNT.continuationAccountNumber });
     }
 
     public void testHasRequiredOverrides_expiredContinuationExpired() {
-        testHasRequiredOverrides(EXPIRIED_ACCOUNT_EXPIRIED_AND_OPEN_CONTINUATION.createAccount(), AccountingLineOverride.CODE.NONE, KeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED,new String[]{EXPIRIED_ACCOUNT_EXPIRIED_AND_OPEN_CONTINUATION.accountNumber, EXPIRIED_ACCOUNT_EXPIRIED_AND_OPEN_CONTINUATION.continuationFinChrtOfAcctCd, EXPIRIED_ACCOUNT.continuationAccountNumber});
+        testHasRequiredOverrides(EXPIRIED_ACCOUNT_EXPIRIED_AND_OPEN_CONTINUATION.createAccount(), AccountingLineOverride.CODE.NONE, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED,new String[]{EXPIRIED_ACCOUNT_EXPIRIED_AND_OPEN_CONTINUATION.accountNumber, EXPIRIED_ACCOUNT_EXPIRIED_AND_OPEN_CONTINUATION.continuationFinChrtOfAcctCd, EXPIRIED_ACCOUNT.continuationAccountNumber});
     }
 
     public void testHasRequiredOverrides_expiredNoContinuation() {
-        testHasRequiredOverrides(EXPIRIED_ACCOUNT_NO_CONTINUATION.createAccount(), AccountingLineOverride.CODE.NONE, KeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED_NO_CONTINUATION,null);
+        testHasRequiredOverrides(EXPIRIED_ACCOUNT_NO_CONTINUATION.createAccount(), AccountingLineOverride.CODE.NONE, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED_NO_CONTINUATION,null);
     }
 
     public void testHasRequiredOverrides_expiredButOverridden() {
@@ -136,7 +136,7 @@ public class AccountingLineRuleUtilTest extends KualiTestBase {
     // public void testHasRequiredOverrides_AccountPresenceNonBudgetObject() {
     // testHasRequiredOverrides(ACCOUNT_PRESENCE_ACCOUNT.createAccount(businessObjectService), getNonBudgetedObjectCode(),
     // AccountingLineOverride.CODE.NON_BUDGETED_OBJECT,
-    // KeyConstants.ERROR_DOCUMENT_ACCOUNT_PRESENCE_NON_BUDGETED_OBJECT_CODE);
+    // KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_PRESENCE_NON_BUDGETED_OBJECT_CODE);
     // }
 
     public void testHasRequiredOverrides_NoAccountPresenceBudgetedObject() {
@@ -168,7 +168,7 @@ public class AccountingLineRuleUtilTest extends KualiTestBase {
             assertGlobalErrorMapEmpty();
         }
         else {
-            assertGlobalErrorMapContains(Constants.ACCOUNT_NUMBER_PROPERTY_NAME, expectedErrorKey, expectedErrorParameters);
+            assertGlobalErrorMapContains(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, expectedErrorKey, expectedErrorParameters);
         }
     }
 
@@ -185,7 +185,7 @@ public class AccountingLineRuleUtilTest extends KualiTestBase {
             assertGlobalErrorMapEmpty();
         }
         else {
-            assertGlobalErrorMapContains(Constants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, expectedErrorKey);
+            assertGlobalErrorMapContains(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, expectedErrorKey);
         }
     }
 

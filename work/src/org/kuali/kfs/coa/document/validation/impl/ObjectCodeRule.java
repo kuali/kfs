@@ -29,8 +29,8 @@ import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -135,7 +135,7 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         String objCode = objectCode.getFinancialObjectCode();
 
         if (!isLegalObjectCode(objCode)) {
-            this.putFieldError("financialObjectCode", KeyConstants.ERROR_DOCUMENT_OBJCODE_ILLEGAL, objCode);
+            this.putFieldError("financialObjectCode", KFSKeyConstants.ERROR_DOCUMENT_OBJCODE_ILLEGAL, objCode);
             result = false;
         }
 
@@ -154,14 +154,14 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         calculatedReportsToChartCode = (String) reportsTo.get(chartCode);
 
         if (!verifyReportsToChartCode(calculatedReportsToChartCode, year, reportsToObjectCode)) {
-            this.putFieldError("reportsToFinancialObjectCode", KeyConstants.ERROR_DOCUMENT_REPORTS_TO_OBJCODE_ILLEGAL, reportsToObjectCode);
+            this.putFieldError("reportsToFinancialObjectCode", KFSKeyConstants.ERROR_DOCUMENT_REPORTS_TO_OBJCODE_ILLEGAL, reportsToObjectCode);
             result = false;
         }
 
         String budgetAggregationCode = objectCode.getFinancialBudgetAggregationCd();
 
         if (!isLegalBudgetAggregationCode(budgetAggregationCode)) {
-            this.putFieldError("financialBudgetAggregationCd", KeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_ONEOF_VALID, "Budget Aggregation Code");
+            this.putFieldError("financialBudgetAggregationCd", KFSKeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_ONEOF_VALID, "Budget Aggregation Code");
             result = false;
         }
 
@@ -170,20 +170,20 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         // Chart code (fin_coa_cd) must be valid - handled by dd
 
         if (!this.consolidationTableDoesNotHave(chartCode, objCode)) {
-            this.putFieldError("financialObjectCode", KeyConstants.ERROR_DOCUMENT_OBJCODE_CONSOLIDATION_ERROR, chartCode+"-"+objCode);
+            this.putFieldError("financialObjectCode", KFSKeyConstants.ERROR_DOCUMENT_OBJCODE_CONSOLIDATION_ERROR, chartCode+"-"+objCode);
             result = false;
         }
 
         if (!this.objectLevelTableDoesNotHave(chartCode, objCode)) {
-            this.putFieldError("financialObjectCode", KeyConstants.ERROR_DOCUMENT_OBJCODE_LEVEL_ERROR, chartCode+"-"+objCode );
+            this.putFieldError("financialObjectCode", KFSKeyConstants.ERROR_DOCUMENT_OBJCODE_LEVEL_ERROR, chartCode+"-"+objCode );
             result = false;
         }
         if (!StringUtils.isEmpty(nextYearObjectCode) && nextYearObjectCodeDoesNotExistThisYear(year, chartCode,  nextYearObjectCode)){
-            this.putFieldError("nextYearFinancialObjectCode", KeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, "Next Year Object Code");
+            this.putFieldError("nextYearFinancialObjectCode", KFSKeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, "Next Year Object Code");
             result = false;
         }
         if (!this.isValidYear(year)){
-            this.putFieldError("universityFiscalYear", KeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, "Fiscal Year");
+            this.putFieldError("universityFiscalYear", KFSKeyConstants.ERROR_DOCUMENT_OBJCODE_MUST_BEVALID, "Fiscal Year");
         }
 
         /*
@@ -396,7 +396,7 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
 
     private Set retrieveParameterSet(String parameterName) {
 
-        String[] elements = configService.getApplicationParameterValues(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, parameterName);
+        String[] elements = configService.getApplicationParameterValues(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, parameterName);
 
         Set result = new HashSet();
         if (elements != null) {

@@ -19,7 +19,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.chart.service.ChartService;
 import org.kuali.module.gl.service.SufficientFundsService;
@@ -36,7 +36,7 @@ public class PurgeSufficientFundBalancesStep extends AbstractStep {
      * class should NOT be transactional.
      */
     public boolean execute() {
-        String yearStr = kualiConfigurationService.getApplicationParameterValue(Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.PURGE_GL_SF_BALANCES_T_BEFORE_YEAR);
+        String yearStr = kualiConfigurationService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.PURGE_GL_SF_BALANCES_T_BEFORE_YEAR);
         int year = Integer.parseInt(yearStr);
         List charts = chartService.getAllChartCodes();
         for (Iterator iter = charts.iterator(); iter.hasNext();) {

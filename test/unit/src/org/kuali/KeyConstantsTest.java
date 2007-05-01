@@ -23,7 +23,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.test.KualiTestBase;
 
@@ -34,12 +34,12 @@ import junit.framework.TestCase;
 public class KeyConstantsTest extends KualiTestBase {
 
     /**
-     * checks to see if the properties defined in the KeyConstants class are in the AppilcationResources.properties
+     * checks to see if the properties defined in the KFSKeyConstants class are in the AppilcationResources.properties
      */
     public final void testKeyConstants() throws Exception {
         final ResourceBundle applicationResources = ResourceBundle.getBundle("ApplicationResources");
-        List<String> keys = extractConstants(KeyConstants.class);
-        assertFalse("no properties define in KeyConstants", keys.isEmpty());
+        List<String> keys = extractConstants(KFSKeyConstants.class);
+        assertFalse("no properties define in KFSKeyConstants", keys.isEmpty());
         List<String> notFound = new ArrayList<String>();
         for (String key : keys) {
             try {
@@ -49,7 +49,7 @@ public class KeyConstantsTest extends KualiTestBase {
                 notFound.add(key);
             }
         }
-        assertTrue("The following keys found in KeyConstants.java do not map to keys in ApplicationResources.properties: "+notFound, notFound.isEmpty());
+        assertTrue("The following keys found in KFSKeyConstants.java do not map to keys in ApplicationResources.properties: "+notFound, notFound.isEmpty());
 
     }
 

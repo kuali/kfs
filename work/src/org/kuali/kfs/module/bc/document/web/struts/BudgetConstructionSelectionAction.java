@@ -34,8 +34,8 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.core.web.struts.form.KualiForm;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.dao.ojb.BudgetConstructionDaoOjb;
@@ -94,7 +94,7 @@ public class BudgetConstructionSelectionAction extends KualiAction {
 
         budgetConstructionSelectionForm.getBudgetConstructionHeader().setUniversityFiscalYear(budgetConstructionSelectionForm.getUniversityFiscalYear());
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward performBCDocumentOpen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -110,7 +110,7 @@ public class BudgetConstructionSelectionAction extends KualiAction {
         String accountNumber = bcHeader.getAccountNumber() ;
         String subAccountNumber;
         if (StringUtils.isBlank(bcHeader.getSubAccountNumber())){
-            subAccountNumber = Constants.DASHES_SUB_ACCOUNT_NUMBER;
+            subAccountNumber = KFSConstants.DASHES_SUB_ACCOUNT_NUMBER;
         } else {
             subAccountNumber = bcHeader.getSubAccountNumber();
         }
@@ -119,13 +119,13 @@ public class BudgetConstructionSelectionAction extends KualiAction {
         BudgetConstructionHeader tHeader = bcHeaderDao.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
         if (tHeader == null){
             //error ERROR_EXISTENCE
-            GlobalVariables.getErrorMap().putError(Constants.GLOBAL_MESSAGES,KeyConstants.ERROR_EXISTENCE, "BC Document");
-            return mapping.findForward(Constants.MAPPING_BASIC);
+            GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES,KFSKeyConstants.ERROR_EXISTENCE, "BC Document");
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         } else {
             String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 
             Properties parameters = new Properties();
-            parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, BCConstants.BC_DOCUMENT_METHOD);
+            parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.BC_DOCUMENT_METHOD);
             parameters.put("universityFiscalYear", tHeader.getUniversityFiscalYear().toString());
             parameters.put("chartOfAccountsCode", tHeader.getChartOfAccountsCode());
             parameters.put("accountNumber", tHeader.getAccountNumber());
@@ -152,86 +152,86 @@ public class BudgetConstructionSelectionAction extends KualiAction {
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;
-        String refreshCaller = request.getParameter(Constants.REFRESH_CALLER);
+        String refreshCaller = request.getParameter(KFSConstants.REFRESH_CALLER);
 
 //      TODO need a better way to detect return from lookups
 //      returning from account lookup sets refreshcaller to accountLookupable, due to setting in account.xml
-//              if (refreshCaller != null && refreshCaller.equalsIgnoreCase(Constants.KUALI_LOOKUPABLE_IMPL)){
+//              if (refreshCaller != null && refreshCaller.equalsIgnoreCase(KFSConstants.KUALI_LOOKUPABLE_IMPL)){
         if (refreshCaller != null && (refreshCaller.endsWith("Lookupable") || (refreshCaller.endsWith("LOOKUPABLE")))){
             final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] {"chartOfAccounts", "account", "subAccount", "budgetConstructionAccountReports"}));
             KNSServiceLocator.getPersistenceService().retrieveReferenceObjects(budgetConstructionSelectionForm.getBudgetConstructionHeader(), REFRESH_FIELDS);            
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward returnToCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;  
 
-        return mapping.findForward(Constants.MAPPING_PORTAL);
+        return mapping.findForward(KFSConstants.MAPPING_PORTAL);
     }
 
     public ActionForward performOrgSalarySetting(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{
  
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;  
-        GlobalVariables.getErrorMap().putError(Constants.GLOBAL_MESSAGES,KeyConstants.ERROR_UNIMPLEMENTED, "Organization Salary Setting");
+        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES,KFSKeyConstants.ERROR_UNIMPLEMENTED, "Organization Salary Setting");
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
         
     }
 
     public ActionForward performReportDump(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{
  
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;  
-        GlobalVariables.getErrorMap().putError(Constants.GLOBAL_MESSAGES,KeyConstants.ERROR_UNIMPLEMENTED, "Organization Report/Dump");
+        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES,KFSKeyConstants.ERROR_UNIMPLEMENTED, "Organization Report/Dump");
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
         
     }
 
     public ActionForward performRequestImport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{
  
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;  
-        GlobalVariables.getErrorMap().putError(Constants.GLOBAL_MESSAGES,KeyConstants.ERROR_UNIMPLEMENTED, "Request Import");
+        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES,KFSKeyConstants.ERROR_UNIMPLEMENTED, "Request Import");
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
         
     }
 
     public ActionForward performOrgPullup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{
  
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;  
-        GlobalVariables.getErrorMap().putError(Constants.GLOBAL_MESSAGES,KeyConstants.ERROR_UNIMPLEMENTED, "Organization Pull Up");
+        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES,KFSKeyConstants.ERROR_UNIMPLEMENTED, "Organization Pull Up");
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
         
     }
 
     public ActionForward performOrgPushdown(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{
  
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;  
-        GlobalVariables.getErrorMap().putError(Constants.GLOBAL_MESSAGES,KeyConstants.ERROR_UNIMPLEMENTED, "Organization Push Down");
+        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES,KFSKeyConstants.ERROR_UNIMPLEMENTED, "Organization Push Down");
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
         
     }
 
     public ActionForward performMyAccounts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{
  
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;  
-        GlobalVariables.getErrorMap().putError(Constants.GLOBAL_MESSAGES,KeyConstants.ERROR_UNIMPLEMENTED, "Find My Budgeted Accounts");
+        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES,KFSKeyConstants.ERROR_UNIMPLEMENTED, "Find My Budgeted Accounts");
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
         
     }
 
     public ActionForward performMyOrganization(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{
  
         BudgetConstructionSelectionForm budgetConstructionSelectionForm = (BudgetConstructionSelectionForm) form;  
-        GlobalVariables.getErrorMap().putError(Constants.GLOBAL_MESSAGES,KeyConstants.ERROR_UNIMPLEMENTED, "Find My Organization Budgeted Accounts");
+        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES,KFSKeyConstants.ERROR_UNIMPLEMENTED, "Find My Organization Budgeted Accounts");
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
         
     }
 }

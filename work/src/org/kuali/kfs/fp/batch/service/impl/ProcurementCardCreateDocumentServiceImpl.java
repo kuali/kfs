@@ -15,7 +15,7 @@
  */
 package org.kuali.module.financial.service.impl;
 
-import static org.kuali.kfs.Constants.GL_CREDIT_CODE;
+import static org.kuali.kfs.KFSConstants.GL_CREDIT_CODE;
 import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.AUTO_APPROVE_DOCUMENTS_IND;
 import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.AUTO_APPROVE_NUMBER_OF_DAYS;
 import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.DEFAULT_TRANS_ACCOUNT_PARM_NM;
@@ -47,8 +47,8 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.TimestampFormatter;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.rules.AccountingLineRuleUtil;
 import org.kuali.module.financial.bo.ProcurementCardHolder;
 import org.kuali.module.financial.bo.ProcurementCardSourceAccountingLine;
@@ -114,7 +114,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     public boolean routeProcurementCardDocuments() {
         List documentList = new ArrayList();
         try {
-            documentList = (List) documentService.findByDocumentHeaderStatusCode(ProcurementCardDocument.class, Constants.DocumentStatusCodes.INITIATED);
+            documentList = (List) documentService.findByDocumentHeaderStatusCode(ProcurementCardDocument.class, KFSConstants.DocumentStatusCodes.INITIATED);
         }
         catch (WorkflowException e1) {
             LOG.error("Error retrieving pcdo documents for routing: " + e1.getMessage());
@@ -157,7 +157,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         List documentList = new ArrayList();
 
         try {
-            documentList = (List) documentService.findByDocumentHeaderStatusCode(ProcurementCardDocument.class, Constants.DocumentStatusCodes.ENROUTE);
+            documentList = (List) documentService.findByDocumentHeaderStatusCode(ProcurementCardDocument.class, KFSConstants.DocumentStatusCodes.ENROUTE);
         }
         catch (WorkflowException e1) {
             throw new RuntimeException(e1.getMessage());
@@ -201,7 +201,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         List groupedTransactions = new ArrayList();
 
         // retrieve records from transaction table order by card number
-        List transactions = (List) businessObjectService.findMatchingOrderBy(ProcurementCardTransaction.class, new HashMap(), PropertyConstants.TRANSACTION_CREDIT_CARD_NUMBER, true);
+        List transactions = (List) businessObjectService.findMatchingOrderBy(ProcurementCardTransaction.class, new HashMap(), KFSPropertyConstants.TRANSACTION_CREDIT_CARD_NUMBER, true);
 
         // check apc for single transaction documents or multple by card
         boolean singleTransaction = kualiConfigurationService.getApplicationParameterIndicator(PCARD_DOCUMENT_PARAMETERS_SEC_GROUP, SINGLE_TRANSACTION_IND_PARM_NM);
@@ -276,7 +276,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
                 errorText = StringUtils.replace(errorText, messages[i] + ".", "", countMatches);
             }
             // In case errorText is still too long, truncate it and indicate so.
-            Integer documentExplanationMaxLength = dataDictionaryService.getAttributeMaxLength(DocumentHeader.class.getName(), PropertyConstants.EXPLANATION);
+            Integer documentExplanationMaxLength = dataDictionaryService.getAttributeMaxLength(DocumentHeader.class.getName(), KFSPropertyConstants.EXPLANATION);
             if (documentExplanationMaxLength != null && errorText.length() > documentExplanationMaxLength.intValue()) {
                 String truncatedMessage = " ... TRUNCATED.";
                 errorText = errorText.substring(0, documentExplanationMaxLength - truncatedMessage.length()) + truncatedMessage;

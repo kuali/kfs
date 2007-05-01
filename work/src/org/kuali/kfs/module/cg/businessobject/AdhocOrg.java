@@ -17,7 +17,7 @@ package org.kuali.module.kra.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 
 /**
  * This class represents an ad-hoc org.
@@ -63,7 +63,7 @@ public class AdhocOrg extends AbstractAdhoc {
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put(PropertyConstants.DOCUMENT_NUMBER, this.getDocumentNumber());
+        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.getDocumentNumber());
         m.put("fiscalCampusCode", this.fiscalCampusCode);
         m.put("primaryDepartmentCode", this.primaryDepartmentCode);
         

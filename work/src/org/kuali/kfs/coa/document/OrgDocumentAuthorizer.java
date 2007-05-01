@@ -26,7 +26,7 @@ import org.kuali.core.exceptions.ApplicationParameterException;
 import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiGroupService;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
@@ -69,7 +69,7 @@ public class OrgDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
         configService = SpringServiceLocator.getKualiConfigurationService();
         KualiGroup group = null;
         try {
-            String groupName = configService.getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, Constants.ChartApcParms.ORG_PLANT_WORKGROUP_PARM_NAME);
+            String groupName = configService.getApplicationParameterValue(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, KFSConstants.ChartApcParms.ORG_PLANT_WORKGROUP_PARM_NAME);
 
             // create a new KualiGroup instance with that name
             KualiGroupService groupService = SpringServiceLocator.getKualiGroupService();

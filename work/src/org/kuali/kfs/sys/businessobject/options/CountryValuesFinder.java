@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.util.SpringServiceLocator;
 
@@ -42,7 +42,7 @@ public class CountryValuesFinder extends KeyValuesBase {
         Country usCountry = null;
         for (Iterator iter = boList.iterator(); iter.hasNext();) {
             Country element = (Country) iter.next();
-            if (Constants.COUNTRY_CODE_UNITED_STATES.equals(element.getPostalCountryCode())) {
+            if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(element.getPostalCountryCode())) {
                 usCountry = element;
             }
             else {

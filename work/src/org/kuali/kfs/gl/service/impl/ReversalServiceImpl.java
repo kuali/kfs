@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.Iterator;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.gl.bo.Reversal;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.ReversalDao;
@@ -93,11 +93,11 @@ public class ReversalServiceImpl implements ReversalService {
 
         // construct a ledger entry with the information fetched from the given array
         LedgerEntry ledgerEntry = new LedgerEntry(fiscalYear, periodCode, balanceType, originCode);
-        if (Constants.GL_CREDIT_CODE.equals(debitCreditCode)) {
+        if (KFSConstants.GL_CREDIT_CODE.equals(debitCreditCode)) {
             ledgerEntry.setCreditAmount(amount);
             ledgerEntry.setCreditCount(count);
         }
-        else if (Constants.GL_DEBIT_CODE.equals(debitCreditCode)) {
+        else if (KFSConstants.GL_DEBIT_CODE.equals(debitCreditCode)) {
             ledgerEntry.setDebitAmount(amount);
             ledgerEntry.setDebitCount(count);
         }

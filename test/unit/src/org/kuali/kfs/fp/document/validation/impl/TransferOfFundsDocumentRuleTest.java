@@ -53,8 +53,8 @@ import java.util.ListIterator;
 
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
@@ -94,7 +94,7 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
 
         boolean ruleResult = testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(document, accountingLine, expectedExplicit, expectedOffset);
         assertEquals(false, ruleResult);
-        assertGlobalErrorMapContains(Constants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, KeyConstants.ERROR_DOCUMENT_NO_OFFSET_DEFINITION);
+        assertGlobalErrorMapContains(KFSConstants.GENERAL_LEDGER_PENDING_ENTRIES_TAB_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_NO_OFFSET_DEFINITION);
     }
 
     public void testProcessCustomRouteDocumentBusinessRules_accountingLines_notMatching_budgetYear() throws Exception {
@@ -115,7 +115,7 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
         boolean failedAsExpected = !rule.processCustomRouteDocumentBusinessRules(document);
 
         assertTrue(failedAsExpected);
-        assertTrue(GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_ACCOUNTING_LINES_DIFFERENT_BUDGET_YEAR));
+        assertTrue(GlobalVariables.getErrorMap().containsMessageKey(KFSKeyConstants.ERROR_ACCOUNTING_LINES_DIFFERENT_BUDGET_YEAR));
     }
 
     public void testProcessCustomRouteDocumentBusinessRules_accountingLines_matching_budgetYear() throws Exception {
@@ -136,7 +136,7 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
         boolean passedAsExpected = rule.processCustomRouteDocumentBusinessRules(document);
 
         assertTrue(passedAsExpected);
-        assertFalse(GlobalVariables.getErrorMap().containsMessageKey(KeyConstants.ERROR_ACCOUNTING_LINES_DIFFERENT_BUDGET_YEAR));
+        assertFalse(GlobalVariables.getErrorMap().containsMessageKey(KFSKeyConstants.ERROR_ACCOUNTING_LINES_DIFFERENT_BUDGET_YEAR));
     }
 
     public void testIsDebit_source_income_positveAmount() throws Exception {

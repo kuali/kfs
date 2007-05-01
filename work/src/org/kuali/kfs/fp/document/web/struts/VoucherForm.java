@@ -15,8 +15,8 @@
  */
 package org.kuali.module.financial.web.struts.form;
 
-import static org.kuali.kfs.Constants.VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME;
-import static org.kuali.kfs.Constants.VOUCHER_LINE_HELPER_DEBIT_PROPERTY_NAME;
+import static org.kuali.kfs.KFSConstants.VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME;
+import static org.kuali.kfs.KFSConstants.VOUCHER_LINE_HELPER_DEBIT_PROPERTY_NAME;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -30,9 +30,9 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.CurrencyFormatter;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
@@ -95,8 +95,8 @@ public class VoucherForm extends KualiAccountingDocumentFormBase {
         super.populate(request);
 
         // populate the drop downs
-        if (Constants.RETURN_METHOD_TO_CALL.equals(getMethodToCall())) {
-            String selectedPeriod = (StringUtils.defaultString(request.getParameter(PropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE)) + StringUtils.defaultString(request.getParameter(PropertyConstants.UNIVERSITY_FISCAL_YEAR)));
+        if (KFSConstants.RETURN_METHOD_TO_CALL.equals(getMethodToCall())) {
+            String selectedPeriod = (StringUtils.defaultString(request.getParameter(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE)) + StringUtils.defaultString(request.getParameter(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR)));
             if (StringUtils.isNotBlank(selectedPeriod)) {
                 setSelectedAccountingPeriod(selectedPeriod);
             }
@@ -104,7 +104,7 @@ public class VoucherForm extends KualiAccountingDocumentFormBase {
         populateAccountingPeriodListForRendering();
 
         // we don't want to do this if we are just reloading the document
-        if (StringUtils.isBlank(getMethodToCall()) || !getMethodToCall().equals(Constants.RELOAD_METHOD_TO_CALL)) {
+        if (StringUtils.isBlank(getMethodToCall()) || !getMethodToCall().equals(KFSConstants.RELOAD_METHOD_TO_CALL)) {
             // make sure the amount fields are populated appropriately when in debit/credit amount mode
             populateCreditAndDebitAmounts();
         }
@@ -376,7 +376,7 @@ public class VoucherForm extends KualiAccountingDocumentFormBase {
      */
     protected boolean processDebitAndCreditForNewSourceLine() {
         // using debits and credits supplied, populate the new source accounting line's amount and debit/credit code appropriately
-        boolean passed = processDebitAndCreditForSourceLine(getNewSourceLine(), newSourceLineDebit, newSourceLineCredit, Constants.NEGATIVE_ONE);
+        boolean passed = processDebitAndCreditForSourceLine(getNewSourceLine(), newSourceLineDebit, newSourceLineCredit, KFSConstants.NEGATIVE_ONE);
 
         return passed;
     }
@@ -432,13 +432,13 @@ public class VoucherForm extends KualiAccountingDocumentFormBase {
         if (debitAmount != null && debitAmount.isNonZero()) { // a value entered into the debit field? if so it's a debit
             // create a new instance w/out reference
             KualiDecimal tmpDebitAmount = new KualiDecimal(debitAmount.toString());
-            sourceLine.setDebitCreditCode(Constants.GL_DEBIT_CODE);
+            sourceLine.setDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
             sourceLine.setAmount(tmpDebitAmount);
         }
         else if (creditAmount != null && creditAmount.isNonZero()) { // assume credit, if both are set the br eval framework will
             // catch it
             KualiDecimal tmpCreditAmount = new KualiDecimal(creditAmount.toString());
-            sourceLine.setDebitCreditCode(Constants.GL_CREDIT_CODE);
+            sourceLine.setDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
             sourceLine.setAmount(tmpCreditAmount);
         }
         else { // explicitly set to zero, let br eval framework pick it up
@@ -462,14 +462,14 @@ public class VoucherForm extends KualiAccountingDocumentFormBase {
         if (null != creditAmount && null != debitAmount) {
             if (creditAmount.isNonZero() && debitAmount.isNonZero()) {
                 // there's a value in both fields
-                if (Constants.NEGATIVE_ONE == index) { // it's a new line
-                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(Constants.DEBIT_AMOUNT_PROPERTY_NAME, KeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
-                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(Constants.CREDIT_AMOUNT_PROPERTY_NAME, KeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
+                if (KFSConstants.NEGATIVE_ONE == index) { // it's a new line
+                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(KFSConstants.DEBIT_AMOUNT_PROPERTY_NAME, KFSKeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
+                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(KFSConstants.CREDIT_AMOUNT_PROPERTY_NAME, KFSKeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
                 }
                 else {
-                    String errorKeyPath = Constants.JOURNAL_LINE_HELPER_PROPERTY_NAME + Constants.SQUARE_BRACKET_LEFT + Integer.toString(index) + Constants.SQUARE_BRACKET_RIGHT;
-                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorKeyPath + VOUCHER_LINE_HELPER_DEBIT_PROPERTY_NAME, KeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
-                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorKeyPath + VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME, KeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
+                    String errorKeyPath = KFSConstants.JOURNAL_LINE_HELPER_PROPERTY_NAME + KFSConstants.SQUARE_BRACKET_LEFT + Integer.toString(index) + KFSConstants.SQUARE_BRACKET_RIGHT;
+                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorKeyPath + VOUCHER_LINE_HELPER_DEBIT_PROPERTY_NAME, KFSKeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
+                    GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(errorKeyPath + VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME, KFSKeyConstants.ERROR_DOCUMENT_JV_AMOUNTS_IN_CREDIT_AND_DEBIT_FIELDS);
                 }
             }
             else {

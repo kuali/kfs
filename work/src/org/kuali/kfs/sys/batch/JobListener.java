@@ -29,7 +29,7 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.MailService;
 import org.kuali.core.util.log4j.NDCFilter;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.service.SchedulerService;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -99,16 +99,16 @@ public class JobListener implements org.quartz.JobListener {
     }
 
     private String getLogFileName(String nestedDiagnosticContext) {
-        return new StringBuffer(configurationService.getPropertyString(Constants.LOGS_DIRECTORY_KEY)).append(File.separator).append(nestedDiagnosticContext.toString()).append(".log").toString();
+        return new StringBuffer(configurationService.getPropertyString(KFSConstants.LOGS_DIRECTORY_KEY)).append(File.separator).append(nestedDiagnosticContext.toString()).append(".log").toString();
     }
 
     private String getLogFileUrl(String nestedDiagnosticContext) {
-        return new StringBuffer(configurationService.getPropertyString(Constants.HTDOCS_LOGS_URL_KEY)).append(nestedDiagnosticContext.toString()).append(".log").toString();
+        return new StringBuffer(configurationService.getPropertyString(KFSConstants.HTDOCS_LOGS_URL_KEY)).append(nestedDiagnosticContext.toString()).append(".log").toString();
     }
 
     private void notify(JobExecutionContext jobExecutionContext, String jobStatus) {
         try {
-            StringBuffer mailMessageSubject = new StringBuffer(configurationService.getPropertyString(Constants.ENVIRONMENT_KEY)).append(": ").append(jobExecutionContext.getJobDetail().getGroup()).append(": ").append(jobExecutionContext.getJobDetail().getName());
+            StringBuffer mailMessageSubject = new StringBuffer(configurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY)).append(": ").append(jobExecutionContext.getJobDetail().getGroup()).append(": ").append(jobExecutionContext.getJobDetail().getName());
             MailMessage mailMessage = new MailMessage();
             mailMessage.setFromAddress(mailService.getBatchMailingList());
             if (jobExecutionContext.getMergedJobDataMap().containsKey(REQUESTOR_EMAIL_ADDRESS_KEY) && jobExecutionContext.getMergedJobDataMap().getString(REQUESTOR_EMAIL_ADDRESS_KEY) != null ) {

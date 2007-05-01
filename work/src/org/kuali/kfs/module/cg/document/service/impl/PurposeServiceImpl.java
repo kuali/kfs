@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.kra.routingform.bo.Purpose;
 import org.kuali.module.kra.routingform.service.PurposeService;
 
@@ -36,9 +36,9 @@ public class PurposeServiceImpl implements PurposeService {
      */
     public List<Purpose> getPurposes() {
         Map fieldValues = new HashMap();
-        fieldValues.put(PropertyConstants.DATA_OBJECT_MAINTENANCE_CODE_ACTIVE_INDICATOR, Constants.ACTIVE_INDICATOR);
+        fieldValues.put(KFSPropertyConstants.DATA_OBJECT_MAINTENANCE_CODE_ACTIVE_INDICATOR, KFSConstants.ACTIVE_INDICATOR);
         
-        Collection col = businessObjectService.findMatchingOrderBy(Purpose.class, fieldValues, PropertyConstants.USER_SORT_NUMBER, true);
+        Collection col = businessObjectService.findMatchingOrderBy(Purpose.class, fieldValues, KFSPropertyConstants.USER_SORT_NUMBER, true);
         
         return new ArrayList(col);
     }

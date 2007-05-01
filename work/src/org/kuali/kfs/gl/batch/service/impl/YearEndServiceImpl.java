@@ -27,8 +27,8 @@ import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.chart.service.ObjectTypeService;
 import org.kuali.module.chart.service.PriorYearAccountService;
@@ -100,14 +100,14 @@ public class YearEndServiceImpl implements YearEndService {
 
         Map jobParameters = new HashMap();
 
-        varFiscalYear = new Integer(kualiConfigurationService.getApplicationParameterValue(Constants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR));
+        varFiscalYear = new Integer(kualiConfigurationService.getApplicationParameterValue(KFSConstants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR));
 
         // 680 003670 DISPLAY "TRANSACTION_DT" UPON ENVIRONMENT-NAME.
         // 681 003680 ACCEPT VAR-UNIV-DT FROM ENVIRONMENT-VALUE.
 
         try {
             DateFormat transactionDateFormat = new SimpleDateFormat(TRANSACTION_DATE_FORMAT_STRING);
-            varTransactionDate = new Date(transactionDateFormat.parse(kualiConfigurationService.getApplicationParameterValue(Constants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.TRANSACTION_DT)).getTime());
+            varTransactionDate = new Date(transactionDateFormat.parse(kualiConfigurationService.getApplicationParameterValue(KFSConstants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.TRANSACTION_DT)).getTime());
         }
         catch (ParseException pe) {
             LOG.error("Failed to parse TRANSACTION_DT from kualiConfigurationService");
@@ -117,10 +117,10 @@ public class YearEndServiceImpl implements YearEndService {
         // 682 003690 DISPLAY "NET_EXP_OBJECT_CD" UPON ENVIRONMENT-NAME.
         // 683 003700 ACCEPT VAR-NET-EXP-OBJECT-CD FROM ENVIRONMENT-VALUE.
 
-        varNetExpenseObjectCode = kualiConfigurationService.getApplicationParameterValue(Constants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.NET_EXP_OBJECT_CD);
-        varNetRevenueObjectCode = kualiConfigurationService.getApplicationParameterValue(Constants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.NET_REV_OBJECT_CD);
-        varFundBalanceObjectCode = kualiConfigurationService.getApplicationParameterValue(Constants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.FUND_BAL_OBJECT_CD);
-        varFundBalanceObjectTypeCode = kualiConfigurationService.getApplicationParameterValue(Constants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.FUND_BAL_OBJ_TYP_CD);
+        varNetExpenseObjectCode = kualiConfigurationService.getApplicationParameterValue(KFSConstants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.NET_EXP_OBJECT_CD);
+        varNetRevenueObjectCode = kualiConfigurationService.getApplicationParameterValue(KFSConstants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.NET_REV_OBJECT_CD);
+        varFundBalanceObjectCode = kualiConfigurationService.getApplicationParameterValue(KFSConstants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.FUND_BAL_OBJECT_CD);
+        varFundBalanceObjectTypeCode = kualiConfigurationService.getApplicationParameterValue(KFSConstants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.FUND_BAL_OBJ_TYP_CD);
 
         jobParameters.put(GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR, varFiscalYear);
         jobParameters.put(GLConstants.ColumnNames.UNIV_DT, varTransactionDate);
@@ -235,7 +235,7 @@ public class YearEndServiceImpl implements YearEndService {
                     // 860 005430 IF GLGLBL-FIN-OBJ-TYP-CD = 'ES' OR 'EX' OR 'EE'
                     // 861 005440 OR 'TE'
 
-                    if (ObjectHelper.isOneOf(balance.getObjectTypeCode(), kualiConfigurationService.getApplicationParameterValues(Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.GL_NET_EXPENSE_OBJECT_TYPE_CODE))) {
+                    if (ObjectHelper.isOneOf(balance.getObjectTypeCode(), kualiConfigurationService.getApplicationParameterValues(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.GL_NET_EXPENSE_OBJECT_TYPE_CODE))) {
 
                         // 862 005450 MOVE VAR-NET-EXP-OBJECT-CD
                         // 863 005460 TO FIN-OBJECT-CD OF GLEN-RECORD
@@ -254,7 +254,7 @@ public class YearEndServiceImpl implements YearEndService {
 
                     }
 
-                    activityEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
+                    activityEntry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
                     activityEntry.setFinancialBalanceTypeCode(balance.getOption().getNominalFinancialBalanceTypeCd());
 
                     if (null == balance.getObjectTypeCode()) {
@@ -267,17 +267,17 @@ public class YearEndServiceImpl implements YearEndService {
                     // 913 005940 MOVE '13'
                     // 914 005950 TO UNIV-FISCAL-PRD-CD OF GLEN-RECORD.
 
-                    activityEntry.setUniversityFiscalPeriodCode(Constants.MONTH13);
+                    activityEntry.setUniversityFiscalPeriodCode(KFSConstants.MONTH13);
 
                     // 915 005960 MOVE 'ACLO'
                     // 916 005970 TO FDOC-TYP-CD OF GLEN-RECORD.
 
-                    activityEntry.setFinancialDocumentTypeCode(kualiConfigurationService.getApplicationParameterValue(Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.GL_ANNAL_CLOSING_DOC_TYPE));
+                    activityEntry.setFinancialDocumentTypeCode(kualiConfigurationService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.GL_ANNAL_CLOSING_DOC_TYPE));
 
                     // 917 005980 MOVE 'MF'
                     // 918 005990 TO FS-ORIGIN-CD OF GLEN-RECORD.
 
-                    activityEntry.setFinancialSystemOriginationCode(kualiConfigurationService.getApplicationParameterValue(Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.GL_ORIGINATION_CODE));
+                    activityEntry.setFinancialSystemOriginationCode(kualiConfigurationService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE));
 
                     // 919 006000 STRING 'AC'
                     // 920 006010 GLGLBL-ACCOUNT-NBR
@@ -295,7 +295,7 @@ public class YearEndServiceImpl implements YearEndService {
                     // 926 006070 IF GLGLBL-FIN-OBJ-TYP-CD = 'EX' OR 'ES' OR 'EE'
                     // 927 006080 OR 'TE'
 
-                    if (ObjectHelper.isOneOf(balance.getObjectTypeCode(), kualiConfigurationService.getApplicationParameterValues(Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.GL_NET_EXPENSE_OBJECT_TYPE_CODE))) {
+                    if (ObjectHelper.isOneOf(balance.getObjectTypeCode(), kualiConfigurationService.getApplicationParameterValues(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.GL_NET_EXPENSE_OBJECT_TYPE_CODE))) {
 
                         // 928 006090 STRING 'CLS ENT TO NE FOR '
                         // 929 006100 GLGLBL-SUB-ACCT-NBR
@@ -309,7 +309,7 @@ public class YearEndServiceImpl implements YearEndService {
                         // 937 006180 DELIMITED BY SIZE INTO
                         // 938 006190 TRN-LDGR-ENTR-DESC OF GLEN-RECORD
 
-                        StringBuffer neDescription = new StringBuffer(kualiConfigurationService.getPropertyString(KeyConstants.MSG_CLOSE_ENTRY_TO_NOMINAL_EXPENSE));
+                        StringBuffer neDescription = new StringBuffer(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_CLOSE_ENTRY_TO_NOMINAL_EXPENSE));
                         neDescription.append(balance.getSubAccountNumber()).append("-").append(balance.getObjectCode()).append("-").append(balance.getSubObjectCode());
                         int socLength = null == balance.getSubObjectCode() ? 0 : balance.getSubObjectCode().length();
                         while (3 > socLength++) {
@@ -334,7 +334,7 @@ public class YearEndServiceImpl implements YearEndService {
                         // 949 006300 DELIMITED BY SIZE INTO
                         // 950 006310 TRN-LDGR-ENTR-DESC OF GLEN-RECORD.
 
-                        StringBuffer nrDescription = new StringBuffer(kualiConfigurationService.getPropertyString(KeyConstants.MSG_CLOSE_ENTRY_TO_NOMINAL_REVENUE));
+                        StringBuffer nrDescription = new StringBuffer(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_CLOSE_ENTRY_TO_NOMINAL_REVENUE));
                         nrDescription.append(balance.getSubAccountNumber()).append("-").append(balance.getObjectCode()).append("-").append(balance.getSubObjectCode());
                         int socLength = null == balance.getSubObjectCode() ? 0 : balance.getSubObjectCode().length();
                         while (3 > socLength++) {
@@ -375,7 +375,7 @@ public class YearEndServiceImpl implements YearEndService {
 
                         // 969 006470 IF CAOTYP-FIN-OBJTYP-DBCR-CD = 'C' OR 'D'
 
-                        if (ObjectHelper.isOneOf(balance.getObjectType().getFinObjectTypeDebitcreditCd(), new String[] { Constants.GL_CREDIT_CODE, Constants.GL_DEBIT_CODE })) {
+                        if (ObjectHelper.isOneOf(balance.getObjectType().getFinObjectTypeDebitcreditCd(), new String[] { KFSConstants.GL_CREDIT_CODE, KFSConstants.GL_DEBIT_CODE })) {
 
                             // 970 006480 MOVE CAOTYP-FIN-OBJTYP-DBCR-CD
                             // 971 006490 TO WS-FIN-OBJTYP-DBCR-CD
@@ -389,7 +389,7 @@ public class YearEndServiceImpl implements YearEndService {
 
                             // 973 006510 MOVE 'C' TO WS-FIN-OBJTYP-DBCR-CD
 
-                            debitCreditCode = Constants.GL_CREDIT_CODE;
+                            debitCreditCode = KFSConstants.GL_CREDIT_CODE;
 
                             // 974 006520 END-IF
 
@@ -404,7 +404,7 @@ public class YearEndServiceImpl implements YearEndService {
 
                             // 976 006540 IF CAOTYP-FIN-OBJTYP-DBCR-CD = 'C' OR 'D'
 
-                            if (ObjectHelper.isOneOf(balance.getObjectType().getFinObjectTypeDebitcreditCd(), new String[] { Constants.GL_CREDIT_CODE, Constants.GL_DEBIT_CODE })) {
+                            if (ObjectHelper.isOneOf(balance.getObjectType().getFinObjectTypeDebitcreditCd(), new String[] { KFSConstants.GL_CREDIT_CODE, KFSConstants.GL_DEBIT_CODE })) {
 
                                 // 977 006550 MOVE CAOTYP-FIN-OBJTYP-DBCR-CD
                                 // 978 006560 TO TRN-DEBIT-CRDT-CD OF GLEN-RECORD
@@ -418,7 +418,7 @@ public class YearEndServiceImpl implements YearEndService {
 
                                 // 980 006580 MOVE 'C' TO TRN-DEBIT-CRDT-CD OF GLEN-RECORD
 
-                                activityEntry.setTransactionDebitCreditCode(Constants.GL_CREDIT_CODE);
+                                activityEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
 
                                 // 981 006590 MOVE LIT-KEY TO RP-ERROR-LABEL OF RP-ERROR-LINE-1
 
@@ -443,11 +443,11 @@ public class YearEndServiceImpl implements YearEndService {
 
                             // 990 006680 IF CAOTYP-FIN-OBJTYP-DBCR-CD = 'C'
 
-                            if (Constants.GL_CREDIT_CODE.equals(balance.getObjectType().getFinObjectTypeDebitcreditCd())) {
+                            if (KFSConstants.GL_CREDIT_CODE.equals(balance.getObjectType().getFinObjectTypeDebitcreditCd())) {
 
                                 // 991 006690 MOVE 'D' TO TRN-DEBIT-CRDT-CD OF GLEN-RECORD
 
-                                activityEntry.setTransactionDebitCreditCode(Constants.GL_DEBIT_CODE);
+                                activityEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
 
                                 // 992 006700 ELSE
 
@@ -456,11 +456,11 @@ public class YearEndServiceImpl implements YearEndService {
 
                                 // 993 006710 IF CAOTYP-FIN-OBJTYP-DBCR-CD = 'D'
 
-                                if (Constants.GL_DEBIT_CODE.equals(balance.getObjectType().getFinObjectTypeDebitcreditCd())) {
+                                if (KFSConstants.GL_DEBIT_CODE.equals(balance.getObjectType().getFinObjectTypeDebitcreditCd())) {
 
                                     // 994 006720 MOVE 'C' TO TRN-DEBIT-CRDT-CD OF GLEN-RECORD
 
-                                    activityEntry.setTransactionDebitCreditCode(Constants.GL_CREDIT_CODE);
+                                    activityEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
 
                                     // 995 006730 ELSE
 
@@ -469,7 +469,7 @@ public class YearEndServiceImpl implements YearEndService {
 
                                     // 996 006740 MOVE 'D' TO TRN-DEBIT-CRDT-CD OF GLEN-RECORD
 
-                                    activityEntry.setTransactionDebitCreditCode(Constants.GL_DEBIT_CODE);
+                                    activityEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
 
                                     // 997 006750 MOVE LIT-KEY TO RP-ERROR-LABEL OF RP-ERROR-LINE-1
 
@@ -514,7 +514,7 @@ public class YearEndServiceImpl implements YearEndService {
 
                             // 1012 006900 MOVE 'C' TO TRN-DEBIT-CRDT-CD OF GLEN-RECORD
 
-                            activityEntry.setTransactionDebitCreditCode(Constants.GL_CREDIT_CODE);
+                            activityEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
 
                             // 1013 006910 ELSE
 
@@ -523,7 +523,7 @@ public class YearEndServiceImpl implements YearEndService {
 
                             // 1014 006920 MOVE 'D' TO TRN-DEBIT-CRDT-CD OF GLEN-RECORD
 
-                            activityEntry.setTransactionDebitCreditCode(Constants.GL_DEBIT_CODE);
+                            activityEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
 
                             // 1015 006930 END-IF
 
@@ -570,7 +570,7 @@ public class YearEndServiceImpl implements YearEndService {
                     // 1033 007110 MOVE ALL '-'
                     // 1034 007120 TO PROJECT-CD OF GLEN-RECORD.
 
-                    activityEntry.setProjectCode(Constants.DASHES_PROJECT_CODE);
+                    activityEntry.setProjectCode(KFSConstants.DASHES_PROJECT_CODE);
 
                     // 1035 007130 MOVE SPACES
                     // 1036 007140 TO ORG-REFERENCE-ID OF GLEN-RECORD.
@@ -691,7 +691,7 @@ public class YearEndServiceImpl implements YearEndService {
                     // 1080 007550 MOVE ALL '-'
                     // 1081 007560 TO FIN-SUB-OBJ-CD OF GLEN-RECORD.
 
-                    offsetEntry.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
+                    offsetEntry.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
 
                     // 1082 007570 MOVE 'NB'
                     // 1083 007580 TO FIN-BALANCE-TYP-CD OF GLEN-RECORD.
@@ -706,17 +706,17 @@ public class YearEndServiceImpl implements YearEndService {
                     // 1086 007610 MOVE '13'
                     // 1087 007620 TO UNIV-FISCAL-PRD-CD OF GLEN-RECORD.
 
-                    offsetEntry.setUniversityFiscalPeriodCode(Constants.MONTH13);
+                    offsetEntry.setUniversityFiscalPeriodCode(KFSConstants.MONTH13);
 
                     // 1088 007630 MOVE 'ACLO'
                     // 1089 007640 TO FDOC-TYP-CD OF GLEN-RECORD.
 
-                    offsetEntry.setFinancialDocumentTypeCode(kualiConfigurationService.getApplicationParameterValue(Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.GL_ANNAL_CLOSING_DOC_TYPE));
+                    offsetEntry.setFinancialDocumentTypeCode(kualiConfigurationService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.GL_ANNAL_CLOSING_DOC_TYPE));
 
                     // 1090 007650 MOVE 'MF'
                     // 1091 007660 TO FS-ORIGIN-CD OF GLEN-RECORD.
 
-                    offsetEntry.setFinancialSystemOriginationCode(kualiConfigurationService.getApplicationParameterValue(Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.GL_ORIGINATION_CODE));
+                    offsetEntry.setFinancialSystemOriginationCode(kualiConfigurationService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.GL_ORIGINATION_CODE));
 
                     // 1092 007670 STRING 'AC'
                     // 1093 007680 GLGLBL-ACCOUNT-NBR
@@ -743,7 +743,7 @@ public class YearEndServiceImpl implements YearEndService {
                     // 1108 007830 DELIMITED BY SIZE INTO
                     // 1109 007840 TRN-LDGR-ENTR-DESC OF GLEN-RECORD.
 
-                    StringBuffer fbDescription = new StringBuffer(kualiConfigurationService.getPropertyString(KeyConstants.MSG_CLOSE_ENTRY_TO_NOMINAL_BUDGET));
+                    StringBuffer fbDescription = new StringBuffer(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_CLOSE_ENTRY_TO_NOMINAL_BUDGET));
                     fbDescription.append(balance.getSubAccountNumber()).append("-").append(balance.getObjectCode()).append("-").append(balance.getSubObjectCode());
                     int socLength = null == balance.getSubObjectCode() ? 0 : balance.getSubObjectCode().length();
                     while (3 > socLength++) {
@@ -774,7 +774,7 @@ public class YearEndServiceImpl implements YearEndService {
                     // 1118 007930 MOVE ALL '-'
                     // 1119 007940 TO PROJECT-CD OF GLEN-RECORD.
 
-                    offsetEntry.setProjectCode(Constants.DASHES_PROJECT_CODE);
+                    offsetEntry.setProjectCode(KFSConstants.DASHES_PROJECT_CODE);
 
                     // 1120 007950 MOVE SPACES
                     // 1121 007960 TO ORG-REFERENCE-ID OF GLEN-RECORD.
@@ -812,11 +812,11 @@ public class YearEndServiceImpl implements YearEndService {
 
                         // 1133 008080 IF TRN-DEBIT-CRDT-CD OF GLEN-RECORD = 'C'
 
-                        if (Constants.GL_CREDIT_CODE.equals(debitCreditCode)) {
+                        if (KFSConstants.GL_CREDIT_CODE.equals(debitCreditCode)) {
 
                             // 1134 008090 MOVE 'D' TO TRN-DEBIT-CRDT-CD OF GLEN-RECORD
 
-                            offsetEntry.setTransactionDebitCreditCode(Constants.GL_DEBIT_CODE);
+                            offsetEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
 
                             // 1135 008100 ELSE
 
@@ -825,7 +825,7 @@ public class YearEndServiceImpl implements YearEndService {
 
                             // 1136 008110 MOVE 'C' TO TRN-DEBIT-CRDT-CD OF GLEN-RECORD.
 
-                            offsetEntry.setTransactionDebitCreditCode(Constants.GL_CREDIT_CODE);
+                            offsetEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
 
                         }
 
@@ -954,7 +954,7 @@ public class YearEndServiceImpl implements YearEndService {
         // 812 004950 OR 'EE' OR 'CH' OR 'IC' OR 'IN')
 
         String actualFinancial = balance.getOption().getActualFinancialBalanceTypeCd();
-        if (actualFinancial.equals(balance.getBalanceTypeCode()) && ObjectHelper.isOneOf(balance.getObjectTypeCode(), kualiConfigurationService.getApplicationParameterValues(Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.GL_CLOSING_OF_NOMINAL_ACTIVITY_OBJECT_TYPE_CODE))) {
+        if (actualFinancial.equals(balance.getBalanceTypeCode()) && ObjectHelper.isOneOf(balance.getObjectTypeCode(), kualiConfigurationService.getApplicationParameterValues(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.GL_CLOSING_OF_NOMINAL_ACTIVITY_OBJECT_TYPE_CODE))) {
 
             // 813 004960 NEXT SENTENCE
 
@@ -1036,14 +1036,14 @@ public class YearEndServiceImpl implements YearEndService {
         Date varTransactionDate;
         try {
             DateFormat transactionDateFormat = new SimpleDateFormat(TRANSACTION_DATE_FORMAT_STRING);
-            varTransactionDate = new Date(transactionDateFormat.parse(kualiConfigurationService.getApplicationParameterValue(Constants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.TRANSACTION_DT)).getTime());
+            varTransactionDate = new Date(transactionDateFormat.parse(kualiConfigurationService.getApplicationParameterValue(KFSConstants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.TRANSACTION_DT)).getTime());
         }
         catch (ParseException e) {
             LOG.error("forwardBalances() Unable to parse transaction date", e);
             throw new IllegalArgumentException("Unable to parse transaction date");
         }
 
-        Integer varFiscalYear = new Integer(kualiConfigurationService.getApplicationParameterValue(Constants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR));
+        Integer varFiscalYear = new Integer(kualiConfigurationService.getApplicationParameterValue(KFSConstants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR));
 
         OriginEntryGroup unclosedPriorYearAccountGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_BEGINNING_BALANCE, false, false, false);
         OriginEntryGroup closedPriorYearAccountGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_BEGINNING_BALANCE_PRIOR_YEAR, false, false, false);
@@ -1107,7 +1107,7 @@ public class YearEndServiceImpl implements YearEndService {
         Integer varFiscalYear = null;
         Date varTransactionDate = null;
 
-        String YEAR_END_SCRIPT_NAME = Constants.GENERAL_LEDGER_YEAR_END_SCRIPT;
+        String YEAR_END_SCRIPT_NAME = KFSConstants.GENERAL_LEDGER_YEAR_END_SCRIPT;
         String FIELD_FISCAL_YEAR = GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR;
         String FIELD_TRANSACTION_DATE = GLConstants.ColumnNames.TRANSACTION_DT;
 

@@ -17,7 +17,7 @@ package org.kuali.module.labor.document;
 
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
 import org.kuali.module.labor.bo.ExpenseTransferTargetAccountingLine;
@@ -51,7 +51,7 @@ public class SalaryExpenseTransferDocument extends LaborDocument implements Copy
      * @see org.kuali.core.document.AccountingDocument#getSourceAccountingLinesSectionTitle()
      */
     public String getSourceAccountingLinesSectionTitle() {
-        return Constants.FROM;
+        return KFSConstants.FROM;
     }
 
     /**
@@ -60,7 +60,7 @@ public class SalaryExpenseTransferDocument extends LaborDocument implements Copy
      * @see org.kuali.core.document.AccountingDocument#getTargetAccountingLinesSectionTitle()
      */
     public String getTargetAccountingLinesSectionTitle() {
-        return Constants.TO;
+        return KFSConstants.TO;
     }
     
     /**

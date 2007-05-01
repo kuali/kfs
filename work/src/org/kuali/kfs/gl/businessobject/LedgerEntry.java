@@ -16,7 +16,7 @@
 package org.kuali.module.gl.util;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 
 /**
  * 
@@ -102,11 +102,11 @@ public class LedgerEntry {
 
         // construct a ledger entry with the information fetched from the given array
         LedgerEntry ledgerEntry = new LedgerEntry(fiscalYear, periodCode, balanceType, originCode);
-        if (Constants.GL_CREDIT_CODE.equals(debitCreditCode)) {
+        if (KFSConstants.GL_CREDIT_CODE.equals(debitCreditCode)) {
             ledgerEntry.setCreditAmount(amount);
             ledgerEntry.setCreditCount(count);
         }
-        else if (Constants.GL_DEBIT_CODE.equals(debitCreditCode)) {
+        else if (KFSConstants.GL_DEBIT_CODE.equals(debitCreditCode)) {
             ledgerEntry.setDebitAmount(amount);
             ledgerEntry.setDebitCount(count);
         }

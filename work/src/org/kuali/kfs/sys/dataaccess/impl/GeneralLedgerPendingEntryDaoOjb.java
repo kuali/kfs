@@ -33,8 +33,8 @@ import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.dao.GeneralLedgerPendingEntryDao;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -69,11 +69,11 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
         LOG.debug("getTransactionSummary() started");
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(Constants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
-        criteria.addEqualTo(Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
-        criteria.addEqualTo(Constants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
+        criteria.addEqualTo(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
+        criteria.addEqualTo(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
+        criteria.addEqualTo(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
         criteria.addEqualTo("acctSufficientFundsFinObjCd", acctSufficientFundsFinObjCd);
-        criteria.addIn(Constants.FINANCIAL_BALANCE_TYPE_CODE_PROPERTY_NAME, balanceTypeCodes);
+        criteria.addIn(KFSConstants.FINANCIAL_BALANCE_TYPE_CODE_PROPERTY_NAME, balanceTypeCodes);
         criteria.addIn("financialObjectTypeCode", objectTypeCodes);
 
         if (isYearEnd) {
@@ -84,13 +84,13 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
         }
 
         Collection status = new ArrayList();
-        status.add(Constants.DocumentStatusCodes.CANCELLED);
-        status.add(Constants.DocumentStatusCodes.DISAPPROVED);
+        status.add(KFSConstants.DocumentStatusCodes.CANCELLED);
+        status.add(KFSConstants.DocumentStatusCodes.DISAPPROVED);
 
-        criteria.addNotIn(Constants.DOCUMENT_HEADER_PROPERTY_NAME + "." + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, status);
+        criteria.addNotIn(KFSConstants.DOCUMENT_HEADER_PROPERTY_NAME + "." + KFSConstants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, status);
 
         ReportQueryByCriteria reportQuery = QueryFactory.newReportQuery(this.getEntryClass(), criteria);
-        reportQuery.setAttributes(new String[] { "sum(" + Constants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")" });
+        reportQuery.setAttributes(new String[] { "sum(" + KFSConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")" });
 
         KualiDecimal rv = null;
         Iterator iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportQuery);
@@ -109,11 +109,11 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
         LOG.debug("getTransactionSummary() started");
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(Constants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
-        criteria.addEqualTo(Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
-        criteria.addEqualTo(Constants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
+        criteria.addEqualTo(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
+        criteria.addEqualTo(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
+        criteria.addEqualTo(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
         criteria.addEqualTo("acctSufficientFundsFinObjCd", acctSufficientFundsFinObjCd);
-        criteria.addIn(Constants.FINANCIAL_BALANCE_TYPE_CODE_PROPERTY_NAME, balanceTypeCodes);
+        criteria.addIn(KFSConstants.FINANCIAL_BALANCE_TYPE_CODE_PROPERTY_NAME, balanceTypeCodes);
         criteria.addIn("financialObjectTypeCode", objectTypeCodes);
 
         if (isYearEnd) {
@@ -124,20 +124,20 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
         }
 
         if (isDebit) {
-            criteria.addEqualTo(Constants.TRANSACTION_DEBIT_CREDIT_CODE, Constants.GL_DEBIT_CODE);
+            criteria.addEqualTo(KFSConstants.TRANSACTION_DEBIT_CREDIT_CODE, KFSConstants.GL_DEBIT_CODE);
         }
         else {
-            criteria.addNotEqualTo(Constants.TRANSACTION_DEBIT_CREDIT_CODE, Constants.GL_DEBIT_CODE);
+            criteria.addNotEqualTo(KFSConstants.TRANSACTION_DEBIT_CREDIT_CODE, KFSConstants.GL_DEBIT_CODE);
         }
 
         Collection status = new ArrayList();
-        status.add(Constants.DocumentStatusCodes.CANCELLED);
-        status.add(Constants.DocumentStatusCodes.DISAPPROVED);
+        status.add(KFSConstants.DocumentStatusCodes.CANCELLED);
+        status.add(KFSConstants.DocumentStatusCodes.DISAPPROVED);
 
-        criteria.addNotIn(Constants.DOCUMENT_HEADER_PROPERTY_NAME + "." + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, status);
+        criteria.addNotIn(KFSConstants.DOCUMENT_HEADER_PROPERTY_NAME + "." + KFSConstants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, status);
 
         ReportQueryByCriteria reportQuery = QueryFactory.newReportQuery(this.getEntryClass(), criteria);
-        reportQuery.setAttributes(new String[] { "sum(" + Constants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")" });
+        reportQuery.setAttributes(new String[] { "sum(" + KFSConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")" });
 
         KualiDecimal rv = null;
         Iterator iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportQuery);
@@ -156,27 +156,27 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
         LOG.debug("getTransactionSummary() started");
 
         Criteria criteria = new Criteria();
-        criteria.addIn(Constants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYears);
-        criteria.addEqualTo(Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
-        criteria.addEqualTo(Constants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
-        criteria.addIn(Constants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, objectCodes);
-        criteria.addIn(Constants.FINANCIAL_BALANCE_TYPE_CODE_PROPERTY_NAME, balanceTypeCodes);
+        criteria.addIn(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYears);
+        criteria.addEqualTo(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
+        criteria.addEqualTo(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
+        criteria.addIn(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, objectCodes);
+        criteria.addIn(KFSConstants.FINANCIAL_BALANCE_TYPE_CODE_PROPERTY_NAME, balanceTypeCodes);
 
         if (isDebit) {
-            criteria.addEqualTo(Constants.TRANSACTION_DEBIT_CREDIT_CODE, Constants.GL_DEBIT_CODE);
+            criteria.addEqualTo(KFSConstants.TRANSACTION_DEBIT_CREDIT_CODE, KFSConstants.GL_DEBIT_CODE);
         }
         else {
-            criteria.addNotEqualTo(Constants.TRANSACTION_DEBIT_CREDIT_CODE, Constants.GL_DEBIT_CODE);
+            criteria.addNotEqualTo(KFSConstants.TRANSACTION_DEBIT_CREDIT_CODE, KFSConstants.GL_DEBIT_CODE);
         }
 
         Collection status = new ArrayList();
-        status.add(Constants.DocumentStatusCodes.CANCELLED);
-        status.add(Constants.DocumentStatusCodes.DISAPPROVED);
+        status.add(KFSConstants.DocumentStatusCodes.CANCELLED);
+        status.add(KFSConstants.DocumentStatusCodes.DISAPPROVED);
 
-        criteria.addNotIn(Constants.DOCUMENT_HEADER_PROPERTY_NAME + "." + Constants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, status);
+        criteria.addNotIn(KFSConstants.DOCUMENT_HEADER_PROPERTY_NAME + "." + KFSConstants.DOCUMENT_HEADER_DOCUMENT_STATUS_CODE_PROPERTY_NAME, status);
 
         ReportQueryByCriteria reportQuery = QueryFactory.newReportQuery(this.getEntryClass(), criteria);
-        reportQuery.setAttributes(new String[] { "sum(" + Constants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")" });
+        reportQuery.setAttributes(new String[] { "sum(" + KFSConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")" });
 
         KualiDecimal rv = null;
         Iterator iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(reportQuery);
@@ -198,15 +198,15 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
         Criteria criteria = new Criteria();
 
         List codes = new ArrayList();
-        codes.add(Constants.DocumentStatusCodes.DISAPPROVED);
-        codes.add(Constants.DocumentStatusCodes.CANCELLED);
+        codes.add(KFSConstants.DocumentStatusCodes.DISAPPROVED);
+        codes.add(KFSConstants.DocumentStatusCodes.CANCELLED);
 
-        subCriteria.addIn(PropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, codes);
+        subCriteria.addIn(KFSPropertyConstants.FINANCIAL_DOCUMENT_STATUS_CODE, codes);
         ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(DocumentHeader.class, subCriteria);
 
-        subQuery.setAttributes(new String[] { PropertyConstants.DOCUMENT_NUMBER });
+        subQuery.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
 
-        criteria.addIn(PropertyConstants.DOCUMENT_NUMBER, subQuery);
+        criteria.addIn(KFSPropertyConstants.DOCUMENT_NUMBER, subQuery);
 
         getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(this.getEntryClass(), criteria));
     }
@@ -220,7 +220,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
         LOG.debug("getByPrimaryId() started");
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(PropertyConstants.DOCUMENT_NUMBER, documentHeaderId);
+        criteria.addEqualTo(KFSPropertyConstants.DOCUMENT_NUMBER, documentHeaderId);
         criteria.addEqualTo(TRANSACTION_LEDGER_ENTRY_SEQUENCE_NUMBER, transactionLedgerEntrySequenceNumber);
 
         return (GeneralLedgerPendingEntry) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(this.getEntryClass(), criteria));
@@ -247,7 +247,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
 
         if (documentHeaderId != null) {
             Criteria criteria = new Criteria();
-            criteria.addEqualTo(PropertyConstants.DOCUMENT_NUMBER, documentHeaderId);
+            criteria.addEqualTo(KFSPropertyConstants.DOCUMENT_NUMBER, documentHeaderId);
 
             getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(this.getEntryClass(), criteria));
             getPersistenceBrokerTemplate().clearCache();
@@ -315,15 +315,15 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
 
         // find pending ledger entry by the primary key fields of encumbrance
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR, encumbrance.getUniversityFiscalYear());
-        criteria.addEqualTo(PropertyConstants.CHART_OF_ACCOUNTS_CODE, encumbrance.getChartOfAccountsCode());
-        criteria.addEqualTo(PropertyConstants.ACCOUNT_NUMBER, encumbrance.getAccountNumber());
-        criteria.addEqualTo(PropertyConstants.SUB_ACCOUNT_NUMBER, encumbrance.getSubAccountNumber());
-        criteria.addEqualTo(PropertyConstants.FINANCIAL_OBJECT_CODE, encumbrance.getObjectCode());
-        criteria.addEqualTo(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE, encumbrance.getSubObjectCode());
-        criteria.addEqualTo(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, encumbrance.getBalanceTypeCode());
-        criteria.addEqualTo(PropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, encumbrance.getDocumentTypeCode());
-        criteria.addEqualTo(PropertyConstants.ORGANIZATION_DOCUMENT_NUMBER, encumbrance.getDocumentNumber());
+        criteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, encumbrance.getUniversityFiscalYear());
+        criteria.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, encumbrance.getChartOfAccountsCode());
+        criteria.addEqualTo(KFSPropertyConstants.ACCOUNT_NUMBER, encumbrance.getAccountNumber());
+        criteria.addEqualTo(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, encumbrance.getSubAccountNumber());
+        criteria.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, encumbrance.getObjectCode());
+        criteria.addEqualTo(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, encumbrance.getSubObjectCode());
+        criteria.addEqualTo(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, encumbrance.getBalanceTypeCode());
+        criteria.addEqualTo(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, encumbrance.getDocumentTypeCode());
+        criteria.addEqualTo(KFSPropertyConstants.ORGANIZATION_DOCUMENT_NUMBER, encumbrance.getDocumentNumber());
 
         // add the status codes into the criteria
         this.addStatusCode(criteria, isApproved);
@@ -331,8 +331,8 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
         // Criteria: (originCode=originationCode OR originCode=originationReferenceCode)
         Criteria criteria1 = new Criteria();
         Criteria criteria2 = new Criteria();
-        criteria1.addEqualTo(PropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, encumbrance.getOriginCode());
-        criteria2.addEqualTo(PropertyConstants.REFERENCE_FINANCIAL_SYSTEM_ORIGINATION_CODE, encumbrance.getOriginCode());
+        criteria1.addEqualTo(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, encumbrance.getOriginCode());
+        criteria2.addEqualTo(KFSPropertyConstants.REFERENCE_FINANCIAL_SYSTEM_ORIGINATION_CODE, encumbrance.getOriginCode());
         criteria1.addOrCriteria(criteria2);
 
         // combine all criteria together
@@ -351,14 +351,14 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
 
         // find pending ledger entry by the primary key fields of balance
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR, balance.getUniversityFiscalYear());
-        criteria.addEqualTo(PropertyConstants.CHART_OF_ACCOUNTS_CODE, balance.getChartOfAccountsCode());
-        criteria.addEqualTo(PropertyConstants.ACCOUNT_NUMBER, balance.getAccountNumber());
-        criteria.addEqualTo(PropertyConstants.FINANCIAL_OBJECT_CODE, balance.getObjectCode());
-        criteria.addEqualTo(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, balance.getBalanceTypeCode());
+        criteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, balance.getUniversityFiscalYear());
+        criteria.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, balance.getChartOfAccountsCode());
+        criteria.addEqualTo(KFSPropertyConstants.ACCOUNT_NUMBER, balance.getAccountNumber());
+        criteria.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, balance.getObjectCode());
+        criteria.addEqualTo(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, balance.getBalanceTypeCode());
 
         if (!isConsolidated) {
-            criteria.addEqualTo(PropertyConstants.SUB_ACCOUNT_NUMBER, balance.getSubAccountNumber());
+            criteria.addEqualTo(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, balance.getSubAccountNumber());
         }
 
         // add the status codes into the criteria
@@ -407,8 +407,8 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
         LOG.debug("findPendingLedgerEntriesForCashBalance started");
 
         Criteria criteria = buildCriteriaFromMap(fieldValues, new GeneralLedgerPendingEntry());
-        criteria.addEqualTo(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, "AC");
-        criteria.addEqualToField(PropertyConstants.FINANCIAL_OBJECT_CODE, CHART_FINANCIAL_CASH_OBJECT_CODE);
+        criteria.addEqualTo(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, "AC");
+        criteria.addEqualToField(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, CHART_FINANCIAL_CASH_OBJECT_CODE);
 
         // add the status codes into the criteria
         this.addStatusCode(criteria, isApproved);
@@ -424,12 +424,12 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
         LOG.debug("findPendingLedgerEntriesForEncumbrance started");
 
         Criteria criteria = buildCriteriaFromMap(fieldValues, new GeneralLedgerPendingEntry());
-        criteria.addIn(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, Arrays.asList(Constants.ENCUMBRANCE_BALANCE_TYPE));
+        criteria.addIn(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, Arrays.asList(KFSConstants.ENCUMBRANCE_BALANCE_TYPE));
 
         List encumbranceUpdateCodeList = new ArrayList();
-        encumbranceUpdateCodeList.add(Constants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
-        encumbranceUpdateCodeList.add(Constants.ENCUMB_UPDT_DOCUMENT_CD);
-        criteria.addIn(PropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD, encumbranceUpdateCodeList);
+        encumbranceUpdateCodeList.add(KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
+        encumbranceUpdateCodeList.add(KFSConstants.ENCUMB_UPDT_DOCUMENT_CD);
+        criteria.addIn(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD, encumbranceUpdateCodeList);
 
         // add the status codes into the criteria
         this.addStatusCode(criteria, isApproved);
@@ -489,7 +489,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
      */
     private List buildAttributeList() {
         List attributeList = buildGroupList();
-        attributeList.add("sum(" + PropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")");
+        attributeList.add("sum(" + KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")");
         return attributeList;
     }
 
@@ -501,9 +501,9 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
     private List buildGroupList() {
         List groupList = new ArrayList();
 
-        groupList.add(PropertyConstants.FINANCIAL_OBJECT_CODE);
-        groupList.add(PropertyConstants.FINANCIAL_DOCUMENT_APPROVED_CODE);
-        groupList.add(PropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE);
+        groupList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        groupList.add(KFSPropertyConstants.FINANCIAL_DOCUMENT_APPROVED_CODE);
+        groupList.add(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE);
         groupList.add(OBJECT_TYPE_FIN_OBJECT_TYPE_DEBITCREDIT_CD);
         return groupList;
     }
@@ -531,7 +531,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
     private List buildApprovalCodeList() {
         List approvalCodeList = new ArrayList();
 
-        approvalCodeList.add(Constants.DocumentStatusCodes.APPROVED);
+        approvalCodeList.add(KFSConstants.DocumentStatusCodes.APPROVED);
         return approvalCodeList;
     }
 
@@ -543,8 +543,8 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
     private List buildExcludedStatusCodeList() {
         List exclusiveCodeList = new ArrayList();
 
-        exclusiveCodeList.add(Constants.DocumentStatusCodes.CANCELLED);
-        exclusiveCodeList.add(Constants.DocumentStatusCodes.DISAPPROVED);
+        exclusiveCodeList.add(KFSConstants.DocumentStatusCodes.CANCELLED);
+        exclusiveCodeList.add(KFSConstants.DocumentStatusCodes.DISAPPROVED);
         return exclusiveCodeList;
     }
 
@@ -564,13 +564,13 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
 
         // deal with null fiscal year and fiscal period code as current fiscal year and period code respectively
         String fiscalPeriodFromForm = null;
-        if (fieldValues.containsKey(PropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE)) {
-            fiscalPeriodFromForm = (String) fieldValues.get(PropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
+        if (fieldValues.containsKey(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE)) {
+            fiscalPeriodFromForm = (String) fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
         }
 
         String fiscalYearFromForm = null;
-        if (fieldValues.containsKey(PropertyConstants.UNIVERSITY_FISCAL_YEAR)) {
-            fiscalYearFromForm = (String) fieldValues.get(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        if (fieldValues.containsKey(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR)) {
+            fiscalYearFromForm = (String) fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         }
 
         boolean includeNullFiscalPeriodCodeInLookup = null != currentFiscalPeriodCode && currentFiscalPeriodCode.equals(fiscalPeriodFromForm);
@@ -578,40 +578,40 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
 
         if (includeNullFiscalPeriodCodeInLookup) {
             Criteria apValueCriteria = new Criteria();
-            apValueCriteria.addLike(PropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, fiscalPeriodFromForm);
+            apValueCriteria.addLike(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, fiscalPeriodFromForm);
 
             Criteria apNullCriteria = new Criteria();
-            apNullCriteria.addIsNull(PropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
+            apNullCriteria.addIsNull(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
 
             apValueCriteria.addOrCriteria(apNullCriteria);
             criteria.addAndCriteria(apValueCriteria);
 
-            fieldValues.remove(PropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
+            fieldValues.remove(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
         }
 
         if (includeNullFiscalYearInLookup) {
             Criteria fyValueCriteria = new Criteria();
-            fyValueCriteria.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYearFromForm);
+            fyValueCriteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYearFromForm);
 
             Criteria fyNullCriteria = new Criteria();
-            fyNullCriteria.addIsNull(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
+            fyNullCriteria.addIsNull(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
 
             fyValueCriteria.addOrCriteria(fyNullCriteria);
             criteria.addAndCriteria(fyValueCriteria);
 
-            fieldValues.remove(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
+            fieldValues.remove(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         }
 
         // handle encumbrance balance type
         Map localFieldValues = new HashMap();        
         localFieldValues.putAll(fieldValues);
         
-        String propertyName = PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE;
+        String propertyName = KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE;
         if (localFieldValues.containsKey(propertyName)) {
             String propertyValue = (String) fieldValues.get(propertyName);
-            if (Constants.AGGREGATE_ENCUMBRANCE_BALANCE_TYPE_CODE.equals(propertyValue)) {
-                localFieldValues.remove(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
-                criteria.addIn(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, this.getEncumbranceBalanceTypeCodeList());
+            if (KFSConstants.AGGREGATE_ENCUMBRANCE_BALANCE_TYPE_CODE.equals(propertyValue)) {
+                localFieldValues.remove(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
+                criteria.addIn(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, this.getEncumbranceBalanceTypeCodeList());
             }
         }
 

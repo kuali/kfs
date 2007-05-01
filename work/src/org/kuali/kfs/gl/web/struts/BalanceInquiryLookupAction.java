@@ -42,9 +42,9 @@ import org.kuali.core.web.struts.action.KualiTableRenderAction;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.ResultRow;
 import org.kuali.core.web.ui.Row;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.util.ObjectHelper;
@@ -93,13 +93,13 @@ public class BalanceInquiryLookupAction extends KualiLookupAction implements Kua
     private void setTotalTitles() {
         totalTitles = new String[7];
 
-        totalTitles[0] = kualiConfigurationService.getPropertyString(KeyConstants.AccountBalanceService.INCOME);
-        totalTitles[1] = kualiConfigurationService.getPropertyString(KeyConstants.AccountBalanceService.INCOME_FROM_TRANSFERS);
-        totalTitles[2] = kualiConfigurationService.getPropertyString(KeyConstants.AccountBalanceService.INCOME_TOTAL);
-        totalTitles[3] = kualiConfigurationService.getPropertyString(KeyConstants.AccountBalanceService.EXPENSE);
-        totalTitles[4] = kualiConfigurationService.getPropertyString(KeyConstants.AccountBalanceService.EXPENSE_FROM_TRANSFERS);
-        totalTitles[5] = kualiConfigurationService.getPropertyString(KeyConstants.AccountBalanceService.EXPENSE_TOTAL);
-        totalTitles[6] = kualiConfigurationService.getPropertyString(KeyConstants.AccountBalanceService.TOTAL);
+        totalTitles[0] = kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.INCOME);
+        totalTitles[1] = kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.INCOME_FROM_TRANSFERS);
+        totalTitles[2] = kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.INCOME_TOTAL);
+        totalTitles[3] = kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.EXPENSE);
+        totalTitles[4] = kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.EXPENSE_FROM_TRANSFERS);
+        totalTitles[5] = kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.EXPENSE_TOTAL);
+        totalTitles[6] = kualiConfigurationService.getPropertyString(KFSKeyConstants.AccountBalanceService.TOTAL);
 
     }
 
@@ -115,7 +115,7 @@ public class BalanceInquiryLookupAction extends KualiLookupAction implements Kua
      * Entry point to lookups, forwards to jsp for search render.
      */
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -148,7 +148,7 @@ public class BalanceInquiryLookupAction extends KualiLookupAction implements Kua
         }
         else {
             lookupForm.setSearchUsingOnlyPrimaryKeyValues(false);
-            lookupForm.setPrimaryKeyFieldLabels(Constants.EMPTY_STRING);
+            lookupForm.setPrimaryKeyFieldLabels(KFSConstants.EMPTY_STRING);
         }
 
         request.setAttribute("reqSearchResultsActualSize", totalSize);
@@ -182,24 +182,24 @@ public class BalanceInquiryLookupAction extends KualiLookupAction implements Kua
                 GlobalVariables.getUserSession().addObject(TOTALS_TABLE_KEY, totalsTable);
             }
             catch (NumberFormatException e) {
-                GlobalVariables.getErrorMap().putError(PropertyConstants.UNIVERSITY_FISCAL_YEAR, KeyConstants.ERROR_CUSTOM, new String[] { "Fiscal Year must be a four-digit number" });
+                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, KFSKeyConstants.ERROR_CUSTOM, new String[] { "Fiscal Year must be a four-digit number" });
             }
             catch (Exception e) {
-                GlobalVariables.getErrorMap().putError(Constants.DOCUMENT_ERRORS, KeyConstants.ERROR_CUSTOM, new String[] { "Please report the server error." });
+                GlobalVariables.getErrorMap().putError(KFSConstants.DOCUMENT_ERRORS, KFSKeyConstants.ERROR_CUSTOM, new String[] { "Please report the server error." });
                 LOG.error("Application Errors", e);
             }            
         }
         
-        request.setAttribute(Constants.REQUEST_SEARCH_RESULTS_SIZE, totalSize);
-        request.setAttribute(Constants.REQUEST_SEARCH_RESULTS, resultTable);
+        request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS_SIZE, totalSize);
+        request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS, resultTable);
         
-        if (request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY) != null) {
-            GlobalVariables.getUserSession().removeObject(request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY));
-            request.setAttribute(Constants.SEARCH_LIST_REQUEST_KEY, 
+        if (request.getParameter(KFSConstants.SEARCH_LIST_REQUEST_KEY) != null) {
+            GlobalVariables.getUserSession().removeObject(request.getParameter(KFSConstants.SEARCH_LIST_REQUEST_KEY));
+            request.setAttribute(KFSConstants.SEARCH_LIST_REQUEST_KEY, 
                                      GlobalVariables.getUserSession().addObject(resultTable));
         }
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     /**
@@ -234,8 +234,8 @@ public class BalanceInquiryLookupAction extends KualiLookupAction implements Kua
                 fieldValues.put(field.getPropertyName(), field.getPropertyValue());
             }
         }
-        fieldValues.put(Constants.DOC_FORM_KEY, lookupForm.getFormKey());
-        fieldValues.put(Constants.BACK_LOCATION, lookupForm.getBackLocation());
+        fieldValues.put(KFSConstants.DOC_FORM_KEY, lookupForm.getFormKey());
+        fieldValues.put(KFSConstants.BACK_LOCATION, lookupForm.getBackLocation());
 
         if (kualiLookupable.checkForAdditionalFields(fieldValues)) {
             for (Iterator iter = kualiLookupable.getRows().iterator(); iter.hasNext();) {
@@ -255,7 +255,7 @@ public class BalanceInquiryLookupAction extends KualiLookupAction implements Kua
             }
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -279,13 +279,13 @@ public class BalanceInquiryLookupAction extends KualiLookupAction implements Kua
             }
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward viewResults(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request.setAttribute(Constants.SEARCH_LIST_REQUEST_KEY, request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY));
-        request.setAttribute(Constants.REQUEST_SEARCH_RESULTS, GlobalVariables.getUserSession().retrieveObject(request.getParameter(Constants.SEARCH_LIST_REQUEST_KEY)));
-        request.setAttribute(Constants.REQUEST_SEARCH_RESULTS_SIZE, request.getParameter(Constants.REQUEST_SEARCH_RESULTS_SIZE));
+        request.setAttribute(KFSConstants.SEARCH_LIST_REQUEST_KEY, request.getParameter(KFSConstants.SEARCH_LIST_REQUEST_KEY));
+        request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS, GlobalVariables.getUserSession().retrieveObject(request.getParameter(KFSConstants.SEARCH_LIST_REQUEST_KEY)));
+        request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS_SIZE, request.getParameter(KFSConstants.REQUEST_SEARCH_RESULTS_SIZE));
 
         // TODO: use inheritance instead of this if statement
         if (((BalanceInquiryLookupForm) form).getLookupable().getLookupableHelperService() instanceof AccountBalanceByConsolidationLookupableHelperServiceImpl) {
@@ -293,7 +293,7 @@ public class BalanceInquiryLookupAction extends KualiLookupAction implements Kua
             request.setAttribute(TOTALS_TABLE_KEY, totalsTable);
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public void setKualiConfigurationService(KualiConfigurationService kcs) {
@@ -316,7 +316,7 @@ public class BalanceInquiryLookupAction extends KualiLookupAction implements Kua
         List<ResultRow> resultTable = displayTagSurrogate.switchToPage(balanceInquiryLookup.getLookupResultsSelectable(), 
                                                                        displayTagSurrogate.getMaxRowsPerPage(balanceInquiryLookup.getLookupResultsSelectable()));
         request.setAttribute("reqSearchResults", resultTable);
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     /**
@@ -339,7 +339,7 @@ public class BalanceInquiryLookupAction extends KualiLookupAction implements Kua
         List<ResultRow> resultTable = displayTagSurrogate.sort(balanceInquiryLookup.getLookupResultsSelectable(), 
                                                                displayTagSurrogate.getMaxRowsPerPage(balanceInquiryLookup.getLookupResultsSelectable()));
         request.setAttribute("reqSearchResults", resultTable);
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     /**
@@ -363,13 +363,13 @@ public class BalanceInquiryLookupAction extends KualiLookupAction implements Kua
         
         // build the parameters for the refresh url
         Properties parameters = new Properties();
-        parameters.put(Constants.LOOKUP_RESULTS_BO_CLASS_NAME, balanceInquiryLookup.getBusinessObjectClassName());
-        parameters.put(Constants.LOOKUP_RESULTS_SEQUENCE_NUMBER, balanceInquiryLookup.getLookupResultsSelectable().getLookupResultsSequenceNumber());
-        parameters.put(Constants.DOC_FORM_KEY, balanceInquiryLookup.getFormKey());
-        parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, Constants.RETURN_METHOD_TO_CALL);
-        parameters.put(Constants.REFRESH_CALLER, Constants.MULTIPLE_VALUE);
-        parameters.put(Constants.ANCHOR, balanceInquiryLookup.getLookupAnchor());
-        parameters.put(Constants.LOOKED_UP_COLLECTION_NAME, balanceInquiryLookup.getLookupResultsSelectable().getLookedUpCollectionName());
+        parameters.put(KFSConstants.LOOKUP_RESULTS_BO_CLASS_NAME, balanceInquiryLookup.getBusinessObjectClassName());
+        parameters.put(KFSConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER, balanceInquiryLookup.getLookupResultsSelectable().getLookupResultsSequenceNumber());
+        parameters.put(KFSConstants.DOC_FORM_KEY, balanceInquiryLookup.getFormKey());
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.RETURN_METHOD_TO_CALL);
+        parameters.put(KFSConstants.REFRESH_CALLER, KFSConstants.MULTIPLE_VALUE);
+        parameters.put(KFSConstants.ANCHOR, balanceInquiryLookup.getLookupAnchor());
+        parameters.put(KFSConstants.LOOKED_UP_COLLECTION_NAME, balanceInquiryLookup.getLookupResultsSelectable().getLookedUpCollectionName());
         String backUrl = UrlFactory.parameterizeUrl(balanceInquiryLookup.getBackLocation(), parameters);
         return new ActionForward(backUrl, true);
     }
@@ -388,7 +388,7 @@ public class BalanceInquiryLookupAction extends KualiLookupAction implements Kua
         List<ResultRow> resultTable = displayTagSurrogate.selectAll(balanceInquiryLookup.getLookupResultsSelectable(), 
                                                                     displayTagSurrogate.getMaxRowsPerPage(balanceInquiryLookup.getLookupResultsSelectable()));
         request.setAttribute("reqSearchResults", resultTable);
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     /**
@@ -406,7 +406,7 @@ public class BalanceInquiryLookupAction extends KualiLookupAction implements Kua
         List<ResultRow> resultTable = displayTagSurrogate.unselectAll(balanceInquiryLookup.getLookupResultsSelectable(), 
                                                                       displayTagSurrogate.getMaxRowsPerPage(balanceInquiryLookup.getLookupResultsSelectable()));
         request.setAttribute("reqSearchResults", resultTable);
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     /**
@@ -434,10 +434,10 @@ public class BalanceInquiryLookupAction extends KualiLookupAction implements Kua
         
         // build the parameters for the refresh url
         Properties parameters = new Properties();
-        parameters.put(Constants.DOC_FORM_KEY, balanceInquiryLookup.getFormKey());
-        parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, Constants.RETURN_METHOD_TO_CALL);
-        parameters.put(Constants.REFRESH_CALLER, Constants.MULTIPLE_VALUE);
-        parameters.put(Constants.ANCHOR, balanceInquiryLookup.getLookupAnchor());
+        parameters.put(KFSConstants.DOC_FORM_KEY, balanceInquiryLookup.getFormKey());
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.RETURN_METHOD_TO_CALL);
+        parameters.put(KFSConstants.REFRESH_CALLER, KFSConstants.MULTIPLE_VALUE);
+        parameters.put(KFSConstants.ANCHOR, balanceInquiryLookup.getLookupAnchor());
         
         String backUrl = UrlFactory.parameterizeUrl(balanceInquiryLookup.getBackLocation(), parameters);
         return new ActionForward(backUrl, true);
@@ -458,6 +458,6 @@ public class BalanceInquiryLookupAction extends KualiLookupAction implements Kua
         BalanceInquiryLookupForm balanceInquiryLookup = (BalanceInquiryLookupForm) form;
         List<ResultRow> resultTable = displayTagSurrogate.prepareToExport(balanceInquiryLookup.getLookupResultsSelectable());
         request.setAttribute("reqSearchResults", resultTable);
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 }

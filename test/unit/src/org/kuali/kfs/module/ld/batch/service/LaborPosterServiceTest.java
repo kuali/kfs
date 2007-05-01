@@ -31,7 +31,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OriginEntryGroupService;
@@ -83,7 +83,7 @@ public class LaborPosterServiceTest extends KualiTestBase {
         persistenceService = (PersistenceService) beanFactory.getBean("persistenceService");
 
         groupFieldValues = new HashMap();
-        groupFieldValues.put(PropertyConstants.SOURCE_CODE, LABOR_SCRUBBER_VALID);
+        groupFieldValues.put(KFSPropertyConstants.SOURCE_CODE, LABOR_SCRUBBER_VALID);
         originEntryGroupService.deleteOlderGroups(0);
         businessObjectService.deleteMatching(OriginEntryGroup.class, groupFieldValues);
 

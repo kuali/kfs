@@ -26,8 +26,7 @@ import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KfsConstants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.batch.BatchJobStatus;
 import org.kuali.kfs.service.SchedulerService;
 
@@ -40,8 +39,8 @@ public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHe
     
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        super.setBackLocation((String) fieldValues.get(Constants.BACK_LOCATION));
-        super.setDocFormKey((String) fieldValues.get(Constants.DOC_FORM_KEY));
+        super.setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
+        super.setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
         List<BatchJobStatus> allJobs = schedulerService.getJobs();
         List<BatchJobStatus> jobs = new ArrayList<BatchJobStatus>();
         String nameValue = fieldValues.get( "name" );
@@ -76,8 +75,8 @@ public class BatchJobStatusLookupableHelperServiceImpl extends KualiLookupableHe
             }
             String linkText = "Modify";
             StringBuffer sb = new StringBuffer();
-            if ( configService.hasApplicationParameter(Constants.ParameterGroups.SYSTEM, KfsConstants.SystemGroupParameterNames.JOB_ADMIN_WORKGROUP) ) {            
-                String adminWorkgroup = configService.getApplicationParameterValue(Constants.ParameterGroups.SYSTEM, KfsConstants.SystemGroupParameterNames.JOB_ADMIN_WORKGROUP);
+            if ( configService.hasApplicationParameter(KFSConstants.ParameterGroups.SYSTEM,KFSConstants.SystemGroupParameterNames.JOB_ADMIN_WORKGROUP) ) {            
+                String adminWorkgroup = configService.getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.JOB_ADMIN_WORKGROUP);
                 if ( !GlobalVariables.getUserSession().getUniversalUser().isMember(adminWorkgroup) ) {
                     linkText = "View";
                 }

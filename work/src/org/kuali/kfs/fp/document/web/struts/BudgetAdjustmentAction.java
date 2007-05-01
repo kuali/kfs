@@ -23,7 +23,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.module.financial.document.BudgetAdjustmentDocument;
 
@@ -55,7 +55,7 @@ public class BudgetAdjustmentAction extends KualiAccountingDocumentActionBase {
      */
     @Override
     public ActionForward copy(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        GlobalVariables.getMessageList().add(KeyConstants.WARNING_DOCUMENT_BA_COPY_LABOR_BENEFITS);
+        GlobalVariables.getMessageList().add(KFSKeyConstants.WARNING_DOCUMENT_BA_COPY_LABOR_BENEFITS);
         return super.copy(mapping, form, request, response);
     }
 

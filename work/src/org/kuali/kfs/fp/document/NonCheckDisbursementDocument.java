@@ -15,7 +15,7 @@
  */
 package org.kuali.module.financial.document;
 
-import static org.kuali.kfs.Constants.EMPTY_STRING;
+import static org.kuali.kfs.KFSConstants.EMPTY_STRING;
 
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;

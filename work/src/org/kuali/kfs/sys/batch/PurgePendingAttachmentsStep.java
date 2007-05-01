@@ -21,7 +21,7 @@ import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.AttachmentService;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 
 
 /**
@@ -37,7 +37,7 @@ import org.kuali.kfs.Constants;
  * modified time is older than the SYSTEM parameter "pendingAssignmentMaxAge", then it will be deleted.
  * 
  * @see org.kuali.core.service.impl.AttachmentServiceImpl
- * @see Constants.SystemGroupParameterNames#PURGE_PENDING_ATTACHMENTS_STEP_MAX_AGE
+ * @see KFSConstants.SystemGroupParameterNames#PURGE_PENDING_ATTACHMENTS_STEP_MAX_AGE
  */
 public class PurgePendingAttachmentsStep extends AbstractStep {
 
@@ -50,8 +50,8 @@ public class PurgePendingAttachmentsStep extends AbstractStep {
      */
     public boolean execute() {
         Calendar calendar = getDateTimeService().getCurrentCalendar();
-        String maxAgeInSecondsStr = getConfigurationService().getApplicationParameterValue(Constants.ParameterGroups.SYSTEM,
-                Constants.SystemGroupParameterNames.PURGE_PENDING_ATTACHMENTS_STEP_MAX_AGE);
+        String maxAgeInSecondsStr = getConfigurationService().getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM,
+                KFSConstants.SystemGroupParameterNames.PURGE_PENDING_ATTACHMENTS_STEP_MAX_AGE);
         int maxAgeInSeconds = Integer.parseInt(maxAgeInSecondsStr);
         calendar.add(Calendar.SECOND, -maxAgeInSeconds);
         getAttachmentService().deletePendingAttachmentsModifiedBefore(calendar.getTimeInMillis());

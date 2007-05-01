@@ -24,7 +24,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -425,10 +425,10 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put(PropertyConstants.UNIVERSITY_FISCAL_YEAR, this.universityFiscalYear.toString());
-        m.put(PropertyConstants.CHART_OF_ACCOUNTS_CODE, this.chartOfAccountsCode);
-        m.put(PropertyConstants.ACCOUNT_NUMBER, this.accountNumber);
-        m.put(PropertyConstants.FINANCIAL_OBJECT_CODE, this.financialObjectCode);
+        m.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, this.universityFiscalYear.toString());
+        m.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, this.chartOfAccountsCode);
+        m.put(KFSPropertyConstants.ACCOUNT_NUMBER, this.accountNumber);
+        m.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, this.financialObjectCode);
         return m;
     }
 }

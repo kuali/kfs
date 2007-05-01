@@ -18,8 +18,8 @@ package org.kuali.module.financial.rules;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.kfs.KeyConstants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.ServiceBillingControl;
 
@@ -70,7 +70,7 @@ public class ServiceBillingControlRule extends MaintenanceDocumentRuleBase {
         String name = getNewServiceBillingControl().getWorkgroupName();
         if (StringUtils.isNotBlank(name)) {
             if (!workgroupExistsAndIsActive(name)) {
-                putFieldErrorWithShortLabel(PropertyConstants.WORKGROUP_NAME, KeyConstants.ERROR_EXISTENCE);
+                putFieldErrorWithShortLabel(KFSPropertyConstants.WORKGROUP_NAME, KFSKeyConstants.ERROR_EXISTENCE);
                 return false;
             }
         }

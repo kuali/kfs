@@ -16,17 +16,17 @@
 
 package org.kuali.module.financial.bo;
 
-import static org.kuali.kfs.PropertyConstants.ACCOUNT_NUMBER;
-import static org.kuali.kfs.PropertyConstants.AMOUNT;
-import static org.kuali.kfs.PropertyConstants.CHART_OF_ACCOUNTS_CODE;
-import static org.kuali.kfs.PropertyConstants.FINANCIAL_DOCUMENT_LINE_DESCRIPTION;
-import static org.kuali.kfs.PropertyConstants.FINANCIAL_OBJECT_CODE;
-import static org.kuali.kfs.PropertyConstants.FINANCIAL_SUB_OBJECT_CODE;
-import static org.kuali.kfs.PropertyConstants.ORGANIZATION_REFERENCE_ID;
-import static org.kuali.kfs.PropertyConstants.OVERRIDE_CODE;
-import static org.kuali.kfs.PropertyConstants.PROJECT_CODE;
-import static org.kuali.kfs.PropertyConstants.REFERENCE_NUMBER;
-import static org.kuali.kfs.PropertyConstants.SUB_ACCOUNT_NUMBER;
+import static org.kuali.kfs.KFSPropertyConstants.ACCOUNT_NUMBER;
+import static org.kuali.kfs.KFSPropertyConstants.AMOUNT;
+import static org.kuali.kfs.KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
+import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_DOCUMENT_LINE_DESCRIPTION;
+import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
+import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE;
+import static org.kuali.kfs.KFSPropertyConstants.ORGANIZATION_REFERENCE_ID;
+import static org.kuali.kfs.KFSPropertyConstants.OVERRIDE_CODE;
+import static org.kuali.kfs.KFSPropertyConstants.PROJECT_CODE;
+import static org.kuali.kfs.KFSPropertyConstants.REFERENCE_NUMBER;
+import static org.kuali.kfs.KFSPropertyConstants.SUB_ACCOUNT_NUMBER;
 
 import org.kuali.kfs.bo.AccountingLineParserBase;
 

@@ -30,8 +30,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KfsConstants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.batch.BatchJobStatus;
 import org.kuali.kfs.service.SchedulerService;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -83,14 +82,14 @@ public class KualiBatchJobModifyAction extends KualiAction {
     }
     
     private void checkJobAuthorization( BatchJobStatus job, String actionType ) throws AuthorizationException {
-        if ( getConfigService().hasApplicationParameter(Constants.ParameterGroups.SYSTEM, KfsConstants.SystemGroupParameterNames.JOB_ADMIN_WORKGROUP) ) {            
-            String adminWorkgroup = getConfigService().getApplicationParameterValue(Constants.ParameterGroups.SYSTEM, KfsConstants.SystemGroupParameterNames.JOB_ADMIN_WORKGROUP);
+        if ( getConfigService().hasApplicationParameter(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.JOB_ADMIN_WORKGROUP) ) {            
+            String adminWorkgroup = getConfigService().getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.JOB_ADMIN_WORKGROUP);
             if ( !GlobalVariables.getUserSession().getUniversalUser().isMember(adminWorkgroup) ) {
                 throw new AuthorizationException( GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier(), actionType, job.getFullName() );
             }
         }
-        if ( getConfigService().hasApplicationParameter(Constants.ParameterGroups.SYSTEM, job.getName() + JOB_ADMIN_PARAMETER_SUFFIX) ) {
-            String jobSpecificAdminWorkgroup = getConfigService().getApplicationParameterValue(Constants.ParameterGroups.SYSTEM, job.getName() + JOB_ADMIN_PARAMETER_SUFFIX );
+        if ( getConfigService().hasApplicationParameter(KFSConstants.ParameterGroups.SYSTEM, job.getName() + JOB_ADMIN_PARAMETER_SUFFIX) ) {
+            String jobSpecificAdminWorkgroup = getConfigService().getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM, job.getName() + JOB_ADMIN_PARAMETER_SUFFIX );
             if ( !GlobalVariables.getUserSession().getUniversalUser().isMember(jobSpecificAdminWorkgroup) ) {
                 throw new AuthorizationException( GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier(), actionType, job.getFullName() );
             }
@@ -107,7 +106,7 @@ public class KualiBatchJobModifyAction extends KualiAction {
         request.setAttribute( "canUnschedule", canModifyJob(job, "unschedule") );
         request.setAttribute( "canStopJob", canModifyJob(job, "stopJob") );
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     public ActionForward runJob(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

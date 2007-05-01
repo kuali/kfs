@@ -18,7 +18,7 @@ package org.kuali.module.financial.document;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.document.AccountingDocumentBase;
 
 /**
@@ -45,7 +45,7 @@ public class TransferOfFundsDocument extends AccountingDocumentBase implements C
      * @see org.kuali.kfs.document.AccountingDocument#getSourceAccountingLinesSectionTitle()
      */
     public String getSourceAccountingLinesSectionTitle() {
-        return Constants.FROM;
+        return KFSConstants.FROM;
     }
 
     /**
@@ -54,6 +54,6 @@ public class TransferOfFundsDocument extends AccountingDocumentBase implements C
      * @see org.kuali.kfs.document.AccountingDocument#getTargetAccountingLinesSectionTitle()
      */
     public String getTargetAccountingLinesSectionTitle() {
-        return Constants.TO;
+        return KFSConstants.TO;
     }
 }

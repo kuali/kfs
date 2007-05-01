@@ -22,7 +22,7 @@ import java.util.Map;
 
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.State;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -78,7 +78,7 @@ public class SubcontractorRule extends MaintenanceDocumentRuleBase {
 
         // If no values returned, state code is invalid, throw error
         if(boList.size() < 1) {
-            putFieldError("subcontractorStateCode", KeyConstants.ERROR_STATE_CODE_INVALID, stateCode);            
+            putFieldError("subcontractorStateCode", KFSKeyConstants.ERROR_STATE_CODE_INVALID, stateCode);            
             valid = false;
         }
 
@@ -108,7 +108,7 @@ public class SubcontractorRule extends MaintenanceDocumentRuleBase {
 
         // If no values returned, country code is invalid, throw error
         if(boList.size() < 1) {
-            putFieldError("subcontractorCountryCode", KeyConstants.ERROR_COUNTRY_CODE_INVALID, countryCode);            
+            putFieldError("subcontractorCountryCode", KFSKeyConstants.ERROR_COUNTRY_CODE_INVALID, countryCode);            
             valid = false;
         }
 

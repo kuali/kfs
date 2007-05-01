@@ -16,9 +16,9 @@
 package org.kuali.module.financial.rules;
 
 import static org.kuali.core.util.AssertionUtils.assertThat;
-import static org.kuali.kfs.Constants.BALANCE_TYPE_PRE_ENCUMBRANCE;
-import static org.kuali.kfs.PropertyConstants.REFERENCE_NUMBER;
-import static org.kuali.kfs.PropertyConstants.REVERSAL_DATE;
+import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_PRE_ENCUMBRANCE;
+import static org.kuali.kfs.KFSPropertyConstants.REFERENCE_NUMBER;
+import static org.kuali.kfs.KFSPropertyConstants.REVERSAL_DATE;
 import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 import static org.kuali.module.financial.rules.PreEncumbranceDocumentRuleConstants.PRE_ENCUMBRANCE_DOCUMENT_SECURITY_GROUPING;
 import static org.kuali.module.financial.rules.PreEncumbranceDocumentRuleConstants.RESTRICTED_OBJECT_TYPE_CODES;
@@ -28,8 +28,8 @@ import org.kuali.core.datadictionary.BusinessObjectEntry;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.TargetAccountingLine;
@@ -150,7 +150,7 @@ public class PreEncumbranceDocumentRule extends AccountingDocumentRuleBase {
     @Override
     protected boolean isAccountingLinesRequiredNumberForRoutingMet(AccountingDocument financialDocument) {
         if (0 == financialDocument.getSourceAccountingLines().size() && 0 == financialDocument.getTargetAccountingLines().size()) {
-            GlobalVariables.getErrorMap().putError(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_DOCUMENT_NO_ACCOUNTING_LINES);
+            GlobalVariables.getErrorMap().putError(KFSConstants.ACCOUNTING_LINE_ERRORS, KFSKeyConstants.ERROR_DOCUMENT_NO_ACCOUNTING_LINES);
             return false;
         }
         else {
@@ -184,11 +184,11 @@ public class PreEncumbranceDocumentRule extends AccountingDocumentRuleBase {
         }
         explicitEntry.setTransactionEntryProcessedTs(null);
         if (accountingLine.isSourceAccountingLine()) {
-            explicitEntry.setTransactionEncumbranceUpdateCode(Constants.ENCUMB_UPDT_DOCUMENT_CD);
+            explicitEntry.setTransactionEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_DOCUMENT_CD);
         }
         else {
             assertThat(accountingLine.isTargetAccountingLine(), accountingLine);
-            explicitEntry.setTransactionEncumbranceUpdateCode(Constants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
+            explicitEntry.setTransactionEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
             explicitEntry.setReferenceFinancialSystemOriginationCode(SpringServiceLocator.getHomeOriginationService().getHomeOrigination().getFinSystemHomeOriginationCode());
             explicitEntry.setReferenceFinancialDocumentNumber(accountingLine.getReferenceNumber());
             explicitEntry.setReferenceFinancialDocumentTypeCode(explicitEntry.getFinancialDocumentTypeCode()); // "PE"

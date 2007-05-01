@@ -36,7 +36,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.bo.BudgetConstructionMonthly;
@@ -145,7 +145,7 @@ public class MonthlyBudgetAction extends KualiAction {
         monthlyBudgetForm.setBudgetConstructionMonthly(budgetConstructionMonthly);
 
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward returnToCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -158,10 +158,10 @@ public class MonthlyBudgetAction extends KualiAction {
 
         // setup the return parms for the document and anchor
         Properties parameters = new Properties();
-        parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, BCConstants.BC_DOCUMENT_REFRESH_METHOD);
-        parameters.put(Constants.DOC_FORM_KEY, monthlyBudgetForm.getReturnFormKey());
-        parameters.put(Constants.ANCHOR, monthlyBudgetForm.getReturnAnchor());
-        parameters.put(Constants.REFRESH_CALLER, BCConstants.MONTHLY_BUDGET_REFRESH_CALLER);
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.BC_DOCUMENT_REFRESH_METHOD);
+        parameters.put(KFSConstants.DOC_FORM_KEY, monthlyBudgetForm.getReturnFormKey());
+        parameters.put(KFSConstants.ANCHOR, monthlyBudgetForm.getReturnAnchor());
+        parameters.put(KFSConstants.REFRESH_CALLER, BCConstants.MONTHLY_BUDGET_REFRESH_CALLER);
         
         String lookupUrl = UrlFactory.parameterizeUrl("/" + BCConstants.BC_DOCUMENT_ACTION, parameters);
         return new ActionForward(lookupUrl, true);
@@ -181,7 +181,7 @@ public class MonthlyBudgetAction extends KualiAction {
     public ActionForward showDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         MonthlyBudgetForm tForm = (MonthlyBudgetForm) form;
         tForm.setHideDetails(false);
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -198,6 +198,6 @@ public class MonthlyBudgetAction extends KualiAction {
     public ActionForward hideDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         MonthlyBudgetForm tForm = (MonthlyBudgetForm) form;
         tForm.setHideDetails(true);
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 }

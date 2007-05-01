@@ -22,7 +22,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.DocumentType;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountingPeriod;
@@ -704,7 +704,7 @@ public class Reversal extends PersistableBusinessObjectBase implements Transacti
         map.put("universityFiscalPeriodCode", getUniversityFiscalPeriodCode());
         map.put("financialDocumentTypeCode", getFinancialDocumentTypeCode());
         map.put("financialSystemOriginationCode", getFinancialSystemOriginationCode());
-        map.put(PropertyConstants.DOCUMENT_NUMBER, getDocumentNumber());
+        map.put(KFSPropertyConstants.DOCUMENT_NUMBER, getDocumentNumber());
         map.put("transactionLedgerEntrySequenceNumber", getTransactionLedgerEntrySequenceNumber());
         return map;
     }

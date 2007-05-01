@@ -25,7 +25,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.authorization.DocumentAuthorizerBase;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.bo.AdhocPerson;
@@ -104,7 +104,7 @@ public class ResearchDocumentAuthorizer extends DocumentAuthorizerBase {
     protected Map finalizeEditMode(ResearchDocument researchDocument, String permissionCode) {
         // If doc is approved, full entry should become view only
         if (permissionCode.equals(AuthorizationConstants.EditMode.FULL_ENTRY) 
-                && researchDocument.getDocumentHeader().getFinancialDocumentStatusCode().equals(Constants.DocumentStatusCodes.APPROVED)) {
+                && researchDocument.getDocumentHeader().getFinancialDocumentStatusCode().equals(KFSConstants.DocumentStatusCodes.APPROVED)) {
             permissionCode = AuthorizationConstants.EditMode.VIEW_ONLY;
         }
         
@@ -121,7 +121,7 @@ public class ResearchDocumentAuthorizer extends DocumentAuthorizerBase {
      * @return true if the given user is allowed to modify documents of the given document type
      */
     public boolean canModify(String documentTypeName, UniversalUser user) {
-        return SpringServiceLocator.getAuthorizationService().isAuthorized(user, Constants.PERMISSION_MODIFY, documentTypeName);
+        return SpringServiceLocator.getAuthorizationService().isAuthorized(user, KFSConstants.PERMISSION_MODIFY, documentTypeName);
     }
     
     /**
@@ -132,6 +132,6 @@ public class ResearchDocumentAuthorizer extends DocumentAuthorizerBase {
      * @return true if the given user is allowed to view documents of the given document type
      */
     public boolean canView(String documentTypeName, UniversalUser user) {
-        return SpringServiceLocator.getAuthorizationService().isAuthorized(user, Constants.PERMISSION_VIEW, documentTypeName);
+        return SpringServiceLocator.getAuthorizationService().isAuthorized(user, KFSConstants.PERMISSION_VIEW, documentTypeName);
     }
 }

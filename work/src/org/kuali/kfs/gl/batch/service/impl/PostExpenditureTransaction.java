@@ -17,7 +17,7 @@ package org.kuali.module.gl.batch.poster.impl;
 
 import java.util.Date;
 
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.IndirectCostRecoveryExclusionAccount;
@@ -78,12 +78,12 @@ public class PostExpenditureTransaction implements IcrTransaction, PostTransacti
 
         // Is the ICR indicator set and the ICR Series identifier set?
         // Is the period code a non-balance period? If so, continue, if not, we aren't posting this transaction
-        if (objectType.isFinObjectTypeIcrSelectionIndicator() && StringUtils.hasText(account.getFinancialIcrSeriesIdentifier()) && (!Constants.PERIOD_CODE_ANNUAL_BALNCE.equals(universityFiscalPeriodCode)) && (!Constants.PERIOD_CODE_BEGINNING_BALNCE.equals(universityFiscalPeriodCode)) && (!Constants.PERIOD_CODE_CG_BEGINNING_BALNCE.equals(universityFiscalPeriodCode))) {
+        if (objectType.isFinObjectTypeIcrSelectionIndicator() && StringUtils.hasText(account.getFinancialIcrSeriesIdentifier()) && (!KFSConstants.PERIOD_CODE_ANNUAL_BALNCE.equals(universityFiscalPeriodCode)) && (!KFSConstants.PERIOD_CODE_BEGINNING_BALNCE.equals(universityFiscalPeriodCode)) && (!KFSConstants.PERIOD_CODE_CG_BEGINNING_BALNCE.equals(universityFiscalPeriodCode))) {
             // Continue on the posting process
 
             // Check the sub account type code. A21 subaccounts with the type of CS don't get posted
             A21SubAccount a21SubAccount = a21SubAccountDao.getByPrimaryKey(account.getChartOfAccountsCode(), account.getAccountNumber(), subAccountNumber);
-            if ((a21SubAccount != null) && Constants.COST_SHARE.equals(a21SubAccount.getSubAccountTypeCode())) {
+            if ((a21SubAccount != null) && KFSConstants.COST_SHARE.equals(a21SubAccount.getSubAccountTypeCode())) {
                 // No need to post this
                 LOG.debug("isIcrTransaction() A21 subaccounts with type of CS - not posted");
                 return false;
@@ -103,7 +103,7 @@ public class PostExpenditureTransaction implements IcrTransaction, PostTransacti
             }
             else {
                 // If the ICR type code is empty or 10, don't post
-                if ((!StringUtils.hasText(account.getAcctIndirectCostRcvyTypeCd())) || Constants.MONTH10.equals(account.getAcctIndirectCostRcvyTypeCd())) {
+                if ((!StringUtils.hasText(account.getAcctIndirectCostRcvyTypeCd())) || KFSConstants.MONTH10.equals(account.getAcctIndirectCostRcvyTypeCd())) {
                     // No need to post this
                     LOG.debug("isIcrTransaction() ICR type is null or 10 - not posted");
                     return false;
@@ -155,7 +155,7 @@ public class PostExpenditureTransaction implements IcrTransaction, PostTransacti
             et.setOrganizationReferenceId(GLConstants.DASH_ORGANIZATION_REFERENCE_ID);
         }
 
-        if (Constants.GL_DEBIT_CODE.equals(t.getTransactionDebitCreditCode()) || Constants.GL_BUDGET_CODE.equals(t.getTransactionDebitCreditCode())) {
+        if (KFSConstants.GL_DEBIT_CODE.equals(t.getTransactionDebitCreditCode()) || KFSConstants.GL_BUDGET_CODE.equals(t.getTransactionDebitCreditCode())) {
             et.setAccountObjectDirectCostAmount(et.getAccountObjectDirectCostAmount().add(t.getTransactionLedgerEntryAmount()));
         }
         else {

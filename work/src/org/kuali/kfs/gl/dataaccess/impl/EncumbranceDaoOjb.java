@@ -27,8 +27,8 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.bo.Encumbrance;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.EncumbranceDao;
@@ -44,16 +44,16 @@ public class EncumbranceDaoOjb extends PlatformAwareDaoBaseOjb implements Encumb
         LOG.debug("getEncumbranceByTransaction() started");
 
         Criteria crit = new Criteria();
-        crit.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR, t.getUniversityFiscalYear());
-        crit.addEqualTo(PropertyConstants.CHART_OF_ACCOUNTS_CODE, t.getChartOfAccountsCode());
-        crit.addEqualTo(PropertyConstants.ACCOUNT_NUMBER, t.getAccountNumber());
-        crit.addEqualTo(PropertyConstants.SUB_ACCOUNT_NUMBER, t.getSubAccountNumber());
-        crit.addEqualTo(PropertyConstants.OBJECT_CODE, t.getFinancialObjectCode());
-        crit.addEqualTo(PropertyConstants.SUB_OBJECT_CODE, t.getFinancialSubObjectCode());
-        crit.addEqualTo(PropertyConstants.BALANCE_TYPE_CODE, t.getFinancialBalanceTypeCode());
-        crit.addEqualTo(PropertyConstants.DOCUMENT_TYPE_CODE, t.getFinancialDocumentTypeCode());
-        crit.addEqualTo(PropertyConstants.ORIGIN_CODE, t.getFinancialSystemOriginationCode());
-        crit.addEqualTo(PropertyConstants.DOCUMENT_NUMBER, t.getDocumentNumber());
+        crit.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, t.getUniversityFiscalYear());
+        crit.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, t.getChartOfAccountsCode());
+        crit.addEqualTo(KFSPropertyConstants.ACCOUNT_NUMBER, t.getAccountNumber());
+        crit.addEqualTo(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, t.getSubAccountNumber());
+        crit.addEqualTo(KFSPropertyConstants.OBJECT_CODE, t.getFinancialObjectCode());
+        crit.addEqualTo(KFSPropertyConstants.SUB_OBJECT_CODE, t.getFinancialSubObjectCode());
+        crit.addEqualTo(KFSPropertyConstants.BALANCE_TYPE_CODE, t.getFinancialBalanceTypeCode());
+        crit.addEqualTo(KFSPropertyConstants.DOCUMENT_TYPE_CODE, t.getFinancialDocumentTypeCode());
+        crit.addEqualTo(KFSPropertyConstants.ORIGIN_CODE, t.getFinancialSystemOriginationCode());
+        crit.addEqualTo(KFSPropertyConstants.DOCUMENT_NUMBER, t.getDocumentNumber());
 
         QueryByCriteria qbc = QueryFactory.newQuery(Encumbrance.class, crit);
         return (Encumbrance) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
@@ -65,15 +65,15 @@ public class EncumbranceDaoOjb extends PlatformAwareDaoBaseOjb implements Encumb
     public Iterator getEncumbrancesToClose(Integer fiscalYear) {
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
+        criteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
 
         QueryByCriteria query = new QueryByCriteria(Encumbrance.class, criteria);
-        query.addOrderByAscending(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        query.addOrderByAscending(PropertyConstants.ACCOUNT_NUMBER);
-        query.addOrderByAscending(PropertyConstants.SUB_ACCOUNT_NUMBER);
-        query.addOrderByAscending(PropertyConstants.OBJECT_CODE);
-        query.addOrderByAscending(PropertyConstants.SUB_OBJECT_CODE);
-        query.addOrderByAscending(PropertyConstants.BALANCE_TYPE_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.ACCOUNT_NUMBER);
+        query.addOrderByAscending(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        query.addOrderByAscending(KFSPropertyConstants.OBJECT_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.SUB_OBJECT_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.BALANCE_TYPE_CODE);
 
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
     }
@@ -94,8 +94,8 @@ public class EncumbranceDaoOjb extends PlatformAwareDaoBaseOjb implements Encumb
         LOG.debug("purgeYearByChart() started");
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(PropertyConstants.CHART, chartOfAccountsCode);
-        criteria.addLessThan(PropertyConstants.UNIVERSITY_FISCAL_YEAR, new Integer(year));
+        criteria.addEqualTo(KFSPropertyConstants.CHART, chartOfAccountsCode);
+        criteria.addLessThan(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, new Integer(year));
 
         getPersistenceBrokerTemplate().deleteByQuery(new QueryByCriteria(Encumbrance.class, criteria));
 
@@ -123,10 +123,10 @@ public class EncumbranceDaoOjb extends PlatformAwareDaoBaseOjb implements Encumb
         Criteria criteria = new Criteria();
 
         if (included) {
-            criteria.addEqualTo(PropertyConstants.DOCUMENT_TYPE_CODE, documentTypeCode);
+            criteria.addEqualTo(KFSPropertyConstants.DOCUMENT_TYPE_CODE, documentTypeCode);
         }
         else {
-            criteria.addNotEqualTo(PropertyConstants.DOCUMENT_TYPE_CODE, documentTypeCode);
+            criteria.addNotEqualTo(KFSPropertyConstants.DOCUMENT_TYPE_CODE, documentTypeCode);
         }
 
         ReportQueryByCriteria query = QueryFactory.newReportQuery(Encumbrance.class, criteria);
@@ -168,7 +168,7 @@ public class EncumbranceDaoOjb extends PlatformAwareDaoBaseOjb implements Encumb
     // build the query for encumbrance search
     private Query getOpenEncumbranceQuery(Map fieldValues) {
         Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new Encumbrance());
-        criteria.addIn(PropertyConstants.BALANCE_TYPE_CODE, Arrays.asList(Constants.ENCUMBRANCE_BALANCE_TYPE));
+        criteria.addIn(KFSPropertyConstants.BALANCE_TYPE_CODE, Arrays.asList(KFSConstants.ENCUMBRANCE_BALANCE_TYPE));
         return QueryFactory.newQuery(Encumbrance.class, criteria);
     }
 
@@ -178,8 +178,8 @@ public class EncumbranceDaoOjb extends PlatformAwareDaoBaseOjb implements Encumb
     private List buildAttributeList() {
         List attributeList = this.buildGroupByList();
 
-        attributeList.add("sum(" + PropertyConstants.ACCOUNT_LINE_ENCUMBRANCE_AMOUNT + ")");
-        attributeList.add("sum(" + PropertyConstants.ACCOUNT_LINE_ENCUMBRANCE_CLOSED_AMOUNT + ")");
+        attributeList.add("sum(" + KFSPropertyConstants.ACCOUNT_LINE_ENCUMBRANCE_AMOUNT + ")");
+        attributeList.add("sum(" + KFSPropertyConstants.ACCOUNT_LINE_ENCUMBRANCE_CLOSED_AMOUNT + ")");
 
         return attributeList;
     }
@@ -190,13 +190,13 @@ public class EncumbranceDaoOjb extends PlatformAwareDaoBaseOjb implements Encumb
     private List buildGroupByList() {
         List attributeList = new ArrayList();
 
-        attributeList.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        attributeList.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        attributeList.add(PropertyConstants.ACCOUNT_NUMBER);
-        attributeList.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
-        attributeList.add(PropertyConstants.OBJECT_CODE);
-        attributeList.add(PropertyConstants.SUB_OBJECT_CODE);
-        attributeList.add(PropertyConstants.BALANCE_TYPE_CODE);
+        attributeList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        attributeList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        attributeList.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        attributeList.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        attributeList.add(KFSPropertyConstants.OBJECT_CODE);
+        attributeList.add(KFSPropertyConstants.SUB_OBJECT_CODE);
+        attributeList.add(KFSPropertyConstants.BALANCE_TYPE_CODE);
 
         return attributeList;
     }

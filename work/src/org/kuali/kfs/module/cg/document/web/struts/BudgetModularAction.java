@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.budget.bo.BudgetModular;
 import org.kuali.module.kra.budget.rules.event.EnterModularEvent;
@@ -79,7 +79,7 @@ public class BudgetModularAction extends BudgetAction {
         // check business rules
         boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new SaveModularEvent(budgetForm.getDocument()));
 
-        ActionForward superForward = mapping.findForward(Constants.MAPPING_BASIC);
+        ActionForward superForward = mapping.findForward(KFSConstants.MAPPING_BASIC);
         if (rulePassed && !budgetForm.getBudgetDocument().getBudget().getModularBudget().isInvalidMode()) {
             superForward = super.save(mapping, form, request, response);
         }
@@ -104,7 +104,7 @@ public class BudgetModularAction extends BudgetAction {
         budgetForm.getBudgetDocument().getBudget().setModularBudget(modular);
 
         SpringServiceLocator.getBudgetModularService().generateModularBudget(budgetForm.getBudgetDocument().getBudget(), budgetForm.getNonpersonnelCategories());
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     /**
@@ -123,6 +123,6 @@ public class BudgetModularAction extends BudgetAction {
         SpringServiceLocator.getBudgetModularService().generateModularBudget(budgetForm.getBudgetDocument().getBudget(), budgetForm.getNonpersonnelCategories());
         SpringServiceLocator.getKualiRuleService().applyRules(new EnterModularEvent(budgetForm.getDocument()));
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 }

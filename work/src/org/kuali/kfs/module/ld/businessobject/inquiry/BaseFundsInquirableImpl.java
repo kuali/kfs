@@ -23,8 +23,8 @@ import java.util.Properties;
 
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.LookupService;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.web.Constant;
@@ -49,13 +49,13 @@ public class BaseFundsInquirableImpl extends AbstractLaborInquirableImpl {
     protected List buildUserDefinedAttributeKeyList() {
         List<String> keys = new ArrayList<String>();
 
-        keys.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        keys.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        keys.add(PropertyConstants.ACCOUNT_NUMBER);
-        keys.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
-        keys.add(PropertyConstants.OBJECT_CODE);
-        keys.add(PropertyConstants.SUB_OBJECT_CODE);
-        keys.add(PropertyConstants.CSF_AMOUNT);
+        keys.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        keys.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        keys.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        keys.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        keys.add(KFSPropertyConstants.OBJECT_CODE);
+        keys.add(KFSPropertyConstants.SUB_OBJECT_CODE);
+        keys.add(KFSPropertyConstants.CSF_AMOUNT);
 
         return keys;
     }
@@ -106,7 +106,7 @@ public class BaseFundsInquirableImpl extends AbstractLaborInquirableImpl {
      */
     protected String getBaseUrl() {
         // TODO: investigate change to this constant
-        return Constants.GL_MODIFIED_INQUIRY_ACTION;
+        return KFSConstants.GL_MODIFIED_INQUIRY_ACTION;
     }
 
     /**
@@ -120,9 +120,9 @@ public class BaseFundsInquirableImpl extends AbstractLaborInquirableImpl {
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#addMoreParameters(java.util.Properties, java.lang.String)
      */
     protected void addMoreParameters(Properties parameter, String attributeName) {
-        parameter.put(Constants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME, getLookupableImplAttributeName());
+        parameter.put(KFSConstants.LOOKUPABLE_IMPL_ATTRIBUTE_NAME, getLookupableImplAttributeName());
 
         String periodCode = (String) getUserDefinedAttributeMap().get(attributeName);
-        parameter.put(Constants.UNIVERSITY_FISCAL_PERIOD_CODE_PROPERTY_NAME, periodCode);
+        parameter.put(KFSConstants.UNIVERSITY_FISCAL_PERIOD_CODE_PROPERTY_NAME, periodCode);
     }
 }

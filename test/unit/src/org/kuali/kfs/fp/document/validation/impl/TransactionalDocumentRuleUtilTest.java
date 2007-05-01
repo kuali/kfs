@@ -19,8 +19,8 @@ import static org.kuali.kfs.util.SpringServiceLocator.getAccountingPeriodService
 import static org.kuali.kfs.util.SpringServiceLocator.getBalanceTypService;
 import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.rules.AccountingDocumentRuleUtil;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountingPeriod;
@@ -54,7 +54,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
      * @return String
      */
     protected String getErrorPropertyName() {
-        return Constants.GLOBAL_ERRORS;
+        return KFSConstants.GLOBAL_ERRORS;
     }
 
     /**
@@ -63,7 +63,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
      * @return String
      */
     protected String getActiveBalanceType() {
-        return Constants.BALANCE_TYPE_ACTUAL;
+        return KFSConstants.BALANCE_TYPE_ACTUAL;
     }
 
     /**
@@ -72,7 +72,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
      * @return String
      */
     protected String getInactiveBalanceType() {
-        return Constants.BALANCE_TYPE_ACTUAL;
+        return KFSConstants.BALANCE_TYPE_ACTUAL;
     }
 
 
@@ -209,7 +209,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
      */
     protected void testIsValidOpenAccountingPeriod(AccountingPeriod period, boolean expected) {
         assertGlobalErrorMapEmpty();
-        boolean result = AccountingDocumentRuleUtil.isValidOpenAccountingPeriod(period, JournalVoucherDocument.class, PropertyConstants.ACCOUNTING_PERIOD, DOES_NOT_MATTER);
+        boolean result = AccountingDocumentRuleUtil.isValidOpenAccountingPeriod(period, JournalVoucherDocument.class, KFSPropertyConstants.ACCOUNTING_PERIOD, DOES_NOT_MATTER);
         if (expected) {
             assertGlobalErrorMapEmpty();
         }

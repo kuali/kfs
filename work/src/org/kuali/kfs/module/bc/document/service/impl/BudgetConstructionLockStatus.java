@@ -17,7 +17,7 @@ package org.kuali.module.budget.service.impl;
 
 import java.util.SortedSet;
 
-import org.kuali.kfs.Constants.BudgetConstructionConstants.LockStatus;
+import org.kuali.kfs.KFSConstants.BudgetConstructionConstants.LockStatus;
 import org.kuali.module.budget.bo.BudgetConstructionFundingLock;
 
 /**

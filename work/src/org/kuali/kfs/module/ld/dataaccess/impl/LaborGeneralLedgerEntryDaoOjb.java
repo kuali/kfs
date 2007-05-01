@@ -22,7 +22,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
 import org.kuali.module.labor.dao.LaborGeneralLedgerEntryDao;
 
@@ -35,21 +35,21 @@ public class LaborGeneralLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb imple
         //TODO: this is a piece of duplicate code. We need to refactor it later
         Criteria criteria = new Criteria();
         
-        criteria.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR, laborGeneralLedgerEntry.getUniversityFiscalYear());
-        criteria.addEqualTo(PropertyConstants.CHART_OF_ACCOUNTS_CODE, laborGeneralLedgerEntry.getChartOfAccountsCode());
-        criteria.addEqualTo(PropertyConstants.ACCOUNT_NUMBER, laborGeneralLedgerEntry.getAccountNumber());
-        criteria.addEqualTo(PropertyConstants.SUB_ACCOUNT_NUMBER, laborGeneralLedgerEntry.getSubAccountNumber());
-        criteria.addEqualTo(PropertyConstants.FINANCIAL_OBJECT_CODE, laborGeneralLedgerEntry.getFinancialObjectCode());
-        criteria.addEqualTo(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE, laborGeneralLedgerEntry.getFinancialSubObjectCode());
-        criteria.addEqualTo(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, laborGeneralLedgerEntry.getFinancialBalanceTypeCode());
-        criteria.addEqualTo(PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, laborGeneralLedgerEntry.getFinancialObjectTypeCode());
-        criteria.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, laborGeneralLedgerEntry.getUniversityFiscalPeriodCode());
-        criteria.addEqualTo(PropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, laborGeneralLedgerEntry.getFinancialDocumentTypeCode());
-        criteria.addEqualTo(PropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, laborGeneralLedgerEntry.getFinancialSystemOriginationCode());
-        criteria.addEqualTo(PropertyConstants.DOCUMENT_NUMBER, laborGeneralLedgerEntry.getDocumentNumber());
+        criteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, laborGeneralLedgerEntry.getUniversityFiscalYear());
+        criteria.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, laborGeneralLedgerEntry.getChartOfAccountsCode());
+        criteria.addEqualTo(KFSPropertyConstants.ACCOUNT_NUMBER, laborGeneralLedgerEntry.getAccountNumber());
+        criteria.addEqualTo(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, laborGeneralLedgerEntry.getSubAccountNumber());
+        criteria.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, laborGeneralLedgerEntry.getFinancialObjectCode());
+        criteria.addEqualTo(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, laborGeneralLedgerEntry.getFinancialSubObjectCode());
+        criteria.addEqualTo(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, laborGeneralLedgerEntry.getFinancialBalanceTypeCode());
+        criteria.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, laborGeneralLedgerEntry.getFinancialObjectTypeCode());
+        criteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, laborGeneralLedgerEntry.getUniversityFiscalPeriodCode());
+        criteria.addEqualTo(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, laborGeneralLedgerEntry.getFinancialDocumentTypeCode());
+        criteria.addEqualTo(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, laborGeneralLedgerEntry.getFinancialSystemOriginationCode());
+        criteria.addEqualTo(KFSPropertyConstants.DOCUMENT_NUMBER, laborGeneralLedgerEntry.getDocumentNumber());
 
         ReportQueryByCriteria query = QueryFactory.newReportQuery(LaborGeneralLedgerEntry.class, criteria);
-        query.setAttributes(new String[] { "max(" + PropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER + ")" });
+        query.setAttributes(new String[] { "max(" + KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER + ")" });
 
         Iterator iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
         Integer maxSequenceNumber = new Integer(0);

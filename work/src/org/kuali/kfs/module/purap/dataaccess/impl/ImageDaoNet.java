@@ -18,7 +18,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.dao.ImageDao;
@@ -81,7 +81,7 @@ public class ImageDaoNet extends PlatformAwareDaoBaseOjb implements ImageDao {
         LOG.debug("getFile() started");
 
         String externalizableUrlSettingName = "externalizable.images.url";
-        String externalizableUrl = kualiConfigurationService.getPropertyString(Constants.EXTERNALIZABLE_IMAGES_URL_KEY);
+        String externalizableUrl = kualiConfigurationService.getPropertyString(KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY);
         if ( externalizableUrl == null ) {
             throw new PurapConfigurationException("Application Setting " + externalizableUrlSettingName + " is missing");
         }

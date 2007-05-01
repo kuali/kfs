@@ -30,8 +30,8 @@ import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.rule.event.RouteDocumentEvent;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.service.SufficientFundsService;
@@ -83,7 +83,7 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
      * @see org.kuali.kfs.document.GeneralLedgerPostingDocument#isBankCashOffsetEnabled()
      */
     public boolean isBankCashOffsetEnabled() {
-        return SpringServiceLocator.getKualiConfigurationService().getApplicationParameterIndicator(Constants.ParameterGroups.SYSTEM, Constants.SystemGroupParameterNames.FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG);
+        return SpringServiceLocator.getKualiConfigurationService().getApplicationParameterIndicator(KFSConstants.ParameterGroups.SYSTEM, KFSConstants.SystemGroupParameterNames.FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG);
     }
 
     /**
@@ -133,7 +133,7 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
     private void changeGeneralLedgerPendingEntriesApprovedStatusCode() {
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             for (GeneralLedgerPendingEntry glpe : getGeneralLedgerPendingEntries()) {
-                glpe.setFinancialDocumentApprovedCode(Constants.DocumentStatusCodes.APPROVED);
+                glpe.setFinancialDocumentApprovedCode(KFSConstants.DocumentStatusCodes.APPROVED);
             }
         }
     }
@@ -164,7 +164,7 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
             List<SufficientFundsItem> sfItems = checkSufficientFunds();
             if (!sfItems.isEmpty()) {
                 for (SufficientFundsItem sfItem : sfItems) {
-                    GlobalVariables.getErrorMap().putError(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.SufficientFunds.ERROR_INSUFFICIENT_FUNDS, new String[] { sfItem.getAccount().getChartOfAccountsCode(), sfItem.getAccount().getAccountNumber(), StringUtils.isNotBlank(sfItem.getSufficientFundsObjectCode()) ? sfItem.getSufficientFundsObjectCode() : Constants.NOT_AVAILABLE_STRING, sfItem.getAccountSufficientFundsCode() });
+                    GlobalVariables.getErrorMap().putError(KFSConstants.ACCOUNTING_LINE_ERRORS, KFSKeyConstants.SufficientFunds.ERROR_INSUFFICIENT_FUNDS, new String[] { sfItem.getAccount().getChartOfAccountsCode(), sfItem.getAccount().getAccountNumber(), StringUtils.isNotBlank(sfItem.getSufficientFundsObjectCode()) ? sfItem.getSufficientFundsObjectCode() : KFSConstants.NOT_AVAILABLE_STRING, sfItem.getAccountSufficientFundsCode() });
                 }
                 throw new ValidationException("Insufficient Funds on this Document:");
             }

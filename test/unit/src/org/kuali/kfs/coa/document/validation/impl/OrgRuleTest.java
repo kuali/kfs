@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.test.WithTestSpringContext;
@@ -98,7 +98,7 @@ public class OrgRuleTest extends ChartRuleTestBase {
         Org oldBO = (Org)SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(Org.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getGoodTopLevelOrgKeys()));
         Org newBO = (Org)SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(Org.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getBadTopLevelOrgKeys()));
         maintDoc = this.newMaintDoc(oldBO, newBO);
-        maintDoc.getNewMaintainableObject().setMaintenanceAction(Constants.MAINTENANCE_EDIT_ACTION); // simulate editing
+        maintDoc.getNewMaintainableObject().setMaintenanceAction(KFSConstants.MAINTENANCE_EDIT_ACTION); // simulate editing
         newBO.setReportsToChartOfAccountsCode(OrgKeys.CampusOrg.CHART_OF_ACCOUNTS_CODE); // simulate trying to create a new top level org
         newBO.setReportsToOrganizationCode(OrgKeys.CampusOrg.ORGANIZATION_CODE);
         rule = (OrgRule)this.setupMaintDocRule(maintDoc, OrgRule.class);
@@ -116,7 +116,7 @@ public class OrgRuleTest extends ChartRuleTestBase {
         newBO.setReportsToChartOfAccountsCode(OrgKeys.TopLevelOrg.CHART_OF_ACCOUNTS_CODE); // simulate editing top level org
         newBO.setReportsToOrganizationCode(OrgKeys.TopLevelOrg.ORGANIZATION_CODE);
         maintDoc = this.newMaintDoc(oldBO, newBO);
-        maintDoc.getNewMaintainableObject().setMaintenanceAction(Constants.MAINTENANCE_EDIT_ACTION); // simulate editing
+        maintDoc.getNewMaintainableObject().setMaintenanceAction(KFSConstants.MAINTENANCE_EDIT_ACTION); // simulate editing
         rule = (OrgRule)this.setupMaintDocRule(maintDoc, OrgRule.class);
         assertTrue(rule.checkSimpleRules(maintDoc)); // it is okay to edit the top level org
     }
@@ -130,7 +130,7 @@ public class OrgRuleTest extends ChartRuleTestBase {
         Org newBO = (Org)SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(Org.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getGoodTopLevelOrgKeys()));
         newBO.setOrganizationDefaultAccountNumber(null); // simulate no organization default account number
         maintDoc = this.newMaintDoc(oldBO, newBO);
-        maintDoc.getNewMaintainableObject().setMaintenanceAction(Constants.MAINTENANCE_EDIT_ACTION); // simulate editing
+        maintDoc.getNewMaintainableObject().setMaintenanceAction(KFSConstants.MAINTENANCE_EDIT_ACTION); // simulate editing
         rule = (OrgRule)this.setupMaintDocRule(maintDoc, OrgRule.class);
         assertTrue(rule.checkDefaultAccountNumber(maintDoc)); // it is okay for a university to have no default account number
     }
@@ -144,7 +144,7 @@ public class OrgRuleTest extends ChartRuleTestBase {
         Org newBO = (Org)SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(Org.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getCampusOrgKeys()));
         newBO.setOrganizationDefaultAccountNumber(null); // simulate no organization default account number
         maintDoc = this.newMaintDoc(oldBO, newBO);
-        maintDoc.getNewMaintainableObject().setMaintenanceAction(Constants.MAINTENANCE_EDIT_ACTION); // simulate editing
+        maintDoc.getNewMaintainableObject().setMaintenanceAction(KFSConstants.MAINTENANCE_EDIT_ACTION); // simulate editing
         rule = (OrgRule)this.setupMaintDocRule(maintDoc, OrgRule.class);
         assertTrue(rule.checkDefaultAccountNumber(maintDoc)); // it is okay for a campus to have no default account number
     }
@@ -158,7 +158,7 @@ public class OrgRuleTest extends ChartRuleTestBase {
         Org newBO = (Org)SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(Org.class, this.getPrimaryKeysForTopLevelOrg(OrgKeys.getDepartmentOrgKeys()));
         newBO.setOrganizationDefaultAccountNumber(null); // simulate no organization default account number
         maintDoc = this.newMaintDoc(oldBO, newBO);
-        maintDoc.getNewMaintainableObject().setMaintenanceAction(Constants.MAINTENANCE_EDIT_ACTION); // simulate editing
+        maintDoc.getNewMaintainableObject().setMaintenanceAction(KFSConstants.MAINTENANCE_EDIT_ACTION); // simulate editing
         rule = (OrgRule)this.setupMaintDocRule(maintDoc, OrgRule.class);
         assertFalse(rule.checkDefaultAccountNumber(maintDoc)); // it is NOT okay for a non-university/non-campus to have no default account number
     }

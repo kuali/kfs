@@ -28,7 +28,7 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.bo.OriginEntryGroup;
@@ -104,8 +104,8 @@ public class LaborLedgerBalancePosterTest extends KualiTestBase {
         assertEquals(expectedNumberOfRecords, returnValues.size());
         
         assertEquals(expectedNumberOfOperation, operationType.size());
-        assertEquals(expectedInsertion, operationType.get(Constants.OperationType.INSERT).intValue());
-        assertEquals(expectedUpdate, operationType.get(Constants.OperationType.UPDATE).intValue());
+        assertEquals(expectedInsertion, operationType.get(KFSConstants.OperationType.INSERT).intValue());
+        assertEquals(expectedUpdate, operationType.get(KFSConstants.OperationType.UPDATE).intValue());
         
         LedgerBalance expected1 = new LedgerBalance();
         ObjectUtil.populateBusinessObject(expected1, properties, "post.expected1", fieldNames, deliminator);

@@ -28,7 +28,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.ProjectDirector;
 import org.kuali.module.kra.KraConstants;
@@ -166,7 +166,7 @@ public class RoutingFormAuditRule {
                 projectDirectorCount++;
                 
                 Map fieldValues = new HashMap();
-                fieldValues.put(PropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, person.getPersonUniversalIdentifier());
+                fieldValues.put(KFSPropertyConstants.PERSON_UNIVERSAL_IDENTIFIER, person.getPersonUniversalIdentifier());
                 ProjectDirector projectDirector = (ProjectDirector) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(ProjectDirector.class, fieldValues);
                 if (projectDirector == null) {
                     valid = false;

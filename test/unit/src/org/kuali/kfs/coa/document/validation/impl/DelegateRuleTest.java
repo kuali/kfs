@@ -25,7 +25,7 @@ import java.util.Calendar;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Delegate;
 import org.kuali.test.WithTestSpringContext;
@@ -398,7 +398,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
 
         // run the business rules
         rule.checkSimpleRules();
-        assertGlobalErrorMapContains(ERROR_PREFIX + "finDocApprovalFromThisAmt", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_FROM_AMOUNT_NONNEGATIVE);
+        assertGlobalErrorMapContains(ERROR_PREFIX + "finDocApprovalFromThisAmt", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_FROM_AMOUNT_NONNEGATIVE);
     }
 
     public void testCheckSimpleRulesStartDateRule_invalidToAmt() {
@@ -419,7 +419,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
 
         // run the business rules
         rule.checkSimpleRules();
-        assertGlobalErrorMapContains(ERROR_PREFIX + "finDocApprovalToThisAmount", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
+        assertGlobalErrorMapContains(ERROR_PREFIX + "finDocApprovalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
     }
 
     public void testCheckSimpleRulesStartDateRule_validFromAmtNullToAmt() {
@@ -440,7 +440,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
 
         // run the business rules
         rule.checkSimpleRules();
-        assertGlobalErrorMapContains(ERROR_PREFIX + "finDocApprovalToThisAmount", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
+        assertGlobalErrorMapContains(ERROR_PREFIX + "finDocApprovalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
     }
 
     public void testCheckSimpleRulesStartDateRule_nullFromAmtZeroPlusToAmt() {
@@ -461,7 +461,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
 
         // run the business rules
         rule.checkSimpleRules();
-        assertGlobalErrorMapContains(ERROR_PREFIX + "finDocApprovalToThisAmount", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
+        assertGlobalErrorMapContains(ERROR_PREFIX + "finDocApprovalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
     }
 
     public void testCheckSimpleRulesStartDateRule_validFromAmtLessThanToAmt() {
@@ -482,7 +482,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
 
         // run the business rules
         rule.checkSimpleRules();
-        assertGlobalErrorMapContains(ERROR_PREFIX + "finDocApprovalToThisAmount", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
+        assertGlobalErrorMapContains(ERROR_PREFIX + "finDocApprovalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
     }
 
 
@@ -519,7 +519,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         // confirm that there are no errors to begin with
         assertGlobalErrorMapEmpty();
         rule.checkDelegateUserRules(maintDoc);
-        assertGlobalErrorMapContains(ERROR_PREFIX + "accountDelegate.personUserIdentifier", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE);
+        assertGlobalErrorMapContains(ERROR_PREFIX + "accountDelegate.personUserIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE);
     }
 
     public void testcheckDelegateUserRules_badDelegate2() {
@@ -552,7 +552,7 @@ public class DelegateRuleTest extends ChartRuleTestBase {
         // confirm that there are no errors to begin with
         assertGlobalErrorMapEmpty();
         rule.checkDelegateUserRules(maintDoc);
-        assertGlobalErrorMapContains(ERROR_PREFIX + "accountDelegate.personUserIdentifier", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE);
+        assertGlobalErrorMapContains(ERROR_PREFIX + "accountDelegate.personUserIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE);
     }
 
     /**

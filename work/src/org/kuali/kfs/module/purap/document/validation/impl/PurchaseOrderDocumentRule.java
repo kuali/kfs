@@ -22,8 +22,8 @@ import org.kuali.core.datadictionary.validation.fieldlevel.ZipcodeValidationPatt
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
@@ -76,17 +76,17 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
         if (StringUtils.isBlank(poDocument.getVendorCountryCode())) {
             //TODO can't this be done by the data dictionary?
             valid = false;
-            errorMap.putError(PurapPropertyConstants.VENDOR_COUNTRY_CODE, KeyConstants.ERROR_REQUIRED);
+            errorMap.putError(PurapPropertyConstants.VENDOR_COUNTRY_CODE, KFSKeyConstants.ERROR_REQUIRED);
         }
-        else if (poDocument.getVendorCountryCode().equals(Constants.COUNTRY_CODE_UNITED_STATES)) {
+        else if (poDocument.getVendorCountryCode().equals(KFSConstants.COUNTRY_CODE_UNITED_STATES)) {
             if (StringUtils.isBlank(poDocument.getVendorStateCode())) {
                 valid = false;
-                errorMap.putError(PurapPropertyConstants.VENDOR_STATE_CODE, KeyConstants.ERROR_REQUIRED_FOR_US);
+                errorMap.putError(PurapPropertyConstants.VENDOR_STATE_CODE, KFSKeyConstants.ERROR_REQUIRED_FOR_US);
             }
             ZipcodeValidationPattern zipPattern = new ZipcodeValidationPattern();
             if (StringUtils.isBlank(poDocument.getVendorPostalCode())) {
                 valid = false;
-                errorMap.putError(PurapPropertyConstants.VENDOR_POSTAL_CODE, KeyConstants.ERROR_REQUIRED_FOR_US);
+                errorMap.putError(PurapPropertyConstants.VENDOR_POSTAL_CODE, KFSKeyConstants.ERROR_REQUIRED_FOR_US);
             }
             else if (!zipPattern.matches(poDocument.getVendorPostalCode())) {
                 valid = false;

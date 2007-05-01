@@ -22,8 +22,8 @@ import java.util.Map;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
@@ -64,8 +64,8 @@ public class AccountBalanceByConsolidationLookupableHelperServiceImpl extends Ab
     public List getSearchResults(Map fieldValues) {
         LOG.debug("getSearchResults() started");
 
-        setBackLocation((String) fieldValues.get(Constants.BACK_LOCATION));
-        setDocFormKey((String) fieldValues.get(Constants.DOC_FORM_KEY));
+        setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
+        setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
         BusinessObjectFieldConverter.escapeSingleQuote(fieldValues);
 
@@ -84,13 +84,13 @@ public class AccountBalanceByConsolidationLookupableHelperServiceImpl extends Ab
 
         boolean isConsolidated = Constant.CONSOLIDATION.equals(consolidationOption);
 
-        String chartOfAccountsCode = (String) fieldValues.get(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        String accountNumber = (String) fieldValues.get(PropertyConstants.ACCOUNT_NUMBER);
-        String subAccountNumber = (String) fieldValues.get(PropertyConstants.SUB_ACCOUNT_NUMBER);
-        String ufy = (String) fieldValues.get(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        String chartOfAccountsCode = (String) fieldValues.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        String accountNumber = (String) fieldValues.get(KFSPropertyConstants.ACCOUNT_NUMBER);
+        String subAccountNumber = (String) fieldValues.get(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        String ufy = (String) fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
 
         // Dashes means no sub account number
-        if (Constants.DASHES_SUB_ACCOUNT_NUMBER.equals(subAccountNumber)) {
+        if (KFSConstants.DASHES_SUB_ACCOUNT_NUMBER.equals(subAccountNumber)) {
             subAccountNumber = "";
         }
 

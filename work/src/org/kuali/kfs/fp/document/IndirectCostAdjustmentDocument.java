@@ -19,7 +19,7 @@ import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;
 import org.kuali.core.exceptions.InfrastructureException;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
@@ -44,7 +44,7 @@ public class IndirectCostAdjustmentDocument extends AccountingDocumentBase imple
      */
     @Override
     public String getSourceAccountingLinesSectionTitle() {
-        return Constants.GRANT;
+        return KFSConstants.GRANT;
     }
 
     /**
@@ -53,7 +53,7 @@ public class IndirectCostAdjustmentDocument extends AccountingDocumentBase imple
      */
     @Override
     public String getTargetAccountingLinesSectionTitle() {
-        return Constants.ICR;
+        return KFSConstants.ICR;
     }
 
     /**

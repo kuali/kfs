@@ -15,40 +15,40 @@
  */
 package org.kuali.kfs.rules;
 
-import static org.kuali.kfs.Constants.ACCOUNTING_LINE_ERRORS;
-import static org.kuali.kfs.Constants.AMOUNT_PROPERTY_NAME;
-import static org.kuali.kfs.Constants.BALANCE_TYPE_ACTUAL;
-import static org.kuali.kfs.Constants.BLANK_SPACE;
-import static org.kuali.kfs.Constants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME;
-import static org.kuali.kfs.Constants.SOURCE_ACCOUNTING_LINE_ERRORS;
-import static org.kuali.kfs.Constants.SOURCE_ACCOUNTING_LINE_ERROR_PATTERN;
-import static org.kuali.kfs.Constants.TARGET_ACCOUNTING_LINE_ERRORS;
-import static org.kuali.kfs.Constants.TARGET_ACCOUNTING_LINE_ERROR_PATTERN;
-import static org.kuali.kfs.Constants.ZERO;
-import static org.kuali.kfs.KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_ADD;
-import static org.kuali.kfs.KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_DELETE;
-import static org.kuali.kfs.KeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE;
-import static org.kuali.kfs.KeyConstants.ERROR_ACCOUNTINGLINE_LASTACCESSIBLE_DELETE;
-import static org.kuali.kfs.KeyConstants.ERROR_ACCOUNTING_LINES_DIFFERENT_BUDGET_YEAR;
-import static org.kuali.kfs.KeyConstants.ERROR_APC_INDIRECT_ALLOWED_MULTIPLE;
-import static org.kuali.kfs.KeyConstants.ERROR_APC_INDIRECT_DENIED_MULTIPLE;
-import static org.kuali.kfs.KeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_INVALID_FORMAT;
-import static org.kuali.kfs.KeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_MAX_LENGTH;
-import static org.kuali.kfs.KeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_TOTAL_CHANGED;
-import static org.kuali.kfs.KeyConstants.ERROR_DOCUMENT_BALANCE;
-import static org.kuali.kfs.KeyConstants.ERROR_DOCUMENT_FUND_GROUP_SET_DOES_NOT_BALANCE;
-import static org.kuali.kfs.KeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_CODE;
-import static org.kuali.kfs.KeyConstants.ERROR_DOCUMENT_OPTIONAL_ONE_SIDED_DOCUMENT_REQUIRED_NUMBER_OF_ACCOUNTING_LINES_NOT_MET;
-import static org.kuali.kfs.KeyConstants.ERROR_DOCUMENT_SINGLE_ACCOUNTING_LINE_SECTION_TOTAL_CHANGED;
-import static org.kuali.kfs.KeyConstants.ERROR_DOCUMENT_SOURCE_SECTION_NO_ACCOUNTING_LINES;
-import static org.kuali.kfs.KeyConstants.ERROR_DOCUMENT_TARGET_SECTION_NO_ACCOUNTING_LINES;
-import static org.kuali.kfs.KeyConstants.ERROR_INVALID_FORMAT;
-import static org.kuali.kfs.KeyConstants.ERROR_INVALID_NEGATIVE_AMOUNT_NON_CORRECTION;
-import static org.kuali.kfs.KeyConstants.ERROR_MAX_LENGTH;
-import static org.kuali.kfs.KeyConstants.ERROR_REQUIRED;
-import static org.kuali.kfs.KeyConstants.ERROR_ZERO_AMOUNT;
-import static org.kuali.kfs.PropertyConstants.FINANCIAL_OBJECT_CODE;
-import static org.kuali.kfs.PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE;
+import static org.kuali.kfs.KFSConstants.ACCOUNTING_LINE_ERRORS;
+import static org.kuali.kfs.KFSConstants.AMOUNT_PROPERTY_NAME;
+import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_ACTUAL;
+import static org.kuali.kfs.KFSConstants.BLANK_SPACE;
+import static org.kuali.kfs.KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME;
+import static org.kuali.kfs.KFSConstants.SOURCE_ACCOUNTING_LINE_ERRORS;
+import static org.kuali.kfs.KFSConstants.SOURCE_ACCOUNTING_LINE_ERROR_PATTERN;
+import static org.kuali.kfs.KFSConstants.TARGET_ACCOUNTING_LINE_ERRORS;
+import static org.kuali.kfs.KFSConstants.TARGET_ACCOUNTING_LINE_ERROR_PATTERN;
+import static org.kuali.kfs.KFSConstants.ZERO;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_ADD;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_DELETE;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_ACCOUNTINGLINE_INACCESSIBLE_UPDATE;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_ACCOUNTINGLINE_LASTACCESSIBLE_DELETE;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_ACCOUNTING_LINES_DIFFERENT_BUDGET_YEAR;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_APC_INDIRECT_ALLOWED_MULTIPLE;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_APC_INDIRECT_DENIED_MULTIPLE;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_INVALID_FORMAT;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_MAX_LENGTH;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_TOTAL_CHANGED;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_BALANCE;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_FUND_GROUP_SET_DOES_NOT_BALANCE;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_INCORRECT_OBJ_CODE;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_OPTIONAL_ONE_SIDED_DOCUMENT_REQUIRED_NUMBER_OF_ACCOUNTING_LINES_NOT_MET;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_SINGLE_ACCOUNTING_LINE_SECTION_TOTAL_CHANGED;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_SOURCE_SECTION_NO_ACCOUNTING_LINES;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_TARGET_SECTION_NO_ACCOUNTING_LINES;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_INVALID_FORMAT;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_INVALID_NEGATIVE_AMOUNT_NON_CORRECTION;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_MAX_LENGTH;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_REQUIRED;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_ZERO_AMOUNT;
+import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
+import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE;
 import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER.RESTRICTED_OBJECT_CODES;
 import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER.RESTRICTED_OBJECT_TYPE_CODES;
 import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER.RESTRICTED_SUB_FUND_GROUP_CODES;
@@ -77,8 +77,8 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.SourceAccountingLine;
@@ -307,7 +307,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         // report (and log) errors
         if (!isAccessible) {
             String[] errorParams = new String[] { accountingLine.getAccountNumber(), GlobalVariables.getUserSession().getUniversalUser().getPersonUserIdentifier() };
-            GlobalVariables.getErrorMap().putError(PropertyConstants.ACCOUNT_NUMBER, action.accessibilityErrorKey, errorParams);
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT_NUMBER, action.accessibilityErrorKey, errorParams);
 
             LOG.info("accountIsAccessible check failed: account " + errorParams[0] + ", user " + errorParams[1]);
         }
@@ -497,7 +497,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
                                 if (StringUtils.equals(ERROR_MAX_LENGTH, error.getErrorKey())) {
                                     errorKey = ERROR_DOCUMENT_ACCOUNTING_LINE_MAX_LENGTH;
 
-                                    // String value = ObjectUtils.getPropertyValue(accountingLine, Constants.AMOUNT_PROPERTY_NAME)
+                                    // String value = ObjectUtils.getPropertyValue(accountingLine, KFSConstants.AMOUNT_PROPERTY_NAME)
 
                                 }
                             }
@@ -960,7 +960,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         while (i.hasNext()) {
             GeneralLedgerPendingEntry glpe = (GeneralLedgerPendingEntry) i.next();
             if (!glpe.isTransactionEntryOffsetIndicator()) { // make sure we are looking at only the explicit entries
-                if (Constants.GL_CREDIT_CODE.equals(glpe.getTransactionDebitCreditCode())) {
+                if (KFSConstants.GL_CREDIT_CODE.equals(glpe.getTransactionDebitCreditCode())) {
                     creditAmount = creditAmount.add(glpe.getTransactionLedgerEntryAmount());
                 }
                 else { // DEBIT
@@ -998,14 +998,14 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         explicitEntry.setTransactionEntryProcessedTs(new java.sql.Date(transactionTimestamp.getTime()));
         explicitEntry.setAccountNumber(accountingLine.getAccountNumber());
         if (accountingLine.getAccount().getAccountSufficientFundsCode() == null) {
-            accountingLine.getAccount().setAccountSufficientFundsCode(Constants.SF_TYPE_NO_CHECKING);
+            accountingLine.getAccount().setAccountSufficientFundsCode(KFSConstants.SF_TYPE_NO_CHECKING);
         }
         explicitEntry.setAcctSufficientFundsFinObjCd(SpringServiceLocator.getSufficientFundsService().getSufficientFundsObjectCode(accountingLine.getObjectCode(), accountingLine.getAccount().getAccountSufficientFundsCode()));
         explicitEntry.setFinancialDocumentApprovedCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.NO);
         explicitEntry.setTransactionEncumbranceUpdateCode(BLANK_SPACE);
         explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL); // this is the default that most documents use
         explicitEntry.setChartOfAccountsCode(accountingLine.getChartOfAccountsCode());
-        explicitEntry.setTransactionDebitCreditCode(isDebit(accountingDocument, accountingLine) ? Constants.GL_DEBIT_CODE : Constants.GL_CREDIT_CODE);
+        explicitEntry.setTransactionDebitCreditCode(isDebit(accountingDocument, accountingLine) ? KFSConstants.GL_DEBIT_CODE : KFSConstants.GL_CREDIT_CODE);
         explicitEntry.setFinancialSystemOriginationCode(SpringServiceLocator.getHomeOriginationService().getHomeOrigination().getFinSystemHomeOriginationCode());
         explicitEntry.setDocumentNumber(accountingLine.getDocumentNumber());
         explicitEntry.setFinancialObjectCode(accountingLine.getFinancialObjectCode());
@@ -1787,7 +1787,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         public static boolean isDebitCode(String debitCreditCode) {
             LOG.debug("isDebitCode(String) - start");
 
-            boolean returnboolean = StringUtils.equals(Constants.GL_DEBIT_CODE, debitCreditCode);
+            boolean returnboolean = StringUtils.equals(KFSConstants.GL_DEBIT_CODE, debitCreditCode);
             LOG.debug("isDebitCode(String) - end");
             return returnboolean;
         }

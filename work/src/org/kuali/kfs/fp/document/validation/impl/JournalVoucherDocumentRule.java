@@ -15,37 +15,37 @@
  */
 package org.kuali.module.financial.rules;
 
-import static org.kuali.kfs.Constants.AMOUNT_PROPERTY_NAME;
-import static org.kuali.kfs.Constants.BALANCE_TYPE_BASE_BUDGET;
-import static org.kuali.kfs.Constants.BALANCE_TYPE_BUDGET_STATISTICS;
-import static org.kuali.kfs.Constants.BALANCE_TYPE_CURRENT_BUDGET;
-import static org.kuali.kfs.Constants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE;
-import static org.kuali.kfs.Constants.BALANCE_TYPE_MONTHLY_BUDGET;
-import static org.kuali.kfs.Constants.BLANK_SPACE;
-import static org.kuali.kfs.Constants.CREDIT_AMOUNT_PROPERTY_NAME;
-import static org.kuali.kfs.Constants.DEBIT_AMOUNT_PROPERTY_NAME;
-import static org.kuali.kfs.Constants.GENERIC_CODE_PROPERTY_NAME;
-import static org.kuali.kfs.Constants.GL_DEBIT_CODE;
-import static org.kuali.kfs.Constants.JOURNAL_LINE_HELPER_PROPERTY_NAME;
-import static org.kuali.kfs.Constants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME;
-import static org.kuali.kfs.Constants.OBJECT_TYPE_CODE_PROPERTY_NAME;
-import static org.kuali.kfs.Constants.SQUARE_BRACKET_LEFT;
-import static org.kuali.kfs.Constants.SQUARE_BRACKET_RIGHT;
-import static org.kuali.kfs.Constants.VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME;
-import static org.kuali.kfs.Constants.VOUCHER_LINE_HELPER_DEBIT_PROPERTY_NAME;
-import static org.kuali.kfs.KeyConstants.ERROR_DOCUMENT_SINGLE_SECTION_NO_ACCOUNTING_LINES;
-import static org.kuali.kfs.KeyConstants.ERROR_REQUIRED;
-import static org.kuali.kfs.KeyConstants.ERROR_ZERO_AMOUNT;
-import static org.kuali.kfs.KeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT;
-import static org.kuali.kfs.KeyConstants.JournalVoucher.ERROR_NEGATIVE_NON_BUDGET_AMOUNTS;
-import static org.kuali.kfs.PropertyConstants.ACCOUNTING_PERIOD;
-import static org.kuali.kfs.PropertyConstants.BALANCE_TYPE;
-import static org.kuali.kfs.PropertyConstants.BALANCE_TYPE_CODE;
-import static org.kuali.kfs.PropertyConstants.REFERENCE_NUMBER;
-import static org.kuali.kfs.PropertyConstants.REFERENCE_ORIGIN_CODE;
-import static org.kuali.kfs.PropertyConstants.REFERENCE_TYPE_CODE;
-import static org.kuali.kfs.PropertyConstants.REVERSAL_DATE;
-import static org.kuali.kfs.PropertyConstants.SELECTED_ACCOUNTING_PERIOD;
+import static org.kuali.kfs.KFSConstants.AMOUNT_PROPERTY_NAME;
+import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_BASE_BUDGET;
+import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_BUDGET_STATISTICS;
+import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_CURRENT_BUDGET;
+import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE;
+import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_MONTHLY_BUDGET;
+import static org.kuali.kfs.KFSConstants.BLANK_SPACE;
+import static org.kuali.kfs.KFSConstants.CREDIT_AMOUNT_PROPERTY_NAME;
+import static org.kuali.kfs.KFSConstants.DEBIT_AMOUNT_PROPERTY_NAME;
+import static org.kuali.kfs.KFSConstants.GENERIC_CODE_PROPERTY_NAME;
+import static org.kuali.kfs.KFSConstants.GL_DEBIT_CODE;
+import static org.kuali.kfs.KFSConstants.JOURNAL_LINE_HELPER_PROPERTY_NAME;
+import static org.kuali.kfs.KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME;
+import static org.kuali.kfs.KFSConstants.OBJECT_TYPE_CODE_PROPERTY_NAME;
+import static org.kuali.kfs.KFSConstants.SQUARE_BRACKET_LEFT;
+import static org.kuali.kfs.KFSConstants.SQUARE_BRACKET_RIGHT;
+import static org.kuali.kfs.KFSConstants.VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME;
+import static org.kuali.kfs.KFSConstants.VOUCHER_LINE_HELPER_DEBIT_PROPERTY_NAME;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_SINGLE_SECTION_NO_ACCOUNTING_LINES;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_REQUIRED;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_ZERO_AMOUNT;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_ZERO_OR_NEGATIVE_AMOUNT;
+import static org.kuali.kfs.KFSKeyConstants.JournalVoucher.ERROR_NEGATIVE_NON_BUDGET_AMOUNTS;
+import static org.kuali.kfs.KFSPropertyConstants.ACCOUNTING_PERIOD;
+import static org.kuali.kfs.KFSPropertyConstants.BALANCE_TYPE;
+import static org.kuali.kfs.KFSPropertyConstants.BALANCE_TYPE_CODE;
+import static org.kuali.kfs.KFSPropertyConstants.REFERENCE_NUMBER;
+import static org.kuali.kfs.KFSPropertyConstants.REFERENCE_ORIGIN_CODE;
+import static org.kuali.kfs.KFSPropertyConstants.REFERENCE_TYPE_CODE;
+import static org.kuali.kfs.KFSPropertyConstants.REVERSAL_DATE;
+import static org.kuali.kfs.KFSPropertyConstants.SELECTED_ACCOUNTING_PERIOD;
 import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 
 import org.apache.commons.lang.StringUtils;
@@ -148,7 +148,7 @@ public class JournalVoucherDocumentRule extends AccountingDocumentRuleBase {
         // check the selected accounting period
         jvDoc.refreshReferenceObject(ACCOUNTING_PERIOD);
         AccountingPeriod accountingPeriod = jvDoc.getAccountingPeriod();
-        // PropertyConstants.SELECTED_ACCOUNTING_PERIOD is on JournalVoucherForm, not JournalVoucherDocument
+        // KFSPropertyConstants.SELECTED_ACCOUNTING_PERIOD is on JournalVoucherForm, not JournalVoucherDocument
         valid &= AccountingDocumentRuleUtil.isValidOpenAccountingPeriod(accountingPeriod, JournalVoucherDocument.class, ACCOUNTING_PERIOD, DOCUMENT_ERROR_PREFIX + SELECTED_ACCOUNTING_PERIOD);
 
         // check the chosen reversal date, only if they entered a value

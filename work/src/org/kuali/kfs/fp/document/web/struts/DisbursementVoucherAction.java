@@ -31,9 +31,9 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeExpense;
@@ -113,7 +113,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) dvForm.getDocument();
 
         /* refresh from dv payee lookup */
-        if (Constants.KUALI_LOOKUPABLE_IMPL.equals(dvForm.getRefreshCaller()) && request.getParameter("document.dvPayeeDetail.disbVchrPayeeIdNumber") != null && document.getDvPayeeDetail().isPayee()) {
+        if (KFSConstants.KUALI_LOOKUPABLE_IMPL.equals(dvForm.getRefreshCaller()) && request.getParameter("document.dvPayeeDetail.disbVchrPayeeIdNumber") != null && document.getDvPayeeDetail().isPayee()) {
             String payeeIdNumber = ((DisbursementVoucherDocument) dvForm.getDocument()).getDvPayeeDetail().getDisbVchrPayeeIdNumber();
             Payee refreshPayee = new Payee();
             refreshPayee.setPayeeIdNumber(payeeIdNumber);
@@ -121,7 +121,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
             ((DisbursementVoucherDocument) dvForm.getDocument()).templatePayee(refreshPayee);
         }
         /* refresh from employee lookup */
-        else if (Constants.KUALI_LOOKUPABLE_IMPL.equals(dvForm.getRefreshCaller()) && request.getParameter("document.dvPayeeDetail.disbVchrPayeeIdNumber") != null && document.getDvPayeeDetail().isEmployee()) {
+        else if (KFSConstants.KUALI_LOOKUPABLE_IMPL.equals(dvForm.getRefreshCaller()) && request.getParameter("document.dvPayeeDetail.disbVchrPayeeIdNumber") != null && document.getDvPayeeDetail().isEmployee()) {
             String emplUuid = ((DisbursementVoucherDocument) dvForm.getDocument()).getDvPayeeDetail().getDisbVchrPayeeIdNumber();
             UniversalUser employee = new UniversalUser();
             employee.setPersonUniversalIdentifier(emplUuid);
@@ -147,7 +147,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         // get directory of tempate
         String directory = getServlet().getServletConfig().getServletContext().getRealPath(DisbursementVoucherCoverSheetServiceImpl.DV_COVERSHEET_TEMPLATE_RELATIVE_DIR);
 
-        DisbursementVoucherDocument document = (DisbursementVoucherDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(request.getParameter(PropertyConstants.DOCUMENT_NUMBER));
+        DisbursementVoucherDocument document = (DisbursementVoucherDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(request.getParameter(KFSPropertyConstants.DOCUMENT_NUMBER));
 
         // set worflow document back into form to prevent document authorizer "invalid (null)
         // document.documentHeader.workflowDocument" since we are bypassing form submit and just linking directly to the action
@@ -192,10 +192,10 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
             }
 
             LOG.error("Error in calculating travel per diem: " + errorMessage);
-            GlobalVariables.getErrorMap().putError("DVNonEmployeeTravelErrors", KeyConstants.ERROR_CUSTOM, errorMessage);
+            GlobalVariables.getErrorMap().putError("DVNonEmployeeTravelErrors", KFSKeyConstants.ERROR_CUSTOM, errorMessage);
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
 
     }
 
@@ -218,7 +218,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
             clearTravelPerDiem(dvNet);
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
 
     }
 
@@ -243,12 +243,12 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
 
         if (dvDocument.getDvNonEmployeeTravel().getDvPersonalCarMileageAmount() == null) {
             LOG.error("Total Mileage must be given");
-            GlobalVariables.getErrorMap().putError("DVNonEmployeeTravelErrors", KeyConstants.ERROR_REQUIRED, "Total Mileage");
+            GlobalVariables.getErrorMap().putError("DVNonEmployeeTravelErrors", KFSKeyConstants.ERROR_REQUIRED, "Total Mileage");
         }
 
         if (dvDocument.getDvNonEmployeeTravel().getDvPerdiemStartDttmStamp() == null) {
             LOG.error("Travel Start Date must be given");
-            GlobalVariables.getErrorMap().putError("DVNonEmployeeTravelErrors", KeyConstants.ERROR_REQUIRED, "Travel Start Date");
+            GlobalVariables.getErrorMap().putError("DVNonEmployeeTravelErrors", KFSKeyConstants.ERROR_REQUIRED, "Travel Start Date");
         }
 
         if (GlobalVariables.getErrorMap().isEmpty()) {
@@ -259,7 +259,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
             dvDocument.getDvNonEmployeeTravel().setDisbVchrPersonalCarAmount(mileageAmount);
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -281,7 +281,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
             clearTravelMileageAmount(dvNet);
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
 
     }
 
@@ -308,28 +308,28 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         DisbursementVoucherNonEmployeeExpense newExpenseLine = dvForm.getNewNonEmployeeExpenseLine();
 
         // validate line
-        GlobalVariables.getErrorMap().addToErrorPath(PropertyConstants.NEW_NONEMPLOYEE_EXPENSE_LINE);
+        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.NEW_NONEMPLOYEE_EXPENSE_LINE);
         SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(newExpenseLine);
 
         // Ensure all fields are filled in before attempting to add a new expense line
         if (StringUtils.isBlank(newExpenseLine.getDisbVchrPrePaidExpenseCode())) {
-            GlobalVariables.getErrorMap().putError(PropertyConstants.DISB_VCHR_EXPENSE_CODE, KeyConstants.ERROR_DV_EXPENSE_CODE);
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.DISB_VCHR_EXPENSE_CODE, KFSKeyConstants.ERROR_DV_EXPENSE_CODE);
         }
         if (StringUtils.isBlank(newExpenseLine.getDisbVchrPrePaidExpenseCompanyName())) {
-            GlobalVariables.getErrorMap().putError(PropertyConstants.DISB_VCHR_EXPENSE_COMPANY_NAME, KeyConstants.ERROR_DV_EXPENSE_COMPANY_NAME);
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.DISB_VCHR_EXPENSE_COMPANY_NAME, KFSKeyConstants.ERROR_DV_EXPENSE_COMPANY_NAME);
         }
         if (ObjectUtils.isNull(newExpenseLine.getDisbVchrExpenseAmount())) {
-            GlobalVariables.getErrorMap().putError(PropertyConstants.DISB_VCHR_EXPENSE_AMOUNT, KeyConstants.ERROR_DV_EXPENSE_AMOUNT);
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.DISB_VCHR_EXPENSE_AMOUNT, KFSKeyConstants.ERROR_DV_EXPENSE_AMOUNT);
         }
 
-        GlobalVariables.getErrorMap().removeFromErrorPath(PropertyConstants.NEW_NONEMPLOYEE_EXPENSE_LINE);
+        GlobalVariables.getErrorMap().removeFromErrorPath(KFSPropertyConstants.NEW_NONEMPLOYEE_EXPENSE_LINE);
 
         if (GlobalVariables.getErrorMap().isEmpty()) {
             dvDocument.getDvNonEmployeeTravel().addDvNonEmployeeExpenseLine(newExpenseLine);
             dvForm.setNewNonEmployeeExpenseLine(new DisbursementVoucherNonEmployeeExpense());
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     };
 
     /**
@@ -349,27 +349,27 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         DisbursementVoucherNonEmployeeExpense newExpenseLine = dvForm.getNewPrePaidNonEmployeeExpenseLine();
 
         // validate line
-        GlobalVariables.getErrorMap().addToErrorPath(PropertyConstants.NEW_PREPAID_EXPENSE_LINE);
+        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.NEW_PREPAID_EXPENSE_LINE);
         SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(newExpenseLine);
 
         // Ensure all fields are filled in before attempting to add a new expense line
         if (StringUtils.isBlank(newExpenseLine.getDisbVchrPrePaidExpenseCode())) {
-            GlobalVariables.getErrorMap().putError(PropertyConstants.DISB_VCHR_PRE_PAID_EXPENSE_CODE, KeyConstants.ERROR_DV_PREPAID_EXPENSE_CODE);
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.DISB_VCHR_PRE_PAID_EXPENSE_CODE, KFSKeyConstants.ERROR_DV_PREPAID_EXPENSE_CODE);
         }
         if (StringUtils.isBlank(newExpenseLine.getDisbVchrPrePaidExpenseCompanyName())) {
-            GlobalVariables.getErrorMap().putError(PropertyConstants.DISB_VCHR_PRE_PAID_EXPENSE_COMPANY_NAME, KeyConstants.ERROR_DV_PREPAID_EXPENSE_COMPANY_NAME);
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.DISB_VCHR_PRE_PAID_EXPENSE_COMPANY_NAME, KFSKeyConstants.ERROR_DV_PREPAID_EXPENSE_COMPANY_NAME);
         }
         if (ObjectUtils.isNull(newExpenseLine.getDisbVchrExpenseAmount())) {
-            GlobalVariables.getErrorMap().putError(PropertyConstants.DISB_VCHR_EXPENSE_AMOUNT, KeyConstants.ERROR_DV_PREPAID_EXPENSE_AMOUNT);
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.DISB_VCHR_EXPENSE_AMOUNT, KFSKeyConstants.ERROR_DV_PREPAID_EXPENSE_AMOUNT);
         }
-        GlobalVariables.getErrorMap().removeFromErrorPath(PropertyConstants.NEW_PREPAID_EXPENSE_LINE);
+        GlobalVariables.getErrorMap().removeFromErrorPath(KFSPropertyConstants.NEW_PREPAID_EXPENSE_LINE);
 
         if (GlobalVariables.getErrorMap().isEmpty()) {
             dvDocument.getDvNonEmployeeTravel().addDvPrePaidEmployeeExpenseLine(newExpenseLine);
             dvForm.setNewPrePaidNonEmployeeExpenseLine(new DisbursementVoucherNonEmployeeExpense());
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     };
 
     /**
@@ -389,7 +389,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         int deleteIndex = getLineToDelete(request);
         dvDocument.getDvNonEmployeeTravel().getDvNonEmployeeExpenses().remove(deleteIndex);
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -409,7 +409,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         int deleteIndex = getLineToDelete(request);
         dvDocument.getDvNonEmployeeTravel().getDvPrePaidEmployeeExpenses().remove(deleteIndex);
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -429,16 +429,16 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         DisbursementVoucherPreConferenceRegistrant newRegistrantLine = dvForm.getNewPreConferenceRegistrantLine();
 
         // validate line
-        GlobalVariables.getErrorMap().addToErrorPath(PropertyConstants.NEW_PRECONF_REGISTRANT_LINE);
+        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.NEW_PRECONF_REGISTRANT_LINE);
         SpringServiceLocator.getDictionaryValidationService().validateBusinessObject(newRegistrantLine);
-        GlobalVariables.getErrorMap().removeFromErrorPath(PropertyConstants.NEW_PRECONF_REGISTRANT_LINE);
+        GlobalVariables.getErrorMap().removeFromErrorPath(KFSPropertyConstants.NEW_PRECONF_REGISTRANT_LINE);
 
         if (GlobalVariables.getErrorMap().isEmpty()) {
             dvDocument.addDvPrePaidRegistrantLine(newRegistrantLine);
             dvForm.setNewPreConferenceRegistrantLine(new DisbursementVoucherPreConferenceRegistrant());
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
 
     }
 
@@ -459,7 +459,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         int deleteIndex = getLineToDelete(request);
         dvDocument.getDvPreConferenceDetail().getDvPreConferenceRegistrants().remove(deleteIndex);
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
 
     }
 
@@ -479,10 +479,10 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) dvForm.getDocument();
 
         /* user should not have generate button if not in tax group, but check just to make sure */
-        if (!GlobalVariables.getUserSession().getUniversalUser().isMember( SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( Constants.FinancialApcParms.GROUP_DV_DOCUMENT, Constants.FinancialApcParms.DV_TAX_WORKGROUP ) ) ) {
+        if (!GlobalVariables.getUserSession().getUniversalUser().isMember( SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( KFSConstants.FinancialApcParms.GROUP_DV_DOCUMENT, KFSConstants.FinancialApcParms.DV_TAX_WORKGROUP ) ) ) {
             LOG.info("User requested generateNonResidentAlienTaxLines who is not in the kuali tax group.");
-            GlobalVariables.getErrorMap().putError(Constants.DV_NRATAX_TAB_ERRORS, KeyConstants.ERROR_DV_NRA_PERMISSIONS_GENERATE);
-            return mapping.findForward(Constants.MAPPING_BASIC);
+            GlobalVariables.getErrorMap().putError(KFSConstants.DV_NRATAX_TAB_ERRORS, KFSKeyConstants.ERROR_DV_NRA_PERMISSIONS_GENERATE);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
         DisbursementVoucherTaxService taxService = SpringServiceLocator.getDisbursementVoucherTaxService();
@@ -492,7 +492,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         taxService.processNonResidentAlienTax(document);
         GlobalVariables.getErrorMap().removeFromErrorPath("document");
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -510,10 +510,10 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) dvForm.getDocument();
 
         /* user should not have generate button if not in tax group, but check just to make sure */
-        if (!GlobalVariables.getUserSession().getUniversalUser().isMember( SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( Constants.FinancialApcParms.GROUP_DV_DOCUMENT, Constants.FinancialApcParms.DV_TAX_WORKGROUP ) )) {
+        if (!GlobalVariables.getUserSession().getUniversalUser().isMember( SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue( KFSConstants.FinancialApcParms.GROUP_DV_DOCUMENT, KFSConstants.FinancialApcParms.DV_TAX_WORKGROUP ) )) {
             LOG.info("User requested generateNonResidentAlienTaxLines who is not in the kuali tax group.");
-            GlobalVariables.getErrorMap().putError(Constants.DV_NRATAX_TAB_ERRORS, KeyConstants.ERROR_DV_NRA_PERMISSIONS_GENERATE);
-            return mapping.findForward(Constants.MAPPING_BASIC);
+            GlobalVariables.getErrorMap().putError(KFSConstants.DV_NRATAX_TAB_ERRORS, KFSKeyConstants.ERROR_DV_NRA_PERMISSIONS_GENERATE);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
         DisbursementVoucherTaxService taxService = SpringServiceLocator.getDisbursementVoucherTaxService();
@@ -521,7 +521,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         /* call service to clear previous lines */
         taxService.clearNRATaxLines(document);
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -536,15 +536,15 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         DisbursementVoucherForm dvForm = (DisbursementVoucherForm) form;
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) dvForm.getDocument();
 
-        String fullParameter = (String) request.getAttribute(Constants.METHOD_TO_CALL_ATTRIBUTE);
-        String boClassName = StringUtils.substringBetween(fullParameter, Constants.METHOD_TO_CALL_BOPARM_LEFT_DEL, Constants.METHOD_TO_CALL_BOPARM_RIGHT_DEL);
+        String fullParameter = (String) request.getAttribute(KFSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String boClassName = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL, KFSConstants.METHOD_TO_CALL_BOPARM_RIGHT_DEL);
 
         if (Payee.class.getName().equals(boClassName) && document.getDvPayeeDetail().isEmployee()) {
-            String conversionFields = StringUtils.substringBetween(fullParameter, Constants.METHOD_TO_CALL_PARM1_LEFT_DEL, Constants.METHOD_TO_CALL_PARM1_RIGHT_DEL);
+            String conversionFields = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL);
 
             fullParameter = StringUtils.replace(fullParameter, boClassName, UniversalUser.class.getName());
             fullParameter = StringUtils.replace(fullParameter, conversionFields, "personUniversalIdentifier:document.dvPayeeDetail.disbVchrPayeeIdNumber");
-            request.setAttribute(Constants.METHOD_TO_CALL_ATTRIBUTE, fullParameter);
+            request.setAttribute(KFSConstants.METHOD_TO_CALL_ATTRIBUTE, fullParameter);
         }
 
         return super.performLookup(mapping, form, request, response);
@@ -554,7 +554,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
      * Builds the wire charge message for the current fiscal year.
      */
     private String retrieveWireChargeMessage() {
-        String message = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KeyConstants.MESSAGE_DV_WIRE_CHARGE);
+        String message = SpringServiceLocator.getKualiConfigurationService().getPropertyString(KFSKeyConstants.MESSAGE_DV_WIRE_CHARGE);
         WireCharge wireCharge = new WireCharge();
         wireCharge.setUniversityFiscalYear(SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear());
 

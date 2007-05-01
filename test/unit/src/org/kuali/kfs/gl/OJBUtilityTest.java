@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
 import org.kuali.module.gl.web.Constant;
@@ -75,7 +75,7 @@ public class OJBUtilityTest extends KualiTestBase {
 
     public void testGetResultSizeFromMap() throws Exception {
         Map propertyMap = new HashMap();
-        propertyMap.put(PropertyConstants.UNIVERSITY_FISCAL_YEAR, "2007");
+        propertyMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, "2007");
 
         Long resultSize = OJBUtility.getResultSizeFromMap(propertyMap, new AccountBalance());
         assertTrue("Should be greater than 0 if there are account balance records", resultSize.intValue() > 0);

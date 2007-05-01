@@ -18,8 +18,8 @@ package org.kuali.module.cg.rules;
 import java.sql.Date;
 import java.util.List;
 
-import org.kuali.kfs.KeyConstants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.module.cg.bo.Proposal;
@@ -45,10 +45,10 @@ public class ProposalRule extends CGMaintenanceDocumentRuleBase {
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument documentCopy) {
         boolean success = true;
-        success &= checkEndAfterBegin(newProposalCopy.getProposalBeginningDate(), newProposalCopy.getProposalEndingDate(), PropertyConstants.PROPOSAL_ENDING_DATE);
-        success &= checkPrimary(newProposalCopy.getProposalOrganizations(), ProposalOrganization.class, PropertyConstants.PROPOSAL_ORGANIZATIONS, Proposal.class);
-        success &= checkPrimary(newProposalCopy.getProposalProjectDirectors(), ProposalProjectDirector.class, PropertyConstants.PROPOSAL_PROJECT_DIRECTORS, Proposal.class);
-        success &= checkProjectDirectorsExist(newProposalCopy.getProposalProjectDirectors(), ProposalProjectDirector.class, PropertyConstants.PROPOSAL_PROJECT_DIRECTORS);
+        success &= checkEndAfterBegin(newProposalCopy.getProposalBeginningDate(), newProposalCopy.getProposalEndingDate(), KFSPropertyConstants.PROPOSAL_ENDING_DATE);
+        success &= checkPrimary(newProposalCopy.getProposalOrganizations(), ProposalOrganization.class, KFSPropertyConstants.PROPOSAL_ORGANIZATIONS, Proposal.class);
+        success &= checkPrimary(newProposalCopy.getProposalProjectDirectors(), ProposalProjectDirector.class, KFSPropertyConstants.PROPOSAL_PROJECT_DIRECTORS, Proposal.class);
+        success &= checkProjectDirectorsExist(newProposalCopy.getProposalProjectDirectors(), ProposalProjectDirector.class, KFSPropertyConstants.PROPOSAL_PROJECT_DIRECTORS);
         return success;
     }
 

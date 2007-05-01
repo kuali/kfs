@@ -24,8 +24,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.PropertyConstants;
-import org.kuali.kfs.Constants.DepositConstants;
+import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.KFSConstants.DepositConstants;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDrawer;
@@ -261,7 +261,7 @@ public class CashManagementDocument extends AccountingDocumentBase {
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put(PropertyConstants.DOCUMENT_NUMBER, getDocumentNumber());
+        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, getDocumentNumber());
         m.put("workgroupName", getWorkgroupName());
         return m;
     }

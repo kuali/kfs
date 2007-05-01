@@ -25,7 +25,7 @@ import java.util.List;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.util.CashReceiptFamilyTestUtil;
 import org.kuali.test.KualiTestBase;
@@ -38,11 +38,11 @@ import edu.iu.uis.eden.exception.WorkflowException;
 @WithTestSpringContext(session = KHUNTLEY)
 public class CashReceiptServiceTest extends KualiTestBase {
     // TODO: once we stop returning default campusCode for unknown verificationUnit, need a test for unknown verificationUnit
-    private static final String TEST_CAMPUS_CD = Constants.CashReceiptConstants.TEST_CASH_RECEIPT_CAMPUS_LOCATION_CODE;
-    private static final String TEST_UNIT_NAME = Constants.CashReceiptConstants.TEST_CASH_RECEIPT_VERIFICATION_UNIT;
+    private static final String TEST_CAMPUS_CD = KFSConstants.CashReceiptConstants.TEST_CASH_RECEIPT_CAMPUS_LOCATION_CODE;
+    private static final String TEST_UNIT_NAME = KFSConstants.CashReceiptConstants.TEST_CASH_RECEIPT_VERIFICATION_UNIT;
 
-    private static final String DEFAULT_CAMPUS_CD = Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_CAMPUS_LOCATION_CODE;
-    private static final String DEFAULT_UNIT_NAME = Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_VERIFICATION_UNIT;
+    private static final String DEFAULT_CAMPUS_CD = KFSConstants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_CAMPUS_LOCATION_CODE;
+    private static final String DEFAULT_UNIT_NAME = KFSConstants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_VERIFICATION_UNIT;
 
     private static final String UNKNOWN_UNIT_NAME = "unknownUnit";
 
@@ -122,7 +122,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
     }
 
     public final void testGetCashReceiptVerificationUnit_validUser() {
-        String expectedUnit = Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_VERIFICATION_UNIT;
+        String expectedUnit = KFSConstants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_VERIFICATION_UNIT;
 
         String unit = getCashReceiptService().getCashReceiptVerificationUnitForUser(GlobalVariables.getUserSession().getUniversalUser());
         assertEquals(expectedUnit, unit);
@@ -164,7 +164,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
         // clean up before testing
         denatureCashReceipts(workgroup);
 
-        List receipts = getCashReceiptService().getCashReceipts(workgroup, Constants.DocumentStatusCodes.CashReceipt.VERIFIED);
+        List receipts = getCashReceiptService().getCashReceipts(workgroup, KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
         assertEquals(0, receipts.size());
     }
 
@@ -174,7 +174,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
         // clean up before testing
         denatureCashReceipts(workgroup);
 
-        List receipts = getCashReceiptService().getCashReceipts(workgroup, Constants.DocumentStatusCodes.CashReceipt.INTERIM);
+        List receipts = getCashReceiptService().getCashReceipts(workgroup, KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM);
         assertEquals(0, receipts.size());
     }
 
@@ -188,16 +188,16 @@ public class CashReceiptServiceTest extends KualiTestBase {
 
         // create some CRs
         changeCurrentUser(UserNameFixture.INEFF);
-        CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", Constants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
+        CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
 
-        CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", Constants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
+        CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
 
 
         // verify that there are only interim CRs
-        List vreceipts = getCashReceiptService().getCashReceipts(workgroup, Constants.DocumentStatusCodes.CashReceipt.VERIFIED);
+        List vreceipts = getCashReceiptService().getCashReceipts(workgroup, KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
         assertEquals(0, vreceipts.size());
 
-        List ireceipts = getCashReceiptService().getCashReceipts(workgroup, Constants.DocumentStatusCodes.CashReceipt.INTERIM);
+        List ireceipts = getCashReceiptService().getCashReceipts(workgroup, KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM);
         assertEquals(2, ireceipts.size());
 
         // clean up afterwards
@@ -213,16 +213,16 @@ public class CashReceiptServiceTest extends KualiTestBase {
 
         // create some CRs
         changeCurrentUser(UserNameFixture.INEFF);
-        CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", Constants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
+        CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
 
-        CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", Constants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
+        CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
 
 
         // verify that there are only verified CRs
-        List ireceipts = getCashReceiptService().getCashReceipts(workgroup, Constants.DocumentStatusCodes.CashReceipt.INTERIM);
+        List ireceipts = getCashReceiptService().getCashReceipts(workgroup, KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM);
         assertEquals(0, ireceipts.size());
 
-        List vreceipts = getCashReceiptService().getCashReceipts(workgroup, Constants.DocumentStatusCodes.CashReceipt.VERIFIED);
+        List vreceipts = getCashReceiptService().getCashReceipts(workgroup, KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
         assertEquals(2, vreceipts.size());
 
         // clean up afterwards
@@ -238,16 +238,16 @@ public class CashReceiptServiceTest extends KualiTestBase {
 
         // create some CRs
         changeCurrentUser(UserNameFixture.INEFF);
-        CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", Constants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
+        CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
 
-        CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", Constants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
+        CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
 
 
         // verify that there are some of each
-        List ireceipts = getCashReceiptService().getCashReceipts(workgroup, Constants.DocumentStatusCodes.CashReceipt.INTERIM);
+        List ireceipts = getCashReceiptService().getCashReceipts(workgroup, KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM);
         assertEquals(1, ireceipts.size());
 
-        List vreceipts = getCashReceiptService().getCashReceipts(workgroup, Constants.DocumentStatusCodes.CashReceipt.VERIFIED);
+        List vreceipts = getCashReceiptService().getCashReceipts(workgroup, KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
         assertEquals(1, vreceipts.size());
 
 
@@ -256,9 +256,9 @@ public class CashReceiptServiceTest extends KualiTestBase {
     }
 
 
-    private static final String[] BOTH_STATII = { Constants.DocumentStatusCodes.CashReceipt.VERIFIED, Constants.DocumentStatusCodes.CashReceipt.INTERIM };
-    private static final String[] ISTATII = { Constants.DocumentStatusCodes.CashReceipt.INTERIM };
-    private static final String[] VSTATII = { Constants.DocumentStatusCodes.CashReceipt.VERIFIED };
+    private static final String[] BOTH_STATII = { KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM };
+    private static final String[] ISTATII = { KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM };
+    private static final String[] VSTATII = { KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED };
 
 
     public final void testGetCashReceipts2_blankUnitName() {
@@ -347,9 +347,9 @@ public class CashReceiptServiceTest extends KualiTestBase {
 
         // create some CRs
         changeCurrentUser(UserNameFixture.INEFF);
-        CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", Constants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
+        CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
 
-        CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", Constants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
+        CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
 
 
         // verify that there are only interim CRs
@@ -372,9 +372,9 @@ public class CashReceiptServiceTest extends KualiTestBase {
 
         // create some CRs
         changeCurrentUser(UserNameFixture.INEFF);
-        CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", Constants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
+        CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
 
-        CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", Constants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
+        CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
 
 
         // verify that there are only verified CRs
@@ -397,9 +397,9 @@ public class CashReceiptServiceTest extends KualiTestBase {
 
         // create some CRs
         changeCurrentUser(UserNameFixture.INEFF);
-        CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", Constants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
+        CashReceiptDocument cr1 = buildCashReceiptDoc(workgroup, "ww2 CRST cr1", KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, new KualiDecimal("101.01"), new KualiDecimal("898.99"));
 
-        CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", Constants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
+        CashReceiptDocument cr2 = buildCashReceiptDoc(workgroup, "ww2 CRST cr2", KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED, new KualiDecimal("212.12"), new KualiDecimal("787.87"));
 
 
         // verify that there are some of each

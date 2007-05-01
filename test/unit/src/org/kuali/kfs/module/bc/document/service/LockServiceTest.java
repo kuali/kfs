@@ -24,7 +24,7 @@ import static org.kuali.kfs.util.SpringServiceLocator.getBusinessObjectService;
 import static org.kuali.kfs.util.SpringServiceLocator.getLockService;
 
 import org.kuali.core.bo.DocumentHeader;
-import org.kuali.kfs.Constants.BudgetConstructionConstants.LockStatus;
+import org.kuali.kfs.KFSConstants.BudgetConstructionConstants.LockStatus;
 import org.kuali.module.budget.bo.BudgetConstructionFundingLock;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.BudgetConstructionPosition;

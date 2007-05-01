@@ -26,8 +26,8 @@ import org.kuali.core.document.Document;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KeyConstants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -95,7 +95,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
             if ((accountingLine.getFinancialObjectCode() != null) && (lines.getFinancialObjectCode() != null)) {
 
                 if (!accountingLine.getFinancialObjectCode().equals(lines.getFinancialObjectCode())) {
-                    reportError(PropertyConstants.ACCOUNT, KeyConstants.Labor.DISTINCT_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
+                    reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.Labor.DISTINCT_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
                     return false;
                 }
             }
@@ -111,7 +111,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
 
         // Check if the object code is labor related
         if (laborObjects.size() == 0) {
-            reportError(PropertyConstants.ACCOUNT, KeyConstants.Labor.LABOR_OBJECT_MISSING_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
+            reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.Labor.LABOR_OBJECT_MISSING_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
             return false;
         }
 
@@ -120,7 +120,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         String FringeOrSalaryCode = laborObject.getFinancialObjectFringeOrSalaryCode();
 
         if (!FringeOrSalaryCode.equals(LaborConstants.BenefitExpenseTransfer.LABOR_LEDGER_BENEFIT_CODE)) {
-            reportError(PropertyConstants.ACCOUNT, KeyConstants.Labor.INVALID_FRINGE_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
+            reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.Labor.INVALID_FRINGE_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
             return false;
         }
 
@@ -131,7 +131,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         fieldValues.put("universityFiscalYear", benefitExpenseTransferAccountingLine.getPayrollEndDateFiscalYear());
         AccountingPeriod accountingPeriod = new AccountingPeriod();
         if (SpringServiceLocator.getBusinessObjectService().countMatching(AccountingPeriod.class, fieldValues) == 0) {
-            reportError(PropertyConstants.ACCOUNT, KeyConstants.Labor.INVALID_PAY_YEAR);
+            reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.Labor.INVALID_PAY_YEAR);
             return false;
         }
 
@@ -140,7 +140,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         fieldValues.put("universityFiscalPeriodCode", benefitExpenseTransferAccountingLine.getPayrollEndDateFiscalPeriodCode());
         accountingPeriod = new AccountingPeriod();
         if (SpringServiceLocator.getBusinessObjectService().countMatching(AccountingPeriod.class, fieldValues) == 0) {
-            reportError(PropertyConstants.ACCOUNT, KeyConstants.Labor.INVALID_PAY_PERIOD_CODE);
+            reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.Labor.INVALID_PAY_PERIOD_CODE);
             return false;
         }
         
@@ -210,7 +210,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         // if totals don't match, then add error message
         if (sourceLinesAmount.compareTo(targetLinesAmount) != 0) {
             isValid = false;
-            reportError(PropertyConstants.SOURCE_ACCOUNTING_LINES, KeyConstants.Labor.ACCOUNTING_LINE_TOTALS_MISMATCH_ERROR);
+            reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ACCOUNTING_LINE_TOTALS_MISMATCH_ERROR);
         }
 
         return isValid;
@@ -237,7 +237,7 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
         // if totals don't match by PayFY+PayPeriod categories, then add error message
         if (compareAccountingLineTotalsByPayFYAndPayPeriod(sourceLinesMap, targetLinesMap) == false) {
             isValid = false;
-            reportError(PropertyConstants.SOURCE_ACCOUNTING_LINES, KeyConstants.Labor.ACCOUNTING_LINE_TOTALS_BY_PAYFY_PAYPERIOD_MISMATCH_ERROR);
+            reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ACCOUNTING_LINE_TOTALS_BY_PAYFY_PAYPERIOD_MISMATCH_ERROR);
         }
 
         return isValid;

@@ -30,7 +30,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.routingform.bo.Keyword;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
@@ -58,7 +58,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         routingForm.getRoutingFormDocument().addPerson(routingForm.getNewRoutingFormPerson());
         routingForm.setNewRoutingFormPerson(new RoutingFormPersonnel());
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -74,7 +74,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         
         routingForm.getRoutingFormDocument().getRoutingFormPersonnel().remove(super.getLineToDelete(request));
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     /**
@@ -91,7 +91,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         routingForm.getRoutingFormDocument().addOrganizationCreditPercent(routingForm.getNewRoutingFormOrganizationCreditPercent());
         routingForm.setNewRoutingFormOrganizationCreditPercent(new RoutingFormOrganizationCreditPercent());
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     /**
@@ -107,7 +107,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         
         routingForm.getRoutingFormDocument().getRoutingFormOrganizationCreditPercents().remove(super.getLineToDelete(request));
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     /**
@@ -124,7 +124,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
 
         routingForm.getRoutingFormDocument().getRoutingFormKeywords().remove(super.getLineToDelete(request));
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -141,7 +141,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
 
         routingForm.getRoutingFormDocument().getRoutingFormKeywords().clear();
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     /**
@@ -174,7 +174,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         RoutingFormDocument routingFormDocument = routingForm.getRoutingFormDocument();
 
         // check to see if we are coming back from a lookup
-        if (Constants.MULTIPLE_VALUE.equals(routingForm.getRefreshCaller())) {
+        if (KFSConstants.MULTIPLE_VALUE.equals(routingForm.getRefreshCaller())) {
             // Multivalue lookup. Note that the multivalue keyword lookup results are returned persisted to avoid using session.
             // Since URLs have a max length of 2000 chars, field conversions can not be done.
             String lookupResultsSequenceNumber = routingForm.getLookupResultsSequenceNumber();
@@ -193,8 +193,8 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
                     }
                 }
             }
-        } else if (Constants.KUALI_LOOKUPABLE_IMPL.equals(routingForm.getRefreshCaller()) ||
-                Constants.KUALI_USER_LOOKUPABLE_IMPL.equals(routingForm.getRefreshCaller())) {
+        } else if (KFSConstants.KUALI_LOOKUPABLE_IMPL.equals(routingForm.getRefreshCaller()) ||
+                KFSConstants.KUALI_USER_LOOKUPABLE_IMPL.equals(routingForm.getRefreshCaller())) {
             if (request.getParameter("document.routingFormAgency.agencyNumber") != null) {
                 // coming back from an Agency lookup - Agency selected
                 routingFormDocument.setRoutingFormAgencyToBeNamedIndicator(false);
@@ -247,7 +247,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
             }
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**

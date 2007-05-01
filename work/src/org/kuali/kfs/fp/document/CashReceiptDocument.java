@@ -26,7 +26,7 @@ import org.kuali.core.document.Copyable;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.CurrencyFormatter;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
@@ -65,7 +65,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     public CashReceiptDocument() {
         super();
 
-        setCampusLocationCode(Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_CAMPUS_LOCATION_CODE);
+        setCampusLocationCode(KFSConstants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_CAMPUS_LOCATION_CODE);
     }
 
     /**
@@ -199,7 +199,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
         super.handleRouteStatusChange();
         // Workflow Status of PROCESSED --> Kuali Doc Status of Verified
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-            this.getDocumentHeader().setFinancialDocumentStatusCode(Constants.DocumentStatusCodes.CashReceipt.VERIFIED);
+            this.getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
         }
     }
 
@@ -388,7 +388,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
         List persistedChecks = SpringServiceLocator.getCheckService().getByDocumentHeaderId(getDocumentNumber());
         List currentChecks = getChecks();
 
-        List events = generateEvents(persistedChecks, currentChecks, Constants.EXISTING_CHECK_PROPERTY_NAME, this);
+        List events = generateEvents(persistedChecks, currentChecks, KFSConstants.EXISTING_CHECK_PROPERTY_NAME, this);
 
         return events;
     }

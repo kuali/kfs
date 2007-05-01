@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
@@ -36,8 +36,8 @@ public class OrganizationRoutingModelTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         Map<String,String> fieldValues=new HashMap<String, String>();
-        fieldValues.put(Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, "BL");
-        fieldValues.put(Constants.ORGANIZATION_CODE_PROPERTY_NAME,"CLAS");
+        fieldValues.put(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, "BL");
+        fieldValues.put(KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME,"CLAS");
         List<OrganizationRoutingModel> results = (List<OrganizationRoutingModel>)getBusinessObjectService().findMatching(OrganizationRoutingModel.class, fieldValues);
         assertFalse("no models found", results.isEmpty());
 

@@ -21,7 +21,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.bo.CorrectionChange;
 import org.kuali.module.gl.dao.CorrectionChangeDao;
 
@@ -46,7 +46,7 @@ public class CorrectionChangeDaoOjb extends PlatformAwareDaoBaseOjb implements C
         LOG.debug("findByDocumentHeaderIdAndCorrectionGroupNumber() started");
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(PropertyConstants.DOCUMENT_NUMBER, documentNumber);
+        criteria.addEqualTo(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
         criteria.addEqualTo("correctionChangeGroupLineNumber", correctionGroupLineNumber);
 
         QueryByCriteria query = QueryFactory.newQuery(CorrectionChange.class, criteria);

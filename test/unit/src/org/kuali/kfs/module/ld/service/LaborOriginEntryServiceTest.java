@@ -29,7 +29,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OriginEntryGroupService;
@@ -78,9 +78,9 @@ public class LaborOriginEntryServiceTest extends KualiTestBase {
         LaborOriginEntry cleanup = new LaborOriginEntry();
         ObjectUtil.populateBusinessObject(cleanup, properties, "dataCleanup", fieldNames, deliminator);
         fieldValues = ObjectUtil.buildPropertyMap(cleanup, Arrays.asList(StringUtils.split(fieldNames, deliminator)));
-        fieldValues.remove(PropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER);
-        fieldValues.remove(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        fieldValues.remove(PropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE);
+        fieldValues.remove(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER);
+        fieldValues.remove(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        fieldValues.remove(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE);
         businessObjectService.deleteMatching(LaborOriginEntry.class, fieldValues);
     }
 

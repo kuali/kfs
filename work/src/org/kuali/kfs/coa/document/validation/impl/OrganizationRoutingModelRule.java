@@ -23,8 +23,8 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.module.chart.bo.DelegateChangeDocument;
 import org.kuali.module.chart.bo.OrganizationRoutingModelName;
 import org.kuali.module.chart.bo.OrganizationRoutingModel;
@@ -134,7 +134,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         if (globalDelegateTemplate.getOrganizationRoutingModel().size() == 0) {
             success = false;
-            GlobalVariables.getErrorMap().putError("financialDocumentTypeCode", KeyConstants.ERROR_DOCUMENT_DELEGATE_CHANGE_NO_DELEGATE, new String[0]);
+            GlobalVariables.getErrorMap().putError("financialDocumentTypeCode", KFSKeyConstants.ERROR_DOCUMENT_DELEGATE_CHANGE_NO_DELEGATE, new String[0]);
         }
         return success;
     }
@@ -148,7 +148,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
         boolean result = true;
         if (!ObjectUtils.isNull(delegateModel.getApprovalFromThisAmount())) {
             if (delegateModel.getApprovalFromThisAmount().isLessThan(ZERO)) {
-                GlobalVariables.getErrorMap().putError("approvalFromThisAmount", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_FROM_AMOUNT_NONNEGATIVE, new String[0]);                
+                GlobalVariables.getErrorMap().putError("approvalFromThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_FROM_AMOUNT_NONNEGATIVE, new String[0]);                
                 result = false;
             }
         }
@@ -163,7 +163,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
     protected boolean checkDelegateToAmountNotNull(OrganizationRoutingModel delegateModel) {
         boolean result = true;
         if (!ObjectUtils.isNull(delegateModel.getApprovalFromThisAmount()) && ObjectUtils.isNull(delegateModel.getApprovalToThisAmount())) {
-            GlobalVariables.getErrorMap().putError("approvalToThisAmount", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO, new String[0]);                
+            GlobalVariables.getErrorMap().putError("approvalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO, new String[0]);                
             result = false;
         }
         return result;
@@ -179,12 +179,12 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
         boolean result = true;
         if (ObjectUtils.isNull(delegateModel.getApprovalFromThisAmount())) {
             if (!ObjectUtils.isNull(delegateModel.getApprovalToThisAmount()) && !delegateModel.getApprovalToThisAmount().equals(ZERO)) {
-                GlobalVariables.getErrorMap().putError("approvalToThisAmount", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO, new String[0]);                
+                GlobalVariables.getErrorMap().putError("approvalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO, new String[0]);                
                 result = false;
             }
         } else if (!ObjectUtils.isNull(delegateModel.getApprovalToThisAmount())){
             if (delegateModel.getApprovalToThisAmount().isLessThan(delegateModel.getApprovalFromThisAmount())) {
-                GlobalVariables.getErrorMap().putError("approvalToThisAmount", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO, new String[0]);                
+                GlobalVariables.getErrorMap().putError("approvalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO, new String[0]);                
                 result = false;
             }
         }
@@ -211,7 +211,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
 
         // user must exist
         if (delegateModel.getAccountDelegate() == null) {
-            GlobalVariables.getErrorMap().putError("accountDelegate.personUserIdentifier", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_DOESNT_EXIST, new String[0]);
+            GlobalVariables.getErrorMap().putError("accountDelegate.personUserIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_DOESNT_EXIST, new String[0]);
             success = false;
         }
         
@@ -219,14 +219,14 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
             UniversalUser user = delegateModel.getAccountDelegate();
     
             // user must be of the allowable statuses (A - Active)
-            if (apcRuleFails(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, Constants.ChartApcParms.DELEGATE_USER_EMP_STATUSES, user.getEmployeeStatusCode())) {
-                GlobalVariables.getErrorMap().putError("accountDelegate.personUserIdentifier", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE, new String[0]);
+            if (apcRuleFails(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, KFSConstants.ChartApcParms.DELEGATE_USER_EMP_STATUSES, user.getEmployeeStatusCode())) {
+                GlobalVariables.getErrorMap().putError("accountDelegate.personUserIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_ACTIVE, new String[0]);
                 success = false;
             }
     
             // user must be of the allowable types (P - Professional)
-            if (apcRuleFails(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, Constants.ChartApcParms.DELEGATE_USER_EMP_TYPES, user.getEmployeeTypeCode())) {
-                GlobalVariables.getErrorMap().putError("accountDelegate.personUserIdentifier", KeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_PROFESSIONAL, new String[0]);
+            if (apcRuleFails(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, KFSConstants.ChartApcParms.DELEGATE_USER_EMP_TYPES, user.getEmployeeTypeCode())) {
+                GlobalVariables.getErrorMap().putError("accountDelegate.personUserIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_USER_NOT_PROFESSIONAL, new String[0]);
                 success = false;
             }
         }
@@ -268,7 +268,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
         for (OrganizationRoutingModel currDelegateModel: globalDelegateTemplate.getOrganizationRoutingModel()) {
             if (!delegateModel.equals(currDelegateModel) && currDelegateModel.getAccountDelegatePrimaryRoutingIndicator()) {
                 success = false;
-                GlobalVariables.getErrorMap().putError("accountDelegatePrimaryRoutingIndicator", KeyConstants.ERROR_DOCUMENT_GLOBAL_DELEGATEMAINT_PRIMARY_ROUTE_ALL_TYPES_ALREADY_EXISTS, new String[0]);
+                GlobalVariables.getErrorMap().putError("accountDelegatePrimaryRoutingIndicator", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_DELEGATEMAINT_PRIMARY_ROUTE_ALL_TYPES_ALREADY_EXISTS, new String[0]);
             }
         }
 
@@ -310,7 +310,7 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
         for (OrganizationRoutingModel currDelegateModel: globalDelegateTemplate.getOrganizationRoutingModel()) {
             if (!delegateModel.equals(currDelegateModel) && currDelegateModel.getAccountDelegatePrimaryRoutingIndicator() && delegateModel.getFinancialDocumentTypeCode().equals(currDelegateModel.getFinancialDocumentTypeCode())) {
                 success = false;
-                GlobalVariables.getErrorMap().putError("accountDelegatePrimaryRoutingIndicator", KeyConstants.ERROR_DOCUMENT_GLOBAL_DELEGATEMAINT_PRIMARY_ROUTE_ALREADY_EXISTS_FOR_DOCTYPE, new String[0]);
+                GlobalVariables.getErrorMap().putError("accountDelegatePrimaryRoutingIndicator", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_DELEGATEMAINT_PRIMARY_ROUTE_ALREADY_EXISTS_FOR_DOCTYPE, new String[0]);
             }
         }
 

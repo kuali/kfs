@@ -33,9 +33,9 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.chart.bo.Account;
@@ -108,7 +108,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
         OriginEntryGroup validGroup = originEntryGroupService.createGroup(runDate, LABOR_YEAR_END_BALANCE_FORWARD, true, true, true);
 
         Map fieldValues = new HashMap();
-        fieldValues.put(PropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
+        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
         int numberOfBalance = businessObjectService.countMatching(LedgerBalance.class, fieldValues);
         int numberOfSelectedBalance = 0;
 
@@ -129,11 +129,11 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
             }
         }
 
-        Summary.updateReportSummary(reportSummary, LEDGER_BALANCE, Constants.OperationType.READ, numberOfBalance, 0);
-        Summary.updateReportSummary(reportSummary, LEDGER_BALANCE, Constants.OperationType.SELECT, numberOfSelectedBalance, 0);
-        Summary.updateReportSummary(reportSummary, LEDGER_BALANCE, Constants.OperationType.REPORT_ERROR, errorMap.size(), 0);
+        Summary.updateReportSummary(reportSummary, LEDGER_BALANCE, KFSConstants.OperationType.READ, numberOfBalance, 0);
+        Summary.updateReportSummary(reportSummary, LEDGER_BALANCE, KFSConstants.OperationType.SELECT, numberOfSelectedBalance, 0);
+        Summary.updateReportSummary(reportSummary, LEDGER_BALANCE, KFSConstants.OperationType.REPORT_ERROR, errorMap.size(), 0);
         reportSummary.add(new Summary(reportSummary.size() + LINE_INTERVAL, "", 0));
-        Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, Constants.OperationType.INSERT, numberOfSelectedBalance, 0);
+        Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, KFSConstants.OperationType.INSERT, numberOfSelectedBalance, 0);
 
         laborReportService.generateStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_YEAR_END_STATISTICS, reportsDirectory, runDate);
         laborReportService.generateOutputSummaryReport(validGroup, ReportRegistry.LABOR_YEAR_END_OUTPUT, reportsDirectory, runDate);
@@ -166,7 +166,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
             invalidAccountValue.append(chartOfAccountsCode).append("-").append(accountNumber);
 
             errors = new ArrayList<Message>();
-            errors.add(MessageBuilder.buildErrorMessage(KeyConstants.Labor.ERROR_ACCOUNT_NOT_FOUND, invalidAccountValue.toString(), Message.TYPE_FATAL));
+            errors.add(MessageBuilder.buildErrorMessage(KFSKeyConstants.Labor.ERROR_ACCOUNT_NOT_FOUND, invalidAccountValue.toString(), Message.TYPE_FATAL));
             return false;
         }
 
@@ -177,7 +177,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
             invalidSubFundValue.append(chartOfAccountsCode).append("-").append(accountNumber).append("-").append(subFundGroupCode);
 
             errors = new ArrayList<Message>();
-            errors.add(MessageBuilder.buildErrorMessage(KeyConstants.Labor.ERROR_SUB_FUND_GROUP_NOT_FOUND, invalidSubFundValue.toString(), Message.TYPE_FATAL));
+            errors.add(MessageBuilder.buildErrorMessage(KFSKeyConstants.Labor.ERROR_SUB_FUND_GROUP_NOT_FOUND, invalidSubFundValue.toString(), Message.TYPE_FATAL));
             return false;
         }
 
@@ -215,8 +215,8 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
             originEntry.setEmplid(balance.getEmplid());
             originEntry.setDocumentNumber(balance.getFinancialBalanceTypeCode() + balance.getAccountNumber());
 
-            originEntry.setProjectCode(Constants.DASHES_PROJECT_CODE);
-            originEntry.setUniversityFiscalPeriodCode(Constants.CG_BEGINNING_BALANCE);
+            originEntry.setProjectCode(KFSConstants.DASHES_PROJECT_CODE);
+            originEntry.setUniversityFiscalPeriodCode(KFSConstants.CG_BEGINNING_BALANCE);
 
             originEntry.setFinancialDocumentTypeCode(this.getDocumentTypeCode());
             originEntry.setFinancialSystemOriginationCode(this.getOriginationCode());
@@ -295,7 +295,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @return the description of the transaction posted by year-end process
      */
     private String getDescription() {
-        return kualiConfigurationService.getPropertyString(KeyConstants.Labor.MESSAGE_YEAR_END_TRANSACTION_DESCRIPTON);
+        return kualiConfigurationService.getPropertyString(KFSKeyConstants.Labor.MESSAGE_YEAR_END_TRANSACTION_DESCRIPTON);
     }
 
     /**

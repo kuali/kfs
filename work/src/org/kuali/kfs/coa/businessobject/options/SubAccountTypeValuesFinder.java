@@ -23,7 +23,7 @@ import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.rules.SubAccountRule;
 
@@ -42,7 +42,7 @@ public class SubAccountTypeValuesFinder extends KeyValuesBase {
     public List getKeyValues() {
 
         // todo: use getApplicationParameterValues() instead?
-        KualiParameterRule parmRule = configService.getApplicationParameterRule(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, SubAccountRule.CG_ALLOWED_SUBACCOUNT_TYPE_CODES);
+        KualiParameterRule parmRule = configService.getApplicationParameterRule(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, SubAccountRule.CG_ALLOWED_SUBACCOUNT_TYPE_CODES);
         // now we need to retrieve the parm values
         String[] parmValues = { "" };
         if (StringUtils.isNotBlank(parmRule.getParameterText())) {

@@ -18,7 +18,7 @@ package org.kuali.module.labor.bo;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.TargetAccountingLine;
 
 
@@ -169,7 +169,7 @@ public class ExpenseTransferTargetAccountingLine extends TargetAccountingLine im
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      
-        m.put(PropertyConstants.DOCUMENT_NUMBER, this.getDocumentNumber());
+        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.getDocumentNumber());
         if (this.getSequenceNumber() != null) {
             m.put("sequenceNumber", this.getSequenceNumber().toString());
         }

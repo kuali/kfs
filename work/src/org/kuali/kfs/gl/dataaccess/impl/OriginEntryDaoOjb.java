@@ -28,8 +28,8 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.OriginEntryDao;
@@ -80,9 +80,9 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
         Criteria crit = new Criteria();
         crit.addEqualTo(OriginEntryDaoOjb.ENTRY_GROUP_ID, groupId);
         if ( isCredit ) {
-            crit.addEqualTo(OriginEntryDaoOjb.TRANSACTION_DEBIT_CREDIT_CODE, Constants.GL_CREDIT_CODE);
+            crit.addEqualTo(OriginEntryDaoOjb.TRANSACTION_DEBIT_CREDIT_CODE, KFSConstants.GL_CREDIT_CODE);
         } else {
-            crit.addNotEqualTo(OriginEntryDaoOjb.TRANSACTION_DEBIT_CREDIT_CODE, Constants.GL_CREDIT_CODE);
+            crit.addNotEqualTo(OriginEntryDaoOjb.TRANSACTION_DEBIT_CREDIT_CODE, KFSConstants.GL_CREDIT_CODE);
         }
 
         ReportQueryByCriteria q = QueryFactory.newReportQuery(entryClass, crit);
@@ -156,7 +156,7 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
         criteria.addEqualTo(ENTRY_GROUP_ID, oeg.getId());
 
         ReportQueryByCriteria q = QueryFactory.newReportQuery(entryClass, criteria);
-        q.setAttributes(new String[] { PropertyConstants.DOCUMENT_NUMBER,"financialDocumentTypeCode","financialSystemOriginationCode" });
+        q.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER,"financialDocumentTypeCode","financialSystemOriginationCode" });
 
         q.setDistinct(true);
 
@@ -217,7 +217,7 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
         qbc.addOrderByAscending(UNIVERSITY_FISCAL_PERIOD_CODE);
         qbc.addOrderByAscending(FINANCIAL_DOCUMENT_TYPE_CODE);
         qbc.addOrderByAscending(FINANCIAL_SYSTEM_ORIGINATION_CODE);
-        qbc.addOrderByAscending(PropertyConstants.DOCUMENT_NUMBER);
+        qbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
 
         return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
     }
@@ -238,7 +238,7 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
         if (sort == OriginEntryDao.SORT_DOCUMENT) {
             qbc.addOrderByAscending(FINANCIAL_DOCUMENT_TYPE_CODE);
             qbc.addOrderByAscending(FINANCIAL_SYSTEM_ORIGINATION_CODE);
-            qbc.addOrderByAscending(PropertyConstants.DOCUMENT_NUMBER);
+            qbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
             qbc.addOrderByAscending(CHART_OF_ACCOUNTS_CODE);
             qbc.addOrderByAscending(ACCOUNT_NUMBER);
             qbc.addOrderByAscending(SUB_ACCOUNT_NUMBER);
@@ -255,7 +255,7 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
             qbc.addOrderByAscending(UNIVERSITY_FISCAL_PERIOD_CODE);
             qbc.addOrderByAscending(FINANCIAL_DOCUMENT_TYPE_CODE);
             qbc.addOrderByAscending(FINANCIAL_SYSTEM_ORIGINATION_CODE);
-            qbc.addOrderByAscending(PropertyConstants.DOCUMENT_NUMBER);
+            qbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
             qbc.addOrderByAscending(TRANSACTION_LEDGER_ENTRY_SEQUENCE_NUMBER);
             qbc.addOrderByAscending(TRANSACTION_LEDGER_ENTRY_DESCRIPTION);
             qbc.addOrderByAscending(TRANSACTION_LEDGER_ENTRY_AMOUNT);
@@ -263,7 +263,7 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
         } else if (sort == OriginEntryDao.SORT_REPORT ) {
             qbc.addOrderByAscending(FINANCIAL_DOCUMENT_TYPE_CODE);
             qbc.addOrderByAscending(FINANCIAL_SYSTEM_ORIGINATION_CODE);
-            qbc.addOrderByAscending(PropertyConstants.DOCUMENT_NUMBER);
+            qbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
             qbc.addOrderByAscending(TRANSACTION_DEBIT_CREDIT_CODE);            
             qbc.addOrderByAscending(CHART_OF_ACCOUNTS_CODE);
             qbc.addOrderByAscending(ACCOUNT_NUMBER);
@@ -278,7 +278,7 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
             qbc.addOrderByAscending(UNIVERSITY_FISCAL_PERIOD_CODE);
             qbc.addOrderByAscending(FINANCIAL_DOCUMENT_TYPE_CODE);
             qbc.addOrderByAscending(FINANCIAL_SYSTEM_ORIGINATION_CODE);
-            qbc.addOrderByAscending(PropertyConstants.DOCUMENT_NUMBER);
+            qbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
             qbc.addOrderByAscending(TRANSACTION_LEDGER_ENTRY_DESCRIPTION);            
         }
         else {
@@ -290,7 +290,7 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
             qbc.addOrderByAscending(UNIVERSITY_FISCAL_PERIOD_CODE);
             qbc.addOrderByAscending(FINANCIAL_DOCUMENT_TYPE_CODE);
             qbc.addOrderByAscending(FINANCIAL_SYSTEM_ORIGINATION_CODE);
-            qbc.addOrderByAscending(PropertyConstants.DOCUMENT_NUMBER);
+            qbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
             qbc.addOrderByAscending(TRANSACTION_LEDGER_ENTRY_DESCRIPTION);
         }
 
@@ -411,13 +411,13 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
         }
 
         Criteria criteria = new Criteria();
-        criteria.addIn(PropertyConstants.ENTRY_GROUP_ID, ids);
+        criteria.addIn(KFSPropertyConstants.ENTRY_GROUP_ID, ids);
 
         ReportQueryByCriteria query = QueryFactory.newReportQuery(entryClass, criteria);
 
-        String attributeList[] = { PropertyConstants.UNIVERSITY_FISCAL_YEAR, PropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, PropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, PropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE, "sum(" + PropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")", "count(*)" };
+        String attributeList[] = { KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE, "sum(" + KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")", "count(*)" };
 
-        String groupList[] = { PropertyConstants.UNIVERSITY_FISCAL_YEAR, PropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, PropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, PropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE };
+        String groupList[] = { KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE, KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE };
 
         query.setAttributes(attributeList);
         query.addGroupBy(groupList);
@@ -461,28 +461,28 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
         }
 
         Criteria criteria = new Criteria();
-        criteria.addIn(PropertyConstants.ENTRY_GROUP_ID, ids);
-        String fundGroupCode = PropertyConstants.ACCOUNT + "." + PropertyConstants.SUB_FUND_GROUP + "." + PropertyConstants.FUND_GROUP_CODE;
+        criteria.addIn(KFSPropertyConstants.ENTRY_GROUP_ID, ids);
+        String fundGroupCode = KFSPropertyConstants.ACCOUNT + "." + KFSPropertyConstants.SUB_FUND_GROUP + "." + KFSPropertyConstants.FUND_GROUP_CODE;
 
         ReportQueryByCriteria query = QueryFactory.newReportQuery(entryClass, criteria);
 
         String attributeList[] = {
-                PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE,
-                PropertyConstants.UNIVERSITY_FISCAL_YEAR, 
-                PropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, 
+                KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE,
+                KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, 
+                KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, 
                 fundGroupCode, 
-                PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, 
-                PropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE, 
-                "sum(" + PropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")"
+                KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, 
+                KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE, 
+                "sum(" + KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT + ")"
         };
 
         String groupList[] = {
-                PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, 
-                PropertyConstants.UNIVERSITY_FISCAL_YEAR, 
-                PropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, 
+                KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, 
+                KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, 
+                KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, 
                 fundGroupCode, 
-                PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, 
-                PropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE
+                KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, 
+                KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE
         };
 
         query.setAttributes(attributeList);

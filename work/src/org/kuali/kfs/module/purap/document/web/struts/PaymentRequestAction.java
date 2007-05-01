@@ -28,7 +28,7 @@ import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.rule.event.SaveDocumentEvent;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
@@ -83,8 +83,8 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) preqForm.getDocument();
         Map editMode = preqForm.getEditingMode();
         
-        Object question = request.getParameter(Constants.QUESTION_INST_ATTRIBUTE_NAME);
-        //String reason = request.getParameter(Constants.QUESTION_REASON_ATTRIBUTE_NAME);
+        Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        //String reason = request.getParameter(KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
 
         KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
 
@@ -97,11 +97,11 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
   
             if (question == null) {
               // ask question if not already asked
-              return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, duplicateMessages.get(PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION) , Constants.CONFIRMATION_QUESTION, Constants.ROUTE_METHOD, "");
+              return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, duplicateMessages.get(PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION) , KFSConstants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "");
 
             } 
             
-            Object buttonClicked = request.getParameter(Constants.QUESTION_CLICKED_BUTTON);
+            Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
            
             if ((PurapConstants.PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
                 
@@ -109,7 +109,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
                
                 paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.INITIATE);
                 //editMode.put(PurapAuthorizationConstants.PaymentRequestEditMode.DISPLAY_INIT_TAB, "TRUE");
-                return mapping.findForward(Constants.MAPPING_BASIC);
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
              }
         }
         
@@ -133,7 +133,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         
         
         return super.refresh(mapping, form, request, response);
-        //return mapping.findForward(Constants.MAPPING_PORTAL);
+        //return mapping.findForward(KFSConstants.MAPPING_PORTAL);
   
     }
     
@@ -145,7 +145,7 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
         paymentRequestDocument.clearInitFields();
 
         return super.refresh(mapping, form, request, response);
-        //return mapping.findForward(Constants.MAPPING_BASIC);
+        //return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     /**
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)

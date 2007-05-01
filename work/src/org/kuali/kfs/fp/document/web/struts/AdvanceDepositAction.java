@@ -25,8 +25,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.module.financial.bo.AdvanceDepositDetail;
 import org.kuali.module.financial.document.AdvanceDepositDocument;
@@ -84,7 +84,7 @@ public class AdvanceDepositAction extends KualiAccountingDocumentActionBase {
             adForm.setNewAdvanceDeposit(new AdvanceDepositDetail());
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -105,7 +105,7 @@ public class AdvanceDepositAction extends KualiAccountingDocumentActionBase {
         // delete advanceDeposit
         adDoc.removeAdvanceDeposit(deleteIndex);
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -115,9 +115,9 @@ public class AdvanceDepositAction extends KualiAccountingDocumentActionBase {
      * @return boolean
      */
     private boolean validateNewAdvanceDeposit(AdvanceDepositDetail advanceDeposit) {
-        GlobalVariables.getErrorMap().addToErrorPath(PropertyConstants.NEW_ADVANCE_DEPOSIT);
+        GlobalVariables.getErrorMap().addToErrorPath(KFSPropertyConstants.NEW_ADVANCE_DEPOSIT);
         boolean isValid = AdvanceDepositDocumentRuleUtil.validateAdvanceDeposit(advanceDeposit);
-        GlobalVariables.getErrorMap().removeFromErrorPath(PropertyConstants.NEW_ADVANCE_DEPOSIT);
+        GlobalVariables.getErrorMap().removeFromErrorPath(KFSPropertyConstants.NEW_ADVANCE_DEPOSIT);
         return isValid;
     }
 

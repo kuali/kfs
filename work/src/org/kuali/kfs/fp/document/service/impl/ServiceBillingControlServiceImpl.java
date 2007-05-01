@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.financial.bo.ServiceBillingControl;
 import org.kuali.module.financial.service.ServiceBillingControlService;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,8 +37,8 @@ public class ServiceBillingControlServiceImpl implements ServiceBillingControlSe
      */
     public ServiceBillingControl getByPrimaryId(String chartOfAccountsCode, String accountNumber) {
         HashMap keys = new HashMap();
-        keys.put(PropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
-        keys.put(PropertyConstants.ACCOUNT_NUMBER, accountNumber);
+        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        keys.put(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
         return (ServiceBillingControl) businessObjectService.findByPrimaryKey(ServiceBillingControl.class, keys);
     }
 

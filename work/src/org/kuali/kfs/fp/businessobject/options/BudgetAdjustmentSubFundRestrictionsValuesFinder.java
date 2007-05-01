@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.Constants.BudgetAdjustmentDocumentConstants;
+import org.kuali.kfs.KFSConstants.BudgetAdjustmentDocumentConstants;
 
 /**
  * This class returns list of ba sub fund restriction levels.

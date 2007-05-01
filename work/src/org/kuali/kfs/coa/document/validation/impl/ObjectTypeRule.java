@@ -20,7 +20,7 @@ import java.util.HashMap;
 
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.module.chart.bo.BasicAccountingCategory;
 import org.kuali.module.chart.bo.ObjectType;
 
@@ -53,7 +53,7 @@ public class ObjectTypeRule extends MaintenanceDocumentRuleBase {
         BasicAccountingCategory basicAccountingCategory = (BasicAccountingCategory)this.getBoService().findByPrimaryKey(BasicAccountingCategory.class, pkMap);
         if (basicAccountingCategory == null) {
             result = false;
-            putFieldError("basicAccountingCategoryCode", KeyConstants.ERROR_DOCUMENT_OBJTYPE_INVALID_ACCT_CTGRY, new String[] { objectType.getBasicAccountingCategoryCode() });
+            putFieldError("basicAccountingCategoryCode", KFSKeyConstants.ERROR_DOCUMENT_OBJTYPE_INVALID_ACCT_CTGRY, new String[] { objectType.getBasicAccountingCategoryCode() });
         }
         return result;
     }

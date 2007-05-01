@@ -22,7 +22,7 @@ import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizer;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.SubAccount;
@@ -59,8 +59,8 @@ public class SubAccountPreRules extends MaintenancePreRulesBase {
            has been modified to only occur for a New and Copy Action.  
            This cannot happen on an Edit as the primary key will change.
         */        
-        if ( Constants.MAINTENANCE_NEW_ACTION.equals( maintenanceAction ) || 
-             Constants.MAINTENANCE_COPY_ACTION.equals( maintenanceAction ) ){
+        if ( KFSConstants.MAINTENANCE_NEW_ACTION.equals( maintenanceAction ) || 
+             KFSConstants.MAINTENANCE_COPY_ACTION.equals( maintenanceAction ) ){
             
             if (StringUtils.isNotBlank(newSubAccount.getAccountNumber())) {
                 Account account = checkForContinuationAccount("Account Number", newSubAccount.getChartOfAccountsCode(), newSubAccount.getAccountNumber(), "");

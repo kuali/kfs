@@ -17,7 +17,7 @@ package org.kuali.module.gl.batch.closing.year.service.impl.helper;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.PriorYearAccount;
 import org.kuali.module.chart.bo.SubFundGroup;
@@ -87,26 +87,26 @@ public class EncumbranceClosingRuleHelper {
         }
 
         // internal encumbrance or labor distribution
-        if (Constants.BALANCE_TYPE_INTERNAL_ENCUMBRANCE.equals(encumbrance.getBalanceTypeCode()) && Constants.LABOR_DISTRIBUTION_ORIGIN_CODE.equals(encumbrance.getOriginCode())) {
+        if (KFSConstants.BALANCE_TYPE_INTERNAL_ENCUMBRANCE.equals(encumbrance.getBalanceTypeCode()) && KFSConstants.LABOR_DISTRIBUTION_ORIGIN_CODE.equals(encumbrance.getOriginCode())) {
             return false;
 
         }
 
-        if (Constants.BALANCE_TYPE_COST_SHARE_ENCUMBRANCE.equals(encumbrance.getBalanceTypeCode())) {
+        if (KFSConstants.BALANCE_TYPE_COST_SHARE_ENCUMBRANCE.equals(encumbrance.getBalanceTypeCode())) {
 
             return false;
 
         }
 
         // closed encumbrances aren't carried forward
-        if (ObjectHelper.isOneOf(encumbrance.getBalanceTypeCode(), new String[] { Constants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE, Constants.BALANCE_TYPE_INTERNAL_ENCUMBRANCE })) {
+        if (ObjectHelper.isOneOf(encumbrance.getBalanceTypeCode(), new String[] { KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE, KFSConstants.BALANCE_TYPE_INTERNAL_ENCUMBRANCE })) {
 
             return isEncumbranceClosed(encumbrance);
 
         }
 
         // pre-encumbrances
-        if (Constants.BALANCE_TYPE_PRE_ENCUMBRANCE.equals(encumbrance.getBalanceTypeCode())) {
+        if (KFSConstants.BALANCE_TYPE_PRE_ENCUMBRANCE.equals(encumbrance.getBalanceTypeCode())) {
 
             PriorYearAccount priorYearAccount = priorYearAccountService.getByPrimaryKey(encumbrance.getChartOfAccountsCode(), encumbrance.getAccountNumber());
 
@@ -232,7 +232,7 @@ public class EncumbranceClosingRuleHelper {
             }
 
             // everything is valid, return true if the a21 sub account is a cost share sub-account
-            return Constants.COST_SHARE.equals(a21SubAccount.getSubAccountTypeCode());
+            return KFSConstants.COST_SHARE.equals(a21SubAccount.getSubAccountTypeCode());
 
         }
 

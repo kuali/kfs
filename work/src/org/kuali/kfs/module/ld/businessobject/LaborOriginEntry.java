@@ -24,7 +24,7 @@ import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.DocumentType;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.OriginationCode;
 import org.kuali.module.chart.bo.AccountingPeriod;
@@ -856,7 +856,7 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
                 setUniversityFiscalYear(new Integer(line.substring(0, 4)));
             }
             catch (NumberFormatException e) {
-                GlobalVariables.getErrorMap().putError("fileUpload", KeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "University Fiscal Year" });
+                GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "University Fiscal Year" });
                 throw new LoadException("Invalid university fiscal year");
             }
 
@@ -881,7 +881,7 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
                 setTransactionLedgerEntrySequenceNumber(new Integer(line.substring(51, 56).trim()));
         }
             catch (NumberFormatException e) {
-                GlobalVariables.getErrorMap().putError("fileUpload", KeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Sequence Number" });
+                GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Sequence Number" });
                 throw new LoadException("Invalid sequence number");
             }
         }
@@ -899,7 +899,7 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
         }
         catch (NumberFormatException e) {
             //TODO: change the error constants 
-            GlobalVariables.getErrorMap().putError("fileUpload", KeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Transaction Ledger Entry Amount" });
+            GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Transaction Ledger Entry Amount" });
             throw new LoadException("Invalid Entry Amount");
         }
         
@@ -910,7 +910,7 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
         }
         catch (ParseException e) {
             //TODO: change the error constants 
-            GlobalVariables.getErrorMap().putError("fileUpload", KeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Transaction Date" });
+            GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Transaction Date" });
             throw new LoadException("Invalid Transaction Date");
         }
         
@@ -930,7 +930,7 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
         }
         catch (ParseException e) {
             //TODO: change the error constants 
-            GlobalVariables.getErrorMap().putError("fileUpload", KeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Transaction Date" });
+            GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Transaction Date" });
             throw new LoadException("Invalid Transaction Date");
         }
         
@@ -939,7 +939,7 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
         }
         catch (ParseException e) {
             //TODO: change the error constants 
-            GlobalVariables.getErrorMap().putError("fileUpload", KeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Transaction Date" });
+            GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Transaction Date" });
             throw new LoadException("Invalid Transaction Date");
         }
         

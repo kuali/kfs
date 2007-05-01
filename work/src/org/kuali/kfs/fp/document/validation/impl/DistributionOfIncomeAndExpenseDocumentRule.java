@@ -18,8 +18,8 @@ package org.kuali.module.financial.rules;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KeyConstants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
@@ -55,13 +55,13 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends AccountingDocume
 
             ObjectCode objectCode = accountingLine.getObjectCode();
             if (ObjectUtils.isNull(objectCode)) {
-                accountingLine.refreshReferenceObject(PropertyConstants.OBJECT_CODE);
+                accountingLine.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
             }
 
             valid = !rule.failsRule(objectSubTypeCode);
 
             if (!valid) {
-                reportError(PropertyConstants.FINANCIAL_OBJECT_CODE, KeyConstants.DistributionOfIncomeAndExpense.ERROR_DOCUMENT_DI_INVALID_OBJ_SUB_TYPE, objectCode.getFinancialObjectCode(), objectSubTypeCode);
+                reportError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.DistributionOfIncomeAndExpense.ERROR_DOCUMENT_DI_INVALID_OBJ_SUB_TYPE, objectCode.getFinancialObjectCode(), objectSubTypeCode);
             }
         }
         return valid;
@@ -85,7 +85,7 @@ public class DistributionOfIncomeAndExpenseDocumentRule extends AccountingDocume
             valid = !rule.failsRule(objectTypeCode);
             if (!valid) {
                 // add message
-                GlobalVariables.getErrorMap().putError(PropertyConstants.FINANCIAL_OBJECT_CODE, KeyConstants.DistributionOfIncomeAndExpense.ERROR_DOCUMENT_DI_INVALID_OBJECT_TYPE_CODE, new String[] { objectCode.getFinancialObjectCode(), objectTypeCode });
+                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.DistributionOfIncomeAndExpense.ERROR_DOCUMENT_DI_INVALID_OBJECT_TYPE_CODE, new String[] { objectCode.getFinancialObjectCode(), objectTypeCode });
             }
         }
 

@@ -26,8 +26,8 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiPercent;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
@@ -83,8 +83,8 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
         
         if (success) {
             // because of check above, we know that:
-            // if any of these are wildcards: chart, account, or subaccount, then they are all wildcards (except for subaccount, which may be 3 dashes i.e. Constants.DASHES_SUB_ACCOUNT_NUMBER)
-            // if any of these are wildcards: chart, object, or subobject, then they are all wildcards (except for subobject, which may be 5 dashes i.e. Constants.DASHES_SUB_OBJECT_CODE)
+            // if any of these are wildcards: chart, account, or subaccount, then they are all wildcards (except for subaccount, which may be 3 dashes i.e. KFSConstants.DASHES_SUB_ACCOUNT_NUMBER)
+            // if any of these are wildcards: chart, object, or subobject, then they are all wildcards (except for subobject, which may be 5 dashes i.e. KFSConstants.DASHES_SUB_OBJECT_CODE)
             
             // a consequence of this rule is that all 6 of these fields must have wildcards if any of the fields have a wildcard, unless the field is allowed to have dashes
             
@@ -98,9 +98,9 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
                 else {
                     // there should be no wildcards if the code gets in there, so we should not have to worry about removing wildcards from pkMap
                     Map pkMap = new HashMap();
-                    pkMap.put(Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
-                    success &= checkExistenceFromTable(Chart.class, pkMap, Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME,
-                            SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrClazz, Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME));
+                    pkMap.put(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
+                    success &= checkExistenceFromTable(Chart.class, pkMap, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME,
+                            SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrClazz, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME));
                 }
             }
     
@@ -113,10 +113,10 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
                 else {
                     // there should be no wildcards if the code gets in there, so we should not have to worry about removing wildcards from pkMap
                     Map pkMap = new HashMap();
-                    pkMap.put(Constants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
-                    pkMap.put(Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
-                    success &= checkExistenceFromTable(Account.class, pkMap, Constants.ACCOUNT_NUMBER_PROPERTY_NAME,
-                            SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrClazz, Constants.ACCOUNT_NUMBER_PROPERTY_NAME));
+                    pkMap.put(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
+                    pkMap.put(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
+                    success &= checkExistenceFromTable(Account.class, pkMap, KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME,
+                            SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrClazz, KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME));
                 }
             }
     
@@ -124,18 +124,18 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
             // Sub-Account Number Rule
             if (subAccountNumber != null) {
                 // checkCorrectWildcards makes sure that the wildcard is appropriate for the sub account number
-                // we allow any string of only dashes to be a valid value for the sub acct, but to bypass validation, it must be equal to Constants.DASHES_SUB_ACCOUNT_NUMBER
-                if (isWildcard(subAccountNumber) || StringUtils.equals(subAccountNumber, Constants.DASHES_SUB_ACCOUNT_NUMBER)) {
+                // we allow any string of only dashes to be a valid value for the sub acct, but to bypass validation, it must be equal to KFSConstants.DASHES_SUB_ACCOUNT_NUMBER
+                if (isWildcard(subAccountNumber) || StringUtils.equals(subAccountNumber, KFSConstants.DASHES_SUB_ACCOUNT_NUMBER)) {
     
                 }
                 else {
                     // there should be no wildcards if the code gets in there, so we should not have to worry about removing wildcards from pkMap
                     Map pkMap = new HashMap();
-                    pkMap.put(Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
-                    pkMap.put(Constants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
-                    pkMap.put(Constants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME, subAccountNumber);
-                    success &= checkExistenceFromTable(SubAccount.class, pkMap, Constants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME,
-                            SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrClazz, Constants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME));
+                    pkMap.put(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
+                    pkMap.put(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
+                    pkMap.put(KFSConstants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME, subAccountNumber);
+                    success &= checkExistenceFromTable(SubAccount.class, pkMap, KFSConstants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME,
+                            SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrClazz, KFSConstants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME));
                 }
             }
     
@@ -147,30 +147,30 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
                 else {
                     // there should be no wildcards if the code gets in there, so we should not have to worry about removing wildcards from pkMap
                     Map pkMap = new HashMap();
-                    pkMap.put(Constants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
-                    pkMap.put(Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
-                    pkMap.put(Constants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, financialObjectCode);
-                    success &= checkExistenceFromTable(ObjectCode.class, pkMap, Constants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME,
-                            SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrClazz, Constants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME));
+                    pkMap.put(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
+                    pkMap.put(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
+                    pkMap.put(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, financialObjectCode);
+                    success &= checkExistenceFromTable(ObjectCode.class, pkMap, KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME,
+                            SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrClazz, KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME));
                 }
             }
     
             // Financial SubObjectCode Rule
             if (financialSubObjectCode != null) {
-                // we allow any string of only dashes to be a valid value for the sub object, but to bypass validation, it must be equal to Constants.DASHES_SUB_OBJECT_CODE
-                if (isWildcard(financialSubObjectCode) || StringUtils.equals(financialSubObjectCode, Constants.DASHES_SUB_OBJECT_CODE)) {
+                // we allow any string of only dashes to be a valid value for the sub object, but to bypass validation, it must be equal to KFSConstants.DASHES_SUB_OBJECT_CODE
+                if (isWildcard(financialSubObjectCode) || StringUtils.equals(financialSubObjectCode, KFSConstants.DASHES_SUB_OBJECT_CODE)) {
     
                 }
                 else {
                     // there should be no wildcards if the code gets in there, so we should not have to worry about removing wildcards from pkMap
                     Map pkMap = new HashMap();
-                    pkMap.put(Constants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
-                    pkMap.put(Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
-                    pkMap.put(Constants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
-                    pkMap.put(Constants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, financialObjectCode);
-                    pkMap.put(Constants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME, financialSubObjectCode);
-                    success = checkExistenceFromTable(SubObjCd.class, pkMap, Constants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME,
-                            SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrClazz, Constants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME));
+                    pkMap.put(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
+                    pkMap.put(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
+                    pkMap.put(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber);
+                    pkMap.put(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, financialObjectCode);
+                    pkMap.put(KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME, financialSubObjectCode);
+                    success = checkExistenceFromTable(SubObjCd.class, pkMap, KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME,
+                            SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrClazz, KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME));
                 }
             }
         }
@@ -193,7 +193,7 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
         // Award Indirect Cost Recovey Rate Percent
         if (awardIndrCostRcvyRatePct != null) {
             if (awardIndrCostRcvyRatePct.doubleValue() < 0.00) {
-                putFieldError("awardIndrCostRcvyRatePct", KeyConstants.ERROR_INVALIDNEGATIVEAMOUNT, "ICR Percent");
+                putFieldError("awardIndrCostRcvyRatePct", KFSKeyConstants.ERROR_INVALIDNEGATIVEAMOUNT, "ICR Percent");
                 success = false;
             }
         }
@@ -226,7 +226,7 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
         success = getBoService().countMatching(clazz, fieldValues) != 0;
         if (!success) {
-            GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(Constants.MAINTENANCE_NEW_MAINTAINABLE + errorField, KeyConstants.ERROR_EXISTENCE, errorMessage);
+            GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + errorField, KFSKeyConstants.ERROR_EXISTENCE, errorMessage);
         }
         return success;
     }
@@ -245,14 +245,14 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
         // # should be valid for chart, account, sub account, and object code. Sub object code is not needed here. 
         
         // TODO: make these into app parameters?
-        success &= isValidWildcard(newIcrAutomatedEntry, Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode, "@", "#");
-        success &= isValidWildcard(newIcrAutomatedEntry, Constants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber, "@", "#");
+        success &= isValidWildcard(newIcrAutomatedEntry, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode, "@", "#");
+        success &= isValidWildcard(newIcrAutomatedEntry, KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, accountNumber, "@", "#");
         if (!StringUtils.containsOnly(subAccountNumber, "-")) {
-            success &= isValidWildcard(newIcrAutomatedEntry, Constants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME, subAccountNumber, "@", "#");
+            success &= isValidWildcard(newIcrAutomatedEntry, KFSConstants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME, subAccountNumber, "@", "#");
         }
-        success &= isValidWildcard(newIcrAutomatedEntry, Constants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, financialObjectCode, "@", "#");
+        success &= isValidWildcard(newIcrAutomatedEntry, KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, financialObjectCode, "@", "#");
         if (!StringUtils.containsOnly(financialSubObjectCode, "-")) {
-            success &= isValidWildcard(newIcrAutomatedEntry, Constants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME, financialSubObjectCode, "@");
+            success &= isValidWildcard(newIcrAutomatedEntry, KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME, financialSubObjectCode, "@");
         }
         
         if (!success) {
@@ -277,7 +277,7 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
                     }
                 }
                 if (StringUtils.containsOnly(fieldValue, "-") && 
-                        (StringUtils.equals(Constants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME, fieldName) || StringUtils.equals(Constants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME, fieldName))) {
+                        (StringUtils.equals(KFSConstants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME, fieldName) || StringUtils.equals(KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME, fieldName))) {
                     return true;
                 }
                 // validation didn't pass against allowed list of wildcards
@@ -304,7 +304,7 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
                 sb.append(", ").append(allowedWildcards[i]);
             }
         }
-        putFieldError(fieldName, KeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_INVALID_WILDCARD,
+        putFieldError(fieldName, KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_INVALID_WILDCARD,
                 new String[] {SpringServiceLocator.getDataDictionaryService().getAttributeLabel(instance.getClass(), fieldName), sb.toString()});
     }
     
@@ -327,13 +327,13 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
             boolean success = chartOfAccountsCode.equals(accountNumber) && 
                 (chartOfAccountsCode.equals(subAccountNumber) || StringUtils.containsOnly(subAccountNumber, "-"));
             if (!success) {
-                String chartDesc = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrAutomatedEntry.getClass(), Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
-                String accountDesc = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrAutomatedEntry.getClass(), Constants.ACCOUNT_NUMBER_PROPERTY_NAME);
-                String subAccountDesc = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrAutomatedEntry.getClass(), Constants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME);
+                String chartDesc = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrAutomatedEntry.getClass(), KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
+                String accountDesc = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrAutomatedEntry.getClass(), KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
+                String subAccountDesc = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrAutomatedEntry.getClass(), KFSConstants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME);
                 
                 String groupDesc = chartDesc + ", " + accountDesc + ", and " + subAccountDesc;
-                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(Constants.MAINTENANCE_NEW_MAINTAINABLE + Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, 
-                        KeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_WILDCARDS_MUST_MATCH, new String[] {groupDesc, subAccountDesc});
+                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, 
+                        KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_WILDCARDS_MUST_MATCH, new String[] {groupDesc, subAccountDesc});
             }
             return success;
         }
@@ -359,13 +359,13 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
             boolean success = chartOfAccountsCode.equals(financialObjectCode) && 
                     (chartOfAccountsCode.equals(financialSubObjectCode) || StringUtils.containsOnly(financialSubObjectCode, "-"));
             if (!success) {
-                String chartDesc = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrAutomatedEntry.getClass(), Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
-                String objectDesc = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrAutomatedEntry.getClass(), Constants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME);
-                String subObjectDesc = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrAutomatedEntry.getClass(), Constants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME);
+                String chartDesc = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrAutomatedEntry.getClass(), KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
+                String objectDesc = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrAutomatedEntry.getClass(), KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME);
+                String subObjectDesc = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(icrAutomatedEntry.getClass(), KFSConstants.FINANCIAL_SUB_OBJECT_CODE_PROPERTY_NAME);
                 
                 String groupDesc = chartDesc + ", " + objectDesc + ", and " + subObjectDesc;
-                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(Constants.MAINTENANCE_NEW_MAINTAINABLE + Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, 
-                        KeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_WILDCARDS_MUST_MATCH, new String[] {groupDesc, subObjectDesc});
+                GlobalVariables.getErrorMap().putErrorWithoutFullErrorPath(KFSConstants.MAINTENANCE_NEW_MAINTAINABLE + KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, 
+                        KFSKeyConstants.IndirectCostRecovery.ERROR_DOCUMENT_ICR_WILDCARDS_MUST_MATCH, new String[] {groupDesc, subObjectDesc});
             }
             return success;
         }

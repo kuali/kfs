@@ -31,10 +31,10 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.PropertyConstants;
-import org.kuali.kfs.Constants.CashDrawerConstants;
-import org.kuali.kfs.Constants.DepositConstants;
-import org.kuali.kfs.Constants.DocumentStatusCodes;
+import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.KFSConstants.CashDrawerConstants;
+import org.kuali.kfs.KFSConstants.DepositConstants;
+import org.kuali.kfs.KFSConstants.DocumentStatusCodes;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.Bank;
@@ -79,7 +79,7 @@ public class CashManagementServiceImpl implements CashManagementService {
 
         // get CashReceiptHeader for the CashReceipt, if any
         HashMap primaryKeys = new HashMap();
-        primaryKeys.put(PropertyConstants.DOCUMENT_NUMBER, documentId);
+        primaryKeys.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentId);
         CashReceiptHeader crh = (CashReceiptHeader) businessObjectService.findByPrimaryKey(CashReceiptHeader.class, primaryKeys);
 
         // get the DepositCashReceiptControl for the CashReceiptHeader

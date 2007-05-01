@@ -13,7 +13,7 @@ import java.util.Locale;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
@@ -263,7 +263,7 @@ public class PurchaseOrderPdf extends PurapPdf {
         else {
             vendorInfo.append("\n");
         }
-        if (!Constants.COUNTRY_CODE_UNITED_STATES.equalsIgnoreCase(po.getVendorCountryCode())) {
+        if (!KFSConstants.COUNTRY_CODE_UNITED_STATES.equalsIgnoreCase(po.getVendorCountryCode())) {
             vendorInfo.append("     " + po.getVendorCountry().getPostalCountryName() + "\n\n");
         }
         else {

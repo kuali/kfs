@@ -26,7 +26,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.kfs.web.struts.action.KualiBalanceInquiryReportMenuAction;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
@@ -87,7 +87,7 @@ public class SalaryExpenseTransferAction extends LaborDocumentActionBase {
 
         boolean rulePassed = runRule(salaryExpenseTransferForm, new EmployeeIdChangedEventBase(salaryExpenseTransferForm.getDocument()));
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
 }
     private boolean runRule(SalaryExpenseTransferForm salaryExpenseTransferFormForm, KualiDocumentEventBase event) {
         // check any business rules

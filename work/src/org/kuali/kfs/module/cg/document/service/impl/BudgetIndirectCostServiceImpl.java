@@ -28,8 +28,8 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetBaseCode;
@@ -529,7 +529,7 @@ public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService 
      */
     public void setupIndirectCostRates(Budget budget) {
         Map fieldValues = new HashMap();
-        fieldValues.put(PropertyConstants.ACTIVE, Constants.ACTIVE_INDICATOR);
+        fieldValues.put(KFSPropertyConstants.ACTIVE, KFSConstants.ACTIVE_INDICATOR);
         
         List<IndirectCostLookup> indirectCostLookups = new ArrayList<IndirectCostLookup>(businessObjectService.findMatching(IndirectCostLookup.class, fieldValues));
         List<BudgetIndirectCostLookup> budgetIndirectCostLookupList = new ArrayList();
@@ -544,7 +544,7 @@ public class BudgetIndirectCostServiceImpl implements BudgetIndirectCostService 
      */
     public List<BudgetBaseCode> getDefaultBudgetBaseCodeValues() {
         Map fieldValues = new HashMap();
-        fieldValues.put(PropertyConstants.ACTIVE, Constants.ACTIVE_INDICATOR);
+        fieldValues.put(KFSPropertyConstants.ACTIVE, KFSConstants.ACTIVE_INDICATOR);
         
         return new ArrayList(businessObjectService.findMatching(BudgetBaseCode.class, fieldValues));
     }

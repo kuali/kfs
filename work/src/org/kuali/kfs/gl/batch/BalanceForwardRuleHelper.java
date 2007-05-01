@@ -18,7 +18,7 @@ package org.kuali.module.gl.batch.closing.year.service.impl.helper;
 import java.sql.Date;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.PriorYearAccount;
@@ -630,7 +630,7 @@ public class BalanceForwardRuleHelper {
                     // NOTE this field doesn't seem to be used anywhere in the cobol
                     // String subFundGroupCode = null;
 
-                    if (ObjectHelper.isOneOf(balanceObjectTypeDebitCreditCode, new String[] { Constants.GL_CREDIT_CODE, Constants.GL_DEBIT_CODE })) {
+                    if (ObjectHelper.isOneOf(balanceObjectTypeDebitCreditCode, new String[] { KFSConstants.GL_CREDIT_CODE, KFSConstants.GL_DEBIT_CODE })) {
 
                         // 1188 007150 MOVE CAOTYP-FIN-OBJTYP-DBCR-CD
                         // 1189 007160 TO WS-FIN-OBJTYP-DBCR-CD
@@ -649,11 +649,11 @@ public class BalanceForwardRuleHelper {
 
                         // 1192 007190 MOVE 'C' TO WS-FIN-OBJTYP-DBCR-CD
 
-                        wsFinancialObjectTypeDebitCreditCode = Constants.GL_CREDIT_CODE;
+                        wsFinancialObjectTypeDebitCreditCode = KFSConstants.GL_CREDIT_CODE;
 
                         // 1193 007200 MOVE 'D' TO TRN-DEBIT-CRDT-CD
 
-                        entry.setTransactionDebitCreditCode(Constants.GL_DEBIT_CODE);
+                        entry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
 
                         // 1194 007210 END-IF
 
@@ -669,7 +669,7 @@ public class BalanceForwardRuleHelper {
                     // 1198 007250 THRU 8500-CHECK-NEW-PAGE-EXIT
                     // 1199 007260 MOVE 'C' TO WS-FIN-OBJTYP-DBCR-CD
 
-                    wsFinancialObjectTypeDebitCreditCode = Constants.GL_CREDIT_CODE;
+                    wsFinancialObjectTypeDebitCreditCode = KFSConstants.GL_CREDIT_CODE;
 
                     // 1200 007270 MOVE 'Y' TO WS-NON-FATAL-ERROR-FLAG
 
@@ -819,11 +819,11 @@ public class BalanceForwardRuleHelper {
 
                         // 1270 007970 IF WS-FIN-OBJTYP-DBCR-CD = 'D'
 
-                        if (Constants.GL_DEBIT_CODE.equals(wsFinancialObjectTypeDebitCreditCode)) {
+                        if (KFSConstants.GL_DEBIT_CODE.equals(wsFinancialObjectTypeDebitCreditCode)) {
 
                             // 1271 007980 MOVE 'C' TO TRN-DEBIT-CRDT-CD
 
-                            entry.setTransactionDebitCreditCode(Constants.GL_CREDIT_CODE);
+                            entry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
 
                             // 1272 007990 ELSE
 
@@ -832,7 +832,7 @@ public class BalanceForwardRuleHelper {
 
                             // 1273 008000 MOVE 'D' TO TRN-DEBIT-CRDT-CD
 
-                            entry.setTransactionDebitCreditCode(Constants.GL_DEBIT_CODE);
+                            entry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
 
                         }
 
@@ -861,7 +861,7 @@ public class BalanceForwardRuleHelper {
                     // 1281 008080 MOVE ALL '-'
                     // 1282 008090 TO PROJECT-CD.
 
-                    entry.setProjectCode(Constants.DASHES_PROJECT_CODE);
+                    entry.setProjectCode(KFSConstants.DASHES_PROJECT_CODE);
 
                     // 1283 008100 MOVE SPACES
                     // 1284 008110 TO ORG-REFERENCE-ID.
@@ -1145,12 +1145,12 @@ public class BalanceForwardRuleHelper {
 
                             // 1376 008980 IF WS-FIN-OBJTYP-DBCR-CD = 'C'
 
-                            if (Constants.GL_CREDIT_CODE.equals(wsFinancialObjectTypeDebitCreditCode)) {
+                            if (KFSConstants.GL_CREDIT_CODE.equals(wsFinancialObjectTypeDebitCreditCode)) {
 
                                 // 1377 008990 MOVE 'D'
                                 // 1378 009000 TO TRN-DEBIT-CRDT-CD OF GLEN-RECORD
 
-                                activeEntry.setTransactionDebitCreditCode(Constants.GL_DEBIT_CODE);
+                                activeEntry.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
 
                                 // 1379 009010 ELSE
 
@@ -1160,7 +1160,7 @@ public class BalanceForwardRuleHelper {
                                 // 1380 009020 MOVE 'C'
                                 // 1381 009030 TO TRN-DEBIT-CRDT-CD OF GLEN-RECORD
 
-                                activeEntry.setTransactionDebitCreditCode(Constants.GL_CREDIT_CODE);
+                                activeEntry.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
 
                             }
 
@@ -1191,7 +1191,7 @@ public class BalanceForwardRuleHelper {
                     // 1389 009110 MOVE ALL '-'
                     // 1390 009120 TO PROJECT-CD OF GLEN-RECORD.
 
-                    activeEntry.setProjectCode(Constants.DASHES_PROJECT_CODE);
+                    activeEntry.setProjectCode(KFSConstants.DASHES_PROJECT_CODE);
 
                     // 1391 009130 MOVE SPACES
                     // 1392 009140 TO ORG-REFERENCE-ID OF GLEN-RECORD.

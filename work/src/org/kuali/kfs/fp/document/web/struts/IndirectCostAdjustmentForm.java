@@ -18,7 +18,7 @@ package org.kuali.module.financial.web.struts.form;
 import java.util.Map;
 
 import org.kuali.core.document.TransactionalDocument;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
@@ -84,7 +84,7 @@ public class IndirectCostAdjustmentForm extends KualiAccountingDocumentFormBase 
     @Override
     public Map getForcedReadOnlyFields() {
         Map map = super.getForcedReadOnlyFields();
-        map.put(PropertyConstants.FINANCIAL_OBJECT_CODE, Boolean.TRUE);
+        map.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, Boolean.TRUE);
         return map;
     }
 

@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.kra.budget.bo.BudgetTask;
 import org.kuali.module.kra.budget.service.BudgetTaskService;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,8 +48,8 @@ public class BudgetTaskServiceImpl implements BudgetTaskService {
 
     public BudgetTask getFirstBudgetTask(String documentNumber) {
         Map fieldValues = new HashMap();
-        fieldValues.put(PropertyConstants.DOCUMENT_NUMBER, documentNumber);
-        List budgetTasks = new ArrayList(businessObjectService.findMatchingOrderBy(BudgetTask.class, fieldValues, PropertyConstants.BUDGET_TASK_SEQUENCE_NUMBER, true));
+        fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+        List budgetTasks = new ArrayList(businessObjectService.findMatchingOrderBy(BudgetTask.class, fieldValues, KFSPropertyConstants.BUDGET_TASK_SEQUENCE_NUMBER, true));
         
         // there should always be a budgetTask by the time we get to here, so we want an exception thrown if there's not
         return (BudgetTask) budgetTasks.get(0);

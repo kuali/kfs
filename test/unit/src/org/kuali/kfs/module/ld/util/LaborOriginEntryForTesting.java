@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.util.ObjectUtil;
 
@@ -40,27 +40,27 @@ public class LaborOriginEntryForTesting extends LaborOriginEntry {
     
     public List<String> getDefaultKeyValueList(){
         List<String> keyValueList = new ArrayList<String>();
-        keyValueList.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        keyValueList.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        keyValueList.add(PropertyConstants.ACCOUNT_NUMBER);
-        keyValueList.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
+        keyValueList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        keyValueList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        keyValueList.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        keyValueList.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
         
-        keyValueList.add(PropertyConstants.FINANCIAL_OBJECT_CODE);
-        keyValueList.add(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
-        keyValueList.add(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
-        keyValueList.add(PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
+        keyValueList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        keyValueList.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        keyValueList.add(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
+        keyValueList.add(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
         
-        keyValueList.add(PropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
-        keyValueList.add(PropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
-        keyValueList.add(PropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE);
-        keyValueList.add(PropertyConstants.DOCUMENT_NUMBER);
-        keyValueList.add(PropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER);
+        keyValueList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
+        keyValueList.add(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
+        keyValueList.add(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE);
+        keyValueList.add(KFSPropertyConstants.DOCUMENT_NUMBER);
+        keyValueList.add(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER);
         
-        keyValueList.add(PropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE);
-        keyValueList.add(PropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT);
-        keyValueList.add(PropertyConstants.POSITION_NUMBER);
-        keyValueList.add(PropertyConstants.RUN_IDENTIFIER);
-        keyValueList.add(PropertyConstants.EMPLID);
+        keyValueList.add(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE);
+        keyValueList.add(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT);
+        keyValueList.add(KFSPropertyConstants.POSITION_NUMBER);
+        keyValueList.add(KFSPropertyConstants.RUN_IDENTIFIER);
+        keyValueList.add(KFSPropertyConstants.EMPLID);
         return keyValueList;
     }
     

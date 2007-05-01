@@ -27,7 +27,7 @@ import edu.yale.its.tp.cas.auth.*;
 public class CacheInit implements ServletContextListener {
 
   //*********************************************************************
-  // Constants
+  // KFSConstants
 
   private static final int GRANTING_TIMEOUT_DEFAULT = 2 * 60 * 60;
   private static final int SERVICE_TIMEOUT_DEFAULT = 5 * 60;

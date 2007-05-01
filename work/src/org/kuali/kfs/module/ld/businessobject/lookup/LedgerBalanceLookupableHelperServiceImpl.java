@@ -27,7 +27,7 @@ import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.gl.web.Constant;
@@ -54,8 +54,8 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
      */
     @Override
     public List getSearchResults(Map fieldValues) {
-        setBackLocation((String) fieldValues.get(Constants.BACK_LOCATION));
-        setDocFormKey((String) fieldValues.get(Constants.DOC_FORM_KEY));
+        setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
+        setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
         // get the pending entry option. This method must be prior to the get search results
         //String pendingEntryOption = this.getSelectedPendingEntryOption(fieldValues);

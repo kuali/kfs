@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.bo.BudgetConstructionHeader;
@@ -87,7 +87,7 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
 
                 // null subobj must be set to dashes
                 if (StringUtils.isBlank(revLine.getFinancialSubObjectCode())){
-                    revLine.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
+                    revLine.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
                 }
                 populateRevenueLine(this.getNewRevenueLine());
 
@@ -103,7 +103,7 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
 
                 // null subobj must be set to dashes
                 if (StringUtils.isBlank(expLine.getFinancialSubObjectCode())){
-                    expLine.setFinancialSubObjectCode(Constants.DASHES_SUB_OBJECT_CODE);
+                    expLine.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
                 }
                 populateExpenditureLine(this.getNewExpenditureLine());
 

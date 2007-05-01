@@ -21,7 +21,7 @@ import java.util.Calendar;
 
 import org.kuali.core.dao.PersistedLookupMetadataDao;
 import org.kuali.core.lookup.LookupResultsService;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 
 public class PurgeOldLookupResultsStep extends AbstractStep {
     private LookupResultsService lookupResultsService;
@@ -32,8 +32,8 @@ public class PurgeOldLookupResultsStep extends AbstractStep {
         try {
             LOG.info("executing PurgeOldLookupResultsStep");
             
-            String maxAgeInSecondsStr = getConfigurationService().getApplicationParameterValue(Constants.ParameterGroups.SYSTEM,
-                    Constants.SystemGroupParameterNames.MULTIPLE_VALUE_LOOKUP_RESULTS_EXPIRATION_AGE);
+            String maxAgeInSecondsStr = getConfigurationService().getApplicationParameterValue(KFSConstants.ParameterGroups.SYSTEM,
+                    KFSConstants.SystemGroupParameterNames.MULTIPLE_VALUE_LOOKUP_RESULTS_EXPIRATION_AGE);
             int maxAgeInSeconds = Integer.parseInt(maxAgeInSecondsStr);
             
             Calendar expirationCal = getDateTimeService().getCurrentCalendar();

@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
@@ -369,18 +369,18 @@ public class NonCheckDisbursementDocumentRuleTest extends KualiTestBase {
     }
 
     private SourceAccountingLine getAccruedIncomeSourceLineParameter() throws Exception {
-        return ACCRUED_INCOME_LINE.createAccountingLine(SourceAccountingLine.class, Constants.GL_DEBIT_CODE);
+        return ACCRUED_INCOME_LINE.createAccountingLine(SourceAccountingLine.class, KFSConstants.GL_DEBIT_CODE);
     }
 
     private SourceAccountingLine getAccruedSickPaySourceLineParameter() throws Exception {
-        return ACCRUED_SICK_PAY_LINE.createAccountingLine(SourceAccountingLine.class, Constants.GL_DEBIT_CODE);
+        return ACCRUED_SICK_PAY_LINE.createAccountingLine(SourceAccountingLine.class, KFSConstants.GL_DEBIT_CODE);
     }
 
     private TargetAccountingLine getAccruedIncomeTargetLineParameter() throws Exception {
-        return ACCRUED_INCOME_LINE.createAccountingLine(TargetAccountingLine.class, Constants.GL_CREDIT_CODE);
+        return ACCRUED_INCOME_LINE.createAccountingLine(TargetAccountingLine.class, KFSConstants.GL_CREDIT_CODE);
     }
 
     private TargetAccountingLine getAccruedSickPayTargetLineParameter() throws Exception {
-        return ACCRUED_SICK_PAY_LINE.createAccountingLine(TargetAccountingLine.class, Constants.GL_DEBIT_CODE);
+        return ACCRUED_SICK_PAY_LINE.createAccountingLine(TargetAccountingLine.class, KFSConstants.GL_DEBIT_CODE);
     }
 }

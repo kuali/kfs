@@ -27,7 +27,7 @@ import java.util.Map;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -591,7 +591,7 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      
-        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
+        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         if (this.universityFiscalYear != null) {
             m.put("universityFiscalYear", this.universityFiscalYear.toString());
         }
@@ -613,7 +613,7 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
     public Map getValuesMap() {
         Map simpleValues = new HashMap();
 
-        simpleValues.put(PropertyConstants.DOCUMENT_NUMBER, getDocumentNumber());
+        simpleValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, getDocumentNumber());
         simpleValues.put("universityFiscalYear", getUniversityFiscalYear());
         simpleValues.put("chartOfAccountsCode", getChartOfAccountsCode());
         simpleValues.put("accountNumber", getAccountNumber());

@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.DisbursementVoucherDocumentationLocation;
 
@@ -41,7 +41,7 @@ public class DocumentationLocationCodeDescriptionFormatter extends CodeDescripti
     protected Map<String, PersistableBusinessObject> getValuesToBusinessObjectsMap(Set values) {
         Map<String, PersistableBusinessObject> map = new HashMap<String, PersistableBusinessObject>();
         Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(Constants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE_PROPERTY_NAME, values);
+        criteria.put(KFSConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE_PROPERTY_NAME, values);
         Collection<DisbursementVoucherDocumentationLocation> coll = SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(DisbursementVoucherDocumentationLocation.class, criteria, "versionNumber", true);
         // by sorting on ver #, we can guarantee that the most recent value will remain in the map (assuming the iterator returns
         // BOs in order)

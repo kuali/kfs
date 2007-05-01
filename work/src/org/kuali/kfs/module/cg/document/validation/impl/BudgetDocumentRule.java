@@ -23,7 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetIndirectCost;
@@ -72,23 +72,23 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase {
             DataDictionaryService dataDictionaryService = SpringServiceLocator.getDataDictionaryService();
 
             if (StringUtils.isEmpty(budgetNonpersonnel.getBudgetNonpersonnelSubCategoryCode())) {
-                GlobalVariables.getErrorMap().putError("document.budget.nonpersonnelItem[" + i + "].budgetNonpersonnelSubCategoryCode", KeyConstants.ERROR_REQUIRED, dataDictionaryService.getAttributeErrorLabel(budgetNonpersonnel.getClass(), "budgetNonpersonnelSubCategoryCode"));
+                GlobalVariables.getErrorMap().putError("document.budget.nonpersonnelItem[" + i + "].budgetNonpersonnelSubCategoryCode", KFSKeyConstants.ERROR_REQUIRED, dataDictionaryService.getAttributeErrorLabel(budgetNonpersonnel.getClass(), "budgetNonpersonnelSubCategoryCode"));
                 valid = false;
             }
             if (budgetNonpersonnel.getBudgetNonpersonnelCategoryCode().equals("SC") && budgetNonpersonnel.getBudgetNonpersonnelDescription() == null) {
-                GlobalVariables.getErrorMap().putError("document.budget.nonpersonnelItem[" + i + "].budgetNonpersonnelDescription", KeyConstants.ERROR_REQUIRED, dataDictionaryService.getAttributeErrorLabel(budgetNonpersonnel.getClass(), "budgetNonpersonnelDescription"));
+                GlobalVariables.getErrorMap().putError("document.budget.nonpersonnelItem[" + i + "].budgetNonpersonnelDescription", KFSKeyConstants.ERROR_REQUIRED, dataDictionaryService.getAttributeErrorLabel(budgetNonpersonnel.getClass(), "budgetNonpersonnelDescription"));
                 valid = false;
             }
             if (budgetNonpersonnel.getAgencyRequestAmount() == null) {
-                GlobalVariables.getErrorMap().putError("document.budget.nonpersonnelItem[" + i + "].agencyRequestAmount", KeyConstants.ERROR_REQUIRED, dataDictionaryService.getAttributeErrorLabel(budgetNonpersonnel.getClass(), "agencyRequestAmount"));
+                GlobalVariables.getErrorMap().putError("document.budget.nonpersonnelItem[" + i + "].agencyRequestAmount", KFSKeyConstants.ERROR_REQUIRED, dataDictionaryService.getAttributeErrorLabel(budgetNonpersonnel.getClass(), "agencyRequestAmount"));
                 valid = false;
             }
             if (budget.isInstitutionCostShareIndicator() && budgetNonpersonnel.getBudgetInstitutionCostShareAmount() == null) {
-                GlobalVariables.getErrorMap().putError("document.budget.nonpersonnelItem[" + i + "].budgetInstitutionCostShareAmount", KeyConstants.ERROR_REQUIRED, dataDictionaryService.getAttributeErrorLabel(budgetNonpersonnel.getClass(), "budgetInstitutionCostShareAmount"));
+                GlobalVariables.getErrorMap().putError("document.budget.nonpersonnelItem[" + i + "].budgetInstitutionCostShareAmount", KFSKeyConstants.ERROR_REQUIRED, dataDictionaryService.getAttributeErrorLabel(budgetNonpersonnel.getClass(), "budgetInstitutionCostShareAmount"));
                 valid = false;
             }
             if (budget.isBudgetThirdPartyCostShareIndicator() && budgetNonpersonnel.getBudgetThirdPartyCostShareAmount() == null) {
-                GlobalVariables.getErrorMap().putError("document.budget.nonpersonnelItem[" + i + "].budgetThirdPartyCostShareAmount", KeyConstants.ERROR_REQUIRED, dataDictionaryService.getAttributeErrorLabel(budgetNonpersonnel.getClass(), "budgetThirdPartyCostShareAmount"));
+                GlobalVariables.getErrorMap().putError("document.budget.nonpersonnelItem[" + i + "].budgetThirdPartyCostShareAmount", KFSKeyConstants.ERROR_REQUIRED, dataDictionaryService.getAttributeErrorLabel(budgetNonpersonnel.getClass(), "budgetThirdPartyCostShareAmount"));
                 valid = false;
             }
         }

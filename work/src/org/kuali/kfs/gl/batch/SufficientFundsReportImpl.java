@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.gl.batch.sufficientFunds.SufficientFundsReport;
 import org.kuali.module.gl.bo.SufficientFundRebuild;
 import org.kuali.module.gl.util.Summary;
@@ -53,7 +53,7 @@ public class SufficientFundsReportImpl extends PdfPageEventHelper implements Suf
     public void generateReport(Map reportErrors, List reportSummary, Date runDate, int mode) {
         LOG.debug("generateReport() started");
 
-        String destinationDirectory = configurationService.getPropertyString(Constants.REPORTS_DIRECTORY_KEY);
+        String destinationDirectory = configurationService.getPropertyString(KFSConstants.REPORTS_DIRECTORY_KEY);
 
         String title = "Sufficient Funds Report ";
         String fileprefix = "sufficientFunds";

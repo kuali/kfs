@@ -23,8 +23,8 @@ import java.util.Properties;
 
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.LookupService;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -52,9 +52,9 @@ public class CurrentFundsInquirableImpl extends AbstractLaborInquirableImpl {
     protected List buildUserDefinedAttributeKeyList() {
         List<String> keys = new ArrayList<String>();
 
-        keys.add(PropertyConstants.EMPLID);
-        keys.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        keys.add(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
+        keys.add(KFSPropertyConstants.EMPLID);
+        keys.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        keys.add(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
         
         return keys;
     }
@@ -65,8 +65,8 @@ public class CurrentFundsInquirableImpl extends AbstractLaborInquirableImpl {
     protected Map getUserDefinedAttributeMap() {
                
         Map userDefinedAttributeMap = new HashMap();
-        userDefinedAttributeMap.put(PropertyConstants.MONTH1_AMOUNT, "");          
-        userDefinedAttributeMap.put(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, LaborConstants.BalanceInquiries.ACTUALS_CODE);          
+        userDefinedAttributeMap.put(KFSPropertyConstants.MONTH1_AMOUNT, "");          
+        userDefinedAttributeMap.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, LaborConstants.BalanceInquiries.ACTUALS_CODE);          
         return userDefinedAttributeMap;
     }
 
@@ -107,7 +107,7 @@ public class CurrentFundsInquirableImpl extends AbstractLaborInquirableImpl {
      */
     protected String getBaseUrl() {
         // TODO: investigate change to this constant
-        return Constants.GL_MODIFIED_INQUIRY_ACTION;
+        return KFSConstants.GL_MODIFIED_INQUIRY_ACTION;
     }
 
     /**

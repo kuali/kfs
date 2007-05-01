@@ -27,7 +27,7 @@ import edu.yale.its.tp.cas.auth.*;
 public class Proxy extends HttpServlet {
 
   //*********************************************************************
-  // Constants
+  // KFSConstants
 
   private static final String INVALID_REQUEST = "INVALID_REQUEST";
   private static final String BAD_PGT = "BAD_PGT";

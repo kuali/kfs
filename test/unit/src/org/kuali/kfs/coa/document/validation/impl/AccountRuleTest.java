@@ -27,8 +27,8 @@ import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
@@ -572,8 +572,8 @@ public class AccountRuleTest extends ChartRuleTestBase {
         user.setEmployeeTypeCode("N");
         result = rule.checkUserStatusAndType(fieldName, user);
         assertEquals("Terminated and Non-Professional staff should fail.", false, result);
-        assertFieldErrorExists(fieldName, KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACTIVE_REQD_FOR_EMPLOYEE);
-        assertFieldErrorExists(fieldName, KeyConstants.ERROR_DOCUMENT_ACCMAINT_PRO_TYPE_REQD_FOR_EMPLOYEE);
+        assertFieldErrorExists(fieldName, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACTIVE_REQD_FOR_EMPLOYEE);
+        assertFieldErrorExists(fieldName, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_PRO_TYPE_REQD_FOR_EMPLOYEE);
         assertGlobalErrorMapSize(1);
 
     }
@@ -593,7 +593,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         user.setEmployeeTypeCode("N");
         result = rule.checkUserStatusAndType(fieldName, user);
         assertEquals("Active but Non-Professional staff should fail.", false, result);
-        assertFieldErrorExists(fieldName, KeyConstants.ERROR_DOCUMENT_ACCMAINT_PRO_TYPE_REQD_FOR_EMPLOYEE);
+        assertFieldErrorExists(fieldName, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_PRO_TYPE_REQD_FOR_EMPLOYEE);
         assertGlobalErrorMapSize(1);
 
     }
@@ -613,7 +613,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         user.setEmployeeTypeCode("P");
         result = rule.checkUserStatusAndType(fieldName, user);
         assertEquals("Terminated but Professional staff should fail.", false, result);
-        assertFieldErrorExists(fieldName, KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACTIVE_REQD_FOR_EMPLOYEE);
+        assertFieldErrorExists(fieldName, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACTIVE_REQD_FOR_EMPLOYEE);
         assertGlobalErrorMapSize(1);
 
     }
@@ -760,7 +760,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setReportsToAccountNumber(Accounts.AccountNumber.GOOD1);
         result = rule.checkFringeBenefitAccountRule(newAccount);
         assertEquals("FringeBenefit ChartCode missing causes error.", false, result);
-        assertFieldErrorExists("reportsToChartOfAccountsCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_REQUIRED_IF_FRINGEBENEFIT_FALSE);
+        assertFieldErrorExists("reportsToChartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_REQUIRED_IF_FRINGEBENEFIT_FALSE);
         assertGlobalErrorMapSize(1);
 
     }
@@ -778,7 +778,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setReportsToAccountNumber(null);
         result = rule.checkFringeBenefitAccountRule(newAccount);
         assertEquals("FringeBenefit AccountNumber missing causes error.", false, result);
-        assertFieldErrorExists("reportsToAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_REQUIRED_IF_FRINGEBENEFIT_FALSE);
+        assertFieldErrorExists("reportsToAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_REQUIRED_IF_FRINGEBENEFIT_FALSE);
         assertGlobalErrorMapSize(1);
 
     }
@@ -796,7 +796,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setReportsToAccountNumber(Accounts.AccountNumber.GOOD1);
         result = rule.checkFringeBenefitAccountRule(newAccount);
         assertEquals("FringeBenefit doesnt exist causes error.", false, result);
-        assertFieldErrorExists("reportsToAccountNumber", KeyConstants.ERROR_EXISTENCE);
+        assertFieldErrorExists("reportsToAccountNumber", KFSKeyConstants.ERROR_EXISTENCE);
         assertGlobalErrorMapSize(1);
 
     }
@@ -814,7 +814,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setReportsToAccountNumber(Accounts.AccountNumber.CLOSED1);
         result = rule.checkFringeBenefitAccountRule(newAccount);
         assertEquals("FringeBenefit Closed causes error.", false, result);
-        assertFieldErrorExists("reportsToAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_MUST_BE_FLAGGED_FRINGEBENEFIT);
+        assertFieldErrorExists("reportsToAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_RPTS_TO_ACCT_MUST_BE_FLAGGED_FRINGEBENEFIT);
         assertGlobalErrorMapSize(1);
 
     }
@@ -922,7 +922,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setAccountExpirationDate(null);
         result = rule.checkAccountExpirationDateValidTodayOrEarlier(newAccount);
         assertEquals("Null expiration date should fail.", false, result);
-        assertFieldErrorExists("accountExpirationDate", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CANNOT_BE_CLOSED_EXP_DATE_INVALID);
+        assertFieldErrorExists("accountExpirationDate", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CANNOT_BE_CLOSED_EXP_DATE_INVALID);
         assertGlobalErrorMapSize(1);
 
     }
@@ -992,7 +992,7 @@ public class AccountRuleTest extends ChartRuleTestBase {
         newAccount.setAccountExpirationDate(testTimestamp);
         result = rule.checkAccountExpirationDateValidTodayOrEarlier(newAccount);
         assertEquals("Arbitrarily late date should pass.", false, result);
-        assertFieldErrorExists("accountExpirationDate", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CANNOT_BE_CLOSED_EXP_DATE_INVALID);
+        assertFieldErrorExists("accountExpirationDate", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CANNOT_BE_CLOSED_EXP_DATE_INVALID);
         assertGlobalErrorMapSize(1);
 
     }
@@ -1021,7 +1021,7 @@ private void disableBeginBalanceLoadInd(){
         newAccount.setContinuationAccountNumber(Accounts.AccountNumber.GOOD1);
         result = rule.checkCloseAccount(maintDoc);
         assertEquals("Null continuation coa code should fail with one error.", false, result);
-        assertFieldErrorExists("continuationFinChrtOfAcctCd", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CLOSE_CONTINUATION_ACCT_REQD);
+        assertFieldErrorExists("continuationFinChrtOfAcctCd", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CLOSE_CONTINUATION_ACCT_REQD);
         assertGlobalErrorMapSize(1);
 
     }
@@ -1046,7 +1046,7 @@ private void disableBeginBalanceLoadInd(){
         newAccount.setContinuationAccountNumber(null);
         result = rule.checkCloseAccount(maintDoc);
         assertEquals("Null continuation account number should fail with one error.", false, result);
-        assertFieldErrorExists("continuationAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CLOSE_CONTINUATION_ACCT_REQD);
+        assertFieldErrorExists("continuationAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_ACCT_CLOSE_CONTINUATION_ACCT_REQD);
         assertGlobalErrorMapSize(1);
 
     }
@@ -1108,13 +1108,13 @@ private void disableBeginBalanceLoadInd(){
         result = rule.checkCgRequiredFields(newAccount);
         assertEquals("Rule should return false with missing fields.", false, result);
         assertGlobalErrorMapSize(7);
-        assertFieldErrorExists("contractControlFinCoaCode", KeyConstants.ERROR_REQUIRED);
-        assertFieldErrorExists("contractControlAccountNumber", KeyConstants.ERROR_REQUIRED);
-        assertFieldErrorExists("acctIndirectCostRcvyTypeCd", KeyConstants.ERROR_REQUIRED);
-        assertFieldErrorExists("financialIcrSeriesIdentifier", KeyConstants.ERROR_REQUIRED);
-        assertFieldErrorExists("indirectCostRcvyFinCoaCode", KeyConstants.ERROR_REQUIRED);
-        assertFieldErrorExists("indirectCostRecoveryAcctNbr", KeyConstants.ERROR_REQUIRED);
-        assertFieldErrorExists("accountCfdaNumber", KeyConstants.ERROR_REQUIRED);
+        assertFieldErrorExists("contractControlFinCoaCode", KFSKeyConstants.ERROR_REQUIRED);
+        assertFieldErrorExists("contractControlAccountNumber", KFSKeyConstants.ERROR_REQUIRED);
+        assertFieldErrorExists("acctIndirectCostRcvyTypeCd", KFSKeyConstants.ERROR_REQUIRED);
+        assertFieldErrorExists("financialIcrSeriesIdentifier", KFSKeyConstants.ERROR_REQUIRED);
+        assertFieldErrorExists("indirectCostRcvyFinCoaCode", KFSKeyConstants.ERROR_REQUIRED);
+        assertFieldErrorExists("indirectCostRecoveryAcctNbr", KFSKeyConstants.ERROR_REQUIRED);
+        assertFieldErrorExists("accountCfdaNumber", KFSKeyConstants.ERROR_REQUIRED);
 
     }
 
@@ -1186,13 +1186,13 @@ private void disableBeginBalanceLoadInd(){
 
         // run the rule
         result = rule.checkCgRequiredFields(newAccount);
-        assertFieldErrorExists("contractControlFinCoaCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
-        assertFieldErrorExists("contractControlAccountNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
-        assertFieldErrorExists("acctIndirectCostRcvyTypeCd", KeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
-        assertFieldErrorExists("financialIcrSeriesIdentifier", KeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
-        assertFieldErrorExists("indirectCostRcvyFinCoaCode", KeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
-        assertFieldErrorExists("indirectCostRecoveryAcctNbr", KeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
-        assertFieldErrorExists("accountCfdaNumber", KeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
+        assertFieldErrorExists("contractControlFinCoaCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
+        assertFieldErrorExists("contractControlAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
+        assertFieldErrorExists("acctIndirectCostRcvyTypeCd", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
+        assertFieldErrorExists("financialIcrSeriesIdentifier", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
+        assertFieldErrorExists("indirectCostRcvyFinCoaCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
+        assertFieldErrorExists("indirectCostRecoveryAcctNbr", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
+        assertFieldErrorExists("accountCfdaNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT);
         assertFalse("We do not have a C&G sub fund group, but we have all the fields filled; the rule run result should be false",result);
     }
     
@@ -1274,7 +1274,7 @@ private void disableBeginBalanceLoadInd(){
 
         // run the rule
         result = rule.checkCgRequiredFields(newAccount);
-        assertFieldErrorExists("contractControlAccountNumber", KeyConstants.ERROR_EXISTENCE);
+        assertFieldErrorExists("contractControlAccountNumber", KFSKeyConstants.ERROR_EXISTENCE);
         assertFalse("Rule should require contract account to be real.", result);
     }
 
@@ -1364,8 +1364,8 @@ private void disableBeginBalanceLoadInd(){
         // run the rule
         result = rule.checkCgIncomeStreamRequired(newAccount);
         assertEquals("CG Account with no Income Stream data should fail.", false, result);
-        assertFieldErrorExists("incomeStreamFinancialCoaCode", KeyConstants.ERROR_REQUIRED);
-        assertFieldErrorExists("incomeStreamAccountNumber", KeyConstants.ERROR_REQUIRED);
+        assertFieldErrorExists("incomeStreamFinancialCoaCode", KFSKeyConstants.ERROR_REQUIRED);
+        assertFieldErrorExists("incomeStreamAccountNumber", KFSKeyConstants.ERROR_REQUIRED);
         assertGlobalErrorMapSize(2);
 
     }
@@ -1396,7 +1396,7 @@ private void disableBeginBalanceLoadInd(){
         // run the rule
         result = rule.checkCgIncomeStreamRequired(newAccount);
         assertEquals("CG Account with invalid Income Stream data should fail.", false, result);
-        assertFieldErrorExists("incomeStreamAccountNumber", KeyConstants.ERROR_EXISTENCE);
+        assertFieldErrorExists("incomeStreamAccountNumber", KFSKeyConstants.ERROR_EXISTENCE);
         assertGlobalErrorMapSize(1);
 
     }
@@ -1427,8 +1427,8 @@ private void disableBeginBalanceLoadInd(){
         // run the rule
         result = rule.checkCgIncomeStreamRequired(newAccount);
         assertEquals("GF Account with no Income Stream data should fail.", false, result);
-        assertFieldErrorExists("incomeStreamFinancialCoaCode", KeyConstants.ERROR_REQUIRED);
-        assertFieldErrorExists("incomeStreamAccountNumber", KeyConstants.ERROR_REQUIRED);
+        assertFieldErrorExists("incomeStreamFinancialCoaCode", KFSKeyConstants.ERROR_REQUIRED);
+        assertFieldErrorExists("incomeStreamAccountNumber", KFSKeyConstants.ERROR_REQUIRED);
         assertGlobalErrorMapSize(2);
 
     }

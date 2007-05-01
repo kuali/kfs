@@ -18,7 +18,7 @@ package org.kuali.module.gl.batch.poster.impl;
 import java.util.Date;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.bo.SufficientFundBalances;
 import org.kuali.module.gl.bo.Transaction;
@@ -49,7 +49,7 @@ public class PostSufficientFundBalances implements PostTransaction {
 
         String returnCode = "U";
 
-        if (Constants.SF_TYPE_NO_CHECKING.equals(t.getAccount().getAccountSufficientFundsCode())) {
+        if (KFSConstants.SF_TYPE_NO_CHECKING.equals(t.getAccount().getAccountSufficientFundsCode())) {
             // Don't need to post
             return "";
         }
@@ -57,16 +57,16 @@ public class PostSufficientFundBalances implements PostTransaction {
         // Get the Sufficient funds code
         // Sufficient Funds Code
         String sufficientFundsObjectCode = null;
-        if (Constants.SF_TYPE_OBJECT.equals(t.getAccount().getAccountSufficientFundsCode())) {
+        if (KFSConstants.SF_TYPE_OBJECT.equals(t.getAccount().getAccountSufficientFundsCode())) {
             sufficientFundsObjectCode = t.getFinancialObjectCode();
         }
-        else if (Constants.SF_TYPE_LEVEL.equals(t.getAccount().getAccountSufficientFundsCode())) {
+        else if (KFSConstants.SF_TYPE_LEVEL.equals(t.getAccount().getAccountSufficientFundsCode())) {
             sufficientFundsObjectCode = t.getFinancialObject().getFinancialObjectLevelCode();
         }
-        else if (Constants.SF_TYPE_CONSOLIDATION.equals(t.getAccount().getAccountSufficientFundsCode())) {
+        else if (KFSConstants.SF_TYPE_CONSOLIDATION.equals(t.getAccount().getAccountSufficientFundsCode())) {
             sufficientFundsObjectCode = t.getFinancialObject().getFinancialObjectLevel().getFinancialConsolidationObjectCode();
         }
-        else if (Constants.SF_TYPE_CASH_AT_ACCOUNT.equals(t.getAccount().getAccountSufficientFundsCode()) || Constants.SF_TYPE_ACCOUNT.equals(t.getAccount().getAccountSufficientFundsCode())) {
+        else if (KFSConstants.SF_TYPE_CASH_AT_ACCOUNT.equals(t.getAccount().getAccountSufficientFundsCode()) || KFSConstants.SF_TYPE_ACCOUNT.equals(t.getAccount().getAccountSufficientFundsCode())) {
             sufficientFundsObjectCode = "    ";
         }
         else {
@@ -88,7 +88,7 @@ public class PostSufficientFundBalances implements PostTransaction {
             sfBalance.setAccountSufficientFundsCode(t.getAccount().getAccountSufficientFundsCode());
         }
 
-        if (Constants.SF_TYPE_CASH_AT_ACCOUNT.equals(t.getAccount().getAccountSufficientFundsCode())) {
+        if (KFSConstants.SF_TYPE_CASH_AT_ACCOUNT.equals(t.getAccount().getAccountSufficientFundsCode())) {
             // 2640-PROCESS-CASH
             if (t.getFinancialBalanceTypeCode().equals(t.getOption().getActualFinancialBalanceTypeCd())) {
                 if (t.getFinancialObjectCode().equals(t.getChart().getFinancialCashObjectCode()) || t.getFinancialObjectCode().equals(t.getChart().getFinAccountsPayableObjectCode())) {
@@ -148,10 +148,10 @@ public class PostSufficientFundBalances implements PostTransaction {
 
     // 2631-PROCESS-OBJTACCT-ACTUAL
     private void updateExpendedAmount(String debitCreditCode, SufficientFundBalances bal, KualiDecimal amount) {
-        if (Constants.GL_CREDIT_CODE.equals(debitCreditCode)) {
+        if (KFSConstants.GL_CREDIT_CODE.equals(debitCreditCode)) {
             bal.setAccountActualExpenditureAmt(bal.getAccountActualExpenditureAmt().subtract(amount));
         }
-        else if (Constants.GL_DEBIT_CODE.equals(debitCreditCode) || Constants.GL_BUDGET_CODE.equals(debitCreditCode)) {
+        else if (KFSConstants.GL_DEBIT_CODE.equals(debitCreditCode) || KFSConstants.GL_BUDGET_CODE.equals(debitCreditCode)) {
             bal.setAccountActualExpenditureAmt(bal.getAccountActualExpenditureAmt().add(amount));
         }
     }
@@ -159,20 +159,20 @@ public class PostSufficientFundBalances implements PostTransaction {
     // 2642-PROCESS-CASH-ENCUMBRANCE
     // 2632-PROCESS-OBJTACCT-ENCMBRNC
     private void updateEncumbranceAmount(String debitCreditCode, SufficientFundBalances bal, KualiDecimal amount) {
-        if (Constants.GL_CREDIT_CODE.equals(debitCreditCode)) {
+        if (KFSConstants.GL_CREDIT_CODE.equals(debitCreditCode)) {
             bal.setAccountEncumbranceAmount(bal.getAccountEncumbranceAmount().subtract(amount));
         }
-        else if (Constants.GL_DEBIT_CODE.equals(debitCreditCode) || Constants.GL_BUDGET_CODE.equals(debitCreditCode)) {
+        else if (KFSConstants.GL_DEBIT_CODE.equals(debitCreditCode) || KFSConstants.GL_BUDGET_CODE.equals(debitCreditCode)) {
             bal.setAccountEncumbranceAmount(bal.getAccountEncumbranceAmount().add(amount));
         }
     }
 
     // 2641-PROCESS-CASH-ACTUAL
     private void updateBudgetAmount(String debitCreditCode, SufficientFundBalances bal, KualiDecimal amount) {
-        if (Constants.GL_CREDIT_CODE.equals(debitCreditCode)) {
+        if (KFSConstants.GL_CREDIT_CODE.equals(debitCreditCode)) {
             bal.setCurrentBudgetBalanceAmount(bal.getCurrentBudgetBalanceAmount().subtract(amount));
         }
-        else if (Constants.GL_DEBIT_CODE.equals(debitCreditCode) || Constants.GL_BUDGET_CODE.equals(debitCreditCode)) {
+        else if (KFSConstants.GL_DEBIT_CODE.equals(debitCreditCode) || KFSConstants.GL_BUDGET_CODE.equals(debitCreditCode)) {
             bal.setCurrentBudgetBalanceAmount(bal.getCurrentBudgetBalanceAmount().add(amount));
         }
     }

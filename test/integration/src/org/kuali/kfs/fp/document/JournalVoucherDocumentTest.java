@@ -33,7 +33,7 @@ import org.kuali.core.document.Correctable;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
@@ -71,7 +71,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         for (AccountingLineFixture targetFixture : getTargetAccountingLineParametersFromFixtures()) {
             targetFixture.addAsTargetTo(document);
         }
-        document.setBalanceTypeCode(Constants.BALANCE_TYPE_ACTUAL);
+        document.setBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
         return document;
     }
 
@@ -249,7 +249,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         // jv docs go straight to final
         WorkflowTestUtils.waitForStatusChange(document.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
         // also check the Kuali (not Workflow) document status
-        DocumentStatusMonitor statusMonitor = new DocumentStatusMonitor(getDocumentService(), document.getDocumentHeader().getDocumentNumber(), Constants.DocumentStatusCodes.APPROVED);
+        DocumentStatusMonitor statusMonitor = new DocumentStatusMonitor(getDocumentService(), document.getDocumentHeader().getDocumentNumber(), KFSConstants.DocumentStatusCodes.APPROVED);
         assertTrue(ChangeMonitor.waitUntilChange(statusMonitor, 240, 5));
     }
 
@@ -275,7 +275,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         int expectedSourceTotal = sourceLines.size();
         int expectedTargetTotal = targetLines.size();
         JournalVoucherDocument document = DocumentTestUtils.createDocument(getDocumentService(), DOCUMENT_CLASS);
-        document.setBalanceTypeCode(Constants.BALANCE_TYPE_ACTUAL);
+        document.setBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
 
         AccountingDocumentTestUtils.testAddAccountingLine(document, sourceLines, targetLines, expectedSourceTotal, expectedTargetTotal);
     }

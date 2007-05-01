@@ -27,8 +27,8 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.kra.budget.bo.AppointmentType;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetFringeRate;
@@ -67,7 +67,7 @@ public class BudgetFringeRateServiceImpl implements BudgetFringeRateService {
      */
     public Collection getDefaultFringeRates() {
         Map fieldValues = new HashMap();
-        fieldValues.put(PropertyConstants.ACTIVE, Constants.ACTIVE_INDICATOR);
+        fieldValues.put(KFSPropertyConstants.ACTIVE, KFSConstants.ACTIVE_INDICATOR);
         
         return businessObjectService.findMatching(AppointmentType.class, fieldValues);
     }
@@ -102,7 +102,7 @@ public class BudgetFringeRateServiceImpl implements BudgetFringeRateService {
 
     public boolean isValidFringeRate(KualiDecimal fringeRate) {
         if (fringeRate != null) {
-            return fringeRate.isLessEqual(Constants.CONTRACTS_AND_GRANTS_FRINGE_RATE_MAX);
+            return fringeRate.isLessEqual(KFSConstants.CONTRACTS_AND_GRANTS_FRINGE_RATE_MAX);
         }
         else {
             return false;
@@ -111,7 +111,7 @@ public class BudgetFringeRateServiceImpl implements BudgetFringeRateService {
 
     public boolean isValidCostShare(KualiDecimal costShare) {
         if (costShare != null) {
-            return costShare.isLessEqual(Constants.CONTRACTS_AND_GRANTS_COST_SHARE_MAX);
+            return costShare.isLessEqual(KFSConstants.CONTRACTS_AND_GRANTS_COST_SHARE_MAX);
         }
         else {
             return false;

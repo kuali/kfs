@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.labor.bo.PendingLedgerEntry;
 import org.kuali.module.labor.util.ObjectUtil;
 
@@ -37,9 +37,9 @@ public class PendingLedgerEntryForTesting extends PendingLedgerEntry{
     
     public List<String> getPrimaryKeyList(){
         List<String> primaryKeyList = new ArrayList<String>();
-        primaryKeyList.add(PropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE);
-        primaryKeyList.add(PropertyConstants.DOCUMENT_NUMBER);
-        primaryKeyList.add(PropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER);
+        primaryKeyList.add(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE);
+        primaryKeyList.add(KFSPropertyConstants.DOCUMENT_NUMBER);
+        primaryKeyList.add(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER);
         return primaryKeyList;
     }
 }

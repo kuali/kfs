@@ -23,7 +23,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.OrganizationParameter;
@@ -155,7 +155,7 @@ public class RequisitionServiceImpl implements RequisitionService {
             }
         }
 
-        if (reqTotal.compareTo(Constants.ZERO) <= 0) {
+        if (reqTotal.compareTo(KFSConstants.ZERO) <= 0) {
             return "Requisition total is not greater than zero.";
         }
 
@@ -225,7 +225,7 @@ public class RequisitionServiceImpl implements RequisitionService {
             return "Payment type is marked as recurring.";
         }
 
-        if ((requisition.getPurchaseOrderTotalLimit() != null) && (Constants.ZERO.compareTo(requisition.getPurchaseOrderTotalLimit()) != 0)) {
+        if ((requisition.getPurchaseOrderTotalLimit() != null) && (KFSConstants.ZERO.compareTo(requisition.getPurchaseOrderTotalLimit()) != 0)) {
             LOG.debug("isAPO() po total limit is not null or not equal to zero; return false.");
             return "The 'PO not to exceed' amount has been entered.";
         }

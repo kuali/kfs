@@ -20,9 +20,9 @@ import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KeyConstants;
-import org.kuali.kfs.PropertyConstants;
-import org.kuali.kfs.KeyConstants.CashReceipt;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.KFSKeyConstants.CashReceipt;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CreditCardDetail;
 import org.kuali.module.financial.document.CreditCardReceiptDocument;
@@ -56,23 +56,23 @@ public class CreditCardReceiptDocumentRuleUtil {
         if (isValid) {
             isValid = !creditCardReceipt.getCreditCardAdvanceDepositAmount().isZero();
             if (!isValid) {
-                String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(CreditCardDetail.class, PropertyConstants.CREDIT_CARD_ADVANCE_DEPOSIT_AMOUNT);
-                errorMap.putError(PropertyConstants.CREDIT_CARD_ADVANCE_DEPOSIT_AMOUNT, KeyConstants.ERROR_ZERO_AMOUNT, label);
+                String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(CreditCardDetail.class, KFSPropertyConstants.CREDIT_CARD_ADVANCE_DEPOSIT_AMOUNT);
+                errorMap.putError(KFSPropertyConstants.CREDIT_CARD_ADVANCE_DEPOSIT_AMOUNT, KFSKeyConstants.ERROR_ZERO_AMOUNT, label);
             }
         }
 
         if (isValid) {
-            isValid = SpringServiceLocator.getDictionaryValidationService().validateReferenceExists(creditCardReceipt, PropertyConstants.CREDIT_CARD_TYPE);
+            isValid = SpringServiceLocator.getDictionaryValidationService().validateReferenceExists(creditCardReceipt, KFSPropertyConstants.CREDIT_CARD_TYPE);
             if (!isValid) {
-                String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(CreditCardDetail.class, PropertyConstants.FINANCIAL_DOCUMENT_CREDIT_CARD_TYPE_CODE);
-                errorMap.putError(PropertyConstants.FINANCIAL_DOCUMENT_CREDIT_CARD_TYPE_CODE, KeyConstants.ERROR_EXISTENCE, label);
+                String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(CreditCardDetail.class, KFSPropertyConstants.FINANCIAL_DOCUMENT_CREDIT_CARD_TYPE_CODE);
+                errorMap.putError(KFSPropertyConstants.FINANCIAL_DOCUMENT_CREDIT_CARD_TYPE_CODE, KFSKeyConstants.ERROR_EXISTENCE, label);
             }
         }
         if (isValid) {
-            isValid = SpringServiceLocator.getDictionaryValidationService().validateReferenceExists(creditCardReceipt, PropertyConstants.CREDIT_CARD_VENDOR);
+            isValid = SpringServiceLocator.getDictionaryValidationService().validateReferenceExists(creditCardReceipt, KFSPropertyConstants.CREDIT_CARD_VENDOR);
             if (!isValid) {
-                String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(CreditCardDetail.class, PropertyConstants.FINANCIAL_DOCUMENT_CREDIT_CARD_VENDOR_NUMBER);
-                errorMap.putError(PropertyConstants.FINANCIAL_DOCUMENT_CREDIT_CARD_VENDOR_NUMBER, KeyConstants.ERROR_EXISTENCE, label);
+                String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(CreditCardDetail.class, KFSPropertyConstants.FINANCIAL_DOCUMENT_CREDIT_CARD_VENDOR_NUMBER);
+                errorMap.putError(KFSPropertyConstants.FINANCIAL_DOCUMENT_CREDIT_CARD_VENDOR_NUMBER, KFSKeyConstants.ERROR_EXISTENCE, label);
             }
         }
 
@@ -89,7 +89,7 @@ public class CreditCardReceiptDocumentRuleUtil {
     public static boolean areCashTotalsInvalid(CreditCardReceiptDocument ccrDocument) {
         String documentEntryName = ccrDocument.getDocumentHeader().getWorkflowDocument().getDocumentType();
 
-        boolean isInvalid = isTotalInvalid(ccrDocument, ccrDocument.getTotalDollarAmount(), documentEntryName, PropertyConstants.CREDIT_CARD_RECEIPTS_TOTAL);
+        boolean isInvalid = isTotalInvalid(ccrDocument, ccrDocument.getTotalDollarAmount(), documentEntryName, KFSPropertyConstants.CREDIT_CARD_RECEIPTS_TOTAL);
 
         return isInvalid;
     }
@@ -122,7 +122,7 @@ public class CreditCardReceiptDocumentRuleUtil {
             dvs.validateDocumentAttribute(ccrDocument, propertyName, DOCUMENT_ERROR_PREFIX);
 
             // replace generic error message, if any, with something more readable
-            GlobalVariables.getErrorMap().replaceError(errorProperty, KeyConstants.ERROR_MAX_LENGTH, CashReceipt.ERROR_EXCESSIVE_TOTAL, errorLabel);
+            GlobalVariables.getErrorMap().replaceError(errorProperty, KFSKeyConstants.ERROR_MAX_LENGTH, CashReceipt.ERROR_EXCESSIVE_TOTAL, errorLabel);
 
             int postcount = GlobalVariables.getErrorMap().size();
             isInvalid = (postcount > precount);

@@ -27,7 +27,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.web.struts.form.KualiBalanceInquiryReportMenuForm;
 
 /**
@@ -49,7 +49,7 @@ public class KualiBalanceInquiryReportMenuAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -87,7 +87,7 @@ public class KualiBalanceInquiryReportMenuAction extends KualiAction {
         // the original value that we actually need.
         balanceInquiryReportMenuForm.setDocFormKey(balanceInquiryReportMenuForm.getBalanceInquiryReportMenuCallerDocFormKey());
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -104,28 +104,28 @@ public class KualiBalanceInquiryReportMenuAction extends KualiAction {
         String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 
         // parse out the important strings from our methodToCall parameter
-        String fullParameter = (String) request.getAttribute(Constants.METHOD_TO_CALL_ATTRIBUTE);
+        String fullParameter = (String) request.getAttribute(KFSConstants.METHOD_TO_CALL_ATTRIBUTE);
 
         // parse out business object class name for lookup
-        String boClassName = StringUtils.substringBetween(fullParameter, Constants.METHOD_TO_CALL_BOPARM_LEFT_DEL, Constants.METHOD_TO_CALL_BOPARM_RIGHT_DEL);
+        String boClassName = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL, KFSConstants.METHOD_TO_CALL_BOPARM_RIGHT_DEL);
         if (StringUtils.isBlank(boClassName)) {
             throw new RuntimeException("Illegal call to perform lookup, no business object class name specified.");
         }
 
         // build the parameters for the lookup url
         Properties parameters = new Properties();
-        String conversionFields = StringUtils.substringBetween(fullParameter, Constants.METHOD_TO_CALL_PARM1_LEFT_DEL, Constants.METHOD_TO_CALL_PARM1_RIGHT_DEL);
+        String conversionFields = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL);
         if (StringUtils.isNotBlank(conversionFields)) {
-            parameters.put(Constants.CONVERSION_FIELDS_PARAMETER, conversionFields);
+            parameters.put(KFSConstants.CONVERSION_FIELDS_PARAMETER, conversionFields);
         }
 
         // pass values from form that should be pre-populated on lookup search
-        String parameterFields = StringUtils.substringBetween(fullParameter, Constants.METHOD_TO_CALL_PARM2_LEFT_DEL, Constants.METHOD_TO_CALL_PARM2_RIGHT_DEL);
+        String parameterFields = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_PARM2_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM2_RIGHT_DEL);
         if (StringUtils.isNotBlank(parameterFields)) {
-            String[] lookupParams = parameterFields.split(Constants.FIELD_CONVERSIONS_SEPERATOR);
+            String[] lookupParams = parameterFields.split(KFSConstants.FIELD_CONVERSIONS_SEPERATOR);
 
             for (int i = 0; i < lookupParams.length; i++) {
-                String[] keyValue = lookupParams[i].split(Constants.FIELD_CONVERSION_PAIR_SEPERATOR);
+                String[] keyValue = lookupParams[i].split(KFSConstants.FIELD_CONVERSION_PAIR_SEPERATOR);
 
                 // hard-coded passed value
                 if (StringUtils.contains(keyValue[0], "'")) {
@@ -139,22 +139,22 @@ public class KualiBalanceInquiryReportMenuAction extends KualiAction {
         }
 
         // grab whether or not the "return value" link should be hidden or not
-        String hideReturnLink = StringUtils.substringBetween(fullParameter, Constants.METHOD_TO_CALL_PARM3_LEFT_DEL, Constants.METHOD_TO_CALL_PARM3_RIGHT_DEL);
+        String hideReturnLink = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_PARM3_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM3_RIGHT_DEL);
         if (StringUtils.isNotBlank(hideReturnLink)) {
-            parameters.put(Constants.HIDE_LOOKUP_RETURN_LINK, hideReturnLink);
+            parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, hideReturnLink);
         }
 
         // determine what the action path is
-        String actionPath = StringUtils.substringBetween(fullParameter, Constants.METHOD_TO_CALL_PARM4_LEFT_DEL, Constants.METHOD_TO_CALL_PARM4_RIGHT_DEL);
+        String actionPath = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_PARM4_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM4_RIGHT_DEL);
         if (StringUtils.isBlank(actionPath)) {
             throw new IllegalStateException("The \"actionPath\" attribute is an expected parameter for the <kul:balanceInquiryLookup> tag - it " + "should never be blank.");
         }
 
         // now add required parameters
-        parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, "start");
-        parameters.put(Constants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(form));
-        parameters.put(Constants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, boClassName);
-        parameters.put(Constants.RETURN_LOCATION_PARAMETER, basePath + mapping.getPath() + ".do");
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, "start");
+        parameters.put(KFSConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(form));
+        parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, boClassName);
+        parameters.put(KFSConstants.RETURN_LOCATION_PARAMETER, basePath + mapping.getPath() + ".do");
 
         String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + actionPath, parameters);
 

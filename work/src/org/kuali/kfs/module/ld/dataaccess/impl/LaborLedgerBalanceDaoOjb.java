@@ -30,8 +30,8 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.SufficientFundBalances;
@@ -51,8 +51,8 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
         LOG.debug("getGlSummary() started");
 
         Criteria c = new Criteria();
-        c.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
-        c.addIn(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, balanceTypeCodes);
+        c.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
+        c.addIn(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, balanceTypeCodes);
 
         String[] attributes = new String[] { "account.subFundGroup.fundGroupCode", "sum(accountLineAnnualBalanceAmount)", "sum(financialBeginningBalanceLineAmount)", "sum(contractsGrantsBeginningBalanceAmount)", "sum(month1AccountLineAmount)", "sum(month2AccountLineAmount)", "sum(month3AccountLineAmount)", "sum(month4AccountLineAmount)", "sum(month5AccountLineAmount)", "sum(month6AccountLineAmount)", "sum(month7AccountLineAmount)", "sum(month8AccountLineAmount)", "sum(month9AccountLineAmount)", "sum(month10AccountLineAmount)", "sum(month11AccountLineAmount)", "sum(month12AccountLineAmount)", "sum(month13AccountLineAmount)" };
 
@@ -76,16 +76,16 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
         LOG.debug("findBalancesForFiscalYear() started");
 
         Criteria c = new Criteria();
-        c.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
+        c.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, year);
 
         QueryByCriteria query = QueryFactory.newQuery(LedgerBalance.class, c);
-        query.addOrderByAscending(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        query.addOrderByAscending(PropertyConstants.ACCOUNT_NUMBER);
-        query.addOrderByAscending(PropertyConstants.SUB_ACCOUNT_NUMBER);
-        query.addOrderByAscending(PropertyConstants.FINANCIAL_OBJECT_CODE);
-        query.addOrderByAscending(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
-        query.addOrderByAscending(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
-        query.addOrderByAscending(PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.ACCOUNT_NUMBER);
+        query.addOrderByAscending(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        query.addOrderByAscending(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
+        query.addOrderByAscending(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
 
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
     }
@@ -110,14 +110,14 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
         LOG.debug("getBalanceByTransaction() started");
 
         Criteria crit = new Criteria();
-        crit.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR, t.getUniversityFiscalYear());
-        crit.addEqualTo(PropertyConstants.CHART_OF_ACCOUNTS_CODE, t.getChartOfAccountsCode());
-        crit.addEqualTo(PropertyConstants.ACCOUNT_NUMBER, t.getAccountNumber());
-        crit.addEqualTo(PropertyConstants.SUB_ACCOUNT_NUMBER, t.getSubAccountNumber());
-        crit.addEqualTo(PropertyConstants.FINANCIAL_OBJECT_CODE, t.getFinancialObjectCode());
-        crit.addEqualTo(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE, t.getFinancialSubObjectCode());
-        crit.addEqualTo(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, t.getFinancialBalanceTypeCode());
-        crit.addEqualTo(PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, t.getFinancialObjectTypeCode());
+        crit.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, t.getUniversityFiscalYear());
+        crit.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, t.getChartOfAccountsCode());
+        crit.addEqualTo(KFSPropertyConstants.ACCOUNT_NUMBER, t.getAccountNumber());
+        crit.addEqualTo(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, t.getSubAccountNumber());
+        crit.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, t.getFinancialObjectCode());
+        crit.addEqualTo(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, t.getFinancialSubObjectCode());
+        crit.addEqualTo(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, t.getFinancialBalanceTypeCode());
+        crit.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, t.getFinancialObjectTypeCode());
 
         QueryByCriteria qbc = QueryFactory.newQuery(LedgerBalance.class, crit);
         return (LedgerBalance) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
@@ -180,10 +180,10 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
 
         Criteria criteria = new Criteria();
 
-        criteria.addEqualTo(PropertyConstants.ACCOUNT_NUMBER, account.getAccountNumber());
-        criteria.addEqualTo(PropertyConstants.CHART_OF_ACCOUNTS_CODE, account.getChartOfAccountsCode());
+        criteria.addEqualTo(KFSPropertyConstants.ACCOUNT_NUMBER, account.getAccountNumber());
+        criteria.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, account.getChartOfAccountsCode());
 
-        criteria.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
+        criteria.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
 
         criteriaBuilder(criteria, GLConstants.ColumnNames.OBJECT_TYPE_CODE, objectTypeCodes);
         criteriaBuilder(criteria, GLConstants.ColumnNames.BALANCE_TYPE_CODE, balanceTypeCodes);
@@ -255,15 +255,15 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
 
     private ReportQueryByCriteria getCashBalanceCountQuery(Map fieldValues) {
         Criteria criteria = buildCriteriaFromMap(fieldValues, new LedgerBalance());
-        criteria.addEqualTo(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, Constants.BALANCE_TYPE_ACTUAL);
-        criteria.addEqualToField("chart.financialCashObjectCode", PropertyConstants.FINANCIAL_OBJECT_CODE);
+        criteria.addEqualTo(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_ACTUAL);
+        criteria.addEqualToField("chart.financialCashObjectCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
 
         ReportQueryByCriteria query = QueryFactory.newReportQuery(LedgerBalance.class, criteria);
 
         List groupByList = buildGroupByList();
-        groupByList.remove(PropertyConstants.SUB_ACCOUNT_NUMBER);
-        groupByList.remove(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
-        groupByList.remove(PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
+        groupByList.remove(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        groupByList.remove(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        groupByList.remove(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
 
         // add the group criteria into the selection statement
         String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
@@ -278,8 +278,8 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     // build the query for cash balance search
     private Query getCashBalanceQuery(Map fieldValues, boolean isConsolidated) {
         Criteria criteria = buildCriteriaFromMap(fieldValues, new LedgerBalance());
-        criteria.addEqualTo(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, Constants.BALANCE_TYPE_ACTUAL);
-        criteria.addEqualToField("chart.financialCashObjectCode", PropertyConstants.FINANCIAL_OBJECT_CODE);
+        criteria.addEqualTo(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_ACTUAL);
+        criteria.addEqualToField("chart.financialCashObjectCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
 
         ReportQueryByCriteria query = QueryFactory.newReportQuery(LedgerBalance.class, criteria);
         List attributeList = buildAttributeList(false);
@@ -287,12 +287,12 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
 
         // if consolidated, then ignore the following fields
         if (isConsolidated) {
-            attributeList.remove(PropertyConstants.SUB_ACCOUNT_NUMBER);
-            groupByList.remove(PropertyConstants.SUB_ACCOUNT_NUMBER);
-            attributeList.remove(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
-            groupByList.remove(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
-            attributeList.remove(PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
-            groupByList.remove(PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
+            attributeList.remove(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+            groupByList.remove(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+            attributeList.remove(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+            groupByList.remove(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+            attributeList.remove(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
+            groupByList.remove(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
         }
 
         // add the group criteria into the selection statement
@@ -319,12 +319,12 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
             List groupByList = buildGroupByList();
 
             // ignore subaccount number, sub object code and object type code
-            attributeList.remove(PropertyConstants.SUB_ACCOUNT_NUMBER);
-            groupByList.remove(PropertyConstants.SUB_ACCOUNT_NUMBER);
-            attributeList.remove(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
-            groupByList.remove(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
-            attributeList.remove(PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
-            groupByList.remove(PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
+            attributeList.remove(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+            groupByList.remove(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+            attributeList.remove(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+            groupByList.remove(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+            attributeList.remove(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
+            groupByList.remove(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
 
             // set the selection attributes
             String[] attributes = (String[]) attributeList.toArray(new String[attributeList.size()]);
@@ -347,9 +347,9 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
         query.setAttributes(new String[] { "count(*)" });
 
         List groupByList = buildGroupByList();
-        groupByList.remove(PropertyConstants.SUB_ACCOUNT_NUMBER);
-        groupByList.remove(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
-        groupByList.remove(PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
+        groupByList.remove(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        groupByList.remove(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        groupByList.remove(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
 
         // add the group criteria into the selection statement
         String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
@@ -371,12 +371,12 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
         Criteria criteria = new Criteria();
 
         // handle encumbrance balance type
-        String propertyName = PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE;
+        String propertyName = KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE;
         if (localFieldValues.containsKey(propertyName)) {
             String propertyValue = (String) localFieldValues.get(propertyName);
-            if (Constants.AGGREGATE_ENCUMBRANCE_BALANCE_TYPE_CODE.equals(propertyValue)) {
-                localFieldValues.remove(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
-                criteria.addIn(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, this.getEncumbranceBalanceTypeCodeList());
+            if (KFSConstants.AGGREGATE_ENCUMBRANCE_BALANCE_TYPE_CODE.equals(propertyValue)) {
+                localFieldValues.remove(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
+                criteria.addIn(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, this.getEncumbranceBalanceTypeCodeList());
             }
         }
 
@@ -429,16 +429,16 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     private List<String> buildGroupByList() {
         List attributeList = new ArrayList();
 
-        attributeList.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        attributeList.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        attributeList.add(PropertyConstants.ACCOUNT_NUMBER);
-        attributeList.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
-        attributeList.add(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
-        attributeList.add(PropertyConstants.FINANCIAL_OBJECT_CODE);
-        attributeList.add(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
-        attributeList.add(PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
-        attributeList.add(PropertyConstants.EMPLID);
-        attributeList.add(PropertyConstants.POSITION_NUMBER);
+        attributeList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        attributeList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        attributeList.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        attributeList.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        attributeList.add(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
+        attributeList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        attributeList.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        attributeList.add(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
+        attributeList.add(KFSPropertyConstants.EMPLID);
+        attributeList.add(KFSPropertyConstants.POSITION_NUMBER);
 
         return attributeList;
     }
@@ -447,9 +447,9 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
         LOG.debug("getBalanceByPrimaryId() started");
 
         Criteria crit = new Criteria();
-        crit.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
-        crit.addEqualTo(PropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
-        crit.addEqualTo(PropertyConstants.ACCOUNT_NUMBER, accountNumber);
+        crit.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
+        crit.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        crit.addEqualTo(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
 
         QueryByCriteria qbc = QueryFactory.newQuery(SufficientFundBalances.class, crit);
         return (LedgerBalance) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
@@ -464,11 +464,11 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
         LOG.debug("getCurrentBudgetForObjectCode() started");
 
         Criteria crit = new Criteria();
-        crit.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
-        crit.addEqualTo(PropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
-        crit.addEqualTo(PropertyConstants.ACCOUNT_NUMBER, accountNumber);
-        crit.addEqualTo(PropertyConstants.FINANCIAL_OBJECT_CODE, objectCode);
-        crit.addEqualTo(PropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, Constants.BALANCE_TYPE_CURRENT_BUDGET);
+        crit.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
+        crit.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        crit.addEqualTo(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
+        crit.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, objectCode);
+        crit.addEqualTo(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, KFSConstants.BALANCE_TYPE_CURRENT_BUDGET);
 
         QueryByCriteria qbc = QueryFactory.newQuery(LedgerBalance.class, crit);
         return (LedgerBalance) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
@@ -484,7 +484,7 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
      */
     public Iterator<LedgerBalance> findAccountBalances(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber) {
         LOG.debug("findAccountBalances() started");
-        return this.findAccountBalances(universityFiscalYear, chartOfAccountsCode, accountNumber, Constants.SF_TYPE_OBJECT);
+        return this.findAccountBalances(universityFiscalYear, chartOfAccountsCode, accountNumber, KFSConstants.SF_TYPE_OBJECT);
     }
 
     /**
@@ -500,18 +500,18 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
         LOG.debug("findAccountBalances() started");
 
         Criteria crit = new Criteria();
-        crit.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
-        crit.addEqualTo(PropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
-        crit.addEqualTo(PropertyConstants.ACCOUNT_NUMBER, accountNumber);
+        crit.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
+        crit.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        crit.addEqualTo(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
 
         QueryByCriteria qbc = QueryFactory.newQuery(LedgerBalance.class, crit);
-        if (Constants.SF_TYPE_OBJECT.equals(sfCode)) {
-            qbc.addOrderByAscending(PropertyConstants.FINANCIAL_OBJECT_CODE);
+        if (KFSConstants.SF_TYPE_OBJECT.equals(sfCode)) {
+            qbc.addOrderByAscending(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
         }
-        else if (Constants.SF_TYPE_LEVEL.equals(sfCode)) {
+        else if (KFSConstants.SF_TYPE_LEVEL.equals(sfCode)) {
             qbc.addOrderByAscending(GLConstants.BalanceInquiryDrillDowns.OBJECT_LEVEL_CODE);
         }
-        else if (Constants.SF_TYPE_CONSOLIDATION.equals(sfCode)) {
+        else if (KFSConstants.SF_TYPE_CONSOLIDATION.equals(sfCode)) {
             qbc.addOrderByAscending(GLConstants.BalanceInquiryDrillDowns.CONSOLIDATION_OBJECT_CODE);
         }
         return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
@@ -527,8 +527,8 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
         LOG.debug("purgeYearByChart() started");
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(PropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
-        criteria.addLessThan(PropertyConstants.UNIVERSITY_FISCAL_YEAR, new Integer(year));
+        criteria.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        criteria.addLessThan(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, new Integer(year));
 
         getPersistenceBrokerTemplate().deleteByQuery(new QueryByCriteria(LedgerBalance.class, criteria));
 

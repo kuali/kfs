@@ -15,8 +15,8 @@
  */
 package org.kuali.module.financial.rules;
 
-import static org.kuali.kfs.Constants.GL_CREDIT_CODE;
-import static org.kuali.kfs.Constants.GL_DEBIT_CODE;
+import static org.kuali.kfs.KFSConstants.GL_CREDIT_CODE;
+import static org.kuali.kfs.KFSConstants.GL_DEBIT_CODE;
 import static org.kuali.kfs.util.SpringServiceLocator.getDataDictionaryService;
 import static org.kuali.kfs.util.SpringServiceLocator.getDocumentService;
 import static org.kuali.kfs.util.SpringServiceLocator.getDocumentTypeService;
@@ -43,7 +43,7 @@ import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
@@ -218,7 +218,7 @@ public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
     }
 
     private SourceAccountingLine getExpenseSourceLine() throws Exception {
-        return EXPENSE_GEC_LINE.createAccountingLine(SourceAccountingLine.class, Constants.GL_DEBIT_CODE);
+        return EXPENSE_GEC_LINE.createAccountingLine(SourceAccountingLine.class, KFSConstants.GL_DEBIT_CODE);
     }
 
     private TargetAccountingLine getExpenseTargetLine() throws Exception {
@@ -226,7 +226,7 @@ public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
     }
 
     private TargetAccountingLine getAssetTargetLine() throws Exception {
-        return ACCRUED_INCOME_LINE.createAccountingLine(TargetAccountingLine.class, Constants.GL_DEBIT_CODE);
+        return ACCRUED_INCOME_LINE.createAccountingLine(TargetAccountingLine.class, KFSConstants.GL_DEBIT_CODE);
     }
 
     private TargetAccountingLine getValidObjectSubTypeTargetLine() throws Exception {
@@ -235,8 +235,8 @@ public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
 
     private List<SourceAccountingLine> getValidObjectSubTypeSourceLines() throws Exception {
         List<SourceAccountingLine> retval = new ArrayList<SourceAccountingLine>();
-        retval.add(LINE15.createAccountingLine(SourceAccountingLine.class, Constants.GL_CREDIT_CODE));
-        retval.add(LINE15.createAccountingLine(SourceAccountingLine.class, Constants.GL_DEBIT_CODE));
+        retval.add(LINE15.createAccountingLine(SourceAccountingLine.class, KFSConstants.GL_CREDIT_CODE));
+        retval.add(LINE15.createAccountingLine(SourceAccountingLine.class, KFSConstants.GL_DEBIT_CODE));
         return retval;
     }
 
@@ -277,10 +277,10 @@ public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
     }
 
     private SourceAccountingLine getAccruedIncomeSourceLineParameter() throws Exception {
-        return ACCRUED_INCOME_LINE.createAccountingLine(SourceAccountingLine.class, Constants.GL_DEBIT_CODE);
+        return ACCRUED_INCOME_LINE.createAccountingLine(SourceAccountingLine.class, KFSConstants.GL_DEBIT_CODE);
     }
 
     private SourceAccountingLine getAccruedSickPaySourceLineParameter() throws Exception {
-        return ACCRUED_SICK_PAY_LINE.createAccountingLine(SourceAccountingLine.class, Constants.GL_DEBIT_CODE);
+        return ACCRUED_SICK_PAY_LINE.createAccountingLine(SourceAccountingLine.class, KFSConstants.GL_DEBIT_CODE);
     }
 }

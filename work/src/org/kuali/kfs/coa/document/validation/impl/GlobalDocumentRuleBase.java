@@ -17,7 +17,7 @@ package org.kuali.module.chart.rules;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.module.chart.bo.AccountChangeDetail;
 
 import java.util.List;
@@ -48,8 +48,8 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
     protected boolean checkOnlyOneChartErrorWrapper(List<AccountChangeDetail> accountChangeDetails) {
         CheckOnlyOneChartResult result = checkOnlyOneChart(accountChangeDetails);
         if (!result.success) {
-            putFieldError("accountChangeDetails[" + result.firstLineNumber + "].chartOfAccountsCode", KeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY);
-            putFieldError("accountChangeDetails[" + result.failedLineNumber + "].chartOfAccountsCode", KeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY);
+            putFieldError("accountChangeDetails[" + result.firstLineNumber + "].chartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY);
+            putFieldError("accountChangeDetails[" + result.failedLineNumber + "].chartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY);
         }
         return result.success;
     }
@@ -161,11 +161,11 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
     protected boolean checkOnlyOneChartAddLineErrorWrapper(AccountChangeDetail newAccountLine, List<AccountChangeDetail> accountChangeDetails) {
         boolean success = checkOnlyOneChartAddLine(newAccountLine, accountChangeDetails);
         if (!success) {
-            putGlobalError(KeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY_ADDNEW);
+            putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY_ADDNEW);
             // TODO: KULCOA-1091 Need to add this error to the add line, but this doesnt work right, as the
             // error message comes out at the bottom, and the field doesnt get highlighted.
             // putFieldError("newAccountChangeDetail.chartOfAccountsCode",
-            // KeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY);
+            // KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY);
         }
         return success;
     }

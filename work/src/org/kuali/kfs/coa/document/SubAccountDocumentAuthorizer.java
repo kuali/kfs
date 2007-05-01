@@ -27,7 +27,7 @@ import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 
 /**
@@ -64,7 +64,7 @@ public class SubAccountDocumentAuthorizer extends MaintenanceDocumentAuthorizerB
         // get the group name that we need here - CGSACCT
         KualiConfigurationService configService;
         configService = SpringServiceLocator.getKualiConfigurationService();
-        String groupName = configService.getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, Constants.ChartApcParms.SUBACCOUNT_CG_WORKGROUP_PARM_NAME);
+        String groupName = configService.getApplicationParameterValue(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, KFSConstants.ChartApcParms.SUBACCOUNT_CG_WORKGROUP_PARM_NAME);
 
         // create a new KualiGroup instance with that name
         KualiGroupService groupService = SpringServiceLocator.getKualiGroupService();

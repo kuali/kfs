@@ -45,8 +45,8 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.WebUtils;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.document.BudgetDocument;
@@ -92,7 +92,7 @@ public class BudgetOutputAction extends BudgetAction {
         BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
 
         if (!isOutputPageSelectionValid(budgetForm)) {
-            return mapping.findForward(Constants.MAPPING_BASIC);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
         Document xmlDocument = makeXml(request, budgetForm, budgetDoc);
@@ -124,7 +124,7 @@ public class BudgetOutputAction extends BudgetAction {
 
         // Retrieve the environment we're in.
         KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
-        String env = kualiConfigurationService.getPropertyString(Constants.ENVIRONMENT_KEY);
+        String env = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
 
         WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, "kraBudget-" + env + budgetDoc.getBudget().getDocumentNumber() + ".pdf");
 
@@ -165,7 +165,7 @@ public class BudgetOutputAction extends BudgetAction {
 
         // Retrieve the environment we're in.
         KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
-        String env = kualiConfigurationService.getPropertyString(Constants.ENVIRONMENT_KEY);
+        String env = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
 
         WebUtils.saveMimeOutputStreamAsFile(response, "text/xml", baos, "kraBudget-" + env + budgetDoc.getBudget().getDocumentNumber() + ".xml");
 
@@ -182,20 +182,20 @@ public class BudgetOutputAction extends BudgetAction {
     private boolean isOutputPageSelectionValid(BudgetForm budgetForm) {
         boolean valid = true;
         if (budgetForm.getCurrentOutputReportType() == null) {
-            GlobalVariables.getErrorMap().putError("currentOutputReportType", KeyConstants.ERROR_REQUIRED, "Report Type");
+            GlobalVariables.getErrorMap().putError("currentOutputReportType", KFSKeyConstants.ERROR_REQUIRED, "Report Type");
             valid = false;
         }
         else {
             if ((GENERIC_BY_TASK.equals(budgetForm.getCurrentOutputReportType()) || GENERIC_BY_PERIOD.equals(budgetForm.getCurrentOutputReportType())) && StringUtils.isBlank(budgetForm.getCurrentOutputDetailLevel())) {
-                GlobalVariables.getErrorMap().putError("currentOutputDetailLevel", KeyConstants.ERROR_REQUIRED, "Detail Level");
+                GlobalVariables.getErrorMap().putError("currentOutputDetailLevel", KFSKeyConstants.ERROR_REQUIRED, "Detail Level");
                 valid = false;
             }
             if (AGENCY.equals(budgetForm.getCurrentOutputReportType()) && StringUtils.isBlank(budgetForm.getCurrentOutputAgencyType())) {
-                GlobalVariables.getErrorMap().putError("currentOutputAgencyType", KeyConstants.ERROR_REQUIRED, "Agency Type");
+                GlobalVariables.getErrorMap().putError("currentOutputAgencyType", KFSKeyConstants.ERROR_REQUIRED, "Agency Type");
                 valid = false;
             }
             else if (AGENCY.equals(budgetForm.getCurrentOutputReportType()) && NIH_2590.equals(budgetForm.getCurrentOutputAgencyType()) && StringUtils.isBlank(budgetForm.getCurrentOutputAgencyPeriod())) {
-                GlobalVariables.getErrorMap().putError("currentOutputAgencyPeriod", KeyConstants.ERROR_REQUIRED, "Agency Period");
+                GlobalVariables.getErrorMap().putError("currentOutputAgencyPeriod", KFSKeyConstants.ERROR_REQUIRED, "Agency Period");
                 valid = false;
             }
         }
@@ -254,7 +254,7 @@ public class BudgetOutputAction extends BudgetAction {
             urlString = STYLESHEET_URL_OR_PATH;
         }
         else {
-            String APPLICATION_BASE_URL_KEY = kualiConfigurationService.getPropertyString(Constants.APPLICATION_URL_KEY);
+            String APPLICATION_BASE_URL_KEY = kualiConfigurationService.getPropertyString(KFSConstants.APPLICATION_URL_KEY);
             urlString = APPLICATION_BASE_URL_KEY + STYLESHEET_URL_OR_PATH;
         }
 

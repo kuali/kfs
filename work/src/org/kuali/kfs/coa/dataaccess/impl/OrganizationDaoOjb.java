@@ -24,8 +24,8 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.dao.OrganizationDao;
@@ -128,14 +128,14 @@ public class OrganizationDaoOjb extends PlatformAwareDaoBaseOjb implements Organ
     {
        String[] returnValues = {null, null};
        Criteria criteria = new Criteria();
-       criteria.addEqualTo(PropertyConstants.CHART_OF_ACCOUNTS_CODE,rootChart);
-       criteria.addEqualTo(PropertyConstants.ORGANIZATION_TYPE_CODE,
+       criteria.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,rootChart);
+       criteria.addEqualTo(KFSPropertyConstants.ORGANIZATION_TYPE_CODE,
                                              selfReportsOrgTypeCode);
        //  the root organization must be active
-       criteria.addEqualTo(PropertyConstants.ORGANIZATION_ACTIVE_INDICATOR,
-                           Constants.ACTIVE_INDICATOR);
-       String[] attributeList = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
-                                 PropertyConstants.ORGANIZATION_CODE};
+       criteria.addEqualTo(KFSPropertyConstants.ORGANIZATION_ACTIVE_INDICATOR,
+                           KFSConstants.ACTIVE_INDICATOR);
+       String[] attributeList = {KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                                 KFSPropertyConstants.ORGANIZATION_CODE};
        ReportQueryByCriteria rptQuery = new ReportQueryByCriteria(Org.class,
                                                                   attributeList,
                                                                   criteria);

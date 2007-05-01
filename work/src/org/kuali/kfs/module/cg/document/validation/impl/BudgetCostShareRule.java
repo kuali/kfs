@@ -22,7 +22,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
@@ -44,7 +44,7 @@ public class BudgetCostShareRule {
             BudgetInstitutionCostShare budgetCostShare = (BudgetInstitutionCostShare) institutionCostShareIter.next();
 
             if (!StringUtils.isNotBlank(budgetCostShare.getChartOfAccountsCode()) && !StringUtils.isNotBlank(budgetCostShare.getOrganizationCode())) {
-                GlobalVariables.getErrorMap().putError("budget.institutionCostShareItem.chartOrg.required", KeyConstants.ERROR_REQUIRED, "Institution Direct Source");
+                GlobalVariables.getErrorMap().putError("budget.institutionCostShareItem.chartOrg.required", KFSKeyConstants.ERROR_REQUIRED, "Institution Direct Source");
                 valid = false;
             }
         }

@@ -19,9 +19,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
@@ -42,7 +42,7 @@ public class IndirectCostAdjustmentDocumentRule extends AccountingDocumentRuleBa
     public boolean isAmountValid(AccountingDocument document, AccountingLine accountingLine) {
         boolean isValid = accountingLine.getAmount().isNonZero();
         if (!isValid) {
-            GlobalVariables.getErrorMap().putError(Constants.AMOUNT_PROPERTY_NAME, KeyConstants.ERROR_ZERO_AMOUNT, "an accounting line");
+            GlobalVariables.getErrorMap().putError(KFSConstants.AMOUNT_PROPERTY_NAME, KFSKeyConstants.ERROR_ZERO_AMOUNT, "an accounting line");
             LOG.info("failing isAmountValid - zero check");
         }
         return isValid;
@@ -86,13 +86,13 @@ public class IndirectCostAdjustmentDocumentRule extends AccountingDocumentRuleBa
 
             ObjectCode objectCode = accountingLine.getObjectCode();
             if (ObjectUtils.isNull(objectCode)) {
-                accountingLine.refreshReferenceObject(PropertyConstants.OBJECT_CODE);
+                accountingLine.refreshReferenceObject(KFSPropertyConstants.OBJECT_CODE);
             }
 
             valid = !rule.failsRule(objectSubTypeCode);
 
             if (!valid) {
-                reportError(PropertyConstants.FINANCIAL_OBJECT_CODE, KeyConstants.IndirectCostAdjustment.ERROR_DOCUMENT_ICA_INVALID_OBJ_SUB_TYPE, objectCode.getFinancialObjectCode(), objectSubTypeCode);
+                reportError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.IndirectCostAdjustment.ERROR_DOCUMENT_ICA_INVALID_OBJ_SUB_TYPE, objectCode.getFinancialObjectCode(), objectSubTypeCode);
             }
         }
         return valid;
@@ -115,7 +115,7 @@ public class IndirectCostAdjustmentDocumentRule extends AccountingDocumentRuleBa
             valid = !rule.failsRule(objectTypeCode);
             if (!valid) {
                 // add message
-                GlobalVariables.getErrorMap().putError(PropertyConstants.FINANCIAL_OBJECT_CODE, KeyConstants.IndirectCostAdjustment.ERROR_DOCUMENT_ICA_INVALID_OBJECT_TYPE_CODE, new String[] { objectCode.getFinancialObjectCode(), objectTypeCode });
+                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSKeyConstants.IndirectCostAdjustment.ERROR_DOCUMENT_ICA_INVALID_OBJECT_TYPE_CODE, new String[] { objectCode.getFinancialObjectCode(), objectTypeCode });
             }
         }
 
@@ -196,7 +196,7 @@ public class IndirectCostAdjustmentDocumentRule extends AccountingDocumentRuleBa
             String icrAccount = accountingLine.getAccount().getIndirectCostRecoveryAcctNbr();
             isValid &= StringUtils.isNotBlank(icrAccount);
             if (!isValid) {
-                reportError(PropertyConstants.ACCOUNT, KeyConstants.IndirectCostAdjustment.ERROR_DOCUMENT_ICA_GRANT_INVALID_ACCOUNT, accountingLine.getAccountNumber());
+                reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.IndirectCostAdjustment.ERROR_DOCUMENT_ICA_GRANT_INVALID_ACCOUNT, accountingLine.getAccountNumber());
             }
         }
         return isValid;
@@ -219,14 +219,14 @@ public class IndirectCostAdjustmentDocumentRule extends AccountingDocumentRuleBa
             String icrExpense = accountingLine.getChart().getIcrExpenseFinancialObjectCd();
             isValid &= StringUtils.isNotBlank(icrExpense);
             if (!isValid) {
-                reportError(PropertyConstants.CHART_OF_ACCOUNTS_CODE, KeyConstants.IndirectCostAdjustment.ERROR_DOCUMENT_ICA_GRANT_INVALID_CHART_OF_ACCOUNTS, new String[] { accountingLine.getChartOfAccountsCode() });
+                reportError(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.IndirectCostAdjustment.ERROR_DOCUMENT_ICA_GRANT_INVALID_CHART_OF_ACCOUNTS, new String[] { accountingLine.getChartOfAccountsCode() });
             }
         }
         else {
             String icrIncome = accountingLine.getChart().getIcrIncomeFinancialObjectCode();
             isValid &= StringUtils.isNotBlank(icrIncome);
             if (!isValid) {
-                reportError(PropertyConstants.CHART_OF_ACCOUNTS_CODE, KeyConstants.IndirectCostAdjustment.ERROR_DOCUMENT_ICA_RECEIPT_INVALID_CHART_OF_ACCOUNTS, new String[] { accountingLine.getChartOfAccountsCode() });
+                reportError(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSKeyConstants.IndirectCostAdjustment.ERROR_DOCUMENT_ICA_RECEIPT_INVALID_CHART_OF_ACCOUNTS, new String[] { accountingLine.getChartOfAccountsCode() });
             }
         }
 

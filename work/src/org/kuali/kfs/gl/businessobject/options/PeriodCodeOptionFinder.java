@@ -21,7 +21,7 @@ import java.util.List;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.lookup.valueFinder.ValueFinder;
 import org.kuali.core.web.ui.KeyLabelPair;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.UniversityDate;
 
@@ -45,25 +45,25 @@ public class GLPeriodCodeOptionFinder extends KeyValuesBase implements ValueFind
      */
     public List getKeyValues() {
         List labels = new ArrayList();
-        labels.add(new KeyLabelPair(Constants.MONTH1, Constants.MONTH1));
-        labels.add(new KeyLabelPair(Constants.MONTH2, Constants.MONTH2));
-        labels.add(new KeyLabelPair(Constants.MONTH3, Constants.MONTH3));
-        labels.add(new KeyLabelPair(Constants.MONTH4, Constants.MONTH4));
+        labels.add(new KeyLabelPair(KFSConstants.MONTH1, KFSConstants.MONTH1));
+        labels.add(new KeyLabelPair(KFSConstants.MONTH2, KFSConstants.MONTH2));
+        labels.add(new KeyLabelPair(KFSConstants.MONTH3, KFSConstants.MONTH3));
+        labels.add(new KeyLabelPair(KFSConstants.MONTH4, KFSConstants.MONTH4));
 
-        labels.add(new KeyLabelPair(Constants.MONTH5, Constants.MONTH5));
-        labels.add(new KeyLabelPair(Constants.MONTH6, Constants.MONTH6));
-        labels.add(new KeyLabelPair(Constants.MONTH7, Constants.MONTH7));
-        labels.add(new KeyLabelPair(Constants.MONTH8, Constants.MONTH8));
+        labels.add(new KeyLabelPair(KFSConstants.MONTH5, KFSConstants.MONTH5));
+        labels.add(new KeyLabelPair(KFSConstants.MONTH6, KFSConstants.MONTH6));
+        labels.add(new KeyLabelPair(KFSConstants.MONTH7, KFSConstants.MONTH7));
+        labels.add(new KeyLabelPair(KFSConstants.MONTH8, KFSConstants.MONTH8));
 
-        labels.add(new KeyLabelPair(Constants.MONTH9, Constants.MONTH9));
-        labels.add(new KeyLabelPair(Constants.MONTH10, Constants.MONTH10));
-        labels.add(new KeyLabelPair(Constants.MONTH11, Constants.MONTH11));
-        labels.add(new KeyLabelPair(Constants.MONTH12, Constants.MONTH12));
+        labels.add(new KeyLabelPair(KFSConstants.MONTH9, KFSConstants.MONTH9));
+        labels.add(new KeyLabelPair(KFSConstants.MONTH10, KFSConstants.MONTH10));
+        labels.add(new KeyLabelPair(KFSConstants.MONTH11, KFSConstants.MONTH11));
+        labels.add(new KeyLabelPair(KFSConstants.MONTH12, KFSConstants.MONTH12));
 
-        labels.add(new KeyLabelPair(Constants.MONTH13, Constants.MONTH13));
-        labels.add(new KeyLabelPair(Constants.ANNUAL_BALANCE, Constants.ANNUAL_BALANCE));
-        labels.add(new KeyLabelPair(Constants.BEGINNING_BALANCE, Constants.BEGINNING_BALANCE));
-        labels.add(new KeyLabelPair(Constants.CG_BEGINNING_BALANCE, Constants.CG_BEGINNING_BALANCE));
+        labels.add(new KeyLabelPair(KFSConstants.MONTH13, KFSConstants.MONTH13));
+        labels.add(new KeyLabelPair(KFSConstants.ANNUAL_BALANCE, KFSConstants.ANNUAL_BALANCE));
+        labels.add(new KeyLabelPair(KFSConstants.BEGINNING_BALANCE, KFSConstants.BEGINNING_BALANCE));
+        labels.add(new KeyLabelPair(KFSConstants.CG_BEGINNING_BALANCE, KFSConstants.CG_BEGINNING_BALANCE));
 
         return labels;
     }

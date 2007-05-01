@@ -37,7 +37,7 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.TransactionalDocumentDictionaryService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
@@ -204,7 +204,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
             document = (AccountingDocument) documentService.getByDocumentHeaderId(documentHeaderId);
 
             // mock a fully approved document
-            document.getDocumentHeader().getWorkflowDocument().getRouteHeader().setDocRouteStatus(Constants.DocumentStatusCodes.APPROVED);
+            document.getDocumentHeader().getWorkflowDocument().getRouteHeader().setDocRouteStatus(KFSConstants.DocumentStatusCodes.APPROVED);
 
             // collect some preCorrect data
             String preCorrectId = document.getDocumentNumber();

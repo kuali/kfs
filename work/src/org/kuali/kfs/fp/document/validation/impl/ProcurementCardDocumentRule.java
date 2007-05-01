@@ -15,11 +15,11 @@
  */
 package org.kuali.module.financial.rules;
 
-import static org.kuali.kfs.Constants.ACCOUNTING_LINE_ERRORS;
-import static org.kuali.kfs.Constants.AMOUNT_PROPERTY_NAME;
-import static org.kuali.kfs.Constants.ZERO;
-import static org.kuali.kfs.KeyConstants.ERROR_DOCUMENT_BALANCE_CONSIDERING_SOURCE_AND_TARGET_AMOUNTS;
-import static org.kuali.kfs.KeyConstants.ERROR_ZERO_AMOUNT;
+import static org.kuali.kfs.KFSConstants.ACCOUNTING_LINE_ERRORS;
+import static org.kuali.kfs.KFSConstants.AMOUNT_PROPERTY_NAME;
+import static org.kuali.kfs.KFSConstants.ZERO;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_BALANCE_CONSIDERING_SOURCE_AND_TARGET_AMOUNTS;
+import static org.kuali.kfs.KFSKeyConstants.ERROR_ZERO_AMOUNT;
 import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.ACCOUNT_NUMBER_GLOBAL_RESTRICTION_PARM_NM;
 import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.FUNCTION_CODE_GLOBAL_RESTRICTION_PARM_NM;
 import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.GLOBAL_FIELD_RESTRICTIONS_GROUP_NM;
@@ -42,8 +42,8 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.KeyConstants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
@@ -138,7 +138,7 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
         ProcurementCardDocument pcDocument = (ProcurementCardDocument) transactionalDocument;
         ErrorMap errors = GlobalVariables.getErrorMap();
 
-        String errorKey = PropertyConstants.FINANCIAL_OBJECT_CODE;
+        String errorKey = KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
         boolean objectCodeAllowed = true;
 
         /* object code exist done in super, check we have a valid object */
@@ -148,7 +148,7 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
 
         /* make sure object code is active */
         if (!accountingLine.getObjectCode().isFinancialObjectActiveCode()) {
-            errors.putError(errorKey, KeyConstants.ERROR_INACTIVE, "object code");
+            errors.putError(errorKey, KFSKeyConstants.ERROR_INACTIVE, "object code");
             objectCodeAllowed = false;
         }
 
@@ -199,7 +199,7 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
         ProcurementCardDocument pcDocument = (ProcurementCardDocument) transactionalDocument;
         ErrorMap errors = GlobalVariables.getErrorMap();
 
-        String errorKey = PropertyConstants.ACCOUNT_NUMBER;
+        String errorKey = KFSPropertyConstants.ACCOUNT_NUMBER;
         boolean accountNumberAllowed = true;
 
         /* account exist and object exist done in super, check we have a valid object */
@@ -326,7 +326,7 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
         List transactionEntries = ((ProcurementCardDocument) financialDocument).getTransactionEntries();
         ProcurementCardTargetAccountingLine targetAccountingLineToBeFound = (ProcurementCardTargetAccountingLine) accountingLine;
         
-        String errorPath = PropertyConstants.DOCUMENT;
+        String errorPath = KFSPropertyConstants.DOCUMENT;
         
         // originally I used getFinancialDocumentTransactionLineNumber to determine the appropriate transaction, unfortunatly
         // this makes it dependent on the order of transactionEntries in FP_PRCRMNT_DOC_T. Hence we have two loops below.
@@ -342,7 +342,7 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
                 
                 if(targetAccountingLine.getSequenceNumber().equals(targetAccountingLineToBeFound.getSequenceNumber())) {
                     // Found the item, capture error path, and set boolean (break isn't enough for 2 loops).
-                    errorPath = errorPath + "." + PropertyConstants.TRANSACTION_ENTRIES + "[" + transactionLineIndex + "]." + PropertyConstants.TARGET_ACCOUNTING_LINES + "[" + accountingLineCounter + "]";
+                    errorPath = errorPath + "." + KFSPropertyConstants.TRANSACTION_ENTRIES + "[" + transactionLineIndex + "]." + KFSPropertyConstants.TARGET_ACCOUNTING_LINES + "[" + accountingLineCounter + "]";
                     done = true;
                 }
             }

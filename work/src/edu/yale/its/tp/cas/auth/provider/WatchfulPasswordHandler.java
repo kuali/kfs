@@ -28,7 +28,7 @@ import edu.yale.its.tp.cas.auth.*;
 public abstract class WatchfulPasswordHandler implements PasswordHandler {
 
   //*********************************************************************
-  // Constants
+  // KFSConstants
 
   /**
    * The number of failed login attempts to allow before locking out

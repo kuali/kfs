@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.kra.routingform.bo.QuestionType;
 import org.kuali.module.kra.routingform.bo.ResearchRiskType;
 import org.kuali.module.kra.routingform.bo.RoutingFormQuestion;
@@ -64,7 +64,7 @@ public class RoutingFormProjectDetailsServiceImpl implements RoutingFormProjectD
     
     private List<QuestionType> getAllQuestionTypes() {
         Map criteria = new HashMap();
-        criteria.put(PropertyConstants.DATA_OBJECT_MAINTENANCE_CODE_ACTIVE_INDICATOR, true);
+        criteria.put(KFSPropertyConstants.DATA_OBJECT_MAINTENANCE_CODE_ACTIVE_INDICATOR, true);
         List<QuestionType> questionTypes = (List<QuestionType>) businessObjectService.findMatchingOrderBy(
                 QuestionType.class, criteria, "questionTypeSortNumber", true);
         return questionTypes;

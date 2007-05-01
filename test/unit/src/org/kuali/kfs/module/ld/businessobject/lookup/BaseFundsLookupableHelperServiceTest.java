@@ -26,7 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.lookup.LookupableHelperService;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.PersistenceService;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
 import org.kuali.module.gl.web.TestDataGenerator;
@@ -71,9 +71,9 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
 
         // Clear up the database so that any existing data cannot affact your test result
         Map keys = new HashMap();
-        keys.put(PropertyConstants.ACCOUNT_NUMBER, "1031400");
-        keys.put(PropertyConstants.UNIVERSITY_FISCAL_YEAR, "2007");
-        keys.put(PropertyConstants.CHART_OF_ACCOUNTS_CODE, "BL");        
+        keys.put(KFSPropertyConstants.ACCOUNT_NUMBER, "1031400");
+        keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, "2007");
+        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, "BL");        
         businessObjectService.deleteMatching(LedgerBalance.class, keys);
         businessObjectService.deleteMatching(CalculatedSalaryFoundationTracker.class, keys);        
     }
@@ -139,9 +139,9 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
     private List<String> getLookupFields(boolean isExtended) {
         List<String> lookupFields = new ArrayList<String>();
 
-        lookupFields.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        lookupFields.add(PropertyConstants.ACCOUNT_NUMBER);
-        lookupFields.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        lookupFields.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        lookupFields.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        lookupFields.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
 
         return lookupFields;
     }

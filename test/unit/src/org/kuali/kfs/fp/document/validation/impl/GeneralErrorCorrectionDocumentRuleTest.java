@@ -46,7 +46,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
@@ -512,11 +512,11 @@ public class GeneralErrorCorrectionDocumentRuleTest extends KualiTestBase {
     }
 
     private SourceAccountingLine getExpenseSourceLine() throws Exception {
-        return EXPENSE_GEC_LINE.createAccountingLine(SourceAccountingLine.class, Constants.GL_DEBIT_CODE);
+        return EXPENSE_GEC_LINE.createAccountingLine(SourceAccountingLine.class, KFSConstants.GL_DEBIT_CODE);
     }
 
     private TargetAccountingLine getExpenseTargetLine() throws Exception {
-        return EXPENSE_GEC_LINE.createAccountingLine(TargetAccountingLine.class, Constants.GL_CREDIT_CODE);
+        return EXPENSE_GEC_LINE.createAccountingLine(TargetAccountingLine.class, KFSConstants.GL_CREDIT_CODE);
     }
 
     private TargetAccountingLine getAssetTargetLine() throws Exception {
@@ -572,11 +572,11 @@ public class GeneralErrorCorrectionDocumentRuleTest extends KualiTestBase {
     }
 
     private SourceAccountingLine getValidObjectCodeSourceLine() throws Exception {
-        return ACCRUED_INCOME_LINE.createAccountingLine(SourceAccountingLine.class, Constants.GL_DEBIT_CODE);
+        return ACCRUED_INCOME_LINE.createAccountingLine(SourceAccountingLine.class, KFSConstants.GL_DEBIT_CODE);
     }
 
     private SourceAccountingLine getAssetSourceLine() throws Exception {
-        return ACCRUED_INCOME_LINE.createAccountingLine(SourceAccountingLine.class, Constants.GL_DEBIT_CODE);
+        return ACCRUED_INCOME_LINE.createAccountingLine(SourceAccountingLine.class, KFSConstants.GL_DEBIT_CODE);
     }
 
     private GeneralErrorCorrectionDocument createDocumentWithInvalidObjectSubType() throws Exception {
@@ -594,11 +594,11 @@ public class GeneralErrorCorrectionDocumentRuleTest extends KualiTestBase {
     }
 
     private SourceAccountingLine getAccruedIncomeSourceLineParameter() throws Exception {
-        return ACCRUED_INCOME_LINE.createAccountingLine(SourceAccountingLine.class, Constants.GL_DEBIT_CODE);
+        return ACCRUED_INCOME_LINE.createAccountingLine(SourceAccountingLine.class, KFSConstants.GL_DEBIT_CODE);
     }
 
     private TargetAccountingLine getAccruedIncomeTargetLineParameter() throws Exception {
-        return ACCRUED_INCOME_LINE.createAccountingLine(TargetAccountingLine.class, Constants.GL_CREDIT_CODE);
+        return ACCRUED_INCOME_LINE.createAccountingLine(TargetAccountingLine.class, KFSConstants.GL_CREDIT_CODE);
     }
 
 }

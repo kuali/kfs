@@ -19,10 +19,10 @@ import org.kuali.core.document.Document;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
-import org.kuali.kfs.PropertyConstants;
-import org.kuali.kfs.KeyConstants.CashReceipt;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.KFSKeyConstants.CashReceipt;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
@@ -51,7 +51,7 @@ public class AdvanceDepositDocumentRule extends CashReceiptFamilyRule implements
         boolean isValid = ad.getSourceTotal().equals(ad.getTotalDollarAmount());
 
         if (!isValid) {
-            GlobalVariables.getErrorMap().putError(PropertyConstants.NEW_ADVANCE_DEPOSIT, KeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_OUT_OF_BALANCE);
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.NEW_ADVANCE_DEPOSIT, KFSKeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_OUT_OF_BALANCE);
         }
 
         return isValid;
@@ -83,7 +83,7 @@ public class AdvanceDepositDocumentRule extends CashReceiptFamilyRule implements
         AdvanceDepositDocument ad = (AdvanceDepositDocument) document;
 
         if (ad.getAdvanceDeposits().size() == 0) {
-            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX, KeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_REQ_NUMBER_DEPOSITS_NOT_MET);
+            GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX, KFSKeyConstants.AdvanceDeposit.ERROR_DOCUMENT_ADVANCE_DEPOSIT_REQ_NUMBER_DEPOSITS_NOT_MET);
             return false;
         }
         else {
@@ -116,10 +116,10 @@ public class AdvanceDepositDocumentRule extends CashReceiptFamilyRule implements
      * @return boolean
      */
     private boolean validateAdvanceDeposits(AdvanceDepositDocument advanceDepositDocument) {
-        GlobalVariables.getErrorMap().addToErrorPath(Constants.DOCUMENT_PROPERTY_NAME);
+        GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
         boolean isValid = true;
         for (int i = 0; i < advanceDepositDocument.getAdvanceDeposits().size(); i++) {
-            String propertyName = PropertyConstants.ADVANCE_DEPOSIT_DETAIL + "[" + i + "]";
+            String propertyName = KFSPropertyConstants.ADVANCE_DEPOSIT_DETAIL + "[" + i + "]";
             GlobalVariables.getErrorMap().addToErrorPath(propertyName);
             isValid &= AdvanceDepositDocumentRuleUtil.validateAdvanceDeposit(advanceDepositDocument.getAdvanceDepositDetail(i));
             GlobalVariables.getErrorMap().removeFromErrorPath(propertyName);
@@ -128,10 +128,10 @@ public class AdvanceDepositDocumentRule extends CashReceiptFamilyRule implements
         // don't bother checking the total if some deposits are broken
         if (isValid && advanceDepositDocument.getTotalAdvanceDepositAmount().isZero()) {
             isValid = false;
-            GlobalVariables.getErrorMap().putError(PropertyConstants.ADVANCE_DEPOSIT_DETAIL, CashReceipt.ERROR_ZERO_TOTAL, "Advance Deposit Total");
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ADVANCE_DEPOSIT_DETAIL, CashReceipt.ERROR_ZERO_TOTAL, "Advance Deposit Total");
         }
 
-        GlobalVariables.getErrorMap().removeFromErrorPath(Constants.DOCUMENT_PROPERTY_NAME);
+        GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
         return isValid;
     }
 
@@ -146,15 +146,15 @@ public class AdvanceDepositDocumentRule extends CashReceiptFamilyRule implements
         if (advanceDepositDocument.isBankCashOffsetEnabled()) {
             int displayedDepositNumber = 1;
             for (AdvanceDepositDetail detail : advanceDepositDocument.getAdvanceDeposits()) {
-                detail.refreshReferenceObject(PropertyConstants.FINANCIAL_DOCUMENT_BANK_ACCOUNT);
+                detail.refreshReferenceObject(KFSPropertyConstants.FINANCIAL_DOCUMENT_BANK_ACCOUNT);
 
                 GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
-                if (!AccountingDocumentRuleUtil.populateBankOffsetGeneralLedgerPendingEntry(detail.getFinancialDocumentBankAccount(), detail.getFinancialDocumentAdvanceDepositAmount(), advanceDepositDocument, advanceDepositDocument.getPostingYear(), sequenceHelper, bankOffsetEntry, Constants.ADVANCE_DEPOSITS_LINE_ERRORS)) {
+                if (!AccountingDocumentRuleUtil.populateBankOffsetGeneralLedgerPendingEntry(detail.getFinancialDocumentBankAccount(), detail.getFinancialDocumentAdvanceDepositAmount(), advanceDepositDocument, advanceDepositDocument.getPostingYear(), sequenceHelper, bankOffsetEntry, KFSConstants.ADVANCE_DEPOSITS_LINE_ERRORS)) {
                     success = false;
                     continue; // An unsuccessfully populated bank offset entry may contain invalid relations, so don't add it at
                     // all.
                 }
-                bankOffsetEntry.setTransactionLedgerEntryDescription(AccountingDocumentRuleUtil.formatProperty(KeyConstants.AdvanceDeposit.DESCRIPTION_GLPE_BANK_OFFSET, displayedDepositNumber++));
+                bankOffsetEntry.setTransactionLedgerEntryDescription(AccountingDocumentRuleUtil.formatProperty(KFSKeyConstants.AdvanceDeposit.DESCRIPTION_GLPE_BANK_OFFSET, displayedDepositNumber++));
                 advanceDepositDocument.getGeneralLedgerPendingEntries().add(bankOffsetEntry);
                 sequenceHelper.increment();
 

@@ -18,7 +18,7 @@ package org.kuali.module.labor.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 
@@ -53,7 +53,7 @@ public class LaborLedgerUnitOfWorkTest extends TestCase {
         assertTrue(charAccountsCode.equals(laborOriginEntry.getChartOfAccountsCode()));
 
         List keyList = new ArrayList();
-        keyList.add(PropertyConstants.FINANCIAL_OBJECT_CODE);
+        keyList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
         laborLedgerUnitOfWork.resetLaborLedgerUnitOfWork(laborOriginEntry, keyList);
 
         charAccountsCode = laborLedgerUnitOfWork.getWorkingEntry().getChartOfAccountsCode();

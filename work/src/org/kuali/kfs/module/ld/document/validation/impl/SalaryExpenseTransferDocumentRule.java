@@ -15,8 +15,8 @@
  */
 package org.kuali.module.labor.rules;
 
-import static org.kuali.kfs.Constants.BALANCE_TYPE_A21;
-import static org.kuali.kfs.Constants.BALANCE_TYPE_ACTUAL;
+import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_A21;
+import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_ACTUAL;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -34,9 +34,9 @@ import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
@@ -64,7 +64,7 @@ import org.kuali.module.labor.rule.GenerateLaborLedgerPendingEntriesRule;
 
 public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBase implements GenerateLaborLedgerPendingEntriesRule<AccountingDocument>, GenerateLaborLedgerBenefitClearingPendingEntriesRule<AccountingDocument>{
 
-    // LLPE Constants
+    // LLPE KFSConstants
     public static final class LABOR_LEDGER_PENDING_ENTRY_CODE {
         public static final String NO = "N";
         public static final String YES = "Y";
@@ -124,14 +124,14 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         fieldValues.put("financialObjectCode", accountingLine.getFinancialObjectCode().toString());
         ArrayList laborObjects = (ArrayList) SpringServiceLocator.getBusinessObjectService().findMatching(LaborObject.class, fieldValues);
         if (laborObjects.size() == 0) {
-            reportError(PropertyConstants.ACCOUNT, KeyConstants.Labor.LABOR_OBJECT_MISSING_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
+            reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.Labor.LABOR_OBJECT_MISSING_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
             return false;
         }
         LaborObject laborObject = (LaborObject) laborObjects.get(0);    
         String FringeOrSalaryCode = laborObject.getFinancialObjectFringeOrSalaryCode();
 
         if (!FringeOrSalaryCode.equals(LaborConstants.SalaryExpenseTransfer.LABOR_LEDGER_SALARY_CODE)) {
-              reportError(PropertyConstants.ACCOUNT, KeyConstants.Labor.INVALID_SALARY_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
+              reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.Labor.INVALID_SALARY_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
             return false;
         }            
             
@@ -139,7 +139,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         SalaryExpenseTransferDocument salaryExpenseTransferDocument = (SalaryExpenseTransferDocument)accountingDocument;
         String emplid = salaryExpenseTransferDocument.getEmplid();
         if ((emplid == null) || (emplid.trim().length() == 0)) {
-            reportError(Constants.EMPLOYEE_LOOKUP_ERRORS,KeyConstants.Labor.MISSING_EMPLOYEE_ID, emplid);
+            reportError(KFSConstants.EMPLOYEE_LOOKUP_ERRORS,KFSKeyConstants.Labor.MISSING_EMPLOYEE_ID, emplid);
             return false;
         }
         
@@ -156,7 +156,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         fieldValues.put("universityFiscalYear", salaryExpenseTransferAccountingLine.getPayrollEndDateFiscalYear());
         AccountingPeriod accountingPeriod = new AccountingPeriod();        
         if (SpringServiceLocator.getBusinessObjectService().countMatching(AccountingPeriod.class, fieldValues) == 0) {
-            reportError(PropertyConstants.ACCOUNT,KeyConstants.Labor.INVALID_PAY_YEAR, emplid);
+            reportError(KFSPropertyConstants.ACCOUNT,KFSKeyConstants.Labor.INVALID_PAY_YEAR, emplid);
             return false;
         }
         
@@ -165,7 +165,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         fieldValues.put("universityFiscalPeriodCode", salaryExpenseTransferAccountingLine.getPayrollEndDateFiscalPeriodCode());
         accountingPeriod = new AccountingPeriod();        
         if (SpringServiceLocator.getBusinessObjectService().countMatching(AccountingPeriod.class, fieldValues) == 0) {
-            reportError(PropertyConstants.ACCOUNT,KeyConstants.Labor.INVALID_PAY_PERIOD_CODE, emplid);
+            reportError(KFSPropertyConstants.ACCOUNT,KFSKeyConstants.Labor.INVALID_PAY_PERIOD_CODE, emplid);
             return false;
         }
         return true;
@@ -238,7 +238,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         //if totals don't match, then add error message
         if (sourceLinesAmount.compareTo(targetLinesAmount) != 0) {
             isValid = false;
-            reportError(PropertyConstants.SOURCE_ACCOUNTING_LINES, KeyConstants.Labor.ACCOUNTING_LINE_TOTALS_MISMATCH_ERROR);            
+            reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ACCOUNTING_LINE_TOTALS_MISMATCH_ERROR);            
         }
 
         return isValid;        
@@ -268,7 +268,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         //if totals don't match by PayFY+PayPeriod categories, then add error message
         if ( compareAccountingLineTotalsByPayFYAndPayPeriod(sourceLinesMap, targetLinesMap) == false ) {
             isValid = false;
-            reportError(PropertyConstants.SOURCE_ACCOUNTING_LINES, KeyConstants.Labor.ACCOUNTING_LINE_TOTALS_BY_PAYFY_PAYPERIOD_MISMATCH_ERROR);            
+            reportError(KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.Labor.ACCOUNTING_LINE_TOTALS_BY_PAYFY_PAYPERIOD_MISMATCH_ERROR);            
         }
 
         return isValid;        
@@ -769,7 +769,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         originalEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL); // this is the default that most documents use
         originalEntry.setTransactionLedgerEntrySequenceNumber(getNextSequenceNumber(sequenceHelper));
         originalEntry.setTransactionLedgerEntryAmount(getGeneralLedgerPendingEntryAmountForAccountingLine(accountingLine));
-        originalEntry.setTransactionDebitCreditCode( accountingLine.isSourceAccountingLine() ? Constants.GL_CREDIT_CODE : Constants.GL_DEBIT_CODE);
+        originalEntry.setTransactionDebitCreditCode( accountingLine.isSourceAccountingLine() ? KFSConstants.GL_CREDIT_CODE : KFSConstants.GL_DEBIT_CODE);
         Timestamp transactionTimestamp = new Timestamp(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
         originalEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
         originalEntry.setProjectCode(getEntryValue(accountingLine.getProjectCode(), LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING));
@@ -820,7 +820,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         a21Entry.setFinancialBalanceTypeCode(BALANCE_TYPE_A21);
         a21Entry.setTransactionLedgerEntrySequenceNumber(getNextSequenceNumber(sequenceHelper));
         a21Entry.setTransactionLedgerEntryAmount(getGeneralLedgerPendingEntryAmountForAccountingLine(accountingLine));
-        a21Entry.setTransactionDebitCreditCode( accountingLine.isSourceAccountingLine() ? Constants.GL_DEBIT_CODE : Constants.GL_CREDIT_CODE);
+        a21Entry.setTransactionDebitCreditCode( accountingLine.isSourceAccountingLine() ? KFSConstants.GL_DEBIT_CODE : KFSConstants.GL_CREDIT_CODE);
         Timestamp transactionTimestamp = new Timestamp(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
         a21Entry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
         a21Entry.setProjectCode(getEntryValue(accountingLine.getProjectCode(), LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING));
@@ -870,7 +870,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         a21RevEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_A21);
         a21RevEntry.setTransactionLedgerEntrySequenceNumber(getNextSequenceNumber(sequenceHelper));
         a21RevEntry.setTransactionLedgerEntryAmount(getGeneralLedgerPendingEntryAmountForAccountingLine(accountingLine));
-        a21RevEntry.setTransactionDebitCreditCode( accountingLine.isSourceAccountingLine() ? Constants.GL_CREDIT_CODE : Constants.GL_DEBIT_CODE);
+        a21RevEntry.setTransactionDebitCreditCode( accountingLine.isSourceAccountingLine() ? KFSConstants.GL_CREDIT_CODE : KFSConstants.GL_DEBIT_CODE);
         Timestamp transactionTimestamp = new Timestamp(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
         a21RevEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
         a21RevEntry.setProjectCode(getEntryValue(accountingLine.getProjectCode(), LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING));
@@ -922,7 +922,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         benefitEntry.setFinancialSubObjectCode(LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_OBJECT_CODE);
         benefitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL);
         benefitEntry.setTransactionLedgerEntrySequenceNumber(getNextSequenceNumber(sequenceHelper));            
-        benefitEntry.setTransactionDebitCreditCode( accountingLine.isSourceAccountingLine() ? Constants.GL_CREDIT_CODE : Constants.GL_DEBIT_CODE);
+        benefitEntry.setTransactionDebitCreditCode( accountingLine.isSourceAccountingLine() ? KFSConstants.GL_CREDIT_CODE : KFSConstants.GL_DEBIT_CODE);
         Timestamp transactionTimestamp = new Timestamp(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
         benefitEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
         benefitEntry.setProjectCode(getEntryValue(accountingLine.getProjectCode(), LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING));
@@ -974,7 +974,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         benefitA21Entry.setFinancialSubObjectCode(LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_OBJECT_CODE);
         benefitA21Entry.setFinancialBalanceTypeCode(BALANCE_TYPE_A21);
         benefitA21Entry.setTransactionLedgerEntrySequenceNumber(getNextSequenceNumber(sequenceHelper));            
-        benefitA21Entry.setTransactionDebitCreditCode( accountingLine.isSourceAccountingLine() ? Constants.GL_DEBIT_CODE : Constants.GL_CREDIT_CODE);
+        benefitA21Entry.setTransactionDebitCreditCode( accountingLine.isSourceAccountingLine() ? KFSConstants.GL_DEBIT_CODE : KFSConstants.GL_CREDIT_CODE);
         Timestamp transactionTimestamp = new Timestamp(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
         benefitA21Entry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
         benefitA21Entry.setProjectCode(getEntryValue(accountingLine.getProjectCode(), LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING));
@@ -1028,7 +1028,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         benefitA21RevEntry.setFinancialSubObjectCode(LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_OBJECT_CODE);
         benefitA21RevEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_A21);
         benefitA21RevEntry.setTransactionLedgerEntrySequenceNumber(getNextSequenceNumber(sequenceHelper));            
-        benefitA21RevEntry.setTransactionDebitCreditCode( accountingLine.isSourceAccountingLine() ? Constants.GL_DEBIT_CODE : Constants.GL_CREDIT_CODE);
+        benefitA21RevEntry.setTransactionDebitCreditCode( accountingLine.isSourceAccountingLine() ? KFSConstants.GL_DEBIT_CODE : KFSConstants.GL_CREDIT_CODE);
         Timestamp transactionTimestamp = new Timestamp(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime());
         benefitA21RevEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
         benefitA21RevEntry.setProjectCode(getEntryValue(accountingLine.getProjectCode(), LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_PROJECT_STRING));
@@ -1091,9 +1091,9 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         benefitClearingEntry.setTransactionLedgerEntryAmount( amount.abs() );
 
         //special handling
-        String debitCreditCode = Constants.GL_CREDIT_CODE;
+        String debitCreditCode = KFSConstants.GL_CREDIT_CODE;
         if( fromAmount.isGreaterThan(toAmount) ){
-            debitCreditCode = Constants.GL_DEBIT_CODE;
+            debitCreditCode = KFSConstants.GL_DEBIT_CODE;
         }
         benefitClearingEntry.setTransactionDebitCreditCode( debitCreditCode );
         
@@ -1159,7 +1159,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         offsetEntry.setChartOfAccountsCode(flexCoa);
         offsetEntry.setAccountNumber(flexAccountNumber);
         // COA and account number are part of the sub-account's key, so the original sub-account would be invalid.
-        offsetEntry.setSubAccountNumber(Constants.DASHES_SUB_ACCOUNT_NUMBER);
+        offsetEntry.setSubAccountNumber(KFSConstants.DASHES_SUB_ACCOUNT_NUMBER);
     }
     
 
@@ -1198,7 +1198,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
          * @return true if debitCreditCode equals the the debit constant
          */
         static boolean isDebitCode(String debitCreditCode) {
-            return StringUtils.equals(Constants.GL_DEBIT_CODE, debitCreditCode);
+            return StringUtils.equals(KFSConstants.GL_DEBIT_CODE, debitCreditCode);
         }
 
         /**
@@ -1494,7 +1494,7 @@ public class SalaryExpenseTransferDocumentRule extends AccountingDocumentRuleBas
         
         // We must not have any pending labor ledger entries
         if (SpringServiceLocator.getLaborLedgerPendingEntryService().hasPendingLaborLedgerEntry(emplid)) {
-           reportError(Constants.EMPLOYEE_LOOKUP_ERRORS,KeyConstants.Labor.PENDING_SALARY_TRANSFER_ERROR, emplid);
+           reportError(KFSConstants.EMPLOYEE_LOOKUP_ERRORS,KFSKeyConstants.Labor.PENDING_SALARY_TRANSFER_ERROR, emplid);
            return false;
         }      
         return true;

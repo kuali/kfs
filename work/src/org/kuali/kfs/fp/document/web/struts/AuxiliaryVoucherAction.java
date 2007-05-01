@@ -24,7 +24,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentAuthorizer;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 import org.kuali.module.financial.web.struts.form.AuxiliaryVoucherForm;
@@ -54,7 +54,7 @@ public class AuxiliaryVoucherAction extends VoucherAction {
         // and we need to process some stuff if it's changed
         ActionForward returnForward;
         if (StringUtils.isNotBlank(avForm.getOriginalVoucherType()) && !avForm.getAuxiliaryVoucherDocument().getTypeCode().equals(avForm.getOriginalVoucherType())) {
-            returnForward = super.dispatchMethod(mapping, form, request, response, Constants.AuxiliaryVoucher.CHANGE_VOUCHER_TYPE);
+            returnForward = super.dispatchMethod(mapping, form, request, response, KFSConstants.AuxiliaryVoucher.CHANGE_VOUCHER_TYPE);
             // must call this here, because execute in the super method will never have control for this particular action
             // this is called in the parent by super.execute()
             Document document = avForm.getDocument();
@@ -89,7 +89,7 @@ public class AuxiliaryVoucherAction extends VoucherAction {
         // make sure to set the original type to the new one now
         avForm.setOriginalVoucherType(avDoc.getTypeCode());
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**

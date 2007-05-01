@@ -21,8 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.bo.AdhocOrg;
 import org.kuali.module.kra.bo.AdhocPerson;
@@ -56,7 +56,7 @@ public class ResearchDocumentPermissionsServiceImpl implements ResearchDocumentP
      */
     public List<AdhocOrg> getAdHocOrgs(String documentNumber, String permissionCode) {
         Map fieldValues = new HashMap();
-        fieldValues.put(PropertyConstants.DOCUMENT_NUMBER, documentNumber);
+        fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
         fieldValues.put("permissionCode", permissionCode);
         return new ArrayList(businessObjectService.findMatching(AdhocOrg.class, fieldValues));
     }
@@ -66,8 +66,8 @@ public class ResearchDocumentPermissionsServiceImpl implements ResearchDocumentP
      */
     public List<ResearchAdhocPermissionType> getPermissionTypes() {
         List<ResearchAdhocPermissionType> permissionTypeList = new ArrayList<ResearchAdhocPermissionType>();
-        permissionTypeList.add(new ResearchAdhocPermissionType(Constants.PERMISSION_READ_CODE, Constants.PERMISSION_READ_DESCRIPTION));
-        permissionTypeList.add(new ResearchAdhocPermissionType(Constants.PERMISSION_MOD_CODE, Constants.PERMISSION_MOD_DESCRIPTION));
+        permissionTypeList.add(new ResearchAdhocPermissionType(KFSConstants.PERMISSION_READ_CODE, KFSConstants.PERMISSION_READ_DESCRIPTION));
+        permissionTypeList.add(new ResearchAdhocPermissionType(KFSConstants.PERMISSION_MOD_CODE, KFSConstants.PERMISSION_MOD_DESCRIPTION));
         return permissionTypeList;
     }
     

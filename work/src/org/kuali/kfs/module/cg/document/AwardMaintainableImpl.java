@@ -15,11 +15,11 @@
  */
 package org.kuali.module.cg.maintenance;
 
-import static org.kuali.kfs.PropertyConstants.AWARD_ACCOUNTS;
-import static org.kuali.kfs.PropertyConstants.AWARD_PROJECT_DIRECTORS;
-import static org.kuali.kfs.PropertyConstants.AWARD_SUBCONTRACTORS;
-import static org.kuali.kfs.PropertyConstants.DOCUMENT;
-import static org.kuali.kfs.PropertyConstants.NEW_MAINTAINABLE_OBJECT;
+import static org.kuali.kfs.KFSPropertyConstants.AWARD_ACCOUNTS;
+import static org.kuali.kfs.KFSPropertyConstants.AWARD_PROJECT_DIRECTORS;
+import static org.kuali.kfs.KFSPropertyConstants.AWARD_SUBCONTRACTORS;
+import static org.kuali.kfs.KFSPropertyConstants.DOCUMENT;
+import static org.kuali.kfs.KFSPropertyConstants.NEW_MAINTAINABLE_OBJECT;
 
 import java.util.Collection;
 import java.util.List;
@@ -31,9 +31,9 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Award;
 import org.kuali.module.cg.bo.AwardAccount;
@@ -94,29 +94,29 @@ public class AwardMaintainableImpl extends KualiMaintainableImpl {
     @Override
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
         
-        if (StringUtils.equals(PropertyConstants.PROPOSAL, (String) fieldValues.get(Constants.REFERENCES_TO_REFRESH))) {
+        if (StringUtils.equals(KFSPropertyConstants.PROPOSAL, (String) fieldValues.get(KFSConstants.REFERENCES_TO_REFRESH))) {
             String pathToMaintainable = DOCUMENT + "." + NEW_MAINTAINABLE_OBJECT;
             GlobalVariables.getErrorMap().addToErrorPath(pathToMaintainable);
 
             boolean awarded = AwardRuleUtil.isProposalAwarded(getAward());
             if (awarded) {
-                GlobalVariables.getErrorMap().putError(PropertyConstants.PROPOSAL_NUMBER, KeyConstants.ERROR_AWARD_PROPOSAL_AWARDED, new String[] { getAward().getProposalNumber().toString() });
+                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.PROPOSAL_NUMBER, KFSKeyConstants.ERROR_AWARD_PROPOSAL_AWARDED, new String[] { getAward().getProposalNumber().toString() });
             }
             if (AwardRuleUtil.isProposalInactive(getAward())) {
-                GlobalVariables.getErrorMap().putError(PropertyConstants.PROPOSAL_NUMBER, KeyConstants.ERROR_AWARD_PROPOSAL_INACTIVE, new String[] { getAward().getProposalNumber().toString() });
+                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.PROPOSAL_NUMBER, KFSKeyConstants.ERROR_AWARD_PROPOSAL_INACTIVE, new String[] { getAward().getProposalNumber().toString() });
             }
             GlobalVariables.getErrorMap().removeFromErrorPath(pathToMaintainable);
 
             // copy over proposal values after refresh
             if (!awarded) {
-                refreshAward(KNSServiceLocator.KUALI_LOOKUPABLE.equals(fieldValues.get(Constants.REFRESH_CALLER)));
+                refreshAward(KNSServiceLocator.KUALI_LOOKUPABLE.equals(fieldValues.get(KFSConstants.REFRESH_CALLER)));
                 super.refresh(refreshCaller, fieldValues, document);
                 Award award = getAward();
                 award.populateFromProposal(award.getProposal());
-                refreshAward(KNSServiceLocator.KUALI_LOOKUPABLE.equals(fieldValues.get(Constants.REFRESH_CALLER)));
+                refreshAward(KNSServiceLocator.KUALI_LOOKUPABLE.equals(fieldValues.get(KFSConstants.REFRESH_CALLER)));
             }
         }else{
-            refreshAward(KNSServiceLocator.KUALI_LOOKUPABLE.equals(fieldValues.get(Constants.REFRESH_CALLER)));
+            refreshAward(KNSServiceLocator.KUALI_LOOKUPABLE.equals(fieldValues.get(KFSConstants.REFRESH_CALLER)));
             super.refresh(refreshCaller, fieldValues, document);
         }
 

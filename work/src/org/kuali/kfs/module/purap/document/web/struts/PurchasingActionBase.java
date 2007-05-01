@@ -24,7 +24,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.rule.event.AddAccountingLineEvent;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -76,7 +76,7 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
             document.templateVendorDetail(refreshVendorDetail);
         }
 
-        if( StringUtils.equals( refreshCaller, Constants.KUALI_LOOKUPABLE_IMPL ) ) {
+        if( StringUtils.equals( refreshCaller, KFSConstants.KUALI_LOOKUPABLE_IMPL ) ) {
             
             if( StringUtils.isNotEmpty( request.getParameter( PurapPropertyConstants.VENDOR_CONTRACT_ID ) ) ) {
                 Integer vendorContractGeneratedId = document.getVendorContractGeneratedIdentifier();
@@ -171,12 +171,12 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
         PurchasingApItem item = purchasingForm.getAndResetNewPurchasingItemLine();
         PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
         boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new AddPurchasingAccountsPayableItemEvent("item",purDocument,item));
-//        AddAccountingLineEvent(Constants.NEW_TARGET_ACCT_LINES_PROPERTY_NAME + "[" + Integer.toString(itemIndex) + "]", purchasingForm.getDocument(), (AccountingLine) line)
+//        AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINES_PROPERTY_NAME + "[" + Integer.toString(itemIndex) + "]", purchasingForm.getDocument(), (AccountingLine) line)
         if (rulePassed) {
 
             purDocument.addItem(item);
         }
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -195,7 +195,7 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
 
         PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
         purDocument.deleteItem(getSelectedLine(request));
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     
@@ -237,7 +237,7 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
         
         PurApAccountingLine line = item.getNewSourceLine();
         
-        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new AddAccountingLineEvent(Constants.NEW_TARGET_ACCT_LINES_PROPERTY_NAME + "[" + Integer.toString(itemIndex) + "]", purchasingForm.getDocument(), (AccountingLine) line));
+        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINES_PROPERTY_NAME + "[" + Integer.toString(itemIndex) + "]", purchasingForm.getDocument(), (AccountingLine) line));
 
         if (rulePassed) {
             // add accountingLine
@@ -248,7 +248,7 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
             item.resetAccount();
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
 }

@@ -22,7 +22,7 @@ import java.util.Map;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.Account;
@@ -176,12 +176,12 @@ public class AccountBalance extends PersistableBusinessObjectBase {
     protected LinkedHashMap toStringMapper() {
 
         LinkedHashMap map = new LinkedHashMap();
-        map.put(PropertyConstants.UNIVERSITY_FISCAL_YEAR, getUniversityFiscalYear());
-        map.put(PropertyConstants.CHART_OF_ACCOUNTS_CODE, getChartOfAccountsCode());
-        map.put(PropertyConstants.ACCOUNT_NUMBER, getAccountNumber());
-        map.put(PropertyConstants.SUB_ACCOUNT_NUMBER, getSubAccountNumber());
-        map.put(PropertyConstants.OBJECT_CODE, getObjectCode());
-        map.put(PropertyConstants.SUB_OBJECT_CODE, getSubObjectCode());
+        map.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, getUniversityFiscalYear());
+        map.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, getChartOfAccountsCode());
+        map.put(KFSPropertyConstants.ACCOUNT_NUMBER, getAccountNumber());
+        map.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, getSubAccountNumber());
+        map.put(KFSPropertyConstants.OBJECT_CODE, getObjectCode());
+        map.put(KFSPropertyConstants.SUB_OBJECT_CODE, getSubObjectCode());
         return map;
     }
 

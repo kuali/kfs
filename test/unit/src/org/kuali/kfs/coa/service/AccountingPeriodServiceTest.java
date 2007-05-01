@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
@@ -86,7 +86,7 @@ public class AccountingPeriodServiceTest extends KualiTestBase {
         // all returned AccountingPeriod instances should be marked as OPEN
         for (AccountingPeriod accountingPeriod : accountingPeriods) {
             String statusCode = accountingPeriod.getUniversityFiscalPeriodStatusCode();
-            assertTrue(statusCode.equals(Constants.ACCOUNTING_PERIOD_STATUS_OPEN));
+            assertTrue(statusCode.equals(KFSConstants.ACCOUNTING_PERIOD_STATUS_OPEN));
         }
     }
 }

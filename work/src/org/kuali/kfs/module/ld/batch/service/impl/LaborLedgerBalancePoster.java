@@ -20,7 +20,7 @@ import java.util.Date;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.labor.LaborConstants;
@@ -40,18 +40,18 @@ public class LaborLedgerBalancePoster implements PostTransaction {
      * @see org.kuali.module.gl.batch.poster.PostTransaction#post(org.kuali.module.gl.bo.Transaction, int, java.util.Date)
      */
     public String post(Transaction transaction, int mode, Date postDate) {
-        String operationType = Constants.OperationType.INSERT;
+        String operationType = KFSConstants.OperationType.INSERT;
         LedgerBalance ledgerBalance = new LedgerBalance();       
         ObjectUtil.buildObject(ledgerBalance, transaction);
 
         LedgerBalance tempLedgerBalance = (LedgerBalance) businessObjectService.retrieve(ledgerBalance);
         if (tempLedgerBalance != null) {
             ledgerBalance = tempLedgerBalance;
-            operationType = Constants.OperationType.UPDATE;
+            operationType = KFSConstants.OperationType.UPDATE;
         }
         String debitCreditCode = transaction.getTransactionDebitCreditCode();
         KualiDecimal amount = transaction.getTransactionLedgerEntryAmount();
-        amount = debitCreditCode.equals(Constants.GL_CREDIT_CODE) ? amount.negated() : amount;
+        amount = debitCreditCode.equals(KFSConstants.GL_CREDIT_CODE) ? amount.negated() : amount;
         
         ledgerBalance.addAmount(transaction.getUniversityFiscalPeriodCode(), amount);
         ledgerBalance.setTransactionDateTimeStamp(new Timestamp(postDate.getTime()));

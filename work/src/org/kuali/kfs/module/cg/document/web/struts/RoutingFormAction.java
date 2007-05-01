@@ -30,7 +30,7 @@ import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.budget.web.struts.form.BudgetOverviewFormHelper;
 import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
@@ -161,7 +161,7 @@ public class RoutingFormAction extends ResearchDocumentActionBase {
         if (routingForm.isAuditActivated()) {
             return mapping.findForward("auditmode");
         }
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     protected void setApprovalsMessage(RoutingForm routingForm) {

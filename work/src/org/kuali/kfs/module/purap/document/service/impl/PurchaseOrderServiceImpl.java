@@ -38,7 +38,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
@@ -224,7 +224,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         
         if (generatePDFErrors.size() > 0) {
             for (String error: generatePDFErrors) {
-                GlobalVariables.getErrorMap().putError(Constants.GLOBAL_ERRORS, PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, error);
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, error);
             }
             result = false;
         }
@@ -238,14 +238,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public boolean printPurchaseOrderPDF (PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients,
         ByteArrayOutputStream baosPDF) {
             
-        String environment = kualiConfigurationService.getPropertyString( Constants.ENVIRONMENT_KEY );
+        String environment = kualiConfigurationService.getPropertyString( KFSConstants.ENVIRONMENT_KEY );
         boolean isRetransmit = false;
         boolean result = true;
         Collection<String> generatePDFErrors = printService.generatePurchaseOrderPdf(po, baosPDF, isRetransmit, environment);
             
         if (generatePDFErrors.size() > 0) {
             for (String error: generatePDFErrors) {
-                GlobalVariables.getErrorMap().putError(Constants.GLOBAL_ERRORS, PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, error);
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, error);
             }
             result = false;
         }
@@ -276,7 +276,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public boolean retransmitPurchaseOrderPDF (PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients,
         ByteArrayOutputStream baosPDF) {
             
-        String environment = kualiConfigurationService.getPropertyString( Constants.ENVIRONMENT_KEY );
+        String environment = kualiConfigurationService.getPropertyString( KFSConstants.ENVIRONMENT_KEY );
         boolean isRetransmit = true;
         boolean result = true;
         List<PurchaseOrderItem> items = po.getItems();
@@ -292,7 +292,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             
         if (generatePDFErrors.size() > 0) {
             for (String error: generatePDFErrors) {
-                GlobalVariables.getErrorMap().putError(Constants.GLOBAL_ERRORS, PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, error);
+                GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, error);
             }
             result = false;
         }
@@ -437,10 +437,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     public void setCurrentAndPendingIndicatorsInPostProcessor(PurchaseOrderDocument newPO, String workflowState) {
-        if (workflowState.equals(Constants.DocumentStatusCodes.APPROVED)) {
+        if (workflowState.equals(KFSConstants.DocumentStatusCodes.APPROVED)) {
             setCurrentAndPendingIndicatorsForApprovedPODocuments(newPO);
         } 
-        else if (workflowState.equals(Constants.DocumentStatusCodes.DISAPPROVED)) {
+        else if (workflowState.equals(KFSConstants.DocumentStatusCodes.DISAPPROVED)) {
             setCurrentAndPendingIndicatorsForDisapprovedPODocuments(newPO);
         }
     }

@@ -38,8 +38,8 @@ import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -387,13 +387,13 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
 
         /* make sure payee is nra */
         if (!document.getDvPayeeDetail().isDisbVchrAlienPaymentCode()) {
-            errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KeyConstants.ERROR_DV_GENERATE_TAX_NOT_NRA);
+            errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_GENERATE_TAX_NOT_NRA);
             return false;
         }
 
         /* don't generate tax if reference doc is given */
         if (StringUtils.isNotBlank(document.getDvNonResidentAlienTax().getReferenceFinancialDocumentNumber())) {
-            errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KeyConstants.ERROR_DV_GENERATE_TAX_DOC_REFERENCE);
+            errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_GENERATE_TAX_DOC_REFERENCE);
             return false;
         }
 
@@ -401,31 +401,31 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
         // check attributes needed to generate lines
         /* need at least 1 line */
         if (!(document.getSourceAccountingLines().size() >= 1)) {
-            errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KeyConstants.ERROR_DV_GENERATE_TAX_NO_SOURCE);
+            errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_GENERATE_TAX_NO_SOURCE);
             return false;
         }
 
         /* make sure both fed and state tax percents are not 0, in which case there is no need to generate lines */
         if (new KualiDecimal(0).equals(document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent()) && new KualiDecimal(0).equals(document.getDvNonResidentAlienTax().getStateIncomeTaxPercent())) {
-            errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KeyConstants.ERROR_DV_GENERATE_TAX_BOTH_0);
+            errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_GENERATE_TAX_BOTH_0);
             return false;
         }
 
         /* check total cannot be negative */
-        if (Constants.ZERO.compareTo(document.getDisbVchrCheckTotalAmount()) == 1) {
-            errors.putErrorWithoutFullErrorPath("document.disbVchrCheckTotalAmount", KeyConstants.ERROR_NEGATIVE_OR_ZERO_CHECK_TOTAL);
+        if (KFSConstants.ZERO.compareTo(document.getDisbVchrCheckTotalAmount()) == 1) {
+            errors.putErrorWithoutFullErrorPath("document.disbVchrCheckTotalAmount", KFSKeyConstants.ERROR_NEGATIVE_OR_ZERO_CHECK_TOTAL);
             return false;
         }
 
         /* total accounting lines cannot be negative */
-        if (Constants.ZERO.compareTo(document.getSourceTotal()) == 1) {
-            errors.putErrorWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_NEGATIVE_ACCOUNTING_TOTAL);
+        if (KFSConstants.ZERO.compareTo(document.getSourceTotal()) == 1) {
+            errors.putErrorWithoutFullErrorPath(KFSConstants.ACCOUNTING_LINE_ERRORS, KFSKeyConstants.ERROR_NEGATIVE_ACCOUNTING_TOTAL);
             return false;
         }
 
         /* total of accounting lines must match check total */
         if (document.getDisbVchrCheckTotalAmount().compareTo(document.getSourceTotal()) != 0) {
-            errors.putErrorWithoutFullErrorPath(Constants.ACCOUNTING_LINE_ERRORS, KeyConstants.ERROR_CHECK_ACCOUNTING_TOTAL);
+            errors.putErrorWithoutFullErrorPath(KFSConstants.ACCOUNTING_LINE_ERRORS, KFSKeyConstants.ERROR_CHECK_ACCOUNTING_TOTAL);
             return false;
         }
 

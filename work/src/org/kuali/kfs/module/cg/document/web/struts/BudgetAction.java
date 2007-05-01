@@ -34,7 +34,7 @@ import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.KraKeyConstants;
@@ -68,7 +68,7 @@ public class BudgetAction extends ResearchDocumentActionBase {
         }
 
         if (!GlobalVariables.getErrorMap().isEmpty() && !allowsNavigate(GlobalVariables.getErrorMap())) {
-            return mapping.findForward(Constants.MAPPING_BASIC);
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
         budgetForm.sortCollections();
@@ -99,24 +99,24 @@ public class BudgetAction extends ResearchDocumentActionBase {
         
         BudgetForm budgetForm = (BudgetForm) form;
 
-        Object question = request.getParameter(Constants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
 
         // Logic for DocCancelQuestion.
         if (question == null) {
             // Ask for confirmation.
-            return this.performQuestionWithoutInput(mapping, form, request, response, Constants.DOCUMENT_DELETE_QUESTION, KraConstants.QUESTION_ROUTE_DOCUMENT_TO_COMPLETE, Constants.CONFIRMATION_QUESTION, "route", "0");
+            return this.performQuestionWithoutInput(mapping, form, request, response, KFSConstants.DOCUMENT_DELETE_QUESTION, KraConstants.QUESTION_ROUTE_DOCUMENT_TO_COMPLETE, KFSConstants.CONFIRMATION_QUESTION, "route", "0");
         }
 
-        Object buttonClicked = request.getParameter(Constants.QUESTION_CLICKED_BUTTON);
+        Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
 
-        if ((Constants.DOCUMENT_DELETE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+        if ((KFSConstants.DOCUMENT_DELETE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
             budgetForm.setAdHocRoutePersons(convertToAdHocRoutePersons(budgetForm.getBudgetDocument().getAdhocPersons()));
             budgetForm.setAdHocRouteWorkgroups(convertToAdHocRouteWorkgroups(budgetForm.getBudgetDocument().getAdhocWorkgroups()));
             return super.route(mapping, form, request, response);
         }
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
 
     }
 
@@ -131,7 +131,7 @@ public class BudgetAction extends ResearchDocumentActionBase {
      */
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
-        budgetForm.setMethodToCall(Constants.SAVE_METHOD);
+        budgetForm.setMethodToCall(KFSConstants.SAVE_METHOD);
 
         // Check if user has permission to save
         budgetForm.populateAuthorizationFields(SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(budgetForm.getBudgetDocument()));
@@ -143,7 +143,7 @@ public class BudgetAction extends ResearchDocumentActionBase {
             budgetForm.newTabState(true, true);
             return mapping.findForward("auditmode");
         }
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -162,11 +162,11 @@ public class BudgetAction extends ResearchDocumentActionBase {
         budgetForm.setDocId(budgetForm.getBudgetDocument().getDocumentNumber());
         this.loadDocument(budgetForm);
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward update(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward overview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

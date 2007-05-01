@@ -16,24 +16,24 @@
 
 package org.kuali.module.financial.bo;
 
-import static org.kuali.kfs.KeyConstants.AccountingLineParser.ERROR_INVALID_PROPERTY_VALUE;
-import static org.kuali.kfs.KeyConstants.AccountingLineParser.ERROR_TOO_MANY_AMOUNTS;
-import static org.kuali.kfs.PropertyConstants.ACCOUNT_NUMBER;
-import static org.kuali.kfs.PropertyConstants.CHART_OF_ACCOUNTS_CODE;
-import static org.kuali.kfs.PropertyConstants.CREDIT;
-import static org.kuali.kfs.PropertyConstants.DEBIT;
-import static org.kuali.kfs.PropertyConstants.FINANCIAL_OBJECT_CODE;
-import static org.kuali.kfs.PropertyConstants.FINANCIAL_SUB_OBJECT_CODE;
-import static org.kuali.kfs.PropertyConstants.ORGANIZATION_REFERENCE_ID;
-import static org.kuali.kfs.PropertyConstants.OVERRIDE_CODE;
-import static org.kuali.kfs.PropertyConstants.PROJECT_CODE;
-import static org.kuali.kfs.PropertyConstants.SUB_ACCOUNT_NUMBER;
+import static org.kuali.kfs.KFSKeyConstants.AccountingLineParser.ERROR_INVALID_PROPERTY_VALUE;
+import static org.kuali.kfs.KFSKeyConstants.AccountingLineParser.ERROR_TOO_MANY_AMOUNTS;
+import static org.kuali.kfs.KFSPropertyConstants.ACCOUNT_NUMBER;
+import static org.kuali.kfs.KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
+import static org.kuali.kfs.KFSPropertyConstants.CREDIT;
+import static org.kuali.kfs.KFSPropertyConstants.DEBIT;
+import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
+import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE;
+import static org.kuali.kfs.KFSPropertyConstants.ORGANIZATION_REFERENCE_ID;
+import static org.kuali.kfs.KFSPropertyConstants.OVERRIDE_CODE;
+import static org.kuali.kfs.KFSPropertyConstants.PROJECT_CODE;
+import static org.kuali.kfs.KFSPropertyConstants.SUB_ACCOUNT_NUMBER;
 
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLineParserBase;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.exceptions.AccountingLineParserException;
@@ -87,12 +87,12 @@ public class AuxiliaryVoucherAccountingLineParser extends AccountingLineParserBa
         String debitCreditCode = null;
         if (debitAmount != null && debitAmount.isNonZero()) {
             amount = debitAmount;
-            debitCreditCode = Constants.GL_DEBIT_CODE;
+            debitCreditCode = KFSConstants.GL_DEBIT_CODE;
         }
 
         if (creditAmount != null && creditAmount.isNonZero()) {
             amount = creditAmount;
-            debitCreditCode = Constants.GL_CREDIT_CODE;
+            debitCreditCode = KFSConstants.GL_CREDIT_CODE;
         }
 
         sourceAccountingLine.setAmount(amount);

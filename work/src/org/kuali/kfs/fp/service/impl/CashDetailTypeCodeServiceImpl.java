@@ -28,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CashDetailTypeCodeServiceImpl implements CashDetailTypeCodeService {
     private KualiCodeService kualiCodeService;
 
-    // Constants for doing the actual lookups
+    // KFSConstants for doing the actual lookups
     public final static String CASH_RECEIPT_CHECK = "CRCHK";
     public final static String CASH_RECEIPT_COIN = "CRCOIN";
 

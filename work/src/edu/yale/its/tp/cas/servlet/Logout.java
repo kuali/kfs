@@ -26,7 +26,7 @@ import edu.yale.its.tp.cas.ticket.*;
 public class Logout extends HttpServlet {
 
   //*********************************************************************
-  // Constants
+  // KFSConstants
 
   private static final String TGC_ID = "CASTGC";
 

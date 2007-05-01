@@ -24,7 +24,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.bo.ApplicationConstant;
 import org.kuali.core.bo.KualiCode;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.dao.KualiCodeDao;
 import org.kuali.module.cg.bo.AgencyType;
 import org.kuali.module.chart.bo.FundGroup;
@@ -174,7 +174,7 @@ public class KualiCodeDaoOjb extends PlatformAwareDaoBaseOjb implements KualiCod
      */
     public Collection getAllActive(Class queryClass) {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("FIN_OBJ_ACTIVE_CD", Constants.ACTIVE_INDICATOR);
+        criteria.addEqualTo("FIN_OBJ_ACTIVE_CD", KFSConstants.ACTIVE_INDICATOR);
         if (KualiSystemCode.class.isAssignableFrom(queryClass)) {
             criteria.addEqualTo("className", queryClass.getName());
             queryClass = KualiSystemCode.class;

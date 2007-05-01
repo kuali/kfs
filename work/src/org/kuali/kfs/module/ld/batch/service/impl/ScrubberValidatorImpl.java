@@ -20,8 +20,8 @@ import java.util.List;
 
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
-import org.kuali.kfs.KeyConstants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.service.AccountService;
@@ -96,10 +96,10 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             // Retrieve these objects because the fiscal year is the primary key for them
             
             
-            persistenceService.retrieveReferenceObject(laborOriginEntry, PropertyConstants.FINANCIAL_SUB_OBJECT);
-            persistenceService.retrieveReferenceObject(laborOriginEntry, PropertyConstants.FINANCIAL_OBJECT);
-            persistenceService.retrieveReferenceObject(laborOriginEntry, PropertyConstants.ACCOUNTING_PERIOD);
-            persistenceService.retrieveReferenceObject(laborOriginEntry, PropertyConstants.OPTION);
+            persistenceService.retrieveReferenceObject(laborOriginEntry, KFSPropertyConstants.FINANCIAL_SUB_OBJECT);
+            persistenceService.retrieveReferenceObject(laborOriginEntry, KFSPropertyConstants.FINANCIAL_OBJECT);
+            persistenceService.retrieveReferenceObject(laborOriginEntry, KFSPropertyConstants.ACCOUNTING_PERIOD);
+            persistenceService.retrieveReferenceObject(laborOriginEntry, KFSPropertyConstants.OPTION);
         }
         else {
             laborWorkingEntry.setUniversityFiscalYear(laborOriginEntry.getUniversityFiscalYear());
@@ -107,7 +107,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
 
         if (laborOriginEntry.getOption() == null) {
-            return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_UNIV_FISCAL_YR_NOT_FOUND) + " (" + laborOriginEntry.getUniversityFiscalYear() + ")", Message.TYPE_FATAL);
+            return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_UNIV_FISCAL_YR_NOT_FOUND) + " (" + laborOriginEntry.getUniversityFiscalYear() + ")", Message.TYPE_FATAL);
         }
         return null;
     }
@@ -127,11 +127,11 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
         else {
             if (laborOriginEntry.getAccountingPeriod() == null) {
-                return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_ACCOUNTING_PERIOD_NOT_FOUND) + " (" + laborOriginEntry.getUniversityFiscalPeriodCode() + ")", Message.TYPE_FATAL);
+                return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_ACCOUNTING_PERIOD_NOT_FOUND) + " (" + laborOriginEntry.getUniversityFiscalPeriodCode() + ")", Message.TYPE_FATAL);
             }
             //don't need to be open.
-            /*else if (Constants.ACCOUNTING_PERIOD_STATUS_CLOSED.equals(originEntry.getAccountingPeriod().getUniversityFiscalPeriodStatusCode())) {
-                return new Message(kualiConfigurationService.getPropertyString(KeyConstants.ERROR_FISCAL_PERIOD_CLOSED) + " (" + originEntry.getUniversityFiscalPeriodCode() + ")", Message.TYPE_FATAL);
+            /*else if (KFSConstants.ACCOUNTING_PERIOD_STATUS_CLOSED.equals(originEntry.getAccountingPeriod().getUniversityFiscalPeriodStatusCode())) {
+                return new Message(kualiConfigurationService.getPropertyString(KFSKeyConstants.ERROR_FISCAL_PERIOD_CLOSED) + " (" + originEntry.getUniversityFiscalPeriodCode() + ")", Message.TYPE_FATAL);
             }
             */
             laborWorkingEntry.setUniversityFiscalPeriodCode(laborOriginEntry.getUniversityFiscalPeriodCode());

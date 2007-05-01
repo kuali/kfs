@@ -22,7 +22,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.cg.bo.Award;
 
 /**
@@ -42,7 +42,7 @@ public class AwardRuleUtil {
 
         Long proposalNumber = award.getProposalNumber();
         Map<String, Object> awardPrimaryKeys = new HashMap<String, Object>();
-        awardPrimaryKeys.put(PropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+        awardPrimaryKeys.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
         Award result = (Award) getBusinessObjectService().findByPrimaryKey(Award.class, awardPrimaryKeys);
 
         boolean awarded = ObjectUtils.isNotNull(result) && !StringUtils.equals(award.getObjectId(), result.getObjectId());
@@ -63,7 +63,7 @@ public class AwardRuleUtil {
 
         Long proposalNumber = award.getProposalNumber();
         Map<String, Object> awardPrimaryKeys = new HashMap<String, Object>();
-        awardPrimaryKeys.put(PropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+        awardPrimaryKeys.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
         Award result = (Award) getBusinessObjectService().findByPrimaryKey(Award.class, awardPrimaryKeys);
 
         boolean inactive = ObjectUtils.isNotNull(result) && !result.isActive();

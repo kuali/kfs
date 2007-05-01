@@ -22,7 +22,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.util.SpringServiceLocator;
 
@@ -178,7 +178,7 @@ public class AccountingPeriod extends PersistableBusinessObjectBase {
      * @return true if the accounting period is open; otherwise, false
      */
     public boolean isOpen(){       
-        return Constants.ACCOUNTING_PERIOD_STATUS_OPEN.equals(this.getUniversityFiscalPeriodStatusCode());
+        return KFSConstants.ACCOUNTING_PERIOD_STATUS_OPEN.equals(this.getUniversityFiscalPeriodStatusCode());
     }
 
     /**

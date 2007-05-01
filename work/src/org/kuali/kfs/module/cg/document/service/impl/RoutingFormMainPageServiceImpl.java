@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.kra.routingform.bo.DueDateType;
 import org.kuali.module.kra.routingform.bo.PersonRole;
 import org.kuali.module.kra.routingform.bo.ProjectType;
@@ -67,7 +67,7 @@ public class RoutingFormMainPageServiceImpl implements RoutingFormMainPageServic
      */
     public List<DueDateType> getDueDateTypes() {
         Map fieldValues = new HashMap();
-        fieldValues.put(PropertyConstants.DATA_OBJECT_MAINTENANCE_CODE_ACTIVE_INDICATOR, Constants.ACTIVE_INDICATOR);
+        fieldValues.put(KFSPropertyConstants.DATA_OBJECT_MAINTENANCE_CODE_ACTIVE_INDICATOR, KFSConstants.ACTIVE_INDICATOR);
         
         return new ArrayList(businessObjectService.findMatching(DueDateType.class, fieldValues));
     }
@@ -77,9 +77,9 @@ public class RoutingFormMainPageServiceImpl implements RoutingFormMainPageServic
      */
     public List<PersonRole> getPersonRoles() {
         Map fieldValues = new HashMap();
-        fieldValues.put(PropertyConstants.DATA_OBJECT_MAINTENANCE_CODE_ACTIVE_INDICATOR, Constants.ACTIVE_INDICATOR);
+        fieldValues.put(KFSPropertyConstants.DATA_OBJECT_MAINTENANCE_CODE_ACTIVE_INDICATOR, KFSConstants.ACTIVE_INDICATOR);
         
-        Collection col = businessObjectService.findMatchingOrderBy(PersonRole.class, fieldValues, PropertyConstants.PERSON_ROLE_SORT_NUMBER, true);
+        Collection col = businessObjectService.findMatchingOrderBy(PersonRole.class, fieldValues, KFSPropertyConstants.PERSON_ROLE_SORT_NUMBER, true);
         
         return new ArrayList(col);
     }
@@ -89,9 +89,9 @@ public class RoutingFormMainPageServiceImpl implements RoutingFormMainPageServic
      */
     public List<ProjectType> getProjectTypes() {
         Map fieldValues = new HashMap();
-        fieldValues.put(PropertyConstants.DATA_OBJECT_MAINTENANCE_CODE_ACTIVE_INDICATOR, Constants.ACTIVE_INDICATOR);
+        fieldValues.put(KFSPropertyConstants.DATA_OBJECT_MAINTENANCE_CODE_ACTIVE_INDICATOR, KFSConstants.ACTIVE_INDICATOR);
         
-        Collection col = businessObjectService.findMatchingOrderBy(ProjectType.class, fieldValues, PropertyConstants.SORT_NUMBER, true);
+        Collection col = businessObjectService.findMatchingOrderBy(ProjectType.class, fieldValues, KFSPropertyConstants.SORT_NUMBER, true);
         
         return new ArrayList(col);
     }
@@ -101,7 +101,7 @@ public class RoutingFormMainPageServiceImpl implements RoutingFormMainPageServic
      */
     public List<ResearchTypeCode> getResearchTypeCodes() {
         Map fieldValues = new HashMap();
-        fieldValues.put(PropertyConstants.DATA_OBJECT_MAINTENANCE_CODE_ACTIVE_INDICATOR, Constants.ACTIVE_INDICATOR);
+        fieldValues.put(KFSPropertyConstants.DATA_OBJECT_MAINTENANCE_CODE_ACTIVE_INDICATOR, KFSConstants.ACTIVE_INDICATOR);
         
         Collection col = businessObjectService.findMatching(ResearchTypeCode.class, fieldValues);
         
@@ -113,9 +113,9 @@ public class RoutingFormMainPageServiceImpl implements RoutingFormMainPageServic
      */
     public List<SubmissionType> getSubmissionTypes() {
         Map fieldValues = new HashMap();
-        fieldValues.put(PropertyConstants.DATA_OBJECT_MAINTENANCE_CODE_ACTIVE_INDICATOR, Constants.ACTIVE_INDICATOR);
+        fieldValues.put(KFSPropertyConstants.DATA_OBJECT_MAINTENANCE_CODE_ACTIVE_INDICATOR, KFSConstants.ACTIVE_INDICATOR);
         
-        Collection col = businessObjectService.findMatchingOrderBy(SubmissionType.class, fieldValues, PropertyConstants.USER_SORT_NUMBER, true);
+        Collection col = businessObjectService.findMatchingOrderBy(SubmissionType.class, fieldValues, KFSPropertyConstants.USER_SORT_NUMBER, true);
         
         return new ArrayList(col);
     }

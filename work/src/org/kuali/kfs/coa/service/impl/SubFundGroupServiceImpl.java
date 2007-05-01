@@ -17,7 +17,7 @@ package org.kuali.module.chart.service.impl;
 
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.chart.bo.FundGroup;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.dao.SubFundGroupDao;
@@ -47,10 +47,10 @@ public class SubFundGroupServiceImpl implements SubFundGroupService {
      */
     public String getContractsAndGrantsDenotingAttributeLabel() {
         if (fundGroupDenotesContractsAndGrants()) {
-            return dataDictionaryService.getAttributeLabel(FundGroup.class, Constants.FUND_GROUP_CODE_PROPERTY_NAME);
+            return dataDictionaryService.getAttributeLabel(FundGroup.class, KFSConstants.FUND_GROUP_CODE_PROPERTY_NAME);
         }
         else {
-            return dataDictionaryService.getAttributeLabel(SubFundGroup.class, Constants.SUB_FUND_GROUP_CODE_PROPERTY_NAME);
+            return dataDictionaryService.getAttributeLabel(SubFundGroup.class, KFSConstants.SUB_FUND_GROUP_CODE_PROPERTY_NAME);
         }
     }
     
@@ -58,11 +58,11 @@ public class SubFundGroupServiceImpl implements SubFundGroupService {
      * @see org.kuali.module.chart.service.SubFundGroupService#getContractsAndGrantsDenotingValue()
      */
     public String getContractsAndGrantsDenotingValue() {
-        return configurationService.getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, Constants.ChartApcParms.ACCOUNT_CG_DENOTING_VALUE);
+        return configurationService.getApplicationParameterValue(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, KFSConstants.ChartApcParms.ACCOUNT_CG_DENOTING_VALUE);
     }
 
     private boolean fundGroupDenotesContractsAndGrants() {
-        return configurationService.getApplicationParameterIndicator(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, Constants.ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG);
+        return configurationService.getApplicationParameterIndicator(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, KFSConstants.ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG);
     }
 
     /**

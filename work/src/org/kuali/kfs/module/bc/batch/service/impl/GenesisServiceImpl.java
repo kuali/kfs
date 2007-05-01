@@ -17,8 +17,8 @@ package org.kuali.module.budget.service.impl;
 
 import java.lang.*;
 
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.Constants.*;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSConstants.*;
 import org.kuali.module.budget.dao.GenesisDao;
 import org.kuali.module.budget.dao.ojb.GenesisDaoOjb;
 import org.kuali.module.budget.service.GenesisService;
@@ -114,7 +114,7 @@ public class GenesisServiceImpl implements GenesisService {
       {
 
           if (genesisDao.getBudgetConstructionControlFlag(universityFiscalYear,
-                  Constants.BudgetConstructionConstants.BUDGET_CONSTRUCTION_GENESIS_RUNNING))
+                  KFSConstants.BudgetConstructionConstants.BUDGET_CONSTRUCTION_GENESIS_RUNNING))
           {
               // wipe out BC HEADER with deleteByQuery
               // wipe out appointment funding GL
@@ -129,9 +129,9 @@ public class GenesisServiceImpl implements GenesisService {
               return;
           };
           if (genesisDao.getBudgetConstructionControlFlag(universityFiscalYear,
-                     Constants.BudgetConstructionConstants.BUDGET_CONSTRUCTION_ACTIVE) &&
+                     KFSConstants.BudgetConstructionConstants.BUDGET_CONSTRUCTION_ACTIVE) &&
                      genesisDao.getBudgetConstructionControlFlag(universityFiscalYear,
-                     Constants.BudgetConstructionConstants.BASE_BUDGET_UPDATES_OK))
+                     KFSConstants.BudgetConstructionConstants.BASE_BUDGET_UPDATES_OK))
           {   
               // this is the more complicated branch that updates the BC GL
               // there should be a private method called here, as in the first branch

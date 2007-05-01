@@ -20,7 +20,7 @@ import org.kuali.core.document.Document;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.module.cg.bo.Close;
 import org.kuali.module.cg.document.CloseDocument;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 
 import java.sql.Date;
@@ -45,7 +45,7 @@ public class CloseDocumentRule extends TransactionalDocumentRuleBase {
         if(!isOk) {
             GlobalVariables.getErrorMap().putError(
                     "userInitiatedCloseDate",
-                    KeyConstants.ContractsAndGrants.USER_INITIATED_DATE_TOO_EARLY, userDate.toString());
+                    KFSKeyConstants.ContractsAndGrants.USER_INITIATED_DATE_TOO_EARLY, userDate.toString());
         }
         return isOk;
     }

@@ -29,7 +29,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.budget.bo.AgencyExtension;
@@ -125,7 +125,7 @@ public class BudgetParametersAction extends BudgetAction {
             budgetForm.getBudgetDocument().getBudget().getModularBudget().setBudgetModularTaskNumber(budgetModularTaskNumber);
         }
 
-        Object question = request.getParameter(Constants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
 
         // Logic for Cost Share question.
@@ -147,7 +147,7 @@ public class BudgetParametersAction extends BudgetAction {
             return super.overview(mapping, budgetForm, request, response);
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward copyFringeRateLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -159,7 +159,7 @@ public class BudgetParametersAction extends BudgetAction {
             budgetFringeRate.setContractsAndGrantsFringeRateAmount(budgetFringeRate.getAppointmentTypeFringeRateAmount());
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward copyInstitutionCostShareLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -171,7 +171,7 @@ public class BudgetParametersAction extends BudgetAction {
             budgetFringeRate.setInstitutionCostShareFringeRateAmount(budgetFringeRate.getAppointmentTypeCostShareFringeRateAmount());
         }
 
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /*
@@ -251,7 +251,7 @@ public class BudgetParametersAction extends BudgetAction {
             graduateAssistantRate.set(i, budgetGraduateAssistantRate);
             i++;
         }
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
 
@@ -265,7 +265,7 @@ public class BudgetParametersAction extends BudgetAction {
             budgetForm.getBudgetDocument().addPeriod(budgetForm.getNewPeriod());
             budgetForm.setNewPeriod(new BudgetPeriod());
         }
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward deletePeriodLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -276,7 +276,7 @@ public class BudgetParametersAction extends BudgetAction {
             return preRulesForward;
         }
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward insertTaskLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -284,7 +284,7 @@ public class BudgetParametersAction extends BudgetAction {
         budgetForm.getBudgetDocument().addTask(budgetForm.getNewTask());
         budgetForm.setNewTask(new BudgetTask());
         budgetForm.getNewTask().setBudgetTaskOnCampus(true);
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward deleteTaskLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -295,17 +295,17 @@ public class BudgetParametersAction extends BudgetAction {
             return preRulesForward;
         }
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.refresh(mapping, form, request, response);
         BudgetForm budgetForm = (BudgetForm) form;
         Budget budget = budgetForm.getBudgetDocument().getBudget();
-        if (request.getParameter(Constants.REFRESH_CALLER) != null) {
-            String refreshCaller = request.getParameter(Constants.REFRESH_CALLER);
+        if (request.getParameter(KFSConstants.REFRESH_CALLER) != null) {
+            String refreshCaller = request.getParameter(KFSConstants.REFRESH_CALLER);
             // check to see if we are coming back from a lookup
-            if (refreshCaller.equals(Constants.KUALI_LOOKUPABLE_IMPL)) {
+            if (refreshCaller.equals(KFSConstants.KUALI_LOOKUPABLE_IMPL)) {
                 if ("true".equals(request.getParameter("document.budget.agencyToBeNamedIndicator"))) {
                     // coming back from Agency lookup - To Be Named selected
                     budget.setBudgetAgency(null);
@@ -342,7 +342,7 @@ public class BudgetParametersAction extends BudgetAction {
                 }
             }
         }
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     private static void resetModularBudget(Budget budget, BudgetModular modularBudget) {
@@ -351,6 +351,6 @@ public class BudgetParametersAction extends BudgetAction {
     }
 
     public ActionForward basic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 }

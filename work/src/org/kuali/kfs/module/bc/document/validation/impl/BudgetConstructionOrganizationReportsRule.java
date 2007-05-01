@@ -19,8 +19,8 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
 import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
@@ -127,7 +127,7 @@ public class BudgetConstructionOrganizationReportsRule extends MaintenanceDocume
             // Check the Org Type of the Org business object to see if it is the root (reports to self) 
             
             if ( ObjectUtils.isNotNull(tempOrg)){
-                if (applyApcRule(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, Constants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, tempOrg.getOrganizationTypeCode())) {
+                if (applyApcRule(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, tempOrg.getOrganizationTypeCode())) {
                     orgMustReportToSelf = true;
                 }
             }
@@ -143,7 +143,7 @@ public class BudgetConstructionOrganizationReportsRule extends MaintenanceDocume
                 
                 if ((newBCOrgReports.getReportsToChartOfAccountsCode().equals(newBCOrgReports.getChartOfAccountsCode())) 
                         && (newBCOrgReports.getReportsToOrganizationCode().equals(newBCOrgReports.getOrganizationCode()))) {
-                    putFieldError("reportsToOrganizationCode", KeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_CANNOT_BE_SAME_ORG);
+                    putFieldError("reportsToOrganizationCode", KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_CANNOT_BE_SAME_ORG);
                     success = false;
                 } else {
                     // Don't allow a circular reference on Reports to Chart/Org
@@ -160,7 +160,7 @@ public class BudgetConstructionOrganizationReportsRule extends MaintenanceDocume
                             // if a null is returned on the first iteration, then the reports-to org does not exist
                             // fail the validation
                             if ( loopCount == 1 ) {
-                                putFieldError("reportsToOrganizationCode", KeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_MUST_EXIST);
+                                putFieldError("reportsToOrganizationCode", KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_MUST_EXIST);
                                 success = false;
                             }
                         } else {
@@ -171,7 +171,7 @@ public class BudgetConstructionOrganizationReportsRule extends MaintenanceDocume
                                 
                                 if ((tempBCOrgReports.getReportsToChartOfAccountsCode().equals(newBCOrgReports.getChartOfAccountsCode())) 
                                         && (tempBCOrgReports.getReportsToOrganizationCode().equals(newBCOrgReports.getOrganizationCode())) ) {
-                                    putFieldError("reportsToOrganizationCode", KeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_CANNOT_BE_CIRCULAR_REF_TO_SAME_ORG);
+                                    putFieldError("reportsToOrganizationCode", KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_CANNOT_BE_CIRCULAR_REF_TO_SAME_ORG);
                                     success = false;
                                     continueSearch = false;
                                 }
@@ -193,7 +193,7 @@ public class BudgetConstructionOrganizationReportsRule extends MaintenanceDocume
             } else { // org must report to self (university level organization)
                 if ( !(newBCOrgReports.getReportsToChartOfAccountsCode().equals(newBCOrgReports.getChartOfAccountsCode()) 
                         && newBCOrgReports.getReportsToOrganizationCode().equals(newBCOrgReports.getOrganizationCode()) ) ) {
-                    putFieldError("reportsToOrganizationCode", KeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_MUST_BE_SAME_ORG);
+                    putFieldError("reportsToOrganizationCode", KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_MUST_BE_SAME_ORG);
                     success = false;
                 }
             }
@@ -225,11 +225,11 @@ public class BudgetConstructionOrganizationReportsRule extends MaintenanceDocume
                if (transactionUserId.equals(chartUserId)||transactionUserId.equals(rootChartUserId)){
                    success = true;
                }else{
-                   putFieldError("chartOfAccountsCode", KeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_USER_MUST_BE_CHART_MANAGER_OR_ROOT_MANAGER);
+                   putFieldError("chartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_USER_MUST_BE_CHART_MANAGER_OR_ROOT_MANAGER);
                    success = false;
                }
         } else{
-            putFieldError("chartOfAccountsCode", KeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_USER_MUST_BE_CHART_MANAGER_OR_ROOT_MANAGER);
+            putFieldError("chartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_USER_MUST_BE_CHART_MANAGER_OR_ROOT_MANAGER);
             success = false;
         }
 //        LOG.info("transactionUserId = " + transactionUserId );

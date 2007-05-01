@@ -21,7 +21,7 @@ import java.util.List;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.CurrencyFormatter;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.AdvanceDepositDetail;
 
@@ -120,7 +120,7 @@ public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Cop
      */
     public final void prepareNewAdvanceDeposit(AdvanceDepositDetail advanceDepositDetail) {
         advanceDepositDetail.setFinancialDocumentLineNumber(this.nextAdvanceDepositLineNumber);
-        advanceDepositDetail.setFinancialDocumentColumnTypeCode(Constants.AdvanceDepositConstants.CASH_RECEIPT_ADVANCE_DEPOSIT_COLUMN_TYPE_CODE);
+        advanceDepositDetail.setFinancialDocumentColumnTypeCode(KFSConstants.AdvanceDepositConstants.CASH_RECEIPT_ADVANCE_DEPOSIT_COLUMN_TYPE_CODE);
         advanceDepositDetail.setDocumentNumber(this.getDocumentNumber());
         advanceDepositDetail.setFinancialDocumentTypeCode(SpringServiceLocator.getDocumentTypeService().getDocumentTypeCodeByClass(this.getClass()));
     }

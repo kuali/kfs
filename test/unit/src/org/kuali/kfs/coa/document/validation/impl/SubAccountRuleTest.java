@@ -25,7 +25,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.SubAccount;
@@ -243,7 +243,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
         boolean result = rule.checkForPartiallyEnteredReportingFields();
         assertEquals(false, result);
         assertGlobalErrorMapSize(1);
-        assertGlobalErrorExists(KeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_RPTCODE_ALL_FIELDS_IF_ANY_FIELDS);
+        assertGlobalErrorExists(KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_RPTCODE_ALL_FIELDS_IF_ANY_FIELDS);
         GlobalVariables.getErrorMap().clear();
     }
 
@@ -332,7 +332,7 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
         // confirm that there are no errors to begin with
         assertGlobalErrorMapEmpty();
         assertEquals(false, rule.checkCgRules(maintDoc));
-        assertFieldErrorExists(fieldName, KeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_INVALI_SUBACCOUNT_TYPE_CODES);
+        assertFieldErrorExists(fieldName, KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_INVALI_SUBACCOUNT_TYPE_CODES);
         assertGlobalErrorMapSize(1);
     }
 

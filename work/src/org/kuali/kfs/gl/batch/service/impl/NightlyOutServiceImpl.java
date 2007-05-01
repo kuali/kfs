@@ -19,7 +19,7 @@ import java.sql.Date;
 import java.util.Iterator;
 
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.gl.bo.OriginEntry;
@@ -54,7 +54,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
     public void deleteCopiedPendingLedgerEntries() {
         LOG.debug("deleteCopiedPendingLedgerEntries() started");
 
-        generalLedgerPendingEntryService.deleteByFinancialDocumentApprovedCode(Constants.DV_PAYMENT_REASON_NONEMPLOYEE_HONORARIUM);
+        generalLedgerPendingEntryService.deleteByFinancialDocumentApprovedCode(KFSConstants.DV_PAYMENT_REASON_NONEMPLOYEE_HONORARIUM);
     }
 
     /**

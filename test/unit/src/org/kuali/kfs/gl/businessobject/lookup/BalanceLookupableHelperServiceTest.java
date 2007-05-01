@@ -22,7 +22,7 @@ import java.util.Map;
 
 import org.kuali.test.WithTestSpringContext;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.GLSpringBeansRegistry;
 import org.kuali.module.gl.bo.Balance;
@@ -291,10 +291,10 @@ public class BalanceLookupableHelperServiceTest extends AbstractGLLookupableHelp
     public List getLookupFields(boolean isExtended) {
         List lookupFields = new ArrayList();
 
-        lookupFields.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        lookupFields.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        lookupFields.add(PropertyConstants.ACCOUNT_NUMBER);
-        lookupFields.add(PropertyConstants.BALANCE_TYPE_CODE);
+        lookupFields.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        lookupFields.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        lookupFields.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        lookupFields.add(KFSPropertyConstants.BALANCE_TYPE_CODE);
 
         lookupFields.add(Constant.CONSOLIDATION_OPTION);
         lookupFields.add(Constant.PENDING_ENTRY_OPTION);
@@ -302,10 +302,10 @@ public class BalanceLookupableHelperServiceTest extends AbstractGLLookupableHelp
 
         // include the extended fields
         if (isExtended) {
-            lookupFields.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
-            lookupFields.add(PropertyConstants.OBJECT_CODE);
-            lookupFields.add(PropertyConstants.SUB_OBJECT_CODE);
-            lookupFields.add(PropertyConstants.OBJECT_TYPE_CODE);
+            lookupFields.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+            lookupFields.add(KFSPropertyConstants.OBJECT_CODE);
+            lookupFields.add(KFSPropertyConstants.SUB_OBJECT_CODE);
+            lookupFields.add(KFSPropertyConstants.OBJECT_TYPE_CODE);
         }
         return lookupFields;
     }

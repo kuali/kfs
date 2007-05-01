@@ -31,8 +31,8 @@ import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ChartUser;
@@ -267,7 +267,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
                 childAccountList.append(", ... (" + (childAccounts.size() - count) + " more)");
             }
 
-            putGlobalError(KeyConstants.ERROR_DOCUMENT_ORGMAINT_OPEN_CHILD_ACCOUNTS_ON_ORG_CLOSURE, childAccountList.toString());
+            putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_OPEN_CHILD_ACCOUNTS_ON_ORG_CLOSURE, childAccountList.toString());
             success &= false;
         }
 
@@ -295,7 +295,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
                 childOrgsList.append(", ... (" + (childOrgs.size() - count) + " more)");
             }
 
-            putGlobalError(KeyConstants.ERROR_DOCUMENT_ORGMAINT_OPEN_CHILD_ORGS_ON_ORG_CLOSURE, childOrgsList.toString());
+            putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_OPEN_CHILD_ORGS_ON_ORG_CLOSURE, childOrgsList.toString());
             success &= false;
         }
 
@@ -303,7 +303,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         // if org is being closed, end-date must be valid and present
         if (ObjectUtils.isNull(newOrg.getOrganizationEndDate())) {
             success &= false;
-            putFieldError("organizationEndDate", KeyConstants.ERROR_DOCUMENT_ORGMAINT_END_DATE_REQUIRED_ON_ORG_CLOSURE);
+            putFieldError("organizationEndDate", KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_END_DATE_REQUIRED_ON_ORG_CLOSURE);
         }
         return success;
 
@@ -358,7 +358,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
             Date endDate = newOrg.getOrganizationEndDate();
 
             if (endDate.before(beginDate)) {
-                putFieldError("organizationEndDate", KeyConstants.ERROR_DOCUMENT_ORGMAINT_END_DATE_GREATER_THAN_BEGIN_DATE);
+                putFieldError("organizationEndDate", KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_END_DATE_GREATER_THAN_BEGIN_DATE);
                 success &= false;
             }
         }
@@ -368,13 +368,13 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
             Timestamp today = getDateTimeService().getCurrentTimestamp();
             today.setTime(DateUtils.truncate(today, Calendar.DAY_OF_MONTH).getTime());
             if (newOrg.getOrganizationBeginDate().before(today)) {
-                putFieldError("organizationBeginDate", KeyConstants.ERROR_DOCUMENT_ORGMAINT_STARTDATE_IN_PAST);
+                putFieldError("organizationBeginDate", KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_STARTDATE_IN_PAST);
                 success &= false;
             }
         }
         
         boolean orgMustReportToSelf = false;
-        if (applyApcRule(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, Constants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, newOrg.getOrganizationTypeCode())) {
+        if (applyApcRule(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, newOrg.getOrganizationTypeCode())) {
             orgMustReportToSelf = true;
         }
         
@@ -388,7 +388,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
                 
                 if ((newOrg.getReportsToChartOfAccountsCode().equals(newOrg.getChartOfAccountsCode())) 
                         && (newOrg.getReportsToOrganizationCode().equals(newOrg.getOrganizationCode()))) {
-                    putFieldError("reportsToOrganizationCode", KeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_CANNOT_BE_SAME_ORG);
+                    putFieldError("reportsToOrganizationCode", KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_CANNOT_BE_SAME_ORG);
                     success = false;
                 } else {
                     // Don't allow a circular reference on Reports to Chart/Org
@@ -405,13 +405,13 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
                             // if a null is returned on the first iteration, then the reports-to org does not exist
                             // fail the validation
                             if ( loopCount == 1 ) {
-                                putFieldError("reportsToOrganizationCode", KeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_MUST_EXIST);
+                                putFieldError("reportsToOrganizationCode", KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_MUST_EXIST);
                                 success = false;
                             }
                         } else {
                             // on the first iteration, check whether the reports-to organization is active
                             if ( loopCount == 1 && !tempOrg.isOrganizationActiveIndicator() ) {
-                                putFieldError("reportsToOrganizationCode", KeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_MUST_EXIST);
+                                putFieldError("reportsToOrganizationCode", KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_MUST_EXIST);
                                 success = false;
                                 continueSearch = false;
                             } else {
@@ -421,7 +421,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         
                                 if ((tempOrg.getReportsToChartOfAccountsCode().equals(newOrg.getChartOfAccountsCode())) 
                                         && (tempOrg.getReportsToOrganizationCode().equals(newOrg.getOrganizationCode())) ) {
-                                    putFieldError("reportsToOrganizationCode", KeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_CANNOT_BE_CIRCULAR_REF_TO_SAME_ORG);
+                                    putFieldError("reportsToOrganizationCode", KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_CANNOT_BE_CIRCULAR_REF_TO_SAME_ORG);
                                     success = false;
                                     continueSearch = false;
                                 }
@@ -432,7 +432,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
                         }
                         // stop the search if we reach an org that must report to itself 
                         if ( continueSearch 
-                                && applyApcRule(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, Constants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, tempOrg.getOrganizationTypeCode()) ) {
+                                && applyApcRule(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, tempOrg.getOrganizationTypeCode()) ) {
                             continueSearch = false;
                         }
     
@@ -441,18 +441,18 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
             } else { // org must report to self (university level organization)
                 if ( !(newOrg.getReportsToChartOfAccountsCode().equals(newOrg.getChartOfAccountsCode()) 
                         && newOrg.getReportsToOrganizationCode().equals(newOrg.getOrganizationCode()) ) ) {
-                    putFieldError("reportsToOrganizationCode", KeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_MUST_BE_SAME_ORG);
+                    putFieldError("reportsToOrganizationCode", KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_REPORTING_ORG_MUST_BE_SAME_ORG);
                     success = false;
                 }
                 // org must be the only one of that type
-                KualiParameterRule rule = configService.getApplicationParameterRule(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, Constants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES);
+                KualiParameterRule rule = configService.getApplicationParameterRule(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES);
                 String topLevelOrgTypeCode = rule.getParameterText();
                 List<Org> topLevelOrgs = orgService.getActiveOrgsByType( topLevelOrgTypeCode );
                 if ( !topLevelOrgs.isEmpty() ) {
                     // is the new org in the topLevelOrgs list?  If not, then there's an error; if so, we're editing the top level org
                     if (!topLevelOrgs.contains(newOrg)) {
                         putFieldError( "organizationTypeCode", 
-                                KeyConstants.ERROR_DOCUMENT_ORGMAINT_ONLY_ONE_TOP_LEVEL_ORG,
+                                KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_ONLY_ONE_TOP_LEVEL_ORG,
                                 topLevelOrgs.get(0).getChartOfAccountsCode()+"-"+topLevelOrgs.get(0).getOrganizationCode() );
                         success = false;
                     }
@@ -478,12 +478,12 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
 
         if (ObjectUtils.isNotNull(newOrg.getOrganizationTypeCode())) {
             organizationTypeCode = newOrg.getOrganizationTypeCode();
-            if (applyApcRule(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, Constants.ChartApcParms.DEFAULT_ACCOUNT_NOT_REQUIRED_ORG_TYPES, newOrg.getOrganizationTypeCode())) {
+            if (applyApcRule(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, KFSConstants.ChartApcParms.DEFAULT_ACCOUNT_NOT_REQUIRED_ORG_TYPES, newOrg.getOrganizationTypeCode())) {
                 exemptOrganizationTypeCode = true;
             }
         }
         if (missingDefaultAccountNumber && (!exemptOrganizationTypeCode || (!document.isNew() && !document.isEdit()))) {
-            putFieldError("organizationDefaultAccountNumber", KeyConstants.ERROR_DOCUMENT_ORGMAINT_DEFAULT_ACCOUNT_NUMBER_REQUIRED);
+            putFieldError("organizationDefaultAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ORGMAINT_DEFAULT_ACCOUNT_NUMBER_REQUIRED);
             success &= false;
         }
         return success;
@@ -558,7 +558,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean isHrmsOrgActivated() {
 
-        String flag = getConfigService().getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, APC_HRMS_ACTIVE_KEY);
+        String flag = getConfigService().getApplicationParameterValue(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, APC_HRMS_ACTIVE_KEY);
         if (flag.trim().equalsIgnoreCase("Y")) {
             return true;
         }
@@ -605,7 +605,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
     protected boolean isPlantAuthorized(UniversalUser user) {
 
         // attempt to get the group name that grants access to the Plant fields
-        String allowedPlantWorkgroup = getConfigService().getApplicationParameterValue(Constants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, PLANT_WORKGROUP_PARM_NAME);
+        String allowedPlantWorkgroup = getConfigService().getApplicationParameterValue(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, PLANT_WORKGROUP_PARM_NAME);
 
         if (user.isMember( allowedPlantWorkgroup )) {
             LOG.info("User '" + user.getPersonUserIdentifier() + "' is a member of the group '" + allowedPlantWorkgroup + "', which gives them access to the Plant fields.");

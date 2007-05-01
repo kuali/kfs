@@ -20,7 +20,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 
 /**
  * Class representing a RoutingFormResearchRiskTypeStudy.
@@ -255,7 +255,7 @@ public class RoutingFormResearchRiskStudy extends PersistableBusinessObjectBase 
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      
-        m.put(PropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
+        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         if (this.routingFormResearchRiskStudySequenceNumber != null) {
             m.put("routingFormResearchRiskStudySequenceNumber", this.routingFormResearchRiskStudySequenceNumber.toString());
         }

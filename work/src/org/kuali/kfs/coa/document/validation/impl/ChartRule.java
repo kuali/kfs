@@ -19,7 +19,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ChartUser;
@@ -45,7 +45,7 @@ public class ChartRule extends MaintenanceDocumentRuleBase {
             Chart reportsToChart=chartService.getByPrimaryId(reportsToChartCode);
             if (reportsToChart==null) {
                 result = false;
-                putFieldError("reportsToChartOfAccountsCode", KeyConstants.ERROR_DOCUMENT_CHART_REPORTS_TO_CHART_MUST_EXIST);
+                putFieldError("reportsToChartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_CHART_REPORTS_TO_CHART_MUST_EXIST);
             }
         }
         
@@ -54,12 +54,12 @@ public class ChartRule extends MaintenanceDocumentRuleBase {
            chartManager = getUniversalUserService().getUniversalUser( chart.getFinCoaManagerUniversalId() );
          } catch (UserNotFoundException e) {
              result = false;
-             putFieldError("finCoaManagerUniversal.personUserIdentifier",KeyConstants.ERROR_DOCUMENT_CHART_MANAGER_MUST_EXIST);
+             putFieldError("finCoaManagerUniversal.personUserIdentifier",KFSKeyConstants.ERROR_DOCUMENT_CHART_MANAGER_MUST_EXIST);
          }
         
         if (chartManager!=null && !chartManager.isActiveForModule( ChartUser.MODULE_ID ) ) {
             result=false;
-            putFieldError("finCoaManagerUniversal.personUserIdentifier",KeyConstants.ERROR_DOCUMENT_CHART_MANAGER_MUST_BE_KUALI_USER);
+            putFieldError("finCoaManagerUniversal.personUserIdentifier",KFSKeyConstants.ERROR_DOCUMENT_CHART_MANAGER_MUST_BE_KUALI_USER);
         }
         
         

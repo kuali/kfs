@@ -42,7 +42,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.WebUtils;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.budget.web.struts.action.BudgetOutputAction;
 import org.kuali.module.kra.document.ResearchDocument;
@@ -103,7 +103,7 @@ public class RoutingFormOutputAction extends RoutingFormAction {
 
         // Retrieve the environment we're in.
         KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
-        String env = kualiConfigurationService.getPropertyString(Constants.ENVIRONMENT_KEY);
+        String env = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
 
         WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, "kraRoutingForm-" + env + researchDocument.getDocumentNumber() + ".pdf");
 
@@ -144,7 +144,7 @@ public class RoutingFormOutputAction extends RoutingFormAction {
 
         // Retrieve the environment we're in.
         KualiConfigurationService kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
-        String env = kualiConfigurationService.getPropertyString(Constants.ENVIRONMENT_KEY);
+        String env = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
         
         WebUtils.saveMimeOutputStreamAsFile(response, "text/xml", baos, "kraRoutingForm-" + env + researchDocument.getDocumentNumber() + ".xml");
 
@@ -192,7 +192,7 @@ public class RoutingFormOutputAction extends RoutingFormAction {
             urlString = STYLESHEET_URL_OR_PATH;
         }
         else {
-            String APPLICATION_BASE_URL_KEY = kualiConfigurationService.getPropertyString(Constants.APPLICATION_URL_KEY);
+            String APPLICATION_BASE_URL_KEY = kualiConfigurationService.getPropertyString(KFSConstants.APPLICATION_URL_KEY);
             urlString = APPLICATION_BASE_URL_KEY + STYLESHEET_URL_OR_PATH;
         }
 
@@ -214,6 +214,6 @@ public class RoutingFormOutputAction extends RoutingFormAction {
      */
     public ActionForward navigate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.load(mapping, form, request, response);
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 }

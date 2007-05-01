@@ -25,7 +25,7 @@ import org.apache.ojb.broker.accesslayer.QueryCustomizer;
 import org.apache.ojb.broker.metadata.CollectionDescriptor;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 
 /**
  * This customizer constrains the relationship to PendingBudgetConstructionGeneralLedger
@@ -35,7 +35,7 @@ public class OjbPBGLQueryCustomizer implements QueryCustomizer {
 
     private Map attributes = new HashMap();
     private static final String revenueAttributeName = "REVENUE";
-    private static final String objectCodeTypeField = PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE;
+    private static final String objectCodeTypeField = KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE;
     
     private ArrayList<String> revObjs = new ArrayList<String>();
 

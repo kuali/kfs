@@ -36,10 +36,10 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.PropertyConstants;
-import org.kuali.kfs.Constants.BudgetConstructionConstants;
-import org.kuali.kfs.Constants.ParameterValues;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.KFSConstants.BudgetConstructionConstants;
+import org.kuali.kfs.KFSConstants.ParameterValues;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.budget.bo.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.module.budget.bo.BudgetConstructionAccountReports;
@@ -131,7 +131,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
      *  this is old stuff which we may not use--we'll see
      */
     
-    /*  these constants should be in PropertyConstants */
+    /*  these constants should be in KFSPropertyConstants */
     public final static String BUDGET_FLAG_PROPERTY_NAME = "financialSystemFunctionControlCode";
     public final static String BUDGET_FLAG_VALUE = "financialSystemFunctionActiveIndicator";
     public final static String BUDGET_CZAR_CHART = "UA";
@@ -155,7 +155,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
          */
         Map<String, String> controlFlags = new HashMap();
         Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(Constants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME,
+        criteriaID.addEqualTo(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME,
                                          universityFiscalYear); 
         String[] queryAttr = {BUDGET_FLAG_PROPERTY_NAME,BUDGET_FLAG_VALUE};
         ReportQueryByCriteria queryID = 
@@ -177,7 +177,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         /*  return true if a flag is on, false if it is not */
         Boolean Result;
         Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(Constants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME,
+        criteriaID.addEqualTo(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME,
                                          universityFiscalYear);
         criteriaID.addEqualTo(BUDGET_FLAG_PROPERTY_NAME,FlagID);
         String[] queryAttr = {BUDGET_FLAG_VALUE};
@@ -201,7 +201,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         criteriaID.addEqualTo(FINANCIAL_CHART_PROPERTY, BUDGET_CZAR_CHART);
         criteriaID.addEqualTo(ORG_CODE_PROPERTY,BUDGET_CZAR_ORG);
         criteriaID.addColumnEqualTo(ACCOUNT_CLOSED_INDICATOR_PROPERTY,
-                Constants.ParameterValues.NO);
+                KFSConstants.ParameterValues.NO);
         String[] queryAttr = {FISCAL_OFFICER_ID_PROPERTY};
         ReportQueryByCriteria queryID = 
             new ReportQueryByCriteria(Account.class, queryAttr, criteriaID, true);
@@ -310,7 +310,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         // first we have to eliminate anything for the new year that's there now
         getPersistenceBrokerTemplate().clearCache();
         Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,RequestYear);
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,RequestYear);
         QueryByCriteria queryID = new QueryByCriteria(FiscalYearFunctionControl.class,
                                       criteriaID);
         getPersistenceBrokerTemplate().deleteByQuery(queryID);
@@ -320,8 +320,8 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
        //  come from the function control code table
        FiscalYearFunctionControl SLF;
        criteriaID = QueryByCriteria.CRITERIA_SELECT_ALL;
-       String[] attrQ = {PropertyConstants.FINANCIAL_SYSTEM_FUNCTION_CONTROL_CODE,
-                         PropertyConstants.FINANCIAL_SYSTEM_FUNCTION_DEFAULT_INDICATOR};
+       String[] attrQ = {KFSPropertyConstants.FINANCIAL_SYSTEM_FUNCTION_CONTROL_CODE,
+                         KFSPropertyConstants.FINANCIAL_SYSTEM_FUNCTION_DEFAULT_INDICATOR};
        ReportQueryByCriteria rptQueryID = new ReportQueryByCriteria(FunctionControlCode.class,
                                        attrQ,criteriaID);
        Integer sqlFunctionControlCode     = 0;
@@ -352,7 +352,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
            else
            {
 //               SLF.setFinancialSystemFunctionActiveIndicator(
-//                       ((flagDefault == Constants.ParameterValues.YES)? true : false));
+//                       ((flagDefault == KFSConstants.ParameterValues.YES)? true : false));
                  SLF.setFinancialSystemFunctionActiveIndicator(flagDefault);
            }
            LOG.debug("\nabout to store the result");
@@ -375,7 +375,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
                                     HashMap<String,String> configValues)
     {
         Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,Year);
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,Year);
         QueryByCriteria queryID = 
             new QueryByCriteria(FiscalYearFunctionControl.class,criteriaID);
         Iterator Results = 
@@ -436,7 +436,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     private void clearBaseYearBCSF(Integer BaseYear)
     {
         Criteria criteriaId = new Criteria();
-        criteriaId.addColumnEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+        criteriaId.addColumnEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                 BaseYear);
         QueryByCriteria queryId = 
             new QueryByCriteria(BudgetConstructionCalculatedSalaryFoundationTracker.class,
@@ -449,7 +449,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     {
         Integer RequestYear = BaseYear+1;
         Criteria criteriaId = new Criteria();
-        criteriaId.addBetween(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+        criteriaId.addBetween(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                               BaseYear,RequestYear);
         QueryByCriteria queryId = 
             new QueryByCriteria(BudgetConstructionCalculatedSalaryFoundationTracker.class,
@@ -470,7 +470,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     private void clearBaseYearBCPosition(Integer BaseYear)
     {
         Criteria criteriaId = new Criteria();
-        criteriaId.addColumnEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+        criteriaId.addColumnEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                 BaseYear);
         QueryByCriteria queryId = 
             new QueryByCriteria(BudgetConstructionPosition.class,
@@ -483,7 +483,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     {
         Integer RequestYear = BaseYear+1;
         Criteria criteriaId = new Criteria();
-        criteriaId.addBetween(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+        criteriaId.addBetween(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                               BaseYear,RequestYear);
         QueryByCriteria queryId = 
             new QueryByCriteria(BudgetConstructionPosition.class,
@@ -505,7 +505,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     {
         Integer RequestYear = BaseYear +1;
         Criteria criteriaId = new Criteria();
-        criteriaId.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+        criteriaId.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                 RequestYear);
         QueryByCriteria queryId = 
             new QueryByCriteria(BudgetConstructionPosition.class,
@@ -518,7 +518,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     {
         Integer RequestYear = BaseYear +1;
         Criteria criteriaId = new Criteria();
-        criteriaId.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+        criteriaId.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                 RequestYear);
         QueryByCriteria queryId = 
             new QueryByCriteria(BudgetConstructionCalculatedSalaryFoundationTracker.class,
@@ -530,7 +530,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     private void clearBaseYearHeaders(Integer BaseYear)
     {
         Criteria criteriaId = new Criteria();
-        criteriaId.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+        criteriaId.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                               BaseYear);
         QueryByCriteria queryId = new QueryByCriteria(BudgetConstructionHeader.class,
                                                       criteriaId);
@@ -542,7 +542,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     {
         Integer RequestYear = BaseYear+1;
         Criteria criteriaId = new Criteria();
-        criteriaId.addBetween(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+        criteriaId.addBetween(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                               BaseYear,RequestYear);
         QueryByCriteria queryId = new QueryByCriteria(BudgetConstructionHeader.class,
                                                       criteriaId);
@@ -563,14 +563,14 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         // the order here is mandated by referential integrity
         // remove rows from the base year from budget construction months
         Criteria mnCriteriaID = new Criteria();
-        mnCriteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+        mnCriteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                 BaseYear);
         QueryByCriteria mnQueryID =
             new QueryByCriteria(BudgetConstructionMonthly.class,mnCriteriaID);
         getPersistenceBrokerTemplate().deleteByQuery(mnQueryID);
         // remove rows from the basse year from budget construction general ledger
         Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                 BaseYear);
         QueryByCriteria queryID = 
             new QueryByCriteria(PendingBudgetConstructionGeneralLedger.class,
@@ -608,14 +608,14 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         // the order here is mandated by referential integrity
         // remove rows from the request year from budget construction months
         Criteria mnCriteriaID = new Criteria();
-        mnCriteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+        mnCriteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                 RequestYear);
         QueryByCriteria mnQueryID =
             new QueryByCriteria(BudgetConstructionMonthly.class,mnCriteriaID);
         getPersistenceBrokerTemplate().deleteByQuery(mnQueryID);
         // remove rows from the request year
         Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                 RequestYear);
         QueryByCriteria queryID = 
             new QueryByCriteria(PendingBudgetConstructionGeneralLedger.class,
@@ -630,7 +630,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     private void clearBaseYearPendingApptFunding(Integer BaseYear)
     {
         Criteria criteriaId = new Criteria();
-        criteriaId.addColumnEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+        criteriaId.addColumnEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                 BaseYear);
         QueryByCriteria queryId = 
             new QueryByCriteria(PendingBudgetConstructionAppointmentFunding.class,
@@ -643,7 +643,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     {
         Integer RequestYear = BaseYear+1;
         Criteria criteriaId = new Criteria();
-        criteriaId.addBetween(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+        criteriaId.addBetween(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                               BaseYear,RequestYear);
         QueryByCriteria queryId = 
             new QueryByCriteria(PendingBudgetConstructionAppointmentFunding.class,
@@ -665,7 +665,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     {
         Integer RequestYear = BaseYear +1;
         Criteria criteriaId = new Criteria();
-        criteriaId.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+        criteriaId.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                 RequestYear);
         QueryByCriteria queryId = 
             new QueryByCriteria(PendingBudgetConstructionAppointmentFunding.class,
@@ -832,15 +832,15 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         Integer RequestYear = BaseYear+1;
         // first build a document set from GL BALANCE
         Criteria criteriaId = new Criteria();
-        criteriaId.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
-        criteriaId.addEqualTo(PropertyConstants.BALANCE_TYPE_CODE,
-                              Constants.BALANCE_TYPE_BASE_BUDGET);
+        criteriaId.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
+        criteriaId.addEqualTo(KFSPropertyConstants.BALANCE_TYPE_CODE,
+                              KFSConstants.BALANCE_TYPE_BASE_BUDGET);
         String newAttr = ColumnNames.BEGINNING_BALANCE+"-"+
                          ColumnNames.ANNUAL_BALANCE;
         criteriaId.addNotEqualTo(newAttr,0);
-        String[] queryAttr = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
-                              PropertyConstants.ACCOUNT_NUMBER,
-                              PropertyConstants.SUB_ACCOUNT_NUMBER};
+        String[] queryAttr = {KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                              KFSPropertyConstants.ACCOUNT_NUMBER,
+                              KFSPropertyConstants.SUB_ACCOUNT_NUMBER};
         ReportQueryByCriteria queryId = new ReportQueryByCriteria(Balance.class,
                                                                   queryAttr,
                                                                   criteriaId,
@@ -909,12 +909,12 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     public void getCSFCandidateDocumentKeys(Integer BaseYear)
     {
         Criteria criteriaId = new Criteria();
-        criteriaId.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
-        criteriaId.addEqualTo(PropertyConstants.CSF_DELETE_CODE,
+        criteriaId.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
+        criteriaId.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE,
                               BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
-        String[] queryAttr = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
-                              PropertyConstants.ACCOUNT_NUMBER,
-                              PropertyConstants.SUB_ACCOUNT_NUMBER};
+        String[] queryAttr = {KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                              KFSPropertyConstants.ACCOUNT_NUMBER,
+                              KFSPropertyConstants.SUB_ACCOUNT_NUMBER};
         ReportQueryByCriteria queryId = 
             new ReportQueryByCriteria(CalculatedSalaryFoundationTracker.class,
                                       queryAttr, criteriaId, true);
@@ -943,12 +943,12 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     public void getCSFOverrideCandidateDocumentKeys(Integer BaseYear)
     {
         Criteria criteriaId = new Criteria();
-        criteriaId.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
-        criteriaId.addEqualTo(PropertyConstants.CSF_DELETE_CODE,
+        criteriaId.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
+        criteriaId.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE,
                               BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
-        String[] queryAttr = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
-                              PropertyConstants.ACCOUNT_NUMBER,
-                              PropertyConstants.SUB_ACCOUNT_NUMBER};
+        String[] queryAttr = {KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                              KFSPropertyConstants.ACCOUNT_NUMBER,
+                              KFSPropertyConstants.SUB_ACCOUNT_NUMBER};
         ReportQueryByCriteria queryId = 
             new ReportQueryByCriteria(CalculatedSalaryFoundationTrackerOverride.class,
                                       queryAttr, criteriaId, true);
@@ -979,12 +979,12 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     public void getCSFOverrideDeletedKeys(Integer BaseYear)
     {
         Criteria criteriaId = new Criteria();
-        criteriaId.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
-        criteriaId.addNotEqualTo(PropertyConstants.CSF_DELETE_CODE,
+        criteriaId.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
+        criteriaId.addNotEqualTo(KFSPropertyConstants.CSF_DELETE_CODE,
                               BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
-        String[] queryAttr = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
-                              PropertyConstants.ACCOUNT_NUMBER,
-                              PropertyConstants.SUB_ACCOUNT_NUMBER};
+        String[] queryAttr = {KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                              KFSPropertyConstants.ACCOUNT_NUMBER,
+                              KFSPropertyConstants.SUB_ACCOUNT_NUMBER};
         ReportQueryByCriteria queryId = 
             new ReportQueryByCriteria(CalculatedSalaryFoundationTrackerOverride.class,
                                       queryAttr, criteriaId, true);
@@ -1022,7 +1022,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         Integer RequestYear = BaseYear+1;
         Criteria criteriaId = new Criteria();
         Collection<BudgetConstructionHeader> Results;
-        criteriaId.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+        criteriaId.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                               RequestYear);
         QueryByCriteria queryId = new QueryByCriteria(BudgetConstructionHeader.class,
                                                       criteriaId);
@@ -1043,12 +1043,12 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     {
        // these are the potential document keys in the CSF tracker
         Criteria criteriaId = new Criteria();
-        criteriaId.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
-        criteriaId.addEqualTo(PropertyConstants.CSF_DELETE_CODE,
+        criteriaId.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
+        criteriaId.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE,
                               BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
-        String[] propertyString = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
-                                   PropertyConstants.ACCOUNT_NUMBER,
-                                   PropertyConstants.SUB_ACCOUNT_NUMBER};
+        String[] propertyString = {KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                                   KFSPropertyConstants.ACCOUNT_NUMBER,
+                                   KFSPropertyConstants.SUB_ACCOUNT_NUMBER};
         CSFTrackerKeys = 
             new HashMap<String,String[]>(hashObjectSize(CalculatedSalaryFoundationTracker.class,
                                          criteriaId,propertyString));
@@ -1061,12 +1061,12 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         // in the payroll that has NOT been budgeted.  this should be a rare 
         // occurrence.  
         Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
-        criteriaID.addEqualTo(PropertyConstants.BALANCE_TYPE_CODE,
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
+        criteriaID.addEqualTo(KFSPropertyConstants.BALANCE_TYPE_CODE,
                               BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_TYPE);
-        String[] propertyString = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
-                                   PropertyConstants.ACCOUNT_NUMBER,
-                                   PropertyConstants.SUB_ACCOUNT_NUMBER};
+        String[] propertyString = {KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                                   KFSPropertyConstants.ACCOUNT_NUMBER,
+                                   KFSPropertyConstants.SUB_ACCOUNT_NUMBER};
         currentBCHeaderKeys = 
             new HashSet<String>(hashObjectSize(Balance.class,criteriaID,
                                 propertyString));
@@ -1091,7 +1091,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         kualiDocumentHeader.setOrganizationDocumentNumber(
                             newBCHdr.getUniversityFiscalYear().toString());
         kualiDocumentHeader.setFinancialDocumentStatusCode(
-                Constants.INITIAL_KUALI_DOCUMENT_STATUS_CD);
+                KFSConstants.INITIAL_KUALI_DOCUMENT_STATUS_CD);
         kualiDocumentHeader.setFinancialDocumentTotalAmount(KualiDecimal.ZERO);
         kualiDocumentHeader.setFinancialDocumentDescription(String.format("%s %d %s %s",
                 BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION,
@@ -1157,13 +1157,13 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         Criteria criteriaID = new Criteria();
         /*  current IU genesis does NOT check for closed accounts--it loads all accounts
          *  it is possible that an account which has been closed still has base budget 
-        criteriaID.addNotEqualTo(PropertyConstants.ACCOUNT_CLOSED_INDICATOR,
-                              Constants.ParameterValues.YES);
+        criteriaID.addNotEqualTo(KFSPropertyConstants.ACCOUNT_CLOSED_INDICATOR,
+                              KFSConstants.ParameterValues.YES);
          */
         criteriaID = QueryByCriteria.CRITERIA_SELECT_ALL;
-        String[] queryAttr = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
-                              PropertyConstants.ACCOUNT_NUMBER,
-                              PropertyConstants.ORGANIZATION_CODE};
+        String[] queryAttr = {KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                              KFSPropertyConstants.ACCOUNT_NUMBER,
+                              KFSPropertyConstants.ORGANIZATION_CODE};
        ReportQueryByCriteria queryID = 
        new ReportQueryByCriteria(Account.class, queryAttr, criteriaID, true);
        Iterator Results = 
@@ -1208,15 +1208,15 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
          *  IU genesis takes all organizations, not just active ones
          *  the reason is that a closed account which still has a base budget
          *  might report to one of these organizations 
-        criteriaID.addEqualTo(PropertyConstants.ORGANIZATION_ACTIVE_INDICATOR,
-                              Constants.ParameterValues.YES);
+        criteriaID.addEqualTo(KFSPropertyConstants.ORGANIZATION_ACTIVE_INDICATOR,
+                              KFSConstants.ParameterValues.YES);
          */
         criteriaID = QueryByCriteria.CRITERIA_SELECT_ALL;
-        String[] queryAttr = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
-                              PropertyConstants.ORGANIZATION_CODE,
-                              PropertyConstants.REPORTS_TO_CHART_OF_ACCOUNTS_CODE,
-                              PropertyConstants.REPORTS_TO_ORGANIZATION_CODE,
-                              PropertyConstants.RESPONSIBILITY_CENTER_CODE};
+        String[] queryAttr = {KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                              KFSPropertyConstants.ORGANIZATION_CODE,
+                              KFSPropertyConstants.REPORTS_TO_CHART_OF_ACCOUNTS_CODE,
+                              KFSPropertyConstants.REPORTS_TO_ORGANIZATION_CODE,
+                              KFSPropertyConstants.RESPONSIBILITY_CENTER_CODE};
        ReportQueryByCriteria queryID = 
        new ReportQueryByCriteria(Org.class, queryAttr, criteriaID, true);
        Iterator Results = 
@@ -1301,7 +1301,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         // again, we clear the cache after doing a deleteByQuery
         getPersistenceBrokerTemplate().clearCache();
         Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,RequestYear);
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,RequestYear);
         QueryByCriteria killOrgHierQuery = 
             new QueryByCriteria(BudgetConstructionAccountOrganizationHierarchy.class,
                                 criteriaID);
@@ -1326,7 +1326,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         //  we build a hierarchy for every account we find
         //  we reset level of any account which no longer exists in the hierarchy
         criteriaID = new Criteria();
-        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,RequestYear);
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,RequestYear);
         acctOrgHierMap = 
             new HashMap<String,BudgetConstructionAccountOrganizationHierarchy>(
                     hashObjectSize(BudgetConstructionAccountOrganizationHierarchy.class,
@@ -1537,10 +1537,10 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         acctRptsToMap = 
             new HashMap<String,BudgetConstructionAccountReports>(
                     hashObjectSize(BudgetConstructionAccountReports.class,criteriaID));
-        String[] queryAttr = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
-                              PropertyConstants.ACCOUNT_NUMBER,
-                              PropertyConstants.REPORTS_TO_CHART_OF_ACCOUNTS_CODE,
-                              PropertyConstants.REPORTS_TO_ORGANIZATION_CODE};
+        String[] queryAttr = {KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                              KFSPropertyConstants.ACCOUNT_NUMBER,
+                              KFSPropertyConstants.REPORTS_TO_CHART_OF_ACCOUNTS_CODE,
+                              KFSPropertyConstants.REPORTS_TO_ORGANIZATION_CODE};
         ReportQueryByCriteria queryID = 
             new ReportQueryByCriteria(BudgetConstructionAccountReports.class,
                                       queryAttr,criteriaID);
@@ -1578,10 +1578,10 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
        orgRptsToMap = new HashMap<String,BudgetConstructionOrganizationReports>(
                       hashObjectSize(BudgetConstructionOrganizationReports.class,
                       criteriaID));
-       String[] queryAttr = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
-                             PropertyConstants.ORGANIZATION_CODE,
-                             PropertyConstants.REPORTS_TO_CHART_OF_ACCOUNTS_CODE,
-                             PropertyConstants.REPORTS_TO_ORGANIZATION_CODE};
+       String[] queryAttr = {KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                             KFSPropertyConstants.ORGANIZATION_CODE,
+                             KFSPropertyConstants.REPORTS_TO_CHART_OF_ACCOUNTS_CODE,
+                             KFSPropertyConstants.REPORTS_TO_ORGANIZATION_CODE};
        ReportQueryByCriteria queryID = 
            new ReportQueryByCriteria(BudgetConstructionOrganizationReports.class,
                                      queryAttr,criteriaID);
@@ -1702,11 +1702,11 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         //
         Integer RequestYear = BaseYear+1;
         Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                 RequestYear);
         Criteria lockID = new Criteria();
         Criteria tranLockID = new Criteria();
-        //@@TODO:  add these to the PropertyConstants or at least to 
+        //@@TODO:  add these to the KFSPropertyConstants or at least to 
         //         BudgetConstructionConstants?
         if (BudgetConstructionConstants.DEFAULT_BUDGET_HEADER_LOCK_IDS == null)
         { 
@@ -1967,14 +1967,14 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         //
         Long documentsRead = new Long(0);
         Criteria criteriaId = new Criteria();
-        criteriaId.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,RequestYear);
+        criteriaId.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,RequestYear);
         documentNumberFromBCHdr =
             new HashMap<String,String>(hashObjectSize(
                     BudgetConstructionHeader.class,criteriaId));
-        String[] queryAttr = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
-                              PropertyConstants.ACCOUNT_NUMBER,
-                              PropertyConstants.SUB_ACCOUNT_NUMBER,
-                              PropertyConstants.DOCUMENT_NUMBER};
+        String[] queryAttr = {KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                              KFSPropertyConstants.ACCOUNT_NUMBER,
+                              KFSPropertyConstants.SUB_ACCOUNT_NUMBER,
+                              KFSPropertyConstants.DOCUMENT_NUMBER};
         ReportQueryByCriteria queryId = 
             new ReportQueryByCriteria(BudgetConstructionHeader.class,queryAttr,criteriaId);
         Iterator Results =
@@ -2005,24 +2005,24 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         // @@TODO We should regularize the sources for these constants
         // they should probably all come from GL (although UNIV_FISCAL_YR is generic)
         // we should add the two hard-wired strings at the bottom to GLConstants
-        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                 BaseYear);
-        criteriaID.addEqualTo(PropertyConstants.BALANCE_TYPE_CODE,
-                              Constants.BALANCE_TYPE_BASE_BUDGET);
+        criteriaID.addEqualTo(KFSPropertyConstants.BALANCE_TYPE_CODE,
+                              KFSConstants.BALANCE_TYPE_BASE_BUDGET);
         //  we'll estimate the size of the PBGL map from the number of
         //  base budget rows in the GL.  this should be close
         pBGLFromGL =
             new HashMap<String,PendingBudgetConstructionGeneralLedger>(
                     hashObjectSize(Balance.class,criteriaID));
-        String[] queryAttr = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
-                              PropertyConstants.ACCOUNT_NUMBER,
-                              PropertyConstants.SUB_ACCOUNT_NUMBER,
-                              PropertyConstants.OBJECT_CODE,
-                              PropertyConstants.SUB_OBJECT_CODE,
-                              PropertyConstants.BALANCE_TYPE_CODE,
-                              PropertyConstants.OBJECT_TYPE_CODE,
-                              PropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT,
-                              PropertyConstants.BEGINNING_BALANCE_LINE_AMOUNT};
+        String[] queryAttr = {KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                              KFSPropertyConstants.ACCOUNT_NUMBER,
+                              KFSPropertyConstants.SUB_ACCOUNT_NUMBER,
+                              KFSPropertyConstants.OBJECT_CODE,
+                              KFSPropertyConstants.SUB_OBJECT_CODE,
+                              KFSPropertyConstants.BALANCE_TYPE_CODE,
+                              KFSPropertyConstants.OBJECT_TYPE_CODE,
+                              KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT,
+                              KFSPropertyConstants.BEGINNING_BALANCE_LINE_AMOUNT};
         ReportQueryByCriteria queryID = 
             new ReportQueryByCriteria(Balance.class, queryAttr, criteriaID, true);
         //
@@ -2137,7 +2137,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
        //
        //  fetch the current PBGL rows
        Criteria criteriaID = new Criteria();
-       criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,RequestYear);
+       criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,RequestYear);
        QueryByCriteria queryID = 
            new QueryByCriteria(PendingBudgetConstructionGeneralLedger.class,
                                criteriaID);
@@ -2247,10 +2247,10 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
           }
           //  now we have to add the object to the request year as an inactive object
           Criteria criteriaID = new Criteria();
-          criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
-          criteriaID.addColumnEqualTo(PropertyConstants.CHART_OF_ACCOUNTS_CODE,
+          criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
+          criteriaID.addColumnEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
                                       problemChart);
-          criteriaID.addEqualTo(PropertyConstants.OBJECT_CODE,problemObject);
+          criteriaID.addEqualTo(KFSPropertyConstants.OBJECT_CODE,problemObject);
           ReportQueryByCriteria queryID = 
               new ReportQueryByCriteria(ObjectCode.class,criteriaID);
           Iterator Results = 
@@ -2276,9 +2276,9 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     {
         Integer RequestYear = BaseYear + 1;
         Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,RequestYear);
-        criteriaID.addEqualTo(PropertyConstants.CHART_OF_ACCOUNTS_CODE,Chart);
-        criteriaID.addEqualTo(PropertyConstants.ACCOUNT_NUMBER,ObjectCode);
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,RequestYear);
+        criteriaID.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,Chart);
+        criteriaID.addEqualTo(KFSPropertyConstants.ACCOUNT_NUMBER,ObjectCode);
         QueryByCriteria queryID = 
             new QueryByCriteria(ObjectCode.class,criteriaID);
         Integer Result = 
@@ -2289,12 +2289,12 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     private void readBaseYearInactiveObjects(Integer BaseYear)
     {
         Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
-        criteriaID.addEqualTo(PropertyConstants.FINANCIAL_OBJECT_ACTIVE_CODE,false);
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
+        criteriaID.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_ACTIVE_CODE,false);
         baseYearInactiveObjects = 
             new HashMap<String,String[]>(hashObjectSize(ObjectCode.class,criteriaID));
-        String[] queryAttr  = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
-                               PropertyConstants.FINANCIAL_OBJECT_CODE};
+        String[] queryAttr  = {KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                               KFSPropertyConstants.FINANCIAL_OBJECT_CODE};
         ReportQueryByCriteria queryID = new ReportQueryByCriteria(ObjectCode.class,
                                                                   queryAttr,
                                                                   criteriaID);
@@ -2317,13 +2317,13 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         // otherwise, we will get an RI violation when we try to add a PBGL
         // row with an object inactive in the current year
         Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear);
-        criteriaID.addEqualTo(PropertyConstants.BALANCE_TYPE_CODE,
-                              Constants.BALANCE_TYPE_BASE_BUDGET);
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, BaseYear);
+        criteriaID.addEqualTo(KFSPropertyConstants.BALANCE_TYPE_CODE,
+                              KFSConstants.BALANCE_TYPE_BASE_BUDGET);
         gLBBObjects = 
             new HashMap<String,String[]>(hashObjectSize(Balance.class,criteriaID));
-        String[] queryAttr = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,           
-                              PropertyConstants.OBJECT_CODE};
+        String[] queryAttr = {KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,           
+                              KFSPropertyConstants.OBJECT_CODE};
         ReportQueryByCriteria queryID = 
             new ReportQueryByCriteria(Balance.class,
                                       queryAttr,criteriaID,true);
@@ -2430,9 +2430,9 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         String yearString = BaseYear.toString();
         // get the accounting strings for the lines marked deleted in CSF
         Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                                     BaseYear);
-        criteriaID.addNotEqualTo(PropertyConstants.CSF_DELETE_CODE,
+        criteriaID.addNotEqualTo(KFSPropertyConstants.CSF_DELETE_CODE,
                                  BudgetConstructionConstants.ACTIVE_CSF_LINE);
         String[] selectList = buildCSFPositionSelectList();
         ReportQueryByCriteria queryID = 
@@ -2456,14 +2456,14 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     private String[] buildCSFPositionSelectList()
     {
         String[] returnArray =
-           {PropertyConstants.POSITION_NUMBER,
-            PropertyConstants.EMPLID,
-            PropertyConstants.CHART_OF_ACCOUNTS_CODE,
-            PropertyConstants.ACCOUNT_NUMBER,
-            PropertyConstants.SUB_ACCOUNT_NUMBER,
-            PropertyConstants.FINANCIAL_OBJECT_CODE,
-            PropertyConstants.FINANCIAL_SUB_OBJECT_CODE,
-            PropertyConstants.CSF_FUNDING_STATUS_CODE};
+           {KFSPropertyConstants.POSITION_NUMBER,
+            KFSPropertyConstants.EMPLID,
+            KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
+            KFSPropertyConstants.ACCOUNT_NUMBER,
+            KFSPropertyConstants.SUB_ACCOUNT_NUMBER,
+            KFSPropertyConstants.FINANCIAL_OBJECT_CODE,
+            KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE,
+            KFSPropertyConstants.CSF_FUNDING_STATUS_CODE};
         return returnArray;
     }
     
@@ -2487,13 +2487,13 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     private Integer countCSFPositions(Integer FiscalYear)
     {
         Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                               FiscalYear);
-        criteriaID.addEqualTo(PropertyConstants.CSF_DELETE_CODE,
+        criteriaID.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE,
                 BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
         return (hashObjectSize(CalculatedSalaryFoundationTracker.class,
                                criteriaID,
-                               PropertyConstants.POSITION_NUMBER));
+                               KFSPropertyConstants.POSITION_NUMBER));
     }
     
     private String positionKey (Integer FiscalYear, String PositionNumber)
@@ -2515,9 +2515,9 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         String yearString = BaseYear.toString();
         // get the accounting strings for the lines marked deleted in CSF
         Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                                     BaseYear);
-        criteriaID.addEqualTo(PropertyConstants.CSF_DELETE_CODE,
+        criteriaID.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE,
                                  BudgetConstructionConstants.ACTIVE_CSF_LINE);
         String[] selectList = buildCSFPositionSelectList(); 
         ReportQueryByCriteria queryID = 
@@ -2561,9 +2561,9 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         String yearString = BaseYear.toString();
         // get the accounting strings for the lines marked active in CSF
         Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                                     BaseYear);
-        criteriaID.addEqualTo(PropertyConstants.CSF_DELETE_CODE,
+        criteriaID.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE,
                                  BudgetConstructionConstants.ACTIVE_CSF_LINE);
         String[] selectList = buildCSFPositionSelectList(); 
         ReportQueryByCriteria queryID = 
@@ -2616,7 +2616,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
           // we always update the request year
           // this code gets both years   
           Criteria criteriaID = new Criteria();
-          criteriaID.addBetween(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+          criteriaID.addBetween(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                                 BaseYear,RequestYear);
           queryId = 
               new QueryByCriteria(BudgetConstructionPosition.class,criteriaID);
@@ -2630,7 +2630,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
           // base year budget construction positions are frozen
           // only update the request year positions  
           Criteria criteriaID = new Criteria();
-          criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+          criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                                 RequestYear);
           // CSF will create only request year positions
           // (but CSF is only there for the base year)
@@ -2861,10 +2861,10 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     private void readAcctRCCSF(Class csfClass, Integer BaseYear)
     {
         Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                               BaseYear);
-        String[] selectList = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
-                               PropertyConstants.ACCOUNT_NUMBER};
+        String[] selectList = {KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                               KFSPropertyConstants.ACCOUNT_NUMBER};
         ReportQueryByCriteria queryID =
             new ReportQueryByCriteria(csfClass, selectList, criteriaID, true);
         Iterator resultSet = 
@@ -2891,10 +2891,10 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
        //
        // CSF override is a method for institutions which do not have a CSF
        // tracker to enter payroll data.  so, we should include it in the count
-       criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+       criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                              BaseYear);
        String[] selectList = {"COUNT(DISTINCT "+
-                              PropertyConstants.ACCOUNT_NUMBER+")"}; 
+                              KFSPropertyConstants.ACCOUNT_NUMBER+")"}; 
        ReportQueryByCriteria queryID = 
            new ReportQueryByCriteria(CalculatedSalaryFoundationTrackerOverride.class,
                                      selectList, criteriaID);
@@ -2938,13 +2938,13 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         // all the accounts, we will join to the organization table to get
         // RC code
         Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(PropertyConstants.ACCOUNT_CLOSED_INDICATOR,
+        criteriaID.addEqualTo(KFSPropertyConstants.ACCOUNT_CLOSED_INDICATOR,
                               false);
         // we cannot return a business object with a report query
         // so, we just return what we need
-        String [] attrbList = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
-                               PropertyConstants.ACCOUNT_NUMBER,
-                               PropertyConstants.ORGANIZATION_CODE};
+        String [] attrbList = {KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                               KFSPropertyConstants.ACCOUNT_NUMBER,
+                               KFSPropertyConstants.ORGANIZATION_CODE};
         Integer chartIndex        = new Integer(0);
         Integer accountIndex      = new Integer(1);
         Integer organizationIndex = new Integer(2);
@@ -2997,9 +2997,9 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     {
         Integer orgCount = readOrgRCCount();
         orgRCMap = new HashMap<String,String>(orgCount+3);
-        String[] selectList = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
-                               PropertyConstants.ORGANIZATION_CODE,
-                               PropertyConstants.RESPONSIBILITY_CENTER_CODE};
+        String[] selectList = {KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                               KFSPropertyConstants.ORGANIZATION_CODE,
+                               KFSPropertyConstants.RESPONSIBILITY_CENTER_CODE};
         ReportQueryByCriteria queryID = 
             new ReportQueryByCriteria(Org.class, selectList,
                                       QueryByCriteria.CRITERIA_SELECT_ALL);
@@ -3456,7 +3456,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         pbGL.setSubAccountNumber(bcsf.getSubAccountNumber());
         pbGL.setFinancialObjectCode(bcsf.getFinancialObjectCode());
         pbGL.setFinancialSubObjectCode(bcsf.getFinancialSubObjectCode());
-        pbGL.setFinancialBalanceTypeCode(Constants.BALANCE_TYPE_BASE_BUDGET);
+        pbGL.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_BASE_BUDGET);
         pbGL.setFinancialObjectTypeCode(objectType);
         pbGL.setAccountLineAnnualBalanceAmount(KualiDecimal.ZERO);
         pbGL.setFinancialBeginningBalanceLineAmount(KualiDecimal.ZERO);
@@ -3515,7 +3515,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     private void clearBCCSF(Integer FiscalYear)
     {
         Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                               FiscalYear);
         QueryByCriteria queryID = 
             new QueryByCriteria(BudgetConstructionCalculatedSalaryFoundationTracker.class,
@@ -3561,10 +3561,10 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         ArrayList<String> objectCodesWithIndividualPositions = 
                           new ArrayList<String>(10);
         Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,RequestYear);
-        criteriaID.addEqualTo(PropertyConstants.DETAIL_POSITION_REQUIRED_INDICATOR,
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,RequestYear);
+        criteriaID.addEqualTo(KFSPropertyConstants.DETAIL_POSITION_REQUIRED_INDICATOR,
                                   true);
-        String[] selectList = {PropertyConstants.FINANCIAL_OBJECT_CODE};
+        String[] selectList = {KFSPropertyConstants.FINANCIAL_OBJECT_CODE};
         ReportQueryByCriteria queryID = 
             new ReportQueryByCriteria(LaborObject.class,selectList,criteriaID,true);
         Iterator objectCodesReturned =
@@ -3622,8 +3622,8 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     private void readCSF(Integer BaseYear)
     {
         Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
-        criteriaID.addEqualTo(PropertyConstants.CSF_DELETE_CODE,
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
+        criteriaID.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE,
                               BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
         QueryByCriteria queryID = 
             new QueryByCriteria(CalculatedSalaryFoundationTracker.class,criteriaID);
@@ -3660,8 +3660,8 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     private void readCSFOverride(Integer BaseYear)
     {
         Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
-        criteriaID.addEqualTo(PropertyConstants.CSF_DELETE_CODE,
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
+        criteriaID.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE,
                               BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
         QueryByCriteria queryID = 
             new QueryByCriteria(CalculatedSalaryFoundationTrackerOverride.class,criteriaID);
@@ -3700,7 +3700,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         Criteria criteriaID = new Criteria();
         // we add this criterion so that it is possible to have more than
         // one year at a time in budget construction
-        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                               RequestYear);
         QueryByCriteria queryID = 
             new QueryByCriteria(PendingBudgetConstructionAppointmentFunding.class,
@@ -3740,8 +3740,8 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         // of the latter
         Integer bCSFSize = new Integer(0);
         Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
-        criteriaID.addEqualTo(PropertyConstants.CSF_DELETE_CODE,
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
+        criteriaID.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE,
                               BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
         bCSFSize = hashObjectSize(CalculatedSalaryFoundationTrackerOverride.class,
                                   criteriaID)+
@@ -3754,15 +3754,15 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     {
         Integer RequestYear = BaseYear+1;
         Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,RequestYear);
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,RequestYear);
         bcHdrDocNumbers = 
             new HashMap<String,String>(hashObjectSize(BudgetConstructionHeader.class,
                                        criteriaID));
         //  now we have to get the actual data
-        String[] headerList = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
-                               PropertyConstants.ACCOUNT_NUMBER,
-                               PropertyConstants.SUB_ACCOUNT_NUMBER,
-                               PropertyConstants.DOCUMENT_NUMBER};
+        String[] headerList = {KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                               KFSPropertyConstants.ACCOUNT_NUMBER,
+                               KFSPropertyConstants.SUB_ACCOUNT_NUMBER,
+                               KFSPropertyConstants.DOCUMENT_NUMBER};
         ReportQueryByCriteria queryID =
             new ReportQueryByCriteria(BudgetConstructionHeader.class,
                                       headerList,criteriaID);
@@ -3793,13 +3793,13 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     //   So, we create a list of override keys possibly missing in BCSF
     //   which can be used to eliminate CSF candidates for BCSF.    
         Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                               BaseYear);
         Criteria deleteCriteria = new Criteria();
-        deleteCriteria.addNotEqualTo(PropertyConstants.CSF_DELETE_CODE,
+        deleteCriteria.addNotEqualTo(KFSPropertyConstants.CSF_DELETE_CODE,
                               BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
         Criteria vacantCriteria = new Criteria();
-        vacantCriteria.addEqualTo(PropertyConstants.CSF_FUNDING_STATUS_CODE,
+        vacantCriteria.addEqualTo(KFSPropertyConstants.CSF_FUNDING_STATUS_CODE,
                                   BudgetConstructionConstants.VACANT_CSF_LINE);
         deleteCriteria.addOrCriteria(vacantCriteria);
         criteriaID.addAndCriteria(deleteCriteria);
@@ -3832,9 +3832,9 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         // account to cover the expense).
         Integer RequestYear = BaseYear+1;
         Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                               RequestYear);
-        criteriaID.addIn(PropertyConstants.FINANCIAL_OBJECT_CODE,
+        criteriaID.addIn(KFSPropertyConstants.FINANCIAL_OBJECT_CODE,
                 this.findPositonRequiredObjectCodes(BaseYear));
         currentPBGLKeys = new HashSet<String>(hashObjectSize(
                 PendingBudgetConstructionGeneralLedger.class,criteriaID));
@@ -3860,9 +3860,9 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         CSFCurrentGLRows = currentPBGLKeys.size();
         //
         // now we have to set up the query to read the object types
-        String[] objectTypeSelectList = {PropertyConstants.CHART_OF_ACCOUNTS_CODE,
-                                         PropertyConstants.FINANCIAL_OBJECT_CODE,
-                                         PropertyConstants.FINANCIAL_OBJECT_TYPE_CODE};
+        String[] objectTypeSelectList = {KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
+                                         KFSPropertyConstants.FINANCIAL_OBJECT_CODE,
+                                         KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE};
         ReportQueryByCriteria queryID = 
             new ReportQueryByCriteria(ObjectCode.class,objectTypeSelectList,criteriaID);
         Iterator objectTypeRowReturned =
@@ -3881,19 +3881,19 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
       Integer emplidCSFOvrdCount = new Integer(0);
       Integer emplidCSFCount     = new Integer(0);
       Criteria criteriaID = new Criteria();
-      criteriaID.addEqualTo(PropertyConstants.CSF_DELETE_CODE,
+      criteriaID.addEqualTo(KFSPropertyConstants.CSF_DELETE_CODE,
                         BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
-      criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+      criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                             BaseYear);
       keysNeedingRounding = 
           new HashMap<String,roundMechanism>(
                   hashObjectSize(CalculatedSalaryFoundationTrackerOverride.class,
-                          criteriaID,PropertyConstants.EMPLID)+
+                          criteriaID,KFSPropertyConstants.EMPLID)+
                           hashObjectSize(CalculatedSalaryFoundationTracker.class,
-                                  criteriaID,PropertyConstants.EMPLID));
+                                  criteriaID,KFSPropertyConstants.EMPLID));
 //     now fill the hashmap
 //     there will be one rounding bucket for each EMPLID
-      String[] columnList = {PropertyConstants.EMPLID};
+      String[] columnList = {KFSPropertyConstants.EMPLID};
 //     first use CSF Override
       ReportQueryByCriteria queryID = 
         new ReportQueryByCriteria(CalculatedSalaryFoundationTrackerOverride.class,
@@ -3931,12 +3931,12 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     {
       Integer RequestYear = BaseYear+1;
       Criteria criteriaID = new Criteria();
-      criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,RequestYear);
+      criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,RequestYear);
       positionNormalWorkMonths = 
           new HashMap<String,Integer>(
                   hashObjectSize(BudgetConstructionPosition.class,criteriaID));
-      String[] fieldList = {PropertyConstants.POSITION_NUMBER,
-                            PropertyConstants.IU_NORMAL_WORK_MONTHS};
+      String[] fieldList = {KFSPropertyConstants.POSITION_NUMBER,
+                            KFSPropertyConstants.IU_NORMAL_WORK_MONTHS};
       ReportQueryByCriteria queryID = 
                 new ReportQueryByCriteria(BudgetConstructionPosition.class,
                                           fieldList,criteriaID);
@@ -3983,40 +3983,40 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
 //     csfFullTimeEmploymentQuantity.
 //
       Criteria criteriaID = new Criteria();
-      criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+      criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                             bcaf.getUniversityFiscalYear()-1);
-      criteriaID.addEqualTo(PropertyConstants.CHART_OF_ACCOUNTS_CODE,
+      criteriaID.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
                             bcaf.getChartOfAccountsCode());
-      criteriaID.addEqualTo(PropertyConstants.ACCOUNT_NUMBER,
+      criteriaID.addEqualTo(KFSPropertyConstants.ACCOUNT_NUMBER,
                             bcaf.getAccountNumber());
-      criteriaID.addEqualTo(PropertyConstants.SUB_ACCOUNT_NUMBER,
+      criteriaID.addEqualTo(KFSPropertyConstants.SUB_ACCOUNT_NUMBER,
                             bcaf.getSubAccountNumber());
-      criteriaID.addEqualTo(PropertyConstants.FINANCIAL_OBJECT_CODE,
+      criteriaID.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_CODE,
                             bcaf.getFinancialObjectCode());
-      criteriaID.addEqualTo(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE,
+      criteriaID.addEqualTo(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE,
                             bcaf.getFinancialSubObjectCode());
-      criteriaID.addEqualTo(PropertyConstants.POSITION_NUMBER,
+      criteriaID.addEqualTo(KFSPropertyConstants.POSITION_NUMBER,
                             bcaf.getPositionNumber());
-      criteriaID.addEqualTo(PropertyConstants.CSF_FULL_TIME_EMPLOYMENT_QUANTITY,
+      criteriaID.addEqualTo(KFSPropertyConstants.CSF_FULL_TIME_EMPLOYMENT_QUANTITY,
                             bcaf.getAppointmentRequestedFteQuantity());
-      criteriaID.addEqualTo(PropertyConstants.CSF_TIME_PERCENT,
+      criteriaID.addEqualTo(KFSPropertyConstants.CSF_TIME_PERCENT,
                             bcaf.getAppointmentRequestedTimePercent());
       Criteria vacantCriteria = new Criteria();
       Criteria flagCriteria   = new Criteria();
 //     funding status is "vacant" or "unfunded"
-      vacantCriteria.addEqualTo(PropertyConstants.CSF_FUNDING_STATUS_CODE,
+      vacantCriteria.addEqualTo(KFSPropertyConstants.CSF_FUNDING_STATUS_CODE,
                                 BudgetConstructionConstants.VACANT_CSF_LINE);
-      flagCriteria.addEqualTo(PropertyConstants.CSF_FUNDING_STATUS_CODE,
+      flagCriteria.addEqualTo(KFSPropertyConstants.CSF_FUNDING_STATUS_CODE,
                               BudgetConstructionConstants.UNFUNDED_CSF_LINE);
       flagCriteria.addOrCriteria(vacantCriteria);
 //     in addition, EMPLID is vacant
       vacantCriteria = new Criteria();
-      vacantCriteria.addEqualTo(PropertyConstants.EMPLID,
+      vacantCriteria.addEqualTo(KFSPropertyConstants.EMPLID,
                                 BudgetConstructionConstants.VACANT_EMPLID);
       vacantCriteria.addAndCriteria(flagCriteria);
 //     OR, the EMPLID in CSF is the same as in BCAF
       flagCriteria = new Criteria();
-      flagCriteria.addEqualTo(PropertyConstants.EMPLID,
+      flagCriteria.addEqualTo(KFSPropertyConstants.EMPLID,
                               bcaf.getEmplid());
       flagCriteria.addOrCriteria(vacantCriteria);
 //     now add the whole thing to the criteria list
@@ -4155,9 +4155,9 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
     {
         /* (1) check the SQL for appointment funding (worked 03/29/2007) p6spy=yes
         Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                               BaseYear+1);
-        criteriaID.addEqualTo(PropertyConstants.EMPLID,"0000001321");
+        criteriaID.addEqualTo(KFSPropertyConstants.EMPLID,"0000001321");
         QueryByCriteria queryID = new QueryByCriteria(
                 PendingBudgetConstructionAppointmentFunding.class, criteriaID);
         Iterator bcafResults =
@@ -4172,9 +4172,9 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         /* (2) test the addIn criterion  (worked 04/02/2007) p6spy=yes */
         Integer RequestYear = BaseYear+1;
         Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(PropertyConstants.UNIVERSITY_FISCAL_YEAR,
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                               RequestYear);
-        criteriaID.addIn(PropertyConstants.FINANCIAL_OBJECT_CODE,
+        criteriaID.addIn(KFSPropertyConstants.FINANCIAL_OBJECT_CODE,
                 this.findPositonRequiredObjectCodes(BaseYear));
         String[] selectCount = {"COUNT(*)"};
         ReportQueryByCriteria queryID =
@@ -4191,7 +4191,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         }
         // here is an add on to verify that OJB instantiates all joined rows
         // one row at a time
-        criteriaID.addEqualTo(PropertyConstants.CHART_OF_ACCOUNTS_CODE,"BL");
+        criteriaID.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,"BL");
         QueryByCriteria testQry = 
             new QueryByCriteria(LaborObject.class,criteriaID);
         Iterator uncleGuido =

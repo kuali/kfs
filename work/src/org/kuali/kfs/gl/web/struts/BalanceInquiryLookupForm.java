@@ -29,7 +29,7 @@ import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.struts.form.MultipleValueLookupForm;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.GLConstants;

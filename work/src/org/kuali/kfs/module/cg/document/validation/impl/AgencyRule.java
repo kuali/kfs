@@ -21,7 +21,7 @@ import java.util.List;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Agency;
 
@@ -70,17 +70,17 @@ public class AgencyRule extends MaintenanceDocumentRuleBase {
         if (newAgency.getReportsToAgencyNumber() != null) {
             if (newAgency.getReportsToAgency() == null) { //Agency must exist
 
-                putFieldError("reportsToAgencyNumber", KeyConstants.ERROR_AGENCY_NOT_FOUND, newAgency.getReportsToAgencyNumber());
+                putFieldError("reportsToAgencyNumber", KFSKeyConstants.ERROR_AGENCY_NOT_FOUND, newAgency.getReportsToAgencyNumber());
                 success = false;
                 
             } else if (newAgency.getReportsToAgency().isHistoricalIndicator()) { //Agency must be active
 
-                putFieldError("reportsToAgencyNumber", KeyConstants.ERROR_AGENCY_INACTIVE, newAgency.getReportsToAgencyNumber());
+                putFieldError("reportsToAgencyNumber", KFSKeyConstants.ERROR_AGENCY_INACTIVE, newAgency.getReportsToAgencyNumber());
                 success = false;
                 
             } else if (newAgency.getAgencyNumber().equals(newAgency.getReportsToAgencyNumber())) {
                 
-                putFieldError("reportsToAgencyNumber", KeyConstants.ERROR_AGENCY_REPORTS_TO_SELF, newAgency.getAgencyNumber());
+                putFieldError("reportsToAgencyNumber", KFSKeyConstants.ERROR_AGENCY_REPORTS_TO_SELF, newAgency.getAgencyNumber());
                 success = false;
                 
             } else { //No circular references
@@ -94,7 +94,7 @@ public class AgencyRule extends MaintenanceDocumentRuleBase {
                         agencies.add(agency.getAgencyNumber());                        
                     } else {
                         
-                        putFieldError("reportsToAgencyNumber", KeyConstants.ERROR_AGENCY_CIRCULAR_REPORTING, agency.getAgencyNumber());
+                        putFieldError("reportsToAgencyNumber", KFSKeyConstants.ERROR_AGENCY_CIRCULAR_REPORTING, agency.getAgencyNumber());
                         success = false;
                     }
 

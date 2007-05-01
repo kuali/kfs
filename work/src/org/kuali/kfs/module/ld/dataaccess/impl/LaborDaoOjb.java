@@ -28,7 +28,7 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.labor.LaborConstants;
@@ -65,15 +65,15 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
         ReportQueryByCriteria query = QueryFactory.newReportQuery(CalculatedSalaryFoundationTracker.class, criteria);
 
         List<String> groupByList = new ArrayList<String>();
-        groupByList.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        groupByList.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        groupByList.add(PropertyConstants.ACCOUNT_NUMBER);
-        groupByList.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
-        groupByList.add(PropertyConstants.FINANCIAL_OBJECT_CODE);
-        groupByList.add(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        groupByList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        groupByList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        groupByList.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        groupByList.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        groupByList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        groupByList.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
         String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
 
-        query.setAttributes(new String[] { "sum(" + PropertyConstants.CSF_AMOUNT + ")" });
+        query.setAttributes(new String[] { "sum(" + KFSPropertyConstants.CSF_AMOUNT + ")" });
         query.addGroupBy(groupBy);
 
         Object[] csf = null;
@@ -101,12 +101,12 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
         ReportQueryByCriteria query = QueryFactory.newReportQuery(AccountStatusCurrentFunds.class, criteria);
 
         List<String> groupByList = new ArrayList<String>();
-        groupByList.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        groupByList.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        groupByList.add(PropertyConstants.ACCOUNT_NUMBER);
-        groupByList.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
-        groupByList.add(PropertyConstants.FINANCIAL_OBJECT_CODE);
-        groupByList.add(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        groupByList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        groupByList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        groupByList.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        groupByList.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        groupByList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        groupByList.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
 
         String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
 
@@ -165,19 +165,19 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
         ReportQueryByCriteria query = QueryFactory.newReportQuery(PersonFunding.class, criteria);
 
         List<String> groupByList = new ArrayList<String>();
-        groupByList.add(PropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        groupByList.add(PropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        groupByList.add(PropertyConstants.ACCOUNT_NUMBER);
-        groupByList.add(PropertyConstants.SUB_ACCOUNT_NUMBER);
-        groupByList.add(PropertyConstants.FINANCIAL_OBJECT_CODE);
-        groupByList.add(PropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
-        groupByList.add(PropertyConstants.POSITION_NUMBER);
-        groupByList.add(PropertyConstants.EMPLID);
+        groupByList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        groupByList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        groupByList.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        groupByList.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        groupByList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        groupByList.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        groupByList.add(KFSPropertyConstants.POSITION_NUMBER);
+        groupByList.add(KFSPropertyConstants.EMPLID);
         groupByList.add("accountLineAnnualBalanceAmount");
         
         String[] groupBy = (String[]) groupByList.toArray(new String[groupByList.size()]);
         List<String> attributeList = new ArrayList<String>(groupByList);
-        attributeList.add(0, "sum(" + PropertyConstants.ACCOUNTING_LINE_ANNUAL_BALANCE_AMOUNT + ")");
+        attributeList.add(0, "sum(" + KFSPropertyConstants.ACCOUNTING_LINE_ANNUAL_BALANCE_AMOUNT + ")");
         query.setAttributes((String[]) attributeList.toArray(new String[attributeList.size()]));
 
         query.addGroupBy(groupBy);

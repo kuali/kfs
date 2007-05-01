@@ -31,7 +31,7 @@ import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.batch.poster.VerifyTransaction;
 import org.kuali.module.gl.bo.OriginEntryGroup;
@@ -116,9 +116,9 @@ public class LaborPosterServiceImpl implements LaborPosterService {
             entryGroup.setProcess(Boolean.FALSE);
             originEntryGroupService.save(entryGroup);
         }
-        Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, Constants.OperationType.READ, numberOfOriginEntry, 0);
-        Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, Constants.OperationType.SELECT, numberOfSelectedOriginEntry, 0);
-        Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, Constants.OperationType.REPORT_ERROR, errorMap.size(), 0);
+        Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, KFSConstants.OperationType.READ, numberOfOriginEntry, 0);
+        Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, KFSConstants.OperationType.SELECT, numberOfSelectedOriginEntry, 0);
+        Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, KFSConstants.OperationType.REPORT_ERROR, errorMap.size(), 0);
 
         laborReportService.generateStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_STATISTICS, reportsDirectory, runDate);
         laborReportService.generateInputSummaryReport(postingGroups, ReportRegistry.LABOR_POSTER_INPUT, reportsDirectory, runDate);
@@ -254,9 +254,9 @@ public class LaborPosterServiceImpl implements LaborPosterService {
 
             numberOfSelectedOriginEntry++;
         }
-        Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, Constants.OperationType.READ, numberOfOriginEntry, 0);
-        Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, Constants.OperationType.SELECT, numberOfSelectedOriginEntry, 0);
-        Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, Constants.OperationType.REPORT_ERROR, errorMap.size(), 0);
+        Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, KFSConstants.OperationType.READ, numberOfOriginEntry, 0);
+        Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, KFSConstants.OperationType.SELECT, numberOfSelectedOriginEntry, 0);
+        Summary.updateReportSummary(reportSummary, ORIGN_ENTRY, KFSConstants.OperationType.REPORT_ERROR, errorMap.size(), 0);
         laborReportService.generateStatisticsReport(reportSummary, errorMap, ReportRegistry.LABOR_POSTER_GL_SUMMARY, reportsDirectory, runDate);
     }
 

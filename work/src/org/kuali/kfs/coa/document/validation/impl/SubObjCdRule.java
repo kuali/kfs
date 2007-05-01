@@ -18,7 +18,7 @@ package org.kuali.module.chart.rules;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.SubObjCd;
 
@@ -107,7 +107,7 @@ public class SubObjCdRule extends MaintenanceDocumentRuleBase {
 
             // if the account is closed
             if (account.isAccountClosedIndicator()) {
-                putFieldError("accountNumber", KeyConstants.ERROR_DOCUMENT_SUBOBJECTMAINT_ACCOUNT_MAY_NOT_BE_CLOSED);
+                putFieldError("accountNumber", KFSKeyConstants.ERROR_DOCUMENT_SUBOBJECTMAINT_ACCOUNT_MAY_NOT_BE_CLOSED);
                 success &= false;
             }
         }

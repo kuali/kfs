@@ -21,7 +21,7 @@ import java.util.Properties;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.util.UrlFactory;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.chart.bo.DelegateChangeContainer;
 
 public class OrganizationRoutingModelNameLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
@@ -34,7 +34,7 @@ public class OrganizationRoutingModelNameLookupableHelperServiceImpl extends Kua
     public String getBackLocation() {
         // it doesn't really matter what the backLocation is set to; we're
         // always going to return to the maintenance screen
-        return Constants.MAINTENANCE_ACTION;
+        return KFSConstants.MAINTENANCE_ACTION;
     }
 
     /**
@@ -43,10 +43,10 @@ public class OrganizationRoutingModelNameLookupableHelperServiceImpl extends Kua
     @Override
     public String getReturnUrl(BusinessObject businessObject, Map fieldConversions, String lookupImpl) {
         Properties parameters = getParameters(businessObject, fieldConversions, lookupImpl);
-        parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, Constants.MAINTENANCE_NEWWITHEXISTING_ACTION);
-        parameters.put(Constants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DelegateChangeContainer.class.getName());
-        parameters.put(Constants.OVERRIDE_KEYS, "modelName"+Constants.FIELD_CONVERSIONS_SEPERATOR+"modelChartOfAccountsCode"+Constants.FIELD_CONVERSIONS_SEPERATOR+"modelOrganizationCode");
-        return UrlFactory.parameterizeUrl(Constants.MAINTENANCE_ACTION, parameters);
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_NEWWITHEXISTING_ACTION);
+        parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, DelegateChangeContainer.class.getName());
+        parameters.put(KFSConstants.OVERRIDE_KEYS, "modelName"+KFSConstants.FIELD_CONVERSIONS_SEPERATOR+"modelChartOfAccountsCode"+KFSConstants.FIELD_CONVERSIONS_SEPERATOR+"modelOrganizationCode");
+        return UrlFactory.parameterizeUrl(KFSConstants.MAINTENANCE_ACTION, parameters);
     }
 
     /**

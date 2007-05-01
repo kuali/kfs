@@ -26,7 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.struts.form.KualiTableRenderFormMetadata;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 
 /**
  * 
@@ -89,7 +89,7 @@ public class BalanceInquiryLookupResults extends LookupForm implements LookupRes
     }
     
     protected String getMethodToCall(HttpServletRequest request) {
-        return request.getParameter(Constants.DISPATCH_REQUEST_PARAMETER);
+        return request.getParameter(KFSConstants.DISPATCH_REQUEST_PARAMETER);
     }
         
     /**
@@ -98,19 +98,19 @@ public class BalanceInquiryLookupResults extends LookupForm implements LookupRes
      * @param request HttpServletRequest
      */
     public void populate(HttpServletRequest request) {
-        if (StringUtils.isNotBlank(request.getParameter(Constants.TableRenderConstants.VIEWED_PAGE_NUMBER))) {
-            setViewedPageNumber(Integer.parseInt(request.getParameter(Constants.TableRenderConstants.VIEWED_PAGE_NUMBER)));
+        if (StringUtils.isNotBlank(request.getParameter(KFSConstants.TableRenderConstants.VIEWED_PAGE_NUMBER))) {
+            setViewedPageNumber(Integer.parseInt(request.getParameter(KFSConstants.TableRenderConstants.VIEWED_PAGE_NUMBER)));
         }
         else {
             setViewedPageNumber(0); // first page is page 0
         }
         
-        if (Constants.TableRenderConstants.SWITCH_TO_PAGE_METHOD.equals(getMethodToCall(request))) {
+        if (KFSConstants.TableRenderConstants.SWITCH_TO_PAGE_METHOD.equals(getMethodToCall(request))) {
             // look for the page number to switch to
             setSwitchToPageNumber(-1);
             
             // the param we're looking for looks like: methodToCall.switchToPage.1.x , where 1 is the page nbr
-            String paramPrefix = Constants.DISPATCH_REQUEST_PARAMETER + "." + Constants.TableRenderConstants.SWITCH_TO_PAGE_METHOD + ".";
+            String paramPrefix = KFSConstants.DISPATCH_REQUEST_PARAMETER + "." + KFSConstants.TableRenderConstants.SWITCH_TO_PAGE_METHOD + ".";
             for (Enumeration i = request.getParameterNames(); i.hasMoreElements();) {
                 String parameterName = (String) i.nextElement();
                 if (parameterName.startsWith(paramPrefix) && parameterName.endsWith(".x")) {
@@ -123,11 +123,11 @@ public class BalanceInquiryLookupResults extends LookupForm implements LookupRes
             }
         }
         
-        if (Constants.TableRenderConstants.SORT_METHOD.equals(getMethodToCall(request))) {
+        if (KFSConstants.TableRenderConstants.SORT_METHOD.equals(getMethodToCall(request))) {
             setColumnToSortIndex(-1);
             
             // the param we're looking for looks like: methodToCall.sort.1.x , where 1 is the column to sort on
-            String paramPrefix = Constants.DISPATCH_REQUEST_PARAMETER + "." + Constants.TableRenderConstants.SORT_METHOD + ".";
+            String paramPrefix = KFSConstants.DISPATCH_REQUEST_PARAMETER + "." + KFSConstants.TableRenderConstants.SORT_METHOD + ".";
             for (Enumeration i = request.getParameterNames(); i.hasMoreElements();) {
                 String parameterName = (String) i.nextElement();
                 if (parameterName.startsWith(paramPrefix) && parameterName.endsWith(".x")) {
@@ -159,7 +159,7 @@ public class BalanceInquiryLookupResults extends LookupForm implements LookupRes
     }
 
     protected Set<String> parsePreviouslySelectedObjectIds(HttpServletRequest request) {
-        String previouslySelectedObjectIds = request.getParameter(Constants.MULTIPLE_VALUE_LOOKUP_PREVIOUSLY_SELECTED_OBJ_IDS_PARAM);
+        String previouslySelectedObjectIds = request.getParameter(KFSConstants.MULTIPLE_VALUE_LOOKUP_PREVIOUSLY_SELECTED_OBJ_IDS_PARAM);
         return LookupUtils.convertStringOfObjectIdsToSet(previouslySelectedObjectIds);
     }
     
@@ -169,8 +169,8 @@ public class BalanceInquiryLookupResults extends LookupForm implements LookupRes
         Enumeration paramNames = request.getParameterNames();
         while (paramNames.hasMoreElements()) {
             String paramName = (String) paramNames.nextElement();
-            if (paramName.startsWith(Constants.MULTIPLE_VALUE_LOOKUP_SELECTED_OBJ_ID_PARAM_PREFIX) && StringUtils.isNotBlank(request.getParameter(paramName))) {
-                set.add(StringUtils.substringAfter(paramName, Constants.MULTIPLE_VALUE_LOOKUP_SELECTED_OBJ_ID_PARAM_PREFIX));
+            if (paramName.startsWith(KFSConstants.MULTIPLE_VALUE_LOOKUP_SELECTED_OBJ_ID_PARAM_PREFIX) && StringUtils.isNotBlank(request.getParameter(paramName))) {
+                set.add(StringUtils.substringAfter(paramName, KFSConstants.MULTIPLE_VALUE_LOOKUP_SELECTED_OBJ_ID_PARAM_PREFIX));
             }
         }
         return set;
@@ -182,8 +182,8 @@ public class BalanceInquiryLookupResults extends LookupForm implements LookupRes
         Enumeration paramNames = request.getParameterNames();
         while (paramNames.hasMoreElements()) {
             String paramName = (String) paramNames.nextElement();
-            if (paramName.startsWith(Constants.MULTIPLE_VALUE_LOOKUP_DISPLAYED_OBJ_ID_PARAM_PREFIX) && StringUtils.isNotBlank(request.getParameter(paramName))) {
-                set.add(StringUtils.substringAfter(paramName, Constants.MULTIPLE_VALUE_LOOKUP_DISPLAYED_OBJ_ID_PARAM_PREFIX));
+            if (paramName.startsWith(KFSConstants.MULTIPLE_VALUE_LOOKUP_DISPLAYED_OBJ_ID_PARAM_PREFIX) && StringUtils.isNotBlank(request.getParameter(paramName))) {
+                set.add(StringUtils.substringAfter(paramName, KFSConstants.MULTIPLE_VALUE_LOOKUP_DISPLAYED_OBJ_ID_PARAM_PREFIX));
             }
         }
         return set;
@@ -200,7 +200,7 @@ public class BalanceInquiryLookupResults extends LookupForm implements LookupRes
      */
     protected boolean parseSearchUsingOnlyPrimaryKeyValues(HttpServletRequest request) {
         // the param we're looking for looks like: methodToCall.sort.1.(::;true;::).x , we want to parse out the "true" component
-        String paramPrefix = Constants.DISPATCH_REQUEST_PARAMETER + "." + getMethodToCall(request) + ".";
+        String paramPrefix = KFSConstants.DISPATCH_REQUEST_PARAMETER + "." + getMethodToCall(request) + ".";
         for (Enumeration i = request.getParameterNames(); i.hasMoreElements();) {
             String parameterName = (String) i.nextElement();
             if (parameterName.startsWith(paramPrefix) && parameterName.endsWith(".x")) {
@@ -221,7 +221,7 @@ public class BalanceInquiryLookupResults extends LookupForm implements LookupRes
      * @return the value between the delimiters, false if there are no delimiters
      */
     protected boolean parseSearchUsingOnlyPrimaryKeyValues(String methodToCallParam) {
-        String searchUsingOnlyPrimaryKeyValuesStr = StringUtils.substringBetween(methodToCallParam, Constants.METHOD_TO_CALL_PARM12_LEFT_DEL, Constants.METHOD_TO_CALL_PARM12_RIGHT_DEL);
+        String searchUsingOnlyPrimaryKeyValuesStr = StringUtils.substringBetween(methodToCallParam, KFSConstants.METHOD_TO_CALL_PARM12_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM12_RIGHT_DEL);
         if (StringUtils.isBlank(searchUsingOnlyPrimaryKeyValuesStr)) {
             return false;
         }

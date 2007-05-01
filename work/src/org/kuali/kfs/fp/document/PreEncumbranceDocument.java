@@ -21,7 +21,7 @@ import java.util.List;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.module.financial.bo.PreEncumbranceDocumentAccountingLineParser;
@@ -80,7 +80,7 @@ public class PreEncumbranceDocument extends AccountingDocumentBase implements Co
      */
     @Override
     public String getSourceAccountingLinesSectionTitle() {
-        return Constants.ENCUMBRANCE;
+        return KFSConstants.ENCUMBRANCE;
     }
 
     /**
@@ -90,7 +90,7 @@ public class PreEncumbranceDocument extends AccountingDocumentBase implements Co
      */
     @Override
     public String getTargetAccountingLinesSectionTitle() {
-        return Constants.DISENCUMBRANCE;
+        return KFSConstants.DISENCUMBRANCE;
     }
 
     /**

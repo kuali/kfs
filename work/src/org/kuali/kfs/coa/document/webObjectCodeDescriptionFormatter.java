@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;
 
@@ -43,10 +43,10 @@ public class ObjectCodeDescriptionFormatter extends CodeDescriptionFormatterBase
     @Override
     protected Map<String, PersistableBusinessObject> getValuesToBusinessObjectsMap(Set values) {
         Map<String, Object> criteria = new HashMap<String, Object>();
-        criteria.put(Constants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
-        criteria.put(Constants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
-        criteria.put(Constants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, values);
-        Collection<ObjectCode> coll = SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(ObjectCode.class, criteria, Constants.VERSION_NUMBER, true);
+        criteria.put(KFSConstants.UNIVERSITY_FISCAL_YEAR_PROPERTY_NAME, universityFiscalYear);
+        criteria.put(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, chartOfAccountsCode);
+        criteria.put(KFSConstants.FINANCIAL_OBJECT_CODE_PROPERTY_NAME, values);
+        Collection<ObjectCode> coll = SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(ObjectCode.class, criteria, KFSConstants.VERSION_NUMBER, true);
 
         Map<String, PersistableBusinessObject> results = new HashMap<String, PersistableBusinessObject>();
         // TODO: worry about active flag?

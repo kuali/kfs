@@ -25,7 +25,7 @@ import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.BeanPropertyComparator;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.service.BalanceService;
 import org.kuali.module.labor.dao.LaborDao;
@@ -57,8 +57,8 @@ public class BaseFundsLookupableHelperServiceImpl extends AbstractLookupableHelp
 
         boolean unbounded = false;
 
-        setBackLocation((String) fieldValues.get(Constants.BACK_LOCATION));
-        setDocFormKey((String) fieldValues.get(Constants.DOC_FORM_KEY));
+        setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
+        setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
                 
         // Parse the map and call the DAO to process the inquiry
         BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();

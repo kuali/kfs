@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganization;
 import org.kuali.module.kra.routingform.bo.RoutingFormOtherCostShare;
@@ -76,7 +76,7 @@ public class RoutingFormProjectDetailsAction extends RoutingFormAction {
         routingFormDocument.addRoutingFormInstitutionCostShare(routingFormInstitutionCostShare, false);
         
         routingForm.setNewRoutingFormInstitutionCostShare(new RoutingFormInstitutionCostShare());
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward deleteRoutingFormInstitutionCostShare(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -87,7 +87,7 @@ public class RoutingFormProjectDetailsAction extends RoutingFormAction {
         int lineToDelete = super.getLineToDelete(request);
         routingForm.getRoutingFormDocument().getRoutingFormInstitutionCostShares().remove(lineToDelete);        
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward insertRoutingFormOtherCostShare(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -99,7 +99,7 @@ public class RoutingFormProjectDetailsAction extends RoutingFormAction {
         routingFormDocument.addRoutingFormOtherCostShare(routingFormOtherCostShare);
 
         routingForm.setNewRoutingFormOtherCostShare(new RoutingFormOtherCostShare());
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward deleteRoutingFormOtherCostShare(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -110,7 +110,7 @@ public class RoutingFormProjectDetailsAction extends RoutingFormAction {
         int lineToDelete = super.getLineToDelete(request);
         routingForm.getRoutingFormDocument().getRoutingFormOtherCostShares().remove(lineToDelete);        
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward insertRoutingFormSubcontractor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -122,7 +122,7 @@ public class RoutingFormProjectDetailsAction extends RoutingFormAction {
         routingFormDocument.addRoutingFormSubcontractor(routingFormSubcontractor);
 
         routingForm.setNewRoutingFormSubcontractor(new RoutingFormSubcontractor());
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward deleteRoutingFormSubcontractor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -133,7 +133,7 @@ public class RoutingFormProjectDetailsAction extends RoutingFormAction {
         int lineToDelete = super.getLineToDelete(request);
         routingForm.getRoutingFormDocument().getRoutingFormSubcontractors().remove(lineToDelete);        
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
     public ActionForward deleteRoutingFormOrganization(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -144,7 +144,7 @@ public class RoutingFormProjectDetailsAction extends RoutingFormAction {
         int lineToDelete = super.getLineToDelete(request);
         routingForm.getRoutingFormDocument().getRoutingFormOrganizations().remove(lineToDelete);        
         
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward insertRoutingFormOrganization(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -156,7 +156,7 @@ public class RoutingFormProjectDetailsAction extends RoutingFormAction {
         routingFormDocument.addRoutingFormOrganization(routingFormOrganization);
 
         routingForm.setNewRoutingFormOrganization(new RoutingFormOrganization());
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
 }

@@ -152,7 +152,7 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
      */
     @Override
     public String toString() {
-        // todo: get "nonexistent", "primary", and "secondary" from ApplicationResources.properties via KeyConstants?
+        // todo: get "nonexistent", "primary", and "secondary" from ApplicationResources.properties via KFSKeyConstants?
         String name = ObjectUtils.isNull(getProjectDirector()) ? "nonexistent" : getProjectDirector().getPersonName();
         String title = getProposalProjectDirectorProjectTitle() == null ? "" : " " + getProposalProjectDirectorProjectTitle();
         return name + " " + (isProposalPrimaryProjectDirectorIndicator() ? "primary" : "secondary") + title;

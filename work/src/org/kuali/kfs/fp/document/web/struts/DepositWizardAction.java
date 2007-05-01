@@ -36,9 +36,9 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.KeyConstants;
-import org.kuali.kfs.Constants.CashDrawerConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSConstants.CashDrawerConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.Bank;
 import org.kuali.module.financial.bo.BankAccount;
@@ -130,7 +130,7 @@ public class DepositWizardAction extends KualiAction {
      * @param dform
      */
     private void loadCashReceipts(DepositWizardForm dform) {
-        List verifiedReceipts = SpringServiceLocator.getCashReceiptService().getCashReceipts(dform.getCashDrawerVerificationUnit(), Constants.DocumentStatusCodes.CashReceipt.VERIFIED);
+        List verifiedReceipts = SpringServiceLocator.getCashReceiptService().getCashReceipts(dform.getCashDrawerVerificationUnit(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
         dform.setDepositableCashReceipts(verifiedReceipts);
 
         // prepopulate DepositWizardHelpers
@@ -168,7 +168,7 @@ public class DepositWizardAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward startWizard(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
@@ -181,7 +181,7 @@ public class DepositWizardAction extends KualiAction {
      * @return ActionForward
      */
     public ActionForward createDeposit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        ActionForward dest = mapping.findForward(Constants.MAPPING_BASIC);
+        ActionForward dest = mapping.findForward(KFSConstants.MAPPING_BASIC);
 
         DepositWizardForm dform = (DepositWizardForm) form;
         BusinessObjectService boService = SpringServiceLocator.getBusinessObjectService();
@@ -190,7 +190,7 @@ public class DepositWizardAction extends KualiAction {
         boolean hasBankAccountNumber = false;
         String bankAccountNumber = dform.getBankAccountNumber();
         if (StringUtils.isBlank(bankAccountNumber)) {
-            GlobalVariables.getErrorMap().putError(Constants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KeyConstants.Deposit.ERROR_MISSING_BANKACCOUNT);
+            GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_MISSING_BANKACCOUNT);
         }
         else {
             hasBankAccountNumber = true;
@@ -198,7 +198,7 @@ public class DepositWizardAction extends KualiAction {
 
         String bankCode = dform.getBankCode();
         if (StringUtils.isBlank(bankCode)) {
-            GlobalVariables.getErrorMap().putError(Constants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KeyConstants.Deposit.ERROR_MISSING_BANK);
+            GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_MISSING_BANK);
         }
         else {
             Map keyMap = new HashMap();
@@ -206,7 +206,7 @@ public class DepositWizardAction extends KualiAction {
 
             Bank bank = (Bank) boService.findByPrimaryKey(Bank.class, keyMap);
             if (bank == null) {
-                GlobalVariables.getErrorMap().putError(Constants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KeyConstants.Deposit.ERROR_UNKNOWN_BANK, bankCode);
+                GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_UNKNOWN_BANK, bankCode);
             }
             else {
                 dform.setBank(bank);
@@ -217,7 +217,7 @@ public class DepositWizardAction extends KualiAction {
                     BankAccount bankAccount = (BankAccount) boService.findByPrimaryKey(BankAccount.class, keyMap);
                     if (bankAccount == null) {
                         String[] msgParams = { bankAccountNumber, bankCode };
-                        GlobalVariables.getErrorMap().putError(Constants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KeyConstants.Deposit.ERROR_UNKNOWN_BANKACCOUNT, msgParams);
+                        GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_DEPOSITHEADER_ERROR, KFSKeyConstants.Deposit.ERROR_UNKNOWN_BANKACCOUNT, msgParams);
                     }
                     else {
                         dform.setBankAccount(bankAccount);
@@ -231,14 +231,14 @@ public class DepositWizardAction extends KualiAction {
         for (Iterator i = dform.getDepositWizardHelpers().iterator(); i.hasNext();) {
             String checkValue = ((DepositWizardHelper) i.next()).getSelectedValue();
 
-            if (StringUtils.isNotBlank(checkValue) && !checkValue.equals(Constants.ParameterValues.NO)) {
-                // removed apparently-unnecessary test for !checkValue.equals(Constants.ParameterValues.YES)
+            if (StringUtils.isNotBlank(checkValue) && !checkValue.equals(KFSConstants.ParameterValues.NO)) {
+                // removed apparently-unnecessary test for !checkValue.equals(KFSConstants.ParameterValues.YES)
                 selectedIds.add(checkValue);
             }
         }
 
         if (selectedIds.isEmpty()) {
-            GlobalVariables.getErrorMap().putError(Constants.DepositConstants.DEPOSIT_WIZARD_CASHRECEIPT_ERROR, KeyConstants.Deposit.ERROR_NO_CASH_RECEIPTS_SELECTED);
+            GlobalVariables.getErrorMap().putError(KFSConstants.DepositConstants.DEPOSIT_WIZARD_CASHRECEIPT_ERROR, KFSKeyConstants.Deposit.ERROR_NO_CASH_RECEIPTS_SELECTED);
         }
 
         //
@@ -265,7 +265,7 @@ public class DepositWizardAction extends KualiAction {
                 // create deposit
                 String cmDocId = dform.getCashManagementDocId();
 
-                boolean depositIsFinal = (StringUtils.equals(dform.getDepositTypeCode(), Constants.DepositConstants.DEPOSIT_TYPE_FINAL));
+                boolean depositIsFinal = (StringUtils.equals(dform.getDepositTypeCode(), KFSConstants.DepositConstants.DEPOSIT_TYPE_FINAL));
                 CashManagementService cms = SpringServiceLocator.getCashManagementService();
                 cms.addDeposit(cashManagementDoc, dform.getDepositTicketNumber(), dform.getBankAccount(), selectedReceipts, depositIsFinal);
 

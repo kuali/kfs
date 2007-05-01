@@ -20,7 +20,7 @@ import java.util.Iterator;
 
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.document.AccountingDocumentBase;
@@ -41,7 +41,7 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase {
      * Constructs a CashReceiptFamilyBase
      */
     public CashReceiptFamilyBase() {
-        setCampusLocationCode(Constants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_CAMPUS_LOCATION_CODE);
+        setCampusLocationCode(KFSConstants.CashReceiptConstants.DEFAULT_CASH_RECEIPT_CAMPUS_LOCATION_CODE);
     }
 
     /**
@@ -148,7 +148,7 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase {
      */
     @Override
     public String getSourceAccountingLinesSectionTitle() {
-        return Constants.EMPTY_STRING;
+        return KFSConstants.EMPTY_STRING;
     }
 
     /**
@@ -158,7 +158,7 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase {
      */
     @Override
     public String getTargetAccountingLinesSectionTitle() {
-        return Constants.EMPTY_STRING;
+        return KFSConstants.EMPTY_STRING;
     }
 
 

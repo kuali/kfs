@@ -24,7 +24,7 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.BeanPropertyComparator;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.bo.VendorContact;
 import org.kuali.module.vendor.bo.VendorContactPhoneNumber;
@@ -42,8 +42,8 @@ public class VendorContactLookupableHelperServiceImpl extends AbstractLookupable
     @Override
     public List<PersistableBusinessObject> getSearchResults(Map<String, String> fieldValues) {
         boolean unbounded = false;
-        super.setBackLocation((String) fieldValues.get(Constants.BACK_LOCATION));
-        super.setDocFormKey((String) fieldValues.get(Constants.DOC_FORM_KEY));
+        super.setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
+        super.setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
         List<PersistableBusinessObject> searchResults = (List) getLookupService().findCollectionBySearchHelper(getBusinessObjectClass(), fieldValues, unbounded);
 
@@ -58,10 +58,10 @@ public class VendorContactLookupableHelperServiceImpl extends AbstractLookupable
                     vendorContact.setPhoneNumberForLookup(phoneNumber.getVendorPhoneNumber() + ((StringUtils.isNotEmpty(extension)) ? " x " + extension : null)) ;
                 } else if (phoneNumber.getVendorPhoneType().getVendorPhoneTypeCode().equals(VendorConstants.PhoneTypes.FAX) &&
                            StringUtils.isBlank(vendorContact.getFaxForLookup())) {
-                    vendorContact.setFaxForLookup(phoneNumber.getVendorPhoneNumber() + ((StringUtils.isNotEmpty(extension)) ? " x " + extension : Constants.EMPTY_STRING));
+                    vendorContact.setFaxForLookup(phoneNumber.getVendorPhoneNumber() + ((StringUtils.isNotEmpty(extension)) ? " x " + extension : KFSConstants.EMPTY_STRING));
                 } else if (phoneNumber.getVendorPhoneType().getVendorPhoneTypeCode().equals(VendorConstants.PhoneTypes.TOLL_FREE) &&
                            StringUtils.isBlank(vendorContact.getTollFreeForLookup())) {
-                    vendorContact.setTollFreeForLookup(phoneNumber.getVendorPhoneNumber() + ((StringUtils.isNotEmpty(extension)) ? " x " + extension : Constants.EMPTY_STRING));
+                    vendorContact.setTollFreeForLookup(phoneNumber.getVendorPhoneNumber() + ((StringUtils.isNotEmpty(extension)) ? " x " + extension : KFSConstants.EMPTY_STRING));
                 }
             }
         }

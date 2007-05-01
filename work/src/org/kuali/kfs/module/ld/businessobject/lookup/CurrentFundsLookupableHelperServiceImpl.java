@@ -27,8 +27,8 @@ import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.kfs.Constants;
-import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.service.BalanceService;
 import org.kuali.module.labor.LaborConstants;
@@ -52,13 +52,13 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
 
         boolean unbounded = false;
 
-        setBackLocation((String) fieldValues.get(Constants.BACK_LOCATION));
-        setDocFormKey((String) fieldValues.get(Constants.DOC_FORM_KEY));
+        setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
+        setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
-        if (((fieldValues.get(PropertyConstants.FINANCIAL_OBJECT_CODE) != null) && (fieldValues.get(PropertyConstants.FINANCIAL_OBJECT_CODE).toString().length() > 0))) {
+        if (((fieldValues.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE) != null) && (fieldValues.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE).toString().length() > 0))) {
 
             // Check for a valid labor object code for this inquiry
-            if (StringUtils.indexOfAny(fieldValues.get(PropertyConstants.FINANCIAL_OBJECT_CODE).toString(), LaborConstants.BalanceInquiries.VALID_LABOR_OBJECT_CODES) != 0)
+            if (StringUtils.indexOfAny(fieldValues.get(KFSPropertyConstants.FINANCIAL_OBJECT_CODE).toString(), LaborConstants.BalanceInquiries.VALID_LABOR_OBJECT_CODES) != 0)
             GlobalVariables.getErrorMap().putError(LaborConstants.BalanceInquiries.ERROR_INVALID_LABOR_OBJECT_CODE, 
                     LaborConstants.BalanceInquiries.ERROR_INVALID_LABOR_OBJECT_CODE, "2");
         }

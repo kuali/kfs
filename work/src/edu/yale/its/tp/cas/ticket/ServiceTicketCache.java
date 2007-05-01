@@ -25,7 +25,7 @@ import java.security.*;
 public class ServiceTicketCache extends OTUTicketCache {
 
   //*********************************************************************
-  // Constants
+  // KFSConstants
 
   /** Length of random ticket identifiers. */
   private static final int TICKET_ID_LENGTH = 20;

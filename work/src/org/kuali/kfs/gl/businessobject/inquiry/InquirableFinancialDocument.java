@@ -17,7 +17,7 @@ package org.kuali.module.gl.web.inquirable;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.Constants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.Encumbrance;
 import org.kuali.module.gl.bo.Transaction;
@@ -41,7 +41,7 @@ public class InquirableFinancialDocument {
      */
     public String getInquirableDocumentUrl(Transaction transaction) {
         if (transaction == null) {
-            return Constants.EMPTY_STRING;
+            return KFSConstants.EMPTY_STRING;
         }
 
         String docNumber = transaction.getDocumentNumber();
@@ -51,10 +51,10 @@ public class InquirableFinancialDocument {
     }
 
     private String getUrl(String originCode, String docNumber) {
-        if (Constants.ORIGIN_CODE_KUALI.equals(originCode) && !StringUtils.isBlank(docNumber)) {
-            return kualiConfigurationService.getPropertyString(Constants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + docNumber + "&command=displayDocSearchView";
+        if (KFSConstants.ORIGIN_CODE_KUALI.equals(originCode) && !StringUtils.isBlank(docNumber)) {
+            return kualiConfigurationService.getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + docNumber + "&command=displayDocSearchView";
         }
-        return Constants.EMPTY_STRING;
+        return KFSConstants.EMPTY_STRING;
     }
 
     /**
@@ -66,7 +66,7 @@ public class InquirableFinancialDocument {
      */
     public String getInquirableDocumentUrl(Encumbrance encumbrance) {
         if (encumbrance == null) {
-            return Constants.EMPTY_STRING;
+            return KFSConstants.EMPTY_STRING;
         }
 
         String docNumber = encumbrance.getDocumentNumber();

@@ -190,6 +190,10 @@
 		<foreignkey field-ref="accountNumber" />
 		<foreignkey field-ref="subAccountNumber" />
 	</reference-descriptor>
+	<reference-descriptor name="budgetConstructionAccountReports" class-ref="org.kuali.module.budget.bo.BudgetConstructionAccountReports" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="accountNumber" />
+	</reference-descriptor>
 	<collection-descriptor name="budgetConstructionAccountSelect" element-class-ref="org.kuali.module.budget.bo.BudgetConstructionAccountSelect" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<orderby name="personUniversalIdentifier" sort="ASC" />
 		<inverse-foreignkey field-ref="documentNumber" />

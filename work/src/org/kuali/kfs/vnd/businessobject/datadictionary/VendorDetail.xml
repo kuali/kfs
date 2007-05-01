@@ -328,7 +328,7 @@
                 </control>
 
                 <summary>vendorName</summary>
-                <description>vendorName description...</description>
+                <description>Only one format may be used for vendor name. Enter either the Vendor Name OR the Vendor First and Last Name.</description>
 			</attribute>
 
             <attribute name="vendorLastName" forceUppercase="true">
@@ -343,7 +343,7 @@
                 </control>
 
                 <summary>vendorLastName</summary>
-                <description>vendorLastName description...</description>
+                <description>Only one format may be used for vendor name. Enter either the Vendor Name OR the Vendor First and Last Name.</description>
 			</attribute>
 			
             <attribute name="vendorFirstName" forceUppercase="true">
@@ -358,7 +358,7 @@
                 </control>
 
                 <summary>vendorFirstName</summary>
-                <description>vendorFirstName description...</description>
+                <description>Only one format may be used for vendor name. Enter either the Vendor Name OR the Vendor First and Last Name.</description>
 			</attribute>		
 
             <attribute name="vendorRemitName">

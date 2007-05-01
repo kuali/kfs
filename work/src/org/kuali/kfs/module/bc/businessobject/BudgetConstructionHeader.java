@@ -55,6 +55,7 @@ public class BudgetConstructionHeader extends PersistableBusinessObjectBase {
     private UniversalUser budgetTransactionLockUser;
     private Org organizationLevelOrganization;
     private DocumentHeader financialDocument;
+    private BudgetConstructionAccountReports budgetConstructionAccountReports;
     
     private List budgetConstructionAccountSelect;
 
@@ -420,6 +421,22 @@ public class BudgetConstructionHeader extends PersistableBusinessObjectBase {
         this.financialDocument = financialDocument;
     }    
     
+    /**
+     * Gets the budgetConstructionAccountReports attribute. 
+     * @return Returns the budgetConstructionAccountReports.
+     */
+    public BudgetConstructionAccountReports getBudgetConstructionAccountReports() {
+        return budgetConstructionAccountReports;
+    }
+
+    /**
+     * Sets the budgetConstructionAccountReports attribute value.
+     * @param budgetConstructionAccountReports The budgetConstructionAccountReports to set.
+     */
+    public void setBudgetConstructionAccountReports(BudgetConstructionAccountReports budgetConstructionAccountReports) {
+        this.budgetConstructionAccountReports = budgetConstructionAccountReports;
+    }
+
     /**
      * Returns a map with the primitive field names as the key and the primitive values as the map value.
      * 

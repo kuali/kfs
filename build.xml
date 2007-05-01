@@ -505,6 +505,18 @@
 		</copy>
 	</target>
 	
+	<target name="unzip-rice-web-content" depends="init-project-properties">
+		<unzip src="${work.directory}/rice-web-content/sampleapp-0.9-SNAPSHOT.war" dest="${work.directory}/web-root" overwrite="true">
+		    <patternset>
+		        <include name="css/*.css" />
+		    	<include name="images/*" />
+		    	<include name="scripts/*.js" />
+		    	<include name="jsp/core/*.jsp" />		    	
+		    	<include name="WEB-INF/tags/**/*.tag" />
+		    </patternset>
+		</unzip>
+	</target>
+	
 	<target name="help" description="Describe public targets">
 		<echo>--- OVERVIEW ---
 			 

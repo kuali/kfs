@@ -40,7 +40,7 @@
 		</property>
 		<property name="dataDictionaryPackages">
 			<list>
-				<value>org.kuali.module.chart.datadictionary</value>
+				<value>org/kuali/module/chart/datadictionary</value>
 			</list>
 		</property>
 		<property name="databaseRepositoryFilePaths">

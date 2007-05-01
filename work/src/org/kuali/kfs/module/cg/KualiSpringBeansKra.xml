@@ -38,9 +38,9 @@
 		</property>
 		<property name="dataDictionaryPackages">
 			<list>
-				<value>org.kuali.module.kra.datadictionary</value>
-				<value>org.kuali.module.kra.budget.datadictionary</value>
-				<value>org.kuali.module.kra.routingform.datadictionary</value>
+				<value>org/kuali/module/kra/datadictionary</value>
+				<value>org/kuali/module/kra/budget/datadictionary</value>
+				<value>org/kuali/module/kra/routingform/datadictionary</value>
 			</list>
 		</property>
 		<property name="databaseRepositoryFilePaths">

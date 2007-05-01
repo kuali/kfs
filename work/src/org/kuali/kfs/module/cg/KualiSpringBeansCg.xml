@@ -38,7 +38,7 @@
 		</property>
 		<property name="dataDictionaryPackages">
 			<list>
-				<value>org.kuali.module.cg.datadictionary</value>
+				<value>org/kuali/module/cg/datadictionary</value>
 			</list>
 		</property>
 		<property name="databaseRepositoryFilePaths">

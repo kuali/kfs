@@ -120,11 +120,11 @@
                 <label>CSF Amount</label>
                 <shortLabel>CSF Amt</shortLabel>
 
-                <maxLength>19</maxLength>
+                <maxLength>16</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
 
                 <control>
-                    <text size="21" />
+                    <text size="17" />
                 </control>
 
                 <summary>csfAmount</summary>

@@ -20,17 +20,17 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.chart.bo.OrganizationRoutingModelName">
         <inquiry>
-            <title>Organization Routing Model Name Inquiry</title>
+            <title>Account Delegate Model Name Inquiry</title>
 
             <inquirySections>
-            	<inquirySection title="Organization Routing Model Name">
+            	<inquirySection title="Account Delegate Model Name">
             		<inquiryFields>
 		                <field attributeName="chartOfAccountsCode" />
 		                <field attributeName="organizationCode" />
 		                <field attributeName="organizationRoutingModelName" />
             		</inquiryFields>
             	</inquirySection>
-            	<inquirySection title="Organization Routing Model Delegates">
+            	<inquirySection title="Account Delegate Model Delegates">
             		<inquiryFields>
             			<inquiryCollection name="organizationRoutingModel" businessObjectClass="org.kuali.module.chart.bo.OrganizationRoutingModel">
             				<field attributeName="financialDocumentTypeCode" />
@@ -46,9 +46,9 @@
 
         <lookup>
         	<lookupableID>organizationRoutingModelLookupable</lookupableID>
-            <title>Organization Routing Model Name Lookup</title>
+            <title>Account Delegate Model Name Lookup</title>
 
-            <instructions>Look up an Organization Routing Model Name</instructions>
+            <instructions>Look up an Account Delegate Model Name</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
@@ -104,7 +104,7 @@
 			</attribute>
 
             <attribute name="organizationRoutingModelName" forceUppercase="true">
-                <label>Organization Routing Model Name</label>
+                <label>Account Delegate Model Name</label>
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>10</maxLength>
@@ -114,8 +114,8 @@
                     <text size="12" />
                 </control>
 
-                <summary>organizationRoutingModelName</summary>
-                <description>organizationRoutingModelName description...</description>
+                <summary>accountDelegateModelName</summary>
+                <description>accountDelegateModelName description...</description>
 			</attribute>
 
             <attributeReference name="versionNumber" 
@@ -123,6 +123,6 @@
             					sourceAttributeName="versionNumber" />
 
         </attributes>
-        <objectLabel>Organization Routing Model Name</objectLabel>
+        <objectLabel>Account Delegate Model Name</objectLabel>
     </businessObject>
 </dictionaryEntry>

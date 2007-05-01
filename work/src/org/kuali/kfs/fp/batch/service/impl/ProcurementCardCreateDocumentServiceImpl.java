@@ -15,7 +15,7 @@
  */
 package org.kuali.module.financial.service.impl;
 
-import static org.kuali.Constants.GL_CREDIT_CODE;
+import static org.kuali.kfs.Constants.GL_CREDIT_CODE;
 import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.AUTO_APPROVE_DOCUMENTS_IND;
 import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.AUTO_APPROVE_NUMBER_OF_DAYS;
 import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.DEFAULT_TRANS_ACCOUNT_PARM_NM;
@@ -34,8 +34,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.rule.event.SaveOnlyDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
@@ -49,6 +47,8 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.TimestampFormatter;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.kfs.Constants;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.kfs.rules.AccountingLineRuleUtil;
 import org.kuali.module.financial.bo.ProcurementCardHolder;
 import org.kuali.module.financial.bo.ProcurementCardSourceAccountingLine;

@@ -19,8 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kfs.Constants;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.service.CashDrawerService;
 import org.springframework.transaction.annotation.Transactional;

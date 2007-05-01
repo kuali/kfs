@@ -17,8 +17,8 @@ package org.kuali.module.gl.batch.poster.impl;
 
 import java.util.Date;
 
-import org.kuali.Constants;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.Constants;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.bo.SufficientFundBalances;
 import org.kuali.module.gl.bo.Transaction;

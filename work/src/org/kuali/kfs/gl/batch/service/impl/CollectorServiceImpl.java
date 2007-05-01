@@ -22,12 +22,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.Constants;
 import org.kuali.core.mail.InvalidAddressException;
 import org.kuali.core.mail.MailMessage;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.MailService;
+import org.kuali.kfs.Constants;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.collector.xml.CollectorFileHandler;
 import org.kuali.module.gl.collector.xml.CollectorFileParser;

@@ -22,8 +22,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.Constants;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.kfs.Constants;
 import org.kuali.module.gl.batch.poster.EncumbranceCalculator;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.batch.poster.VerifyTransaction;

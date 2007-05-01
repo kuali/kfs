@@ -18,9 +18,9 @@ package org.kuali.module.financial.service.impl;
 import java.util.Calendar;
 import java.util.HashMap;
 
-import org.kuali.Constants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;

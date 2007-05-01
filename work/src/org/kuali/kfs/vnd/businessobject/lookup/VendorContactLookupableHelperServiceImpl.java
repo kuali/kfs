@@ -20,11 +20,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.BeanPropertyComparator;
+import org.kuali.kfs.Constants;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.bo.VendorContact;
 import org.kuali.module.vendor.bo.VendorContactPhoneNumber;

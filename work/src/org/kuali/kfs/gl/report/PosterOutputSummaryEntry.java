@@ -16,8 +16,8 @@
 package org.kuali.module.gl.util;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.kuali.Constants;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.Constants;
 
 public class PosterOutputSummaryEntry implements Comparable {
     private static String[] assetExpenseObjectTypeCodeList = new String[] { "AS", "EE", "ES", "EX", "TE" };

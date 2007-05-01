@@ -22,8 +22,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
-import org.kuali.PropertyConstants;
 
 /**
  * Class representing a RoutingFormResearchRiskType.

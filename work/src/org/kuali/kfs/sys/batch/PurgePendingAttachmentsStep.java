@@ -20,8 +20,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
 import org.kuali.core.service.AttachmentService;
+import org.kuali.kfs.Constants;
 
 
 /**

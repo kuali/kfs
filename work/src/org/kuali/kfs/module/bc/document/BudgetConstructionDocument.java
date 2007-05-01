@@ -22,12 +22,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.Constants;
-import org.kuali.Constants.BudgetConstructionConstants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.Constants;
+import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.Constants.BudgetConstructionConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.budget.bo.BudgetConstructionAccountReports;
 import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;

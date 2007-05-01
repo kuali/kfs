@@ -28,8 +28,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.kuali.PropertyConstants;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.labor.bo.LaborTransaction;
 import org.kuali.module.gl.dao.OriginEntryDao;

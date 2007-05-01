@@ -20,12 +20,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.util.BeanPropertyComparator;
+import org.kuali.kfs.Constants;
 
 /**
  * This class...

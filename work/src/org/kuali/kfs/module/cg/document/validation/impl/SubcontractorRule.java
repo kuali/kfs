@@ -20,9 +20,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.KeyConstants;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.kfs.KeyConstants;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.State;
 import org.kuali.kfs.util.SpringServiceLocator;

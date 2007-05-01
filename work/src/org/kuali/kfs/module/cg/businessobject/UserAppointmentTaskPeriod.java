@@ -24,8 +24,8 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.module.kra.budget.service.impl.BudgetPersonnelServiceImpl.PeriodSalary;
-import org.kuali.PropertyConstants;
 
 /**
  * 

@@ -19,7 +19,7 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.PropertyConstants;
+import org.kuali.kfs.PropertyConstants;
 
 /**
  * This class represents an ad-hoc person.

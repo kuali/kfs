@@ -16,9 +16,9 @@
 package org.kuali.module.chart.rules;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.Constants;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.IcrAutomatedEntry;
 

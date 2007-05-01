@@ -20,14 +20,14 @@ import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.GENERAL_LE
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.exceptions.ReferentialIntegrityException;
 import org.kuali.core.rules.LedgerPostingDocumentRuleBase;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.Constants;
+import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.ObjectCode;

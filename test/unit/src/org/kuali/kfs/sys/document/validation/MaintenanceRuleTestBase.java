@@ -18,8 +18,6 @@ package org.kuali.core.maintenance;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.MaintenanceDocumentBase;
@@ -32,6 +30,8 @@ import static org.kuali.kfs.util.SpringServiceLocator.getDictionaryValidationSer
 import static org.kuali.kfs.util.SpringServiceLocator.getDocumentService;
 
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.Constants;
+import org.kuali.kfs.KeyConstants;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 

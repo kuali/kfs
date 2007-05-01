@@ -3,9 +3,9 @@ package org.kuali.module.purap.bo;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
 import org.kuali.core.bo.Note;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.util.SpringServiceLocator;
 
 

@@ -16,24 +16,24 @@
 
 package org.kuali.module.financial.bo;
 
-import static org.kuali.KeyConstants.AccountingLineParser.ERROR_INVALID_PROPERTY_VALUE;
-import static org.kuali.KeyConstants.AccountingLineParser.ERROR_TOO_MANY_AMOUNTS;
-import static org.kuali.PropertyConstants.ACCOUNT_NUMBER;
-import static org.kuali.PropertyConstants.CHART_OF_ACCOUNTS_CODE;
-import static org.kuali.PropertyConstants.CREDIT;
-import static org.kuali.PropertyConstants.DEBIT;
-import static org.kuali.PropertyConstants.FINANCIAL_OBJECT_CODE;
-import static org.kuali.PropertyConstants.FINANCIAL_SUB_OBJECT_CODE;
-import static org.kuali.PropertyConstants.ORGANIZATION_REFERENCE_ID;
-import static org.kuali.PropertyConstants.OVERRIDE_CODE;
-import static org.kuali.PropertyConstants.PROJECT_CODE;
-import static org.kuali.PropertyConstants.SUB_ACCOUNT_NUMBER;
+import static org.kuali.kfs.KeyConstants.AccountingLineParser.ERROR_INVALID_PROPERTY_VALUE;
+import static org.kuali.kfs.KeyConstants.AccountingLineParser.ERROR_TOO_MANY_AMOUNTS;
+import static org.kuali.kfs.PropertyConstants.ACCOUNT_NUMBER;
+import static org.kuali.kfs.PropertyConstants.CHART_OF_ACCOUNTS_CODE;
+import static org.kuali.kfs.PropertyConstants.CREDIT;
+import static org.kuali.kfs.PropertyConstants.DEBIT;
+import static org.kuali.kfs.PropertyConstants.FINANCIAL_OBJECT_CODE;
+import static org.kuali.kfs.PropertyConstants.FINANCIAL_SUB_OBJECT_CODE;
+import static org.kuali.kfs.PropertyConstants.ORGANIZATION_REFERENCE_ID;
+import static org.kuali.kfs.PropertyConstants.OVERRIDE_CODE;
+import static org.kuali.kfs.PropertyConstants.PROJECT_CODE;
+import static org.kuali.kfs.PropertyConstants.SUB_ACCOUNT_NUMBER;
 
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.bo.AccountingLineParserBase;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.exceptions.AccountingLineParserException;

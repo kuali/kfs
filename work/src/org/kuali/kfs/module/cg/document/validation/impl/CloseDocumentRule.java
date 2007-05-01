@@ -20,8 +20,8 @@ import org.kuali.core.document.Document;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.module.cg.bo.Close;
 import org.kuali.module.cg.document.CloseDocument;
+import org.kuali.kfs.KeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.KeyConstants;
 
 import java.sql.Date;
 

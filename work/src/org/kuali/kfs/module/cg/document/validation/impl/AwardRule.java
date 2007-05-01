@@ -18,10 +18,10 @@ package org.kuali.module.cg.rules;
 import java.util.Collection;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.KeyConstants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Award;
 import org.kuali.module.cg.bo.AwardAccount;

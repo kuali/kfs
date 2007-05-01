@@ -21,9 +21,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.Constants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.batch.poster.BalanceCalculator;

@@ -15,9 +15,9 @@
  */
 package org.kuali.module.chart.service.impl;
 
-import org.kuali.Constants;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.kfs.Constants;
 import org.kuali.module.chart.bo.FundGroup;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.dao.SubFundGroupDao;

@@ -18,8 +18,8 @@ package org.kuali.module.cg.rules;
 import java.sql.Date;
 import java.util.List;
 
-import org.kuali.KeyConstants;
-import org.kuali.PropertyConstants;
+import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.module.cg.bo.Proposal;

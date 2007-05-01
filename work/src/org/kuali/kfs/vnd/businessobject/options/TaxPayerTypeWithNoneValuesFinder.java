@@ -18,9 +18,9 @@ package org.kuali.module.vendor.lookup.keyvalues;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.Constants;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kfs.Constants;
 import org.kuali.module.vendor.VendorConstants;
 
 /**

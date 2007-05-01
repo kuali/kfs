@@ -15,10 +15,10 @@
  */
 package org.kuali.module.financial.rules;
 
-import org.kuali.KeyConstants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.AdvanceDepositDetail;
 

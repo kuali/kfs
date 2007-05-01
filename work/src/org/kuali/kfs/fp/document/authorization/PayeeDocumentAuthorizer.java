@@ -17,12 +17,12 @@ package org.kuali.module.financial.document.authorization;
 
 import java.util.Map;
 
-import org.kuali.Constants;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.KualiGroup;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.util.SpringServiceLocator;
 
 /**

@@ -17,8 +17,8 @@ package org.kuali.module.labor.web.struts.form;
 
 import java.util.Map;
 
-import org.kuali.PropertyConstants;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.module.labor.document.BenefitExpenseTransferDocument;
 
 /**

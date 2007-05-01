@@ -16,8 +16,8 @@
 package org.kuali.module.gl.batch.closing.year.service.impl.helper;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.kuali.Constants;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.kfs.Constants;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.PriorYearAccount;
 import org.kuali.module.chart.bo.SubFundGroup;

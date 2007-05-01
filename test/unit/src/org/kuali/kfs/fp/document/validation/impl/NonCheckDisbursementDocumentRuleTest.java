@@ -35,8 +35,8 @@ import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.Constants;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;

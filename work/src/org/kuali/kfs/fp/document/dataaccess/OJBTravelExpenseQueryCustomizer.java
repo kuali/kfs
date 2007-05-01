@@ -23,8 +23,8 @@ import org.apache.ojb.broker.accesslayer.QueryCustomizer;
 import org.apache.ojb.broker.metadata.CollectionDescriptor;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
-import org.kuali.Constants;
-import org.kuali.PropertyConstants;
+import org.kuali.kfs.Constants;
+import org.kuali.kfs.PropertyConstants;
 
 /**
  * Query customizer for to seperate out the pre-paid and non prepaid collections from the dv expense table.

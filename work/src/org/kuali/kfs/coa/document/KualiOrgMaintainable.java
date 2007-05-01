@@ -20,12 +20,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.PropertyConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
 import org.kuali.core.web.ui.Section;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
+import org.kuali.kfs.PropertyConstants;
 
 /**
  * 

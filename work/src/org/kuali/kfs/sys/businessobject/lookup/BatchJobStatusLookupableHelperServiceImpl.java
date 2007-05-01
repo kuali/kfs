@@ -21,12 +21,12 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.KfsConstants;
 import org.kuali.kfs.batch.BatchJobStatus;
 import org.kuali.kfs.service.SchedulerService;

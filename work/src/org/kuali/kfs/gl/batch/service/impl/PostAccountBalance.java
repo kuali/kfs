@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 
-import org.kuali.Constants;
+import org.kuali.kfs.Constants;
 import org.kuali.module.gl.batch.poster.AccountBalanceCalculator;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.bo.AccountBalance;

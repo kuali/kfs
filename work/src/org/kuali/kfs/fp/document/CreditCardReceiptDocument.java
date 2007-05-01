@@ -18,11 +18,11 @@ package org.kuali.module.financial.document;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.Constants;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.CurrencyFormatter;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.BasicFormatWithLineDescriptionAccountingLineParser;

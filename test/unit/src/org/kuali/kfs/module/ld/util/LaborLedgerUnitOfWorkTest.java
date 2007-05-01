@@ -18,7 +18,7 @@ package org.kuali.module.labor.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.PropertyConstants;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 

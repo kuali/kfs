@@ -15,8 +15,8 @@
  */
 package org.kuali.module.financial.web.struts.form;
 
-import static org.kuali.Constants.VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME;
-import static org.kuali.Constants.VOUCHER_LINE_HELPER_DEBIT_PROPERTY_NAME;
+import static org.kuali.kfs.Constants.VOUCHER_LINE_HELPER_CREDIT_PROPERTY_NAME;
+import static org.kuali.kfs.Constants.VOUCHER_LINE_HELPER_DEBIT_PROPERTY_NAME;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -25,14 +25,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.CurrencyFormatter;
+import org.kuali.kfs.Constants;
+import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;

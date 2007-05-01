@@ -23,6 +23,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kfs.KeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.test.KualiTestBase;
 

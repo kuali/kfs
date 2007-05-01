@@ -31,10 +31,10 @@ import javax.xml.xpath.XPathConstants;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.Constants;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.util.FieldUtils;
 import org.kuali.core.workflow.attribute.WorkflowLookupableImpl;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;

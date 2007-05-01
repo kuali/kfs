@@ -17,7 +17,7 @@ package org.kuali.module.gl.service.impl;
 
 import java.util.Collection;
 
-import org.kuali.Constants;
+import org.kuali.kfs.Constants;
 import org.kuali.module.gl.bo.SufficientFundRebuild;
 import org.kuali.module.gl.dao.SufficientFundRebuildDao;
 import org.kuali.module.gl.service.SufficientFundRebuildService;

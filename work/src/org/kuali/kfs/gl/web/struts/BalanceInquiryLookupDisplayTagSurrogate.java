@@ -32,7 +32,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.Constants;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.lookup.LookupResultsService;
 import org.kuali.core.lookup.LookupUtils;
@@ -44,6 +43,7 @@ import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.ui.Column;
 import org.kuali.core.web.ui.ResultRow;
 import org.kuali.rice.KNSServiceLocator;
+import org.kuali.kfs.Constants;
 import org.kuali.module.gl.web.struts.form.LookupResultsSelectable;
 
 /**

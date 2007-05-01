@@ -28,9 +28,9 @@ import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapContains;
 import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 
-import org.kuali.KeyConstants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;

@@ -19,13 +19,13 @@ import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapSize;
 
-import org.kuali.KeyConstants;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.KeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.SubAccount;

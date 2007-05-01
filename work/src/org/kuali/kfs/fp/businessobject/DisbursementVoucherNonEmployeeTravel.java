@@ -25,7 +25,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.format.TimestampAMPMFormatter;
-import org.kuali.PropertyConstants;
+import org.kuali.kfs.PropertyConstants;
 
 /**
  * 

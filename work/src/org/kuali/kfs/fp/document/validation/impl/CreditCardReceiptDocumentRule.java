@@ -18,15 +18,15 @@ package org.kuali.module.financial.rules;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.ApplicationParameterException;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.Constants;
+import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
@@ -36,9 +36,9 @@ import org.kuali.module.financial.bo.BankAccount;
 import org.kuali.module.financial.document.CashReceiptFamilyBase;
 import org.kuali.module.financial.document.CreditCardReceiptDocument;
 
-import static org.kuali.Constants.DOCUMENT_PROPERTY_NAME;
-import static org.kuali.KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_TOTAL_INVALID;
-import static org.kuali.PropertyConstants.CREDIT_CARD_RECEIPTS_TOTAL;
+import static org.kuali.kfs.Constants.DOCUMENT_PROPERTY_NAME;
+import static org.kuali.kfs.KeyConstants.CreditCardReceipt.ERROR_DOCUMENT_CREDIT_CARD_RECEIPT_TOTAL_INVALID;
+import static org.kuali.kfs.PropertyConstants.CREDIT_CARD_RECEIPTS_TOTAL;
 
 /**
  * Business rules applicable to Credit Card Receipt documents.

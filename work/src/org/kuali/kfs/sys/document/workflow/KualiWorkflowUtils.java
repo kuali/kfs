@@ -30,12 +30,12 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.Constants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.util.FieldUtils;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.workflow.WorkflowUtils;
 import org.kuali.core.workflow.attribute.WorkflowLookupableImpl;
+import org.kuali.kfs.Constants;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.document.AccountingDocument;

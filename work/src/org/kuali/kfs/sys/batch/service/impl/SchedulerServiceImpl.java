@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.Constants;
 import org.kuali.core.KualiModule;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -30,6 +29,7 @@ import org.kuali.core.service.KualiModuleService;
 import org.kuali.core.service.MailService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.spring.NamedOrderedListBean;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.batch.BatchJobStatus;
 import org.kuali.kfs.batch.Job;
 import org.kuali.kfs.batch.JobDescriptor;

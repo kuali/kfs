@@ -17,7 +17,7 @@ package org.kuali.module.gl.batch.closing.year.util;
 
 import java.sql.Date;
 
-import org.kuali.Constants;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.ObjectCode;

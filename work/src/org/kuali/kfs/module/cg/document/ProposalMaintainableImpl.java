@@ -19,12 +19,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import static org.kuali.PropertyConstants.PROPOSAL_PROJECT_DIRECTORS;
-import static org.kuali.PropertyConstants.PROPOSAL_SUBCONTRACTORS;
+import static org.kuali.kfs.PropertyConstants.PROPOSAL_PROJECT_DIRECTORS;
+import static org.kuali.kfs.PropertyConstants.PROPOSAL_SUBCONTRACTORS;
+
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.util.AssertionUtils;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Proposal;
 import org.kuali.module.cg.bo.ProposalResearchRisk;
@@ -32,7 +34,6 @@ import org.kuali.module.cg.bo.ProposalProjectDirector;
 import org.kuali.module.cg.bo.ProjectDirector;
 import org.kuali.module.cg.lookup.valuefinder.NextProposalNumberFinder;
 import org.kuali.module.kra.routingform.bo.ResearchRiskType;
-import org.kuali.Constants;
 import org.kuali.rice.KNSServiceLocator;
 import org.apache.commons.lang.StringUtils;
 

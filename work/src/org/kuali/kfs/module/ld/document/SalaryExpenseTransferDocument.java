@@ -15,9 +15,9 @@
  */
 package org.kuali.module.labor.document;
 
-import org.kuali.Constants;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
 import org.kuali.module.labor.bo.ExpenseTransferTargetAccountingLine;

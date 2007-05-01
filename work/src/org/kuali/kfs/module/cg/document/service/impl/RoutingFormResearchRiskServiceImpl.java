@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.module.kra.KraPropertyConstants;
 import org.kuali.module.kra.routingform.bo.ResearchRiskType;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;

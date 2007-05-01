@@ -17,7 +17,7 @@ package org.kuali.module.kra.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.PropertyConstants;
+import org.kuali.kfs.PropertyConstants;
 
 /**
  * This class represents an ad-hoc org.

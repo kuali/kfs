@@ -23,13 +23,13 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.Constants.DepositConstants;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.Constants.DepositConstants;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.bo.Deposit;
-import org.kuali.PropertyConstants;
 
 /**
  * This class represents the CashManagementDocument.

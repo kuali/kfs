@@ -27,6 +27,7 @@ import java.util.Map;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -38,7 +39,6 @@ import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.bo.PositionObjectBenefit;
 import org.kuali.rice.KNSServiceLocator;
-import org.kuali.PropertyConstants;
 
 /**
  * 

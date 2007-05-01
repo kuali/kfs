@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
 import org.kuali.core.bo.BusinessRule;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.exceptions.ValidationException;
@@ -34,6 +33,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.format.Formatter;
+import org.kuali.kfs.Constants;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorKeyConstants;
 import org.kuali.module.vendor.VendorPropertyConstants;

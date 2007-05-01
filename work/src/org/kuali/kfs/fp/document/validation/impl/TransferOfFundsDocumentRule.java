@@ -15,17 +15,17 @@
  */
 package org.kuali.module.financial.rules;
 
-import static org.kuali.Constants.BALANCE_TYPE_ACTUAL;
+import static org.kuali.kfs.Constants.BALANCE_TYPE_ACTUAL;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.KeyConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.Options;

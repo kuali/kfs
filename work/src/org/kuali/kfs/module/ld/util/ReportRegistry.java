@@ -15,7 +15,7 @@
  */
 package org.kuali.module.labor.util;
 
-import org.kuali.Constants;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.rice.KNSServiceLocator;
 

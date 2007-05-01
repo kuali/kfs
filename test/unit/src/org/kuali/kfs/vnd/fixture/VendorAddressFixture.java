@@ -18,7 +18,7 @@ package org.kuali.module.vendor.fixtures;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.Constants;
+import org.kuali.kfs.Constants;
 import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorDefaultAddress;
 

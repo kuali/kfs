@@ -15,8 +15,8 @@
  */
 package org.kuali.module.financial.document;
 
-import static org.kuali.Constants.FROM;
-import static org.kuali.Constants.TO;
+import static org.kuali.kfs.Constants.FROM;
+import static org.kuali.kfs.Constants.TO;
 
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;

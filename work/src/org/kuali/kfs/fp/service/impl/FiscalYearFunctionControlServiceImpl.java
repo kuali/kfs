@@ -20,8 +20,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.module.financial.bo.FiscalYearFunctionControl;
 import org.kuali.module.financial.service.FiscalYearFunctionControlService;
 

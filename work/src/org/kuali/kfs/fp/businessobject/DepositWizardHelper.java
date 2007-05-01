@@ -17,7 +17,7 @@ package org.kuali.module.financial.bo;
 
 import java.sql.Timestamp;
 
-import org.kuali.Constants;
+import org.kuali.kfs.Constants;
 
 /**
  * This helper class works in conjunction with the DepositWizardForm to help build the UI for the Deposit Wizard.

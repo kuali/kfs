@@ -22,9 +22,9 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.beanutils.converters.SqlDateConverter;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.Constants;
 
 /**
  * 

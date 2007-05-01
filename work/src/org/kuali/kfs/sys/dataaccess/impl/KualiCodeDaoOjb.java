@@ -21,10 +21,10 @@ import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.Constants;
 import org.kuali.core.bo.ApplicationConstant;
 import org.kuali.core.bo.KualiCode;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.dao.KualiCodeDao;
 import org.kuali.module.cg.bo.AgencyType;
 import org.kuali.module.chart.bo.FundGroup;

@@ -25,7 +25,7 @@ import org.apache.ojb.broker.accesslayer.QueryCustomizer;
 import org.apache.ojb.broker.metadata.CollectionDescriptor;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
-import org.kuali.PropertyConstants;
+import org.kuali.kfs.PropertyConstants;
 
 /**
  * This customizer constrains the relationship to PendingBudgetConstructionGeneralLedger

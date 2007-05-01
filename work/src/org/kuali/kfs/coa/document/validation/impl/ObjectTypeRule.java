@@ -18,9 +18,9 @@ package org.kuali.module.chart.rules;
 import java.util.Map;
 import java.util.HashMap;
 
-import org.kuali.KeyConstants;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.kfs.KeyConstants;
 import org.kuali.module.chart.bo.BasicAccountingCategory;
 import org.kuali.module.chart.bo.ObjectType;
 

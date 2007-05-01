@@ -24,8 +24,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.Constants;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.kfs.Constants;
 import org.kuali.module.gl.batch.sufficientFunds.SufficientFundsReport;
 import org.kuali.module.gl.bo.SufficientFundRebuild;
 import org.kuali.module.gl.util.Summary;

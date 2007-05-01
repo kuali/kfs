@@ -17,8 +17,8 @@ package org.kuali.module.gl.util;
 
 import java.io.Serializable;
 
-import org.kuali.Constants;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;

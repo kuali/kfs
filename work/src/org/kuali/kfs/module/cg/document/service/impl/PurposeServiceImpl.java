@@ -21,9 +21,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.Constants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kfs.Constants;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.module.kra.routingform.bo.Purpose;
 import org.kuali.module.kra.routingform.service.PurposeService;
 

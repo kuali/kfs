@@ -18,8 +18,8 @@ package org.kuali.module.gl.service.impl;
 import java.util.Date;
 import java.util.Iterator;
 
-import org.kuali.Constants;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.Constants;
 import org.kuali.module.gl.bo.Reversal;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.ReversalDao;

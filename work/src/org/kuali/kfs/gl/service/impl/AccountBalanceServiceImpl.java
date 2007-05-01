@@ -21,9 +21,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.IteratorUtils;
-import org.kuali.KeyConstants;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.TransactionalServiceUtils;
+import org.kuali.kfs.KeyConstants;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.dao.AccountBalanceDao;

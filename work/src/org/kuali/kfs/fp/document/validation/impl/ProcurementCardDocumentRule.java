@@ -15,11 +15,11 @@
  */
 package org.kuali.module.financial.rules;
 
-import static org.kuali.Constants.ACCOUNTING_LINE_ERRORS;
-import static org.kuali.Constants.AMOUNT_PROPERTY_NAME;
-import static org.kuali.Constants.ZERO;
-import static org.kuali.KeyConstants.ERROR_DOCUMENT_BALANCE_CONSIDERING_SOURCE_AND_TARGET_AMOUNTS;
-import static org.kuali.KeyConstants.ERROR_ZERO_AMOUNT;
+import static org.kuali.kfs.Constants.ACCOUNTING_LINE_ERRORS;
+import static org.kuali.kfs.Constants.AMOUNT_PROPERTY_NAME;
+import static org.kuali.kfs.Constants.ZERO;
+import static org.kuali.kfs.KeyConstants.ERROR_DOCUMENT_BALANCE_CONSIDERING_SOURCE_AND_TARGET_AMOUNTS;
+import static org.kuali.kfs.KeyConstants.ERROR_ZERO_AMOUNT;
 import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.ACCOUNT_NUMBER_GLOBAL_RESTRICTION_PARM_NM;
 import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.FUNCTION_CODE_GLOBAL_RESTRICTION_PARM_NM;
 import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.GLOBAL_FIELD_RESTRICTIONS_GROUP_NM;
@@ -37,13 +37,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.KeyConstants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;

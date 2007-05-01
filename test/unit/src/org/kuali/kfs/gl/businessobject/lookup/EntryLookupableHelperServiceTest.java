@@ -20,8 +20,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.PropertyConstants;
 import org.kuali.test.WithTestSpringContext;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.module.gl.GLSpringBeansRegistry;
 import org.kuali.module.gl.bo.Entry;
 import org.kuali.module.gl.bo.Transaction;

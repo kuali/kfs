@@ -23,13 +23,13 @@ import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConsta
 import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.RESTRICTED_OBJECT_TYPE_CODES;
 import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.RESTRICTED_SUB_FUND_GROUP_CODES;
 
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.ExceptionUtils;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.Constants;
+import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.document.AccountingDocument;

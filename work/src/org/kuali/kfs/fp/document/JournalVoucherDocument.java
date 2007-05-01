@@ -15,10 +15,10 @@
  */
 package org.kuali.module.financial.document;
 
-import static org.kuali.Constants.EMPTY_STRING;
-import static org.kuali.Constants.GL_CREDIT_CODE;
-import static org.kuali.Constants.GL_DEBIT_CODE;
-import static org.kuali.PropertyConstants.BALANCE_TYPE;
+import static org.kuali.kfs.Constants.EMPTY_STRING;
+import static org.kuali.kfs.Constants.GL_CREDIT_CODE;
+import static org.kuali.kfs.Constants.GL_DEBIT_CODE;
+import static org.kuali.kfs.PropertyConstants.BALANCE_TYPE;
 
 import java.util.ArrayList;
 import java.util.Iterator;

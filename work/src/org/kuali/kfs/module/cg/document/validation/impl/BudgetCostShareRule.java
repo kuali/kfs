@@ -20,9 +20,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.KeyConstants;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
+import org.kuali.kfs.KeyConstants;
 import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;

@@ -18,9 +18,9 @@ package org.kuali.module.labor.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.Constants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.Constants;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 

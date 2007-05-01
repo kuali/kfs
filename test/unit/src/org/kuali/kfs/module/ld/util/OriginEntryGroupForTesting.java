@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.PropertyConstants;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.util.ObjectUtil;

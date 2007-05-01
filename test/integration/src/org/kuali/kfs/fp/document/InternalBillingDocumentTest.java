@@ -30,12 +30,12 @@ import static org.kuali.test.fixtures.UserNameFixture.RORENFRO;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.KeyConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.DocumentAuthorizationException;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KeyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.document.AccountingDocument;

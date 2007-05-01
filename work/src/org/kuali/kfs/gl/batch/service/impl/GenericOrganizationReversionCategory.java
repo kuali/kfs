@@ -15,9 +15,9 @@
  */
 package org.kuali.module.gl.service.impl.orgreversion;
 
-import org.kuali.Constants;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.kfs.Constants;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
 

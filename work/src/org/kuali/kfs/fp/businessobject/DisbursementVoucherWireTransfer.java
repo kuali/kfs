@@ -19,8 +19,8 @@ package org.kuali.module.financial.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
-import org.kuali.PropertyConstants;
 
 /**
  * 

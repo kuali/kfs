@@ -15,22 +15,22 @@
  */
 package org.kuali.module.financial.document;
 
-import static org.kuali.Constants.EMPTY_STRING;
-import static org.kuali.Constants.GL_CREDIT_CODE;
-import static org.kuali.Constants.GL_DEBIT_CODE;
-import static org.kuali.Constants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE;
-import static org.kuali.Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE;
-import static org.kuali.Constants.AuxiliaryVoucher.RECODE_DOC_TYPE;
+import static org.kuali.kfs.Constants.EMPTY_STRING;
+import static org.kuali.kfs.Constants.GL_CREDIT_CODE;
+import static org.kuali.kfs.Constants.GL_DEBIT_CODE;
+import static org.kuali.kfs.Constants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE;
+import static org.kuali.kfs.Constants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE;
+import static org.kuali.kfs.Constants.AuxiliaryVoucher.RECODE_DOC_TYPE;
 
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;

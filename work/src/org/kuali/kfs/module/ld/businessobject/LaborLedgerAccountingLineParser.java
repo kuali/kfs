@@ -16,18 +16,18 @@
 
 package org.kuali.module.labor.bo;
 
-import static org.kuali.PropertyConstants.ACCOUNT_NUMBER;
-import static org.kuali.PropertyConstants.AMOUNT;
-import static org.kuali.PropertyConstants.CHART_OF_ACCOUNTS_CODE;
-import static org.kuali.PropertyConstants.FINANCIAL_OBJECT_CODE;
-import static org.kuali.PropertyConstants.FINANCIAL_SUB_OBJECT_CODE;
-import static org.kuali.PropertyConstants.ORGANIZATION_REFERENCE_ID;
-import static org.kuali.PropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE;
-import static org.kuali.PropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR;
-import static org.kuali.PropertyConstants.PAYROLL_TOTAL_HOURS;
-import static org.kuali.PropertyConstants.POSITION_NUMBER;
-import static org.kuali.PropertyConstants.PROJECT_CODE;
-import static org.kuali.PropertyConstants.SUB_ACCOUNT_NUMBER;
+import static org.kuali.kfs.PropertyConstants.ACCOUNT_NUMBER;
+import static org.kuali.kfs.PropertyConstants.AMOUNT;
+import static org.kuali.kfs.PropertyConstants.CHART_OF_ACCOUNTS_CODE;
+import static org.kuali.kfs.PropertyConstants.FINANCIAL_OBJECT_CODE;
+import static org.kuali.kfs.PropertyConstants.FINANCIAL_SUB_OBJECT_CODE;
+import static org.kuali.kfs.PropertyConstants.ORGANIZATION_REFERENCE_ID;
+import static org.kuali.kfs.PropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE;
+import static org.kuali.kfs.PropertyConstants.PAYROLL_END_DATE_FISCAL_YEAR;
+import static org.kuali.kfs.PropertyConstants.PAYROLL_TOTAL_HOURS;
+import static org.kuali.kfs.PropertyConstants.POSITION_NUMBER;
+import static org.kuali.kfs.PropertyConstants.PROJECT_CODE;
+import static org.kuali.kfs.PropertyConstants.SUB_ACCOUNT_NUMBER;
 
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineParserBase;

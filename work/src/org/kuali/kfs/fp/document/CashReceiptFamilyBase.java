@@ -18,9 +18,9 @@ package org.kuali.module.financial.document;
 import java.sql.Timestamp;
 import java.util.Iterator;
 
-import org.kuali.Constants;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.document.AccountingDocumentBase;

@@ -18,10 +18,10 @@ package org.kuali.module.labor.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.KeyConstants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
+import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.service.AccountService;

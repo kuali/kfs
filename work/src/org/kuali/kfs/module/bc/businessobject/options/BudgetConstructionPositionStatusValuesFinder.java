@@ -18,9 +18,9 @@ package org.kuali.module.budget.lookup.keyvalues;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.Constants.BudgetConstructionPositionConstants;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kfs.Constants.BudgetConstructionPositionConstants;
 
 /**
  * This class returns list of ba fund restriction levels.

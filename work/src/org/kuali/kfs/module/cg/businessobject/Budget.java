@@ -25,13 +25,13 @@ import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.cg.bo.ProjectDirector;
 import org.kuali.module.kra.bo.AdhocOrg;
 import org.kuali.module.kra.bo.AdhocPerson;
 import org.kuali.module.kra.bo.AdhocWorkgroup;
-import org.kuali.PropertyConstants;
 
 /**
  * 

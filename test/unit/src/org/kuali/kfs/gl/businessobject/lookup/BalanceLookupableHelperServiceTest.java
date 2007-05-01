@@ -20,9 +20,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.PropertyConstants;
 import org.kuali.test.WithTestSpringContext;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.GLSpringBeansRegistry;
 import org.kuali.module.gl.bo.Balance;

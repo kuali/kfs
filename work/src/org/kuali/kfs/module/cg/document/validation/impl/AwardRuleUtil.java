@@ -21,8 +21,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.PropertyConstants;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.module.cg.bo.Award;
 
 /**

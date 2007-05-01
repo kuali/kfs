@@ -18,9 +18,9 @@ package org.kuali.module.gl.batch.poster.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.kfs.Constants;
+import org.kuali.kfs.KeyConstants;
 import org.kuali.module.gl.batch.poster.VerifyTransaction;
 import org.kuali.module.gl.bo.Transaction;
 

@@ -16,12 +16,12 @@
 package org.kuali.module.chart.rules;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.Constants;
+import org.kuali.kfs.KeyConstants;
 import org.kuali.module.chart.bo.OffsetDefinition;
 
 public class OffsetDefinitionRule extends MaintenanceDocumentRuleBase {

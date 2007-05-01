@@ -20,9 +20,9 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.kuali.PropertyConstants;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.Account;

@@ -15,8 +15,8 @@
  */
 package org.kuali.module.gl.util;
 
-import org.kuali.Constants;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.Constants;
 
 /**
  * 

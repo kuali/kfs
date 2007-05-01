@@ -28,12 +28,12 @@ import static org.kuali.test.util.KualiTestAssertionUtils.assertInequality;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.Constants;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.document.AccountingDocument;

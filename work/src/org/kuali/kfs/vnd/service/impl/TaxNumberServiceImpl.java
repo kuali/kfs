@@ -15,11 +15,11 @@
  */
 package org.kuali.module.vendor.service.impl;
 
-import org.kuali.KeyConstants;
 import org.kuali.core.bo.BusinessRule;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.FormatException;
+import org.kuali.kfs.KeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorRuleConstants;

@@ -17,12 +17,12 @@ package org.kuali.kfs.rule.event;
 
 import java.util.List;
 
-import org.kuali.KeyConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.KeyConstants;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.document.GeneralLedgerPostingDocument;
 import org.kuali.kfs.rule.SufficientFundsCheckingPreparationRule;

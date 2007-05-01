@@ -21,8 +21,8 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.module.financial.document.AdvanceDepositDocument;
-import org.kuali.PropertyConstants;
 
 /**
  * This business object represents the advance deposit detail business object that is used by the Advance Deposit Document.

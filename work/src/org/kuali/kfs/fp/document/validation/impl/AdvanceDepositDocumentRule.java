@@ -15,14 +15,14 @@
  */
 package org.kuali.module.financial.rules;
 
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
-import org.kuali.PropertyConstants;
-import org.kuali.KeyConstants.CashReceipt;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.Constants;
+import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.PropertyConstants;
+import org.kuali.kfs.KeyConstants.CashReceipt;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;

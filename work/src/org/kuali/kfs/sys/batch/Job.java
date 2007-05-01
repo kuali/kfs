@@ -20,11 +20,11 @@ import java.util.List;
 
 import org.apache.log4j.Appender;
 import org.apache.log4j.Logger;
-import org.kuali.Constants;
 import org.kuali.core.UserSession;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.service.SchedulerService;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.quartz.InterruptableJob;

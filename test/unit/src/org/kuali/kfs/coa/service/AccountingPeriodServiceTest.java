@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.Constants;
+import org.kuali.kfs.Constants;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;

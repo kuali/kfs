@@ -19,12 +19,12 @@ package org.kuali.module.budget.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubFundGroup;
-import org.kuali.PropertyConstants;
 
 /**
  * 

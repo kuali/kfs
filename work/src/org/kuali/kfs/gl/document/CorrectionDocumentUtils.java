@@ -15,7 +15,7 @@
  */
 package org.kuali.module.gl.util;
 
-import org.kuali.Constants;
+import org.kuali.kfs.Constants;
 import org.kuali.module.gl.web.struts.form.CorrectionForm;
 import org.kuali.rice.KNSServiceLocator;
 

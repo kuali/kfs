@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.Constants;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.util.SpringServiceLocator;
 

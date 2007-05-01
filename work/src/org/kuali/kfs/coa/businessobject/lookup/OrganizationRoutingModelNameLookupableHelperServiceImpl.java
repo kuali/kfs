@@ -18,10 +18,10 @@ package org.kuali.module.chart.lookup;
 import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.Constants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.util.UrlFactory;
+import org.kuali.kfs.Constants;
 import org.kuali.module.chart.bo.DelegateChangeContainer;
 
 public class OrganizationRoutingModelNameLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {

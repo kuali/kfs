@@ -17,7 +17,7 @@ package org.kuali.module.labor.batch.poster.impl;
 
 import java.sql.Date;
 
-import org.kuali.Constants;
+import org.kuali.kfs.Constants;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.batch.poster.impl.PostGlEntry;
 import org.kuali.module.gl.bo.Transaction;

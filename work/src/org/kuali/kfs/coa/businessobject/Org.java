@@ -23,11 +23,11 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.Constants;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.UrlFactory;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.PostalZipCode;
 import org.kuali.kfs.util.SpringServiceLocator;

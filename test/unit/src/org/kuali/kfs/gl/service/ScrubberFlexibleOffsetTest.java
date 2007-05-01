@@ -17,8 +17,8 @@ package org.kuali.module.gl.service;
 
 import java.util.Calendar;
 
-import org.kuali.Constants;
 import org.kuali.core.util.Guid;
+import org.kuali.kfs.Constants;
 import org.kuali.module.gl.GLSpringBeansRegistry;
 import org.kuali.module.gl.OriginEntryTestBase;
 import org.kuali.module.gl.bo.OriginEntrySource;

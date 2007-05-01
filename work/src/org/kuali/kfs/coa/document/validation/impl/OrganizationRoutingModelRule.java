@@ -18,13 +18,13 @@ package org.kuali.module.chart.rules;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.kfs.Constants;
+import org.kuali.kfs.KeyConstants;
 import org.kuali.module.chart.bo.DelegateChangeDocument;
 import org.kuali.module.chart.bo.OrganizationRoutingModelName;
 import org.kuali.module.chart.bo.OrganizationRoutingModel;

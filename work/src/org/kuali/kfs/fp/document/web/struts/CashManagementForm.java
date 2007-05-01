@@ -21,11 +21,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.Constants.DocumentStatusCodes.CashReceipt;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.core.web.format.TimestampFullPrecisionFormatter;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.kfs.Constants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.bo.Deposit;

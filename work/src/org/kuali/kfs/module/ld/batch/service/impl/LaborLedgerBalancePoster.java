@@ -18,9 +18,9 @@ package org.kuali.module.labor.batch.poster.impl;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import org.kuali.Constants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.Constants;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.labor.LaborConstants;

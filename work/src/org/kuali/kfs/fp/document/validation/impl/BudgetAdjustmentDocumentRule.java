@@ -15,9 +15,9 @@
  */
 package org.kuali.module.financial.rules;
 
-import static org.kuali.Constants.SOURCE_ACCOUNTING_LINE_ERRORS;
-import static org.kuali.Constants.TARGET_ACCOUNTING_LINE_ERRORS;
-import static org.kuali.KeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_TOTAL_CHANGED;
+import static org.kuali.kfs.Constants.SOURCE_ACCOUNTING_LINE_ERRORS;
+import static org.kuali.kfs.Constants.TARGET_ACCOUNTING_LINE_ERRORS;
+import static org.kuali.kfs.KeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_TOTAL_CHANGED;
 import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.BUDGET_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING;
 import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.GENERATE_TOF_GLPE_ENTRIES_PARM_NM;
 import static org.kuali.module.financial.rules.BudgetAdjustmentDocumentRuleConstants.MONTH_10_PERIOD_CODE;
@@ -44,9 +44,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.util.ErrorMap;
@@ -56,6 +53,9 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.CurrencyFormatter;
+import org.kuali.kfs.Constants;
+import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.Options;

@@ -15,8 +15,8 @@
  */
 package org.kuali.module.financial.rules;
 
-import static org.kuali.Constants.GL_CREDIT_CODE;
-import static org.kuali.Constants.GL_DEBIT_CODE;
+import static org.kuali.kfs.Constants.GL_CREDIT_CODE;
+import static org.kuali.kfs.Constants.GL_DEBIT_CODE;
 import static org.kuali.kfs.util.SpringServiceLocator.getDataDictionaryService;
 import static org.kuali.kfs.util.SpringServiceLocator.getDocumentService;
 import static org.kuali.kfs.util.SpringServiceLocator.getDocumentTypeService;
@@ -43,7 +43,7 @@ import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.Constants;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;

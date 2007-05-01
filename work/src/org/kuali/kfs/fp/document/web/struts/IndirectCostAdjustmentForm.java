@@ -17,8 +17,8 @@ package org.kuali.module.financial.web.struts.form;
 
 import java.util.Map;
 
-import org.kuali.PropertyConstants;
 import org.kuali.core.document.TransactionalDocument;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.document.AccountingDocument;

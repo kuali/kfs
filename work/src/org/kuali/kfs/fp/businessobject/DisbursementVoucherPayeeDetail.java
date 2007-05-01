@@ -19,10 +19,10 @@ package org.kuali.module.financial.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.module.financial.lookup.keyvalues.PayeeTypeValuesFinder;
 import org.kuali.module.financial.lookup.keyvalues.PaymentReasonValuesFinder;
 import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
-import org.kuali.PropertyConstants;
 
 /**
  * 

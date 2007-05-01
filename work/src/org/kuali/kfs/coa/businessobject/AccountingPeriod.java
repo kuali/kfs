@@ -20,9 +20,9 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
 
-import org.kuali.Constants;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.util.SpringServiceLocator;
 

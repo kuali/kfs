@@ -20,7 +20,7 @@ import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-import org.kuali.Constants;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.util.SpringServiceLocator;
 
 import edu.yale.its.tp.cas.ticket.*;

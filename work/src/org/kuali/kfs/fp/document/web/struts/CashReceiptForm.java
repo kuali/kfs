@@ -20,11 +20,11 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.util.LabelValueBean;
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
-import org.kuali.Constants.DocumentStatusCodes.CashReceipt;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.format.SimpleBooleanFormatter;
+import org.kuali.kfs.Constants;
+import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.Constants.DocumentStatusCodes.CashReceipt;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.financial.bo.CashDrawer;

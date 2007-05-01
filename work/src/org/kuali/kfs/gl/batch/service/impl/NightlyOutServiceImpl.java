@@ -18,8 +18,8 @@ package org.kuali.module.gl.service.impl;
 import java.sql.Date;
 import java.util.Iterator;
 
-import org.kuali.Constants;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.module.gl.bo.OriginEntry;

@@ -3,10 +3,10 @@ package org.kuali.module.purap.bo;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.Constants;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.util.SpringServiceLocator;
 
 /**

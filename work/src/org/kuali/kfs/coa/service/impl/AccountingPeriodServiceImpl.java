@@ -24,10 +24,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.kuali.Constants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.spring.Cached;
+import org.kuali.kfs.Constants;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.service.AccountingPeriodService;
 import org.springframework.transaction.annotation.Transactional;

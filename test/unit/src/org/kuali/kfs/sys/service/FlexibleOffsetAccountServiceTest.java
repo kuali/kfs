@@ -21,8 +21,8 @@ import static org.kuali.test.util.KualiTestAssertionUtils.assertSparselyEqualBea
 
 import java.lang.reflect.InvocationTargetException;
 
-import org.kuali.Constants;
 import org.kuali.core.bo.FinancialSystemParameter;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.OffsetAccount;
 import org.kuali.test.KualiTestBase;

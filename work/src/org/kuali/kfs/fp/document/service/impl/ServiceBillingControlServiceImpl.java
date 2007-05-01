@@ -18,8 +18,8 @@ package org.kuali.module.financial.service.impl;
 import java.util.Collection;
 import java.util.HashMap;
 
-import org.kuali.PropertyConstants;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.module.financial.bo.ServiceBillingControl;
 import org.kuali.module.financial.service.ServiceBillingControlService;
 import org.springframework.transaction.annotation.Transactional;

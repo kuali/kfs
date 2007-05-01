@@ -22,13 +22,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
-import org.kuali.PropertyConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.ProjectDirector;
 import org.kuali.module.kra.KraConstants;

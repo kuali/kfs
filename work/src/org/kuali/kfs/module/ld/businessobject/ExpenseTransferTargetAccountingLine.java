@@ -18,7 +18,7 @@ package org.kuali.module.labor.bo;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
-import org.kuali.PropertyConstants;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.kfs.bo.TargetAccountingLine;
 
 

@@ -21,12 +21,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.Constants;
+import org.kuali.kfs.KeyConstants;
 import org.kuali.module.chart.bo.AccountIntf;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.OrganizationReversion;

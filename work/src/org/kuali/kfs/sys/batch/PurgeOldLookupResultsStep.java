@@ -19,9 +19,9 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
-import org.kuali.Constants;
 import org.kuali.core.dao.PersistedLookupMetadataDao;
 import org.kuali.core.lookup.LookupResultsService;
+import org.kuali.kfs.Constants;
 
 public class PurgeOldLookupResultsStep extends AbstractStep {
     private LookupResultsService lookupResultsService;

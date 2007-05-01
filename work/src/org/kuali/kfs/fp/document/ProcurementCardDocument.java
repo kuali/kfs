@@ -21,10 +21,10 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.PropertyConstants;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.document.AccountingDocumentBase;

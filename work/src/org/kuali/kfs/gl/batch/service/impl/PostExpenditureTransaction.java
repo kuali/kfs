@@ -17,7 +17,7 @@ package org.kuali.module.gl.batch.poster.impl;
 
 import java.util.Date;
 
-import org.kuali.Constants;
+import org.kuali.kfs.Constants;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.IndirectCostRecoveryExclusionAccount;

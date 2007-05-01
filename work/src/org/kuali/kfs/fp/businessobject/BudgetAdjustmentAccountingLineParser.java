@@ -16,28 +16,28 @@
 
 package org.kuali.module.financial.bo;
 
-import static org.kuali.PropertyConstants.ACCOUNT_NUMBER;
-import static org.kuali.PropertyConstants.BASE_BUDGET_ADJUSTMENT_AMOUNT;
-import static org.kuali.PropertyConstants.CHART_OF_ACCOUNTS_CODE;
-import static org.kuali.PropertyConstants.CURRENT_BUDGET_ADJUSTMENT_AMOUNT;
-import static org.kuali.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_10_LINE_AMOUNT;
-import static org.kuali.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_11_LINE_AMOUNT;
-import static org.kuali.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_12_LINE_AMOUNT;
-import static org.kuali.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_1_LINE_AMOUNT;
-import static org.kuali.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_2_LINE_AMOUNT;
-import static org.kuali.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_3_LINE_AMOUNT;
-import static org.kuali.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_4_LINE_AMOUNT;
-import static org.kuali.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_5_LINE_AMOUNT;
-import static org.kuali.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_6_LINE_AMOUNT;
-import static org.kuali.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_7_LINE_AMOUNT;
-import static org.kuali.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_8_LINE_AMOUNT;
-import static org.kuali.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_9_LINE_AMOUNT;
-import static org.kuali.PropertyConstants.FINANCIAL_OBJECT_CODE;
-import static org.kuali.PropertyConstants.FINANCIAL_SUB_OBJECT_CODE;
-import static org.kuali.PropertyConstants.ORGANIZATION_REFERENCE_ID;
-import static org.kuali.PropertyConstants.OVERRIDE_CODE;
-import static org.kuali.PropertyConstants.PROJECT_CODE;
-import static org.kuali.PropertyConstants.SUB_ACCOUNT_NUMBER;
+import static org.kuali.kfs.PropertyConstants.ACCOUNT_NUMBER;
+import static org.kuali.kfs.PropertyConstants.BASE_BUDGET_ADJUSTMENT_AMOUNT;
+import static org.kuali.kfs.PropertyConstants.CHART_OF_ACCOUNTS_CODE;
+import static org.kuali.kfs.PropertyConstants.CURRENT_BUDGET_ADJUSTMENT_AMOUNT;
+import static org.kuali.kfs.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_10_LINE_AMOUNT;
+import static org.kuali.kfs.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_11_LINE_AMOUNT;
+import static org.kuali.kfs.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_12_LINE_AMOUNT;
+import static org.kuali.kfs.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_1_LINE_AMOUNT;
+import static org.kuali.kfs.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_2_LINE_AMOUNT;
+import static org.kuali.kfs.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_3_LINE_AMOUNT;
+import static org.kuali.kfs.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_4_LINE_AMOUNT;
+import static org.kuali.kfs.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_5_LINE_AMOUNT;
+import static org.kuali.kfs.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_6_LINE_AMOUNT;
+import static org.kuali.kfs.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_7_LINE_AMOUNT;
+import static org.kuali.kfs.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_8_LINE_AMOUNT;
+import static org.kuali.kfs.PropertyConstants.FINANCIAL_DOCUMENT_MONTH_9_LINE_AMOUNT;
+import static org.kuali.kfs.PropertyConstants.FINANCIAL_OBJECT_CODE;
+import static org.kuali.kfs.PropertyConstants.FINANCIAL_SUB_OBJECT_CODE;
+import static org.kuali.kfs.PropertyConstants.ORGANIZATION_REFERENCE_ID;
+import static org.kuali.kfs.PropertyConstants.OVERRIDE_CODE;
+import static org.kuali.kfs.PropertyConstants.PROJECT_CODE;
+import static org.kuali.kfs.PropertyConstants.SUB_ACCOUNT_NUMBER;
 
 import org.kuali.kfs.bo.AccountingLineParserBase;
 

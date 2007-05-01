@@ -19,9 +19,9 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.Constants;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.Constants;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.labor.LaborConstants;

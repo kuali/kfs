@@ -20,9 +20,9 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.PropertyConstants;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.module.cg.bo.Agency;
 
 /**

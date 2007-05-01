@@ -16,10 +16,10 @@
 package org.kuali.module.financial.rules;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.KeyConstants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.ServiceBillingControl;
 

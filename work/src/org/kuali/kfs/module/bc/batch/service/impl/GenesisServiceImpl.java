@@ -17,8 +17,8 @@ package org.kuali.module.budget.service.impl;
 
 import java.lang.*;
 
-import org.kuali.Constants;
-import org.kuali.Constants.*;
+import org.kuali.kfs.Constants;
+import org.kuali.kfs.Constants.*;
 import org.kuali.module.budget.dao.GenesisDao;
 import org.kuali.module.budget.dao.ojb.GenesisDaoOjb;
 import org.kuali.module.budget.service.GenesisService;

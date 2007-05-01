@@ -16,13 +16,13 @@
 package org.kuali.module.chart.rules;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.KeyConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.rule.RouteDocumentRule;
 import org.kuali.core.rule.SaveDocumentRule;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.KeyConstants;
 import org.kuali.module.chart.bo.Account;
 
 public class ChartRuleBase implements RouteDocumentRule, SaveDocumentRule {

@@ -16,9 +16,9 @@
 
 package org.kuali.module.financial.document;
 
-import org.kuali.Constants;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.document.AccountingDocumentBase;
 
 

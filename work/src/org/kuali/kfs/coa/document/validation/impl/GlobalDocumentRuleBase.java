@@ -16,8 +16,8 @@
 package org.kuali.module.chart.rules;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.KeyConstants;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.kfs.KeyConstants;
 import org.kuali.module.chart.bo.AccountChangeDetail;
 
 import java.util.List;

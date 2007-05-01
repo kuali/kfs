@@ -51,10 +51,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.Constants;
+import org.kuali.kfs.KeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;

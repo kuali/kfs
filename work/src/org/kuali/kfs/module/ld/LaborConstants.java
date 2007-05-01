@@ -18,7 +18,7 @@ package org.kuali.module.labor;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.PropertyConstants;
+import org.kuali.kfs.PropertyConstants;
 
 /**
  * This class contains the constants used by Labor Distribution.

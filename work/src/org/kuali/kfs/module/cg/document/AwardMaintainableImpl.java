@@ -15,25 +15,25 @@
  */
 package org.kuali.module.cg.maintenance;
 
-import static org.kuali.PropertyConstants.AWARD_ACCOUNTS;
-import static org.kuali.PropertyConstants.AWARD_PROJECT_DIRECTORS;
-import static org.kuali.PropertyConstants.AWARD_SUBCONTRACTORS;
-import static org.kuali.PropertyConstants.DOCUMENT;
-import static org.kuali.PropertyConstants.NEW_MAINTAINABLE_OBJECT;
+import static org.kuali.kfs.PropertyConstants.AWARD_ACCOUNTS;
+import static org.kuali.kfs.PropertyConstants.AWARD_PROJECT_DIRECTORS;
+import static org.kuali.kfs.PropertyConstants.AWARD_SUBCONTRACTORS;
+import static org.kuali.kfs.PropertyConstants.DOCUMENT;
+import static org.kuali.kfs.PropertyConstants.NEW_MAINTAINABLE_OBJECT;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.Constants;
+import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Award;
 import org.kuali.module.cg.bo.AwardAccount;

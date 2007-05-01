@@ -18,7 +18,7 @@ package org.kuali.module.gl.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.Constants;
+import org.kuali.kfs.Constants;
 
 public class Summary implements Comparable {
     /**

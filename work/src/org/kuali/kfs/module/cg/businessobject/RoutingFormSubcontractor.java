@@ -18,9 +18,9 @@ package org.kuali.module.kra.routingform.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.PropertyConstants;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiInteger;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.module.cg.bo.Subcontractor;
 
 /**

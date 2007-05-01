@@ -22,8 +22,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.datadictionary.AttributeDefinition;
 import org.kuali.core.datadictionary.AttributeReferenceDefinition;
@@ -35,6 +33,8 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.UrlFactory;
+import org.kuali.kfs.Constants;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.KualiSystemCode;
 import org.kuali.module.gl.bo.AccountBalance;

@@ -20,11 +20,11 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.text.ParseException;
 
-import org.kuali.KeyConstants;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.DocumentType;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KeyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.OriginationCode;
 import org.kuali.module.chart.bo.AccountingPeriod;

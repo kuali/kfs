@@ -18,14 +18,14 @@ package org.kuali.module.financial.rules;
 import static org.kuali.core.util.AssertionUtils.assertThat;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.KeyConstants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.bo.user.KualiGroup;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KeyConstants;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.util.SpringServiceLocator;

@@ -18,10 +18,10 @@ package org.kuali.module.gl.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 
-import org.kuali.Constants;
-import org.kuali.PropertyConstants;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.Constants;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;

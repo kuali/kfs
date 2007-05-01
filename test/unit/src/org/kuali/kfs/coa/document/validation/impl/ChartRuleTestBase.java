@@ -21,8 +21,6 @@ import static org.kuali.kfs.util.SpringServiceLocator.getDocumentService;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.MaintenanceDocumentBase;
@@ -32,6 +30,8 @@ import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.Constants;
+import org.kuali.kfs.KeyConstants;
 import org.kuali.test.KualiTestBase;
 
 import edu.iu.uis.eden.exception.WorkflowException;

@@ -20,9 +20,9 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 
 import org.apache.log4j.Logger;
-import org.kuali.Constants;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.service.DocumentService;
+import org.kuali.kfs.Constants;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 

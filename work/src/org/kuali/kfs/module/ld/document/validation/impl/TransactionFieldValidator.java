@@ -18,9 +18,9 @@ package org.kuali.module.labor.rules;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.Constants;
+import org.kuali.kfs.KeyConstants;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.util.Message;
 import org.kuali.module.labor.util.MessageBuilder;

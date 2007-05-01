@@ -26,9 +26,9 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.beanutils.WrapDynaClass;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
-import org.kuali.Constants;
 import org.kuali.core.dao.LookupDao;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.springframework.beans.factory.BeanFactory;
 

@@ -22,10 +22,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.kuali.Constants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.ui.Row;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.service.OptionsService;

@@ -23,10 +23,10 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.struts.form.KualiTableRenderFormMetadata;
+import org.kuali.kfs.Constants;
 
 /**
  * 

@@ -18,10 +18,10 @@ package org.kuali.module.financial.document;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.Constants;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.module.financial.bo.PreEncumbranceDocumentAccountingLineParser;

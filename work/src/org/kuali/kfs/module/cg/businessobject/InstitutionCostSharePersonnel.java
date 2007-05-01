@@ -20,8 +20,8 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.module.chart.bo.Chart;
-import org.kuali.PropertyConstants;
 
 /**
  * 

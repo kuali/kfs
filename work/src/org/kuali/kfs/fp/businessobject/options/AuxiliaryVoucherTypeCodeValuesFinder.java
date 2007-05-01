@@ -18,9 +18,9 @@ package org.kuali.module.financial.lookup.keyvalues;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.Constants;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kfs.Constants;
 
 /**
  * <code>{@link KeyValuesBase}</code> class that handles

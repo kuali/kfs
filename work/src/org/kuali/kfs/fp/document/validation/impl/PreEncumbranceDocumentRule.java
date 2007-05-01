@@ -15,21 +15,21 @@
  */
 package org.kuali.module.financial.rules;
 
-import static org.kuali.Constants.BALANCE_TYPE_PRE_ENCUMBRANCE;
-import static org.kuali.PropertyConstants.REFERENCE_NUMBER;
-import static org.kuali.PropertyConstants.REVERSAL_DATE;
 import static org.kuali.core.util.AssertionUtils.assertThat;
+import static org.kuali.kfs.Constants.BALANCE_TYPE_PRE_ENCUMBRANCE;
+import static org.kuali.kfs.PropertyConstants.REFERENCE_NUMBER;
+import static org.kuali.kfs.PropertyConstants.REVERSAL_DATE;
 import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 import static org.kuali.module.financial.rules.PreEncumbranceDocumentRuleConstants.PRE_ENCUMBRANCE_DOCUMENT_SECURITY_GROUPING;
 import static org.kuali.module.financial.rules.PreEncumbranceDocumentRuleConstants.RESTRICTED_OBJECT_TYPE_CODES;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.Constants;
-import org.kuali.KeyConstants;
 import org.kuali.core.datadictionary.BusinessObjectEntry;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.Constants;
+import org.kuali.kfs.KeyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.TargetAccountingLine;

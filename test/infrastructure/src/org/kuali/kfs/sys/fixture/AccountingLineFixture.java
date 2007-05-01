@@ -15,8 +15,8 @@
  */
 package org.kuali.test.fixtures;
 
-import static org.kuali.Constants.GL_CREDIT_CODE;
-import static org.kuali.Constants.GL_DEBIT_CODE;
+import static org.kuali.kfs.Constants.GL_CREDIT_CODE;
+import static org.kuali.kfs.Constants.GL_DEBIT_CODE;
 
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.KualiDecimal;

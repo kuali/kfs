@@ -20,7 +20,6 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.Constants;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
@@ -28,6 +27,7 @@ import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.DocumentAuthorizerBase;
 import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.rice.KNSServiceLocator;
 

@@ -19,12 +19,12 @@ import java.util.Map;
 import java.util.HashMap;
 
 import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.test.WithTestSpringContext;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
-import org.kuali.Constants;
 
 
 @WithTestSpringContext(session=KHUNTLEY)

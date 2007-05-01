@@ -19,8 +19,8 @@ import static org.kuali.kfs.util.SpringServiceLocator.getAccountingPeriodService
 import static org.kuali.kfs.util.SpringServiceLocator.getBalanceTypService;
 import static org.kuali.test.util.KualiTestAssertionUtils.assertGlobalErrorMapEmpty;
 
-import org.kuali.Constants;
-import org.kuali.PropertyConstants;
+import org.kuali.kfs.Constants;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.kfs.rules.AccountingDocumentRuleUtil;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.AccountingPeriod;

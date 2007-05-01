@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
-import org.kuali.PropertyConstants;
+import org.kuali.kfs.PropertyConstants;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
 import org.kuali.module.gl.web.Constant;

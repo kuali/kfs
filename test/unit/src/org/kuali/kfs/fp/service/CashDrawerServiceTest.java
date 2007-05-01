@@ -21,7 +21,7 @@ import static org.kuali.rice.KNSServiceLocator.getBusinessObjectService;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.Constants;
+import org.kuali.kfs.Constants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.test.KualiTestBase;

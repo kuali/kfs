@@ -244,6 +244,76 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    public ActionForward performBalanceInquiryForRevenueLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return performBalanceInquiry(true, mapping, form, request, response);
+    }
+
+    public ActionForward performBalanceInquiryForExpenditureLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return performBalanceInquiry(false, mapping, form, request, response);
+    }
+
+    /**
+     * This method is similar to org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase.performBalanceInquiry()
+     * @param isRevenue
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward performBalanceInquiry(boolean isRevenue, ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        final String docNumber;
+        
+        // get the selected line, setup parms and redirect to balance inquiry
+        BudgetConstructionForm budgetConstructionForm = (BudgetConstructionForm) form;
+        BudgetConstructionDocument bcDocument = (BudgetConstructionDocument) budgetConstructionForm.getDocument();
+        
+        PendingBudgetConstructionGeneralLedger pbglLine;
+        if (isRevenue){
+            pbglLine = bcDocument.getPendingBudgetConstructionGeneralLedgerRevenueLines().get(this.getSelectedLine(request));
+        } else {
+            pbglLine = bcDocument.getPendingBudgetConstructionGeneralLedgerExpenditureLines().get(this.getSelectedLine(request));
+        }
+
+        // build out base path for return location
+        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+
+        // build out the actual form key that will be used to retrieve the form on refresh
+        String callerDocFormKey = GlobalVariables.getUserSession().addObject(form);
+
+        // now add required parameters
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
+        // need this next param b/c the lookup's return back will overwrite
+        // the original doc form key
+        parameters.put(KFSConstants.BALANCE_INQUIRY_REPORT_MENU_CALLER_DOC_FORM_KEY, callerDocFormKey);
+        parameters.put(KFSConstants.DOC_FORM_KEY, callerDocFormKey);
+        parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
+        
+        //TODO need to set an anchor for which to return??  pass this value in?
+
+        if (StringUtils.isNotBlank(pbglLine.getChartOfAccountsCode())) {
+            parameters.put("chartOfAccountsCode", pbglLine.getChartOfAccountsCode());
+        }
+        if (StringUtils.isNotBlank(pbglLine.getAccountNumber())) {
+            parameters.put("accountNumber", pbglLine.getAccountNumber());
+        }
+        if (StringUtils.isNotBlank(pbglLine.getFinancialObjectCode())) {
+            parameters.put("financialObjectCode", pbglLine.getFinancialObjectCode());
+        }
+        if (StringUtils.isNotBlank(pbglLine.getSubAccountNumber())) {
+            parameters.put("subAccountNumber", pbglLine.getSubAccountNumber());
+        }
+        if (StringUtils.isNotBlank(pbglLine.getFinancialSubObjectCode())) {
+            parameters.put("financialSubObjectCode", pbglLine.getFinancialSubObjectCode());
+        }
+
+        String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + KFSConstants.BALANCE_INQUIRY_REPORT_MENU_ACTION, parameters);
+        
+        return new ActionForward(lookupUrl, true);
+    }
+    
     public ActionForward performMonthlyRevenueBudget(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return performMonthlyBudget(true, mapping, form, request, response);
     }

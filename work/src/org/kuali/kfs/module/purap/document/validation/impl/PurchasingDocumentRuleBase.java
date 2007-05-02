@@ -36,6 +36,7 @@ import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.ItemTypeCodes;
 import org.kuali.module.purap.bo.PurApAccountingLine;
+import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.bo.PurchasingItemBase;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
@@ -84,6 +85,13 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         return valid;
     }
 
+    /**
+     * 
+     * This method validates that the document contains at least one item.
+     * 
+     * @param purDocument
+     * @return
+     */
     private boolean validateContainsAtLeastOneItem(PurchasingDocument purDocument) {
         boolean valid = false;
         for (PurchasingApItem item : purDocument.getItems()) {
@@ -100,7 +108,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     /**
      * This method validates the unit price for all applicable item types
      * 
-     * @param purDocumente
+     * @param purDocument
      * @return
      */
     private boolean validateItemUnitPrice(PurchasingApItem item) {
@@ -159,6 +167,16 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         return valid;
     }
 
+    /**
+     * 
+     * This method validates that if the item type is ITEM and the item quantity is not null, the unit of measure
+     * is required. The description and unit price are also required field for item type ITEM.
+     * If the item type is not ITEM, and the unit price is entered, the description is required; likewise
+     * if the description is entered, the unit price is required.
+     * 
+     * @param item
+     * @return
+     */
     private boolean validateUnitOfMeasureUnitPriceAndDescription(PurchasingApItem item) {
         boolean valid = true;
         PurchasingItemBase purItem = (PurchasingItemBase) item;
@@ -200,10 +218,18 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         return valid;
     }
 
+    /**
+     * 
+     * This method validates that if the item type is ITEM, the item quantity is required.
+     * @param item
+     * @return
+     */
     private boolean validateItemQuantity(PurchasingApItem item) {
         boolean valid =  true;
-        if (item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ITEM_CODE) &&
-            ((PurchasingItemBase)item).getItemQuantity().isLessThan(new KualiDecimal(zero))) {
+        PurchasingItemBase purItem = (PurchasingItemBase)item;
+        if ( purItem.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ITEM_CODE) &&
+             ( ObjectUtils.isNull(purItem.getItemQuantity()) || 
+               ( ObjectUtils.isNotNull(purItem.getItemQuantity()) && purItem.getItemQuantity().isZero())) )   {
             valid = false;
             GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_QUANTITY, "Quantity", "Item " + item.getItemLineNumber());
         }

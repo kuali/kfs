@@ -37,40 +37,56 @@ import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 
 public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
-    
+
     /**
-     * Tabs included on Purchase Order Documents are:
-     *   Stipulation
+     * Tabs included on Purchase Order Documents are: Stipulation
      * 
      * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
      */
     @Override
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processValidation(purapDocument);
-        valid &= processVendorStipulationValidation((PurchaseOrderDocument)purapDocument);
+        valid &= processVendorStipulationValidation((PurchaseOrderDocument) purapDocument);
         return valid;
     }
-    
+
+    /**
+     * 
+     * @see org.kuali.module.purap.rules.PurchasingDocumentRuleBase#processItemValidation(org.kuali.module.purap.document.PurchasingDocument)
+     */
     @Override
     public boolean processItemValidation(PurchasingDocument purDocument) {
         boolean valid = super.processItemValidation(purDocument);
         for (PurchasingApItem item : purDocument.getItems()) {
-            valid &= validateEmptyItemWithAccounts((PurchaseOrderItem)item);
-            valid &= validateItemWithoutAccounts((PurchaseOrderItem)item);
-            valid &= validateItemUnitOfMeasure((PurchaseOrderItem)item);
+            valid &= validateEmptyItemWithAccounts((PurchaseOrderItem) item);
+            valid &= validateItemWithoutAccounts((PurchaseOrderItem) item);
+            valid &= validateItemUnitOfMeasure((PurchaseOrderItem) item);
         }
+        valid &= validateTradeInAndDiscountCoexistence(purDocument);
         return valid;
     }
-    
+
+    /**
+     * 
+     * This method validates that the item detail must not be empty if its account is not empty.
+     * @param item
+     * @return
+     */
     private boolean validateEmptyItemWithAccounts(PurchaseOrderItem item) {
         boolean valid = true;
-        if (item.isItemDetailEmpty() && ! item.isAccountListEmpty()) {
+        if (item.isItemDetailEmpty() && !item.isAccountListEmpty()) {
             valid = false;
             GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_ACCOUNTING_NOT_ALLOWED, "Item " + item.getItemLineNumber());
         }
         return valid;
     }
-    
+
+    /**
+     * 
+     * This method validates that the item must contain at least one account
+     * @param item
+     * @return
+     */
     private boolean validateItemWithoutAccounts(PurchaseOrderItem item) {
         boolean valid = true;
         if (item.isAccountListEmpty()) {
@@ -79,15 +95,51 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
         }
         return valid;
     }
-    
-    private boolean validateItemUnitOfMeasure(PurchaseOrderItem item){
+
+    /**
+     * 
+     * This method validates that if the item type is ITEM, the unit of measure field is required.
+     * 
+     * @param item
+     * @return
+     */
+    private boolean validateItemUnitOfMeasure(PurchaseOrderItem item) {
         boolean valid = true;
-        if (item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ITEM_CODE) &&
-            StringUtils.isEmpty(item.getItemUnitOfMeasureCode())) {
+        if (item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ITEM_CODE) && StringUtils.isEmpty(item.getItemUnitOfMeasureCode())) {
             valid = false;
             GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_UNIT_OF_MEASURE_REQUIRED, "Item " + item.getItemLineNumber());
         }
         return valid;
+    }
+
+    /**
+     * 
+     * This method validates that the purchase order cannot have both trade in and discount item.
+     * 
+     * @param purDocument
+     * @return
+     */
+    private boolean validateTradeInAndDiscountCoexistence(PurchasingDocument purDocument) {
+        boolean discountExists = false;
+        boolean tradeInExists = false;
+        
+        for (PurchasingApItem item : purDocument.getItems()) {
+            if (item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE)) {
+                discountExists = true;
+                if (tradeInExists) {
+                    GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_TRADEIN_DISCOUNT_COEXISTENCE);
+                    return false;
+                }
+            }
+            else if (item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)) {
+                tradeInExists = true;
+                if (discountExists) {
+                    GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_TRADEIN_DISCOUNT_COEXISTENCE);
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     /**
@@ -115,7 +167,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
         boolean valid = super.processVendorValidation(purapDocument);
         PurchaseOrderDocument poDocument = (PurchaseOrderDocument) purapDocument;
         if (StringUtils.isBlank(poDocument.getVendorCountryCode())) {
-            //TODO can't this be done by the data dictionary?
+            // TODO can't this be done by the data dictionary?
             valid = false;
             errorMap.putError(PurapPropertyConstants.VENDOR_COUNTRY_CODE, KFSKeyConstants.ERROR_REQUIRED);
         }
@@ -144,27 +196,23 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
         return valid;
     }
 
-    //TODO check comments; mentions REQ, but this class performs only PO validation
+    // TODO check comments; mentions REQ, but this class performs only PO validation
     /**
-     * Validate that if Vendor Id (VendorHeaderGeneratedId) is not empty, and tranmission method is fax, 
-     *   vendor fax number cannot be empty and must be valid. In other words: allow reqs to not force fax # 
-     *   when transmission type is fax if vendor id is empty because it will not be allowed to become an APO 
-     *   and it will be forced on the PO. 
+     * Validate that if Vendor Id (VendorHeaderGeneratedId) is not empty, and tranmission method is fax, vendor fax number cannot be
+     * empty and must be valid. In other words: allow reqs to not force fax # when transmission type is fax if vendor id is empty
+     * because it will not be allowed to become an APO and it will be forced on the PO.
      * 
-     * @return False if VendorHeaderGeneratedId is not empty, tranmission method is fax, and
-     *   VendorFaxNumber is empty or invalid. True otherwise.
+     * @return False if VendorHeaderGeneratedId is not empty, tranmission method is fax, and VendorFaxNumber is empty or invalid.
+     *         True otherwise.
      */
     private boolean validateFaxNumberIfTransmissionTypeIsFax(PurchasingDocument purDocument) {
         boolean valid = true;
-        if (ObjectUtils.isNotNull(purDocument.getVendorHeaderGeneratedIdentifier()) &&
-              purDocument.getPurchaseOrderTransmissionMethodCode().equals(PurapConstants.POTransmissionMethods.FAX)) {
-            if (ObjectUtils.isNull(purDocument.getVendorFaxNumber()) ||
-                    ! SpringServiceLocator.getPhoneNumberService().isValidPhoneNumber(purDocument.getVendorFaxNumber())  ) {
-                  GlobalVariables.getErrorMap().putError(PurapPropertyConstants.REQUISITION_VENDOR_FAX_NUMBER, 
-                  PurapKeyConstants.ERROR_FAX_NUMBER_PO_TRANSMISSION_TYPE);
+        if (ObjectUtils.isNotNull(purDocument.getVendorHeaderGeneratedIdentifier()) && purDocument.getPurchaseOrderTransmissionMethodCode().equals(PurapConstants.POTransmissionMethods.FAX)) {
+            if (ObjectUtils.isNull(purDocument.getVendorFaxNumber()) || !SpringServiceLocator.getPhoneNumberService().isValidPhoneNumber(purDocument.getVendorFaxNumber())) {
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.REQUISITION_VENDOR_FAX_NUMBER, PurapKeyConstants.ERROR_FAX_NUMBER_PO_TRANSMISSION_TYPE);
                 valid &= false;
             }
-        } 
+        }
         return valid;
     }
 

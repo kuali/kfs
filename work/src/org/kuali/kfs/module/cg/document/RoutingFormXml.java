@@ -21,18 +21,38 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.kuali.core.bo.Note;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.service.UniversalUserService;
+import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.ChartUser;
+import org.kuali.module.chart.service.ChartUserService;
+import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.routingform.bo.RoutingFormAgency;
 import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
+import org.kuali.module.kra.routingform.bo.RoutingFormProjectType;
 import org.kuali.module.kra.routingform.bo.RoutingFormSubmissionType;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
+import org.kuali.module.kra.routingform.service.RoutingFormMainPageService;
+import org.kuali.workflow.KualiWorkflowUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import edu.iu.uis.eden.clientapp.WorkflowInfo;
+import edu.iu.uis.eden.clientapp.vo.ActionRequestVO;
+import edu.iu.uis.eden.clientapp.vo.ActionTakenVO;
+import edu.iu.uis.eden.clientapp.vo.DocumentDetailVO;
+import edu.iu.uis.eden.clientapp.vo.ReportCriteriaVO;
+import edu.iu.uis.eden.clientapp.vo.UserVO;
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class creates an XML representation of a RoutingForm's data.
@@ -40,6 +60,13 @@ import org.w3c.dom.Element;
  * 
  */
 public class RoutingFormXml {
+    
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RoutingFormXml.class);
+    
+    // TODO do these already exist somewhere?
+    private static final String SHORT_TIMESTAMP_FORMAT = "MM/dd/yyyy";
+    private static final String LONG_TIMESTAMP_FORMAT = "MM/dd/yyyy HH:mm:ss";
+    
     /**
      * Driving method for this class. Functions as a hub calling helper methods.
      * 
@@ -93,7 +120,7 @@ public class RoutingFormXml {
     private static Element createAgencyElement(RoutingFormAgency routingFormAgency, String routingFormAnnouncementNumber, Document xmlDoc) {
         Element agencyElement = xmlDoc.createElement("AGENCY");
 
-        DateFormat dateFormatterKra = new SimpleDateFormat("MM/dd/yyyy");
+        DateFormat dateFormatterKra = new SimpleDateFormat(SHORT_TIMESTAMP_FORMAT);
         
         if (routingFormAgency.getAgency() != null) {
             Element agencyDataElement = xmlDoc.createElement("AGENCY_DATA");
@@ -142,8 +169,52 @@ public class RoutingFormXml {
      */
     private static Element createPrinciplesElement(RoutingFormDocument routingFormDocument, Document xmlDoc) {
         Element principlesElement = xmlDoc.createElement("PRINCIPLES");
+        
+        RoutingFormMainPageService routingFormMainPageService = SpringServiceLocator.getRoutingFormMainPageService();
+        List<RoutingFormPersonnel> routingFormPersonnel = routingFormDocument.getRoutingFormPersonnel();
+        RoutingFormPersonnel projectDirector = routingFormMainPageService.getProjectDirector(routingFormPersonnel);
 
-        // TODO do this section & consider howto handle different roles?
+        principlesElement.setAttribute("CO-PD_IND", formatBoolean(routingFormMainPageService.checkCoPdExistance(routingFormPersonnel)));
+        
+        Element projectDirectorElement = xmlDoc.createElement("PROJECT_DIRECTOR");
+        if (projectDirector != null) {
+            projectDirectorElement.setAttribute("FIRST_NAME", ObjectUtils.toString(projectDirector.getUser().getPersonFirstName()));
+            projectDirectorElement.setAttribute("LAST_NAME", ObjectUtils.toString(projectDirector.getUser().getPersonLastName()));
+            projectDirectorElement.setAttribute("PERCENT_CREDIT", ObjectUtils.toString(projectDirector.getPersonCreditPercent()));
+            
+            Element homeOrgElement = xmlDoc.createElement("HOME_ORG");
+            homeOrgElement.setAttribute("HOME_CHART", ObjectUtils.toString(projectDirector.getUser().getCampusCode()));
+            homeOrgElement.setAttribute("HOME_ORG", ObjectUtils.toString(projectDirector.getUser().getPrimaryDepartmentCode()));
+            projectDirectorElement.appendChild(homeOrgElement);
+            
+            Element pdCampusAddressElement = xmlDoc.createElement("PD_CAMPUS_ADDRESS");
+            pdCampusAddressElement.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(projectDirector.getPersonLine1Address())));
+            projectDirectorElement.appendChild(pdCampusAddressElement);
+            
+            Element pdPhoneElement = xmlDoc.createElement("PD_PHONE");
+            pdPhoneElement.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(projectDirector.getPersonPhoneNumber())));
+            projectDirectorElement.appendChild(pdPhoneElement);
+            
+            Element pdEmailElement = xmlDoc.createElement("PD_EMAIL");
+            pdEmailElement.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(projectDirector.getPersonEmailAddress())));
+            projectDirectorElement.appendChild(pdEmailElement);
+            
+            Element submittingOrgElement = xmlDoc.createElement("SUBMITTING_ORG");
+            submittingOrgElement.setAttribute("SUBMITTING_CHART", ObjectUtils.toString(projectDirector.getChartOfAccountsCode()));
+            submittingOrgElement.setAttribute("SUBMITTING_ORG", ObjectUtils.toString(projectDirector.getOrganizationCode()));
+            submittingOrgElement.appendChild(xmlDoc.createTextNode(projectDirector.getOrganization() == null ? "" : projectDirector.getOrganization().getOrganizationName()));
+            projectDirectorElement.appendChild(submittingOrgElement);
+        }
+        principlesElement.appendChild(projectDirectorElement);
+        
+        // TODO contact person
+        Element contactPersonElement = xmlDoc.createElement("CONTACT_PERSON");
+        contactPersonElement.setAttribute("FIRST_NAME", "TODO");
+        contactPersonElement.setAttribute("LAST_NAME", "TODO");
+        contactPersonElement.setAttribute("EMAIL", "TODO");
+        contactPersonElement.setAttribute("PHONE_NUMBER", "TODO");
+        contactPersonElement.setAttribute("FAX_NUMBER", "TODO");
+        principlesElement.appendChild(contactPersonElement);
         
         Element fellowDescriptionElement = xmlDoc.createElement("FELLOW");
         fellowDescriptionElement.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormDocument.getRoutingFormFellowFullName())));
@@ -212,7 +283,7 @@ public class RoutingFormXml {
     private static Element createAmountsDatesElement(RoutingFormBudget routingFormBudget, Document xmlDoc) {
         Element amountsDatesElement = xmlDoc.createElement("AMOUNTS_DATES");
 
-        DateFormat dateFormatterKra = new SimpleDateFormat("MM/dd/yyyy");
+        DateFormat dateFormatterKra = new SimpleDateFormat(SHORT_TIMESTAMP_FORMAT);
         
         Element directCostsDescription = xmlDoc.createElement("DIRECT_COSTS");
         directCostsDescription.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormBudget.getRoutingFormBudgetDirectAmount())));
@@ -242,34 +313,46 @@ public class RoutingFormXml {
     }
     
     /**
-     * Creates TYPE node.
+     * Creates TYPES node.
      * 
      * @param routingFormDocument
      * @param xmlDoc
      * @return resulting node
      */
     private static Element createTypeElement(RoutingFormDocument routingFormDocument, Document xmlDoc) {
-        Element typeElement = xmlDoc.createElement("TYPE");
+        Element typesElement = xmlDoc.createElement("TYPES");
 
-        // TODO: dynamic fields?
+        for(RoutingFormProjectType routingFormProjectType : routingFormDocument.getRoutingFormProjectTypes()) {
+            Element typeElement = xmlDoc.createElement("TYPE");
+            
+            typeElement.setAttribute("CODE", routingFormProjectType.getProjectTypeCode());
+            typeElement.setAttribute("SELECTED", formatBoolean(routingFormProjectType.isProjectTypeSelectedIndicator()));
+            typeElement.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormProjectType.getProjectType().getProjectTypeDescription())));
+            
+            typesElement.appendChild(typeElement);
+        }
+        
+        Element typeOtherTextDescription = xmlDoc.createElement("TYPE_OTHER_DESCRIPTION");
+        typeOtherTextDescription.appendChild(xmlDoc.createTextNode(routingFormDocument.getProjectTypeOtherDescription()));
+        typesElement.appendChild(typeOtherTextDescription);
         
         Element priorGrantDescription = xmlDoc.createElement("PRIOR_GRANT");
         priorGrantDescription.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormDocument.getRoutingFormPriorGrantNumber())));
-        typeElement.appendChild(priorGrantDescription);
+        typesElement.appendChild(priorGrantDescription);
         
         Element currentGrantDescription = xmlDoc.createElement("CURRENT_GRANT");
         currentGrantDescription.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormDocument.getGrantNumber())));
-        typeElement.appendChild(currentGrantDescription);
+        typesElement.appendChild(currentGrantDescription);
         
         Element institutionAccountDescription = xmlDoc.createElement("INSTITUTION_ACCOUNT");
         institutionAccountDescription.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormDocument.getInstitutionAccountNumber())));
-        typeElement.appendChild(institutionAccountDescription);
+        typesElement.appendChild(institutionAccountDescription);
         
         Element currentProposalDescription = xmlDoc.createElement("CURRENT_PROPOSAL");
         currentProposalDescription.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(ObjectUtils.toString(routingFormDocument.getContractGrantProposal().getProposalNumber()))));
-        typeElement.appendChild(currentProposalDescription);
+        typesElement.appendChild(currentProposalDescription);
         
-        return typeElement;
+        return typesElement;
     }
     
     /**
@@ -336,13 +419,81 @@ public class RoutingFormXml {
      */
     private static Element createApprovalsElement(RoutingFormDocument routingFormDocument, Document xmlDoc) {
         Element approvalsElement = xmlDoc.createElement("APPROVALS");
+        
+        ReportCriteriaVO criteria = new ReportCriteriaVO();
+        criteria.setDocumentTypeName(KualiWorkflowUtils.KRA_ROUTING_FORM_DOC_TYPE);
+        criteria.setNodeNames(new String[] {KraConstants.PROJECT_DIRECTOR_REVIEW_NODE_NAME, KraConstants.ADHOC_REVIEW_NODE_NAME, KraConstants.ORG_REVIEW_NODE_NAME});
+        criteria.setRuleTemplateNames(new String[] {KraConstants.PROJECT_DIRECTOR_TEMPLATE_NAME, KraConstants.ADHOC_REVIEW_TEMPLATE_NAME, KraConstants.ORG_REVIEW_TEMPLATE_NAME});
+        criteria.setXmlContent(routingFormDocument.generateDocumentContent());
+        WorkflowInfo info = new WorkflowInfo();
+        try {
+            DateFormat dateFormat = new SimpleDateFormat(LONG_TIMESTAMP_FORMAT);
+            DocumentDetailVO detail = info.routingReport(criteria);
+            ActionTakenVO[] actionTakenVO = detail.getActionsTaken();
+            ActionRequestVO[] actionRequestVO = detail.getActionRequests();
+            
+            for(int i = 0 ; i < actionTakenVO.length; i++) {
+                ActionTakenVO actionTaken = actionTakenVO[i];
+                UserVO user = actionTaken.getUserVO();
+                
+                // TODO PD and ADHOC user object is always null
+                if (user != null) {
+                    createApproverElement(xmlDoc, approvalsElement, user, "TODO", actionTaken.getActionTaken(), dateFormat.format(actionTaken.getActionDate()));
+                }
+            }
+            
+            for(int i = 0 ; i < actionRequestVO.length; i++) {
+                ActionRequestVO actionRequest = actionRequestVO[i];
+                UserVO user = actionRequest.getUserVO();
+                
+                // actionRequestVO[i].getChildrenRequests() retrieves delegates but we don't display them
 
-        // TODO 
-        //WorkflowInfo
-        //... should get me action taken and pending
-        //... see ResearchDocumentPermissionsServiceImpl.isUserInOrgHierarchy for future
+                // TODO PD and ADHOC user object is always null
+                if (user != null) {
+                    createApproverElement(xmlDoc, approvalsElement, user, actionRequest.getNodeName(), actionRequest.getActionRequested(), "");
+                }
+            }
+        } catch (WorkflowException e) {
+            throw new RuntimeException("Exception generating routing report: " + e);
+        }
         
         return approvalsElement;
+    }
+
+    /**
+     * Helper method for createApprovalsElement to avoid duplicating code for actions taken and action requests.
+     * @param xmlDoc xmlDoc to be used
+     * @param approvalsElement parent node to be used
+     * @param workflowUser that took the action
+     * @param nodeName will be used for the TITLE field
+     * @param action will be used for the ACTION field
+     * @param actionDate will be used for the ACTION_DATE field
+     */
+    private static void createApproverElement(Document xmlDoc, Element approvalsElement, UserVO workflowUser, String nodeName, String action, String actionDate) {
+        Element approverElement = xmlDoc.createElement("APPROVER");
+        
+        UniversalUser kualiUser;
+        UniversalUserService universalUserService = SpringServiceLocator.getUniversalUserService();
+        ChartUserService chartUserService = SpringServiceLocator.getChartUserService();
+        try {
+            kualiUser =  universalUserService.getUniversalUser(workflowUser.getUuId());
+        } catch (UserNotFoundException e) {
+            LOG.error("Lookup for emplId=" + workflowUser.getEmplId() + " failed. Skipping putting person in XML.");
+            return;
+        }
+        
+        approverElement.setAttribute("TITLE", nodeName);
+        approverElement.setAttribute("CHART", chartUserService.getDefaultChartOfAccountsCode((ChartUser) kualiUser.getModuleUser(ChartUser.MODULE_ID)));
+        approverElement.setAttribute("ORG", chartUserService.getDefaultOrganizationCode((ChartUser) kualiUser.getModuleUser(ChartUser.MODULE_ID)));
+        approverElement.setAttribute("ACTION", action);
+        approverElement.setAttribute("ACTION_DATE", actionDate);
+        
+        Element nameElement = xmlDoc.createElement("NAME");
+        nameElement.setAttribute("FIRST", workflowUser.getFirstName());
+        nameElement.setAttribute("LAST", workflowUser.getLastName());
+        approverElement.appendChild(nameElement);
+        
+        approvalsElement.appendChild(approverElement);
     }
     
     /**
@@ -388,9 +539,33 @@ public class RoutingFormXml {
      */
     private static Element createCommentsElement(RoutingFormDocument routingFormDocument, Document xmlDoc) {
         Element commentsElement = xmlDoc.createElement("COMMENTS");
-
-        // TODO get notes from document ...
-        // routingFormDocument.getDocumentHeader().getBoNotes();
+        
+        DateFormat dateFormat = new SimpleDateFormat(LONG_TIMESTAMP_FORMAT);
+        Iterator notes = routingFormDocument.getDocumentHeader().getBoNotes().iterator();
+        
+        while(notes.hasNext()) {
+            Note note = (Note) notes.next();
+            
+            Element commentElement = xmlDoc.createElement("COMMENT");
+            
+            Element commentatorDescription = xmlDoc.createElement("COMMENTATOR");
+            commentatorDescription.appendChild(xmlDoc.createTextNode(note.getAuthorUniversal().getPersonName()));
+            commentElement.appendChild(commentatorDescription);
+            
+            Element commentTimestampDescription = xmlDoc.createElement("COMMENT_TIMESTAMP");
+            commentTimestampDescription.appendChild(xmlDoc.createTextNode(dateFormat.format(note.getNotePostedTimestamp())));
+            commentElement.appendChild(commentTimestampDescription);
+            
+            Element commentTopicDescription = xmlDoc.createElement("COMMENT_TOPIC");
+            commentTopicDescription.appendChild(xmlDoc.createTextNode(note.getNoteTopicText()));
+            commentElement.appendChild(commentTopicDescription);
+            
+            Element commentTextDescription = xmlDoc.createElement("COMMENT_TEXT");
+            commentTextDescription.appendChild(xmlDoc.createTextNode(note.getNoteText()));
+            commentElement.appendChild(commentTextDescription);
+            
+            commentsElement.appendChild(commentElement);
+        }
         
         return commentsElement;
     }

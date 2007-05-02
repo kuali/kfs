@@ -20,8 +20,8 @@ import java.util.List;
 import org.kuali.module.kra.routingform.bo.DueDateType;
 import org.kuali.module.kra.routingform.bo.PersonRole;
 import org.kuali.module.kra.routingform.bo.ProjectType;
-import org.kuali.module.kra.routingform.bo.Purpose;
 import org.kuali.module.kra.routingform.bo.ResearchTypeCode;
+import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
 import org.kuali.module.kra.routingform.bo.SubmissionType;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 
@@ -66,4 +66,18 @@ public interface RoutingFormMainPageService {
      * @return typed list of due date types
      */
     public List<DueDateType> getDueDateTypes();
+    
+    /**
+     * Checks if at least one of the people in the list is a CoPd.
+     * @param routingFormPersonnel
+     * @return
+     */
+    public boolean checkCoPdExistance(List<RoutingFormPersonnel> routingFormPersonnel);
+    
+    /**
+     * Returns the first project director found in a list. If none is found it return null;
+     * @param routingFormPersonnel
+     * @return
+     */
+    public RoutingFormPersonnel getProjectDirector(List<RoutingFormPersonnel> routingFormPersonnel);
 }

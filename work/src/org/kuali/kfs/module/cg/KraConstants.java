@@ -111,6 +111,10 @@ public class KraConstants extends JstlConstants {
     public static final String MANUAL_BASE = "MN";
     public static final String MODIFIED_TOTAL_DIRECT_COST = "MT";
     
+    public static final String PROJECT_DIRECTOR_REVIEW_NODE_NAME = "Project Director";
+    public static final String PROJECT_DIRECTOR_TEMPLATE_NAME = "KualiRoutingFormProjectDirectorTemplate";
+    public static final String ADHOC_REVIEW_NODE_NAME = "Adhoc Approvers";
+    public static final String ADHOC_REVIEW_TEMPLATE_NAME = "KualiResearchAdhocApproverTemplate";
     public static final String ORG_REVIEW_NODE_NAME = "Org Review";
     public static final String ORG_REVIEW_TEMPLATE_NAME = "KualiResearchOrgReviewTemplate";
     

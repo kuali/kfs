@@ -380,7 +380,7 @@
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>75</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 
                 <control>
                     <text size="12" />

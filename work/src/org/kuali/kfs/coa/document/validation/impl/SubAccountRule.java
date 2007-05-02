@@ -250,8 +250,9 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         if (!getCgAuthorized()) {
             return success;
         }
-
+        
         // short circuit if the parent account is NOT part of a CG fund group
+        boolean a21SubAccountRefreshed = false;
         if (ObjectUtils.isNotNull(newSubAccount.getAccount())) {
             if (ObjectUtils.isNotNull(newSubAccount.getAccount().getSubFundGroup())) {
 
@@ -267,10 +268,11 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
                         putFieldError("a21SubAccount.indirectCostRecoveryTypeCode", KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_NON_FUNDED_ACCT_ICR_INVALID, new String[] { SpringServiceLocator.getSubFundGroupService().getContractsAndGrantsDenotingAttributeLabel() , SpringServiceLocator.getSubFundGroupService().getContractsAndGrantsDenotingValue() });
                     }
 
-                    // KULCOA-1116 - Check if sub account type code is blank, if not throw an error
-                    if (ObjectUtils.isNull(newSubAccount.getA21SubAccount()) == false) {
-
-                        if (StringUtils.isEmpty(newSubAccount.getA21SubAccount().getSubAccountTypeCode()) == false) {
+                    // KULRNE-4660 - this isn't the child of a CG account; sub account must be ICR type
+                    if (!ObjectUtils.isNull(newSubAccount.getA21SubAccount())) {
+                        newSubAccount.getA21SubAccount().refresh();
+                        a21SubAccountRefreshed = true;
+                        if (StringUtils.isEmpty(newSubAccount.getA21SubAccount().getSubAccountTypeCode()) || !newSubAccount.getA21SubAccount().getSubAccountTypeCode().equals(SubAccountRule.CG_A21_TYPE_ICR)) {
                             putFieldError("a21SubAccount.subAccountTypeCode", KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_NON_FUNDED_ACCT_SUB_ACCT_TYPE_CODE_INVALID, new String[] { SpringServiceLocator.getSubFundGroupService().getContractsAndGrantsDenotingAttributeLabel() , SpringServiceLocator.getSubFundGroupService().getContractsAndGrantsDenotingValue() });
                         }
                     }
@@ -289,7 +291,10 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
 
         // manually refresh the a21SubAccount object, as it wont have been
         // refreshed by the parent, as its updateable
-        newSubAccount.getA21SubAccount().refresh();
+        // though only refresh if we didn't refresh in the checks above
+        if (!a21SubAccountRefreshed) {
+            newSubAccount.getA21SubAccount().refresh();
+        }
 
         // C&G A21 Type field must be in the allowed values
         KualiParameterRule parmRule = getConfigService().getApplicationParameterRule(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, CG_ALLOWED_SUBACCOUNT_TYPE_CODES);
@@ -372,10 +377,10 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         A21SubAccount a21 = newSubAccount.getA21SubAccount();
 
         // check required fields
-        success &= checkEmptyBOField("a21SubAccount.indirectCostRecoveryTypeCode", a21.getIndirectCostRecoveryTypeCode(), "ICR Type Code");
+        /*success &= checkEmptyBOField("a21SubAccount.indirectCostRecoveryTypeCode", a21.getIndirectCostRecoveryTypeCode(), "ICR Type Code");
         success &= checkEmptyBOField("a21SubAccount.indirectCostRecoveryChartOfAccountsCode", a21.getIndirectCostRecoveryChartOfAccountsCode(), "ICR Chart of Accounts Code");
         success &= checkEmptyBOField("a21SubAccount.indirectCostRecoveryAccountNumber", a21.getIndirectCostRecoveryAccountNumber(), "ICR Account Number");
-        success &= checkEmptyBOField("a21SubAccount.financialIcrSeriesIdentifier", a21.getFinancialIcrSeriesIdentifier(), "Financial ICR Series ID");
+        success &= checkEmptyBOField("a21SubAccount.financialIcrSeriesIdentifier", a21.getFinancialIcrSeriesIdentifier(), "Financial ICR Series ID");*/
 
         // existence check for ICR Type Code
         if (StringUtils.isNotEmpty(a21.getIndirectCostRecoveryTypeCode())) {

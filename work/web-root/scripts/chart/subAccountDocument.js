@@ -30,10 +30,20 @@ function updateICR( acctField, callbackFunction ) {
 function updateICR_Callback( data ) {
 	// check if the current user has permissions to the ICR fields
 	if ( kualiElements["document.newMaintainableObject.a21SubAccount.financialIcrSeriesIdentifier"].type.toLowerCase() != "hidden" ) {
-		setElementValue( "document.newMaintainableObject.a21SubAccount.financialIcrSeriesIdentifier", data.financialIcrSeriesIdentifier );
-		setElementValue( "document.newMaintainableObject.a21SubAccount.indirectCostRecoveryChartOfAccountsCode", data.indirectCostRcvyFinCoaCode );
-		setElementValue( "document.newMaintainableObject.a21SubAccount.indirectCostRecoveryAccountNumber", data.indirectCostRecoveryAcctNbr );
-		setElementValue( "document.newMaintainableObject.a21SubAccount.offCampusCode", data.accountOffCampusIndicator );
-		setElementValue( "document.newMaintainableObject.a21SubAccount.indirectCostRecoveryTypeCode", data.acctIndirectCostRcvyTypeCd );
+		if (data.financialIcrSeriesIdentifier) {
+			setElementValue( "document.newMaintainableObject.a21SubAccount.financialIcrSeriesIdentifier", data.financialIcrSeriesIdentifier );
+		}
+		if (data.indirectCostRcvyFinCoaCode) {
+			setElementValue( "document.newMaintainableObject.a21SubAccount.indirectCostRecoveryChartOfAccountsCode", data.indirectCostRcvyFinCoaCode );
+		}
+		if (data.indirectCostRecoveryAcctNbr) {
+			setElementValue( "document.newMaintainableObject.a21SubAccount.indirectCostRecoveryAccountNumber", data.indirectCostRecoveryAcctNbr );
+		}
+		if (data.accountOffCampusIndicator) {
+			setElementValue( "document.newMaintainableObject.a21SubAccount.offCampusCode", data.accountOffCampusIndicator );
+		}
+		if (data.acctIndirectCostRcvyTypeCd) {
+			setElementValue( "document.newMaintainableObject.a21SubAccount.indirectCostRecoveryTypeCode", data.acctIndirectCostRcvyTypeCd );
+		}
 	}
 }

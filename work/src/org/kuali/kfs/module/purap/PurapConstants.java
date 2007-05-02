@@ -79,7 +79,7 @@ public class PurapConstants {
         public static String ELECTRONIC = "ELEC";
     }
     
-    public static int REQ_B2B_ALLOW_COPY_DAYS = 5;
+    public static String REQ_B2B_ALLOW_COPY_DAYS = "5";
     
     public static class RequisitionSources {
         public static String STANDARD_ORDER = "STAN";

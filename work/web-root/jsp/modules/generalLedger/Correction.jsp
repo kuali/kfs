@@ -155,6 +155,7 @@
                   <html:select property="inputGroupId" size="10" >
                     <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|module|gl|web|optionfinder|CorrectionGroupEntriesFinder" label="label" value="key" />
                   </html:select>
+                  <html:hidden property="previousInputGroupId"/>
                   <br/><br/>  
                   <html:image property="methodToCall.loadGroup.anchor${currentTabIndex}" src="images/tinybutton-loadgroup.gif" styleClass="tinybutton" alt="ShowAllEntries" title="Show All Entries"/>
                   <html:image property="methodToCall.saveToDesktop.anchor${currentTabIndex}" src="images/tinybutton-cpygrpdesk.gif" styleClass="tinybutton" alt="saveToDeskTop" title="Save To Desktop" onclick="excludeSubmitRestriction=true" />

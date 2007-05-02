@@ -625,6 +625,7 @@ public class KFSKeyConstants extends KeyConstants {
     public static final String ERROR_GL_ERROR_CORRECTION_UNABLE_TO_MANUAL_EDIT_LARGE_GROUP = "error.gl.correction.unable.to.manual.edit.large.group";
     public static final String ERROR_GL_ERROR_CORRECTION_UNABLE_TO_MANUAL_EDIT_ANY_GROUP = "error.gl.correction.unable.to.manual.edit.any.group";
     public static final String ERROR_GL_ERROR_CORRECTION_INVALID_SYSTEM_OR_EDIT_METHOD_CHANGE = "error.gl.correction.invalid.system.or.edit.method.change";
+    public static final String ERROR_GL_ERROR_CORRECTION_INVALID_INPUT_GROUP_CHANGE = "error.gl.correction.invalid.input.group.change";
     public static final String GL_ERROR_CORRECTION_RESTRICTED_FUNCTIONALITY_SEARCH_RESULTS_LABEL = "gl.correction.restricted.functionality.search.results.label";
 
 

@@ -116,6 +116,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         // or loading an old one
         if (!"docHandler".equals(rForm.getMethodToCall())) {
             restoreSystemAndEditMethod(rForm);
+            restoreInputGroupSelectionForDatabaseEdits(rForm);
             if (!rForm.isRestrictedFunctionalityMode()) {
                 if (StringUtils.isNotBlank(rForm.getGlcpSearchResultsSequenceNumber())) {
                     rForm.setAllEntries(SpringServiceLocator.getGlCorrectionProcessOriginEntryService().retrieveAllEntries(rForm.getGlcpSearchResultsSequenceNumber()));
@@ -238,12 +239,23 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             return false;
         }
 
+        if (correctionForm.getDataLoadedFlag() || correctionForm.isRestrictedFunctionalityMode()) {
+            document.setCorrectionInputGroupId(correctionForm.getInputGroupId());
+        }
+        else {
+            document.setCorrectionInputGroupId(null);
+        }
         if (!checkOriginEntryGroupSelectionBeforeRouting(document)) {
             return false;
         }
         
         // were the system and edit methods inappropriately changed?
         if (GlobalVariables.getErrorMap().containsMessageKey(KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_INVALID_SYSTEM_OR_EDIT_METHOD_CHANGE)) {
+            return false;
+        }
+        
+        // was the input group inappropriately changed?
+        if (GlobalVariables.getErrorMap().containsMessageKey(KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_INVALID_INPUT_GROUP_CHANGE)) {
             return false;
         }
         
@@ -275,13 +287,6 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         document.setCorrectionFileDelete(!correctionForm.getProcessInBatch());
         document.setCorrectionInputFileName(correctionForm.getInputFileName());
         document.setCorrectionOutputFileName(null); // this field is never used
-        
-        if (correctionForm.getDataLoadedFlag() || correctionForm.isRestrictedFunctionalityMode()) {
-            document.setCorrectionInputGroupId(correctionForm.getInputGroupId());
-        }
-        else {
-            document.setCorrectionInputGroupId(null);
-        }
         
         // we'll populate the output group id when the doc has a route level change
         document.setCorrectionOutputGroupId(null);
@@ -411,6 +416,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
                 
                 correctionForm.setPreviousChooseSystem(correctionForm.getChooseSystem());
                 correctionForm.setPreviousEditMethod(correctionForm.getEditMethod());
+                correctionForm.setPreviousInputGroupId(correctionForm.getInputGroupId());
             }
             else {
                 // They are calling this from their action list to look at it or approve it
@@ -481,6 +487,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         }
         correctionForm.setPreviousChooseSystem(correctionForm.getChooseSystem());
         correctionForm.setPreviousEditMethod(correctionForm.getEditMethod());
+        correctionForm.setPreviousInputGroupId(null);
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -564,8 +571,6 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
                         correctionForm.setDeleteFileFlag(false);
                     }
                     correctionForm.setDataLoadedFlag(true);
-                    
-                    correctionForm.getCorrectionDocument().addCorrectionChangeGroup(new CorrectionChangeGroup());
                 }
                 else {
                     GlobalVariables.getErrorMap().putError("documentsInSystem", KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_NO_RECORDS);
@@ -576,6 +581,8 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             if (document.getCorrectionChangeGroup().isEmpty()) {
                 document.addCorrectionChangeGroup(new CorrectionChangeGroup());
             }
+            
+            correctionForm.setPreviousInputGroupId(correctionForm.getInputGroupId());
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -1585,6 +1592,31 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             }
         }
         return false;
+    }
+    
+    /**
+     * For database-based edits, this method will determine if the input group has been changed since the last time
+     * the page was rendered. 
+     *    
+     * @param correctionForm
+     * @return false if the input group was inappropriately changed without using the selectSystemEditMethod method
+     */
+    private boolean restoreInputGroupSelectionForDatabaseEdits(CorrectionForm correctionForm) {
+        if (!CorrectionDocumentService.SYSTEM_DATABASE.equals(correctionForm.getChooseSystem())) {
+            return true;
+        }
+        if ("loadGroup".equals(correctionForm.getMethodToCall())) {
+            return true;
+        }
+        Integer currentInputGroupId = correctionForm.getInputGroupId();
+        Integer previousInputGroupId = correctionForm.getPreviousInputGroupId();
+        
+        if (previousInputGroupId != null && (currentInputGroupId == null || previousInputGroupId.intValue() != currentInputGroupId.intValue())) {
+            correctionForm.setInputGroupId(previousInputGroupId);
+            GlobalVariables.getErrorMap().putError("documentsInSystem", KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_INVALID_INPUT_GROUP_CHANGE);
+            return false;
+        }
+        return true;
     }
     
     private void persistOriginEntryGroupsForDocumentSave(CorrectionForm correctionForm) {

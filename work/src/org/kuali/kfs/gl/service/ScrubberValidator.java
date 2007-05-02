@@ -31,7 +31,7 @@ public interface ScrubberValidator {
      * @param universityRunDate Date of scrubber run
      * @return List of Message objects based for warnings or errors that happened when validating the transaction
      */
-    public List<Message> validateTransaction(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate);
+    public List<Message> validateTransaction(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate, boolean validateAccountIndicator);
 
     /**
      * Validate a transaction for use in balance inquiry

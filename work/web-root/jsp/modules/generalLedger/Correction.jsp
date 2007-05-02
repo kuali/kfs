@@ -550,7 +550,7 @@
           <td align="left" valign="middle" ><c:out value="${KualiForm.document.system}" /></td>
         </tr>
         <tr>
-          <td width="20%" align="left" valign="middle"> System: </td>
+          <td width="20%" align="left" valign="middle"> Edit Method: </td>
           <td align="left" valign="middle" ><c:out value="${KualiForm.document.method}" /></td>
         </tr>
       </table>

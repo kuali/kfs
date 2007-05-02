@@ -23,7 +23,8 @@ package org.kuali.module.gl;
  */
 public class GLConstants {
     public static final String DASH_ORGANIZATION_REFERENCE_ID = "--------";
-
+    public static final int ORIGIN_ENTRY_ID_MAXIMUM_SIZE = 14;
+    
     public static class DummyBusinessObject {
         static final public String COST_SHARE_OPTION = "dummyBusinessObject.costShareOption";
         static final public String PENDING_ENTRY_OPTION = "dummyBusinessObject.pendingEntryOption";

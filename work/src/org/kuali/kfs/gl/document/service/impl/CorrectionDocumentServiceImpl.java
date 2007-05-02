@@ -325,7 +325,12 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
             streamOut = new FileOutputStream(fileOut);
             bufferedStreamOut = new BufferedOutputStream(streamOut);
             
-            originEntryService.flatFile(entries, bufferedStreamOut);
+            byte[] newLine = "\n".getBytes();
+            while (entries.hasNext()) {
+                OriginEntry entry = entries.next();
+                bufferedStreamOut.write(entry.getLineWithOriginEntryId().getBytes());
+                bufferedStreamOut.write(newLine);
+            }
         }
         catch (IOException e) {
             LOG.error("unable to persist origin entries to file: " + fullPathUniqueFileName, e);
@@ -398,11 +403,13 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
         BufferedReader reader = null;
         
         List<OriginEntry> entries = new ArrayList<OriginEntry>();
+        int lineNumber = 0;
         try {
             reader = new BufferedReader(new FileReader(fileIn));
             String line;
             while ((line = reader.readLine()) != null) {
-                OriginEntry entry = new OriginEntry(line);
+                OriginEntry entry = new OriginEntry(line, lineNumber, true);
+                lineNumber++;
                 entries.add(entry);
             }
         }

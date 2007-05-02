@@ -435,7 +435,7 @@
                 <shortLabel>Extended Price</shortLabel>
 
                 <maxLength>19</maxLength>
-                <validationPattern><floatingPoint allowNegative="true"/></validationPattern>
+                <validationPattern><fixedPoint allowNegative="true" precision="11" scale="2"/></validationPattern>
 
                 <control>
                     <text size="21" />

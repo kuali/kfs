@@ -95,7 +95,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
     }
 
-    public List<Message> validateTransaction(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate) {
+    public List<Message> validateTransaction(OriginEntry originEntry, OriginEntry scrubbedEntry, UniversityDate universityRunDate, boolean validateAccountIndicator) {
         LOG.debug("validateTransaction() started");
 
         List<Message> errors = new ArrayList<Message>();
@@ -163,10 +163,13 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         if (err != null) {
             errors.add(err);
         }
-
-        err = validateAccount(originEntry, scrubbedEntry, universityRunDate);
-        if (err != null) {
-            errors.add(err);
+        
+        //Labor Scrubber doesn't validate Account here. 
+        if (validateAccountIndicator){
+            err = validateAccount(originEntry, scrubbedEntry, universityRunDate);
+            if (err != null) {
+                errors.add(err);
+            }
         }
 
         err = validateSubAccount(originEntry, scrubbedEntry);

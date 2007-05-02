@@ -399,7 +399,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
     boolean validateTaxNumberRequiredness(VendorDetail vendorDetail) {
         if (!vendorDetail.getVendorHeader().getVendorForeignIndicator() && vendorDetail.getVendorHeader().getVendorType().isVendorTaxNumberRequiredIndicator() && StringUtils.isBlank(vendorDetail.getVendorHeader().getVendorTaxNumber())) {
             if (vendorDetail.isVendorParentIndicator()) {
-                putFieldError(VendorPropertyConstants.VENDOR_TAX_NUMBER, VendorKeyConstants.ERROR_VENDOR_TYPE_REQUIRES_TAX_NUMBER);
+                putFieldError(VendorPropertyConstants.VENDOR_TAX_NUMBER, VendorKeyConstants.ERROR_VENDOR_TYPE_REQUIRES_TAX_NUMBER, vendorDetail.getVendorHeader().getVendorType().getVendorTypeDescription());
             }
             else {
                 putFieldError(VendorPropertyConstants.VENDOR_TAX_NUMBER, VendorKeyConstants.ERROR_VENDOR_PARENT_NEEDS_CHANGED);

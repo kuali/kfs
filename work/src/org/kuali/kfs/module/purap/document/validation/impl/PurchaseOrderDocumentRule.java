@@ -28,7 +28,10 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.PurapConstants.ItemTypeCodes;
+import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
+import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
@@ -48,6 +51,44 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
         return valid;
     }
     
+    @Override
+    public boolean processItemValidation(PurchasingDocument purDocument) {
+        boolean valid = super.processItemValidation(purDocument);
+        for (PurchasingApItem item : purDocument.getItems()) {
+            valid &= validateEmptyItemWithAccounts((PurchaseOrderItem)item);
+            valid &= validateItemWithoutAccounts((PurchaseOrderItem)item);
+            valid &= validateItemUnitOfMeasure((PurchaseOrderItem)item);
+        }
+        return valid;
+    }
+    
+    private boolean validateEmptyItemWithAccounts(PurchaseOrderItem item) {
+        boolean valid = true;
+        if (item.isItemDetailEmpty() && ! item.isAccountListEmpty()) {
+            valid = false;
+            GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_ACCOUNTING_NOT_ALLOWED, "Item " + item.getItemLineNumber());
+        }
+        return valid;
+    }
+    
+    private boolean validateItemWithoutAccounts(PurchaseOrderItem item) {
+        boolean valid = true;
+        if (item.isAccountListEmpty()) {
+            valid = false;
+            GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_ACCOUNTING_INCOMPLETE, "Item " + item.getItemLineNumber());
+        }
+        return valid;
+    }
+    
+    private boolean validateItemUnitOfMeasure(PurchaseOrderItem item){
+        boolean valid = true;
+        if (item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ITEM_CODE) &&
+            StringUtils.isEmpty(item.getItemUnitOfMeasureCode())) {
+            valid = false;
+            GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_UNIT_OF_MEASURE_REQUIRED, "Item " + item.getItemLineNumber());
+        }
+        return valid;
+    }
 
     /**
      * This method performs any validation for the Stipulation tab.

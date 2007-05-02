@@ -15,7 +15,12 @@
  */
 package org.kuali.module.purap.bo;
 
+import java.math.BigDecimal;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 
 public abstract class PurchasingItemBase extends PurApItemBase implements PurchasingItem {
     private KualiDecimal itemQuantity;
@@ -27,4 +32,41 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
     public void setItemQuantity(KualiDecimal itemQuantity) {
         this.itemQuantity = itemQuantity;
     }
+    
+    public boolean isEmpty() {
+        return ! ( StringUtils.isNotEmpty(getItemUnitOfMeasureCode()) ||
+                   StringUtils.isNotEmpty(getItemCatalogNumber()) ||
+                   StringUtils.isNotEmpty(getItemDescription()) ||
+                   StringUtils.isNotEmpty(getItemCapitalAssetNoteText()) ||
+                   StringUtils.isNotEmpty(getRequisitionLineIdentifier()) ||
+                   StringUtils.isNotEmpty(getItemAuxiliaryPartIdentifier()) ||
+                   ObjectUtils.isNotNull(getItemQuantity()) ||
+                   (ObjectUtils.isNotNull(getItemUnitPrice()) && (getItemUnitPrice().compareTo(new BigDecimal("0")) != 0)) ||
+                   ObjectUtils.isNotNull(getCapitalAssetTransactionType()) ||
+                   (!this.isAccountListEmpty()));
+                   
+    }
+
+    public boolean isItemDetailEmpty() {
+        return  ( 
+            (ObjectUtils.isNull(getItemQuantity()) || StringUtils.isEmpty(getItemQuantity().toString())&&
+            StringUtils.isEmpty(getItemUnitOfMeasureCode()) &&
+            StringUtils.isEmpty(getItemCatalogNumber()) &&
+            StringUtils.isEmpty(getItemDescription()) &&
+            (ObjectUtils.isNull(getItemUnitPrice()) || (getItemUnitPrice().compareTo(new BigDecimal("0")) == 0)))) ; 
+      }
+    
+    
+    public boolean isAccountListEmpty() {
+        List<PurApAccountingLine> accounts = getSourceAccountingLines();
+        if (ObjectUtils.isNotNull(accounts)) {
+            for (PurApAccountingLine element : accounts) {
+                if (!element.isEmpty()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
 }

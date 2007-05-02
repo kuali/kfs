@@ -17,6 +17,7 @@ package org.kuali.module.purap.bo;
 
 import java.math.BigDecimal;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.bo.SourceAccountingLine;
 
 public abstract class PurApAccountingLineBase extends SourceAccountingLine implements PurApAccountingLine {
@@ -24,29 +25,38 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
     protected Integer accountIdentifier;
     private Integer itemIdentifier;
     private BigDecimal accountLinePercent;
-    
-    public Integer getAccountIdentifier() { 
-    	return accountIdentifier;
+
+    public Integer getAccountIdentifier() {
+        return accountIdentifier;
     }
 
     public void setAccountIdentifier(Integer requisitionAccountIdentifier) {
-    	this.accountIdentifier = requisitionAccountIdentifier;
+        this.accountIdentifier = requisitionAccountIdentifier;
     }
 
-    public Integer getItemIdentifier() { 
-    	return itemIdentifier;
+    public Integer getItemIdentifier() {
+        return itemIdentifier;
     }
 
     public void setItemIdentifier(Integer requisitionItemIdentifier) {
-    	this.itemIdentifier = requisitionItemIdentifier;
+        this.itemIdentifier = requisitionItemIdentifier;
     }
 
-    public BigDecimal getAccountLinePercent() { 
-    	return accountLinePercent;
+    public BigDecimal getAccountLinePercent() {
+        return accountLinePercent;
     }
 
     public void setAccountLinePercent(BigDecimal accountLinePercent) {
-    	this.accountLinePercent = accountLinePercent;
+        this.accountLinePercent = accountLinePercent;
     }
 
+    public boolean isEmpty() {
+        return !(StringUtils.isNotEmpty(getAccountNumber()) || 
+                 StringUtils.isNotEmpty(getChartOfAccountsCode()) || 
+                 StringUtils.isNotEmpty(getFinancialObjectCode()) || 
+                 StringUtils.isNotEmpty(getFinancialSubObjectCode()) || 
+                 StringUtils.isNotEmpty(getOrganizationReferenceId()) || 
+                 StringUtils.isNotEmpty(getProjectCode()) || 
+                 StringUtils.isNotEmpty(getSubAccountNumber()));
+    }
 }

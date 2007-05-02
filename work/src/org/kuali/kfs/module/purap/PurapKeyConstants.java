@@ -82,7 +82,13 @@ public class PurapKeyConstants {
     public static final String ERROR_ITEM_ACCOUNTING_NOT_UNIQUE="errors.item.accounting.notunique";
     public static final String ERROR_ITEM_TOTAL_NEGATIVE="errors.item.total.negative";
     public static final String ERROR_ITEM_QUANTITY_NOT_ZERO="errors.item.quantity.notZero";
+    public static final String ERROR_ITEM_QUANTITY="errors.item.quantity";
     public static final String ERROR_ITEM_EMPTY="errors.item.empty";
     public static final String ERROR_ITEM_DESCRIPTION_EMPTY="errors.item.description.empty";
     public static final String ERROR_ITEM_UNIT_PRICE_EMPTY="errors.item.unitPrice.empty";
+    public static final String ERROR_ITEM_ACCOUNTING_NOT_ALLOWED="errors.item.accounting.notallowed";
+    public static final String ERROR_ITEM_ACCOUNTING_INCOMPLETE="errors.item.accounting.incomplete";
+    public static final String WARNING_PURCHASE_ORDER_EXCEEDING_TOTAL_LIMIT="warning.purchaseorder.exceedingTotalLimit";
+    public static final String ERROR_ITEM_REQUIRED="errors.item.required";
+    public static final String ERROR_ITEM_UNIT_OF_MEASURE_REQUIRED="errors.item.unitOfMeasure.required";
 }

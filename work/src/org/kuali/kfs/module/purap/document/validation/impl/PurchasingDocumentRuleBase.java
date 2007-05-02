@@ -77,11 +77,26 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             valid &= validateItemUnitPrice(item);
             valid &= validateUniqueAccountingString(item);
             valid &= validateUnitOfMeasureUnitPriceAndDescription(item);
+            valid &= validateItemQuantity(item);
         }
         valid &= validateTotalCost(purDocument);
+        valid &= validateContainsAtLeastOneItem(purDocument);
         return valid;
     }
 
+    private boolean validateContainsAtLeastOneItem(PurchasingDocument purDocument) {
+        boolean valid = false;
+        for (PurchasingApItem item : purDocument.getItems()) {
+            if (!((PurchasingItemBase)item).isEmpty()) {
+                return true;
+            }
+        }
+        if (! valid) {
+            GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_REQUIRED);
+        }
+        return valid;
+    }
+    
     /**
      * This method validates the unit price for all applicable item types
      * 
@@ -185,6 +200,16 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         return valid;
     }
 
+    private boolean validateItemQuantity(PurchasingApItem item) {
+        boolean valid =  true;
+        if (item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ITEM_CODE) &&
+            ((PurchasingItemBase)item).getItemQuantity().isLessThan(new KualiDecimal(zero))) {
+            valid = false;
+            GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_QUANTITY, "Quantity", "Item " + item.getItemLineNumber());
+        }
+        return valid;
+    }
+    
     /**
      * This method performs any validation for the Payment Info tab.
      * 
@@ -301,7 +326,8 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         if (ObjectUtils.isNotNull(purDocument.getPurchaseOrderTotalLimit()) && ObjectUtils.isNotNull(((AmountTotaling) purDocument).getTotalDollarAmount())) {
             if (((AmountTotaling) purDocument).getTotalDollarAmount().isGreaterThan(purDocument.getPurchaseOrderTotalLimit())) {
                 if (purDocument instanceof PurchaseOrderDocument) {
-                    // TODO: issue a warning here.
+                    valid &= false;
+                    GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PURCHASE_ORDER_EXCEEDING_TOTAL_LIMIT);
                 }
                 if (purDocument instanceof RequisitionDocument) {
                     GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_TOTAL_LIMIT, PurapKeyConstants.REQ_TOTAL_GREATER_THAN_PO_TOTAL_LIMIT);

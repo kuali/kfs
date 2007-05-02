@@ -619,6 +619,7 @@ public class KFSKeyConstants extends KeyConstants {
     public static final String ERROR_GL_ERROR_CORRECTION_SEARCHFIELD_REQUIRED = "error.gl.correction.searchfield.required";
     public static final String ERROR_GL_ERROR_CORRECTION_MODIFYFIELD_REQUIRED = "error.gl.correction.modifyfield.required";
     public static final String ERROR_GL_ERROR_CORRECTION_ORIGINGROUP_REQUIRED = "error.gl.correction.Origingroup.required";
+    public static final String ERROR_GL_ERROR_CORRECTION_ORIGINGROUP_REQUIRED_FOR_ROUTING = "error.gl.correction.Origingroup.required.for.route";
     public static final String ERROR_GL_ERROR_CORRECTION_NO_RECORDS = "error.gl.correction.norecords";
     public static final String ERROR_GL_ERROR_CORRECTION_INVALID_VALUE = "error.gl.correction.invalid.value";
     public static final String ERROR_GL_ERROR_CORRECTION_UNABLE_TO_MANUAL_EDIT_LARGE_GROUP = "error.gl.correction.unable.to.manual.edit.large.group";

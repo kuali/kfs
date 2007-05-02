@@ -43,6 +43,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.kuali.Constants;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.service.DateTimeService;
@@ -237,6 +238,10 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             return false;
         }
 
+        if (!checkOriginEntryGroupSelectionBeforeRouting(document)) {
+            return false;
+        }
+        
         // were the system and edit methods inappropriately changed?
         if (GlobalVariables.getErrorMap().containsMessageKey(KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_INVALID_SYSTEM_OR_EDIT_METHOD_CHANGE)) {
             return false;
@@ -293,6 +298,13 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         CorrectionForm correctionForm = (CorrectionForm) form;
 
         if (prepareForRoute(correctionForm)) {
+            if (correctionForm.getDataLoadedFlag() && !correctionForm.isRestrictedFunctionalityMode()) {
+                int maxRowsPerPage = CorrectionDocumentUtils.getRecordsPerPage();
+                // display the entire list after routing
+                correctionForm.getDisplayEntries().clear();
+                correctionForm.getDisplayEntries().addAll(correctionForm.getAllEntries());
+                correctionForm.getOriginEntrySearchResultTableMetadata().jumpToFirstPage(correctionForm.getDisplayEntries().size(), maxRowsPerPage);
+            }
             return super.blanketApprove(mapping, form, request, response);
         }
         else {
@@ -310,11 +322,13 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         CorrectionForm correctionForm = (CorrectionForm) form;
 
         if (prepareForRoute(correctionForm)) {
-            int maxRowsPerPage = CorrectionDocumentUtils.getRecordsPerPage();
-            // display the entire list after routing
-            correctionForm.getDisplayEntries().clear();
-            correctionForm.getDisplayEntries().addAll(correctionForm.getAllEntries());
-            correctionForm.getOriginEntrySearchResultTableMetadata().jumpToFirstPage(correctionForm.getDisplayEntries().size(), maxRowsPerPage);
+            if (correctionForm.getDataLoadedFlag() && !correctionForm.isRestrictedFunctionalityMode()) {
+                int maxRowsPerPage = CorrectionDocumentUtils.getRecordsPerPage();
+                // display the entire list after routing
+                correctionForm.getDisplayEntries().clear();
+                correctionForm.getDisplayEntries().addAll(correctionForm.getAllEntries());
+                correctionForm.getOriginEntrySearchResultTableMetadata().jumpToFirstPage(correctionForm.getDisplayEntries().size(), maxRowsPerPage);
+            }
             return super.route(mapping, form, request, response);
         }
         else {
@@ -1244,6 +1258,14 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         return ret;
     }
 
+    /**
+     * This method checks that an origin entry group has been selected; and this method is intended to be used for selecting an origin entry group when
+     * using the database method
+     * 
+     * If a group has not been loaded, then an error will be added to the screen
+     * @param correctionForm
+     * @return
+     */
     private boolean checkOriginEntryGroupSelection(CorrectionForm correctionForm) {
         LOG.debug("checkOriginEntryGroupSelection() started");
 
@@ -1253,7 +1275,22 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         }
         return true;
     }
-
+    
+    /**
+     * This method checks that an origin entry group has been selected or uploaded, depending on the system of the document
+     * If a group has not been loaded, then an error will be added to the screen
+     * 
+     * @param document
+     * @return
+     */
+    private boolean checkOriginEntryGroupSelectionBeforeRouting(CorrectionDocument document) {
+        if (document.getCorrectionInputGroupId() == null) {
+            GlobalVariables.getErrorMap().putError("systemAndEditMethod", KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_ORIGINGROUP_REQUIRED_FOR_ROUTING);
+            return false;
+        }
+        return true;
+    }
+    
     /**
      * Validate all the correction groups
      * 

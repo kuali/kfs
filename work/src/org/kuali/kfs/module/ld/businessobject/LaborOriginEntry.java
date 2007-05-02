@@ -829,7 +829,8 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
         sb.append(getField(2, laborLedgerOriginalChartOfAccountsCode));
         sb.append(getField(7, laborLedgerOriginalAccountNumber));
         sb.append(getField(5, laborLedgerOriginalSubAccountNumber));
-        
+        sb.append(getField(4, laborLedgerOriginalFinancialObjectCode));
+        sb.append(getField(3, laborLedgerOriginalFinancialSubObjectCode));
         sb.append(getField(3, hrmsCompany));
         sb.append(getField(5, setid));
         
@@ -961,6 +962,8 @@ public class LaborOriginEntry extends OriginEntry implements LaborTransaction {
         //TODO: is COMPANY HrmsCompany? 
         setHrmsCompany(getValue(line, 286, 289));
         setSetid(getValue(line, 289, 294));
+    
+       
         
     }
     

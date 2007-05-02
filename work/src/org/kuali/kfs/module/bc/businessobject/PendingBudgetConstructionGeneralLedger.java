@@ -575,6 +575,29 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
         this.positionObjectBenefit = positionObjectBenefit;
     }
 
+
+    /**
+     * Gets the organizationCode attribute. 
+     * @return Returns the organizationCode.
+     */
+    public String getOrganizationCode() {
+        return getAccount().getOrganizationCode();
+    }
+
+    /**
+     * Sets the balanceType attribute value.
+     * @param balanceType The balanceType to set.
+     * @deprecated
+     */
+
+    /**
+     * Gets the subFundGroupCode attribute. 
+     * @return Returns the subFundGroupCode.
+     */
+    public String getSubFundGroupCode() {
+        return getAccount().getSubFundGroupCode();
+    }    
+    
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */

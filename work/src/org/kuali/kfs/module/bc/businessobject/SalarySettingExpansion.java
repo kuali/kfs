@@ -554,6 +554,28 @@ public class SalarySettingExpansion extends PersistableBusinessObjectBase {
     }
 
     /**
+     * Gets the organizationCode attribute. 
+     * @return Returns the organizationCode.
+     */
+    public String getOrganizationCode() {
+        return getAccount().getOrganizationCode();
+    }
+
+    /**
+     * Sets the balanceType attribute value.
+     * @param balanceType The balanceType to set.
+     * @deprecated
+     */
+
+    /**
+     * Gets the subFundGroupCode attribute. 
+     * @return Returns the subFundGroupCode.
+     */
+    public String getSubFundGroupCode() {
+        return getAccount().getSubFundGroupCode();
+    }    
+    
+    /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
     @Override
@@ -600,6 +622,8 @@ public class SalarySettingExpansion extends PersistableBusinessObjectBase {
         simpleValues.put("financialSubObjectCode", getFinancialSubObjectCode());
         simpleValues.put("financialBalanceTypeCode", getFinancialBalanceTypeCode());
         simpleValues.put("financialObjectTypeCode", getFinancialObjectTypeCode());
+        simpleValues.put("organizationCode", getOrganizationCode());
+        simpleValues.put("subFundGroupCode",getSubFundGroupCode());
 
         return simpleValues;
     }

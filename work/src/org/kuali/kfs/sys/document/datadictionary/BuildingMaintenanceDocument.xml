@@ -46,6 +46,10 @@
             <field attributeName="buildingCode" />
         </lockingKeys>
 
+		<defaultExistenceChecks>
+			<reference attributeName="buildingAddressZip" attributeToHighlightOnFail="buildingAddressZipCode" />
+		</defaultExistenceChecks>
+
         <maintainableSections>
             <maintainableSection title="Edit Building">
                 <maintainableItems>

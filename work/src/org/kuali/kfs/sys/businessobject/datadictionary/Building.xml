@@ -154,11 +154,11 @@
             	<label>Building Address Zip Code</label>
             	<shortLabel>Bldg. Zip</shortLabel>
             	
-            	<maxLength>9</maxLength>
+            	<maxLength>11</maxLength>
             	<validationPattern><zipcode /></validationPattern>
             	
             	<control>
-            		<text size="9"/>
+            		<text size="11"/>
             	</control>
             	
             	<summary>buildingAddressZipCode</summary>

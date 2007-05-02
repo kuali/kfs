@@ -133,6 +133,14 @@
 
 			<c:forEach items="${KualiForm.document.pendingBudgetConstructionGeneralLedgerExpenditureLines}" var="item" varStatus="status" >
 
+            <c:choose>
+                <c:when test="${!readOnly && empty item.laborObject || (!empty item.laborObject && item.laborObject.financialObjectFringeOrSalaryCode != 'F')}">
+                    <c:set var="lineIsEditable" value="true" />
+                </c:when>
+                <c:otherwise>
+                    <c:set var="lineIsEditable" value="false" />
+                </c:otherwise>
+            </c:choose>
 
             <tr>
               <kul:htmlAttributeHeaderCell scope="row" rowspan="1">
@@ -195,7 +203,7 @@
                   attributes="${pbglExpenditureAttributes}"
                   field="accountLineAnnualBalanceAmount"
                   fieldAlign="right"
-                  readOnly="false"
+                  readOnly="${!lineIsEditable}"
                   rowSpan="1" dataFieldCssClass="amount" />
 
               <td class="datacell" valign="top" nowrap><div align="right"><span>
@@ -205,14 +213,14 @@
 
 			  <td class="datacell" nowrap><div align=center>
 				  <c:choose>
-					<c:when test="${!readOnly && empty item.budgetConstructionMonthly[0]}" > 
-                      <c:if test="${empty item.laborObject || (!empty item.laborObject && item.laborObject.financialObjectFringeOrSalaryCode != 'F')}">
+					<c:when test="${empty item.budgetConstructionMonthly[0]}" > 
+                      <c:if test="${lineIsEditable}">
 						<html:image src="images/tinybutton-createnew.gif" styleClass="tinybutton" property="methodToCall.performMonthlyExpenditureBudget.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" title="Create Month" alt="Create Month"/>
                       </c:if>
 					</c:when> 
 					<c:otherwise> 
                       <c:choose>
-                        <c:when test="${!readOnly}">
+                        <c:when test="${lineIsEditable}">
                           <html:image src="images/tinybutton-edit1.gif" styleClass="tinybutton" property="methodToCall.performMonthlyExpenditureBudget.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" title="Edit Month" alt="Edit Month"/>
                         </c:when> 
                         <c:otherwise> 
@@ -231,7 +239,7 @@
                      <br>
                      <html:image property="methodToCall.deleteExpenditureLine.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" src="images/tinybutton-delete1.gif" title="Delete Expenditure Line ${status.index}" alt="Delete Expenditure Line ${status.index}" styleClass="tinybutton"/>
                    </c:if>
-                   <c:if test="${!empty item.financialBeginningBalanceLineAmount && item.financialBeginningBalanceLineAmount != 0}">
+                   <c:if test="${lineIsEditable && !empty item.financialBeginningBalanceLineAmount && item.financialBeginningBalanceLineAmount != 0}">
                      <br>
                      <html:image property="methodToCall.performPercentAdjustmentExpenditureLine.line${status.index}.anchorexpenditureexistingLineLineAnchor${status.index}" src="images/tinybutton-percentincdec.gif" title="Percent Adjustment Expenditure Line ${status.index}" alt="Percent Adjustment Expenditure Line ${status.index}" styleClass="tinybutton"/>
                    </c:if>

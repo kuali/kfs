@@ -935,6 +935,9 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         // we've modified the list of all entries, so repersist it
         SpringServiceLocator.getGlCorrectionProcessOriginEntryService().persistAllEntries(correctionForm.getGlcpSearchResultsSequenceNumber(), correctionForm.getAllEntries());
         correctionForm.setDisplayEntries(new ArrayList<OriginEntry>(correctionForm.getAllEntries()));
+        if (correctionForm.getShowOutputFlag()) {
+            removeNonMatchingEntries(correctionForm.getDisplayEntries(), document.getCorrectionChangeGroup());
+        }
         
         // list has changed, we'll need to repage and resort
         applyPagingAndSortingFromPreviousPageView(correctionForm);
@@ -970,9 +973,12 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         // we've modified the list of all entries, so repersist it
         SpringServiceLocator.getGlCorrectionProcessOriginEntryService().persistAllEntries(correctionForm.getGlcpSearchResultsSequenceNumber(), correctionForm.getAllEntries());
         correctionForm.setDisplayEntries(new ArrayList<OriginEntry>(correctionForm.getAllEntries()));
+        if (correctionForm.getShowOutputFlag()) {
+            removeNonMatchingEntries(correctionForm.getDisplayEntries(), document.getCorrectionChangeGroup());
+        }
         
         KualiTableRenderFormMetadata originEntrySearchResultTableMetadata = correctionForm.getOriginEntrySearchResultTableMetadata();
-        
+
         // list has changed, we'll need to repage and resort
         applyPagingAndSortingFromPreviousPageView(correctionForm);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -1034,6 +1040,10 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             // we've modified the list of all entries, so repersist it
             SpringServiceLocator.getGlCorrectionProcessOriginEntryService().persistAllEntries(correctionForm.getGlcpSearchResultsSequenceNumber(), correctionForm.getAllEntries());
             correctionForm.setDisplayEntries(new ArrayList<OriginEntry>(correctionForm.getAllEntries()));
+            
+            if (correctionForm.getShowOutputFlag()) {
+                removeNonMatchingEntries(correctionForm.getDisplayEntries(), document.getCorrectionChangeGroup());
+            }
             
             // Clear out the additional row
             correctionForm.clearEntryForManualEdit();
@@ -1161,6 +1171,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
         CorrectionDocument document = correctionForm.getCorrectionDocument();
 
+        // TODO: move the group retrieval down to the if statement if possible to conserve more space
         List<OriginEntry> searchResults = retrieveGroup(groupId);
         
         correctionForm.setAllEntries(searchResults);
@@ -1385,7 +1396,12 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         CorrectionDocument document = correctionForm.getCorrectionDocument();
         List<CorrectionChangeGroup> changeCriteriaGroups = document.getCorrectionChangeGroup();
 
-        applyCriteriaOnEntries(correctionForm.getDisplayEntries(), correctionForm.getMatchCriteriaOnly(), changeCriteriaGroups);
+        if (CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionForm.getEditMethod())) {
+            applyCriteriaOnEntries(correctionForm.getDisplayEntries(), correctionForm.getMatchCriteriaOnly(), changeCriteriaGroups);
+        }
+        else if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionForm.getEditMethod())) {
+            applyCriteriaOnEntries(correctionForm.getDisplayEntries(), correctionForm.getShowOutputFlag(), changeCriteriaGroups);
+        }
         
         // Calculate the debit/credit/row count
         updateDocumentSummary(document, correctionForm.getDisplayEntries(), clearOutSummary);

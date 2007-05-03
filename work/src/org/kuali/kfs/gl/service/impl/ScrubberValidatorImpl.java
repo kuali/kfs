@@ -489,6 +489,18 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         }
         else {
             workingEntry.setUniversityFiscalYear(originEntry.getUniversityFiscalYear());
+            if (originEntry.getOption() == null) {
+                persistenceService.retrieveReferenceObject(originEntry, KFSPropertyConstants.OPTION);
+            }
+            if (originEntry.getFinancialSubObject() == null) {
+                persistenceService.retrieveReferenceObject(originEntry, KFSPropertyConstants.FINANCIAL_SUB_OBJECT);
+            }
+            if (originEntry.getFinancialObject() == null) {
+                persistenceService.retrieveReferenceObject(originEntry, KFSPropertyConstants.FINANCIAL_OBJECT);
+            }
+            if (originEntry.getAccountingPeriod() == null) {
+                persistenceService.retrieveReferenceObject(originEntry, KFSPropertyConstants.ACCOUNTING_PERIOD);
+            }
             workingEntry.setOption(originEntry.getOption());
         }
 

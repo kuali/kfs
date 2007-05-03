@@ -25,7 +25,7 @@
     <table class="datatable-100" id="originEntry" cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <c:if test="${KualiForm.editableFlag == true and KualiForm.showOutputFlag == false}">
+                <c:if test="${KualiForm.editableFlag == true}">
                     <th>Manual Edit</th>
                 </c:if>
                 <c:forEach items="${KualiForm.tableRenderColumnMetadata}" var="column">
@@ -58,7 +58,7 @@
                     <c:set var="rowclass" value="even"/>
                 </c:if>
                 <tr class="${rowclass}">
-                    <c:if test="${KualiForm.editableFlag == true and KualiForm.showOutputFlag == false}">
+                    <c:if test="${KualiForm.editableFlag == true and KualiForm.editMethod == 'M'}">
                         <td>
                             <html:image property="methodToCall.editManualEntry.entryId${originEntry.entryId}.anchor${currentTabIndex}" src="images/tinybutton-edit1.gif" styleClass="tinybutton" alt="edit" />
                             <html:image property="methodToCall.deleteManualEntry.entryId${originEntry.entryId}.anchor${currentTabIndex}" src="images/tinybutton-delete1.gif" styleClass="tinybutton" alt="delete" />

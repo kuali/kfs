@@ -222,7 +222,7 @@
                 <glcp:displayOriginEntrySearchResults originEntries="${KualiForm.displayEntries}"/>
               </td>
             </tr>
-            <c:if test="${KualiForm.editMethod == 'M' and KualiForm.editableFlag == true and KualiForm.showOutputFlag == false}">
+            <c:if test="${KualiForm.editMethod == 'M' and KualiForm.editableFlag == true}">
               <tr>
                 <td align="left" valign="middle" class="subhead"><span class="subhead-left">Manual Editing</span></td>
               </tr>

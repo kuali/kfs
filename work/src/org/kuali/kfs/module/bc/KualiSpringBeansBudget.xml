@@ -97,7 +97,11 @@
         </property>
     </bean>
 
-    <bean id="fiscalYearMakersDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.FiscalYearMakersDaoOjb" />
+    <bean id="fiscalYearMakersDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.FiscalYearMakersDaoOjb" >
+        <property name="persistenceStructureService">
+            <ref bean="persistenceStructureService" />
+        </property>
+    </bean>
     
 
     <bean id="calculatedSalaryFoundationTrackerOverrideService" class="org.kuali.module.budget.service.impl.CalculatedSalaryFoundationTrackerOverrideServiceImpl">

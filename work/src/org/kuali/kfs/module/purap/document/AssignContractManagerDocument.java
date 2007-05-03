@@ -127,14 +127,14 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
                 KualiWorkflowDocument workflowDoc = this.getDocumentHeader().getWorkflowDocument();
                 String currentNodeName = null;
                 try {
-                    currentNodeName = PurapConstants.DOC_ADHOC_NODE_NAME;
+                    currentNodeName = PurapConstants.WorkflowConstants.DOC_ADHOC_NODE_NAME;
                     if (!(EdenConstants.ROUTE_HEADER_INITIATED_CD.equals(workflowDoc.getRouteHeader().getDocRouteStatus()))) {
                         if (this.getCurrentRouteNodeName(workflowDoc) != null) {
                             currentNodeName = this.getCurrentRouteNodeName(workflowDoc);
                         }
                     }
                     workflowDoc.appSpecificRouteDocumentToUser(EdenConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, 0, 
-                            PurapConstants.ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING + failedReqs, 
+                            PurapConstants.WorkflowConstants.ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING + failedReqs, 
                             new NetworkIdVO(workflowDoc.getInitiatorNetworkId()), "Initiator", true);
                 }
                 catch (WorkflowException e) {

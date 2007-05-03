@@ -22,6 +22,29 @@ import java.util.HashMap;
  * 
  */
 public class PurapConstants {
+    
+    // STANDARD PARAMETER PREFIXES
+    private static final String PURAP_PARAM_PREFIX = "PURAP.";
+
+    public static class WorkflowConstants {
+        // PARAMETER NAMES
+        
+        // Global
+        public static final String DOC_ADHOC_NODE_NAME = "Adhoc Routing";
+        
+        // AssignContractManagerDocument
+        public static final String ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING = "Unable to save the contract manager for the following Requisitions: ";
+        
+        // RequisitionDocument
+//      TODO delyea ADD THIS PARAM - value should be 10,000 default
+        public static final String SEPARATION_OF_DUTIES_DOLLAR_AMOUNT = PURAP_PARAM_PREFIX + "SEPARATION_OF_DUTIES_DOLLAR_AMOUNT";
+        
+        public static class Workgroups {
+            // RequisitionDocument
+//          TODO delyea ADD THIS PARAM and workgroup
+            public static final String SEPARATION_OF_DUTIES_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "SEPARATION_OF_DUTIES_WORKGROUP_NAME";
+        }
+    }
 
     public static class Workgroups {
         public static final String WORKGROUP_ACCOUNTS_PAYABLE = "PURAP.WORKGROUP.ACCOUNTS_PAYABLE"; 
@@ -29,8 +52,6 @@ public class PurapConstants {
         public static final String WORKGROUP_TAXNBR_ACCESSIBLE = "PURAP.WORKGROUP.TAXNBR_ACCESSIBLE"; 
     }
     
-    public static final String DOC_ADHOC_NODE_NAME = "Adhoc Routing";
-    public static final String ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING = "Unable to save the contract manager for the following Requisitions: ";
     public static final String NOTE_TAB_WARNING = "noteWarning";
     public static final String STATUS_HISTORY_TAB_WARNING = "statusHistoryWarning";
     

@@ -261,7 +261,9 @@
 		<property name="accountService">
 			<ref bean="accountService" />
 		</property>
-		
+		<property name="persistenceService">
+			<ref bean="persistenceService" />
+		</property>
     </bean>
 	
     <bean id="laborPosterService" class="org.kuali.module.labor.service.impl.LaborPosterServiceImpl">

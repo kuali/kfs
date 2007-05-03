@@ -18,58 +18,15 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../../core/datadictionary/dataDictionary-1_0.dtd" [
 <!ENTITY accountingLineBaseAttributes SYSTEM "../../../kfs/entities/AccountingLineBaseAttributes.xml">
-]>
+<!ENTITY purApAccountingLineBaseAttributes SYSTEM "../dictionary/entity/PurApAccountingLineBaseAttributes.xml">
+]>  
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.purap.bo.RequisitionAccount">
 
         <attributes>
             &accountingLineBaseAttributes;
-
-            <attribute name="accountLinePercent" forceUppercase="true">
-                <label>Account Line Percent</label>
-                <shortLabel>Percent</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>accountLinePercent</summary>
-                <description>accountLinePercent description...</description>
-			</attribute>
-
-            <attribute name="accountIdentifier" forceUppercase="true">
-                <label>Requisition Account Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>requisitionAccountIdentifier</summary>
-                <description>requisitionAccountIdentifier description...</description>
-			</attribute>
-
-            <attribute name="itemIdentifier" forceUppercase="true">
-                <label>Requisition Item Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>requisitionItemIdentifier</summary>
-                <description>requisitionItemIdentifier description...</description>
-			</attribute>
-
+            &purApAccountingLineBaseAttributes;
+            
         </attributes>
     </businessObject>
 </dictionaryEntry>

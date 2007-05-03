@@ -18,88 +18,30 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../../core/datadictionary/dataDictionary-1_0.dtd" [
 <!ENTITY accountingLineBaseAttributes SYSTEM "../../../kfs/entities/AccountingLineBaseAttributes.xml">
-]>
+<!ENTITY purApAccountingLineBaseAttributes SYSTEM "../dictionary/entity/PurApAccountingLineBaseAttributes.xml">
+]> 
+
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.purap.bo.PaymentRequestAccount">
 
         <attributes>
             &accountingLineBaseAttributes;
+            &purApAccountingLineBaseAttributes;
 
-            <attribute name="accountLinePercent" forceUppercase="true">
-                <label>Account Line Percent</label>
-                <shortLabel>Percent</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>accountLinePercent</summary>
-                <description>accountLinePercent description...</description>
-			</attribute>
-
-            <attribute name="disencumberedAmount" forceUppercase="true">
-                <label>Disencumbered Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>disencumberedAmount</summary>
-                <description>disencumberedAmount description...</description>
-			</attribute>
-
-            <attribute name="itemAccountTotalAmount" forceUppercase="true">
-                <label>Item Account Total Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>itemAccountTotalAmount</summary>
-                <description>itemAccountTotalAmount description...</description>
-			</attribute>
-
-            <attribute name="accountIdentifier" forceUppercase="true">
-                <label>Payment Request Account Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>accountIdentifier</summary>
-                <description>accountIdentifier description...</description>
-			</attribute>
-
-            <attribute name="itemIdentifier" forceUppercase="true">
-                <label>Payment Request Item Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>itemIdentifier</summary>
-                <description>itemIdentifier description...</description>
-			</attribute>
-
+			<attributeReference name="disencumberedAmount" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
+				<label>Disencumbered Amount</label>
+				<shortLabel>Disencumbered Amount</shortLabel>
+				<summary>disencumberedAmount</summary>
+				<description>disencumberedAmount description...</description>
+			</attributeReference>
+			
+			<attributeReference name="itemAccountTotalAmount" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
+				<label>Item Account Total Amount</label>
+				<shortLabel>Account Total Amount</shortLabel>
+				<summary>itemAccountTotalAmount</summary>
+				<description>itemAccountTotalAmount description...</description>
+			</attributeReference>
+			
         </attributes>
     </businessObject>
 </dictionaryEntry>

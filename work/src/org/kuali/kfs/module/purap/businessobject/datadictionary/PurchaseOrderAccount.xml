@@ -18,73 +18,22 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../../core/datadictionary/dataDictionary-1_0.dtd" [
 <!ENTITY accountingLineBaseAttributes SYSTEM "../../../kfs/entities/AccountingLineBaseAttributes.xml">
-]>
+<!ENTITY purApAccountingLineBaseAttributes SYSTEM "../dictionary/entity/PurApAccountingLineBaseAttributes.xml">
+]> 
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.purap.bo.PurchaseOrderAccount">
 
         <attributes>
             &accountingLineBaseAttributes;
+            &purApAccountingLineBaseAttributes;
 
-            <attribute name="accountLinePercent" forceUppercase="true">
-                <label>Account Line Percent</label>
-                <shortLabel>Percent</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>accountLinePercent</summary>
-                <description>accountLinePercent description...</description>
-			</attribute>
-
-            <attribute name="itemAccountOutstandingEncumbranceAmount" forceUppercase="true">
-                <label>Item Account Outstanding Encumbrance Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>itemAccountOutstandingEncumbranceAmount</summary>
-                <description>itemAccountOutstandingEncumbranceAmount description...</description>
-			</attribute>
-
-            <attribute name="accountIdentifier" forceUppercase="true">
-                <label>Purchase Order Account Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>accountIdentifier</summary>
-                <description>accountIdentifier description...</description>
-			</attribute>
-
-            <attribute name="itemIdentifier" forceUppercase="true">
-                <label>Purchase Order Item Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>itemIdentifier</summary>
-                <description>itemIdentifier description...</description>
-			</attribute>
-
+			<attributeReference name="itemAccountOutstandingEncumbranceAmount" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
+				<label>Item Account Outstanding Encumbrance Amount</label>
+				<shortLabel>Amount</shortLabel>
+				<summary>itemAccountOutstandingEncumbranceAmount</summary>
+				<description>itemAccountOutstandingEncumbranceAmount description...</description>
+			</attributeReference>
+			
         </attributes>
     </businessObject>
 </dictionaryEntry>

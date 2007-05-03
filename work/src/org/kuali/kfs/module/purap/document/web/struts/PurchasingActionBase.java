@@ -251,4 +251,17 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    public ActionForward setupAccountDistribution(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+       
+    public ActionForward removeAccounts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+        
+        for (PurchasingApItem item : ((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItems()) {
+            item.getSourceAccountingLines().clear();
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
 }

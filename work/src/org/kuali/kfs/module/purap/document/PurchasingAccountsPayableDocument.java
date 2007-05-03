@@ -86,7 +86,7 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
 
     public void setStatusHistories(List statusHistories);
 
-    public List getItems();
+    public List<PurchasingApItem> getItems();
     
     public void addItem(PurchasingApItem item);
     

@@ -28,14 +28,19 @@
 
 <kul:tab tabTitle="Items" defaultOpen="true">
 	<div class="tab-container" align=center>
-		<div class="h2-container">
-			<h2>
-				Items
-			</h2>
-		</div>
-
 		<table cellpadding="0" cellspacing="0" class="datatable"
 			summary="Items Section">
+			<tr>
+			  <td colspan="11" class="subhead">
+			    <span class="subhead-left">Items</span>
+			    <span class="subhead-right">
+			        <html:image property="methodToCall.setupAccountDistribution" src="images/tinybutton-setaccdist.gif"
+			                    alt="setup account distribution" title="setup account distribution" styleClass="tinybutton"/>
+			        <html:image property="methodToCall.removeAccounts" src="images/tinybutton-remaccitems.gif"
+			                    alt="remove accounts from all items" title="remove accounts from all items" styleClass="tinybutton"/>
+			    </span>
+			  </td>
+			</tr>
 			<tr>
 				<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" />
 				<kul:htmlAttributeHeaderCell

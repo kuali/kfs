@@ -138,4 +138,9 @@ public class CreditMemoAccount extends PurApAccountingLineBase {
         return m;
     }
 
+    public CreditMemoAccount createBlankAmountsCopy() {
+        // TODO PURAP - FINISH ME
+        return null;
+    }
+
 }

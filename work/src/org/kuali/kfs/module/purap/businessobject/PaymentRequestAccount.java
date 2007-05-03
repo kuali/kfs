@@ -101,4 +101,9 @@ public class PaymentRequestAccount extends PurApAccountingLineBase {
         }
 	    return m;
     }
+
+    public PaymentRequestAccount createBlankAmountsCopy() {
+        // TODO PURAP - Finish Me
+        return null;
+    }
 }

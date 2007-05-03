@@ -30,7 +30,7 @@ import org.kuali.module.vendor.service.PhoneNumberService;
 class PurapTestConstants {
        
     static final Integer FY_2007 = new Integer("2007");
-    
+        
     @SuppressWarnings("deprecation")
     static class BeginEndDates {
         static final Date FIRST_DATE = new Date(108,1,1); //2008-01-01
@@ -38,29 +38,11 @@ class PurapTestConstants {
         static RequisitionDocument REQ = new RequisitionDocument();
         static PurchaseOrderDocument PO = new PurchaseOrderDocument();
     }
-    
+        
     static class RecurringPaymentTypes {
         static final String FIXD = "FIXD";
         static final String FVAR = "FVAR";
         static final String VARV = "VARV";
     }
     
-    static class VendorParts {
-        static final String CODE1 = "C1";
-        static final String CODE2 = "C2";
-        static final String NAME = "Snow Bound";
-        
-        static VendorHeader VH = new VendorHeader();
-        static VendorSupplierDiversity VSD = new VendorSupplierDiversity();
-        static VendorDetail VD = new VendorDetail();
-        static VendorAddress VA  = new VendorAddress();
-        static VendorContract VC  = new VendorContract();
-        static VendorShippingSpecialCondition VSSC = new VendorShippingSpecialCondition();
-    }
-    
-    static class FaxNumbers {
-        static String fax = "123 456-7890";
-        static String defaultFormat = "123-456-7890";
-        static String shortFax = "123 456 789";
-    }
 }

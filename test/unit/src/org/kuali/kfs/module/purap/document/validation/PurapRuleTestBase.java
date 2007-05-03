@@ -17,6 +17,10 @@ package org.kuali.module.purap.rules;
 
 import org.kuali.core.maintenance.MaintenanceRuleTestBase;
 
+/**
+ * This class should contain any methods which need to be implemented by all test
+ * classes implementing tests of Purchasing documents.
+ */
 public abstract class PurapRuleTestBase extends MaintenanceRuleTestBase {
 
 }

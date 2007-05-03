@@ -20,10 +20,7 @@ import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 import java.util.List;
 
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.document.MaintenanceDocumentBase;
-import org.kuali.core.workflow.service.impl.KualiWorkflowDocumentImpl;
-import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.purap.rules.PurapRuleTestBase;
+import org.kuali.core.maintenance.MaintenanceRuleTestBase;
 import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorContract;
 import org.kuali.module.vendor.bo.VendorDetail;
@@ -32,14 +29,14 @@ import org.kuali.module.vendor.fixtures.VendorContractPurchaseOrderLimitAmountPr
 import org.kuali.module.vendor.fixtures.VendorRuleAddressStateZipFixture;
 import org.kuali.module.vendor.fixtures.VendorRuleAddressTypeFixture;
 import org.kuali.module.vendor.fixtures.VendorRuleFaxNumberFixture;
-import org.kuali.module.vendor.maintenance.VendorMaintainableImpl;
-import org.kuali.module.vendor.rules.VendorRule;
 import org.kuali.test.WithTestSpringContext;
 
-import edu.iu.uis.eden.exception.WorkflowException;
-
+/**
+ * This class should contain all tests of methods implementing Vendor rules.  For this
+ * purpose, we need to set up the parts of a MaintenanceDocument.
+ */
 @WithTestSpringContext(session = KHUNTLEY)
-public class VendorRuleTest extends PurapRuleTestBase {
+public class VendorRuleTest extends MaintenanceRuleTestBase {
 
     private VendorDetail oldVendor;
     private VendorDetail newVendor;

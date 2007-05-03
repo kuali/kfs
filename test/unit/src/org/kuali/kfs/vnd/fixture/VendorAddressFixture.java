@@ -27,7 +27,7 @@ import static org.kuali.module.vendor.fixtures.VendorDefaultAddressFixture.campu
 import static org.kuali.module.vendor.fixtures.VendorDefaultAddressFixture.campusKO;
 import static org.kuali.module.vendor.fixtures.VendorDefaultAddressFixture.campusSB;
 
-public enum VendorAddressFixture implements VendorRuleAddressStateZipFixtureCompatible {
+public enum VendorAddressFixture {
 
     address1(new Integer(1), "PO", "line1", "line2", "thisCity", "IN", "44444", "US", "attentionTo", "", "test@email.com", "", "555-555-5555", true, null),
     address2(new Integer(2), "PO", "line1", "line2", "thisCity", "IN", "44444", "US", "attentionTo", "", "test@email.com", "", "555-555-5555", false, new VendorDefaultAddressFixture[] {campusKO, campusIN}),

@@ -22,7 +22,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorDefaultAddress;
 
-public enum VendorDefaultAddressFixture implements VendorRuleAddressStateZipFixtureCompatible {
+public enum VendorDefaultAddressFixture {
 
     campusBL("BL"),
     campusKO("KO"),

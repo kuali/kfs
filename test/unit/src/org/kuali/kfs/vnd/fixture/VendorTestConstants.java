@@ -17,6 +17,9 @@ package org.kuali.module.vendor.fixtures;
 
 import java.sql.Date;
 
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.bo.Country;
+import org.kuali.kfs.bo.State;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.vendor.bo.VendorAddress;
@@ -28,12 +31,29 @@ import org.kuali.module.vendor.bo.VendorSupplierDiversity;
 import org.kuali.module.vendor.service.PhoneNumberService;
 
 class VendorTestConstants {
-       
+ 
+    static class AddressTypes {
+        static final String poType = "PO";
+        static final String dvType = "DV";
+        static final String rmType = "RM";
+    }
+    
     @SuppressWarnings("deprecation")
     static class BeginEndDates {
         static final Date FIRST_DATE = new Date(108,1,1); //2008-01-01
         static final Date LAST_DATE = new Date(109,1,1);  //2009-01-01
     }
+    
+    static class ContractPOLimitAmts {
+        static KualiDecimal highLimit = new KualiDecimal( 10000 );
+        static KualiDecimal lowLimit = new KualiDecimal( 1000 );
+    }
+
+    static class FaxNumbers {
+        static final String fax = "123 456-7890";
+        static final String defaultFormat = "123-456-7890";
+        static final String shortFax = "123 456 789";
+    }    
     
     static class VendorParts {
         static final String CODE1 = "C1";
@@ -48,9 +68,8 @@ class VendorTestConstants {
         static VendorShippingSpecialCondition VSSC = new VendorShippingSpecialCondition();
     }
     
-    static class FaxNumbers {
-        static String fax = "123 456-7890";
-        static String defaultFormat = "123-456-7890";
-        static String shortFax = "123 456 789";
+    static class StatesZips {
+        static final String stateCd = "CA";
+        static final String zipCode = "47401";
     }
 }

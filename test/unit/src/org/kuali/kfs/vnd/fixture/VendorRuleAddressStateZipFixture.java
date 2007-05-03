@@ -19,33 +19,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.Country;
+import org.kuali.kfs.bo.State;
 import org.kuali.module.vendor.bo.VendorAddress;
+import org.kuali.module.vendor.fixtures.VendorTestConstants.StatesZips;
 
-public enum VendorRuleAddressStateZipFixture implements VendorRuleAddressStateZipFixtureCompatible {
+public enum VendorRuleAddressStateZipFixture {
 
-    BOTH_US_BOTH_STATES_BOTH_ZIPS(KFSConstants.COUNTRY_CODE_UNITED_STATES, stateCd, zipCode,
-            KFSConstants.COUNTRY_CODE_UNITED_STATES, stateCd, zipCode),
+    BOTH_US_BOTH_STATES_BOTH_ZIPS(KFSConstants.COUNTRY_CODE_UNITED_STATES, StatesZips.stateCd, StatesZips.zipCode,
+            KFSConstants.COUNTRY_CODE_UNITED_STATES, StatesZips.stateCd, StatesZips.zipCode),
     BOTH_US_WITHOUT_STATES_WITHOUT_ZIPS(KFSConstants.COUNTRY_CODE_UNITED_STATES, null, null,
             KFSConstants.COUNTRY_CODE_UNITED_STATES, null, null),
     BOTH_US_EMPTY_STATES_EMPTY_ZIPS(KFSConstants.COUNTRY_CODE_UNITED_STATES, "", "",
             KFSConstants.COUNTRY_CODE_UNITED_STATES, "", ""),
-    BOTH_US_BOTH_STATES_ONE_ZIP_ONE_NULL(KFSConstants.COUNTRY_CODE_UNITED_STATES, stateCd, zipCode,
-            KFSConstants.COUNTRY_CODE_UNITED_STATES, stateCd, null),
-    BOTH_US_BOTH_STATES_ONE_ZIP_ONE_EMPTY(KFSConstants.COUNTRY_CODE_UNITED_STATES, stateCd, zipCode,
-            KFSConstants.COUNTRY_CODE_UNITED_STATES, stateCd, ""),
-    WITHOUT_US_BOTH_STATES_WITHOUT_ZIPS( "", stateCd, null,
-            "", stateCd, null ),
-    WITHOUT_US_BOTH_STATES_EMPTY_ZIPS( "", stateCd, "",
-            "", stateCd, "" ),
-    WITHOUT_US_BOTH_STATES_BOTH_ZIPS( "", stateCd, zipCode,
-            "", stateCd, zipCode ),;
+    BOTH_US_BOTH_STATES_ONE_ZIP_ONE_NULL(KFSConstants.COUNTRY_CODE_UNITED_STATES, StatesZips.stateCd, StatesZips.zipCode,
+            KFSConstants.COUNTRY_CODE_UNITED_STATES, StatesZips.stateCd, null),
+    BOTH_US_BOTH_STATES_ONE_ZIP_ONE_EMPTY(KFSConstants.COUNTRY_CODE_UNITED_STATES, StatesZips.stateCd, StatesZips.zipCode,
+            KFSConstants.COUNTRY_CODE_UNITED_STATES, StatesZips.stateCd, ""),
+    WITHOUT_US_BOTH_STATES_WITHOUT_ZIPS( "", StatesZips.stateCd, null,
+            "", StatesZips.stateCd, null ),
+    WITHOUT_US_BOTH_STATES_EMPTY_ZIPS( "", StatesZips.stateCd, "",
+            "", StatesZips.stateCd, "" ),
+    WITHOUT_US_BOTH_STATES_BOTH_ZIPS( "", StatesZips.stateCd, StatesZips.zipCode,
+            "", StatesZips.stateCd, StatesZips.zipCode ),;
     
-    public final String country1;
-    public final String stateCd1;
-    public final String zip1;
-    public final String country2;
-    public final String stateCd2;
-    public final String zip2;
+    private State state = new State();
+    private Country country = new Country();
+    private String country1;
+    private String stateCd1;
+    private String zip1;
+    private String country2;
+    private String stateCd2;
+    private String zip2;
     
     private VendorRuleAddressStateZipFixture( String country1, String stateCd1, 
             String zip1, String country2, String stateCd2, String zip2 ) {

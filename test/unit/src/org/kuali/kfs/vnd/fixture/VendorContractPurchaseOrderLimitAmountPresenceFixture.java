@@ -22,12 +22,13 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.vendor.bo.VendorContract;
 import org.kuali.module.vendor.bo.VendorContractOrganization;
+import org.kuali.module.vendor.fixtures.VendorTestConstants.ContractPOLimitAmts;
 
-public enum VendorContractPurchaseOrderLimitAmountPresenceFixture implements VendorContractPOLimitAmtPresenceFixtureCompatible {
+public enum VendorContractPurchaseOrderLimitAmountPresenceFixture {
     
-    NO_EXCLUDES( highLimit, lowLimit, null, null, null, null ),
-    TWO_N_EXCLUDES_ON_FIRST_TWO_LIMITS( highLimit, lowLimit, false, false, false, false ),
-    TWO_N_EXCLUDES_ON_FIRST_LIMIT_ON_FIRST( highLimit, null, false, false, null, null ),
+    NO_EXCLUDES( ContractPOLimitAmts.highLimit, ContractPOLimitAmts.lowLimit, null, null, null, null ),
+    TWO_N_EXCLUDES_ON_FIRST_TWO_LIMITS( ContractPOLimitAmts.highLimit, ContractPOLimitAmts.lowLimit, false, false, false, false ),
+    TWO_N_EXCLUDES_ON_FIRST_LIMIT_ON_FIRST( ContractPOLimitAmts.highLimit, null, false, false, null, null ),
     ONE_Y_EXCLUDE_ON_FIRST_NO_LIMIT_ON_FIRST( null, null, true, false, null, null ),;
     
     private KualiDecimal limit1;

@@ -23,16 +23,19 @@ import org.kuali.kfs.bo.State;
 import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.bo.VendorType;
+import org.kuali.module.vendor.fixtures.VendorTestConstants.AddressTypes;
 
 /**
- * This class...
+ * This is an enumeration of configurations of 'type codes' and 'address type codes' which should
+ * be useful for testing the code validating the implementation of the business rules involving 
+ * Vendor address types.
  */
-public enum VendorRuleAddressTypeFixture implements VendorRuleAddressTypeFixtureCompatible {
+public enum VendorRuleAddressTypeFixture {
     
-    WITH_PO_TYPE_AND_PO_ADDR_TYPES( poType, poType, poType ),
-    WITH_DV_TYPE_AND_RM_ADDR_TYPES( dvType, rmType, rmType ),
-    WITH_PO_TYPE_AND_RM_ADDR_TYPES( poType, rmType, rmType ),
-    WITH_PO_TYPE_AND_ONE_PO_AND_ONE_RM_ADDR_TYPES( poType, poType, rmType ),;
+    WITH_PO_TYPE_AND_PO_ADDR_TYPES( AddressTypes.poType, AddressTypes.poType, AddressTypes.poType ),
+    WITH_DV_TYPE_AND_RM_ADDR_TYPES( AddressTypes.dvType, AddressTypes.rmType, AddressTypes.rmType ),
+    WITH_PO_TYPE_AND_RM_ADDR_TYPES( AddressTypes.poType, AddressTypes.rmType, AddressTypes.rmType ),
+    WITH_PO_TYPE_AND_ONE_PO_AND_ONE_RM_ADDR_TYPES( AddressTypes.poType, AddressTypes.poType, AddressTypes.rmType ),;
         
     public final String typeCode;
     public final String addrTypeCode1;

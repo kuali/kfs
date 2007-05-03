@@ -170,6 +170,10 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         accountService = as;
     }
     
+    public void setPersistenceService(PersistenceService ps) {
+        persistenceService = ps;
+    }
+    
     
     
     

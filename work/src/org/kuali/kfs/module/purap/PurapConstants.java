@@ -42,7 +42,7 @@ public class PurapConstants {
         public static class Workgroups {
             // RequisitionDocument
 //          TODO delyea ADD THIS PARAM and workgroup
-            public static final String SEPARATION_OF_DUTIES_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "SEPARATION_OF_DUTIES_WORKGROUP_NAME";
+            public static final String SEPARATION_OF_DUTIES_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "WORKGROUP.SEPARATION_OF_DUTIES";
         }
     }
 

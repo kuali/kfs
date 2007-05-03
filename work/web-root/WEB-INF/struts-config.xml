@@ -56,8 +56,9 @@
         <form-bean name="YearEndBudgetAdjustmentForm" type="org.kuali.module.financial.web.struts.form.YearEndBudgetAdjustmentForm" />
         
 		<!-- Labor Distribution Bean Definitions -->
-   		<form-bean name="SalaryExpenseTransferForm" type="org.kuali.module.labor.web.struts.form.SalaryExpenseTransferForm" />
-   		<form-bean name="BenefitExpenseTransferForm" type="org.kuali.module.labor.web.struts.form.BenefitExpenseTransferForm" />
+   		<form-bean name="LaborSalaryExpenseTransferForm" type="org.kuali.module.labor.web.struts.form.SalaryExpenseTransferForm" />
+   		<form-bean name="LaborBenefitExpenseTransferForm" type="org.kuali.module.labor.web.struts.form.BenefitExpenseTransferForm" />
+   		<form-bean name="LaborJournalVoucherForm" type="org.kuali.module.labor.web.struts.form.LaborJournalVoucherForm" />
 
 		<!-- Budget Construction Bean Definitions -->
    		<form-bean name="BudgetConstructionSelectionForm" type="org.kuali.module.budget.web.struts.form.BudgetConstructionSelectionForm" />
@@ -176,7 +177,6 @@
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/kfs/KualiBatchJobModify.jsp" />
         </action>
-		
 
         <!--  Module Action Mappings -->
         <action path="/financial*" name="{1}Form" input="/jsp/modules/financial/{1}.jsp" type="org.kuali.module.financial.web.struts.action.{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
@@ -209,11 +209,11 @@
             <forward name="basic" path="/jsp/modules/generalLedger/AccountBalanceByConsolidationLookup.jsp" />
         </action>
 
-        <action path="/labor*" name="{1}Form" input="/jsp/modules/labor/{1}.jsp" type="org.kuali.module.labor.web.struts.action.{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm"> 
+        <action path="/labor*" name="Labor{1}Form" input="/jsp/modules/labor/{1}.jsp" type="org.kuali.module.labor.web.struts.action.{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm"> 
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/modules/labor/{1}.jsp" /> 
         </action> 
-		
+
 		<action path="/laborMultiTableInquiry" name="BalanceInquiryForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.module.labor.web.struts.action.MultiTableBalanceInquiryAction">
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/modules/labor/MultiTableBalanceInquiry.jsp" />

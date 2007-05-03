@@ -29,7 +29,7 @@ import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.labor.bo.PendingLedgerEntry;
 import org.kuali.module.labor.dao.LaborLedgerPendingEntryDao;
-import org.kuali.module.labor.document.LaborDocument;
+import org.kuali.module.labor.document.LaborLedgerPostingDocument;
 import org.kuali.module.labor.rules.event.GenerateLaborLedgerBenefitClearingPendingEntriesEvent;
 import org.kuali.module.labor.rules.event.GenerateLaborLedgerPendingEntriesEvent;
 import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
@@ -80,7 +80,8 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
      * @param document - document whose pending entries need generated
      * @return whether the business rules succeeded
      */
-    public boolean generateLaborLedgerPendingEntries(LaborDocument document) {
+    public boolean generateLaborLedgerPendingEntries(LaborLedgerPostingDocument document) {
+        LOG.info("generateLaborLedgerPendingEntries() started");
         boolean success = true;
 
         // we must clear them first before creating new ones

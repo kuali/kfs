@@ -477,6 +477,30 @@
 			<ref bean="dataDictionaryService" />
 		</property>
 	</bean>    	
+	
+	<bean id="CSFTrackerByEmplidBalanceLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="CSFTrackerByEmplidBalanceLookupableHelperService" />
+		</property>
+	</bean>
+	
+	<bean id="CSFTrackerByEmplidBalanceLookupableHelperService" class="org.kuali.module.labor.web.lookupable.CSFTrackerByEmplidBalanceLookupableHelperServiceImpl" singleton="false">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="lookupService" />
+		</property>
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>
+	</bean>    
 
 	<bean id="CurrentFundsLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
 		<property name="lookupableHelperService">

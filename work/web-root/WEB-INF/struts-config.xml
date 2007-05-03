@@ -217,6 +217,7 @@
 		<action path="/laborMultiTableInquiry" name="BalanceInquiryForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.module.labor.web.struts.action.MultiTableBalanceInquiryAction">
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/modules/labor/MultiTableBalanceInquiry.jsp" />
+			 <forward name="BalanceInquiry" path="/jsp/modules/generalLedger/BalanceInquiry.jsp" />
         </action>
 
         <action path="/budget*" name="{1}Form" input="/jsp/modules/budget/{1}.jsp" type="org.kuali.module.budget.web.struts.action.{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm"> 

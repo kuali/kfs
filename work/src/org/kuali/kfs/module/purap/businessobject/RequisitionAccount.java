@@ -76,6 +76,11 @@ public class RequisitionAccount extends PurApAccountingLineBase {
         m.put("financialSubObjectCode", this.getFinancialSubObjectCode());
         m.put("projectCode", this.getProjectCode());
         m.put("organizationReferenceId", this.getOrganizationReferenceId());
-        return m;
+	    return m;
+    }
+
+    public RequisitionAccount createBlankAmountsCopy() {
+        // TODO PURAP - Finish Me
+        return null;
     }
 }

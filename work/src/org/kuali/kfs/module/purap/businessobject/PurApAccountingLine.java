@@ -38,5 +38,7 @@ public interface PurApAccountingLine extends AccountingLine {
     public abstract void setAccountLinePercent(BigDecimal accountLinePercent);
     
     public abstract boolean isEmpty();
+    
+    public abstract PurApAccountingLine createBlankAmountsCopy();
 
 }

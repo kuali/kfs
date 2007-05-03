@@ -37,7 +37,9 @@ public class GrantDescriptionValuesFinder extends KeyValuesBase {
         labels.add(new KeyLabelPair("", ""));
 
         for (GrantDescription code : codes) {
-            labels.add(new KeyLabelPair(code.getGrantDescriptionCode(), code.getGrantDescriptionCode() + " - " + code.getGrantDescription()));
+            if(code.getGrantDescriptionActiveCode()) {
+                labels.add(new KeyLabelPair(code.getGrantDescriptionCode(), code.getGrantDescriptionCode() + " - " + code.getGrantDescription()));
+            }
         }
 
         return labels;

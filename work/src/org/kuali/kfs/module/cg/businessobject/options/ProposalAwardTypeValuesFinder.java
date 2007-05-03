@@ -33,17 +33,16 @@ public class ProposalAwardTypeValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
 
-        KeyValuesService boService = SpringServiceLocator.getKeyValuesService();
-        Collection codes = boService.findAll(ProposalAwardType.class);
+        Collection<ProposalAwardType> codes = SpringServiceLocator.getKeyValuesService().findAll(ProposalAwardType.class);
 
         List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
         labels.add(new KeyLabelPair("", ""));
 
 
-        for (Iterator iter = codes.iterator(); iter.hasNext();) {
-            ProposalAwardType proposalAwardType = (ProposalAwardType) iter.next();
-
-            labels.add(new KeyLabelPair(proposalAwardType.getProposalAwardTypeCode(), proposalAwardType.getProposalAwardTypeCode() + " - " + proposalAwardType.getProposalAwardTypeDescription()));
+        for (ProposalAwardType proposalAwardType : codes) {
+            if(proposalAwardType.isRowActiveIndicator()) {
+                labels.add(new KeyLabelPair(proposalAwardType.getProposalAwardTypeCode(), proposalAwardType.getProposalAwardTypeCode() + " - " + proposalAwardType.getProposalAwardTypeDescription()));
+            }
         }
 
         return labels;

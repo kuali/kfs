@@ -33,17 +33,15 @@ public class AwardStatusValuesFinder extends KeyValuesBase {
      */
     public List getKeyValues() {
 
-        KeyValuesService boService = SpringServiceLocator.getKeyValuesService();
-        Collection codes = boService.findAll(AwardStatus.class);
+        Collection<AwardStatus> codes = SpringServiceLocator.getKeyValuesService().findAll(AwardStatus.class);
 
         List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
         labels.add(new KeyLabelPair("", ""));
 
-
-        for (Iterator iter = codes.iterator(); iter.hasNext();) {
-            AwardStatus awardStatus = (AwardStatus) iter.next();
-
-            labels.add(new KeyLabelPair(awardStatus.getAwardStatusCode(), awardStatus.getAwardStatusCode()+"-"+awardStatus.getAwardStatusDescription()));
+        for (AwardStatus awardStatus : codes) {
+            if(awardStatus.isRowActiveIndicator()) {
+                labels.add(new KeyLabelPair(awardStatus.getAwardStatusCode(), awardStatus.getAwardStatusCode()+"-"+awardStatus.getAwardStatusDescription()));
+            }
         }
 
         return labels;

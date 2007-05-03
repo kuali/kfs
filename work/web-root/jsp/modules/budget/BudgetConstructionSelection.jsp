@@ -161,9 +161,9 @@
                     <kul:inquiry
                         boClassName="org.kuali.module.chart.bo.SubFundGroup"
                         keyValues="subFundGroupCode=${KualiForm.budgetConstructionHeader.account.subFundGroupCode}"
-                        render="true">
+                        render="${!empty KualiForm.budgetConstructionHeader.account.subFundGroupCode}">
                         <html:hidden write="true" property="budgetConstructionHeader.account.subFundGroupCode" />
-                    </kul:inquiry>
+                    </kul:inquiry>&nbsp;
                 </kul:htmlControlAttribute>
             </td>
             <td class="grid" valign="center" rowspan="1" colspan="3">
@@ -189,9 +189,9 @@
                 <kul:inquiry
                     boClassName="org.kuali.module.chart.bo.Org"
                     keyValues="chartOfAccountsCode=${KualiForm.budgetConstructionHeader.account.chartOfAccountsCode}&amp;organizationCode=${KualiForm.budgetConstructionHeader.account.organizationCode}"
-                    render="true">
+                    render="${!empty KualiForm.budgetConstructionHeader.account.chartOfAccountsCode}">
                 	<html:hidden write="true" property="budgetConstructionHeader.account.organizationCode" />
-                </kul:inquiry>
+                </kul:inquiry>&nbsp;
 	      	</kul:htmlControlAttribute>
             </td>
             <td class="grid" valign="center" rowspan="1" colspan="3">
@@ -214,9 +214,9 @@
                     <kul:inquiry
                         boClassName="org.kuali.module.chart.bo.Chart"
                         keyValues="chartOfAccountsCode=${orgVals.reportsToChartOfAccountsCode}"
-                        render="true">
+                        render="${!empty orgVals.reportsToChartOfAccountsCode}">
                     <html:hidden write="true" property="${orgPropString}.reportsToChartOfAccountsCode" />
-                </kul:inquiry>
+                </kul:inquiry>&nbsp;
 	      	</kul:htmlControlAttribute>
             </td>
             <td class="grid" valign="center" rowspan="1" colspan="1">
@@ -228,9 +228,9 @@
 	      		<kul:inquiry
 				    boClassName="org.kuali.module.chart.bo.Org"
 				    keyValues="chartOfAccountsCode=${orgVals.reportsToChartOfAccountsCode}&amp;organizationCode=${orgVals.reportsToOrganizationCode}"
-				    render="true">
+				    render="${!empty orgVals.reportsToOrganizationCode}">
 			    	<html:hidden write="true" property="${orgPropString}.reportsToOrganizationCode" />
-				</kul:inquiry>
+				</kul:inquiry>&nbsp;
 	      	</kul:htmlControlAttribute>
             </td>
             <td class="grid" valign="center" rowspan="1" colspan="3">
@@ -253,9 +253,9 @@
                 <kul:inquiry
                     boClassName="org.kuali.module.chart.bo.Chart"
                     keyValues="chartOfAccountsCode=${accountRptsVals.reportsToChartOfAccountsCode}"
-                    render="true">
+                    render="${!empty accountRptsVals.reportsToChartOfAccountsCode}">
                 	<html:hidden write="true" property="${accountRptsPropString}.reportsToChartOfAccountsCode" />
-                </kul:inquiry>
+                </kul:inquiry>&nbsp;
             </kul:htmlControlAttribute>
             </td>
             <td class="grid" valign="center" rowspan="1" colspan="1">
@@ -267,9 +267,9 @@
                 <kul:inquiry
                     boClassName="org.kuali.module.budget.bo.BudgetConstructionOrganizationReports"
                     keyValues="chartOfAccountsCode=${accountRptsVals.reportsToChartOfAccountsCode}&amp;organizationCode=${accountRptsVals.reportsToOrganizationCode}"
-                    render="true">
+                    render="${!empty accountRptsVals.reportsToOrganizationCode}">
                 	<html:hidden write="true" property="${accountRptsPropString}.reportsToOrganizationCode" />
-                </kul:inquiry>
+                </kul:inquiry>&nbsp;
             </kul:htmlControlAttribute>
             </td>
             <td class="grid" valign="center" rowspan="1" colspan="3">
@@ -292,9 +292,9 @@
                 <kul:inquiry
                     boClassName="org.kuali.module.chart.bo.Chart"
                     keyValues="chartOfAccountsCode=${orgRptsVals.reportsToChartOfAccountsCode}"
-                    render="true">
+                    render="${!empty orgRptsVals.reportsToChartOfAccountsCode}">
                     <html:hidden write="true" property="${orgRptsPropString}.reportsToChartOfAccountsCode" />
-                </kul:inquiry>
+                </kul:inquiry>&nbsp;
             </kul:htmlControlAttribute>
             </td>
             <td class="grid" valign="center" rowspan="1" colspan="1">
@@ -306,9 +306,9 @@
 	      		<kul:inquiry
 				    boClassName="org.kuali.module.chart.bo.Org"
 				    keyValues="chartOfAccountsCode=${orgRptsVals.reportsToChartOfAccountsCode}&amp;organizationCode=${orgRptsVals.reportsToOrganizationCode}"
-				    render="true">
+				    render="${!empty orgRptsVals.reportsToOrganizationCode}">
 			    	<html:hidden write="true" property="${orgRptsPropString}.reportsToOrganizationCode" />
-				</kul:inquiry>
+				</kul:inquiry>&nbsp;
 	      	</kul:htmlControlAttribute>
             </td>
             <td class="grid" valign="center" rowspan="1" colspan="3">

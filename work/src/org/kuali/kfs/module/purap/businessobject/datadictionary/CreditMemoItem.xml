@@ -16,7 +16,9 @@
 -->
 <!DOCTYPE dictionaryEntry PUBLIC
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
+    "../dataDictionary-1_0.dtd" [
+<!ENTITY purApItemBaseAttributes SYSTEM "../dictionary/entity/PurApItemBaseAttributes.xml">
+]>    
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.purap.bo.CreditMemoItem">
 
@@ -72,6 +74,8 @@
 
         <attributes>
 
+            &purApItemBaseAttributes;
+            
             <attribute name="creditMemoIdentifier" forceUppercase="true">
                 <label>Credit Memo Identifier</label>
                 <shortLabel>Identifier</shortLabel>
@@ -102,110 +106,13 @@
                 <description>creditMemoItemIdentifier description...</description>
 			</attribute>
 
-            <attribute name="itemAssignedToTradeInIndicator" forceUppercase="true">
-                <label>Item Assigned To Trade In Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>itemAssignedToTradeInIndicator</summary>
-                <description>itemAssignedToTradeInIndicator description...</description>
-			</attribute>
-
-            <attribute name="itemCreditQuantity" forceUppercase="true">
-                <label>Item Credit Quantity</label>
-                <shortLabel>Quantity</shortLabel>
-
-                <maxLength>11</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="13" />
-                </control>
-
-                <summary>itemCreditQuantity</summary>
-                <description>itemCreditQuantity description...</description>
-			</attribute>
-
-            <attribute name="itemExtendedPrice" forceUppercase="true">
-                <label>Item Extended Price</label>
-                <shortLabel>Price</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>itemExtendedPrice</summary>
-                <description>itemExtendedPrice description...</description>
-			</attribute>
-
-            <attribute name="itemLineNumber" forceUppercase="true">
-                <label>Item Line Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>itemLineNumber</summary>
-                <description>itemLineNumber description...</description>
-			</attribute>
-
-            <attribute name="itemTypeCode" forceUppercase="true">
-                <label>Item Type Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-    			<control>
-        			<select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.ItemTypeValuesFinder"/>
-    			</control>
-
-                <summary>itemTypeCode</summary>
-                <description>itemTypeCode description...</description>
-			</attribute>
-
-            <attribute name="itemUnitPrice" forceUppercase="true">
-                <label>Item Unit Price</label>
-                <shortLabel>Price</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>itemUnitPrice</summary>
-                <description>itemUnitPrice description...</description>
-			</attribute>
-
-            <attribute name="versionNumber" forceUppercase="true">
-                <label>Version Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>versionNumber</summary>
-                <description>versionNumber description...</description>
-			</attribute>
-
+			<attributeReference name="itemCreditQuantity" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemQuantity">
+				<label>Item Credit Quantity</label>
+				<shortLabel>Credit Quantity</shortLabel>
+				<summary>itemCreditQuantity</summary>
+				<description>itemCreditQuantity description...</description>
+			</attributeReference>
+			
         </attributes>
     </businessObject>
 </dictionaryEntry>

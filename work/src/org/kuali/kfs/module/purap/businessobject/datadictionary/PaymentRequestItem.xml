@@ -1,110 +1,114 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
+	Copyright 2006-2007 The Kuali Foundation.
+	
+	Licensed under the Educational Community License, Version 1.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+	
+	http://www.opensource.org/licenses/ecl1.php
+	
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
 -->
 <!DOCTYPE dictionaryEntry PUBLIC
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../dataDictionary-1_0.dtd" [
 <!ENTITY purApItemBaseAttributes SYSTEM "../dictionary/entity/PurApItemBaseAttributes.xml">
-]>    
+]>
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.purap.bo.PaymentRequestItem">
+	<businessObject businessObjectClass="org.kuali.module.purap.bo.PaymentRequestItem">
 
 
-        <inquiry>
-            <title>Payment Request Item Inquiry</title>
+		<inquiry>
+			<title>Payment Request Item Inquiry</title>
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="capitalAssetTransactionTypeCode" />
-                <field attributeName="itemAssignedToTradeInIndicator" />
-                <field attributeName="itemAuxiliaryPartIdentifier" />
-                <field attributeName="itemCapitalAssetNoteText" />
-                <field attributeName="itemCatalogNumber" />
-                <field attributeName="itemDescription" />
-                <field attributeName="itemExtendedPrice" />
-                <field attributeName="itemInvoicedQuantity" />
-                <field attributeName="itemLineNumber" />
-                <field attributeName="itemTypeCode" />
-                <field attributeName="itemUnitOfMeasureCode" />
-                <field attributeName="itemUnitPrice" />
-                <field attributeName="purapDocumentIdentifier" />
-                <field attributeName="itemIdentifier" />
-                <field attributeName="purchaseOrderCommodityCode" />
-                <field attributeName="purchaseOrderItemUnitPrice" />
-                <field attributeName="itemOutstandingInvoiceQuantity" />
-                <field attributeName="itemOutstandingInvoiceAmount" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+			<inquirySections>
+				<inquirySection title="Header Text">
+					<inquiryFields>
+						<field attributeName="capitalAssetTransactionTypeCode" />
+						<field attributeName="itemAssignedToTradeInIndicator" />
+						<field attributeName="itemAuxiliaryPartIdentifier" />
+						<field attributeName="itemCapitalAssetNoteText" />
+						<field attributeName="itemCatalogNumber" />
+						<field attributeName="itemDescription" />
+						<field attributeName="itemExtendedPrice" />
+						<field attributeName="itemInvoicedQuantity" />
+						<field attributeName="itemLineNumber" />
+						<field attributeName="itemTypeCode" />
+						<field attributeName="itemUnitOfMeasureCode" />
+						<field attributeName="itemUnitPrice" />
+						<field attributeName="purapDocumentIdentifier" />
+						<field attributeName="itemIdentifier" />
+						<field attributeName="purchaseOrderCommodityCode" />
+						<field attributeName="purchaseOrderItemUnitPrice" />
+						<field attributeName="itemOutstandingInvoiceQuantity" />
+						<field attributeName="itemOutstandingInvoiceAmount" />
+					</inquiryFields>
+				</inquirySection>
+			</inquirySections>
+		</inquiry>
 
-        <lookup>
-            <title>Payment Request Item Lookup</title>
+		<lookup>
+			<title>Payment Request Item Lookup</title>
 
-            <instructions>Lookup a Payment Request Item</instructions>
+			<instructions>Lookup a Payment Request Item</instructions>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="itemDescription" />
-                </sortAttributes>
-            </defaultSort>
+			<defaultSort sortAscending="true">
+				<sortAttributes>
+					<sortAttribute attributeName="itemDescription" />
+				</sortAttributes>
+			</defaultSort>
 
-            <lookupFields>
-                <lookupField attributeName="capitalAssetTransactionTypeCode" required="false" />
-                <lookupField attributeName="itemAssignedToTradeInIndicator" required="false" />
-                <lookupField attributeName="itemAuxiliaryPartIdentifier" required="false" />
-                <lookupField attributeName="itemCapitalAssetNoteText" required="false" />
-                <lookupField attributeName="itemCatalogNumber" required="false" />
-                <lookupField attributeName="itemDescription" required="false" />
-                <lookupField attributeName="itemExtendedPrice" required="false" />
-                <lookupField attributeName="itemInvoicedQuantity" required="false" />
-                <lookupField attributeName="itemLineNumber" required="false" />
-                <lookupField attributeName="itemTypeCode" required="false" />
-                <lookupField attributeName="itemUnitOfMeasureCode" required="false" />
-                <lookupField attributeName="itemUnitPrice" required="false" />
-                <lookupField attributeName="purapDocumentIdentifier" required="false" />
-                <lookupField attributeName="itemIdentifier" required="false" />
-                <lookupField attributeName="purchaseOrderCommodityCode" required="false" />
-                <lookupField attributeName="purchaseOrderItemUnitPrice" required="false" />
-                <lookupField attributeName="itemOutstandingInvoiceQuantity" required="false" />
-                <lookupField attributeName="itemOutstandingInvoiceAmount" required="false" />
-            </lookupFields>
+			<lookupFields>
+				<lookupField attributeName="capitalAssetTransactionTypeCode" required="false" />
+				<lookupField attributeName="itemAssignedToTradeInIndicator" required="false" />
+				<lookupField attributeName="itemAuxiliaryPartIdentifier" required="false" />
+				<lookupField attributeName="itemCapitalAssetNoteText" required="false" />
+				<lookupField attributeName="itemCatalogNumber" required="false" />
+				<lookupField attributeName="itemDescription" required="false" />
+				<lookupField attributeName="itemExtendedPrice" required="false" />
+				<lookupField attributeName="itemInvoicedQuantity" required="false" />
+				<lookupField attributeName="itemLineNumber" required="false" />
+				<lookupField attributeName="itemTypeCode" required="false" />
+				<lookupField attributeName="itemUnitOfMeasureCode" required="false" />
+				<lookupField attributeName="itemUnitPrice" required="false" />
+				<lookupField attributeName="purapDocumentIdentifier" required="false" />
+				<lookupField attributeName="itemIdentifier" required="false" />
+				<lookupField attributeName="purchaseOrderCommodityCode" required="false" />
+				<lookupField attributeName="purchaseOrderItemUnitPrice" required="false" />
+				<lookupField attributeName="itemOutstandingInvoiceQuantity" required="false" />
+				<lookupField attributeName="itemOutstandingInvoiceAmount" required="false" />
+			</lookupFields>
 
-            <resultFields>
-                <field attributeName="capitalAssetTransactionTypeCode" />
-                <field attributeName="itemAssignedToTradeInIndicator" />
-                <field attributeName="itemAuxiliaryPartIdentifier" />
-                <field attributeName="itemCapitalAssetNoteText" />
-                <field attributeName="itemCatalogNumber" />
-                <field attributeName="itemDescription" />
-                <field attributeName="itemExtendedPrice" />
-                <field attributeName="itemInvoicedQuantity" />
-                <field attributeName="itemLineNumber" />
-                <field attributeName="itemTypeCode" />
-                <field attributeName="itemUnitOfMeasureCode" />
-                <field attributeName="itemUnitPrice" />
-                <field attributeName="purapDocumentIdentifier" />
-                <field attributeName="itemIdentifier" />
-                <field attributeName="purchaseOrderCommodityCode" />
-                <field attributeName="purchaseOrderItemUnitPrice" />
-                <field attributeName="itemOutstandingInvoiceQuantity" />
-                <field attributeName="itemOutstandingInvoiceAmount" />
-            </resultFields>
-        </lookup>
+			<resultFields>
+				<field attributeName="capitalAssetTransactionTypeCode" />
+				<field attributeName="itemAssignedToTradeInIndicator" />
+				<field attributeName="itemAuxiliaryPartIdentifier" />
+				<field attributeName="itemCapitalAssetNoteText" />
+				<field attributeName="itemCatalogNumber" />
+				<field attributeName="itemDescription" />
+				<field attributeName="itemExtendedPrice" />
+				<field attributeName="itemInvoicedQuantity" />
+				<field attributeName="itemLineNumber" />
+				<field attributeName="itemTypeCode" />
+				<field attributeName="itemUnitOfMeasureCode" />
+				<field attributeName="itemUnitPrice" />
+				<field attributeName="purapDocumentIdentifier" />
+				<field attributeName="itemIdentifier" />
+				<field attributeName="purchaseOrderCommodityCode" />
+				<field attributeName="purchaseOrderItemUnitPrice" />
+				<field attributeName="itemOutstandingInvoiceQuantity" />
+				<field attributeName="itemOutstandingInvoiceAmount" />
+			</resultFields>
+		</lookup>
 
-        <attributes>
-        
-            &purApItemBaseAttributes;
+		<attributes>
+
+			&purApItemBaseAttributes;
 
 			<attributeReference name="itemInvoicedQuantity" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemQuantity">
 				<label>Item Invoiced Quantity</label>
@@ -112,36 +116,30 @@
 				<summary>itemInvoicedQuantity</summary>
 				<description>itemInvoicedQuantity description...</description>
 			</attributeReference>
-			
-            <attribute name="purchaseOrderCommodityCode" forceUppercase="true">
-                <label>Purchase Order Commodity Code</label>
-                <shortLabel>Code</shortLabel>
 
-                <maxLength>11</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+			<attribute name="purchaseOrderCommodityCode" forceUppercase="true">
+				<label>Purchase Order Commodity Code</label>
+				<shortLabel>Code</shortLabel>
 
-                <control>
-                    <text size="13" />
-                </control>
+				<maxLength>11</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
 
-                <summary>purchaseOrderCommodityCode</summary>
-                <description>purchaseOrderCommodityCode description...</description>
+				<control>
+					<text size="13" />
+				</control>
+
+				<summary>purchaseOrderCommodityCode</summary>
+				<description>purchaseOrderCommodityCode description...</description>
 			</attribute>
 
-            <attribute name="purchaseOrderItemUnitPrice" forceUppercase="true">
-                <label>Purchase Order Item Unit Price</label>
-                <shortLabel>Price</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>purchaseOrderItemUnitPrice</summary>
-                <description>purchaseOrderItemUnitPrice description...</description>
-			</attribute>
+			<attributeReference name="purchaseOrderItemUnitPrice" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemUnitPrice">
+				<label>Purchase Order Item Unit Price</label>
+				<shortLabel>Unit Price</shortLabel>
+				<summary>purchaseOrderItemUnitPrice</summary>
+				<description>purchaseOrderItemUnitPrice description...</description>
+			</attributeReference>
 
 			<attributeReference name="itemOutstandingInvoiceQuantity" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemQuantity">
 				<label>Item Outstanding Invoice Quantity</label>
@@ -156,7 +154,7 @@
 				<summary>itemOutstandingInvoiceAmount</summary>
 				<description>itemOutstandingInvoiceAmount description...</description>
 			</attributeReference>
-			
-        </attributes>
-    </businessObject>
+
+		</attributes>
+	</businessObject>
 </dictionaryEntry>

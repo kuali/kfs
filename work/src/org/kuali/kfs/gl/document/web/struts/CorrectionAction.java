@@ -112,9 +112,9 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
         Collection<OriginEntry> persistedOriginEntries = null;
         
-        // If we are called from the docHandler, ignore session because we are either creating a new document
+        // If we are called from the docHandler or reload, ignore the persisted origin entries because we are either creating a new document
         // or loading an old one
-        if (!"docHandler".equals(rForm.getMethodToCall())) {
+        if (!(Constants.DOC_HANDLER_METHOD.equals(rForm.getMethodToCall()) && Constants.RELOAD_METHOD_TO_CALL.equals(rForm.getMethodToCall()))) {
             restoreSystemAndEditMethod(rForm);
             restoreInputGroupSelectionForDatabaseEdits(rForm);
             if (!rForm.isRestrictedFunctionalityMode()) {
@@ -133,6 +133,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
                         List<CorrectionChangeGroup> groups = document.getCorrectionChangeGroup();
                         updateEntriesFromCriteria(rForm, rForm.isRestrictedFunctionalityMode());
                     }
+                    
                     if (!KFSConstants.TableRenderConstants.SORT_METHOD.equals(rForm.getMethodToCall())) {
                         // if sorting, we'll let the action take care of the sorting
                         KualiTableRenderFormMetadata originEntrySearchResultTableMetadata = rForm.getOriginEntrySearchResultTableMetadata();

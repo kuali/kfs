@@ -1,387 +1,127 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
+	Copyright 2006-2007 The Kuali Foundation.
+	
+	Licensed under the Educational Community License, Version 1.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+	
+	http://www.opensource.org/licenses/ecl1.php
+	
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
 -->
 <!DOCTYPE dictionaryEntry PUBLIC
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd" [
+<!ENTITY purApItemBaseAttributes SYSTEM "../dictionary/entity/PurApItemBaseAttributes.xml">
+<!ENTITY purchasingItemBaseAttributes SYSTEM "../dictionary/entity/PurchasingItemBaseAttributes.xml">
+]>
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.purap.bo.RequisitionItem">
+	<businessObject businessObjectClass="org.kuali.module.purap.bo.RequisitionItem">
 
+		<inquiry>
+			<title>Requisition Item Inquiry</title>
 
-        <inquiry>
-            <title>Requisition Item Inquiry</title>
+			<inquirySections>
+				<inquirySection title="Header Text">
+					<inquiryFields>
+						<field attributeName="capitalAssetTransactionTypeCode" />
+						<field attributeName="externalOrganizationB2bProductReferenceNumber" />
+						<field attributeName="externalOrganizationB2bProductTypeName" />
+						<field attributeName="itemAssignedToTradeInIndicator" />
+						<field attributeName="itemAuxiliaryPartIdentifier" />
+						<field attributeName="itemCapitalAssetNoteText" />
+						<field attributeName="itemCatalogNumber" />
+						<field attributeName="itemDescription" />
+						<field attributeName="itemLineNumber" />
+						<field attributeName="itemQuantity" />
+						<field attributeName="itemRestrictedIndicator" />
+						<field attributeName="itemTypeCode" />
+						<field attributeName="itemUnitOfMeasureCode" />
+						<field attributeName="itemUnitPrice" />
+						<field attributeName="purapDocumentIdentifier" />
+						<field attributeName="itemIdentifier" />
+						<field attributeName="requisitionLineIdentifier" />
+					</inquiryFields>
+				</inquirySection>
+			</inquirySections>
+		</inquiry>
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="capitalAssetTransactionTypeCode" />
-                <field attributeName="externalOrganizationB2bProductReferenceNumber" />
-                <field attributeName="externalOrganizationB2bProductTypeName" />
-                <field attributeName="itemAssignedToTradeInIndicator" />
-                <field attributeName="itemAuxiliaryPartIdentifier" />
-                <field attributeName="itemCapitalAssetNoteText" />
-                <field attributeName="itemCatalogNumber" />
-                <field attributeName="itemDescription" />
-                <field attributeName="itemLineNumber" />
-                <field attributeName="itemQuantity" />
-                <field attributeName="itemRestrictedIndicator" />
-                <field attributeName="itemTypeCode" />
-                <field attributeName="itemUnitOfMeasureCode" />
-                <field attributeName="itemUnitPrice" />
-                <field attributeName="purapDocumentIdentifier" />
-                <field attributeName="itemIdentifier" />
-                <field attributeName="requisitionLineIdentifier" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
+		<lookup>
+			<title>Requisition Item Lookup</title>
 
-        <lookup>
-            <title>Requisition Item Lookup</title>
+			<instructions>Lookup an Requisition Item</instructions>
 
-            <instructions>Lookup an Requisition Item</instructions>
+			<defaultSort sortAscending="true">
+				<sortAttributes>
+					<sortAttribute attributeName="itemDescription" />
+				</sortAttributes>
+			</defaultSort>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="itemDescription" />
-                </sortAttributes>
-            </defaultSort>
+			<lookupFields>
+				<lookupField attributeName="capitalAssetTransactionTypeCode" required="false" />
+				<lookupField attributeName="externalOrganizationB2bProductReferenceNumber" required="false" />
+				<lookupField attributeName="externalOrganizationB2bProductTypeName" required="false" />
+				<lookupField attributeName="itemAssignedToTradeInIndicator" required="false" />
+				<lookupField attributeName="itemAuxiliaryPartIdentifier" required="false" />
+				<lookupField attributeName="itemCapitalAssetNoteText" required="false" />
+				<lookupField attributeName="itemCatalogNumber" required="false" />
+				<lookupField attributeName="itemDescription" required="false" />
+				<lookupField attributeName="itemLineNumber" required="false" />
+				<lookupField attributeName="itemQuantity" required="false" />
+				<lookupField attributeName="itemRestrictedIndicator" required="false" />
+				<lookupField attributeName="itemTypeCode" required="false" />
+				<lookupField attributeName="itemUnitOfMeasureCode" required="false" />
+				<lookupField attributeName="itemUnitPrice" required="false" />
+				<lookupField attributeName="purapDocumentIdentifier" required="false" />
+				<lookupField attributeName="itemIdentifier" required="false" />
+				<lookupField attributeName="requisitionLineIdentifier" required="false" />
+			</lookupFields>
 
-            <lookupFields>
-                <lookupField attributeName="capitalAssetTransactionTypeCode" required="false" />
-                <lookupField attributeName="externalOrganizationB2bProductReferenceNumber" required="false" />
-                <lookupField attributeName="externalOrganizationB2bProductTypeName" required="false" />
-                <lookupField attributeName="itemAssignedToTradeInIndicator" required="false" />
-                <lookupField attributeName="itemAuxiliaryPartIdentifier" required="false" />
-                <lookupField attributeName="itemCapitalAssetNoteText" required="false" />
-                <lookupField attributeName="itemCatalogNumber" required="false" />
-                <lookupField attributeName="itemDescription" required="false" />
-                <lookupField attributeName="itemLineNumber" required="false" />
-                <lookupField attributeName="itemQuantity" required="false" />
-                <lookupField attributeName="itemRestrictedIndicator" required="false" />
-                <lookupField attributeName="itemTypeCode" required="false" />
-                <lookupField attributeName="itemUnitOfMeasureCode" required="false" />
-                <lookupField attributeName="itemUnitPrice" required="false" />
-                <lookupField attributeName="purapDocumentIdentifier" required="false" />
-                <lookupField attributeName="itemIdentifier" required="false" />
-                <lookupField attributeName="requisitionLineIdentifier" required="false" />
-            </lookupFields>
+			<resultFields>
+				<field attributeName="capitalAssetTransactionTypeCode" />
+				<field attributeName="externalOrganizationB2bProductReferenceNumber" />
+				<field attributeName="externalOrganizationB2bProductTypeName" />
+				<field attributeName="itemAssignedToTradeInIndicator" />
+				<field attributeName="itemAuxiliaryPartIdentifier" />
+				<field attributeName="itemCapitalAssetNoteText" />
+				<field attributeName="itemCatalogNumber" />
+				<field attributeName="itemDescription" />
+				<field attributeName="itemLineNumber" />
+				<field attributeName="itemQuantity" />
+				<field attributeName="itemRestrictedIndicator" />
+				<field attributeName="itemTypeCode" />
+				<field attributeName="itemUnitOfMeasureCode" />
+				<field attributeName="itemUnitPrice" />
+				<field attributeName="purapDocumentIdentifier" />
+				<field attributeName="itemIdentifier" />
+				<field attributeName="requisitionLineIdentifier" />
+			</resultFields>
+		</lookup>
 
-            <resultFields>
-                <field attributeName="capitalAssetTransactionTypeCode" />
-                <field attributeName="externalOrganizationB2bProductReferenceNumber" />
-                <field attributeName="externalOrganizationB2bProductTypeName" />
-                <field attributeName="itemAssignedToTradeInIndicator" />
-                <field attributeName="itemAuxiliaryPartIdentifier" />
-                <field attributeName="itemCapitalAssetNoteText" />
-                <field attributeName="itemCatalogNumber" />
-                <field attributeName="itemDescription" />
-                <field attributeName="itemLineNumber" />
-                <field attributeName="itemQuantity" />
-                <field attributeName="itemRestrictedIndicator" />
-                <field attributeName="itemTypeCode" />
-                <field attributeName="itemUnitOfMeasureCode" />
-                <field attributeName="itemUnitPrice" />
-                <field attributeName="purapDocumentIdentifier" />
-                <field attributeName="itemIdentifier" />
-                <field attributeName="requisitionLineIdentifier" />
-            </resultFields>
-        </lookup>
+		<attributes>
 
-        <attributes>
+			&purApItemBaseAttributes;
 
-            <attribute name="capitalAssetTransactionTypeCode" forceUppercase="true">
-                <label>Capital Asset Transaction Type Code</label>
-                <shortLabel>Code</shortLabel>
+            &purchasingItemBaseAttributes;
+            
+			<attribute name="itemRestrictedIndicator" forceUppercase="true">
+				<label>Item Restricted Indicator</label>
+				<shortLabel>Restricted</shortLabel>
 
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+				<maxLength>1</maxLength>
 
-                <control>
-                    <text size="6" />
-                </control>
+				<control>
+					<checkbox />
+				</control>
 
-                <summary>capitalAssetTransactionTypeCode</summary>
-                <description>capitalAssetTransactionTypeCode description...</description>
+				<summary>itemRestrictedIndicator</summary>
+				<description>itemRestrictedIndicator description...</description>
 			</attribute>
-
-            <attribute name="externalOrganizationB2bProductReferenceNumber" forceUppercase="true">
-                <label>External OrganizationB2b Product Reference Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>externalOrganizationB2bProductReferenceNumber</summary>
-                <description>externalOrganizationB2bProductReferenceNumber description...</description>
-			</attribute>
-
-            <attribute name="externalOrganizationB2bProductTypeName" forceUppercase="true">
-                <label>External OrganizationB2b Product Type Name</label>
-                <shortLabel>Name</shortLabel>
-
-                <maxLength>15</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="17" />
-                </control>
-
-                <summary>externalOrganizationB2bProductTypeName</summary>
-                <description>externalOrganizationB2bProductTypeName description...</description>
-			</attribute>
-
-            <attribute name="itemAssignedToTradeInIndicator" forceUppercase="true">
-                <label>Item Assigned To Trade In Indicator</label>
-                <shortLabel>Trade In</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>itemAssignedToTradeInIndicator</summary>
-                <description>itemAssignedToTradeInIndicator description...</description>
-			</attribute>
-
-            <attribute name="itemAuxiliaryPartIdentifier" forceUppercase="true">
-                <label>Item Auxiliary Part Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>300</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
-
-                <summary>itemAuxiliaryPartIdentifier</summary>
-                <description>itemAuxiliaryPartIdentifier description...</description>
-			</attribute>
-
-            <attribute name="itemCapitalAssetNoteText" forceUppercase="true">
-                <label>Item Capital Asset Note Text</label>
-                <shortLabel>Text</shortLabel>
-
-                <maxLength>800</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
-
-                <summary>itemCapitalAssetNoteText</summary>
-                <description>itemCapitalAssetNoteText description...</description>
-			</attribute>
-
-            <attribute name="itemCatalogNumber" forceUppercase="true">
-                <label>Item Catalog Number</label>
-                <shortLabel>Catalog Number</shortLabel>
-
-                <maxLength>30</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="32" />
-                </control>
-
-                <summary>itemCatalogNumber</summary>
-                <description>itemCatalogNumber description...</description>
-			</attribute>
-
-            <attribute name="itemDescription" forceUppercase="true">
-                <label>Item Description</label>
-                <shortLabel>Description</shortLabel>
-
-                <maxLength>4000</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
-
-                <summary>itemDescription</summary>
-                <description>itemDescription description...</description>
-			</attribute>
-
-            <attribute name="itemLineNumber" forceUppercase="true">
-                <label>Item Line Number</label>
-                <shortLabel>#</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>itemLineNumber</summary>
-                <description>itemLineNumber description...</description>
-			</attribute>
-
-            <attribute name="itemQuantity" forceUppercase="true">
-                <label>Item Quantity</label>
-                <shortLabel>Quantity</shortLabel>
-
-                <maxLength>11</maxLength>
-                <validationPattern><fixedPoint allowNegative="false" precision="11" scale="2" /></validationPattern>
-
-                <control>
-                    <text size="13" />
-                </control>
-
-                <summary>itemQuantity</summary>
-                <description>itemQuantity description...</description>
-			</attribute>
-
-            <attribute name="itemRestrictedIndicator" forceUppercase="true">
-                <label>Item Restricted Indicator</label>
-                <shortLabel>Restricted</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>itemRestrictedIndicator</summary>
-                <description>itemRestrictedIndicator description...</description>
-			</attribute>
-
-            <attribute name="itemTypeCode" forceUppercase="true">
-                <label>Item Type Code</label>
-                <shortLabel>Type Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-    			<control>
-        			<select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.ItemTypeValuesFinder"/>
-    			</control>
-                <summary>itemTypeCode</summary>
-                <description>itemTypeCode description...</description>
-			</attribute>
-
-            <attribute name="itemUnitOfMeasureCode" forceUppercase="true">
-                <label>Item Unit Of Measure Code</label>
-                <shortLabel>UOM</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-    			<control>
-        			<select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.UnitOfMeasureValuesFinder"/>
-    			</control>
-
-                <summary>itemUnitOfMeasureCode</summary>
-                <description>itemUnitOfMeasureCode description...</description>
-			</attribute>
-
-            <attribute name="itemUnitPrice" forceUppercase="true">
-                <label>Item Unit Price</label>
-                <shortLabel>Price</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><fixedPoint allowNegative="true" precision="11" scale="2" /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>itemUnitPrice</summary>
-                <description>itemUnitPrice description...</description>
-			</attribute>
-
-            <attribute name="extendedPrice" forceUppercase="true">
-                <label>Extended Price</label>
-                <shortLabel>Extended Price</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><fixedPoint allowNegative="true" precision="11" scale="2"/></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>extendedPrice</summary>
-                <description>extendedPrice description...</description>
-			</attribute>
-
-
-            <attribute name="purapDocumentIdentifier" forceUppercase="true">
-                <label>Requisition Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>purapDocumentIdentifier</summary>
-                <description>purapDocumentIdentifier description...</description>
-			</attribute>
-
-            <attribute name="itemIdentifier" forceUppercase="true">
-                <label>Requisition Item Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>itemIdentifier</summary>
-                <description>itemIdentifier description...</description>
-			</attribute>
-
-            <attribute name="requisitionLineIdentifier" forceUppercase="true">
-                <label>Requisition Line Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>64</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="66" />
-                </control>
-
-                <summary>requisitionLineIdentifier</summary>
-                <description>requisitionLineIdentifier description...</description>
-			</attribute>
-
-            <attribute name="versionNumber" forceUppercase="true">
-                <label>Version Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>versionNumber</summary>
-                <description>versionNumber description...</description>
-			</attribute>
-
-        </attributes>
-    </businessObject>
+		</attributes>
+	</businessObject>
 </dictionaryEntry>

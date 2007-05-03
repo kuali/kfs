@@ -16,7 +16,9 @@
 -->
 <!DOCTYPE dictionaryEntry PUBLIC
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
-    "../dataDictionary-1_0.dtd">
+    "../dataDictionary-1_0.dtd" [
+<!ENTITY purApItemBaseAttributes SYSTEM "../dictionary/entity/PurApItemBaseAttributes.xml">
+]>    
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.purap.bo.PaymentRequestItem">
 
@@ -101,216 +103,16 @@
         </lookup>
 
         <attributes>
+        
+            &purApItemBaseAttributes;
 
-            <attribute name="capitalAssetTransactionTypeCode" forceUppercase="true">
-                <label>Capital Asset Transaction Type Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>capitalAssetTransactionTypeCode</summary>
-                <description>capitalAssetTransactionTypeCode description...</description>
-			</attribute>
-
-            <attribute name="itemAssignedToTradeInIndicator" forceUppercase="true">
-                <label>Item Assigned To Trade In Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>itemAssignedToTradeInIndicator</summary>
-                <description>itemAssignedToTradeInIndicator description...</description>
-			</attribute>
-
-            <attribute name="itemAuxiliaryPartIdentifier" forceUppercase="true">
-                <label>Item Auxiliary Part Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>300</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
-
-                <summary>itemAuxiliaryPartIdentifier</summary>
-                <description>itemAuxiliaryPartIdentifier description...</description>
-			</attribute>
-
-            <attribute name="itemCapitalAssetNoteText" forceUppercase="true">
-                <label>Item Capital Asset Note Text</label>
-                <shortLabel>Text</shortLabel>
-
-                <maxLength>800</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
-
-                <summary>itemCapitalAssetNoteText</summary>
-                <description>itemCapitalAssetNoteText description...</description>
-			</attribute>
-
-            <attribute name="itemCatalogNumber" forceUppercase="true">
-                <label>Item Catalog Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>30</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="32" />
-                </control>
-
-                <summary>itemCatalogNumber</summary>
-                <description>itemCatalogNumber description...</description>
-			</attribute>
-
-            <attribute name="itemDescription" forceUppercase="true">
-                <label>Item Description</label>
-                <shortLabel>Description</shortLabel>
-
-                <maxLength>4000</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
-
-                <summary>itemDescription</summary>
-                <description>itemDescription description...</description>
-			</attribute>
-
-            <attribute name="itemExtendedPrice" forceUppercase="true">
-                <label>Item Extended Price</label>
-                <shortLabel>Price</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>itemExtendedPrice</summary>
-                <description>itemExtendedPrice description...</description>
-			</attribute>
-
-            <attribute name="itemInvoicedQuantity" forceUppercase="true">
-                <label>Item Invoiced Quantity</label>
-                <shortLabel>Quantity</shortLabel>
-
-                <maxLength>11</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="13" />
-                </control>
-
-                <summary>itemInvoicedQuantity</summary>
-                <description>itemInvoicedQuantity description...</description>
-			</attribute>
-
-            <attribute name="itemLineNumber" forceUppercase="true">
-                <label>Item Line Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>itemLineNumber</summary>
-                <description>itemLineNumber description...</description>
-			</attribute>
-
-            <attribute name="itemTypeCode" forceUppercase="true">
-                <label>Item Type Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-    			<control>
-        			<select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.ItemTypeValuesFinder"/>
-    			</control>
-
-                <summary>itemTypeCode</summary>
-                <description>itemTypeCode description...</description>
-			</attribute>
-
-            <attribute name="itemUnitOfMeasureCode" forceUppercase="true">
-                <label>Item Unit Of Measure Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-    			<control>
-        			<select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.UnitOfMeasureValuesFinder"/>
-    			</control>
-
-                <summary>itemUnitOfMeasureCode</summary>
-                <description>itemUnitOfMeasureCode description...</description>
-			</attribute>
-
-            <attribute name="itemUnitPrice" forceUppercase="true">
-                <label>Item Unit Price</label>
-                <shortLabel>Price</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>itemUnitPrice</summary>
-                <description>itemUnitPrice description...</description>
-			</attribute>
-
-            <attribute name="purapDocumentIdentifier" forceUppercase="true">
-                <label>Payment Request Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>9</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="11" />
-                </control>
-
-                <summary>purapDocumentIdentifier</summary>
-                <description>purapDocumentIdentifier description...</description>
-			</attribute>
-
-            <attribute name="itemIdentifier" forceUppercase="true">
-                <label>Payment Request Item Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>itemIdentifier</summary>
-                <description>itemIdentifier description...</description>
-			</attribute>
-
+			<attributeReference name="itemInvoicedQuantity" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemQuantity">
+				<label>Item Invoiced Quantity</label>
+				<shortLabel>Invoiced Quantity</shortLabel>
+				<summary>itemInvoicedQuantity</summary>
+				<description>itemInvoicedQuantity description...</description>
+			</attributeReference>
+			
             <attribute name="purchaseOrderCommodityCode" forceUppercase="true">
                 <label>Purchase Order Commodity Code</label>
                 <shortLabel>Code</shortLabel>
@@ -341,51 +143,20 @@
                 <description>purchaseOrderItemUnitPrice description...</description>
 			</attribute>
 
-            <attribute name="versionNumber" forceUppercase="true">
-                <label>Version Number</label>
-                <shortLabel>Number</shortLabel>
+			<attributeReference name="itemOutstandingInvoiceQuantity" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemQuantity">
+				<label>Item Outstanding Invoice Quantity</label>
+				<shortLabel>Outstanding Invoiced Quantity</shortLabel>
+				<summary>itemOutstandingInvoiceQuantity</summary>
+				<description>itemOutstandingInvoiceQuantity description...</description>
+			</attributeReference>
 
-                <maxLength>8</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>versionNumber</summary>
-                <description>versionNumber description...</description>
-			</attribute>
-
-            <attribute name="itemOutstandingInvoiceQuantity" forceUppercase="true">
-                <label>Item Outstanding Invoice Quantity</label>
-                <shortLabel>Quantity</shortLabel>
-
-                <maxLength>11</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="13" />
-                </control>
-
-                <summary>itemOutstandingInvoiceQuantity</summary>
-                <description>itemOutstandingInvoiceQuantity description...</description>
-			</attribute>
-
-            <attribute name="itemOutstandingInvoiceAmount" forceUppercase="true">
-                <label>Item Outstanding Invoice Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>itemOutstandingInvoiceAmount</summary>
-                <description>itemOutstandingInvoiceAmount description...</description>
-			</attribute>
-
+			<attributeReference name="itemOutstandingInvoiceAmount" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemAmount">
+				<label>Item Outstanding Invoice Amount</label>
+				<shortLabel>Outstanding Invoice Amount</shortLabel>
+				<summary>itemOutstandingInvoiceAmount</summary>
+				<description>itemOutstandingInvoiceAmount description...</description>
+			</attributeReference>
+			
         </attributes>
     </businessObject>
 </dictionaryEntry>

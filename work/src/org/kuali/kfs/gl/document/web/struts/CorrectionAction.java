@@ -359,7 +359,6 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         correctionForm.clearEntryForManualEdit();
         correctionForm.setEditableFlag(true);
         correctionForm.setManualEditFlag(false);
-        correctionForm.setProcessInBatch(true);
 
         document.addCorrectionChangeGroup(new CorrectionChangeGroup());
         
@@ -467,7 +466,8 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             correctionForm.setShowOutputFlag(false);
             correctionForm.setAllEntries(new ArrayList<OriginEntry>());
             correctionForm.setRestrictedFunctionalityMode(false);
-
+            correctionForm.setProcessInBatch(true);
+            
             if (CorrectionDocumentService.SYSTEM_DATABASE.equals(correctionForm.getChooseSystem())) {
                 // if users choose database, then get the list of origin entry groups and set the default
 

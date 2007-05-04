@@ -170,6 +170,10 @@ public class CorrectionForm extends KualiDocumentFormBase {
         int groupCount = getCorrectionDocument().getCorrectionChangeGroup().size();
         getGroupsItem(groupCount);
     }
+    
+    public int getGroupsSize() {
+        return groups.size();
+    }
 
     public GroupHolder getGroupsItem(int i) {
         while ( i >= groups.size() ) {

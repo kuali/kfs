@@ -15,7 +15,10 @@
  */
 package org.kuali.module.gl.util;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.module.gl.bo.CorrectionChange;
+import org.kuali.module.gl.bo.CorrectionCriteria;
 import org.kuali.module.gl.web.struts.form.CorrectionForm;
 import org.kuali.rice.KNSServiceLocator;
 
@@ -62,5 +65,57 @@ public class CorrectionDocumentUtils {
     public static boolean isRestrictedFunctionalityMode(int inputGroupSize, int recordCountFunctionalityLimit) {
         return (recordCountFunctionalityLimit != CorrectionDocumentUtils.RECORD_COUNT_FUNCTIONALITY_LIMIT_IS_UNLIMITED && inputGroupSize >= recordCountFunctionalityLimit) ||
                 recordCountFunctionalityLimit == CorrectionDocumentUtils.RECORD_COUNT_FUNCTIONALITY_LIMIT_IS_NONE;
+    }
+    
+    /**
+     * When a correction criterion is about to be added to a group, this will check if it is valid, meaning that
+     * the field name is not blank
+     * 
+     * @param correctionCriteria
+     * @return
+     */
+    public static boolean validCorrectionCriteriaForAdding(CorrectionCriteria correctionCriteria) {
+        String fieldName = correctionCriteria.getCorrectionFieldName();
+        if (StringUtils.isBlank(fieldName)) {
+            return false;
+        }
+        return true;
+    }
+    
+    /**
+     * When a document is about to be saved, this will check if it is valid, meaning that the field name and value are both blank
+     * 
+     * @param correctionCriteria
+     * @return
+     */
+    public static boolean validCorrectionCriteriaForSaving(CorrectionCriteria correctionCriteria) {
+        return correctionCriteria == null || 
+                (StringUtils.isBlank(correctionCriteria.getCorrectionFieldName()) &&  StringUtils.isBlank(correctionCriteria.getCorrectionFieldValue()));
+    }
+    
+    /**
+     * When a correction change is about to be added to a group, this will check if it is valid, meaning that
+     * the field name is not blank
+     * 
+     * @param correctionCriteria
+     * @return
+     */
+    public static boolean validCorrectionChangeForAdding(CorrectionChange correctionChange) {
+        String fieldName = correctionChange.getCorrectionFieldName();
+        if (StringUtils.isBlank(fieldName)) {
+            return false;
+        }
+        return true;
+    }
+    
+    /**
+     * When a document is about to be saved, this will check if it is valid, meaning that the field name and value are both blank
+     * 
+     * @param correctionCriteria
+     * @return
+     */
+    public static boolean validCorrectionChangeForSaving(CorrectionChange correctionChange) {
+        return correctionChange == null || 
+                (StringUtils.isBlank(correctionChange.getCorrectionFieldName()) &&  StringUtils.isBlank(correctionChange.getCorrectionFieldValue()));
     }
 }

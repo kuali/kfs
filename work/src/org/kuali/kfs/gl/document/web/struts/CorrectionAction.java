@@ -81,6 +81,7 @@ import org.kuali.module.gl.web.Constant;
 import org.kuali.module.gl.web.optionfinder.CorrectionGroupEntriesFinder;
 import org.kuali.module.gl.web.optionfinder.OriginEntryFieldFinder;
 import org.kuali.module.gl.web.struts.form.CorrectionForm;
+import org.kuali.module.gl.web.struts.form.GroupHolder;
 import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.clientapp.IDocHandler;
@@ -174,7 +175,10 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         if (!checkRestrictedFunctionalityModeForManualEdit(correctionForm)) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-
+        if (!validGroupsItemsForDocumentSave(correctionForm)) {
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+        
         // Populate document
         document.setCorrectionTypeCode(correctionForm.getEditMethod());
         document.setCorrectionSelection(correctionForm.getMatchCriteriaOnly());
@@ -257,6 +261,10 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         
         // was the input group inappropriately changed?
         if (GlobalVariables.getErrorMap().containsMessageKey(KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_INVALID_INPUT_GROUP_CHANGE)) {
+            return false;
+        }
+        
+        if (!validGroupsItemsForDocumentSave(correctionForm)) {
             return false;
         }
         
@@ -791,20 +799,29 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
         CorrectionChangeGroup ccg = document.getCorrectionChangeGroupItem(changeGroupId);
         CorrectionCriteria cc = correctionForm.getGroupsItem(changeGroupId).getCorrectionCriteria();
-
-        ccg.addCorrectionCriteria(cc);
-
-        // clear it for the next new line
-        correctionForm.getGroupsItem(changeGroupId).setCorrectionCriteria(new CorrectionCriteria());
-
-        validChangeGroups(correctionForm);
-
-        if (!correctionForm.isRestrictedFunctionalityMode()) {
-            correctionForm.getDisplayEntries().clear();
-            correctionForm.getDisplayEntries().addAll(correctionForm.getAllEntries());
-            
-            if (correctionForm.getShowOutputFlag()) {
-                updateEntriesFromCriteria(correctionForm, correctionForm.isRestrictedFunctionalityMode());
+        if (!CorrectionDocumentUtils.validCorrectionCriteriaForAdding(cc)) {
+            if (CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionForm.getEditMethod())) {
+                GlobalVariables.getErrorMap().putError("editCriteria", KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_MUST_CHOOSE_FIELD_NAME_WHEN_ADDING_CRITERION);
+            }
+            else {
+                GlobalVariables.getErrorMap().putError("manualEditCriteria", KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_MUST_CHOOSE_FIELD_NAME_WHEN_ADDING_CRITERION);
+            }
+        }
+        else {
+            ccg.addCorrectionCriteria(cc);
+    
+            // clear it for the next new line
+            correctionForm.getGroupsItem(changeGroupId).setCorrectionCriteria(new CorrectionCriteria());
+    
+            validChangeGroups(correctionForm);
+    
+            if (!correctionForm.isRestrictedFunctionalityMode()) {
+                correctionForm.getDisplayEntries().clear();
+                correctionForm.getDisplayEntries().addAll(correctionForm.getAllEntries());
+                
+                if (correctionForm.getShowOutputFlag()) {
+                    updateEntriesFromCriteria(correctionForm, correctionForm.isRestrictedFunctionalityMode());
+                }
             }
         }
         
@@ -885,22 +902,26 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
         CorrectionChangeGroup ccg = document.getCorrectionChangeGroupItem(changeGroupId);
         CorrectionChange cc = correctionForm.getGroupsItem(changeGroupId).getCorrectionChange();
-        ccg.addCorrectionChange(cc);
-
-        // clear it for the next new line
-        correctionForm.getGroupsItem(changeGroupId).setCorrectionChange(new CorrectionChange());
-
-        validChangeGroups(correctionForm);
-        
-        if (!correctionForm.isRestrictedFunctionalityMode()) {
-            correctionForm.getDisplayEntries().clear();
-            correctionForm.getDisplayEntries().addAll(correctionForm.getAllEntries());
+        if (!CorrectionDocumentUtils.validCorrectionChangeForAdding(cc)) {
+            GlobalVariables.getErrorMap().putError("editCriteria", KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_MUST_CHOOSE_FIELD_NAME_WHEN_ADDING_CRITERION);
+        }
+        else {
+            ccg.addCorrectionChange(cc);
+    
+            // clear it for the next new line
+            correctionForm.getGroupsItem(changeGroupId).setCorrectionChange(new CorrectionChange());
+    
+            validChangeGroups(correctionForm);
             
-            if (correctionForm.getShowOutputFlag()) {
-                updateEntriesFromCriteria(correctionForm, correctionForm.isRestrictedFunctionalityMode());
+            if (!correctionForm.isRestrictedFunctionalityMode()) {
+                correctionForm.getDisplayEntries().clear();
+                correctionForm.getDisplayEntries().addAll(correctionForm.getAllEntries());
+                
+                if (correctionForm.getShowOutputFlag()) {
+                    updateEntriesFromCriteria(correctionForm, correctionForm.isRestrictedFunctionalityMode());
+                }
             }
         }
-        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -1726,6 +1747,24 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
                         KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_UNABLE_TO_MANUAL_EDIT_LARGE_GROUP, String.valueOf(recordCountFunctionalityLimit));
             }
             return false;
+        }
+        return true;
+    }
+    
+    private boolean validGroupsItemsForDocumentSave(CorrectionForm correctionForm) {
+        // validate the criteria in the "add" groups to ensure that the field name and value are blank
+        for (int i = 0; i < correctionForm.getGroupsSize(); i++) {
+            GroupHolder groupHolder = correctionForm.getGroupsItem(i);
+            if (!CorrectionDocumentUtils.validCorrectionChangeForSaving(groupHolder.getCorrectionChange()) ||
+                    !CorrectionDocumentUtils.validCorrectionCriteriaForSaving(groupHolder.getCorrectionCriteria())) {
+                if (CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionForm.getEditMethod())) {
+                    GlobalVariables.getErrorMap().putError("editCriteria", KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_CRITERIA_TO_ADD_MUST_BE_BLANK_FOR_SAVE);
+                }
+                else {
+                    GlobalVariables.getErrorMap().putError("manualEditCriteria", KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_CRITERIA_TO_ADD_MUST_BE_BLANK_FOR_SAVE);
+                }
+                return false;
+            }
         }
         return true;
     }

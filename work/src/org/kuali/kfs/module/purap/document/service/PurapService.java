@@ -41,4 +41,5 @@ public interface PurapService {
     
     public List getRelatedViews(Class clazz, Integer accountsPayablePurchasingDocumentLinkIdentifier);
 
+    public void addBelowLineItems(PurchasingAccountsPayableDocument document);
 }

@@ -46,7 +46,6 @@ public class RequisitionAction extends PurchasingActionBase {
         super.createDocument(kualiDocumentFormBase);
         
         ((RequisitionDocument) kualiDocumentFormBase.getDocument()).initiateDocument();
-        
     }
 
     /**

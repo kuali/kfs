@@ -128,7 +128,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 //            ItemType iT = getItemType();
 //            addNewItem(r, iT, nextLineNum);
 //        }
-
+        SpringServiceLocator.getPurapService().addBelowLineItems(this);
         this.refreshAllReferences();
     }
 

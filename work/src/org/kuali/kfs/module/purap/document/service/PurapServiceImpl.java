@@ -16,22 +16,23 @@
 package org.kuali.module.purap.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ojb.broker.query.Criteria;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Note;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.module.chart.bo.SubAccount;
-import org.kuali.module.purap.bo.CreditMemoView;
-import org.kuali.module.purap.bo.PaymentRequestView;
+import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.bo.CreditMemoItem;
+import org.kuali.module.purap.bo.PaymentRequestItem;
+import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderView;
-import org.kuali.module.purap.bo.RequisitionView;
+import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.service.PurapService;
 
@@ -39,11 +40,16 @@ public class PurapServiceImpl implements PurapService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapServiceImpl.class);
 
     private BusinessObjectService businessObjectService;
-
+    private KualiConfigurationService kualiConfigurationService;
+    
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;    
     }
 
+    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
+        this.kualiConfigurationService = kualiConfigurationService;    
+    }
+    
     /**
      * This method updates the status and status history for a purap document.
      */
@@ -144,4 +150,68 @@ public class PurapServiceImpl implements PurapService {
         return boList;
     }
 
+    /**
+     * 
+     * This method will add the below line items to the corresponding document based on
+     * the item types specified in the "BELOW_THE_LINE_ITEMS" system parameter of the 
+     * document.
+     * 
+     * @param document
+     */
+    public void addBelowLineItems(PurchasingAccountsPayableDocument document) {
+        //Obtain a list of below the line items from system parameter
+        String documentTypeClassName = document.getClass().getName();
+        String[] documentTypeArray = StringUtils.split(documentTypeClassName, ".");
+        String documentType = documentTypeArray[documentTypeArray.length - 1];
+        //If it's a credit memo, we'll have to append the source of the credit memo
+        //whether it's created from a Vendor, a PO or a PREQ.
+        if (documentType.equals("CreditMemoDocument")) {
+           
+        }
+        String securityGroup = (String)PurapConstants.ITEM_TYPE_SYSTEM_PARAMETERS_SECURITY_MAP.get(documentType);
+        String[] itemTypes = kualiConfigurationService.getApplicationParameterValues(securityGroup, PurapConstants.BELOW_THE_LINES_PARAMETER);
+        
+        List<PurchasingApItem> existingItems = document.getItems();
+
+        List<String> existingItemTypes = new ArrayList();
+        for (PurchasingApItem existingItem : existingItems) {
+            existingItemTypes.add(existingItem.getItemTypeCode());
+        }
+        
+        Class itemClass = document.getItemClass();
+        
+        for (int i=0; i < itemTypes.length; i++) {
+            int lastFound;
+            if (!existingItemTypes.contains(itemTypes[i])) {
+                try {
+                    if (i > 0) {
+                        lastFound = existingItemTypes.lastIndexOf(itemTypes[i-1]) + 1;
+                    }
+                    else {
+                        lastFound = existingItemTypes.size();
+                    }
+                    PurchasingApItem newItem = null;
+                    if (itemClass == RequisitionItem.class) {
+                        newItem = new RequisitionItem();
+                    }
+                    else if (itemClass == PurchaseOrderItem.class) {
+                        newItem = new PurchaseOrderItem();
+                    }
+                    else if (itemClass == PaymentRequestItem.class) {
+                        newItem = new PaymentRequestItem();
+                    }
+                    else if (itemClass == CreditMemoItem.class) {
+                        newItem = new CreditMemoItem();
+                    }
+                    newItem.setItemLineNumber(existingItems.size());
+                    newItem.setItemTypeCode(itemTypes[i]);
+                    existingItems.add(lastFound, newItem);
+                    existingItemTypes.add(itemTypes[i]);
+                }
+                catch (Exception e) {
+                    //do something
+                }
+            }
+        }
+    }
 }

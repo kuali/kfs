@@ -45,7 +45,10 @@ public class ItemTypeValuesFinder extends KeyValuesBase {
             //TODO: chris - get this from rules through db field
             defaultAboveTheLine.add("ITEM");
             defaultAboveTheLine.add("SRVC");
-            
+            defaultAboveTheLine.add("FRHT");
+            defaultAboveTheLine.add("SPHD");
+            defaultAboveTheLine.add("ORDS");
+            defaultAboveTheLine.add("TRDI");
             List labels = new ArrayList();
             for (Object code : codes) {
                 ItemType it = (ItemType) code;

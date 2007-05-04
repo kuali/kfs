@@ -95,7 +95,9 @@
 
 				<c:out value="${reqSearchResultsActualSize}" /> items found.  
 					
-	      		</c:if> <display:table class="datatable-100" cellspacing="0"
+	      		</c:if> 
+				<c:set var="exporting" value="${!empty param['d-16544-e']}" scope="request"/>
+	      		<display:table class="datatable-100" cellspacing="0"
 				cellpadding="0" name="${reqSearchResults}" id="row" export="true"
 				pagesize="100" defaultsort="1"
 				requestURI="glModifiedInquiry.do?methodToCall=viewResults&reqSearchResultsActualSize=${reqSearchResultsActualSize}&searchResultKey=${searchResultKey}">
@@ -151,12 +153,12 @@
 										title="${column.columnTitle}"
 										comparator="${column.comparator}">
 
-										<c:if test="${column.columnTitle == 'Project Code'}">
+										<c:if test="${!exporting && column.columnTitle == 'Project Code'}">
 											<div style="white-space: nowrap"><c:out
 												value="${column.propertyValue}" /></div>
 										</c:if>
 
-										<c:if test="${column.columnTitle != 'Project Code'}">
+										<c:if test="${exporting || column.columnTitle != 'Project Code'}">
 											<c:out value="${column.propertyValue}" />
 										</c:if>
 

@@ -428,6 +428,9 @@
 				<fileset dir="${test.source.directory}">
 					<include name="${tests.includes}" />
 					<exclude name="**/TransactionalDocumentRuleTest.java" />
+					<exclude name="**/datadictionary/*.java" />
+					<exclude name="**/datadictionary/exporter/*.java" />
+					<exclude name="**/DataDictionaryServiceImplTest" />
 					<exclude name="**/${test.spring.shutdown}.java" />
 				</fileset>
 			</batchtest>

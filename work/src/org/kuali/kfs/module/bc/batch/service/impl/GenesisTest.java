@@ -115,7 +115,15 @@ public class GenesisTest {
       catch(IllegalAccessException ex)
       {
         ex.printStackTrace();  
-      };
+      }
+      catch (NoSuchMethodException ex)
+      {
+        ex.printStackTrace();
+      }
+      catch (InvocationTargetException ex)
+      {
+        ex.printStackTrace();
+      }
       LOG.warn("\nfiscalYearMakers finished\n");
       // create the proxy BC headers
       /*

@@ -27,6 +27,8 @@ import org.kuali.core.bo.user.*;
 import org.kuali.module.budget.dao.*;
 import org.kuali.module.budget.dao.ojb.*;
 
+import java.lang.reflect.*;
+
 // import these things to handle the configuration
 import org.kuali.core.service.KualiConfigurationService;
 import org.springframework.beans.factory.BeanFactory;
@@ -101,7 +103,19 @@ public class GenesisTest {
       // update current positions
       //  genesisTestService.testPositionBuild(2007);
       LOG.warn("\nstarting fiscalYearMakers\n");
-      dateMakerTestService.fiscalYearMakers(2008,true);
+      //dateMakerTestService.fiscalYearMakers(2008,true);
+      try
+      {
+      dateMakerTestService.fiscalYearMakers(2008);
+      }
+      catch(NoSuchFieldException ex)
+      {
+        ex.printStackTrace();  
+      }
+      catch(IllegalAccessException ex)
+      {
+        ex.printStackTrace();  
+      };
       LOG.warn("\nfiscalYearMakers finished\n");
       // create the proxy BC headers
       /*

@@ -77,6 +77,10 @@
 		</property>
 	</bean>
 	
+	<bean id="platformAwareDaoJdbc" class="org.kuali.kfs.dao.jdbc.PlatformAwareDaoBaseJdbc" abstract="true">
+		<property name="dataSource" ref="dataSource" />	
+	</bean>
+	
 	<bean id="kualiCodeDao" parent="platformAwareDao" class="org.kuali.kfs.dao.ojb.KualiCodeDaoOjb" />
 
 	<bean id="universityDateService" class="org.kuali.module.financial.service.impl.UniversityDateServiceImpl">

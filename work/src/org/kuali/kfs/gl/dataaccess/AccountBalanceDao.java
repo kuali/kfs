@@ -40,15 +40,6 @@ public interface AccountBalanceDao {
     public Iterator findConsolidatedAvailableAccountBalance(Map fieldValues);
 
     /**
-     * This method gets the size collection of available account balance entry groups according to input fields and values if the
-     * entries are required to be consolidated
-     * 
-     * @param fieldValues the input fields and values
-     * @return the size collection of cash balance entry groups
-     */
-    public Iterator getConsolidatedAccountBalanceRecordCount(Map fieldValues);
-
-    /**
      * This method finds the available account balances according to input fields and values
      * 
      * @param fieldValues the input fields and values

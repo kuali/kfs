@@ -27,7 +27,6 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiModuleService;
 import org.kuali.core.service.MailService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.spring.NamedOrderedListBean;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.batch.BatchJobStatus;
@@ -160,7 +159,7 @@ public class SchedulerServiceImpl implements SchedulerService {
                 JobDetail jobDetail = getScheduledJobDetail(scheduledJobName);
                 if (isPending(jobDetail)) {
                     if (shouldScheduleJob(jobDetail)) {
-                        scheduleJob( SCHEDULED_GROUP, scheduledJobName, 0, 0, new Date(), mailService.getBatchMailingList());
+                        scheduleJob( SCHEDULED_GROUP, scheduledJobName, 0, 0, new Date(), null);
                     }
                     if (shouldCancelJob(jobDetail)) {
                         updateStatus( SCHEDULED_GROUP, scheduledJobName, CANCELLED_JOB_STATUS_CODE);
@@ -314,8 +313,8 @@ public class SchedulerServiceImpl implements SchedulerService {
             trigger.setStartTime(startTime);
             Trigger qTrigger = trigger.getTrigger();
             qTrigger.getJobDataMap().put( JobListener.REQUESTOR_EMAIL_ADDRESS_KEY, requestorEmailAddress );
-            qTrigger.getJobDataMap().put( Job.JOB_RUN_START_STEP, startStep );
-            qTrigger.getJobDataMap().put( Job.JOB_RUN_END_STEP, endStep );
+            qTrigger.getJobDataMap().put( Job.JOB_RUN_START_STEP, String.valueOf( startStep ) );
+            qTrigger.getJobDataMap().put( Job.JOB_RUN_END_STEP, String.valueOf( endStep ) );
             for ( Trigger oldTrigger : scheduler.getTriggersOfJob( jobName, groupName ) ) {
                 scheduler.unscheduleJob(oldTrigger.getName(), groupName);
             }

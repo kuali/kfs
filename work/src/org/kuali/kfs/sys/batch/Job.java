@@ -26,11 +26,9 @@ import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.service.SchedulerService;
-import org.kuali.kfs.util.SpringServiceLocator;
 import org.quartz.InterruptableJob;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import org.quartz.SchedulerException;
 import org.quartz.StatefulJob;
 import org.quartz.UnableToInterruptJobException;
 
@@ -59,14 +57,14 @@ public class Job implements StatefulJob, InterruptableJob {
         }
         int startStep = 0;
         try {
-            startStep = jobExecutionContext.getMergedJobDataMap().getInt( JOB_RUN_START_STEP );
-        } catch (ClassCastException ex) {
+            startStep = Integer.parseInt( jobExecutionContext.getMergedJobDataMap().getString( JOB_RUN_START_STEP ) );
+        } catch (NumberFormatException ex) {
             // not present, do nothing
         }
         int endStep = 0;
         try {
-            endStep = jobExecutionContext.getMergedJobDataMap().getInt( JOB_RUN_END_STEP );
-        } catch (ClassCastException ex) {
+            endStep = Integer.parseInt( jobExecutionContext.getMergedJobDataMap().getString( JOB_RUN_END_STEP ) );
+        } catch (NumberFormatException ex) {
             // not present, do nothing
         }
         int currentStepNumber = 0;

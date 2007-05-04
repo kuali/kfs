@@ -49,7 +49,7 @@ public class ObjectTypeRule extends MaintenanceDocumentRuleBase {
         boolean result = true;
         ObjectType objectType = (ObjectType)document.getNewMaintainableObject().getBusinessObject();
         Map pkMap = new HashMap();
-        pkMap.put("accountCategoryCode", objectType.getBasicAccountingCategoryCode());
+        pkMap.put("code", objectType.getBasicAccountingCategoryCode());
         BasicAccountingCategory basicAccountingCategory = (BasicAccountingCategory)this.getBoService().findByPrimaryKey(BasicAccountingCategory.class, pkMap);
         if (basicAccountingCategory == null) {
             result = false;

@@ -203,7 +203,6 @@ public class PurapServiceImpl implements PurapService {
                     else if (itemClass == CreditMemoItem.class) {
                         newItem = new CreditMemoItem();
                     }
-                    newItem.setItemLineNumber(existingItems.size());
                     newItem.setItemTypeCode(itemTypes[i]);
                     existingItems.add(lastFound, newItem);
                     existingItemTypes.add(itemTypes[i]);

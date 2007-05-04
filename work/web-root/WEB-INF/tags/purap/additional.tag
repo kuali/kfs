@@ -28,7 +28,7 @@
 
 <c:set var="contentReadOnly" value="${not empty KualiForm.editingMode['lockContentEntry']}" />
 
-<kul:tab tabTitle="Additional" defaultOpen="true" tabErrorKey="${PurapConstants.ADDITIONAL_TAB_ERRORS}">
+<kul:tab tabTitle="Additional" defaultOpen="${not displayRequisitionFields}" tabErrorKey="${PurapConstants.ADDITIONAL_TAB_ERRORS}">
 
     <div class="tab-container" align=center>
         <div class="h2-container">

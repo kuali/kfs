@@ -20,13 +20,15 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="kul"%>
 <%@ taglib tagdir="/WEB-INF/tags/dd" prefix="dd"%>
 <%@ taglib tagdir="/WEB-INF/tags/fin" prefix="fin"%>
+
+<%@ attribute name="displayRequisitionFields" required="false"
+    description="Boolean to indicate if REQ specific fields should be displayed" %>
 <%@ attribute name="itemAttributes" required="true" type="java.util.Map"
 	description="The DataDictionary entry containing attributes for this row's fields."%>
-<%@ attribute name="accountingLineAttributes" required="true"
-	type="java.util.Map"
+<%@ attribute name="accountingLineAttributes" required="true" type="java.util.Map"
 	description="The DataDictionary entry containing attributes for this row's fields."%>
 
-<kul:tab tabTitle="Items" defaultOpen="true">
+<kul:tab tabTitle="Items" defaultOpen="${not displayRequisitionFields}">
 	<div class="tab-container" align=center>
 		<table cellpadding="0" cellspacing="0" class="datatable"
 			summary="Items Section">

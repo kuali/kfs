@@ -17,17 +17,44 @@ package org.kuali.module.purap.rules;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.datadictionary.validation.fieldlevel.ZipcodeValidationPattern;
+import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
 
 public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
-
+   
+    /**
+     * Tabs included on Purchasing Documents are: Payment Info Delivery Additional
+     * 
+     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     */
+    @Override
+    public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
+        boolean valid = super.processValidation(purapDocument);
+        valid &= processAdditionalValidation((PurchasingDocument) purapDocument);
+        return valid;
+    }
+    
+    /**
+     * This method performs any validation for the Additional tab.
+     * 
+     * @param purDocument
+     * @return
+     */
+    public boolean processAdditionalValidation(PurchasingDocument purDocument) {
+        boolean valid = true;
+        valid = validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(purDocument);
+        return valid;
+    }
+    
     //TODO check this: (hjs) 
     //- just curious: what is a valid US zip code?
     //- isn't city required if country is US? NO, ONLY FOR PO
@@ -64,5 +91,22 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
             }
         }
         return valid;
-    }    
+    }
+    
+    /**
+     * Validate that if the PurchaseOrderTotalLimit is not null then the TotalDollarAmount cannot be greater than the
+     * PurchaseOrderTotalLimit.
+     * 
+     * @return True if the TotalDollarAmount is less than the PurchaseOrderTotalLimit. False otherwise.
+     */
+    public boolean validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(PurchasingDocument purDocument) {
+        boolean valid = true;
+        if (ObjectUtils.isNotNull(purDocument.getPurchaseOrderTotalLimit()) && ObjectUtils.isNotNull(((AmountTotaling) purDocument).getTotalDollarAmount())) {
+            if (((AmountTotaling) purDocument).getTotalDollarAmount().isGreaterThan(purDocument.getPurchaseOrderTotalLimit())) {
+                valid &= false;
+                GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PURCHASE_ORDER_EXCEEDING_TOTAL_LIMIT);                
+            }
+        }
+        return valid;
+    }
 }

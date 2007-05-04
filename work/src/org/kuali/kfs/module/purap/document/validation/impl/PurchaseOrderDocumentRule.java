@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.datadictionary.validation.fieldlevel.ZipcodeValidationPattern;
+import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
@@ -46,7 +47,20 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
     @Override
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processValidation(purapDocument);
+        valid &= processAdditionalValidation((PurchasingDocument) purapDocument);
         valid &= processVendorStipulationValidation((PurchaseOrderDocument) purapDocument);
+        return valid;
+    }
+    
+    /**
+     * This method performs any validation for the Additional tab.
+     * 
+     * @param purDocument
+     * @return
+     */
+    public boolean processAdditionalValidation(PurchasingDocument purDocument) {
+        boolean valid = true;
+        valid = validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(purDocument);
         return valid;
     }
 
@@ -189,13 +203,6 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
         return valid;
     }
 
-    @Override
-    public boolean processAdditionalValidation(PurchasingDocument purDocument) {
-        boolean valid = super.processAdditionalValidation(purDocument);
-        valid = validateFaxNumberIfTransmissionTypeIsFax(purDocument);
-        return valid;
-    }
-
     // TODO check comments; mentions REQ, but this class performs only PO validation
     /**
      * Validate that if Vendor Id (VendorHeaderGeneratedId) is not empty, and tranmission method is fax, vendor fax number cannot be
@@ -216,4 +223,20 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
         return valid;
     }
 
+    /**
+     * Validate that if the PurchaseOrderTotalLimit is not null then the TotalDollarAmount cannot be greater than the
+     * PurchaseOrderTotalLimit.
+     * 
+     * @return True if the TotalDollarAmount is less than the PurchaseOrderTotalLimit. False otherwise.
+     */
+    public boolean validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(PurchasingDocument purDocument) {
+        boolean valid = true;
+        if (ObjectUtils.isNotNull(purDocument.getPurchaseOrderTotalLimit()) && ObjectUtils.isNotNull(((AmountTotaling) purDocument).getTotalDollarAmount())) {
+            if (((AmountTotaling) purDocument).getTotalDollarAmount().isGreaterThan(purDocument.getPurchaseOrderTotalLimit())) {
+                valid &= false;
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_TOTAL_LIMIT, PurapKeyConstants.REQ_TOTAL_GREATER_THAN_PO_TOTAL_LIMIT);                            
+            }
+        }
+        return valid;
+    }
 }

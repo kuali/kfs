@@ -36,7 +36,6 @@ import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.ItemTypeCodes;
 import org.kuali.module.purap.bo.PurApAccountingLine;
-import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.bo.PurchasingItemBase;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
@@ -60,7 +59,6 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         valid &= processItemValidation((PurchasingDocument) purapDocument);
         valid &= processPaymentInfoValidation((PurchasingDocument) purapDocument);
         valid &= processDeliveryValidation((PurchasingDocument) purapDocument);
-        valid &= processAdditionalValidation((PurchasingDocument) purapDocument);
         return valid;
     }
 
@@ -284,18 +282,6 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         return valid;
     }
 
-    /**
-     * This method performs any validation for the Additional tab.
-     * 
-     * @param purDocument
-     * @return
-     */
-    public boolean processAdditionalValidation(PurchasingDocument purDocument) {
-        boolean valid = true;
-        valid = validateTotDollarAmtIsLessThanPOTotLimit(purDocument);
-        return valid;
-    }
-
     @Override
     public boolean processVendorValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processVendorValidation(purapDocument);
@@ -328,12 +314,11 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     private boolean checkBeginDateBeforeEndDate(PurchasingDocument purDocument) {
         boolean valid = true;
         DateTimeService dateTimeService = SpringServiceLocator.getDateTimeService();
-        int currentFiscalYear = SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear();
 
         Date beginDate = purDocument.getPurchaseOrderBeginDate();
         Date endDate = purDocument.getPurchaseOrderEndDate();
         if (ObjectUtils.isNotNull(beginDate) && ObjectUtils.isNotNull(endDate)) {
-            if (beginDate.after(endDate)) {
+            if (dateTimeService.dateDiff( beginDate, endDate, false ) <= 0 ) {
                 valid &= false;
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_END_DATE, PurapKeyConstants.ERROR_PURCHASE_ORDER_BEGIN_DATE_AFTER_END);
             }
@@ -341,27 +326,5 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         return valid;
     }
 
-    /**
-     * Validate that if the PurchaseOrderTotalLimit is not null then the TotalDollarAmount cannot be greater than the
-     * PurchaseOrderTotalLimit.
-     * 
-     * @return True if the TotalDollarAmount is less than the PurchaseOrderTotalLimit. False otherwise.
-     */
-    private boolean validateTotDollarAmtIsLessThanPOTotLimit(PurchasingDocument purDocument) {
-        boolean valid = true;
-        if (ObjectUtils.isNotNull(purDocument.getPurchaseOrderTotalLimit()) && ObjectUtils.isNotNull(((AmountTotaling) purDocument).getTotalDollarAmount())) {
-            if (((AmountTotaling) purDocument).getTotalDollarAmount().isGreaterThan(purDocument.getPurchaseOrderTotalLimit())) {
-                if (purDocument instanceof PurchaseOrderDocument) {
-                    valid &= false;
-                    GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PURCHASE_ORDER_EXCEEDING_TOTAL_LIMIT);
-                }
-                if (purDocument instanceof RequisitionDocument) {
-                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_TOTAL_LIMIT, PurapKeyConstants.REQ_TOTAL_GREATER_THAN_PO_TOTAL_LIMIT);
-                    valid &= false;
-                }
-            }
-        }
-        return valid;
-    }
 
 }

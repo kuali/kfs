@@ -161,6 +161,16 @@ public class PurapConstants {
         public static String ITEM_TYPE_TRADE_IN_CODE = "TRDI";
         public static String ITEM_TYPE_ORDER_DISCOUNT_CODE = "ORDS";        
         public static String ITEM_TYPE_SERVICE_CODE = "SRVC";
+        public static String ITEM_TYPE_MIN_ORDER_CODE = "MNOR";
+        public static String ITEM_TYPE_MISC_CODE = "MISC";
+        public static String ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE = "DISC";
+        public static String ITEM_TYPE_FEDERAL_TAX_CODE = "FDTX";
+        public static String ITEM_TYPE_STATE_TAX_CODE = "STTX";
+        public static String ITEM_TYPE_FEDERAL_GROSS_CODE = "FDGR";
+        public static String ITEM_TYPE_STATE_GROSS_CODE = "STGR";
+        public static String ITEM_TYPE_RESTCK_FEE_CODE = "RSTO";
+        public static String ITEM_TYPE_MISC_CRDT_CODE = "MSCR";
+
     }
     
     //Item constants

@@ -430,7 +430,7 @@
 					<exclude name="**/TransactionalDocumentRuleTest.java" />
 					<exclude name="**/datadictionary/*.java" />
 					<exclude name="**/datadictionary/exporter/*.java" />
-					<exclude name="**/DataDictionaryServiceImplTest" />
+					<exclude name="**/DataDictionaryServiceImplTest.java" />
 					<exclude name="**/${test.spring.shutdown}.java" />
 				</fileset>
 			</batchtest>

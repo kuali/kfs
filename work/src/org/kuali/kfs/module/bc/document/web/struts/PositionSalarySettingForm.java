@@ -60,7 +60,7 @@ public class PositionSalarySettingForm extends KualiForm {
     private String positionNumber;
 
     //set and pass these when budgetByAccountMode to prefill the add line
-    private Boolean addLine;
+    private boolean addLine;
     private String chartOfAccountsCode;
     private String accountNumber;
     private String subAccountNumber;
@@ -69,7 +69,7 @@ public class PositionSalarySettingForm extends KualiForm {
 
     //pass the value of this as a url parm, false setting means budget by organization
     //this also controls where we return the user when done
-    private Boolean budgetByAccountMode;
+    private boolean budgetByAccountMode;
     
     //totals
     private KualiDecimal csfAmountTotal = new KualiDecimal(0.00);
@@ -213,26 +213,10 @@ public class PositionSalarySettingForm extends KualiForm {
     }
 
     /**
-     * Gets the budgetByAccountMode attribute. 
-     * @return Returns the budgetByAccountMode.
-     */
-    public Boolean getBudgetByAccountMode() {
-        return budgetByAccountMode;
-    }
-
-    /**
-     * Sets the budgetByAccountMode attribute value.
-     * @param budgetByAccountMode The budgetByAccountMode to set.
-     */
-    public void setBudgetByAccountMode(Boolean budgetByAccountMode) {
-        this.budgetByAccountMode = budgetByAccountMode;
-    }
-
-    /**
      * Gets the addLine attribute. 
      * @return Returns the addLine.
      */
-    public Boolean getAddLine() {
+    public boolean isAddLine() {
         return addLine;
     }
 
@@ -240,8 +224,24 @@ public class PositionSalarySettingForm extends KualiForm {
      * Sets the addLine attribute value.
      * @param addLine The addLine to set.
      */
-    public void setAddLine(Boolean addLine) {
+    public void setAddLine(boolean addLine) {
         this.addLine = addLine;
+    }
+
+    /**
+     * Gets the budgetByAccountMode attribute. 
+     * @return Returns the budgetByAccountMode.
+     */
+    public boolean isBudgetByAccountMode() {
+        return budgetByAccountMode;
+    }
+
+    /**
+     * Sets the budgetByAccountMode attribute value.
+     * @param budgetByAccountMode The budgetByAccountMode to set.
+     */
+    public void setBudgetByAccountMode(boolean budgetByAccountMode) {
+        this.budgetByAccountMode = budgetByAccountMode;
     }
 
     /**

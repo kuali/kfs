@@ -94,8 +94,20 @@
 	          horizontal="true"
 	          />
 	      <td>&nbsp;</td>
+
 	      <td align="center" valign="middle">
-	      	<kul:htmlControlAttribute property="document.subAccountNumber" attributeEntry="${documentAttributes.subAccountNumber}" readOnly="${true}"/>
+	      	<kul:htmlControlAttribute
+	      	    property="document.subAccountNumber"
+	      	    attributeEntry="${documentAttributes.subAccountNumber}"
+	      	    readOnly="true"
+	      		readOnlyBody="true">
+	      		<kul:inquiry
+				    boClassName="org.kuali.module.chart.bo.SubAccount"
+				    keyValues="chartOfAccountsCode=${KualiForm.document.chartOfAccountsCode}&amp;accountNumber=${KualiForm.document.accountNumber}&amp;subAccountNumber=${KualiForm.document.subAccountNumber}"
+				    render="${KualiForm.document.subAccountNumber ne Constants.DASHES_SUB_ACCOUNT_NUMBER}">
+			    	<html:hidden write="true" property="document.subAccountNumber" />
+				</kul:inquiry>
+	      	</kul:htmlControlAttribute>
 	      </td>
 	      <td align="center" valign="middle">
 	      	<kul:htmlControlAttribute property="document.subAccount.subAccountName" attributeEntry="${DataDictionary.SubAccount.attributes.subAccountName}" readOnly="${true}"/>

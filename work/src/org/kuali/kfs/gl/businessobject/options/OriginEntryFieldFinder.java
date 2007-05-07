@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.ui.KeyLabelPair;
@@ -80,6 +81,9 @@ public class OriginEntryFieldFinder extends KeyValuesBase {
     }
 
     public boolean isValidValue(String fieldName,String value) {
+        if (StringUtils.isBlank(fieldName)) {
+            return false;
+        }
         String fieldType = getFieldType(fieldName);
         int fieldLength = getFieldLength(fieldName);
 

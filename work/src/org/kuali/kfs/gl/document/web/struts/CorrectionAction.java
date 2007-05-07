@@ -178,6 +178,9 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         if (!validGroupsItemsForDocumentSave(correctionForm)) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
+        if (!validChangeGroups(correctionForm)) {
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
         
         // Populate document
         document.setCorrectionTypeCode(correctionForm.getEditMethod());

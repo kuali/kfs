@@ -33,21 +33,4 @@ import javax.servlet.http.HttpServletResponse;
  * Date: Apr 19, 2007
  * Time: 12:01:25 PM
  */
-public class CloseAction extends KualiTransactionalDocumentActionBase {
-
-    public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CloseForm closeForm = (CloseForm) form;
-        CloseDocument document = closeForm.getCloseDocument();
-
-        Close close = new Close();
-        close.setCloseNumber(NextCloseNumberFinder.getLongValue());
-        close.setCloseOnOrBeforeDate(document.getCloseOnOrBeforeDate());
-        close.setUserInitiatedCloseDate(document.getUserInitiatedCloseDate());
-        SpringServiceLocator.getCloseService().save(close);
-
-        return super.approve(mapping, form, request, response);
-    }
-
-    
-
-}
+public class CloseAction extends KualiTransactionalDocumentActionBase {}

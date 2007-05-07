@@ -17,19 +17,35 @@ package org.kuali.module.cg.dao.ojb;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.apache.ojb.broker.query.Query;
+import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.module.cg.bo.Close;
 import org.kuali.module.cg.dao.CloseDao;
+import org.kuali.Constants;
+import org.springmodules.orm.ojb.PersistenceBrokerTemplate;
+
+import java.util.Iterator;
+import java.util.Collection;
 
 public class CloseDaoOjb extends PlatformAwareDaoBaseOjb implements CloseDao {
 
-    public Close getMaxClose() {
-
+    public Close getMaxApprovedClose() {
         Criteria criteria = new Criteria();
-        criteria.addSql("CG_PRPSL_CLOSE_NBR = (SELECT MAX(CG_PRPSL_CLOSE_NBR) FROM CG_PRPSL_CLOSE_T)");
-        
-        return (Close) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(Close.class, criteria));
-        
+        criteria.addEqualTo("documentHeader.financialDocumentStatusCode", Constants.DocumentStatusCodes.APPROVED);
+        QueryByCriteria query = QueryFactory.newQuery(Close.class, criteria);
+        query.addOrderByDescending("documentNumber");
+        PersistenceBrokerTemplate template = getPersistenceBrokerTemplate();
+        System.out.println("**********************************************************");
+        System.out.println("**********************************************************");
+        System.out.println("**********************************************************");
+        Iterator i = template.getIteratorByQuery(query);
+        if(null != i) {
+            if(i.hasNext()) {
+                return (Close) i.next();
+            }
+        }
+        return null;
     }
 
     public void save(Close close) {

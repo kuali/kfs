@@ -64,7 +64,7 @@ public class CloseServiceImpl implements CloseService {
      */
     public void close() {
         
-        Close max = closeDao.getMaxClose();
+        Close max = closeDao.getMaxApprovedClose();
         Date today = dateTimeService.getCurrentSqlDateMidnight();
         
         if(!today.equals(max.getUserInitiatedCloseDate())) {
@@ -95,15 +95,9 @@ public class CloseServiceImpl implements CloseService {
     }
 
     public Close getMostRecentClose() {
-        return closeDao.getMaxClose();
+        return closeDao.getMaxApprovedClose();
     }
 
-    public Close getNewClose() {
-        Close close = new Close();
-        close.setCloseNumber(NextCloseNumberFinder.getLongValue());
-        return close;
-    }
-    
     public void save(Close close) {
         closeDao.save(close);
     }

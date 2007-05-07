@@ -21,19 +21,20 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.Constants;
 
 /**
  * 
  */
-public class Close extends PersistableBusinessObjectBase {
+public class Close extends TransactionalDocumentBase {
 
-    private Long closeNumber;
     private Date closeOnOrBeforeDate;
+    private Date userInitiatedCloseDate;
     private Long awardClosedCount;
     private Long proposalClosedCount;
     private String personUserIdentifier;
-    private Date userInitiatedCloseDate;
     
     private UniversalUser personUser;
 
@@ -44,26 +45,9 @@ public class Close extends PersistableBusinessObjectBase {
 
     }
 
-    /**
-     * Gets the closeNumber attribute.
-     * 
-     * @return Returns the closeNumber
-     * 
-     */
-    public Long getCloseNumber() {
-        return closeNumber;
+    public boolean isApproved() {
+        return Constants.DocumentStatusCodes.APPROVED.equals(getDocumentHeader().getFinancialDocumentStatusCode());
     }
-
-    /**
-     * Sets the closeNumber attribute.
-     * 
-     * @param closeNumber The closeNumber to set.
-     * 
-     */
-    public void setCloseNumber(Long closeNumber) {
-        this.closeNumber = closeNumber;
-    }
-
 
     /**
      * Gets the closeOnOrBeforeDate attribute.
@@ -187,8 +171,8 @@ public class Close extends PersistableBusinessObjectBase {
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        if (this.closeNumber != null) {
-            m.put("closeNumber", this.closeNumber.toString());
+        if (this.documentNumber != null) {
+            m.put("documentNumber", this.documentNumber.toString());
         }
         return m;
     }

@@ -32,7 +32,7 @@ public class CloseForm extends KualiTransactionalDocumentFormBase {
 
     public CloseForm() {
         super();
-        setDocument(new CloseDocument());
+        setDocument(new Close());
         setFormatterType("document.userInitiatedCloseDate", DateFormatter.class);
         setFormatterType("document.closeOnOrBeforeDate", DateFormatter.class);
     }
@@ -41,11 +41,11 @@ public class CloseForm extends KualiTransactionalDocumentFormBase {
         return SpringServiceLocator.getCloseService().getMostRecentClose();
     }
 
-    public CloseDocument getCloseDocument() {
-        return (CloseDocument) getDocument();
+    public Close getCloseDocument() {
+        return (Close) getDocument();
     }
 
-    public void setCloseDocument(CloseDocument document) {
+    public void setClose(Close document) {
         setDocument(document);
     }
 

@@ -23,7 +23,6 @@ public interface CloseService {
 
     public void close();
     public void save(Close close);
-    public Close getNewClose();
     public Close getMostRecentClose();
     
 }

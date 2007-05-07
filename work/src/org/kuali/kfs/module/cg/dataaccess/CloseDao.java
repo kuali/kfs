@@ -19,7 +19,7 @@ import org.kuali.module.cg.bo.Close;
 
 public interface CloseDao {
 
-    public Close getMaxClose();
+    public Close getMaxApprovedClose();
     public void save(Close close);
     
 }

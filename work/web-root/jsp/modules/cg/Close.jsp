@@ -34,13 +34,13 @@
                     <tr>
                         <th style="text-align: right;">Date Closed: </th>
                         <td style="width:50%">
-                            <kul:dateInput attributeEntry="${closeAttributes.userInitiatedCloseDate}" property="document.userInitiatedCloseDate" />
+                            <kul:dateInputNoAttributeEntry property="document.userInitiatedCloseDate" maxLength="10" size="10" />
                         </td>
                     </tr>
                     <tr>
                         <th style="text-align: right;">Close on or before:</th>
                         <td style="width:50%">
-                            <kul:dateInput attributeEntry="${closeAttributes.closeOnOrBeforeDate}" property="document.closeOnOrBeforeDate" />
+                            <kul:dateInputNoAttributeEntry property="document.closeOnOrBeforeDate"  maxLength="10" size="10" />
                         </td>
                     </tr>
                 </table>

@@ -109,7 +109,6 @@ public class LaborConstants {
         public static final String BALANCE_CODE = "'BB'";
         public static final String PERSON_FUNDING_EXPENSE_OBJECT_TYPE_CODE = "ES";
         public static final String PERSON_FUNDING_NORMAL_OP_EXPENSE_OBJECT_TYPE_CODE = "EX";
-        public static final String LABOR_MULTI_TABLE_INQUIRY_ACTION = "laborMultiTableInquiry.do";
     }
 
     public static class ParameterGroups {

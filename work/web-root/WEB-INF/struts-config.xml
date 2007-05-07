@@ -214,9 +214,9 @@
             <forward name="basic" path="/jsp/modules/labor/{1}.jsp" /> 
         </action> 
 
-		<action path="/laborMultiTableInquiry" name="BalanceInquiryForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.module.labor.web.struts.action.MultiTableBalanceInquiryAction">
+		<action path="/personFundingInquiry" name="BalanceInquiryForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.module.labor.web.struts.action.PersonFundingInquiryAction">
             <set-property property="cancellable" value="true" />
-            <forward name="basic" path="/jsp/modules/labor/MultiTableBalanceInquiry.jsp" />
+            <forward name="basic" path="/jsp/modules/labor/PersonFundingInquiry.jsp" />
 			 <forward name="BalanceInquiry" path="/jsp/modules/generalLedger/BalanceInquiry.jsp" />
         </action>
 

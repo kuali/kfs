@@ -22,6 +22,7 @@
 	<maintenanceDocument>
         <businessObjectClass>org.kuali.module.labor.bo.BenefitsCalculation</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+		<businessRulesClass>org.kuali.module.labor.rules.BenefitsCalculationDocumentRule</businessRulesClass>
 
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
@@ -52,6 +53,7 @@
             <reference attributeName="universityFiscal" attributeToHighlightOnFail="universityFiscalYear" />
             <reference attributeName="chartOfAccounts" attributeToHighlightOnFail="chartOfAccountsCode" />          
             <reference attributeName="positionFringeBenefitObject" attributeToHighlightOnFail="positionFringeBenefitObjectCode" />          
+            <reference attributeName="positionBenefitType" attributeToHighlightOnFail="positionBenefitTypeCode" />          
         </defaultExistenceChecks>
 
 	    <maintainableSections>

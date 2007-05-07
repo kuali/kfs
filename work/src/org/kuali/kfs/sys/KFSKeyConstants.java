@@ -845,6 +845,9 @@ public class KFSKeyConstants extends KeyConstants {
         public static final String ERROR_SUB_FUND_GROUP_NOT_FOUND = "error.labor.subFundGroupNotFound";
 
         public static final String MESSAGE_YEAR_END_TRANSACTION_DESCRIPTON = "message.labor.yearEndTransactionDescription";
+        
+        public static final String ERROR_FRINGE_BENEFIT_PERCENTAGE_INVALID = "error.labor.invalidFringeBenefitPercentageInvalid";
+        
     }
 
     public static final class ContractsAndGrants {

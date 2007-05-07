@@ -24,6 +24,7 @@
 <%@ attribute name="accountingAddLineIndex" required="false" description="index for multiple add new source lines, required for the newGroupLine actionGroup" %>
 <%@ attribute name="accountingLineIndex" required="false" description="index of this accountingLine in the corresponding form list, required for the existingLine actionGroup" %>
 <%@ attribute name="decorator" required="false" description="propertyName of the AccountingLineDecorator associated with this accountingLine, required for the existingLine actionGroup" %>
+<%@ attribute name="rowspan" required="false" description="defaults to 1" %>
 
 <c:choose>
     <c:when test="${actionGroup == 'newLine' || actionGroup == 'newGroupLine'}" >
@@ -32,7 +33,7 @@
             <c:set var="insertMethod" value="${insertMethod}.line${accountingAddLineIndex}" />
         </c:if>
 
-        <td class="${dataCellCssClass}" nowrap><div align="center">
+        <td class="${dataCellCssClass}" rowspan="${rowspan}" nowrap><div align="center">
             <html:image property="methodToCall.${insertMethod}.anchoraccounting${actionInfix}Anchor" src="images/tinybutton-add1.gif" title="Add an Accounting Line" alt="Add an Accounting Line" styleClass="tinybutton"/>
             <fin:accountingLineDataCellDetail/></div>
         </td>
@@ -46,7 +47,7 @@
         <c:set var="revertMethod" value="revert${actionInfix}Line.line${accountingLineIndex}" />
         <c:set var="balanceInquiryMethod" value="performBalanceInquiryFor${actionInfix}Line.line${accountingLineIndex}" />
 
-        <td class="${dataCellCssClass}" nowrap>
+        <td class="${dataCellCssClass}" nowrap rowspan="${rowspan}">
             <div align="center">
                 <%-- persist accountingLineDecorator --%>
                 <html:hidden name="KualiForm" property="${decorator}.revertible" />

@@ -24,6 +24,9 @@
               to be appended to the required field columns, before the amount column.
               The optional columns appear in both source and target groups
               of accounting lines." %>
+<%@ attribute name="isOptionalFieldsInNewRow" required="false" type="java.lang.Boolean"
+	description="indicate if the oprtional fields are put in a new row under the default accouting line"%> 
+	              
 <%@ attribute name="sourceAccountingLinesOnly" required="false"
               description="A boolean controling whether the group of
               target accounting lines will be generated.
@@ -117,7 +120,8 @@
 <c:set var="optionalFieldCount" value="${empty optionalFields ? 0 : fn:length(fn:split(optionalFields, ' ,'))}"/>
 <c:set var="columnCountUntilAmount" value="${8
                                         + (includeObjectTypeCode ? 1 : 0)
-                                        + optionalFieldCount}" />
+                                        + (isOptionalFieldsInNewRow ? 0 : optionalFieldCount)}" />
+                                                                               
 <c:set var="arrHideFields" value="${fn:split(hideFields,',') }"/>
 <c:set var="numHideFields" value="${fn:length(numHideFields) }"/>
 <%-- add extra columns count for the "Action" button and/or dual amounts --%>
@@ -141,6 +145,7 @@
           columnCountUntilAmount="${columnCountUntilAmount}"
           columnCount="${columnCount}"
           optionalFields="${optionalFields}"
+          isOptionalFieldsInNewRow="${isOptionalFieldsInNewRow}"
           extraRowFields="${extraSourceRowFields}"
           editingMode="${editingMode}"
           editableAccounts="${editableAccounts}"
@@ -164,6 +169,7 @@
             columnCountUntilAmount="${columnCountUntilAmount}"
             columnCount="${columnCount}"
             optionalFields="${optionalFields}"
+            isOptionalFieldsInNewRow="${isOptionalFieldsInNewRow}"
             extraRowFields="${extraTargetRowFields}"
             editingMode="${editingMode}"
             editableAccounts="${editableAccounts}"

@@ -46,32 +46,33 @@ public class LaborJournalVoucherDocumentRule extends JournalVoucherDocumentRule 
     public boolean processGenerateLaborLedgerPendingEntries(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         LOG.debug("processGenerateLaborLedgerPendingEntries() started");
 
-        boolean success = true;
-        LaborJournalVoucherDetail laborJournalVoucherDetail = (LaborJournalVoucherDetail) accountingLine;
-
-        PendingLedgerEntry explicitEntry = new PendingLedgerEntry();
-        ObjectUtil.buildObject(explicitEntry, accountingLine);
-        success &= processExplicitLaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, explicitEntry);
-
-        return success;
+        return addLaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, new PendingLedgerEntry());
     }
     
-    private boolean processExplicitLaborLedgerPendingEntry(AccountingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry explicitEntry) {
+    private boolean addLaborLedgerPendingEntry(AccountingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry pendingLedgerEntry) {
         LOG.debug("processExplicitGeneralLedgerPendingEntry() started");
-        LaborJournalVoucherDocument laborJournalVoucherDocument = (LaborJournalVoucherDocument)accountingDocument;
         
-        // populate the explicit entry
-        populateExplicitGeneralLedgerPendingEntry(laborJournalVoucherDocument, accountingLine, sequenceHelper, explicitEntry);
-
-        // hook for children documents to implement document specific GLPE field mappings
-        customizeExplicitGeneralLedgerPendingEntry(laborJournalVoucherDocument, accountingLine, explicitEntry);
-
-        // add the new explicit entry to the document now
-        laborJournalVoucherDocument.getLaborLedgerPendingEntries().add(explicitEntry);
-        
-        // increment the sequence counter
-        sequenceHelper.increment();
-        
+        try{
+            LaborJournalVoucherDocument laborJournalVoucherDocument = (LaborJournalVoucherDocument)accountingDocument;
+            
+            // populate the explicit entry
+            ObjectUtil.buildObject(pendingLedgerEntry, accountingLine);
+            populateExplicitGeneralLedgerPendingEntry(laborJournalVoucherDocument, accountingLine, sequenceHelper, pendingLedgerEntry);
+    
+            // apply the labor JV specific information
+            customizeExplicitGeneralLedgerPendingEntry(laborJournalVoucherDocument, accountingLine, pendingLedgerEntry);
+            pendingLedgerEntry.setFinancialDocumentTypeCode(laborJournalVoucherDocument.getOffsetTypeCode());
+    
+            // add the new explicit entry to the document now
+            laborJournalVoucherDocument.getLaborLedgerPendingEntries().add(pendingLedgerEntry);
+            
+            // increment the sequence counter
+            sequenceHelper.increment();
+        }
+        catch(Exception e){
+            LOG.error("Cannot add a Labor Ledger Pending Entry into the list");
+            return false;
+        }        
         return true;
     }
 }

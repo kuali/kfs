@@ -11,7 +11,7 @@
 
 			<attribute name="earnCode" forceUppercase="true">
 				<label>Earn Code</label>
-				<shortLabel>Code</shortLabel>
+				<shortLabel>Earn Code</shortLabel>
 
 				<maxLength>3</maxLength>
 				<validationPattern>
@@ -31,7 +31,7 @@
 
 			<attribute name="employeeRecord" forceUppercase="true">
 				<label>Employee Record</label>
-				<shortLabel>Record</shortLabel>
+				<shortLabel>Employee Record</shortLabel>
 
 				<maxLength>3</maxLength>
 				<validationPattern>
@@ -82,7 +82,7 @@
 
 			<attribute name="laborLedgerOriginalAccountNumber" forceUppercase="true">
 				<label>Labor Ledger Original Account Number</label>
-				<shortLabel>Number</shortLabel>
+				<shortLabel>Original Account</shortLabel>
 
 				<maxLength>7</maxLength>
 				<validationPattern>
@@ -99,7 +99,7 @@
 
 			<attribute name="laborLedgerOriginalChartOfAccountsCode" forceUppercase="true">
 				<label>Labor Ledger Original Chart Of Accounts Code</label>
-				<shortLabel>Code</shortLabel>
+				<shortLabel>Original Chart</shortLabel>
 
 				<maxLength>2</maxLength>
 				<validationPattern>
@@ -116,7 +116,7 @@
 
 			<attribute name="laborLedgerOriginalFinancialObjectCode" forceUppercase="true">
 				<label>Labor Ledger Original Financial Object Code</label>
-				<shortLabel>Code</shortLabel>
+				<shortLabel>Original Object Code</shortLabel>
 
 				<maxLength>4</maxLength>
 				<validationPattern>
@@ -133,7 +133,7 @@
 
 			<attribute name="laborLedgerOriginalFinancialSubObjectCode" forceUppercase="true">
 				<label>Labor Ledger Original Financial Sub Object Code</label>
-				<shortLabel>Code</shortLabel>
+				<shortLabel>Original Sub Object Code</shortLabel>
 
 				<maxLength>3</maxLength>
 				<validationPattern>
@@ -150,7 +150,7 @@
 
 			<attribute name="laborLedgerOriginalSubAccountNumber" forceUppercase="true">
 				<label>Labor Ledger Original Sub Account Number</label>
-				<shortLabel>Number</shortLabel>
+				<shortLabel>Original Sub Account</shortLabel>
 
 				<maxLength>5</maxLength>
 				<validationPattern>
@@ -167,7 +167,7 @@
 
 			<attribute name="payGroup" forceUppercase="true">
 				<label>Pay Group</label>
-				<shortLabel>Group</shortLabel>
+				<shortLabel>Pay Group</shortLabel>
 
 				<maxLength>3</maxLength>
 				<validationPattern>
@@ -184,44 +184,43 @@
 
 			<attribute name="payPeriodEndDate" forceUppercase="true">
 				<label>Pay Period End Date</label>
-				<shortLabel>Date</shortLabel>
+				<shortLabel>Pay Period End Date</shortLabel>
 
-				<maxLength>7</maxLength>
+				<maxLength>10</maxLength>
 				<validationPattern>
 					<date />
 				</validationPattern>
 
 				<control>
-					<text size="9" />
+					<text size="10" />
 				</control>
 
 				<summary>payPeriodEndDate</summary>
 				<description>payPeriodEndDate description...</description>
 			</attribute>
 
-			<attributeReference name="payrollEndDateFiscalPeriodCode"
-				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
-				sourceAttributeName="universityFiscalAccountingPeriod">
-				<label>Payroll End Date Fiscal Period Code</label>
+			<attributeReference name="payrollDateFiscalPeriodCode" sourceClassName="org.kuali.module.chart.bo.AccountingPeriod" sourceAttributeName="universityFiscalPeriodCode">
+				<label>Payroll Date Fiscal Period Code</label>
 				<shortLabel>Pay Per</shortLabel>
-				<summary>Payroll End Date Fiscal Period Code</summary>
+				<summary>Payroll Date Fiscal Period Code</summary>
 			</attributeReference>
 
-			<attributeReference name="payrollEndDateFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-				<label>Payroll End Date Fiscal Year</label>
+			<attributeReference name="payrollDateFiscalYear" sourceClassName="org.kuali.kfs.bo.Options" sourceAttributeName="universityFiscalYear">
+				<label>Payroll Date Fiscal Year</label>
 				<shortLabel>Pay FY</shortLabel>
-				<summary>Payroll End Date Fiscal Year</summary>
+				<summary>Payroll Date Fiscal Year</summary>
 			</attributeReference>
 
 			<attribute name="positionNumber" forceUppercase="true">
 				<label>Position Number</label>
-				<shortLabel>Number</shortLabel>
+				<shortLabel>Position</shortLabel>
 
 				<maxLength>8</maxLength>
 				<validationPattern>
 					<anyCharacter />
 				</validationPattern>
-
+				<required>true</required>
+				
 				<control>
 					<text size="10" />
 				</control>
@@ -232,7 +231,7 @@
 
 			<attribute name="runIdentifier" forceUppercase="true">
 				<label>Run Identifier</label>
-				<shortLabel>Identifier</shortLabel>
+				<shortLabel>Run ID</shortLabel>
 
 				<maxLength>10</maxLength>
 				<validationPattern>
@@ -249,7 +248,7 @@
 
 			<attribute name="salaryAdministrationPlan" forceUppercase="true">
 				<label>Salary Administration Plan</label>
-				<shortLabel>Plan</shortLabel>
+				<shortLabel>Sal Admin Plan</shortLabel>
 
 				<maxLength>4</maxLength>
 				<validationPattern>
@@ -283,7 +282,7 @@
 
 			<attribute name="transactionTotalHours" forceUppercase="true">
 				<label>Transaction Total Hours</label>
-				<shortLabel>Hours</shortLabel>
+				<shortLabel>Pay Hours</shortLabel>
 
 				<maxLength>9</maxLength>
 				<validationPattern>

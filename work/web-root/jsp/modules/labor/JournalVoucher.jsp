@@ -162,10 +162,11 @@
 		</table>
 		</div>
 	</kul:tab>
-	
-	<c:out value="${KualiForm.journalVoucherDocument.sourceAccountingLineClass}" />
+
 	<fin:voucherAccountingLines
 		isDebitCreditAmount="${KualiForm.selectedBalanceType.financialOffsetGenerationIndicator}"
+		optionalFields="positionNumber,emplid,employeeRecord,earnCode,payGroup,salaryAdministrationPlan,grade,runIdentifier,payPeriodEndDate,payrollDateFiscalYear,payrollDateFiscalPeriodCode,transactionTotalHours,laborLedgerOriginalChartOfAccountsCode,laborLedgerOriginalAccountNumber,laborLedgerOriginalSubAccountNumber,laborLedgerOriginalFinancialObjectCode,laborLedgerOriginalFinancialSubObjectCode,hrmsCompany,setid"
+		isOptionalFieldsInNewRow="true"
 		displayExternalEncumbranceFields="${KualiForm.selectedBalanceType.code==Constants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE}"
 		editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}"

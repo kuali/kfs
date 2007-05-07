@@ -67,6 +67,9 @@
               description="Boolean indicating whether this cell should have an inquiry link if it's writable.
               If true, the boClassSimpleName attribute at least is also required." %>
 
+<%@ attribute name="boClassFullName" required="false"
+              description="The full name of the business object class to perform a lookup or inquiry.
+              This does include the package name." %>
 <%@ attribute name="boClassSimpleName" required="false"
               description="The simple name of the business object class to perform a lookup or inquiry.
               This does not include the package name." %>
@@ -120,6 +123,9 @@
     <c:set var="dataFieldCssClass" value=""/>
 </c:if>
 <c:choose>
+	<c:when test="${not empty boClassFullName}">
+		<c:set var="boClassName" value="${boClassFullName}"/>
+	</c:when>
     <c:when test="${empty boPackageName}">
         <c:set var="boClassName" value="org.kuali.module.chart.bo.${boClassSimpleName}"/>
     </c:when>
@@ -158,6 +164,8 @@
             <c:set var="onblur" value=""/>
         </c:otherwise>
     </c:choose>
+    
+    <c:set var="datePicker" value="${attributes[field].validationPattern.type eq 'date' ? true : false}" />
     <kul:htmlControlAttribute
         property="${cellProperty}"
         attributeEntry="${attributes[field]}"
@@ -165,6 +173,7 @@
         readOnly="${readOnly}"
         readOnlyBody="true"
         styleClass="${dataFieldCssClass}"
+        datePicker="${datePicker}"
         >
         <fin:accountingLineReadOnlyCellProperty
             property="${cellProperty}"
@@ -180,8 +189,12 @@
     </kul:htmlControlAttribute>
 
     <%-- lookup control --%>
-    <c:if test="${!readOnly}">
-        <c:if test="${lookup}">
+    <c:if test="${!readOnly && lookup}">
+    	<c:choose>
+        <c:when test="${not empty boClassFullName}">
+            <kul:lookup boClassName="${boClassName}" fieldLabel="${attributes[field].shortLabel}" />        	
+        </c:when>
+        <c:otherwise>
             <%-- todo: this lookup to field conversion swapping in accountingLineLookup.tag --%>
             <c:set var="lookupParameters" value=""/>
             <c:set var="fieldConversions" value="${lookupUnkeyedFieldConversions}"/>
@@ -198,7 +211,8 @@
                 fieldConversions="${fieldConversions}${conversionField}:${qualifiedField}"
                 lookupParameters="${lookupParameters}" fieldLabel="${attributes[field].shortLabel}"
                 />
-        </c:if>
+        </c:otherwise>
+        </c:choose>
     </c:if>
 </span>
 <c:if test="${!empty baselineAccountingLine}">

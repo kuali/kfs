@@ -18,8 +18,8 @@ public class LaborJournalVoucherDetail extends SourceAccountingLine{
 	private String positionNumber;
 	private Date payPeriodEndDate;
 	private BigDecimal transactionTotalHours;
-	private Integer payrollEndDateFiscalYear;
-	private String payrollEndDateFiscalPeriodCode;
+	private Integer payrollDateFiscalYear;
+	private String payrollDateFiscalPeriodCode;
 	private String emplid;
 	private Integer employeeRecord;
 	private String earnCode;
@@ -156,22 +156,6 @@ public class LaborJournalVoucherDetail extends SourceAccountingLine{
      */
     public AccountingPeriod getPayrollEndDateFiscalPeriod() {
         return payrollEndDateFiscalPeriod;
-    }
-
-    /**
-     * Gets the payrollEndDateFiscalPeriodCode attribute. 
-     * @return Returns the payrollEndDateFiscalPeriodCode.
-     */
-    public String getPayrollEndDateFiscalPeriodCode() {
-        return payrollEndDateFiscalPeriodCode;
-    }
-
-    /**
-     * Gets the payrollEndDateFiscalYear attribute. 
-     * @return Returns the payrollEndDateFiscalYear.
-     */
-    public Integer getPayrollEndDateFiscalYear() {
-        return payrollEndDateFiscalYear;
     }
 
     /**
@@ -335,22 +319,6 @@ public class LaborJournalVoucherDetail extends SourceAccountingLine{
     }
 
     /**
-     * Sets the payrollEndDateFiscalPeriodCode attribute value.
-     * @param payrollEndDateFiscalPeriodCode The payrollEndDateFiscalPeriodCode to set.
-     */
-    public void setPayrollEndDateFiscalPeriodCode(String payrollEndDateFiscalPeriodCode) {
-        this.payrollEndDateFiscalPeriodCode = payrollEndDateFiscalPeriodCode;
-    }
-
-    /**
-     * Sets the payrollEndDateFiscalYear attribute value.
-     * @param payrollEndDateFiscalYear The payrollEndDateFiscalYear to set.
-     */
-    public void setPayrollEndDateFiscalYear(Integer payrollEndDateFiscalYear) {
-        this.payrollEndDateFiscalYear = payrollEndDateFiscalYear;
-    }
-
-    /**
      * Sets the payrollEndDateOptions attribute value.
      * @param payrollEndDateOptions The payrollEndDateOptions to set.
      */
@@ -396,6 +364,38 @@ public class LaborJournalVoucherDetail extends SourceAccountingLine{
      */
     public void setTransactionTotalHours(BigDecimal transactionTotalHours) {
         this.transactionTotalHours = transactionTotalHours;
+    }
+
+    /**
+     * Gets the payrollDateFiscalPeriodCode attribute. 
+     * @return Returns the payrollDateFiscalPeriodCode.
+     */
+    public String getPayrollDateFiscalPeriodCode() {
+        return payrollDateFiscalPeriodCode;
+    }
+
+    /**
+     * Sets the payrollDateFiscalPeriodCode attribute value.
+     * @param payrollDateFiscalPeriodCode The payrollDateFiscalPeriodCode to set.
+     */
+    public void setPayrollDateFiscalPeriodCode(String payrollDateFiscalPeriodCode) {
+        this.payrollDateFiscalPeriodCode = payrollDateFiscalPeriodCode;
+    }
+
+    /**
+     * Gets the payrollDateFiscalYear attribute. 
+     * @return Returns the payrollDateFiscalYear.
+     */
+    public Integer getPayrollDateFiscalYear() {
+        return payrollDateFiscalYear;
+    }
+
+    /**
+     * Sets the payrollDateFiscalYear attribute value.
+     * @param payrollDateFiscalYear The payrollDateFiscalYear to set.
+     */
+    public void setPayrollDateFiscalYear(Integer payrollDateFiscalYear) {
+        this.payrollDateFiscalYear = payrollDateFiscalYear;
     }
 
 }

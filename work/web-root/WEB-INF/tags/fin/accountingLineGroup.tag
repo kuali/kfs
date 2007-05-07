@@ -40,7 +40,10 @@ It's followed by 0 or more rows for the accounting lines that have already been 
               description="A comma separated list of names of accounting line fields
               to be appended to the required field columns, before the amount column.
               The optional columns appear in both source and target groups
-              of accounting lines." %>
+              of accounting lines." %>              
+<%@ attribute name="isOptionalFieldsInNewRow" required="false" type="java.lang.Boolean"
+	description="indicate if the oprtional fields are put in a new row under the default accouting line"%> 
+	              
 <%@ attribute name="extraRowFields" required="false"
               description="A comma seperated list of names of any non-standard fields
               required on this group of accounting lines for this eDoc.
@@ -183,9 +186,13 @@ It's followed by 0 or more rows for the accounting lines that have already been 
     <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.financialSubObjectCode}" rowspan="2"/>
     <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.projectCode}" rowspan="2"/>
     <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes.organizationReferenceId}" rowspan="2"/>
-    <c:forTokens items="${optionalFields}" delims=" ," var="currentField">
-        <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes[currentField]}" rowspan="2"/>
-    </c:forTokens>
+    
+    <c:if test="${not isOptionalFieldsInNewRow}">
+	    <c:forTokens items="${optionalFields}" delims=" ," var="currentField">
+	        <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes[currentField]}" rowspan="2"/>
+	    </c:forTokens>
+    </c:if>
+    
     <c:set var="delimitedhideFields" value=",${hideFields}," />
 	<%-- this is hard coded here but could be done in a more general purpose way --%>
 	<c:set var="delimitedField" value=",amount," />
@@ -230,9 +237,7 @@ It's followed by 0 or more rows for the accounting lines that have already been 
       <c:otherwise>
     	<c:set var="newActionGroup" value="newLine"/>
       </c:otherwise>
-    </c:choose>  
-    
-    
+    </c:choose>    
     
     <fin:accountingLineRow
         accountingLine="${newAccountPrefix}new${capitalSourceOrTarget}Line"
@@ -242,6 +247,7 @@ It's followed by 0 or more rows for the accounting lines that have already been 
         actionGroup="${newActionGroup}"
         actionInfix="${capitalSourceOrTarget}"
         optionalFields="${optionalFields}"
+        isOptionalFieldsInNewRow="${isOptionalFieldsInNewRow}"
         extraRowFields="${extraRowFields}"
         extraRowLabelFontWeight="bold"
         readOnly="false"
@@ -301,6 +307,7 @@ It's followed by 0 or more rows for the accounting lines that have already been 
         actionGroup="existingLine"
         actionInfix="${capitalSourceOrTarget}"
         optionalFields="${optionalFields}"
+        isOptionalFieldsInNewRow="${isOptionalFieldsInNewRow}"
         extraRowFields="${extraRowFields}"
         extraRowLabelFontWeight="normal"
         readOnly="${!accountIsEditable}"

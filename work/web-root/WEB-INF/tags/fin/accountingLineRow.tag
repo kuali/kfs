@@ -64,6 +64,9 @@
 <%@ attribute name="optionalFields" required="false"
 	description="A comma separated list of names of accounting line fields
               to be appended to the required field columns, before the amount column."%>
+              
+<%@ attribute name="isOptionalFieldsInNewRow" required="false" type="java.lang.Boolean"
+	description="indicate if the oprtional fields are put in a new row under the default accouting line"%>              
 
 <%@ attribute name="extraRowFields" required="false"
 	description="A comma seperated list of names of any non-standard fields
@@ -118,10 +121,20 @@
     description="Comma delimited list of fields to hide for this type of accounting line" %>
         
 <c:set var="rowCount" value="${empty extraRowFields ? 1 : 2}" />
+<c:set var="dataColumnCount" value="${columnCountUntilAmount -1}"/>
+
+<%-- compute the count of the new rows --%>
+<c:set var="numOfOptionalFields" value="${empty optionalFields ? 0 : fn:length(fn:split(optionalFields, ','))}" />	
+<c:if test="${numOfOptionalFields > 0}">
+	<c:set var="tempNumOfNewRows" value="${fn:substringBefore(numOfOptionalFields/dataColumnCount, '.')}"/>
+	<c:set var="remainingCells" value="${numOfOptionalFields % dataColumnCount}"/>
+	<c:set var="numOfNewRows" value="${remainingCells == 0 ? tempNumOfNewRows : tempNumOfNewRows + 1}"/>
+</c:if>
+
+<c:set var="rowspan" value="${rowCount + (isOptionalFieldsInNewRow ? 2*numOfNewRows: 0) }" />
 
 <tr>
-	<kul:htmlAttributeHeaderCell literalLabel="${rowHeader}:" scope="row"
-		rowspan="${rowCount}">
+	<kul:htmlAttributeHeaderCell literalLabel="${rowHeader}:" scope="row" rowspan="${rowspan}">
 		<%-- these hidden fields are inside a table cell to keep the HTML valid --%>
 		<c:forTokens var="hiddenField" items="${hiddenFields}" delims=",">
 			<fin:hiddenAccountingLineField accountingLine="${accountingLine}"
@@ -234,13 +247,17 @@
 		field="organizationReferenceId"
 		attributes="${accountingLineAttributes}" readOnly="${readOnly}"
 		displayHidden="${displayHidden}" />
-	<c:forTokens items="${optionalFields}" delims=" ," var="currentField">
-		<fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
-			accountingLine="${accountingLine}"
-			baselineAccountingLine="${baselineAccountingLine}"
-			field="${currentField}" attributes="${accountingLineAttributes}"
-			readOnly="${readOnly}" displayHidden="${displayHidden}" />
-	</c:forTokens>
+	
+	<c:if test="${not isOptionalFieldsInNewRow}">
+		<c:forTokens items="${optionalFields}" delims=" ," var="currentField">
+			<fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
+				accountingLine="${accountingLine}"
+				baselineAccountingLine="${baselineAccountingLine}"
+				field="${currentField}" attributes="${accountingLineAttributes}"
+				readOnly="${readOnly}" displayHidden="${displayHidden}" />
+		</c:forTokens>
+	</c:if>
+
 	<c:set var="delimitedhideFields" value=",${hideFields}," />
 	<c:set var="delimitedField" value=",amount," />
 	<c:if test="${not fn:contains(delimitedhideFields, delimitedField)}">
@@ -250,12 +267,12 @@
 				cellProperty="${debitCellProperty}"
 				attributes="${accountingLineAttributes}" field="amount"
 				readOnly="${readOnly&&(empty editableFields['amount'])}"
-				rowSpan="${rowCount}" dataFieldCssClass="amount" />
+				rowSpan="${rowspan}" dataFieldCssClass="amount" />
 			<fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
 				cellProperty="${creditCellProperty}"
 				attributes="${accountingLineAttributes}" field="amount"
 				readOnly="${readOnly&&(empty editableFields['amount'])}"
-				rowSpan="${rowCount}" dataFieldCssClass="amount" />
+				rowSpan="${rowspan}" dataFieldCssClass="amount" />
 		</c:when>
 		<c:when test="${currentBaseAmount}">
 			<fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
@@ -265,7 +282,7 @@
 				attributes="${accountingLineAttributes}"
 				field="currentBudgetAdjustmentAmount"
 				readOnly="${readOnly&&(empty editableFields['currentBudgetAdjustmentAmount'])}"
-				rowSpan="${rowCount}" dataFieldCssClass="amount" />
+				rowSpan="${rowspan}" dataFieldCssClass="amount" />
 			<fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
 				accountingLine="${accountingLine}"
 				baselineAccountingLine="${baselineAccountingLine}"
@@ -273,7 +290,7 @@
 				attributes="${accountingLineAttributes}"
 				field="baseBudgetAdjustmentAmount"
 				readOnly="${(readOnly&&(empty editableFields['baseBudgetAdjustmentAmount']))||!KualiForm.editingMode['baseAmtEntry']}"
-				rowSpan="${rowCount}" dataFieldCssClass="amount" />
+				rowSpan="${rowspan}" dataFieldCssClass="amount" />
 		</c:when>
 		<c:otherwise>
 			<fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
@@ -281,36 +298,71 @@
 				baselineAccountingLine="${baselineAccountingLine}" field="amount"
 				attributes="${accountingLineAttributes}"
 				readOnly="${readOnly&&(empty editableFields['amount'])}"
-				displayHidden="${displayHidden}" rowSpan="${rowCount}"
+				displayHidden="${displayHidden}" rowSpan="${rowspan}"
 				dataFieldCssClass="amount" />
 		</c:otherwise>
 	  </c:choose>
 	</c:if>
+	
 	<c:if test="${!readOnly}">
-		<c:choose>
-			<c:when test="${rowCount == 1}">
-				<fin:accountingLineActionDataCell
-					dataCellCssClass="${dataCellCssClass}" actionGroup="${actionGroup}"
-					actionInfix="${actionInfix}"
-					accountingAddLineIndex="${accountingAddLineIndex}"
-					accountingLineIndex="${accountingLineIndex}"
-					decorator="${decorator}" />
-			</c:when>
-			<c:otherwise>
-				<td style="border-bottom-style: none">
-					<%-- No CSS class or bottom border so this cell looks like the start of one that spans two rows. --%>
-					&nbsp;
-					<%-- This nbsp makes Firefox draw the left border of this cell. --%>
-				</td>
-			</c:otherwise>
-		</c:choose>
+		<fin:accountingLineActionDataCell
+			dataCellCssClass="${dataCellCssClass}" actionGroup="${actionGroup}"
+			actionInfix="${actionInfix}"
+			accountingAddLineIndex="${accountingAddLineIndex}"
+			accountingLineIndex="${accountingLineIndex}"
+			decorator="${decorator}" 
+			rowspan="${rowspan}"/>
 	</c:if>
 </tr>
+
+<%-- put the optional fields into the separate rows in accounting line row --%>
+<c:if test="${isOptionalFieldsInNewRow && numOfOptionalFields > 0}">
+	<c:forEach begin="0" end="${numOfNewRows-1}" var="currentRowCount">
+		<tr>		
+		    <c:forTokens items="${optionalFields}" delims=" ," var="currentField" begin="${currentRowCount*dataColumnCount}" end="${(currentRowCount+1)*dataColumnCount -1}">
+			    <kul:htmlAttributeHeaderCell attributeEntry="${accountingLineAttributes[currentField]}"/>
+		    </c:forTokens>
+		    
+		    <c:if test="${currentRowCount == (numOfNewRows-1) && remainingCells != 0}">
+		    	<c:forEach begin="1" end="${dataColumnCount - remainingCells}">
+		        	<td class="${dataCellCssClass}" rowspan="2">&nbsp;</td>
+		        </c:forEach>	 
+	        </c:if>
+		</tr>
+		
+		<tr>
+		    <c:forTokens items="${optionalFields}" delims=" ," var="currentField" begin="${currentRowCount*dataColumnCount}" end="${(currentRowCount+1)*dataColumnCount -1}">
+			    <%-- TODO: identify the reference class of the current field so that a quickfinder can be enabled--%>
+			    <c:set var="sourceAttribute" value="" />
+			   	<c:choose>
+				    <c:when test="${not empty sourceAttribute }">
+					    <fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
+						accountingLine="${accountingLine}"
+						baselineAccountingLine="${baselineAccountingLine}"
+						field="${currentField}" 
+						attributes="${accountingLineAttributes}" lookup="true" inquiry="true"
+						boClassFullName="${sourceAttribute}"
+						readOnly="${readOnly&&(empty editableFields[currentField])}"
+						displayHidden="${displayHidden}" />
+				    </c:when>
+				    <c:otherwise>
+						<fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
+							accountingLine="${accountingLine}"
+							baselineAccountingLine="${baselineAccountingLine}"
+							field="${currentField}" attributes="${accountingLineAttributes}"
+							readOnly="${readOnly}" displayHidden="${displayHidden}" />
+							
+					</c:otherwise>
+				</c:choose>
+			</c:forTokens>
+		</tr>
+	</c:forEach>
+</c:if>
 
 <%-- optional second row of accounting fields, between index and amount columns --%>
 <c:if test="${!empty extraRowFields}">
 	<tr>
-		<td colspan="${columnCountUntilAmount - 1}"
+		<td colspan="${dataColumnCount}"
 			style="padding: 0px;border: 0px none ;">
 			<c:set var="hasMultipleActionButtons"
 				value="${!readOnly && actionGroup == 'existingLine'}" />
@@ -383,7 +435,7 @@
 				</tr>
 			</table>
 		</td>
-		<%-- Assert rowCount == 2.  Browser skips 2-row amount columns here. --%>
+		<!-- Assert rowCount == 2.  Browser skips 2-row amount columns here.
 		<c:if test="${!readOnly}">
 			<%-- Action buttons go on the second row here, if any, to get the right default tab navigation. --%>
 			<fin:accountingLineActionDataCell
@@ -391,7 +443,9 @@
 				actionInfix="${actionInfix}"
 				accountingAddLineIndex="${accountingAddLineIndex}"
 				accountingLineIndex="${accountingLineIndex}"
-				decorator="${decorator}" />
-		</c:if>
+				decorator="${decorator}"
+				rowspan="${rowspan}"
+				/>
+		</c:if> -->
 	</tr>
 </c:if>

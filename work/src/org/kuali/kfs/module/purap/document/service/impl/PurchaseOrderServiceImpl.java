@@ -197,6 +197,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 poDocument.setVendorShippingTitleCode(vendor.getVendorShippingTitleCode());
             }
 
+            purapService.addBelowLineItems(poDocument);
+            
             documentService.updateDocument(poDocument);
             documentService.prepareWorkflowDocument(poDocument);
             workflowDocumentService.save(poDocument.getDocumentHeader().getWorkflowDocument(), "", null);

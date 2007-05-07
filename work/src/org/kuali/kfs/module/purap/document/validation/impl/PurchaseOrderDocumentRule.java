@@ -22,6 +22,7 @@ import org.kuali.core.datadictionary.validation.fieldlevel.ZipcodeValidationPatt
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
@@ -103,9 +104,10 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
      */
     private boolean validateItemWithoutAccounts(PurchaseOrderItem item) {
         boolean valid = true;
-        if (item.isAccountListEmpty()) {
+        if (ObjectUtils.isNotNull(item.getItemUnitPrice()) && (new KualiDecimal(item.getItemUnitPrice())).isNonZero() && item.isAccountListEmpty()) {
             valid = false;
-            GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_ACCOUNTING_INCOMPLETE, "Item " + item.getItemLineNumber());
+            String itemIdentifier = (ObjectUtils.isNotNull(item.getItemLineNumber()) ?  "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription());
+            GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_ACCOUNTING_INCOMPLETE, itemIdentifier);
         }
         return valid;
     }

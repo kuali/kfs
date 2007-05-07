@@ -60,6 +60,7 @@ public class PositionSalarySettingForm extends KualiForm {
     private String positionNumber;
 
     //set and pass these when budgetByAccountMode to prefill the add line
+    private Boolean addLine;
     private String chartOfAccountsCode;
     private String accountNumber;
     private String subAccountNumber;
@@ -209,6 +210,38 @@ public class PositionSalarySettingForm extends KualiForm {
      */
     public void setReturnFormKey(String returnFormKey) {
         this.returnFormKey = returnFormKey;
+    }
+
+    /**
+     * Gets the budgetByAccountMode attribute. 
+     * @return Returns the budgetByAccountMode.
+     */
+    public Boolean getBudgetByAccountMode() {
+        return budgetByAccountMode;
+    }
+
+    /**
+     * Sets the budgetByAccountMode attribute value.
+     * @param budgetByAccountMode The budgetByAccountMode to set.
+     */
+    public void setBudgetByAccountMode(Boolean budgetByAccountMode) {
+        this.budgetByAccountMode = budgetByAccountMode;
+    }
+
+    /**
+     * Gets the addLine attribute. 
+     * @return Returns the addLine.
+     */
+    public Boolean getAddLine() {
+        return addLine;
+    }
+
+    /**
+     * Sets the addLine attribute value.
+     * @param addLine The addLine to set.
+     */
+    public void setAddLine(Boolean addLine) {
+        this.addLine = addLine;
     }
 
     /**

@@ -15,6 +15,8 @@
  */
 package org.kuali.module.budget.service.impl;
 
+import java.sql.SQLException;
+
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSConstants.*;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -87,7 +89,7 @@ public class GenesisTest {
       
   }
     
-  public static void main(String args[])
+  public static void main(String args[]) throws SQLException
   {
       configurationStep();
       //   these are the current run configurations (to change when workflow is embedded)
@@ -111,18 +113,26 @@ public class GenesisTest {
       catch(NoSuchFieldException ex)
       {
         ex.printStackTrace();  
+        throw(new SQLException("unable to update base year",
+        "fiscal year makers rolled back"));
       }
       catch(IllegalAccessException ex)
       {
         ex.printStackTrace();  
+        throw(new SQLException("unable to update base year",
+        "fiscal year makers rolled back"));
       }
       catch (NoSuchMethodException ex)
       {
         ex.printStackTrace();
+        throw(new SQLException("unable to update base year",
+        "fiscal year makers rolled back"));
       }
       catch (InvocationTargetException ex)
       {
         ex.printStackTrace();
+        throw(new SQLException("unable to update base year",
+                               "fiscal year makers rolled back"));
       }
       LOG.warn("\nfiscalYearMakers finished\n");
       // create the proxy BC headers

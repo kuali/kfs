@@ -647,7 +647,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
         return valid;
     }
 
-    private boolean processAddressValidation(MaintenanceDocument document) {
+    boolean processAddressValidation(MaintenanceDocument document) {
         boolean valid = true;
         boolean validAddressType = false;
 

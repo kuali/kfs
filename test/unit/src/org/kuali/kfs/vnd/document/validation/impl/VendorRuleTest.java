@@ -203,35 +203,34 @@ public class VendorRuleTest extends MaintenanceRuleTestBase {
      */
     protected VendorRule validateAddressType_TestHelper( VendorRuleAddressTypeFixture vratf ) {
         newVendor = vratf.populateVendor( newVendor );
-        VendorRule rule = (VendorRule)setupMaintDocRule( newVendor, VendorRule.class );
+        maintDoc = newMaintDoc( oldVendor, newVendor );
+        VendorRule rule = (VendorRule)setupMaintDocRule( maintDoc, VendorRule.class );
         rule.refreshSubObjects( newVendor );
         return rule;
     } 
- 
-    /*   
+     
     public void testValidateAddressType_WithPOTypeAndPOAddrTypes() {
         rule = validateAddressType_TestHelper( VendorRuleAddressTypeFixture.WITH_PO_TYPE_AND_PO_ADDR_TYPES );
-        assertTrue(rule.validateAddressType( newVendor ));
-       
+        assertTrue(rule.processAddressValidation( maintDoc ));
     }
-    
+        
     public void testValidateAddressType_WithDVTypeAndRMAddrTypes() {
         rule = validateAddressType_TestHelper( VendorRuleAddressTypeFixture.WITH_DV_TYPE_AND_RM_ADDR_TYPES );
-        assertTrue(rule.validateAddressType( newVendor ));
+        assertTrue(rule.processAddressValidation( maintDoc ));
     }
-    
-    //@RelatesTo(KULPURAP283)
+        
     public void testValidateAddressType_WithPOTypeAndRMAddrTypes() {
         rule = validateAddressType_TestHelper( VendorRuleAddressTypeFixture.WITH_PO_TYPE_AND_RM_ADDR_TYPES );
-        assertFalse(rule.validateAddressType( newVendor ));
+        assertFalse(rule.processAddressValidation( maintDoc ));
     }
     
+    /*
     public void testValidateAddressType_WithPOTypeAndOnePOAndOneRMAddrTypes() {
         rule  = validateAddressType_TestHelper( VendorRuleAddressTypeFixture.WITH_PO_TYPE_AND_ONE_PO_AND_ONE_RM_ADDR_TYPES );
-        assertTrue(rule.validateAddressType( newVendor ));
+        assertTrue(rule.processAddressValidation( maintDoc ));
     }
+    */
     
-*/
     
     /*
      * TESTS OF checkAddressCountryEmptyStateZip 

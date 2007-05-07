@@ -42,6 +42,7 @@ public class KualiBatchJobModifyAction extends KualiAction {
     private static final String START_STEP_PARAMETER = "startStep";
     private static final String END_STEP_PARAMETER = "endStep";
     private static final String START_TIME_PARAMETER = "startTime";
+    private static final String EMAIL_PARAMETER = "emailAddress";
     private static final String START_TIME_FORMAT = "MM/dd/yyyy HH:mm";
     private static final String JOB_ADMIN_PARAMETER_SUFFIX = "_WORKGROUP";
 
@@ -112,6 +113,7 @@ public class KualiBatchJobModifyAction extends KualiAction {
         request.setAttribute( "canSchedule", canModifyJob(job, "schedule") );
         request.setAttribute( "canUnschedule", canModifyJob(job, "unschedule") );
         request.setAttribute( "canStopJob", canModifyJob(job, "stopJob") );
+        request.setAttribute( "userEmailAddress", GlobalVariables.getUserSession().getUniversalUser().getPersonEmailAddress() );
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -124,6 +126,7 @@ public class KualiBatchJobModifyAction extends KualiAction {
         String startStepStr = request.getParameter(START_STEP_PARAMETER);
         String endStepStr = request.getParameter(END_STEP_PARAMETER);
         String startTimeStr = request.getParameter(START_TIME_PARAMETER);
+        String emailAddress = request.getParameter( EMAIL_PARAMETER );
         
         int startStep = Integer.parseInt(startStepStr);
         int endStep = Integer.parseInt(endStepStr);
@@ -132,7 +135,7 @@ public class KualiBatchJobModifyAction extends KualiAction {
             startTime = new SimpleDateFormat( START_TIME_FORMAT ).parse(startTimeStr);
         }        
         
-        job.runJob( startStep, endStep, startTime, GlobalVariables.getUserSession().getUniversalUser().getPersonEmailAddress() );
+        job.runJob( startStep, endStep, startTime, emailAddress );
         
         // redirect to display form to prevent re-execution of the job by mistake
         return new ActionForward( "/batchModify.do?methodToCall=start&name=" + UrlFactory.encode( job.getName() ) + "&group=" + UrlFactory.encode( job.getGroup() ), true );

@@ -14,11 +14,28 @@
  limitations under the License.
 --%>
 <%@ include file="../core/tldHeader.jsp"%>
-
+<style type="text/css">
+	TABLE.positioningTable {
+		border: 0!important;
+ 		margin : 0!important;
+		padding : 0!important;
+		empty-cells : show;
+		border-collapse : collapse;
+ 	}
+	TABLE.positioningTable TD {
+		border: 0!important;
+ 		margin : 0!important;
+		padding : 0!important;
+ 	}
+</style>
+<c:set var="lookupReturnLink" value="<a href=\"lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.batch.BatchJobStatus&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true&conversionFields=name:name,group:group\">Return to Lookup</a>" />
 <kul:page showDocumentInfo="false"
 	headerTitle="Modify Batch Job" docTitle="Modify Batch Job"
 	transactionalDocument="false" htmlFormAction="batchModify"
 	errorKey="*">
+	<div style="text-align: right;">
+		${lookupReturnLink}
+	</div>
 	<html:hidden property="refreshCaller" />
 	<input type="hidden" name="name" value="${job.name}" />
 	<input type="hidden" name="group" value="${job.group}" />
@@ -42,26 +59,33 @@
 				<c:if test="${canRunJob}">
 					<td rowspan="2">
 						<c:if test="${job.group == 'unscheduled' && !job.running}">
-							<table cellpadding="0" cellspacing="0" border="0" style="border: 0;">
+							<table class="positioningTable">
 								<tr>
-									<td style="border: 0;">Start Step: </td>
-									<td style="border: 0;"><input type="text" name="startStep" value="1" size="3" /></td>
+									<td>Start Step: </td>
+									<td><input type="text" name="startStep" value="1" size="3" /></td>
 								</tr>
 								<tr>
-									<td style="border: 0;">End Step: </td>
-									<td style="border: 0;"><input type="text" name="endStep" value="${job.numSteps}" size="3" /></td>
+									<td>End Step: </td>
+									<td><input type="text" name="endStep" value="${job.numSteps}" size="3" /></td>
 								</tr>
 								<tr>
-									<td style="border: 0;">Start Date/Time: </td>
-									<td style="border: 0;">
+									<td>Start Date/Time: </td>
+									<td>
 										<input type="text" name="startTime" id="startTime" value="" />
 										<img src="images/cal.gif" id="startTime_datepicker" style="cursor: pointer;" alt="Date selector" title="Date selector" onmouseover="this.style.background='#F00';" onmouseout="this.style.background='#FFF';" />    
 										(format: mm/dd/yy hh:mm)
 									</td>
 								</tr>
 								<tr>
+									<td>Results Email Address: </td>
+									<td>
+										<input type="text" name="emailAddress" id="emailAddress" value="" />
+										<button type="button" onclick="this.form.emailAddress.value = '${userEmailAddress}';">Mail To Me</button>
+									</td>
+								</tr>
+								<tr>
 									<td></td>
-									<td style="border: 0;"><button type="submit" name="methodToCall" value="runJob">Run Job</button></td>
+									<td><button type="submit" name="methodToCall" value="runJob">Run Job</button></td>
 								</tr>
 							</table>
 							<script type="text/javascript">
@@ -80,7 +104,8 @@
 							    }
 							    );
 							</script>
-						</c:if>					
+						</c:if>	
+						&nbsp;				
 					</td>
 				</c:if>
 				<c:if test="${canSchedule || canUnschedule || canStopJob}">
@@ -105,7 +130,7 @@
 				<td><kul:htmlAttributeLabel attributeEntryName="DataDictionary.BatchJobStatus.attributes.status" /></td>
 				<td>${job.status}&nbsp;</td>
 				<td>Logs URL:</td>
-				<td><a href="${ConfigProperties.htdocs.logs.url}">${ConfigProperties.htdocs.logs.url}</a></td>
+				<td><a href="${ConfigProperties.htdocs.logs.url}" target="_blank">${ConfigProperties.htdocs.logs.url}</a></td>
 			</tr>
 		</table>
 	  </div>		

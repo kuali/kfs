@@ -36,9 +36,6 @@ public class CloseDaoOjb extends PlatformAwareDaoBaseOjb implements CloseDao {
         QueryByCriteria query = QueryFactory.newQuery(Close.class, criteria);
         query.addOrderByDescending("documentNumber");
         PersistenceBrokerTemplate template = getPersistenceBrokerTemplate();
-        System.out.println("**********************************************************");
-        System.out.println("**********************************************************");
-        System.out.println("**********************************************************");
         Iterator i = template.getIteratorByQuery(query);
         if(null != i) {
             if(i.hasNext()) {

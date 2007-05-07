@@ -40,18 +40,18 @@ import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 import org.kuali.test.fixtures.UserNameFixture;
 import static org.kuali.rice.KNSServiceLocator.getDocumentService;
 import org.kuali.workflow.WorkflowTestUtils;
+import org.kuali.workflow.KualiWorkflowUtils;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 @WithTestSpringContext(session = KHUNTLEY)
 public class CloseServiceTest extends KualiTestBase {
 
-    static private final String VALID_AWARD_STATUS_CODE = "R";
-    static private final String INVALID_AWARD_STATUS_CODE = "U";
-    
+    private static final String VALID_AWARD_STATUS_CODE = "R";
+    private static final String INVALID_AWARD_STATUS_CODE = "U";
+
     private DateFormat dateFormat;
     private Date today;
     
-    /*
     @Override
     protected void setUp() throws Exception {
         // TODO Auto-generated method stub
@@ -82,8 +82,8 @@ public class CloseServiceTest extends KualiTestBase {
         SpringServiceLocator.getAwardService().save(award);
         
         Close close = createClose(closeCloseOnOrBeforeDate);
-        SpringServiceLocator.getCloseService().save(close);
-        SpringServiceLocator.getDocumentService().blanketApproveDocument(close,null,new Vector());
+        saveAndRoute(close);
+//        SpringServiceLocator.getCloseService().save(close);
         
         // Verify that everything should be OK for the close.
         
@@ -124,7 +124,8 @@ public class CloseServiceTest extends KualiTestBase {
         SpringServiceLocator.getAwardService().save(award);
         
         Close close = createClose(closeCloseOnOrBeforeDate);
-        SpringServiceLocator.getCloseService().save(close);
+        saveAndRoute(close);
+//        SpringServiceLocator.getCloseService().save(close);
         
         // Verify that everything should be OK for the close.
         
@@ -165,7 +166,8 @@ public class CloseServiceTest extends KualiTestBase {
         SpringServiceLocator.getAwardService().save(award);
         
         Close close = createClose(closeCloseOnOrBeforeDate);
-        SpringServiceLocator.getCloseService().save(close);
+        saveAndRoute(close);
+//        SpringServiceLocator.getCloseService().save(close);
         
         // Verify that everything should be OK for the close.
         
@@ -206,7 +208,8 @@ public class CloseServiceTest extends KualiTestBase {
         SpringServiceLocator.getAwardService().save(award);
         
         Close close = createClose(closeCloseOnOrBeforeDate);
-        SpringServiceLocator.getCloseService().save(close);
+        saveAndRoute(close);
+//        SpringServiceLocator.getCloseService().save(close);
         
         // Verify that everything should be OK for the close.
         
@@ -247,7 +250,8 @@ public class CloseServiceTest extends KualiTestBase {
         SpringServiceLocator.getAwardService().save(award);
         
         Close close = createClose(closeCloseOnOrBeforeDate);
-        SpringServiceLocator.getCloseService().save(close);
+        saveAndRoute(close);
+//        SpringServiceLocator.getCloseService().save(close);
         
         // Verify that everything should be OK for the close.
         
@@ -288,7 +292,8 @@ public class CloseServiceTest extends KualiTestBase {
         SpringServiceLocator.getAwardService().save(award);
         
         Close close = createClose(closeCloseOnOrBeforeDate);
-        SpringServiceLocator.getCloseService().save(close);
+        saveAndRoute(close);
+//        SpringServiceLocator.getCloseService().save(close);
         
         // Verify that everything should be OK for the close.
         
@@ -329,7 +334,8 @@ public class CloseServiceTest extends KualiTestBase {
         SpringServiceLocator.getAwardService().save(award);
         
         Close close = createClose(closeCloseOnOrBeforeDate);
-        SpringServiceLocator.getCloseService().save(close);
+        saveAndRoute(close);
+//        SpringServiceLocator.getCloseService().save(close);
         
         // Verify that everything should be OK for the close.
         
@@ -417,37 +423,24 @@ public class CloseServiceTest extends KualiTestBase {
         return close;
     }
 
-    private void saveAndApprove(Close close) throws Exception {
-
+    private void saveAndRoute(Close close) throws Exception {
         DocumentService documentService = SpringServiceLocator.getDocumentService();
-
         saveDocument(close, documentService);
         routeDocument(close, documentService);
-        //approve(close.getDocumentHeader().getDocumentNumber(), UserNameFixture.KHUNTLEY, )
-
-        // the document should now be routed to VPUTMAN and RORENFRO as Fiscal Officers
-        //WorkflowTestUtils.waitForNodeChange(close.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);
-
-    }
-
-    public static void approve(String docHeaderId, UserNameFixture user, String expectedNode, DocumentService documentService) throws Exception {
-        WorkflowTestUtils.waitForApproveRequest(Long.valueOf(docHeaderId), GlobalVariables.getUserSession().getUniversalUser());
-        Document document = documentService.getByDocumentHeaderId(docHeaderId);
-        assertTrue("Document should be at routing node " + expectedNode, WorkflowTestUtils.isAtNode(document, expectedNode));
-        assertTrue("Document should be enroute.", document.getDocumentHeader().getWorkflowDocument().stateIsEnroute());
-        assertTrue(user + " should have an approve request.", document.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
-        documentService.approveDocument(document, "Test approving as " + user, null);
     }
 
     public static void routeDocument(Document document, DocumentService documentService) throws Exception {
-        final String STATUS = "R";
+        final String ENROUTE_STATUS = "R";
+        final String FINAL_STATUS = "F";
 
-        assertFalse(STATUS.equals(document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
-        documentService.routeDocument(document, "routing test doc", null);
+        // Verify that the doc isn't yet routed.
+        assertFalse(ENROUTE_STATUS.equals(document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
 
-        DocumentWorkflowStatusMonitor am = new DocumentWorkflowStatusMonitor(documentService, document.getDocumentNumber(), STATUS);
-        assertTrue(ChangeMonitor.waitUntilChange(am, 120, 10));
-        assertEquals(STATUS, document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus());
+        // Route the doc.
+        documentService.routeDocument(document, "routing test doc", new Vector());
+
+        // Routing should be configured to go straight to final.
+        assertTrue(FINAL_STATUS.equals(document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
     }
 
     public static void saveDocument(Document document, DocumentService documentService) throws WorkflowException {
@@ -459,5 +452,4 @@ public class CloseServiceTest extends KualiTestBase {
             fail(e.getMessage() + ", " + GlobalVariables.getErrorMap());
         }
     }
-*/
 }

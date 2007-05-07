@@ -279,4 +279,8 @@ public class PurapConstants {
                         itemTypes();
     
     public static final String BELOW_THE_LINES_PARAMETER = "BELOW_THE_LINE_ITEMS";
+    public static final String ITEM_ALLOWS_ZERO = "ALLOWS_ZERO";
+    public static final String ITEM_ALLOWS_POSITIVE = "ALLOWS_POSITIVE";
+    public static final String ITEM_ALLOWS_NEGATIVE = "ALLOWS_NEGATIVE";
+    public static final String ITEM_REQUIRES_USER_ENTERED_DESCRIPTION = "REQUIRES_USER_ENTERED_DESCRIPTION";
 }

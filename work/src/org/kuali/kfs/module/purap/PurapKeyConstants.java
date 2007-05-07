@@ -92,4 +92,5 @@ public class PurapKeyConstants {
     public static final String ERROR_ITEM_REQUIRED="errors.item.required";
     public static final String ERROR_ITEM_UNIT_OF_MEASURE_REQUIRED="errors.item.unitOfMeasure.required";
     public static final String ERROR_ITEM_TRADEIN_DISCOUNT_COEXISTENCE="errors.purchaseOrderItems.TradeInAndDiscountCoexistence";
+    public static final String ERROR_ITEM_BELOW_THE_LINE="errors.item.belowTheLine";
 }

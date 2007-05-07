@@ -76,7 +76,10 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             valid &= validateItemUnitPrice(item);
             valid &= validateUniqueAccountingString(item);
             valid &= validateUnitOfMeasureUnitPriceAndDescription(item);
-            valid &= validateItemQuantity(item);
+            //This validation is applicable to the above the line items only.
+            if (item.getItemType().isItemTypeAboveTheLineIndicator()) {                
+                valid &= validateItemQuantity(item);
+            }
         }
         valid &= validateTotalCost(purDocument);
         valid &= validateContainsAtLeastOneItem(purDocument);
@@ -93,7 +96,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     private boolean validateContainsAtLeastOneItem(PurchasingDocument purDocument) {
         boolean valid = false;
         for (PurchasingApItem item : purDocument.getItems()) {
-            if (!((PurchasingItemBase)item).isEmpty()) {
+            if (!((PurchasingItemBase)item).isEmpty() && item.getItemType().isItemTypeAboveTheLineIndicator()) {
                 return true;
             }
         }
@@ -112,16 +115,16 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     private boolean validateItemUnitPrice(PurchasingApItem item) {
         boolean valid = true;
         if (ObjectUtils.isNotNull(item.getItemUnitPrice())) {
+            String itemIdentifier = (ObjectUtils.isNotNull(item.getItemLineNumber()) ?  "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription());
             if ((zero.compareTo(item.getItemUnitPrice()) > 0) && ((!item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE)) && (!item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)))) {
-
                 // If the item type is not full order discount or trade in items, don't allow negative unit price.
-                GlobalVariables.getErrorMap().putError("newPurchasingItemLine.itemUnitPrice", PurapKeyConstants.ERROR_ITEM_AMOUNT_BELOW_ZERO, "Unit Cost", "Item " + item.getItemLineNumber().toString());
+                GlobalVariables.getErrorMap().putError("newPurchasingItemLine.itemUnitPrice", PurapKeyConstants.ERROR_ITEM_AMOUNT_BELOW_ZERO, "Unit Cost", itemIdentifier);
                 valid = false;
             }
             else if ((zero.compareTo(item.getItemUnitPrice()) < 0) && ((item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE)) || (item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)))) {
 
                 // If the item type is full order discount or trade in items, its unit price must be negative.
-                GlobalVariables.getErrorMap().putError("newPurchasingItemLine.itemUnitPrice", PurapKeyConstants.ERROR_ITEM_AMOUNT_NOT_BELOW_ZERO, "Unit Cost", "Item " + item.getItemLineNumber().toString());
+                GlobalVariables.getErrorMap().putError("newPurchasingItemLine.itemUnitPrice", PurapKeyConstants.ERROR_ITEM_AMOUNT_NOT_BELOW_ZERO, "Unit Cost", itemIdentifier);
                 valid = false;
             }
         }
@@ -141,7 +144,8 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         for (PurApAccountingLine accountingLine : accountingLines) {
             if (accountingStringSet.contains(accountingLine.toString())) {
                 valid = false;
-                GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_ACCOUNTING_NOT_UNIQUE, "Item " + item.getItemLineNumber().toString());
+                String itemIdentifier = (ObjectUtils.isNotNull(item.getItemLineNumber()) ?  "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription());
+                GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_ACCOUNTING_NOT_UNIQUE, itemIdentifier);
             }
             else {
                 accountingStringSet.add(accountingLine.toString());
@@ -198,18 +202,19 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         }
         // Validations for non "ITEM" item type
         else {
+            String itemIdentifier = (ObjectUtils.isNotNull(item.getItemLineNumber()) ?  "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription());
             if (ObjectUtils.isNotNull(item.getItemUnitPrice()) && (zero.compareTo(item.getItemUnitPrice()) != 0)) {
                 // if unit price is entered (non-zero), desc is required
                 if (StringUtils.isEmpty(item.getItemDescription())) {
                     valid = false;
-                    GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_DESCRIPTION_EMPTY, "Description", "Item " + item.getItemLineNumber().toString());
+                    GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_DESCRIPTION_EMPTY, "Description", itemIdentifier);
                 }
             }
             else if (StringUtils.isNotEmpty(item.getItemDescription())) {
                 // if description is entered, unit price is required and cannot be zero
                 if (ObjectUtils.isNull(item.getItemUnitPrice()) || (zero.compareTo(item.getItemUnitPrice()) == 0)) {
                     valid = false;
-                    GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_UNIT_PRICE_EMPTY, "Unit Cost", "Item " + item.getItemLineNumber().toString());
+                    GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_UNIT_PRICE_EMPTY, "Unit Cost", itemIdentifier);
                 }
             }
         }

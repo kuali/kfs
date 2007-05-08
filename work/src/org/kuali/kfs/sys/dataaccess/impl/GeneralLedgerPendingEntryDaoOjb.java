@@ -603,7 +603,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
         }
 
         // handle encumbrance balance type
-        Map localFieldValues = new HashMap();        
+        Map<String,Object> localFieldValues = new HashMap();        
         localFieldValues.putAll(fieldValues);
         
         String propertyName = KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE;
@@ -615,6 +615,17 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
             }
         }
 
+        // remove dummyBusinessObject references - no longer needed
+        List<String> keysToRemove = new ArrayList<String>();
+        for ( String key : localFieldValues.keySet() ) {
+        	if ( key.startsWith( "dummyBusinessObject." ) ) {
+        		keysToRemove.add( key );
+        	}
+        }
+        for ( String key : keysToRemove ) {
+        	localFieldValues.remove( key );
+        }
+        
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(localFieldValues, businessObject));
         return criteria;
     }

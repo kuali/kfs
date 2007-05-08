@@ -21,10 +21,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.core.service.BusinessObjectDictionaryService;
-import org.kuali.core.service.LookupService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.AccountBalanceByObject;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
@@ -37,11 +36,8 @@ import org.kuali.module.gl.web.Constant;
  * 
  */
 public class AccountBalanceByObjectInquirableImpl extends AbstractGLInquirableImpl {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceByObjectInquirableImpl.class);
-
-    private BusinessObjectDictionaryService dataDictionary;
-    private LookupService lookupService;
-    private Class businessObjectClass;
+    @SuppressWarnings("unused")
+	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceByObjectInquirableImpl.class);
 
     /**
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#buildUserDefinedAttributeKeyList()
@@ -118,6 +114,9 @@ public class AccountBalanceByObjectInquirableImpl extends AbstractGLInquirableIm
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getInquiryBusinessObjectClass(String)
      */
     protected Class getInquiryBusinessObjectClass(String attributeName) {
+    	if ( KFSPropertyConstants.GENERAL_LEDGER_PENDING_ENTRY.equals( attributeName ) ) {
+    		return GeneralLedgerPendingEntry.class;
+    	}
         return AccountBalanceByObject.class;
     }
 

@@ -29,6 +29,7 @@ import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
+import org.kuali.module.budget.document.BudgetConstructionDocument;
 import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.EdenConstants;
@@ -46,21 +47,30 @@ public class BudgetConstructionDocumentAuthorizer extends DocumentAuthorizerBase
     @Override
     public Map getEditMode(Document d, UniversalUser u) {
 
-//        return super.getEditMode(d, u);
 
-        /*
-         * TODO this eventually needs to call service methods that implements the BC security model
-         * use FULL_ENTRY for userAtDocLevel, VIEW_ONLY for userAboveDocLevel and 
-         * AuthorizationConstants.BudgetConstructionEditMode.USER_BELOW_DOC_LEVEL for limited access
-         * use AuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY to reflect when BC itself is in viewonly mode
-         */ 
-        Map editModeMap = new HashMap();
-        String editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
-        editModeMap.put(editMode, "TRUE");
+        //This does not use workflow states to calculate editmode
+        //instead it uses the BC security model based on the user and
+        //the current level of the document (account, subaccount)
+        //return super.getEditMode(d, u);
 
-        return editModeMap;
+        BudgetConstructionDocument bcDoc = (BudgetConstructionDocument) d;
+        return getEditMode(bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(),bcDoc.getAccountNumber(),bcDoc.getSubAccountNumber(),u);
     }
 
+    /**
+     * This calculates editMode based on the BC Security model. A Budget Construction Document
+     * contains information associated with a Fiscal Year, Chart, Account and SubAccount.
+     * This candidate key is used to find the document and calculate the editMode based on the
+     * document's current level and the user's approval level. Document level < user level = viewonly access,
+     * document = user = edit access, and document > user or user not an approver anywhere in the account's hierarchy= no access.
+     * 
+     * @param universityFiscalYear
+     * @param chartOfAccountsCode
+     * @param accountNumber
+     * @param subAccountNumber
+     * @param u
+     * @return
+     */
     public Map getEditMode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, UniversalUser u){
         
         /*

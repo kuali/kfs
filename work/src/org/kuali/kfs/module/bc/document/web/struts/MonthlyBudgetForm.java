@@ -16,6 +16,7 @@
 package org.kuali.module.budget.web.struts.form;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -55,10 +56,7 @@ public class MonthlyBudgetForm extends KualiForm {
     public MonthlyBudgetForm(){
         super();
         setBudgetConstructionMonthly(new BudgetConstructionMonthly());
-//        getBudgetConstructionMonthly().setDocumentNumber("1234");
-
-// TODO remove - was here originally for kul:page tag use 
-//      this.setDocTypeName("KualiBudgetConstructionDocument");
+        this.editingMode = new HashMap();
     }
 
     /**

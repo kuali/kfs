@@ -20,7 +20,6 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.cg.bo.Proposal">
 
-
         <inquiry>
             <title>Proposal Inquiry</title>
 
@@ -28,6 +27,7 @@
                 <inquirySection title="Proposal Details">
                     <inquiryFields>
                         <field attributeName="agencyNumber" />
+                        <field attributeName="agency.reportingName" />
                         <field attributeName="cfdaNumber" />
                         <field attributeName="federalPassThroughAgencyNumber" />
                         <field attributeName="grantNumber" />
@@ -114,6 +114,7 @@
                 <lookupField attributeName="proposalNumber" required="false" />
                 <lookupField attributeName="agencyNumber" required="false" />
                 <lookupField attributeName="proposalTotalAmount" required="false" />
+                <lookupField attributeName="agency.reportingName" required="false" />
                 <lookupField attributeName="proposalBeginningDate" required="false" />
                 <lookupField attributeName="proposalEndingDate" required="false" />
                 <lookupField attributeName="proposalProjectTitle" required="false" />
@@ -219,6 +220,11 @@
 
             <attributeReference name="agencyNumber" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="agencyNumber">
 				<summary>Agency Number</summary>
+				<description>Insert desc here...</description>
+            </attributeReference>
+
+            <attributeReference name="agency.reportingName" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="reportingName">
+				<summary>Agency Name</summary>
 				<description>Insert desc here...</description>
             </attributeReference>
 

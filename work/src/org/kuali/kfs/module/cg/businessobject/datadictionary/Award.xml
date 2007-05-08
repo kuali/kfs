@@ -31,6 +31,7 @@
                 <field attributeName="agencyFuture2Amount" />
                 <field attributeName="agencyFuture3Amount" />
                 <field attributeName="agencyNumber" />
+                <field attributeName="agency.reportingName" />
                 <field attributeName="analystTelephoneNumber" />
                 <field attributeName="awardAddendumNumber" />
                 <field attributeName="awardAllocatedUniversityComputingServicesAmount" />
@@ -242,6 +243,7 @@
 			</attributeReference>
 
             <attributeReference name="agencyNumber" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="agencyNumber"/>
+            <attributeReference name="agency.reportingName" sourceClassName="org.kuali.module.cg.bo.Agency" sourceAttributeName="reportingName"/>
 
             <attribute name="analystTelephoneNumber" forceUppercase="true">
                 <label>Analyst Telephone Number</label>

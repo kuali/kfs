@@ -18,6 +18,7 @@ package org.kuali.module.budget.web.struts.form;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -88,6 +89,7 @@ public class PositionSalarySettingForm extends KualiForm {
     public PositionSalarySettingForm() {
         super();
         setBudgetConstructionPosition(new BudgetConstructionPosition());
+        this.editingMode = new HashMap();
     }
 
     /**

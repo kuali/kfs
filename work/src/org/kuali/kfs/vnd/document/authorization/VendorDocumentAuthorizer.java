@@ -21,6 +21,8 @@ import java.util.Map;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.core.document.authorization.DocumentActionFlags;
+import org.kuali.core.document.authorization.MaintenanceDocumentActionFlags;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.core.util.ObjectUtils;
@@ -97,6 +99,16 @@ public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase 
         return editMode;
     }
 
+    /**
+     * 
+     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     */
+    @Override
+    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+        MaintenanceDocumentActionFlags docActionFlags = new MaintenanceDocumentActionFlags(super.getDocumentActionFlags(document, user));
+        docActionFlags.setCanBlanketApprove(false);
+        return docActionFlags;
+    }
     /**
      * 
      * This method sets the vendor contract and vendor contract organization fields to be 

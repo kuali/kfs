@@ -29,6 +29,7 @@
                 <field attributeName="vendorTypeDescription" />
                 <field attributeName="vendorTaxNumberRequiredIndicator" />
                 <field attributeName="vendorTypeChangeAllowedIndicator" />
+                <field attributeName="vendorContractAllowedIndicator" />
                 <field attributeName="vendorAddressTypeRequiredCode" />
                 <field attributeName="active" />               
             </inquiryFields></inquirySection></inquirySections>
@@ -50,6 +51,7 @@
                 <lookupField attributeName="vendorTypeDescription" required="false" />
                 <lookupField attributeName="vendorTaxNumberRequiredIndicator" required="false" />
                 <lookupField attributeName="vendorTypeChangeAllowedIndicator" required="false" />
+                <lookupField attributeName="vendorContractAllowedIndicator" required="false" />
                 <lookupField attributeName="vendorAddressTypeRequiredCode" required="false" />
                 <lookupField attributeName="active" required="false"/>               
             </lookupFields>
@@ -59,6 +61,7 @@
                 <field attributeName="vendorTypeDescription" />
                 <field attributeName="vendorTaxNumberRequiredIndicator" />
                 <field attributeName="vendorTypeChangeAllowedIndicator" />
+                <field attributeName="vendorContractAllowedIndicator" />
                 <field attributeName="addressType.vendorAddressTypeDescription" />
                 <field attributeName="active" />               
             </resultFields>
@@ -126,6 +129,20 @@
 				<description>vendorTypeChangeAllowedIndicator description...</description>
 			</attributeReference>
 			
+			<attributeReference name="vendorContractAllowedIndicator"
+					sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+					sourceAttributeName="oneDigitTextCode">
+				<label>Vendor Contract Allowed</label>
+				<shortLabel>Contract Allowed</shortLabel>
+				
+				<control>
+					<checkbox />
+				</control>
+				
+				<summary>vendorContractAllowedIndicator</summary>
+				<description>vendorContractAllowedIndicator description...</description>
+			</attributeReference>
+											
             <attributeReference name="vendorAddressTypeRequiredCode" sourceClassName="org.kuali.module.vendor.bo.AddressType" sourceAttributeName="vendorAddressTypeCode">
                 <label>Address Type Required</label>
                 <shortLabel>Address Type Required</shortLabel>

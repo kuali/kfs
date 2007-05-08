@@ -15,6 +15,8 @@
  */
 package org.kuali.module.purap.web.struts.action;
 
+import java.util.Properties;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,7 +25,11 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DocumentService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.UrlFactory;
+import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.rule.event.AddAccountingLineEvent;
@@ -37,6 +43,7 @@ import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
+import org.kuali.module.purap.document.PurchasingDocumentBase;
 import org.kuali.module.purap.rule.event.AddPurchasingAccountsPayableItemEvent;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
 import org.kuali.module.vendor.VendorConstants;
@@ -252,7 +259,29 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
     }
 
     public ActionForward setupAccountDistribution(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        final String docNumber;
+        
+        // TODO do validate, save, etc first then goto the account lines screen or redisplay if errors
+        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+        PurchasingDocumentBase purchasingDocument = (PurchasingDocumentBase) purchasingForm.getDocument();
+        DocumentService documentService = SpringServiceLocator.getDocumentService();
+        
+        // TODO for now just save
+        documentService.updateDocument(purchasingDocument);
+        
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, PurapConstants.ACCOUNT_DISTRIBUTION_METHOD);
+
+        // anchor, if it exists
+        if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
+            parameters.put(PurapConstants.RETURN_ANCHOR, ((KualiForm) form).getAnchor());
+        }
+
+        // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
+        parameters.put(PurapConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form));
+            
+        String lookupUrl = UrlFactory.parameterizeUrl("/" + PurapConstants.ACCOUNT_DISTRIBUTION_ACTION, parameters);
+        return new ActionForward(lookupUrl, true);
     }
        
     public ActionForward removeAccounts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

@@ -56,6 +56,14 @@ public class PurapConstants {
     public static final String NOTE_TAB_WARNING = "noteWarning";
     public static final String STATUS_HISTORY_TAB_WARNING = "statusHistoryWarning";
 
+    public static final String RETURN_ANCHOR="returnAnchor";
+    public static final String RETURN_FORM_KEY="returnFormKey";
+    public static final String ACCOUNT_DISTRIBUTION_REFRESH_CALLER="SalarySetting";
+    public static final String ACCOUNT_DISTRIBUTION_ACTION="purapAccountDistribution.do";
+    public static final String AC_DOCUMENT_ACTION="purapRequisition.do";
+    public static final String ACCOUNT_DISTRIBUTION_REFRESH_METHOD="refresh";
+    public static final String ACCOUNT_DISTRIBUTION_METHOD="loadAccountDistributionScreen";
+
     // Delivery Tag
     public static final String DELIVERY_BUILDING_OTHER = "Other";
     public static final String DELIVERY_BUILDING_OTHER_CODE = "OTH";

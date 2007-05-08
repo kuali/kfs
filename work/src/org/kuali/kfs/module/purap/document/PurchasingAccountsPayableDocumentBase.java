@@ -251,6 +251,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         this.items = items;
     }
 
+    /*
     public void addItem(PurchasingApItem item) {
         int itemLinePosition = items.size();
         if(item.getItemLineNumber()!=null) {
@@ -268,6 +269,16 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         items.add(itemLinePosition,item);
         renumberItems(itemLinePosition);
     }
+    */
+    
+    public void addItem(PurchasingApItem item) {
+        int itemLinePosition = getItemLinePosition();
+        if(ObjectUtils.isNotNull(item.getItemLineNumber())) {
+            itemLinePosition = item.getItemLineNumber().intValue()-1;
+        }
+        items.add(itemLinePosition,item);
+        renumberItems(itemLinePosition);
+    }
     
     public void deleteItem(int lineNum) {
         if(items.remove(lineNum)==null) {
@@ -279,8 +290,33 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public void renumberItems(int start) {
         for (int i = start; i<items.size(); i++) {
             PurchasingApItem item = (PurchasingApItem)items.get(i);
-            item.setItemLineNumber(new Integer(i+1));
+            //only set the item line number for above the line items
+            item.refreshNonUpdateableReferences();
+            if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+                item.setItemLineNumber(new Integer(i+1));
+            }
         }
+    }
+    
+    /** 
+     * 
+     * This method helps to determine the item line position if the user
+     * did not specify the line number on an above the line items before
+     * clicking on the add button. It subtracts the number of the below
+     * the line items on the list with the total item list size.
+     * 
+     * @return int the item line position of the last(highest) line number of above
+     *         the line items.
+     */
+    private int getItemLinePosition() {
+        int belowTheLineCount = 0;
+        for (PurchasingApItem item: items) {
+            item.refreshNonUpdateableReferences();
+            if (!item.getItemType().isItemTypeAboveTheLineIndicator()) {
+                belowTheLineCount++;
+            }
+        }
+        return items.size() - belowTheLineCount;
     }
     
     public PurchasingApItem getItem(int pos) {
@@ -302,6 +338,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         }
         return (PurchasingApItem)items.get(pos);
     }
+    
     public KualiDecimal getTotal() {
         KualiDecimal total = new KualiDecimal("0");
         for (PurchasingApItem item : items) {

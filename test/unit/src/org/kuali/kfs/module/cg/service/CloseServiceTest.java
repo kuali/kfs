@@ -54,10 +54,10 @@ public class CloseServiceTest extends KualiTestBase {
     
     @Override
     protected void setUp() throws Exception {
-        // TODO Auto-generated method stub
         super.setUp();
         dateFormat = DateFormat.getDateInstance();
         today = SpringServiceLocator.getDateTimeService().getCurrentSqlDateMidnight();
+        org.objectweb.jotm.Current.getCurrent().setDefaultTimeout(7200);
     }
     
     public void testClose_awardEntryDateLessThanCloseOnOrBeforeDate() throws Exception {

@@ -84,21 +84,16 @@
               lookupOrInquiryKeys="chartOfAccountsCode"
               accountingLineValuesMap="${KualiForm.budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger.valuesMap}" />
           
-          <c:set var="doAccountLookupOrInquiry" value="false"/>
-          <c:if test="${pbgl.subAccountNumber ne Constants.DASHES_SUB_ACCOUNT_NUMBER}">
-              <c:set var="doAccountLookupOrInquiry" value="true"/>
-          </c:if>
-
           <bc:pbglLineDataCell dataCellCssClass="datacell"
               accountingLine="budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger"
               field="subAccountNumber"
               detailField="subAccount.subAccountName"
-              attributes="${pbglAttributes}" inquiry="${doAccountLookupOrInquiry}"
+              attributes="${pbglAttributes}" inquiry="${pbgl.subAccountNumber ne Constants.DASHES_SUB_ACCOUNT_NUMBER}"
               boClassSimpleName="SubAccount"
               readOnly="true"
               displayHidden="false"
-              lookupOrInquiryKeys="universityFiscalYear,chartOfAccountsCode"
-              accountingLineValuesMap="${KualiForm.budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger.valuesMap}" />
+              lookupOrInquiryKeys="universityFiscalYear,chartOfAccountsCode,accountNumber"
+              accountingLineValuesMap="${pbgl.valuesMap}" />
           
           <bc:pbglLineDataCell dataCellCssClass="datacell"
               accountingLine="budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger"
@@ -111,21 +106,16 @@
               lookupOrInquiryKeys="universityFiscalYear,chartOfAccountsCode"
               accountingLineValuesMap="${KualiForm.budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger.valuesMap}" />
 
-          <c:set var="doSubObjectLookupOrInquiry" value="false"/>
-          <c:if test="${pbgl.financialSubObjectCode ne Constants.DASHES_SUB_OBJECT_CODE}">
-              <c:set var="doSubObjectLookupOrInquiry" value="true"/>
-          </c:if>
-
           <bc:pbglLineDataCell dataCellCssClass="datacell"
               accountingLine="budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger"
               field="financialSubObjectCode"
               detailField="financialSubObject.financialSubObjectCdshortNm"
-              attributes="${pbglAttributes}" inquiry="${doSubObjectLookupOrInquiry}"
+              attributes="${pbglAttributes}" inquiry="${pbgl.financialSubObjectCode ne Constants.DASHES_SUB_OBJECT_CODE}"
               boClassSimpleName="SubObjCd"
               readOnly="true"
               displayHidden="false"
               lookupOrInquiryKeys="universityFiscalYear,chartOfAccountsCode,financialObjectCode,accountNumber"
-              accountingLineValuesMap="${KualiForm.budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger.valuesMap}" />
+              accountingLineValuesMap="${pbgl.valuesMap}" />
 
           <bc:pbglLineDataCell dataCellCssClass="datacell"
               accountingLine="budgetConstructionMonthly.pendingBudgetConstructionGeneralLedger"

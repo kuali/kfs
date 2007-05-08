@@ -18,7 +18,7 @@ package org.kuali.module.chart.maintenance;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.inquiry.KualiInquirableImpl;
 import org.kuali.core.web.ui.Column;
 import org.kuali.core.web.ui.Field;
@@ -28,7 +28,7 @@ import org.kuali.module.chart.bo.Org;
 
 public class OrgInquirable extends KualiInquirableImpl {
 
-    public void addAdditionalSections(List sections, PersistableBusinessObject bo) {
+    public void addAdditionalSections(List sections, BusinessObject bo) {
         if (bo instanceof Org) {
             Org org = (Org) bo;
             
@@ -36,15 +36,17 @@ public class OrgInquirable extends KualiInquirableImpl {
             
             Field f = new Field();
             f.setPropertyName("Organization Hierarchy");
+            f.setFieldLabel("Organization Hierarchy");
             f.setPropertyValue(org.getOrganizationHierarchy());
+            f.setFieldType(Field.HIDDEN);
             rows.add(new Row(f));
 
             f = new Field();
             f.setPropertyName("Organization Review Hierarchy");
+            f.setFieldLabel("Organization Review Hierarchy");
             f.setPropertyValue("run search");
-            // FIXME (laran) Need to figure out how to set 
-            // f.set???(org.getOrganizationReviewHierarchy());
-            // c.setPropertyURL(org.getOrganizationReviewHierarchy());
+            f.setFieldType(Field.HIDDEN);
+            f.setInquiryURL(org.getOrganizationReviewHierarchy());
             rows.add(new Row(f));
             
             Section section = new Section();

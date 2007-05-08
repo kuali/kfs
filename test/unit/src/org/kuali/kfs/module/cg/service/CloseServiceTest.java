@@ -41,6 +41,7 @@ import org.kuali.test.fixtures.UserNameFixture;
 import static org.kuali.rice.KNSServiceLocator.getDocumentService;
 import org.kuali.workflow.WorkflowTestUtils;
 import org.kuali.workflow.KualiWorkflowUtils;
+import org.objectweb.jotm.Current;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 @WithTestSpringContext(session = KHUNTLEY)
@@ -51,15 +52,26 @@ public class CloseServiceTest extends KualiTestBase {
 
     private DateFormat dateFormat;
     private Date today;
-    
+
+    private int timeout = 0;
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         dateFormat = DateFormat.getDateInstance();
         today = SpringServiceLocator.getDateTimeService().getCurrentSqlDateMidnight();
-        org.objectweb.jotm.Current.getCurrent().setDefaultTimeout(7200);
+
+        timeout = Current.getCurrent().getDefaultTimeout();
+        Current.getCurrent().setDefaultTimeout(timeout * 2);
     }
-    
+
+    protected void tearDown() throws Exception {
+        super.tearDown();
+
+        Current.getCurrent().setDefaultTimeout(timeout);
+        timeout = 0;
+    }
+
     public void testClose_awardEntryDateLessThanCloseOnOrBeforeDate() throws Exception {
         Date closeInitiatedDate = today; // must be today, close will abort if not
         

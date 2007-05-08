@@ -39,7 +39,14 @@ public class CloseDaoOjb extends PlatformAwareDaoBaseOjb implements CloseDao {
         Iterator i = template.getIteratorByQuery(query);
         if(null != i) {
             if(i.hasNext()) {
-                return (Close) i.next();
+                Close close = (Close) i.next();
+                if(null == close.getAwardClosedCount()) {
+                    close.setAwardClosedCount(0L);
+                }
+                if(null == close.getProposalClosedCount()) {
+                    close.setProposalClosedCount(0L);
+                }
+                return close;
             }
         }
         return null;

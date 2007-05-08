@@ -280,6 +280,9 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
         // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
         parameters.put(PurapConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form));
             
+        // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
+        parameters.put(PurapConstants.RETURN_ACTION, mapping.getPath() + ".do");
+            
         String lookupUrl = UrlFactory.parameterizeUrl("/" + PurapConstants.ACCOUNT_DISTRIBUTION_ACTION, parameters);
         return new ActionForward(lookupUrl, true);
     }

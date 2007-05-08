@@ -899,11 +899,14 @@ public class Org extends PersistableBusinessObjectBase {
         
         params.put("methodToCall", "start");
         params.put("docFormKey", "");
-        params.put("lookupableImplServiceName", "OrgReviewLookupable");
+        //params.put("lookupableImplServiceName", "OrgReviewLookupable");
+        params.put("lookupableImplServiceName", "RuleBaseValuesLookupableImplService");
         params.put("fin_coa_cd", this.chartOfAccountsCode);
         params.put("org_cd", this.organizationCode);
         params.put("conversionFields", "");
         params.put("returnLocation", "");
+        params.put("active_ind", "true");
+        params.put("ruleTemplateName", "KualiOrgReviewTemplate");
 
         return UrlFactory.parameterizeUrl(SpringServiceLocator.getKualiConfigurationService().getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/Lookup.do", params);
     }

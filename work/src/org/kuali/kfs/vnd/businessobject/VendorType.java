@@ -31,7 +31,8 @@ public class VendorType extends PersistableBusinessObjectBase {
     private boolean vendorTaxNumberRequiredIndicator;
     private boolean vendorTypeChangeAllowedIndicator;
     private String vendorAddressTypeRequiredCode;
-
+    private boolean vendorContractAllowedIndicator;
+    
     private AddressType addressType;
 
 	/**
@@ -147,14 +148,21 @@ public class VendorType extends PersistableBusinessObjectBase {
     }
 
     /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     * Gets the vendorContractAllowedIndicator attribute. 
+     * @return Returns the vendorContractAllowedIndicator.
      */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
-        m.put("vendorTypeCode", this.vendorTypeCode);
-        return m;
+    public boolean isVendorContractAllowedIndicator() {
+        return vendorContractAllowedIndicator;
     }
 
+    /**
+     * Sets the vendorContractAllowedIndicator attribute value.
+     * @param vendorContractAllowedIndicator The vendorContractAllowedIndicator to set.
+     */
+    public void setVendorContractAllowedIndicator(boolean vendorContractAllowedIndicator) {
+        this.vendorContractAllowedIndicator = vendorContractAllowedIndicator;
+    }
+    
     public AddressType getAddressType() {
         return addressType;
     }
@@ -163,4 +171,13 @@ public class VendorType extends PersistableBusinessObjectBase {
         this.addressType = addressType;
     }
 
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();      
+        m.put("vendorTypeCode", this.vendorTypeCode);
+        return m;
+    }
+    
 }

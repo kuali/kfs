@@ -73,9 +73,10 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
     public boolean processItemValidation(PurchasingDocument purDocument) {
         boolean valid = super.processItemValidation(purDocument);
         for (PurchasingApItem item : purDocument.getItems()) {
-            valid &= validateEmptyItemWithAccounts((PurchaseOrderItem) item);
-            valid &= validateItemWithoutAccounts((PurchaseOrderItem) item);
-            valid &= validateItemUnitOfMeasure((PurchaseOrderItem) item);
+            String identifierString = (item.getItemType().isItemTypeAboveTheLineIndicator() ?  "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription());
+            valid &= validateEmptyItemWithAccounts((PurchaseOrderItem) item, identifierString);
+            valid &= validateItemWithoutAccounts((PurchaseOrderItem) item, identifierString);
+            valid &= validateItemUnitOfMeasure((PurchaseOrderItem) item, identifierString);
         }
         valid &= validateTradeInAndDiscountCoexistence(purDocument);
         return valid;
@@ -87,11 +88,11 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
      * @param item
      * @return
      */
-    private boolean validateEmptyItemWithAccounts(PurchaseOrderItem item) {
+    private boolean validateEmptyItemWithAccounts(PurchaseOrderItem item, String identifierString) {
         boolean valid = true;
         if (item.isItemDetailEmpty() && !item.isAccountListEmpty()) {
             valid = false;
-            GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_ACCOUNTING_NOT_ALLOWED, "Item " + item.getItemLineNumber());
+            GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_ACCOUNTING_NOT_ALLOWED, identifierString);
         }
         return valid;
     }
@@ -102,12 +103,11 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
      * @param item
      * @return
      */
-    private boolean validateItemWithoutAccounts(PurchaseOrderItem item) {
+    private boolean validateItemWithoutAccounts(PurchaseOrderItem item, String identifierString) {
         boolean valid = true;
         if (ObjectUtils.isNotNull(item.getItemUnitPrice()) && (new KualiDecimal(item.getItemUnitPrice())).isNonZero() && item.isAccountListEmpty()) {
             valid = false;
-            String itemIdentifier = (ObjectUtils.isNotNull(item.getItemLineNumber()) ?  "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription());
-            GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_ACCOUNTING_INCOMPLETE, itemIdentifier);
+            GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_ACCOUNTING_INCOMPLETE, identifierString);
         }
         return valid;
     }
@@ -119,11 +119,11 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
      * @param item
      * @return
      */
-    private boolean validateItemUnitOfMeasure(PurchaseOrderItem item) {
+    private boolean validateItemUnitOfMeasure(PurchaseOrderItem item, String identifierString) {
         boolean valid = true;
         if (item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ITEM_CODE) && StringUtils.isEmpty(item.getItemUnitOfMeasureCode())) {
             valid = false;
-            GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_UNIT_OF_MEASURE_REQUIRED, "Item " + item.getItemLineNumber());
+            GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_UNIT_OF_MEASURE_REQUIRED, identifierString);
         }
         return valid;
     }

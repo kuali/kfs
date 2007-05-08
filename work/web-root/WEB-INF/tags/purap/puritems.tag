@@ -156,18 +156,9 @@
 					<kul:htmlAttributeHeaderCell scope="row">
 						<html:hidden property="document.item[${ctr}].itemIdentifier" />
 						<html:hidden property="document.item[${ctr}].versionNumber" />
-						<c:if test="${fullEntryMode}">
-							<div align="center">
-								<html:image property="methodToCall.editItem"
-									src="images/tinybutton-edit1.gif" alt="Edit an Item"
-									title="Edit an Item" styleClass="tinybutton" />
-							</div>
-						</c:if>
-						<c:if test="${(not fullEntryMode)}">
-							<div align="center">
-								&nbsp;
-							</div>
-						</c:if>
+						<div align="center">
+							&nbsp;
+						</div>
 					</kul:htmlAttributeHeaderCell>
 
 					<td class="infoline">

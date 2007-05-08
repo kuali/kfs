@@ -199,13 +199,13 @@
 				<description>payPeriodEndDate description...</description>
 			</attribute>
 
-			<attributeReference name="payrollDateFiscalPeriodCode" sourceClassName="org.kuali.module.chart.bo.AccountingPeriod" sourceAttributeName="universityFiscalPeriodCode">
+			<attributeReference name="payrollEndDateFiscalPeriodCode" sourceClassName="org.kuali.module.chart.bo.AccountingPeriod" sourceAttributeName="universityFiscalPeriodCode">
 				<label>Payroll Date Fiscal Period Code</label>
 				<shortLabel>Pay Per</shortLabel>
 				<summary>Payroll Date Fiscal Period Code</summary>
 			</attributeReference>
 
-			<attributeReference name="payrollDateFiscalYear" sourceClassName="org.kuali.kfs.bo.Options" sourceAttributeName="universityFiscalYear">
+			<attributeReference name="payrollEndDateFiscalYear" sourceClassName="org.kuali.kfs.bo.Options" sourceAttributeName="universityFiscalYear">
 				<label>Payroll Date Fiscal Year</label>
 				<shortLabel>Pay FY</shortLabel>
 				<summary>Payroll Date Fiscal Year</summary>

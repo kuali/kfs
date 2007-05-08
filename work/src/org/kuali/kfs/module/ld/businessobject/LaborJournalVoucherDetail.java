@@ -18,8 +18,8 @@ public class LaborJournalVoucherDetail extends SourceAccountingLine{
 	private String positionNumber;
 	private Date payPeriodEndDate;
 	private BigDecimal transactionTotalHours;
-	private Integer payrollDateFiscalYear;
-	private String payrollDateFiscalPeriodCode;
+	private Integer payrollEndDateFiscalYear;
+	private String payrollEndDateFiscalPeriodCode;
 	private String emplid;
 	private Integer employeeRecord;
 	private String earnCode;
@@ -367,35 +367,35 @@ public class LaborJournalVoucherDetail extends SourceAccountingLine{
     }
 
     /**
-     * Gets the payrollDateFiscalPeriodCode attribute. 
-     * @return Returns the payrollDateFiscalPeriodCode.
+     * Gets the payrollEndDateFiscalPeriodCode attribute. 
+     * @return Returns the payrollEndDateFiscalPeriodCode.
      */
-    public String getPayrollDateFiscalPeriodCode() {
-        return payrollDateFiscalPeriodCode;
+    public String getPayrollEndDateFiscalPeriodCode() {
+        return payrollEndDateFiscalPeriodCode;
     }
 
     /**
-     * Sets the payrollDateFiscalPeriodCode attribute value.
-     * @param payrollDateFiscalPeriodCode The payrollDateFiscalPeriodCode to set.
+     * Sets the payrollEndDateFiscalPeriodCode attribute value.
+     * @param payrollEndDateFiscalPeriodCode The payrollEndDateFiscalPeriodCode to set.
      */
-    public void setPayrollDateFiscalPeriodCode(String payrollDateFiscalPeriodCode) {
-        this.payrollDateFiscalPeriodCode = payrollDateFiscalPeriodCode;
+    public void setPayrollEndDateFiscalPeriodCode(String payrollEndDateFiscalPeriodCode) {
+        this.payrollEndDateFiscalPeriodCode = payrollEndDateFiscalPeriodCode;
     }
 
     /**
-     * Gets the payrollDateFiscalYear attribute. 
-     * @return Returns the payrollDateFiscalYear.
+     * Gets the payrollEndDateFiscalYear attribute. 
+     * @return Returns the payrollEndDateFiscalYear.
      */
-    public Integer getPayrollDateFiscalYear() {
-        return payrollDateFiscalYear;
+    public Integer getPayrollEndDateFiscalYear() {
+        return payrollEndDateFiscalYear;
     }
 
     /**
-     * Sets the payrollDateFiscalYear attribute value.
-     * @param payrollDateFiscalYear The payrollDateFiscalYear to set.
+     * Sets the payrollEndDateFiscalYear attribute value.
+     * @param payrollEndDateFiscalYear The payrollEndDateFiscalYear to set.
      */
-    public void setPayrollDateFiscalYear(Integer payrollDateFiscalYear) {
-        this.payrollDateFiscalYear = payrollDateFiscalYear;
+    public void setPayrollEndDateFiscalYear(Integer payrollEndDateFiscalYear) {
+        this.payrollEndDateFiscalYear = payrollEndDateFiscalYear;
     }
 
 }

@@ -19,11 +19,12 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.KualiParameterRule;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
-import org.kuali.core.rules.TransactionalDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
@@ -31,7 +32,7 @@ import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.rule.AddPurchasingAccountsPayableItemRule;
 
-public class PurchasingAccountsPayableDocumentRuleBase extends TransactionalDocumentRuleBase implements AddPurchasingAccountsPayableItemRule {
+public class PurchasingAccountsPayableDocumentRuleBase extends AccountingDocumentRuleBase implements AddPurchasingAccountsPayableItemRule {
 
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -157,6 +158,20 @@ public class PurchasingAccountsPayableDocumentRuleBase extends TransactionalDocu
     }
 
     public boolean processAddItemBusinessRules(AccountingDocument financialDocument, PurchasingApItem item) {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
+    public boolean isDebit(AccountingDocument financialDocument, AccountingLine accountingLine) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /**
+     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#isAmountValid(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine)
+     */
+    @Override
+    public boolean isAmountValid(AccountingDocument document, AccountingLine accountingLine) {
         // TODO Auto-generated method stub
         return true;
     }

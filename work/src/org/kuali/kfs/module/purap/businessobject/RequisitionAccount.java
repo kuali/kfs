@@ -16,6 +16,7 @@
 
 package org.kuali.module.purap.bo;
 
+import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
@@ -43,6 +44,24 @@ public class RequisitionAccount extends PurApAccountingLineBase {
         super.ojbConcreteClass = this.getClass().getName();
 	}
 
+    /**
+     * @see org.kuali.module.purap.bo.PurApAccountingLineBase#getAccountLinePercent()
+     */
+    @Override
+    public BigDecimal getAccountLinePercent() {
+        // TODO Auto-generated method stub
+        return super.getAccountLinePercent();
+    }
+
+    /**
+     * @see org.kuali.module.purap.bo.PurApAccountingLineBase#setAccountLinePercent(java.math.BigDecimal)
+     */
+    @Override
+    public void setAccountLinePercent(BigDecimal accountLinePercent) {
+        // TODO Auto-generated method stub
+        super.setAccountLinePercent(accountLinePercent);
+    }
+    
 	/**
 	 * Gets the requisitionItem attribute.
 	 * 

@@ -44,7 +44,7 @@ public class AccountBalanceLevelDaoJdbc extends AccountBalanceDaoJdbcBase implem
         Options options = optionsService.getOptions(universityFiscalYear);
 
         // Delete any data for this session if it exists already
-        clearTempTable( "fp_bal_by_level_t", "person_sys_id" );
+        clearTempTable( "fp_bal_by_level_t", "PERSON_UNVL_ID" );
         clearTempTable( "fp_interim1_level_mt", "SESID" );
 
         // Add in all the data we need
@@ -77,7 +77,7 @@ public class AccountBalanceLevelDaoJdbc extends AccountBalanceDaoJdbcBase implem
         if (isConsolidated) {
         	getSimpleJdbcTemplate().update( 
 					"INSERT INTO fp_bal_by_level_t (SUB_ACCT_NBR, FIN_OBJ_LEVEL_CD, FIN_REPORT_SORT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, "
-					+ "TYP_FIN_REPORT_SORT_CD, PERSON_SYS_ID) SELECT '*ALL*', fin_obj_level_cd,fin_report_sort_cd, SUM(curr_bdln_bal_amt), "
+					+ "TYP_FIN_REPORT_SORT_CD, PERSON_UNVL_ID) SELECT '*ALL*', fin_obj_level_cd,fin_report_sort_cd, SUM(curr_bdln_bal_amt), "
 					+ "SUM(acln_actls_bal_amt), SUM(acln_encum_bal_amt),?, ?"
 					+ " FROM fp_interim1_level_mt "
 					+ " WHERE fp_interim1_level_mt.SESID = ? "
@@ -90,7 +90,7 @@ public class AccountBalanceLevelDaoJdbc extends AccountBalanceDaoJdbcBase implem
         else {
         	getSimpleJdbcTemplate().update( 
         			"INSERT INTO fp_bal_by_level_t (SUB_ACCT_NBR, FIN_OBJ_LEVEL_CD, FIN_REPORT_SORT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, "
-					+ "TYP_FIN_REPORT_SORT_CD, PERSON_SYS_ID) SELECT  sub_acct_nbr, fin_obj_level_cd, fin_report_sort_cd, SUM(curr_bdln_bal_amt), "
+					+ "TYP_FIN_REPORT_SORT_CD, PERSON_UNVL_ID) SELECT  sub_acct_nbr, fin_obj_level_cd, fin_report_sort_cd, SUM(curr_bdln_bal_amt), "
 					+ "SUM(acln_actls_bal_amt), SUM(acln_encum_bal_amt), ?, ? "
 					+ " FROM fp_interim1_level_mt "
 					+ " WHERE fp_interim1_level_mt.SESID = ? "
@@ -104,11 +104,11 @@ public class AccountBalanceLevelDaoJdbc extends AccountBalanceDaoJdbcBase implem
         // Here's the data
         List<Map<String,Object>> data = getSimpleJdbcTemplate().queryForList( 
         		"select SUB_ACCT_NBR, FIN_OBJ_LEVEL_CD, FIN_REPORT_SORT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, TYP_FIN_REPORT_SORT_CD "
-				+ "from FP_BAL_BY_LEVEL_T where PERSON_SYS_ID = ? ",
+				+ "from FP_BAL_BY_LEVEL_T where PERSON_UNVL_ID = ? ",
 				Thread.currentThread().getId() );
 
         // Clean up everything
-        clearTempTable( "fp_bal_by_level_t", "person_sys_id" );
+        clearTempTable( "fp_bal_by_level_t", "PERSON_UNVL_ID" );
         clearTempTable( "fp_interim1_level_mt", "SESID" );
         clearTempTable( "gl_pending_entry_mt", "PERSON_UNVL_ID" );
 

@@ -47,7 +47,7 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
         Options options = optionsService.getOptions(universityFiscalYear);
 
         // Delete any data for this session if it exists already
-        clearTempTable( "fp_bal_by_obj_t", "person_sys_id" );
+        clearTempTable( "fp_bal_by_obj_t", "PERSON_UNVL_ID" );
         clearTempTable( "fp_interim1_obj_mt", "SESID" );
 
         // Add in all the data we need
@@ -79,7 +79,7 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
         if (isConsolidated) {
         	getSimpleJdbcTemplate().update( 
     				"INSERT INTO fp_bal_by_obj_t (SUB_ACCT_NBR, FIN_OBJECT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, FIN_REPORT_SORT_CD, "
-					+ "PERSON_SYS_ID) SELECT  '*ALL*',fin_object_cd, SUM(curr_bdln_bal_amt),SUM(acln_actls_bal_amt), SUM(acln_encum_bal_amt),"
+					+ "PERSON_UNVL_ID) SELECT  '*ALL*',fin_object_cd, SUM(curr_bdln_bal_amt),SUM(acln_actls_bal_amt), SUM(acln_encum_bal_amt),"
 					+ "'B', ? "
 					+ " FROM fp_interim1_obj_mt WHERE fp_interim1_obj_mt.SESID  = ?"
 					+ " GROUP BY fin_object_cd",
@@ -90,7 +90,7 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
         else {
         	getSimpleJdbcTemplate().update(
     				"INSERT INTO fp_bal_by_obj_t (SUB_ACCT_NBR, FIN_OBJECT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, FIN_REPORT_SORT_CD, "
-					+ " PERSON_SYS_ID) SELECT  sub_acct_nbr, fin_object_cd, SUM(curr_bdln_bal_amt), SUM(acln_actls_bal_amt),SUM(acln_encum_bal_amt), "
+					+ " PERSON_UNVL_ID) SELECT  sub_acct_nbr, fin_object_cd, SUM(curr_bdln_bal_amt), SUM(acln_actls_bal_amt),SUM(acln_encum_bal_amt), "
 					+ " 'B', ? "
 					+ " FROM fp_interim1_obj_mt WHERE fp_interim1_obj_mt.SESID = ? "
 					+ " GROUP BY sub_acct_nbr, fin_object_cd",
@@ -102,11 +102,11 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
         // Here's the data
         List<Map<String,Object>> data = getSimpleJdbcTemplate().queryForList(
         		"select SUB_ACCT_NBR, FIN_OBJECT_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, FIN_REPORT_SORT_CD from fp_bal_by_obj_t "
-				+ " where PERSON_SYS_ID = ? "
+				+ " where PERSON_UNVL_ID = ? "
 				+ " order by fin_object_cd", Thread.currentThread().getId() );
 
         // Clean up everything
-        clearTempTable( "fp_bal_by_obj_t", "person_sys_id" );
+        clearTempTable( "fp_bal_by_obj_t", "PERSON_UNVL_ID" );
         clearTempTable( "fp_interim1_obj_mt", "SESID" );
         clearTempTable( "gl_pending_entry_mt", "PERSON_UNVL_ID" );
 

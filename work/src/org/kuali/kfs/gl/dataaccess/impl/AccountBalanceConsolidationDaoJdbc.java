@@ -49,7 +49,7 @@ public class AccountBalanceConsolidationDaoJdbc extends
 
 		// Delete any data for this session if it exists already
 		getSimpleJdbcTemplate().update(
-				"DELETE FROM fp_bal_by_cons_t WHERE person_sys_id = ?",
+				"DELETE FROM fp_bal_by_cons_t WHERE PERSON_UNVL_ID = ?",
 				Thread.currentThread().getId() );
 
 		// Add in all the source data
@@ -64,7 +64,7 @@ public class AccountBalanceConsolidationDaoJdbc extends
 		getSimpleJdbcTemplate()
 				.update(
 						"INSERT INTO fp_interim1_cons_mt (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, "
-								+ "ACLN_ENCUM_BAL_AMT, TIMESTAMP, FIN_REPORT_SORT_IND, FIN_OBJ_TYP_CD, SESID ) "
+								+ "ACLN_ENCUM_BAL_AMT, TIMESTAMP, FIN_REPORT_SORT_CD, FIN_OBJ_TYP_CD, SESID ) "
 								+ "SELECT A.UNIV_FISCAL_YR, A.FIN_COA_CD, A.ACCOUNT_NBR, A.SUB_ACCT_NBR, "
 								+ "A.FIN_OBJECT_CD, A.FIN_SUB_OBJ_CD, A.CURR_BDLN_BAL_AMT, A.ACLN_ACTLS_BAL_AMT, A.ACLN_ENCUM_BAL_AMT, A.TIMESTAMP, SUBSTR(fin_report_sort_cd, 1, 1), "
 								+ "t.fin_obj_typ_cd,?"
@@ -89,9 +89,9 @@ public class AccountBalanceConsolidationDaoJdbc extends
 		// Add some reference data
 		getSimpleJdbcTemplate()
 				.update(  "INSERT INTO fp_interim2_cons_mt (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, "
-						+ "ACLN_ENCUM_BAL_AMT, TIMESTAMP, FIN_REPORT_SORT_IND,FIN_OBJ_TYP_CD, SESID, CONS_FIN_REPORT_SORT_CD, FIN_CONS_OBJ_CD ) "
+						+ "ACLN_ENCUM_BAL_AMT, TIMESTAMP, FIN_REPORT_SORT_CD,FIN_OBJ_TYP_CD, SESID, CONS_FIN_REPORT_SORT_CD, FIN_CONS_OBJ_CD ) "
 						+ "SELECT A.UNIV_FISCAL_YR, A.FIN_COA_CD, A.ACCOUNT_NBR, A.SUB_ACCT_NBR,A.FIN_OBJECT_CD, A.FIN_SUB_OBJ_CD, A.CURR_BDLN_BAL_AMT, A.ACLN_ACTLS_BAL_AMT, "
-						+ "A.ACLN_ENCUM_BAL_AMT, A.TIMESTAMP, A.FIN_REPORT_SORT_IND, A.FIN_OBJ_TYP_CD, A.SESID,c.fin_report_sort_cd,c.fin_cons_obj_cd"
+						+ "A.ACLN_ENCUM_BAL_AMT, A.TIMESTAMP, A.FIN_REPORT_SORT_CD, A.FIN_OBJ_TYP_CD, A.SESID,c.fin_report_sort_cd,c.fin_cons_obj_cd"
 						+ " FROM fp_interim1_cons_mt a,ca_object_code_t o,ca_obj_level_t l,ca_obj_consoldtn_t c WHERE a.univ_fiscal_yr = o.univ_fiscal_yr "
 						+ " AND a.fin_coa_cd = o.fin_coa_cd AND a.fin_object_cd = o.fin_object_cd AND o.fin_coa_cd = l.fin_coa_cd AND o.fin_obj_level_cd = l.fin_obj_level_cd "
 						+ " AND c.fin_coa_cd = l.fin_coa_cd AND c.fin_cons_obj_cd = l.fin_cons_obj_cd AND o.univ_fiscal_yr = ?"
@@ -109,27 +109,27 @@ public class AccountBalanceConsolidationDaoJdbc extends
 		if ( isConsolidated ) {
 			getSimpleJdbcTemplate()
 					.update( "INSERT INTO fp_bal_by_cons_t (SUB_ACCT_NBR, FIN_REPORT_SORT_CD, CONS_FIN_REPORT_SORT_CD, FIN_CONS_OBJ_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, "
-							+ "ACLN_ENCUM_BAL_AMT, PERSON_SYS_ID) "
-							+ "SELECT '*ALL*',fin_report_sort_ind,cons_fin_report_sort_cd,fin_cons_obj_cd,SUM(curr_bdln_bal_amt), "
+							+ "ACLN_ENCUM_BAL_AMT, PERSON_UNVL_ID) "
+							+ "SELECT '*ALL*',fin_report_sort_cd,cons_fin_report_sort_cd,fin_cons_obj_cd,SUM(curr_bdln_bal_amt), "
 							+ "SUM(acln_actls_bal_amt), SUM(acln_encum_bal_amt), MAX(sesid)"
 							+ " FROM fp_interim2_cons_mt WHERE fp_interim2_cons_mt.SESID = ?"
-							+ " GROUP BY cons_fin_report_sort_cd, fin_report_sort_ind, fin_cons_obj_cd", Thread.currentThread().getId() );
+							+ " GROUP BY cons_fin_report_sort_cd, fin_report_sort_cd, fin_cons_obj_cd", Thread.currentThread().getId() );
 		} else {
 			getSimpleJdbcTemplate()
 					.update( "INSERT INTO fp_bal_by_cons_t (SUB_ACCT_NBR, FIN_REPORT_SORT_CD, CONS_FIN_REPORT_SORT_CD, FIN_CONS_OBJ_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, "
-							+ "ACLN_ENCUM_BAL_AMT, PERSON_SYS_ID) SELECT sub_acct_nbr, fin_report_sort_ind, cons_fin_report_sort_cd, fin_cons_obj_cd, SUM(curr_bdln_bal_amt), "
+							+ "ACLN_ENCUM_BAL_AMT, PERSON_UNVL_ID) SELECT sub_acct_nbr, fin_report_sort_cd, cons_fin_report_sort_cd, fin_cons_obj_cd, SUM(curr_bdln_bal_amt), "
 							+ "SUM(acln_actls_bal_amt), SUM(acln_encum_bal_amt), MAX(sesid) "
 							+ " FROM fp_interim2_cons_mt WHERE fp_interim2_cons_mt.SESID = ?"
-							+ " GROUP BY sub_acct_nbr, cons_fin_report_sort_cd, fin_report_sort_ind, fin_cons_obj_cd", Thread.currentThread().getId() );
+							+ " GROUP BY sub_acct_nbr, cons_fin_report_sort_cd, fin_report_sort_cd, fin_cons_obj_cd", Thread.currentThread().getId() );
 		}
 
 		// Here's the data
 		List<Map<String,Object>> data = getSimpleJdbcTemplate().queryForList( "select SUB_ACCT_NBR, FIN_REPORT_SORT_CD, CONS_FIN_REPORT_SORT_CD, FIN_CONS_OBJ_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT "
-				+ "from fp_bal_by_cons_t where PERSON_SYS_ID = ?"
+				+ "from fp_bal_by_cons_t where PERSON_UNVL_ID = ?"
 				+ " order by fin_report_sort_cd,cons_fin_report_sort_cd", Thread.currentThread().getId() );
 
 		// Clean up everything
-        clearTempTable( "fp_bal_by_cons_t", "person_sys_id" );
+        clearTempTable( "fp_bal_by_cons_t", "PERSON_UNVL_ID" );
         clearTempTable( "fp_interim1_cons_mt", "SESID" );
         clearTempTable( "fp_interim2_cons_mt", "SESID" );
         clearTempTable( "gl_pending_entry_mt", "PERSON_UNVL_ID" );
@@ -220,7 +220,7 @@ public class AccountBalanceConsolidationDaoJdbc extends
 			
 			String insertBalanceStatementSql = 
 					"INSERT INTO fp_interim1_cons_mt (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD, "
-					+ "FIN_SUB_OBJ_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, TIMESTAMP, FIN_REPORT_SORT_IND, FIN_OBJ_TYP_CD, SESID) "
+					+ "FIN_SUB_OBJ_CD, CURR_BDLN_BAL_AMT, ACLN_ACTLS_BAL_AMT, ACLN_ENCUM_BAL_AMT, TIMESTAMP, FIN_REPORT_SORT_CD, FIN_OBJ_TYP_CD, SESID) "
 					+ "VALUES (?,?,?,?,?,"
 					+ "?,?,?,?,"
 					+ getDbPlatform().getCurTimeFunction()

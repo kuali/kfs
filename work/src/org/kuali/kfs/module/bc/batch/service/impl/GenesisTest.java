@@ -108,7 +108,8 @@ public class GenesisTest {
       //dateMakerTestService.fiscalYearMakers(2008,true);
       try
       {
-      dateMakerTestService.fiscalYearMakers(2008);
+      // dateMakerTestService.fiscalYearMakers(2008);
+         dateMakerTestService.testRoutine(); 
       }
       catch(NoSuchFieldException ex)
       {

@@ -41,6 +41,8 @@ import org.kuali.module.labor.bo.PositionObjectBenefit;
 import org.kuali.rice.KNSServiceLocator;
 
 /**
+ * TODO is this needed??? probably need to just point OJB repository to PBGL class or
+ * this should extend PBGL if something extra is needed
  * 
  */
 public class SalarySettingExpansion extends PersistableBusinessObjectBase {

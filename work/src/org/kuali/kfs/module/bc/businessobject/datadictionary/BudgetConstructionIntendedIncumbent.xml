@@ -68,6 +68,7 @@
 
                 <maxLength>11</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="13" />

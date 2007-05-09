@@ -44,7 +44,7 @@
         displayRequisitionFields="true" />
 
     <purap:puritems itemAttributes="${DataDictionary.RequisitionItem.attributes}"
-    	accountingLineAttributes="${DataDictionary.RequisitionAccountingLine.attributes}" 
+    	accountingLineAttributes="${DataDictionary.RequisitionAccount.attributes}" 
     	displayRequisitionFields="true"/>
 
     <purap:paymentinfo

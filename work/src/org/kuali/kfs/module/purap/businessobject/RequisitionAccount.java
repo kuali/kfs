@@ -43,24 +43,6 @@ public class RequisitionAccount extends PurApAccountingLineBase {
         //this field is not in the database for us because they are in different tables
         super.ojbConcreteClass = this.getClass().getName();
 	}
-
-    /**
-     * @see org.kuali.module.purap.bo.PurApAccountingLineBase#getAccountLinePercent()
-     */
-    @Override
-    public BigDecimal getAccountLinePercent() {
-        // TODO Auto-generated method stub
-        return super.getAccountLinePercent();
-    }
-
-    /**
-     * @see org.kuali.module.purap.bo.PurApAccountingLineBase#setAccountLinePercent(java.math.BigDecimal)
-     */
-    @Override
-    public void setAccountLinePercent(BigDecimal accountLinePercent) {
-        // TODO Auto-generated method stub
-        super.setAccountLinePercent(accountLinePercent);
-    }
     
 	/**
 	 * Gets the requisitionItem attribute.

@@ -16,6 +16,7 @@
 package org.kuali.module.cg.batch;
 
 import org.kuali.kfs.batch.AbstractStep;
+import org.kuali.module.cg.service.CloseService;
 
 /**
  * Created by ...
@@ -25,7 +26,7 @@ import org.kuali.kfs.batch.AbstractStep;
  */
 public class CloseBatchStep extends AbstractStep {
 
-    private org.kuali.module.cg.service.CloseService closeService;
+    private CloseService closeService;
 
     public boolean execute() {
         closeService.close();

@@ -26,21 +26,19 @@
 <%@ attribute name="accountingLineAttributes" required="true" type="java.util.Map"
 	description="The DataDictionary entry containing attributes for this row's fields."%>
 
-		<table cellpadding="0" cellspacing="0" class="datatable" colspan="12"
-			summary="Misc Items Section">
 			<tr>
 			  <td colspan="12" class="subhead">
 			    <span class="subhead-left">Misc Items</span>
 			  </td>		
 			</tr>
 			<tr>
-				<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" colspan="3" />
+				<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" colspan="6" />
 				<kul:htmlAttributeHeaderCell
 					attributeEntry="${itemAttributes.itemTypeCode}" />
 				<kul:htmlAttributeHeaderCell
 					attributeEntry="${itemAttributes.itemDescription}" />
 				<kul:htmlAttributeHeaderCell
-					attributeEntry="${itemAttributes.itemUnitPrice}" />
+					attributeEntry="${itemAttributes.extendedPrice}" />
 				<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" colspan="3" />
 			</tr>
 			<logic:iterate indexId="ctr" name="KualiForm"
@@ -49,7 +47,7 @@
 				<c:if test="${itemLine.itemType.itemTypeAboveTheLineIndicator != true}">
 				<tr>
 
-					<kul:htmlAttributeHeaderCell scope="row" colspan="3">
+					<kul:htmlAttributeHeaderCell scope="row" colspan="6">
 						<html:hidden property="document.item[${ctr}].itemIdentifier" />
 						<html:hidden property="document.item[${ctr}].versionNumber" />
 						<html:hidden property="document.item[${ctr}].itemTypeCode" />
@@ -96,4 +94,3 @@
 				</tr>
 			</c:if>
 			</logic:iterate>
-		</table>

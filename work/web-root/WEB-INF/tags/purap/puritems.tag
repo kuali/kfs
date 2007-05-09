@@ -289,11 +289,7 @@
 				</tr>
 			</c:if>
 			</logic:iterate>
-			<tr>
-				<td width="100%" colspan="12">
 					<purap:miscitems itemAttributes="${itemAttributes}" accountingLineAttributes="${accountingLineAttributes}" />
-				</td>
-			<tr>
 			<!-- BEGIN TOTAL SECTION -->
 			<tr>
 				<th height=30 colspan="12">

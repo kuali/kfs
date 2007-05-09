@@ -178,7 +178,7 @@ public class PrintServiceImpl implements PrintService {
 
         // Get the contract manager's campus
         criteria.clear();
-        ContractManager contractManager = po.getVendorContract().getContractManager();
+        ContractManager contractManager = po.getContractManager();
         criteria.put("personUserIdentifier", contractManager.getContractManagerUserIdentifier());
         UniversalUser contractManagerUser = (UniversalUser) ((List) businessObjectService.findMatching(UniversalUser.class, criteria)).get(0);
         String contractManagerCampusCode = contractManagerUser.getCampusCode();
@@ -314,7 +314,7 @@ public class PrintServiceImpl implements PrintService {
         if ((directorSignatureImage = imageDao.getPurchasingDirectorImage(key, campusCode, imageTempLocation)) == null ) {
             throw new PurapConfigurationException("directorSignatureImage is null.");
         }
-        if ( (contractManagerSignatureImage = imageDao.getContractManagerImage(key, po.getVendorContract().getContractManagerCode(), imageTempLocation)) == null ) {
+        if ( (contractManagerSignatureImage = imageDao.getContractManagerImage(key, po.getContractManagerCode(), imageTempLocation)) == null ) {
             throw new PurapConfigurationException("contractManagerSignatureImage is null.");
         }
         }

@@ -756,7 +756,7 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
             return false;
         }
         
-        Timestamp ts = document.getDocumentHeader().getWorkflowDocument().getCreateDate();
+        Timestamp ts = new Timestamp(new java.util.Date().getTime());
         AccountingPeriod currPeriod = getAccountingPeriodService().getByDate(new Date(ts.getTime()));
         
         if (acctPeriod.getUniversityFiscalYear().equals(SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear())) {

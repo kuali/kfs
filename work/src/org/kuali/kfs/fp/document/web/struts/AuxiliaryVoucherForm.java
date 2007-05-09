@@ -194,8 +194,6 @@ public class AuxiliaryVoucherForm extends VoucherForm {
             if (o instanceof AccountingPeriod) {
                 AccountingPeriod period = (AccountingPeriod)o;
                 
-                // doing the following commented out line produces an exception from the call to getWorkflowDocument...we wonder why....
-                // java.sql.Date currentDate = new java.sql.Date(auxiliaryVoucherDocument.getDocumentHeader().getWorkflowDocument().getCreateDate().getTime());
                 java.sql.Date currentDate = new java.sql.Date(new java.util.Date().getTime());
                 
                 result = configService.getApplicationParameterRule(AuxiliaryVoucherDocumentRuleConstants.AUXILIARY_VOUCHER_SECURITY_GROUPING, AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_PERIOD_CODES).succeedsRule(period.getUniversityFiscalPeriodCode());

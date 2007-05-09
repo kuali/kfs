@@ -19,11 +19,22 @@ import static org.kuali.kfs.KFSConstants.AuxiliaryVoucher.ACCRUAL_DOC_TYPE;
 import static org.kuali.kfs.KFSConstants.AuxiliaryVoucher.ADJUSTMENT_DOC_TYPE;
 import static org.kuali.kfs.KFSConstants.AuxiliaryVoucher.RECODE_DOC_TYPE;
 
+import java.util.ArrayList;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Predicate; 
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.kuali.core.document.Document;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.AccountingPeriod;
+import org.kuali.module.chart.service.AccountingPeriodService;
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
+import org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRule;
+import org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants;
+import org.kuali.module.financial.service.UniversityDateService;
 
 /**
  * Struts form so <code>{@link AuxiliaryVoucherDocument}</code> can be accessed and modified through UI.
@@ -131,4 +142,80 @@ public class AuxiliaryVoucherForm extends VoucherForm {
 
         return formattedVoucherType + " (" + voucherTypeCode + ")";
     }
+
+    /**
+     * This method generates a proper list of valid accounting periods that the user can
+     * select from.
+     * 
+     * @see org.kuali.module.financial.web.struts.form.VoucherForm#populateAccountingPeriodListForRendering()
+     */
+    @Override
+    protected void populateAccountingPeriodListForRendering() {
+        // grab the list of valid accounting periods
+        ArrayList accountingPeriods = new ArrayList(SpringServiceLocator.getAccountingPeriodService().getOpenAccountingPeriods());
+        // now, validate further, based on the rules from AuxiliaryVoucherDocumentRule
+        ArrayList filteredAccountingPeriods = new ArrayList();
+        filteredAccountingPeriods.addAll(CollectionUtils.select(accountingPeriods, new OpenAuxiliaryVoucherPredicate(this.getDocument())));
+        // if our auxiliary voucher doc contains an accounting period already, make sure the collection has it too!
+        if (this.getDocument() instanceof AuxiliaryVoucherDocument) {
+            AuxiliaryVoucherDocument avDoc = (AuxiliaryVoucherDocument)this.getDocument();
+            if (avDoc != null && avDoc.getAccountingPeriod() != null && !filteredAccountingPeriods.contains(avDoc.getAccountingPeriod())) {
+                // this is most likely going to happen because the approver is trying
+                // to approve a document after the grace period of an accounting period
+                // or a fiscal year has switched over when the document was first created;
+                // as such, it's probably a good bet that the doc's accounting period
+                // belongs at the top of the list
+                filteredAccountingPeriods.add(0, avDoc.getAccountingPeriod());
+            }
+        }
+        // set into the form for rendering
+        setAccountingPeriods(filteredAccountingPeriods);
+        // set the chosen accounting period into the form
+        populateSelectedVoucherAccountingPeriod();
+    }
+    
+    private class OpenAuxiliaryVoucherPredicate implements Predicate {
+        private KualiConfigurationService configService;
+        private UniversityDateService dateService;
+        private AccountingPeriodService acctPeriodService;
+        private Document auxiliaryVoucherDocument; 
+        private AccountingPeriod currPeriod;
+        
+        public OpenAuxiliaryVoucherPredicate(Document doc) {
+            this.configService = SpringServiceLocator.getKualiConfigurationService();
+            this.dateService = SpringServiceLocator.getUniversityDateService();
+            this.acctPeriodService = SpringServiceLocator.getAccountingPeriodService();
+            this.auxiliaryVoucherDocument = doc;
+            this.currPeriod = acctPeriodService.getByDate(new java.sql.Date(new java.util.GregorianCalendar().getTimeInMillis()));
+        }
+        
+        public boolean evaluate(Object o) {
+            boolean result = false;
+            if (o instanceof AccountingPeriod) {
+                AccountingPeriod period = (AccountingPeriod)o;
+                
+                // doing the following commented out line produces an exception from the call to getWorkflowDocument...we wonder why....
+                // java.sql.Date currentDate = new java.sql.Date(auxiliaryVoucherDocument.getDocumentHeader().getWorkflowDocument().getCreateDate().getTime());
+                java.sql.Date currentDate = new java.sql.Date(new java.util.Date().getTime());
+                
+                result = configService.getApplicationParameterRule(AuxiliaryVoucherDocumentRuleConstants.AUXILIARY_VOUCHER_SECURITY_GROUPING, AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_PERIOD_CODES).succeedsRule(period.getUniversityFiscalPeriodCode());
+                if (result) {
+                    result = (period.getUniversityFiscalYear().equals(dateService.getCurrentFiscalYear()));
+                    if (result) {
+                        // did this accounting period end before now?
+                        result = acctPeriodService.compareAccountingPeriodsByDate(period, currPeriod) >= 0;
+                        if (!result) {
+                            // if yes, are we still in the grace period?
+                            result = AuxiliaryVoucherDocumentRule.calculateIfWithinGracePeriod(currentDate, period);
+                        }
+                    } else {
+                        // are we in current in the grace period of an ending accounting period of the previous fiscal year?
+                        result = AuxiliaryVoucherDocumentRule.calculateIfWithinGracePeriod(currentDate, period) && AuxiliaryVoucherDocumentRule.isEndOfPreviousFiscalYear(period);
+                    }
+                }
+            }
+            return result;
+        }
+    }
+    
 }

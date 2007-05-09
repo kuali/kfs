@@ -134,6 +134,18 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
     }
 
     /**
+     * @see org.kuali.module.chart.service.AccountingPeriodService#compareAccountingPeriodsByDate(org.kuali.module.chart.bo.AccountingPeriod, org.kuali.module.chart.bo.AccountingPeriod)
+     */
+    public int compareAccountingPeriodsByDate(AccountingPeriod tweedleDee, AccountingPeriod tweedleDum) {
+        // note the lack of defensive programming here.  If you send a null accounting
+        // period...then chances are, you deserve the NPE that you receive
+        Date tweedleDeeClose = tweedleDee.getUniversityFiscalPeriodEndDate();
+        Date tweedleDumClose = tweedleDum.getUniversityFiscalPeriodEndDate();        
+        
+        return tweedleDeeClose.compareTo(tweedleDumClose);
+    }
+
+    /**
      * This method retrieves an instance of the businessObjectService.
      * 
      * @return

@@ -335,7 +335,7 @@ public class VoucherForm extends KualiAccountingDocumentFormBase {
      * This method retrieves all of the "open for posting" accounting periods and prepares them to be rendered in a dropdown UI
      * component.
      */
-    private void populateAccountingPeriodListForRendering() {
+    protected void populateAccountingPeriodListForRendering() {
         // grab the list of valid accounting periods
         ArrayList accountingPeriods = new ArrayList(SpringServiceLocator.getAccountingPeriodService().getOpenAccountingPeriods());
         // set into the form for rendering
@@ -349,7 +349,7 @@ public class VoucherForm extends KualiAccountingDocumentFormBase {
      * This method parses the accounting period value from the form and builds a basic AccountingPeriod object so that the voucher
      * is properly persisted with the accounting period set for it.
      */
-    private void populateSelectedVoucherAccountingPeriod() {
+    protected void populateSelectedVoucherAccountingPeriod() {
         if (StringUtils.isNotBlank(getSelectedAccountingPeriod())) {
             AccountingPeriod ap = new AccountingPeriod();
             ap.setUniversityFiscalPeriodCode(getSelectedPostingPeriodCode());

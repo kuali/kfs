@@ -48,6 +48,8 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.KualiTestBase;
@@ -283,4 +285,71 @@ public class AuxiliaryVoucherDocumentRuleTest extends KualiTestBase {
     private SourceAccountingLine getAccruedSickPaySourceLineParameter() throws Exception {
         return ACCRUED_SICK_PAY_LINE.createAccountingLine(SourceAccountingLine.class, KFSConstants.GL_DEBIT_CODE);
     }
+    
+    /**
+     * 
+     * This tests that the rules are calculating if dates are within accounting
+     * period grace periods correctly.
+     */
+    public void testWithinGracePeriod() {
+        AccountingPeriod firstPeriod = SpringServiceLocator.getAccountingPeriodService().getByPeriod("10", new Integer(2007));
+        java.util.Calendar firstPeriodInside = new java.util.GregorianCalendar(2007, java.util.Calendar.MAY, 8);
+        java.util.Calendar firstPeriodOutside = new java.util.GregorianCalendar(2007, java.util.Calendar.MAY, 23);
+        assertTrue(AuxiliaryVoucherDocumentRule.calculateIfWithinGracePeriod(new java.sql.Date(firstPeriodInside.getTimeInMillis()), firstPeriod));
+        assertFalse(AuxiliaryVoucherDocumentRule.calculateIfWithinGracePeriod(new java.sql.Date(firstPeriodOutside.getTimeInMillis()), firstPeriod));
+        
+        AccountingPeriod secondPeriod = SpringServiceLocator.getAccountingPeriodService().getByPeriod("13", new Integer(2006));
+        java.util.Calendar secondPeriodInside = new java.util.GregorianCalendar(2006, java.util.Calendar.JULY, 20);
+        java.util.Calendar secondPeriodOutside = new java.util.GregorianCalendar(2007, java.util.Calendar.JULY, 21);
+        assertTrue(AuxiliaryVoucherDocumentRule.calculateIfWithinGracePeriod(new java.sql.Date(secondPeriodInside.getTimeInMillis()), secondPeriod));
+        assertFalse(AuxiliaryVoucherDocumentRule.calculateIfWithinGracePeriod(new java.sql.Date(secondPeriodOutside.getTimeInMillis()), secondPeriod));
+        
+    }
+    
+    /**
+     * This tests that comparable dates are being calculated correctly.
+     */
+    public void testComparableDateForm() {
+        java.util.Calendar firstDate = new java.util.GregorianCalendar(2007, java.util.Calendar.MAY, 8);
+        assertEquals(new Integer(AuxiliaryVoucherDocumentRule.comparableDateForm(new java.sql.Date(firstDate.getTimeInMillis()))), new Integer(732683));
+        
+        java.util.Calendar secondDate = new java.util.GregorianCalendar(1776, java.util.Calendar.JULY, 4);
+        assertEquals(new Integer(AuxiliaryVoucherDocumentRule.comparableDateForm(new java.sql.Date(secondDate.getTimeInMillis()))), new Integer(648426));
+        
+        java.util.Calendar thirdDate = new java.util.GregorianCalendar(2007, java.util.Calendar.MAY, 7);
+        assertEquals(new Integer(AuxiliaryVoucherDocumentRule.comparableDateForm(new java.sql.Date(thirdDate.getTimeInMillis()))), new Integer(732682));
+    }
+    
+    /**
+     * This tests that the first day of months are being correctly calculated.
+     */
+    public void testCalculateFirstDayOfMonth() {
+        java.util.Calendar cal = new java.util.GregorianCalendar();
+        
+        cal.set(java.util.Calendar.MONTH, java.util.Calendar.APRIL);
+        cal.set(java.util.Calendar.DAY_OF_MONTH, 15);
+        doFirstDayOfMonthTest(cal);
+        
+        cal.set(java.util.Calendar.DAY_OF_MONTH, 30);
+        doFirstDayOfMonthTest(cal);
+        
+        cal.set(java.util.Calendar.DAY_OF_MONTH, 1);
+        doFirstDayOfMonthTest(cal);
+        
+        cal.set(java.util.Calendar.MONTH, java.util.Calendar.MARCH);
+        cal.set(java.util.Calendar.DAY_OF_MONTH, 31);
+        doFirstDayOfMonthTest(cal);
+    }
+
+    /**
+     * This method tests if the given calendar date is the first day of the month, after the rule converts it.
+     * @param cal the calendar to check
+     */
+    private void doFirstDayOfMonthTest(java.util.Calendar cal) {
+        java.sql.Date firstOfMonth = AuxiliaryVoucherDocumentRule.calculateFirstDayOfMonth(new java.sql.Date(cal.getTimeInMillis()));
+        java.util.Calendar testCal = new java.util.GregorianCalendar();
+        testCal.setTime(firstOfMonth);
+        assertEquals(new Integer(1), new Integer(testCal.get(java.util.Calendar.DAY_OF_MONTH)));
+    }
+    
 }

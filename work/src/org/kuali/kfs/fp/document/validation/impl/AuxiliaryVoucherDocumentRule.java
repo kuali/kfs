@@ -52,6 +52,7 @@ import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConst
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_COMBINED_CODES;
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_CODES;
 import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_PERIOD_CODES;
+import static org.kuali.module.financial.rules.AuxiliaryVoucherDocumentRuleConstants.AUXILIARY_VOUCHER_ACCOUNTING_PERIOD_GRACE_PERIOD;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -78,6 +79,7 @@ import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.financial.document.AuxiliaryVoucherDocument;
 import org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocument;
+import org.kuali.module.financial.service.UniversityDateService;
 
 /**
  * Business rule(s) applicable to <code>{@link AuxiliaryVoucherDocument}</code>.
@@ -728,7 +730,7 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
     }
 
     /**
-     * This method determins if the posting period is valid for the document type
+     * This method determins if the posting period is valid for the document type.
      * 
      * @param document
      * @param period
@@ -736,58 +738,48 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
      * @return true if it is a valid period for posting into
      */
     protected boolean isPeriodAllowed(AuxiliaryVoucherDocument document) {
+        /*
+         * Nota bene: a full summarization of these rules can be found in the comments to KULRNE-4634
+         */
         // first we need to get the period itself to check these things
         boolean valid = true;
-        Integer period = new Integer(document.getPostingPeriodCode());
-        Integer year = document.getPostingYear();
-        AccountingPeriod acctPeriod = getAccountingPeriodService().getByPeriod(document.getPostingPeriodCode(), year);
-
-        // if current period is period 1 can't post back more than 3 open periods
-        // grab the current period
-        Timestamp ts = document.getDocumentHeader().getWorkflowDocument().getCreateDate();
-        AccountingPeriod currPeriod = getAccountingPeriodService().getByDate(new Date(ts.getTime()));
-        Integer currPeriodVal = new Integer(currPeriod.getUniversityFiscalPeriodCode());
-
-        if (currPeriodVal == 1) {
-            if (period < 11) {
-                reportError(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_PERIOD_THREE_OPEN);
-                return false;
-            }
-        }
-
-        // can't post back more than 2 periods
-        if (period <= currPeriodVal) {
-            if ((currPeriodVal - period) > 2) {
-                reportError(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS);
-                return false;
-            }
-        }
-        else {
-            // if currPeriodVal is less than period then that means it can only be
-            // period 2 (see period 1 rule above)and period 13 as the only possible combination,
-            // if not then error out
-            if (currPeriodVal != 2) {
-                reportError(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS);
-                return false;
-            }
-            else {
-                if (period != 13) {
-                    reportError(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS);
-                    return false;
-                }
-            }
-        }
-
+        AccountingPeriod acctPeriod = getAccountingPeriodService().getByPeriod(document.getPostingPeriodCode(), document.getPostingYear());
+        
         valid = succeedsRule(RESTRICTED_PERIOD_CODES, document.getPostingPeriodCode());
         if (!valid) {
             reportError(ACCOUNTING_PERIOD_STATUS_CODE_FIELD, ERROR_ACCOUNTING_PERIOD_OUT_OF_RANGE);
         }
-
+        
         // can't post into a closed period
         if (acctPeriod == null || acctPeriod.getUniversityFiscalPeriodStatusCode().equalsIgnoreCase(ACCOUNTING_PERIOD_STATUS_CLOSED)) {
             reportError(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_PERIOD_CLOSED);
             return false;
         }
+        
+        Timestamp ts = document.getDocumentHeader().getWorkflowDocument().getCreateDate();
+        AccountingPeriod currPeriod = getAccountingPeriodService().getByDate(new Date(ts.getTime()));
+        
+        if (acctPeriod.getUniversityFiscalYear().equals(SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear())) {
+            if (getAccountingPeriodService().compareAccountingPeriodsByDate(acctPeriod, currPeriod) < 0) {
+                // we've only got problems if the av's accounting period is earlier than now
+                
+                // are we in the grace period for this accounting period?
+                if (!AuxiliaryVoucherDocumentRule.calculateIfWithinGracePeriod(new Date(ts.getTime()), acctPeriod)) {
+                    reportError(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS);
+                    return false;
+                }
+            }
+        } else {
+            // it's not the same fiscal year, so we need to test whether we are currently
+            // in the grace period of the acctPeriod
+            if (!AuxiliaryVoucherDocumentRule.calculateIfWithinGracePeriod(new Date(ts.getTime()), acctPeriod) && AuxiliaryVoucherDocumentRule.isEndOfPreviousFiscalYear(acctPeriod)) {
+                reportError(DOCUMENT_ERRORS, ERROR_DOCUMENT_ACCOUNTING_TWO_PERIODS);
+                return false;
+            }
+        }
+        
+        Integer period = new Integer(document.getPostingPeriodCode());
+        Integer year = document.getPostingYear();
 
         // check for specific posting issues
         if (document.isRecodeType()) {
@@ -808,6 +800,64 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
             }
         }
         return valid;
+    }
+    
+    /**
+     * 
+     * This method checks if a given moment of time is within an accounting period, or its
+     * auxiliary voucher grace period.
+     * @param today a date to check if it is within the period 
+     * @param periodToCheck the  
+     * @return
+     */
+    public static boolean calculateIfWithinGracePeriod(Date today, AccountingPeriod periodToCheck) {
+        boolean result = false;
+        int todayAsComparableDate = AuxiliaryVoucherDocumentRule.comparableDateForm(today);
+        int periodClose = new Integer(AuxiliaryVoucherDocumentRule.comparableDateForm(periodToCheck.getUniversityFiscalPeriodEndDate()));
+        int periodBegin = AuxiliaryVoucherDocumentRule.comparableDateForm(AuxiliaryVoucherDocumentRule.calculateFirstDayOfMonth(periodToCheck.getUniversityFiscalPeriodEndDate())); 
+        int gracePeriodClose = periodClose + new Integer(SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(AUXILIARY_VOUCHER_SECURITY_GROUPING, AUXILIARY_VOUCHER_ACCOUNTING_PERIOD_GRACE_PERIOD)).intValue();
+        return (todayAsComparableDate >= periodBegin && todayAsComparableDate <= gracePeriodClose);
+    }
+    
+    /**
+     * 
+     * This method returns a date as an approximate count of days since the BCE epoch.
+     * @param d the date to convert
+     * @return an integer count of days, very approximate
+     */
+    public static int comparableDateForm(Date d) {
+        java.util.Calendar cal = new java.util.GregorianCalendar();
+        cal.setTime(d);
+        return cal.get(java.util.Calendar.YEAR) * 365 + cal.get(java.util.Calendar.DAY_OF_YEAR);
+    }
+    
+    /**
+     * Given a day, this method calculates what the first day of that month was.
+     * @param d date to find first of month for
+     * @return date of the first day of the month
+     */
+    public static Date calculateFirstDayOfMonth(Date d) {
+        java.util.Calendar cal = new java.util.GregorianCalendar();
+        cal.setTime(d);
+        int dayOfMonth = cal.get(java.util.Calendar.DAY_OF_MONTH) - 1;
+        cal.add(java.util.Calendar.DAY_OF_YEAR, -1*dayOfMonth);
+        return new Date(cal.getTimeInMillis());
+    }
+    
+    /**
+     * This method checks if the given accounting period ends on the last day
+     * of the previous fiscal year
+     * @param acctPeriod accounting period to check
+     * @return true if the accounting period ends with the fiscal year, false if otherwise
+     */
+    public static boolean isEndOfPreviousFiscalYear(AccountingPeriod acctPeriod) {
+        UniversityDateService dateService = SpringServiceLocator.getUniversityDateService();
+        Date firstDayOfCurrFiscalYear = new Date(dateService.getFirstDateOfFiscalYear(dateService.getCurrentFiscalYear()).getTime());
+        Date periodClose = acctPeriod.getUniversityFiscalPeriodEndDate();
+        java.util.Calendar cal = new java.util.GregorianCalendar();
+        cal.setTime(periodClose);
+        cal.add(java.util.Calendar.DATE, 1);
+        return (firstDayOfCurrFiscalYear.equals(new Date(cal.getTimeInMillis())));
     }
 
     /**

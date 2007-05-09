@@ -217,5 +217,50 @@ public class AccountingPeriod extends PersistableBusinessObjectBase {
         return m;
     }
 
+    /**
+     * generates a hash code for this accounting period, based on the primary keys
+     * of the AccountingPeriod BusinesObject: university fiscal year and university
+     * fiscal period code
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int PRIME = 31;
+        int result = 1;
+        result = PRIME * result + ((universityFiscalPeriodCode == null) ? 0 : universityFiscalPeriodCode.hashCode());
+        result = PRIME * result + ((universityFiscalYear == null) ? 0 : universityFiscalYear.hashCode());
+        return result;
+    }
+
+    /**
+     * determines if two accounting periods are equal, based on the primary keys
+     * of the AccountingPeriod BusinesObject: university fiscal year and university
+     * fiscal period code
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        // this method was added so that org.kuali.module.financial.web.struts.form.AuxiliaryVoucherForm.populateAccountingPeriodListForRendering works properly
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final AccountingPeriod other = (AccountingPeriod) obj;
+        if (universityFiscalPeriodCode == null) {
+            if (other.universityFiscalPeriodCode != null)
+                return false;
+        }
+        else if (!universityFiscalPeriodCode.equals(other.universityFiscalPeriodCode))
+            return false;
+        if (universityFiscalYear == null) {
+            if (other.universityFiscalYear != null)
+                return false;
+        }
+        else if (!universityFiscalYear.equals(other.universityFiscalYear))
+            return false;
+        return true;
+    }
 
 }

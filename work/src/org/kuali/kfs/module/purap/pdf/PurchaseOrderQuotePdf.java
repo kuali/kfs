@@ -351,7 +351,7 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
                 }
                 tableCell = createCell(itemLineNumber, false, false, false, false, Element.ALIGN_CENTER, cour_10_normal);
                 itemsTable.addCell(tableCell);
-                String quantity = (poi.getItemOrderedQuantity() != null) ? poi.getItemOrderedQuantity().toString() : " ";
+                String quantity = (poi.getItemQuantity() != null) ? poi.getItemQuantity().toString() : " ";
                 tableCell = createCell(quantity, false, false, false, false, Element.ALIGN_CENTER, cour_10_normal);
                 itemsTable.addCell(tableCell);
                 tableCell = createCell(poi.getItemUnitOfMeasureCode(), false, false, false, false, Element.ALIGN_CENTER, cour_10_normal);

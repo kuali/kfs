@@ -44,7 +44,7 @@
 						<field attributeName="itemInvoicedTotalAmount" />
 						<field attributeName="itemInvoicedTotalQuantity" />
 						<field attributeName="itemLineNumber" />
-						<field attributeName="itemOrderedQuantity" />
+						<field attributeName="itemQuantity" />
 						<field attributeName="itemOutstandingEncumberedQuantity" />
 						<field attributeName="itemOutstandingEncumbranceAmount" />
 						<field attributeName="itemReceivedTotalQuantity" />
@@ -84,7 +84,7 @@
 				<lookupField attributeName="itemInvoicedTotalAmount" required="false" />
 				<lookupField attributeName="itemInvoicedTotalQuantity" required="false" />
 				<lookupField attributeName="itemLineNumber" required="false" />
-				<lookupField attributeName="itemOrderedQuantity" required="false" />
+				<lookupField attributeName="itemQuantity" required="false" />
 				<lookupField attributeName="itemOutstandingEncumberedQuantity" required="false" />
 				<lookupField attributeName="itemOutstandingEncumbranceAmount" required="false" />
 				<lookupField attributeName="itemReceivedTotalQuantity" required="false" />
@@ -110,7 +110,7 @@
 				<field attributeName="itemInvoicedTotalAmount" />
 				<field attributeName="itemInvoicedTotalQuantity" />
 				<field attributeName="itemLineNumber" />
-				<field attributeName="itemOrderedQuantity" />
+				<field attributeName="itemQuantity" />
 				<field attributeName="itemOutstandingEncumberedQuantity" />
 				<field attributeName="itemOutstandingEncumbranceAmount" />
 				<field attributeName="itemReceivedTotalQuantity" />
@@ -155,13 +155,6 @@
 				<shortLabel>Quantity</shortLabel>
 				<summary>itemInvoicedTotalQuantity</summary>
 				<description>itemInvoicedTotalQuantity description...</description>
-			</attributeReference>
-
-			<attributeReference name="itemOrderedQuantity" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemQuantity">
-				<label>Item Ordered Quantity</label>
-				<shortLabel>Ordered Quantity</shortLabel>
-				<summary>itemOrderedQuantity</summary>
-				<description>itemOrderedQuantity description...</description>
 			</attributeReference>
 
 			<attributeReference name="itemOutstandingEncumberedQuantity" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemQuantity">

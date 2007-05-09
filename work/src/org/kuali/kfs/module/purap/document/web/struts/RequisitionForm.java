@@ -32,7 +32,6 @@ public class RequisitionForm extends PurchasingFormBase {
     public RequisitionForm() {
         super();
         setDocument(new RequisitionDocument());
-        this.setNewPurchasingItemLine(setupNewPurchasingItemLine());
     }
 
     /**
@@ -76,7 +75,8 @@ public class RequisitionForm extends PurchasingFormBase {
      */
     @Override
     public PurchasingApItem setupNewPurchasingItemLine() {
-        return new RequisitionItem();
+        RequisitionItem ri = new RequisitionItem();
+        return ri;
     }
     
     

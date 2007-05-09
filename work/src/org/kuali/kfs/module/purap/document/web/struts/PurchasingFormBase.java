@@ -31,6 +31,9 @@ public class PurchasingFormBase extends KualiAccountingDocumentFormBase {
      */
     public PurchasingFormBase() {
         super();
+        this.setNewPurchasingItemLine(setupNewPurchasingItemLine());
+        newPurchasingItemLine.setItemTypeCode("ITEM");
+        newPurchasingItemLine.refreshNonUpdateableReferences();
     }
     /**
      * Gets the newPurchasingItemLine attribute. 

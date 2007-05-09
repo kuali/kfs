@@ -52,6 +52,11 @@
 						<html:hidden property="document.item[${ctr}].versionNumber" />
 						<html:hidden property="document.item[${ctr}].itemTypeCode" />
 						<html:hidden property="document.item[${ctr}].itemType.itemTypeCode" />
+						<html:hidden property="document.item[${ctr}].itemType.itemTypeDescription" />
+						<html:hidden property="document.item[${ctr}].itemType.active" />
+						<html:hidden property="document.item[${ctr}].itemType.quantityBasedGeneralLedgerIndicator" />						
+						<html:hidden property="document.item[${ctr}].itemType.itemTypeAboveTheLineIndicator" />
+
 						<div align="center">
 							&nbsp;
 						</div>

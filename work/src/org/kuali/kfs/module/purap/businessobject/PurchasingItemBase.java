@@ -19,20 +19,9 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 
 public abstract class PurchasingItemBase extends PurApItemBase implements PurchasingItem {
-    private KualiDecimal itemQuantity;
-
-    public KualiDecimal getItemQuantity() {
-        return itemQuantity;
-    }
-
-    public void setItemQuantity(KualiDecimal itemQuantity) {
-        this.itemQuantity = itemQuantity;
-    }
-    
     public boolean isEmpty() {
         return ! ( StringUtils.isNotEmpty(getItemUnitOfMeasureCode()) ||
                    StringUtils.isNotEmpty(getItemCatalogNumber()) ||

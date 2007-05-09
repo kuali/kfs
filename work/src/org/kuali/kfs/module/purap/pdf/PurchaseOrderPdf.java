@@ -528,7 +528,7 @@ public class PurchaseOrderPdf extends PurapPdf {
                 }
                 tableCell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 itemsTable.addCell(tableCell);
-                String quantity = (poi.getItemOrderedQuantity() != null) ? poi.getItemOrderedQuantity().toString() : " ";
+                String quantity = (poi.getItemQuantity() != null) ? poi.getItemQuantity().toString() : " ";
                 tableCell = new PdfPCell(new Paragraph(quantity, cour_10_normal));
                 tableCell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 itemsTable.addCell(tableCell);
@@ -704,16 +704,16 @@ public class PurchaseOrderPdf extends PurapPdf {
             // "ITEM" items.
         }
         else if ((poi.getItemType() != null) && poi.getItemType().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE)) {
-            if (poi.getItemOrderedQuantity() == null && poi.getItemUnitPrice() == null) {
+            if (poi.getItemQuantity() == null && poi.getItemUnitPrice() == null) {
                 LOG.debug("lineItemDisplaysOnPdf() Item type is " + poi.getItemType().getItemTypeCode() + " OrderQuantity and unit price are both null. Display on pdf.");
                 return true;
             }
-            if ((poi.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE) && ((poi.getItemUnitPrice() != null) && (poi.getItemUnitPrice().compareTo(zero.bigDecimalValue()) >= 0))) || (((!poi.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE)) && (poi.getItemOrderedQuantity().compareTo(zero) == 1)) && (poi.getItemUnitPrice() != null))) {
-                LOG.debug("lineItemDisplaysOnPdf() Item type is " + poi.getItemType().getItemTypeCode() + " OrderQuantity is " + poi.getItemOrderedQuantity() + ". Unit price is " + poi.getItemUnitPrice() + ". Display on pdf.");
+            if ((poi.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE) && ((poi.getItemUnitPrice() != null) && (poi.getItemUnitPrice().compareTo(zero.bigDecimalValue()) >= 0))) || (((!poi.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE)) && (poi.getItemQuantity().compareTo(zero.bigDecimalValue()) == 1)) && (poi.getItemUnitPrice() != null))) {
+                LOG.debug("lineItemDisplaysOnPdf() Item type is " + poi.getItemType().getItemTypeCode() + " OrderQuantity is " + poi.getItemQuantity() + ". Unit price is " + poi.getItemUnitPrice() + ". Display on pdf.");
                 return true;
             }
             else {
-                LOG.debug("lineItemDisplaysOnPdf() Item type is " + poi.getItemType().getItemTypeCode() + " and item order quantity is " + poi.getItemOrderedQuantity() + " and item unit price is " + poi.getItemUnitPrice() + ". Don't display on pdf.");
+                LOG.debug("lineItemDisplaysOnPdf() Item type is " + poi.getItemType().getItemTypeCode() + " and item order quantity is " + poi.getItemQuantity() + " and item unit price is " + poi.getItemUnitPrice() + ". Don't display on pdf.");
             }
         }
         return false;

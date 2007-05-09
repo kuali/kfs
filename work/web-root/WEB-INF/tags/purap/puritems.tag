@@ -117,7 +117,7 @@
 						<kul:htmlControlAttribute
 							attributeEntry="${itemAttributes.extendedPrice}"
 							property="newPurchasingItemLine.extendedPrice"
-							readOnly="${not fullEntryMode}" />
+							readOnly="${true}" />
 					</td>
 					<%--<td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemRestrictedIndicator}" property="newPurchasingItemLine.itemRestrictedIndicator" readOnly="${not fullEntryMode}"/></td>--%>
 					<td class="infoline">
@@ -190,6 +190,10 @@
 						<html:hidden property="document.item[${ctr}].versionNumber" />
 						<html:hidden property="document.item[${ctr}].itemTypeCode" />
 						<html:hidden property="document.item[${ctr}].itemType.itemTypeCode" />
+						<html:hidden property="document.item[${ctr}].itemType.itemTypeDescription" />
+						<html:hidden property="document.item[${ctr}].itemType.active" />
+						<html:hidden property="document.item[${ctr}].itemType.quantityBasedGeneralLedgerIndicator" />						
+						<html:hidden property="document.item[${ctr}].itemType.itemTypeAboveTheLineIndicator" />
 						<div align="center">
 							&nbsp;
 						</div>
@@ -244,9 +248,10 @@
 							readOnly="${not fullEntryMode}" />
 					</td>
 					<td class="infoline">
-						<html:hidden write="true"
-							property="document.item[${ctr}].extendedPrice" />
-						&nbsp;
+						<kul:htmlControlAttribute
+							attributeEntry="${itemAttributes.extendedPrice}"
+							property="document.item[${ctr}].extendedPrice"
+							readOnly="${true}" />
 					</td>
 					<%--<td class="infoline"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemRestrictedIndicator}" property="newPurchasingItemLine.itemRestrictedIndicator" /></td>--%>
 					<td class="infoline">

@@ -52,14 +52,15 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
 	private CapitalAssetTransactionType capitalAssetTransactionType;
 	private ItemType itemType;
     private Integer purapDocumentIdentifier;
+    private KualiDecimal itemQuantity;
 
 	/**
 	 * Default constructor.
 	 */
 	public PurApItemBase() {
 	    //TODO: Chris - default itemType (should probably get this from spring or KFSConstants file)
-        itemTypeCode = "ITEM";
-        this.refreshNonUpdateableReferences();
+//        itemTypeCode = "ITEM";
+//        this.refreshNonUpdateableReferences();
         sourceAccountingLines = new TypedArrayList(getAccountingLineClass());
         resetAccount();
 	}
@@ -407,10 +408,18 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
      * @return Returns the extendedPrice.
      */
     public KualiDecimal getExtendedPrice() {
-        return extendedPrice;
-    }
-
-    /**
+        if(this.itemUnitPrice!=null) {
+            if(!this.itemType.isQuantityBasedGeneralLedgerIndicator() || this.itemQuantity==null) {
+                return new KualiDecimal(this.itemUnitPrice.toString());
+            }
+            BigDecimal extendedPrice = this.itemUnitPrice.multiply(this.itemQuantity.bigDecimalValue());
+            return new KualiDecimal(extendedPrice);
+        } else {
+            return null;
+        }
+    } 
+    
+     /**
      * Sets the extendedPrice attribute value.
      * @param extendedPrice The extendedPrice to set.
      */
@@ -533,5 +542,13 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
 
     public void setPurapDocumentIdentifier(Integer purapDocumentIdentifier) {
         this.purapDocumentIdentifier = purapDocumentIdentifier;
+    }
+
+    public KualiDecimal getItemQuantity() {
+        return itemQuantity;
+    }
+
+    public void setItemQuantity(KualiDecimal itemQuantity) {
+        this.itemQuantity = itemQuantity;
     }
 }

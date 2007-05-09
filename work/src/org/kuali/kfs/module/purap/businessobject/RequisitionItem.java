@@ -75,17 +75,6 @@ public class RequisitionItem extends PurchasingItemBase {
     }
 
     /**
-     * @see org.kuali.module.purap.bo.PurchasingItemBase#getExtendedPrice()
-     */
-    @Override
-    public KualiDecimal getExtendedPrice() {
-        if((this.getItemQuantity()==null) || (this.getItemUnitPrice()==null)) {
-            return new KualiDecimal("0");
-        }
-        return new KualiDecimal(this.getItemUnitPrice().multiply(new BigDecimal(this.getItemQuantity().toString())).toString()).setScale(PurapConstants.DOLLAR_AMOUNT_MIN_SCALE);
-    }
-
-    /**
      * @see org.kuali.module.purap.bo.PurchasingItemBase#getAccountingLineClass()
      */
     @Override

@@ -15,6 +15,7 @@
  */
 package org.kuali.module.purap.document;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -85,9 +86,14 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
     
     public KualiDecimal getTotalDollarAmount() {
-        //FIXME get real total
-//        return KFSConstants.ZERO;
-        return new KualiDecimal(100);
+        //TODO: the easy total dollar amount for now (i.e. not taking into account inactive etc
+        //do more analysis and make better
+        KualiDecimal total = new KualiDecimal(BigDecimal.ZERO);
+        for (PurchasingApItem item : items) {
+            KualiDecimal itemTotal = (item.getExtendedPrice()==null)?KualiDecimal.ZERO:item.getExtendedPrice();
+            total = total.add(itemTotal);
+        }
+        return total;
     }
 
     /**

@@ -1607,4 +1607,25 @@
 		<foreignkey field-ref="buildingCode" />
 	</reference-descriptor>
 </class-descriptor>
+
+<class-descriptor class="org.kuali.module.purap.bo.BuildingLookup" table="PUR_AP_BLDG_PARM_T">
+    <field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="buildingCode" column="BLDG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="buildingOverrideCode" column="BLDG_OVRD_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+    <field-descriptor name="buildingLookupName" column="BLDG_OVRD_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="buildingLookupStreetAddress" column="BLDG_OVRD_STR_ADDR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="buildingLookupAddressCityName" column="BLDG_OVRD_ADDR_CTY_NM" jdbc-type="VARCHAR"/>
+    <field-descriptor name="buildingLookupAddressStateCode" column="BLDG_OVRD_ADDR_ST_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="buildingLookupAddressZipCode" column="BLDG_OVRD_ADDR_ZIP_CD" jdbc-type="VARCHAR"/>
+    <reference-descriptor name="campus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="campusCode" />
+    </reference-descriptor>
+    <reference-descriptor name="building" class-ref="org.kuali.kfs.bo.Building" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="campusCode" />
+        <foreignkey field-ref="buildingCode" />
+    </reference-descriptor>
+</class-descriptor>
+
 </descriptor-repository>

@@ -30,6 +30,7 @@ import org.kuali.module.purap.document.AccountsPayableDocumentBase;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.web.struts.form.AccountsPayableFormBase;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
+import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.service.PhoneNumberService;
 
 /**
@@ -80,9 +81,9 @@ public class AccountsPayableActionBase extends KualiAccountingDocumentActionBase
             refreshVendorDetail = (VendorDetail)businessObjectService.retrieve(refreshVendorDetail);
             document.templateVendorDetail(refreshVendorDetail);
         }
-
+    */
         if (KFSConstants.KUALI_LOOKUPABLE_IMPL.equals(baseForm.getRefreshCaller())) {
-            
+           /*
             if (request.getParameter("document.vendorContractGeneratedIdentifier") != null) {
                 Integer vendorContractGeneratedId = document.getVendorContractGeneratedIdentifier();
                 VendorContract refreshVendorContract = new VendorContract();
@@ -90,6 +91,7 @@ public class AccountsPayableActionBase extends KualiAccountingDocumentActionBase
                 refreshVendorContract = (VendorContract)businessObjectService.retrieve(refreshVendorContract);
                 document.templateVendorContract(refreshVendorContract);
             }
+            */
             if (request.getParameter("document.vendorAddressGeneratedIdentifier") != null) {
                 Integer vendorAddressGeneratedId = document.getVendorAddressGeneratedIdentifier();
                 VendorAddress refreshVendorAddress = new VendorAddress();
@@ -98,7 +100,7 @@ public class AccountsPayableActionBase extends KualiAccountingDocumentActionBase
                 document.templateVendorAddress(refreshVendorAddress);
             }
         }
-        */
+        
         return super.refresh(mapping, form, request, response);
     }
 

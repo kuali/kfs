@@ -947,6 +947,15 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         return "No";
     }
 
+    /**
+     * Sets the purchaseOrderNotes attribute value.
+     * @param purchaseOrderNotes The purchaseOrderNotes to set.
+     */
+    public void setPurchaseOrderNotes(String purchaseOrderNotes) {
+        this.purchaseOrderNotes = purchaseOrderNotes;
+    }
+
+
     @Override
     public List<PaymentRequestView> getRelatedPaymentRequestViews() {
         return null;

@@ -54,7 +54,7 @@
                 </th>
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorName}" property="document.vendorName" readOnly="${not fullEntryMode or vendorReadOnly or displayPaymentRequestFields or displayCreditMemoFields}" />
-                    <c:if test="${fullEntryMode and (displayRequisitionFields or displayPurchaseOrderFields)}">
+                    <c:if test="${fullEntryMode and (displayRequisitionFields or displayPurchaseOrderFields)}" >
                         <kul:lookup  boClassName="org.kuali.module.vendor.bo.VendorDetail" 
                          fieldConversions="vendorHeaderGeneratedIdentifier:document.vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:document.vendorDetailAssignedIdentifier,defaultAddressLine1:document.vendorLine1Address,defaultAddressLine2:document.vendorLine2Address,defaultAddressCity:document.vendorCityName,defaultAddressPostalCode:document.vendorPostalCode,defaultAddressStateCode:document.vendorStateCode,defaultAddressCountryCode:document.vendorCountryCode"/>
                     </c:if>
@@ -236,7 +236,7 @@
                     </th>
                     <td align=left valign=middle class="datacell">
                         <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorContactsLabel}" property="document.vendorContactsLabel" readOnly="true"/>                    
-                        <c:if test="${vendorReadOnly}">
+                        <c:if test="${vendorReadOnly}" >
                             <kul:lookup  boClassName="org.kuali.module.vendor.bo.VendorContact" readOnlyFields="vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier" autoSearch="yes" lookupParameters="document.vendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier,document.vendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier" hideReturnLink="true" extraButtonSource="images/buttonsmall_return.gif" />                    
                         </c:if>
                     </td>

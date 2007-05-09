@@ -59,6 +59,8 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     private String deliveryCampusCode;
     private KualiDecimal purchaseOrderTotalLimit;
     */
+    private Integer vendorHeaderGeneratedIdentifier;
+    private Integer vendorDetailAssignedIdentifier;
     private String vendorName;
     private String vendorLine1Address;
     private String vendorLine2Address;
@@ -505,6 +507,42 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
      */
     public void setRecurringPaymentTypeCode(String recurringPaymentTypeCode) {
         this.recurringPaymentTypeCode = recurringPaymentTypeCode;
+    }
+
+
+    /**
+     * Gets the vendorDetailAssignedIdentifier attribute. 
+     * @return Returns the vendorDetailAssignedIdentifier.
+     */
+    public Integer getVendorDetailAssignedIdentifier() {
+        return vendorDetailAssignedIdentifier;
+    }
+
+
+    /**
+     * Sets the vendorDetailAssignedIdentifier attribute value.
+     * @param vendorDetailAssignedIdentifier The vendorDetailAssignedIdentifier to set.
+     */
+    public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
+        this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
+    }
+
+
+    /**
+     * Gets the vendorHeaderGeneratedIdentifier attribute. 
+     * @return Returns the vendorHeaderGeneratedIdentifier.
+     */
+    public Integer getVendorHeaderGeneratedIdentifier() {
+        return vendorHeaderGeneratedIdentifier;
+    }
+
+
+    /**
+     * Sets the vendorHeaderGeneratedIdentifier attribute value.
+     * @param vendorHeaderGeneratedIdentifier The vendorHeaderGeneratedIdentifier to set.
+     */
+    public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
+        this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
     }
 
 

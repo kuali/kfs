@@ -159,17 +159,7 @@ public class PurapServiceImpl implements PurapService {
      * @param document
      */
     public void addBelowLineItems(PurchasingAccountsPayableDocument document) {
-        //Obtain a list of below the line items from system parameter
-        String documentTypeClassName = document.getClass().getName();
-        String[] documentTypeArray = StringUtils.split(documentTypeClassName, ".");
-        String documentType = documentTypeArray[documentTypeArray.length - 1];
-        //If it's a credit memo, we'll have to append the source of the credit memo
-        //whether it's created from a Vendor, a PO or a PREQ.
-        if (documentType.equals("CreditMemoDocument")) {
-           
-        }
-        String securityGroup = (String)PurapConstants.ITEM_TYPE_SYSTEM_PARAMETERS_SECURITY_MAP.get(documentType);
-        String[] itemTypes = kualiConfigurationService.getApplicationParameterValues(securityGroup, PurapConstants.BELOW_THE_LINES_PARAMETER);
+        String[] itemTypes = getBelowTheLineForDocument(document);
         
         List<PurchasingApItem> existingItems = document.getItems();
 
@@ -204,6 +194,7 @@ public class PurapServiceImpl implements PurapService {
                         newItem = new CreditMemoItem();
                     }
                     newItem.setItemTypeCode(itemTypes[i]);
+                    newItem.refreshNonUpdateableReferences();
                     existingItems.add(lastFound, newItem);
                     existingItemTypes.add(itemTypes[i]);
                 }
@@ -212,5 +203,25 @@ public class PurapServiceImpl implements PurapService {
                 }
             }
         }
+    }
+
+    /**
+     * This method get the Below the line item type codes from the parameters table
+     * @param document
+     * @return
+     */
+    public String[] getBelowTheLineForDocument(PurchasingAccountsPayableDocument document) {
+        //Obtain a list of below the line items from system parameter
+        String documentTypeClassName = document.getClass().getName();
+        String[] documentTypeArray = StringUtils.split(documentTypeClassName, ".");
+        String documentType = documentTypeArray[documentTypeArray.length - 1];
+        //If it's a credit memo, we'll have to append the source of the credit memo
+        //whether it's created from a Vendor, a PO or a PREQ.
+        if (documentType.equals("CreditMemoDocument")) {
+           
+        }
+        String securityGroup = (String)PurapConstants.ITEM_TYPE_SYSTEM_PARAMETERS_SECURITY_MAP.get(documentType);
+        String[] itemTypes = kualiConfigurationService.getApplicationParameterValues(securityGroup, PurapConstants.BELOW_THE_LINES_PARAMETER);
+        return itemTypes;
     }
 }

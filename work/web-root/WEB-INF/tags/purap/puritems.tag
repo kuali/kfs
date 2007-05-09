@@ -20,6 +20,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="kul"%>
 <%@ taglib tagdir="/WEB-INF/tags/dd" prefix="dd"%>
 <%@ taglib tagdir="/WEB-INF/tags/fin" prefix="fin"%>
+<%@ taglib tagdir="/WEB-INF/tags/purap" prefix="purap"%>
 
 <%@ attribute name="displayRequisitionFields" required="false"
     description="Boolean to indicate if REQ specific fields should be displayed" %>
@@ -33,8 +34,8 @@
 		<table cellpadding="0" cellspacing="0" class="datatable"
 			summary="Items Section">
 			<tr>
-			  <td colspan="11" class="subhead">
-			    <span class="subhead-left">Items</span>
+			  <td colspan="12" class="subhead">
+			    <span class="subhead-left">Add Item</span>
 			    <span class="subhead-right">
 			        <html:image property="methodToCall.setupAccountDistribution" src="images/tinybutton-setaccdist.gif"
 			                    alt="setup account distribution" title="setup account distribution" styleClass="tinybutton"/>
@@ -149,13 +150,46 @@
 				<!-- end accounting line -->
 			</c:if>
 			<!-- End of if fullEntryMode, then display the addLine -->
+			<c:if test="${fn:length(KualiForm.document.items)>fn:length(KualiForm.document.belowTheLineTypes)}">
+			<tr>
+			  <td colspan="12" class="subhead">
+			    <span class="subhead-left">Current Items</span>
+			  </td>		
+			</tr>
+			<tr>
+				<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" />
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${itemAttributes.itemLineNumber}" />
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${itemAttributes.itemTypeCode}" />
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${itemAttributes.itemQuantity}" />
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${itemAttributes.itemUnitOfMeasureCode}" />
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${itemAttributes.itemCatalogNumber}" />
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${itemAttributes.itemDescription}" />
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${itemAttributes.itemUnitPrice}" />
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${itemAttributes.extendedPrice}" />
+				<%--<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemRestrictedIndicator}"/>--%>
+				<kul:htmlAttributeHeaderCell
+					attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" />
+				<kul:htmlAttributeHeaderCell literalLabel="Actions" />
+			</tr>
+			</c:if>
 			<logic:iterate indexId="ctr" name="KualiForm"
 				property="document.items" id="itemLine">
+				<c:if test="${itemLine.itemType.itemTypeAboveTheLineIndicator == true}">
 				<tr>
 
 					<kul:htmlAttributeHeaderCell scope="row">
 						<html:hidden property="document.item[${ctr}].itemIdentifier" />
 						<html:hidden property="document.item[${ctr}].versionNumber" />
+						<html:hidden property="document.item[${ctr}].itemTypeCode" />
+						<html:hidden property="document.item[${ctr}].itemType.itemTypeCode" />
 						<div align="center">
 							&nbsp;
 						</div>
@@ -238,6 +272,7 @@
 						</td>
 					</c:if>
 				</tr>
+				
 				<tr>
 					<td width="100%" colspan="12">
 
@@ -252,9 +287,13 @@
 
 					</td>
 				</tr>
-
+			</c:if>
 			</logic:iterate>
-
+			<tr>
+				<td width="100%" colspan="12">
+					<purap:miscitems itemAttributes="${itemAttributes}" accountingLineAttributes="${accountingLineAttributes}" />
+				</td>
+			<tr>
 			<!-- BEGIN TOTAL SECTION -->
 			<tr>
 				<th height=30 colspan="12">

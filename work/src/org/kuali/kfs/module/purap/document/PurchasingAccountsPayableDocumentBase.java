@@ -75,6 +75,9 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     private Status status;
     private VendorDetail vendorDetail;
 
+    // STATIC
+    public transient String [] belowTheLineTypes;
+    
     // CONSTRUCTORS
     public PurchasingAccountsPayableDocumentBase() {
         items = new TypedArrayList(getItemClass());
@@ -479,6 +482,17 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
             }
         }
         return relatedPurchaseOrderViews;
+    }
+
+    /**
+     * Gets the belowTheLineTypes attribute. 
+     * @return Returns the belowTheLineTypes.
+     */
+    public String[] getBelowTheLineTypes() {
+        if(this.belowTheLineTypes==null) {
+            this.belowTheLineTypes = SpringServiceLocator.getPurapService().getBelowTheLineForDocument(this);
+        }
+        return belowTheLineTypes;
     }
         
 }

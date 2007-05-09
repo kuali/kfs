@@ -189,7 +189,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
             LOG.debug(methodName + " pct = " + percentToUse);
             newAccountingLine.setAccountLinePercent(percentToUse.setScale(accountingLine.getAccountLinePercent().scale(),BIG_DECIMAL_ROUNDING_MODE));
             LOG.debug(methodName + " adding " + newAccountingLine.getAccountLinePercent());
-            accounts.add(newAccountingLine);
+            newAccounts.add(newAccountingLine);
             logDisplayOnlyTotal = logDisplayOnlyTotal.add(newAccountingLine.getAccountLinePercent());
             LOG.debug(methodName + " total = " + logDisplayOnlyTotal);
         }

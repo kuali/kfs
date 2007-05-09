@@ -320,6 +320,7 @@
                anchor="salarynewLineLineSubObjectCodeAnchor" />
 
 <%-- TODO need javascript to implement AJAX like call to refresh name --%>
+<%-- TODO fix to handle VACANT emplid --%>
            <bc:pbglLineDataCell dataCellCssClass="infoline"
                accountingLine="newBCAFLine"
                field="emplid"

@@ -20,47 +20,106 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.cg.bo.Award">
 
-
         <inquiry>
             <title>Award Inquiry</title>
 
-            <inquirySections><inquirySection title="Award Details"><inquiryFields>
-                <field attributeName="agencyAnalystName" />
-                <field attributeName="agencyAwardNumber" />
-                <field attributeName="agencyFuture1Amount" />
-                <field attributeName="agencyFuture2Amount" />
-                <field attributeName="agencyFuture3Amount" />
-                <field attributeName="agencyNumber" />
-                <field attributeName="agency.reportingName" />
-                <field attributeName="analystTelephoneNumber" />
-                <field attributeName="awardAddendumNumber" />
-                <field attributeName="awardAllocatedUniversityComputingServicesAmount" />
-                <field attributeName="awardBeginningDate" />
-                <field attributeName="awardClosingDate" />
-                <field attributeName="awardCommentText" />
-                <field attributeName="awardCreateTimestamp" />
-                <field attributeName="awardDirectCostAmount" />
-                <field attributeName="awardDocumentNumber" />
-                <field attributeName="awardEndingDate" />
-                <field attributeName="awardEntryDate" />
-                <field attributeName="awardIndirectCostAmount" />
-                <field attributeName="awardLastUpdateDate" />
-                <field attributeName="awardProjectTitle" />
-                <field attributeName="awardPurposeCode" />
-                <field attributeName="awardStatusCode" />
-                <field attributeName="awardTotalAmount" />
-                <field attributeName="federalFundedAmount" />
-                <field attributeName="federalPassThroughAgencyNumber" />
-                <field attributeName="federalPassThroughFundedAmount" />
-                <field attributeName="federalPassThroughIndicator" />
-                <field attributeName="workgroupName" />
-                <field attributeName="kualiGroupNames" />
-                <field attributeName="grantDescriptionCode" />
-                <field attributeName="letterOfCreditFundGroupCode" />
-                <field attributeName="oldProposalNumber" />
-                <field attributeName="proposalAwardTypeCode" />
-                <field attributeName="proposalNumber" />
-            </inquiryFields></inquirySection></inquirySections>
+            <inquirySections>
+                <inquirySection title="Award Details">
+                    <inquiryFields>
+                        <field attributeName="agencyAnalystName" />
+                        <field attributeName="agencyAwardNumber" />
+                        <field attributeName="agencyFuture1Amount" />
+                        <field attributeName="agencyFuture2Amount" />
+                        <field attributeName="agencyFuture3Amount" />
+                        <field attributeName="agencyNumber" />
+                        <field attributeName="agency.reportingName" />
+                        <field attributeName="analystTelephoneNumber" />
+                        <field attributeName="awardAddendumNumber" />
+                        <field attributeName="awardAllocatedUniversityComputingServicesAmount" />
+                        <field attributeName="awardBeginningDate" />
+                        <field attributeName="awardClosingDate" />
+                        <field attributeName="awardCommentText" />
+                        <field attributeName="awardCreateTimestamp" />
+                        <field attributeName="awardDirectCostAmount" />
+                        <field attributeName="awardDocumentNumber" />
+                        <field attributeName="awardEndingDate" />
+                        <field attributeName="awardEntryDate" />
+                        <field attributeName="awardIndirectCostAmount" />
+                        <field attributeName="awardLastUpdateDate" />
+                        <field attributeName="awardProjectTitle" />
+                        <field attributeName="awardPurposeCode" />
+                        <field attributeName="awardStatusCode" />
+                        <field attributeName="awardTotalAmount" />
+                        <field attributeName="federalFundedAmount" />
+                        <field attributeName="federalPassThroughAgencyNumber" />
+                        <field attributeName="federalPassThroughFundedAmount" />
+                        <field attributeName="federalPassThroughIndicator" />
+                        <field attributeName="workgroupName" />
+                        <field attributeName="kualiGroupNames" />
+                        <field attributeName="grantDescriptionCode" />
+                        <field attributeName="letterOfCreditFundGroupCode" />
+                        <field attributeName="oldProposalNumber" />
+                        <field attributeName="proposalAwardTypeCode" />
+                        <field attributeName="proposalNumber" />
+                    </inquiryFields>
+                </inquirySection>
+                <inquirySection title="Organizations">
+                    <inquiryFields>
+                        <inquiryCollection name="awardOrganizations" businessObjectClass="org.kuali.module.cg.bo.AwardOrganization">
+                            <field attributeName="chartOfAccountsCode" />
+                            <field attributeName="organizationCode" />
+                            <field attributeName="awardPrimaryOrganizationIndicator" />
+                            <inquirySummaryFields>
+                              <inquirySummaryField attributeName="chartOfAccountsCode" />
+                              <inquirySummaryField attributeName="organizationCode" />
+                              <inquirySummaryField attributeName="awardPrimaryOrganizationIndicator" />
+                            </inquirySummaryFields>
+                        </inquiryCollection>
+                    </inquiryFields>
+                </inquirySection>
+                <inquirySection title="Project Directors">
+                    <inquiryFields>
+                        <inquiryCollection name="awardProjectDirectors" businessObjectClass="org.kuali.module.cg.bo.AwardProjectDirector">
+                            <field attributeName="projectDirector.personUserIdentifier"/>
+                            <field attributeName="projectDirector.personName"/>
+                            <field attributeName="awardPrimaryProjectDirectorIndicator"/>
+                            <field attributeName="awardProjectDirectorProjectTitle"/>
+                            <inquirySummaryFields>
+                                <inquirySummaryField attributeName="projectDirector.personName" />
+                                <inquirySummaryField attributeName="awardPrimaryProjectDirectorIndicator" />
+                                <inquirySummaryField attributeName="awardProjectDirectorProjectTitle" />
+                            </inquirySummaryFields>
+                        </inquiryCollection>
+                    </inquiryFields>
+                </inquirySection>
+                <inquirySection title="Subcontractors">
+                    <inquiryFields>
+                        <inquiryCollection name="awardSubcontractors" businessObjectClass="org.kuali.module.cg.bo.AwardSubcontractor">
+                            <field attributeName="subcontractorNumber" />
+                            <field attributeName="subcontractor.subcontractorName" />
+                            <field attributeName="awardSubcontractorDescription" />
+                            <field attributeName="awardSubcontractorAmount"/>
+                            <inquirySummaryFields>
+                                <inquirySummaryField attributeName="subcontractor.subcontractorName" />
+                                <inquirySummaryField attributeName="awardSubcontractorAmount" />
+                            </inquirySummaryFields>
+                        </inquiryCollection>
+                    </inquiryFields>
+                </inquirySection>
+                <inquirySection title="Accounts">
+                    <inquiryFields>
+                        <inquiryCollection name="awardAccounts" businessObjectClass="org.kuali.module.cg.bo.AwardAccount">
+                            <field attributeName="accountNumber" />
+                            <field attributeName="chartOfAccountsCode" />
+                            <field attributeName="personUniversalIdentifier" />
+                            <inquirySummaryFields>
+                                <inquirySummaryField attributeName="accountNumber" />
+                                <inquirySummaryField attributeName="chartOfAccountsCode" />
+                            </inquirySummaryFields>
+                        </inquiryCollection>
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>
         </inquiry>
 
         <lookup>
@@ -558,7 +617,6 @@
                 <summary>Award Subcontractors</summary>
                 <description>Award Subcontractor</description>
             </collection>
-            <!-- todo: awardDiaries? -->
         </collections>
         
         <relationships>

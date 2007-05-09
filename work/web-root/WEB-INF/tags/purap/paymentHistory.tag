@@ -91,7 +91,7 @@
 		    <br />
 		</logic:notEmpty>
         <logic:empty name="KualiForm" property="document.relatedPaymentRequestViews">
-	        <h3>No Paymnent Requests</h3>
+	        <h3>No Payment Requests</h3>
         </logic:empty>
 
         <div class="h2-container">

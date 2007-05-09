@@ -17,8 +17,10 @@
 package org.kuali.module.budget.bo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
@@ -203,6 +205,19 @@ public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObje
         this.pendingBudgetConstructionAppointmentFunding = pendingBudgetConstructionAppointmentFunding;
     }
 
+    /**
+     * Returns a map with the primitive field names as the key and the primitive values as the map value.
+     * 
+     * @return Map
+     */
+    public Map getValuesMap() {
+        Map simpleValues = new HashMap();
+
+        simpleValues.put("emplid", getEmplid());
+
+        return simpleValues;
+    }
+  
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

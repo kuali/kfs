@@ -979,6 +979,15 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
             return valid;
         }
 
+        //If the vendorContractAllowedIndicator is false, it cannot have vendor contracts, return false;
+        if (!newVendor.getVendorHeader().getVendorType().isVendorContractAllowedIndicator()) {
+            valid = false;
+            String errorPath = MAINTAINABLE_ERROR_PREFIX + VendorPropertyConstants.VENDOR_CONTRACT + "[0]";
+            GlobalVariables.getErrorMap().addToErrorPath(errorPath);
+            GlobalVariables.getErrorMap().putError( VendorPropertyConstants.VENDOR_CONTRACT_NAME, VendorKeyConstants.ERROR_VENDOR_CONTRACT_NOT_ALLOWED );
+            return valid;
+        }
+        
         for (int i = 0; i < contracts.size(); i++) {
             VendorContract contract = contracts.get(i);
 

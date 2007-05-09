@@ -45,6 +45,8 @@ import org.kuali.rice.KNSServiceLocator;
 
 /**
  * This class...
+ * TODO May want to refactor PositionSalarySettingAction and IncumbentSalarySettingAction to extend
+ * from new class DetailSalarySettingAction and put common code there.
  */
 public class PositionSalarySettingAction extends KualiAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PositionSalarySettingAction.class);

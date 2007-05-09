@@ -39,6 +39,9 @@ import org.kuali.rice.KNSServiceLocator;
 
 /**
  * This class...
+ * TODO May want to refactor PositionSalarySettingForm and IncumbentSalarySettingForm to extend
+ * from new class DetailSalarySettingForm and put common code there. Or use something like
+ * DetailSalarySettingFormHelper?
  */
 public class PositionSalarySettingForm extends KualiForm {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PositionSalarySettingForm.class);
@@ -134,6 +137,7 @@ public class PositionSalarySettingForm extends KualiForm {
         KNSServiceLocator.getPersistenceService().retrieveReferenceObjects(line, REFRESH_FIELDS);
 
     }
+
     /**
      * Gets the budgetConstructionPosition attribute. 
      * @return Returns the budgetConstructionPosition.

@@ -119,15 +119,14 @@
 			</tr>
 		</c:if>
 		<!-- End of if fullEntryMode, then display the addLine -->
-		<c:if
-			test="${fn:length(KualiForm.document.items)>fn:length(KualiForm.document.belowTheLineTypes)}">
 	</table>
 
     <purap:accountdistribution
 		accountingLineAttributes="${accountingLineAttributes}" />
 
 	<table class="datatable" style="width: 100%;">
-
+		<c:if
+			test="${fn:length(KualiForm.document.items)>fn:length(KualiForm.document.belowTheLineTypes)}">
 		<tr>
 			<td colspan="12" class="subhead"><span class="subhead-left">Current
 			Items</span></td>

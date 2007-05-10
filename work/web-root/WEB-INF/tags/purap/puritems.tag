@@ -188,7 +188,7 @@
 					<td class="total-line" colspan="12" style="padding: 0px;">
 					<table class="datatable" style="width: 100%;">
 						<tr>
-							<td colspan="4" class="tab-subhead" style="border-right: none;">Item ${ctr}
+							<td colspan="4" class="tab-subhead" style="border-right: none;">Item ${ctr+1}
 							<c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
 								<html:image
 									property="methodToCall.toggleTab.tab${currentTabIndex}"
@@ -290,7 +290,7 @@
 						</tr>
 
 						<tr>
-							<td width="100%" colspan="12"><purap:puraccountingLines
+							<td width="100%" colspan="12"><purap:puraccountingLineCams
 								editingMode="${KualiForm.editingMode}"
 								editableAccounts="${KualiForm.editableAccounts}"
 								sourceAccountingLinesOnly="true"

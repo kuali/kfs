@@ -87,14 +87,14 @@
 				<tr>
 					<td width="100%" colspan="12">
 
-						<purap:puraccountingLines editingMode="${KualiForm.editingMode}"
+						<purap:puraccountingLineCams editingMode="${KualiForm.editingMode}"
 							editableAccounts="${KualiForm.editableAccounts}"
 							sourceAccountingLinesOnly="true"
 							optionalFields="accountLinePercent"
 							extraHiddenFields=",accountIdentifier,itemIdentifier"
 							accountingLineAttributes="${accountingLineAttributes}"
 							accountPrefix="document.item[${ctr}]." hideTotalLine="true"
-							hideFields="amount" accountingAddLineIndex="${ctr}" /> 
+							hideFields="amount" accountingAddLineIndex="${ctr}" suppressCams="${true}" /> 
 
 					</td>
 				</tr>

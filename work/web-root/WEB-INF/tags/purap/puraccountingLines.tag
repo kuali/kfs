@@ -147,54 +147,7 @@
 
 <%@ include
 	file="/WEB-INF/tags/fin/accountingLinesVariablesOverride.tag"%>
-
-<c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}"
-	scope="request" />
-<c:set var="topLevelTabIndex" value="${KualiForm.currentTabIndex}"
-	scope="request" />
-
-<c:set var="currentTab" value="${KualiForm.tabStateJstl}" />
-
-<%-- default to closed --%>
-<c:choose>
-	<c:when test="${empty currentTab}">
-		<c:set var="isOpen" value="false" />
-	</c:when>
-	<c:when test="${!empty currentTab}">
-		<c:set var="isOpen" value="${currentTab.open}" />
-	</c:when>
-</c:choose>
-
-
-<html:hidden property="tabState[${currentTabIndex}].open"
-	value="${isOpen}" />
-
-<tr>
-	<td class="total-line" colspan="${columnCount}" style="padding: 0px;">
-	<table class="datatable" style="width: 100%;">
-		<tr>
-			<td colspan="4" class="tab-subhead" style="border-right: none;">Item
-			Accounting Lines & CAMS <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
-				<html:image property="methodToCall.toggleTab.tab${currentTabIndex}"
-					src="images/tinybutton-hide.gif" alt="hide" title="toggle"
-					styleClass="tinybutton"
-					styleId="tab-${currentTabIndex}-imageToggle"
-					onclick="javascript: return toggleTab(document, ${currentTabIndex}); " />
-			</c:if> <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-				<html:image property="methodToCall.toggleTab.tab${currentTabIndex}"
-					src="images/tinybutton-show.gif" alt="show" title="toggle"
-					styleClass="tinybutton"
-					styleId="tab-${currentTabIndex}-imageToggle"
-					onclick="javascript: return toggleTab(document, ${currentTabIndex}); " />
-			</c:if></td>
-		</tr>
-	</table>
-
-	<c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
-		<div style="display: block;" id="tab-${currentTabIndex}-div">
-	</c:if> <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-		<div style="display: none;" id="tab-${currentTabIndex}-div">
-	</c:if> <c:if test="${empty inherit || inherit == true}">
+	<c:if test="${empty inherit || inherit == true}">
 		<table width="100%" border="0" cellpadding="0" cellspacing="0"
 			class="datatable">
 			<fin:subheadingWithDetailToggleRow columnCount="${columnCount}"
@@ -243,6 +196,3 @@
     var kualiForm = document.forms['KualiForm'];
     var kualiElements = kualiForm.elements;
   </SCRIPT>
-	</div>
-	</td>
-</tr>

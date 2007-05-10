@@ -26,30 +26,33 @@
             <inquirySections>
                 <inquirySection title="Proposal Details">
                     <inquiryFields>
+                        <field attributeName="proposalNumber" />
+                        <field attributeName="oldProposalNumber" />
                         <field attributeName="agencyNumber" />
                         <field attributeName="agency.reportingName" />
-                        <field attributeName="cfdaNumber" />
-                        <field attributeName="federalPassThroughAgencyNumber" />
-                        <field attributeName="grantNumber" />
-                        <field attributeName="oldProposalNumber" />
-                        <field attributeName="proposalAwardTypeCode" />
-                        <field attributeName="proposalBeginningDate" />
-                        <field attributeName="proposalClosingDate" />
-                        <field attributeName="proposalDirectCostAmount" />
-                        <field attributeName="proposalDueDate" />
-                        <field attributeName="proposalEndingDate" />
-                        <field attributeName="proposalFederalPassThroughIndicator" />
-                        <field attributeName="proposalFellowName" />
-                        <field attributeName="proposalIndirectCostAmount" />
-                        <field attributeName="proposalLastUpdateDate" />
-                        <field attributeName="proposalNumber" />
                         <field attributeName="proposalProjectTitle" />
-                        <field attributeName="proposalPurposeCode" />
-                        <field attributeName="proposalRejectedDate" />
                         <field attributeName="proposalStatusCode" />
+                        <field attributeName="grantNumber" />
+
+                        <field attributeName="proposalBeginningDate" />
+                        <field attributeName="proposalEndingDate" />
                         <field attributeName="proposalSubmissionDate" />
+                        <field attributeName="proposalClosingDate" />
+                        <field attributeName="proposalRejectedDate" />
+                        <field attributeName="proposalLastUpdateDate" />
+                        <field attributeName="proposalDirectCostAmount" />
+                        <field attributeName="proposalIndirectCostAmount" />
                         <field attributeName="proposalTotalAmount" />
                         <field attributeName="proposalTotalProjectAmount" />
+
+                        <field attributeName="proposalAwardTypeCode" />
+                        <field attributeName="proposalPurposeCode" />
+                        <field attributeName="cfdaNumber" />
+                        <field attributeName="proposalFellowName" />
+                        <field attributeName="proposalDueDate" />
+                        <field attributeName="proposalFederalPassThroughIndicator" />
+                        <field attributeName="federalPassThroughAgencyNumber" />
+                        <field attributeName="federalPassThroughAgency.fullName" />
                     </inquiryFields>
                 </inquirySection>
                 <inquirySection title="Organizations">

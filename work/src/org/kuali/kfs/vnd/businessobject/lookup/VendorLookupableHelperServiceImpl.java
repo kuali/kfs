@@ -152,7 +152,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
                 if (!vendor.isVendorParentIndicator()) {
                     for (BusinessObject tmpObject : searchResults) {
                         VendorDetail tmpVendor = (VendorDetail) tmpObject;
-                        if (tmpVendor.getVendorHeaderGeneratedIdentifier().equals(vendor.getVendorHeaderGeneratedIdentifier()) && !tmpVendor.getVendorDetailAssignedIdentifier().equals("0")) {
+                        if (tmpVendor.getVendorHeaderGeneratedIdentifier().equals(vendor.getVendorHeaderGeneratedIdentifier()) && tmpVendor.getVendorDetailAssignedIdentifier() == 0) {
                             vendor.setVendorName(tmpVendor.getVendorName() + " > " + vendor.getVendorName());
                             break;
                         }

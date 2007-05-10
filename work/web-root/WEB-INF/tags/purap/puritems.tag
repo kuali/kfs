@@ -123,10 +123,8 @@
 			test="${fn:length(KualiForm.document.items)>fn:length(KualiForm.document.belowTheLineTypes)}">
 	</table>
 
-	<table class="datatable" style="width: 100%;">
-		<purap:accountdistribution
-			accountingLineAttributes="${accountingLineAttributes}" />
-	</table>
+    <purap:accountdistribution
+		accountingLineAttributes="${accountingLineAttributes}" />
 
 	<table class="datatable" style="width: 100%;">
 

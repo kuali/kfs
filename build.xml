@@ -117,7 +117,8 @@
 		<condition property="database.file.directory" value="${batch.program.directory}/db">
 			<equals arg1="${is.batch.dist}" arg2="true" />
 		</condition>
-		<property name="database.file.directory" value="${basedir}/${database.directory}" />
+		<path id="database.file.directory.temp" location="${basedir}/${database.directory}" />
+		<pathconvert property="database.file.directory" targetos="unix" refid="database.file.directory.temp" />
 	</target>
 
 	<target name="init-institution-override-properties" if="load.institution.override.properties" depends="init-logic-based-properties">

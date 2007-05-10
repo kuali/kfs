@@ -162,6 +162,9 @@
     <field-descriptor name="proposalPurposeCode" column="CGPRPSL_PURPOSE_CD" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="proposalProjectTitle" column="CGPRPSL_PROJ_TTL" jdbc-type="VARCHAR" />
     <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+    <reference-descriptor name="award" class-ref="org.kuali.module.cg.bo.Award" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="proposalNumber" />
+    </reference-descriptor>
     <reference-descriptor name="proposalAwardType" class-ref="org.kuali.module.cg.bo.ProposalAwardType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="proposalAwardTypeCode" />
     </reference-descriptor>

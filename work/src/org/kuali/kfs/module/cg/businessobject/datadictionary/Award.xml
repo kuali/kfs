@@ -61,6 +61,7 @@
                         <field attributeName="oldProposalNumber" />
                         <field attributeName="proposalAwardTypeCode" />
                         <field attributeName="proposalNumber" />
+                        <field attributeName="proposal.proposalNumber" />
                     </inquiryFields>
                 </inquirySection>
                 <inquirySection title="Organizations">
@@ -177,7 +178,7 @@
 				<summary>Kuali Workgroup Users Names</summary>
 				<description>Collection of names of individuals associated with this awards financial system workgroup.</description>
 			</attributeReference>
-						
+			
 			<attributeReference name="primaryAwardOrganization.organizationCode" sourceClassName="org.kuali.module.cg.bo.AwardOrganization" sourceAttributeName="organizationCode" >
 				<label>Primary Organization Code</label>
 				<shortLabel>Primary Org Cd</shortLabel>
@@ -185,7 +186,10 @@
 				<description>Insert desc here...</description>
 			</attributeReference>
 
-            <attributeReference name="proposal.proposalNumber"  sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="proposalNumber"/>
+            <attributeReference name="proposal.proposalNumber"  sourceClassName="org.kuali.module.cg.bo.Proposal" sourceAttributeName="proposalNumber">
+                <label>Link to Proposal</label>
+                <shortLabel>PrpslLink</shortLabel>
+            </attributeReference>
 			
             <attribute name="proposalNumber" forceUppercase="true">
             	<label>Proposal Number</label>

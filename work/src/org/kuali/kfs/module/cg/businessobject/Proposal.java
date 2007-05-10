@@ -19,6 +19,8 @@ package org.kuali.module.cg.bo;
 import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
@@ -29,6 +31,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.core.service.LookupService;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.lookup.valuefinder.NextProposalNumberFinder;
 import org.kuali.module.kra.KraConstants;
@@ -90,8 +93,10 @@ public class Proposal extends PersistableBusinessObjectBase {
     private Agency federalPassThroughAgency;
     private ProposalPurpose proposalPurpose;
     private CatalogOfFederalDomesticAssistanceReference cfda;
+    private LookupService lookupService;
+    private Award award;
 
-	/**
+    /**
      * Default constructor.
      */
     @SuppressWarnings({"unchecked"})  // todo: generify TypedArrayList and rename to something appropriate like AlwaysGettableArrayList
@@ -102,6 +107,20 @@ public class Proposal extends PersistableBusinessObjectBase {
         proposalProjectDirectors = new TypedArrayList(ProposalProjectDirector.class);
         proposalResearchRisks = new TypedArrayList(ProposalResearchRisk.class);
     }
+
+    public Award getAward() {
+        return award;
+    }
+
+    public void setAward(Award award) {
+        this.award = award;
+    }
+
+//    public Award getAward() {
+//        Map<String, Object> params = new HashMap<String, Object>();
+//        params.put("proposalNumber", proposalNumber);
+//        return (Award) lookupService.findObjectBySearch(Award.class, params);
+//    }
 
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
@@ -136,7 +155,6 @@ public class Proposal extends PersistableBusinessObjectBase {
         this.proposalNumber = proposalNumber;
     }
 
-
     /**
      * Gets the proposalBeginningDate attribute.
      * 
@@ -157,7 +175,6 @@ public class Proposal extends PersistableBusinessObjectBase {
         this.proposalBeginningDate = proposalBeginningDate;
     }
 
-
     /**
      * Gets the proposalEndingDate attribute.
      * 
@@ -177,7 +194,6 @@ public class Proposal extends PersistableBusinessObjectBase {
     public void setProposalEndingDate(Date proposalEndingDate) {
         this.proposalEndingDate = proposalEndingDate;
     }
-
 
     /**
      * Gets the proposalTotalAmount attribute.
@@ -254,7 +270,6 @@ public class Proposal extends PersistableBusinessObjectBase {
         this.proposalDirectCostAmount = proposalDirectCostAmount;
     }
 
-
     /**
      * Gets the proposalIndirectCostAmount attribute.
      * 
@@ -274,7 +289,6 @@ public class Proposal extends PersistableBusinessObjectBase {
     public void setProposalIndirectCostAmount(KualiDecimal proposalIndirectCostAmount) {
         this.proposalIndirectCostAmount = proposalIndirectCostAmount;
     }
-
 
     /**
      * Gets the proposalRejectedDate attribute.
@@ -296,7 +310,6 @@ public class Proposal extends PersistableBusinessObjectBase {
         this.proposalRejectedDate = proposalRejectedDate;
     }
 
-
     /**
      * Gets the proposalLastUpdateDate attribute.
      * 
@@ -316,7 +329,6 @@ public class Proposal extends PersistableBusinessObjectBase {
     public void setProposalLastUpdateDate(Date proposalLastUpdateDate) {
         this.proposalLastUpdateDate = proposalLastUpdateDate;
     }
-
 
     /**
      * Gets the proposalDueDate attribute.
@@ -338,7 +350,6 @@ public class Proposal extends PersistableBusinessObjectBase {
         this.proposalDueDate = proposalDueDate;
     }
 
-
     /**
      * Gets the proposalTotalProjectAmount attribute.
      * 
@@ -358,7 +369,6 @@ public class Proposal extends PersistableBusinessObjectBase {
     public void setProposalTotalProjectAmount(KualiDecimal proposalTotalProjectAmount) {
         this.proposalTotalProjectAmount = proposalTotalProjectAmount;
     }
-
 
     /**
      * Gets the proposalSubmissionDate attribute.
@@ -380,7 +390,6 @@ public class Proposal extends PersistableBusinessObjectBase {
         this.proposalSubmissionDate = proposalSubmissionDate;
     }
 
-
     /**
      * Gets the proposalFederalPassThroughIndicator attribute.
      * 
@@ -400,7 +409,6 @@ public class Proposal extends PersistableBusinessObjectBase {
     public void setProposalFederalPassThroughIndicator(boolean proposalFederalPassThroughIndicator) {
         this.proposalFederalPassThroughIndicator = proposalFederalPassThroughIndicator;
     }
-
 
     /**
      * Gets the oldProposalNumber attribute.
@@ -422,7 +430,6 @@ public class Proposal extends PersistableBusinessObjectBase {
         this.oldProposalNumber = oldProposalNumber;
     }
 
-
     /**
      * Gets the grantNumber attribute.
      * 
@@ -442,7 +449,6 @@ public class Proposal extends PersistableBusinessObjectBase {
     public void setGrantNumber(String grantNumber) {
         this.grantNumber = grantNumber;
     }
-
 
     /**
      * Gets the proposalClosingDate attribute.
@@ -464,7 +470,6 @@ public class Proposal extends PersistableBusinessObjectBase {
         this.proposalClosingDate = proposalClosingDate;
     }
 
-
     /**
      * Gets the proposalAwardTypeCode attribute.
      * 
@@ -484,7 +489,6 @@ public class Proposal extends PersistableBusinessObjectBase {
     public void setProposalAwardTypeCode(String proposalAwardTypeCode) {
         this.proposalAwardTypeCode = proposalAwardTypeCode;
     }
-
 
     /**
      * Gets the agencyNumber attribute.
@@ -506,7 +510,6 @@ public class Proposal extends PersistableBusinessObjectBase {
         this.agencyNumber = agencyNumber;
     }
 
-
     /**
      * Gets the proposalStatusCode attribute.
      * 
@@ -526,7 +529,6 @@ public class Proposal extends PersistableBusinessObjectBase {
     public void setProposalStatusCode(String proposalStatusCode) {
         this.proposalStatusCode = proposalStatusCode;
     }
-
 
     /**
      * Gets the federalPassThroughAgencyNumber attribute.
@@ -548,7 +550,6 @@ public class Proposal extends PersistableBusinessObjectBase {
         this.federalPassThroughAgencyNumber = federalPassThroughAgencyNumber;
     }
 
-
     /**
      * Gets the cfdaNumber attribute.
      * 
@@ -568,7 +569,6 @@ public class Proposal extends PersistableBusinessObjectBase {
     public void setCfdaNumber(String cfdaNumber) {
         this.cfdaNumber = cfdaNumber;
     }
-
 
     /**
      * Gets the proposalFellowName attribute.
@@ -590,7 +590,6 @@ public class Proposal extends PersistableBusinessObjectBase {
         this.proposalFellowName = proposalFellowName;
     }
 
-
     /**
      * Gets the proposalPurposeCode attribute.
      * 
@@ -610,7 +609,6 @@ public class Proposal extends PersistableBusinessObjectBase {
     public void setProposalPurposeCode(String proposalPurposeCode) {
         this.proposalPurposeCode = proposalPurposeCode;
     }
-
 
     /**
      * Gets the proposalProjectTitle attribute.
@@ -861,7 +859,8 @@ public class Proposal extends PersistableBusinessObjectBase {
 	public void setLookupPersonUniversalIdentifier(String lookupUniversalUserId) {
 		this.lookupPersonUniversalIdentifier = lookupUniversalUserId;
 	}
-    
 
-
+    public void setLookupService(LookupService lookupService) {
+        this.lookupService = lookupService;
+    }
 }

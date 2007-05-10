@@ -28,6 +28,7 @@
                     <inquiryFields>
                         <field attributeName="proposalNumber" />
                         <field attributeName="oldProposalNumber" />
+                        <field attributeName="award.proposalNumber" />
                         <field attributeName="agencyNumber" />
                         <field attributeName="agency.reportingName" />
                         <field attributeName="proposalProjectTitle" />
@@ -151,6 +152,11 @@
 
         <attributes>
 
+            <attributeReference name="award.proposalNumber"  sourceClassName="org.kuali.module.cg.bo.Award" sourceAttributeName="proposalNumber">
+                <label>Link to Award</label>
+                <shortLabel>Award Link</shortLabel>
+            </attributeReference>
+            
             <attributeReference name="proposalOrganizations.organization.organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
 				<label>Organization Code</label>
 				<shortLabel>Org Cd</shortLabel>

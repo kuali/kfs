@@ -137,6 +137,15 @@
 			</c:if>
 			<!-- End of if fullEntryMode, then display the addLine -->
 			<c:if test="${fn:length(KualiForm.document.items)>fn:length(KualiForm.document.belowTheLineTypes)}">
+			
+			</table>
+			
+			<table class="datatable" style="width: 100%;">
+				<purap:accountdistribution accountingLineAttributes="${accountingLineAttributes}" />
+			</table>
+			
+			<table class="datatable" style="width: 100%;">
+			
 			<tr>
 			  <td colspan="12" class="subhead">
 			    <span class="subhead-left">Current Items</span>
@@ -166,9 +175,52 @@
 				<kul:htmlAttributeHeaderCell literalLabel="Actions" />
 			</tr>
 			</c:if>
+			
 			<logic:iterate indexId="ctr" name="KualiForm"
 				property="document.items" id="itemLine">
 				<c:if test="${itemLine.itemType.itemTypeAboveTheLineIndicator == true}">
+	
+	
+	<c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request"/>
+<c:set var="topLevelTabIndex" value="${KualiForm.currentTabIndex}" scope="request"/>
+
+<c:set var="currentTab" value="${KualiForm.tabStateJstl}"/>
+
+<%-- default to closed --%>
+<c:choose>
+    <c:when test="${empty currentTab}">
+        <c:set var="isOpen" value="false" />
+    </c:when>
+    <c:when test="${!empty currentTab}" >
+        <c:set var="isOpen" value="${currentTab.open}" />
+    </c:when>
+</c:choose>
+
+
+<html:hidden property="tabState[${currentTabIndex}].open" value="${isOpen}" />
+
+<tr>
+    <td class="total-line" colspan="12" style="padding: 0px;">
+        <table class="datatable" style="width: 100%;">
+            <tr>
+                <td colspan="4" class="tab-subhead" style="border-right: none;">Item
+                  <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
+                    <html:image property="methodToCall.toggleTab.tab${currentTabIndex}" src="images/tinybutton-hide.gif" alt="hide" title="toggle" styleClass="tinybutton"  styleId="tab-${currentTabIndex}-imageToggle" onclick="javascript: return toggleTab(document, ${currentTabIndex}); " />
+                 </c:if>
+                 <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
+                   <html:image  property="methodToCall.toggleTab.tab${currentTabIndex}" src="images/tinybutton-show.gif" alt="show" title="toggle" styleClass="tinybutton" styleId="tab-${currentTabIndex}-imageToggle" onclick="javascript: return toggleTab(document, ${currentTabIndex}); " />
+                 </c:if>
+                </td>
+            </tr>
+        </table>    
+            
+        <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
+            <div style="display: block;" id="tab-${currentTabIndex}-div">
+        </c:if>
+        <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}" >
+            <div style="display: none;" id="tab-${currentTabIndex}-div">
+        </c:if>
+			<table class="datatable" style="width: 100%;">
 				<tr>
 
 					<kul:htmlAttributeHeaderCell scope="row">
@@ -267,7 +319,7 @@
 				<tr>
 					<td width="100%" colspan="12">
 
-						<fin:accountingLines editingMode="${KualiForm.editingMode}"
+						<purap:puraccountingLines editingMode="${KualiForm.editingMode}"
 							editableAccounts="${KualiForm.editableAccounts}"
 							sourceAccountingLinesOnly="true"
 							optionalFields="accountLinePercent"
@@ -278,9 +330,16 @@
 
 					</td>
 				</tr>
+			</table>
 			</c:if>
+
+			</div>
+			</td>
+			</tr>
+			
 			</logic:iterate>
 					<purap:miscitems itemAttributes="${itemAttributes}" accountingLineAttributes="${accountingLineAttributes}" />
+
 			<!-- BEGIN TOTAL SECTION -->
 			<tr>
 				<th height=30 colspan="12">

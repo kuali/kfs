@@ -20,6 +20,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="kul"%>
 <%@ taglib tagdir="/WEB-INF/tags/dd" prefix="dd"%>
 <%@ taglib tagdir="/WEB-INF/tags/fin" prefix="fin"%>
+<%@ taglib tagdir="/WEB-INF/tags/purap" prefix="purap"%>
 
 <%@ attribute name="itemAttributes" required="true" type="java.util.Map"
 	description="The DataDictionary entry containing attributes for this row's fields."%>
@@ -86,7 +87,7 @@
 				<tr>
 					<td width="100%" colspan="12">
 
-						<fin:accountingLines editingMode="${KualiForm.editingMode}"
+						<purap:puraccountingLines editingMode="${KualiForm.editingMode}"
 							editableAccounts="${KualiForm.editableAccounts}"
 							sourceAccountingLinesOnly="true"
 							optionalFields="accountLinePercent"

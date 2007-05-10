@@ -27,12 +27,8 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.bo.CreditMemoItem;
-import org.kuali.module.purap.bo.PaymentRequestItem;
-import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderView;
 import org.kuali.module.purap.bo.PurchasingApItem;
-import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.service.PurapService;
 
@@ -180,19 +176,7 @@ public class PurapServiceImpl implements PurapService {
                     else {
                         lastFound = existingItemTypes.size();
                     }
-                    PurchasingApItem newItem = null;
-                    if (itemClass == RequisitionItem.class) {
-                        newItem = new RequisitionItem();
-                    }
-                    else if (itemClass == PurchaseOrderItem.class) {
-                        newItem = new PurchaseOrderItem();
-                    }
-                    else if (itemClass == PaymentRequestItem.class) {
-                        newItem = new PaymentRequestItem();
-                    }
-                    else if (itemClass == CreditMemoItem.class) {
-                        newItem = new CreditMemoItem();
-                    }
+                    PurchasingApItem newItem = (PurchasingApItem)itemClass.newInstance();                    
                     newItem.setItemTypeCode(itemTypes[i]);
                     newItem.refreshNonUpdateableReferences();
                     existingItems.add(lastFound, newItem);

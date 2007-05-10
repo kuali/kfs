@@ -75,7 +75,6 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     private List<VendorCustomerNumber> vendorCustomerNumbers;
     private List<VendorPhoneNumber> vendorPhoneNumbers;
     private List<VendorShippingSpecialCondition> vendorShippingSpecialConditions;
-    private List<VendorDetail> divisions;
 
     private VendorHeader vendorHeader;
 	private VendorInactiveReason vendorInactiveReason;
@@ -984,17 +983,6 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
                 .append( this.isVendorFirstLastNameIndicator(), detail.isVendorFirstLastNameIndicator() )
                 .isEquals();
         }
-    }
-    
-    public List<VendorDetail> getDivisions() {
-        return divisions;
-    }
-
-    public void setDivisions(List<VendorDetail> divisions) {
-        if (divisions == null) {
-            divisions = new TypedArrayList(VendorDetail.class);
-        }
-        this.divisions = divisions;
     }
     
     /**

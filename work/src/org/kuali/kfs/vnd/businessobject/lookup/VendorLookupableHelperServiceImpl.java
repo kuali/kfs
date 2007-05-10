@@ -142,31 +142,24 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
         // if its a division, see if we already have the parent and if not, retrieve it and its divisions then add the parent to the return results
         
         // loop through results
-        for (BusinessObject object : searchResults) {
-            VendorDetail vendor = (VendorDetail) object;
+        for (BusinessObject bo : searchResults) {
+            VendorDetail vendor = (VendorDetail) bo;
             //If this vendor is not already in the processedSearchResults, let's do further processing (e.g. setting the state for lookup from default address, etc)
             //and then add it in the processedSearchResults.
             if (!processedSearchResults.contains(vendor)) {
                 // populate state from default address
-                updatedefaultVendorAddress(vendor);
-                processedSearchResults.add(vendor);
-/*
- * TODO - AAP: This can be commented back in after RICE extraction and NS change to allow table decorators to be assigned based on Doc Type
-                if (vendor.isVendorParentIndicator()) {
-                    processedSearchResults.add(vendor);
-                } else {
-                    // find the parent object in the details collection and add that
-                    for (VendorDetail division : vendor.getDivisions()) {
-                        if (division.isVendorParentIndicator() && !processedSearchResults.contains(division)) {
-                            // populate state from default address
-                            updatedefaultVendorAddress(division);
-                            processedSearchResults.add(division);
+
+                if (!vendor.isVendorParentIndicator()) {
+                    for (BusinessObject tmpObject : searchResults) {
+                        VendorDetail tmpVendor = (VendorDetail) tmpObject;
+                        if (tmpVendor.getVendorHeaderGeneratedIdentifier().equals(vendor.getVendorHeaderGeneratedIdentifier()) && !tmpVendor.getVendorDetailAssignedIdentifier().equals("0")) {
+                            vendor.setVendorName(tmpVendor.getVendorName() + " > " + vendor.getVendorName());
                             break;
                         }
                     }
-
                 }
- */
+                updatedefaultVendorAddress(vendor);
+                processedSearchResults.add(vendor);
             }
         }
         searchResults.clear();

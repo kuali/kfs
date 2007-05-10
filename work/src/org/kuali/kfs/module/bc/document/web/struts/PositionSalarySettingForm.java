@@ -113,7 +113,7 @@ public class PositionSalarySettingForm extends KualiForm {
      * TODO verify this - and calls prepareAccountingLineForValidationAndPersistence on each one.
      * This is called to refresh ref objects for use by validation
      */
-    protected void populateBCAFLines(){
+    public void populateBCAFLines(){
 
         //TODO add bcaf totaling here??
 
@@ -131,8 +131,14 @@ public class PositionSalarySettingForm extends KualiForm {
      */
     private void populateBCAFLine(PendingBudgetConstructionAppointmentFunding line){
 
-//        final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject", "financialSubObject", "laborObject", "budgetConstructionMonthly"}));
-      final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] {"chartOfAccounts", "account", "subAccount", "financialObject", "financialSubObject", "bcnCalculatedSalaryFoundationTracker", "budgetConstructionDuration"}));
+        final List REFRESH_FIELDS;
+        if (line.getEmplid().equalsIgnoreCase("VACANT")){
+            REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] {"chartOfAccounts", "account", "subAccount", "financialObject", "financialSubObject", "bcnCalculatedSalaryFoundationTracker", "budgetConstructionDuration"}));
+            
+        } else {
+            REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] {"chartOfAccounts", "account", "subAccount", "financialObject", "financialSubObject", "bcnCalculatedSalaryFoundationTracker", "budgetConstructionDuration", "budgetConstructionIntendedIncumbent"}));
+            
+        }
 //        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(line, REFRESH_FIELDS);
         KNSServiceLocator.getPersistenceService().retrieveReferenceObjects(line, REFRESH_FIELDS);
 

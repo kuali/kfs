@@ -102,6 +102,9 @@ public class PositionSalarySettingAction extends KualiAction {
             //TODO this is an RI error need to report it
         }
         positionSalarySettingForm.setBudgetConstructionPosition(budgetConstructionPosition);
+
+        // need to explicitly populate intended incumbent for non-vacant lines
+        positionSalarySettingForm.populateBCAFLines();
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

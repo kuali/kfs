@@ -134,20 +134,6 @@
 						</div>
 					</td>
 				</tr>
-				<tr>
-					<td width="100%" colspan="12">
-						<!-- begin accounting lines -->
-						<span align="center"> <fin:accountingLines
-								editingMode="${KualiForm.editingMode}"
-								editableAccounts="${KualiForm.editableAccounts}"
-								sourceAccountingLinesOnly="true"
-								optionalFields="accountLinePercent"
-								accountingLineAttributes="${accountingLineAttributes}"
-								accountPrefix="newPurchasingItemLine." hideTotalLine="true"
-								hideFields="amount" accountingAddLineIndex="-1" /> </span>
-					</td>
-				</tr>
-				<!-- end accounting line -->
 			</c:if>
 			<!-- End of if fullEntryMode, then display the addLine -->
 			<c:if test="${fn:length(KualiForm.document.items)>fn:length(KualiForm.document.belowTheLineTypes)}">

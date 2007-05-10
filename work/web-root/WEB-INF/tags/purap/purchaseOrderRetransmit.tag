@@ -89,34 +89,8 @@
                     <th width=141 align=center><b>Extended Cost</b></th>
                 </tr>
                 <logic:iterate indexId="ctr" name="KualiForm" property="document.items" id="itemLine">
-                    <%-- c:if test="${ (item.active) and (not item.retransmitDisplay) }" --%>
-                        <%--tr>
-                            <td valign="top" align="left" class="datacell" nowrap="nowrap" --%>
-                                <%-- html:multibox property="retransmitItemsSelected" value="${item.itemLineNumber}" --%>
-                                
-                                    <%-- bean:write name="item"/ --%>
-                                <%-- /html:multibox --%>
-                            <%--/td>
-                            <td valign="top" align="left" class="datacell" nowrap="nowrap">
-                                <bean:write property="document.item[${ctr}].itemQuantity"/>
-                            </td>
-                            <td valign="top" align="left" class="datacell" nowrap="nowrap">
-                                <bean:write property="document.item[${ctr}].itemUnitOfMeasureCode"/>
-                            </td>
-                            <td valign="top" align="left" class="datacell" nowrap="nowrap">
-                                <bean:write name="item" property="document.item[${ctr}].itemCatalogNumber"/>
-                            </td>
-                            <td valign="top" align="left" class="datacell">
-                                <bean:write name="item" property="document.item[${ctr}].itemDescription"/>
-                            </td>
-                            <td valign="top" align="left" class="datacell" nowrap="nowrap">
-                                <bean:write name="item" property="document.item[${ctr}].itemUnitPrice"/>
-                            </td>
-                            <td valign="top" align="left" class="datacell" nowrap="nowrap">
-                                <bean:write name="item" property="document.item[${ctr}].extendedPrice"/>
-                            </td>
-                        </tr --%>
-                    <%-- /c:if --%>
+                    <c:if test="${ (itemLine.itemType.itemTypeAboveTheLineIndicator) }" >
+
                     			<tr>
 			
 				<kul:htmlAttributeHeaderCell scope="row">
@@ -136,6 +110,7 @@
  				<td class="datacell"><kul:htmlControlAttribute readOnly="true" attributeEntry="${itemAttributes.itemUnitPrice}" property="document.item[${ctr}].itemUnitPrice" /></td>
  				<td class="datacell"><kul:htmlControlAttribute readOnly="true" attributeEntry="${itemAttributes.extendedPrice}" property="document.item[${ctr}].extendedPrice" /></td>
 			</tr>
+			</c:if>
                 </logic:iterate>
             </tbody>
         </table>

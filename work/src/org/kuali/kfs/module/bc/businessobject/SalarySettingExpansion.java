@@ -58,6 +58,19 @@ public class SalarySettingExpansion extends PersistableBusinessObjectBase {
     private String financialObjectTypeCode;
     private KualiDecimal accountLineAnnualBalanceAmount;
     private KualiDecimal financialBeginningBalanceLineAmount;
+    
+    // Total Fields - First Total Line
+    private KualiDecimal csfAmountTotal;
+    private BigDecimal csfFullTimeEmploymentQuantityTotal;
+    private KualiDecimal appointmentRequestedAmountTotal;
+    private BigDecimal appointmentRequestedFteQuantityTotal;
+    private KualiDecimal percentChangeTotal;
+    
+    // Total Fields - Second Total Line
+    private KualiDecimal objectBaseCsfAmountTotal;
+    private KualiDecimal objectBaseAppointmentRequestedAmountTotal;
+    private KualiDecimal objectBasePercentChangeTotal;
+    
 
     private BudgetConstructionHeader budgetConstructionHeader;
     private ObjectCode financialObject;
@@ -83,25 +96,27 @@ public class SalarySettingExpansion extends PersistableBusinessObjectBase {
     public SalarySettingExpansion() {
         setPendingBudgetConstructionAppointmentFunding(new TypedArrayList(PendingBudgetConstructionAppointmentFunding.class));
         setPercentChange(null);
+        zeroTotals();
 
     }
 
     /**
      * 
-     * Gets(sets) the percentChange based on the current values of base and request amounts
-     * @return Returns percentChange
+     * Zeros the totals appearing on the Salary Setting Screen
      */
-    public KualiDecimal getPercentChange() {
+    public void zeroTotals() {
 
-        if (financialBeginningBalanceLineAmount == null || financialBeginningBalanceLineAmount.isZero()){
-            setPercentChange(null);
-        } else {
-            BigDecimal diffRslt = (accountLineAnnualBalanceAmount.bigDecimalValue().setScale(4)).subtract(financialBeginningBalanceLineAmount.bigDecimalValue().setScale(4));
-            BigDecimal divRslt = diffRslt.divide((financialBeginningBalanceLineAmount.bigDecimalValue().setScale(4)),BigDecimal.ROUND_HALF_UP);
-            setPercentChange(new KualiDecimal(divRslt.multiply(BigDecimal.valueOf(100)).setScale(2))); 
-        }
-        return percentChange;
+        csfAmountTotal = new KualiDecimal(0);
+        csfFullTimeEmploymentQuantityTotal = new BigDecimal(0).setScale(5,BigDecimal.ROUND_HALF_EVEN);
+        appointmentRequestedAmountTotal = new KualiDecimal(0.00);
+        appointmentRequestedFteQuantityTotal = new BigDecimal(0).setScale(5,BigDecimal.ROUND_HALF_EVEN);
+        percentChangeTotal = new KualiDecimal(0.00);
+        objectBaseCsfAmountTotal = new KualiDecimal(0);
+        objectBaseAppointmentRequestedAmountTotal = new KualiDecimal(0.00);
+        objectBasePercentChangeTotal = new KualiDecimal(0);
     }
+
+
     
     /**
      * Sets the percentChange attribute value.
@@ -486,6 +501,135 @@ public class SalarySettingExpansion extends PersistableBusinessObjectBase {
      */
     public void setObjectType(ObjectType objectType) {
         this.objectType = objectType;
+    }
+
+    
+    /**
+     * Gets the appointmentRequestedAmountTotal attribute. 
+     * @return Returns the appointmentRequestedAmountTotal.
+     */
+    public KualiDecimal getAppointmentRequestedAmountTotal() {
+        return appointmentRequestedAmountTotal;
+    }
+
+    /**
+     * Sets the appointmentRequestedAmountTotal attribute value.
+     * @param appointmentRequestedAmountTotal The appointmentRequestedAmountTotal to set.
+     */
+    public void setAppointmentRequestedAmountTotal(KualiDecimal appointmentRequestedAmountTotal) {
+        this.appointmentRequestedAmountTotal = appointmentRequestedAmountTotal;
+    }
+
+    /**
+     * Gets the appointmentRequestedFteQuantityTotal attribute. 
+     * @return Returns the appointmentRequestedFteQuantityTotal.
+     */
+    public BigDecimal getAppointmentRequestedFteQuantityTotal() {
+        return appointmentRequestedFteQuantityTotal;
+    }
+
+    /**
+     * Sets the appointmentRequestedFteQuantityTotal attribute value.
+     * @param appointmentRequestedFteQuantityTotal The appointmentRequestedFteQuantityTotal to set.
+     */
+    public void setAppointmentRequestedFteQuantityTotal(BigDecimal appointmentRequestedFteQuantityTotal) {
+        this.appointmentRequestedFteQuantityTotal = appointmentRequestedFteQuantityTotal;
+    }
+
+    /**
+     * Gets the csfAmountTotal attribute. 
+     * @return Returns the csfAmountTotal.
+     */
+    public KualiDecimal getCsfAmountTotal() {
+        return csfAmountTotal;
+    }
+
+    /**
+     * Sets the csfAmountTotal attribute value.
+     * @param csfAmountTotal The csfAmountTotal to set.
+     */
+    public void setCsfAmountTotal(KualiDecimal csfAmountTotal) {
+        this.csfAmountTotal = csfAmountTotal;
+    }
+
+    /**
+     * Gets the csfFullTimeEmploymentQuantityTotal attribute. 
+     * @return Returns the csfFullTimeEmploymentQuantityTotal.
+     */
+    public BigDecimal getCsfFullTimeEmploymentQuantityTotal() {
+        return csfFullTimeEmploymentQuantityTotal;
+    }
+
+    /**
+     * Sets the csfFullTimeEmploymentQuantityTotal attribute value.
+     * @param csfFullTimeEmploymentQuantityTotal The csfFullTimeEmploymentQuantityTotal to set.
+     */
+    public void setCsfFullTimeEmploymentQuantityTotal(BigDecimal csfFullTimeEmploymentQuantityTotal) {
+        this.csfFullTimeEmploymentQuantityTotal = csfFullTimeEmploymentQuantityTotal;
+    }
+
+    /**
+     * Gets the objectBaseAppointmentRequestedAmountTotal attribute. 
+     * @return Returns the objectBaseAppointmentRequestedAmountTotal.
+     */
+    public KualiDecimal getObjectBaseAppointmentRequestedAmountTotal() {
+        return objectBaseAppointmentRequestedAmountTotal;
+    }
+
+    /**
+     * Sets the objectBaseAppointmentRequestedAmountTotal attribute value.
+     * @param objectBaseAppointmentRequestedAmountTotal The objectBaseAppointmentRequestedAmountTotal to set.
+     */
+    public void setObjectBaseAppointmentRequestedAmountTotal(KualiDecimal objectBaseAppointmentRequestedAmountTotal) {
+        this.objectBaseAppointmentRequestedAmountTotal = objectBaseAppointmentRequestedAmountTotal;
+    }
+
+    /**
+     * Gets the objectBaseCsfAmountTotal attribute. 
+     * @return Returns the objectBaseCsfAmountTotal.
+     */
+    public KualiDecimal getObjectBaseCsfAmountTotal() {
+        return objectBaseCsfAmountTotal;
+    }
+
+    /**
+     * Sets the objectBaseCsfAmountTotal attribute value.
+     * @param objectBaseCsfAmountTotal The objectBaseCsfAmountTotal to set.
+     */
+    public void setObjectBaseCsfAmountTotal(KualiDecimal objectBaseCsfAmountTotal) {
+        this.objectBaseCsfAmountTotal = objectBaseCsfAmountTotal;
+    }
+
+    /**
+     * Gets the objectBasePercentChangeTotal attribute. 
+     * @return Returns the objectBasePercentChangeTotal.
+     */
+    public KualiDecimal getObjectBasePercentChangeTotal() {
+        return objectBasePercentChangeTotal;
+    }
+
+    /**
+     * Sets the objectBasePercentChangeTotal attribute value.
+     * @param objectBasePercentChangeTotal The objectBasePercentChangeTotal to set.
+     */
+    public void setObjectBasePercentChangeTotal(KualiDecimal objectBasePercentChangeTotal) {
+        this.objectBasePercentChangeTotal = objectBasePercentChangeTotal;
+    }
+
+    /**
+     * Gets the percentChangeTotal attribute. 
+     * @return Returns the percentChangeTotal.
+     */
+    public KualiDecimal getPercentChangeTotal() {
+        return percentChangeTotal;
+    }
+
+    /**
+     * Sets the percentChangeTotal attribute value.
+     * @param percentChangeTotal The percentChangeTotal to set.
+     */
+    public void setPercentChangeTotal(KualiDecimal percentChangeTotal) {
+        this.percentChangeTotal = percentChangeTotal;
     }
 
     /**

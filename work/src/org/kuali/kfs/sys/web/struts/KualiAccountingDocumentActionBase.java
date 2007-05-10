@@ -478,7 +478,9 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
             financialDocumentForm.getFinancialDocument().getSourceAccountingLines().remove(deleteIndex);
 
             // remove baseline duplicate and decorator
-            financialDocumentForm.getBaselineSourceAccountingLines().remove(deleteIndex);
+            if (deleteIndex < financialDocumentForm.getBaselineSourceAccountingLines().size()) {
+                financialDocumentForm.getBaselineSourceAccountingLines().remove(deleteIndex);
+            }
             financialDocumentForm.getSourceLineDecorators().remove(deleteIndex);
         }
         else {
@@ -486,7 +488,9 @@ public class KualiAccountingDocumentActionBase extends KualiTransactionalDocumen
             financialDocumentForm.getFinancialDocument().getTargetAccountingLines().remove(deleteIndex);
 
             // remove baseline duplicate and decorator
-            financialDocumentForm.getBaselineTargetAccountingLines().remove(deleteIndex);
+            if (deleteIndex < financialDocumentForm.getBaselineTargetAccountingLines().size()) {
+                financialDocumentForm.getBaselineTargetAccountingLines().remove(deleteIndex);
+            }
             financialDocumentForm.getTargetLineDecorators().remove(deleteIndex);
         }
     }

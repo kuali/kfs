@@ -982,7 +982,9 @@
 		<inverse-foreignkey field-ref="positionNumber" />
 		<inverse-foreignkey field-ref="emplid" />
 	</collection-descriptor>
-	<reference-descriptor name="budgetConstructionIntendedIncumbent" class-ref="org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbent" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+
+    <!-- auto-retrieve is false here so we can control getting the ref only when emplid is not VACANT -->
+	<reference-descriptor name="budgetConstructionIntendedIncumbent" class-ref="org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbent" auto-retrieve="false" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="emplid" />
 	</reference-descriptor>
 	<collection-descriptor name="budgetConstructionSalaryFunding" element-class-ref="org.kuali.module.budget.bo.BudgetConstructionSalaryFunding" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">

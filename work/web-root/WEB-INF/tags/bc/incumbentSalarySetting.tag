@@ -44,6 +44,11 @@
 
 <c:set var="readOnly" value="${KualiForm.editingMode['systemViewOnly'] || !KualiForm.editingMode['fullEntry']}" />
 
+<%--
+                attributeEntry="${intincAttributes.emplid}"
+                attributeEntry="${intincAttributes.personName}"
+--%>
+
 <kul:tabTop tabTitle="Salary Setting by Incumbent" defaultOpen="true" tabErrorKey="${Constants.BUDGET_CONSTRUCTION_INCUMBENT_SALARY_SETTING_TAB_ERRORS}">
 <div class="tab-container" align=center>
     <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
@@ -51,10 +56,6 @@
           columnCount="12"
           subheading="Incumbent" />
         <tr>
-<%--
-                attributeEntry="${intincAttributes.emplid}"
-                attributeEntry="${intincAttributes.personName}"
---%>
             <kul:htmlAttributeHeaderCell
                 labelFor="KualiForm.budgetConstructionIntendedIncumbent.emplid"
                 literalLabel="<span class=\"nowrap\">Emplid:</span>"
@@ -236,22 +237,22 @@
                anchor="salarynewLineLinePositionNumberAnchor" />
 
 <%-- TODO format name to break into separate lines at comma to save horizontal screen realestate --%>
-                <bc:pbglLineDataCell dataCellCssClass="infoline"
-                    cellProperty="newBCAFLine.budgetConstructionPosition.positionDescription"
-                    field="positionDescription"
-                    attributes="${positionAttributes}"
-                    readOnly="true"
-                    displayHidden="false"
-                    colSpan="2" />
-                <bc:pbglLineDataCell dataCellCssClass="infoline"
-                    cellProperty="newBCAFLine.budgetConstructionPosition.positionSalaryPlanDefault"
-                    field="positionSalaryPlanDefault"
-                    attributes="${positionAttributes}"
-                    readOnly="true"
-                    displayHidden="false" />
+            <bc:pbglLineDataCell dataCellCssClass="infoline"
+                cellProperty="newBCAFLine.budgetConstructionPosition.positionDescription"
+                field="positionDescription"
+                attributes="${positionAttributes}"
+                readOnly="true"
+                displayHidden="false"
+                colSpan="2" />
+            <bc:pbglLineDataCell dataCellCssClass="infoline"
+                cellProperty="newBCAFLine.budgetConstructionPosition.positionSalaryPlanDefault"
+                field="positionSalaryPlanDefault"
+                attributes="${positionAttributes}"
+                readOnly="true"
+                displayHidden="false" />
 
 <%-- TODO add adminstrative post ref to BCAF and here --%>
-                <td class="infoline">&nbsp;</td>
+            <td class="infoline">&nbsp;</td>
         </tr>
 
         <%-- add line amount line header --%>
@@ -342,16 +343,16 @@
                 readOnly="${readOnly}"
                 rowSpan="1" dataFieldCssClass="amount" />
 <%-- TODO need ajax javascript to handle detail field changes --%>
-           <bc:pbglLineDataCell dataCellCssClass="infoline"
-               accountingLine="newBCAFLine"
-               field="appointmentFundingDurationCode"
-               detailField="budgetConstructionDuration.appointmentDurationDescription"
-               attributes="${bcafAttributes}" inquiry="true"
-               boClassSimpleName="BudgetConstructionDuration"
-               lookupUnkeyedFieldConversions="appointmentDurationCode:newBCAFLine.appointmentFundingDurationCode,"
-               readOnly="${readOnly}"
-               displayHidden="false"
-               accountingLineValuesMap="${newBCAFLine.valuesMap}" />
+            <bc:pbglLineDataCell dataCellCssClass="infoline"
+                accountingLine="newBCAFLine"
+                field="appointmentFundingDurationCode"
+                detailField="budgetConstructionDuration.appointmentDurationDescription"
+                attributes="${bcafAttributes}" inquiry="true"
+                boClassSimpleName="BudgetConstructionDuration"
+                lookupUnkeyedFieldConversions="appointmentDurationCode:newBCAFLine.appointmentFundingDurationCode,"
+                readOnly="${readOnly}"
+                displayHidden="false"
+                accountingLineValuesMap="${newBCAFLine.valuesMap}" />
             <bc:pbglLineDataCell dataCellCssClass="infoline"
                 accountingLine="newBCAFLine"
                 cellProperty="newBCAFLine.appointmentRequestedCsfTimePercent"
@@ -522,7 +523,7 @@
                 displayHidden="false" />
 
 <%-- TODO add adminstrative post ref to BCAF and here --%>
-                <td>&nbsp;</td>
+            <td>&nbsp;</td>
         </tr>
                                         
         <tr>

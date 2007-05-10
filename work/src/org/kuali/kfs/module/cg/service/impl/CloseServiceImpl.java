@@ -66,11 +66,13 @@ public class CloseServiceImpl implements CloseService {
         
         Close max = closeDao.getMaxApprovedClose();
         Date today = dateTimeService.getCurrentSqlDateMidnight();
-        
-        if(!today.equals(max.getUserInitiatedCloseDate())) {
-            
+
+        if(null == max) { // no closes at all. Gotta wait until we get an approved one.
             return;
-            
+        }
+
+        if(!today.equals(max.getUserInitiatedCloseDate())) {
+            return;
         }
         
         Collection<Proposal> proposals = proposalDao.getProposalsToClose(max);

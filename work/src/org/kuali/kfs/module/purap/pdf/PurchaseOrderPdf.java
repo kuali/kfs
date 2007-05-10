@@ -565,7 +565,7 @@ public class PurchaseOrderPdf extends PurapPdf {
         itemsTable.addCell(tableCell);
         itemsTable.addCell(" ");
         // getTotalCost() calculates based on the items in the po, so works for retransmit.
-        tableCell = new PdfPCell(new Paragraph(numberFormat.format(po.getTotal()) + " ", cour_10_normal));
+        tableCell = new PdfPCell(new Paragraph(numberFormat.format(po.getTotalDollarAmount()) + " ", cour_10_normal));
         tableCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         itemsTable.addCell(tableCell);
         // Blank line after totals

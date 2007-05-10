@@ -158,7 +158,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      */
     private boolean validateTotalCost(PurchasingDocument purDocument) {
         boolean valid = true;
-        if (purDocument.getTotal().isLessThan(new KualiDecimal(zero))) {
+        if (purDocument.getTotalDollarAmount().isLessThan(new KualiDecimal(zero))) {
             valid = false;
             GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_TOTAL_NEGATIVE);
         }

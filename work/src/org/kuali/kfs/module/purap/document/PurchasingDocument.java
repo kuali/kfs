@@ -1198,7 +1198,7 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     public void setItems(List<PurchasingApItem> items);
     public void addItem(PurchasingApItem item);
     public void deleteItem(int lineNum);
-    public KualiDecimal getTotal(); 
+    public KualiDecimal getTotalDollarAmount(); 
     public PurchasingApItem getItem(int pos);
     
     public void setVendorContractName(String vendorContractName);

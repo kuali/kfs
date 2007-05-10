@@ -96,7 +96,7 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
     
     public PurchasingApItem getItem(int pos);
     
-    public KualiDecimal getTotal();
+    public KualiDecimal getTotalDollarAmount();
     
     public abstract Class getItemClass();
     

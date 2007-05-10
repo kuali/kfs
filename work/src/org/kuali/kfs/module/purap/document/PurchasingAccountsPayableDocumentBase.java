@@ -348,14 +348,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         return (PurchasingApItem)items.get(pos);
     }
     
-    public KualiDecimal getTotal() {
-        KualiDecimal total = new KualiDecimal("0");
-        for (PurchasingApItem item : items) {
-           total = total.add(item.getExtendedPrice());
-       }
-       return total;
-    }
-
     public abstract Class getItemClass();
 
     /**

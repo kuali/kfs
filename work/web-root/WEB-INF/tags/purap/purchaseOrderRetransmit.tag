@@ -98,7 +98,7 @@
                                 <%-- /html:multibox --%>
                             <%--/td>
                             <td valign="top" align="left" class="datacell" nowrap="nowrap">
-                                <bean:write property="document.item[${ctr}].itemOrderedQuantity"/>
+                                <bean:write property="document.item[${ctr}].itemQuantity"/>
                             </td>
                             <td valign="top" align="left" class="datacell" nowrap="nowrap">
                                 <bean:write property="document.item[${ctr}].itemUnitOfMeasureCode"/>
@@ -123,7 +123,7 @@
                     <html:hidden property="document.item[${ctr}].documentNumber" />
            		    <html:hidden property="document.item[${ctr}].itemIdentifier" />
            		    <html:hidden property="document.item[${ctr}].itemLineNumber" />
-           		    <html:hidden property="document.item[${ctr}].itemOrderedQuantity" />
+           		    <html:hidden property="document.item[${ctr}].itemQuantity" />
                     <html:hidden property="document.item[${ctr}].versionNumber" />
                     <div align="center"><kul:htmlControlAttribute attributeEntry="${itemAttributes.itemSelectedForRetransmitIndicator}" property="document.item[${ctr}].itemSelectedForRetransmitIndicator" /></div>
                 </kul:htmlAttributeHeaderCell>

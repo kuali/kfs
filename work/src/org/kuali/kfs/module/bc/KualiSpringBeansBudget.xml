@@ -90,12 +90,21 @@
         </property>
     </bean>
     
+	<bean id="fiscalYearStartDate"
+	      class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+	      <property name="staticField"><value>org.kuali.module.budget.service.impl.DateMakerServiceImpl.START_JANUARY</value>
+	      </property>
+	</bean>
+	
 	
     <bean id="dateMakerService" class="org.kuali.module.budget.service.impl.DateMakerServiceImpl">
         <property name="fiscalYearMakersDao">
             <ref bean="fiscalYearMakersDao" />
         </property>
-    </bean>
+        <property name="fiscalYearStartDate">
+            <ref bean="fiscalYearStartDate" />
+        </property>
+     </bean>
 
     <bean id="fiscalYearMakersDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.FiscalYearMakersDaoOjb" >
         <property name="persistenceStructureService">

@@ -116,7 +116,22 @@ public class SalarySettingExpansion extends PersistableBusinessObjectBase {
         objectBasePercentChangeTotal = new KualiDecimal(0);
     }
 
+    /**
+     * 
+     * Gets(sets) the percentChange based on the current values of base and request amounts
+     * @return Returns percentChange
+     */
+    public KualiDecimal getPercentChange() {
 
+        if (financialBeginningBalanceLineAmount == null || financialBeginningBalanceLineAmount.isZero()){
+            setPercentChange(null);
+        } else {
+            BigDecimal diffRslt = (accountLineAnnualBalanceAmount.bigDecimalValue().setScale(4)).subtract(financialBeginningBalanceLineAmount.bigDecimalValue().setScale(4));
+            BigDecimal divRslt = diffRslt.divide((financialBeginningBalanceLineAmount.bigDecimalValue().setScale(4)),BigDecimal.ROUND_HALF_UP);
+            setPercentChange(new KualiDecimal(divRslt.multiply(BigDecimal.valueOf(100)).setScale(2))); 
+        }
+        return percentChange;
+    }
     
     /**
      * Sets the percentChange attribute value.

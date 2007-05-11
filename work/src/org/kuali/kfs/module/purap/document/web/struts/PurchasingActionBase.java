@@ -225,6 +225,18 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
     }
 
     /**
+     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#deleteSourceLine(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward deleteSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+
+        int deleteIndex = getLineToDelete(request);
+        purchasingForm.getAccountDistributionsourceAccountingLines().remove(deleteIndex);
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    /**
      * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#insertSourceLine(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -236,55 +248,39 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
         int itemIndex = getSelectedLine(request);
         PurchasingApItem item = null;
        
-        if(itemIndex!=-1) {
-            item = (PurchasingApItem)((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItem((itemIndex));
+        if (itemIndex == -2) {
+            PurApAccountingLine line = purchasingForm.getAccountDistributionnewSourceLine();
+            purchasingForm.addAccountDistributionsourceAccountingLine(line);
         } else {
-            item = purchasingForm.getNewPurchasingItemLine();
+            if(itemIndex!=-1) {
+                item = (PurchasingApItem)((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItem((itemIndex));
+            } else {
+                item = purchasingForm.getNewPurchasingItemLine();
+            }
+            
+            PurApAccountingLine line = item.getNewSourceLine();
+            
+            boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINES_PROPERTY_NAME + "[" + Integer.toString(itemIndex) + "]", purchasingForm.getDocument(), (AccountingLine) line));
+    
+            if (rulePassed) {
+                // add accountingLine
+                SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(line);
+                insertAccountingLine(purchasingForm, item, line);
+    
+                //clear the temp account
+                item.resetAccount();
+            }
         }
         
-        PurApAccountingLine line = item.getNewSourceLine();
-        
-        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINES_PROPERTY_NAME + "[" + Integer.toString(itemIndex) + "]", purchasingForm.getDocument(), (AccountingLine) line));
-
-        if (rulePassed) {
-            // add accountingLine
-            SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(line);
-            insertAccountingLine(purchasingForm, item, line);
-
-            //clear the temp account
-            item.resetAccount();
-        }
-
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward setupAccountDistribution(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        final String docNumber;
-        
-        // TODO do validate, save, etc first then goto the account lines screen or redisplay if errors
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
-        PurchasingDocumentBase purchasingDocument = (PurchasingDocumentBase) purchasingForm.getDocument();
-        DocumentService documentService = SpringServiceLocator.getDocumentService();
-        
-        // TODO for now just save
-        documentService.updateDocument(purchasingDocument);
-        
-        Properties parameters = new Properties();
-        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, PurapConstants.ACCOUNT_DISTRIBUTION_METHOD);
 
-        // anchor, if it exists
-        if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
-            parameters.put(PurapConstants.RETURN_ANCHOR, ((KualiForm) form).getAnchor());
-        }
-
-        // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
-        parameters.put(PurapConstants.RETURN_FORM_KEY, GlobalVariables.getUserSession().addObject(form));
-            
-        // the form object is retrieved and removed upon return by KualiRequestProcessor.processActionForm()
-        parameters.put(PurapConstants.RETURN_ACTION, mapping.getPath() + ".do");
-            
-        String lookupUrl = UrlFactory.parameterizeUrl("/" + PurapConstants.ACCOUNT_DISTRIBUTION_ACTION, parameters);
-        return new ActionForward(lookupUrl, true);
+        purchasingForm.setHideDistributeAccounts(false);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
        
     public ActionForward removeAccounts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -296,4 +292,21 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
+
+    public ActionForward doAccountDistribution(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+
+        purchasingForm.setHideDistributeAccounts(true);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+       
+    public ActionForward cancelAccountDistribution(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+
+        purchasingForm.setHideDistributeAccounts(true);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+       
 }

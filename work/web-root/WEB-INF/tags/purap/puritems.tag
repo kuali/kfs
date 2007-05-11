@@ -36,15 +36,7 @@
 		summary="Items Section">
 		<tr>
 			<td colspan="12" class="subhead"><span class="subhead-left">Add
-			Item</span> <span class="subhead-right"> <html:image
-				property="methodToCall.setupAccountDistribution"
-				src="images/tinybutton-setaccdist.gif"
-				alt="setup account distribution" title="setup account distribution"
-				styleClass="tinybutton" /> <html:image
-				property="methodToCall.removeAccounts"
-				src="images/tinybutton-remaccitems.gif"
-				alt="remove accounts from all items"
-				title="remove accounts from all items" styleClass="tinybutton" /> </span></td>
+			Item</span></td>
 		</tr>
 		<tr>
 			<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" />
@@ -123,6 +115,7 @@
 
     <purap:accountdistribution
 		accountingLineAttributes="${accountingLineAttributes}" />
+
 
 	<table class="datatable" style="width: 100%;">
 		<c:if

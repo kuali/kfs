@@ -22,6 +22,8 @@ import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.bo.PaymentRequestAccount;
+import org.kuali.module.purap.bo.PurchaseOrderAccount;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.bo.PurchasingApItem;
@@ -90,7 +92,7 @@ public class PaymentRequestForm extends AccountsPayableFormBase {
     public PurchasingApItem setupNewPurchasingItemLine() {
         return new PurchaseOrderItem();
     }
-    
+
     public PurchaseOrderVendorStipulation getAndResetNewPurchaseOrderVendorStipulationLine() {
         PurchaseOrderVendorStipulation aPurchaseOrderVendorStipulationLine = getNewPurchaseOrderVendorStipulationLine();
         setNewPurchaseOrderVendorStipulationLine(new PurchaseOrderVendorStipulation());

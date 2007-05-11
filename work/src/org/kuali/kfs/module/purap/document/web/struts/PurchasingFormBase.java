@@ -15,7 +15,13 @@
  */
 package org.kuali.module.purap.web.struts.form;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
+import org.kuali.module.purap.bo.PurApAccountingLine;
+import org.kuali.module.purap.bo.PurApAccountingLineBase;
 import org.kuali.module.purap.bo.PurchasingApItem;
 
 /**
@@ -23,8 +29,13 @@ import org.kuali.module.purap.bo.PurchasingApItem;
  */
 public class PurchasingFormBase extends KualiAccountingDocumentFormBase {
     
-    private PurchasingApItem newPurchasingItemLine;
     private Boolean notOtherDeliveryBuilding = true;
+    private Boolean hideDistributeAccounts = true;
+    private PurchasingApItem newPurchasingItemLine;
+
+    private Integer accountDistributionnextSourceLineNumber;
+    private List<PurApAccountingLine> accountDistributionsourceAccountingLines;
+    private PurApAccountingLine accountDistributionnewSourceLine;
     
     /**
      * Constructs a RequisitionForm instance and sets up the appropriately casted document. 
@@ -34,6 +45,10 @@ public class PurchasingFormBase extends KualiAccountingDocumentFormBase {
         this.setNewPurchasingItemLine(setupNewPurchasingItemLine());
         newPurchasingItemLine.setItemTypeCode("ITEM");
         newPurchasingItemLine.refreshNonUpdateableReferences();
+        
+        this.accountDistributionnextSourceLineNumber = new Integer(1);
+        setAccountDistributionsourceAccountingLines(new ArrayList());
+        this.setAccountDistributionnewSourceLine(setupNewPurchasingAccountingLine());
     }
     /**
      * Gets the newPurchasingItemLine attribute. 
@@ -65,11 +80,81 @@ public class PurchasingFormBase extends KualiAccountingDocumentFormBase {
         return null;
     }
     
+    /**
+     * 
+     * This method should be overriden (or see accountingLines for an alternate way of doing this with newInstance)
+     * @return
+     */
+    public PurApAccountingLineBase setupNewPurchasingAccountingLine() {
+        return null;
+    }
+    
     public Boolean getNotOtherDeliveryBuilding() {
         return notOtherDeliveryBuilding;
     }
     public void setNotOtherDeliveryBuilding(Boolean notOtherDeliveryBuilding) {
         this.notOtherDeliveryBuilding = notOtherDeliveryBuilding;
     }
-       
+
+    public Boolean getHideDistributeAccounts() {
+        return hideDistributeAccounts;
+    }
+
+    public void setHideDistributeAccounts(Boolean hideDistributeAccounts) {
+        this.hideDistributeAccounts = hideDistributeAccounts;
+    }
+    
+    public Integer getAccountDistributionnextSourceLineNumber() {
+        return accountDistributionnextSourceLineNumber;
+    }
+    
+    public void setAccountDistributionnextSourceLineNumber(Integer accountDistributionnextSourceLineNumber) {
+        this.accountDistributionnextSourceLineNumber = accountDistributionnextSourceLineNumber;
+    }
+    
+    public List<PurApAccountingLine> getAccountDistributionsourceAccountingLines() {
+        return accountDistributionsourceAccountingLines;
+    }
+    
+    public void setAccountDistributionsourceAccountingLines(List<PurApAccountingLine> accountDistributionAccountingLines) {
+        this.accountDistributionsourceAccountingLines = accountDistributionAccountingLines;
+    }
+    
+    public PurApAccountingLine getAccountDistributionnewSourceLine() {
+        return accountDistributionnewSourceLine;
+    }
+    
+    public void setAccountDistributionnewSourceLine(PurApAccountingLine accountDistributionnewSourceLine) {
+        this.accountDistributionnewSourceLine = accountDistributionnewSourceLine;
+    }
+
+    public PurApAccountingLine getAccountDistributionsourceAccountingLine(int index) {
+        try {
+            while (accountDistributionsourceAccountingLines.size() <= index) {
+                accountDistributionsourceAccountingLines.add((PurApAccountingLine) getFinancialDocument().getSourceAccountingLineClass().newInstance());
+            }
+        }
+        catch (InstantiationException e) {
+            throw new RuntimeException("Unable to get new source line instance for document" + e.getMessage());
+        }
+        catch (IllegalAccessException e) {
+            throw new RuntimeException("Unable to get new source line instance for document" + e.getMessage());
+        }
+        return accountDistributionsourceAccountingLines.get(index);
+    }
+
+    /**
+     * This implementation sets the sequence number appropriately for the passed in source accounting line using the value that has
+     * been stored in the nextSourceLineNumber variable, adds the accounting line to the list that is aggregated by this object, and
+     * then handles incrementing the nextSourceLineNumber variable for you.
+     * 
+     * @see org.kuali.kfs.document.AccountingDocument#addSourceAccountingLine(SourceAccountingLine)
+     */
+    public void addAccountDistributionsourceAccountingLine(PurApAccountingLine line) {
+        line.setSequenceNumber(this.getAccountDistributionnextSourceLineNumber());
+        this.accountDistributionsourceAccountingLines.add(line);
+        this.accountDistributionnextSourceLineNumber = new Integer(this.getAccountDistributionnextSourceLineNumber().intValue() + 1);
+        this.setAccountDistributionnewSourceLine(setupNewPurchasingAccountingLine());
+    }
+
 }

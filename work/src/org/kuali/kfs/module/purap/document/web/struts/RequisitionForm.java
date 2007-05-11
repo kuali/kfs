@@ -18,6 +18,7 @@ package org.kuali.module.purap.web.struts.form;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.bo.RequisitionAccount;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.document.RequisitionDocument;
 
@@ -79,5 +80,11 @@ public class RequisitionForm extends PurchasingFormBase {
         return ri;
     }
     
-    
+    /**
+     * @see org.kuali.module.purap.web.struts.form.PurchasingFormBase#setupNewPurchasingAccountingLine()
+     */
+    @Override
+    public RequisitionAccount setupNewPurchasingAccountingLine() {
+        return new RequisitionAccount();
+    }
 }

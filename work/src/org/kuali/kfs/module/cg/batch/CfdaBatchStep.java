@@ -2,6 +2,11 @@ package org.kuali.module.cg.batch;
 
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.cg.service.CfdaService;
+import org.kuali.module.cg.service.CfdaUpdateResults;
+import org.kuali.module.cg.service.impl.CfdaServiceImpl;
+import org.apache.log4j.Logger;
+
+import java.io.IOException;
 
 /**
  * User: Laran Evans <lc278@cornell.edu>
@@ -10,9 +15,16 @@ import org.kuali.module.cg.service.CfdaService;
  */
 public class CfdaBatchStep extends AbstractStep {
 
+    private static Logger LOG = org.apache.log4j.Logger.getLogger(CfdaBatchStep.class);
+
     private CfdaService cfdaService;
     public boolean execute() throws InterruptedException {
-        cfdaService.update();
+        try {
+            CfdaUpdateResults results = cfdaService.update();
+        } catch(IOException ioe) {
+            LOG.warn("Exception while updating CFDA codes.", ioe);
+            return false;
+        }
         return true;
     }
 

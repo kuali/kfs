@@ -4,10 +4,16 @@ import junit.framework.TestCase;
 
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
+import java.io.IOException;
 
 import static org.kuali.kfs.util.SpringServiceLocator.*;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
+import org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference;
+import org.kuali.module.cg.service.CfdaUpdateResults;
 
 /**
  * User: Laran Evans <lc278@cornell.edu>
@@ -34,8 +40,8 @@ public class CfdaServiceTest extends KualiTestBase {
         assertEquals("Title extraction failed", "Agricultural Research_Basic and Applied Research", t);
     }
 
-    public void testUpdate() {
-        getCfdaService().update();
+    public void testUpdate() throws IOException {
+        CfdaUpdateResults results = getCfdaService().update();
     }
 
 }

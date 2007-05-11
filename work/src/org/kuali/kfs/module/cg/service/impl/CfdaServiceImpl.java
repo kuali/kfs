@@ -1,9 +1,12 @@
 package org.kuali.module.cg.service.impl;
 
 import org.kuali.module.cg.service.CfdaService;
+import org.kuali.module.cg.service.CfdaUpdateResults;
 import org.kuali.module.cg.bo.CatalogOfFederalDomesticAssistanceReference;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.kfs.service.impl.HomeOriginationServiceImpl;
 import org.kuali.core.service.BusinessObjectService;
+import org.apache.log4j.Logger;
 
 import java.net.URL;
 import java.net.MalformedURLException;
@@ -19,8 +22,19 @@ import java.util.*;
 public class CfdaServiceImpl implements CfdaService {
 
     private BusinessObjectService businessObjectService;
-    private String SOURCE_URL = "http://12.46.245.173/pls/portal30/CATALOG.AGY_PROGRAM_LIST_RPT.show";
+    private static String SOURCE_URL = "http://12.46.245.173/pls/portal30/CATALOG.AGY_PROGRAM_LIST_RPT.show";
+    private static Comparator cfdaComparator;
 
+    static {
+        cfdaComparator = new Comparator() {
+            public int compare(Object o1, Object o2) {
+                String lhs = (String) o1;
+                String rhs = (String) o2;
+                return lhs.compareTo(rhs);
+            }
+        };
+    }
+    
     /**
      * I know this is hack-ish. Regexes are appropriate. I just couldn't get the pattern down and didn't want to waste
      * my time figuring it out.
@@ -68,98 +82,124 @@ public class CfdaServiceImpl implements CfdaService {
         return string;
     }
 
-    public void update() {
+    /**
+     * 
+     * @return
+     * @throws IOException
+     */
+    public static SortedMap<String, CatalogOfFederalDomesticAssistanceReference> getGovCodes() throws IOException {
+        SortedMap<String, CatalogOfFederalDomesticAssistanceReference> govMap =
+                new TreeMap<String, CatalogOfFederalDomesticAssistanceReference>();
 
-        Collection allCodes = SpringServiceLocator.getLookupService().findCollectionBySearch(CatalogOfFederalDomesticAssistanceReference.class, new HashMap());
-        Comparator cfdaComparator = new Comparator() {
-            public int compare(Object o1, Object o2) {
-                String lhs = (String) o1;
-                String rhs = (String) o2;
-                return lhs.compareTo(rhs);
-            }
-        };
+        URL url = new URL(SOURCE_URL);
+        InputStream inputStream = url.openStream();
+        InputStreamReader screenReader = new InputStreamReader(inputStream);
+        BufferedReader screen = new BufferedReader(screenReader);
+        String line = screen.readLine();
 
-        Map<String, CatalogOfFederalDomesticAssistanceReference> govMap = new TreeMap<String, CatalogOfFederalDomesticAssistanceReference>(cfdaComparator);
+        boolean headerFound = false;
+        while(null != line) {
+            if(line.trim().equals("<TR>")) {
 
-        try {
-            URL url = new URL(SOURCE_URL);
-            InputStream inputStream = url.openStream();
-            InputStreamReader screenReader = new InputStreamReader(inputStream);
-            BufferedReader screen = new BufferedReader(screenReader);
-            String line = screen.readLine();
-
-            boolean headerFound = false;
-            while(null != line) {
-                if(line.trim().equals("<TR>")) {
-
-                    // There's one match that will happen for the table header row. Skip past it.
-                    if(!headerFound) {
-                        headerFound = true;
-                        line = screen.readLine();
-                        continue;
-                    }
-                    
-                    String number = extractCfdaNumberFrom(screen.readLine());
-                    String agency = extractCfdaAgencyFrom(screen.readLine());
-                    String title  = extractCfdaTitleFrom(screen.readLine());
-
-                    CatalogOfFederalDomesticAssistanceReference cfda = new CatalogOfFederalDomesticAssistanceReference();
-                    cfda.setCfdaNumber(number);
-                    cfda.setCfdaProgramTitleName(title);
-                    
-                    govMap.put(number, cfda);
+                // There's one match that will happen for the table header row. Skip past it.
+                if(!headerFound) {
+                    headerFound = true;
+                    line = screen.readLine();
+                    continue;
                 }
 
-                line = screen.readLine();
+                String number = extractCfdaNumberFrom(screen.readLine());
+                /*String agency = extractCfdaAgencyFrom(*/screen.readLine()/*)*/; // not used, but we still need to read the line
+                                                                                  // to move past it.
+                String title  = extractCfdaTitleFrom(screen.readLine());
+
+                CatalogOfFederalDomesticAssistanceReference cfda = new CatalogOfFederalDomesticAssistanceReference();
+                cfda.setCfdaNumber(number);
+                cfda.setCfdaProgramTitleName(title);
+
+                govMap.put(number, cfda);
             }
 
-            Map<String, CatalogOfFederalDomesticAssistanceReference> kfsMapAll = new TreeMap<String, CatalogOfFederalDomesticAssistanceReference>(cfdaComparator);
-            Map<String, CatalogOfFederalDomesticAssistanceReference> kfsMapA = new TreeMap<String, CatalogOfFederalDomesticAssistanceReference>(cfdaComparator);
-            Map<String, CatalogOfFederalDomesticAssistanceReference> kfsMapI = new TreeMap<String, CatalogOfFederalDomesticAssistanceReference>(cfdaComparator);
-            // Index the codes from the dbase
-            for(Object o : allCodes) {
-                CatalogOfFederalDomesticAssistanceReference c = (CatalogOfFederalDomesticAssistanceReference) o;
-                if("AUTOMATIC".equals(c.getCfdaMaintenanceTypeId())) {
-                    if("A".equals(c.getCfdaStatusCode())) {
-                        kfsMapA.put(c.getCfdaNumber(), c);
-                    } else {
-                        kfsMapI.put(c.getCfdaNumber(), c);
-                    }
-                    // This map makes it easier to find the CFDA later
-                    kfsMapAll.put(c.getCfdaNumber(), c);
-                } else {
-                    govMap.remove(c.getCfdaNumber());
-                }
-            }
-            
-            // govMap and kfsMap are now full
-            for(String key : govMap.keySet()) {
-                if(!kfsMapA.containsKey(key) && !kfsMapI.containsKey(key)) {
-                    CatalogOfFederalDomesticAssistanceReference c = govMap.get(key);
-                    c.setCfdaStatusCode(true);
-                    c.setCfdaMaintenanceTypeId("AUTOMATIC");
-                    businessObjectService.save(c);
-                } else if(!kfsMapA.containsKey(key)) {
-                    CatalogOfFederalDomesticAssistanceReference c = kfsMapAll.get(key);
-                    c.setCfdaStatusCode(true);
-                    businessObjectService.save(c);
-                }
-            }
-
-            // check kfs active numbers for non existence in gov table
-            for(String key : kfsMapA.keySet()) {
-                if(!govMap.containsKey(key)) {
-                    CatalogOfFederalDomesticAssistanceReference c = kfsMapA.get(key);
-                    c.setCfdaStatusCode(false);
-                    businessObjectService.save(c);
-                }
-            }
-
-        } catch(MalformedURLException murle) {
-            murle.printStackTrace();
-        } catch(IOException ioe) {
-            ioe.printStackTrace();
+            line = screen.readLine();
         }
+        return govMap;
+    }
+
+    /**
+     *
+     * @return
+     * @throws IOException
+     */
+    public static SortedMap<String, CatalogOfFederalDomesticAssistanceReference> getKfsCodes() throws IOException {
+        Collection allCodes = SpringServiceLocator.getLookupService().findCollectionBySearch(CatalogOfFederalDomesticAssistanceReference.class, new HashMap());
+
+        SortedMap<String, CatalogOfFederalDomesticAssistanceReference> kfsMapAll = new TreeMap<String, CatalogOfFederalDomesticAssistanceReference>(cfdaComparator);
+        for(Object o : allCodes) {
+            CatalogOfFederalDomesticAssistanceReference c = (CatalogOfFederalDomesticAssistanceReference) o;
+            kfsMapAll.put(c.getCfdaNumber(), c);
+        }
+        return kfsMapAll;
+    }
+
+    /**
+     *
+     */
+    public CfdaUpdateResults update() throws IOException {
+
+        Map<String, CatalogOfFederalDomesticAssistanceReference> govMap = getGovCodes();
+        Map<String, CatalogOfFederalDomesticAssistanceReference> kfsMap = getKfsCodes();
+
+        CfdaUpdateResults results = new CfdaUpdateResults();
+        results.setNumberOfRecordsInKfsDatabase(kfsMap.keySet().size());
+        results.setNumberOfRecordsRetrievedFromWebSite(govMap.keySet().size());
+
+        for(Object key : kfsMap.keySet()) {
+
+            CatalogOfFederalDomesticAssistanceReference cfdaKfs = kfsMap.get(key);
+            CatalogOfFederalDomesticAssistanceReference cfdaGov = govMap.get(key);
+
+            if(cfdaKfs.getCfdaMaintenanceTypeId().startsWith("M")) {
+                // Leave it alone. It's maintained manually.
+                results.setNumberOfRecordsNotUpdatedBecauseManual(1 + results.getNumberOfRecordsNotUpdatedBecauseManual());
+            } else if(cfdaKfs.getCfdaMaintenanceTypeId().startsWith("A")) {
+
+                if(null == cfdaGov) {
+                    if("A".equals(cfdaKfs.getCfdaStatusCode())) {
+                        cfdaKfs.setCfdaStatusCode(false);
+                        businessObjectService.save(cfdaKfs);
+                        results.setNumberOfRecordsDeactivatedBecauseNoLongerOnWebSite(results.getNumberOfRecordsDeactivatedBecauseNoLongerOnWebSite() + 1);
+                    } else {
+                        // Leave it alone for historical purposes
+                        results.setNumberOfRecrodsNotUpdatedForHistoricalPurposes(results.getNumberOfRecrodsNotUpdatedForHistoricalPurposes() + 1);
+                    }
+                } else {
+                    if("A".equals(cfdaKfs.getCfdaStatusCode())) {
+                        cfdaKfs.setCfdaProgramTitleName(cfdaGov.getCfdaProgramTitleName());
+                        businessObjectService.save(cfdaKfs);
+                        results.setNumberOfRecordsUpdatedBecauseAutomatic(results.getNumberOfRecordsUpdatedBecauseAutomatic() + 1);
+                    } else if("I".equals(cfdaKfs.getCfdaStatusCode())) {
+                        cfdaKfs.setCfdaStatusCode(true);
+                        cfdaKfs.setCfdaProgramTitleName(cfdaGov.getCfdaProgramTitleName());
+                        businessObjectService.save(cfdaKfs);
+                        results.setNumberOfRecordsReActivated(results.getNumberOfRecordsReActivated() + 1);
+                    }
+                }
+            }
+
+            // Remove it from the govMap so we know what codes from the govMap don't already exist in KFS.
+            govMap.remove(key);
+        }
+
+        // What's left in govMap now is just the codes that don't exist in
+        for(String key : govMap.keySet()) {
+            CatalogOfFederalDomesticAssistanceReference cfdaGov = govMap.get(key);
+            cfdaGov.setCfdaMaintenanceTypeId("Automatic");
+            cfdaGov.setCfdaStatusCode(true);
+            businessObjectService.save(cfdaGov);
+            results.setNumberOfRecordsNewlyAddedFromWebSite(results.getNumberOfRecordsNewlyAddedFromWebSite() + 1);
+        }
+
+        return results;
     }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {

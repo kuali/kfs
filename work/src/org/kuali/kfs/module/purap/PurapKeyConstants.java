@@ -22,6 +22,11 @@ package org.kuali.module.purap;
 public class PurapKeyConstants {
 
     public static final String PURAP_GENERAL_POTENTIAL_DUPLICATE = "error.document.purap.potentialDuplicate";
+    public static final String PURAP_GENERAL_NO_ACCOUNTS_TO_DISTRIBUTE = "error.document.purap.noAccountsToDistribute";
+    public static final String PURAP_GENERAL_NO_ITEMS_TO_DISTRIBUTE_TO = "error.document.purap.noItemsToDistributeTo";
+    public static final String PURAP_GENERAL_NO_ITEMS_TO_REMOVE_ACCOUNTS_FROM = "error.document.purap.noItemsToRemoveAccountsFrom";
+    public static final String PURAP_GENERAL_ACCOUNTS_DISTRIBUTED = "message.document.purap.accountsDistributed";
+    public static final String PURAP_GENERAL_ACCOUNTS_REMOVED = "message.document.purap.accountsRemoved";
     
     //Purchase Order & Requisition
     public static final String ERROR_PURCHASE_ORDER_BEGIN_DATE_AFTER_END = "error.purchaseOrder.beginDateAfterEnd";

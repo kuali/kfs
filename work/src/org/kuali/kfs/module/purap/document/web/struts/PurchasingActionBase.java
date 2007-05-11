@@ -15,8 +15,6 @@
  */
 package org.kuali.module.purap.web.struts.action;
 
-import java.util.Properties;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,11 +23,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.UrlFactory;
-import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.rule.event.AddAccountingLineEvent;
@@ -38,12 +33,12 @@ import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.kfs.web.ui.AccountingLineDecorator;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
-import org.kuali.module.purap.document.PurchasingDocumentBase;
 import org.kuali.module.purap.rule.event.AddPurchasingAccountsPayableItemEvent;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
 import org.kuali.module.vendor.VendorConstants;
@@ -290,13 +285,28 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
             item.getSourceAccountingLines().clear();
         }
 
+        GlobalVariables.getMessageList().add(PurapKeyConstants.PURAP_GENERAL_ACCOUNTS_REMOVED);
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     public ActionForward doAccountDistribution(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
 
-        purchasingForm.setHideDistributeAccounts(true);
+        if (((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItems().size() > 0) {
+            if (purchasingForm.getAccountDistributionsourceAccountingLines().size() > 0) {
+                for (PurchasingApItem item : ((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItems()) {
+                    item.getSourceAccountingLines().addAll(purchasingForm.getAccountDistributionsourceAccountingLines());
+                }
+                purchasingForm.getAccountDistributionsourceAccountingLines().clear();
+                GlobalVariables.getMessageList().add(PurapKeyConstants.PURAP_GENERAL_ACCOUNTS_DISTRIBUTED);
+                purchasingForm.setHideDistributeAccounts(true);
+            } else {
+                GlobalVariables.getErrorMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.PURAP_GENERAL_NO_ACCOUNTS_TO_DISTRIBUTE);
+            }
+        } else {
+            GlobalVariables.getErrorMap().putError(PurapConstants.ACCOUNT_DISTRIBUTION_ERROR_KEY, PurapKeyConstants.PURAP_GENERAL_NO_ITEMS_TO_DISTRIBUTE_TO);
+        }
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

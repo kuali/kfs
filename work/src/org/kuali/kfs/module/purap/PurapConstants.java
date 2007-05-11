@@ -129,6 +129,8 @@ public class PurapConstants {
     public static final String DELIVERY_TAB_ERRORS = "document.delivery*";
     public static final String VENDOR_ERRORS = "document.vendor*";
     public static final String ADDITIONAL_TAB_ERRORS = "document.requestor*,document.purchaseOrderTransmissionMethodCode,document.chartOfAccountsCode,document.organizationCode,document.purchaseOrderCostSourceCode,document.purchaseOrderTotalLimit";
+    public static final String ITEM_TAB_ERRORS = "document.item*,accountDistribution*";
+    public static final String ACCOUNT_DISTRIBUTION_ERROR_KEY = "accountDistribution";
 
     // Assign Contract Manager Tab Errors
     public static final String ASSIGN_CONTRACT_MANAGER_TAB_ERRORS = "document.unassignedRequisition*";

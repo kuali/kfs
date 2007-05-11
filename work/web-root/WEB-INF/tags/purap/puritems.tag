@@ -30,7 +30,7 @@
 	type="java.util.Map"
 	description="The DataDictionary entry containing attributes for this row's fields."%>
 
-<kul:tab tabTitle="Items" defaultOpen="${not displayRequisitionFields}">
+<kul:tab tabTitle="Items" defaultOpen="${not displayRequisitionFields}" tabErrorKey="${PurapConstants.ITEM_TAB_ERRORS}">
 	<div class="tab-container" align=center>
 	<table cellpadding="0" cellspacing="0" class="datatable"
 		summary="Items Section">

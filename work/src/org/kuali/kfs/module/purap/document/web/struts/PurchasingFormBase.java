@@ -129,16 +129,8 @@ public class PurchasingFormBase extends KualiAccountingDocumentFormBase {
     }
 
     public PurApAccountingLine getAccountDistributionsourceAccountingLine(int index) {
-        try {
-            while (accountDistributionsourceAccountingLines.size() <= index) {
-                accountDistributionsourceAccountingLines.add((PurApAccountingLine) getFinancialDocument().getSourceAccountingLineClass().newInstance());
-            }
-        }
-        catch (InstantiationException e) {
-            throw new RuntimeException("Unable to get new source line instance for document" + e.getMessage());
-        }
-        catch (IllegalAccessException e) {
-            throw new RuntimeException("Unable to get new source line instance for document" + e.getMessage());
+        while (accountDistributionsourceAccountingLines.size() <= index) {
+            accountDistributionsourceAccountingLines.add(setupNewPurchasingAccountingLine());
         }
         return accountDistributionsourceAccountingLines.get(index);
     }

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.bo.Note;
+import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
 
@@ -32,8 +33,8 @@ public interface PurchaseOrderService {
     public PurchaseOrderDocument createPurchaseOrderDocument(RequisitionDocument reqDocument);   
     public PurchaseOrderPostProcessorService convertDocTypeToService(String documentTypeId);  
     
-    public boolean updateFlagsAndRoute(PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients);
-    public boolean firstPurchaseOrderTransmitViaPrint (PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients,
+    public boolean updateFlagsAndRoute(KualiDocumentFormBase kualiDocumentFormBase, String docType, String annotation, List adhocRoutingRecipients);
+    public boolean firstPurchaseOrderTransmitViaPrint (KualiDocumentFormBase kualiDocumentFormBase, String docType, String annotation, List adhocRoutingRecipients,
         ByteArrayOutputStream baosPDF,  String environment);
     public boolean printPurchaseOrderPDF (PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients,
             ByteArrayOutputStream baosPDF);

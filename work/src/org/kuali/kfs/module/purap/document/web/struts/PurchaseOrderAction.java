@@ -123,7 +123,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         LOG.debug("AskQuestionsAndRoute started.");
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         PurchaseOrderDocument po = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
-
         Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         String reason = request.getParameter(KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         String noteText = "";
@@ -177,7 +176,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             success = false;   
         }
         else {
-            success = SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(po, documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
+            success = SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(kualiDocumentFormBase, documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
         }        
         if (!success) {
             return mapping.findForward(KFSConstants.MAPPING_ERROR);
@@ -322,7 +321,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             
             //for testing Generate PO PDF, set the APO to true
             po.setPurchaseOrderAutomaticIndicator(true);
-            boolean success = SpringServiceLocator.getPurchaseOrderService().firstPurchaseOrderTransmitViaPrint(po, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PRINT_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), baosPDF, environment);
+            boolean success = SpringServiceLocator.getPurchaseOrderService().firstPurchaseOrderTransmitViaPrint(kualiDocumentFormBase, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PRINT_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), baosPDF, environment);
 
             if (!success) {
                 if (baosPDF != null) {
@@ -441,7 +440,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 success = false;
             }
             else {
-                success = SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(po, documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
+                success = SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(kualiDocumentFormBase, documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
             }
             if (!success) {
                 return mapping.findForward(KFSConstants.MAPPING_ERROR);

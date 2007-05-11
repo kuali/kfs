@@ -31,11 +31,10 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.NoteService;
-import org.kuali.core.service.impl.NoteServiceImpl;
-import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
@@ -215,13 +214,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return poDocument;
     }
     
-    public boolean firstPurchaseOrderTransmitViaPrint (PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients,
+    public boolean firstPurchaseOrderTransmitViaPrint (KualiDocumentFormBase kualiDocumentFormBase, String docType, String annotation, List adhocRoutingRecipients,
         ByteArrayOutputStream baosPDF,  String environment) {
         
         boolean isRetransmit = false;
         boolean result = true;
+        PurchaseOrderDocument po = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
         po.setPurchaseOrderFirstTransmissionDate(dateTimeService.getCurrentSqlDate());
-        result = updateFlagsAndRoute (po, docType, annotation, adhocRoutingRecipients);
+        result = updateFlagsAndRoute (kualiDocumentFormBase, docType, annotation, adhocRoutingRecipients);
         Collection<String> generatePDFErrors = printService.generatePurchaseOrderPdf(po, baosPDF, isRetransmit, environment);
         
         if (generatePDFErrors.size() > 0) {
@@ -313,8 +313,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     /**
      * @see org.kuali.module.purap.service.PurchaseOrderService#updateFlagsAndRoute(org.kuali.module.purap.document.PurchaseOrderDocument, java.lang.String, java.lang.String, java.util.List)
      */
-    public boolean updateFlagsAndRoute(PurchaseOrderDocument po, String docType, String annotation, List adhocRoutingRecipients) {
+    public boolean updateFlagsAndRoute(KualiDocumentFormBase kualiDocumentFormBase, String docType, String annotation, List adhocRoutingRecipients) {
         try {
+            PurchaseOrderDocument po = SpringServiceLocator.getPurchaseOrderService().getPurchaseOrderByDocumentNumber(kualiDocumentFormBase.getDocument().getDocumentNumber());
             po.setPendingActionIndicator(true);
             save(po);
             
@@ -330,15 +331,16 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             } 
             else { 
                 save(po);
+                kualiDocumentFormBase.setDocument(po);
                 documentService.routeDocument(po, annotation, adhocRoutingRecipients);
             }
         }
         catch (WorkflowException we) {
-            LOG.error("Error during updateFlagsAndRoute on PO document: " + we.getMessage());
+            LOG.error("Error during updateFlagsAndRoute on PO document: " + we);
             throw new RuntimeException("Error during updateFlagsAndRoute on PO document: " + we.getMessage());            
         }
         catch (Exception e) {
-            LOG.error("Error during updateFlagsAndRoute on PO document: " + e.getMessage());
+            LOG.error("Error during updateFlagsAndRoute on PO document: " + e);
             throw new RuntimeException("Error during updateFlagsAndRoute on PO document: " + e.getMessage());      
         }
         return true;

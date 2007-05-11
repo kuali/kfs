@@ -18,11 +18,13 @@ package org.kuali.module.labor.document;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.core.bo.DocumentType;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.financial.document.JournalVoucherDocument;
+import org.kuali.module.labor.LaborConstants.JournalVoucherOffsetType;
 import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
 import org.kuali.module.labor.bo.LaborJournalVoucherDetail;
 import org.kuali.module.labor.bo.LaborLedgerAccountingLineParser;
@@ -32,8 +34,9 @@ import org.kuali.module.labor.bo.TestSourceAccountingLine;
 public class LaborJournalVoucherDocument extends JournalVoucherDocument implements LaborLedgerPostingDocument{
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborJournalVoucherDocument.class);
 
-    private String offsetTypeCode;
-    private List<PendingLedgerEntry> laborLedgerPendingEntries;
+    private String offsetTypeCode = JournalVoucherOffsetType.NO_OFFSET.typeCode;
+    private List<PendingLedgerEntry> laborLedgerPendingEntries;   
+    private DocumentType documentType;
        
     /**
      * Constructs a LaborJournalVoucherDocument.java.
@@ -43,6 +46,36 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
         setLaborLedgerPendingEntries(new ArrayList<PendingLedgerEntry>());
     }
 
+    /**
+     * @see org.kuali.kfs.document.AccountingDocumentBase#getSourceAccountingLineClass()
+     */
+    @Override
+    public Class getSourceAccountingLineClass() { 
+        return LaborJournalVoucherDetail.class;
+    }
+
+    /**
+     * @see org.kuali.module.labor.document.LaborLedgerPostingDocument#getLaborLedgerPendingEntry(int)
+     */
+    public PendingLedgerEntry getLaborLedgerPendingEntry(int index) {
+        while (laborLedgerPendingEntries.size() <= index) {
+            laborLedgerPendingEntries.add(new PendingLedgerEntry());
+        }
+        return laborLedgerPendingEntries.get(index);
+    }
+
+    /**
+     * @see org.kuali.kfs.document.AccountingDocumentBase#prepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
+     */
+    @Override
+    public void prepareForSave(KualiDocumentEvent event) {
+        super.prepareForSave(event);
+        if (!SpringServiceLocator.getLaborLedgerPendingEntryService().generateLaborLedgerPendingEntries(this)) {
+            logErrors();
+            throw new ValidationException("labor ledger LLPE generation failed");
+        }
+    }
+    
     /**
      * Gets the offsetTypeCode attribute.
      * 
@@ -80,32 +113,18 @@ public class LaborJournalVoucherDocument extends JournalVoucherDocument implemen
     }
 
     /**
-     * @see org.kuali.kfs.document.AccountingDocumentBase#getSourceAccountingLineClass()
+     * Gets the documentType attribute. 
+     * @return Returns the documentType.
      */
-    @Override
-    public Class getSourceAccountingLineClass() { 
-        return LaborJournalVoucherDetail.class;
+    public DocumentType getDocumentType() {
+        return documentType;
     }
 
     /**
-     * @see org.kuali.module.labor.document.LaborLedgerPostingDocument#getLaborLedgerPendingEntry(int)
+     * Sets the documentType attribute value.
+     * @param documentType The documentType to set.
      */
-    public PendingLedgerEntry getLaborLedgerPendingEntry(int index) {
-        while (laborLedgerPendingEntries.size() <= index) {
-            laborLedgerPendingEntries.add(new PendingLedgerEntry());
-        }
-        return laborLedgerPendingEntries.get(index);
-    }
-
-    /**
-     * @see org.kuali.kfs.document.AccountingDocumentBase#prepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
-     */
-    @Override
-    public void prepareForSave(KualiDocumentEvent event) {
-        super.prepareForSave(event);
-        if (!SpringServiceLocator.getLaborLedgerPendingEntryService().generateLaborLedgerPendingEntries(this)) {
-            logErrors();
-            throw new ValidationException("labor ledger LLPE generation failed");
-        }
+    public void setDocumentType(DocumentType documentType) {
+        this.documentType = documentType;
     }
 }

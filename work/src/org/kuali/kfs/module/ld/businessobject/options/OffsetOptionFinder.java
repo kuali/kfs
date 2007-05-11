@@ -21,6 +21,7 @@ import java.util.List;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.lookup.valueFinder.ValueFinder;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.module.labor.LaborConstants.JournalVoucherOffsetType;
 
 public class OffsetOptionFinder extends KeyValuesBase implements ValueFinder {
 
@@ -28,7 +29,7 @@ public class OffsetOptionFinder extends KeyValuesBase implements ValueFinder {
      * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
-        return "LLJV";
+        return JournalVoucherOffsetType.NO_OFFSET.typeCode;
     }
 
     /**
@@ -36,13 +37,10 @@ public class OffsetOptionFinder extends KeyValuesBase implements ValueFinder {
      */
     public List getKeyValues() {
         List labels = new ArrayList();
-
-        // TODO: define an enum to hold the constants 
-        labels.add(new KeyLabelPair("LLJV", "No Offset"));
-        labels.add(new KeyLabelPair("LJVA", "Accrual"));
-        labels.add(new KeyLabelPair("LJVC", "Cash"));
-        labels.add(new KeyLabelPair("LJVE", "Encumbrance"));
-
+        
+        for(JournalVoucherOffsetType offsetType : JournalVoucherOffsetType.values()){
+            labels.add(new KeyLabelPair(offsetType.typeCode, offsetType.description));
+        }
         return labels;
     }
 }

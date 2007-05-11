@@ -32,9 +32,13 @@ import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.financial.document.JournalVoucherDocument;
 import org.kuali.module.financial.web.struts.form.JournalVoucherForm;
 import org.kuali.module.financial.web.struts.form.VoucherForm;
+import org.kuali.module.labor.LaborConstants.JournalVoucherOffsetType;
 import org.kuali.module.labor.document.LaborJournalVoucherDocument;
 
 public class LaborJournalVoucherForm extends JournalVoucherForm {
+    
+    private String originalOffsetTypeCode = JournalVoucherOffsetType.NO_OFFSET.typeCode;
+    
     /**
      * Constructs a JournalVoucherForm instance.
      */
@@ -61,5 +65,21 @@ public class LaborJournalVoucherForm extends JournalVoucherForm {
      */
     public void setJournalVoucherDocument(JournalVoucherDocument journalVoucherDocument) {
         setDocument(journalVoucherDocument);
+    }
+
+    /**
+     * Gets the originalOffsetTypeCode attribute. 
+     * @return Returns the originalOffsetTypeCode.
+     */
+    public String getOriginalOffsetTypeCode() {
+        return originalOffsetTypeCode;
+    }
+
+    /**
+     * Sets the originalOffsetTypeCode attribute value.
+     * @param originalOffsetTypeCode The originalOffsetTypeCode to set.
+     */
+    public void setOriginalOffsetTypeCode(String originalOffsetTypeCode) {
+        this.originalOffsetTypeCode = originalOffsetTypeCode;
     }
 }

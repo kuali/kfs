@@ -214,6 +214,11 @@
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/modules/labor/{1}.jsp" /> 
         </action> 
+        
+        <action path="/laborLongRowTableInquiry" name="BalanceInquiryForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.module.gl.web.struts.action.BalanceInquiryAction">
+            <set-property property="cancellable" value="true" />
+            <forward name="basic" path="/jsp/modules/labor/LongRowTableInquiry.jsp" />
+        </action>
 
 		<action path="/personFundingInquiry" name="PersonFundingInquiryForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.module.labor.web.struts.action.PersonFundingInquiryAction">
             <set-property property="cancellable" value="true" />

@@ -18,6 +18,7 @@ package org.kuali.module.labor;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.KFSPropertyConstants;
 
 /**
@@ -144,4 +145,21 @@ public class LaborConstants {
         public static final String ORIGINATION_CODE = "originationCode";
         public static final String OLD_FISCAL_YEAR = "oldFiscalYear";
     }
+    
+    public enum JournalVoucherOffsetType {
+        NO_OFFSET("LLJV", "No Offset"),
+        ACCRUAL("LJVA", "Accrual"),
+        CASH("LJVC", "Cash"),
+        ENCUMBRANCE("LJVE", "Encumbrance");
+        
+        public String typeCode;
+        public String description;
+        
+        private JournalVoucherOffsetType(String typeCode, String description){
+            this.typeCode = typeCode;
+            this.description = description;
+        }        
+    }
+    
+    public static String LONG_ROW_TABLE_INRUIRY_ACTION = "laborLongRowTableInquiry.do";
 }

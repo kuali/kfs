@@ -17,17 +17,29 @@ package org.kuali.workflow.attribute;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.core.lookup.LookupUtils;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.bo.SubAccount;
+import org.kuali.module.chart.service.SubAccountService;
+import org.kuali.workflow.KualiWorkflowUtils;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import edu.iu.uis.eden.WorkflowServiceErrorImpl;
 import edu.iu.uis.eden.doctype.DocumentType;
@@ -56,7 +68,11 @@ public class KualiSubAccountAttribute implements WorkflowAttribute, MassRuleAttr
 
     public static final String ORG_CD_KEY = "org_cd";
 
-    private static final String ACCOUNT_ATTRIBUTE = "KUALI_ACCOUNT_ATTRIBUTE";
+    public static final String SUB_ACCOUNT_NBR_KEY = "sub_acct_nbr";
+
+    private static final String SUB_ACCOUNT_ATTRIBUTE = "KUALI_SUB_ACCOUNT_ATTRIBUTE";
+
+    private static final String DOCUMENT_SUB_ACCOUNT_VALUES_KEY = "subAccounts";
 
     private String finCoaCd;
 
@@ -74,22 +90,21 @@ public class KualiSubAccountAttribute implements WorkflowAttribute, MassRuleAttr
 
     /**
      * No arg constructor
-     * TODO delyea - IMPLEMENT THIS
      */
     public KualiSubAccountAttribute() {
+        List fields = new ArrayList();
         ruleRows = new ArrayList();
-        routingDataRows = new ArrayList();
-    }
+        ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, FIN_COA_CD_KEY));
+        ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Account.class, KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, FIN_COA_CD_KEY));
+        ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Org.class, KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME, ORG_CD_KEY));
+        ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(SubAccount.class, KFSConstants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME, SUB_ACCOUNT_NBR_KEY));
 
-    /**
-     * Constructor that takes chart, account, and total dollar amount
-     * TODO delyea - IMPLEMENT THIS
-     */
-    public KualiSubAccountAttribute(String finCoaCd, String accountNbr, String subAccountNbr, String totalDollarAmount) {
-        this();
-//        this.finCoaCd = LookupUtils.forceUppercase(SubAccount.class, "chartOfAccountsCode", finCoaCd);
-//        this.accountNbr = LookupUtils.forceUppercase(SubAccount.class, "accountNumber", accountNbr);
-//        this.subAccountNbr = LookupUtils.forceUppercase(SubAccount.class, "subAccountNumer", subAccountNbr);
+        routingDataRows = new ArrayList();
+        routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, FIN_COA_CD_KEY));
+        routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Account.class, KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, FIN_COA_CD_KEY));
+        routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Org.class, KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME, ORG_CD_KEY));
+        routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(SubAccount.class, KFSConstants.SUB_ACCOUNT_NUMBER_PROPERTY_NAME, SUB_ACCOUNT_NBR_KEY));
+
     }
 
     /**
@@ -99,7 +114,6 @@ public class KualiSubAccountAttribute implements WorkflowAttribute, MassRuleAttr
         if (Utilities.isEmpty(getFinCoaCd()) || Utilities.isEmpty(getSubAccountNbr()) || ( (Utilities.isEmpty(getSubAccountNbr())) && (Utilities.isEmpty(getOrgCd())) ) ) {
             return "";
         }
-        StringBuffer prefix = new StringBuffer("<report><chart>").append(getFinCoaCd()).append("</chart>");
         StringBuffer accountOrOrg = new StringBuffer();
         if (Utilities.isEmpty(getAccountNbr())) {
             // we do not have sub account... do org
@@ -120,21 +134,17 @@ public class KualiSubAccountAttribute implements WorkflowAttribute, MassRuleAttr
 
     /**
      * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getRuleExtensionValues()
-     * TODO delyea - IMPLEMENT THIS
      */
     public List<RuleExtensionValue> getRuleExtensionValues() {
         List extensions = new ArrayList();
-//        extensions.add(new RuleExtensionValue(FIN_COA_CD_KEY, this.finCoaCd));
-//        extensions.add(new RuleExtensionValue(ORG_CD_KEY, this.orgCd));
-//        if (!StringUtils.isBlank(this.fromAmount)) {
-//            extensions.add(new RuleExtensionValue(FROM_AMOUNT_KEY, this.fromAmount));
-//        }
-//        if (!StringUtils.isBlank(this.toAmount)) {
-//            extensions.add(new RuleExtensionValue(TO_AMOUNT_KEY, this.toAmount));
-//        }
-//        if (!StringUtils.isBlank(this.overrideCd)) {
-//            extensions.add(new RuleExtensionValue(OVERRIDE_CD_KEY, this.overrideCd));
-//        }
+        extensions.add(new RuleExtensionValue(FIN_COA_CD_KEY, this.finCoaCd));
+        if (!StringUtils.isBlank(this.accountNbr)) {
+            extensions.add(new RuleExtensionValue(ACCOUNT_NBR_KEY, this.accountNbr));
+        }
+        if (!StringUtils.isBlank(this.orgCd)) {
+            extensions.add(new RuleExtensionValue(ORG_CD_KEY, this.orgCd));
+        }
+        extensions.add(new RuleExtensionValue(SUB_ACCOUNT_NBR_KEY, this.subAccountNbr));
         return extensions;
     }
 
@@ -160,45 +170,83 @@ public class KualiSubAccountAttribute implements WorkflowAttribute, MassRuleAttr
     }
 
     /**
+     * TODO delyea - what is the difference between this and {@link #validateRuleData} ?
+
      * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#validateRoutingData(java.util.Map)
-     * TODO delyea - IMPLEMENT THIS
      */
-    public List validateRoutingData(Map arg0) {
+    public List validateRoutingData(Map paramMap) {
         List errors = new ArrayList();
-//        this.finCoaCd = LookupUtils.forceUppercase(Org.class, "chartOfAccountsCode", (String) paramMap.get(FIN_COA_CD_KEY));
-//        this.orgCd = LookupUtils.forceUppercase(Org.class, "organizationCode", (String) paramMap.get(ORG_CD_KEY));
-//        this.totalDollarAmount = (String) paramMap.get(TOTAL_AMOUNT_KEY);
-//        this.overrideCd = LookupUtils.forceUppercase(SourceAccountingLine.class, "overrideCode", (String) paramMap.get(OVERRIDE_CD_KEY));
-//        if (isRequired()) {
-//            validateOrg(errors);
-//            if (!StringUtils.isNumeric(this.totalDollarAmount)) {
-//                errors.add(new WorkflowServiceErrorImpl("Total Amount is invalid.", ""));
-//            }
-//        }
+        this.accountNbr = LookupUtils.forceUppercase(SubAccount.class, "accountNumber", (String) paramMap.get(ACCOUNT_NBR_KEY));
+        this.orgCd = LookupUtils.forceUppercase(SubAccount.class, "finReportOrganizationCode", (String) paramMap.get(ORG_CD_KEY));
+        String fieldName = "chartOfAccountsCode";
+        if (StringUtils.isBlank(this.accountNbr)) {
+            fieldName = "financialReportChartCode";
+        }
+        this.finCoaCd = LookupUtils.forceUppercase(SubAccount.class, fieldName, (String) paramMap.get(FIN_COA_CD_KEY));
+        this.subAccountNbr = LookupUtils.forceUppercase(SubAccount.class, "subAccountNumber", (String) paramMap.get(SUB_ACCOUNT_NBR_KEY));
+        validateSubAccountValues(errors);
         return errors;
     }
 
     /**
+     * TODO delyea - what is the difference between this and {@link #validateRoutingData} ?
+     * 
      * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#validateRuleData(java.util.Map)
-     * TODO delyea - IMPLEMENT THIS
      */
-    public List validateRuleData(Map arg0) {
+    public List validateRuleData(Map paramMap) {
         List errors = new ArrayList();
-//        if (isRequired()) {
-//            this.finCoaCd = LookupUtils.forceUppercase(Org.class, "chartOfAccountsCode", (String) paramMap.get(FIN_COA_CD_KEY));
-//            this.orgCd = LookupUtils.forceUppercase(Org.class, "organizationCode", (String) paramMap.get(ORG_CD_KEY));
-//            this.fromAmount = (String) paramMap.get(FROM_AMOUNT_KEY);
-//            this.toAmount = (String) paramMap.get(TO_AMOUNT_KEY);
-//            this.overrideCd = LookupUtils.forceUppercase(SourceAccountingLine.class, "overrideCode", (String) paramMap.get(OVERRIDE_CD_KEY));
-//            validateOrg(errors);
-//            if (StringUtils.isNotBlank(toAmount) && !StringUtils.isNumeric(toAmount)) {
-//                errors.add(new WorkflowServiceErrorImpl("To Amount is invalid.", "routetemplate.dollarrangeattribute.toamount.invalid"));
-//            }
-//            if (StringUtils.isNotBlank(fromAmount) && !StringUtils.isNumeric(fromAmount)) {
-//                errors.add(new WorkflowServiceErrorImpl("From Amount is invalid.", "routetemplate.dollarrangeattribute.fromamount.invalid"));
-//            }
-//        }
+        this.accountNbr = LookupUtils.forceUppercase(SubAccount.class, "accountNumber", (String) paramMap.get(ACCOUNT_NBR_KEY));
+        this.orgCd = LookupUtils.forceUppercase(SubAccount.class, "finReportOrganizationCode", (String) paramMap.get(ORG_CD_KEY));
+        String fieldName = "chartOfAccountsCode";
+        if (StringUtils.isBlank(this.accountNbr)) {
+            fieldName = "financialReportChartCode";
+        }
+        this.finCoaCd = LookupUtils.forceUppercase(SubAccount.class, fieldName, (String) paramMap.get(FIN_COA_CD_KEY));
+        this.subAccountNbr = LookupUtils.forceUppercase(SubAccount.class, "subAccountNumber", (String) paramMap.get(SUB_ACCOUNT_NBR_KEY));
+        validateSubAccountValues(errors);
         return errors;
+    }
+
+    private void validateSubAccountValues(List errors) {
+        if ( (!isRequired()) && (StringUtils.isBlank(this.finCoaCd) && StringUtils.isBlank(this.subAccountNbr) && (StringUtils.isBlank(this.accountNbr) && StringUtils.isBlank(this.orgCd))) ) {
+            // attribute is not required and no fields are filled in
+            return;
+        } else if ( (isRequired()) && (StringUtils.isBlank(this.finCoaCd) || StringUtils.isBlank(this.subAccountNbr) || ((StringUtils.isBlank(this.accountNbr)) && (StringUtils.isBlank(this.orgCd)))) ) {
+            // attribute is required and at least one needed field is blank
+            errors.add(new WorkflowServiceErrorImpl("Chart, Sub Account, and one of Org or Account Number is required.", "routetemplate.xmlattribute.error"));
+        } else if (StringUtils.isNotBlank(this.accountNbr) && StringUtils.isNotBlank(this.orgCd)) {
+            // 
+        }
+        else {
+            // may or may not be required but we have values to check
+            List subAccounts = getSubAccounts();
+            if ( (subAccounts == null) || (subAccounts.isEmpty()) ) {
+                errors.add(new WorkflowServiceErrorImpl("Chart, Org, or Sub Account is invalid.","routetemplate.xmlattribute.error"));
+            }
+        }
+    }
+    
+    private List getSubAccounts() {
+        List subAccounts = new ArrayList();
+        SubAccountService subAccountService = SpringServiceLocator.getSubAccountService();
+        if (StringUtils.isNotBlank(this.accountNbr)) {
+            // TODO delyea - does this need "withCaching"?
+            SubAccount subAccount = subAccountService.getByPrimaryId(this.finCoaCd, this.accountNbr, this.subAccountNbr);
+            if (subAccount != null) {
+                subAccounts.add(subAccount);
+            }
+        } else if (StringUtils.isNotBlank(this.orgCd)) {
+            // TODO delyea - IMPLEMENT THIS AND DELETE RuntimeException being thrown
+            List testSubAccounts = null;
+//            List testSubAccounts = subAccountService.getSubAccountsByOrg(this.finCoaCd, this.orgCd, this.subAccountNbr);
+            if ( (testSubAccounts != null) && (!(testSubAccounts.isEmpty())) ) {
+                subAccounts.addAll(testSubAccounts);
+            }
+            throw new RuntimeException("THIS HAS NOT BEEN IMPLEMENTED");
+        } else {
+            throw new IllegalArgumentException("Parameters should have been passed for either account number or org code.");
+        }
+        return subAccounts;
     }
 
     /**
@@ -218,22 +266,151 @@ public class KualiSubAccountAttribute implements WorkflowAttribute, MassRuleAttr
      */
     public List filterNonMatchingRules(RouteContext routeContext, List rules) {
         List filteredRules = new ArrayList();
-//        DocumentType documentType = routeContext.getDocument().getDocumentType();
-//        Set chartOrgValues = populateFromDocContent(documentType, routeContext.getDocumentContent(), routeContext);
-//        for (Iterator iterator = rules.iterator(); iterator.hasNext();) {
-//            RuleBaseValues rule = (RuleBaseValues) iterator.next();
-//            List ruleExtensions = rule.getRuleExtensions();
-//            this.finCoaCd = LookupUtils.forceUppercase(Org.class, "chartOfAccountsCode", getRuleExtentionValue(FIN_COA_CD_KEY, ruleExtensions));
-//            this.orgCd = LookupUtils.forceUppercase(Org.class, "organizationCode", getRuleExtentionValue(ORG_CD_KEY, ruleExtensions));
-//            this.fromAmount = getRuleExtentionValue(FROM_AMOUNT_KEY, ruleExtensions);
-//            this.toAmount = getRuleExtentionValue(TO_AMOUNT_KEY, ruleExtensions);
-//            this.overrideCd = LookupUtils.forceUppercase(SourceAccountingLine.class, "overrideCode", getRuleExtentionValue(OVERRIDE_CD_KEY, ruleExtensions));
-//            if (ruleMatches(rule, chartOrgValues, routeContext)) {
-//                filteredRules.add(rule);
-//            }
-//        }
-//        Collections.sort(filteredRules, new ChartOrgRuleComparator(chartOrgValues));
+        DocumentType documentType = routeContext.getDocument().getDocumentType();
+        Set subAccountValues = populateFromDocContent(documentType, routeContext.getDocumentContent(), routeContext);
+        for (Iterator iterator = rules.iterator(); iterator.hasNext();) {
+            RuleBaseValues rule = (RuleBaseValues) iterator.next();
+            List ruleExtensions = rule.getRuleExtensions();
+            this.accountNbr = LookupUtils.forceUppercase(SubAccount.class, "accountNumber", getRuleExtentionValue(ACCOUNT_NBR_KEY, ruleExtensions));
+            this.orgCd = LookupUtils.forceUppercase(SubAccount.class, "finReportOrganizationCode", getRuleExtentionValue(ORG_CD_KEY, ruleExtensions));
+            String fieldName = "chartOfAccountsCode";
+            if (StringUtils.isBlank(this.accountNbr)) {
+                fieldName = "financialReportChartCode";
+            }
+            this.finCoaCd = LookupUtils.forceUppercase(SubAccount.class, fieldName, getRuleExtentionValue(FIN_COA_CD_KEY, ruleExtensions));
+            this.subAccountNbr = LookupUtils.forceUppercase(SubAccount.class, "subAccountNumber", getRuleExtentionValue(SUB_ACCOUNT_NBR_KEY, ruleExtensions));
+            if (ruleMatches(rule, subAccountValues, routeContext)) {
+                filteredRules.add(rule);
+            }
+        }
         return filteredRules;
+    }
+
+    /**
+     * Determines if the given Rule matches the document data by comparing the values.
+     */
+    protected boolean ruleMatches(RuleBaseValues rule, Set subAccountValues, RouteContext routeContext) {
+        for (Iterator iter = subAccountValues.iterator(); iter.hasNext();) {
+            SubAccount subAccount = (SubAccount) iter.next();
+            if (StringUtils.isNotBlank(this.getOrgCd())) {
+                // check based on org
+                if ( (subAccount.getFinancialReportChartCode().equals(this.getFinCoaCd())) &&
+                        (subAccount.getFinReportOrganizationCode().equals(this.getOrgCd())) &&
+                        (subAccount.getSubAccountNumber().equals(this.getSubAccountNbr())) ) { 
+                    return true;
+                }
+            } else {
+                // check based on account
+                if ( (subAccount.getChartOfAccountsCode().equals(this.getFinCoaCd())) &&
+                        (subAccount.getAccountNumber().equals(this.getAccountNbr())) &&
+                        (subAccount.getSubAccountNumber().equals(this.getSubAccountNbr())) ) { 
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private String getRuleExtentionValue(String key, List ruleExtensions) {
+        for (Iterator iter = ruleExtensions.iterator(); iter.hasNext();) {
+            RuleExtension extension = (RuleExtension) iter.next();
+            if (extension.getRuleTemplateAttribute().getRuleAttribute().getClassName().equals(this.getClass().getName())) {
+                for (Iterator iterator = extension.getExtensionValues().iterator(); iterator.hasNext();) {
+                    RuleExtensionValue value = (RuleExtensionValue) iterator.next();
+                    if (value.getKey().equals(key)) {
+                        return value.getValue();
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * this method will take the document content, and populate a list of SubAccount objects from the document values
+     *
+     * @param docContent
+     * @return a list of SubAccount objects that are contained in the doc
+     */
+    private Set populateFromDocContent(DocumentType docType, DocumentContent docContent, RouteContext routeContext) {
+        Set subAccountValues = null;
+        if (routeContext.getParameters().containsKey(DOCUMENT_SUB_ACCOUNT_VALUES_KEY)) {
+            subAccountValues = (Set) routeContext.getParameters().get(DOCUMENT_SUB_ACCOUNT_VALUES_KEY);
+        }
+        else {
+            subAccountValues = new HashSet();
+            NodeList nodes = null;
+            XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
+            try {
+                String chart = null;
+                String account = null;
+                String org = null;
+                String subAccount = null;
+                boolean isReport = ((Boolean) xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("report").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
+                if (isReport) {
+                    chart = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("chart").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
+                    account = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("accountNumber").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
+                    org = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("org").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
+                    subAccount = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("subAccountNumber").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
+                }
+                if ( StringUtils.isNotBlank(chart) && StringUtils.isNotBlank(subAccount) && (StringUtils.isNotBlank(account) || StringUtils.isNotBlank(org)) ) {
+                    List subAccounts = getSubAccounts();
+                    if ( (subAccounts == null) || (subAccounts.isEmpty()) ) {
+                        throw new RuntimeException("Sub Account declared on the document cannot be found in the system, routing cannot continue.");
+                    }
+                    //  possibly duplicate add, but this is safe in a HashSet
+                    for (Iterator iter = subAccounts.iterator(); iter.hasNext();) {
+                        SubAccount subAccountToAdd = (SubAccount) iter.next();
+                        subAccountValues.add(subAccountToAdd);
+                    }
+                }
+                else {
+                    String xpathExp = null;
+                    if (KualiWorkflowUtils.isSourceLineOnly(docType.getName())) {
+                        xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getSourceAccountingLineClassName(docType.getName())).append("/subAccount").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
+                    }
+                    else if (KualiWorkflowUtils.isTargetLineOnly(docType.getName())) {
+                        xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getTargetAccountingLineClassName(docType.getName())).append("/subAccount").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
+                    }
+                    else {
+                        xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getSourceAccountingLineClassName(docType.getName())).append("/subAccount").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).append(" | ").append(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getTargetAccountingLineClassName(docType.getName())).append("/account").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
+                    }
+                    nodes = (NodeList) xpath.evaluate(xpathExp, docContent.getDocument(), XPathConstants.NODESET);
+                    for (int i = 0; i < nodes.getLength(); i++) {
+                        Node subAccountNode = nodes.item(i);
+                        // TODO: xstreamsafe should be handling this, but is not, therefore this code block
+                        String referenceString = xpath.evaluate("@reference", subAccountNode);
+                        if (!StringUtils.isEmpty(referenceString)) {
+                            subAccountNode = (Node) xpath.evaluate(referenceString, subAccountNode, XPathConstants.NODE);
+                        }
+                        String accountNbr = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + "accountNumber", subAccountNode);
+                        String orgCd = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + "finReportOrganizationCode", subAccountNode);
+                        String fieldName = "chartOfAccountsCode";
+                        if (StringUtils.isBlank(accountNbr)) {
+                            fieldName = "financialReportChartCode";
+                        }
+                        String finCoaCd = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + fieldName, subAccountNode);
+                        String subAccountCd = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + "subAccountNumber", subAccountNode);
+                        if ( StringUtils.isNotBlank(finCoaCd) && StringUtils.isNotBlank(subAccountCd) && (StringUtils.isNotBlank(accountNbr) || StringUtils.isNotBlank(orgCd)) ) {
+                            List subAccounts = getSubAccounts();
+                            if ( (subAccounts == null) || (subAccounts.isEmpty()) ) {
+                                throw new RuntimeException("Sub Account declared on the document cannot be found in the system, routing cannot continue.");
+                            }
+                            //  possibly duplicate add, but this is safe in a HashSet
+                            for (Iterator iter = subAccounts.iterator(); iter.hasNext();) {
+                                SubAccount subAccountToAdd = (SubAccount) iter.next();
+                                subAccountValues.add(subAccountToAdd);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            routeContext.getParameters().put(DOCUMENT_SUB_ACCOUNT_VALUES_KEY, subAccountValues);
+        }
+        return subAccountValues;
     }
 
     /**

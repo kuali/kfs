@@ -267,11 +267,13 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      * the item is valid to be processed this method will get it's accounts and add the accounts to a summary list.  If one single account has
      * the same account string variables as an account on another item then the two accounts total amounts will be summed and used as the total
      * amount of the {@link SourceAccountingLine} object sent back in the list.
+     * 
+     * See Also: {@link #getProcessablePurapItems(List, Set, Boolean, Boolean)}
      *       
      * @param items - list of {@link PurchasingApItem} objects that need to be parsed
      * @param itemTypeCodes - list of {@link org.kuali.module.purap.bo.ItemType} codes used in conjunction with itemTypeCodesAreIncluded parameter
-     * @param itemTypeCodesAreIncluded - value to tell whether the itemTypeCodes parameter lists inclusion or exclusion variables (see private constants in {@link org.kuali.module.purap.service.impl.PurapAccountingServiceImpl})
-     * @param useZeroTotals - value to tell whether to include zero dollar items (see private constants in {@link org.kuali.module.purap.service.impl.PurapAccountingServiceImpl})
+     * @param itemTypeCodesAreIncluded - value to tell whether the itemTypeCodes parameter lists inclusion or exclusion variables (see {@link #ITEM_TYPES_INCLUDED_VALUE})
+     * @param useZeroTotals - value to tell whether to include zero dollar items (see {@link #ZERO_TOTALS_RETURNED_VALUE})
      * @return a list of {@link SourceAccountingLine} objects that represent a summing of all accounts across all derived processable items based on given criteria
      */
     private List<SourceAccountingLine> generateAccountSummary(List<PurchasingApItem> items, Set itemTypeCodes, Boolean itemTypeCodesAreIncluded, Boolean useZeroTotals) {
@@ -325,8 +327,8 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
      *       
      * @param items - list of {@link PurchasingApItem} objects that need to be parsed
      * @param itemTypeCodes - list of {@link org.kuali.module.purap.bo.ItemType} codes used in conjunction with itemTypeCodesAreIncluded parameter
-     * @param itemTypeCodesAreIncluded - value to tell whether the itemTypeCodes parameter lists inclusion or exclusion variables (see private constants in {@link org.kuali.module.purap.service.impl.PurapAccountingServiceImpl})
-     * @param useZeroTotals - value to tell whether to include zero dollar items (see private constants in {@link org.kuali.module.purap.service.impl.PurapAccountingServiceImpl})
+     * @param itemTypeCodesAreIncluded - value to tell whether the itemTypeCodes parameter lists inclusion or exclusion variables (see {@link #ITEM_TYPES_INCLUDED_VALUE})
+     * @param useZeroTotals - value to tell whether to include zero dollar items (see {@link #ZERO_TOTALS_RETURNED_VALUE})
      * @return a list of {@link PurchasingApItem} objects that should be used for processing by calling method
      */
     private List<PurchasingApItem> getProcessablePurapItems(List<PurchasingApItem> items, Set itemTypeCodes, Boolean itemTypeCodesAreIncluded, Boolean useZeroTotals) {

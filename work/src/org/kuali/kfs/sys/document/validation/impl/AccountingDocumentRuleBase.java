@@ -616,6 +616,22 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
     }
 
     /**
+     * @see org.kuali.kfs.rule.AccountingLineRule#isDebit(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine)
+     */
+    public boolean isDebit(AccountingDocument financialDocument, AccountingLine accountingLine) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /**
+     * @see org.kuali.kfs.rules.GeneralLedgerPostingDocumentRuleBase#populateOffsetGeneralLedgerPendingEntry(java.lang.Integer, org.kuali.kfs.bo.GeneralLedgerPendingEntry, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper, org.kuali.kfs.bo.GeneralLedgerPendingEntry)
+     */
+    @Override
+    protected boolean populateOffsetGeneralLedgerPendingEntry(Integer universityFiscalYear, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry offsetEntry) {
+        return true;
+    }
+
+    /**
      * This method processes an accounting line's information to build an offset entry, and then adds that to the document.
      * 
      * @param accountingDocument

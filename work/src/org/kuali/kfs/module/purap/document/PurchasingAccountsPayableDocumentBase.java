@@ -27,6 +27,7 @@ import org.kuali.core.service.NoteService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.bo.CreditMemoView;
@@ -71,6 +72,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     private List<PurchaseOrderView> relatedPurchaseOrderViews;
     private List<PaymentRequestView> relatedPaymentRequestViews;
     private List<CreditMemoView> relatedCreditMemoViews;
+    private List<SourceAccountingLine> summaryAccounts;
 
     // REFERENCE OBJECTS
     private Status status;
@@ -498,5 +500,21 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      */
     @Override
     public abstract Class getSourceAccountingLineClass();
+
+    /**
+     * Gets the summaryAccounts attribute this is used by the summary accounts method 
+     * @return Returns the summaryAccounts.
+     */
+    public List<SourceAccountingLine> getSummaryAccounts() {
+        return summaryAccounts;
+    }
+
+    /**
+     * Sets the summaryAccounts attribute value.
+     * @param summaryAccounts The summaryAccounts to set.
+     */
+    public void setSummaryAccounts(List<SourceAccountingLine> summaryAccounts) {
+        this.summaryAccounts = summaryAccounts;
+    }
         
 }

@@ -835,93 +835,64 @@
         </tr>
         </c:forEach>
 
-<%--TODO what to do about defining attributes at the form level?? may need to forgo tag calls --%>
         <%-- Totals rows --%>
         <tr>
             <kul:htmlAttributeHeaderCell
                 scope="row" rowspan="1" colspan="2"
                 literalLabel="<span class=\"nowrap\">TOTALS:</span>"
                 horizontal="true" />
-            <bc:pbglLineDataCell dataCellCssClass="datacell"
+            <bc:columnTotalCell dataCellCssClass="datacell"
                 cellProperty="csfAmountTotal"
-                field="csfAmountTotal"
+                textStyle="${textStyle}"
                 fieldAlign="right"
-                attributes="${bcsfAttributes}"
-                readOnly="true"
-                colSpan="2" dataFieldCssClass="amount"
-                displayHidden="false" />
-            <bc:pbglLineDataCell dataCellCssClass="datacell"
+                colSpan="2" />
+            <bc:columnTotalCell dataCellCssClass="datacell"
                 cellProperty="csfFullTimeEmploymentQuantityTotal"
-                field="csfFullTimeEmploymentQuantityTotal"
+                textStyle="${textStyle}"
                 fieldAlign="right"
-                attributes="${bcsfAttributes}"
-                readOnly="true"
-                colSpan="1" dataFieldCssClass="amount"
-                displayHidden="false" />
-            <bc:pbglLineDataCell dataCellCssClass="datacell"
+                colSpan="1" />
+            <bc:columnTotalCell dataCellCssClass="datacell"
                 cellProperty="appointmentRequestedAmountTotal"
-                field="appointmentRequestedAmountTotal"
+                textStyle="${textStyle}"
                 fieldAlign="right"
-                attributes="${bcsfAttributes}"
-                readOnly="true"
-                colSpan="1" dataFieldCssClass="amount"
-                displayHidden="false" />
-            <bc:pbglLineDataCell dataCellCssClass="datacell"
+                colSpan="1" />
+            <bc:columnTotalCell dataCellCssClass="datacell"
                 cellProperty="appointmentRequestedFteQuantityTotal"
-                field="appointmentRequestedFteQuantityTotal"
+                textStyle="${textStyle}"
                 fieldAlign="right"
-                attributes="${bcsfAttributes}"
-                readOnly="true"
-                colSpan="1" dataFieldCssClass="amount"
-                displayHidden="false" />
-            <bc:pbglLineDataCell dataCellCssClass="datacell"
+                colSpan="1" />
+            <bc:columnTotalCell dataCellCssClass="datacell"
                 cellProperty="appointmentRequestedCsfAmountTotal"
-                field="appointmentRequestedCsfAmountTotal"
+                textStyle="${textStyle}"
                 fieldAlign="right"
-                attributes="${bcsfAttributes}"
-                readOnly="true"
-                colSpan="1" dataFieldCssClass="amount"
-                displayHidden="false" />
-            <bc:pbglLineDataCell dataCellCssClass="datacell"
+                colSpan="1" />
+            <bc:columnTotalCell dataCellCssClass="datacell"
                 cellProperty="appointmentRequestedCsfFteQuantityTotal"
-                field="appointmentRequestedCsfFteQuantityTotal"
+                textStyle="${textStyle}"
                 fieldAlign="right"
-                attributes="${bcsfAttributes}"
-                readOnly="true"
-                colSpan="1" dataFieldCssClass="amount"
-                displayHidden="false" />
-            <td colspan="3">&nbsp;</td>
+                colSpan="1" />
+            <kul:htmlAttributeHeaderCell colspan="3" rowspan="2" scope="col" />
         </tr>
         <tr>
             <kul:htmlAttributeHeaderCell
                 scope="row" rowspan="1" colspan="4"
                 literalLabel="<span class=\"nowrap\">Tot.SHr:</span>"
                 horizontal="true" />
-            <bc:pbglLineDataCell dataCellCssClass="datacell"
+            <bc:columnTotalCell dataCellCssClass="datacell"
                 cellProperty="csfStandardHoursTotal"
-                field="csfStandardHoursTotal"
+                textStyle="${textStyle}"
                 fieldAlign="right"
-                attributes="${bcsfAttributes}"
-                readOnly="true"
-                colSpan="1" dataFieldCssClass="amount"
-                displayHidden="false" />
-            <bc:pbglLineDataCell dataCellCssClass="datacell"
+                colSpan="1" />
+            <bc:columnTotalCell dataCellCssClass="datacell"
                 cellProperty="appointmentRequestedStandardHoursTotal"
-                field="appointmentRequestedStandardHoursTotal"
+                textStyle="${textStyle}"
                 fieldAlign="right"
-                attributes="${bcsfAttributes}"
-                readOnly="true"
-                colSpan="2" dataFieldCssClass="amount"
-                displayHidden="false" />
-            <bc:pbglLineDataCell dataCellCssClass="datacell"
+                colSpan="2" />
+            <bc:columnTotalCell dataCellCssClass="datacell"
                 cellProperty="appointmentRequestedCsfStandardHoursTotal"
-                field="appointmentRequestedCsfStandardHoursTotal"
+                textStyle="${textStyle}"
                 fieldAlign="right"
-                attributes="${bcsfAttributes}"
-                readOnly="true"
-                colSpan="2" dataFieldCssClass="amount"
-                displayHidden="false" />
-            <td colspan="3">&nbsp;</td>
+                colSpan="2" />
         </tr>
 
     </table>

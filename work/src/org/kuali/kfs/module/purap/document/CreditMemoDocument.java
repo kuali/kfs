@@ -91,8 +91,8 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getSourceAccountingLineClass()
      */
-    @Override
-    public Class getSourceAccountingLineClass() {
-        return CreditMemoAccount.class;
-    }
+//    @Override
+//    public Class getSourceAccountingLineClass() {
+//        return CreditMemoAccount.class;
+//    }
 }

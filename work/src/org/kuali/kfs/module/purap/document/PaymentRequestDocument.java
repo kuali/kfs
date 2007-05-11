@@ -987,9 +987,9 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getSourceAccountingLineClass()
      */
-    @Override
-    public Class getSourceAccountingLineClass() {
-        return PaymentRequestAccount.class;
-    }
+//    @Override
+//    public Class getSourceAccountingLineClass() {
+//        return PaymentRequestAccount.class;
+//    }
     
 }

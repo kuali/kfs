@@ -582,11 +582,11 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getSourceAccountingLineClass()
      */
-    @Override
-    public Class getSourceAccountingLineClass() {
-        // TODO Auto-generated method stub
-        return RequisitionAccount.class;
-    }   
+//    @Override
+//    public Class getSourceAccountingLineClass() {
+//        // TODO Auto-generated method stub
+//        return RequisitionAccount.class;
+//    }   
     
 }
 

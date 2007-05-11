@@ -647,8 +647,8 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getSourceAccountingLineClass()
      */
-    @Override
-    public Class getSourceAccountingLineClass() {
-        return PurchaseOrderAccount.class;
-    }
+//    @Override
+//    public Class getSourceAccountingLineClass() {
+//        return PurchaseOrderAccount.class;
+//    }
 }

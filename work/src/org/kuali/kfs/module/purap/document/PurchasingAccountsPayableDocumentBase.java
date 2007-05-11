@@ -498,8 +498,8 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     /**
      * @see org.kuali.kfs.document.AccountingDocumentBase#getSourceAccountingLineClass()
      */
-    @Override
-    public abstract Class getSourceAccountingLineClass();
+//    @Override
+//    public abstract Class getSourceAccountingLineClass();
 
     /**
      * Gets the summaryAccounts attribute this is used by the summary accounts method 

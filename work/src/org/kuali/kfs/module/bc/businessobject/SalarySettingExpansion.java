@@ -65,13 +65,7 @@ public class SalarySettingExpansion extends PersistableBusinessObjectBase {
     private KualiDecimal appointmentRequestedAmountTotal;
     private BigDecimal appointmentRequestedFteQuantityTotal;
     private KualiDecimal percentChangeTotal;
-    
-    // Total Fields - Second Total Line
-    private KualiDecimal objectBaseCsfAmountTotal;
-    private KualiDecimal objectBaseAppointmentRequestedAmountTotal;
-    private KualiDecimal objectBasePercentChangeTotal;
-    
-
+     
     private BudgetConstructionHeader budgetConstructionHeader;
     private ObjectCode financialObject;
     private Chart chartOfAccounts;
@@ -111,9 +105,6 @@ public class SalarySettingExpansion extends PersistableBusinessObjectBase {
         appointmentRequestedAmountTotal = new KualiDecimal(0.00);
         appointmentRequestedFteQuantityTotal = new BigDecimal(0).setScale(5,BigDecimal.ROUND_HALF_EVEN);
         percentChangeTotal = new KualiDecimal(0.00);
-        objectBaseCsfAmountTotal = new KualiDecimal(0);
-        objectBaseAppointmentRequestedAmountTotal = new KualiDecimal(0.00);
-        objectBasePercentChangeTotal = new KualiDecimal(0);
     }
 
     /**
@@ -583,53 +574,6 @@ public class SalarySettingExpansion extends PersistableBusinessObjectBase {
         this.csfFullTimeEmploymentQuantityTotal = csfFullTimeEmploymentQuantityTotal;
     }
 
-    /**
-     * Gets the objectBaseAppointmentRequestedAmountTotal attribute. 
-     * @return Returns the objectBaseAppointmentRequestedAmountTotal.
-     */
-    public KualiDecimal getObjectBaseAppointmentRequestedAmountTotal() {
-        return objectBaseAppointmentRequestedAmountTotal;
-    }
-
-    /**
-     * Sets the objectBaseAppointmentRequestedAmountTotal attribute value.
-     * @param objectBaseAppointmentRequestedAmountTotal The objectBaseAppointmentRequestedAmountTotal to set.
-     */
-    public void setObjectBaseAppointmentRequestedAmountTotal(KualiDecimal objectBaseAppointmentRequestedAmountTotal) {
-        this.objectBaseAppointmentRequestedAmountTotal = objectBaseAppointmentRequestedAmountTotal;
-    }
-
-    /**
-     * Gets the objectBaseCsfAmountTotal attribute. 
-     * @return Returns the objectBaseCsfAmountTotal.
-     */
-    public KualiDecimal getObjectBaseCsfAmountTotal() {
-        return objectBaseCsfAmountTotal;
-    }
-
-    /**
-     * Sets the objectBaseCsfAmountTotal attribute value.
-     * @param objectBaseCsfAmountTotal The objectBaseCsfAmountTotal to set.
-     */
-    public void setObjectBaseCsfAmountTotal(KualiDecimal objectBaseCsfAmountTotal) {
-        this.objectBaseCsfAmountTotal = objectBaseCsfAmountTotal;
-    }
-
-    /**
-     * Gets the objectBasePercentChangeTotal attribute. 
-     * @return Returns the objectBasePercentChangeTotal.
-     */
-    public KualiDecimal getObjectBasePercentChangeTotal() {
-        return objectBasePercentChangeTotal;
-    }
-
-    /**
-     * Sets the objectBasePercentChangeTotal attribute value.
-     * @param objectBasePercentChangeTotal The objectBasePercentChangeTotal to set.
-     */
-    public void setObjectBasePercentChangeTotal(KualiDecimal objectBasePercentChangeTotal) {
-        this.objectBasePercentChangeTotal = objectBasePercentChangeTotal;
-    }
 
     /**
      * Gets the percentChangeTotal attribute. 

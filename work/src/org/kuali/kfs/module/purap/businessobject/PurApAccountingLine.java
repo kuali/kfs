@@ -18,13 +18,11 @@ package org.kuali.module.purap.bo;
 import java.math.BigDecimal;
 
 import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.SubAccount;
+import org.kuali.kfs.bo.SourceAccountingLine;
 
 
 public interface PurApAccountingLine extends AccountingLine {
-
+    
     public abstract Integer getAccountIdentifier();
 
     public abstract void setAccountIdentifier(Integer requisitionAccountIdentifier);
@@ -40,5 +38,9 @@ public interface PurApAccountingLine extends AccountingLine {
     public abstract boolean isEmpty();
     
     public abstract PurApAccountingLine createBlankAmountsCopy();
+    
+    public abstract boolean accountStringsAreEqual(PurApAccountingLine accountingLine);
+
+    public abstract SourceAccountingLine generateSourceAccountingLine();
 
 }

@@ -16,14 +16,9 @@
 
 package org.kuali.module.purap.bo;
 
-import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.SubAccount;
+import org.apache.commons.lang.builder.EqualsBuilder;
 
 /**
  * 
@@ -78,10 +73,5 @@ public class RequisitionAccount extends PurApAccountingLineBase {
         m.put("projectCode", this.getProjectCode());
         m.put("organizationReferenceId", this.getOrganizationReferenceId());
 	    return m;
-    }
-
-    public RequisitionAccount createBlankAmountsCopy() {
-        // TODO PURAP - Finish Me
-        return null;
     }
 }

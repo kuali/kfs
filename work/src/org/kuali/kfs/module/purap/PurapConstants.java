@@ -37,12 +37,10 @@ public class PurapConstants {
         public static final String ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING = "Unable to save the contract manager for the following Requisitions: ";
 
         // RequisitionDocument
-        // TODO delyea ADD THIS PARAM - value should be 10,000 default
         public static final String SEPARATION_OF_DUTIES_DOLLAR_AMOUNT = PURAP_PARAM_PREFIX + "SEPARATION_OF_DUTIES_DOLLAR_AMOUNT";
 
         public static class Workgroups {
             // RequisitionDocument
-            // TODO delyea ADD THIS PARAM and workgroup
             public static final String SEPARATION_OF_DUTIES_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "WORKGROUP.SEPARATION_OF_DUTIES";
         }
     }

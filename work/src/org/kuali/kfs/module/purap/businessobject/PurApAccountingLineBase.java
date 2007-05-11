@@ -18,6 +18,7 @@ package org.kuali.module.purap.bo;
 import java.math.BigDecimal;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.EqualsBuilder;
 import org.kuali.kfs.bo.SourceAccountingLine;
 
 public abstract class PurApAccountingLineBase extends SourceAccountingLine implements PurApAccountingLine {
@@ -58,5 +59,42 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
                  StringUtils.isNotEmpty(getOrganizationReferenceId()) || 
                  StringUtils.isNotEmpty(getProjectCode()) || 
                  StringUtils.isNotEmpty(getSubAccountNumber()));
+    }
+
+    public PurApAccountingLine createBlankAmountsCopy() {
+        // TODO PURAP - Finish Me
+        return null;
+    }
+
+    // TODO PURAP - need more fields for comparison or not? - look at org.kuali.kfs.bo.AccountingLineBase#getValuesMap()
+    public boolean accountStringsAreEqual(PurApAccountingLine accountingLine) {
+        if (accountingLine == null) { return false;}
+        return new EqualsBuilder()
+          .append(getChartOfAccountsCode(), accountingLine.getChartOfAccountsCode())
+          .append(getAccountNumber(),accountingLine.getAccountNumber())
+          .append(getSubAccountNumber(),accountingLine.getSubAccountNumber())
+          .append(getFinancialObjectCode(),accountingLine.getFinancialObjectCode())
+          .append(getFinancialSubObjectCode(),accountingLine.getFinancialSubObjectCode())
+          .append(getProjectCode(),accountingLine.getProjectCode())
+          .append(getOrganizationReferenceId(),accountingLine.getOrganizationReferenceId())
+//          .append(getReferenceOriginCode(),accountingLine.getReferenceOriginCode())
+//          .append(getReferenceNumber(),accountingLine.getReferenceNumber())
+//          .append(getReferenceTypeCode(),accountingLine.getReferenceTypeCode())
+          .isEquals();
+    }
+
+    // TODO PURAP - this method needs to copy any account field we need to display 
+    //              and its fields should probably match method 'accountStringsAreEqual' above
+    public SourceAccountingLine generateSourceAccountingLine() {
+        SourceAccountingLine sourceLine = new SourceAccountingLine();
+        sourceLine.setChartOfAccountsCode(getChartOfAccountsCode());
+        sourceLine.setAccountNumber(getAccountNumber());
+        sourceLine.setSubAccountNumber(getSubAccountNumber());
+        sourceLine.setFinancialObjectCode(getFinancialObjectCode());
+        sourceLine.setFinancialSubObjectCode(getFinancialSubObjectCode());
+        sourceLine.setProjectCode(getProjectCode());
+        sourceLine.setOrganizationReferenceId(getOrganizationReferenceId());
+        sourceLine.setAmount(getAmount());
+        return sourceLine;
     }
 }

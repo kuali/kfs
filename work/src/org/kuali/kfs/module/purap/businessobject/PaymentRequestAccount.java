@@ -19,6 +19,7 @@ package org.kuali.module.purap.bo;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
@@ -100,10 +101,5 @@ public class PaymentRequestAccount extends PurApAccountingLineBase {
             m.put("paymentRequestAccountIdentifier", this.getAccountIdentifier().toString());
         }
 	    return m;
-    }
-
-    public PaymentRequestAccount createBlankAmountsCopy() {
-        // TODO PURAP - Finish Me
-        return null;
     }
 }

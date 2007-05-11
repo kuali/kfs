@@ -18,6 +18,7 @@ package org.kuali.module.purap.bo;
 
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
 import org.kuali.core.util.KualiDecimal;
 
 /**
@@ -92,9 +93,4 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
         }
         return m;
     }    
-
-    public PurchaseOrderAccount createBlankAmountsCopy() {
-        // TODO PURAP - Finish Me
-        return null;
-    }
 }

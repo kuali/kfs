@@ -492,5 +492,11 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         }
         return belowTheLineTypes;
     }
+
+    /**
+     * @see org.kuali.kfs.document.AccountingDocumentBase#getSourceAccountingLineClass()
+     */
+    @Override
+    public abstract Class getSourceAccountingLineClass();
         
 }

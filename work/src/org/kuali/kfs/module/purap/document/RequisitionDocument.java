@@ -16,7 +16,6 @@
 
 package org.kuali.module.purap.document;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -37,6 +36,7 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.bo.BillingAddress;
+import org.kuali.module.purap.bo.RequisitionAccount;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.bo.RequisitionStatusHistory;
 import org.kuali.module.purap.bo.RequisitionView;
@@ -577,6 +577,15 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     @Override
     public Class getItemClass() {
         return RequisitionItem.class;
+    }
+
+    /**
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getSourceAccountingLineClass()
+     */
+    @Override
+    public Class getSourceAccountingLineClass() {
+        // TODO Auto-generated method stub
+        return RequisitionAccount.class;
     }   
     
 }

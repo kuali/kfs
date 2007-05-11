@@ -28,6 +28,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.bo.PaymentRequestAccount;
 import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PaymentRequestStatusHistory;
 import org.kuali.module.purap.bo.PaymentRequestView;
@@ -983,5 +984,12 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         //return (StringUtils.equals(this.getStatusCode(),PurapConstants.PaymentRequestStatuses.INITIATE));
       } 
 */
-
+    /**
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getSourceAccountingLineClass()
+     */
+    @Override
+    public Class getSourceAccountingLineClass() {
+        return PaymentRequestAccount.class;
+    }
+    
 }

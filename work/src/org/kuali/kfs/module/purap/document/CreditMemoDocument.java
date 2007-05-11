@@ -16,18 +16,10 @@
 
 package org.kuali.module.purap.document;
 
-import java.util.List;
-
 import org.kuali.core.bo.Note;
-import org.kuali.core.util.TypedArrayList;
-import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.purap.bo.CreditMemoAccount;
 import org.kuali.module.purap.bo.CreditMemoItem;
 import org.kuali.module.purap.bo.CreditMemoStatusHistory;
-import org.kuali.module.purap.bo.CreditMemoView;
-import org.kuali.module.purap.bo.PaymentRequestView;
-import org.kuali.module.purap.bo.PurchaseOrderView;
-import org.kuali.module.purap.bo.RequisitionView;
-import org.kuali.module.purap.service.PurapService;
 
 
 /**
@@ -95,5 +87,12 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     public Class getItemClass() {
         return CreditMemoItem.class;
     }
-
+    
+    /**
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getSourceAccountingLineClass()
+     */
+    @Override
+    public Class getSourceAccountingLineClass() {
+        return CreditMemoAccount.class;
+    }
 }

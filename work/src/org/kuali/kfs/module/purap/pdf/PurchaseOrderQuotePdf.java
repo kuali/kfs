@@ -5,7 +5,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,6 +16,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -527,7 +527,7 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         addressBuffer.append(indent + campusParameter.getPurchasingDepartmentCityName() + ", ");
         addressBuffer.append(indent + campusParameter.getPurchasingDepartmentStateCode() + " ");
         addressBuffer.append(indent + campusParameter.getPurchasingDepartmentZipCode() + " ");
-        addressBuffer.append(indent + campusParameter.getPurchasingDepartmentCountryCode());
+        addressBuffer.append(indent + (ObjectUtils.isNotNull(campusParameter.getPurchasingDepartmentCountryCode()) ? campusParameter.getPurchasingDepartmentCountryCode() : ""));
         
         return addressBuffer.toString();
     }

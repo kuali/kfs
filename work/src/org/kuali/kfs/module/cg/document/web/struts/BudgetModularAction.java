@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.kra.budget.bo.BudgetModular;
@@ -77,7 +78,11 @@ public class BudgetModularAction extends BudgetAction {
         budgetForm.getBudgetDocument().getBudget().setModularBudget(modular);
 
         // check business rules
-        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new SaveModularEvent(budgetForm.getDocument()));
+        boolean rulePassed = true;
+        budgetForm.populateAuthorizationFields(SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(budgetForm.getBudgetDocument()));
+        if (!"TRUE".equals(budgetForm.getEditingMode().get(AuthorizationConstants.EditMode.VIEW_ONLY))) {
+            rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new SaveModularEvent(budgetForm.getDocument()));
+        }
 
         ActionForward superForward = mapping.findForward(KFSConstants.MAPPING_BASIC);
         if (rulePassed && !budgetForm.getBudgetDocument().getBudget().getModularBudget().isInvalidMode()) {

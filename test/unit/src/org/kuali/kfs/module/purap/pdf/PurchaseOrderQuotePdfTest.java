@@ -20,7 +20,6 @@ import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.Constants;
@@ -32,8 +31,7 @@ import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.vendor.bo.VendorDetail;
-import org.kuali.module.vendor.rules.VendorRule;
+import org.kuali.module.vendor.bo.ContractManager;
 import org.kuali.test.KualiTestBase;
 import org.kuali.test.WithTestSpringContext;
 
@@ -49,11 +47,25 @@ public class PurchaseOrderQuotePdfTest extends KualiTestBase {
     protected void setUp() throws Exception {
         super.setUp();     
         BusinessObjectService businessObjectService = SpringServiceLocator.getBusinessObjectService();
-        Map poCriteria = new HashMap();
-        poCriteria.put("documentNumber", new Integer(291190));
-        Iterator resultIter = (businessObjectService.findMatching(PurchaseOrderDocument.class, poCriteria)).iterator();
-        po = (PurchaseOrderDocument)(resultIter.next());
+        //Map poCriteria = new HashMap();
+        //poCriteria.put("documentNumber", new Integer(291190));
+        //Iterator resultIter = (businessObjectService.findMatching(PurchaseOrderDocument.class, poCriteria)).iterator();
+        //po = (PurchaseOrderDocument)(resultIter.next());
 
+        po = new PurchaseOrderDocument();
+        po.setDeliveryCampusCode("BL");
+        po.setPurapDocumentIdentifier(new Integer(1000));
+        ContractManager contractManager = new ContractManager();
+        contractManager.setContractManagerCode(10);
+        contractManager.setContractManagerName("Julia Child");
+        contractManager.setContractManagerFaxNumber("800-111-1111");
+        contractManager.setContractManagerPhoneNumber("800-222-2222");
+        po.setContractManager(contractManager);
+        
+        po.setDeliveryCityName("Timbuktu");
+        po.setDeliveryPostalCode("90210");
+        po.setDeliveryStateCode("CA");
+        po.setDeliveryCampusCode("BL");
         poqv = new PurchaseOrderVendorQuote();
         po.setPurchaseOrderQuoteDueDate(SpringServiceLocator.getDateTimeService().getCurrentSqlDate());
         poqv.setPurchaseOrder(po);

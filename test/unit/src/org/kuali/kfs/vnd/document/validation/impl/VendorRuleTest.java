@@ -210,19 +210,19 @@ public class VendorRuleTest extends MaintenanceRuleTestBase {
         return rule;
     } 
      
-    @RelatesTo(RelatesTo.JiraIssue.KULPURAP609)
+    //@RelatesTo(RelatesTo.JiraIssue.KULPURAP609)
     public void testValidateAddressType_WithPOTypeAndPOAddrTypes() {
         rule = validateAddressType_TestHelper( VendorRuleAddressTypeFixture.WITH_PO_TYPE_AND_PO_ADDR_TYPES );
         assertTrue(rule.processAddressValidation( maintDoc ));
     }
 
-    @RelatesTo(RelatesTo.JiraIssue.KULPURAP609)
+    //@RelatesTo(RelatesTo.JiraIssue.KULPURAP609)
     public void testValidateAddressType_WithDVTypeAndRMAddrTypes() {
         rule = validateAddressType_TestHelper( VendorRuleAddressTypeFixture.WITH_DV_TYPE_AND_RM_ADDR_TYPES );
         assertTrue(rule.processAddressValidation( maintDoc ));
     }
     
-    @RelatesTo(RelatesTo.JiraIssue.KULPURAP609)
+    //@RelatesTo(RelatesTo.JiraIssue.KULPURAP609)
     public void testValidateAddressType_WithPOTypeAndRMAddrTypes() {
         rule = validateAddressType_TestHelper( VendorRuleAddressTypeFixture.WITH_PO_TYPE_AND_RM_ADDR_TYPES );
         assertFalse(rule.processAddressValidation( maintDoc ));

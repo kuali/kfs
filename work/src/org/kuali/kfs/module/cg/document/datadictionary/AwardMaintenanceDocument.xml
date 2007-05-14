@@ -60,8 +60,8 @@
 			<reference attributeName="awardStatus" activeIndicatorAttributeName="rowActiveIndicator" attributeToHighlightOnFail="awardStatusCode" />
             <reference attributeName="letterOfCreditFundGroup" activeIndicatorAttributeName="rowActiveIndicator" attributeToHighlightOnFail="letterOfCreditFundGroupCode" />
             <reference attributeName="grantDescription" activeIndicatorAttributeName="grantDescriptionActiveCode" attributeToHighlightOnFail="grantDescriptionCode" />
-            <reference attributeName="agency" activeIndicatorAttributeName="historicalIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="agencyNumber" />
-            <reference attributeName="federalPassThroughAgency" activeIndicatorAttributeName="historicalIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="federalPassThroughAgencyNumber" />
+            <reference attributeName="agency" activeIndicatorAttributeName="historicalIndicator" attributeToHighlightOnFail="agencyNumber" />
+            <reference attributeName="federalPassThroughAgency" activeIndicatorAttributeName="historicalIndicator" attributeToHighlightOnFail="federalPassThroughAgencyNumber" />
             <reference attributeName="awardPurpose" activeIndicatorAttributeName="rowActiveIndicator" attributeToHighlightOnFail="awardPurposeCode" />
             
 			<reference collection="awardAccounts" attributeName="account" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="accountNumber" />

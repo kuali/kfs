@@ -58,7 +58,7 @@
             <reference attributeName="agency" activeIndicatorAttributeName="historicalIndicator" attributeToHighlightOnFail="agencyNumber" />
             <reference attributeName="proposalAwardType" activeIndicatorAttributeName="rowActiveIndicator" attributeToHighlightOnFail="proposalAwardTypeCode" />
             <reference attributeName="proposalPurpose" activeIndicatorAttributeName="rowActiveIndicator" attributeToHighlightOnFail="proposalPurposeCode" />
-            <reference attributeName="federalPassThroughAgency" activeIndicatorAttributeName="historicalIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="federalPassThroughAgencyNumber" />
+            <reference attributeName="federalPassThroughAgency" activeIndicatorAttributeName="historicalIndicator" attributeToHighlightOnFail="federalPassThroughAgencyNumber" />
             <reference attributeName="cfda" activeIndicatorAttributeName="cfdaStatusCode" attributeToHighlightOnFail="cfdaNumber" />
             <reference collection="proposalOrganizations" attributeName="organization" activeIndicatorAttributeName="organizationActiveIndicator" attributeToHighlightOnFail="organizationCode" />
 			<reference collection="proposalSubcontractors" attributeName="subcontractor" activeIndicatorAttributeName="active" attributeToHighlightOnFail="subcontractorNumber" />

@@ -652,9 +652,13 @@ public class KFSKeyConstants extends KeyConstants {
     public static final String ERROR_AWARD_PROPOSAL_AWARDED = "error.cg.award.proposal.awarded";
     public static final String ERROR_AWARD_PROPOSAL_INACTIVE = "error.cg.award.proposal.inactive";
     public static final String ERROR_AWARD_FEDERAL_PASS_THROUGH_INDICATOR_DEPENDENCY_REQUIRED = "error.cg.award.federalPassThroughIndicator.dependency.required";
+    public static final String ERROR_AGENCY_EQUALS_FEDERAL_PASS_THROUGH_AGENCY = "error.cg.agencyEqualsFederalPassThroughAgency";
+    public static final String ERROR_FEDERAL_PASS_THROUGH_AGENCY_EQUALS_AGENCY = "error.cg.federalPassThroughAgencyEqualsAgency";
+    public static final String ERROR_GRANT_DESCRIPTION_INVALID_WITH_FED_PASS_THROUGH_AGENCY_INDICATOR_SELECTED = "error.cg.invalidGrantDescription";
+    
     public static final String WARNING_AWARD_ENTRY_BEFORE_START_DATE = "warning.cg.award.entryDateBeforeStartDate";
     public static final String WARNING_AWARD_SUBCONTRACTOR_TOTAL_GREATER_THAN_AWARD_TOTAL = "warning.cg.award.subcontractorAmountGreaterThanAwardAmount";
-
+    
     public static final Object WARNING_LINE_IMPORT_LENGTH_MISMATCH = "warning.core.bo.AccountImportLengthMismatch";
 
 

@@ -1631,4 +1631,12 @@
     </reference-descriptor>
 </class-descriptor>
 
+<class-descriptor class="org.kuali.module.purap.bo.PurchaseOrderQuoteLanguage" table="PUR_PO_QT_LANG_T">
+	<field-descriptor name="purchaseOrderQuoteLanguageIdentifier" column="PO_QT_LANG_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="PO_QT_LANG_ID"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="purchaseOrderQuoteLanguageDescription" column="PO_QT_LANG_DESC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="purchaseOrderQuoteLanguageCreateDate" column="PO_QT_LANG_CRTE_DT" jdbc-type="DATE"/>
+	<field-descriptor name="active" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+</class-descriptor>
 </descriptor-repository>

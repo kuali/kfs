@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.purap.bo.PurchaseOrderQuoteLanguage">
+ 
+        <inquiry>
+            <title>Purchase Order Quote Language Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="active" />
+                        <field attributeName="purchaseOrderQuoteLanguageCreateDate" />
+                        <field attributeName="purchaseOrderQuoteLanguageDescription" />
+                        <field attributeName="purchaseOrderQuoteLanguageIdentifier" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Purchase Order Quote Language Lookup</title>
+
+            <instructions>Look up a Purchase Order Quote Language</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="purchaseOrderQuoteLanguageIdentifier" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="active" required="false" />
+                <lookupField attributeName="purchaseOrderQuoteLanguageCreateDate" required="false" />
+                <lookupField attributeName="purchaseOrderQuoteLanguageDescription" required="false" />
+                <lookupField attributeName="purchaseOrderQuoteLanguageIdentifier" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="active" />
+                <field attributeName="purchaseOrderQuoteLanguageCreateDate" />
+                <field attributeName="purchaseOrderQuoteLanguageDescription" />
+                <field attributeName="purchaseOrderQuoteLanguageIdentifier" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="active" forceUppercase="true">
+                <label>Active</label>
+                <shortLabel>Active</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>active</summary>
+                <description>active description...</description>
+			</attribute>
+
+            <attribute name="purchaseOrderQuoteLanguageCreateDate" forceUppercase="true">
+                <label>Purchase Order Quote Language Create Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>purchaseOrderQuoteLanguageCreateDate</summary>
+                <description>purchaseOrderQuoteLanguageCreateDate description...</description>
+			</attribute>
+
+            <attribute name="purchaseOrderQuoteLanguageDescription" forceUppercase="true">
+                <label>Purchase Order Quote Language Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>2000</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>purchaseOrderQuoteLanguageDescription</summary>
+                <description>purchaseOrderQuoteLanguageDescription description...</description>
+			</attribute>
+
+            <attribute name="purchaseOrderQuoteLanguageIdentifier" forceUppercase="true">
+                <label>Purchase Order Quote Language Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>purchaseOrderQuoteLanguageIdentifier</summary>
+                <description>purchaseOrderQuoteLanguageIdentifier description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

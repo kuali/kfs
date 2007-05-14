@@ -177,6 +177,10 @@
                   accountingLineValuesMap="${item.valuesMap}"
                   inquiryExtraKeyValues="universityFiscalYear=${KualiForm.document.universityFiscalYear}" />
 
+              <c:set var="fieldTrailerValue" value="" />
+              <c:if test="${empty item.financialBeginningBalanceLineAmount}">
+                  <c:set var="fieldTrailerValue" value="&nbsp;" />
+              </c:if>
               <bc:pbglLineDataCell dataCellCssClass="datacell"
                   accountingLine="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}]"
                   cellProperty="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].financialBeginningBalanceLineAmount"
@@ -184,6 +188,7 @@
                   field="financialBeginningBalanceLineAmount"
                   fieldAlign="right"
                   readOnly="true"
+                  fieldTrailerValue="${fieldTrailerValue}"
                   rowSpan="1" dataFieldCssClass="amount" />
 
               <bc:pbglLineDataCell dataCellCssClass="datacell"
@@ -195,10 +200,21 @@
                   readOnly="false"
                   rowSpan="1" dataFieldCssClass="amount" />
 
-              <td class="datacell" valign="top" nowrap><div align="right"><span>
-				  <fmt:formatNumber value="${item.percentChange}" type="number" groupingUsed="true" minFractionDigits="2" />&nbsp;
-                  <bc:pbglLineDataCellDetail/>
-              </span></div></td>
+              <c:set var="fieldTrailerValue" value="" />
+              <c:if test="${empty item.percentChange}">
+                  <c:set var="fieldTrailerValue" value="&nbsp;" />
+              </c:if>
+			  <fmt:formatNumber value="${item.percentChange}" var="formattedNumber" type="number" groupingUsed="true" minFractionDigits="2" />
+              <bc:pbglLineDataCell dataCellCssClass="datacell"
+                  accountingLine="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].percentChange"
+                  cellProperty="document.pendingBudgetConstructionGeneralLedgerRevenueLines[${status.index}].percentChange"
+                  attributes="${pbglRevenueAttributes}"
+                  field="percentChange"
+                  formattedNumberValue="${formattedNumber}"
+                  fieldTrailerValue="${fieldTrailerValue}"
+                  fieldAlign="right"
+                  readOnly="true"
+                  rowSpan="1" dataFieldCssClass="amount" />
 
               <td class="datacell"" nowrap><div align=center>
 				  <c:choose>

@@ -43,7 +43,7 @@
 	          literalLabel="Fiscal Year:"
 	          horizontal="true"
 	          />
-	      <td></td>
+	      <td>&nbsp;</td>
 	      <td align="center" valign="middle">
 	      	<kul:htmlControlAttribute property="document.previousUniversityFiscalYear" attributeEntry="${documentAttributes.universityFiscalYear}" readOnly="${true}"/>
 	      </td>

@@ -19,13 +19,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.core.rules.PreRulesContinuationBase;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.rules.MaintenancePreRulesBase;
+import org.kuali.module.financial.bo.Payee;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.bo.VendorHeader;
@@ -198,6 +202,26 @@ public class VendorPreRules extends MaintenancePreRulesBase {
     private String removeDelimiter(String str) {
         String result = str.replaceAll(VendorConstants.NAME_DELIM, KFSConstants.BLANK_SPACE);
         return result;
+    }
+
+
+    @Override
+    public boolean doRules(Document document) {
+        VendorDetail vendorDetail = (VendorDetail) document.getDocumentBusinessObject();
+        boolean proceed = super.doRules(document);
+        
+        if (proceed) {
+            String questionText = SpringServiceLocator.getKualiConfigurationService().getPropertyString(VendorConstants.ACKNOWLEDGE_NEW_VENDOR_INFO_TEXT);
+            questionText = questionText.replace("{0}", vendorDetail.getVendorName());
+            questionText = questionText.replace("{1}", document.getDocumentNumber());
+            proceed = super.askOrAnalyzeYesNoQuestion(VendorConstants.ACKNOWLEDGE_NEW_VENDOR_INFO, questionText);
+        }
+
+        if (!proceed) {
+            abortRulesCheck();
+        }
+
+        return proceed;
     }
 
 }

@@ -27,7 +27,10 @@ public class VendorConstants {
         public static final String WORKGROUP_PURCHASING = "PURAP.WORKGROUP.PURCHASING"; 
         public static final String WORKGROUP_TAXNBR_ACCESSIBLE = "PURAP.WORKGROUP.TAXNBR_ACCESSIBLE"; 
     }
-    
+
+    public static final String ACKNOWLEDGE_NEW_VENDOR_INFO_TEXT = "document.vendor.question.acknolwege.text";
+    public static final String ACKNOWLEDGE_NEW_VENDOR_INFO = "NewVendorAcknowledgeQuestion";
+
     //Miscellaneous generic constants
     public static final String NONE = "NONE";
     public static final String CREATE_NEW_DIVISION = "create division";

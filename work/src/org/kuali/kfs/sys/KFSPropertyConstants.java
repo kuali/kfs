@@ -666,6 +666,7 @@ public class KFSPropertyConstants extends PropertyConstants {
     public static final String GENERIC_TIMESTAMP = "genericTimestamp";
     public static final String GRADUATE_ASSISTANT_RATE = "graduateAssistantRate";
     public static final String GRADUATE_ASSISTANT_RATES = "graduateAssistantRates";
+    public static final String GRANT_DESCRIPTION_CODE = "grantDescriptionCode";
     public static final String GROUP = "group";
     public static final String GROUPS = "groups";
     public static final String HISTORICAL_FINANCIAL_OBJECT_CODE = "historicalFinancialObjectCode";

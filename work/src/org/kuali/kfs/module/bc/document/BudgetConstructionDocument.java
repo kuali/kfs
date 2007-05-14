@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
@@ -118,13 +119,32 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
 
     /**
      * This adds a revenue line to the revenue lines list
+     * It assumes a line with the object, subobject key does not already exist
      * 
      * @param line
      */
     public void addRevenueLine(PendingBudgetConstructionGeneralLedger line){
-        //TODO this needs to insert at the proper point based on object, subobject ordering
-        //need to check for unique key here? or during rules check?
-        this.pendingBudgetConstructionGeneralLedgerRevenueLines.add(line);
+        //TODO need to check for unique key here? or during rules check?
+        int insertPoint = 0;
+        ListIterator pbglLines = this.getPendingBudgetConstructionGeneralLedgerRevenueLines().listIterator();
+        while (pbglLines.hasNext()){
+            PendingBudgetConstructionGeneralLedger pbglLine = (PendingBudgetConstructionGeneralLedger) pbglLines.next();
+            if (pbglLine.getFinancialObjectCode().compareToIgnoreCase(line.getFinancialObjectCode()) < 0){
+                insertPoint++;
+            } else {
+                if (pbglLine.getFinancialObjectCode().compareToIgnoreCase(line.getFinancialObjectCode()) > 0){
+                    break;
+                } else {
+                    if ((pbglLine.getFinancialObjectCode().compareToIgnoreCase(line.getFinancialObjectCode()) == 0) &&
+                        (pbglLine.getFinancialSubObjectCode().compareToIgnoreCase(line.getFinancialSubObjectCode()) < 0)){
+                        insertPoint++;
+                    } else {
+                        break;
+                    }
+                }
+            }
+        }
+        this.pendingBudgetConstructionGeneralLedgerRevenueLines.add(insertPoint,line);
     }
     
     /**

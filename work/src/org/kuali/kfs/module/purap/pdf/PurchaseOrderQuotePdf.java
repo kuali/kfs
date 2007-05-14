@@ -213,9 +213,9 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         }
 
         if (! KFSConstants.COUNTRY_CODE_UNITED_STATES.equalsIgnoreCase(poqv.getVendorCountryCode())) {
-            vendorInfo.append("     "+poqv.getPurchaseOrder().getVendorCountry().getPostalCountryName()+"\n\n");
+            vendorInfo.append("     "+poqv.getVendorCountry().getPostalCountryName()+"\n\n");
         } else {
-            vendorInfo.append("\n\n");
+            vendorInfo.append("     \n\n");
         }
 
         p.add(new Chunk(vendorInfo.toString(), cour_10_normal));

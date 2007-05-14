@@ -20,6 +20,7 @@ import java.sql.Date;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.bo.Country;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 
 /**
@@ -51,7 +52,8 @@ public class PurchaseOrderVendorQuote extends PersistableBusinessObjectBase {
     
     private PurchaseOrderDocument purchaseOrder;
 	private PurchaseOrderQuoteStatus purchaseOrderQuoteStatus;
-
+    private Country vendorCountry;
+    
 	/**
 	 * Default constructor.
 	 */
@@ -85,7 +87,15 @@ public class PurchaseOrderVendorQuote extends PersistableBusinessObjectBase {
 		return purchaseOrderVendorQuoteIdentifier;
 	}
 
-	/**
+	public Country getVendorCountry() {
+        return vendorCountry;
+    }
+
+    public void setVendorCountry(Country vendorCountry) {
+        this.vendorCountry = vendorCountry;
+    }
+
+    /**
 	 * Sets the purchaseOrderVendorQuoteIdentifier attribute.
 	 * 
 	 * @param purchaseOrderVendorQuoteIdentifier The purchaseOrderVendorQuoteIdentifier to set.

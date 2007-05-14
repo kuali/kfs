@@ -60,7 +60,8 @@
    		<form-bean name="LaborBenefitExpenseTransferForm" type="org.kuali.module.labor.web.struts.form.BenefitExpenseTransferForm" />
    		<form-bean name="LaborJournalVoucherForm" type="org.kuali.module.labor.web.struts.form.LaborJournalVoucherForm" />
    		<form-bean name="PersonFundingInquiryForm" type="org.kuali.module.labor.web.struts.form.PersonFundingInquiryForm" />
-
+		<form-bean name="LaborCorrectionForm" type="org.kuali.module.labor.web.struts.form.LaborCorrectionForm" />
+		
 		<!-- Budget Construction Bean Definitions -->
    		<form-bean name="BudgetConstructionSelectionForm" type="org.kuali.module.budget.web.struts.form.BudgetConstructionSelectionForm" />
    		<form-bean name="SalarySettingForm" type="org.kuali.module.budget.web.struts.form.SalarySettingForm" />
@@ -213,6 +214,11 @@
         <action path="/labor*" name="Labor{1}Form" input="/jsp/modules/labor/{1}.jsp" type="org.kuali.module.labor.web.struts.action.{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm"> 
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/modules/labor/{1}.jsp" /> 
+        </action> 
+        
+        <action path="/laborLedgerCorrection" name="LaborCorrectionForm" input="/jsp/modules/generalLedger/Correction.jsp" type="org.kuali.module.labor.web.struts.action.LaborCorrectionAction" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm"> 
+            <set-property property="cancellable" value="true" />
+            <forward name="basic" path="/jsp/modules/generalLedger/Correction.jsp" /> 
         </action> 
         
         <action path="/laborLongRowTableInquiry" name="BalanceInquiryForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.module.gl.web.struts.action.BalanceInquiryAction">

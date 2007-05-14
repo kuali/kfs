@@ -58,6 +58,7 @@
 -->
     <collection-descriptor name="pendingBudgetConstructionGeneralLedgerRevenueLines" proxy="true" element-class-ref="org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="financialObjectCode" sort="ASC" />
+        <orderby name="financialSubObjectCode" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
 		<inverse-foreignkey field-ref="universityFiscalYear" />
 		<inverse-foreignkey field-ref="chartOfAccountsCode" />
@@ -71,6 +72,7 @@
     
     <collection-descriptor name="pendingBudgetConstructionGeneralLedgerExpenditureLines" proxy="true" element-class-ref="org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="financialObjectCode" sort="ASC" />
+        <orderby name="financialSubObjectCode" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
 		<inverse-foreignkey field-ref="universityFiscalYear" />
 		<inverse-foreignkey field-ref="chartOfAccountsCode" />
@@ -508,8 +510,13 @@
         <foreignkey field-ref="responsibilityCenterCode" />
     </reference-descriptor>
 	<collection-descriptor name="pendingBudgetConstructionAppointmentFunding" element-class-ref="org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" proxy="true" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<orderby name="accountNumber" sort="ASC" />
+		<orderby name="universityFiscalYear" sort="ASC" />
+		<orderby name="chartOfAccountsCode" sort="ASC" />
+		<orderby name="accountNumber" sort="ASC" />		
 		<orderby name="subAccountNumber" sort="ASC" />
+		<orderby name="financialObjectCode" sort="ASC" />
+		<orderby name="financialSubObjectCode" sort="ASC" />		
+		<orderby name="emplid" sort="ASC" />
 		<inverse-foreignkey field-ref="positionNumber" />
 		<inverse-foreignkey field-ref="universityFiscalYear" />
 	</collection-descriptor>

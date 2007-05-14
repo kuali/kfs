@@ -17,6 +17,8 @@ package org.kuali.module.chart.rules;
 
 import java.util.List;
 
+import org.kuali.KeyConstants;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
@@ -78,7 +80,7 @@ public class OrganizationReversionRule extends MaintenanceDocumentRuleBase {
         for (OrganizationReversionDetail dtl : details) {
             String errorPath = "organizationReversionDetail[" + index + "]";
             GlobalVariables.getErrorMap().addToErrorPath(errorPath);
-            getDictionaryValidationService().validateBusinessObject(dtl);
+            validateOrganizationReversionDetail(dtl);
             GlobalVariables.getErrorMap().removeFromErrorPath(errorPath);
             index++;
         }
@@ -86,9 +88,16 @@ public class OrganizationReversionRule extends MaintenanceDocumentRuleBase {
         return GlobalVariables.getErrorMap().getErrorCount() == originalErrorCount;
     }
 
-    /*
-     * TODO: Upgrade this to use the new AddLineRule/AddLineEvent system which will allow us to process each attribute as it is
-     * added
-     */
+    protected boolean validateOrganizationReversionDetail(OrganizationReversionDetail detail) {
+        boolean result = true; // let's assume this detail will pass the rule
+        // 1. makes sure the financial object code exists
+        detail.refreshReferenceObject("organizationReversionObject");
+        LOG.debug("organization reversion finanical object = "+detail.getOrganizationReversionObject());
+        if (ObjectUtils.isNull(detail.getOrganizationReversionObject())) {
+            result = false;
+            GlobalVariables.getErrorMap().putError("organizationReversionObjectCode", KeyConstants.ERROR_EXISTENCE, new String[] { "Financial Object Code: "+detail.getOrganizationReversionObjectCode() });
+        }
+        return result;
+    }
 
 }

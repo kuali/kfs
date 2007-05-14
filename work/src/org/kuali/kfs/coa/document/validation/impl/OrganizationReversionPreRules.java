@@ -40,6 +40,9 @@ public class OrganizationReversionPreRules extends MaintenancePreRulesBase {
 
     }
 
+    /**
+     * @see org.kuali.module.chart.rules.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
+     */
     protected boolean doCustomPreRules(MaintenanceDocument document) {
 
         OrganizationReversion orgRev = (OrganizationReversion)document.getNewMaintainableObject().getBusinessObject();

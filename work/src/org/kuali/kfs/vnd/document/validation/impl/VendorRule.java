@@ -980,7 +980,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase implements VendorRul
         }
 
         //If the vendorContractAllowedIndicator is false, it cannot have vendor contracts, return false;
-        if (!newVendor.getVendorHeader().getVendorType().isVendorContractAllowedIndicator()) {
+        if (contracts.size() > 0 && !newVendor.getVendorHeader().getVendorType().isVendorContractAllowedIndicator()) {
             valid = false;
             String errorPath = MAINTAINABLE_ERROR_PREFIX + VendorPropertyConstants.VENDOR_CONTRACT + "[0]";
             GlobalVariables.getErrorMap().addToErrorPath(errorPath);

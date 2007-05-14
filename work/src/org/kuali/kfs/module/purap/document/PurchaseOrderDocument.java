@@ -20,6 +20,8 @@ import java.sql.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.ojb.broker.PersistenceBroker;
+import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.Copyable;
@@ -624,10 +626,20 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
      */
     @Override
     public PersistableBusinessObject getDocumentBusinessObject() {
-        if (ObjectUtils.isNotNull(getPurapDocumentIdentifier())) {
+        if (ObjectUtils.isNotNull(getPurapDocumentIdentifier()) && ObjectUtils.isNull(documentBusinessObject)) {
                 documentBusinessObject = SpringServiceLocator.getPurchaseOrderService().getOldestPurchaseOrder(getPurapDocumentIdentifier());
         }
         return documentBusinessObject;
+    }
+
+    /**
+     * @see org.kuali.core.bo.PersistableBusinessObjectBase#afterLookup(org.apache.ojb.broker.PersistenceBroker)
+     */
+    @Override
+    public void afterLookup(PersistenceBroker arg0) throws PersistenceBrokerException {
+        super.afterLookup(arg0);
+        //refresh this on every lookup
+        documentBusinessObject = SpringServiceLocator.getPurchaseOrderService().getOldestPurchaseOrder(getPurapDocumentIdentifier());
     }
 
     @Override

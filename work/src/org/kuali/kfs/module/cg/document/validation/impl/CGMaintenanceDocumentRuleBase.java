@@ -26,6 +26,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.cg.bo.Agency;
 import org.kuali.module.cg.bo.CGProjectDirector;
 import org.kuali.module.cg.bo.Primaryable;
 
@@ -85,6 +86,25 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
                 putFieldError(propertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
                 success = false;
             }
+        }
+        return success;
+    }
+    
+    /**
+     * 
+     * This method checks to see if the two agency values passed in are the same agency.  The agency for a C&G document cannot
+     * be the same as the Federal Pass Through Agency for that same document.
+     * @param agency
+     * @param federalPassThroughAgency
+     * @param propertyName
+     * @return True if the agencies are not the same, false otherwise.
+     */
+    protected boolean checkAgencyNotEqualToFederalPassThroughAgency(Agency agency, Agency federalPassThroughAgency, String agencyPropertyName, String fedPassThroughAgencyPropertyName) {
+        boolean success = true;
+        if (ObjectUtils.isNotNull(agency) && ObjectUtils.isNotNull(federalPassThroughAgency) && agency.equals(federalPassThroughAgency)) {
+            putFieldError(agencyPropertyName, KFSKeyConstants.ERROR_AGENCY_EQUALS_FEDERAL_PASS_THROUGH_AGENCY);
+            putFieldError(fedPassThroughAgencyPropertyName, KFSKeyConstants.ERROR_FEDERAL_PASS_THROUGH_AGENCY_EQUALS_AGENCY);
+            success = false;
         }
         return success;
     }

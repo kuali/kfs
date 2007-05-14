@@ -36,9 +36,12 @@ import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.routingform.bo.RoutingFormAgency;
 import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
+import org.kuali.module.kra.routingform.bo.RoutingFormOrganization;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
 import org.kuali.module.kra.routingform.bo.RoutingFormProjectType;
+import org.kuali.module.kra.routingform.bo.RoutingFormQuestion;
+import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
 import org.kuali.module.kra.routingform.bo.RoutingFormSubmissionType;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.service.RoutingFormMainPageService;
@@ -333,7 +336,7 @@ public class RoutingFormXml {
         }
         
         Element typeOtherTextDescription = xmlDoc.createElement("TYPE_OTHER_DESCRIPTION");
-        typeOtherTextDescription.appendChild(xmlDoc.createTextNode(routingFormDocument.getProjectTypeOtherDescription()));
+        typeOtherTextDescription.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormDocument.getProjectTypeOtherDescription())));
         typesElement.appendChild(typeOtherTextDescription);
         
         Element priorGrantDescription = xmlDoc.createElement("PRIOR_GRANT");
@@ -349,7 +352,7 @@ public class RoutingFormXml {
         typesElement.appendChild(institutionAccountDescription);
         
         Element currentProposalDescription = xmlDoc.createElement("CURRENT_PROPOSAL");
-        currentProposalDescription.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(ObjectUtils.toString(routingFormDocument.getContractGrantProposal().getProposalNumber()))));
+        currentProposalDescription.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormDocument.getContractGrantProposal().getProposalNumber())));
         typesElement.appendChild(currentProposalDescription);
         
         return typesElement;
@@ -366,6 +369,7 @@ public class RoutingFormXml {
         Element researchRiskElement = xmlDoc.createElement("RESEARCH_RISK");
 
         // TODO: dynamic fields?
+        // routingFormDocument.getRoutingFormResearchRisks().get(0).getResearchRiskDescription();
         
         return researchRiskElement;
     }
@@ -380,7 +384,33 @@ public class RoutingFormXml {
     private static Element createProjectDetailElement(RoutingFormDocument routingFormDocument, Document xmlDoc) {
         Element projectDetailElement = xmlDoc.createElement("PROJECT_DETAIL");
 
-        // TODO: dynamic fields?
+        for (RoutingFormQuestion routingFormQuestion : routingFormDocument.getRoutingFormQuestions()) {
+            Element questionElement = xmlDoc.createElement("QUESTION");
+            
+            questionElement.setAttribute("SELECTED", ObjectUtils.toString(routingFormQuestion.getYesNoIndicator()));
+            questionElement.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormQuestion.getQuestion().getQuestionTypeDescription())));
+            
+            projectDetailElement.appendChild(questionElement);
+        }
+        
+        for (RoutingFormSubcontractor routingFormSubcontractor : routingFormDocument.getRoutingFormSubcontractors()) {
+            Element subcontractorElement = xmlDoc.createElement("SUBCONTRACTOR");
+            
+            subcontractorElement.setAttribute("SOURCE", ObjectUtils.toString(routingFormSubcontractor.getSubcontractor().getSubcontractorName()));
+            subcontractorElement.setAttribute("AMOUNT", ObjectUtils.toString(routingFormSubcontractor.getRoutingFormSubcontractorAmount()));
+            
+            projectDetailElement.appendChild(subcontractorElement);
+        }
+        
+        for (RoutingFormOrganization routingFormOrganization : routingFormDocument.getRoutingFormOrganizations()) {
+            Element otherInstOrgElement = xmlDoc.createElement("OTHER_INST_ORG");
+            
+            otherInstOrgElement.setAttribute("CHART", ObjectUtils.toString(routingFormOrganization.getChartOfAccountsCode()));
+            otherInstOrgElement.setAttribute("ORG", ObjectUtils.toString(routingFormOrganization.getOrganizationCode()));
+            otherInstOrgElement.setAttribute("ORG_NAME", ObjectUtils.toString(routingFormOrganization.getOrganization().getOrganizationName()));
+            
+            projectDetailElement.appendChild(otherInstOrgElement);
+        }
         
         if (routingFormDocument.getRoutingFormPersonnel().size() > 0 || routingFormDocument.getRoutingFormOrganizationCreditPercents().size() > 0) {
             

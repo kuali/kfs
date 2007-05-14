@@ -269,4 +269,9 @@ public class Agency extends PersistableBusinessObjectBase {
     public void setAgencyExtension(AgencyExtension agencyExtension) {
         this.agencyExtension = agencyExtension;
     }
+    
+    public boolean equals(Agency agency) {
+        return this.agencyNumber.equals(agency.getAgencyNumber());
+    }
+    
 }

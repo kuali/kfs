@@ -430,7 +430,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
     
     public PurchaseOrderDocument getOldestPurchaseOrder(Integer id, PurchaseOrderDocument po) {
-        return purchaseOrderDao.getOldestPurchaseOrder(id,po);
+        LOG.debug("entering getOldestPO");
+        PurchaseOrderDocument pod =  purchaseOrderDao.getOldestPurchaseOrder(id,po);
+        LOG.debug("exiting getOldestPO");
+        return pod;
     }
     
     public ArrayList<Note> getPurchaseOrderNotes(Integer id) {

@@ -83,7 +83,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         if (StringUtils.isNotEmpty(newStipulation)) {
             poForm.getNewPurchaseOrderVendorStipulationLine().setVendorStipulationDescription(newStipulation);
         }    
-        document.refreshDocumentBusinessObject();
         return super.refresh(mapping, form, request, response);
     }
 

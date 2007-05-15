@@ -26,6 +26,7 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.dao.PurchaseOrderDao;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.rice.KNSServiceLocator;
 
 
 /**
@@ -96,6 +97,9 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         //compare to po doc number if oldest return po
         if(ObjectUtils.isNotNull(po) && 
            StringUtils.equals(oldestDocumentNumber, po.getDocumentNumber())){
+            //manually set bo notes - this is mainly done for performance reasons (preferably we could call
+            //retrieve doc notes in PersistableBusinessObjectBase but that is private)
+            po.setBoNotes(KNSServiceLocator.getNoteService().getByRemoteObjectId(po.getObjectId()));
             return po;
         }
         //po not oldest, using the oldest doc number return oldest po
@@ -104,7 +108,6 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         criteria.addEqualTo(KFSPropertyConstants.DOCUMENT_NUMBER, oldestDocumentNumber);
         QueryByCriteria qbc = new QueryByCriteria(PurchaseOrderDocument.class, criteria);
         
-        qbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
         PurchaseOrderDocument oldestPO = (PurchaseOrderDocument)getPersistenceBrokerTemplate().getObjectByQuery(qbc);
         if (ObjectUtils.isNotNull(oldestPO)) {
             oldestPO.refreshAllReferences();

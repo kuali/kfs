@@ -604,14 +604,19 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
         TransactionalDocument newDoc = (TransactionalDocument) SpringServiceLocator.getDocumentService().getNewDocument(docType);
         newDoc.getDocumentHeader().setFinancialDocumentDescription(getDocumentHeader().getFinancialDocumentDescription());
         newDoc.getDocumentHeader().setOrganizationDocumentNumber(getDocumentHeader().getOrganizationDocumentNumber());
-        documentBusinessObject = null;
+        //setting it to new to avoid recursion problem (if deep copy checked for recursive objects or ignored transient we wouldn't need this)
+        documentBusinessObject = new PurchaseOrderDocument();
         try {
             ObjectUtils.setObjectPropertyDeep(this, KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber.getClass(), newDoc.getDocumentNumber());
+        }
+        catch (IllegalAccessException e) {
+            //ignore for now, we need a rice change to ignore these transient and self referential fields 
         }
         catch (Exception e) {
             LOG.error("Unable to set document number property in copied document " + e.getMessage());
             throw new RuntimeException("Unable to set document number property in copied document " + e.getMessage());
         }
+        refreshDocumentBusinessObject();
         
         // replace current documentHeader with new documentHeader
         setDocumentHeader(newDoc.getDocumentHeader());
@@ -627,19 +632,13 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
     @Override
     public PersistableBusinessObject getDocumentBusinessObject() {
         if (ObjectUtils.isNotNull(getPurapDocumentIdentifier()) && ObjectUtils.isNull(documentBusinessObject)) {
-                documentBusinessObject = SpringServiceLocator.getPurchaseOrderService().getOldestPurchaseOrder(getPurapDocumentIdentifier());
+                refreshDocumentBusinessObject();
         }
         return documentBusinessObject;
     }
-
-    /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#afterLookup(org.apache.ojb.broker.PersistenceBroker)
-     */
-    @Override
-    public void afterLookup(PersistenceBroker arg0) throws PersistenceBrokerException {
-        super.afterLookup(arg0);
-        //refresh this on every lookup
-        documentBusinessObject = SpringServiceLocator.getPurchaseOrderService().getOldestPurchaseOrder(getPurapDocumentIdentifier());
+    
+    public void refreshDocumentBusinessObject() {
+        documentBusinessObject = SpringServiceLocator.getPurchaseOrderService().getOldestPurchaseOrder(getPurapDocumentIdentifier(),this);
     }
 
     @Override

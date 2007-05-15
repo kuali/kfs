@@ -15,10 +15,13 @@
  */
 package org.kuali.module.purap.dao.ojb;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.dao.PurchaseOrderDao;
@@ -83,16 +86,46 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
      * 
      * @see org.kuali.module.purap.dao.PurchaseOrderDao#getOldestPurchaseOrder(java.lang.Integer)
      */
-    public PurchaseOrderDocument getOldestPurchaseOrder(Integer id) {
+    public PurchaseOrderDocument getOldestPurchaseOrder(Integer id, PurchaseOrderDocument po) {
+        /*
+         * This method takes in a poid and a document and returns the document if oldest, else it returns the 
+         * po document that is oldest
+         */
+        //get oldest docid
+        String oldestDocumentNumber = getOldestPODocId(id); 
+        //compare to po doc number if oldest return po
+        if(ObjectUtils.isNotNull(po) && 
+           StringUtils.equals(oldestDocumentNumber, po.getDocumentNumber())){
+            return po;
+        }
+        //po not oldest, using the oldest doc number return oldest po
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
+        criteria.addEqualTo(KFSPropertyConstants.DOCUMENT_NUMBER, oldestDocumentNumber);
         QueryByCriteria qbc = new QueryByCriteria(PurchaseOrderDocument.class, criteria);
-        qbc.addOrderByAscending(PurapPropertyConstants.DOCUMENT_NUMBER);
+        
+        qbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
         PurchaseOrderDocument oldestPO = (PurchaseOrderDocument)getPersistenceBrokerTemplate().getObjectByQuery(qbc);
         if (ObjectUtils.isNotNull(oldestPO)) {
             oldestPO.refreshAllReferences();
         }
         return oldestPO;
+    }
+
+    /**
+     * This method finds the oldest doc #
+     * @param id
+     * @return
+     */
+    private String getOldestPODocId(Integer id) {
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
+        ReportQueryByCriteria rqbc = new ReportQueryByCriteria(PurchaseOrderDocument.class, criteria);
+        rqbc.setAttributes(new String[] {KFSPropertyConstants.DOCUMENT_NUMBER});
+        rqbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
+        Object [] cols = (Object [])(getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc).next());
+        String oldestDocumentNumber = (String)cols[0];
+        return oldestDocumentNumber;
     }
     
     /**

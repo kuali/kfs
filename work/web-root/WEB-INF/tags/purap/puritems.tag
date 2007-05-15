@@ -114,7 +114,9 @@
                     <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" />
                     <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitPrice}" />
                     <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" />
-                    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemRestrictedIndicator}" />
+                    <c:if test="${displayRequisitionFields}">
+	                    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemRestrictedIndicator}" />
+	                </c:if>
                     <!--  kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" / -->
                     <!-- TODO: PHASE 2B -->
                     <kul:htmlAttributeHeaderCell literalLabel="Actions" />
@@ -202,11 +204,13 @@
                                 <kul:htmlControlAttribute attributeEntry="${itemAttributes.extendedPrice}" property="document.item[${ctr}].extendedPrice" readOnly="${true}" />
                             </div>
                         </td>
-                        <td class="infoline">
-                            <div align="center">
-                                <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemRestrictedIndicator}" property="newPurchasingItemLine.itemRestrictedIndicator" readOnly="${not fullEntryMode}" />
-                            </div>
-                        </td>
+                        <c:if test="${displayRequisitionFields}">
+                        	<td class="infoline">
+                            	<div align="center">
+                                	<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemRestrictedIndicator}" property="newPurchasingItemLine.itemRestrictedIndicator" readOnly="${not fullEntryMode}" />
+                            	</div>
+                        	</td>
+                      	</c:if>
                         <!-- TODO: PHASE 2B -->
                         <!-- td class="infoline">
                             <div align="center">

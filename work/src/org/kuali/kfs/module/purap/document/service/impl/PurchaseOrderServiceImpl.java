@@ -429,13 +429,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return purchaseOrderDao.getPurchaseOrderByDocumentNumber(documentNumber);    
     }
     
-    public PurchaseOrderDocument getOldestPurchaseOrder(Integer id) {
-        return purchaseOrderDao.getOldestPurchaseOrder(id);
+    public PurchaseOrderDocument getOldestPurchaseOrder(Integer id, PurchaseOrderDocument po) {
+        return purchaseOrderDao.getOldestPurchaseOrder(id,po);
     }
     
     public ArrayList<Note> getPurchaseOrderNotes(Integer id) {
         ArrayList notes = new TypedArrayList(Note.class);
-        PurchaseOrderDocument po = getOldestPurchaseOrder(id);
+        PurchaseOrderDocument po = getOldestPurchaseOrder(id, null);
         notes = noteService.getByRemoteObjectId(po.getObjectId());
         return notes;
     }

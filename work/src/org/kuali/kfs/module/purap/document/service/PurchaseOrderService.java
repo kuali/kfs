@@ -45,7 +45,7 @@ public interface PurchaseOrderService {
     public PurchaseOrderDocument getPurchaseOrderByDocumentNumber(String documentNumber);
     public void setCurrentAndPendingIndicatorsInPostProcessor(PurchaseOrderDocument newPO, String workflowState);
 
-    public PurchaseOrderDocument getOldestPurchaseOrder(Integer id);
+    public PurchaseOrderDocument getOldestPurchaseOrder(Integer id, PurchaseOrderDocument po);
     public PurchaseOrderDocument getPurchaseOrderInPendingPrintStatus(Integer id);
     public ArrayList<Note> getPurchaseOrderNotes(Integer id);
     //public void sendFYItoWorkgroup(PurchaseOrderDocument po, String annotation, Long workgroupId);

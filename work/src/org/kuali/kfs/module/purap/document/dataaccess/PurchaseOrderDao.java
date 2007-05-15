@@ -52,9 +52,10 @@ public interface PurchaseOrderDao {
      * that had been created in the database given the purapDocumentIdentifier.
      * 
      * @param id Integer the purapDocumentIdentifier.
+     * @param po the Purchase Order
      * @return PurchaseOrderDocument
      */
-    public PurchaseOrderDocument getOldestPurchaseOrder(Integer id);
+    public PurchaseOrderDocument getOldestPurchaseOrder(Integer id, PurchaseOrderDocument po);
     
     /**
      * 

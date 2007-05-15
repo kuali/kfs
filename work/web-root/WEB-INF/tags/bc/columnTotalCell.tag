@@ -41,9 +41,11 @@
 <c:set var="rowSpan" value="${empty rowSpan ? 1 : rowSpan}"/>
 <c:set var="colSpan" value="${empty colSpan ? 1 : colSpan}"/>
 
-<td class="${dataCellCssClass}" valign="top" rowspan="${rowSpan}" colspan="${colSpan}" >
+<td class="${dataCellCssClass}" valign="top" rowspan="${rowSpan}" colspan="${colSpan}" nowrap>
 <div align="${fieldAlign}">
+<%--
 <span class="nowrap">
+--%>
     <c:choose>
         <c:when test="${empty formattedNumberValue}">
             <html:hidden write="true" property="${cellProperty}" style="${textStyle}" />
@@ -53,6 +55,8 @@
             ${formattedNumberValue}
         </c:otherwise>
     </c:choose>
+<%--
 </span>
+--%>
 </div>
 </td>

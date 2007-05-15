@@ -16,6 +16,7 @@
 package org.kuali.module.cg.rules;
 
 import java.sql.Date;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -34,6 +35,11 @@ import org.kuali.module.cg.bo.Primaryable;
  * Rules for the Proposal/Award maintenance document.
  */
 public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
+
+    private static final String PROJECT_DIRECTOR_DECEASED = "D";
+    private static final String[] PROJECT_DIRECTOR_INVALID_STATUSES = {PROJECT_DIRECTOR_DECEASED};
+    
+    
     /**
      * checks to see if the end date is after the begine date
      * 
@@ -84,6 +90,34 @@ public class CGMaintenanceDocumentRuleBase extends MaintenanceDocumentRuleBase {
             String id = pd.getPersonUniversalIdentifier();
             if (StringUtils.isBlank(id) || !SpringServiceLocator.getProjectDirectorService().primaryIdExists(id)) {
                 putFieldError(propertyName, KFSKeyConstants.ERROR_EXISTENCE, label);
+                success = false;
+            }
+        }
+        return success;
+    }
+    
+    /**
+     * 
+     * This method takes in a collection of Project Directors and reviews them to see if any have invalid states for being added to
+     * a proposal.  An example would be a status code of "D" which means "Deceased".  Project Directors with a status of "D" cannot
+     * be added to a proposal or award.
+     * 
+     * @param <T>
+     * @param projectDirectors Collection of project directors to be reviewed.
+     * @param elementClass Type of object that the collection belongs to.
+     * @param propertyName Name of field that error will be attached to.
+     * @return True if all the project directors have valid statuses, false otherwise.
+     */
+    protected <T extends CGProjectDirector> boolean checkProjectDirectorsStatuses(List<T> projectDirectors, Class<T> elementClass, String propertyName) {
+        boolean success = true;
+        final String personUserPropertyName = KFSPropertyConstants.PROJECT_DIRECTOR + "." + KFSPropertyConstants.PERSON_USER_IDENTIFIER;
+        String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(elementClass, personUserPropertyName);
+        for(T pd : projectDirectors) {
+            String pdEmplStatusCode = pd.getProjectDirector().getUniversalUser().getEmployeeStatusCode();
+            String pdEmplStatusName = pd.getProjectDirector().getUniversalUser().getEmployeeStatus().getName();
+            if(StringUtils.isBlank(pdEmplStatusCode) || Arrays.asList(PROJECT_DIRECTOR_INVALID_STATUSES).contains(pdEmplStatusCode)) {
+                String[] errors = {pd.getProjectDirector().getPersonName(), pdEmplStatusCode + " - " + pdEmplStatusName};
+                putFieldError(propertyName, KFSKeyConstants.ERROR_INVALID_PROJECT_DIRECTOR_STATUS, errors);
                 success = false;
             }
         }

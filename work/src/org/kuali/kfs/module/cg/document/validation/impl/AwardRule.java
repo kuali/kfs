@@ -30,6 +30,7 @@ import org.kuali.module.cg.bo.Award;
 import org.kuali.module.cg.bo.AwardAccount;
 import org.kuali.module.cg.bo.AwardOrganization;
 import org.kuali.module.cg.bo.AwardProjectDirector;
+import org.kuali.module.cg.bo.ProposalProjectDirector;
 
 /**
  * Rules for the Award maintenance document.
@@ -63,6 +64,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         success &= checkAccounts();
         success &= checkProjectDirectorsExist(newAwardCopy.getAwardProjectDirectors(), AwardProjectDirector.class, KFSPropertyConstants.AWARD_PROJECT_DIRECTORS);
         success &= checkProjectDirectorsExist(newAwardCopy.getAwardAccounts(), AwardAccount.class, KFSPropertyConstants.AWARD_ACCOUNTS);
+        success &= checkProjectDirectorsStatuses(newAwardCopy.getAwardProjectDirectors(), AwardProjectDirector.class, KFSPropertyConstants.AWARD_PROJECT_DIRECTORS);
         success &= checkFederalPassThrough();
         success &= checkAgencyNotEqualToFederalPassThroughAgency(newAwardCopy.getAgency(), newAwardCopy.getFederalPassThroughAgency(), KFSPropertyConstants.AGENCY_NUMBER, KFSPropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER);
         LOG.info("Leaving AwardRule.processCustomRouteDocumentBusinessRules");

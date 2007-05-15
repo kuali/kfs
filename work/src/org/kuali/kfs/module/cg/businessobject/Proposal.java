@@ -33,6 +33,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.service.LookupService;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.workflow.attribute.AlternateOrgReviewRouting;
 import org.kuali.module.cg.lookup.valuefinder.NextProposalNumberFinder;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
@@ -46,7 +47,7 @@ import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 /**
  * 
  */
-public class Proposal extends PersistableBusinessObjectBase {
+public class Proposal extends PersistableBusinessObjectBase implements AlternateOrgReviewRouting{
 
     public static final String PROPOSAL_CODE = "P";
     private Long proposalNumber;
@@ -93,10 +94,13 @@ public class Proposal extends PersistableBusinessObjectBase {
     private Agency federalPassThroughAgency;
     private ProposalPurpose proposalPurpose;
     private CatalogOfFederalDomesticAssistanceReference cfda;
+    private ProposalOrganization primaryProposalOrganization;
+    private String routingOrg;
+    private String routingChart;
     private LookupService lookupService;
     private Award award;
 
-    /**
+	/**
      * Default constructor.
      */
     @SuppressWarnings({"unchecked"})  // todo: generify TypedArrayList and rename to something appropriate like AlwaysGettableArrayList
@@ -108,20 +112,13 @@ public class Proposal extends PersistableBusinessObjectBase {
         proposalResearchRisks = new TypedArrayList(ProposalResearchRisk.class);
     }
 
-    public Award getAward() {
+        public Award getAward() {
         return award;
     }
 
     public void setAward(Award award) {
         this.award = award;
     }
-
-//    public Award getAward() {
-//        Map<String, Object> params = new HashMap<String, Object>();
-//        params.put("proposalNumber", proposalNumber);
-//        return (Award) lookupService.findObjectBySearch(Award.class, params);
-//    }
-
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
@@ -859,8 +856,8 @@ public class Proposal extends PersistableBusinessObjectBase {
 	public void setLookupPersonUniversalIdentifier(String lookupUniversalUserId) {
 		this.lookupPersonUniversalIdentifier = lookupUniversalUserId;
 	}
-
-    /**
+	
+	    /**
      * 
      * I added this getter to the BO to resolve KULCG-300.  I'm not sure if this is actually needed by the code,
      * but the framework breaks all lookups on the proposal maintenance doc without this getter.
@@ -870,7 +867,47 @@ public class Proposal extends PersistableBusinessObjectBase {
         return lookupService;
     }
     
+
+    public String getRoutingChart() {
+        return routingChart;
+    }
+
+    public void setRoutingChart(String routingChart) {
+        this.routingChart = routingChart;
+    }
+
+    public String getRoutingOrg() {
+        return routingOrg;
+    }
+
+    public void setRoutingOrg(String routingOrg) {
+        this.routingOrg = routingOrg;
+    }
+
+    public ProposalOrganization getPrimaryProposalOrganization() {
+        for (ProposalOrganization po : proposalOrganizations) {
+            if (po != null && po.isProposalPrimaryOrganizationIndicator()) {
+                setPrimaryProposalOrganization(po);
+                break;
+            }
+        }
+
+        return primaryProposalOrganization;
+    }
+    
     public void setLookupService(LookupService lookupService) {
         this.lookupService = lookupService;
     }
+   
+
+    public void setPrimaryProposalOrganization(ProposalOrganization primaryProposalOrganization) {
+        this.primaryProposalOrganization = primaryProposalOrganization;
+        this.routingChart = primaryProposalOrganization.getChartOfAccountsCode();
+        this.routingOrg = primaryProposalOrganization.getOrganizationCode();
+    }
+
+ 
+    
+
+
 }

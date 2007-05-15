@@ -31,11 +31,12 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.workflow.attribute.AlternateOrgReviewRouting;
 
 /**
  * 
  */
-public class Award extends PersistableBusinessObjectBase {
+public class Award extends PersistableBusinessObjectBase implements AlternateOrgReviewRouting {
 
     private Long proposalNumber;
     private Date awardBeginningDate;
@@ -85,7 +86,6 @@ public class Award extends PersistableBusinessObjectBase {
     private List<AwardAccount> awardAccounts;
     private List<AwardSubcontractor> awardSubcontractors;
     private List<AwardOrganization> awardOrganizations;
-
     private Proposal proposal;
     private ProposalAwardType proposalAwardType;
     private AwardStatus awardStatus;
@@ -96,6 +96,8 @@ public class Award extends PersistableBusinessObjectBase {
     private ProposalPurpose awardPurpose;
     private KualiGroup workgroup;
     private AwardOrganization primaryAwardOrganization;
+    private String routingOrg;
+    private String routingChart;
 
     /**
      * Default constructor.
@@ -108,6 +110,7 @@ public class Award extends PersistableBusinessObjectBase {
         awardSubcontractors = new TypedArrayList(AwardSubcontractor.class);
         awardOrganizations = new TypedArrayList(AwardOrganization.class);
     }
+
 
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
@@ -1090,9 +1093,12 @@ public class Award extends PersistableBusinessObjectBase {
      * This method...
      * 
      * @param primaryAwardOrganization
+     * @see KualiOrgReviewAttribute#populateFromDocContent
      */
     public void setPrimaryAwardOrganization(AwardOrganization primaryAwardOrganization) {
         this.primaryAwardOrganization = primaryAwardOrganization;
+        this.routingChart = primaryAwardOrganization.getChartOfAccountsCode();
+        this.routingOrg = primaryAwardOrganization.getOrganizationCode();
     }
 
     /**
@@ -1177,4 +1183,22 @@ public class Award extends PersistableBusinessObjectBase {
         }
         return total;
     }
+
+    public String getRoutingChart() {
+        return routingChart;
+    }
+
+    public void setRoutingChart(String routingChart) {
+        this.routingChart = routingChart;
+    }
+
+    public String getRoutingOrg() {
+        return routingOrg;
+    }
+
+    public void setRoutingOrg(String routingOrg) {
+        this.routingOrg = routingOrg;
+    }
+
+
 }

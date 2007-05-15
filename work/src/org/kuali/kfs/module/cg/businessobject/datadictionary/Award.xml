@@ -32,7 +32,7 @@
                         <field attributeName="agency.reportingName" />
                         <field attributeName="awardProjectTitle" />
                         <field attributeName="awardStatusCode" />
-                        <field attributeName="agencyAwardNumber" />
+
                         <field attributeName="awardBeginningDate" />
                         <field attributeName="awardEndingDate" />
                         <field attributeName="awardEntryDate" />
@@ -44,6 +44,7 @@
                         <field attributeName="agencyFuture1Amount" />
                         <field attributeName="agencyFuture2Amount" />
                         <field attributeName="agencyFuture3Amount" />
+
                         <field attributeName="grantDescriptionCode" />
                         <field attributeName="awardAddendumNumber" />
                         <field attributeName="proposalAwardTypeCode" />
@@ -53,10 +54,12 @@
                         <field attributeName="federalPassThroughAgencyNumber" />
                         <field attributeName="federalPassThroughAgency.fullName" />
                         <field attributeName="federalPassThroughFundedAmount" />
+
                         <field attributeName="workgroupName" />
                         <field attributeName="kualiGroupNames" />
                         <field attributeName="agencyAnalystName" />
                         <field attributeName="analystTelephoneNumber" />
+
                         <field attributeName="letterOfCreditFundGroupCode" />
                         <field attributeName="awardDocumentNumber" />
                         <field attributeName="awardCommentText" />
@@ -253,21 +256,6 @@
 
                 <summary>Agency Analyst Name</summary>
                 <description>agencyAnalystName description...</description>
-			</attribute>
-
-            <attribute name="agencyAwardNumber" forceUppercase="true">
-                <label>Agency Award Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>27</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="29" />
-                </control>
-
-                <summary>Agency Award Number</summary>
-                <description>agencyAwardNumber description...</description>
 			</attribute>
 
             <attributeReference name="agencyFuture1Amount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">

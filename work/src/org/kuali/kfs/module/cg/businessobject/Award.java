@@ -20,7 +20,6 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.ArrayList;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
@@ -54,7 +53,6 @@ public class Award extends PersistableBusinessObjectBase {
 
     private String awardAddendumNumber;
     private KualiDecimal awardAllocatedUniversityComputingServicesAmount;
-    private String agencyAwardNumber;
     private KualiDecimal federalPassThroughFundedAmount;
     private Date awardEntryDate;
     private KualiDecimal agencyFuture1Amount;
@@ -328,26 +326,6 @@ public class Award extends PersistableBusinessObjectBase {
         this.awardAllocatedUniversityComputingServicesAmount = awardAllocatedUniversityComputingServicesAmount;
     }
 
-
-    /**
-     * Gets the agencyAwardNumber attribute.
-     * 
-     * @return Returns the agencyAwardNumber
-     */
-    public String getAgencyAwardNumber() {
-        return agencyAwardNumber;
-    }
-
-    /**
-     * Sets the agencyAwardNumber attribute.
-     * 
-     * @param agencyAwardNumber The agencyAwardNumber to set.
-     */
-    public void setAgencyAwardNumber(String agencyAwardNumber) {
-        this.agencyAwardNumber = agencyAwardNumber;
-    }
-
-
     /**
      * Gets the federalPassThroughFundedAmount attribute.
      * 
@@ -365,7 +343,6 @@ public class Award extends PersistableBusinessObjectBase {
     public void setFederalPassThroughFundedAmount(KualiDecimal federalPassThroughFundedAmount) {
         this.federalPassThroughFundedAmount = federalPassThroughFundedAmount;
     }
-
 
     /**
      * Gets the awardEntryDate attribute.

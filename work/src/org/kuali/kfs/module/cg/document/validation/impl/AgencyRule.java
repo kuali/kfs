@@ -24,8 +24,10 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.cg.bo.Agency;
+import org.apache.log4j.Logger;
 
 public class AgencyRule extends MaintenanceDocumentRuleBase {
+    protected static Logger LOG = org.apache.log4j.Logger.getLogger(AgencyRule.class);
 
     Agency newAgency;
     Agency oldAgency;
@@ -39,28 +41,34 @@ public class AgencyRule extends MaintenanceDocumentRuleBase {
 
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
+        LOG.info("Entering AgencyRule.processCustomApproveDocumentBusinessRules");
         boolean success = super.processCustomApproveDocumentBusinessRules(document);
 
         success &= checkAgencyReportsTo(document);
         
+        LOG.info("Leaving AgencyRule.processCustomApproveDocumentBusinessRules");
         return success;
     }
 
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
+        LOG.info("Entering AgencyRule.processCustomRouteDocumentBusinessRules");
         boolean success = super.processCustomRouteDocumentBusinessRules(document);
         
         success &= checkAgencyReportsTo(document);
         
+        LOG.info("Leaving AgencyRule.processCustomRouteDocumentBusinessRules");
         return success;
     }
 
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
+        LOG.info("Entering AgencyRule.processCustomSaveDocumentBusinessRules");
         boolean success = super.processCustomSaveDocumentBusinessRules(document);
         
         success &= checkAgencyReportsTo(document);
         
+        LOG.info("Leaving AgencyRule.processCustomSaveDocumentBusinessRules");
         return success;
     }
 
@@ -73,7 +81,7 @@ public class AgencyRule extends MaintenanceDocumentRuleBase {
                 putFieldError("reportsToAgencyNumber", KFSKeyConstants.ERROR_AGENCY_NOT_FOUND, newAgency.getReportsToAgencyNumber());
                 success = false;
                 
-            } else if (newAgency.getReportsToAgency().isHistoricalIndicator()) { //Agency must be active
+            } else if (!newAgency.getReportsToAgency().isHistoricalIndicator()) { //Agency must be active. See KULCG-263
 
                 putFieldError("reportsToAgencyNumber", KFSKeyConstants.ERROR_AGENCY_INACTIVE, newAgency.getReportsToAgencyNumber());
                 success = false;

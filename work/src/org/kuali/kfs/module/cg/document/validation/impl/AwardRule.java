@@ -19,7 +19,9 @@ import java.util.Collection;
 import java.util.Arrays;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.core.document.Document;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -33,24 +35,26 @@ import org.kuali.module.cg.bo.AwardProjectDirector;
  * Rules for the Award maintenance document.
  */
 public class AwardRule extends CGMaintenanceDocumentRuleBase {
+    protected static Logger LOG = org.apache.log4j.Logger.getLogger(AwardRule.class);
 
-    // private Award oldAward;
     private Award newAwardCopy;
 
     private static final String GRANT_DESCRIPTION_NPT = "NPT";
     private static final String GRANT_DESCRIPTION_OPT = "OPT";
     private static final String[] NON_FED_GRANT_DESCS = new String[] {GRANT_DESCRIPTION_NPT, GRANT_DESCRIPTION_OPT};
-    
-    
+
+
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
+        LOG.info("Entering AwardRule.processCustomSaveDocumentBusinessRules");
         processCustomRouteDocumentBusinessRules(document);
-
+        LOG.info("Leaving AwardRule.processCustomSaveDocumentBusinessRules");
         return true; // save despite error messages
     }
 
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
+        LOG.info("Entering AwardRule.processCustomRouteDocumentBusinessRules");
         boolean success = true;
         success &= checkProposal();
         success &= checkEndAfterBegin(newAwardCopy.getAwardBeginningDate(), newAwardCopy.getAwardEndingDate(), KFSPropertyConstants.AWARD_ENDING_DATE);
@@ -61,12 +65,13 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
         success &= checkProjectDirectorsExist(newAwardCopy.getAwardAccounts(), AwardAccount.class, KFSPropertyConstants.AWARD_ACCOUNTS);
         success &= checkFederalPassThrough();
         success &= checkAgencyNotEqualToFederalPassThroughAgency(newAwardCopy.getAgency(), newAwardCopy.getFederalPassThroughAgency(), KFSPropertyConstants.AGENCY_NUMBER, KFSPropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER);
+        LOG.info("Leaving AwardRule.processCustomRouteDocumentBusinessRules");
         return success;
     }
 
     /**
      * checks to see if at least 1 award account exists
-     * 
+     *
      * @return true if the award contains at least 1 {@link AwardAccount}, false otherwise
      */
     private boolean checkAccounts() {
@@ -88,7 +93,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
      * <li> a proposal has already been awarded
      * <li> a proposal is inactive
      * </ol>
-     * 
+     *
      * @return
      */
     private boolean checkProposal() {
@@ -106,7 +111,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
 
     /**
      * checks if the required federal pass through fields are filled in if the federal pass through indicator is yes
-     * 
+     *
      * @return
      */
     private boolean checkFederalPassThrough() {
@@ -125,7 +130,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
                 success = false;
             }
             String grantDescCode = newAwardCopy.getGrantDescription().getGrantDescriptionCode();
-            if (StringUtils.isBlank(grantDescCode) || !Arrays.asList(NON_FED_GRANT_DESCS).contains(grantDescCode)) { 
+            if (StringUtils.isBlank(grantDescCode) || !Arrays.asList(NON_FED_GRANT_DESCS).contains(grantDescCode)) {
                 String grantDescLabel = SpringServiceLocator.getDataDictionaryService().getAttributeErrorLabel(Award.class, KFSPropertyConstants.GRANT_DESCRIPTION_CODE);
                 putFieldError(KFSPropertyConstants.GRANT_DESCRIPTION_CODE, KFSKeyConstants.ERROR_GRANT_DESCRIPTION_INVALID_WITH_FED_PASS_THROUGH_AGENCY_INDICATOR_SELECTED);
                 success = false;

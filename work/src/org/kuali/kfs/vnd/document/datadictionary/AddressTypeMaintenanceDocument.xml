@@ -51,7 +51,9 @@
                     <maintainableField name="vendorAddressTypeCode" required="true" />
                 	<maintainableField name="vendorAddressTypeDescription" required="true" />
                 	<maintainableField name="vendorDefaultIndicator" />
-                	<maintainableField name="active" />
+                	<maintainableField name="active" >
+                		<defaultValue>true</defaultValue>
+                	</maintainableField>
                 	<maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

@@ -50,7 +50,9 @@
                 <maintainableItems>
                     <maintainableField name="fundingSourceCode" required="true" />
                 	<maintainableField name="fundingSourceDescription" required="true" />
-                	<maintainableField name="active" />
+                	<maintainableField name="active">
+                		<defaultValue>true</defaultValue>
+                	</maintainableField>
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

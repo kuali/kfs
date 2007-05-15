@@ -29,6 +29,14 @@
                 <field attributeName="campusPurchasingDirectorName" />
                 <field attributeName="campusPurchasingDirectorTitle" />
                 <field attributeName="campusAccountsPayableEmailAddress" />
+                <field attributeName="purchasingInstitutionName" />
+                <field attributeName="purchasingDepartmentName" />
+                <field attributeName="purchasingDepartmentLine1Address" />
+                <field attributeName="purchasingDepartmentLine2Address" />
+                <field attributeName="purchasingDepartmentCityName" />
+                <field attributeName="purchasingDepartmentStateCode" />
+                <field attributeName="purchasingDepartmentZipCode" />
+                <field attributeName="purchasingDepartmentCountryCode" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 

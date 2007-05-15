@@ -566,6 +566,7 @@ public class KFSKeyConstants extends KeyConstants {
     public static final String ERROR_CONTINUATION_ACCOUNT_NOT_FOUND = "error.gl.ContinuationAccountNotFound";
     public static final String ERROR_CONTINUATION_CHART_NOT_FOUND = "error.gl.ContinuationChartNotFound";
     public static final String ERROR_UNIV_FISCAL_YR_NOT_FOUND = "error.gl.UniversityFiscalYearNotFound";
+    public static final String ERROR_ACCOUNTING_PERIOD_CLOSED = "error.gl.AccountingPeriodClosed";
     public static final String ERROR_INVALID_SF_OBJECT_TYPE_CODE = "error.gl.InvalidSufficentFundObjectTypeCode";
     public static final String ERROR_BALANCE_NOT_FOUND_FOR = "error.gl.BalanceNotFoundFor";
     public static final String ERROR_INVALID_ACCOUNT_SF_CODE_FOR = "error.gl.InvalidAccountSufficentFundsCodeFor";

@@ -212,7 +212,7 @@ public class SalaryExpenseTransferForm extends LaborDocumentFormBase implements 
     public Map getForcedReadOnlyFields() {
         Map map = super.getForcedReadOnlyFields();
         map.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, Boolean.TRUE);
-        map.put(KFSPropertyConstants.ACCOUNT, Boolean.TRUE);
+        map.put(KFSPropertyConstants.ACCOUNT_NUMBER, Boolean.TRUE);
         map.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, Boolean.TRUE);
         map.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, Boolean.TRUE);
         map.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, Boolean.TRUE);
@@ -225,7 +225,7 @@ public class SalaryExpenseTransferForm extends LaborDocumentFormBase implements 
 
     /**
      * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#getAccountingLineEditableFields()
-     */
+     */ 
     @Override
     public Map getAccountingLineEditableFields() {
         Map map = super.getAccountingLineEditableFields();

@@ -230,6 +230,11 @@ public class OriginEntryDaoOjb extends PlatformAwareDaoBaseOjb implements Origin
     public Iterator<OriginEntry> getEntriesByGroup(OriginEntryGroup oeg, int sort) {
         LOG.debug("getEntriesByGroup() started");
 
+        // clear cache because the GLCP document class saves to the origin entry table and
+        // reads from it (via this method) in the same transaction.  If the clearCache line is
+        // deleted, then the references to OriginEntries returned by this method will be null.
+        getPersistenceBrokerTemplate().clearCache();
+        
         Criteria criteria = new Criteria();
         criteria.addEqualTo(ENTRY_GROUP_ID, oeg.getId());
 

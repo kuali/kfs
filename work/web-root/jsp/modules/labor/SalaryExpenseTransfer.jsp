@@ -90,7 +90,8 @@
             includeObjectTypeCode="${includeObjectTypeCodeBoolean}"
             displayMonthlyAmounts="${displayMonthlyAmountsBoolean}"
             forcedReadOnlyFields="${KualiForm.forcedReadOnlyFields}"
-            accountingLineAttributes="${accountingLineAttributesMap}">
+            accountingLineAttributes="${accountingLineAttributesMap}"
+            allowsCopy="true">
             <jsp:attribute name="importRowOverride">
                 Import from Labor Ledger
                 <kul:balanceInquiryLookup
@@ -106,6 +107,7 @@
             isSource="false"
             columnCountUntilAmount="${columnCountUntilAmount}"
             columnCount="${columnCount}"
+            allowsCopy="false"
             optionalFields="${optionalFieldsMap}"
             extraRowFields="${extraTargetRowFieldsMap}"
             editingMode="${KualiForm.editingMode}"

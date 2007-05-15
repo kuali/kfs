@@ -96,6 +96,7 @@ It's followed by 0 or more rows for the accounting lines that have already been 
               description="comma delimited list of fields to hide for this type of accounting line; currently only works with amount." %>
 <%@ attribute name="accountingAddLineIndex" required="false"
 			  description="index for multiple add new source lines"%>
+<%@ attribute name="allowsCopy" required="false" %>
 
 <c:set var="sourceOrTarget" value="${isSource ? 'source' : 'target'}"/>
 <c:set var="baselineSourceOrTarget" value="${isSource ? 'baselineSource' : 'baselineTarget'}"/>
@@ -165,11 +166,11 @@ It's followed by 0 or more rows for the accounting lines that have already been 
     <c:otherwise>
         <tr>
             <td colspan="${!empty editingMode['fullEntry'] ? 4 : columnCount}" class="tab-subhead" style="border-right: none;">${sectionTitle}</td>
-            <c:if test="${fn:length(document.sourceAccountingLines) > 0}">
-                <html:image property="methodToCall.copyAllAccountingLines" src="images/tinybutton-add1.gif" title="Add an Accounting Line" alt="Copy all Source Lines" styleClass="tinybutton"/>
-            </c:if>
             <c:if test="${!empty editingMode['fullEntry']}">
                 <td colspan="${columnCount - 4}" class="tab-subhead-import" align="right" nowrap="nowrap" style="border-left: none;">
+                    <c:if test="${allowsCopy}">
+                    <html:image property="methodToCall.copyAllAccountingLines" src="images/tinybutton-add1.gif" title="Copy all Source Accounting Lines" alt="Copy all Source Lines" styleClass="tinybutton"/>
+                    </c:if>
                     <jsp:invoke fragment="importRowOverride"/>
                 </td>
             </c:if>

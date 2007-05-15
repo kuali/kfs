@@ -23,8 +23,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.kuali.core.bo.user.KualiGroup;
-
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -35,7 +33,6 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.service.OrganizationService;
 
@@ -46,16 +43,14 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
     protected static final String APC_HRMS_ACTIVE_KEY = "Org.HrmsOrgActive";
     protected static final String PLANT_WORKGROUP_PARM_NAME = "Org.PlantWorkgroup";
     
-    private OrganizationService orgService;
+    private static OrganizationService orgService;
 
     private Org oldOrg;
     private Org newOrg;
-    private boolean isChartManager;
     private boolean isHrmsOrgActivated;
 
     public OrgRule() {
         super();
-        isChartManager = false;
 
         // Pseudo-inject some services.
         //
@@ -63,7 +58,9 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         // to spring-managed with these services injected by Spring at some later date.
         // When this happens, just remove these calls to the setters with
         // SpringServiceLocator, and configure the bean defs for spring.
-        this.setOrgService(SpringServiceLocator.getOrganizationService());
+        if ( orgService == null ) {
+        	orgService = SpringServiceLocator.getOrganizationService();
+        }
     }
 
     /**
@@ -74,9 +71,6 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         boolean success = true;
 
         LOG.info("Entering processCustomApproveDocumentBusinessRules()");
-
-        // determine whether this person is the Chart manager for this org
-        isChartManager = isChartManager(GlobalVariables.getUserSession().getUniversalUser());
 
         // determine whether HRMS ORG is activated in this app instance
         isHrmsOrgActivated = isHrmsOrgActivated();
@@ -104,9 +98,6 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
 
         LOG.info("Entering processCustomRouteDocumentBusinessRules()");
 
-        // determine whether this person is the Chart manager for this org
-        isChartManager = isChartManager(GlobalVariables.getUserSession().getUniversalUser());
-
         // determine whether HRMS ORG is activated in this app instance
         isHrmsOrgActivated = isHrmsOrgActivated();
 
@@ -131,9 +122,6 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
 
         LOG.info("Entering processCustomSaveDocumentBusinessRules()");
-
-        // determine whether this person is the Chart manager for this org
-        isChartManager = isChartManager(GlobalVariables.getUserSession().getUniversalUser());
 
         // determine whether HRMS ORG is activated in this app instance
         isHrmsOrgActivated = isHrmsOrgActivated();
@@ -163,19 +151,14 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
             return success;
         }
 
-        success &= checkChartManagerRequiredActiveExistence();
+        success &= checkPlantAttributes();
 
         return success;
     }
 
-    protected boolean checkChartManagerRequiredActiveExistence() {
+    protected boolean checkPlantAttributes() {
 
         boolean success = true;
-
-        // shortcut out with no enforcement if this org is closed
-        if (!newOrg.isOrganizationActiveIndicator()) {
-            return success;
-        }
 
         /* KULCOA-1132 - exit if the user is not a member of the
            plant maintainer work group.  */
@@ -188,23 +171,26 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
             return true;
         }
         
-        // require Org Plant ChartCode
-        success &= checkEmptyBOField("organizationPlantChartCode", newOrg.getOrganizationPlantChartCode(), "Organization Plant Chart of Accounts Code");
-        
-        // require Org Plant AccountNumber
-        success &= checkEmptyBOField("organizationPlantAccountNumber", newOrg.getOrganizationPlantAccountNumber(), "Organization Plant Account Number");
-        
-        // require Campus Plant ChartCode
-        success &= checkEmptyBOField("campusPlantChartCode", newOrg.getCampusPlantChartCode(), "Campus Plant Chart of Accounts Code");
-        
-        // require Org Plant ChartCode
-        success &= checkEmptyBOField("campusPlantAccountNumber", newOrg.getCampusPlantAccountNumber(), "Campus Plant Account Number");
-        
-        // validate Org Plant Account
-        success &= getDictionaryValidationService().validateReferenceExistsAndIsActive(newOrg, "organizationPlantAccount", "accountClosedIndicator", true, true, MAINTAINABLE_ERROR_PREFIX + "organizationPlantAccountNumber", "Organization Plant Account");
-        
-        // validate Campus Plant Account
-        success &= getDictionaryValidationService().validateReferenceExistsAndIsActive(newOrg, "campusPlantAccount", "accountClosedIndicator", true, true, MAINTAINABLE_ERROR_PREFIX + "campusPlantAccountNumber", "Campus Plant Account");
+        // relax this edit for 
+        if ( !getOrgMustReportToSelf( newOrg ) ) {
+	        // require Org Plant ChartCode
+	        success &= checkEmptyBOField("organizationPlantChartCode", newOrg.getOrganizationPlantChartCode(), "Organization Plant Chart of Accounts Code");
+	        
+	        // require Org Plant AccountNumber
+	        success &= checkEmptyBOField("organizationPlantAccountNumber", newOrg.getOrganizationPlantAccountNumber(), "Organization Plant Account Number");
+	        
+	        // require Campus Plant ChartCode
+	        success &= checkEmptyBOField("campusPlantChartCode", newOrg.getCampusPlantChartCode(), "Campus Plant Chart of Accounts Code");
+	        
+	        // require Org Plant ChartCode
+	        success &= checkEmptyBOField("campusPlantAccountNumber", newOrg.getCampusPlantAccountNumber(), "Campus Plant Account Number");
+	        
+	        // validate Org Plant Account
+	        success &= getDictionaryValidationService().validateReferenceExistsAndIsActive(newOrg, "organizationPlantAccount", "accountClosedIndicator", true, true, MAINTAINABLE_ERROR_PREFIX + "organizationPlantAccountNumber", "Organization Plant Account");
+	        
+	        // validate Campus Plant Account
+	        success &= getDictionaryValidationService().validateReferenceExistsAndIsActive(newOrg, "campusPlantAccount", "accountClosedIndicator", true, true, MAINTAINABLE_ERROR_PREFIX + "campusPlantAccountNumber", "Campus Plant Account");
+        }
         
         return success;
     }
@@ -341,6 +327,10 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
+    private boolean getOrgMustReportToSelf( Org organization ) {
+    	return applyApcRule(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, organization.getOrganizationTypeCode());    	
+    }
+    
     protected boolean checkSimpleRules(MaintenanceDocument document) {
 
         boolean success = true;
@@ -373,18 +363,13 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
             }
         }
         
-        boolean orgMustReportToSelf = false;
-        if (applyApcRule(KFSConstants.ChartApcParms.GROUP_CHART_MAINT_EDOCS, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, newOrg.getOrganizationTypeCode())) {
-            orgMustReportToSelf = true;
-        }
-        
         // Reports To Chart/Org should not be same as this Chart/Org
         // However, allow special case where organization type is listed in the business rules
         if ( ObjectUtils.isNotNull(newOrg.getReportsToChartOfAccountsCode()) 
                 && ObjectUtils.isNotNull(newOrg.getReportsToOrganizationCode()) 
                 && ObjectUtils.isNotNull(newOrg.getChartOfAccountsCode())
                 && ObjectUtils.isNotNull(newOrg.getOrganizationCode()) ) {
-            if ( !orgMustReportToSelf ) {
+            if ( !getOrgMustReportToSelf( newOrg ) ) {
                 
                 if ((newOrg.getReportsToChartOfAccountsCode().equals(newOrg.getChartOfAccountsCode())) 
                         && (newOrg.getReportsToOrganizationCode().equals(newOrg.getOrganizationCode()))) {
@@ -528,29 +513,6 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
 
     /**
      * 
-     * This method determines whether the given use is a ChartManager for the chart this Org belongs to.
-     * 
-     * @param user - user to test
-     * @return true if the user is the Chart Manager, false otherwise
-     * 
-     */
-    protected boolean isChartManager(UniversalUser user) {
-
-        // see if this person is manager for the requested chart
-        boolean success = ((ChartUser)user.getModuleUser( ChartUser.MODULE_ID )).isManagerForChart(newOrg.getChartOfAccountsCode());
-
-        if (success) {
-            LOG.info("User: [" + user.getPersonUserIdentifier() + "] " + user.getPersonName() + " is a Chart Manager for this Org's Chart: " + newOrg.getChartOfAccountsCode());
-        }
-        else {
-            LOG.info("User: [" + user.getPersonUserIdentifier() + "] " + user.getPersonName() + " is NOT a Chart Manager for this Org's Chart: " + newOrg.getChartOfAccountsCode());
-        }
-
-        return success;
-    }
-
-    /**
-     * 
      * This method looks up in the APC system whether ther HRMS Org system is turned on.
      * 
      * @return true or false depending on the app configuration
@@ -583,15 +545,6 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
 
         // setup newAccount convenience objects, make sure all possible sub-objects are populated
         newOrg = (Org) super.getNewBo();
-    }
-
-    /**
-     * Sets the orgService attribute value.
-     * 
-     * @param orgService The orgService to set.
-     */
-    public void setOrgService(OrganizationService orgService) {
-        this.orgService = orgService;
     }
 
     /**

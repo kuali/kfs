@@ -118,15 +118,19 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * This adds a revenue line to the revenue lines list
-     * It assumes a line with the object, subobject key does not already exist
+     * This adds a revenue or expenditure line to the appropriate list
      * 
+     * @param isRevenue
      * @param line
      */
-    public void addRevenueLine(PendingBudgetConstructionGeneralLedger line){
-        //TODO need to check for unique key here? or during rules check?
+    public void addPBGLLine(PendingBudgetConstructionGeneralLedger line, boolean isRevenue){
         int insertPoint = 0;
-        ListIterator pbglLines = this.getPendingBudgetConstructionGeneralLedgerRevenueLines().listIterator();
+        ListIterator pbglLines;
+        if (isRevenue){
+            pbglLines = this.getPendingBudgetConstructionGeneralLedgerRevenueLines().listIterator();
+        } else {
+            pbglLines = this.getPendingBudgetConstructionGeneralLedgerExpenditureLines().listIterator();
+        }
         while (pbglLines.hasNext()){
             PendingBudgetConstructionGeneralLedger pbglLine = (PendingBudgetConstructionGeneralLedger) pbglLines.next();
             if (pbglLine.getFinancialObjectCode().compareToIgnoreCase(line.getFinancialObjectCode()) < 0){
@@ -144,20 +148,14 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
                 }
             }
         }
-        this.pendingBudgetConstructionGeneralLedgerRevenueLines.add(insertPoint,line);
+        if (isRevenue){
+            this.pendingBudgetConstructionGeneralLedgerRevenueLines.add(insertPoint,line);
+        } else {
+            this.pendingBudgetConstructionGeneralLedgerExpenditureLines.add(insertPoint,line);
+        }
+        
     }
-    
-    /**
-     * This adds a expenditure line to the expenditure lines list
-     * 
-     * @param line
-     */
-    public void addExpenditureLine(PendingBudgetConstructionGeneralLedger line){
-        //TODO this needs to insert at the proper point based on object, subobject ordering
-        //need to check for unique key here? or during rules check?
-        this.pendingBudgetConstructionGeneralLedgerExpenditureLines.add(line);
-    }
-    
+
     /**
      * Gets the universityFiscalYear attribute.
      * 

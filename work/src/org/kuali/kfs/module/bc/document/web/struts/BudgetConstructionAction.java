@@ -489,18 +489,9 @@ public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRe
         //TODO create and init a decorator if determined to be needed
 
         BudgetConstructionDocument tdoc = (BudgetConstructionDocument) budgetConstructionForm.getDocument();
-        if (isRevenue){
-            // add the revenue line
-            tdoc.addRevenueLine(line);
+        tdoc.addPBGLLine(line, isRevenue);
 
-            //TODO add the decorator
-        } else {
-            // add the expenditure line
-            tdoc.addExpenditureLine(line);
-
-            //TODO add the decorator, if determined to be needed
-
-        }
+        //TODO add the decorator, if determined to be needed
         
     }
 

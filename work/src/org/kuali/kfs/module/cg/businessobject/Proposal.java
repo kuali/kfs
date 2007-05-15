@@ -860,6 +860,16 @@ public class Proposal extends PersistableBusinessObjectBase {
 		this.lookupPersonUniversalIdentifier = lookupUniversalUserId;
 	}
 
+    /**
+     * 
+     * I added this getter to the BO to resolve KULCG-300.  I'm not sure if this is actually needed by the code,
+     * but the framework breaks all lookups on the proposal maintenance doc without this getter.
+     * @return
+     */
+    public LookupService getLookupService() {
+        return lookupService;
+    }
+    
     public void setLookupService(LookupService lookupService) {
         this.lookupService = lookupService;
     }

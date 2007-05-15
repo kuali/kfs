@@ -79,6 +79,8 @@ public class KualiWorkflowUtils extends WorkflowUtils {
     public static final String KRA_BUDGET_DOC_TYPE = "KualiBudgetDocument";
     public static final String KRA_ROUTING_FORM_DOC_TYPE = "KualiRoutingFormDocument";
     public static final String SIMPLE_MAINTENANCE_DOC_TYPE = "KualiSimpleMaintenanceDocument";
+    public static final String C_G_AWARD_DOC_TYPE = "KualiResearchAdminPostAwardMaintenanceDocument";
+    public static final String C_G_PROPOSAL_DOC_TYPE = "KualiProposalMaintenanceDocument";
     
     public class RouteLevels {
 

@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -63,6 +64,15 @@ public class BudgetConstructionDocument extends TransactionalDocumentBase {
     private List pendingBudgetConstructionGeneralLedgerExpenditureLines;
 
     private Integer previousUniversityFiscalYear;
+
+    // revenue and expenditure line totals
+    private KualiDecimal revenueAccountLineAnnualBalanceAmountTotal;
+    private KualiDecimal revenueFinancialBeginningBalanceLineAmountTotal;
+    private KualiDecimal revenuePercentChangeTotal;
+    private KualiDecimal expenditureAccountLineAnnualBalanceAmountTotal;
+    private KualiDecimal expenditureFinancialBeginningBalanceLineAmountTotal;
+    private KualiDecimal expenditurePercentChangeTotal;
+    
     
     public BudgetConstructionDocument(){
         super();

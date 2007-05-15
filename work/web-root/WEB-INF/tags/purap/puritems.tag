@@ -26,18 +26,17 @@
 <%@ attribute name="itemAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
 <%@ attribute name="accountingLineAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
 
-<kul:tab tabTitle="Items" defaultOpen="${not displayRequisitionFields}" tabErrorKey="${PurapConstants.ITEM_TAB_ERRORS}">
+<kul:tab tabTitle="Items" defaultOpen="false" tabErrorKey="${PurapConstants.ITEM_TAB_ERRORS}">
     <div class="tab-container" align=center>
         <!--  if fullEntryMode, then display the addLine -->
-        <c:if test="${fullEntryMode}">
-            <table cellpadding="0" cellspacing="0" class="datatable" summary="Items Section">
+        <table cellpadding="0" cellspacing="0" class="datatable" summary="Items Section">
+            <c:if test="${fullEntryMode}">
                 <tr>
                     <td colspan="10" class="subhead">
                         <span class="subhead-left">Add Item</span>
                     </td>
                 </tr>
                 <tr>
-                    <kul:htmlAttributeHeaderCell literalLabel="&nbsp;" />
                     <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemLineNumber}" />
                     <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTypeCode}" />
                     <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemQuantity}" />
@@ -45,13 +44,15 @@
                     <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemCatalogNumber}" />
                     <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemDescription}" />
                     <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitPrice}" />
-                    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemRestrictedIndicator}" />
+                    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" />
+                    <c:if test="${displayRequisitionFields}">
+                        <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemRestrictedIndicator}" />
+                    </c:if>
                     <!--  kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" / -->
                     <!-- TODO: PHASE 2B -->
                     <kul:htmlAttributeHeaderCell literalLabel="Actions" />
                 </tr>
                 <tr>
-                    <kul:htmlAttributeHeaderCell literalLabel="add:" scope="row" />
                     <td class="infoline">
                         <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemLineNumber}" property="newPurchasingItemLine.itemLineNumber" />
                     </td>
@@ -76,10 +77,17 @@
                         </div>
                     </td>
                     <td class="infoline">
-                        <div align="center">
-                            <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemRestrictedIndicator}" property="newPurchasingItemLine.itemRestrictedIndicator" />
+                        <div align="right">
+                            <kul:htmlControlAttribute attributeEntry="${itemAttributes.extendedPrice}" property="newPurchasingItemLine.extendedPrice" readOnly="true"/>
                         </div>
                     </td>
+                    <c:if test="${displayRequisitionFields}">
+                        <td class="infoline">
+                            <div align="center">
+                                <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemRestrictedIndicator}" property="newPurchasingItemLine.itemRestrictedIndicator" />
+                            </div>
+                        </td>
+                    </c:if>
                     <!-- TODO: PHASE 2B -->
                     <!-- td class="infoline"><div align="center"><kul:htmlControlAttribute
 					attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}"
@@ -90,21 +98,25 @@
                         </div>
                     </td>
                 </tr>
-            </table>
-        </c:if>
+            </c:if>
         <!-- End of if fullEntryMode, then display the addLine -->
 
-
-        <purap:accountdistribution accountingLineAttributes="${accountingLineAttributes}" />
-
-
-        <table cellpadding="0" cellspacing="0" class="datatable" summary="Current Items">
+    
+            <tr>
+                <th height=30 colspan="10">
+                    <purap:accountdistribution accountingLineAttributes="${accountingLineAttributes}" />
+                </th>
+            </tr>
+    
+    
+                <!-- what is the purpose of this c:if? would it be better to still dipslay the section header with message that there are not items -->
+            <tr>
+                <td colspan="10" class="subhead">
+                    <span class="subhead-left">Current Items</span>
+                </td>
+            </tr>
+    
             <c:if test="${fn:length(KualiForm.document.items) > fn:length(KualiForm.document.belowTheLineTypes)}">
-                <tr>
-                    <td colspan="10" class="subhead">
-                        <span class="subhead-left">Current Items</span>
-                    </td>
-                </tr>
                 <tr>
                     <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemLineNumber}" />
                     <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemTypeCode}" />
@@ -115,11 +127,19 @@
                     <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemUnitPrice}" />
                     <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.extendedPrice}" />
                     <c:if test="${displayRequisitionFields}">
-	                    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemRestrictedIndicator}" />
-	                </c:if>
-                    <!--  kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" / -->
+                    <kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemRestrictedIndicator}" />
+        	                </c:if>
+                            <!--  kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemAssignedToTradeInIndicator}" / -->
                     <!-- TODO: PHASE 2B -->
                     <kul:htmlAttributeHeaderCell literalLabel="Actions" />
+                </tr>
+            </c:if>
+
+            <c:if test="${!(fn:length(KualiForm.document.items) > fn:length(KualiForm.document.belowTheLineTypes))}">
+                <tr>
+                    <th height=30 colspan="10">
+                        No items added to document
+                    </th>
                 </tr>
             </c:if>
 
@@ -173,7 +193,7 @@
                             <html:hidden property="document.item[${ctr}].itemType.active" />
                             <html:hidden property="document.item[${ctr}].itemType.quantityBasedGeneralLedgerIndicator" />
                             <html:hidden property="document.item[${ctr}].itemType.itemTypeAboveTheLineIndicator" />
-                            <html:hidden write="true" property="document.item[${ctr}].itemLineNumber" />
+                            &nbsp;<b><html:hidden write="true" property="document.item[${ctr}].itemLineNumber" /></b>&nbsp;
                             <c:if test="${fullEntryMode}">
                                 <html:image property="methodToCall.editItem" src="images/purap-up.gif" alt="Move Item Up" title="Move Item Up" styleClass="tinybutton" />
                                 <html:image property="methodToCall.editItem" src="images/purap-down.gif" alt="Move Item Down" title="Move Item Down" styleClass="tinybutton" />
@@ -205,11 +225,11 @@
                             </div>
                         </td>
                         <c:if test="${displayRequisitionFields}">
-                        	<td class="infoline">
-                            	<div align="center">
-                                	<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemRestrictedIndicator}" property="newPurchasingItemLine.itemRestrictedIndicator" readOnly="${not fullEntryMode}" />
-                            	</div>
-                        	</td>
+                            <td class="infoline">
+                                <div align="center">
+                                    <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemRestrictedIndicator}" property="newPurchasingItemLine.itemRestrictedIndicator" readOnly="${not fullEntryMode}" />
+                                </div>
+                            </td>
                       	</c:if>
                         <!-- TODO: PHASE 2B -->
                         <!-- td class="infoline">
@@ -233,25 +253,27 @@
                         </c:if>
                     </tr>
 
-                    <tr>
-                        <td width="100%" colspan="10">
-                            <purap:puraccountingLineCams 
-                                editingMode="${KualiForm.editingMode}" 
-                                editableAccounts="${KualiForm.editableAccounts}" 
-                                sourceAccountingLinesOnly="true" 
-                                optionalFields="accountLinePercent"
-                                extraHiddenFields=",accountIdentifier,itemIdentifier" 
-                                accountingLineAttributes="${accountingLineAttributes}" 
-                                accountPrefix="document.item[${ctr}]." 
-                                hideTotalLine="true" 
-                                hideFields="amount" 
-                                accountingAddLineIndex="${ctr}" />
-                        </td>
-                    </tr>
+                    <purap:puraccountingLineCams 
+                        editingMode="${KualiForm.editingMode}" 
+                        editableAccounts="${KualiForm.editableAccounts}" 
+                        sourceAccountingLinesOnly="true" 
+                        optionalFields="accountLinePercent"
+                        extraHiddenFields=",accountIdentifier,itemIdentifier" 
+                        accountingLineAttributes="${accountingLineAttributes}" 
+                        accountPrefix="document.item[${ctr}]." 
+                        hideTotalLine="true" 
+                        hideFields="amount" 
+                        accountingAddLineIndex="${ctr}" />
+
                     </div>
                 </c:if>
             </logic:iterate>
 
+            <tr>
+                <th height=30 colspan="10">
+                    &nbsp;
+                </th>
+            </tr>
 
             <purap:miscitems itemAttributes="${itemAttributes}" accountingLineAttributes="${accountingLineAttributes}" />
 

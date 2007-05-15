@@ -41,6 +41,12 @@
     <%-- to ensure order this should pull out items from APC instead of this--%>
     <c:if test="${itemLine.itemType.itemTypeAboveTheLineIndicator != true}">
         <tr>
+            <td colspan="10" class="tab-subhead" style="border-right: none;">
+                <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemTypeCode}" property="document.item[${ctr}].itemType.itemTypeDescription" readOnly="${true}" />
+                <!-- TODO need the show/hide? -->
+            </td>
+        </tr>
+        <tr>
             <td class="infoline" colspan="5">
                 <html:hidden property="document.item[${ctr}].itemIdentifier" />
                 <html:hidden property="document.item[${ctr}].versionNumber" />
@@ -68,22 +74,19 @@
             <kul:htmlAttributeHeaderCell literalLabel="&nbsp;" colspan="2" />
         </tr>
 
-        <tr>
-            <td width="100%" colspan="10">
-                <purap:puraccountingLineCams 
-                    editingMode="${KualiForm.editingMode}" 
-                    editableAccounts="${KualiForm.editableAccounts}" 
-                    sourceAccountingLinesOnly="true" 
-                    optionalFields="accountLinePercent"
-                    extraHiddenFields=",accountIdentifier,itemIdentifier" 
-                    accountingLineAttributes="${accountingLineAttributes}" 
-                    accountPrefix="document.item[${ctr}]." 
-                    hideTotalLine="true" 
-                    hideFields="amount" 
-                    accountingAddLineIndex="${ctr}" 
-                    suppressCams="${true}" />
-            </td>
-        </tr>
+        <purap:puraccountingLineCams 
+            editingMode="${KualiForm.editingMode}" 
+            editableAccounts="${KualiForm.editableAccounts}" 
+            sourceAccountingLinesOnly="true" 
+            optionalFields="accountLinePercent"
+            extraHiddenFields=",accountIdentifier,itemIdentifier" 
+            accountingLineAttributes="${accountingLineAttributes}" 
+            accountPrefix="document.item[${ctr}]." 
+            hideTotalLine="true" 
+            hideFields="amount" 
+            accountingAddLineIndex="${ctr}" 
+            suppressCams="${true}" />
+
     </c:if>
 </logic:iterate>
 

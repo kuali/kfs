@@ -180,13 +180,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             removeHoldButton.setExtraButtonSource("images/buttonsmall_removehold.gif");
             this.getExtraButtons().add(removeHoldButton);
         }
-        /* We probably won't need this button */
-        if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT) && purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.PENDING_PRINT)) {
-            ExtraButton firstTransmitButton = new ExtraButton();
-            firstTransmitButton.setExtraButtonProperty("methodToCall.firstTransmitPo");
-            firstTransmitButton.setExtraButtonSource("images/buttonsmall_transmit.gif");
-            this.getExtraButtons().add(firstTransmitButton);
-        }
+
     }
 
     /**

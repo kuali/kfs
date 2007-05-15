@@ -15,6 +15,7 @@
  */
 package org.kuali.module.labor.web.lookupable;
 
+import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -22,11 +23,27 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.Constants;
 import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.datadictionary.mask.Mask;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.FieldUtils;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.UrlFactory;
+import org.kuali.core.web.comparator.CellComparatorHelper;
+import org.kuali.core.web.format.BooleanFormatter;
+import org.kuali.core.web.format.Formatter;
+import org.kuali.core.web.struts.form.LookupForm;
+import org.kuali.core.web.ui.Column;
+import org.kuali.core.web.ui.ResultRow;
+import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
 import org.kuali.module.gl.util.OJBUtility;
@@ -35,6 +52,7 @@ import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.service.LaborLedgerBalanceService;
 import org.kuali.module.labor.web.inquirable.LedgerBalanceInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
+import org.kuali.rice.KNSServiceLocator;
 
 @Transactional
 public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
@@ -96,7 +114,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
      */
     private Collection buildBalanceCollection(Iterator iterator, boolean isConsolidated, String pendingEntryOption) {
         Collection balanceCollection = null;
-
+        
         if (isConsolidated) {
             balanceCollection = buildCosolidatedBalanceCollection(iterator, pendingEntryOption);
         }
@@ -116,7 +134,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
      */
     private Collection buildCosolidatedBalanceCollection(Iterator iterator, String pendingEntryOption) {
         Collection balanceCollection = new ArrayList();
-
+        
         while (iterator.hasNext()) {
             Object collectionEntry = iterator.next();
 
@@ -136,6 +154,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
                 balance.setObjectCode(array[i++].toString());
 
                 balance.setEmplid(array[i++].toString());
+                balance.setObjectId(array[i++].toString());
                 balance.setPositionNumber(array[i++].toString());
                 
                 balance.setSubObjectCode(Constant.CONSOLIDATED_SUB_OBJECT_CODE);
@@ -179,7 +198,7 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
      */
     private Collection buildDetailedBalanceCollection(Iterator iterator, String pendingEntryOption) {
         Collection balanceCollection = new ArrayList();
-
+        
         while (iterator.hasNext()) {
             LedgerBalance balance = (LedgerBalance) (iterator.next());
 
@@ -318,5 +337,98 @@ public class LedgerBalanceLookupableHelperServiceImpl extends AbstractLookupable
     public void setBalanceService(LaborLedgerBalanceService balanceService) {
         this.balanceService = balanceService;
     }
+    /**
+     * 
+     * This method performs the lookup and returns a collection of lookup items
+     * @param lookupForm
+     * @param kualiLookupable
+     * @param resultTable
+     * @param bounded
+     * @return
+     */
+    public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
+        Collection displayList;
+        
+        // call search method to get results
+        if (bounded) {
+            displayList = getSearchResults(lookupForm.getFieldsForLookup());
+        }
+        else {
+            displayList = getSearchResultsUnbounded(lookupForm.getFieldsForLookup());
+        }
 
+        // iterate through result list and wrap rows with return url and action urls
+        for (Iterator iter = displayList.iterator(); iter.hasNext();) {
+            BusinessObject element = (BusinessObject) iter.next();
+
+            String returnUrl = getReturnUrl(element, lookupForm.getFieldConversions(), lookupForm.getLookupableImplServiceName());
+            String actionUrls = getActionUrls(element);
+
+            List<Column> columns = getColumns();
+            List<Column> rowColumns = new ArrayList<Column>();
+            for (Iterator iterator = columns.iterator(); iterator.hasNext();) {
+                
+                Column col = (Column) iterator.next();
+                Formatter formatter = col.getFormatter();
+
+                // pick off result column from result list, do formatting
+                String propValue = Constants.EMPTY_STRING;
+                Object prop = ObjectUtils.getPropertyValue(element, col.getPropertyName());
+                
+                // set comparator and formatter based on property type
+                Class propClass = null;
+                try {
+                   PropertyDescriptor propDescriptor = PropertyUtils.getPropertyDescriptor(element, col.getPropertyName());
+                   if (propDescriptor != null) {
+                       propClass = propDescriptor.getPropertyType();
+                   }
+                }
+                catch (Exception e) {
+                    throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " + " on an instance of '" + element.getClass().getName() + "'.", e);
+                }
+
+                // formatters
+                if (prop != null) {
+                    // for Booleans, always use BooleanFormatter
+                    if (prop instanceof Boolean) {
+                        formatter = new BooleanFormatter();
+                    }
+
+                    if (formatter != null) {
+                        propValue = (String) formatter.format(prop);
+                    }
+                    else {
+                        propValue = prop.toString();
+                    }
+                }
+
+                // comparator
+                col.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(propClass));
+                col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
+                
+                // check security on field and do masking if necessary
+                boolean viewAuthorized = KNSServiceLocator.getAuthorizationService().isAuthorizedToViewAttribute(GlobalVariables.getUserSession().getUniversalUser(), element.getClass().getName(), col.getPropertyName());
+                if (!viewAuthorized) {
+                    Mask displayMask = getDataDictionaryService().getAttributeDisplayMask(element.getClass().getName(), col.getPropertyName());
+                    propValue = displayMask.maskValue(propValue);
+                }
+                col.setPropertyValue(propValue);
+
+
+                if (StringUtils.isNotBlank(propValue)) {
+                    col.setPropertyURL(getInquiryUrl(element, col.getPropertyName()));
+                }
+
+                rowColumns.add(col);
+            }
+
+            ResultRow row = new ResultRow(rowColumns, returnUrl, actionUrls);
+            if ( element instanceof PersistableBusinessObject ) {
+                row.setObjectId(((PersistableBusinessObject)element).getObjectId());
+            }
+            resultTable.add(row);
+        }
+
+        return displayList;
+    }
 }

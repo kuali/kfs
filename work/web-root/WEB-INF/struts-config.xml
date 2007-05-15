@@ -77,6 +77,7 @@
         <!-- General Ledger Bean Definitions -->
         <form-bean name="CorrectionForm" type="org.kuali.module.gl.web.struts.form.CorrectionForm" />
         <form-bean name="BalanceInquiryForm" type="org.kuali.module.gl.web.struts.form.BalanceInquiryForm" />
+        <form-bean name="BalanceInquiryLookupForm" type="org.kuali.module.gl.web.struts.form.BalanceInquiryLookupForm" />
 
         <!-- PURAP Module Bean Definitions -->
         <form-bean name="AssignContractManagerForm" type="org.kuali.module.purap.web.struts.form.AssignContractManagerForm" />
@@ -199,6 +200,11 @@
         <action path="/glBalanceInquiry" name="BalanceInquiryForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.module.gl.web.struts.action.BalanceInquiryAction">
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/modules/generalLedger/BalanceInquiry.jsp" />
+        </action>
+
+        <action path="/glBalanceInquiryLookup" name="BalanceInquiryLookupForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.module.gl.web.struts.action.BalanceInquiryLookupAction">
+            <set-property property="cancellable" value="true" />
+            <forward name="basic" path="/jsp/modules/generalLedger/BalanceInquiryLookup.jsp" />
         </action>
 
         <action path="/glModifiedInquiry" name="BalanceInquiryForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.module.gl.web.struts.action.BalanceInquiryAction">

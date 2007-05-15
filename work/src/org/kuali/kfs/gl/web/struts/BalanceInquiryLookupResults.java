@@ -98,6 +98,8 @@ public class BalanceInquiryLookupResults extends LookupForm implements LookupRes
      * @param request HttpServletRequest
      */
     public void populate(HttpServletRequest request) {
+        super.populate(request);
+
         if (StringUtils.isNotBlank(request.getParameter(KFSConstants.TableRenderConstants.VIEWED_PAGE_NUMBER))) {
             setViewedPageNumber(Integer.parseInt(request.getParameter(KFSConstants.TableRenderConstants.VIEWED_PAGE_NUMBER)));
         }

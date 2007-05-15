@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Properties;
 
 import javax.servlet.ServletException;
@@ -31,14 +32,20 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.Constants;
 import org.kuali.core.lookup.CollectionIncomplete;
+import org.kuali.core.lookup.LookupResultsService;
 import org.kuali.core.lookup.Lookupable;
+import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.SequenceAccessorService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.form.LookupForm;
-import org.kuali.core.web.struts.action.KualiLookupAction;
+import org.kuali.core.web.struts.form.MultipleValueLookupForm;
+import org.kuali.core.web.struts.action.KualiMultipleValueLookupAction;
 import org.kuali.core.web.struts.action.KualiTableRenderAction;
+import org.kuali.core.web.ui.Column;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.ResultRow;
 import org.kuali.core.web.ui.Row;
@@ -50,6 +57,7 @@ import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.util.ObjectHelper;
 import org.kuali.module.gl.web.lookupable.AccountBalanceByConsolidationLookupableHelperServiceImpl;
 import org.kuali.module.gl.web.struts.form.BalanceInquiryLookupForm;
+import org.kuali.rice.KNSServiceLocator;
 
 /**
  * Balance inquiries are pretty much just lookups already, but are not used in the traditional sense. In most
@@ -67,8 +75,8 @@ import org.kuali.module.gl.web.struts.form.BalanceInquiryLookupForm;
  * @see org.kuali.module.labor.web.struts.action.SalaryExpenseTransferAction;
  * @see org.kuali.module.labor.web.struts.form.SalaryExpenseTransferForm;
  */
-public class BalanceInquiryLookupAction extends KualiLookupAction implements KualiTableRenderAction {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceInquiryAction.class);
+public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceInquiryLookupAction.class);
 
     private static final String TOTALS_TABLE_KEY = "totalsTable";
 
@@ -80,14 +88,12 @@ public class BalanceInquiryLookupAction extends KualiLookupAction implements Kua
      */
     public static final int DEFAULT_MAX_ROWS_PER_PAGE = 50;
 
-    private LookupDisplayTagSurrogate displayTagSurrogate;
     private KualiConfigurationService kualiConfigurationService;
     private String[] totalTitles;
     
     public BalanceInquiryLookupAction() {
         super();
         kualiConfigurationService = SpringServiceLocator.getKualiConfigurationService();
-        displayTagSurrogate = new BalanceInquiryLookupDisplayTagSurrogate();
     }
 
     private void setTotalTitles() {
@@ -112,13 +118,6 @@ public class BalanceInquiryLookupAction extends KualiLookupAction implements Kua
     }
 
     /**
-     * Entry point to lookups, forwards to jsp for search render.
-     */
-    public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
      * search - sets the values of the data entered on the form on the jsp into a map and then searches for the results.
      */
     public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -138,7 +137,7 @@ public class BalanceInquiryLookupAction extends KualiLookupAction implements Kua
 
         kualiLookupable.validateSearchParameters(lookupForm.getFields());
 
-        displayList = displayTagSurrogate.performMultipleValueLookup(lookupForm.getLookupResultsSelectable(), lookupForm, resultTable, bounded);
+        displayList = performMultipleValueLookup(lookupForm, resultTable, getMaxRowsPerPage(lookupForm), bounded);
         incompleteDisplayList = (CollectionIncomplete) displayList;
         totalSize = incompleteDisplayList.getActualSizeIfTruncated();
 
@@ -154,8 +153,8 @@ public class BalanceInquiryLookupAction extends KualiLookupAction implements Kua
         request.setAttribute("reqSearchResultsActualSize", totalSize);
         request.setAttribute("reqSearchResults", resultTable);
         
-        lookupForm.getLookupResultsSelectable().setResultsActualSize((int) totalSize.longValue());
-        lookupForm.getLookupResultsSelectable().setResultsLimitedSize(resultTable.size());
+        lookupForm.setResultsActualSize((int) totalSize.longValue());
+        lookupForm.setResultsLimitedSize(resultTable.size());
 
         // TODO: use inheritance instead of this if statement
         if (kualiLookupable.getLookupableHelperService() instanceof AccountBalanceByConsolidationLookupableHelperServiceImpl) {
@@ -203,107 +202,7 @@ public class BalanceInquiryLookupAction extends KualiLookupAction implements Kua
     }
     
     /**
-     * refresh - is called when one quickFinder returns to the previous one. Sets all the values and performs the new search.
-     */
-    @Override
-    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        LookupForm lookupForm = (LookupForm) form;
-        Lookupable kualiLookupable = lookupForm.getLookupable();
-        if (kualiLookupable == null) {
-            LOG.error("Lookupable is null.");
-            throw new RuntimeException("Lookupable is null.");
-        }
-
-        Map fieldValues = new HashMap();
-        Map values = lookupForm.getFields();
-
-        for (Iterator iter = kualiLookupable.getRows().iterator(); iter.hasNext();) {
-            Row row = (Row) iter.next();
-
-            for (Iterator iterator = row.getFields().iterator(); iterator.hasNext();) {
-                Field field = (Field) iterator.next();
-
-                if (field.getPropertyName() != null && !field.getPropertyName().equals("")) {
-                    if (request.getParameter(field.getPropertyName()) != null) {
-                        field.setPropertyValue(request.getParameter(field.getPropertyName()));
-                    }
-                    else if (values.get(field.getPropertyName()) != null) {
-                        field.setPropertyValue(values.get(field.getPropertyName()));
-                    }
-                }
-                fieldValues.put(field.getPropertyName(), field.getPropertyValue());
-            }
-        }
-        fieldValues.put(KFSConstants.DOC_FORM_KEY, lookupForm.getFormKey());
-        fieldValues.put(KFSConstants.BACK_LOCATION, lookupForm.getBackLocation());
-
-        if (kualiLookupable.checkForAdditionalFields(fieldValues)) {
-            for (Iterator iter = kualiLookupable.getRows().iterator(); iter.hasNext();) {
-                Row row = (Row) iter.next();
-                for (Iterator iterator = row.getFields().iterator(); iterator.hasNext();) {
-                    Field field = (Field) iterator.next();
-                    if (field.getPropertyName() != null && !field.getPropertyName().equals("")) {
-                        if (request.getParameter(field.getPropertyName()) != null) {
-                            field.setPropertyValue(request.getParameter(field.getPropertyName()));
-                            fieldValues.put(field.getPropertyName(), request.getParameter(field.getPropertyName()));
-                        }
-                        else if (values.get(field.getPropertyName()) != null) {
-                            field.setPropertyValue(values.get(field.getPropertyName()));
-                        }
-                    }
-                }
-            }
-        }
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
-     * clearValues - clears the values of all the fields on the jsp.
-     */
-    public ActionForward clearValues(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        LookupForm lookupForm = (LookupForm) form;
-        Lookupable kualiLookupable = lookupForm.getLookupable();
-        if (kualiLookupable == null) {
-            LOG.error("Lookupable is null.");
-            throw new RuntimeException("Lookupable is null.");
-        }
-
-        for (Iterator iter = kualiLookupable.getRows().iterator(); iter.hasNext();) {
-            Row row = (Row) iter.next();
-            for (Iterator iterator = row.getFields().iterator(); iterator.hasNext();) {
-                Field field = (Field) iterator.next();
-                if (!field.getFieldType().equals(Field.RADIO)) {
-                    field.setPropertyValue(field.getDefaultValue());
-                }
-            }
-        }
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    public ActionForward viewResults(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request.setAttribute(KFSConstants.SEARCH_LIST_REQUEST_KEY, request.getParameter(KFSConstants.SEARCH_LIST_REQUEST_KEY));
-        request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS, GlobalVariables.getUserSession().retrieveObject(request.getParameter(KFSConstants.SEARCH_LIST_REQUEST_KEY)));
-        request.setAttribute(KFSConstants.REQUEST_SEARCH_RESULTS_SIZE, request.getParameter(KFSConstants.REQUEST_SEARCH_RESULTS_SIZE));
-
-        // TODO: use inheritance instead of this if statement
-        if (((BalanceInquiryLookupForm) form).getLookupable().getLookupableHelperService() instanceof AccountBalanceByConsolidationLookupableHelperServiceImpl) {
-            Object totalsTable = GlobalVariables.getUserSession().retrieveObject(TOTALS_TABLE_KEY);
-            request.setAttribute(TOTALS_TABLE_KEY, totalsTable);
-        }
-
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    public void setKualiConfigurationService(KualiConfigurationService kcs) {
-        kualiConfigurationService = kcs;
-    }        
-
-    
-    /**
-     * This method switches to another page on a multi-value lookup
-     * 
+     * This method returns none of the selected results and redirects back to the lookup caller.
      * @param mapping
      * @param form must be an instance of MultipleValueLookupForm
      * @param request
@@ -311,37 +210,21 @@ public class BalanceInquiryLookupAction extends KualiLookupAction implements Kua
      * @return
      * @throws Exception
      */
-    public ActionForward switchToPage(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BalanceInquiryLookupForm balanceInquiryLookup = (BalanceInquiryLookupForm) form;
-        List<ResultRow> resultTable = displayTagSurrogate.switchToPage(balanceInquiryLookup.getLookupResultsSelectable(), 
-                                                                       displayTagSurrogate.getMaxRowsPerPage(balanceInquiryLookup.getLookupResultsSelectable()));
-        request.setAttribute("reqSearchResults", resultTable);
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    public ActionForward prepareToReturnNone(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        MultipleValueLookupForm multipleValueLookupForm = (MultipleValueLookupForm) form;
+        prepareToReturnNone(multipleValueLookupForm);
+        
+        // build the parameters for the refresh url
+        Properties parameters = new Properties();
+        parameters.put(Constants.DOC_FORM_KEY, multipleValueLookupForm.getFormKey());
+        parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, Constants.RETURN_METHOD_TO_CALL);
+        parameters.put(Constants.REFRESH_CALLER, Constants.MULTIPLE_VALUE);
+        parameters.put(Constants.ANCHOR, multipleValueLookupForm.getLookupAnchor());
+        
+        String backUrl = UrlFactory.parameterizeUrl(multipleValueLookupForm.getBackLocation(), parameters);
+        return new ActionForward(backUrl, true);
     }
-    
-    /**
-     * This method sorts a column.  If the page is currently sorted on a certain column,
-     * and the same column is selected to be sorted again, then the results will be 
-     * reversed.  After the search method is called, it is difficult to determine the sort
-     * order of the result table, so no column is considered sorted.  So, after a search, we were
-     * to click sort on an already sorted column, it would appear to have no effect.  Subsequent clicks
-     * would tell you  
-     * 
-     * @param mapping
-     * @param form must be an instance of MultipleValueLookupForm
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward sort(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BalanceInquiryLookupForm balanceInquiryLookup = (BalanceInquiryLookupForm) form;
-        List<ResultRow> resultTable = displayTagSurrogate.sort(balanceInquiryLookup.getLookupResultsSelectable(), 
-                                                               displayTagSurrogate.getMaxRowsPerPage(balanceInquiryLookup.getLookupResultsSelectable()));
-        request.setAttribute("reqSearchResults", resultTable);
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-    
+
     /**
      * This method does the processing necessary to return selected results and sends a redirect back to the lookup caller
      * 
@@ -353,111 +236,115 @@ public class BalanceInquiryLookupAction extends KualiLookupAction implements Kua
      * @throws Exception
      */
     public ActionForward prepareToReturnSelectedResults(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BalanceInquiryLookupForm balanceInquiryLookup = (BalanceInquiryLookupForm) form;
-        if (StringUtils.isBlank(balanceInquiryLookup.getLookupResultsSelectable().getLookupResultsSequenceNumber())) {
+        MultipleValueLookupForm multipleValueLookupForm = (MultipleValueLookupForm) form;
+        if (StringUtils.isBlank(multipleValueLookupForm.getLookupResultsSequenceNumber())) {
             // no search was executed
             return prepareToReturnNone(mapping, form, request, response);
         }
         
-        displayTagSurrogate.prepareToReturnSelectedResultBOs(balanceInquiryLookup.getLookupResultsSelectable());
+        prepareToReturnSelectedResultBOs(multipleValueLookupForm);
+        System.out.println("Lookup Results Sequence Number: " + multipleValueLookupForm.getLookupResultsSequenceNumber());
         
         // build the parameters for the refresh url
         Properties parameters = new Properties();
-        parameters.put(KFSConstants.LOOKUP_RESULTS_BO_CLASS_NAME, balanceInquiryLookup.getBusinessObjectClassName());
-        parameters.put(KFSConstants.LOOKUP_RESULTS_SEQUENCE_NUMBER, balanceInquiryLookup.getLookupResultsSelectable().getLookupResultsSequenceNumber());
-        parameters.put(KFSConstants.DOC_FORM_KEY, balanceInquiryLookup.getFormKey());
-        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.RETURN_METHOD_TO_CALL);
-        parameters.put(KFSConstants.REFRESH_CALLER, KFSConstants.MULTIPLE_VALUE);
-        parameters.put(KFSConstants.ANCHOR, balanceInquiryLookup.getLookupAnchor());
-        parameters.put(KFSConstants.LOOKED_UP_COLLECTION_NAME, balanceInquiryLookup.getLookupResultsSelectable().getLookedUpCollectionName());
-        String backUrl = UrlFactory.parameterizeUrl(balanceInquiryLookup.getBackLocation(), parameters);
+        parameters.put(Constants.LOOKUP_RESULTS_BO_CLASS_NAME, multipleValueLookupForm.getBusinessObjectClassName());
+        parameters.put(Constants.LOOKUP_RESULTS_SEQUENCE_NUMBER, multipleValueLookupForm.getLookupResultsSequenceNumber());
+        parameters.put(Constants.DOC_FORM_KEY, multipleValueLookupForm.getFormKey());
+        parameters.put(Constants.DISPATCH_REQUEST_PARAMETER, Constants.RETURN_METHOD_TO_CALL);
+        parameters.put(Constants.REFRESH_CALLER, Constants.MULTIPLE_VALUE);
+        parameters.put(Constants.ANCHOR, multipleValueLookupForm.getLookupAnchor());
+        String backUrl = UrlFactory.parameterizeUrl(multipleValueLookupForm.getBackLocation(), parameters);
         return new ActionForward(backUrl, true);
     }
-    
-    /**
-     * This method selects all results across all pages
-     * @param mapping
-     * @param form must be an instance of MultipleValueLookupForm
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward selectAll(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BalanceInquiryLookupForm balanceInquiryLookup = (BalanceInquiryLookupForm) form;
-        List<ResultRow> resultTable = displayTagSurrogate.selectAll(balanceInquiryLookup.getLookupResultsSelectable(), 
-                                                                    displayTagSurrogate.getMaxRowsPerPage(balanceInquiryLookup.getLookupResultsSelectable()));
-        request.setAttribute("reqSearchResults", resultTable);
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-    
-    /**
-     * This method unselects all results across all pages
-     * 
-     * @param mapping
-     * @param form must be an instance of MultipleValueLookupForm
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward unselectAll(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BalanceInquiryLookupForm balanceInquiryLookup = (BalanceInquiryLookupForm) form;
-        List<ResultRow> resultTable = displayTagSurrogate.unselectAll(balanceInquiryLookup.getLookupResultsSelectable(), 
-                                                                      displayTagSurrogate.getMaxRowsPerPage(balanceInquiryLookup.getLookupResultsSelectable()));
-        request.setAttribute("reqSearchResults", resultTable);
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-    
-    /**
-     * This method overrides the super class calcel method because it is basically equivalent to clicking prepare to return none 
-     * 
-     * @see org.kuali.core.web.struts.action.KualiLookupAction#cancel(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return prepareToReturnNone(mapping, form, request, response);
-    }
-    
 
     /**
-     * This method returns none of the selected results and redirects back to the lookup caller.
-     * @param mapping
-     * @param form must be an instance of MultipleValueLookupForm
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward prepareToReturnNone(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BalanceInquiryLookupForm balanceInquiryLookup = (BalanceInquiryLookupForm) form;
-        displayTagSurrogate.prepareToReturnNone(balanceInquiryLookup.getLookupResultsSelectable());
-        
-        // build the parameters for the refresh url
-        Properties parameters = new Properties();
-        parameters.put(KFSConstants.DOC_FORM_KEY, balanceInquiryLookup.getFormKey());
-        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.RETURN_METHOD_TO_CALL);
-        parameters.put(KFSConstants.REFRESH_CALLER, KFSConstants.MULTIPLE_VALUE);
-        parameters.put(KFSConstants.ANCHOR, balanceInquiryLookup.getLookupAnchor());
-        
-        String backUrl = UrlFactory.parameterizeUrl(balanceInquiryLookup.getBackLocation(), parameters);
-        return new ActionForward(backUrl, true);
-    }
-    
-    /**
-     * This method prepares to export results.  Note: this method will not look for any rows selected since the last page view, so it is best
-     * that exporting opens in a new browser window.
+     * This method performs the lookup and returns a collection of lookup items.  Also initializes values in the form
+     * that will allow the multiple value lookup page to render
      * 
-     * @param mapping
-     * @param form an <code>{@link ActionForm}</code>
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
+     * @param multipleValueLookupForm
+     * @param resultTable a list of result rows (used to generate what's shown in the UI).  This list will be modified by this method
+     * @param maxRowsPerPage
+     * @param bounded whether the results will be bounded
+     * @return the list of result BOs, possibly bounded by size
      */
-    public ActionForward export(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        BalanceInquiryLookupForm balanceInquiryLookup = (BalanceInquiryLookupForm) form;
-        List<ResultRow> resultTable = displayTagSurrogate.prepareToExport(balanceInquiryLookup.getLookupResultsSelectable());
-        request.setAttribute("reqSearchResults", resultTable);
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    protected Collection performMultipleValueLookup(MultipleValueLookupForm multipleValueLookupForm, List<ResultRow> resultTable, int maxRowsPerPage, boolean bounded) {
+        Lookupable lookupable = multipleValueLookupForm.getLookupable();
+        System.out.println("Performing lookup");
+        Collection displayList = lookupable.performLookup(multipleValueLookupForm, resultTable, bounded);
+        
+        List defaultSortColumns = lookupable.getDefaultSortColumns();
+        if (defaultSortColumns != null && !defaultSortColumns.isEmpty() && resultTable != null && !resultTable.isEmpty()) {
+            // there's a default sort order, just find the first sort column, and we can't go wrong
+            String firstSortColumn = (String) defaultSortColumns.get(0);
+            
+            // go thru the first result row to find the index of the column (more efficient than calling lookupable.getColumns since we don't have to recreate column list)
+            int firstSortColumnIdx = -1;
+            List<Column> columnsForFirstResultRow = resultTable.get(0).getColumns();
+            for (int i = 0; i < columnsForFirstResultRow.size(); i++) {
+                if (StringUtils.equals(firstSortColumn, columnsForFirstResultRow.get(i).getPropertyName())) {
+                    firstSortColumnIdx = i;
+                    break;
+                }
+            }
+            multipleValueLookupForm.setColumnToSortIndex(firstSortColumnIdx);
+        }
+        else {
+            // don't know how results were sorted, so we just say -1
+            multipleValueLookupForm.setColumnToSortIndex(-1);
+        }
+        
+        // we just performed the lookup, so we're on the first page (indexed from 0)
+        multipleValueLookupForm.jumpToFirstPage(resultTable.size(), maxRowsPerPage);
+        
+        SequenceAccessorService sequenceAccessorService = KNSServiceLocator.getSequenceAccessorService();
+        String lookupResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(Constants.LOOKUP_RESULTS_SEQUENCE));
+        multipleValueLookupForm.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);
+        try {
+            LookupResultsService lookupResultsService = KNSServiceLocator.getLookupResultsService();
+            System.out.println("Saving results for sequence "  + lookupResultsSequenceNumber);
+            System.out.println("And user " + GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+            lookupResultsService.persistResultsTable(lookupResultsSequenceNumber, resultTable,
+                    GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+        }
+        catch (Exception e) {
+            LOG.error("error occured trying to persist multiple lookup results", e);
+            throw new RuntimeException("error occured trying to persist multiple lookup results");
+        }
+        
+        // since new search, nothing's checked
+        multipleValueLookupForm.setCompositeObjectIdMap(new HashMap<String, String>());
+        
+        return displayList;
+    }
+
+    /**
+     * This method performs the operations necessary for a multiple value lookup keep track of which results have been selected to be returned
+     * to the calling document.  Note, this method does not actually requery for the results.
+     * 
+     * @param multipleValueLookupForm
+     */
+    protected void prepareToReturnSelectedResultBOs(MultipleValueLookupForm multipleValueLookupForm) {
+        String lookupResultsSequenceNumber = multipleValueLookupForm.getLookupResultsSequenceNumber();
+        System.out.println("Preparing to return selected BO's");
+        if (StringUtils.isBlank(lookupResultsSequenceNumber)) {
+            // pressed return before searching
+            return;
+        }
+        System.out.println("previouslySelectedObjectIdSet = " + multipleValueLookupForm.getPreviouslySelectedObjectIdSet());
+        System.out.println("displayedObjectIdSet = " + multipleValueLookupForm.getDisplayedObjectIdSet());
+        System.out.println("selectedObjectIdSet = " +  multipleValueLookupForm.getSelectedObjectIdSet());
+        Map<String, String> compositeObjectIdMap = LookupUtils.generateCompositeSelectedObjectIds(multipleValueLookupForm.getPreviouslySelectedObjectIdSet(),
+                multipleValueLookupForm.getDisplayedObjectIdSet(), multipleValueLookupForm.getSelectedObjectIdSet());
+        Set<String> compositeObjectIds = compositeObjectIdMap.keySet();
+        System.out.println("compositeObjectIds " + compositeObjectIds);
+        try {
+            LookupResultsService lookupResultsService = KNSServiceLocator.getLookupResultsService();
+            lookupResultsService.persistSelectedObjectIds(lookupResultsSequenceNumber, compositeObjectIds,
+                    GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+        }
+        catch (Exception e) {
+            LOG.error("error occured trying to retrieve selected multiple lookup results", e);
+            throw new RuntimeException("error occured trying to retrieve selected multiple lookup results");
+        }
     }
 }

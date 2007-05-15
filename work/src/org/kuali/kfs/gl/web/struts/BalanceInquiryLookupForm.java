@@ -23,6 +23,7 @@ import java.util.StringTokenizer;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.Constants;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.lookup.Lookupable;
 import org.kuali.core.web.struts.form.LookupForm;
@@ -52,7 +53,7 @@ import org.kuali.module.gl.bo.Entry;
  * @see org.kuali.module.labor.web.struts.action.SalaryExpenseTransferAction;
  * @see org.kuali.module.labor.web.struts.form.SalaryExpenseTransferForm;
  */
-public class BalanceInquiryLookupForm extends LookupForm {
+public class BalanceInquiryLookupForm extends MultipleValueLookupForm {
     private static final long serialVersionUID = 1L;
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceInquiryForm.class);
@@ -61,7 +62,6 @@ public class BalanceInquiryLookupForm extends LookupForm {
     private LookupResultsSelectable selectable;
 
     public BalanceInquiryLookupForm() {
-        selectable = new BalanceInquiryLookupResults();
     }
 
     /**
@@ -71,10 +71,10 @@ public class BalanceInquiryLookupForm extends LookupForm {
      */
     @Override
     public void populate(HttpServletRequest request) {
+        Lookupable localPendingEntryLookupable = null;
+
         super.populate(request);
 
-        Lookupable localPendingEntryLookupable = null;
-        
         if (Entry.class.getName().equals(getBusinessObjectClassName())) {
             localPendingEntryLookupable = SpringServiceLocator.getLookupable(GLConstants.LookupableBeanKeys.PENDING_ENTRY);
             }
@@ -84,9 +84,27 @@ public class BalanceInquiryLookupForm extends LookupForm {
             localPendingEntryLookupable.setFieldConversions(getFieldConversions());
         }
         setPendingEntryLookupable(localPendingEntryLookupable);
-
-        getLookupResultsSelectable().populate(request);
     }
+    
+//     /**
+//      * @see org.kuali.core.web.struts.form.LookupForm#setBusinessObjectClassName(String)
+//      */
+//     public void setBusinessObjectClassName(String name) {
+//         System.out.println("Trying to set business object class to " + name);
+//         if (getLookupResultsSelectable() != null) {
+//             ((LookupForm) getLookupResultsSelectable()).setBusinessObjectClassName(name);
+//         }
+//     }
+
+//     /**
+//      * @see org.kuali.core.web.struts.form.LookupForm#getBusinessObjectClassName()
+//      */
+//     public String getBusinessObjectClassName() {
+//         if (getLookupResultsSelectable() != null) {
+//             return ((LookupForm) getLookupResultsSelectable()).getBusinessObjectClassName();
+//         }
+//         return null;
+//     }
 
     /**
      * @param pendingEntryLookupable
@@ -103,23 +121,23 @@ public class BalanceInquiryLookupForm extends LookupForm {
         return this.pendingEntryLookupable;
     }
 
-    /**
-     * Retrieve the selectable
-     *
-     * @return LookupResultsSelectable
-     */
-    public LookupResultsSelectable getLookupResultsSelectable() {
-        return selectable;
-    }
+//     /**
+//      * Retrieve the selectable
+//      *
+//      * @return LookupResultsSelectable
+//      */
+//     public LookupResultsSelectable getLookupResultsSelectable() {
+//         return selectable;
+//     }
 
     
-    /**
-     * Assign selectable
-     *
-     * @param sel the <code>{@link LookupResultsSelectable}</code> for this form.
-     */
-    public void setLookupResultsSelectable(LookupResultsSelectable sel) {
-        selectable = sel;
-    }
+//     /**
+//      * Assign selectable
+//      *
+//      * @param sel the <code>{@link LookupResultsSelectable}</code> for this form.
+//      */
+//     public void setLookupResultsSelectable(LookupResultsSelectable sel) {
+//         selectable = sel;
+//     }
 
 }

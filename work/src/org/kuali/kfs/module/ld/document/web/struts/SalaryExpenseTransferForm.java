@@ -15,8 +15,13 @@
  */
 package org.kuali.module.labor.web.struts.form;
 
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+
+import static org.kuali.Constants.MULTIPLE_VALUE;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.labor.bo.LaborUser;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
@@ -32,9 +37,27 @@ import org.apache.commons.logging.LogFactory;
  * 
  * 
  */
-public class SalaryExpenseTransferForm extends LaborDocumentFormBase {
+public class SalaryExpenseTransferForm extends LaborDocumentFormBase implements MultipleValueLookupBroker {
     private static Log LOG = LogFactory.getLog(SalaryExpenseTransferForm.class);
     private LaborUser user;
+    private String balanceTypeCode;
+    private Integer fiscalYear;
+
+    /**
+     * Used to indicate which result set we're using when refreshing/returning from a multi-value lookup
+     */
+    private String lookupResultsSequenceNumber;
+    /**
+     * The type of result returned by the multi-value lookup
+     * 
+     * TODO: to be persisted in the lookup results service instead?
+     */
+    private String lookupResultsBOClassName;
+    
+    /**
+     * The name of the collection looked up (by a multiple value lookup)
+     */
+    private String lookedUpCollectionName;
 
     /**
      * Constructs a SalaryExpenseTransferForm instance and sets up the appropriately casted document.
@@ -43,6 +66,28 @@ public class SalaryExpenseTransferForm extends LaborDocumentFormBase {
         super();
         setUser(new LaborUser(new UniversalUser()));
         setDocument(new SalaryExpenseTransferDocument());
+        setFinancialBalanceTypeCode("AC");
+    }
+    
+    /**
+     *
+     */
+    public String getFinancialBalanceTypeCode() {
+        return balanceTypeCode;
+    }
+
+    /**
+     * 
+     */
+    public void setFinancialBalanceTypeCode(String code) {
+        balanceTypeCode = code;
+    }
+    
+    /**
+     * @see org.kuali.core.web.struts.form.DocumentFormBase#populate(HttpServletRequest)
+     */
+    public void populate(HttpServletRequest request) {
+        super.populate(request);
     }
 
     /**
@@ -99,5 +144,100 @@ public class SalaryExpenseTransferForm extends LaborDocumentFormBase {
                     .getLaborUserByPersonPayrollIdentifier(getSalaryExpenseTransferDocument().getEmplid()));
         }
         return getSalaryExpenseTransferDocument().getEmplid();
+    }
+    
+    /**
+     * @see org.kuali.core.web.struts.form.AccountingDocumentFormBase#getRefreshCaller()
+     */
+    public String getRefreshCaller() {
+        return MULTIPLE_VALUE;
+    }
+
+    /**
+     * @see MultipleValueLookupBroker#getLookupResultsSequenceNumber()
+     */
+    public String getLookupResultsSequenceNumber() {
+        return lookupResultsSequenceNumber;
+    }
+
+    /**
+     * @see MultipleValueLookupBroker#setLookupResultsSequenceNumber(String)
+     */
+    public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
+        this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
+    }
+
+    /**
+     * @see MultipleValueLookupBroker#getLookupResultsBOClassName()
+     */
+    public String getLookupResultsBOClassName() {
+        return lookupResultsBOClassName;
+    }
+
+
+    /**
+     * @see MultipleValueLookupBroker#setLookupResultsBOClassName(String)
+     */
+    public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
+        this.lookupResultsBOClassName = lookupResultsBOClassName;
+    }
+
+
+    /**
+     * @see MultipleValueLookupBroker#getLookupedUpCollectionName()
+     */
+    public String getLookedUpCollectionName() {
+        return lookedUpCollectionName;
+    }
+
+    /**
+     * @see MultipleValueLookupBroker#getLookupedUpCollectionName(String)
+     */
+    public void setLookedUpCollectionName(String lookedUpCollectionName) {
+        this.lookedUpCollectionName = lookedUpCollectionName;
+    }
+    
+    public Integer getUniversityFiscalYear() {
+        return fiscalYear;
+    }
+
+    public void setUniversityFiscalYear(Integer year) {
+        fiscalYear = year;
+    }
+    
+    /**
+     * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#getForcedReadOnlyFields()
+     */
+    @Override
+    public Map getForcedReadOnlyFields() {
+        Map map = super.getForcedReadOnlyFields();
+        map.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, Boolean.TRUE);
+        map.put(KFSPropertyConstants.ACCOUNT, Boolean.TRUE);
+        map.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, Boolean.TRUE);
+        map.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, Boolean.TRUE);
+        map.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, Boolean.TRUE);
+        map.put(KFSPropertyConstants.PROJECT_CODE, Boolean.TRUE);
+        map.put(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID, Boolean.TRUE);
+        map.put(KFSPropertyConstants.AMOUNT, Boolean.TRUE);
+        map.put(KFSPropertyConstants.POSITION_NUMBER, Boolean.TRUE);
+        return map;
+    }
+
+    /**
+     * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#getAccountingLineEditableFields()
+     */
+    @Override
+    public Map getAccountingLineEditableFields() {
+        Map map = super.getAccountingLineEditableFields();
+        map.remove(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        map.remove(KFSPropertyConstants.ACCOUNT_NUMBER);
+        map.remove(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        map.remove(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        map.remove(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
+        map.remove(KFSPropertyConstants.PROJECT_CODE);
+        map.remove(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID);
+        map.remove(KFSPropertyConstants.AMOUNT);
+        map.remove(KFSPropertyConstants.POSITION_NUMBER);
+        return map;
     }
 }

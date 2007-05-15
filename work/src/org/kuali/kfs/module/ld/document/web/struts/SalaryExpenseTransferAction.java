@@ -16,24 +16,36 @@
 package org.kuali.module.labor.web.struts.action;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.Constants;
+import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.bo.TargetAccountingLine;
+import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.kfs.web.struts.action.KualiBalanceInquiryReportMenuAction;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
+import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 import org.kuali.module.labor.rules.event.EmployeeIdChangedEventBase;
 import org.kuali.module.labor.web.struts.form.SalaryExpenseTransferForm;
+import org.kuali.rice.KNSServiceLocator;
 
 /**
  * This class extends the parent KualiTransactionalDocumentActionBase class, which contains all common action methods. Since the SEP
@@ -85,10 +97,112 @@ public class SalaryExpenseTransferAction extends LaborDocumentActionBase {
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         SalaryExpenseTransferForm salaryExpenseTransferForm = (SalaryExpenseTransferForm) form;
 
+        // Needed to be executed for each accounting line that may have been added.
         boolean rulePassed = runRule(salaryExpenseTransferForm, new EmployeeIdChangedEventBase(salaryExpenseTransferForm.getDocument()));
+        Map<String, String> requestParams = (Map<String, String>) request.getParameterMap();
+        
+        Collection<PersistableBusinessObject> rawValues = null;
+        if (StringUtils.equals(Constants.MULTIPLE_VALUE, salaryExpenseTransferForm.getRefreshCaller())) {
+            String lookupResultsSequenceNumber = salaryExpenseTransferForm.getLookupResultsSequenceNumber();
+            if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
+                // actually returning from a multiple value lookup
+                String lookupResultsBOClassName = salaryExpenseTransferForm.getLookupResultsBOClassName();
+                Class lookupResultsBOClass = Class.forName(lookupResultsBOClassName);
+                
+                rawValues = KNSServiceLocator.getLookupResultsService().retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+            }
+        }
+
+        for (PersistableBusinessObject bo : rawValues) {
+            ExpenseTransferAccountingLine line = (ExpenseTransferAccountingLine) salaryExpenseTransferForm.getFinancialDocument().getSourceAccountingLineClass().newInstance();
+            buildAccountingLineFromLedgerBalance((LedgerBalance) bo, line);
+            salaryExpenseTransferForm.getFinancialDocument().getSourceAccountingLines().add(line);
+            salaryExpenseTransferForm.setUniversityFiscalYear(((LedgerBalance) bo).getUniversityFiscalYear());
+/*
+        // check any business rules
+        boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINE_PROPERTY_NAME, financialDocumentForm.getDocument(), line));
+
+        // if the rule evaluation passed, let's add it
+        if (rulePassed) {
+            // add accountingLine
+            SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(line);
+            insertAccountingLine(false, financialDocumentForm, line);
+
+            // clear the used newTargetLine
+            financialDocumentForm.setNewTargetLine(null);
+        }
+*/
+        }
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse)
+     */
+    public ActionForward copyAllAccountingLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        KualiAccountingDocumentFormBase financialDocumentForm = (KualiAccountingDocumentFormBase) form;
+        for (Object line : financialDocumentForm.getFinancialDocument().getSourceAccountingLines()) {
+            ExpenseTransferAccountingLine to = (ExpenseTransferAccountingLine) financialDocumentForm.getFinancialDocument().getSourceAccountingLineClass().newInstance();
+            copyAccountingLine((ExpenseTransferAccountingLine) line, to);
+            insertAccountingLine(false, financialDocumentForm, to);
+        }
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse)
+     */
+    public ActionForward copyAccountingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        KualiAccountingDocumentFormBase financialDocumentForm = (KualiAccountingDocumentFormBase) form;
+
+        AccountingDocument financialDocument = (AccountingDocument) financialDocumentForm.getDocument();
+
+        int index = getSelectedLine(request);
+
+        ExpenseTransferAccountingLine line = (ExpenseTransferAccountingLine) financialDocumentForm.getFinancialDocument().getSourceAccountingLineClass().newInstance();
+        copyAccountingLine((ExpenseTransferAccountingLine) financialDocument.getSourceAccountingLine(index), line);
+
+        insertAccountingLine(false, financialDocumentForm, line);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-}
+    }
+
+    /**
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse)
+     */
+    protected void copyAccountingLine(ExpenseTransferAccountingLine source, ExpenseTransferAccountingLine target) {
+        target.setChartOfAccountsCode(source.getChartOfAccountsCode());
+        target.setAccountNumber(source.getAccountNumber());
+        target.setSubAccountNumber(source.getSubAccountNumber());
+        target.setPostingYear(source.getPostingYear());
+        target.setPayrollEndDateFiscalYear(source.getPayrollEndDateFiscalYear());
+        target.setFinancialObjectCode(source.getFinancialObjectCode());
+        target.setFinancialSubObjectCode(source.getFinancialSubObjectCode());
+        target.setBalanceTypeCode(source.getBalanceTypeCode());
+        target.setPositionNumber(source.getPositionNumber());
+        target.setAmount(source.getAmount());
+        target.setEmplid(source.getEmplid());
+    }
+    
+    private void buildAccountingLineFromLedgerBalance(LedgerBalance bo, ExpenseTransferAccountingLine line) {
+        line.setChartOfAccountsCode(bo.getChartOfAccountsCode());
+        line.setAccountNumber(bo.getAccountNumber());
+        if (!bo.getSubAccountNumber().startsWith("-")) {
+            line.setSubAccountNumber(bo.getSubAccountNumber());
+        }
+        line.setPostingYear(bo.getUniversityFiscalYear());
+        line.setPayrollEndDateFiscalYear(bo.getUniversityFiscalYear());
+        line.setFinancialObjectCode(bo.getFinancialObjectCode());
+        if (!bo.getFinancialSubObjectCode().startsWith("-")) {
+            line.setFinancialSubObjectCode(bo.getFinancialSubObjectCode());
+        }
+        line.setBalanceTypeCode(bo.getFinancialBalanceTypeCode());
+        line.setPositionNumber(bo.getPositionNumber());
+        line.setAmount(bo.getAccountLineAnnualBalanceAmount());
+        line.setEmplid(bo.getEmplid());
+    }
+        
     private boolean runRule(SalaryExpenseTransferForm salaryExpenseTransferFormForm, KualiDocumentEventBase event) {
         // check any business rules
 

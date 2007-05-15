@@ -20,6 +20,7 @@
     htmlFormAction="laborSalaryExpenseTransfer" renderMultipart="true"
     showTabButtons="true">
 
+    <html:hidden property="financialBalanceTypeCode" />
     <kul:hiddenDocumentFields />
     <kul:documentOverview editingMode="${KualiForm.editingMode}" />
     <kul:tab tabTitle="Employee Lookup" defaultOpen="true"
@@ -29,6 +30,7 @@
             <table cellpadding="0" cellspacing="0" class="datatable"
                 summary="employee lookup">
     
+              <tr>
                 <kul:htmlAttributeHeaderCell
                     attributeEntry="${DataDictionary.UniversalUser.attributes.personPayrollIdentifier}"
                     horizontal="true"
@@ -49,7 +51,17 @@
                                     altText="${field.fieldHelpSummary}" />      
                             </jsp:attribute>
                         </kul:employee>
+ 
                 </td>
+              </tr>
+              <tr>
+                <kul:htmlAttributeHeaderCell
+                    attributeEntry="${DataDictionary.AccountingPeriod.attributes.universityFiscalYear}"
+                    horizontal="true"
+                    forceRequired="true"
+                    />
+                <td>${KualiForm.universityFiscalYear}</td>
+              </tr>
             </table>
                 <p>
         </div>
@@ -62,41 +74,41 @@
         <fin:subheadingWithDetailToggleRow
             columnCount="${columnCount}"
              subheading="Accounting Lines"/>
-        <fin:accountingLineGroup
+        <ld:importedAccountingLineGroup
             isSource="true"
             columnCountUntilAmount="${columnCountUntilAmount}"
             columnCount="${columnCount}"
             optionalFields="${optionalFieldsMap}"
             extraRowFields="${extraSourceRowFieldsMap}"
-            editingMode="${editingModeString}"
+            editingMode="${KualiForm.editingMode}"
             editableAccounts="${editableAccountsMap}"
-            editableFields="${editableFieldsMap}"
+            editableFields="${KualiForm.accountingLineEditableFields}"
             debitCreditAmount="${debitCreditAmountString}"
             currentBaseAmount="${currentBaseAmountString}"
             extraHiddenFields="${extraHiddenFieldsMap}"
             useCurrencyFormattedTotal="${useCurrencyFormattedTotalBoolean}"
             includeObjectTypeCode="${includeObjectTypeCodeBoolean}"
             displayMonthlyAmounts="${displayMonthlyAmountsBoolean}"
-            forcedReadOnlyFields="${forcedReadOnlyFieldsMap}"
+            forcedReadOnlyFields="${KualiForm.forcedReadOnlyFields}"
             accountingLineAttributes="${accountingLineAttributesMap}">
             <jsp:attribute name="importRowOverride">
                 Import from Labor Ledger
                 <kul:balanceInquiryLookup
                     boClassName="org.kuali.module.labor.bo.LedgerBalance"
-                    actionPath="${Constants.GL_BALANCE_INQUIRY_ACTION}"
-                    lookupParameters="personPayrollIdentifier:personPayrollIdentifier"
-                    fieldConversions="chartOfAccountsCode:newSourceLine.chartOfAccountsCode"
-                   hideReturnLink="false" />
+                    actionPath="glBalanceInquiryLookup.do"
+                    fieldConversions="universityFiscalYear:universityFiscalYear"
+                    lookupParameters="personPayrollIdentifier:personPayrollIdentifier,financialBalanceTypeCode:financialBalanceTypeCode"
+                    hideReturnLink="false" />
             </jsp:attribute>
-        </fin:accountingLineGroup>
-
-        <fin:accountingLineGroup
+        </ld:importedAccountingLineGroup>
+${KualiForm.accountingLineEditableFields}
+        <ld:importedAccountingLineGroup
             isSource="false"
             columnCountUntilAmount="${columnCountUntilAmount}"
             columnCount="${columnCount}"
             optionalFields="${optionalFieldsMap}"
             extraRowFields="${extraTargetRowFieldsMap}"
-            editingMode="${editingModeString}"
+            editingMode="${KualiForm.editingMode}"
             editableAccounts="${editableAccountsMap}"
             editableFields="${editableFieldsMap}"
             debitCreditAmount="${debitCreditAmountString}"
@@ -105,8 +117,10 @@
             useCurrencyFormattedTotal="${useCurrencyFormattedTotalBoolean}"
             includeObjectTypeCode="${includeObjectTypeCodeBoolean}"
             displayMonthlyAmounts="${displayMonthlyAmountsBoolean}"
-            forcedReadOnlyFields="${forcedReadOnlyFieldsMap}"
-            accountingLineAttributes="${accountingLineAttributesMap}"/>
+            accountingLineAttributes="${accountingLineAttributesMap}">
+            <jsp:attribute name="importRowOverride">
+            </jsp:attribute>
+         </ld:importedAccountingLineGroup>
       </table>
       </jsp:attribute>
     </fin:accountingLines>

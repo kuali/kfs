@@ -45,7 +45,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
     private KualiConfigurationService kualiConfigurationService;
     
     /**
-     * @see org.kuali.core.lookup.Lookupable#gfetSearchResults(java.util.Map)
+     * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map)
      */
     @Override
     public List getSearchResults(Map fieldValues) {

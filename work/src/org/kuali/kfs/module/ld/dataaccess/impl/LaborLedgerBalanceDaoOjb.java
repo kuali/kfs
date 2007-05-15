@@ -28,6 +28,7 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.PropertyConstants;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSConstants;
@@ -438,6 +439,7 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
         attributeList.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
         attributeList.add(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
         attributeList.add(KFSPropertyConstants.EMPLID);
+        attributeList.add(PropertyConstants.OBJECT_ID);
         attributeList.add(KFSPropertyConstants.POSITION_NUMBER);
 
         return attributeList;

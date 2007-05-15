@@ -35,9 +35,11 @@ import org.kuali.module.chart.service.ChartUserService;
 import org.kuali.module.kra.KraConstants;
 import org.kuali.module.kra.routingform.bo.RoutingFormAgency;
 import org.kuali.module.kra.routingform.bo.RoutingFormBudget;
+import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormKeyword;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganization;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent;
+import org.kuali.module.kra.routingform.bo.RoutingFormOtherCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
 import org.kuali.module.kra.routingform.bo.RoutingFormProjectType;
 import org.kuali.module.kra.routingform.bo.RoutingFormQuestion;
@@ -410,6 +412,26 @@ public class RoutingFormXml {
             otherInstOrgElement.setAttribute("ORG_NAME", ObjectUtils.toString(routingFormOrganization.getOrganization().getOrganizationName()));
             
             projectDetailElement.appendChild(otherInstOrgElement);
+        }
+        
+        for (RoutingFormInstitutionCostShare routingFormInstitutionCostShare : routingFormDocument.getRoutingFormInstitutionCostShares()) {
+            Element instCostShareElement = xmlDoc.createElement("INST_COST_SHARE");
+            
+            instCostShareElement.setAttribute("CHART", ObjectUtils.toString(routingFormInstitutionCostShare.getChartOfAccountsCode()));
+            instCostShareElement.setAttribute("ORG", ObjectUtils.toString(routingFormInstitutionCostShare.getOrganizationCode()));
+            instCostShareElement.setAttribute("ACCOUNT", ObjectUtils.toString(routingFormInstitutionCostShare.getAccountNumber()));
+            instCostShareElement.setAttribute("AMOUNT", ObjectUtils.toString(routingFormInstitutionCostShare.getRoutingFormCostShareAmount()));
+            
+            projectDetailElement.appendChild(instCostShareElement);
+        }
+        
+        for (RoutingFormOtherCostShare routingFormOtherCostShare : routingFormDocument.getRoutingFormOtherCostShares()) {
+            Element otherCostShareElement = xmlDoc.createElement("OTHER_COST_SHARE");
+            
+            otherCostShareElement.setAttribute("SOURCE_NAME", ObjectUtils.toString(routingFormOtherCostShare.getRoutingFormCostShareSourceName()));
+            otherCostShareElement.setAttribute("AMOUNT", ObjectUtils.toString(routingFormOtherCostShare.getRoutingFormCostShareAmount()));
+            
+            projectDetailElement.appendChild(otherCostShareElement);
         }
         
         if (routingFormDocument.getRoutingFormPersonnel().size() > 0 || routingFormDocument.getRoutingFormOrganizationCreditPercents().size() > 0) {

@@ -94,6 +94,9 @@ public class BudgetConstructionSelectionAction extends KualiAction {
 
         budgetConstructionSelectionForm.getBudgetConstructionHeader().setUniversityFiscalYear(budgetConstructionSelectionForm.getUniversityFiscalYear());
 
+//TODO need to make a call here to clear out all Objects(forms) stored in GlobalVariables.UserSession
+//to help prevent memory leaks if the user fails to use application control flow
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

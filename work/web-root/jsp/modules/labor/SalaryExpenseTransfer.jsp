@@ -101,7 +101,7 @@
                     hideReturnLink="false" />
             </jsp:attribute>
         </ld:importedAccountingLineGroup>
-${KualiForm.accountingLineEditableFields}
+
         <ld:importedAccountingLineGroup
             isSource="false"
             columnCountUntilAmount="${columnCountUntilAmount}"

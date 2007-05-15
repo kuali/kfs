@@ -17,11 +17,10 @@
 package org.kuali.module.purap.document;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.document.Copyable;
@@ -32,13 +31,14 @@ import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.bo.PurchaseOrderAccount;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderStatusHistory;
 import org.kuali.module.purap.bo.PurchaseOrderVendorChoice;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.bo.PurchaseOrderView;
+import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.bo.RecurringPaymentFrequency;
+import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.service.PurchaseOrderPostProcessorService;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.bo.PaymentTermType;
@@ -186,12 +186,11 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
 
         this.setStatusCode(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
         //copy items from req to pending (which will copy the item's accounts and assets)
-//        List items = new ArrayList();
-//        for (Iterator iter = requisitionDocument.getItems().iterator(); iter.hasNext();) {
-//          RequisitionItem reqItem = (RequisitionItem) iter.next();
-//          items.add(new PurchaseOrderItem(reqItem, this));
-//        }
-//        this.setItems(items);
+        List<PurchaseOrderItem> items = new ArrayList();
+        for (PurchasingApItem reqItem : ((PurchasingAccountsPayableDocument) requisitionDocument).getItems()) {
+          items.add(new PurchaseOrderItem((RequisitionItem)reqItem, this));
+        }
+        this.setItems(items);
         
     }
 

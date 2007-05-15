@@ -18,7 +18,6 @@ package org.kuali.module.purap.bo;
 
 import java.util.LinkedHashMap;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
 import org.kuali.core.util.KualiDecimal;
 
 /**
@@ -27,46 +26,55 @@ import org.kuali.core.util.KualiDecimal;
 public class PurchaseOrderAccount extends PurApAccountingLineBase {
 
 
-    /** 
-     * NOTE FOR POTENTIAL ACCOUNTING LINE REFACTORING
-     *  documentNumber is needed for PO accounts and not for other PURAP docs, however 
-     *  it is already defined in AccountingLineBase so we don't need to add it here 
+    /**
+     * NOTE FOR POTENTIAL ACCOUNTING LINE REFACTORING documentNumber is needed for PO accounts and not for other PURAP docs, however
+     * it is already defined in AccountingLineBase so we don't need to add it here
      */
-//    private String documentNumber;
-	private KualiDecimal itemAccountOutstandingEncumbranceAmount;
+    // private String documentNumber;
+    private KualiDecimal itemAccountOutstandingEncumbranceAmount;
 
     private PurchaseOrderItem purchaseOrderItem;
 
-    
-	/**
-	 * Default constructor.
-	 */
-	public PurchaseOrderAccount() {
-
-	}
-
-	/**
-	 * Gets the itemAccountOutstandingEncumbranceAmount attribute.
-	 * 
-	 * @return Returns the itemAccountOutstandingEncumbranceAmount
-	 * 
-	 */
-	public KualiDecimal getItemAccountOutstandingEncumbranceAmount() { 
-		return itemAccountOutstandingEncumbranceAmount;
-	}
-
-	/**
-	 * Sets the itemAccountOutstandingEncumbranceAmount attribute.
-	 * 
-	 * @param itemAccountOutstandingEncumbranceAmount The itemAccountOutstandingEncumbranceAmount to set.
-	 * 
-	 */
-	public void setItemAccountOutstandingEncumbranceAmount(KualiDecimal itemAccountOutstandingEncumbranceAmount) {
-		this.itemAccountOutstandingEncumbranceAmount = itemAccountOutstandingEncumbranceAmount;
-	}
 
     /**
-     * Gets the purchaseOrderItem attribute. 
+     * Default constructor.
+     */
+    public PurchaseOrderAccount() {
+
+    }
+
+    public PurchaseOrderAccount(PurApAccountingLine ra) {
+        this.setAccountLinePercent(ra.getAccountLinePercent());
+        this.setAccountNumber(ra.getAccountNumber());
+        this.setChartOfAccountsCode(ra.getChartOfAccountsCode());
+        this.setFinancialObjectCode(ra.getFinancialObjectCode());
+        this.setFinancialSubObjectCode(ra.getFinancialSubObjectCode());
+        this.setOrganizationReferenceId(ra.getOrganizationReferenceId());
+        this.setProjectCode(ra.getProjectCode());
+        this.setSubAccountNumber(ra.getSubAccountNumber());
+    }
+
+    /**
+     * Gets the itemAccountOutstandingEncumbranceAmount attribute.
+     * 
+     * @return Returns the itemAccountOutstandingEncumbranceAmount
+     */
+    public KualiDecimal getItemAccountOutstandingEncumbranceAmount() {
+        return itemAccountOutstandingEncumbranceAmount;
+    }
+
+    /**
+     * Sets the itemAccountOutstandingEncumbranceAmount attribute.
+     * 
+     * @param itemAccountOutstandingEncumbranceAmount The itemAccountOutstandingEncumbranceAmount to set.
+     */
+    public void setItemAccountOutstandingEncumbranceAmount(KualiDecimal itemAccountOutstandingEncumbranceAmount) {
+        this.itemAccountOutstandingEncumbranceAmount = itemAccountOutstandingEncumbranceAmount;
+    }
+
+    /**
+     * Gets the purchaseOrderItem attribute.
+     * 
      * @return Returns the purchaseOrderItem.
      */
     public PurchaseOrderItem getPurchaseOrderItem() {
@@ -75,6 +83,7 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
 
     /**
      * Sets the purchaseOrderItem attribute value.
+     * 
      * @param purchaseOrderItem The purchaseOrderItem to set.
      * @deprecated
      */
@@ -86,11 +95,11 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
+        LinkedHashMap m = new LinkedHashMap();
         m.put("documentNumber", getDocumentNumber());
         if (this.getAccountIdentifier() != null) {
             m.put("accountIdentifier", this.getAccountIdentifier().toString());
         }
         return m;
-    }    
+    }
 }

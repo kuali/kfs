@@ -16,11 +16,11 @@
 
 package org.kuali.module.purap.bo;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 
 /**
@@ -50,6 +50,54 @@ public class PurchaseOrderItem extends PurchasingItemBase {
 
     }
 
+    public PurchaseOrderItem(RequisitionItem ri, PurchaseOrderDocument po) {
+        super();
+        
+        this.setPurchaseOrder(po);
+
+        this.setItemLineNumber(ri.getItemLineNumber());
+        this.setItemUnitOfMeasureCode(ri.getItemUnitOfMeasureCode());
+        this.setItemQuantity(ri.getItemQuantity());
+        this.setItemCatalogNumber(ri.getItemCatalogNumber());
+        this.setItemDescription(ri.getItemDescription());
+        this.setItemCapitalAssetNoteText(ri.getItemCapitalAssetNoteText());
+        this.setItemUnitPrice(ri.getItemUnitPrice());
+        this.setRequisitionLineIdentifier(ri.getRequisitionLineIdentifier());
+        this.setItemAuxiliaryPartIdentifier(ri.getItemAuxiliaryPartIdentifier());
+        this.setItemAssignedToTradeInIndicator(ri.getItemAssignedToTradeInIndicator());
+        
+        this.setExternalOrganizationB2bProductReferenceNumber(ri.getExternalOrganizationB2bProductReferenceNumber());
+        this.setExternalOrganizationB2bProductTypeName(ri.getExternalOrganizationB2bProductTypeName());
+
+        this.setCapitalAssetTransactionTypeCode(ri.getCapitalAssetTransactionTypeCode());
+        this.setItemTypeCode(ri.getItemTypeCode());
+
+        /* TODO: Uncomment these when we're ready with item capital asset in Kuali
+        if (ri.getItemCapitalAssetNumbers() != null) {
+            List assets = new ArrayList();
+            for (Iterator assetIter = ri.getCapitalAssetNumbers().iterator(); assetIter.hasNext();) {
+                RequisitionItemCapitalAsset reqAsset = (RequisitionItemCapitalAsset) assetIter.next();
+                PurchaseOrderItemCapitalAsset poAsset = new PurchaseOrderItemCapitalAsset(reqAsset);
+                poAsset.setPurchaseOrder(po);
+                poAsset.setPurchaseOrderItem(this);
+                assets.add(poAsset);
+            }
+            this.setCapitalAssetNumbers(assets);
+        }
+        */
+        
+        if (ri.getSourceAccountingLines() != null && ri.getSourceAccountingLines().size() > 0) {
+            List accounts = new ArrayList();
+            for (PurApAccountingLine account : ri.getSourceAccountingLines()) {
+                PurchaseOrderAccount poAccount = new PurchaseOrderAccount(account);
+                poAccount.setPurchaseOrderItem(this);
+                accounts.add(poAccount);
+            }
+            this.setSourceAccountingLines(accounts);
+        }
+        
+    }    
+        
     /**
      * Gets the itemActiveIndicator attribute.
      * 

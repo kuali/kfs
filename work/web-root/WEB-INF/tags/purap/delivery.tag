@@ -105,7 +105,7 @@
                 </th>
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingLine1Address}" 
-                    	property="document.deliveryBuildingLine1Address"  readOnly="${not fullEntryMode}"/>
+                    	property="document.deliveryBuildingLine1Address"  readOnly="${notOtherDeliveryBuilding or not fullEntryMode}"/>
                 </td>			
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryRequiredDate}"/></div>
@@ -121,7 +121,7 @@
                 </th>
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryBuildingLine2Address}" 
-                    	property="document.deliveryBuildingLine2Address" readOnly="${not fullEntryMode}"/>
+                    	property="document.deliveryBuildingLine2Address" readOnly="${notOtherDeliveryBuilding or not fullEntryMode}"/>
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.deliveryRequiredDateReasonCode}"/></div>
@@ -153,7 +153,7 @@
                 </th>
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryCityName}" 
-                    	property="document.deliveryCityName" readOnly="${not fullEntryMode}"/>
+                    	property="document.deliveryCityName" readOnly="${notOtherDeliveryBuilding or not fullEntryMode}"/>
                 </td>
             </tr>
             <tr>			
@@ -162,7 +162,7 @@
                 </th>
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryStateCode}" 
-                    	property="document.deliveryStateCode" readOnly="${not fullEntryMode}"/>
+                    	property="document.deliveryStateCode" readOnly="${notOtherDeliveryBuilding or not fullEntryMode}"/>
                 </td>
 			</tr>
 			<tr>
@@ -171,7 +171,7 @@
                 </th>
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryPostalCode}" 
-                    	property="document.deliveryPostalCode" readOnly="${not fullEntryMode}"/>
+                    	property="document.deliveryPostalCode" readOnly="${notOtherDeliveryBuilding or not fullEntryMode}"/>
                 </td>
 			</tr>
         </table>

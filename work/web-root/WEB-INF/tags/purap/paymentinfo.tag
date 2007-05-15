@@ -20,16 +20,13 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="kul"%>
 <%@ taglib tagdir="/WEB-INF/tags/dd" prefix="dd"%>
 
-<%@ attribute name="displayRequisitionFields" required="false"
-	description="Boolean to indicate if REQ specific fields should be displayed" %>
-              
 <%@ attribute name="displayPurchaseOrderFields" required="false"
     description="Boolean to indicate if PO specific fields should be displayed" %>
 
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map"
     description="The DataDictionary entry containing attributes for this row's fields." %>             
 
-<kul:tab tabTitle="Payment Info" defaultOpen="${not displayRequisitionFields}">
+<kul:tab tabTitle="Payment Info" defaultOpen="false">
     <div class="tab-container" align=center>
         <div class="h2-container">
             <h2>Payment Info</h2>

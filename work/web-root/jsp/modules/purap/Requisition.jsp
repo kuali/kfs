@@ -31,7 +31,6 @@
 
 	<kul:documentOverview editingMode="${KualiForm.editingMode}"
 		includePostingYear="true"
-		displayRequisitionFields="true"
         postingYearAttributes="${DataDictionary.KualiRequisitionDocument.attributes}" >
 
     	<purap:purapDocumentDetail
@@ -48,25 +47,20 @@
     	displayRequisitionFields="true"/>
 
     <purap:paymentinfo
-        documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}" 
-        displayRequisitionFields="true"/>
+        documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}" />
 
     <purap:delivery
-        documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}" 
-        displayRequisitionFields="true"
-        />
+        documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}" />
 
     <purap:additional
         documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}"
         displayRequisitionFields="true" />
 
     <purap:relatedDocuments
-            documentAttributes="${DataDictionary.RelatedDocuments.attributes}"
-            />
+            documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
     
     <purap:paymentHistory
-            documentAttributes="${DataDictionary.RelatedDocuments.attributes}"
-            />
+            documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />
 	            
 	<purap:statushistory 
 		documentAttributes="${DataDictionary.RequisitionStatusHistory.attributes}" />

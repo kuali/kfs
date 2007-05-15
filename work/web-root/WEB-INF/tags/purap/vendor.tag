@@ -38,7 +38,7 @@
 <c:set var="vendorReadOnly" value="${not empty KualiForm.editingMode['lockVendorEntry']}" />
 <c:set var="currentUserCampusCode" value="${UserSession.universalUser.campusCode}" />
 
-<kul:tab tabTitle="Vendor" defaultOpen="${not displayRequisitionFields}" tabErrorKey="${PurapConstants.VENDOR_ERRORS}">
+<kul:tab tabTitle="Vendor" defaultOpen="${not (displayRequisitionFields or displayPurchaseOrderFields)}" tabErrorKey="${PurapConstants.VENDOR_ERRORS}">
     <div class="tab-container" align=center>
         <html:hidden property="document.vendorHeaderGeneratedIdentifier" />
         <html:hidden property="document.vendorDetailAssignedIdentifier" />

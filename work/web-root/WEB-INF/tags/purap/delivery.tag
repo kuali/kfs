@@ -22,13 +22,10 @@
 
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for this row's fields." %>
-<%@ attribute name="displayRequisitionFields" required="false"
-              description="A boolean as to whether the document is a Requisition."%>
              
 <c:set var="notOtherDeliveryBuilding" value="${KualiForm.notOtherDeliveryBuilding}" />
 
-
-<kul:tab tabTitle="Delivery" defaultOpen="${not displayRequisitionFields}" tabErrorKey="${PurapConstants.DELIVERY_TAB_ERRORS}">
+<kul:tab tabTitle="Delivery" defaultOpen="false" tabErrorKey="${PurapConstants.DELIVERY_TAB_ERRORS}">
     <div class="tab-container" align=center>
         <div class="h2-container">
             <h2>Delivery</h2>

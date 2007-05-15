@@ -55,7 +55,6 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
 
         Map fieldValues = new HashMap();
         fieldValues.put("emplid", emplid);
-        PendingLedgerEntry pendingEntry = new PendingLedgerEntry();
         Collection<PendingLedgerEntry> pendingEntries = businessObjectService.findMatching(PendingLedgerEntry.class, fieldValues);
 
         // When the financial Document Approved Code equals 'X' it means the pending labor ledger transaction has been processed

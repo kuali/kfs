@@ -161,5 +161,5 @@ public class LaborConstants {
         }        
     }
     
-    public static String LONG_ROW_TABLE_INRUIRY_ACTION = "laborLongRowTableInquiry.do";
+    public static final String LONG_ROW_TABLE_INRUIRY_ACTION = "laborLongRowTableInquiry.do";
 }

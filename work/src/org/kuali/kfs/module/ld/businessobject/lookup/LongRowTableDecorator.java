@@ -25,8 +25,8 @@ import org.kuali.core.web.ui.ResultRow;
 
 public class LongRowTableDecorator extends TableDecorator {
 
-    private final int numOfColumnInEachRow = 12;
-    private final int numOfColumnInFirstRow = 14;
+    private static final int numOfColumnInEachRow = 12;
+    private static final int numOfColumnInFirstRow = 14;
 
     /**
      * @see org.displaytag.decorator.TableDecorator#finishRow()
@@ -41,7 +41,7 @@ public class LongRowTableDecorator extends TableDecorator {
             
             List columns = row.getColumns();
             int columnCount = columns.size();
-            int numOfRows = new Double(Math.ceil(1.0 * (columnCount - numOfColumnInFirstRow) / numOfColumnInEachRow)).intValue() ;           
+            int numOfRows = (int)Math.ceil(1.0 * (columnCount - numOfColumnInFirstRow) / numOfColumnInEachRow) ;           
             
             rowBuffer.append("<tr>").append("<td colspan='" + numOfColumnInFirstRow +"'><br/><center>");
             rowBuffer.append("<table class='datatable-80' cellspacing='0' cellpadding='0' >");

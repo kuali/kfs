@@ -55,7 +55,7 @@ public class LaborLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements L
         query.setAttributes(new String[] { "max(" + KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER + ")" });
 
         Iterator iterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
-        Integer maxSequenceNumber = new Integer(0);
+        Integer maxSequenceNumber = Integer.valueOf(0);
         
         if (iterator.hasNext()) {
             Object[] data = (Object[]) iterator.next();

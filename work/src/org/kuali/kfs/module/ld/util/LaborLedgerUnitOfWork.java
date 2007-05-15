@@ -83,9 +83,6 @@ public class LaborLedgerUnitOfWork {
         if (this.hasSameKey(laborOriginEntry)) {
             KualiDecimal unitAmount = workingEntry.getTransactionLedgerEntryAmount();
             KualiDecimal entryAmount = laborOriginEntry.getTransactionLedgerEntryAmount();
-            
-            String unitDebitCreditCode = workingEntry.getTransactionDebitCreditCode();
-            String entryDebitCreditCode = laborOriginEntry.getTransactionDebitCreditCode();
 
             // if the input entry has a "credit" code , then subtract its amount from the unit total amount
             boolean creditIndicator = KFSConstants.GL_CREDIT_CODE.equals(laborOriginEntry.getTransactionDebitCreditCode());

@@ -43,8 +43,13 @@ public class SimpleTriggerDescriptor extends TriggerDescriptor {
         if (startTime == null) {
             startTime = trigger.getStartTime();
         }
-        trigger.setStartTime(new Date(startTime.getTime() + startDelay));
-        ((SimpleTrigger) trigger).setRepeatCount(repeatCount);
+    	// prevent setting of the trigger information in test mode
+    	if ( !isTestMode() ) {
+	        trigger.setStartTime(new Date(startTime.getTime() + startDelay));
+	        ((SimpleTrigger) trigger).setRepeatCount(repeatCount);
+    	} else {
+    		trigger.setStartTime( new Date( new Date().getTime() + 525600000L ) );
+    	}
     }
 
     /**

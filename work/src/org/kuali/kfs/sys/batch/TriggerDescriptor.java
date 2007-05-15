@@ -26,6 +26,7 @@ public abstract class TriggerDescriptor implements BeanNameAware {
     private String group;
     private String jobName;
     private DateTimeService dateTimeService;
+    private boolean testMode = false;
 
     protected abstract void completeTriggerDescription(Trigger trigger);
 
@@ -85,4 +86,12 @@ public abstract class TriggerDescriptor implements BeanNameAware {
     protected DateTimeService getDateTimeService() {
         return dateTimeService;
     }
+
+	public boolean isTestMode() {
+		return testMode;
+	}
+
+	public void setTestMode(boolean testMode) {
+		this.testMode = testMode;
+	}
 }

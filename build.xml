@@ -5,7 +5,7 @@
 		<copy file="${metainf.directory}/${tomcat.context.file}" tofile="${appserver.localhost.dir}/${ant.project.name}-${build.environment}.xml" overwrite="true" />
 	</target>
 
-	<target name="test-local" depends="dist-local,make-tests,test" description="Run all unit tests and format results"/>
+	<target name="test-local" depends="use-test-spring-beans,dist-local,make-tests,test" description="Run all unit tests and format results"/>
 
 	<target name="echo-properties" depends="init-filter-sets" description="Print all build properties that have been set">
 		<echoproperties />
@@ -129,6 +129,10 @@
 	<target name="init-institution-default-properties" depends="init-institution-override-properties">
 		<property file="${build.institution.defaults.file}" />
 		<echo message="Loaded properties in ${build.institution.defaults.file}" />
+		<condition property="test.spring.beans.import" value="${spring.test.imports}">
+			<equals arg1="${import.test.spring.beans}" arg2="true" />
+		</condition>
+		<property name="test.spring.beans.import" value="" />
 	</target>
 
 	<target name="init-filter-sets" depends="init-institution-default-properties">
@@ -184,6 +188,7 @@
 			<filter token="database-update-file-list" value="${database.update.file.list}" />
 			<filter token="encrypt-attributes-properties-file" value="${encrypt.attributes.properties.file}" />
 			<filter token="data-export-zip-file" value="${data.export.zip.file}" />
+			<filter token="test-spring-beans-import" value="${test.spring.beans.import}" />
 		</filterset>
 	</target>
 	
@@ -357,12 +362,14 @@
 			</fileset>
 		</copy>
 	</target>
-	
-	<target name="turn-quartz-scheduling-off">
-		<property name="use.quartz.scheduling" value="false" />
+
+	<target name="use-test-spring-beans">
+		<property name="import.test.spring.beans" value="true" />
+		<!-- force scheduler on -->
+		<property name="use.quartz.scheduling" value="true" />
 	</target>
 
-	<target name="make-tests" depends="turn-quartz-scheduling-off,init-make-references,filter-project">
+	<target name="make-tests" depends="use-test-spring-beans,init-make-references,filter-project">
 		<mkdir dir="${test.classes.directory}" />
 		<javac destdir="${test.classes.directory}" debug="true" deprecation="true" optimize="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
 			<classpath refid="compile.tests.classpath" />
@@ -477,7 +484,7 @@
 	
 	<target name="dist-binary-and-source-package" depends="init-binary-and-source-package,make-binary-and-source-package,dist-package" />
 		
-	<target name="continuous-integration" depends="clean,make-tests,test">
+	<target name="continuous-integration" depends="use-test-spring-beans,clean,make-tests,test">
 		<fail if="tests.failed" message="Tests failed" />
 	</target>
 

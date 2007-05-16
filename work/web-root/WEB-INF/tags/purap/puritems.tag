@@ -175,11 +175,8 @@
                         </td>
                     </tr>
 
-                    <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
-                        <div style="display: block;" id="tab-${currentTabIndex}-div">
-                    </c:if>
                     <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
-                        <div style="display: none;" id="tab-${currentTabIndex}-div">
+                        <tbody style="display: none;"  id="tab-${currentTabIndex}-div">
                     </c:if>
                     <!-- table class="datatable" style="width: 100%;" -->
 
@@ -265,7 +262,9 @@
                         hideFields="amount" 
                         accountingAddLineIndex="${ctr}" />
 
-                    </div>
+                    <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
+                        </tbody>
+                    </c:if>
                 </c:if>
             </logic:iterate>
 

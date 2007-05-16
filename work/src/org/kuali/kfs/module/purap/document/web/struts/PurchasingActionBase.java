@@ -296,7 +296,9 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
         if (((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItems().size() > 0) {
             if (purchasingForm.getAccountDistributionsourceAccountingLines().size() > 0) {
                 for (PurchasingApItem item : ((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItems()) {
-                    item.getSourceAccountingLines().addAll(purchasingForm.getAccountDistributionsourceAccountingLines());
+                    if (item.getSourceAccountingLines().size() == 0) {
+                        item.getSourceAccountingLines().addAll(purchasingForm.getAccountDistributionsourceAccountingLines());
+                    }
                 }
                 purchasingForm.getAccountDistributionsourceAccountingLines().clear();
                 GlobalVariables.getMessageList().add(PurapKeyConstants.PURAP_GENERAL_ACCOUNTS_DISTRIBUTED);

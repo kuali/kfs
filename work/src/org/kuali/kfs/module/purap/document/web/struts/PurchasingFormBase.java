@@ -33,6 +33,7 @@ public class PurchasingFormBase extends KualiAccountingDocumentFormBase {
     private Boolean hideDistributeAccounts = true;
     private PurchasingApItem newPurchasingItemLine;
 
+    // *** Note that the following variables do not use camel caps ON PURPOSE, because of how the accounting lines tag uses the accountPrefix
     private Integer accountDistributionnextSourceLineNumber;
     private List<PurApAccountingLine> accountDistributionsourceAccountingLines;
     private PurApAccountingLine accountDistributionnewSourceLine;

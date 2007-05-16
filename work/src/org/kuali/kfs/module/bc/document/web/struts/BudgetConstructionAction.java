@@ -166,6 +166,9 @@ public class BudgetConstructionAction extends KualiTransactionalDocumentActionBa
         BudgetConstructionDocument budgetConstructionDocument = (BudgetConstructionDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(budgetConstructionHeader.getDocumentNumber());
         budgetConstructionForm.setDocument(budgetConstructionDocument);
 
+        // need this here to do totaling on initial load
+        budgetConstructionForm.populatePBGLLines();
+
         KualiWorkflowDocument workflowDoc = budgetConstructionDocument.getDocumentHeader().getWorkflowDocument();
         budgetConstructionForm.setDocTypeName(workflowDoc.getDocumentType());
 

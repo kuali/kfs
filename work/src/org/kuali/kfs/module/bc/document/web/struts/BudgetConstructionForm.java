@@ -25,6 +25,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
@@ -76,6 +77,8 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
 
         // now run through PBGL rev and exp lines
         String methodToCall = this.getMethodToCall();
+        BudgetConstructionDocument bcDoc = this.getBudgetConstructionDocument();
+        bcDoc.zeroTotals();
         if (StringUtils.isNotBlank(methodToCall)){
             if (methodToCall.equals(BCConstants.INSERT_REVENUE_LINE_METHOD)){
                 PendingBudgetConstructionGeneralLedger revLine = getNewRevenueLine();
@@ -89,7 +92,7 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
                 if (StringUtils.isBlank(revLine.getFinancialSubObjectCode())){
                     revLine.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
                 }
-                populateRevenueLine(this.getNewRevenueLine());
+                populateRevenueLine(bcDoc, this.getNewRevenueLine());
 
             }
 
@@ -105,7 +108,7 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
                 if (StringUtils.isBlank(expLine.getFinancialSubObjectCode())){
                     expLine.setFinancialSubObjectCode(KFSConstants.DASHES_SUB_OBJECT_CODE);
                 }
-                populateExpenditureLine(this.getNewExpenditureLine());
+                populateExpenditureLine(bcDoc, this.getNewExpenditureLine());
 
             }
 
@@ -122,40 +125,55 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
      * TODO verify this - and calls prepareAccountingLineForValidationAndPersistence on each one.
      * This is called to refresh ref objects for use by validation
      */
-    protected void populatePBGLLines(){
+    public void populatePBGLLines(){
 
         //TODO add pbgl totaling here??
+        BudgetConstructionDocument bcDoc = this.getBudgetConstructionDocument();
 
-        Iterator revenueLines = this.getBudgetConstructionDocument().getPendingBudgetConstructionGeneralLedgerRevenueLines().iterator();
+        Iterator revenueLines = bcDoc.getPendingBudgetConstructionGeneralLedgerRevenueLines().iterator();
         while (revenueLines.hasNext()){
             PendingBudgetConstructionGeneralLedger revenueLine = (PendingBudgetConstructionGeneralLedger) revenueLines.next();
-            this.populateRevenueLine(revenueLine);
+            this.populateRevenueLine(bcDoc, revenueLine);
         }
-        Iterator expenditureLines = this.getBudgetConstructionDocument().getPendingBudgetConstructionGeneralLedgerExpenditureLines().iterator();
+        Iterator expenditureLines = bcDoc.getPendingBudgetConstructionGeneralLedgerExpenditureLines().iterator();
         while (expenditureLines.hasNext()){
             PendingBudgetConstructionGeneralLedger expenditureLine = (PendingBudgetConstructionGeneralLedger) expenditureLines.next();
-            this.populateExpenditureLine(expenditureLine);
+            this.populateExpenditureLine(bcDoc, expenditureLine);
         }
     }
     
     /**
      * Populates a PBGL revenue line bo using values from the struts form.
      * This is in place to make sure that all of the composite key objects have the correct values in them.
+     * This also adds line amounts to the revenue totals.
      * 
      * @param revenueLine
      */
-    public void populateRevenueLine(PendingBudgetConstructionGeneralLedger revenueLine){
+    public void populateRevenueLine(BudgetConstructionDocument bcDoc, PendingBudgetConstructionGeneralLedger revenueLine){
         populatePBGLLine(revenueLine);
+        if (revenueLine.getFinancialBeginningBalanceLineAmount() != null){
+            bcDoc.setRevenueFinancialBeginningBalanceLineAmountTotal(bcDoc.getRevenueFinancialBeginningBalanceLineAmountTotal().add(revenueLine.getFinancialBeginningBalanceLineAmount()));
+        }
+        if (revenueLine.getAccountLineAnnualBalanceAmount() != null){
+            bcDoc.setRevenueAccountLineAnnualBalanceAmountTotal(bcDoc.getRevenueAccountLineAnnualBalanceAmountTotal().add(revenueLine.getAccountLineAnnualBalanceAmount()));
+        }
     }
     
     /**
      * Populates a PBGL expenditure line bo using values from the struts form.
      * This is in place to make sure that all of the composite key objects have the correct values in them.
+     * This also adds line amounts to the expenditure totals.
      * 
      * @param expenditureLine
      */
-    public void populateExpenditureLine(PendingBudgetConstructionGeneralLedger expenditureLine){
+    public void populateExpenditureLine(BudgetConstructionDocument bcDoc, PendingBudgetConstructionGeneralLedger expenditureLine){
         populatePBGLLine(expenditureLine);
+        if (expenditureLine.getFinancialBeginningBalanceLineAmount() != null){
+            bcDoc.setExpenditureFinancialBeginningBalanceLineAmountTotal(bcDoc.getExpenditureFinancialBeginningBalanceLineAmountTotal().add(expenditureLine.getFinancialBeginningBalanceLineAmount()));
+        }
+        if (expenditureLine.getAccountLineAnnualBalanceAmount() != null){
+            bcDoc.setExpenditureAccountLineAnnualBalanceAmountTotal(bcDoc.getExpenditureAccountLineAnnualBalanceAmountTotal().add(expenditureLine.getAccountLineAnnualBalanceAmount()));
+        }
     }
     
     /**

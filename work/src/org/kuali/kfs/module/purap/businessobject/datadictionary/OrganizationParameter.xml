@@ -68,6 +68,7 @@
                 <label>Organization APO Limit</label>
                 <shortLabel>Organization APO Limit</shortLabel>
                 <required>false</required>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

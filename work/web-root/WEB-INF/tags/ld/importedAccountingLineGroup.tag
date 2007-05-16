@@ -168,7 +168,6 @@ It's followed by 0 or more rows for the accounting lines that have already been 
             <td colspan="${!empty editingMode['fullEntry'] ? 4 : columnCount}" class="tab-subhead" style="border-right: none;">${sectionTitle}</td>
             <c:if test="${!empty editingMode['fullEntry']}">
                 <td colspan="${columnCount - 4}" class="tab-subhead-import" align="right" nowrap="nowrap" style="border-left: none;">
-                    <html:image property="methodToCall.copyAllAccountingLines" src="images/tinybutton-add1.gif" title="Copy all Source Accounting Lines" alt="Copy all Source Lines" styleClass="tinybutton"/>
                     <jsp:invoke fragment="importRowOverride"/>
                 </td>
             </c:if>

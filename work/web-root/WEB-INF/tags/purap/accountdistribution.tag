@@ -37,7 +37,7 @@
 	styleClass="tinybutton" />
 </c:if>
 <c:if test="${!KualiForm.hideDistributeAccounts}">
-	<img src="images/tinybutton-setaccdist.gif"
+	<img src="images/tinybutton-setaccdist-dis.gif"
 	alt="setup account distribution" border="0"
 	styleClass="tinybutton" />
 </c:if>

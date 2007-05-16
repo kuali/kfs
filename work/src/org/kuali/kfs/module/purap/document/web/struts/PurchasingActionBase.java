@@ -22,6 +22,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.Constants;
+import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
@@ -32,6 +34,8 @@ import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.kfs.web.ui.AccountingLineDecorator;
+import org.kuali.module.kra.KraConstants;
+import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
@@ -280,13 +284,20 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
        
     public ActionForward removeAccounts(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+
+        Object question = request.getParameter(PurapConstants.QUESTION_INDEX);
+        Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
+
+        if (question == null) {
+            String questionText = SpringServiceLocator.getKualiConfigurationService().getPropertyString(PurapConstants.QUESTION_REMOVE_ACCOUNTS);
+            return this.performQuestionWithoutInput(mapping, form, request, response, PurapConstants.REMOVE_ACCOUNTS_QUESTION, questionText, Constants.CONFIRMATION_QUESTION, KFSConstants.ROUTE_METHOD, "0");
+        } else if (ConfirmationQuestion.YES.equals(buttonClicked)) {
+            for (PurchasingApItem item : ((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItems()) {
+                item.getSourceAccountingLines().clear();
+            }
         
-        for (PurchasingApItem item : ((PurchasingAccountsPayableDocument) purchasingForm.getDocument()).getItems()) {
-            item.getSourceAccountingLines().clear();
+            GlobalVariables.getMessageList().add(PurapKeyConstants.PURAP_GENERAL_ACCOUNTS_REMOVED);
         }
-
-        GlobalVariables.getMessageList().add(PurapKeyConstants.PURAP_GENERAL_ACCOUNTS_REMOVED);
-
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

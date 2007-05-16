@@ -54,15 +54,11 @@ public class PurapConstants {
     public static final String NOTE_TAB_WARNING = "noteWarning";
     public static final String STATUS_HISTORY_TAB_WARNING = "statusHistoryWarning";
 
-    public static final String RETURN_ANCHOR="returnAnchor";
-    public static final String RETURN_FORM_KEY="returnFormKey";
-    public static final String RETURN_ACTION="returnAction";
-    public static final String ACCOUNT_DISTRIBUTION_REFRESH_CALLER="AccountDistribution";
-    public static final String ACCOUNT_DISTRIBUTION_ACTION="purapAccountDistribution.do";
-    public static final String AC_DOCUMENT_ACTION="purapRequisition.do";
-    public static final String ACCOUNT_DISTRIBUTION_REFRESH_METHOD="refresh";
-    public static final String ACCOUNT_DISTRIBUTION_METHOD="refresh";
-
+    public static final String QUESTION_INDEX = "questionIndex";
+    public static final String REMOVE_ACCOUNTS_QUESTION = "RemoveAccounts";
+    public static final String QUESTION_ROUTE_DOCUMENT_TO_COMPLETE = "Completing this document will remove it from your Action List.<br/><br/>  Are you sure you want to continue?";
+    public static final String QUESTION_REMOVE_ACCOUNTS = "question.document.purap.removeAccounts";
+    
     // Delivery Tag
     public static final String DELIVERY_BUILDING_OTHER = "Other";
     public static final String DELIVERY_BUILDING_OTHER_CODE = "OTH";

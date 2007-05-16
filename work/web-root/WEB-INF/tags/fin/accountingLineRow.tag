@@ -13,13 +13,8 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ taglib prefix="c" uri="/tlds/c.tld"%>
-<%@ taglib prefix="fn" uri="/tlds/fn.tld"%>
-<%@ taglib prefix="html" uri="/tlds/struts-html.tld"%>
-<%@ taglib prefix="bean" uri="/tlds/struts-bean.tld"%>
-<%@ taglib prefix="kul" tagdir="/WEB-INF/tags"%>
-<%@ taglib prefix="fin" tagdir="/WEB-INF/tags/fin"%>
-<%@ taglib prefix="logic" uri="/tlds/struts-logic.tld" %>
+<%@ include file="/jsp/core/tldHeader.jsp"%>
+<%@ include file="/jsp/modules/financial/customActionsInterface.jsp"%>
 
 <%@ attribute name="accountingLine" required="true"
 	description="The name in the form of the accounting line
@@ -154,11 +149,10 @@
 		detailField="chart.finChartOfAccountDescription"
 		attributes="${accountingLineAttributes}" lookup="false" inquiry="true"
 		boClassSimpleName="Chart"
-		readOnly="${readOnly&&(empty editableFields['chartOfAccountsCode'])}"
+		readOnly="${(readOnly&&(empty editableFields['chartOfAccountsCode']))||!(empty forcedReadOnlyFields['chartOfAccountsCode'])}"
 		displayHidden="${displayHidden}"
 		accountingLineValuesMap="${accountingLineValuesMap}"
 		anchor="accounting${actionInfix}${actionGroup}LineAnchor${0 + accountingLineIndex}" />
-		
 	<c:set var="details" value="" />
     <logic:notEmpty name="KualiForm" property="${accountingLine}.account.programCode">
        <c:set var="details" value="account.accountName,account.program.programCode,;-,account.program.programName" />
@@ -172,7 +166,7 @@
 		detailFields="${details}"
 		attributes="${accountingLineAttributes}" lookup="true" inquiry="true"
 		boClassSimpleName="Account"
-		readOnly="${readOnly&&(empty editableFields['accountNumber'])}"
+		readOnly="${(readOnly&&(empty editableFields['accountNumber']))||!(empty forcedReadOnlyFields['accountNumber'])}"
 		displayHidden="${displayHidden}"
 		overrideField="accountExpiredOverride"
 		lookupOrInquiryKeys="chartOfAccountsCode"
@@ -185,11 +179,10 @@
 		detailField="subAccount.subAccountName"
 		attributes="${accountingLineAttributes}" lookup="true" inquiry="true"
 		boClassSimpleName="SubAccount"
-		readOnly="${readOnly&&(empty editableFields['subAccountNumber'])}"
+		readOnly="${(readOnly&&(empty editableFields['subAccountNumber']))||!(empty forcedReadOnlyFields['subAccountNumber'])}"
 		displayHidden="${displayHidden}"
 		lookupOrInquiryKeys="chartOfAccountsCode,accountNumber"
 		accountingLineValuesMap="${accountingLineValuesMap}" />
-
 	<fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
 		accountingLine="${accountingLine}"
 		baselineAccountingLine="${baselineAccountingLine}"
@@ -225,7 +218,7 @@
 		detailField="subObjectCode.financialSubObjectCodeName"
 		attributes="${accountingLineAttributes}" lookup="true" inquiry="true"
 		boClassSimpleName="SubObjCd"
-		readOnly="${readOnly&&(empty editableFields['financialSubObjectCode'])}"
+		readOnly="${(readOnly&&(empty editableFields['financialSubObjectCode']))||!(empty forcedReadOnlyFields['financialSubObjectCode'])}"
 		displayHidden="${displayHidden}"
 		lookupOrInquiryKeys="chartOfAccountsCode,financialObjectCode,accountNumber"
 		accountingLineValuesMap="${accountingLineValuesMap}"
@@ -237,7 +230,7 @@
 		detailFunction="loadProjectInfo" detailField="project.name"
 		attributes="${accountingLineAttributes}" lookup="true" inquiry="true"
 		boClassSimpleName="ProjectCode" conversionField="code"
-		readOnly="${readOnly&&(empty editableFields['projectCode'])}"
+		readOnly="${(readOnly&&(empty editableFields['projectCode']))||!(empty forcedReadOnlyFields['projectCode'])}"
 		displayHidden="${displayHidden}"
 		accountingLineValuesMap="${accountingLineValuesMap}" />
 
@@ -245,7 +238,7 @@
 		accountingLine="${accountingLine}"
 		baselineAccountingLine="${baselineAccountingLine}"
 		field="organizationReferenceId"
-		attributes="${accountingLineAttributes}" readOnly="${readOnly}"
+		attributes="${accountingLineAttributes}" readOnly="${readOnly||!(empty forcedReadOnlyFields['organizationReferenceId'])}"
 		displayHidden="${displayHidden}" />
 	
 	<c:if test="${not isOptionalFieldsInNewRow}">
@@ -254,7 +247,7 @@
 				accountingLine="${accountingLine}"
 				baselineAccountingLine="${baselineAccountingLine}"
 				field="${currentField}" attributes="${accountingLineAttributes}"
-				readOnly="${readOnly}" displayHidden="${displayHidden}" />
+				readOnly="${readOnly||!(empty forcedReadOnlyFields[currentField])}" displayHidden="${displayHidden}" />
 		</c:forTokens>
 	</c:if>
 
@@ -297,13 +290,13 @@
 				accountingLine="${accountingLine}"
 				baselineAccountingLine="${baselineAccountingLine}" field="amount"
 				attributes="${accountingLineAttributes}"
-				readOnly="${readOnly&&(empty editableFields['amount'])}"
+				readOnly="${(readOnly&&(empty editableFields['amount']))||!(empty forcedReadOnlyFields['amount'])}"
 				displayHidden="${displayHidden}" rowSpan="${rowspan}"
 				dataFieldCssClass="amount" />
 		</c:otherwise>
 	  </c:choose>
 	</c:if>
-	
+
 	<c:if test="${!readOnly}">
 		<fin:accountingLineActionDataCell
 			dataCellCssClass="${dataCellCssClass}" actionGroup="${actionGroup}"
@@ -311,6 +304,7 @@
 			accountingAddLineIndex="${accountingAddLineIndex}"
 			accountingLineIndex="${accountingLineIndex}"
 			decorator="${decorator}" 
+            customActions="${customActions}"
 			rowspan="${rowspan}"/>
 	</c:if>
 </tr>

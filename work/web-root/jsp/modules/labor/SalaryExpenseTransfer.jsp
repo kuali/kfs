@@ -15,6 +15,7 @@
 --%>
 
 <%@ include file="/jsp/core/tldHeader.jsp"%>
+
 <kul:documentPage showDocumentInfo="true"
     documentTypeName="KualiSalaryExpenseTransferDocument"
     htmlFormAction="laborSalaryExpenseTransfer" renderMultipart="true"
@@ -60,15 +61,17 @@
                     horizontal="true"
                     forceRequired="true"
                     />
-                <td>${KualiForm.universityFiscalYear}</td>
+                <td>${KualiForm.universityFiscalYear}&nbsp;</td>
               </tr>
             </table>
                 <p>
         </div>
     </kul:tab>
+
 	<fin:accountingLines editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}" inherit="false"
 		optionalFields="positionNumber,payrollEndDateFiscalYear,payrollEndDateFiscalPeriodCode,payrollTotalHours">
+
       <jsp:attribute name="groupsOverride">
       <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datatable">
         <fin:subheadingWithDetailToggleRow
@@ -90,8 +93,7 @@
             includeObjectTypeCode="${includeObjectTypeCodeBoolean}"
             displayMonthlyAmounts="${displayMonthlyAmountsBoolean}"
             forcedReadOnlyFields="${KualiForm.forcedReadOnlyFields}"
-            accountingLineAttributes="${accountingLineAttributesMap}"
-            allowsCopy="true">
+            accountingLineAttributes="${accountingLineAttributesMap}">
             <jsp:attribute name="importRowOverride">
                 Import from Labor Ledger
                 <kul:balanceInquiryLookup
@@ -101,13 +103,15 @@
                     lookupParameters="personPayrollIdentifier:personPayrollIdentifier,financialBalanceTypeCode:financialBalanceTypeCode"
                     hideReturnLink="false" />
             </jsp:attribute>
+            <jsp:attribute name="customActions">
+                <jsp:directive.include file="/WEB-INF/tags/ld/accountingLineCustomActions.tag" />
+            </jsp:attribute>
         </ld:importedAccountingLineGroup>
 
         <ld:importedAccountingLineGroup
             isSource="false"
             columnCountUntilAmount="${columnCountUntilAmount}"
             columnCount="${columnCount}"
-            allowsCopy="false"
             optionalFields="${optionalFieldsMap}"
             extraRowFields="${extraTargetRowFieldsMap}"
             editingMode="${KualiForm.editingMode}"

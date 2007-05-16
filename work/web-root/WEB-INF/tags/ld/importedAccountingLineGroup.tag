@@ -18,7 +18,8 @@
 The first row is for adding a new accounting line (if not read-only).
 It's followed by 0 or more rows for the accounting lines that have already been added." %>
 
-<%@ include file="/jsp/core/tldHeader.jsp"%>
+<%@ include file="/jsp/core/tldHeader.jsp" %>
+<%@ include file="/jsp/modules/financial/customActionsInterface.jsp" %>
 
 <%@ attribute name="isSource" required="true"
               description="Boolean whether this group is of source or target lines." %>
@@ -96,13 +97,12 @@ It's followed by 0 or more rows for the accounting lines that have already been 
               description="comma delimited list of fields to hide for this type of accounting line; currently only works with amount." %>
 <%@ attribute name="accountingAddLineIndex" required="false"
 			  description="index for multiple add new source lines"%>
-<%@ attribute name="allowsCopy" required="false" %>
-
 <c:set var="sourceOrTarget" value="${isSource ? 'source' : 'target'}"/>
 <c:set var="baselineSourceOrTarget" value="${isSource ? 'baselineSource' : 'baselineTarget'}"/>
 <c:set var="capitalSourceOrTarget" value="${isSource ? 'Source' : 'Target'}"/>
 <c:set var="dataDictionaryEntryName" value="${capitalSourceOrTarget}AccountingLine"/>
 <c:set var="totalName" value="currencyFormatted${capitalSourceOrTarget}Total"/>
+
 <c:if test="${empty accountingLineAttributes}">
     <c:if test="${isSource}">
         <c:set var="accountingLineAttributes" value="${DataDictionary[KualiForm.document.sourceAccountingLineEntryName].attributes}" />
@@ -168,9 +168,7 @@ It's followed by 0 or more rows for the accounting lines that have already been 
             <td colspan="${!empty editingMode['fullEntry'] ? 4 : columnCount}" class="tab-subhead" style="border-right: none;">${sectionTitle}</td>
             <c:if test="${!empty editingMode['fullEntry']}">
                 <td colspan="${columnCount - 4}" class="tab-subhead-import" align="right" nowrap="nowrap" style="border-left: none;">
-                    <c:if test="${allowsCopy}">
                     <html:image property="methodToCall.copyAllAccountingLines" src="images/tinybutton-add1.gif" title="Copy all Source Accounting Lines" alt="Copy all Source Lines" styleClass="tinybutton"/>
-                    </c:if>
                     <jsp:invoke fragment="importRowOverride"/>
                 </td>
             </c:if>
@@ -268,7 +266,8 @@ It's followed by 0 or more rows for the accounting lines that have already been 
     <c:if test="${empty accountPrefix}">
 		<c:set var="baselineLine" value="${baselineSourceOrTarget}AccountingLine[${ctr}]" />
 	</c:if>
-    <ld:accountingLineRow
+
+    <fin:accountingLineRow
         accountingLine="${accountPrefix}${sourceOrTarget}AccountingLine[${ctr}]"
         baselineAccountingLine="${baselineLine}"
         accountingLineIndex="${ctr}"
@@ -296,7 +295,8 @@ It's followed by 0 or more rows for the accounting lines that have already been 
         decorator="${sourceOrTarget}LineDecorator[${ctr}]"
         accountingLineValuesMap="${currentLine.valuesMap}"
         forcedReadOnlyFields="${forcedReadOnlyFields}"
-        hideFields="${hideFields}"  
+        hideFields="${hideFields}"
+        customActions="${customActions}"
         />
 
     <c:if test="${displayMonthlyAmounts}">

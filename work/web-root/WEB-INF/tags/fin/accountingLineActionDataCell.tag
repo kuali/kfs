@@ -13,6 +13,8 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
+
+<%@ include file="/jsp/modules/financial/customActionsInterface.jsp"%>
 <%@ taglib prefix="c" uri="/tlds/c.tld" %>
 <%@ taglib prefix="html" uri="/tlds/struts-html.tld" %>
 <%@ taglib prefix="bean" uri="/tlds/struts-bean.tld" %>
@@ -25,6 +27,11 @@
 <%@ attribute name="accountingLineIndex" required="false" description="index of this accountingLine in the corresponding form list, required for the existingLine actionGroup" %>
 <%@ attribute name="decorator" required="false" description="propertyName of the AccountingLineDecorator associated with this accountingLine, required for the existingLine actionGroup" %>
 <%@ attribute name="rowspan" required="false" description="defaults to 1" %>
+
+<%@ variable name-given="accountingLineIndexVar" scope="NESTED"%>
+<%@ variable name-given="actionInfixVar" scope="NESTED"%>
+<c:set var="accountingLineIndexVar" value="${accountingLineIndex}" scope="request"/>
+<c:set var="actionInfixVar" value="${actionInfix}" scope="request"/>
 
 <c:choose>
     <c:when test="${actionGroup == 'newLine' || actionGroup == 'newGroupLine'}" >
@@ -49,6 +56,9 @@
 
         <td class="${dataCellCssClass}" nowrap rowspan="${rowspan}">
             <div align="center">
+                <c:if test="${!empty customActions}">
+                    <jsp:invoke fragment="customActions"/>
+                </c:if>
                 <%-- persist accountingLineDecorator --%>
                 <html:hidden name="KualiForm" property="${decorator}.revertible" />
 

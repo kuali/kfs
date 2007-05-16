@@ -23,7 +23,7 @@
     <c:set var="batchUploadAttributes" value="${DataDictionary.BatchUpload.attributes}" />
 
 	<strong><h2>	
-	  <bean:message key="${KualiForm.titleKey}"/> <a href="static/help/BatchFileFormats.doc" tabindex="${KualiForm.nextArbitrarilyHighIndex}" target="helpWindow"  title="[Help]Upload">
+	  <bean:message key="${KualiForm.titleKey}"/> <a href="static/help/BatchFileFormats.pdf" tabindex="${KualiForm.nextArbitrarilyHighIndex}" target="helpWindow"  title="[Help]Upload">
 	                                        <img src="images/my_cp_inf.gif" alt="[Help]Upload" hspace=5 border=0  align="middle"></a>
 	  </h2></strong>
 	</br>

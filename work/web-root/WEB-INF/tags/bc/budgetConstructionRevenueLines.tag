@@ -254,13 +254,21 @@
 
 			<tr>
 				<kul:htmlAttributeHeaderCell literalLabel="Revenue Totals" colspan="3" horizontal="true" />
-                <td class="datacell" nowrap><div align="right"><span>
-				    0
-                </span></div></td>
-                <td class="datacell" nowrap><div align="right"><span>
-				    0
-                </span></div></td>
-				<td>&nbsp;</td>
+                <bc:columnTotalCell dataCellCssClass="datacell"
+                    cellProperty="document.revenueFinancialBeginningBalanceLineAmountTotal"
+                    textStyle="${textStyle}"
+                    fieldAlign="right"
+                    colSpan="1" />
+                <bc:columnTotalCell dataCellCssClass="datacell"
+                    cellProperty="document.revenueAccountLineAnnualBalanceAmountTotal"
+                    textStyle="${textStyle}"
+                    fieldAlign="right"
+                    colSpan="1" />
+                <bc:columnTotalCell dataCellCssClass="datacell"
+                    cellProperty="document.revenuePercentChangeTotal"
+                    textStyle="${textStyle}"
+                    fieldAlign="right"
+                    colSpan="1" />
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 			</tr>

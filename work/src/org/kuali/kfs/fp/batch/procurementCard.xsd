@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<xsd:schema elementFormDefault="qualified"
+    targetNamespace="http://www.kuali.org/modules/financial/procurementCard"
+    xmlns:kfs="http://www.kuali.org/kfsTypes"
+    xmlns="http://www.kuali.org/modules/financial/procurementCard" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
+    <xsd:import namespace="http://www.kuali.org/kfsTypes" schemaLocation="../../../../../../org/kuali/kfs/batch/kfsTypes.xsd" />
+
+    <xsd:element name="transactionCreditCardNumber" type="kfs:oneToSixteenCharType"/>
+    <xsd:element name="financialDocumentTotalAmount" type="kfs:amountType"/>
+    <xsd:element name="transactionDebitCreditCode" type="kfs:debitCreditCodeType"/>
+    <xsd:element name="chartOfAccountsCode" type="kfs:twoCharType"/>
+    <xsd:element name="accountNumber" type="kfs:accountType"/>
+    <xsd:element name="subAccountNumber" type="kfs:subAcctType"/>
+    <xsd:element name="financialObjectCode" type="kfs:objectType"/>
+    <xsd:element name="financialSubObjectCode" type="kfs:subObjectType"/>
+    <xsd:element name="projectCode" type="kfs:oneToTenCharType"/>
+    <xsd:element name="transactionCycleStartDate" type="xsd:date"/>
+    <xsd:element name="transactionCycleEndDate" type="xsd:date"/>
+    <xsd:element name="cardHolderName" type="kfs:oneToThirtyFiveCharType"/>
+    <xsd:element name="transactionDate" type="xsd:date"/>
+    <xsd:element name="transactionReferenceNumber" type="kfs:oneToTwentyThreeCharType"/>
+    <xsd:element name="transactionMerchantCategoryCode" type="kfs:oneToFourCharType"/>
+    <xsd:element name="transactionPostingDate" type="xsd:date"/>
+    <xsd:element name="transactionOriginalCurrencyCode" type="kfs:oneToThreeCharType"/>
+    <xsd:element name="transactionBillingCurrencyCode" type="kfs:oneToThreeCharType"/>
+    <xsd:element name="transactionOriginalCurrencyAmount" type="kfs:amountType"/>
+    <xsd:element name="transactionCurrencyExchangeRate" type="xsd:decimal"/>
+    <xsd:element name="transactionSettlementAmount" type="kfs:amountType"/>
+    <xsd:element name="transactionSalesTaxAmount" type="kfs:amountType"/>
+    <xsd:element name="transactionTaxExemptIndicator" type="kfs:indicatorType"/>
+    <xsd:element name="transactionPurchaseIdentifierIndicator" type="kfs:indicatorType"/>
+    <xsd:element name="transactionPurchaseIdentifierDescription" type="kfs:oneToTwentyFiveCharType"/>
+    <xsd:element name="transactionUnitContactName" type="kfs:oneToThirtyFiveCharType"/>
+    <xsd:element name="transactionTravelAuthorizationCode" type="kfs:oneToFiftyCharType"/>
+    <xsd:element name="transactionPointOfSaleCode" type="kfs:oneToTwentyFiveCharType"/>
+    <xsd:element name="vendorName" type="kfs:oneToFortyFiveCharType"/>
+    <xsd:element name="vendorLine1Address" type="kfs:oneToFortyFiveCharType"/>
+    <xsd:element name="vendorLine2Address" type="kfs:oneToFortyFiveCharType"/>
+    <xsd:element name="vendorCityName" type="kfs:oneToFortyFiveCharType"/>
+    <xsd:element name="vendorStateCode" type="kfs:twoCharType"/>
+    <xsd:element name="vendorZipCode" type="kfs:oneToTwentyCharType"/>
+    <xsd:element name="vendorOrderNumber" type="kfs:oneToTwelveCharType"/>
+    <xsd:element name="visaVendorIdentifier" type="kfs:oneToSixteenCharType"/>
+    <xsd:element name="cardHolderAlternateName" type="kfs:oneToFortyFiveCharType"/>
+    <xsd:element name="cardHolderLine1Address" type="kfs:oneToFortyFiveCharType"/>
+    <xsd:element name="cardHolderLine2Address" type="kfs:oneToFortyFiveCharType"/>
+    <xsd:element name="cardHolderCityName" type="kfs:oneToFortyFiveCharType"/>
+    <xsd:element name="cardHolderStateCode" type="kfs:twoCharType"/>
+    <xsd:element name="cardHolderZipCode" type="kfs:oneToTwentyCharType"/>
+    <xsd:element name="cardHolderWorkPhoneNumber" type="kfs:oneToTenCharType"/>
+    <xsd:element name="cardLimit" type="kfs:amountType"/>
+    <xsd:element name="cardCycleAmountLimit" type="kfs:amountType"/>
+    <xsd:element name="cardCycleVolumeLimit" type="kfs:amountType"/>
+    <xsd:element name="cardStatusCode" type="kfs:oneToTwoCharType"/>
+    <xsd:element name="cardNoteText" type="kfs:oneToFiftyCharType"/>
+ 
+    <!-- definition of complex type elements -->
+    <xsd:element name="transactions">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element maxOccurs="unbounded" minOccurs="1" ref="transaction"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:element name="transaction">
+        <xsd:complexType>
+            <xsd:sequence>
+               <xsd:element maxOccurs="1" minOccurs="1" ref="transactionCreditCardNumber" />
+               <xsd:element maxOccurs="1" minOccurs="1" ref="financialDocumentTotalAmount" />
+               <xsd:element maxOccurs="1" minOccurs="1" ref="transactionDebitCreditCode" />
+               <xsd:element maxOccurs="1" minOccurs="1" ref="chartOfAccountsCode" />
+               <xsd:element maxOccurs="1" minOccurs="1" ref="accountNumber" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="subAccountNumber" />
+               <xsd:element maxOccurs="1" minOccurs="1" ref="financialObjectCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="financialSubObjectCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="projectCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionCycleStartDate" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionCycleEndDate" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardHolderName" />
+               <xsd:element maxOccurs="1" minOccurs="1" ref="transactionDate" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionReferenceNumber" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionMerchantCategoryCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionPostingDate" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionOriginalCurrencyCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionBillingCurrencyCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionOriginalCurrencyAmount" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionCurrencyExchangeRate" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionSettlementAmount" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionSalesTaxAmount" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionTaxExemptIndicator" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionPurchaseIdentifierIndicator" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionPurchaseIdentifierDescription" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionUnitContactName" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionTravelAuthorizationCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="transactionPointOfSaleCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="vendorName" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="vendorLine1Address" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="vendorLine2Address" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="vendorCityName" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="vendorStateCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="vendorZipCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="vendorOrderNumber" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="visaVendorIdentifier" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardHolderAlternateName" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardHolderLine1Address" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardHolderLine2Address" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardHolderCityName" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardHolderStateCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardHolderZipCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardHolderWorkPhoneNumber" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardLimit" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardCycleAmountLimit" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardCycleVolumeLimit" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardStatusCode" />
+               <xsd:element maxOccurs="1" minOccurs="0" ref="cardNoteText" />
+             </xsd:sequence>  
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>
+

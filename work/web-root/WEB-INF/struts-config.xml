@@ -28,6 +28,7 @@
 
         <!--  KFS Core Bean Definitions -->
         <form-bean name="KualiBalanceInquiryReportMenuForm" type="org.kuali.kfs.web.struts.form.KualiBalanceInquiryReportMenuForm" />
+        <form-bean name="KualiBatchInputFileForm" type="org.kuali.kfs.web.struts.form.KualiBatchInputFileForm" />
 
         <!--  Financial Module Bean Definitions -->
         <form-bean name="DepositWizardForm" type="org.kuali.module.financial.web.struts.form.DepositWizardForm" />
@@ -61,7 +62,7 @@
    		<form-bean name="LaborJournalVoucherForm" type="org.kuali.module.labor.web.struts.form.LaborJournalVoucherForm" />
    		<form-bean name="PersonFundingInquiryForm" type="org.kuali.module.labor.web.struts.form.PersonFundingInquiryForm" />
 		<form-bean name="LaborCorrectionForm" type="org.kuali.module.labor.web.struts.form.LaborCorrectionForm" />
-		
+
 		<!-- Budget Construction Bean Definitions -->
    		<form-bean name="BudgetConstructionSelectionForm" type="org.kuali.module.budget.web.struts.form.BudgetConstructionSelectionForm" />
    		<form-bean name="SalarySettingForm" type="org.kuali.module.budget.web.struts.form.SalarySettingForm" />
@@ -221,7 +222,7 @@
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/modules/labor/{1}.jsp" /> 
         </action> 
-        
+
         <action path="/laborLedgerCorrection" name="LaborCorrectionForm" input="/jsp/modules/generalLedger/Correction.jsp" type="org.kuali.module.labor.web.struts.action.LaborCorrectionAction" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm"> 
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/modules/generalLedger/Correction.jsp" /> 
@@ -296,6 +297,11 @@
             <forward name="basic" path="/jsp/modules/cg/{1}.jsp" />
         </action>
 
+        <action path="/batchUpload" name="KualiBatchInputFileForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.kfs.web.struts.action.KualiBatchInputFileAction">
+            <set-property property="cancellable" value="true" />
+            <forward name="basic" path="/jsp/kfs/KualiBatchInputFile.jsp" />
+        </action>
+        
     </action-mappings>
 
     <controller processorClass="org.kuali.core.web.struts.action.KualiRequestProcessor" maxFileSize="5M" />

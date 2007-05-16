@@ -80,7 +80,6 @@ public class GLConstants {
 
     public static class LookupableBeanKeys {
         static final public String PENDING_ENTRY = "glPendingEntryLookupable";
-        static final public String COLLECTOR_FILE_PARSER = "glCollectorFileParser";
     }
 
     public static final String GL_ACCOUNT_BALANCE_SERVICE_GROUP = "GL.ACCOUNT_BALANCE_SERVICE";

@@ -709,6 +709,14 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
         this.transactionLedgerEntryAmount = transactionLedgerEntryAmount;
     }
 
+    public void setTransactionLedgerEntryAmount(String transactionLedgerEntryAmount) {
+        this.transactionLedgerEntryAmount = new KualiDecimal(transactionLedgerEntryAmount);
+    }
+    
+    public void clearTransactionLedgerEntryAmount(){
+        this.transactionLedgerEntryAmount = null;
+    }
+    
     public String getTransactionLedgerEntryDescription() {
         return transactionLedgerEntryDescription;
     }
@@ -911,7 +919,7 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
             if ( StringUtils.hasText(fieldValue) ) {
                 setTransactionLedgerEntryAmount(new KualiDecimal(fieldValue));
             } else {
-                setTransactionLedgerEntryAmount(null);
+                clearTransactionLedgerEntryAmount();
             }
         } else if ( "transactionDebitCreditCode".equals(fieldName) ) {
             setTransactionDebitCreditCode(fieldValue);

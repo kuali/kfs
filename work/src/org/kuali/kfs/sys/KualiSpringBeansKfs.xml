@@ -315,4 +315,7 @@
 			<ref bean="attachmentService" />
 		</property>
 	</bean>
+	
+	<bean id="batchInputFileService" class="org.kuali.kfs.service.impl.BatchInputFileServiceImpl" />
+	
 </beans>

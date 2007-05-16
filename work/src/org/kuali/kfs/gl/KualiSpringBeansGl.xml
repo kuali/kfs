@@ -406,8 +406,6 @@
 		</property>
 	</bean>
 			
-	<bean id="glCollectorFileParser" class="org.kuali.module.gl.collector.xml.impl.CollectorFileParserImpl"></bean>
-
 	<bean id="glCollectorService" class="org.kuali.module.gl.service.impl.CollectorServiceImpl">
 		<property name="interDepartmentalBillingService">
 			<ref bean="glInterDepartmentalBillingService" />
@@ -426,6 +424,12 @@
 		</property>
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
+		</property>
+		<property name="batchInputFileService">
+		    <ref bean="batchInputFileService" />
+		</property>
+		<property name="collectorInputFileType">
+		    <ref bean="collectorInputFileType" />
 		</property>
 	</bean>
 
@@ -1376,9 +1380,15 @@
 		</property>
 	</bean>
 	
-	<bean id="glCollectorStep" class="org.kuali.module.gl.batch.CollectorStep">
+	<bean id="glCollectorStep" class="org.kuali.module.gl.batch.collector.CollectorStep">
 		<property name="collectorService">
 			<ref bean="glCollectorService" />
+		</property>
+		<property name="batchInputFileService">
+		    <ref bean="batchInputFileService" />
+		</property>
+		<property name="collectorInputFileType">
+		    <ref bean="collectorInputFileType" />
 		</property>
 	</bean>
 	
@@ -1386,5 +1396,26 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService"/>
 		</property>
+	</bean>
+	
+    <bean id="collectorInputFileType" class="org.kuali.module.gl.batch.collector.CollectorInputFileType">
+    	<property name="directoryPath">
+	       <value>${staging.directory}/collector</value>
+	    </property>
+	    <property name="fileExtension">
+	       <value>xml</value>
+	    </property>
+	    <property name="digestorRulesFileName">
+	       <value>org/kuali/module/gl/batch/collector/collectorDigesterRules.xml</value>
+	    </property>
+	    <property name="schemaLocation">
+	       <value>org/kuali/module/gl/batch/collector/glCollector.xsd</value>
+	    </property>
+	    <property name="dateTimeService">
+	       <ref bean="dateTimeService"/>
+	    </property>
+	    <property name="collectorService">
+	       <ref bean="glCollectorService"/>
+	    </property>
 	</bean>
 </beans>

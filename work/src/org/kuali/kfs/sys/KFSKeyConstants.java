@@ -46,6 +46,7 @@ public class KFSKeyConstants extends KeyConstants {
     public static final String ERROR_INVALID_FORMAT = "error.invalidFormat";
     public static final String ERROR_EXCLUSIVE_MIN = "error.exclusiveMin";
     public static final String ERROR_INCLUSIVE_MAX = "error.inclusiveMax";
+    public static final String ERROR_INVALID_XML_FORMAT = "error.invalidXML.format";
 
     public static final String ERROR_INVALID_ADHOC_PERSON_ID = "error.adhoc.invalid.person";
     public static final String ERROR_UNAUTHORIZED_ADHOC_PERSON_ID = "error.adhoc.unauthorized.person";
@@ -658,13 +659,24 @@ public class KFSKeyConstants extends KeyConstants {
     public static final String ERROR_GRANT_DESCRIPTION_INVALID_WITH_FED_PASS_THROUGH_AGENCY_INDICATOR_SELECTED = "error.cg.invalidGrantDescription";
     public static final String ERROR_INVALID_PROJECT_DIRECTOR_STATUS = "error.cg.invalidProjectDirectorStatus";
     
-    
     public static final String WARNING_AWARD_ENTRY_BEFORE_START_DATE = "warning.cg.award.entryDateBeforeStartDate";
     public static final String WARNING_AWARD_SUBCONTRACTOR_TOTAL_GREATER_THAN_AWARD_TOTAL = "warning.cg.award.subcontractorAmountGreaterThanAwardAmount";
-    
+
     public static final Object WARNING_LINE_IMPORT_LENGTH_MISMATCH = "warning.core.bo.AccountImportLengthMismatch";
 
-
+    //  batch upload
+    public static final String MESSAGE_BATCH_UPLOAD_TITLE_PCDO = "message.batchUpload.title.procurementCard";
+    public static final String MESSAGE_BATCH_UPLOAD_TITLE_COLLECTOR = "message.batchUpload.title.collector";
+    public static final String MESSAGE_BATCH_UPLOAD_SAVE_SUCCESSFUL = "message.batchUpload.saveSuccessful";
+    public static final String MESSAGE_BATCH_UPLOAD_DELETE_SUCCESSFUL = "message.batchUpload.deleteSuccessful";
+    public static final String ERROR_BATCH_UPLOAD_PARSING_XML = "error.batchUpload.xmlParse";
+    public static final String ERROR_BATCH_UPLOAD_SAVE = "error.batchUpload.save";
+    public static final String ERROR_BATCH_UPLOAD_DELETE = "error.batchUpload.delete";
+    public static final String ERROR_BATCH_UPLOAD_DOWNLOAD = "error.batchUpload.download";
+    public static final String ERROR_BATCH_UPLOAD_NO_FILE_SELECTED_SAVE = "error.batchUpload.save.noFileSelected";
+    public static final String ERROR_BATCH_UPLOAD_NO_FILE_SELECTED_DELETE = "error.batchUpload.delete.noFileSelected";
+    public static final String ERROR_BATCH_UPLOAD_NO_FILE_SELECTED_DOWNLOAD = "error.batchUpload.download.noFileSelected";
+    
     public static final class AdvanceDeposit {
         public static final String ERROR_DOCUMENT_ADVANCE_DEPOSIT_TOTAL_INVALID = "error.document.advanceDeposit.depositTotalInvalid";
         public static final String ERROR_DOCUMENT_ADVANCE_DEPOSIT_REQ_NUMBER_DEPOSITS_NOT_MET = "error.document.advanceDeposit.requiredNumberOfAdvanceDepositsNotMet";
@@ -806,12 +818,14 @@ public class KFSKeyConstants extends KeyConstants {
         public static final String TOTAL = "account.balance.service.total";
     }
 
-    public static final class HardEditHandler {
-        public static final String TRAILER_ERROR_COUNTNOMATCH1 = "trailer.error.countNoMatch1";
-        public static final String TRAILER_ERROR_COUNTNOMATCH2 = "trailer.error.countNoMatch2";
-        public static final String TRAILER_ERROR_ENDPAREN = "trailer.error.endParen";
-        public static final String TRAILER_ERROR_AMOUNTNOMATCH1 = "trailer.error.amountNoMatch1";
-        public static final String TRAILER_ERROR_AMOUNTNOMATCH2 = "trailer.error.amountNoMatch2";
+    public static final class Collector {
+        public static final String TRAILER_ERROR_COUNTNOMATCH = "error.collector.countNoMatch";
+        public static final String TRAILER_ERROR_AMOUNTNOMATCH1 = "error.collector.amountNoMatch1";
+        public static final String TRAILER_ERROR_AMOUNTNOMATCH2 = "error.collector.amountNoMatch2";
+        public static final String MIXED_DOCUMENT_TYPES = "error.collector.mixedDocumentTypes";
+        public static final String MIXED_BALANCE_TYPES = "error.collector.mixedBalanceTypess";
+        public static final String DUPLICATE_BATCH_HEADER = "error.collector.duplicateHeader";
+        public static final String NONMATCHING_DETAIL_KEY = "error.collector.nonmatchingDetailKey";
     }
 
     public static final class OrganizationReversionProcess {

@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<!--
+ Copyright 2006 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE digester-rules 
+    PUBLIC "-//Jakarta Apache //DTD digester-rules XML V1.0//EN" 
+    "http://jakarta.apache.org/commons/digester/dtds/digester-rules.dtd">
+
+<digester-rules>
+    <pattern value="transactions">
+        <object-create-rule classname="java.util.ArrayList" />
+
+        <pattern value="transaction">
+            <object-create-rule classname="org.kuali.module.financial.bo.ProcurementCardTransaction" />
+
+            <call-method-rule pattern="transactionCreditCardNumber" methodname="setTransactionCreditCardNumber" paramcount="0" />
+            <call-method-rule pattern="financialDocumentTotalAmount" methodname="setFinancialDocumentTotalAmount" paramcount="0" />
+            <call-method-rule pattern="transactionDebitCreditCode" methodname="setTransactionDebitCreditCode" paramcount="0" />
+            <call-method-rule pattern="chartOfAccountsCode" methodname="setChartOfAccountsCode" paramcount="0" />
+            <call-method-rule pattern="accountNumber" methodname="setAccountNumber" paramcount="0" />
+            <call-method-rule pattern="subAccountNumber" methodname="setSubAccountNumber" paramcount="0" />
+            <call-method-rule pattern="financialObjectCode" methodname="setFinancialObjectCode" paramcount="0" />
+            <call-method-rule pattern="financialSubObjectCode" methodname="setFinancialSubObjectCode" paramcount="0" />
+            <call-method-rule pattern="projectCode" methodname="setProjectCode" paramcount="0" />
+            <call-method-rule pattern="transactionCycleStartDate" methodname="setTransactionCycleStartDate" paramcount="0" />
+            <call-method-rule pattern="transactionCycleEndDate" methodname="setTransactionCycleEndDate" paramcount="0" />
+            <call-method-rule pattern="cardHolderName" methodname="setCardHolderName" paramcount="0" />
+            <call-method-rule pattern="transactionDate" methodname="setTransactionDate" paramcount="0" paramtypes="java.sql.Date" />
+            <call-method-rule pattern="transactionReferenceNumber" methodname="setTransactionReferenceNumber" paramcount="0" />
+            <call-method-rule pattern="transactionMerchantCategoryCode" methodname="setTransactionMerchantCategoryCode" paramcount="0" />
+            <call-method-rule pattern="transactionPostingDate" methodname="setTransactionPostingDate" paramcount="0" paramtypes="java.sql.Date" />
+            <call-method-rule pattern="transactionOriginalCurrencyCode" methodname="setTransactionOriginalCurrencyCode" paramcount="0" />
+            <call-method-rule pattern="transactionBillingCurrencyCode" methodname="setTransactionBillingCurrencyCode" paramcount="0" />
+            <call-method-rule pattern="transactionOriginalCurrencyAmount" methodname="setTransactionOriginalCurrencyAmount" paramcount="0" />
+            <call-method-rule pattern="transactionCurrencyExchangeRate" methodname="setTransactionCurrencyExchangeRate" paramcount="0" />
+            <call-method-rule pattern="transactionSettlementAmount" methodname="setTransactionSettlementAmount" paramcount="0" />
+            <call-method-rule pattern="transactionSalesTaxAmount" methodname="setTransactionSalesTaxAmount" paramcount="0" />
+            <call-method-rule pattern="transactionTaxExemptIndicator" methodname="setTransactionTaxExemptIndicator" paramcount="0" />
+            <call-method-rule pattern="transactionPurchaseIdentifierIndicator" methodname="setTransactionPurchaseIdentifierIndicator" paramcount="0" />
+            <call-method-rule pattern="transactionPurchaseIdentifierDescription" methodname="setTransactionPurchaseIdentifierDescription" paramcount="0" />
+            <call-method-rule pattern="transactionUnitContactName" methodname="setTransactionUnitContactName" paramcount="0" />
+            <call-method-rule pattern="transactionTravelAuthorizationCode" methodname="setTransactionTravelAuthorizationCode" paramcount="0" />
+            <call-method-rule pattern="transactionPointOfSaleCode" methodname="setTransactionPointOfSaleCode" paramcount="0" />
+            <call-method-rule pattern="vendorName" methodname="setVendorName" paramcount="0" />
+            <call-method-rule pattern="vendorLine1Address" methodname="setVendorLine1Address" paramcount="0" />
+            <call-method-rule pattern="vendorLine2Address" methodname="setVendorLine2Address" paramcount="0" />
+            <call-method-rule pattern="vendorCityName" methodname="setVendorCityName" paramcount="0" />
+            <call-method-rule pattern="vendorStateCode" methodname="setVendorStateCode" paramcount="0" />
+            <call-method-rule pattern="vendorZipCode" methodname="setVendorZipCode" paramcount="0" />
+            <call-method-rule pattern="vendorOrderNumber" methodname="setVendorOrderNumber" paramcount="0" />
+            <call-method-rule pattern="visaVendorIdentifier" methodname="setVisaVendorIdentifier" paramcount="0" />
+            <call-method-rule pattern="cardHolderAlternateName" methodname="setCardHolderAlternateName" paramcount="0" />
+            <call-method-rule pattern="cardHolderLine1Address" methodname="setCardHolderLine1Address" paramcount="0" />
+            <call-method-rule pattern="cardHolderLine2Address" methodname="setCardHolderLine2Address" paramcount="0" />
+            <call-method-rule pattern="cardHolderCityName" methodname="setCardHolderCityName" paramcount="0" />
+            <call-method-rule pattern="cardHolderStateCode" methodname="setCardHolderStateCode" paramcount="0" />
+            <call-method-rule pattern="cardHolderZipCode" methodname="setCardHolderZipCode" paramcount="0" />
+            <call-method-rule pattern="cardHolderWorkPhoneNumber" methodname="setCardHolderWorkPhoneNumber" paramcount="0" />
+            <call-method-rule pattern="cardLimit" methodname="setCardLimit" paramcount="0" />
+            <call-method-rule pattern="cardCycleAmountLimit" methodname="setCardCycleAmountLimit" paramcount="0" />
+            <call-method-rule pattern="cardCycleVolumeLimit" methodname="setCardCycleVolumeLimit" paramcount="0" />
+            <call-method-rule pattern="cardStatusCode" methodname="setCardStatusCode" paramcount="0" />
+            <call-method-rule pattern="cardNoteText" methodname="setCardNoteText" paramcount="0" />
+
+            <set-next-rule methodname="add" />
+        </pattern>
+
+    </pattern>
+</digester-rules>

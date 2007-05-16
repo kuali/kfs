@@ -1,5 +1,5 @@
 /*
- * Copyright 2006 The Kuali Foundation.
+ * Copyright 2005-2006 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,24 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.financial.service;
-
+package org.kuali.kfs.exceptions;
 
 /**
- * Provides methods to load batch files for the procurement card batch job.
+ * Exception thrown when an error occurs storing a file.
  */
-public interface ProcurementCardLoadTransactionsService {
-
-    /**
-     * Validates and parses the file identified by the given files name. If successful, parsed entries are stored.
-     * 
-     * @param fileNaem - name of file to process
-     * @return boolean indicating if the load was successful
-     */
-    public boolean loadProcurementCardFile(String fileName);
+public class FileStorageException extends RuntimeException {
     
     /**
-     * Clears out temporary transaction table.
+     * @param message
      */
-    public void cleanTransactionsTable();
+    public FileStorageException(String message) {
+        super(message);
+    }
+
+    /**
+     * @param message
+     */
+    public FileStorageException(String message, Throwable t) {
+        super(message, t);
+    }
+
 }

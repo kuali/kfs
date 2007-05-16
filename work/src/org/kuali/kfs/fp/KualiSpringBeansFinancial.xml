@@ -189,17 +189,14 @@
 	</bean>
 
 	<bean id="procurementCardLoadTransactionsService" class="org.kuali.module.financial.service.impl.ProcurementCardLoadTransactionsServiceImpl">
-		<property name="kualiConfigurationService">
-			<ref bean="kualiConfigurationService" />
-		</property>
-		<property name="dictionaryValidationService">
-			<ref bean="dictionaryValidationService" />
-		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
+		<property name="batchInputFileService">
+			<ref bean="batchInputFileService" />
+		</property>
+		<property name="procurementCardInputFileType">
+			<ref bean="procurementCardInputFileType" />
 		</property>
 	</bean>
 
@@ -215,7 +212,7 @@
 	<bean id="procurementCardDocumentJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
-				<ref bean="loadDataFileStep" />
+				<ref bean="pcdoLoadStep" />
 				<ref bean="createDocumentsStep" />
 				<ref bean="routeDocumentsStep" />
 				<ref bean="autoApproveDocumentsStep" />
@@ -223,9 +220,15 @@
 		</property>
 	</bean>
 
-	<bean id="loadDataFileStep" class="org.kuali.module.financial.batch.pcard.LoadDataFileStep" parent="step">
+	<bean id="pcdoLoadStep" class="org.kuali.module.financial.batch.pcard.PcdoLoadStep" parent="step">
 		<property name="procurementCardLoadTransactionsService">
 			<ref bean="procurementCardLoadTransactionsService" />
+		</property>
+		<property name="batchInputFileService">
+		    <ref bean="batchInputFileService" />
+		</property>
+		<property name="procurementCardInputFileType">
+		    <ref bean="procurementCardInputFileType" />
 		</property>
 	</bean>
 
@@ -284,6 +287,24 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" /> 
 		</property>
+	</bean>
+	
+	<bean id="procurementCardInputFileType" class="org.kuali.module.financial.batch.pcard.ProcurementCardInputFileType"> 
+	    <property name="directoryPath">
+	       <value>${staging.directory}/PCDO</value>
+	    </property>
+	    <property name="fileExtension">
+	       <value>xml</value>
+	    </property>
+	    <property name="digestorRulesFileName">
+	       <value>org/kuali/module/financial/batch/pcard/pcdoDigesterRules.xml</value>
+	    </property>
+	    <property name="schemaLocation">
+	       <value>org/kuali/module/financial/batch/pcard/procurementCard.xsd</value>
+	    </property>
+	    <property name="dateTimeService">
+	       <ref bean="dateTimeService"/>
+	    </property>
 	</bean>
 	
 </beans>

@@ -691,6 +691,8 @@ public class KFSConstants extends Constants {
     public static class ParameterGroups {
         public static final String SYSTEM = "SYSTEM";
         public static final String GENERAL_LEDGER_CORRECTION_PROCESS = "Kuali.FinancialTransactionProcessing.GeneralLedgerCorrectionProcessDocument";
+        public static final String BATCH_UPLOAD_SECURITY_GROUP_NAME = "Kuali.Batch.BatchInputFileUpload";
+        public static final String COLLECTOR_SECURITY_GROUP_NAME = "Kuali.GeneralLedger.Collector";
     }
 
     public static class SystemGroupParameterNames {
@@ -717,7 +719,15 @@ public class KFSConstants extends Constants {
         public static final String LOOKUP_RESULTS_LIMIT = "lookup.results.limit";
         public static final String MULTIPLE_VALUE_LOOKUP_RESULTS_PER_PAGE = "multipleValueLookupResultsPerPage";
         public static final String MULTIPLE_VALUE_LOOKUP_RESULTS_EXPIRATION_AGE = "multipleValueLookupResultsExpirationAge";
+      
+        public static final String ACTIVE_INPUT_TYPES_PARAMETER_NAME = "ACTIVE_INPUT_TYPES";
+        public static final String PCDO_FILE_TYPE_WORKGROUP_PARAMAETER_NAME = PCDO_FILE_TYPE_INDENTIFIER + ".WORKGROUP";
+        public static final String COLLECTOR_FILE_TYPE_WORKGROUP_PARAMAETER_NAME = COLLECTOR_FILE_TYPE_INDENTIFIER + ".WORKGROUP";
         
+        public static final String COLLECTOR_EMAIL_FROM_PARAMETER_NAME = "EmailFrom";
+        public static final String COLLECTOR_EMAIL_SUBJECT_PARAMETER_NAME = "SubjectLine";
+        public static final String COLLECTOR_EQUAL_DC_TOTAL_DOCUMENT_TYPES = "EqualDebitCreditTotalDocumentTypes";
+   
         /**
          * Used by PurgePendingAttachmentsJob to compute the maximum amount of time a pending attachment is allowed to
          * persist on the file system before being deleted.
@@ -725,6 +735,7 @@ public class KFSConstants extends Constants {
         public static final String PURGE_PENDING_ATTACHMENTS_STEP_MAX_AGE = "purgePendingAttachmentsStepMaxAge";
         
         public static final String JOB_ADMIN_WORKGROUP = "Job.Admin.Workgroup";
+        
     }
 
     public static class GeneralLedgerApplicationParameterKeys {
@@ -928,4 +939,7 @@ public class KFSConstants extends Constants {
         public static final String PREVIOUSLY_SORTED_COLUMN_INDEX_PARAM = "previouslySortedColumnIndex";
         public static final String VIEWED_PAGE_NUMBER = "viewedPageNumber";
     }
+    
+    public static final String PCDO_FILE_TYPE_INDENTIFIER = "procurementCardInputFileType";
+    public static final String COLLECTOR_FILE_TYPE_INDENTIFIER = "collectorInputFileType";
 }

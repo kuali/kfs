@@ -15,22 +15,37 @@
  */
 package org.kuali.module.gl.service;
 
+import java.util.List;
 
+import org.kuali.module.gl.batch.collector.CollectorBatch;
+
+/**
+ * Provides methods for processing gl incoming batch files.
+ */
 public interface CollectorService {
-    /**
-     * Given an inputStream to the collector XML, load the data into the origin entry table. If there are errors loading the file,
-     * throw a CollectorLoadException that has a list of all the issues.
-     * 
-     * @param inputStream inputStream of collector XML
-     * @return origin entry group ID
-     */
-    public void loadCollectorFile(String fileName);
 
     /**
-     * Given a group ID, scrub all of the transactions. If there are errors with the data, return a list of them. If there are no
-     * errors, return an empty list.
+     * Loads the file given by the filename, then performs the collector process: parse, validate, store, email.
      * 
-     * @return string staging directory
+     * @param fileName - name of file to load (including path)
+     * @return boolean - true if load was successful, false if errors were encountered
      */
-    public String getStagingDirectory();
+    public boolean loadCollectorFile(String fileName);
+
+    /**
+     * Validates the contents of a parsed file.
+     * 
+     * @param batch - batch to validate
+     * @return boolean - true if validation was OK, false if there were errors
+     */
+    public boolean performValidation(CollectorBatch batch);
+
+    /**
+     * Reconciles the trailer total count and amount to the actual parsed contents.
+     * 
+     * @param batch - batch to check trailer
+     * @return boolean - true if trailer check was OK, false if totals did not match
+     */
+    public boolean checkTrailerTotals(CollectorBatch batch);
+
 }

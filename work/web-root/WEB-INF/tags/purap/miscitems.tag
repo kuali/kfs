@@ -85,7 +85,8 @@
             hideTotalLine="true" 
             hideFields="amount" 
             accountingAddLineIndex="${ctr}" 
-            suppressCams="${true}" />
+            suppressCams="${true}" 
+            overrideTitle="Item Accounting Lines"/>
 
     </c:if>
 </logic:iterate>

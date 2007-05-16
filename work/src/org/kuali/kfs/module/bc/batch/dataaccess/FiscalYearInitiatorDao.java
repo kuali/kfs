@@ -35,7 +35,9 @@ public interface FiscalYearInitiatorDao {
     public class KeyObjectPair{};
     // an object used to check whether an child row's key value is in the parent class
     public class ParentClass{};
-    //TODO: remove this test method
+    //TODO: remove these two test methods
     public void displayProperties(Class boClass)
+    throws IllegalAccessException, InvocationTargetException, NoSuchMethodException;
+    public void displayReferences(Class boClass, Class parentClass)
     throws IllegalAccessException, InvocationTargetException, NoSuchMethodException;
 }

@@ -32,6 +32,8 @@ public class VendorType extends PersistableBusinessObjectBase {
     private boolean vendorTypeChangeAllowedIndicator;
     private String vendorAddressTypeRequiredCode;
     private boolean vendorContractAllowedIndicator;
+    private boolean vendorShowReviewIndicator;
+    private String vendorReviewText;
     
     private AddressType addressType;
 
@@ -163,6 +165,38 @@ public class VendorType extends PersistableBusinessObjectBase {
         this.vendorContractAllowedIndicator = vendorContractAllowedIndicator;
     }
     
+    /**
+     * Gets the vendorReviewText attribute. 
+     * @return Returns the vendorReviewText.
+     */
+    public String getVendorReviewText() {
+        return vendorReviewText;
+    }
+
+    /**
+     * Sets the vendorReviewText attribute value.
+     * @param vendorReviewText The vendorReviewText to set.
+     */
+    public void setVendorReviewText(String vendorReviewText) {
+        this.vendorReviewText = vendorReviewText;
+    }
+
+    /**
+     * Gets the vendorShowReviewIndicator attribute. 
+     * @return Returns the vendorShowReviewIndicator.
+     */
+    public boolean isVendorShowReviewIndicator() {
+        return vendorShowReviewIndicator;
+    }
+
+    /**
+     * Sets the vendorShowReviewIndicator attribute value.
+     * @param vendorShowReviewIndicator The vendorShowReviewIndicator to set.
+     */
+    public void setVendorShowReviewIndicator(boolean vendorShowReviewIndicator) {
+        this.vendorShowReviewIndicator = vendorShowReviewIndicator;
+    }
+
     public AddressType getAddressType() {
         return addressType;
     }

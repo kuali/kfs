@@ -60,7 +60,7 @@
 
 
     <purap:puritems itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}"
-        accountingLineAttributes="${DataDictionary.PurchaseOrderAccountingLine.attributes}"/> 
+        accountingLineAttributes="${DataDictionary.PurchaseOrderAccount.attributes}"/> 
 
      
     <purap:paymentinfo

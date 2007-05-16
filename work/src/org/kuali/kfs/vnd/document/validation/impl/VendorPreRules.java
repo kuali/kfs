@@ -208,7 +208,7 @@ public class VendorPreRules extends MaintenancePreRulesBase {
      * This method displays a review if indicated byt the vendor type and the associated text from that type
      * @param document - vendordetail document
      */
-    public void displayReview(Document document) {
+    public void displayReview(Document document) {        
         VendorDetail vendorDetail = (VendorDetail) document.getDocumentBusinessObject();
 
         VendorType vendorType = vendorDetail.getVendorHeader().getVendorType();
@@ -220,7 +220,11 @@ public class VendorPreRules extends MaintenancePreRulesBase {
         }
         if (vendorType != null && vendorType.isVendorShowReviewIndicator()) {
             String questionText = vendorType.getVendorReviewText();
-            questionText = questionText.replace("{0}", vendorDetail.getVendorName());
+            if (vendorDetail.getVendorName() != null) {
+                questionText = questionText.replace("{0}", vendorDetail.getVendorName());
+            } else {
+                questionText = questionText.replace("{0}", "(not entered)");
+            }
             questionText = questionText.replace("{1}", document.getDocumentNumber());
             Boolean proceed = super.askOrAnalyzeYesNoQuestion(VendorConstants.ACKNOWLEDGE_NEW_VENDOR_INFO, questionText);
     

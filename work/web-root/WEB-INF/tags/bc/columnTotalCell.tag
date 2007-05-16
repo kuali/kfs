@@ -42,7 +42,7 @@
 <c:set var="colSpan" value="${empty colSpan ? 1 : colSpan}"/>
 
 <td class="${dataCellCssClass}" valign="top" rowspan="${rowSpan}" colspan="${colSpan}">
-<div align="${fieldAlign}">
+<div style="text-align: ${fieldAlign};">
 <span class="nowrap">
     <c:choose>
         <c:when test="${empty formattedNumberValue}">

@@ -823,7 +823,7 @@ public class KFSKeyConstants extends KeyConstants {
         public static final String TRAILER_ERROR_AMOUNTNOMATCH1 = "error.collector.amountNoMatch1";
         public static final String TRAILER_ERROR_AMOUNTNOMATCH2 = "error.collector.amountNoMatch2";
         public static final String MIXED_DOCUMENT_TYPES = "error.collector.mixedDocumentTypes";
-        public static final String MIXED_BALANCE_TYPES = "error.collector.mixedBalanceTypess";
+        public static final String MIXED_BALANCE_TYPES = "error.collector.mixedBalanceTypes";
         public static final String DUPLICATE_BATCH_HEADER = "error.collector.duplicateHeader";
         public static final String NONMATCHING_DETAIL_KEY = "error.collector.nonmatchingDetailKey";
     }

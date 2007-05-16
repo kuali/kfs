@@ -66,7 +66,7 @@
 			    <lookupField attributeName="universityFiscalYear" required="true">
                    <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.FiscalYearFinder</defaultValueFinderClass>
                 </lookupField>
-				<lookupField attributeName="chartOfAccountsCode" required="false" />
+				<lookupField attributeName="chartOfAccountsCode" required="true" />
                 <lookupField attributeName="accountNumber" required="true" />
                 <lookupField attributeName="subAccountNumber" required="false" />
                 <lookupField attributeName="financialObjectCode" required="false" />
@@ -119,7 +119,7 @@
 			</attribute>
 
             <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Of Accounts Code</label>
+                <label>Chart Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>
@@ -133,23 +133,14 @@
                 <description>chartOfAccountsCode description...</description>
 			</attribute>
 
-            <attribute name="csfAmount" forceUppercase="true">
-                <label>Csf Amount</label>
+            <attributeReference name="csfAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>CSF Amount</label>
                 <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>csfAmount</summary>
-                <description>csfAmount description...</description>
-			</attribute>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
+            </attributeReference>			
 
             <attribute name="csfCreateTimestamp" forceUppercase="true">
-                <label>Csf Create Timestamp</label>
+                <label>CSF Create Timestamp</label>
                 <shortLabel>Timestamp</shortLabel>
 
                 <maxLength>7</maxLength>
@@ -164,7 +155,7 @@
 			</attribute>
 
             <attribute name="csfDeleteCode" forceUppercase="true">
-                <label>Csf Delete Code</label>
+                <label>CSF Delete Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -179,7 +170,7 @@
 			</attribute>
 
             <attribute name="csfFullTimeEmploymentQuantity" forceUppercase="true">
-                <label>Csf Full Time Employment Quantity</label>
+                <label>CSF Full Time Employment Quantity</label>
                 <shortLabel>Quantity</shortLabel>
 
                 <maxLength>9</maxLength>
@@ -194,7 +185,7 @@
 			</attribute>
 
             <attribute name="csfFundingStatusCode" forceUppercase="true">
-                <label>Csf Funding Status Code</label>
+                <label>CSF Funding Status Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -209,7 +200,7 @@
 			</attribute>
 
             <attribute name="csfTimePercent" forceUppercase="true">
-                <label>Csf Time Percent</label>
+                <label>CSF Time Percent</label>
                 <shortLabel>Percent</shortLabel>
 
                 <maxLength>9</maxLength>
@@ -299,7 +290,7 @@
 			</attribute>
 
             <attribute name="financialObjectCode" forceUppercase="true">
-                <label>Financial Object Code</label>
+                <label>Object Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>4</maxLength>
@@ -314,7 +305,7 @@
 			</attribute>
 
             <attribute name="financialSubObjectCode" forceUppercase="true">
-                <label>Financial Sub Object Code</label>
+                <label>Sub-Object Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>3</maxLength>
@@ -344,7 +335,7 @@
 			</attribute>
 
             <attribute name="subAccountNumber" forceUppercase="true">
-                <label>Sub Account Number</label>
+                <label>Sub-Account</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>5</maxLength>
@@ -359,7 +350,7 @@
 			</attribute>
 
             <attribute name="universityFiscalYear" forceUppercase="true">
-                <label>University Fiscal Year</label>
+                <label>Fiscal Year</label>
                 <shortLabel>Year</shortLabel>
 
                 <maxLength>4</maxLength>

@@ -68,7 +68,6 @@ public class LaborReportServiceTest extends KualiTestBase {
     private OriginEntryGroupService originEntryGroupService;
     private LaborReportService laborReportService;
     private BusinessObjectService businessObjectService;
-    private KualiConfigurationService kualiConfigurationService;
     private VerifyTransaction laborPosterTransactionValidator;
     private PersistenceService persistenceService;
 
@@ -89,10 +88,7 @@ public class LaborReportServiceTest extends KualiTestBase {
         persistenceService = (PersistenceService) beanFactory.getBean("persistenceService");
 
         laborReportService = (LaborReportService) beanFactory.getBean("laborReportService");
-
-        kualiConfigurationService = (KualiConfigurationService) beanFactory.getBean("kualiConfigurationService");
         laborPosterTransactionValidator = (VerifyTransaction) beanFactory.getBean("laborPosterTransactionValidator");
-
         reportsDirectory = ReportRegistry.getReportsDirectory();
 
         today = ((DateTimeService) beanFactory.getBean("dateTimeService")).getCurrentSqlDate();

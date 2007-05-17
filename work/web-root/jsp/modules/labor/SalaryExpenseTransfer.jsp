@@ -38,10 +38,10 @@
                     forceRequired="true"
                     />
                 <td>
-                        <kul:employee userIdFieldName="personPayrollIdentifier" 
+                        <kul:employee userIdFieldName="emplid" 
                                   userNameFieldName="user.personName" 
-                                  fieldConversions="personPayrollIdentifier:personPayrollIdentifier"
-                                  lookupParameters="personPayrollIdentifier:personPayrollIdentifier"
+                                  fieldConversions="personPayrollIdentifier:emplid"
+                                  lookupParameters="emplid:personPayrollIdentifier"
                                   hasErrors="${hasErrors}"
                                   onblur="${onblur}"
                                   highlight="${addHighlighting}">
@@ -68,6 +68,9 @@
         </div>
     </kul:tab>
 
+      <c:set var="copyMethod" value="" scope="request"/>
+      <c:set var="actionInfixVar" value="" scope="request"/>
+      <c:set var="accountingLineIndexVar" value="" scope="request"/>
 	<fin:accountingLines editingMode="${KualiForm.editingMode}"
 		editableAccounts="${KualiForm.editableAccounts}" inherit="false"
 		optionalFields="positionNumber,payrollEndDateFiscalYear,payrollEndDateFiscalPeriodCode,payrollTotalHours">
@@ -95,16 +98,18 @@
             forcedReadOnlyFields="${KualiForm.forcedReadOnlyFields}"
             accountingLineAttributes="${accountingLineAttributesMap}">
             <jsp:attribute name="importRowOverride">
+                <html:image property="methodToCall.copyAllAccountingLines" src="images/tinybutton-copyall.gif" title="Copy all Source Accounting Lines" alt="Copy all Source Lines" styleClass="tinybutton"/>
                 Import from Labor Ledger
                 <kul:balanceInquiryLookup
                     boClassName="org.kuali.module.labor.bo.LedgerBalance"
                     actionPath="glBalanceInquiryLookup.do"
                     fieldConversions="universityFiscalYear:universityFiscalYear"
-                    lookupParameters="personPayrollIdentifier:personPayrollIdentifier,financialBalanceTypeCode:financialBalanceTypeCode"
+                    lookupParameters="emplid:personPayrollIdentifier,financialBalanceTypeCode:financialBalanceTypeCode"
                     hideReturnLink="false" />
             </jsp:attribute>
             <jsp:attribute name="customActions">
-                <jsp:directive.include file="/WEB-INF/tags/ld/accountingLineCustomActions.tag" />
+                <c:set var="copyMethod" value="copyAccountingLine.line${accountingLineIndexVar}" scope="request" />
+                <html:image property="methodToCall.${copyMethod}.anchoraccounting${actionInfixVar}Anchor" src="images/tinybutton-copy2.gif" title="Copy an Accounting Line" alt="Copy an Accounting Line" styleClass="tinybutton"/>
             </jsp:attribute>
         </ld:importedAccountingLineGroup>
 

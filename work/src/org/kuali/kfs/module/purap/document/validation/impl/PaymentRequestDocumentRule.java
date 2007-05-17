@@ -15,7 +15,6 @@
  */
 package org.kuali.module.purap.rules;
 
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -25,14 +24,19 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.chart.bo.Account;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
@@ -40,6 +44,7 @@ import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 
 public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase {
 
+    private static KualiDecimal zero = new KualiDecimal(0);
 /**
      * Tabs included on Payment Request Documents are:
      *   Invoice
@@ -111,7 +116,19 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
      //       GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_IS_PENDING);
       //      valid &= false;
       }
-       
+      
+       // Verify that there exists at least 1 item left to be invoiced
+       // TODO: There is this code segment in EPIC which I am not sure if should generate an error or not? 
+       // this sets the zeroDollar but never used it again 
+       boolean zeroDollar = true;
+       for (Iterator itemIter = purchaseOrderDocument.getItems().iterator(); itemIter.hasNext();) {
+         PurchaseOrderItem poi = (PurchaseOrderItem) itemIter.next();
+         KualiDecimal encumberedQuantity = poi.getItemOutstandingEncumberedQuantity() == null ? zero : poi.getItemOutstandingEncumberedQuantity();
+         if (encumberedQuantity.compareTo(zero) == 1) {
+           zeroDollar = false;
+           break;
+         }
+       }
          
         return valid;
     }
@@ -126,54 +143,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         }
         return valid;
     }
-    // This moved to PaymentRequestService to be used from action logic for Continue  Button:
     
-    boolean processPaymentRequestDuplicateValidation(PaymentRequestDocument document){  
-        
-        boolean valid = true;
-        //  check that the invoice date and invoice total amount entered are not on any existing non-cancelled PREQs for this PO
-        Integer POID = document.getPurchaseOrderIdentifier();
-        List<PaymentRequestDocument> preqs = SpringServiceLocator.getPaymentRequestService().getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(POID, document.getVendorInvoiceAmount(), document.getInvoiceDate());
-        
-        if (preqs.size() > 0) {
-         // boolean addedError = false;
-          List cancelled = new ArrayList();
-          List voided = new ArrayList();
-          for (Iterator iter = preqs.iterator(); iter.hasNext();) {
-            PaymentRequestDocument testPREQ = (PaymentRequestDocument) iter.next();
-            if ( (!(PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE.equals(testPREQ.getStatus().getStatusCode()))) && 
-                 (!(PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getStatusCode()))) ) {
-                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT);
-              //addedError = true;s
-                valid &= false;
-              break;
-            } else if (PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getStatusCode())) {
-              voided.add(testPREQ);
-            } else if (PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE.equals(testPREQ.getStatus().getStatusCode())) {
-              cancelled.add(testPREQ);
-            }
-          }
-          // custom error message for duplicates related to cancelled/voided PREQs
-         //if (!addedError) {
-          if (valid) {
-            if ( (!(voided.isEmpty())) && (!(cancelled.isEmpty())) ) {
-              //messages.add("errors.duplicate.invoice.date.amount.cancelledOrVoided");
-              GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLEDORVOIDED);
-              valid &= false;
-            } else if ( (!(voided.isEmpty())) && (cancelled.isEmpty()) ) {
-              //messages.add("errors.duplicate.invoice.date.amount.voided");
-              GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_VOIDED);
-              valid &= false;
-            } else if ( (voided.isEmpty()) && (!(cancelled.isEmpty())) ) {
-              //messages.add("errors.duplicate.invoice.date.amount.cancelled");
-              GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLED);
-              valid &= false;
-            }
-          }
-        }
-        return valid;
-    } 
-
     
     public boolean isInvoiceDateAfterToday(Date invoiceDate) {
         // Check invoice date to make sure it is today or before
@@ -196,57 +166,11 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         return ( (invoiceDateTime.compareTo(nowTime)) > 0 );
       }
     
-    // This has been moved to PaymentRequestService because we needed the return type of HashMap
-
-    public HashMap<String, String> paymentRequestDuplicateMessages(PaymentRequestDocument document){
-        HashMap<String,String> msgs; 
-        msgs =  new HashMap<String,String>();
-        
-//      check that the invoice date and invoice total amount entered are not on any existing non-cancelled PREQs for this PO
-        Integer POID = document.getPurchaseOrderIdentifier();
-        List<PaymentRequestDocument> preqs = SpringServiceLocator.getPaymentRequestService().getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(POID, document.getVendorInvoiceAmount(), document.getInvoiceDate());
-        
-        if (preqs.size() > 0) {
-          boolean addedMessage = false;
-          List cancelled = new ArrayList();
-          List voided = new ArrayList();
-          for (Iterator iter = preqs.iterator(); iter.hasNext();) {
-            PaymentRequestDocument testPREQ = (PaymentRequestDocument) iter.next();
-            if ( (!(PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE.equals(testPREQ.getStatus().getStatusCode()))) && 
-                 (!(PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getStatusCode()))) ) {
-                 msgs.put(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT);
-                 addedMessage = true;
-              
-              break;
-            } else if (PurapConstants.PaymentRequestStatuses.CANCELLED_IN_PROCESS.equals(testPREQ.getStatus().getStatusCode())) {
-              voided.add(testPREQ);
-            } else if (PurapConstants.PaymentRequestStatuses.CANCELLED_POST_APPROVE.equals(testPREQ.getStatus().getStatusCode())) {
-              cancelled.add(testPREQ);
-            }
-          }
-          // custom error message for duplicates related to cancelled/voided PREQs
-         if (!addedMessage) {
-          //if (valid) {
-            if ( (!(voided.isEmpty())) && (!(cancelled.isEmpty())) ) {
-              //messages.add("errors.duplicate.invoice.date.amount.cancelledOrVoided");
-                msgs.put(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLEDORVOIDED);
-              
-            } else if ( (!(voided.isEmpty())) && (cancelled.isEmpty()) ) {
-              //messages.add("errors.duplicate.invoice.date.amount.voided");
-                msgs.put(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_VOIDED);
-                addedMessage = true;
-              //valid &= false;
-            } else if ( (voided.isEmpty()) && (!(cancelled.isEmpty())) ) {
-              //messages.add("errors.duplicate.invoice.date.amount.cancelled");
-                msgs.put(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.MESSAGE_DUPLICATE_INVOICE_DATE_AMOUNT_CANCELLED);
-                addedMessage = true;
-            }
-          }
-        }
-         
-        return msgs;
-    }
+}
     
+    
+   
+   
     /**
      * @param purchaseOrderId
      * @param invoiceNumber
@@ -256,7 +180,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
      * @param closedAccounts
      * @return
      */
-   /*
+ /*
     public PaymentRequestInitializationValidationErrors verifyPreqInitialization(
         Integer purchaseOrderId, String invoiceNumber, BigDecimal invoiceAmount, Timestamp invoiceDate,
         List expiredAccounts, List closedAccounts, User u) {
@@ -393,4 +317,4 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
       return initValidationErrors;
     }
     */
-}
+

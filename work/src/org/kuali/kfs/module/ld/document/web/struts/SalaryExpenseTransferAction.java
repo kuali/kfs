@@ -212,7 +212,7 @@ public class SalaryExpenseTransferAction extends LaborDocumentActionBase {
         line.setBalanceTypeCode(bo.getFinancialBalanceTypeCode());
         line.setPositionNumber(bo.getPositionNumber());
         line.setAmount(bo.getAccountLineAnnualBalanceAmount());
-        line.setEmplid(bo.getPersonPayrollIdentifier());
+        line.setEmplid(bo.getEmplid());
     }
         
     /**

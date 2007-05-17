@@ -844,32 +844,38 @@
                 literalLabel="<span class=\"nowrap\">TOTALS:</span>"
                 horizontal="true" />
             <bc:columnTotalCell dataCellCssClass="datacell"
-                cellProperty="csfAmountTotal"
+                cellProperty="budgetConstructionPosition.bcsfCsfAmountTotal"
                 textStyle="${textStyle}"
                 fieldAlign="right"
                 colSpan="2" />
+            <fmt:formatNumber value="${KualiForm.budgetConstructionPosition.bcsfCsfFullTimeEmploymentQuantityTotal}" var="formattedNumber" type="number" groupingUsed="true" minFractionDigits="5" />
             <bc:columnTotalCell dataCellCssClass="datacell"
-                cellProperty="csfFullTimeEmploymentQuantityTotal"
+                cellProperty="budgetConstructionPosition.bcsfCsfFullTimeEmploymentQuantityTotal"
+                formattedNumberValue="${formattedNumber}"
                 textStyle="${textStyle}"
                 fieldAlign="right"
                 colSpan="1" />
             <bc:columnTotalCell dataCellCssClass="datacell"
-                cellProperty="appointmentRequestedAmountTotal"
+                cellProperty="budgetConstructionPosition.bcafAppointmentRequestedAmountTotal"
+                textStyle="${textStyle}"
+                fieldAlign="right"
+                colSpan="1" />
+            <fmt:formatNumber value="${KualiForm.budgetConstructionPosition.bcafAppointmentRequestedFteQuantityTotal}" var="formattedNumber" type="number" groupingUsed="true" minFractionDigits="5" />
+            <bc:columnTotalCell dataCellCssClass="datacell"
+                cellProperty="budgetConstructionPosition.bcafAppointmentRequestedFteQuantityTotal"
+                formattedNumberValue="${formattedNumber}"
                 textStyle="${textStyle}"
                 fieldAlign="right"
                 colSpan="1" />
             <bc:columnTotalCell dataCellCssClass="datacell"
-                cellProperty="appointmentRequestedFteQuantityTotal"
+                cellProperty="budgetConstructionPosition.bcafAppointmentRequestedCsfAmountTotal"
                 textStyle="${textStyle}"
                 fieldAlign="right"
                 colSpan="1" />
+            <fmt:formatNumber value="${KualiForm.budgetConstructionPosition.bcafAppointmentRequestedCsfFteQuantityTotal}" var="formattedNumber" type="number" groupingUsed="true" minFractionDigits="5" />
             <bc:columnTotalCell dataCellCssClass="datacell"
-                cellProperty="appointmentRequestedCsfAmountTotal"
-                textStyle="${textStyle}"
-                fieldAlign="right"
-                colSpan="1" />
-            <bc:columnTotalCell dataCellCssClass="datacell"
-                cellProperty="appointmentRequestedCsfFteQuantityTotal"
+                cellProperty="budgetConstructionPosition.bcafAppointmentRequestedCsfFteQuantityTotal"
+                formattedNumberValue="${formattedNumber}"
                 textStyle="${textStyle}"
                 fieldAlign="right"
                 colSpan="1" />
@@ -881,17 +887,17 @@
                 literalLabel="<span class=\"nowrap\">Tot.SHr:</span>"
                 horizontal="true" />
             <bc:columnTotalCell dataCellCssClass="datacell"
-                cellProperty="csfStandardHoursTotal"
+                cellProperty="budgetConstructionPosition.bcsfCsfStandardHoursTotal"
                 textStyle="${textStyle}"
                 fieldAlign="right"
                 colSpan="1" />
             <bc:columnTotalCell dataCellCssClass="datacell"
-                cellProperty="appointmentRequestedStandardHoursTotal"
+                cellProperty="budgetConstructionPosition.bcafAppointmentRequestedStandardHoursTotal"
                 textStyle="${textStyle}"
                 fieldAlign="right"
                 colSpan="2" />
             <bc:columnTotalCell dataCellCssClass="datacell"
-                cellProperty="appointmentRequestedCsfStandardHoursTotal"
+                cellProperty="budgetConstructionPosition.bcafAppointmentRequestedCsfStandardHoursTotal"
                 textStyle="${textStyle}"
                 fieldAlign="right"
                 colSpan="2" />

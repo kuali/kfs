@@ -243,7 +243,6 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
         }
         
         prepareToReturnSelectedResultBOs(multipleValueLookupForm);
-        System.out.println("Lookup Results Sequence Number: " + multipleValueLookupForm.getLookupResultsSequenceNumber());
         
         // build the parameters for the refresh url
         Properties parameters = new Properties();
@@ -269,7 +268,6 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
      */
     protected Collection performMultipleValueLookup(MultipleValueLookupForm multipleValueLookupForm, List<ResultRow> resultTable, int maxRowsPerPage, boolean bounded) {
         Lookupable lookupable = multipleValueLookupForm.getLookupable();
-        System.out.println("Performing lookup");
         Collection displayList = lookupable.performLookup(multipleValueLookupForm, resultTable, bounded);
         
         List defaultSortColumns = lookupable.getDefaultSortColumns();
@@ -301,8 +299,6 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
         multipleValueLookupForm.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);
         try {
             LookupResultsService lookupResultsService = KNSServiceLocator.getLookupResultsService();
-            System.out.println("Saving results for sequence "  + lookupResultsSequenceNumber);
-            System.out.println("And user " + GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
             lookupResultsService.persistResultsTable(lookupResultsSequenceNumber, resultTable,
                     GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
         }
@@ -325,18 +321,13 @@ public class BalanceInquiryLookupAction extends KualiMultipleValueLookupAction {
      */
     protected void prepareToReturnSelectedResultBOs(MultipleValueLookupForm multipleValueLookupForm) {
         String lookupResultsSequenceNumber = multipleValueLookupForm.getLookupResultsSequenceNumber();
-        System.out.println("Preparing to return selected BO's");
         if (StringUtils.isBlank(lookupResultsSequenceNumber)) {
             // pressed return before searching
             return;
         }
-        System.out.println("previouslySelectedObjectIdSet = " + multipleValueLookupForm.getPreviouslySelectedObjectIdSet());
-        System.out.println("displayedObjectIdSet = " + multipleValueLookupForm.getDisplayedObjectIdSet());
-        System.out.println("selectedObjectIdSet = " +  multipleValueLookupForm.getSelectedObjectIdSet());
         Map<String, String> compositeObjectIdMap = LookupUtils.generateCompositeSelectedObjectIds(multipleValueLookupForm.getPreviouslySelectedObjectIdSet(),
                 multipleValueLookupForm.getDisplayedObjectIdSet(), multipleValueLookupForm.getSelectedObjectIdSet());
         Set<String> compositeObjectIds = compositeObjectIdMap.keySet();
-        System.out.println("compositeObjectIds " + compositeObjectIds);
         try {
             LookupResultsService lookupResultsService = KNSServiceLocator.getLookupResultsService();
             lookupResultsService.persistSelectedObjectIds(lookupResultsSequenceNumber, compositeObjectIds,

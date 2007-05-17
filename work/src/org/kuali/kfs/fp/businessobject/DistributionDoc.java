@@ -32,7 +32,7 @@ public class DistributionDoc extends PersistableBusinessObjectBase {
     private Integer finDocumentNextToLineNumber;
     private Integer financialDocumentPostingYear;
     private String finDocumentPostingPeriodCode;
-    private String finDocumentExplanationText;
+
     private DocumentHeader financialDocument;
 
     /**
@@ -145,27 +145,6 @@ public class DistributionDoc extends PersistableBusinessObjectBase {
      */
     public void setFinDocumentPostingPeriodCode(String finDocumentPostingPeriodCode) {
         this.finDocumentPostingPeriodCode = finDocumentPostingPeriodCode;
-    }
-
-    /**
-     * Gets the finDocumentExplanationText attribute.
-     * 
-     * @return Returns the finDocumentExplanationText
-     * 
-     */
-    public String getFinDocumentExplanationText() {
-        return finDocumentExplanationText;
-    }
-
-
-    /**
-     * Sets the finDocumentExplanationText attribute.
-     * 
-     * @param finDocumentExplanationText The finDocumentExplanationText to set.
-     * 
-     */
-    public void setFinDocumentExplanationText(String finDocumentExplanationText) {
-        this.finDocumentExplanationText = finDocumentExplanationText;
     }
 
     /**

@@ -90,6 +90,16 @@ public class IncumbentSalarySettingAction extends KualiAction {
         }
     }
 
+    /**
+     * This action loads the data for the expansion screen based on the passed in url parameters
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward loadExpansionScreen(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{
         
         IncumbentSalarySettingForm incumbentSalarySettingForm = (IncumbentSalarySettingForm) form;
@@ -106,6 +116,7 @@ public class IncumbentSalarySettingAction extends KualiAction {
     }
 
     public ActionForward returnToCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//    	TODO this will eventually be spit out into close and save methods, with close calling this method        
         
         IncumbentSalarySettingForm incumbentSalarySettingForm = (IncumbentSalarySettingForm) form;
         BudgetConstructionIntendedIncumbent budgetConstructionIntendedIncumbent = incumbentSalarySettingForm.getBudgetConstructionIntendedIncumbent();
@@ -185,6 +196,16 @@ public class IncumbentSalarySettingAction extends KualiAction {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
+    /**
+     * This action adds an appointment funding line to the set of existing funding lines
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward insertBCAFLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         IncumbentSalarySettingForm tForm = (IncumbentSalarySettingForm) form;
@@ -193,10 +214,38 @@ public class IncumbentSalarySettingAction extends KualiAction {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * This action sets the request amount using the CSF amount adjusted by a percent or flat rate
+     *  
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward performPercentAdjustmentSalarySettingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         IncumbentSalarySettingForm tForm = (IncumbentSalarySettingForm) form;
         GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES,KFSKeyConstants.ERROR_UNIMPLEMENTED, "Percent Adjustment For Salary Setting Line");
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    /**
+     * This displays the reason code screen for the selected funding line
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward performReasonAnnotation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        IncumbentSalarySettingForm tForm = (IncumbentSalarySettingForm) form;
+        GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_MESSAGES,KFSKeyConstants.ERROR_UNIMPLEMENTED, "Reason Annotation For Salary Setting Line");
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

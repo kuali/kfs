@@ -192,6 +192,7 @@ public class PurapConstants {
         public static String PURCHASE_ORDER_VOID_DOCUMENT = "KualiPurchaseOrderVoidDocument";
         public static String PURCHASE_ORDER_PAYMENT_HOLD_DOCUMENT = "KualiPurchaseOrderPaymentHoldDocument";
         public static String PURCHASE_ORDER_REMOVE_HOLD_DOCUMENT = "KualiPurchaseOrderRemoveHoldDocument";
+        public static String PURCHASE_ORDER_AMENDMENT_DOCUMENT = "KualiPurchaseOrderAmendmentDocument";
     }
 
     private static HashMap<String, String> purchaseOrderDocTypes() {
@@ -204,6 +205,7 @@ public class PurapConstants {
         mapSLF.put(PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT, "purchaseOrderPostProcessorRetransmitService");
         mapSLF.put(PurchaseOrderDocTypes.PURCHASE_ORDER_PAYMENT_HOLD_DOCUMENT, "purchaseOrderPostProcessorPaymentHoldService");
         mapSLF.put(PurchaseOrderDocTypes.PURCHASE_ORDER_REMOVE_HOLD_DOCUMENT, "purchaseOrderPostProcessorRemoveHoldService");
+        mapSLF.put(PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, "purchaseOrderPostProcessorAmendmentService");
         mapSLF.put(PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT, "purchaseOrderPostProcessorService");
         return mapSLF;
     }
@@ -232,6 +234,10 @@ public class PurapConstants {
         public static String REMOVE_HOLD_NOTE_PREFIX = "Note entered while removing a Purchase Order from payment hold :";
         public static String REMOVE_HOLD_FYI = "This document was taken off Payment Hold status.";
 
+        public static String AMENDMENT_PO_QUESTION = "AmendmentPO";
+        public static String CONFIRM_AMENDMENT_QUESTION = "ConfirmAmendment";
+        public static String AMENDMENT_NOTE_PREFIX = "Note entered while amending a Purchase Order : ";
+        
         public static String SINGLE_CONFIRMATION_QUESTION = "singleConfirmationQuestion";
     }
 

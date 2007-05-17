@@ -203,7 +203,8 @@
 	</bean>		
   	<bean id="purchaseOrderPostProcessorPrintService" class="org.kuali.module.purap.service.impl.PurchaseOrderPostProcessorPrintServiceImpl" parent="purchaseOrderPostProcessServiceBase">
 	</bean>
-  
+	<bean id="purchaseOrderPostProcessorAmendmentService" class="org.kuali.module.purap.service.impl.PurchaseOrderPostProcessorAmendmentServiceImpl" parent="purchaseOrderPostProcessServiceBase">
+	</bean>  
 	<bean id="requisitionDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.RequisitionDaoOjb" />
 	
 	<bean id="purchaseOrderDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.PurchaseOrderDaoOjb" />

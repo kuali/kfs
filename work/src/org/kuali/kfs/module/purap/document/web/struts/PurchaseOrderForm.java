@@ -173,6 +173,10 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             paymentHoldButton.setExtraButtonProperty("methodToCall.paymentHoldPo");
             paymentHoldButton.setExtraButtonSource("images/buttonsmall_paymenthold.gif");
             this.getExtraButtons().add(paymentHoldButton);
+            ExtraButton amendButton = new ExtraButton();
+            amendButton.setExtraButtonProperty("methodToCall.amendPo");
+            amendButton.setExtraButtonSource("images/buttonsmall_amend.gif");
+            this.getExtraButtons().add(amendButton);
         }
         if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator()) {
             ExtraButton removeHoldButton = new ExtraButton();

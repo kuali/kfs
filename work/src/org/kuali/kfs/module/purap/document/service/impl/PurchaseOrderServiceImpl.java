@@ -330,9 +330,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 return false;
             } 
             else { 
+                if (docType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
+                    po.setStatusCode(PurapConstants.PurchaseOrderStatuses.AMENDMENT);
+                }
                 save(po);
                 kualiDocumentFormBase.setDocument(po);
-                documentService.routeDocument(po, annotation, adhocRoutingRecipients);
+                if (!docType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
+                    documentService.routeDocument(po, annotation, adhocRoutingRecipients);
+                }
             }
         }
         catch (WorkflowException we) {

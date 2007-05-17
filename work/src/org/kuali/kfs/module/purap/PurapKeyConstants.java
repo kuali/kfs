@@ -54,7 +54,8 @@ public class PurapKeyConstants {
     public static final String PURCHASE_ORDER_MESSAGE_VOID_DOCUMENT = "purchaseOrder.route.message.void.text";
     public static final String PURCHASE_ORDER_MESSAGE_PAYMENT_HOLD = "purchaseOrder.route.message.payment.hold.text";
     public static final String PURCHASE_ORDER_MESSAGE_REMOVE_HOLD = "purchaseOrder.route.message.remove.hold.text";
-    public static final String MESSAGE_ROUTE_REOPENED="message.route.reopened";
+    public static final String PURCHASE_ORDER_MESSAGE_REOPEN_DOCUMENT="purchaseOrder.route.message.reopen.text";
+    public static final String PURCHASE_ORDER_MESSAGE_AMEND_DOCUMENT="purchaseOrder.route.message.amend.text";
     public static final String ERROR_USER_NONPURCHASING="errors.user.nonPurchasing";
     public static final String ERROR_PURCHASE_ORDER_PDF = "error.purchaseOrder.pdf";
     public static final String ERROR_PURCHASE_ORDER_TRANSMIT_PRIOR_TRANSMISSION = "error.transmit.purchaseOrder.priorTransmission";

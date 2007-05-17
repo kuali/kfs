@@ -35,7 +35,8 @@
 <%@ attribute name="displayCreditMemoFields" required="false"
               description="Boolean to indicate if CM specific fields should be displayed" %>              
               
-<c:set var="vendorReadOnly" value="${not empty KualiForm.editingMode['lockVendorEntry']}" />
+<c:set var="vendorReadOnly" value="${(not empty KualiForm.editingMode['lockVendorEntry'])}" />
+<c:set var="amendmentEntry" value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
 <c:set var="currentUserCampusCode" value="${UserSession.universalUser.campusCode}" />
 
 <kul:tab tabTitle="Vendor" defaultOpen="${not (displayRequisitionFields or displayPurchaseOrderFields)}" tabErrorKey="${PurapConstants.VENDOR_ERRORS}">
@@ -53,8 +54,8 @@
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorName}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorName}" property="document.vendorName" readOnly="${not fullEntryMode or vendorReadOnly or displayPaymentRequestFields or displayCreditMemoFields}" />
-                    <c:if test="${fullEntryMode and (displayRequisitionFields or displayPurchaseOrderFields)}" >
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorName}" property="document.vendorName" readOnly="${not (fullEntryMode or amendmentEntry) or vendorReadOnly or displayPaymentRequestFields or displayCreditMemoFields}" />
+                    <c:if test="${(fullEntryMode or amendmentEntry) and (displayRequisitionFields or displayPurchaseOrderFields)}" >
                         <kul:lookup  boClassName="org.kuali.module.vendor.bo.VendorDetail" 
                          fieldConversions="vendorHeaderGeneratedIdentifier:document.vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:document.vendorDetailAssignedIdentifier,defaultAddressLine1:document.vendorLine1Address,defaultAddressLine2:document.vendorLine2Address,defaultAddressCity:document.vendorCityName,defaultAddressPostalCode:document.vendorPostalCode,defaultAddressStateCode:document.vendorStateCode,defaultAddressCountryCode:document.vendorCountryCode"/>
                     </c:if>
@@ -63,7 +64,7 @@
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorCityName}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorCityName}" property="document.vendorCityName" readOnly="${not fullEntryMode}" />
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorCityName}" property="document.vendorCityName" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                 </td>
             </tr>
 
@@ -78,7 +79,7 @@
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorStateCode}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorStateCode}" property="document.vendorStateCode" readOnly="${not fullEntryMode}" />
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorStateCode}" property="document.vendorStateCode" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                 </td>
             </tr>
 
@@ -87,8 +88,8 @@
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorLine1Address}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorLine1Address}" property="document.vendorLine1Address" readOnly="${not fullEntryMode}" />
-                    <c:if test="${fullEntryMode and vendorReadOnly}">
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorLine1Address}" property="document.vendorLine1Address" readOnly="${not (fullEntryMode or amendmentEntry)}" />
+                    <c:if test="${(fullEntryMode or amendmentEntry) and vendorReadOnly}">
                         <kul:lookup  boClassName="org.kuali.module.vendor.bo.VendorAddress" readOnlyFields="vendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier" autoSearch="yes"
                         lookupParameters="document.vendorHeaderGeneratedIdentifier:vendorHeaderGeneratedIdentifier,document.vendorDetailAssignedIdentifier:vendorDetailAssignedIdentifier" fieldConversions="vendorAddressGeneratedIdentifier:document.vendorAddressGeneratedIdentifier"/>
                     </c:if>
@@ -97,7 +98,7 @@
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorPostalCode}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorPostalCode}" property="document.vendorPostalCode" readOnly="${not fullEntryMode}" />
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorPostalCode}" property="document.vendorPostalCode" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                 </td>
             </tr>
 
@@ -106,13 +107,13 @@
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorLine2Address}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorLine2Address}" property="document.vendorLine2Address" readOnly="${not fullEntryMode}" />
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorLine2Address}" property="document.vendorLine2Address" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                 </td>
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorCountryCode}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorCountryCode}" property="document.vendorCountryCode" readOnly="${not fullEntryMode}" />
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorCountryCode}" property="document.vendorCountryCode" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                 </td>
             </tr>
 
@@ -126,7 +127,7 @@
                         <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.purchaseOrderVendorChoiceCode}" /></div>
                     </th>
                     <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderVendorChoiceCode}" property="document.purchaseOrderVendorChoiceCode" readOnly="${not fullEntryMode}" />
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderVendorChoiceCode}" property="document.purchaseOrderVendorChoiceCode" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                     </td>
                     <th align=right valign=middle class="bord-l-b">&nbsp;</th>
                     <td align=left valign=middle class="datacell">&nbsp;</td>
@@ -138,7 +139,7 @@
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorCustomerNumber}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorCustomerNumber}" property="document.vendorCustomerNumber" readOnly="${not fullEntryMode}" />
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorCustomerNumber}" property="document.vendorCustomerNumber" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                 </td>
 
                 <c:if test="false">
@@ -151,10 +152,10 @@
                         <c:if test="${not empty document.alternateVendorNumber}">
                             &nbsp;(<kul:htmlControlAttribute attributeEntry="${documentAttributes.alternateVendorNumber}" property="document.alternateVendorNumber" readOnly="true" />)&nbsp;
                         </c:if>
-                        <c:if test="${fullEntryMode and displayPurchaseOrderFields}">
+                        <c:if test="${(fullEntryMode or amendmentEntry) and displayPurchaseOrderFields}">
                             <kul:lookup  boClassName="org.kuali.module.vendor.bo.VendorDetail" fieldConversions="vendorHeaderGeneratedIdentifier:document.alternateVendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:document.alternateVendorDetailAssignedIdentifier"/>
                         </c:if>
-                        <c:if test="${fullEntryMode and displayPaymentRequestFields}">
+                        <c:if test="${(fullEntryMode or amendmentEntry) and displayPaymentRequestFields}">
                             select
                         </c:if>
                     </td>
@@ -171,7 +172,7 @@
                         <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorNoteText}" /></div>
                     </th>
                     <td align=left valign=middle class="datacell" rowspan="3">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorNoteText}" property="document.vendorNoteText" readOnly="${not fullEntryMode}" />
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorNoteText}" property="document.vendorNoteText" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                     </td>
                 </c:if>                                                 
                 <c:if test="${displayPaymentRequestFields or displayCreditMemoFields}">
@@ -179,14 +180,14 @@
                         <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.checkStubNoteLine1Text}" /></div>
                     </th>
                     <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.checkStubNoteLine1Text}" property="document.checkStubNoteLine1Text" readOnly="${not fullEntryMode}" />
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.checkStubNoteLine1Text}" property="document.checkStubNoteLine1Text" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                     </td>
                 </c:if>                                                 
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorPaymentTermsCode}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorPaymentTermsCode}" property="document.vendorPaymentTermsCode" readOnly="${not fullEntryMode or displayRequisitionFields}" />
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorPaymentTermsCode}" property="document.vendorPaymentTermsCode" readOnly="${not (fullEntryMode or amendmentEntry) or displayRequisitionFields}" />
                 </td>
             </tr> 
 
@@ -194,14 +195,14 @@
                 <!-- left column populated by note row span for PUR docs-->
                 <c:if test="${displayPaymentRequestFields or displayCreditMemoFields}">
                     <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.checkStubNoteLine2Text}" property="document.checkStubNoteLine2Text" readOnly="${not fullEntryMode}" />
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.checkStubNoteLine2Text}" property="document.checkStubNoteLine2Text" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                     </td>
                 </c:if>                                                 
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorShippingTitleCode}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorShippingTitleCode}" property="document.vendorShippingTitleCode" readOnly="${not fullEntryMode or not displayPurchaseOrderFields}" />
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorShippingTitleCode}" property="document.vendorShippingTitleCode" readOnly="${not (fullEntryMode or amendmentEntry) or not displayPurchaseOrderFields}" />
                 </td>
             </tr> 
 
@@ -209,14 +210,14 @@
                 <!-- left column populated by note row span for PUR docs-->
                 <c:if test="${displayPaymentRequestFields or displayCreditMemoFields}">
                     <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.checkStubNoteLine3Text}" property="document.checkStubNoteLine3Text" readOnly="${not fullEntryMode}" />
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.checkStubNoteLine3Text}" property="document.checkStubNoteLine3Text" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                     </td>
                 </c:if>                                                 
                 <th align=right valign=middle class="bord-l-b">
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorShippingPaymentTermsCode}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorShippingPaymentTermsCode}" property="document.vendorShippingPaymentTermsCode" readOnly="${not fullEntryMode or displayRequisitionFields}" />
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorShippingPaymentTermsCode}" property="document.vendorShippingPaymentTermsCode" readOnly="${not (fullEntryMode or amendmentEntry) or displayRequisitionFields}" />
                 </td>
             </tr> 
 
@@ -227,7 +228,7 @@
                     </th>
                     <td align=left valign=middle class="datacell">
                         <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorContractName}" property="document.vendorContractName" readOnly="true"/>
-                        <c:if test="${fullEntryMode}">
+                        <c:if test="${(fullEntryMode or amendmentEntry)}">
                             <kul:lookup  boClassName="org.kuali.module.vendor.bo.VendorContract" readOnlyFields="vendorCampusCode" lookupParameters="'${currentUserCampusCode}':vendorCampusCode" fieldConversions="vendorContractGeneratedIdentifier:document.vendorContractGeneratedIdentifier" />
                         </c:if>
                     </td>
@@ -247,7 +248,7 @@
                         <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorPhoneNumber}" /></div>
                     </th>
                     <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorPhoneNumber}" property="document.vendorPhoneNumber" readOnly="${not fullEntryMode}" />
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorPhoneNumber}" property="document.vendorPhoneNumber" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                     </td>
                     <th align=right valign=middle class="bord-l-b" rowspan="2">
                         <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.supplierDiversityLabel}" /></div>
@@ -265,7 +266,7 @@
                         <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorFaxNumber}" /></div>
                     </th>
                     <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorFaxNumber}" property="document.vendorFaxNumber" readOnly="${not fullEntryMode}" />
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorFaxNumber}" property="document.vendorFaxNumber" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                     </td>
                 </tr>
             </c:if>
@@ -276,7 +277,7 @@
                         <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.specialHandlingInstructionLine1Text}" /></div>
                     </th>
                     <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.specialHandlingInstructionLine1Text}" property="document.specialHandlingInstructionLine1Text" readOnly="${not fullEntryMode}" />
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.specialHandlingInstructionLine1Text}" property="document.specialHandlingInstructionLine1Text" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                     </td>
                     <th align=right valign=middle class="bord-l-b">&nbsp;</th>
                     <td align=left valign=middle class="datacell">&nbsp;</td>
@@ -284,7 +285,7 @@
     
                 <tr>
                     <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.specialHandlingInstructionLine2Text}" property="document.specialHandlingInstructionLine2Text" readOnly="${not fullEntryMode}" />
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.specialHandlingInstructionLine2Text}" property="document.specialHandlingInstructionLine2Text" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                     </td>
                     <th align=right valign=middle class="bord-l-b">&nbsp;</th>
                     <td align=left valign=middle class="datacell">&nbsp;</td>
@@ -292,7 +293,7 @@
     
                 <tr>
                     <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.specialHandlingInstructionLine3Text}" property="document.specialHandlingInstructionLine3Text" readOnly="${not fullEntryMode}" />
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.specialHandlingInstructionLine3Text}" property="document.specialHandlingInstructionLine3Text" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                     </td>
                     <th align=right valign=middle class="bord-l-b">&nbsp;</th>
                     <td align=left valign=middle class="datacell">&nbsp;</td>
@@ -312,7 +313,7 @@
                         <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.alternate1VendorName}" /></div>
                     </th>
                     <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.alternate1VendorName}" property="document.alternate1VendorName" readOnly="${not fullEntryMode}" />
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.alternate1VendorName}" property="document.alternate1VendorName" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                     </td>
                 </tr>
                 <tr>
@@ -320,7 +321,7 @@
                         <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.alternate2VendorName}" /></div>
                     </th>
                     <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.alternate2VendorName}" property="document.alternate2VendorName" readOnly="${not fullEntryMode}" />
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.alternate2VendorName}" property="document.alternate2VendorName" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                     </td>
                 </tr>
                 <tr>
@@ -328,7 +329,7 @@
                         <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.alternate3VendorName}" /></div>
                     </th>
                     <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.alternate3VendorName}" property="document.alternate3VendorName" readOnly="${not fullEntryMode}" />
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.alternate3VendorName}" property="document.alternate3VendorName" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                     </td>
                 </tr>
                 <tr>    
@@ -336,7 +337,7 @@
                         <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.alternate4VendorName}" /></div>
                     </th>
                     <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.alternate4VendorName}" property="document.alternate4VendorName" readOnly="${not fullEntryMode}" />
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.alternate4VendorName}" property="document.alternate4VendorName" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                     </td>
                 </tr>
                 <tr>    
@@ -344,7 +345,7 @@
                         <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.alternate5VendorName}" /></div>
                     </th>
                     <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.alternate5VendorName}" property="document.alternate5VendorName" readOnly="${not fullEntryMode}" />
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.alternate5VendorName}" property="document.alternate5VendorName" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                     </td>                                                
                 </tr>
             </table>

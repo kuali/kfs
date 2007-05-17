@@ -202,6 +202,7 @@
 		tabErrorKey="document.budget.modularBudget.budgetModularConsortiumDescription*" 
 		tabAuditKey="document.budget.audit.modular.consortium*"
 		auditCluster="modularSoftAuditErrors">
+		<div class="tab-container-error"><div class="left-errmsg-tab"><kra:auditErrors cluster="modularSoftAuditErrors" keyMatch="document.budget.audit.modular.consortium*" isLink="false" includesTitle="true"/></div></div>
       	
       	<div class="tab-container" align="center">
 			<div class="h2-container">

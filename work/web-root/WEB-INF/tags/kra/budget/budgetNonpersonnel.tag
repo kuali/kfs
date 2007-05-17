@@ -66,6 +66,7 @@
     	tabErrorKey="${categoryItemErrors}" 
     	auditCluster="nonpersonnelAuditErrors" 
     	tabAuditKey="document.budget.audit.nonpersonnelItem.category.${nonpersonnelCategory.code}">
+    	<div class="tab-container-error"><div class="left-errmsg-tab"><kra:auditErrors cluster="nonpersonnelAuditErrors" keyMatch="document.budget.audit.nonpersonnelItem.category.${nonpersonnelCategory.code}" isLink="false" includesTitle="true"/></div></div>
     	
         <div class="tab-container" id="G02" style="" align="center">
             

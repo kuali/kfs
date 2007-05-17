@@ -49,6 +49,7 @@
 	tabErrorKey="document.budget.parameters*,document.budget.budgetAgency*,document.budget.budgetProject*,document.budget.institution*,document.budget.electronic*,document.budget.federal*,document.budget.modular*,document.budget.budgetPersonnelInflationRate,document.budget.budgetNonpersonnelInflationRate" 
 	auditCluster="parametersAuditErrors" 
 	tabAuditKey="document.budget.audit.parameters.pd*">
+	<div class="tab-container-error"><div class="left-errmsg-tab"><kra:auditErrors cluster="parametersAuditErrors" keyMatch="document.budget.audit.parameters.pd*" isLink="false" includesTitle="true"/></div></div>
 
     <div class="tab-container" id="G02" style="" align="center">
               

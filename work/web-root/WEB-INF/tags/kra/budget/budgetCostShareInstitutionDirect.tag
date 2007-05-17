@@ -43,6 +43,7 @@
 </c:set>
 
 <kul:tab tabTitle="Cost Share - Institution Direct" tabDescription="${tabDescription}" defaultOpen="true" transparentBackground="true" tabErrorKey="document.budget.institutionCostShareItem*" auditCluster="costShareAuditErrors" tabAuditKey="document.budget.audit.costShare.institution*">
+	<div class="tab-container-error"><div class="left-errmsg-tab"><kra:auditErrors cluster="costShareAuditErrors" keyMatch="document.budget.audit.costShare.institution*" isLink="false" includesTitle="true"/></div></div>
 	
 	<c:if test="${!KualiForm.document.budget.institutionCostShareIndicator}">
 		<div class="tab-container" align="center">

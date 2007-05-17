@@ -37,6 +37,7 @@
 </c:set>
 
 <kul:tab tabTitle="Cost Share - 3rd Party Direct" tabDescription="${tabDescription}" defaultOpen="false" transparentBackground="false" tabErrorKey="document.budget.thirdPartyCostShareItem*" auditCluster="costShareAuditErrors" tabAuditKey="document.budget.audit.costShare.3rdParty*">
+	<div class="tab-container-error"><div class="left-errmsg-tab"><kra:auditErrors cluster="costShareAuditErrors" keyMatch="document.budget.audit.costShare.3rdParty*" isLink="false" includesTitle="true"/></div></div>
 	<c:if test="${!KualiForm.document.budget.budgetThirdPartyCostShareIndicator}">
 		<div class="tab-container" align="center">
 			<div class="h2-container">

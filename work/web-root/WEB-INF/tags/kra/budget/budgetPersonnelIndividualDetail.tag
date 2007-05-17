@@ -56,6 +56,7 @@
 	          	tabErrorKey="document.budget.personFromList[${listIndex}]*,document.budget.personnel[${listIndex}]*" 
 	          	auditCluster="personnelAuditErrors"
 	          	tabAuditKey="document.budget.audit.personnel.${personId}*">
+	          	<div class="tab-container-error"><div class="left-errmsg-tab"><kra:auditErrors cluster="personnelAuditErrors" keyMatch="document.budget.audit.personnel.${personId}*" isLink="false" includesTitle="true"/></div></div>
               <div class="tab-container" id="G02" style="" align="center">
                 <table width="100%" cellpadding="0" cellspacing="0" class="datatable">
                   <tbody>

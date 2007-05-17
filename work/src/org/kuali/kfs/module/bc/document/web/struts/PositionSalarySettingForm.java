@@ -75,17 +75,6 @@ public class PositionSalarySettingForm extends KualiForm {
     //this also controls where we return the user when done
     private boolean budgetByAccountMode;
     
-    //totals
-    private KualiDecimal csfAmountTotal = new KualiDecimal(0.00);
-    private BigDecimal csfFullTimeEmploymentQuantityTotal = new BigDecimal(0).setScale(5,BigDecimal.ROUND_HALF_EVEN);
-    private BigDecimal csfStandardHoursTotal = new BigDecimal(0).setScale(2,BigDecimal.ROUND_HALF_EVEN);
-    private KualiDecimal appointmentRequestedAmountTotal = new KualiDecimal(0.00);
-    private BigDecimal appointmentRequestedFteQuantityTotal = new BigDecimal(0).setScale(5,BigDecimal.ROUND_HALF_EVEN);
-    private BigDecimal appointmentRequestedStandardHoursTotal = new BigDecimal(0).setScale(2,BigDecimal.ROUND_HALF_EVEN);
-    private KualiDecimal appointmentRequestedCsfAmountTotal = new KualiDecimal(0.00);
-    private BigDecimal appointmentRequestedCsfFteQuantityTotal = new BigDecimal(0).setScale(5,BigDecimal.ROUND_HALF_EVEN);
-    private BigDecimal appointmentRequestedCsfStandardHoursTotal = new BigDecimal(0).setScale(2,BigDecimal.ROUND_HALF_EVEN);
-
     /**
      * Constructs a PositionSalarySettingForm.java.
      */
@@ -103,6 +92,10 @@ public class PositionSalarySettingForm extends KualiForm {
 
         super.populate(request);
 
+        String methodToCall = this.getMethodToCall();
+        BudgetConstructionPosition bcPosn = this.getBudgetConstructionPosition();
+        bcPosn.zeroTotals();
+
         //TODO add insert line populate call here
 
         populateBCAFLines();
@@ -116,12 +109,14 @@ public class PositionSalarySettingForm extends KualiForm {
     public void populateBCAFLines(){
 
         //TODO add bcaf totaling here??
+        BudgetConstructionPosition bcPosn = this.getBudgetConstructionPosition();
 
         Iterator bcafLines = this.getBudgetConstructionPosition().getPendingBudgetConstructionAppointmentFunding().iterator();
         while (bcafLines.hasNext()){
             PendingBudgetConstructionAppointmentFunding bcafLine = (PendingBudgetConstructionAppointmentFunding) bcafLines.next();
-            this.populateBCAFLine(bcafLine);
+            this.populateBCAFLine(bcPosn, bcafLine);
         }
+        
     }
 
     /**
@@ -129,7 +124,7 @@ public class PositionSalarySettingForm extends KualiForm {
      * 
      * @param line
      */
-    private void populateBCAFLine(PendingBudgetConstructionAppointmentFunding line){
+    private void populateBCAFLine(BudgetConstructionPosition bcPosn, PendingBudgetConstructionAppointmentFunding line){
 
         final List REFRESH_FIELDS;
         if (line.getEmplid().equalsIgnoreCase("VACANT")){
@@ -141,7 +136,38 @@ public class PositionSalarySettingForm extends KualiForm {
         }
 //        SpringServiceLocator.getPersistenceService().retrieveReferenceObjects(line, REFRESH_FIELDS);
         KNSServiceLocator.getPersistenceService().retrieveReferenceObjects(line, REFRESH_FIELDS);
+        
+        //add to totals
+        if (line.getBcnCalculatedSalaryFoundationTracker().get(0) != null){
+            if (line.getBcnCalculatedSalaryFoundationTracker().get(0).getCsfAmount() != null){
+                bcPosn.setBcsfCsfAmountTotal(bcPosn.getBcsfCsfAmountTotal().add(line.getBcnCalculatedSalaryFoundationTracker().get(0).getCsfAmount()));
+            }
+            if (line.getBcnCalculatedSalaryFoundationTracker().get(0).getCsfTimePercent() != null){
+                bcPosn.setBcsfCsfTimePercentTotal(bcPosn.getBcsfCsfTimePercentTotal().add(line.getBcnCalculatedSalaryFoundationTracker().get(0).getCsfTimePercent()));
+            }
+            if (line.getBcnCalculatedSalaryFoundationTracker().get(0).getCsfFullTimeEmploymentQuantity() != null){
+                bcPosn.setBcsfCsfFullTimeEmploymentQuantityTotal(bcPosn.getBcsfCsfFullTimeEmploymentQuantityTotal().add(line.getBcnCalculatedSalaryFoundationTracker().get(0).getCsfFullTimeEmploymentQuantity()));
+            }
+        }
+        if (line.getAppointmentRequestedAmount() != null){
+            bcPosn.setBcafAppointmentRequestedAmountTotal(bcPosn.getBcafAppointmentRequestedAmountTotal().add(line.getAppointmentRequestedAmount()));
+        }
+        if (line.getAppointmentRequestedTimePercent() != null){
+            bcPosn.setBcafAppointmentRequestedTimePercentTotal(bcPosn.getBcafAppointmentRequestedTimePercentTotal().add(line.getAppointmentRequestedTimePercent()));
+        }
+        if (line.getAppointmentRequestedFteQuantity() != null){
+            bcPosn.setBcafAppointmentRequestedFteQuantityTotal(bcPosn.getBcafAppointmentRequestedFteQuantityTotal().add(line.getAppointmentRequestedFteQuantity()));
+        }
 
+        if (line.getAppointmentRequestedCsfAmount() != null){
+            bcPosn.setBcafAppointmentRequestedCsfAmountTotal(bcPosn.getBcafAppointmentRequestedCsfAmountTotal().add(line.getAppointmentRequestedCsfAmount()));
+        }
+        if (line.getAppointmentRequestedCsfTimePercent() != null){
+            bcPosn.setBcafAppointmentRequestedCsfTimePercentTotal(bcPosn.getBcafAppointmentRequestedCsfTimePercentTotal().add(line.getAppointmentRequestedCsfTimePercent()));
+        }
+        if (line.getAppointmentRequestedCsfFteQuantity() != null){
+            bcPosn.setBcafAppointmentRequestedCsfFteQuantityTotal(bcPosn.getBcafAppointmentRequestedCsfFteQuantityTotal().add(line.getAppointmentRequestedCsfFteQuantity()));
+        }
     }
 
     /**
@@ -350,150 +376,6 @@ public class PositionSalarySettingForm extends KualiForm {
      */
     public void setEditingMode(Map editingMode) {
         this.editingMode = editingMode;
-    }
-
-    /**
-     * Gets the appointmentRequestedAmountTotal attribute. 
-     * @return Returns the appointmentRequestedAmountTotal.
-     */
-    public KualiDecimal getAppointmentRequestedAmountTotal() {
-        return appointmentRequestedAmountTotal;
-    }
-
-    /**
-     * Sets the appointmentRequestedAmountTotal attribute value.
-     * @param appointmentRequestedAmountTotal The appointmentRequestedAmountTotal to set.
-     */
-    public void setAppointmentRequestedAmountTotal(KualiDecimal appointmentRequestedAmountTotal) {
-        this.appointmentRequestedAmountTotal = appointmentRequestedAmountTotal;
-    }
-
-    /**
-     * Gets the appointmentRequestedCsfAmountTotal attribute. 
-     * @return Returns the appointmentRequestedCsfAmountTotal.
-     */
-    public KualiDecimal getAppointmentRequestedCsfAmountTotal() {
-        return appointmentRequestedCsfAmountTotal;
-    }
-
-    /**
-     * Sets the appointmentRequestedCsfAmountTotal attribute value.
-     * @param appointmentRequestedCsfAmountTotal The appointmentRequestedCsfAmountTotal to set.
-     */
-    public void setAppointmentRequestedCsfAmountTotal(KualiDecimal appointmentRequestedCsfAmountTotal) {
-        this.appointmentRequestedCsfAmountTotal = appointmentRequestedCsfAmountTotal;
-    }
-
-    /**
-     * Gets the appointmentRequestedCsfFteQuantityTotal attribute. 
-     * @return Returns the appointmentRequestedCsfFteQuantityTotal.
-     */
-    public BigDecimal getAppointmentRequestedCsfFteQuantityTotal() {
-        return appointmentRequestedCsfFteQuantityTotal;
-    }
-
-    /**
-     * Sets the appointmentRequestedCsfFteQuantityTotal attribute value.
-     * @param appointmentRequestedCsfFteQuantityTotal The appointmentRequestedCsfFteQuantityTotal to set.
-     */
-    public void setAppointmentRequestedCsfFteQuantityTotal(BigDecimal appointmentRequestedCsfFteQuantityTotal) {
-        this.appointmentRequestedCsfFteQuantityTotal = appointmentRequestedCsfFteQuantityTotal;
-    }
-
-    /**
-     * Gets the appointmentRequestedCsfStandardHoursTotal attribute. 
-     * @return Returns the appointmentRequestedCsfStandardHoursTotal.
-     */
-    public BigDecimal getAppointmentRequestedCsfStandardHoursTotal() {
-        return appointmentRequestedCsfStandardHoursTotal;
-    }
-
-    /**
-     * Sets the appointmentRequestedCsfStandardHoursTotal attribute value.
-     * @param appointmentRequestedCsfStandardHoursTotal The appointmentRequestedCsfStandardHoursTotal to set.
-     */
-    public void setAppointmentRequestedCsfStandardHoursTotal(BigDecimal appointmentRequestedCsfStandardHoursTotal) {
-        this.appointmentRequestedCsfStandardHoursTotal = appointmentRequestedCsfStandardHoursTotal;
-    }
-
-    /**
-     * Gets the appointmentRequestedFteQuantityTotal attribute. 
-     * @return Returns the appointmentRequestedFteQuantityTotal.
-     */
-    public BigDecimal getAppointmentRequestedFteQuantityTotal() {
-        return appointmentRequestedFteQuantityTotal;
-    }
-
-    /**
-     * Sets the appointmentRequestedFteQuantityTotal attribute value.
-     * @param appointmentRequestedFteQuantityTotal The appointmentRequestedFteQuantityTotal to set.
-     */
-    public void setAppointmentRequestedFteQuantityTotal(BigDecimal appointmentRequestedFteQuantityTotal) {
-        this.appointmentRequestedFteQuantityTotal = appointmentRequestedFteQuantityTotal;
-    }
-
-    /**
-     * Gets the appointmentRequestedStandardHoursTotal attribute. 
-     * @return Returns the appointmentRequestedStandardHoursTotal.
-     */
-    public BigDecimal getAppointmentRequestedStandardHoursTotal() {
-        return appointmentRequestedStandardHoursTotal;
-    }
-
-    /**
-     * Sets the appointmentRequestedStandardHoursTotal attribute value.
-     * @param appointmentRequestedStandardHoursTotal The appointmentRequestedStandardHoursTotal to set.
-     */
-    public void setAppointmentRequestedStandardHoursTotal(BigDecimal appointmentRequestedStandardHoursTotal) {
-        this.appointmentRequestedStandardHoursTotal = appointmentRequestedStandardHoursTotal;
-    }
-
-    /**
-     * Gets the csfAmountTotal attribute. 
-     * @return Returns the csfAmountTotal.
-     */
-    public KualiDecimal getCsfAmountTotal() {
-        return csfAmountTotal;
-    }
-
-    /**
-     * Sets the csfAmountTotal attribute value.
-     * @param csfAmountTotal The csfAmountTotal to set.
-     */
-    public void setCsfAmountTotal(KualiDecimal csfAmountTotal) {
-        this.csfAmountTotal = csfAmountTotal;
-    }
-
-    /**
-     * Gets the csfFullTimeEmploymentQuantityTotal attribute. 
-     * @return Returns the csfFullTimeEmploymentQuantityTotal.
-     */
-    public BigDecimal getCsfFullTimeEmploymentQuantityTotal() {
-        return csfFullTimeEmploymentQuantityTotal;
-    }
-
-    /**
-     * Sets the csfFullTimeEmploymentQuantityTotal attribute value.
-     * @param csfFullTimeEmploymentQuantityTotal The csfFullTimeEmploymentQuantityTotal to set.
-     */
-    public void setCsfFullTimeEmploymentQuantityTotal(BigDecimal csfFullTimeEmploymentQuantityTotal) {
-        this.csfFullTimeEmploymentQuantityTotal = csfFullTimeEmploymentQuantityTotal;
-    }
-
-    /**
-     * Gets the csfStandardHoursTotal attribute. 
-     * @return Returns the csfStandardHoursTotal.
-     */
-    public BigDecimal getCsfStandardHoursTotal() {
-        return csfStandardHoursTotal;
-    }
-
-    /**
-     * Sets the csfStandardHoursTotal attribute value.
-     * @param csfStandardHoursTotal The csfStandardHoursTotal to set.
-     */
-    public void setCsfStandardHoursTotal(BigDecimal csfStandardHoursTotal) {
-        this.csfStandardHoursTotal = csfStandardHoursTotal;
     }
 
     /**

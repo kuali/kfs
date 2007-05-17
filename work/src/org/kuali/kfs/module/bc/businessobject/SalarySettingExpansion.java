@@ -580,6 +580,15 @@ public class SalarySettingExpansion extends PersistableBusinessObjectBase {
      * @return Returns the percentChangeTotal.
      */
     public KualiDecimal getPercentChangeTotal() {
+
+        if (appointmentRequestedAmountTotal == null || csfAmountTotal.isZero()){
+            setPercentChangeTotal(new KualiDecimal(0.00));
+        } else {
+            BigDecimal diffRslt = (appointmentRequestedAmountTotal.bigDecimalValue().setScale(4)).subtract(csfAmountTotal.bigDecimalValue().setScale(4));
+            BigDecimal divRslt = diffRslt.divide((csfAmountTotal.bigDecimalValue().setScale(4)),BigDecimal.ROUND_HALF_UP);
+            setPercentChangeTotal(new KualiDecimal(divRslt.multiply(BigDecimal.valueOf(100)).setScale(2))); 
+        }
+
         return percentChangeTotal;
     }
 

@@ -22,7 +22,7 @@
 
 
         <inquiry>
-            <title>Ledger Balance Inquiry</title>
+            <title>Labor Ledger A21 View</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="accountLineAnnualBalanceAmount" />

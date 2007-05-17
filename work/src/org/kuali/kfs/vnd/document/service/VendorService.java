@@ -29,6 +29,17 @@ public interface VendorService {
     public void saveVendorHeader(VendorDetail vendorDetail);
 
     public VendorDetail getVendorDetail(Integer headerId, Integer detailId);
+    
+    /**
+     * This method retrieves the VendorDetail which is the parent vendor with the given headerId.  This is the method to use
+     * when working backward from a division vendor to its parent vendor.  This method throws RuntimeExceptions if there are
+     * found to be no parent vendor or more than one parent vendor for the associated corporate structure.
+     * 
+     * @param vendorHeaderGeneratedIdentifier       The Header Id in Integer form
+     * @return  The VendorDetail of the parent vendor associated with the corporate structure indicated by the given Header Id,
+     *          or null if there are no vendors associated with it.
+     */
+    public VendorDetail getParentVendor(Integer vendorHeaderGeneratedIdentifier);
 
     /**
      * This method gets the apo limit for a given vendor contract. If the contract has a contractOrg and the contractOrg is not

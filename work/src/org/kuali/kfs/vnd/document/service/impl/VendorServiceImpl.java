@@ -66,6 +66,7 @@ public class VendorServiceImpl implements VendorService {
     }
     
     public VendorDetail getVendorDetail(Integer headerId, Integer detailId) {
+        LOG.debug("Entering getVendorDetail for headerId:"+headerId+", detailId:"+detailId);
         Map keys = new HashMap();
         keys.put("vendorHeaderGeneratedIdentifier", headerId);
         keys.put("vendorDetailAssignedIdentifier", detailId);
@@ -76,9 +77,11 @@ public class VendorServiceImpl implements VendorService {
      * @see org.kuali.module.vendor.service.VendorService#getApoLimitFromContract(Integer, String, String)
     */
     public KualiDecimal getApoLimitFromContract(Integer contractId, String chart, String org) {
+        LOG.debug("Entering getApoLimitFromContract with contractId:"+contractId+", chart:"+chart+", org:"+org);
         KualiDecimal returnValue = new KualiDecimal(0);
         
         if (ObjectUtils.isNull(contractId) || ObjectUtils.isNull(chart) || ObjectUtils.isNull(org)) {
+            LOG.debug("Exiting getApoLimitFromContract because of null input.");
             return null;
         }
         
@@ -108,8 +111,43 @@ public class VendorServiceImpl implements VendorService {
                 returnValue = contract.getOrganizationAutomaticPurchaseOrderLimit();
             }
         }
+        LOG.debug("Exiting getApoLimitFromContract normally.");
         return returnValue;
-      }
+    }
+    
+    /**
+     * @see org.kuali.module.vendor.service.VendorService#getParentVendor(java.lang.Integer)
+     */
+    public VendorDetail getParentVendor( Integer vendorHeaderGeneratedIdentifier ) {
+        LOG.debug("Entering getParentVendor for vendorHeaderGeneratedIdentifier:"+vendorHeaderGeneratedIdentifier);
+        Map criterion = new HashMap();
+        criterion.put("vendorHeaderGeneratedIdentifier", vendorHeaderGeneratedIdentifier);
+        List<VendorDetail> vendors = (List<VendorDetail>)SpringServiceLocator.getBusinessObjectService().findMatching(
+                VendorDetail.class, criterion);
+        VendorDetail result = null;
+        if (ObjectUtils.isNull(vendors)){
+            LOG.warn("Error: No vendors exist with vendor header "+vendorHeaderGeneratedIdentifier+".");
+        }
+        else {
+            for (VendorDetail vendor : vendors) {
+                if ( vendor.isVendorParentIndicator() ) {
+                    if (ObjectUtils.isNull(result)) {
+                        result = vendor;
+                    }
+                    else {
+                        LOG.error("Error: More than one parent vendor for vendor header "+vendorHeaderGeneratedIdentifier+".");
+                        throw new RuntimeException("Error: More than one parent vendor for vendor header "+vendorHeaderGeneratedIdentifier+".");
+                    }
+                }
+            }
+            if (ObjectUtils.isNull(result)) {
+                LOG.error("Error: No parent vendor for vendor header "+vendorHeaderGeneratedIdentifier+".");
+                throw new RuntimeException("Error: No parent vendor for vendor header "+vendorHeaderGeneratedIdentifier+".");
+            }
+        }
+        LOG.debug("Exiting getParentVendor normally.");
+        return result;
+    }
 
     /**
      * @see org.kuali.module.vendor.service.VendorService#getVendorB2BContract(VendorDetail, String)
@@ -122,20 +160,20 @@ public class VendorServiceImpl implements VendorService {
      * @see org.kuali.module.vendor.service.VendorService#getVendorDefaultAddress(Integer, Integer, String, String)
      */
     public VendorAddress getVendorDefaultAddress(Integer vendorHeaderId, Integer vendorDetailId, String addressType, String campus) {
-
+        LOG.debug("Entering getVendorDefaultAddress for vendorHeaderId:"+vendorHeaderId+", vendorDetailId:"+vendorDetailId+", addressType:"+addressType+", campus:"+campus);
         Map criteria = new HashMap();
         criteria.put(VendorPropertyConstants.VENDOR_HEADER_GENERATED_ID, vendorHeaderId);
         criteria.put(VendorPropertyConstants.VENDOR_DETAIL_ASSIGNED_ID, vendorDetailId);
         criteria.put(VendorPropertyConstants.VENDOR_ADDRESS_TYPE_CODE, addressType);
         List<VendorAddress> addresses = (List)businessObjectService.findMatching(VendorAddress.class, criteria);
-
+        LOG.debug("Exiting getVendorDefaultAddress.");
         return getVendorDefaultAddress(addresses, addressType, campus);
 }
     /**
      * @see org.kuali.module.vendor.service.VendorService#getVendorDefaultAddress(List, String, String)
      */
     public VendorAddress getVendorDefaultAddress(List<VendorAddress> addresses, String addressType, String campus) {
-
+        LOG.debug("Entering getVendorDefaultAddress.");
         VendorAddress allDefaultAddress = null;
         for (VendorAddress address : addresses) {
             // if address is of the right type, continue check
@@ -146,6 +184,7 @@ public class VendorServiceImpl implements VendorService {
                     for (VendorDefaultAddress defaultCampus : address.getVendorDefaultAddresses()) {
                         if (campus.equals(defaultCampus.getVendorCampusCode())) {
                             // found campus default; return it
+                            LOG.debug("Exiting getVendorDefaultAddress with single campus default.");
                             return address;
                         }
                     }// endfor campuses
@@ -159,6 +198,7 @@ public class VendorServiceImpl implements VendorService {
         }// endfor addresses
 
         // if we got this far, there is no campus default; so return the default set for all (could return null)
+        LOG.debug("Exiting getVendorDefaultAddress with default set for all.");
         return allDefaultAddress;
     }
     
@@ -223,6 +263,7 @@ public class VendorServiceImpl implements VendorService {
         boolean result = true;
         int listSize = list_a.size();
         if( listSize != list_b.size() ) {
+            LOG.debug("Exiting equalMemberLists because list sizes are unequal.");
             return false;
         }       
         VendorRoutingComparable aMember = null;

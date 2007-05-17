@@ -5,12 +5,10 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/antlr-2.7.4.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/axis-1.2.jar"/>
-	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-collections-3.1.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-configuration-1.1.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-dbcp-1.2.1.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-discovery-0.2.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-fileupload-1.0.jar"/>
-	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-logging-1.0.4.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-pool-1.2.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/jakarta-oro-2.0.8.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/jaxrpc-1.1.jar"/>
@@ -78,18 +76,15 @@
 	<classpathentry kind="lib" path="test/lib/htmlunit-1.10.jar"/>
 	<classpathentry kind="lib" path="test/lib/junit-3.8.1.jar"/>
 	<classpathentry kind="lib" path="test/lib/commons-httpclient-3.0.1.jar"/>
-	<classpathentry kind="lib" path="test/lib/commons-io-1.2.jar"/>
 	<classpathentry kind="lib" path="test/lib/js.jar"/>
-	<classpathentry kind="lib" path="test/lib/xercesImpl-2.6.2.jar"/>
 	<classpathentry kind="lib" path="test/lib/nekohtml-0.9.5.jar"/>
 	<classpathentry kind="lib" path="test/lib/xmlParserAPIs-2.6.2.jar"/>
 	<classpathentry kind="lib" path="test/lib/jaxen-1.1-beta-11.jar"/>
-	<classpathentry kind="lib" path="test/lib/commons-logging-1.1.jar"/>
-	<classpathentry kind="lib" path="test/lib/commons-lang-2.1.jar"/>
-	<classpathentry kind="lib" path="test/lib/commons-collections-3.2.jar"/>
-	<classpathentry kind="lib" path="test/lib/commons-codec-1.3.jar"/>
 	<classpathentry kind="var" path="DRIVERS_DIRECTORY/ojdbc14.jar"/>
 	<classpathentry kind="var" path="DRIVERS_DIRECTORY/mysql-connector-java-5.0.5-bin.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/kns-0.9-SNAPSHOT.jar" sourcepath="/rice"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-collections-3.2.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-logging-1.1.jar"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-io-1.2.jar"/>
 	<classpathentry kind="output" path="work/web-root/WEB-INF/classes"/>
 </classpath>

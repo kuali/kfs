@@ -15,8 +15,39 @@
  */
 package org.kuali.module.purap.rules;
 
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.service.UniversalUserService;
+import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapParameterConstants;
+import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+
 
 public class PurchaseOrderAmendmentDocumentRule extends PurchaseOrderDocumentRule {
 
+    @Override
+    public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
+        boolean valid = super.processValidation(purapDocument);
+        // Check that the user is in purchasing workgroup.
+        String initiatorNetworkId = purapDocument.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();
+        UniversalUserService uus = SpringServiceLocator.getUniversalUserService();
+        UniversalUser user = null;
+        try {
+            user = uus.getUniversalUserByAuthenticationUserId(initiatorNetworkId);
+            String purchasingGroup = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(PurapParameterConstants.PURAP_ADMIN_GROUP, PurapConstants.Workgroups.WORKGROUP_PURCHASING);
+            if (!uus.isMember(user, purchasingGroup)) {
+                valid = false;
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURAP_DOC_ID , KFSKeyConstants.AUTHORIZATION_ERROR_DOCUMENT, initiatorNetworkId, "amend", PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_DOCUMENT);
+            }
+        }
+        catch (UserNotFoundException ue) {
+            valid = false;
+        }
+        return valid;
+    }
 
 }

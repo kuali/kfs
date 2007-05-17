@@ -123,7 +123,7 @@ public class SalaryExpenseTransferForm extends LaborDocumentFormBase implements 
     * @param emplid
     * @throws UserNotFoundException because a lookup at the database discovers user data from the personPayrollIdentifier
     */
-    public void setPersonPayrollIdentifier(String id) throws UserNotFoundException {
+    public void setEmplid(String id) throws UserNotFoundException {
         getSalaryExpenseTransferDocument().setEmplid(id);
         
         if (id != null) {
@@ -138,7 +138,7 @@ public class SalaryExpenseTransferForm extends LaborDocumentFormBase implements 
      * @return String of the personPayrollIdentifier
      * @throws UserNotFoundException because a lookup at the database discovers user data from the personPayrollIdentifier
      */
-    public String getPersonPayrollIdentifier() throws UserNotFoundException {
+    public String getEmplid() throws UserNotFoundException {
         if (user == null) {
             setUser(((LaborUserService) SpringServiceLocator.getService("laborUserService"))
                     .getLaborUserByPersonPayrollIdentifier(getSalaryExpenseTransferDocument().getEmplid()));

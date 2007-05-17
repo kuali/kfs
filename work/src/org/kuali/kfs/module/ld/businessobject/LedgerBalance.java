@@ -35,6 +35,7 @@ import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.gl.bo.Balance;
+import org.kuali.module.labor.service.LaborUserService;
 
 /**
  * 
@@ -68,7 +69,6 @@ public class LedgerBalance extends Balance {
     private Balance financialBalance;
 
     private UniversalUser ledgerPerson; // follow naming convention?
-    private UniversalUser universalUser;
 
     /**
      * Default constructor.
@@ -107,7 +107,16 @@ public class LedgerBalance extends Balance {
      * @param emplid The emplid to set.
      */
     public void setEmplid(String emplid) {
-        this.emplid = emplid;
+        try {
+            setLedgerPerson(((LaborUserService) SpringServiceLocator.getService("laborUserService"))
+                            .getLaborUserByPersonPayrollIdentifier(emplid).getUniversalUser());
+            this.emplid = emplid;
+        }
+        catch (UserNotFoundException unfe) {
+            // The user is not valid. We don't have a user
+            setLedgerPerson(null);
+            this.emplid = null;
+        }
     }
 
     /**
@@ -738,14 +747,6 @@ public class LedgerBalance extends Balance {
     }
     
     public UniversalUser getLedgerPerson() {
-        UserId empl = new PersonPayrollId(getEmplid());
-        
-        try{
-            ledgerPerson = SpringServiceLocator.getUniversalUserService().getUniversalUser(empl);
-        }catch(UserNotFoundException e){
-            ledgerPerson = new UniversalUser();            
-        }
-        
         return ledgerPerson;
     }
 
@@ -757,21 +758,5 @@ public class LedgerBalance extends Balance {
      */
     public void setLedgerPerson(UniversalUser ledgerPerson) {
         this.ledgerPerson = ledgerPerson;
-    }
-
-    /**
-     * Gets the universalUser attribute. 
-     * @return Returns the universalUser.
-     */
-    public UniversalUser getUniversalUser() {
-        return universalUser;
-    }
-
-    /**
-     * Sets the universalUser attribute value.
-     * @param universalUser The universalUser to set.
-     */
-    public void setUniversalUser(UniversalUser universalUser) {
-        this.universalUser = universalUser;
     }
 }

@@ -111,30 +111,44 @@
 
         <attributes>
 
-            <attribute name="emplid" forceUppercase="true">
-                <label>Emplid</label>
-                <shortLabel>Emplid</shortLabel>
+            <attributeReference name="emplid" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personPayrollIdentifier"/>
 
-                <maxLength>11</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="13" />
-                </control>
-
-                <summary>emplid</summary>
-                <description>emplid description...</description>
-			</attribute>
-                        
-            <attributeReference name="ledgerPerson.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
-                <label>Name</label>
-                <shortLabel>Name</shortLabel>
+            <attributeReference name="ledgerPerson.personUniversalIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier">
+                <label>Employee Univ ID</label>
+                <shortLabel>EmplUnvId</shortLabel>
+                <displayLabelAttribute>ledgerPerson.personUserIdentifier</displayLabelAttribute>
                 <required>false</required>
+                <control>
+                    <hidden />
+                </control>
+            </attributeReference>
+                        
+            <attributeReference name="ledgerPerson.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
+                <label>Employee User ID</label>
+                <shortLabel>UserID</shortLabel>
+                <required>false</required>
+                <control>
+                    <kualiUser universalIdAttributeName="ledgerPerson.personUniversalIdentifier" userIdAttributeName="ledgerPerson.personUserIdentifier" personNameAttributeName="ledgerPerson.personName" />
+                </control>
                 <summary>
                     <![CDATA[&nbsp;]]>
                 </summary>
-                <description>Name.</description>
+                <description>Employee User Name</description>
             </attributeReference>
+
+            <attributeReference name="ledgerPerson.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
+                <label>Employee Name</label>
+                <shortLabel>Name</shortLabel>
+                <required>false</required>
+                <control>
+                    <hidden />
+                </control>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Employee Name</description>
+            </attributeReference>
+
 
             <attribute name="positionNumber" forceUppercase="true">
                 <label>Position Number</label>
@@ -277,5 +291,14 @@
             </attributeReference>
 
         </attributes>
+
+        <relationships>
+            <relationship objectAttributeName="ledgerPerson" >
+                <primitiveAttribute sourceName="ledgerPerson.personUniversalIdentifier" targetName="personUniversalIdentifier" />
+				<supportAttribute sourceName="emplid" targetName="personPayrollIdentifier" identifier="true" />
+				<supportAttribute sourceName="ledgerPerson.personUserIdentifier" targetName="personUserIdentifier" identifier="true"/>
+				<supportAttribute sourceName="ledgerPerson.personName" targetName="personName" />
+            </relationship>
+        </relationships>
     </businessObject>
 </dictionaryEntry>

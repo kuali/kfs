@@ -24,6 +24,7 @@
 <c:set var="budgetLinked" value="${KualiForm.editingMode['budgetLinked']}"/>
 
 <kul:tab tabTitle="Submission Details" defaultOpen="true" tabErrorKey="document.contractGrantProposal*,document.projectAbstract,document.routingFormProjectTitle,document.routingFormLayDescription,document.routingFormBudget*" auditCluster="mainPageAuditErrors" tabAuditKey="document.routingFormBudget*,document.submissionTypeCode,document.previousFederalIdentifier,document.routingFormPurposeCode,document.researchTypeCode,document.routingFormOtherPurposeDescription,document.routingFormProjectTitle,document.routingFormLayDescription,document.projectAbstract,document.routingFormProjectTypes*,document.projectTypeOtherDescription,document.routingFormPriorGrantNumber,document.grantNumber">
+	<div class="tab-container-error"><div class="left-errmsg-tab"><kra:auditErrors cluster="mainPageAuditErrors" keyMatch="document.routingFormBudget*,document.submissionTypeCode,document.previousFederalIdentifier,document.routingFormPurposeCode,document.researchTypeCode,document.routingFormOtherPurposeDescription,document.routingFormProjectTitle,document.routingFormLayDescription,document.projectAbstract,document.routingFormProjectTypes*,document.projectTypeOtherDescription,document.routingFormPriorGrantNumber,document.grantNumber" isLink="false" includesTitle="true"/></div></div>
 
           <div class="tab-container" align="center">
             <div class="h2-container">

@@ -27,7 +27,8 @@
 <c:set var="readOnly" value="${empty editingMode['fullEntry']}" />
 <c:set var="routingFormQuestionAttributes" value="${DataDictionary.RoutingFormQuestion.attributes}" />
 
-<kul:tab tabTitle="Other Project Details" defaultOpen="false" transparentBackground="false" tabAuditKey="document.budget.audit.modular.consortium" auditCluster="projectDetailsAuditErrors" >
+<kul:tab tabTitle="Other Project Details" defaultOpen="true" transparentBackground="false" tabAuditKey="document.budget.audit.modular.consortium" auditCluster="projectDetailsAuditErrors">
+	<div class="tab-container-error"><div class="left-errmsg-tab"><kra:auditErrors cluster="projectDetailsAuditErrors" keyMatch="document.projectDetails.otherProjectDetailsQuestions" isLink="false" includesTitle="true"/></div></div>
 	<div class="tab-container" align="center" id="G4" style="">
 		<div class="h2-container"><h2>Other Project Details</h2></div>
 		<table cellpadding=0 cellspacing="0" summary="">

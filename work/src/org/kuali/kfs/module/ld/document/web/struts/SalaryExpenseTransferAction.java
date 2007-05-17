@@ -37,6 +37,7 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.rule.event.AddAccountingLineEvent;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.kfs.web.struts.action.KualiBalanceInquiryReportMenuAction;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
@@ -98,7 +99,7 @@ public class SalaryExpenseTransferAction extends LaborDocumentActionBase {
         SalaryExpenseTransferForm salaryExpenseTransferForm = (SalaryExpenseTransferForm) form;
 
         // Needed to be executed for each accounting line that may have been added.
-        boolean rulePassed = runRule(salaryExpenseTransferForm, new EmployeeIdChangedEventBase(salaryExpenseTransferForm.getDocument()));
+        boolean rulePassed = runRule(new EmployeeIdChangedEventBase(salaryExpenseTransferForm.getDocument()));
         Map<String, String> requestParams = (Map<String, String>) request.getParameterMap();
         
         Collection<PersistableBusinessObject> rawValues = null;
@@ -117,22 +118,8 @@ public class SalaryExpenseTransferAction extends LaborDocumentActionBase {
             for (PersistableBusinessObject bo : rawValues) {
                 ExpenseTransferAccountingLine line = (ExpenseTransferAccountingLine) salaryExpenseTransferForm.getFinancialDocument().getSourceAccountingLineClass().newInstance();
                 buildAccountingLineFromLedgerBalance((LedgerBalance) bo, line);
-                salaryExpenseTransferForm.getFinancialDocument().getSourceAccountingLines().add(line);
                 salaryExpenseTransferForm.setUniversityFiscalYear(((LedgerBalance) bo).getUniversityFiscalYear());
-/*
-// check any business rules
-boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINE_PROPERTY_NAME, financialDocumentForm.getDocument(), line));
-
-// if the rule evaluation passed, let's add it
-if (rulePassed) {
-// add accountingLine
-            SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(line);
-            insertAccountingLine(false, financialDocumentForm, line);
-
-            // clear the used newTargetLine
-            financialDocumentForm.setNewTargetLine(null);
-        }
-*/
+                insertAccountingLine(true, salaryExpenseTransferForm, line);
             }
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -146,7 +133,15 @@ if (rulePassed) {
         for (Object line : financialDocumentForm.getFinancialDocument().getSourceAccountingLines()) {
             ExpenseTransferAccountingLine to = (ExpenseTransferAccountingLine) financialDocumentForm.getFinancialDocument().getTargetAccountingLineClass().newInstance();
             copyAccountingLine((ExpenseTransferAccountingLine) line, to);
-            insertAccountingLine(false, financialDocumentForm, to);
+
+            boolean rulePassed = runRule(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINE_PROPERTY_NAME, financialDocumentForm.getDocument(), to));
+            
+            // if the rule evaluation passed, let's add it
+            if (rulePassed) {
+                // add accountingLine
+                SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(line);
+                insertAccountingLine(false, financialDocumentForm, to);
+            }
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -161,18 +156,28 @@ if (rulePassed) {
 
         int index = getSelectedLine(request);
 
-        ExpenseTransferAccountingLine line = (ExpenseTransferAccountingLine) financialDocumentForm.getFinancialDocument().getSourceAccountingLineClass().newInstance();
+        ExpenseTransferAccountingLine line = (ExpenseTransferAccountingLine) financialDocumentForm.getFinancialDocument().getTargetAccountingLineClass().newInstance();
         copyAccountingLine((ExpenseTransferAccountingLine) financialDocument.getSourceAccountingLine(index), line);
 
-        insertAccountingLine(false, financialDocumentForm, line);
-
+        boolean rulePassed = runRule(new AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINE_PROPERTY_NAME, financialDocumentForm.getDocument(), line));
+        
+        // if the rule evaluation passed, let's add it
+        if (rulePassed) {
+            // add accountingLine
+            SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(line);
+            insertAccountingLine(false, financialDocumentForm, line);
+        }
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse)
+     * Copies content from one accounting line to the other. Ignores Source or Target information.
+     *
+     * @param source line to copy from
+     * @param target new line to copy data to
      */
-    protected void copyAccountingLine(ExpenseTransferAccountingLine source, ExpenseTransferAccountingLine target) {
+    private void copyAccountingLine(ExpenseTransferAccountingLine source, ExpenseTransferAccountingLine target) {
         target.setChartOfAccountsCode(source.getChartOfAccountsCode());
         target.setAccountNumber(source.getAccountNumber());
         target.setSubAccountNumber(source.getSubAccountNumber());
@@ -186,6 +191,12 @@ if (rulePassed) {
         target.setEmplid(source.getEmplid());
     }
     
+    /**
+     * Translates <code>{@link LedgerBalance}</code> data into an <code>{@link ExpenseTransferAccountingLine}</code>
+     *
+     * @param bo <code>{@link LedgerBalance}</code> instance
+     * @param line <code>{@link ExpenseTransferAccountingLine}</code> to copy data to
+     */
     private void buildAccountingLineFromLedgerBalance(LedgerBalance bo, ExpenseTransferAccountingLine line) {
         line.setChartOfAccountsCode(bo.getChartOfAccountsCode());
         line.setAccountNumber(bo.getAccountNumber());
@@ -201,10 +212,15 @@ if (rulePassed) {
         line.setBalanceTypeCode(bo.getFinancialBalanceTypeCode());
         line.setPositionNumber(bo.getPositionNumber());
         line.setAmount(bo.getAccountLineAnnualBalanceAmount());
-        line.setEmplid(bo.getEmplid());
+        line.setEmplid(bo.getPersonPayrollIdentifier());
     }
         
-    private boolean runRule(SalaryExpenseTransferForm salaryExpenseTransferFormForm, KualiDocumentEventBase event) {
+    /**
+     * Executes for the given event. This is more of a convenience method.
+     *
+     * @param event to run the rules for
+     */
+    private boolean runRule(KualiDocumentEventBase event) {
         // check any business rules
 
         boolean rulePassed = SpringServiceLocator.getKualiRuleService().applyRules(event);

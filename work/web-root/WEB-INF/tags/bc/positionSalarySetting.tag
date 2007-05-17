@@ -820,7 +820,9 @@
                 literalLabel="Actions:"
                 horizontal="true" />
             <td class="datacell" nowrap>
-                <div align="center"><span class=nobord">&nbsp;
+                <div align="center"><span class=nobord">
+                  <html:image property="methodToCall.performReasonAnnotation.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" src="images/tinybutton-reason.gif" title="Reason Annotation for Salary Setting Line ${status.index}" alt="Reason Annotation for Salary Setting Line ${status.index}" styleClass="tinybutton" />
+                  <br>
                   <c:if test="${item.emplid ne Constants.BudgetConstructionConstants.VACANT_EMPLID}">
                     <c:if test="${!readOnly}">
                         <html:image property="methodToCall.performVacateSalarySettingLine.line${status.index}.anchorsalaryexistingLineLineAnchor${status.index}" src="images/tinybutton-vacate.gif" title="Vacate Salary Setting Line ${status.index}" alt="Vacate Salary Setting Line ${status.index}" styleClass="tinybutton" />

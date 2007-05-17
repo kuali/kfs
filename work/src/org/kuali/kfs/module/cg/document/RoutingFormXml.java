@@ -43,6 +43,7 @@ import org.kuali.module.kra.routingform.bo.RoutingFormOrganizationCreditPercent;
 import org.kuali.module.kra.routingform.bo.RoutingFormOtherCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
 import org.kuali.module.kra.routingform.bo.RoutingFormProjectType;
+import org.kuali.module.kra.routingform.bo.RoutingFormPurpose;
 import org.kuali.module.kra.routingform.bo.RoutingFormQuestion;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchRiskStudy;
@@ -240,19 +241,25 @@ public class RoutingFormXml {
      * @return resulting node
      */
     private static Element createPurposeElement(RoutingFormDocument routingFormDocument, Document xmlDoc) {
-        Element purposeElement = xmlDoc.createElement("PURPOSE");
+        Element purposesElement = xmlDoc.createElement("PURPOSES");
 
-        // TODO Research Type dropdown.
+        for(RoutingFormPurpose routingFormPurpose : routingFormDocument.getRoutingFormPurposes()) {
+            Element purposeElement = xmlDoc.createElement("PURPOSE");
+            
+            purposeElement.setAttribute("SELECTED", formatBoolean(routingFormPurpose.getPurposeCode().equals(routingFormDocument.getRoutingFormPurposeCode())));
+            purposeElement.setAttribute("CODE", ObjectUtils.toString(routingFormPurpose.getPurposeCode()));
+            purposeElement.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormPurpose.getPurpose().getPurposeDescription())));
+            
+            purposesElement.appendChild(purposeElement);
+        }
         
-        // TODO Purpose should be dynamic, not static as it is right now below.
-        
-        purposeElement.setAttribute("PURPOSE", routingFormDocument.getRoutingFormPurposeCode());
-        
-        Element purposeDescriptionElement = xmlDoc.createElement("PURPOSE_DESCRIPTION");
+        Element purposeDescriptionElement = xmlDoc.createElement("PURPOSE_OTHER_DESCRIPTION");
         purposeDescriptionElement.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormDocument.getRoutingFormOtherPurposeDescription())));
-        purposeElement.appendChild(purposeDescriptionElement);
+        purposesElement.appendChild(purposeDescriptionElement);
+
+        // Research Type dropdown omitted since it was not present in ERA.
         
-        return purposeElement;
+        return purposesElement;
     }
     
     /**

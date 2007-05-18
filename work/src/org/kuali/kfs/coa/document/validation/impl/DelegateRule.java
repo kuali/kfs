@@ -44,7 +44,8 @@ import org.kuali.module.chart.bo.ChartUser;
 public class DelegateRule extends MaintenanceDocumentRuleBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DelegateRule.class);
-
+    private static final KualiDecimal ZERO = new KualiDecimal(0);
+    
     private Delegate oldDelegate;
     private Delegate newDelegate;
 
@@ -193,7 +194,8 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
             }
             else {
                 // case if FROM amount is non-null and positive, disallow TO amount being less
-                if (toAmount.isLessThan(fromAmount)) {
+                // if to amount is zero it is considered infinite (fromAmount -> infinity)
+                if (toAmount.isLessThan(fromAmount) && !toAmount.equals(ZERO)) {
                     putFieldError("finDocApprovalToThisAmount", KFSKeyConstants.ERROR_DOCUMENT_ACCTDELEGATEMAINT_TO_AMOUNT_MORE_THAN_FROM_OR_ZERO);
                     success &= false;
                 }

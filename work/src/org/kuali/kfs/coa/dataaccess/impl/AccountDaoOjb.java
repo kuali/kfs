@@ -112,6 +112,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
             totalDollarAmountInRangeCriteria.addGreaterOrEqualThan("finDocApprovalToThisAmount", totalDollarAmount);
             Criteria totalDollarAmountZeroCriteria = new Criteria();
             totalDollarAmountZeroCriteria.addEqualTo("finDocApprovalToThisAmount", "0");
+            totalDollarAmountZeroCriteria.addLessOrEqualThan("finDocApprovalFromThisAmt", totalDollarAmount);
             Criteria totalDollarAmountOrCriteria = new Criteria();
             totalDollarAmountOrCriteria.addOrCriteria(totalDollarAmountInRangeCriteria);
             totalDollarAmountOrCriteria.addOrCriteria(totalDollarAmountZeroCriteria);

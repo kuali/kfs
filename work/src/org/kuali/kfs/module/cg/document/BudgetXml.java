@@ -93,7 +93,7 @@ public class BudgetXml {
 
         budgetElement.setAttribute("BUDGET_NUMBER", budget.getDocumentNumber());
         budgetElement.setAttribute("CURRENT_BASE", budget.getIndirectCost().getBudgetBaseCode());
-        budgetElement.setAttribute("PURPOSE", budget.getIndirectCost().getBudgetPurposeCode());
+        budgetElement.setAttribute("PURPOSE", budget.getIndirectCost().getPurpose() == null ? "" : budget.getIndirectCost().getPurpose().getPurposeDescription());
         budgetElement.setAttribute("GRANT_NUMBER", budget.getElectronicResearchAdministrationGrantNumber());
 
         // Code to get the current date/time

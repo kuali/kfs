@@ -73,10 +73,6 @@ public class RoutingFormXml {
     
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RoutingFormXml.class);
     
-    // TODO do these already exist somewhere?
-    private static final String SHORT_TIMESTAMP_FORMAT = "MM/dd/yyyy";
-    private static final String LONG_TIMESTAMP_FORMAT = "MM/dd/yyyy HH:mm:ss";
-    
     /**
      * Driving method for this class. Functions as a hub calling helper methods.
      * 
@@ -130,7 +126,7 @@ public class RoutingFormXml {
     private static Element createAgencyElement(RoutingFormAgency routingFormAgency, String routingFormAnnouncementNumber, Document xmlDoc) {
         Element agencyElement = xmlDoc.createElement("AGENCY");
 
-        DateFormat dateFormatter = new SimpleDateFormat(SHORT_TIMESTAMP_FORMAT);
+        DateFormat dateFormatter = new SimpleDateFormat(KraConstants.SHORT_TIMESTAMP_FORMAT);
         
         if (routingFormAgency.getAgency() != null) {
             Element agencyDataElement = xmlDoc.createElement("AGENCY_DATA");
@@ -299,7 +295,7 @@ public class RoutingFormXml {
     private static Element createAmountsDatesElement(RoutingFormBudget routingFormBudget, Document xmlDoc) {
         Element amountsDatesElement = xmlDoc.createElement("AMOUNTS_DATES");
 
-        DateFormat dateFormatter = new SimpleDateFormat(SHORT_TIMESTAMP_FORMAT);
+        DateFormat dateFormatter = new SimpleDateFormat(KraConstants.SHORT_TIMESTAMP_FORMAT);
         
         Element directCostsDescription = xmlDoc.createElement("DIRECT_COSTS");
         directCostsDescription.appendChild(xmlDoc.createTextNode(ObjectUtils.toString(routingFormBudget.getRoutingFormBudgetDirectAmount())));
@@ -382,7 +378,7 @@ public class RoutingFormXml {
         Element researchRisksElement = xmlDoc.createElement("RESEARCH_RISKS");
 
         boolean anyStudySelected = false;
-        DateFormat dateFormatter = new SimpleDateFormat(SHORT_TIMESTAMP_FORMAT);
+        DateFormat dateFormatter = new SimpleDateFormat(KraConstants.SHORT_TIMESTAMP_FORMAT);
         RoutingFormApprovalStatusValuesFinder routingFormApprovalStatusValuesFinder = new RoutingFormApprovalStatusValuesFinder();
         RoutingFormStudyReviewCodeValuesFinder routingFormStudyReviewCodeValuesFinder = new RoutingFormStudyReviewCodeValuesFinder();
         
@@ -556,7 +552,7 @@ public class RoutingFormXml {
         criteria.setXmlContent(routingFormDocument.generateDocumentContent());
         WorkflowInfo info = new WorkflowInfo();
         try {
-            DateFormat dateFormat = new SimpleDateFormat(LONG_TIMESTAMP_FORMAT);
+            DateFormat dateFormat = new SimpleDateFormat(KraConstants.LONG_TIMESTAMP_FORMAT);
             DocumentDetailVO detail = info.routingReport(criteria);
             ActionTakenVO[] actionTakenVO = detail.getActionsTaken();
             ActionRequestVO[] actionRequestVO = detail.getActionRequests();
@@ -654,7 +650,7 @@ public class RoutingFormXml {
     private static Element createCommentsElement(RoutingFormDocument routingFormDocument, Document xmlDoc) {
         Element commentsElement = xmlDoc.createElement("COMMENTS");
         
-        DateFormat dateFormat = new SimpleDateFormat(LONG_TIMESTAMP_FORMAT);
+        DateFormat dateFormat = new SimpleDateFormat(KraConstants.LONG_TIMESTAMP_FORMAT);
         Iterator notes = routingFormDocument.getDocumentHeader().getBoNotes().iterator();
         
         while(notes.hasNext()) {

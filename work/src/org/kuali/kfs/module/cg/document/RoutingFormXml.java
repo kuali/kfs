@@ -545,13 +545,11 @@ public class RoutingFormXml {
     private static Element createApprovalsElement(RoutingFormDocument routingFormDocument, Document xmlDoc) {
         Element approvalsElement = xmlDoc.createElement("APPROVALS");
         
-        ReportCriteriaVO criteria = new ReportCriteriaVO();
-        criteria.setDocumentTypeName(KualiWorkflowUtils.KRA_ROUTING_FORM_DOC_TYPE);
-        criteria.setNodeNames(new String[] {KraConstants.PROJECT_DIRECTOR_REVIEW_NODE_NAME, KraConstants.ADHOC_REVIEW_NODE_NAME, KraConstants.ORG_REVIEW_NODE_NAME});
-        criteria.setRuleTemplateNames(new String[] {KraConstants.PROJECT_DIRECTOR_TEMPLATE_NAME, KraConstants.ADHOC_REVIEW_TEMPLATE_NAME, KraConstants.ORG_REVIEW_TEMPLATE_NAME});
-        criteria.setXmlContent(routingFormDocument.generateDocumentContent());
-        WorkflowInfo info = new WorkflowInfo();
         try {
+            ReportCriteriaVO criteria = new ReportCriteriaVO();
+            criteria.setRouteHeaderId(routingFormDocument.getDocumentHeader().getWorkflowDocument().getRouteHeaderId());
+            WorkflowInfo info = new WorkflowInfo();
+            
             DateFormat dateFormat = new SimpleDateFormat(KraConstants.LONG_TIMESTAMP_FORMAT);
             DocumentDetailVO detail = info.routingReport(criteria);
             ActionTakenVO[] actionTakenVO = detail.getActionsTaken();
@@ -561,10 +559,7 @@ public class RoutingFormXml {
                 ActionTakenVO actionTaken = actionTakenVO[i];
                 UserVO user = actionTaken.getUserVO();
                 
-                // TODO PD and ADHOC user object is always null
-                if (user != null) {
-                    createApproverElement(xmlDoc, approvalsElement, user, "TODO", actionTaken.getActionTaken(), dateFormat.format(actionTaken.getActionDate()));
-                }
+                createApproverElement(xmlDoc, approvalsElement, user, "TODO", actionTaken.getActionTaken(), dateFormat.format(actionTaken.getActionDate().getTime()));
             }
             
             for(int i = 0 ; i < actionRequestVO.length; i++) {

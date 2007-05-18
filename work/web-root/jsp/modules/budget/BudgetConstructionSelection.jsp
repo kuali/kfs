@@ -189,7 +189,7 @@
                 <kul:inquiry
                     boClassName="org.kuali.module.chart.bo.Org"
                     keyValues="chartOfAccountsCode=${KualiForm.budgetConstructionHeader.account.chartOfAccountsCode}&amp;organizationCode=${KualiForm.budgetConstructionHeader.account.organizationCode}"
-                    render="${!empty KualiForm.budgetConstructionHeader.account.chartOfAccountsCode}">
+                    render="${!empty KualiForm.budgetConstructionHeader.account.organizationCode}">
                 	<html:hidden write="true" property="budgetConstructionHeader.account.organizationCode" />
                 </kul:inquiry>&nbsp;
 	      	</kul:htmlControlAttribute>
@@ -237,7 +237,7 @@
             <kul:htmlControlAttribute
                 property="${orgPropString}.reportsToOrganization.organizationName"
                 attributeEntry="${organizationAttributes.organizationName}"
-                readOnly="${true}"/>
+                readOnly="true"/>
             </td>
 	    </tr>
 	    <tr>

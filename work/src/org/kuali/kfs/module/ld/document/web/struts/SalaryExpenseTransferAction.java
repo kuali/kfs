@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,6 +36,8 @@ import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.UrlFactory;
+import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
@@ -42,7 +45,6 @@ import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rule.event.AddAccountingLineEvent;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.kfs.web.struts.action.KualiBalanceInquiryReportMenuAction;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.LedgerBalance;
@@ -57,7 +59,6 @@ import org.kuali.rice.KNSServiceLocator;
  * class is necessary for integrating into the framework.
  */
 public class SalaryExpenseTransferAction extends LaborDocumentActionBase {
-    private KualiBalanceInquiryReportMenuAction balanceInquiryAction;
 
     private static final Map<String, String> periodCodeMapping = new HashMap<String,String>();
     static {
@@ -77,11 +78,17 @@ public class SalaryExpenseTransferAction extends LaborDocumentActionBase {
     }
         
     public SalaryExpenseTransferAction() {
-        balanceInquiryAction = new KualiBalanceInquiryReportMenuAction();
     }
     
     /**
-     * @see org.kuali.kfs.web.struts.action.KualiBalanceInquiryReportMenuAction#performBalanceInquiryLookup(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse)
+     * Takes care of storing the action form in the user session and forwarding to the balance inquiry lookup action.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
      */
     public ActionForward performBalanceInquiryLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiAccountingDocumentFormBase financialDocumentForm = (KualiAccountingDocumentFormBase) form;
@@ -90,9 +97,85 @@ public class SalaryExpenseTransferAction extends LaborDocumentActionBase {
         // save in workflow
         KNSServiceLocator.getDocumentService().saveDocument(document);
 
-        // save(mapping, form, request, response);
-        return balanceInquiryAction.performBalanceInquiryLookup(mapping, form, request, response);
+        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+
+        // parse out the important strings from our methodToCall parameter
+        String fullParameter = (String) request.getAttribute(KFSConstants.METHOD_TO_CALL_ATTRIBUTE);
+
+        // parse out business object class name for lookup
+        String boClassName = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_BOPARM_LEFT_DEL, KFSConstants.METHOD_TO_CALL_BOPARM_RIGHT_DEL);
+        if (StringUtils.isBlank(boClassName)) {
+            throw new RuntimeException("Illegal call to perform lookup, no business object class name specified.");
+        }
+
+        // build the parameters for the lookup url
+        Properties parameters = new Properties();
+        String conversionFields = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_PARM1_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM1_RIGHT_DEL);
+        if (StringUtils.isNotBlank(conversionFields)) {
+            parameters.put(KFSConstants.CONVERSION_FIELDS_PARAMETER, conversionFields);
+        }
+
+        // pass values from form that should be pre-populated on lookup search
+        String parameterFields = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_PARM2_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM2_RIGHT_DEL);
+        if (StringUtils.isNotBlank(parameterFields)) {
+            String[] lookupParams = parameterFields.split(KFSConstants.FIELD_CONVERSIONS_SEPERATOR);
+
+            for (int i = 0; i < lookupParams.length; i++) {
+                String[] keyValue = lookupParams[i].split(KFSConstants.FIELD_CONVERSION_PAIR_SEPERATOR);
+
+                // hard-coded passed value
+                if (StringUtils.contains(keyValue[0], "'")) {
+                    parameters.put(keyValue[1], StringUtils.replace(keyValue[0], "'", ""));
+                }
+                // passed value should come from property
+                else if (StringUtils.isNotBlank(request.getParameter(keyValue[0]))) {
+                    parameters.put(keyValue[1], request.getParameter(keyValue[0]));
+                }
+            }
+        }
+
+        // grab whether or not the "return value" link should be hidden or not
+        String hideReturnLink = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_PARM3_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM3_RIGHT_DEL);
+        if (StringUtils.isNotBlank(hideReturnLink)) {
+            parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, hideReturnLink);
+        }
+
+        System.out.println("Setting the anchor to " + ((KualiAccountingDocumentFormBase) form).getAnchor());
+        // anchor, if it exists
+        if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
+            parameters.put(Constants.LOOKUP_ANCHOR, ((KualiForm) form).getAnchor());
+        }
+
+        // determine what the action path is
+        String actionPath = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_PARM4_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM4_RIGHT_DEL);
+        if (StringUtils.isBlank(actionPath)) {
+            throw new IllegalStateException("The \"actionPath\" attribute is an expected parameter for the <kul:balanceInquiryLookup> tag - it " + "should never be blank.");
+        }
+
+        // now add required parameters
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, "search");
+        parameters.put(KFSConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(form));
+        parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, boClassName);
+        parameters.put(KFSConstants.RETURN_LOCATION_PARAMETER, basePath + mapping.getPath() + ".do");
+
+        String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + actionPath, parameters);
+
+        return new ActionForward(lookupUrl, true);
     }
+
+    /**
+     * @see org.kuali.kfs.web.struts.action.KualiBalanceInquiryReportMenuAction#performBalanceInquiryLookup(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse)
+     */
+//     public ActionForward performBalanceInquiryLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//         KualiAccountingDocumentFormBase financialDocumentForm = (KualiAccountingDocumentFormBase) form;
+//         TransactionalDocument document = financialDocumentForm.getTransactionalDocument();
+
+//         // save in workflow
+//         KNSServiceLocator.getDocumentService().saveDocument(document);
+
+//         // save(mapping, form, request, response);
+//         return balanceInquiryAction.performBalanceInquiryLookup(mapping, form, request, response);
+//     }
 
 
     /**

@@ -16,7 +16,7 @@
 package org.kuali.module.labor.web.struts.form;
 
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
-import org.kuali.module.labor.document.LaborDocument;
+import org.kuali.module.labor.document.LaborLedgerPostingDocument;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 
 /**
@@ -32,8 +32,8 @@ public class LaborDocumentFormBase extends KualiAccountingDocumentFormBase {
     /**
      * @return Returns the LaborDocument.
      */
-    public LaborDocument getLaborDocument() {
-        return (LaborDocument) getDocument();
+    public LaborLedgerPostingDocument getLaborDocument() {
+        return (LaborLedgerPostingDocument) getDocument();
     }
 
 }

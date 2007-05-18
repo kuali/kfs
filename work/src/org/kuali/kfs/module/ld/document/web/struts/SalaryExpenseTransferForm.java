@@ -218,8 +218,8 @@ public class SalaryExpenseTransferForm extends LaborDocumentFormBase implements 
         map.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, Boolean.TRUE);
         map.put(KFSPropertyConstants.PROJECT_CODE, Boolean.TRUE);
         map.put(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID, Boolean.TRUE);
-        map.put(KFSPropertyConstants.AMOUNT, Boolean.TRUE);
         map.put(KFSPropertyConstants.POSITION_NUMBER, Boolean.TRUE);
+        map.put(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE, Boolean.TRUE);
         return map;
     }
 
@@ -236,7 +236,6 @@ public class SalaryExpenseTransferForm extends LaborDocumentFormBase implements 
         map.remove(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
         map.remove(KFSPropertyConstants.PROJECT_CODE);
         map.remove(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID);
-        map.remove(KFSPropertyConstants.AMOUNT);
         map.remove(KFSPropertyConstants.POSITION_NUMBER);
         return map;
     }

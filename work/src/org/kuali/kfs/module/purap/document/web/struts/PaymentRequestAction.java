@@ -27,12 +27,14 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.rule.event.SaveDocumentEvent;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapAuthorizationConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.question.SingleConfirmationQuestion;
@@ -131,8 +133,15 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
             paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.INITIATE);
         }
         
-        //TODO: here is where you can call the PREQ service methods for continuation.
-        //put up the informational message if the list of closed/expired accounts is not empty and call the note method
+        //If the list of closed/expired accounts is not empty add a warning and  add a note for the close / epired accounts which get replaced
+        HashMap<String, String> expiredOrClosedAccounts = paymentRequestService.ExpiredOrClosedAccountsList(paymentRequestDocument);
+ 
+        if (!expiredOrClosedAccounts.isEmpty()){
+            GlobalVariables.getMessageList().add(PurapKeyConstants.MESSAGE_CLOSED_OR_EXPIRED_ACCOUNTS_REPLACED);
+            paymentRequestService.addContinuationAccountsNote(paymentRequestDocument, expiredOrClosedAccounts);
+        }
+        
+        
         
         return super.refresh(mapping, form, request, response);
         //return mapping.findForward(KFSConstants.MAPPING_PORTAL);

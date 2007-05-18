@@ -409,7 +409,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 }
                 // 2.  if the account is expired and the current date is <= 30 days from the expiration date, do nothing 
                 // 3.  if the account is expired and the current date is > 30 days from the expiration date, get the continuation account and add it to the list
-    
+                //TODO: check to see if there is a constant defiend for this number of days (30) in the system and use it instead of 30. If not we need to define a new one 
             } else if (account.isExpired() & SpringServiceLocator.getDateTimeService().dateDiff(account.getAccountExpirationDate(), SpringServiceLocator.getDateTimeService().getCurrentDate(), true) > 30) {
                 Account continuationAccount = account.getContinuationAccount();
                 //TODO: Do we need to check for not being null and what to do??  Yes see above

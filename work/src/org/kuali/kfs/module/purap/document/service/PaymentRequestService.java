@@ -63,6 +63,10 @@ public interface PaymentRequestService {
     
     public HashMap<String, String> paymentRequestDuplicateMessages(PaymentRequestDocument document);
     
+    public HashMap<String, String> ExpiredOrClosedAccountsList(PaymentRequestDocument document);
+    
+    public void addContinuationAccountsNote(PaymentRequestDocument document, HashMap<String, String> accounts);
+    
     
     /* Start Paste from EPIC */
      

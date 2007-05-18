@@ -82,6 +82,8 @@ public class PurapKeyConstants {
     public static final String MESSAGE_DUPLICATE_INVOICE_CANCELLED="errors.duplicate.vendor.invoice.cancelled";
     public static final String MESSAGE_DUPLICATE_INVOICE_VOIDED="errors.duplicate.vendor.invoice.voided";
     
+    public static final String MESSAGE_CLOSED_OR_EXPIRED_ACCOUNTS_REPLACED="message.closed.or.expired.accounts.replaced";
+    
     //Item
     public static final String ERROR_ITEM_AMOUNT_BELOW_ZERO="errors.item.amount.belowZero";
     public static final String ERROR_ITEM_AMOUNT_NOT_BELOW_ZERO="errors.item.amount.notBelowZero";

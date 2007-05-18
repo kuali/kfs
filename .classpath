@@ -8,7 +8,6 @@
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-configuration-1.1.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-dbcp-1.2.1.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-discovery-0.2.jar"/>
-	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-fileupload-1.0.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/commons-pool-1.2.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/jakarta-oro-2.0.8.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/jaxrpc-1.1.jar"/>

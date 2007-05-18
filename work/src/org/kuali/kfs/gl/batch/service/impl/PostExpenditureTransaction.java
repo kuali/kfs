@@ -90,7 +90,7 @@ public class PostExpenditureTransaction implements IcrTransaction, PostTransacti
             }
 
             // Do we exclude this account from ICR because account/object is in the table?
-            IndirectCostRecoveryExclusionAccount excAccount = indirectCostRecoveryExclusionAccountDao.getByPrimaryKey(account.getChartOfAccountsCode(), account.getAccountNumber(), objectCode.getReportsToChartOfAccountsCode(), objectCode.getReportsToFinancialObjectCode());
+            IndirectCostRecoveryExclusionAccount excAccount = indirectCostRecoveryExclusionAccountDao.getByPrimaryKey(account.getChartOfAccountsCode(), account.getAccountNumber(), objectCode.getChartOfAccountsCode(), objectCode.getFinancialObjectCode());
             if (excAccount != null) {
                 // No need to post this
                 LOG.debug("isIcrTransaction() ICR Excluded account - not posted");
@@ -110,7 +110,7 @@ public class PostExpenditureTransaction implements IcrTransaction, PostTransacti
                 }
 
                 // If the type is excluded, don't post
-                IndirectCostRecoveryExclusionType excType = indirectCostRecoveryExclusionTypeDao.getByPrimaryKey(account.getAcctIndirectCostRcvyTypeCd(), objectCode.getReportsToChartOfAccountsCode(), objectCode.getReportsToFinancialObjectCode());
+                IndirectCostRecoveryExclusionType excType = indirectCostRecoveryExclusionTypeDao.getByPrimaryKey(account.getAcctIndirectCostRcvyTypeCd(), objectCode.getChartOfAccountsCode(), objectCode.getFinancialObjectCode());
                 if (excType != null) {
                     // No need to post this
                     LOG.debug("isIcrTransaction() ICR Excluded type - not posted");

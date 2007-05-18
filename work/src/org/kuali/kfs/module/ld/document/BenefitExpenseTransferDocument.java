@@ -15,74 +15,16 @@
  */
 package org.kuali.module.labor.document;
 
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.AccountingLineParser;
-import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
-import org.kuali.module.labor.bo.ExpenseTransferTargetAccountingLine;
-import org.kuali.module.labor.bo.LaborLedgerAccountingLineParser;
-
 /**
  * 
  */
-public class BenefitExpenseTransferDocument extends LaborDocument {
-
-    private String emplid;
-    
-    public String getEmplid() {
-        return emplid;
-    }
-
-    public void setEmplid(String emplid) {
-        this.emplid = emplid;
-    }
+public class BenefitExpenseTransferDocument extends LaborExpenseTransferDocumentBase {
 
     /**
      * Initializes the array lists and some basic info.
      */
     public BenefitExpenseTransferDocument() {
         super();
-    }
-
-    /**
-     * Overrides the base implementation to return "From".
-     * 
-     * @see org.kuali.core.document.TransactionalDocument#getSourceAccountingLinesSectionTitle()
-     */
-    public String getSourceAccountingLinesSectionTitle() {
-        return KFSConstants.FROM;
-    }
-
-    /**
-     * Overrides the base implementation to return "To".
-     * 
-     * @see org.kuali.core.document.TransactionalDocument#getTargetAccountingLinesSectionTitle()
-     */
-    public String getTargetAccountingLinesSectionTitle() {
-        return KFSConstants.TO;
-    }
-    
-    /**
-     * @see org.kuali.core.document.TransactionalDocumentBase#getAccountingLineParser()
-     */
-    @Override
-    public AccountingLineParser getAccountingLineParser() {
-        return new LaborLedgerAccountingLineParser();        
-    }    
-    
-    /**
-     * @see org.kuali.kfs.document.AccountingDocumentBase#getSourceAccountingLineClass()
-     */
-    @Override
-    public Class getSourceAccountingLineClass() {
-        return ExpenseTransferSourceAccountingLine.class;
-    }
-
-    /**
-     * @see org.kuali.kfs.document.AccountingDocumentBase#getTargetAccountingLineClass()
-     */
-    @Override
-    public Class getTargetAccountingLineClass() {
-        return ExpenseTransferTargetAccountingLine.class;
     }
 }
 

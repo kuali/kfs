@@ -17,6 +17,8 @@ package org.kuali.module.labor.rules;
 
 import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_A21;
 import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_ACTUAL;
+import static org.kuali.module.labor.LaborConstants.LABOR_LEDGER_PENDING_ENTRY_CODE;
+import static org.kuali.module.labor.LaborConstants.LABOR_LEDGER_CHART_OF_ACCOUNT_CODE;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.ReferentialIntegrityException;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
@@ -56,22 +59,6 @@ import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
  */
 public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBase {
 
-    // LLPE KFSConstants
-    public static final class LABOR_LEDGER_PENDING_ENTRY_CODE {
-        public static final String NO = "N";
-        public static final String YES = "Y";
-        public static final String BLANK_PROJECT_STRING = "----------"; // Max length is 10 for this field
-        public static final String BLANK_SUB_OBJECT_CODE = "---"; // Max length is 3 for this field
-        public static final String BLANK_SUB_ACCOUNT_NUMBER = "-----"; // Max length is 5 for this field
-        public static final String BLANK_OBJECT_CODE = "----"; // Max length is 4 for this field
-        public static final String BLANK_OBJECT_TYPE_CODE = "--"; // Max length is 4 for this field
-        public static final String BLANK_POSITION_NUMBER = "--------"; // Max length is 8 for this field
-        public static final String BLANK_EMPL_ID = "-----------"; // Max length is 11 for this field
-        public static final String LL_PE_OFFSET_STRING = "TP Generated Offset";
-        public static final int LLPE_DESCRIPTION_MAX_LENGTH = 40;
-   }
-    public static final String LABOR_LEDGER_CHART_OF_ACCOUNT_CODE = "UA";
-
     public LaborExpenseTransferDocumentRules() {
     }   
     
@@ -79,7 +66,20 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         return processCustomAddAccountingLineBusinessRules(accountingDocument, accountingLine);
     }
     
-
+    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+        // Validate that an employee ID is enterred.
+        SalaryExpenseTransferDocument salaryExpenseTransferDocument = (SalaryExpenseTransferDocument) document;
+        String emplid = salaryExpenseTransferDocument.getEmplid();
+        if ((emplid == null) || (emplid.trim().length() == 0)) {
+            reportError(KFSConstants.EMPLOYEE_LOOKUP_ERRORS,KFSKeyConstants.Labor.MISSING_EMPLOYEE_ID, emplid);
+            return false;
+        }
+       
+        // Make sure the employee does not have any pending salary transfers
+//         if (!validatePendingExpenseTransfer(emplid))
+//             return false;
+        return true;
+    }
 
     protected boolean processBenefitClearingLaborLedgerPendingEntry(AccountingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry benefitClearingEntry) {        
 
@@ -1106,19 +1106,19 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
          * </ol>
          * the following are credits (return false)
          * <ol>
-         * <li> (isIncome || isLiability) && (lineAmount > 0)
-         * <li> (isExpense || isAsset) && (lineAmount < 0)
+         * <li> <code>(isIncome || isLiability) && (lineAmount > 0)</code>
+         * <li> <code>(isExpense || isAsset) && (lineAmount < 0)</code>
          * </ol>
          * the following are debits (return true)
          * <ol>
-         * <li> (isIncome || isLiability) && (lineAmount < 0)
-         * <li> (isExpense || isAsset) && (lineAmount > 0)
+         * <li> <code>(isIncome || isLiability) && (lineAmount < 0)</code>
+         * <li> <code>(isExpense || isAsset) && (lineAmount > 0)</code>
          * </ol>
          * the following are invalid ( throws an <code>IllegalStateException</code>)
          * <ol>
-         * <li> document isErrorCorrection
-         * <li> lineAmount == 0
-         * <li> ! (isIncome || isLiability || isExpense || isAsset)
+         * <li> <code>document isErrorCorrection</code>
+         * <li> <code>lineAmount == 0</code>
+         * <li> <code>! (isIncome || isLiability || isExpense || isAsset)</code>
          * </ol>
          * 
          * 
@@ -1126,7 +1126,8 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
          * @param accountingDocument
          * @param accountingLine
          * @return boolean
-         * 
+         * @throws IllegalStateException if <code>document isErrorCorrection</code> or <code>lineAmount == 0</code>
+         * or <code>! (isIncome || isLiability || isExpense || isAsset)</code>
          */
         static boolean isDebitConsideringType(AccountingDocumentRuleBase rule, AccountingDocument accountingDocument, AccountingLine accountingLine) {
 
@@ -1165,18 +1166,19 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
          * </ol>
          * the following are debits (return true)
          * <ol>
-         * <li> (isIncome || isLiability || isExpense || isAsset) && (lineAmount > 0)
+         * <li> <code>(isIncome || isLiability || isExpense || isAsset) && (lineAmount > 0)</code>
          * </ol>
          * the following are invalid ( throws an <code>IllegalStateException</code>)
          * <ol>
-         * <li> lineAmount <= 0
-         * <li> ! (isIncome || isLiability || isExpense || isAsset)
+         * <li> <code>lineAmount <= 0</code>
+         * <li> <code>! (isIncome || isLiability || isExpense || isAsset)</code>
          * </ol>
          * 
          * @param rule
          * @param accountingDocument
          * @param accountingLine
          * @return boolean
+         * @throws IllegalStateException if <code>lineAmount <= 0</code> or <code>! (isIncome || isLiability || isExpense || isAsset)</code>
          */
         static boolean isDebitConsideringNothingPositiveOnly(AccountingDocumentRuleBase rule, AccountingDocument accountingDocument, AccountingLine accountingLine) {
 
@@ -1215,18 +1217,18 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
          * </ol>
          * the following are credits (return false)
          * <ol>
-         * <li> isSourceLine && (isIncome || isExpense || isAsset || isLiability) && (lineAmount > 0)
-         * <li> isTargetLine && (isIncome || isExpense || isAsset || isLiability) && (lineAmount < 0)
+         * <li> <code>isSourceLine && (isIncome || isExpense || isAsset || isLiability) && (lineAmount > 0)</code>
+         * <li> <code>isTargetLine && (isIncome || isExpense || isAsset || isLiability) && (lineAmount < 0)</code>
          * </ol>
          * the following are debits (return true)
          * <ol>
-         * <li> isSourceLine && (isIncome || isExpense || isAsset || isLiability) && (lineAmount < 0)
-         * <li> isTargetLine && (isIncome || isExpense || isAsset || isLiability) && (lineAmount > 0)
+         * <li> <code>isSourceLine && (isIncome || isExpense || isAsset || isLiability) && (lineAmount < 0)</code>
+         * <li> <code>isTargetLine && (isIncome || isExpense || isAsset || isLiability) && (lineAmount > 0)</code>
          * </ol>
          * the following are invalid ( throws an <code>IllegalStateException</code>)
          * <ol>
-         * <li> lineAmount == 0
-         * <li> ! (isIncome || isLiability || isExpense || isAsset)
+         * <li> <code>lineAmount == 0</code>
+         * <li> <code>! (isIncome || isLiability || isExpense || isAsset)</code>
          * </ol>
          * 
          * 
@@ -1234,6 +1236,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
          * @param accountingDocument
          * @param accountingLine
          * @return boolean
+         * @throws IllegalStateException if <code>lineAmount == 0</code> or <code>! (isIncome || isLiability || isExpense || isAsset)</code>
          * 
          */
         static boolean isDebitConsideringSection(AccountingDocumentRuleBase rule, AccountingDocument accountingDocument, AccountingLine accountingLine) {
@@ -1279,22 +1282,22 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
          * </ol>
          * the following are credits (return false)
          * <ol>
-         * <li> isSourceLine && (isExpense || isAsset) && (lineAmount > 0)
-         * <li> isTargetLine && (isIncome || isLiability) && (lineAmount > 0)
-         * <li> isErrorCorrection && isSourceLine && (isIncome || isLiability) && (lineAmount < 0)
-         * <li> isErrorCorrection && isTargetLine && (isExpense || isAsset) && (lineAmount < 0)
+         * <li> <code>isSourceLine && (isExpense || isAsset) && (lineAmount > 0)</code>
+         * <li> <code>isTargetLine && (isIncome || isLiability) && (lineAmount > 0)</code>
+         * <li> <code>isErrorCorrection && isSourceLine && (isIncome || isLiability) && (lineAmount < 0)</code>
+         * <li> <code>isErrorCorrection && isTargetLine && (isExpense || isAsset) && (lineAmount < 0)</code>
          * </ol>
          * the following are debits (return true)
          * <ol>
-         * <li> isSourceLine && (isIncome || isLiability) && (lineAmount > 0)
-         * <li> isTargetLine && (isExpense || isAsset) && (lineAmount > 0)
-         * <li> isErrorCorrection && (isExpense || isAsset) && (lineAmount < 0)
-         * <li> isErrorCorrection && (isIncome || isLiability) && (lineAmount < 0)
+         * <li> <code>isSourceLine && (isIncome || isLiability) && (lineAmount > 0)</code>
+         * <li> <code>isTargetLine && (isExpense || isAsset) && (lineAmount > 0)</code>
+         * <li> <code>isErrorCorrection && (isExpense || isAsset) && (lineAmount < 0)</code>
+         * <li> <code>isErrorCorrection && (isIncome || isLiability) && (lineAmount < 0)</code>
          * </ol>
          * the following are invalid ( throws an <code>IllegalStateException</code>)
          * <ol>
-         * <li> !isErrorCorrection && !(lineAmount > 0)
-         * <li> isErrorCorrection && !(lineAmount < 0)
+         * <li> <code>!isErrorCorrection && !(lineAmount > 0)</code>
+         * <li> <code>isErrorCorrection && !(lineAmount < 0)</code>
          * </ol>
          * 
          * @param rule
@@ -1389,7 +1392,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
      * @param Employee ID
      * @return true if the employee does not have any pending salary transfers.
      */
-    public boolean validatePendingSalaryTransfer(String emplid) {
+    public boolean validatePendingExpenseTransfer(String emplid) {
         
         // We must not have any pending labor ledger entries
         if (SpringServiceLocator.getLaborLedgerPendingEntryService().hasPendingLaborLedgerEntry(emplid)) {

@@ -45,6 +45,7 @@ import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.financial.bo.OffsetAccount;
 import org.kuali.module.labor.LaborConstants;
+import org.kuali.module.labor.LaborConstants.LABOR_LEDGER_PENDING_ENTRY_CODE;
 import org.kuali.module.labor.bo.BenefitsCalculation;
 import org.kuali.module.labor.bo.BenefitsType;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
@@ -65,20 +66,6 @@ import org.kuali.module.labor.rule.GenerateLaborLedgerPendingEntriesRule;
 public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocumentRules implements GenerateLaborLedgerPendingEntriesRule<AccountingDocument>, GenerateLaborLedgerBenefitClearingPendingEntriesRule<AccountingDocument>{
 
     // LLPE KFSConstants
-    public static final class LABOR_LEDGER_PENDING_ENTRY_CODE {
-        public static final String NO = "N";
-        public static final String YES = "Y";
-        public static final String BLANK_PROJECT_STRING = "----------"; // Max length is 10 for this field
-        public static final String BLANK_SUB_OBJECT_CODE = "---"; // Max length is 3 for this field
-        public static final String BLANK_SUB_ACCOUNT_NUMBER = "-----"; // Max length is 5 for this field
-        public static final String BLANK_OBJECT_CODE = "----"; // Max length is 4 for this field
-        public static final String BLANK_OBJECT_TYPE_CODE = "--"; // Max length is 4 for this field
-        public static final String BLANK_POSITION_NUMBER = "--------"; // Max length is 8 for this field
-        public static final String BLANK_EMPL_ID = "-----------"; // Max length is 11 for this field
-        public static final String LL_PE_OFFSET_STRING = "TP Generated Offset";
-        public static final int LLPE_DESCRIPTION_MAX_LENGTH = 40;
-    }
-
     public static final String LABOR_LEDGER_ACCOUNT_NUMBER = "9712700";
    
         
@@ -111,7 +98,7 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
      * @param TransactionalDocument
      * @param AccountingLine
      * @return
-   */
+     */
     @Override
     protected boolean processCustomAddAccountingLineBusinessRules(AccountingDocument accountingDocument, AccountingLine accountingLine) {
 
@@ -133,38 +120,23 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
               reportError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.Labor.INVALID_SALARY_OBJECT_CODE_ERROR, accountingLine.getAccountNumber());
             return false;
         }            
-            
-        // Validate that an employee ID is enterred.
-        SalaryExpenseTransferDocument salaryExpenseTransferDocument = (SalaryExpenseTransferDocument)accountingDocument;
-        String emplid = salaryExpenseTransferDocument.getEmplid();
-        if ((emplid == null) || (emplid.trim().length() == 0)) {
-            reportError(KFSConstants.EMPLOYEE_LOOKUP_ERRORS,KFSKeyConstants.Labor.MISSING_EMPLOYEE_ID, emplid);
-            return false;
-        }
-        
-        // Make sure the employee does not have any pending salary transfers
-        if (!validatePendingSalaryTransfer(emplid))
-            return false;
-        
-        // Save the employee ID in all accounting related lines       
-        ExpenseTransferAccountingLine salaryExpenseTransferAccountingLine = (ExpenseTransferAccountingLine)accountingLine;
-        salaryExpenseTransferAccountingLine.setEmplid(emplid); 
 
+        ExpenseTransferAccountingLine salaryExpenseTransferAccountingLine = (ExpenseTransferAccountingLine)accountingLine;
         // Validate the accounting year
         fieldValues.clear();
         fieldValues.put("universityFiscalYear", salaryExpenseTransferAccountingLine.getPayrollEndDateFiscalYear());
         AccountingPeriod accountingPeriod = new AccountingPeriod();        
         if (SpringServiceLocator.getBusinessObjectService().countMatching(AccountingPeriod.class, fieldValues) == 0) {
-            reportError(KFSPropertyConstants.ACCOUNT,KFSKeyConstants.Labor.INVALID_PAY_YEAR, emplid);
+            reportError(KFSPropertyConstants.ACCOUNT,KFSKeyConstants.Labor.INVALID_PAY_YEAR, salaryExpenseTransferAccountingLine.getPayrollEndDateFiscalYear().toString());
             return false;
         }
-        
+       
         // Validate the accounting period code
         fieldValues.clear();
         fieldValues.put("universityFiscalPeriodCode", salaryExpenseTransferAccountingLine.getPayrollEndDateFiscalPeriodCode());
         accountingPeriod = new AccountingPeriod();        
         if (SpringServiceLocator.getBusinessObjectService().countMatching(AccountingPeriod.class, fieldValues) == 0) {
-            reportError(KFSPropertyConstants.ACCOUNT,KFSKeyConstants.Labor.INVALID_PAY_PERIOD_CODE, emplid);
+            reportError(KFSPropertyConstants.ACCOUNT,KFSKeyConstants.Labor.INVALID_PAY_PERIOD_CODE, salaryExpenseTransferAccountingLine.getPayrollEndDateFiscalPeriodCode());
             return false;
         }
         return true;

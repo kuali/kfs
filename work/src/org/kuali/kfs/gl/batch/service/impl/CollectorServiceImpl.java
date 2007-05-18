@@ -365,16 +365,18 @@ public class CollectorServiceImpl implements CollectorService {
         StringBuffer body = new StringBuffer();
 
         body.append("Header Information:\n\n");
-        body.append("Chart: " + batch.getChartOfAccountsCode() + "\n");
-        body.append("Org: " + batch.getOrganizationCode() + "\n");
-        body.append("Contact: " + batch.getPersonUserID() + "\n");
-        body.append("Email: " + batch.getWorkgroupName() + "\n");
-        body.append("File Date: " + batch.getTransmissionDate() + "\n\n");
-        body.append("Summary Totals:\n");
+        if (!GlobalVariables.getErrorMap().containsMessageKey(KFSKeyConstants.ERROR_BATCH_UPLOAD_PARSING_XML)) {
+            body.append("Chart: " + batch.getChartOfAccountsCode() + "\n");
+            body.append("Org: " + batch.getOrganizationCode() + "\n");
+            body.append("Contact: " + batch.getPersonUserID() + "\n");
+            body.append("Email: " + batch.getWorkgroupName() + "\n");
+            body.append("File Date: " + batch.getTransmissionDate() + "\n\n");
+            body.append("Summary Totals:\n");
 
-        // SUMMARY TOTALS HERE
-        body.append("    Total Records: " + String.valueOf(batch.getTotalRecords().intValue()) + "\n");
-        body.append("    Total Amount: " + batch.getTotalAmount() + "\n\n");
+            // SUMMARY TOTALS HERE
+            body.append("    Total Records: " + String.valueOf(batch.getTotalRecords().intValue()) + "\n");
+            body.append("    Total Amount: " + batch.getTotalAmount() + "\n\n");
+        }
         body.append("Reported Errors:\n");
 
         // ERRORS GO HERE

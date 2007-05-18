@@ -104,10 +104,7 @@
         <property name="fiscalYearStartDate">
             <ref bean="fiscalYearStartDate" />
         </property>
-        <property name="fiscalYearInitiatorDao">
-            <ref bean="fiscalYearInitiatorDao" />
-        </property>
-     </bean>
+   </bean>
 
     <bean id="fiscalYearMakersDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.FiscalYearMakersDaoOjb" >
         <property name="persistenceStructureService">
@@ -117,13 +114,6 @@
             <ref bean="dateTimeService" />
         </property>
     </bean>
-
-    <bean id="fiscalYearInitiatorDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.FiscalYearInitiatorDaoOjb" >
-        <property name="persistenceStructureService">
-            <ref bean="persistenceStructureService" />
-        </property>
-    </bean>
-    
 
     <bean id="calculatedSalaryFoundationTrackerOverrideService" class="org.kuali.module.budget.service.impl.CalculatedSalaryFoundationTrackerOverrideServiceImpl">
     </bean>

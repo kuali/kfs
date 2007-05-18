@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2007 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,12 +35,14 @@ import org.kuali.Constants;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.util.FieldUtils;
 import org.kuali.core.workflow.attribute.WorkflowLookupableImpl;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.workflow.KualiWorkflowUtils;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -446,6 +448,12 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
                     buildOrgReviewHierarchy(0, chartOrgValues, docOrg);
                 }
                 else {
+                    // now look at the global documents
+                    List<Org> globalDocOrgs = getGlobalDocOrgs(docType.getName(), xpath, docContent);
+                    for (Org globalOrg : globalDocOrgs) {
+                        chartOrgValues.add(globalOrg);
+                        buildOrgReviewHierarchy(0, chartOrgValues, globalOrg);
+                    }
                     String xpathExp = null;
                     if (KualiWorkflowUtils.isMaintenanceDocument(docType)) {
                         xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("kualiUser").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
@@ -487,6 +495,44 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
             routeContext.getParameters().put(DOCUMENT_CHART_ORG_VALUES_KEY, chartOrgValues);
         }
         return chartOrgValues;
+    }
+
+    private List<Org> getGlobalDocOrgs(String docTypeName, XPath xpath, DocumentContent docContent) throws Exception {
+        List<Org> orgs = new ArrayList<Org>();
+        if (KualiWorkflowUtils.ACCOUNT_CHANGE_DOC_TYPE.equals(docTypeName) ||
+                KualiWorkflowUtils.ACCOUNT_DELEGATE_GLOBAL_DOC_TYPE.equals(docTypeName) ||
+                KualiWorkflowUtils.SUB_OBJECT_CODE_CHANGE_DOC_TYPE.equals(docTypeName)) {
+            NodeList accountChangeDetails = (NodeList)xpath.evaluate(KualiWorkflowUtils.ACCOUNT_CHANGE_DETAILS_XPATH, docContent.getDocument(), XPathConstants.NODESET);
+            for (int index = 0; index < accountChangeDetails.getLength(); index++) {
+                Element accountChangeDetail = (Element)accountChangeDetails.item(index);
+                String chartOfAccountsCode = getChildElementValue(accountChangeDetail, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
+                String accountNumber = getChildElementValue(accountChangeDetail, KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
+                Account account = SpringServiceLocator.getAccountService().getByPrimaryIdWithCaching(chartOfAccountsCode, accountNumber);
+                orgs.add(account.getOrganization());
+            }
+        }
+        else if (KualiWorkflowUtils.ORG_REVERSION_CHANGE_DOC_TYPE.equals(docTypeName)) {
+            NodeList orgReversionChangeDetails = (NodeList)xpath.evaluate(KualiWorkflowUtils.ORG_REVERSION_DETAILS_XPATH, docContent.getDocument(), XPathConstants.NODESET);
+            for (int index = 0; index < orgReversionChangeDetails.getLength(); index++) {
+                Element orgReversionChangeDetail = (Element)orgReversionChangeDetails.item(index);
+                String chartOfAccountsCode = getChildElementValue(orgReversionChangeDetail, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
+                String orgCode = getChildElementValue(orgReversionChangeDetail, KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME);
+                Org org = SpringServiceLocator.getOrganizationService().getByPrimaryIdWithCaching(chartOfAccountsCode, orgCode);
+                orgs.add(org);
+            }
+        }
+        return orgs;
+    }
+
+    private String getChildElementValue(Element element, String childTagName) {
+        NodeList nodes = element.getChildNodes();
+        for (int index = 0; index < nodes.getLength(); index++) {
+            Node node = nodes.item(index);
+            if (Node.ELEMENT_NODE == node.getNodeType() && node.getNodeName().equals(childTagName)) {
+                return node.getFirstChild().getNodeValue();
+            }
+        }
+        return null;
     }
 
     private String getOverrideCd(DocumentType docType, DocumentContent docContent) {

@@ -280,7 +280,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
     
     private void processObjectOrAccount(Account sfrbAccount, Balance balance) {
         if ( options.getFinObjTypeExpenditureexpCd().equals(balance.getObjectTypeCode()) || 
-                options.getFinObjTypeExpendNotExp().equals(balance.getObjectTypeCode()) || 
+                options.getFinObjTypeExpendNotExpCode().equals(balance.getObjectTypeCode()) || 
                 options.getFinObjTypeExpNotExpendCode().equals(balance.getObjectTypeCode()) ||
                 options.getFinancialObjectTypeTransferExpenseCd().equals(balance.getObjectTypeCode()) ) {
             if (options.getActualFinancialBalanceTypeCd().equals(balance.getBalanceTypeCode())) {

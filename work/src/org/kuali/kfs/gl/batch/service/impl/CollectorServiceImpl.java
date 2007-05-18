@@ -17,6 +17,7 @@ package org.kuali.module.gl.service.impl;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ import java.util.Set;
 
 import org.apache.commons.collections.Bag;
 import org.apache.commons.collections.bag.HashBag;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.Constants;
@@ -50,6 +52,7 @@ import org.kuali.kfs.exceptions.XMLParseException;
 import org.kuali.kfs.service.BatchInputFileService;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.batch.collector.CollectorBatch;
+import org.kuali.module.gl.bo.CollectorHeader;
 import org.kuali.module.gl.bo.InterDepartmentalBilling;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.service.CollectorService;
@@ -80,14 +83,28 @@ public class CollectorServiceImpl implements CollectorService {
      * @see org.kuali.module.gl.service.CollectorService#loadCollectorFile(java.lang.String)
      */
     public boolean loadCollectorFile(String fileName) {
+        boolean isValid = true;
+
         CollectorBatch batch = doCollectorFileParse(fileName);
 
+        // terminate if there were parse errors
+        if (!GlobalVariables.getErrorMap().isEmpty()) {
+            isValid = false;
+        }
+
         // do validation, base collector files rules and total checks
-        boolean isValid = performValidation(batch);
+        if (isValid) {
+            isValid = performValidation(batch);
+        }
 
         if (isValid) {
             // check totals
             isValid = checkTrailerTotals(batch);
+        }
+
+        if (isValid) {
+            // store origin group, entries, and id billings
+            batch.setDefaultsAndStore();
         }
 
         List<String> errorMessages = translateErrorsFromGlobalVariables();
@@ -102,6 +119,7 @@ public class CollectorServiceImpl implements CollectorService {
      * @param fileName
      */
     private CollectorBatch doCollectorFileParse(String fileName) {
+
         InputStream inputStream = null;
         try {
             inputStream = new FileInputStream(fileName);
@@ -113,11 +131,16 @@ public class CollectorServiceImpl implements CollectorService {
 
         CollectorBatch parsedObject = null;
         try {
-            parsedObject = (CollectorBatch) batchInputFileService.parse(collectorInputFileType, inputStream);
+            byte[] fileByteContent = IOUtils.toByteArray(inputStream);
+            parsedObject = (CollectorBatch) batchInputFileService.parse(collectorInputFileType, fileByteContent);
         }
-        catch (XMLParseException e) {
-            LOG.error("errors found while parsing file " + fileName + " " + e.getMessage());
-
+        catch (IOException e) {
+            LOG.error("error while getting file bytes:  " + e.getMessage(), e);
+            throw new RuntimeException("Error encountered while attempting to get file bytes: " + e.getMessage(), e);
+        }
+        catch (XMLParseException e1) {
+            LOG.error("errors parsing xml " + e1.getMessage(), e1);
+            GlobalVariables.getErrorMap().putError(Constants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_PARSING_XML, new String[] { e1.getMessage() });
         }
 
         return parsedObject;
@@ -130,7 +153,12 @@ public class CollectorServiceImpl implements CollectorService {
      * @return boolean - true if validation was successful, false it not
      */
     public boolean performValidation(CollectorBatch batch) {
-        boolean valid = duplicateHeaderCheck(batch);
+        boolean valid = true;
+
+        boolean performDuplicateHeaderCheck = kualiConfigurationService.getApplicationParameterIndicator(ParameterGroups.COLLECTOR_SECURITY_GROUP_NAME, SystemGroupParameterNames.COLLECTOR_PERFORM_DUPLICATE_HEADER_CHECK);
+        if (performDuplicateHeaderCheck) {
+            valid = duplicateHeaderCheck(batch);
+        }
 
         if (valid) {
             valid = checkForMixedDocumentTypes(batch);
@@ -139,7 +167,7 @@ public class CollectorServiceImpl implements CollectorService {
         if (valid) {
             valid = checkForMixedBalanceTypes(batch);
         }
-        
+
         if (valid) {
             valid = checkDetailKeys(batch);
         }
@@ -156,9 +184,14 @@ public class CollectorServiceImpl implements CollectorService {
     private boolean duplicateHeaderCheck(CollectorBatch batch) {
         boolean validHeader = true;
 
-        if (!validHeader) {
+        CollectorHeader batchHeader = batch.createCollectorHeader();
+        CollectorHeader foundHeader = (CollectorHeader) SpringServiceLocator.getBusinessObjectService().retrieve(batchHeader);
+
+        if (foundHeader != null) {
             LOG.error("batch header was matched to a previously loaded batch");
             GlobalVariables.getErrorMap().putError(Constants.GLOBAL_ERRORS, KFSKeyConstants.Collector.DUPLICATE_BATCH_HEADER);
+
+            validHeader = false;
         }
 
         return validHeader;

@@ -35,11 +35,11 @@ public interface BatchInputFileService {
      * Unmarshalls the file contents to an Object using the digestor and digestor rules file specified in the batch input type.
      * 
      * @param batchInputFileType - batch input file type for the file to parse
-     * @param fileContents - contents of file to parse
+     * @param fileByteContent - byte contents of file to parse
      * @return - Object built from the file contents based on its xml unmarshalling rules
      * @throws XMLParseException - if there were errors encountered during parsing of the xml
      */
-    public Object parse(BatchInputFileType batchInputFileType, InputStream fileContents) throws XMLParseException;
+    public Object parse(BatchInputFileType batchInputFileType, byte[] fileByteContent) throws XMLParseException;
 
     /**
      * Using the input type object parses and validates the file contents by calling validate on the batch input type. If there were

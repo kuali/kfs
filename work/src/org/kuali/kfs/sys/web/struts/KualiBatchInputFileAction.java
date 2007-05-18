@@ -15,6 +15,7 @@
  */
 package org.kuali.kfs.web.struts.action;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -25,6 +26,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -115,9 +117,11 @@ public class KualiBatchInputFileAction extends KualiAction {
         }
 
         InputStream fileContents = ((KualiBatchInputFileForm) form).getUploadFile().getInputStream();
+        byte[] fileByteContent = IOUtils.toByteArray(fileContents);
+        
         Object parsedObject = null;
         try {
-            parsedObject = batchInputFileService.parse(batchType, fileContents);
+            parsedObject = batchInputFileService.parse(batchType, fileByteContent);
         }
         catch (XMLParseException e) {
             LOG.error("errors parsing xml " + e.getMessage(), e);
@@ -129,10 +133,9 @@ public class KualiBatchInputFileAction extends KualiAction {
 
             if (validateSuccessful && GlobalVariables.getErrorMap().isEmpty()) {
                 try {
-                    // must reset InputStream since it has previousely been read
-                    fileContents.reset();
+                    InputStream saveStream = new ByteArrayInputStream(fileByteContent);
 
-                    String savedFileName = batchInputFileService.save(GlobalVariables.getUserSession().getUniversalUser(), batchType, batchUpload.getFileUserIdentifer(), fileContents, parsedObject);
+                    String savedFileName = batchInputFileService.save(GlobalVariables.getUserSession().getUniversalUser(), batchType, batchUpload.getFileUserIdentifer(), saveStream, parsedObject);
                     GlobalVariables.getMessageList().add(KFSKeyConstants.MESSAGE_BATCH_UPLOAD_SAVE_SUCCESSFUL);
                 }
                 catch (FileStorageException e1) {

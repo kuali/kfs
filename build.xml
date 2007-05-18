@@ -208,6 +208,7 @@
 			<include name="**/*.dtd" />
 			<include name="**/*.xml" />
 			<include name="**/*.html" />
+			<include name="**/*.xsd" />
 		</patternset>
 	</target>
 
@@ -380,7 +381,7 @@
 			<fileset dir="${test.source.directory}">
 				<patternset refid="non.java.resources" />
 				<include name="**/*.txt" />
-			</fileset>
+			</fileset>  
 		</copy>
 		<copy todir="${test.classes.directory}">
 			<fileset dir="${source.directory}">
@@ -433,8 +434,8 @@
 			</classpath>
 			<formatter type="xml" />
 			<batchtest todir="${test.xml.results.directory}">
-				<fileset dir="${test.source.directory}">
-					<include name="${tests.includes}" />
+				<fileset dir="${test.source.directory}"> 
+					<include name="${tests.includes}" />	
 					<exclude name="**/TransactionalDocumentRuleTest.java" />
 					<exclude name="**/datadictionary/*.java" />
 					<exclude name="**/datadictionary/exporter/*.java" />

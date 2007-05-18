@@ -79,6 +79,9 @@ public class ProcurementCardInputFileType extends BatchInputFileTypeBase {
             fileName += "_" + userIdentifier;
         }
         fileName += "_" + buf.toString();
+        
+        // remove spaces in filename
+        fileName = StringUtils.remove(fileName, " ");
 
         return fileName;
     }

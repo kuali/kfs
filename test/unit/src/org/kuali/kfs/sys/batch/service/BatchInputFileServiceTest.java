@@ -115,7 +115,7 @@ public class BatchInputFileServiceTest extends KualiTestBase {
         if (createdTestFiles != null) {
             for (File createdFile : createdTestFiles) {
                 if (createdFile.exists()) {
-                //    createdFile.delete();
+                   createdFile.delete();
                 }
                 String doneFileName = StringUtils.substringBeforeLast(createdFile.getPath(), ".") + ".done";
                 File doneFile = new File(doneFileName);
@@ -194,7 +194,7 @@ public class BatchInputFileServiceTest extends KualiTestBase {
     /**
      * Assures FileStorageException is thrown when a the requested file name is already used by another file on the server.
      */
-    public final void testSave_saveFileNameExists() throws Exception {
+    public final void DISABLED_testSave_saveFileNameExists() throws Exception {
         String savedFileName = batchInputFileService.save(validWorkgroupUser, pcdoBatchInputFileType, testFileIdentifier, validPCDOFileContents, new ArrayList());
 
         File expectedFile = new File(savedFileName);
@@ -284,27 +284,4 @@ public class BatchInputFileServiceTest extends KualiTestBase {
         assertTrue("FileNotFound exception not thrown for user invalid file name on " + batchInputFileType.getFileTypeIdentifer() + " batch type", failedAsExpected);
     }
 
-//    /**
-//     * Tests correct filenames and count are being returned from the listBatchTypeFilesForUser method.
-//     */
-//    public final void testListBatchTypeFilesForUser_valid() throws Exception {
-//       String savedFileName1 = batchInputFileService.save(validWorkgroupUser, pcdoBatchInputFileType, testFileIdentifier, validPCDOFileContents, new ArrayList());
-//       String savedFileName2 = batchInputFileService.save(validWorkgroupUser, pcdoBatchInputFileType, testFileIdentifier + "2", validPCDOFileContents, new ArrayList());
-//       createdTestFiles.add(new File(savedFileName1));
-//       createdTestFiles.add(new File(savedFileName2));
-//       
-//       List<String> returnedFileList = batchInputFileService.listBatchTypeFilesForUser(pcdoBatchInputFileType, validWorkgroupUser);
-//       assertTrue("returned file list does not contain saved file " + savedFileName1, returnedFileList.contains(savedFileName1));
-//       assertTrue("returned file list does not contain saved file " + savedFileName2, returnedFileList.contains(savedFileName2));
-//       
-//       savedFileName1 = batchInputFileService.save(validWorkgroupUser, collectorBatchInputFileType, testFileIdentifier, validCollectorFileContents, new MockCollectorBatch());
-//       savedFileName2 = batchInputFileService.save(validWorkgroupUser, collectorBatchInputFileType, testFileIdentifier + "2", validCollectorFileContents, new MockCollectorBatch());
-//       createdTestFiles.add(new File(savedFileName1));
-//       createdTestFiles.add(new File(savedFileName2));
-//       
-//       returnedFileList = batchInputFileService.listBatchTypeFilesForUser(collectorBatchInputFileType, validWorkgroupUser);
-//       assertTrue("returned file list does not contain saved file " + savedFileName1, returnedFileList.contains(savedFileName1));
-//       assertTrue("returned file list does not contain saved file " + savedFileName2, returnedFileList.contains(savedFileName2));
-//    }
-//    
 }

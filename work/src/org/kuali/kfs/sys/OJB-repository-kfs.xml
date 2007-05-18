@@ -509,21 +509,4 @@
 	
 </class-descriptor>
 
-<class-descriptor class="org.kuali.kfs.bo.CollectorHeader" table="FS_CLCTR_HDR_T">
-	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="processTransmissionDate" column="PROC_TRNS_DT" jdbc-type="DATE" primarykey="true" index="true"/>
-	<field-descriptor name="processBatchSequenceNumber" column="PROC_BATCH_SEQ_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
-	<field-descriptor name="processTotalRecordCount" column="PROC_TOT_REC_CNT" jdbc-type="INTEGER" primarykey="true" index="true"/>
-	<field-descriptor name="processTotalAmount" column="PROC_TOT_AMT" jdbc-type="DECIMAL" primarykey="true" index="true" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="chartOfAccountsCode" />
-		<foreignkey field-ref="organizationCode" />
-	</reference-descriptor>
-	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="chartOfAccountsCode" />
-	</reference-descriptor>
-</class-descriptor>
 </descriptor-repository>

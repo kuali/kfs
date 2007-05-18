@@ -70,51 +70,35 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
      * Uses the apache commons digestor to unmarshell the xml. The BatchInputFileType specifies the location of the digestor rules
      * xml which tells the digestor how to build the object graph from the xml.
      * 
-     * @see org.kuali.kfs.service.BatchInputFileService#parse(org.kuali.kfs.batch.BatchInputFileType, java.io.InputStream)
+     * @see org.kuali.kfs.service.BatchInputFileService#parse(org.kuali.kfs.batch.BatchInputFileType, byte[])
      */
-    public Object parse(BatchInputFileType batchInputFileType, InputStream fileContents) throws XMLParseException {
-        if (batchInputFileType == null || fileContents == null) {
+    public Object parse(BatchInputFileType batchInputFileType, byte[] fileByteContent) throws XMLParseException {
+        if (batchInputFileType == null || fileByteContent == null) {
             LOG.error("an invalid(null) argument was given");
             throw new IllegalArgumentException("an invalid(null) argument was given");
         }
 
         // handle zero byte contents, xml parsers don't deal with them well
-        try {
-            if (fileContents.available() == 0) {
-                LOG.error("an invalid argument was given, empty input stream");
-                throw new IllegalArgumentException("an invalid argument was given, empty input stream");
-            }
-        }
-        catch (IOException e1) {
-            throw new RuntimeException(e1);
+        if (fileByteContent.length == 0) {
+            LOG.error("an invalid argument was given, empty input stream");
+            throw new IllegalArgumentException("an invalid argument was given, empty input stream");
         }
 
-        // first need to make two copies of the file contents since the input stream will be closed by validation
-        ByteArrayInputStream validateFileContents = null;
-        ByteArrayInputStream parseFileContents = null;
-        try {
-            byte[] fileByteContent = IOUtils.toByteArray(fileContents);
-            validateFileContents = new ByteArrayInputStream(fileByteContent);
-            parseFileContents = new ByteArrayInputStream(fileByteContent);
-        }
-        catch (IOException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
-        
         // validate contents against schema
+        ByteArrayInputStream validateFileContents = new ByteArrayInputStream(fileByteContent);
         validateContentsAgainstSchema(batchInputFileType.getSchemaLocation(), validateFileContents);
-        
+
         // setup digester for parsing the xml file
         Digester digester = buildDigester(batchInputFileType.getSchemaLocation(), batchInputFileType.getDigestorRulesFileName());
-      
+
         Object parsedContents = null;
         try {
+            ByteArrayInputStream parseFileContents = new ByteArrayInputStream(fileByteContent);
             parsedContents = digester.parse(parseFileContents);
         }
         catch (Exception e) {
             LOG.error("Error parsing xml contents", e);
-            throw new XMLParseException("Error parsing xml contents. " + e.getMessage(), e);
+            throw new XMLParseException("Error parsing xml contents: " + e.getMessage(), e);
         }
 
         return parsedContents;
@@ -127,7 +111,7 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
      * @param fileContents - xml contents to validate against the schema
      */
     private void validateContentsAgainstSchema(String schemaLocation, InputStream fileContents) throws XMLParseException {
-        
+
         // create a SchemaFactory capable of understanding WXS schemas
         SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
@@ -347,21 +331,8 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
 
         String workgroupParameterName = batchInputFileType.getWorkgroupParameterName();
         String authorizedWorkgroupName = SpringServiceLocator.getKualiConfigurationService().getApplicationParameterValue(ParameterGroups.BATCH_UPLOAD_SECURITY_GROUP_NAME, workgroupParameterName);
-        KualiGroup authorizedWorkgroup = null;
-        try {
-            authorizedWorkgroup = SpringServiceLocator.getKualiGroupService().getByGroupName(authorizedWorkgroupName);
-        }
-        catch (GroupNotFoundException e) {
-            LOG.error("Invalid workgroup specified in system parameter " + workgroupParameterName + ". Returned workgroup " + authorizedWorkgroupName, e);
-            throw new RuntimeException("Invalid workgroup specified in system parameter " + workgroupParameterName + ". Returned workgroup " + authorizedWorkgroupName, e);
-        }
-
-        boolean isAuthorized = false;
-        if (authorizedWorkgroup != null && authorizedWorkgroup.hasMember(user)) {
-            isAuthorized = true;
-        }
-
-        return isAuthorized;
+ 
+        return user.isMember(authorizedWorkgroupName);
     }
 
     /**

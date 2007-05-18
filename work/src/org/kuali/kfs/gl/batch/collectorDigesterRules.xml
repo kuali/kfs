@@ -76,7 +76,7 @@
             <call-method-rule pattern="objectCode"                             methodname="setFinancialObjectCode" paramcount="0" />
             <call-method-rule pattern="subObjectCode"                          methodname="setFinancialSubObjectCode" paramcount="0" />
             <call-method-rule pattern="interDepartmentalBillingSequenceNumber" methodname="setInterDepartmentalBillingSequenceNumber" paramcount="0" />
-            <call-method-rule pattern="originCode"                             methodname="setFinancialSystemOriginationCode" paramcount="0" />
+            <call-method-rule pattern="originationCode"                        methodname="setFinancialSystemOriginationCode" paramcount="0" />
             <call-method-rule pattern="documentTypeCode"                       methodname="setFinancialDocumentTypeCode" paramcount="0"/>
             <call-method-rule pattern="documentNumber"                         methodname="setDocumentNumber" paramcount="0" />
             <call-method-rule pattern="amount"                                 methodname="setInterDepartmentalBillingItemAmount" paramcount="0" />

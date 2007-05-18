@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -31,6 +32,7 @@ import java.util.List;
 import org.apache.commons.digester.Digester;
 import org.apache.commons.digester.Rules;
 import org.apache.commons.digester.xmlrules.DigesterLoader;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.datadictionary.DataDictionaryBuilder;
 import org.kuali.core.datadictionary.XmlErrorHandler;
@@ -75,9 +77,14 @@ public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCa
             throw new RuntimeException("Cannot find the file requested to be parsed " + fileName + " " + e1.getMessage(), e1);
         }
 
-        Collection pcardTransactions;
+        Collection pcardTransactions = null;
         try {
-            pcardTransactions = (Collection) batchInputFileService.parse(procurementCardInputFileType, fileContents);
+            byte[] fileByteContent = IOUtils.toByteArray(fileContents);
+            pcardTransactions = (Collection) batchInputFileService.parse(procurementCardInputFileType, fileByteContent);
+        }
+        catch (IOException e) {
+            LOG.error("error while getting file bytes:  " + e.getMessage(), e);
+            throw new RuntimeException("Error encountered while attempting to get file bytes: " + e.getMessage(), e);
         }
         catch (XMLParseException e) {
             LOG.error("Error parsing xml " + e.getMessage());
@@ -130,5 +137,5 @@ public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCa
     public void setProcurementCardInputFileType(BatchInputFileType procurementCardInputFileType) {
         this.procurementCardInputFileType = procurementCardInputFileType;
     }
-    
+
 }

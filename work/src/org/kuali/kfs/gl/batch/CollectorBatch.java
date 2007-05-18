@@ -16,14 +16,14 @@
 package org.kuali.module.gl.batch.collector;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.math.RandomUtils;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.gl.bo.CollectorHeader;
 import org.kuali.module.gl.bo.InterDepartmentalBilling;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
@@ -225,11 +225,15 @@ public class CollectorBatch implements Serializable {
     
     /**
      * Sets defaults for fields not populated from file. Store an origin entry group,
-     * all gl entries and id billing entries from the processed file.
+     * all gl entries and id billing entries from the processed file. Also write the header
+     * for the duplicate file check.
      */
     public void setDefaultsAndStore() {
         OriginEntryGroup entryGroup = createOriginEntryGroup();
         SpringServiceLocator.getOriginEntryGroupService().save(entryGroup);
+        
+        CollectorHeader header = createCollectorHeader();
+        SpringServiceLocator.getBusinessObjectService().save(header);
         
         OriginEntryService originEntryService = SpringServiceLocator.getOriginEntryService();
         for(OriginEntry entry: this.originEntries) {
@@ -264,14 +268,31 @@ public class CollectorBatch implements Serializable {
     }
     
     /**
+     * Creates a CollectorHeader from the batch.
+     * @return CollectorHeader
+     */
+    public CollectorHeader createCollectorHeader() {
+        CollectorHeader header = new CollectorHeader();
+        
+        header.setChartOfAccountsCode(getChartOfAccountsCode());
+        header.setOrganizationCode(getOrganizationCode());
+        header.setProcessTransmissionDate(getTransmissionDate());
+        header.setProcessBatchSequenceNumber(getBatchSequenceNumber());
+        header.setProcessTotalRecordCount(getTotalRecords());
+        header.setProcessTotalAmount(getTotalAmount());
+        
+        return header;        
+    }
+    
+    /**
      * Sets defaults for missing id billing fields.
      * @param idBilling
      */
     private void setDefaultsInterDepartmentalBilling(InterDepartmentalBilling idBilling) {
-        idBilling.setUniversityFiscalPeriodCode(String.valueOf(RandomUtils.nextInt(2)));
-        idBilling.setCreateSequence(String.valueOf(RandomUtils.nextInt(2)));
-        idBilling.setInterDepartmentalBillingSequenceNumber(String.valueOf(RandomUtils.nextInt(2)));
-        idBilling.setFinancialSystemOriginationCode(String.valueOf(RandomUtils.nextInt(2)));
+        // TODO: Get current fiscal year and period if blank?
+//        idBilling.setUniversityFiscalPeriodCode(String.valueOf(RandomUtils.nextInt(2)));
+//        idBilling.setCreateSequence(String.valueOf(RandomUtils.nextInt(2)));
+//        idBilling.setInterDepartmentalBillingSequenceNumber(String.valueOf(RandomUtils.nextInt(2)));
         idBilling.setCreateDate(new Date(SpringServiceLocator.getDateTimeService().getCurrentDate().getTime()));
     }
 }

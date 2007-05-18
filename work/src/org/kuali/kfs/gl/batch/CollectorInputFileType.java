@@ -80,6 +80,9 @@ public class CollectorInputFileType extends BatchInputFileTypeBase {
             fileName += "_" + userIdentifier;
         }
         fileName += "_" + buf.toString();
+        
+        // remove spaces in filename
+        fileName = StringUtils.remove(fileName, " ");
 
         return fileName;
     }
@@ -92,9 +95,12 @@ public class CollectorInputFileType extends BatchInputFileTypeBase {
     public boolean checkAuthorization(UniversalUser user, File batchFile) {
         boolean isAuthorized = false;
 
+        String userIdentifier = user.getPersonUserIdentifier();
+        userIdentifier = StringUtils.remove(userIdentifier, " ");
+        
         String[] fileNameParts = StringUtils.split(batchFile.getName(), "_");
         if (fileNameParts.length > 4) {
-            if (fileNameParts[3].equalsIgnoreCase(user.getPersonUserIdentifier())) {
+            if (fileNameParts[3].equalsIgnoreCase(userIdentifier.toLowerCase())) {
                 isAuthorized = true;
             }
         }

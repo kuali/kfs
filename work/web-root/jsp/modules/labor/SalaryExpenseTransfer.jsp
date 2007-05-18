@@ -103,8 +103,7 @@
                 <kul:balanceInquiryLookup
                     boClassName="org.kuali.module.labor.bo.LedgerBalance"
                     actionPath="glBalanceInquiryLookup.do"
-                    fieldConversions="universityFiscalYear:universityFiscalYear"
-                    lookupParameters="emplid:personPayrollIdentifier,financialBalanceTypeCode:financialBalanceTypeCode"
+                    lookupParameters="emplid:emplid,financialBalanceTypeCode:financialBalanceTypeCode"
                     hideReturnLink="false" />
             </jsp:attribute>
             <jsp:attribute name="customActions">

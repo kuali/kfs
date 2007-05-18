@@ -50,7 +50,6 @@ public class LaborYearEndBalanceForwardServiceTest extends KualiTestBase {
     private Integer fiscalYear;
     
     private Map fieldValues, groupFieldValues;
-    private LaborOriginEntryService laborOriginEntryService;
     private OriginEntryGroupService originEntryGroupService;
     private BusinessObjectService businessObjectService;
     private LaborYearEndBalanceForwardService laborYearEndBalanceForwardService;
@@ -69,7 +68,6 @@ public class LaborYearEndBalanceForwardServiceTest extends KualiTestBase {
         fiscalYear = Integer.valueOf(properties.getProperty("oldFiscalYear"));
 
         BeanFactory beanFactory = SpringServiceLocator.getBeanFactory();
-        laborOriginEntryService = (LaborOriginEntryService) beanFactory.getBean("laborOriginEntryService");
         originEntryGroupService = (OriginEntryGroupService) beanFactory.getBean("glOriginEntryGroupService");
         businessObjectService = (BusinessObjectService) beanFactory.getBean("businessObjectService");
         laborYearEndBalanceForwardService = (LaborYearEndBalanceForwardService) beanFactory.getBean("laborYearEndBalanceForwardService");
@@ -99,7 +97,7 @@ public class LaborYearEndBalanceForwardServiceTest extends KualiTestBase {
             persistenceService.retrieveNonKeyFields(entry);
         }
 
-        laborYearEndBalanceForwardService.forwardBalance(fiscalYear);
+        laborYearEndBalanceForwardService.forwardBalance(fiscalYear, fiscalYear);
        
         List expectedDataList = TestDataPreparator.buildExpectedValueList(LaborOriginEntryForTesting.class, properties, testTarget + "expected", transactionFieldNames, deliminator, expectedNumOfData);       
         Collection originEntries = businessObjectService.findMatching(LaborOriginEntry.class, fieldValues);       
@@ -123,7 +121,7 @@ public class LaborYearEndBalanceForwardServiceTest extends KualiTestBase {
             persistenceService.retrieveNonKeyFields(entry);
         }
 
-        laborYearEndBalanceForwardService.forwardBalance(fiscalYear);
+        laborYearEndBalanceForwardService.forwardBalance(fiscalYear, fiscalYear);
 
         assertEquals(expectedNumOfData, businessObjectService.countMatching(LaborOriginEntry.class, fieldValues));
     }

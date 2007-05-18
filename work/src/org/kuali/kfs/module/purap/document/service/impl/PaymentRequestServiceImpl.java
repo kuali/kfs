@@ -388,7 +388,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         Integer POID = document.getPurchaseOrderIdentifier();
         java.util.Date currentDate = SpringServiceLocator.getDateTimeService().getCurrentDate();
         
+        //TODO: Why not rely on ojb here?  You should have a po already from the mapping Actually it looks like the mapping isn't correct.  I'll fix this later
         PurchaseOrderDocument po = SpringServiceLocator.getPurchaseOrderService().getCurrentPurchaseOrder(document.getPurchaseOrderIdentifier());
+        
         //TODO: check for for po not be null
         List accountNumberList = new ArrayList();
         for (Iterator i = po.getSourceAccountingLines().iterator(); i.hasNext();) {
@@ -396,11 +398,11 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             Account account = (Account) poAccountingLine.getAccount();
 
             if (account.isAccountClosedIndicator()) {
-
+                
                 // 1.  if the account is closed, get the continuation account and it to the list 
                 Account continuationAccount = account.getContinuationAccount();
                 if (continuationAccount == null) {
-                    //TODO: what to do here?
+                    //TODO: what to do here? - This should be an error presented to the user
                 }
                 else {
                     list.put(account.getAccountNumber(), continuationAccount.getAccountNumber());
@@ -410,10 +412,11 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     
             } else if (account.isExpired() & SpringServiceLocator.getDateTimeService().dateDiff(account.getAccountExpirationDate(), SpringServiceLocator.getDateTimeService().getCurrentDate(), true) > 30) {
                 Account continuationAccount = account.getContinuationAccount();
-                //TODO: Do we need to check for not being null and what to do??
+                //TODO: Do we need to check for not being null and what to do??  Yes see above
                 list.put(account.getAccountNumber(), continuationAccount.getAccountNumber());
             }
-
+           //TODO: I need a stub in here somewhere here to actually do the update on the preq account list
+           //maybe pass in the account and the continuation
         }
         return list;
     }

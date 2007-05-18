@@ -131,6 +131,8 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
             paymentRequestDocument.setStatusCode(PurapConstants.PaymentRequestStatuses.INITIATE);
         }
         
+        //TODO: here is where you can call the PREQ service methods for continuation.
+        //put up the informational message if the list of closed/expired accounts is not empty and call the note method
         
         return super.refresh(mapping, form, request, response);
         //return mapping.findForward(KFSConstants.MAPPING_PORTAL);

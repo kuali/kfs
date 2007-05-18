@@ -754,7 +754,6 @@ public class LedgerBalance extends Balance {
      * Sets the ledgerPerson attribute.
      * 
      * @param ledgerPerson The ledgerPerson to set.
-     * @deprecated
      */
     public void setLedgerPerson(UniversalUser ledgerPerson) {
         this.ledgerPerson = ledgerPerson;

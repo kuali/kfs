@@ -48,6 +48,9 @@ import org.kuali.module.gl.service.CorrectionDocumentService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * This class...
+ */
 @Transactional
 public class CorrectionDocumentServiceImpl implements CorrectionDocumentService {
     private static Logger LOG = Logger.getLogger(CorrectionDocumentServiceImpl.class);
@@ -382,42 +385,82 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
 
     
     /**
-     * @see org.kuali.module.gl.service.CorrectionDocumentService#retrievePersistedInputOriginEntries(org.kuali.module.gl.document.CorrectionDocument)
+     * @see org.kuali.module.gl.service.CorrectionDocumentService#retrievePersistedInputOriginEntries(org.kuali.module.gl.document.CorrectionDocument, int)
      */
-    public List<OriginEntry> retrievePersistedInputOriginEntries(CorrectionDocument document) {
-        return retrievePersistedOriginEntries(generateInputOriginEntryFileName(document));
+    public List<OriginEntry> retrievePersistedInputOriginEntries(CorrectionDocument document, int abortThreshold) {
+        return retrievePersistedOriginEntries(generateInputOriginEntryFileName(document), abortThreshold);
     }
 
     /**
-     * @see org.kuali.module.gl.service.CorrectionDocumentService#retrievePersistedOutputOriginEntries(org.kuali.module.gl.document.CorrectionDocument)
+     * @see org.kuali.module.gl.service.CorrectionDocumentService#retrievePersistedOutputOriginEntries(org.kuali.module.gl.document.CorrectionDocument, int)
      */
-    public List<OriginEntry> retrievePersistedOutputOriginEntries(CorrectionDocument document) {
-        return retrievePersistedOriginEntries(generateOutputOriginEntryFileName(document));
+    public List<OriginEntry> retrievePersistedOutputOriginEntries(CorrectionDocument document, int abortThreshold) {
+        return retrievePersistedOriginEntries(generateOutputOriginEntryFileName(document), abortThreshold);
     }
     
-    protected List<OriginEntry> retrievePersistedOriginEntries(String fullPathUniqueFileName) {
+    protected List<OriginEntry> retrievePersistedOriginEntries(String fullPathUniqueFileName, int abortThreshold) {
         File fileIn = new File(fullPathUniqueFileName);
         if (!fileIn.exists()) {
-            return new ArrayList<OriginEntry>();
+            LOG.error("File " + fullPathUniqueFileName + " does not exist.");
+            throw new RuntimeException("File does not exist");
         }
         BufferedReader reader = null;
+        FileReader fReader = null;
         
         List<OriginEntry> entries = new ArrayList<OriginEntry>();
         int lineNumber = 0;
         try {
-            reader = new BufferedReader(new FileReader(fileIn));
+            fReader = new FileReader(fileIn);
+            reader = new BufferedReader(fReader);
             String line;
             while ((line = reader.readLine()) != null) {
                 OriginEntry entry = new OriginEntry(line, lineNumber, true);
+                if (abortThreshold != UNLIMITED_ABORT_THRESHOLD && lineNumber >= abortThreshold) {
+                    return null;
+                }
                 lineNumber++;
                 entries.add(entry);
             }
         }
         catch (IOException e) {
-            LOG.error("retrievePersistedOriginEntries() Error reading file", e);
-            throw new IllegalArgumentException("Error reading file");
+            LOG.error("retrievePersistedOriginEntries() Error reading file " + fileIn.getAbsolutePath(), e);
+            throw new RuntimeException("Error reading file");
+        }
+        finally {
+            try {
+                if (fReader != null) {
+                    fReader.close();
+                }
+                if (reader != null) {
+                    reader.close();
+                }
+            }
+            catch (IOException e) {
+                LOG.error("Unable to close file " + fileIn.getAbsolutePath(), e);
+                throw new RuntimeException("Error closing file");
+            }
         }
         return entries;
+    }
+
+    /**
+     * Returns true if and only if the file corresponding to this document's input origin entries are on the file system.
+     * @see org.kuali.module.gl.service.CorrectionDocumentService#areInputOriginEntriesPersisted(org.kuali.module.gl.document.CorrectionDocument)
+     */
+    public boolean areInputOriginEntriesPersisted(CorrectionDocument document) {
+        String fullPathUniqueFileName = generateInputOriginEntryFileName(document);
+        File file = new File(fullPathUniqueFileName);
+        return file.exists();
+    }
+
+    /**
+     * Returns true if and only if the file corresponding to this document's output origin entries are on the file system.
+     * @see org.kuali.module.gl.service.CorrectionDocumentService#areOutputOriginEntriesPersisted(org.kuali.module.gl.document.CorrectionDocument)
+     */
+    public boolean areOutputOriginEntriesPersisted(CorrectionDocument document) {
+        String fullPathUniqueFileName = generateOutputOriginEntryFileName(document);
+        File file = new File(fullPathUniqueFileName);
+        return file.exists();
     }
 
     protected String getOriginEntryStagingDirectoryPath() {

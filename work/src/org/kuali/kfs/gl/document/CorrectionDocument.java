@@ -177,7 +177,7 @@ public class CorrectionDocument extends TransactionalDocumentBase {
             OriginEntryService originEntryService = SpringServiceLocator.getOriginEntryService();
             CorrectionDocumentService correctionDocumentService = SpringServiceLocator.getCorrectionDocumentService();
             
-            List<OriginEntry> outputEntries = correctionDocumentService.retrievePersistedOutputOriginEntries(this);
+            List<OriginEntry> outputEntries = correctionDocumentService.retrievePersistedOutputOriginEntries(this, CorrectionDocumentService.UNLIMITED_ABORT_THRESHOLD);
             
             // Create output group
             java.sql.Date today = dateTimeService.getCurrentSqlDate();

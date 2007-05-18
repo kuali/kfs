@@ -19,6 +19,7 @@ import java.io.BufferedOutputStream;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.module.gl.bo.OriginEntry;
@@ -169,6 +170,14 @@ public interface OriginEntryService {
     public LedgerEntryHolder getSummaryByGroupId(Collection groupIdList);
 
     public Collection<OriginEntry> getMatchingEntriesByCollection(Map searchCriteria);
+    
+    /**
+     * Retrieves a list of origin entries that match the search criteria.
+     * 
+     * @param groupId
+     * @return
+     */
+    public List<OriginEntry> getEntriesByGroupId(Integer groupId);
 
     public OriginEntry getExactMatchingEntry(Integer entryId);
 

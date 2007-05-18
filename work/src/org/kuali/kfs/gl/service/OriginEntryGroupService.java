@@ -128,4 +128,12 @@ public interface OriginEntryGroupService {
     public Collection getAllOriginEntryGroup();
 
     public Collection getRecentGroupsByDays(int days);
+    
+    /**
+     * Returns whether the group indicated with the group ID still exists within the system
+     * 
+     * @param groupId
+     * @return
+     */
+    public boolean getGroupExists(Integer groupId);
 }

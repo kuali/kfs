@@ -34,6 +34,9 @@
   <html:hidden property="showSummaryOutputFlag"/>
   <html:hidden property="glcpSearchResultsSequenceNumber"/>
   <html:hidden property="restrictedFunctionalityMode"/>
+  <html:hidden property="inputGroupIdFromLastDocumentLoad"/>
+  <html:hidden property="inputGroupIdFromLastDocumentLoadIsMissing"/>
+  <html:hidden property="persistedOriginEntriesMissing"/>
 
   <c:if test="${debug == true}">
     <kul:tab tabTitle="Debug" defaultOpen="true" tabErrorKey="debug">
@@ -63,7 +66,7 @@
     </kul:tab>
   </c:if>
   <kul:tab tabTitle="Summary" defaultOpen="true" tabErrorKey="summary">
-    <c:if test="${KualiForm.dataLoadedFlag}" >
+    <c:if test="${(KualiForm.dataLoadedFlag and !KualiForm.restrictedFunctionalityMode) or KualiForm.document.correctionOutputGroupId != null or not empty KualiForm.editingMode['viewOnly']}" >
       <html:hidden property="document.correctionDebitTotalAmount"/>
       <html:hidden property="document.correctionCreditTotalAmount"/>
       <html:hidden property="document.correctionRowCount"/>
@@ -94,7 +97,7 @@
         </table>
       </div>
     </c:if>
-    <c:if test="${KualiForm.restrictedFunctionalityMode}" >
+    <c:if test="${KualiForm.restrictedFunctionalityMode && KualiForm.editingMode['fullEntry']}" >
       <div class="tab-container" align="center"> 
 	    <table cellpadding="0" class="datatable" summary=""> 
           <tr>
@@ -153,8 +156,17 @@
                 <center>
                   <label for="inputGroupId"><strong>Origin Entry Group</strong></label><br/><br/>
                   <html:select property="inputGroupId" size="10" >
+                    <c:if test="${KualiForm.inputGroupIdFromLastDocumentLoadIsMissing}">
+                      <c:if test="${KualiForm.inputGroupId eq KualiForm.inputGroupIdFromLastDocumentLoad}">
+                        <option value="<c:out value="${KualiForm.inputGroupIdFromLastDocumentLoad}"/>" selected="selected"><c:out value="${KualiForm.inputGroupIdFromLastDocumentLoad}"/> Document was last saved with this origin entry group selected.  Group is no longer in system.</option>
+                      </c:if>
+                      <c:if test="${KualiForm.inputGroupId ne KualiForm.inputGroupIdFromLastDocumentLoad}">
+                        <option value="<c:out value="${KualiForm.inputGroupIdFromLastDocumentLoad}"/>"><c:out value="${KualiForm.inputGroupIdFromLastDocumentLoad}"/> Document was last saved with this origin entry group selected.  Group is no longer in system.</option>
+                      </c:if>
+                    </c:if>
                     <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|module|gl|web|optionfinder|CorrectionGroupEntriesFinder" label="label" value="key" />
                   </html:select>
+                  
                   <html:hidden property="previousInputGroupId"/>
                   <br/><br/>  
                   <html:image property="methodToCall.loadGroup.anchor${currentTabIndex}" src="images/tinybutton-loadgroup.gif" styleClass="tinybutton" alt="ShowAllEntries" title="Show All Entries"/>
@@ -198,7 +210,19 @@
           </table>
         </div>
       </c:if>
-      <c:if test="${KualiForm.chooseSystem != null and KualiForm.editMethod != null and KualiForm.dataLoadedFlag == true and !KualiForm.restrictedFunctionalityMode}" >
+      <c:if test="${KualiForm.persistedOriginEntriesMissing}">
+        <div class="tab-container" align="center">
+          <table cellpadding=0 class="datatable" summary=""> 
+            <tr>
+              <td align="left" valign="middle" class="subhead">Search Results</td>
+            </tr>
+            <tr>
+              <td><bean:message key="gl.correction.persisted.origin.entries.missing" /></td>
+            </tr>
+          </table>
+        </div>
+      </c:if>
+      <c:if test="${KualiForm.chooseSystem != null and KualiForm.editMethod != null and KualiForm.dataLoadedFlag == true and !KualiForm.restrictedFunctionalityMode and !KualiForm.persistedOriginEntriesMissing}" >
         <div class="tab-container" align="left" style="overflow: scroll; width: 100% ;"> 
           <table cellpadding=0 class="datatable" summary=""> 
             <tr>

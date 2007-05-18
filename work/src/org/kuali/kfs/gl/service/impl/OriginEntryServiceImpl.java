@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
@@ -385,6 +386,24 @@ public class OriginEntryServiceImpl implements OriginEntryService {
         LOG.debug("getMatchingEntriesByCollection() started");
 
         return originEntryDao.getMatchingEntriesByCollection(searchCriteria);
+    }
+
+    /**
+     * @see org.kuali.module.gl.service.OriginEntryService#getMatchingEntriesByList(java.util.Map)
+     */
+    public List<OriginEntry> getEntriesByGroupId(Integer groupId) {
+        if (groupId == null) {
+            throw new IllegalArgumentException("Group ID is null");
+        }
+        Map<String, Object> searchCriteria = new HashMap<String, Object>();
+        searchCriteria.put(ENTRY_GROUP_ID, groupId);
+        Collection<OriginEntry> searchResultAsCollection = getMatchingEntriesByCollection(searchCriteria);
+        if (searchResultAsCollection instanceof List) {
+            return (List<OriginEntry>) searchResultAsCollection;
+        }
+        else {
+            return new ArrayList<OriginEntry>(searchResultAsCollection);
+        }
     }
 
     /**

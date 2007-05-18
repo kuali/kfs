@@ -62,8 +62,31 @@ public class CorrectionForm extends KualiDocumentFormBase {
      */
     private String previousEditMethod;
     
+    /**
+     * This is the input group ID selected on the page when the page was submitted
+     */
     private Integer inputGroupId;
+    
+    /**
+     * This is the input group ID selected when the last page was rendered
+     */
     private Integer previousInputGroupId;
+    
+    /**
+     * This is the input group ID of the document when it was retrieved from the DB
+     */
+    private Integer inputGroupIdFromLastDocumentLoad;
+    
+    /**
+     * True only when the selected input group ID does not correspond to an input group in the system.  True means that querying the {@link org.kuali.module.gl.service.OriginEntryGroupService}
+     * for the group id last saved in the doc would turn up no results.
+     */
+    private boolean inputGroupIdFromLastDocumentLoadIsMissing = false;
+    
+    /**
+     * Whether the origin entries we should be displaying on the form are not currently persisted by the {@link CorrectionDocumentService}.
+     */
+    private boolean persistedOriginEntriesMissing = false;
     
     private Integer outputGroupId;
     private String inputFileName;
@@ -84,6 +107,7 @@ public class CorrectionForm extends KualiDocumentFormBase {
     private String entryTransactionDate;
     private String entryTransactionLedgerEntrySequenceNumber;
     private String entryTransactionLedgerEntryAmount;
+    
 
     /**
      * Used to identify the search results on the form
@@ -208,6 +232,10 @@ public class CorrectionForm extends KualiDocumentFormBase {
         // These are for the blank rows that are used to add criteria/changes
         groups = new ArrayList<GroupHolder>();
 
+        inputGroupIdFromLastDocumentLoad = null;
+        inputGroupIdFromLastDocumentLoadIsMissing = false;
+        persistedOriginEntriesMissing = false;
+        
         // Sync up the groups
         syncGroups();
 
@@ -239,31 +267,6 @@ public class CorrectionForm extends KualiDocumentFormBase {
 
     public Integer getAllEntriesSize() {
         return ( allEntries == null ) ? null : allEntries.size();
-    }
-
-    public void copy(CorrectionForm c) {
-        chooseSystem = c.chooseSystem;
-        editMethod = c.editMethod;
-        inputGroupId = c.inputGroupId;
-        outputGroupId = c.outputGroupId;
-        inputFileName = c.inputFileName;
-        matchCriteriaOnly = c.matchCriteriaOnly;
-        processInBatch = c.processInBatch;
-        dataLoadedFlag = c.dataLoadedFlag;
-        editableFlag = c.editableFlag;
-        manualEditFlag = c.manualEditFlag;
-        deleteFileFlag = c.deleteFileFlag;
-        showOutputFlag = c.showOutputFlag;
-        allEntries = c.allEntries;
-        displayEntries = c.displayEntries;
-        entryForManualEdit = c.entryForManualEdit;
-        groups = c.groups;
-        restrictedFunctionalityMode = c.restrictedFunctionalityMode;
-        
-        setDocument(c.getDocument());
-        setDocTypeName(c.getDocTypeName());
-        setDocumentActionFlags(c.getDocumentActionFlags());
-        setDocId(c.getDocId());
     }
 
     public CorrectionDocument getCorrectionDocument() {
@@ -536,5 +539,53 @@ public class CorrectionForm extends KualiDocumentFormBase {
      */
     public void setPreviousInputGroupId(Integer previousInputGroupId) {
         this.previousInputGroupId = previousInputGroupId;
+    }
+
+    /**
+     * Gets the input group ID of the document when it was persisted in the DB
+     * @return the input group ID of the document when it was persisted in the DB
+     */
+    public Integer getInputGroupIdFromLastDocumentLoad() {
+        return inputGroupIdFromLastDocumentLoad;
+    }
+
+    /**
+     * Sets the input group ID of the document when it was persisted in the DB
+     * @param inputGroupIdFromLastDocumentLoad the input group ID of the document when it was persisted in the DB
+     */
+    public void setInputGroupIdFromLastDocumentLoad(Integer inputGroupIdFromLastDocumentLoad) {
+        this.inputGroupIdFromLastDocumentLoad = inputGroupIdFromLastDocumentLoad;
+    }
+
+    /**
+     * Gets whether the selected input group ID does not correspond to an input group in the system. 
+     * @return Returns the inputGroupIdFromLastDocumentLoadIsMissing.
+     */
+    public boolean isInputGroupIdFromLastDocumentLoadIsMissing() {
+        return inputGroupIdFromLastDocumentLoadIsMissing;
+    }
+
+    /**
+     * Sets whether the selected input group ID does not correspond to an input group in the system
+     * @param inputGroupIdFromLastDocumentLoadIsMissing The inputGroupIdFromLastDocumentLoadIsMissing to set.
+     */
+    public void setInputGroupIdFromLastDocumentLoadIsMissing(boolean inputGroupIdFromLastDocumentLoadIsMissing) {
+        this.inputGroupIdFromLastDocumentLoadIsMissing = inputGroupIdFromLastDocumentLoadIsMissing;
+    }
+
+    /**
+     * Gets whether the origin entries we should be displaying on the form are not currently persisted by the {@link CorrectionDocumentService}.
+     * @return Returns the persistedOriginEntriesMissing.
+     */
+    public boolean isPersistedOriginEntriesMissing() {
+        return persistedOriginEntriesMissing;
+    }
+
+    /**
+     * Sets whether the origin entries we should be displaying on the form are not currently persisted by the {@link CorrectionDocumentService}.
+     * @param persistedOriginEntriesMissing The persistedOriginEntriesMissing to set.
+     */
+    public void setPersistedOriginEntriesMissing(boolean persistedOriginEntriesMissing) {
+        this.persistedOriginEntriesMissing = persistedOriginEntriesMissing;
     }
 }

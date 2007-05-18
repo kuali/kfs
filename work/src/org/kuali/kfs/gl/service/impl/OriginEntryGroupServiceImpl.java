@@ -346,6 +346,17 @@ public class OriginEntryGroupServiceImpl implements OriginEntryGroupService {
 
         return groups;
     }
+    
+
+    /**
+     * @see org.kuali.module.gl.service.OriginEntryGroupService#getGroupExists(java.lang.Integer)
+     */
+    public boolean getGroupExists(Integer groupId) {
+        Map<String, Integer> criteria = new HashMap<String, Integer>();
+        criteria.put("id", groupId);
+        Collection groups = getMatchingGroups(criteria);
+        return groups.size() > 0;
+    }
 
     public void setOriginEntryGroupDao(OriginEntryGroupDao oegd) {
         originEntryGroupDao = oegd;

@@ -59,8 +59,10 @@ import org.kuali.core.web.struts.form.KualiTableRenderFormMetadata;
 import org.kuali.core.web.struts.form.KualiTableRenderFormMetadata;
 import org.kuali.core.web.ui.Column;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.CorrectionChange;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
@@ -115,7 +117,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         
         // If we are called from the docHandler or reload, ignore the persisted origin entries because we are either creating a new document
         // or loading an old one
-        if (!(Constants.DOC_HANDLER_METHOD.equals(rForm.getMethodToCall()) && Constants.RELOAD_METHOD_TO_CALL.equals(rForm.getMethodToCall()))) {
+        if (!(Constants.DOC_HANDLER_METHOD.equals(rForm.getMethodToCall()) || Constants.RELOAD_METHOD_TO_CALL.equals(rForm.getMethodToCall()))) {
             restoreSystemAndEditMethod(rForm);
             restoreInputGroupSelectionForDatabaseEdits(rForm);
             if (!rForm.isRestrictedFunctionalityMode()) {
@@ -242,6 +244,11 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             return false;
         }
 
+        if (correctionForm.isPersistedOriginEntriesMissing()) {
+            GlobalVariables.getErrorMap().putError("searchResults", KFSKeyConstants.ERROR_GL_ERROR_CORRECTION_PERSISTED_ORIGIN_ENTRIES_MISSING);
+            return false;
+        }
+
         // Did they pick the edit method and system?
         if (!checkMainDropdown(correctionForm)) {
             return false;
@@ -284,8 +291,11 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         
         // Get the output group if necessary
         if (CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionForm.getEditMethod())) {
-            loadAllEntries(correctionForm.getInputGroupId(), correctionForm);
-            updateEntriesFromCriteria(correctionForm, false);
+            if (!correctionForm.isRestrictedFunctionalityMode() && correctionForm.getDataLoadedFlag() && !correctionForm.getShowOutputFlag()) {
+                // we're going to force the user to view the output group upon routing, so apply the criteria
+                // if the user wasn't in show output mode.
+                updateEntriesFromCriteria(correctionForm, false);
+            }
             correctionForm.setShowOutputFlag(true);
         }
         else {
@@ -387,8 +397,10 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         }
         else {
             loadDocument(correctionForm);
+            
             CorrectionDocument document = correctionForm.getCorrectionDocument();
-
+            correctionForm.setInputGroupIdFromLastDocumentLoad(document.getCorrectionInputGroupId());
+            
             CorrectionDocumentAuthorizer cda = new CorrectionDocumentAuthorizer();
             Map editingMode = cda.getEditMode(document, GlobalVariables.getUserSession().getUniversalUser());
 
@@ -398,7 +410,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
                 correctionForm.setMatchCriteriaOnly(document.getCorrectionSelection());
                 if (document.getCorrectionInputGroupId() != null) {
                     if (CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(document.getCorrectionTypeCode())) {
-                        loadAllEntries(document.getCorrectionInputGroupId(), correctionForm);
+                        loadPersistedInputGroup(correctionForm);
                     }
                     else if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(document.getCorrectionTypeCode())) {
                         loadSavedManuallyEditedEntries(correctionForm);
@@ -433,9 +445,10 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
                 // They are calling this from their action list to look at it or approve it
                 correctionForm.setProcessInBatch(!document.getCorrectionFileDelete());
                 correctionForm.setMatchCriteriaOnly(document.getCorrectionSelection());
-                loadAllEntries(document.getCorrectionOutputGroupId(), correctionForm);
+                loadPersistedOutputGroup(correctionForm);
                 correctionForm.setShowOutputFlag(true);
             }
+            correctionForm.setInputGroupIdFromLastDocumentLoadIsMissing(!originEntryGroupService.getGroupExists(document.getCorrectionInputGroupId()));
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -609,7 +622,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         CorrectionForm correctionForm = (CorrectionForm) form;
 
         if (checkOriginEntryGroupSelection(correctionForm)) {
-            OriginEntryGroup oeg = CorrectionAction.originEntryGroupService.getExactMatchingEntryGroup(correctionForm.getInputGroupId());
+            OriginEntryGroup oeg = originEntryGroupService.getExactMatchingEntryGroup(correctionForm.getInputGroupId());
             if (oeg.getProcess()) {
                 loadAllEntries(correctionForm.getInputGroupId(), correctionForm);
                 correctionForm.setDeleteFileFlag(true);
@@ -1154,19 +1167,19 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
             if ("String".equals(fieldType)) {
                 fieldValue = (String) oe.getFieldValue(fieldName);
             }
-            else if ("financialDocumentReversalDate".equals(fieldName)) {
+            else if (KFSPropertyConstants.FINANCIAL_DOCUMENT_REVERSAL_DATE.equals(fieldName)) {
                 fieldValue = correctionForm.getEntryFinancialDocumentReversalDate();
             }
-            else if ("transactionDate".equals(fieldName)) {
+            else if (KFSPropertyConstants.TRANSACTION_DATE.equals(fieldName)) {
                 fieldValue = correctionForm.getEntryTransactionDate();
             }
-            else if ("transactionLedgerEntrySequenceNumber".equals(fieldName)) {
+            else if (KFSPropertyConstants.TRN_ENTRY_LEDGER_SEQUENCE_NUMBER.equals(fieldName)) {
                 fieldValue = correctionForm.getEntryTransactionLedgerEntrySequenceNumber();
             }
-            else if ("transactionLedgerEntryAmount".equals(fieldName)) {
+            else if (KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT.equals(fieldName)) {
                 fieldValue = correctionForm.getEntryTransactionLedgerEntryAmount();
             }
-            else if ("universityFiscalYear".equals(fieldName)) {
+            else if (KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR.equals(fieldName)) {
                 fieldValue = correctionForm.getEntryUniversityFiscalYear();
             }
 
@@ -1196,7 +1209,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         CorrectionDocument document = correctionForm.getCorrectionDocument();
 
         // TODO: move the group retrieval down to the if statement if possible to conserve more space
-        List<OriginEntry> searchResults = retrieveGroup(groupId);
+        List<OriginEntry> searchResults = originEntryService.getEntriesByGroupId(groupId);
         
         correctionForm.setAllEntries(searchResults);
         correctionForm.setDisplayEntries(new ArrayList<OriginEntry> (searchResults));
@@ -1204,6 +1217,105 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         updateDocumentSummary(document, correctionForm.getAllEntries(), correctionForm.isRestrictedFunctionalityMode());
         
         if (!correctionForm.isRestrictedFunctionalityMode()) {
+            // if not in restricted functionality mode, then we can store these results temporarily in the GLCP origin entry service
+            SequenceAccessorService sequenceAccessorService = KNSServiceLocator.getSequenceAccessorService();
+            String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KFSConstants.LOOKUP_RESULTS_SEQUENCE));
+            
+            SpringServiceLocator.getGlCorrectionProcessOriginEntryService().persistAllEntries(glcpSearchResultsSequenceNumber, searchResults);
+            correctionForm.setGlcpSearchResultsSequenceNumber(glcpSearchResultsSequenceNumber);
+        
+            int maxRowsPerPage = CorrectionDocumentUtils.getRecordsPerPage();
+            KualiTableRenderFormMetadata originEntrySearchResultTableMetadata = correctionForm.getOriginEntrySearchResultTableMetadata();
+            originEntrySearchResultTableMetadata.jumpToFirstPage(correctionForm.getDisplayEntries().size(), maxRowsPerPage);
+            originEntrySearchResultTableMetadata.setColumnToSortIndex(-1);
+        }
+    }
+
+    /**
+     * Show all entries for Manual edit with groupId and persist these entries to the DB
+     * 
+     */
+    private void loadPersistedInputGroup(CorrectionForm correctionForm) throws Exception {
+
+        CorrectionDocument document = correctionForm.getCorrectionDocument();
+
+        int recordCountFunctionalityLimit = CorrectionDocumentUtils.getRecordCountFunctionalityLimit();
+        CorrectionDocumentService correctionDocumentService = SpringServiceLocator.getCorrectionDocumentService();
+        
+        if (!correctionDocumentService.areInputOriginEntriesPersisted(document)) {
+            // the input origin entry group has been purged from the system
+            correctionForm.setPersistedOriginEntriesMissing(true);
+            return;
+        }
+        
+        correctionForm.setPersistedOriginEntriesMissing(false);
+        List<OriginEntry> searchResults = correctionDocumentService.retrievePersistedInputOriginEntries(document, recordCountFunctionalityLimit);
+
+        if (searchResults == null) {
+            // null when the origin entry list is too large (i.e. in restricted functionality mode)
+            correctionForm.setRestrictedFunctionalityMode(true);
+            updateDocumentSummary(document, null, true);
+        }
+        else {
+            correctionForm.setAllEntries(searchResults);
+            correctionForm.setDisplayEntries(new ArrayList<OriginEntry> (searchResults));
+
+            updateDocumentSummary(document, correctionForm.getAllEntries(), false);
+            
+            // if not in restricted functionality mode, then we can store these results temporarily in the GLCP origin entry service
+            SequenceAccessorService sequenceAccessorService = KNSServiceLocator.getSequenceAccessorService();
+            String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KFSConstants.LOOKUP_RESULTS_SEQUENCE));
+            
+            SpringServiceLocator.getGlCorrectionProcessOriginEntryService().persistAllEntries(glcpSearchResultsSequenceNumber, searchResults);
+            correctionForm.setGlcpSearchResultsSequenceNumber(glcpSearchResultsSequenceNumber);
+        
+            int maxRowsPerPage = CorrectionDocumentUtils.getRecordsPerPage();
+            KualiTableRenderFormMetadata originEntrySearchResultTableMetadata = correctionForm.getOriginEntrySearchResultTableMetadata();
+            originEntrySearchResultTableMetadata.jumpToFirstPage(correctionForm.getDisplayEntries().size(), maxRowsPerPage);
+            originEntrySearchResultTableMetadata.setColumnToSortIndex(-1);
+        }
+    }
+    
+    /**
+     * Show all entries for Manual edit with groupId and persist these entries to the DB
+     * 
+     */
+    private void loadPersistedOutputGroup(CorrectionForm correctionForm) throws Exception {
+
+        CorrectionDocument document = correctionForm.getCorrectionDocument();
+
+        int recordCountFunctionalityLimit = CorrectionDocumentUtils.getRecordCountFunctionalityLimit();
+        CorrectionDocumentService correctionDocumentService = SpringServiceLocator.getCorrectionDocumentService();
+        if (!correctionDocumentService.areOutputOriginEntriesPersisted(document)) {
+            // the input origin entry group has been purged from the system
+            correctionForm.setPersistedOriginEntriesMissing(true);
+            return;
+        }
+        
+        correctionForm.setPersistedOriginEntriesMissing(false);
+        List<OriginEntry> searchResults = correctionDocumentService.retrievePersistedOutputOriginEntries(document, recordCountFunctionalityLimit);
+
+        if (searchResults == null) {
+            // null when the origin entry list is too large (i.e. in restricted functionality mode)
+            correctionForm.setRestrictedFunctionalityMode(true);
+            
+            KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+            
+            CorrectionDocumentAuthorizer cda = new CorrectionDocumentAuthorizer();
+            Map editingMode = cda.getEditMode(document, GlobalVariables.getUserSession().getUniversalUser());
+            if (editingMode.containsKey(AuthorizationConstants.TransactionalEditMode.FULL_ENTRY) || workflowDocument.stateIsCanceled()) {
+                // doc in read/write mode or is cancelled, so the doc summary fields of the doc are unreliable, so clear them out
+                updateDocumentSummary(document, null, true);
+            }
+            // else we defer to the values already in the doc, and just don't touch the values
+        }
+        else {
+            correctionForm.setAllEntries(searchResults);
+            correctionForm.setDisplayEntries(new ArrayList<OriginEntry> (searchResults));
+
+            // if we can display the entries (i.e. not restricted functionality mode), then recompute the summary
+            updateDocumentSummary(document, correctionForm.getAllEntries(), false);
+            
             // if not in restricted functionality mode, then we can store these results temporarily in the GLCP origin entry service
             SequenceAccessorService sequenceAccessorService = KNSServiceLocator.getSequenceAccessorService();
             String glcpSearchResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KFSConstants.LOOKUP_RESULTS_SEQUENCE));
@@ -1228,7 +1340,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
         CorrectionDocument document = correctionForm.getCorrectionDocument();
 
-        List<OriginEntry> searchResults = SpringServiceLocator.getCorrectionDocumentService().retrievePersistedOutputOriginEntries(document);
+        List<OriginEntry> searchResults = SpringServiceLocator.getCorrectionDocumentService().retrievePersistedOutputOriginEntries(document, CorrectionDocumentService.UNLIMITED_ABORT_THRESHOLD);
         
         correctionForm.setAllEntries(searchResults);
         correctionForm.setDisplayEntries(new ArrayList<OriginEntry> (searchResults));
@@ -1246,22 +1358,6 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         KualiTableRenderFormMetadata originEntrySearchResultTableMetadata = correctionForm.getOriginEntrySearchResultTableMetadata();
         originEntrySearchResultTableMetadata.jumpToFirstPage(correctionForm.getDisplayEntries().size(), maxRowsPerPage);
         originEntrySearchResultTableMetadata.setColumnToSortIndex(-1);
-    }
-    
-    private List<OriginEntry> retrieveGroup(Integer groupId) {
-        // Get the entries from the group
-        Map searchMap = new HashMap();
-        searchMap.put("entryGroupId", groupId);
-        Collection<OriginEntry> searchResultAsCollection = originEntryService.getMatchingEntriesByCollection(searchMap);
-
-        List<OriginEntry> searchResults;
-        if (searchResultAsCollection instanceof List) {
-            searchResults = (List<OriginEntry>) searchResultAsCollection;
-        }
-        else {
-            searchResults = new ArrayList<OriginEntry>(searchResultAsCollection);
-        }
-        return searchResults;
     }
     
     private OriginEntryStatistics getStatistics(Collection<OriginEntry> entries) {
@@ -1649,6 +1745,11 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
         if ("loadGroup".equals(correctionForm.getMethodToCall())) {
             return true;
         }
+        if (correctionForm.isInputGroupIdFromLastDocumentLoadIsMissing()) {
+            if (correctionForm.getInputGroupId() == null) {
+                correctionForm.setInputGroupId(correctionForm.getInputGroupIdFromLastDocumentLoad());
+            }
+        }
         Integer currentInputGroupId = correctionForm.getInputGroupId();
         Integer previousInputGroupId = correctionForm.getPreviousInputGroupId();
         
@@ -1666,38 +1767,49 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
 
         if (correctionForm.getAllEntries() == null && !correctionForm.isRestrictedFunctionalityMode()) {
             // if we don't have origin entries loaded and not in restricted functionality mode, then there's nothing worth persisting
+            correctionDocumentService.removePersistedInputOriginEntries(document);
+            correctionDocumentService.removePersistedOutputOriginEntries(document);
             return;
         }
         
         if (!correctionForm.getDataLoadedFlag() && !correctionForm.isRestrictedFunctionalityMode()) {
-            // data is not loaded (maybe user selected a new group)
+            // data is not loaded (maybe user selected a new group with no rows)
             // clear out existing data
             correctionDocumentService.removePersistedInputOriginEntries(document);
             correctionDocumentService.removePersistedOutputOriginEntries(document);
             return;
-            
         }
+        
         // reload the group from the origin entry service
-        List<OriginEntry> inputGroupEntries = retrieveGroup(correctionForm.getInputGroupId());
-        correctionDocumentService.persistInputOriginEntriesForInitiatedOrSavedDocument(document, inputGroupEntries.iterator());
+        List<OriginEntry> inputGroupEntries;
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        if ((workflowDocument.stateIsSaved() && !correctionForm.getInputGroupIdFromLastDocumentLoad().equals(correctionForm.getInputGroupId())) 
+                || workflowDocument.stateIsInitiated()) {
+            // we haven't saved the origin entry group yet, so let's load the entries from the DB and persist them for the document
+            // this could be because we've previously saved the doc, but now we are now using a new input group, so we have to repersist the input group
+            inputGroupEntries = originEntryService.getEntriesByGroupId(correctionForm.getInputGroupId());
+            correctionDocumentService.persistInputOriginEntriesForInitiatedOrSavedDocument(document, inputGroupEntries.iterator());
+        }
+        else if (workflowDocument.stateIsSaved() && correctionForm.getInputGroupIdFromLastDocumentLoad().equals(correctionForm.getInputGroupId())) {
+            // we've saved the origin entries before, so just retrieve them
+            inputGroupEntries = correctionDocumentService.retrievePersistedInputOriginEntries(document, CorrectionDocumentService.UNLIMITED_ABORT_THRESHOLD);
+        }
+        else {
+            LOG.error("Unexpected state while trying to persist/retrieve GLCP origin entries during document save: document status is " 
+                    + workflowDocument.getStatusDisplayValue() + " selected input group: " + correctionForm.getInputGroupId()
+                    + " last saved input group: " + correctionForm.getInputGroupIdFromLastDocumentLoad());
+            throw new RuntimeException("Error persisting GLCP document origin entries.");
+        }
         
         if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionForm.getEditMethod())) {
             // persist the allEntries element as the output group, since it has all of the modifications made by during the manual edits 
             correctionDocumentService.persistOutputOriginEntriesForInitiatedOrSavedDocument(document, correctionForm.getAllEntries().iterator());
         }
         else if (CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionForm.getEditMethod())) {
-            // we want to persist the values of the output group.  We have the allEntries list in the form, and depending on whether the showOutputFlag is checked, this list
-            // may represent the entries in the input or output group
-            List<OriginEntry> outputGroupEntries;
-            if (correctionForm.getShowOutputFlag()) {
-                outputGroupEntries = correctionForm.getDisplayEntries();
-            }
-            else {
-                // since this flag is false, it means that the all entries list represents the input group (see the execute method),
-                // so we're going to call updateEntriesFromCriteria to apply criteria to the entries
-                outputGroupEntries = new ArrayList<OriginEntry>(inputGroupEntries);
-                applyCriteriaOnEntries(outputGroupEntries, correctionForm.getMatchCriteriaOnly(), document.getCorrectionChangeGroup());
-            }
+            // we want to persist the values of the output group.  So reapply all of the criteria 
+            List<OriginEntry> outputGroupEntries = new ArrayList<OriginEntry>(inputGroupEntries);
+            applyCriteriaOnEntries(outputGroupEntries, correctionForm.getMatchCriteriaOnly(), document.getCorrectionChangeGroup());
+            updateDocumentSummary(document, outputGroupEntries, false);
             correctionDocumentService.persistOutputOriginEntriesForInitiatedOrSavedDocument(document, outputGroupEntries.iterator());
         }
         else {

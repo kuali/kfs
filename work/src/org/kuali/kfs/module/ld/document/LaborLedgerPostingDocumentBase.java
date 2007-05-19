@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.ValidationException;
+import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -70,5 +71,17 @@ public abstract class LaborLedgerPostingDocumentBase extends AccountingDocumentB
             laborLedgerPendingEntries.add(new PendingLedgerEntry());
         }
         return laborLedgerPendingEntries.get(index);
+    }
+
+    /**
+     * @see org.kuali.kfs.document.AccountingDocumentBase#prepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
+     */
+    @Override
+    public void prepareForSave(KualiDocumentEvent event) {
+        super.prepareForSave(event);
+        if (!SpringServiceLocator.getLaborLedgerPendingEntryService().generateLaborLedgerPendingEntries(this)) {
+            logErrors();
+            throw new ValidationException("labor ledger LLPE generation failed");
+        }
     }
 }

@@ -17,6 +17,7 @@ package org.kuali.module.labor.web.struts.action;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,14 +43,13 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
-import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rule.event.AddAccountingLineEvent;
 import org.kuali.kfs.util.SpringServiceLocator;
-import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 import org.kuali.module.labor.rules.event.EmployeeIdChangedEvent;
+import org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase;
 import org.kuali.module.labor.web.struts.form.SalaryExpenseTransferForm;
 import org.kuali.rice.KNSServiceLocator;
 
@@ -58,7 +58,7 @@ import org.kuali.rice.KNSServiceLocator;
  * follows the basic transactional document pattern, there are no specific actions that it has to implement; however, this empty
  * class is necessary for integrating into the framework.
  */
-public class SalaryExpenseTransferAction extends LaborDocumentActionBase {
+public class SalaryExpenseTransferAction extends ExpenseTransferDocumentActionBase {
 
     private static final Map<String, String> periodCodeMapping = new HashMap<String,String>();
     static {
@@ -91,7 +91,7 @@ public class SalaryExpenseTransferAction extends LaborDocumentActionBase {
      * @throws Exception
      */
     public ActionForward performBalanceInquiryLookup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        KualiAccountingDocumentFormBase financialDocumentForm = (KualiAccountingDocumentFormBase) form;
+        ExpenseTransferDocumentFormBase financialDocumentForm = (ExpenseTransferDocumentFormBase) form;
         TransactionalDocument document = financialDocumentForm.getTransactionalDocument();
 
         // save in workflow
@@ -140,7 +140,7 @@ public class SalaryExpenseTransferAction extends LaborDocumentActionBase {
             parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, hideReturnLink);
         }
 
-        System.out.println("Setting the anchor to " + ((KualiAccountingDocumentFormBase) form).getAnchor());
+        System.out.println("Setting the anchor to " + ((ExpenseTransferDocumentFormBase) form).getAnchor());
         // anchor, if it exists
         if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
             parameters.put(Constants.LOOKUP_ANCHOR, ((KualiForm) form).getAnchor());
@@ -208,18 +208,22 @@ public class SalaryExpenseTransferAction extends LaborDocumentActionBase {
                 for (String periodCode : periodCodeMapping.keySet()) {
                     ExpenseTransferAccountingLine line = (ExpenseTransferAccountingLine) salaryExpenseTransferForm.getFinancialDocument().getSourceAccountingLineClass().newInstance();
                     try {
-                        buildAccountingLineFromLedgerBalance((LedgerBalance) bo, line, 
-                                                             (KualiDecimal) getProperty(bo, periodCodeMapping.get(periodCode)), periodCode);
+                        KualiDecimal lineAmount = (KualiDecimal) getProperty(bo, periodCodeMapping.get(periodCode));
+                        if (Constants.ZERO.compareTo(lineAmount) != 0) {
+                            buildAccountingLineFromLedgerBalance((LedgerBalance) bo, line, 
+                                                                 (KualiDecimal) getProperty(bo, periodCodeMapping.get(periodCode)), periodCode);
+                            SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(line);
+                            insertAccountingLine(true, salaryExpenseTransferForm, line);
+                        }
                     } 
                     catch (Exception e) {
                         // IllegalAccessException thrown by getProperty() call
                         // No way to recover gracefully, so throw it back as a RuntimeException
                         throw new RuntimeException(e);
                     }
-                    SpringServiceLocator.getPersistenceService().retrieveNonKeyFields(line);
-                    insertAccountingLine(true, salaryExpenseTransferForm, line);
                 }
             }
+            Collections.sort((List<Comparable>) salaryExpenseTransferForm.getFinancialDocument().getSourceAccountingLines());
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -228,7 +232,7 @@ public class SalaryExpenseTransferAction extends LaborDocumentActionBase {
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse)
      */
     public ActionForward copyAllAccountingLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        KualiAccountingDocumentFormBase financialDocumentForm = (KualiAccountingDocumentFormBase) form;
+        ExpenseTransferDocumentFormBase financialDocumentForm = (ExpenseTransferDocumentFormBase) form;
         for (Object line : financialDocumentForm.getFinancialDocument().getSourceAccountingLines()) {
             ExpenseTransferAccountingLine to = (ExpenseTransferAccountingLine) financialDocumentForm.getFinancialDocument().getTargetAccountingLineClass().newInstance();
             copyAccountingLine((ExpenseTransferAccountingLine) line, to);
@@ -249,9 +253,9 @@ public class SalaryExpenseTransferAction extends LaborDocumentActionBase {
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(ActionMapping, ActionForm, HttpServletRequest, HttpServletResponse)
      */
     public ActionForward copyAccountingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        KualiAccountingDocumentFormBase financialDocumentForm = (KualiAccountingDocumentFormBase) form;
+        ExpenseTransferDocumentFormBase financialDocumentForm = (ExpenseTransferDocumentFormBase) form;
 
-        AccountingDocument financialDocument = (AccountingDocument) financialDocumentForm.getDocument();
+        SalaryExpenseTransferDocument financialDocument = (SalaryExpenseTransferDocument) financialDocumentForm.getDocument();
 
         int index = getSelectedLine(request);
 

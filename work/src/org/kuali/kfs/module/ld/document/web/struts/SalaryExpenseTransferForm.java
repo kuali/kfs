@@ -15,6 +15,7 @@
  */
 package org.kuali.module.labor.web.struts.form;
 
+import java.sql.Date;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
@@ -37,7 +38,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * 
  */
-public class SalaryExpenseTransferForm extends LaborDocumentFormBase implements MultipleValueLookupBroker {
+public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase implements MultipleValueLookupBroker {
     private static Log LOG = LogFactory.getLog(SalaryExpenseTransferForm.class);
     private LaborUser user;
     private String balanceTypeCode;
@@ -67,6 +68,7 @@ public class SalaryExpenseTransferForm extends LaborDocumentFormBase implements 
         setUser(new LaborUser(new UniversalUser()));
         setDocument(new SalaryExpenseTransferDocument());
         setFinancialBalanceTypeCode("AC");
+        setUniversityFiscalYear(0);
     }
     
     /**
@@ -198,7 +200,12 @@ public class SalaryExpenseTransferForm extends LaborDocumentFormBase implements 
     }
     
     public Integer getUniversityFiscalYear() {
-        return fiscalYear;
+        if (fiscalYear > 0) {
+            return fiscalYear;
+        }
+        else {
+            return SpringServiceLocator.getAccountingPeriodService().getByDate(new Date(System.currentTimeMillis())).getUniversityFiscalYear();
+        }
     }
 
     public void setUniversityFiscalYear(Integer year) {
@@ -239,4 +246,5 @@ public class SalaryExpenseTransferForm extends LaborDocumentFormBase implements 
         map.remove(KFSPropertyConstants.POSITION_NUMBER);
         return map;
     }
+
 }

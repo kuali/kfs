@@ -41,7 +41,7 @@
             <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.financialObjectCode}" hideRequiredAsterisk="true" scope="col"/>
             <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.financialSubObjectCode}" hideRequiredAsterisk="true" scope="col"/>
             <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.projectCode}" hideRequiredAsterisk="true" scope="col"/>
-            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.financialDocumentTypeCode}" hideRequiredAsterisk="true" scope="col"/>
+            <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.universityFiscalPeriodCode}" hideRequiredAsterisk="true" scope="col"/>
             <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.financialBalanceTypeCode}" hideRequiredAsterisk="true" scope="col"/>
             <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.financialObjectTypeCode}" hideRequiredAsterisk="true" scope="col"/>
             <kul:htmlAttributeHeaderCell attributeEntry="${entryAttributes.transactionLedgerEntryAmount}" hideRequiredAsterisk="true" scope="col"/>
@@ -86,9 +86,14 @@
 					</kul:inquiry>
 				</td>
 				<td class="datacell center">
+					<kul:inquiry boClassName="org.kuali.core.bo.Options" keyValues="universityFiscalPeriodCode=${laborLedgerPendingEntry.universityFiscalPeriodCode}" render="true">
+						<html:hidden property="document.laborLedgerPendingEntry[${ctr}].universityFiscalPeriodCode" write="true"/>
+					</kul:inquiry>
+<%--
 					<kul:inquiry boClassName="org.kuali.core.bo.DocumentType" keyValues="financialDocumentTypeCode=${laborLedgerPendingEntry.financialDocumentTypeCode}" render="true">
 						<html:hidden property="document.laborLedgerPendingEntry[${ctr}].financialDocumentTypeCode" write="true"/>
 					</kul:inquiry>
+--%>
 				</td>
 				<td class="datacell center">
 					<kul:inquiry boClassName="org.kuali.module.chart.bo.codes.BalanceTyp" keyValues="code=${laborLedgerPendingEntry.financialBalanceTypeCode}" render="true">

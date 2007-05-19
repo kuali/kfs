@@ -19,6 +19,9 @@ import java.math.BigDecimal;
 
 import org.kuali.kfs.bo.AccountingLine;
 
+/**
+ * Provides contract methods to accounting line implementations for Expense Transfer Documents
+ */
 public interface ExpenseTransferAccountingLine extends AccountingLine {
 
     public String getPositionNumber();

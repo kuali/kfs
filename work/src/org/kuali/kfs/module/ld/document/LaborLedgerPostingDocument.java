@@ -23,7 +23,7 @@ import org.kuali.module.labor.bo.PendingLedgerEntry;
 /**
  * Defines methods that must be implements for a labor ledger posting document.
  */
-public interface LaborLedgerPostingDocument extends AccountingDocument{
+public interface LaborLedgerPostingDocument extends AccountingDocument {
     
     /**
      * This method retrieves the list of Labor Ledgre Pending Entries for the document.

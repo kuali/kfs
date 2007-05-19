@@ -41,7 +41,7 @@
                         <kul:employee userIdFieldName="emplid" 
                                   userNameFieldName="user.personName" 
                                   fieldConversions="personPayrollIdentifier:emplid"
-                                  lookupParameters="emplid:personPayrollIdentifier"
+                                  lookupParameters="emplid:personPayrollIdentifier,universityFiscalYear:universityFiscalYear"
                                   hasErrors="${hasErrors}"
                                   onblur="${onblur}"
                                   highlight="${addHighlighting}">
@@ -57,9 +57,9 @@
               </tr>
               <tr>
                 <kul:htmlAttributeHeaderCell
-                    attributeEntry="${DataDictionary.AccountingPeriod.attributes.universityFiscalYear}"
                     horizontal="true"
-                    forceRequired="true"
+                    forceRequired="false"
+                    literalLabel="Last Queried Fiscal Year"
                     />
                 <td>${KualiForm.universityFiscalYear}&nbsp;</td>
               </tr>
@@ -135,7 +135,6 @@
       </jsp:attribute>
     </fin:accountingLines>
     <ld:laborLedgerPendingEntries />
-    <kul:generalLedgerPendingEntries />
     <kul:notes />
     <kul:adHocRecipients />
     <kul:routeLog />

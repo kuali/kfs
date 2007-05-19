@@ -18,16 +18,16 @@ package org.kuali.module.labor.rule;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.module.labor.document.LaborLedgerPostingDocument;
 
 /**
  * Defines a rule which gets invoked whenever pending entries for a document need to be re/generated (which is usually when the
  * document gets persisted).
  */
-public interface GenerateLaborLedgerPendingEntriesRule<G extends AccountingDocument> extends BusinessRule {
+public interface GenerateLaborLedgerPendingEntriesRule<G extends LaborLedgerPostingDocument> extends BusinessRule {
     /**
      * @param generalLedgerPostingDocument
      * @return boolean If the GLPE generation processed successfully.
      */
-    public boolean processGenerateLaborLedgerPendingEntries(G AccountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
+    public boolean processGenerateLaborLedgerPendingEntries(G accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper);
 }

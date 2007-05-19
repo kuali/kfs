@@ -29,6 +29,7 @@ import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.labor.bo.PendingLedgerEntry;
 import org.kuali.module.labor.dao.LaborLedgerPendingEntryDao;
+import org.kuali.module.labor.document.LaborExpenseTransferDocument;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
 import org.kuali.module.labor.rules.event.GenerateLaborLedgerBenefitClearingPendingEntriesEvent;
 import org.kuali.module.labor.rules.event.GenerateLaborLedgerPendingEntriesEvent;
@@ -91,27 +92,48 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
 
         LOG.info("generating ll pending ledger entries for document " + document.getDocumentNumber());
         GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
-        AccountingDocument transactionalDocument = document;
 
         // process accounting lines, generate labor ledger pending entries
-        List sourceAccountingLines = transactionalDocument.getSourceAccountingLines();
+        List<AccountingLine> sourceAccountingLines = getSourceLines(document);
         if (sourceAccountingLines != null) {
-            for (Iterator iter = sourceAccountingLines.iterator(); iter.hasNext();) {
-                success &= processLaborLedgerPendingEntryForAccountingLine(transactionalDocument, sequenceHelper, iter);
+            for (AccountingLine line : sourceAccountingLines) {
+                success &= processLaborLedgerPendingEntryForAccountingLine(document, sequenceHelper, line);
             }
         }
 
-        List targetAccountingLines = transactionalDocument.getTargetAccountingLines();
+        List<AccountingLine> targetAccountingLines = getTargetLines(document);
         if (targetAccountingLines != null) {
-            for (Iterator iter = targetAccountingLines.iterator(); iter.hasNext();) {
-                success &= processLaborLedgerPendingEntryForAccountingLine(transactionalDocument, sequenceHelper, iter);
+            for (AccountingLine line : targetAccountingLines) {
+                success &= processLaborLedgerPendingEntryForAccountingLine(document, sequenceHelper, line);
             }
         }
 
         // compare source and target accounting lines, and generate benefit clearing liens as needed
-        success &= processGenerateLaborLedgerBenefitClearingEntries(transactionalDocument, sequenceHelper);
+        success &= processGenerateLaborLedgerBenefitClearingEntries(document, sequenceHelper);
 
         return success;
+    }
+    
+    private List<AccountingLine> getSourceLines(LaborLedgerPostingDocument document) {
+        if (document instanceof AccountingDocument) {
+            return (List<AccountingLine>) ((AccountingDocument) document).getSourceAccountingLines();
+        }
+        else if (document instanceof LaborExpenseTransferDocument) {
+            return (List<AccountingLine>) ((LaborExpenseTransferDocument) document).getSourceAccountingLines();
+        }
+            
+        return null;
+    }
+
+    private List<AccountingLine> getTargetLines(LaborLedgerPostingDocument document) {
+        if (document instanceof AccountingDocument) {
+            return (List<AccountingLine>) ((AccountingDocument) document).getTargetAccountingLines();
+        }
+        else if (document instanceof LaborExpenseTransferDocument) {
+            return (List<AccountingLine>) ((LaborExpenseTransferDocument) document).getTargetAccountingLines();
+        }
+        
+        return null;
     }
 
     /**
@@ -124,18 +146,16 @@ public class LaborLedgerPendingEntryServiceImpl implements LaborLedgerPendingEnt
      * @param iter
      * @return whether the business rules succeeded
      */
-    private boolean processLaborLedgerPendingEntryForAccountingLine(AccountingDocument document, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, Iterator iter) {
+    private boolean processLaborLedgerPendingEntryForAccountingLine(LaborLedgerPostingDocument document, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine line) {
         LOG.debug("processLaborLedgerPendingEntryForAccountingLine() started");
         boolean success = true;
 
-        AccountingLine accountingLine = (AccountingLine) iter.next();
-
-        GenerateLaborLedgerPendingEntriesEvent event = new GenerateLaborLedgerPendingEntriesEvent(document, accountingLine, sequenceHelper);
+        GenerateLaborLedgerPendingEntriesEvent event = new GenerateLaborLedgerPendingEntriesEvent(document, line, sequenceHelper);
         success &= kualiRuleService.applyRules(event);
         return success;
     }
 
-    private boolean processGenerateLaborLedgerBenefitClearingEntries(AccountingDocument document, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+    private boolean processGenerateLaborLedgerBenefitClearingEntries(LaborLedgerPostingDocument document, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         LOG.debug("processLaborLedgerPendingEntryForAccountingLine() started");
         boolean success = true;
 

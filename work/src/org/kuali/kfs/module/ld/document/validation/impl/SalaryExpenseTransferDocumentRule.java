@@ -52,6 +52,7 @@ import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.bo.PendingLedgerEntry;
 import org.kuali.module.labor.bo.PositionObjectBenefit;
+import org.kuali.module.labor.document.LaborLedgerPostingDocument;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 import org.kuali.module.labor.rule.GenerateLaborLedgerBenefitClearingPendingEntriesRule;
 import org.kuali.module.labor.rule.GenerateLaborLedgerPendingEntriesRule;
@@ -63,7 +64,7 @@ import org.kuali.module.labor.rule.GenerateLaborLedgerPendingEntriesRule;
  * 
  */
 
-public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocumentRules implements GenerateLaborLedgerPendingEntriesRule<AccountingDocument>, GenerateLaborLedgerBenefitClearingPendingEntriesRule<AccountingDocument>{
+public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocumentRules implements GenerateLaborLedgerPendingEntriesRule<LaborLedgerPostingDocument>, GenerateLaborLedgerBenefitClearingPendingEntriesRule<LaborLedgerPostingDocument>{
 
     // LLPE KFSConstants
     public static final String LABOR_LEDGER_ACCOUNT_NUMBER = "9712700";
@@ -73,7 +74,7 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
         super();        
     }   
     
-    protected boolean AddAccountingLineBusinessRules(AccountingDocument accountingDocument, AccountingLine accountingLine) {
+    protected boolean AddAccountingLineBusinessRules(LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine) {
         return processCustomAddAccountingLineBusinessRules(accountingDocument, accountingLine);
     }
     

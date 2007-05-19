@@ -47,5 +47,4 @@ public interface ExpenseTransferAccountingLine extends AccountingLine {
     public LaborObject getLaborObject();
     
     public void setLaborObject(LaborObject laborObject);
-
 }

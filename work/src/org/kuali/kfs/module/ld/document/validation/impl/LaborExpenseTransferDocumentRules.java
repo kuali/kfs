@@ -50,6 +50,7 @@ import org.kuali.module.labor.bo.BenefitsType;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.PendingLedgerEntry;
 import org.kuali.module.labor.bo.PositionObjectBenefit;
+import org.kuali.module.labor.document.LaborLedgerPostingDocument;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 
 /**
@@ -81,7 +82,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         return true;
     }
 
-    protected boolean processBenefitClearingLaborLedgerPendingEntry(AccountingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry benefitClearingEntry) {        
+    protected boolean processBenefitClearingLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry benefitClearingEntry) {        
 
         boolean success = true;
         
@@ -92,16 +93,16 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         customizeBenefitClearingLaborLedgerPendingEntry(accountingDocument, accountingLine, benefitClearingEntry);
 
         // add the new entry to the document now
-        ((SalaryExpenseTransferDocument)accountingDocument).getLaborLedgerPendingEntries().add(benefitClearingEntry);
+        accountingDocument.getLaborLedgerPendingEntries().add(benefitClearingEntry);
 
         return success;
     }
 
-    protected boolean customizeBenefitClearingLaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, PendingLedgerEntry benefitClearingEntry) {
+    protected boolean customizeBenefitClearingLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine, PendingLedgerEntry benefitClearingEntry) {
         return true;
     }
 
-    protected void populateBenefitClearingLaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry benefitClearingEntry) {        
+    protected void populateBenefitClearingLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry benefitClearingEntry) {        
     }
     
     /** 
@@ -312,7 +313,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
      * @param sequenceHelper
      * @return
      */
-    public boolean processGenerateLaborLedgerPendingEntries(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper){
+    public boolean processGenerateLaborLedgerPendingEntries(LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper){
         boolean success = true;
 
         LOG.info("started processGenerateLaborLedgerPendingEntries");
@@ -391,7 +392,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
      * @param sequenceHelper
      * @return
      */
-    public boolean processGenerateLaborLedgerBenefitClearingPendingEntries(AccountingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+    public boolean processGenerateLaborLedgerBenefitClearingPendingEntries(LaborLedgerPostingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
 
         LOG.info("started processGenerateLaborLedgerBenefitClearingPendingEntries");
         
@@ -540,7 +541,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
      * @param accountingLine
      * @return
      */
-    private boolean isAccountingLinePayFYPeriodMatchesUniversityPayFYPeriod(AccountingDocument accountingDocument, AccountingLine accountingLine){
+    private boolean isAccountingLinePayFYPeriodMatchesUniversityPayFYPeriod(LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine){
         boolean success = true;
         
         AccountingPeriod ap = accountingDocument.getAccountingPeriod();
@@ -600,7 +601,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
      * @param sequenceHelper
      * @param originalEntry
      */
-    private void populateDefaultLaborLedgerPendingEntry(AccountingDocument transactionalDocument, AccountingLine accountingLine, PendingLedgerEntry defaultEntry){
+    private void populateDefaultLaborLedgerPendingEntry(LaborLedgerPostingDocument transactionalDocument, AccountingLine accountingLine, PendingLedgerEntry defaultEntry){
 
         //the same across all types
         ObjectCode objectCode = accountingLine.getObjectCode();
@@ -620,7 +621,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
                               
     }
 
-    protected boolean processOriginalLaborLedgerPendingEntry(AccountingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry originalEntry) {        
+    protected boolean processOriginalLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry originalEntry) {        
         
         boolean success = true;
         
@@ -631,12 +632,12 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         customizeOriginalLaborLedgerPendingEntry(accountingDocument, accountingLine, originalEntry);
 
         // add the new entry to the document now
-        ((SalaryExpenseTransferDocument)accountingDocument).getLaborLedgerPendingEntries().add(originalEntry);
+        accountingDocument.getLaborLedgerPendingEntries().add(originalEntry);
 
         return success;
     }
 
-    protected boolean customizeOriginalLaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, PendingLedgerEntry originalEntry) {
+    protected boolean customizeOriginalLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine, PendingLedgerEntry originalEntry) {
         return true;
     }
 
@@ -656,7 +657,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         return next;
     }
     
-    protected void populateOriginalLaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry originalEntry) {        
+    protected void populateOriginalLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry originalEntry) {        
 
         originalEntry.setUniversityFiscalYear(null);
         originalEntry.setUniversityFiscalPeriodCode(null);
@@ -688,7 +689,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         // originalEntry.setBudgetYearFundingSourceCode(budgetYearFundingSourceCode);
     }
     
-    protected boolean processA21LaborLedgerPendingEntry(AccountingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry a21Entry) {        
+    protected boolean processA21LaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry a21Entry) {        
 
         boolean success = true;
         
@@ -699,16 +700,16 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         customizeA21LaborLedgerPendingEntry(accountingDocument, accountingLine, a21Entry);
 
         // add the new entry to the document now
-        ((SalaryExpenseTransferDocument)accountingDocument).getLaborLedgerPendingEntries().add(a21Entry);
+        accountingDocument.getLaborLedgerPendingEntries().add(a21Entry);
 
         return success;
     }
 
-    protected boolean customizeA21LaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, PendingLedgerEntry a21Entry) {
+    protected boolean customizeA21LaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine, PendingLedgerEntry a21Entry) {
         return true;
     }
 
-    protected void populateA21LaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry a21Entry) {        
+    protected void populateA21LaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry a21Entry) {        
         a21Entry.setUniversityFiscalYear(null);
         a21Entry.setUniversityFiscalPeriodCode(null);
         a21Entry.setChartOfAccountsCode(accountingLine.getChartOfAccountsCode());
@@ -735,7 +736,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         a21Entry.setReferenceFinancialDocumentTypeCode(null);
     }
 
-    protected boolean processA21RevLaborLedgerPendingEntry(AccountingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry a21RevEntry) {        
+    protected boolean processA21RevLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry a21RevEntry) {        
 
         boolean success = true;
         
@@ -746,16 +747,16 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         customizeA21RevLaborLedgerPendingEntry(accountingDocument, accountingLine, a21RevEntry);
 
         // add the new entry to the document now
-        ((SalaryExpenseTransferDocument)accountingDocument).getLaborLedgerPendingEntries().add(a21RevEntry);
+        accountingDocument.getLaborLedgerPendingEntries().add(a21RevEntry);
         
         return success;
     }
 
-    protected boolean customizeA21RevLaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, PendingLedgerEntry a21RevEntry) {
+    protected boolean customizeA21RevLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine, PendingLedgerEntry a21RevEntry) {
         return true;
     }
 
-    protected void populateA21RevLaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry a21RevEntry) {
+    protected void populateA21RevLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry a21RevEntry) {
         
         ExpenseTransferAccountingLine al = (ExpenseTransferAccountingLine)accountingLine;
         
@@ -785,7 +786,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         a21RevEntry.setReferenceFinancialDocumentTypeCode(null);
     }
 
-    protected boolean processBenefitLaborLedgerPendingEntry(AccountingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry benefitEntry, KualiDecimal benefitAmount, String fringeBenefitObjectCode) {        
+    protected boolean processBenefitLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry benefitEntry, KualiDecimal benefitAmount, String fringeBenefitObjectCode) {        
 
         boolean success = true;
         
@@ -796,16 +797,16 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         customizeBenefitLaborLedgerPendingEntry(accountingDocument, accountingLine, benefitEntry);
 
         // add the new entry to the document now
-        ((SalaryExpenseTransferDocument)accountingDocument).getLaborLedgerPendingEntries().add(benefitEntry);
+        accountingDocument.getLaborLedgerPendingEntries().add(benefitEntry);
 
         return success;
     }
 
-    protected boolean customizeBenefitLaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, PendingLedgerEntry benefitEntry) {
+    protected boolean customizeBenefitLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine, PendingLedgerEntry benefitEntry) {
         return true;
     }
 
-    protected void populateBenefitLaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry benefitEntry, KualiDecimal benefitAmount, String fringeBenefitObjectCode) {       
+    protected void populateBenefitLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry benefitEntry, KualiDecimal benefitAmount, String fringeBenefitObjectCode) {       
         benefitEntry.setUniversityFiscalYear(null);
         benefitEntry.setUniversityFiscalPeriodCode(null);
         
@@ -837,7 +838,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         benefitEntry.setReferenceFinancialDocumentTypeCode(null);        
     }
 
-    protected boolean processBenefitA21LaborLedgerPendingEntry(AccountingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry benefitA21Entry, KualiDecimal benefitAmount, String fringeBenefitObjectCode) {        
+    protected boolean processBenefitA21LaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry benefitA21Entry, KualiDecimal benefitAmount, String fringeBenefitObjectCode) {        
 
         boolean success = true;
         
@@ -848,16 +849,16 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         customizeBenefitA21LaborLedgerPendingEntry(accountingDocument, accountingLine, benefitA21Entry);
 
         // add the new entry to the document now
-        ((SalaryExpenseTransferDocument)accountingDocument).getLaborLedgerPendingEntries().add(benefitA21Entry);
+        accountingDocument.getLaborLedgerPendingEntries().add(benefitA21Entry);
 
         return success;
     }
 
-    protected boolean customizeBenefitA21LaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, PendingLedgerEntry benefitA21Entry) {
+    protected boolean customizeBenefitA21LaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine, PendingLedgerEntry benefitA21Entry) {
         return true;
     }
 
-    protected void populateBenefitA21LaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry benefitA21Entry, KualiDecimal benefitAmount, String fringeBenefitObjectCode) {        
+    protected void populateBenefitA21LaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry benefitA21Entry, KualiDecimal benefitAmount, String fringeBenefitObjectCode) {        
         benefitA21Entry.setUniversityFiscalYear(null);
         benefitA21Entry.setUniversityFiscalPeriodCode(null);
         
@@ -889,7 +890,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         benefitA21Entry.setReferenceFinancialDocumentTypeCode(null);        
     }
 
-    protected boolean processBenefitA21RevLaborLedgerPendingEntry(AccountingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry benefitA21RevEntry, KualiDecimal benefitAmount, String fringeBenefitObjectCode) {        
+    protected boolean processBenefitA21RevLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, PendingLedgerEntry benefitA21RevEntry, KualiDecimal benefitAmount, String fringeBenefitObjectCode) {        
 
         boolean success = true;
         
@@ -900,16 +901,16 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         customizeBenefitA21RevLaborLedgerPendingEntry(accountingDocument, accountingLine, benefitA21RevEntry);
 
         // add the new entry to the document now
-        ((SalaryExpenseTransferDocument)accountingDocument).getLaborLedgerPendingEntries().add(benefitA21RevEntry);
+        accountingDocument.getLaborLedgerPendingEntries().add(benefitA21RevEntry);
 
         return success;
     }
 
-    protected boolean customizeBenefitA21RevLaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, PendingLedgerEntry benefitA21RevEntry) {
+    protected boolean customizeBenefitA21RevLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine, PendingLedgerEntry benefitA21RevEntry) {
         return true;
     }
 
-    protected void populateBenefitA21RevLaborLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry benefitA21RevEntry, KualiDecimal benefitAmount, String fringeBenefitObjectCode) {        
+    protected void populateBenefitA21RevLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry benefitA21RevEntry, KualiDecimal benefitAmount, String fringeBenefitObjectCode) {        
         ExpenseTransferAccountingLine al = (ExpenseTransferAccountingLine)accountingLine;
 
         benefitA21RevEntry.setUniversityFiscalYear(al.getPayrollEndDateFiscalYear());
@@ -943,7 +944,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         benefitA21RevEntry.setReferenceFinancialDocumentTypeCode(null);        
     }
 
-    protected boolean processBenefitClearingLaborLedgerPendingEntry(AccountingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, String benefitTypeCode, KualiDecimal fromAmount, KualiDecimal toAmount) {        
+    protected boolean processBenefitClearingLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, String benefitTypeCode, KualiDecimal fromAmount, KualiDecimal toAmount) {        
 
         boolean success = true;
         
@@ -956,16 +957,16 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
         customizeBenefitClearingLaborLedgerPendingEntry(accountingDocument, benefitClearingEntry, fromAmount, toAmount);
 
         // add the new entry to the document now
-        ((SalaryExpenseTransferDocument)accountingDocument).getLaborLedgerPendingEntries().add(benefitClearingEntry);
+        accountingDocument.getLaborLedgerPendingEntries().add(benefitClearingEntry);
 
         return success;
     }
 
-    protected boolean customizeBenefitClearingLaborLedgerPendingEntry(AccountingDocument accountingDocument, PendingLedgerEntry benefitClearingEntry, KualiDecimal fromAmount, KualiDecimal toAmount) {
+    protected boolean customizeBenefitClearingLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument, PendingLedgerEntry benefitClearingEntry, KualiDecimal fromAmount, KualiDecimal toAmount) {
         return true;
     }
 
-    protected void populateBenefitClearingLaborLedgerPendingEntry(AccountingDocument accountingDocument,  GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry benefitClearingEntry, String benefitTypeCode, KualiDecimal fromAmount, KualiDecimal toAmount) {        
+    protected void populateBenefitClearingLaborLedgerPendingEntry(LaborLedgerPostingDocument accountingDocument,  GeneralLedgerPendingEntrySequenceHelper sequenceHelper, PendingLedgerEntry benefitClearingEntry, String benefitTypeCode, KualiDecimal fromAmount, KualiDecimal toAmount) {        
 
         benefitClearingEntry.setUniversityFiscalYear(null);
         benefitClearingEntry.setUniversityFiscalPeriodCode(null);
@@ -1029,7 +1030,7 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
      * @param accountingDocument
      * @param accountingLine
      */
-    private final void handleDocumentErrorCorrection(AccountingDocument accountingDocument, AccountingLine accountingLine) {
+    private final void handleDocumentErrorCorrection(LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine) {
         // If the document corrects another document, make sure the accounting line has the correct sign.
         if ((null == accountingDocument.getDocumentHeader().getFinancialDocumentInErrorNumber() && accountingLine.getAmount().isNegative()) || (null != accountingDocument.getDocumentHeader().getFinancialDocumentInErrorNumber() && accountingLine.getAmount().isPositive())) {
             accountingLine.setAmount(accountingLine.getAmount().multiply(new KualiDecimal(1)));

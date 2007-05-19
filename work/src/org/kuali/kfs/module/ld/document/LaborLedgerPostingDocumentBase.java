@@ -18,11 +18,13 @@ package org.kuali.module.labor.document;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.labor.bo.PendingLedgerEntry;
+
 
 /**
  * This is the base class implementation for all labor eDocs that are transactional, meaning implementing TransactionalDocumentBase.
@@ -68,17 +70,5 @@ public abstract class LaborLedgerPostingDocumentBase extends AccountingDocumentB
             laborLedgerPendingEntries.add(new PendingLedgerEntry());
         }
         return laborLedgerPendingEntries.get(index);
-    }
-
-    /**
-     * @see org.kuali.core.document.Document#prepareForSave(KualiDocumentEvent)
-     */
-    @Override
-    public void prepareForSave(KualiDocumentEvent event) {
-        super.prepareForSave(event);
-        if (!SpringServiceLocator.getLaborLedgerPendingEntryService().generateLaborLedgerPendingEntries(this)) {
-            logErrors();
-            throw new ValidationException("labor ledger LLPE generation failed");
-        }
     }
 }

@@ -24,10 +24,11 @@ import org.kuali.module.financial.rules.JournalVoucherDocumentRule;
 import org.kuali.module.labor.bo.LaborJournalVoucherDetail;
 import org.kuali.module.labor.bo.PendingLedgerEntry;
 import org.kuali.module.labor.document.LaborJournalVoucherDocument;
+import org.kuali.module.labor.document.LaborLedgerPostingDocument;
 import org.kuali.module.labor.rule.GenerateLaborLedgerPendingEntriesRule;
 import org.kuali.module.labor.util.ObjectUtil;
 
-public class LaborJournalVoucherDocumentRule extends JournalVoucherDocumentRule implements GenerateLaborLedgerPendingEntriesRule<AccountingDocument> {
+public class LaborJournalVoucherDocumentRule extends JournalVoucherDocumentRule implements GenerateLaborLedgerPendingEntriesRule<LaborLedgerPostingDocument> {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborJournalVoucherDocumentRule.class);
 
     /**
@@ -43,7 +44,7 @@ public class LaborJournalVoucherDocumentRule extends JournalVoucherDocumentRule 
      * @see org.kuali.module.labor.rule.GenerateLaborLedgerPendingEntriesRule#processGenerateLaborLedgerPendingEntries(org.kuali.kfs.document.AccountingDocument,
      *      org.kuali.kfs.bo.AccountingLine, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
-    public boolean processGenerateLaborLedgerPendingEntries(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+    public boolean processGenerateLaborLedgerPendingEntries(LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         LOG.debug("processGenerateLaborLedgerPendingEntries() started");
 
         return addLaborLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, new PendingLedgerEntry());

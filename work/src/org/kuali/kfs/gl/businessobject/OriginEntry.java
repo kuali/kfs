@@ -40,7 +40,6 @@ import org.kuali.module.chart.bo.ProjectCode;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
-import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.exception.LoadException;
 import org.springframework.util.StringUtils;
 
@@ -186,24 +185,6 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
             LOG.error("OriginEntry() Error loading line", e);
         }
     }
-    
-    /**
-     * Constructs a OriginEntry by parsing the given line
-     * 
-     * @param line a line representing an origin entry
-     * @param lineNumber the line number (used only to display error messages, not processing)
-     * @param parseOriginEntryId whether to attempt to parse the origin entry ID from the line
-     * 
-     * @see OriginEntry#setFromTextFile(String, int, boolean)
-     */
-    public OriginEntry(String line, int lineNumber, boolean parseOriginEntryId) {
-        try {
-            setFromTextFile(line, lineNumber, parseOriginEntryId);
-        }
-        catch (LoadException e) {
-            LOG.error("OriginEntry() Error loading line " + lineNumber, e);
-        }
-    }
 
     public void setTransaction(Transaction t) {
         setAccountNumber(t.getAccountNumber());
@@ -261,7 +242,7 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
         String v = line.substring(s, e);
         return StringUtils.trimTrailingWhitespace(v);
     }
-
+    
     /**
      * This method loads the fields of this origin entry by parsing the passed in the string
      * It is assumed that the String does not contain the origin entry ID, but if it does, it 
@@ -272,20 +253,6 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
      * @throws LoadException
      */
     public void setFromTextFile(String line, int lineNumber) throws LoadException {
-        setFromTextFile(line, lineNumber, false);
-    }
-    
-    /**
-     * This method loads the fields of this origin entry by parsing the passed in the string
-     * It is assumed that the String does not contain the origin entry ID, but if it does, it 
-     * will be ignored
-     * 
-     * @param line a string representing an origin entry
-     * @param lineNumber used to render an error message by identifying this line
-     * @param parseOriginEntryId whether to parse an origin entry ID from the line
-     * @throws LoadException
-     */
-    public void setFromTextFile(String line, int lineNumber, boolean parseOriginEntryId) throws LoadException {
 
         // Just in case
         line = line + SPACES;
@@ -362,9 +329,6 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
         }
 
         setTransactionEncumbranceUpdateCode(line.substring(182, 183));
-        if (parseOriginEntryId) {
-            setEntryId(new Integer(line.substring(183, 183 + GLConstants.ORIGIN_ENTRY_ID_MAXIMUM_SIZE).trim()));
-        }
     }
 
     private static String SPACES = "                                                                                                              ";
@@ -451,18 +415,6 @@ public class OriginEntry extends PersistableBusinessObjectBase implements Transa
             sb.append(' ');
         }
         return sb.toString();
-    }
-    
-    public String getLineWithOriginEntryId() {
-        StringBuilder buf = new StringBuilder(173 + GLConstants.ORIGIN_ENTRY_ID_MAXIMUM_SIZE);
-        buf.append(getLine());
-        // Format to a length of 14
-        String entryIdStr = entryId.toString();
-        for (int i = entryIdStr.length(); i < GLConstants.ORIGIN_ENTRY_ID_MAXIMUM_SIZE; i++) {
-            buf.append("0");
-        }
-        buf.append(entryIdStr);
-        return buf.toString();
     }
 
     protected LinkedHashMap toStringMapper() {

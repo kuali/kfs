@@ -23,10 +23,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.apache.commons.collections.comparators.ComparableComparator;
 import org.apache.log4j.Logger;
@@ -38,12 +40,14 @@ import org.kuali.core.web.comparator.StringValueComparator;
 import org.kuali.core.web.comparator.TemporalValueComparator;
 import org.kuali.core.web.ui.Column;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.dao.CorrectionChangeDao;
 import org.kuali.module.gl.dao.CorrectionChangeGroupDao;
 import org.kuali.module.gl.dao.CorrectionCriteriaDao;
 import org.kuali.module.gl.document.CorrectionDocument;
+import org.kuali.module.gl.exception.LoadException;
 import org.kuali.module.gl.service.CorrectionDocumentService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,6 +70,99 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
     protected static final String INPUT_ORIGIN_ENTRIES_FILE_SUFFIX = "-input.txt";
     protected static final String OUTPUT_ORIGIN_ENTRIES_FILE_SUFFIX = "-output.txt";
 
+    protected class PersistedEntriesIterator implements Iterator<OriginEntry> {
+
+        protected OriginEntry nextEntry;
+        protected BufferedReader reader;
+        protected int lineNumber;
+        
+        public PersistedEntriesIterator(BufferedReader reader) {
+            if (reader == null) {
+                LOG.error("reader is null in the PersistedEntriesIterator!");
+                throw new IllegalArgumentException("reader is null!");
+            }
+            this.reader = reader;
+            nextEntry = null;
+            lineNumber = 0;
+        }
+        
+        /**
+         * @see java.util.Iterator#hasNext()
+         */
+        public boolean hasNext() {
+            if (nextEntry == null) {
+                fetchNextEntry();
+                return nextEntry != null;
+            }
+            else {
+                // we have a next entry loaded
+                return true;
+            }
+        }
+
+        /**
+         * @see java.util.Iterator#next()
+         */
+        public OriginEntry next() {
+            if (nextEntry != null) {
+                // an entry may have been fetched by hasNext()
+                OriginEntry temp = nextEntry;
+                nextEntry = null;
+                return temp;
+            }
+            else {
+                // maybe next() is called repeatedly w/o calling hasNext.  This is a bad idea, but the
+                // interface allows it
+                fetchNextEntry();
+                if (nextEntry == null) {
+                    throw new NoSuchElementException();
+                }
+                OriginEntry temp = nextEntry;
+                nextEntry = null;
+                return temp;
+            }
+        }
+
+        /**
+         * @see java.util.Iterator#remove()
+         */
+        public void remove() {
+            throw new UnsupportedOperationException("Cannot remove entry from collection");
+        }
+        
+        protected void fetchNextEntry() {
+            try {
+                String line = reader.readLine();
+                if (line == null) {
+                    nextEntry = null;
+                    reader.close();
+                }
+                else {
+                    nextEntry = new OriginEntry();
+                    nextEntry.setFromTextFile(line, lineNumber);
+                    lineNumber++;
+                    // if there's an LoadException, then we'll just let it propagate up
+                }
+            }
+            catch (IOException e) {
+                LOG.error("error in the CorrectionDocumentServiceImpl iterator", e);
+                throw new RuntimeException("error retrieving origin entries");
+            }
+        }
+
+        /**
+         * @see java.lang.Object#finalize()
+         */
+        @Override
+        protected void finalize() throws Throwable {
+            super.finalize();
+            if (reader != null) {
+                reader.close();
+            }
+        }
+    }
+    
+    
     /**
      * 
      * @see org.kuali.module.gl.service.CorrectionDocumentService#findByDocumentNumberAndCorrectionChangeGroupNumber(java.lang.String, int)
@@ -131,151 +228,151 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
                 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Fiscal Year");
-                columnToAdd.setPropertyName("universityFiscalYear");
+                columnToAdd.setPropertyName(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
                 columnToAdd.setValueComparator(NumericValueComparator.getInstance());
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Chart Code");
-                columnToAdd.setPropertyName("chartOfAccountsCode");
+                columnToAdd.setPropertyName(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Account Number");
-                columnToAdd.setPropertyName("accountNumber");
+                columnToAdd.setPropertyName(KFSPropertyConstants.ACCOUNT_NUMBER);
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Sub Account Number");
-                columnToAdd.setPropertyName("subAccountNumber");
+                columnToAdd.setPropertyName(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Object Code");
-                columnToAdd.setPropertyName("financialObjectCode");
+                columnToAdd.setPropertyName(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Sub Object Code");
-                columnToAdd.setPropertyName("financialSubObjectCode");
+                columnToAdd.setPropertyName(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Balance Type");
-                columnToAdd.setPropertyName("financialBalanceTypeCode");
+                columnToAdd.setPropertyName(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Object Type");
-                columnToAdd.setPropertyName("financialObjectTypeCode");
+                columnToAdd.setPropertyName(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Fiscal Period");
-                columnToAdd.setPropertyName("universityFiscalPeriodCode");
+                columnToAdd.setPropertyName(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Document Type");
-                columnToAdd.setPropertyName("financialDocumentTypeCode");
+                columnToAdd.setPropertyName(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Origin Code");
-                columnToAdd.setPropertyName("financialSystemOriginationCode");
+                columnToAdd.setPropertyName(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE);
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Document Number");
-                columnToAdd.setPropertyName("documentNumber");
+                columnToAdd.setPropertyName(KFSPropertyConstants.DOCUMENT_NUMBER);
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Sequence Number");
                 columnToAdd.setValueComparator(NumericValueComparator.getInstance());
-                columnToAdd.setPropertyName("transactionLedgerEntrySequenceNumber");
+                columnToAdd.setPropertyName(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER);
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Description");
-                columnToAdd.setPropertyName("transactionLedgerEntryDescription");
+                columnToAdd.setPropertyName(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC);
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Amount");
                 columnToAdd.setValueComparator(NumericValueComparator.getInstance());
-                columnToAdd.setPropertyName("transactionLedgerEntryAmount");
+                columnToAdd.setPropertyName(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT);
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Debit Credit Indicator");
-                columnToAdd.setPropertyName("transactionDebitCreditCode");
+                columnToAdd.setPropertyName(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE);
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Transaction Date");
-                columnToAdd.setPropertyName("transactionDate");
+                columnToAdd.setPropertyName(KFSPropertyConstants.TRANSACTION_DATE);
                 columnToAdd.setValueComparator(TemporalValueComparator.getInstance());
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Org Doc Number");
-                columnToAdd.setPropertyName("organizationDocumentNumber");
+                columnToAdd.setPropertyName(KFSPropertyConstants.ORGANIZATION_DOCUMENT_NUMBER);
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Project Code");
-                columnToAdd.setPropertyName("projectCode");
+                columnToAdd.setPropertyName(KFSPropertyConstants.PROJECT_CODE);
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Org Ref ID");
-                columnToAdd.setPropertyName("organizationReferenceId");
+                columnToAdd.setPropertyName(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID);
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Ref Doc Type");
-                columnToAdd.setPropertyName("referenceFinancialDocumentTypeCode");
+                columnToAdd.setPropertyName(KFSPropertyConstants.REFERENCE_FIN_DOCUMENT_TYPE_CODE);
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Ref Origin Code");
-                columnToAdd.setPropertyName("referenceFinancialSystemOriginationCode");
+                columnToAdd.setPropertyName(KFSPropertyConstants.REFERENCE_FINANCIAL_SYSTEM_ORIGINATION_CODE);
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Ref Doc Number");
-                columnToAdd.setPropertyName("referenceFinancialDocumentNumber");
+                columnToAdd.setPropertyName(KFSPropertyConstants.FINANCIAL_DOCUMENT_REFERENCE_NBR);
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Reversal Date");
-                columnToAdd.setPropertyName("financialDocumentReversalDate");
+                columnToAdd.setPropertyName(KFSPropertyConstants.FINANCIAL_DOCUMENT_REVERSAL_DATE);
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 cachedColumns.add(columnToAdd);
 
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Enc Update Code");
-                columnToAdd.setPropertyName("transactionEncumbranceUpdateCode");
+                columnToAdd.setPropertyName(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD);
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 cachedColumns.add(columnToAdd);
                 
@@ -331,7 +428,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
             byte[] newLine = "\n".getBytes();
             while (entries.hasNext()) {
                 OriginEntry entry = entries.next();
-                bufferedStreamOut.write(entry.getLineWithOriginEntryId().getBytes());
+                bufferedStreamOut.write(entry.getLine().getBytes());
                 bufferedStreamOut.write(newLine);
             }
         }
@@ -414,7 +511,8 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
             reader = new BufferedReader(fReader);
             String line;
             while ((line = reader.readLine()) != null) {
-                OriginEntry entry = new OriginEntry(line, lineNumber, true);
+                OriginEntry entry = new OriginEntry();
+                entry.setFromTextFile(line, lineNumber);
                 if (abortThreshold != UNLIMITED_ABORT_THRESHOLD && lineNumber >= abortThreshold) {
                     return null;
                 }
@@ -444,6 +542,36 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
     }
 
     /**
+     * @see org.kuali.module.gl.service.CorrectionDocumentService#retrievePersistedOutputOriginEntriesAsIterator(org.kuali.module.gl.document.CorrectionDocument)
+     */
+    public Iterator<OriginEntry> retrievePersistedOutputOriginEntriesAsIterator(CorrectionDocument document) {
+        String fullPathUniqueFileName = generateOutputOriginEntryFileName(document);
+        return retrievePersistedOriginEntriesAsIterator(fullPathUniqueFileName);
+    }
+    
+    protected Iterator<OriginEntry> retrievePersistedOriginEntriesAsIterator(String fullPathUniqueFileName) {
+        File fileIn = new File(fullPathUniqueFileName);
+        if (!fileIn.exists()) {
+            LOG.error("File " + fullPathUniqueFileName + " does not exist.");
+            throw new RuntimeException("File does not exist");
+        }
+        BufferedReader reader = null;
+        FileReader fReader = null;
+        
+        try {
+            fReader = new FileReader(fileIn);
+            reader = new BufferedReader(fReader);
+            
+            return new PersistedEntriesIterator(reader);
+        }
+        catch (IOException e) {
+            LOG.error("retrievePersistedOriginEntries() Error opening file " + fileIn.getAbsolutePath(), e);
+            throw new RuntimeException("Error opening file");
+        }
+        // don't close the reader, the iterator will take care of that
+    }
+
+    /**
      * Returns true if and only if the file corresponding to this document's input origin entries are on the file system.
      * @see org.kuali.module.gl.service.CorrectionDocumentService#areInputOriginEntriesPersisted(org.kuali.module.gl.document.CorrectionDocument)
      */
@@ -463,6 +591,39 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
         return file.exists();
     }
 
+    
+    /**
+     * @see org.kuali.module.gl.service.CorrectionDocumentService#writePersistedInputOriginEntriesToStream(java.io.OutputStream)
+     */
+    public void writePersistedInputOriginEntriesToStream(CorrectionDocument document, OutputStream out) throws IOException {
+        String fullPathUniqueFileName = generateInputOriginEntryFileName(document);
+        writePersistedOriginEntriesToStream(fullPathUniqueFileName, out);
+    }
+
+    /**
+     * @see org.kuali.module.gl.service.CorrectionDocumentService#writePersistedOutputOriginEntriesToStream(java.io.OutputStream)
+     */
+    public void writePersistedOutputOriginEntriesToStream(CorrectionDocument document, OutputStream out) throws IOException {
+        String fullPathUniqueFileName = generateOutputOriginEntryFileName(document);
+        writePersistedOriginEntriesToStream(fullPathUniqueFileName, out);
+    }
+    
+    protected void writePersistedOriginEntriesToStream(String fullPathUniqueFileName, OutputStream out) throws IOException {
+        FileInputStream fileIn = new FileInputStream(fullPathUniqueFileName);
+        
+        try {
+            byte[] buf = new byte[1000];
+            int bytesRead;
+            
+            while ((bytesRead = fileIn.read(buf)) != -1) {
+                out.write(buf, 0, bytesRead);
+            }
+        }
+        finally {
+            fileIn.close();
+        }
+    }
+    
     protected String getOriginEntryStagingDirectoryPath() {
         return getGlcpDirectoryName();
     }

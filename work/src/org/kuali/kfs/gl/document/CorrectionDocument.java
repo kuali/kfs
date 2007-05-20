@@ -177,11 +177,11 @@ public class CorrectionDocument extends TransactionalDocumentBase {
             OriginEntryService originEntryService = SpringServiceLocator.getOriginEntryService();
             CorrectionDocumentService correctionDocumentService = SpringServiceLocator.getCorrectionDocumentService();
             
-            List<OriginEntry> outputEntries = correctionDocumentService.retrievePersistedOutputOriginEntries(this, CorrectionDocumentService.UNLIMITED_ABORT_THRESHOLD);
+            Iterator<OriginEntry> outputEntries = correctionDocumentService.retrievePersistedOutputOriginEntriesAsIterator(this);
             
             // Create output group
             java.sql.Date today = dateTimeService.getCurrentSqlDate();
-            // Scrub is set to false when the document is initiated. When the document is approved, it will be changed to true
+            // Scrub is set to false when the document is initiated. When the document is final, it will be changed to true
             OriginEntryGroup oeg = originEntryService.copyEntries(today, OriginEntrySource.GL_CORRECTION_PROCESS_EDOC, true, false, true, outputEntries);
             
             // Now, run the reports

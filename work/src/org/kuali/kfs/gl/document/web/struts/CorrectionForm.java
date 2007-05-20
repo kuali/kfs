@@ -63,11 +63,6 @@ public class CorrectionForm extends KualiDocumentFormBase {
     private String previousEditMethod;
     
     /**
-     * This is the input group ID selected on the page when the page was submitted
-     */
-    private Integer inputGroupId;
-    
-    /**
      * This is the input group ID selected when the last page was rendered
      */
     private Integer previousInputGroupId;
@@ -210,7 +205,6 @@ public class CorrectionForm extends KualiDocumentFormBase {
         chooseSystem = "";
         editMethod = "";
         inputFileName = "";
-        inputGroupId = null;
         outputGroupId = null;
         processInBatch = true;
         matchCriteriaOnly = false;
@@ -362,13 +356,9 @@ public class CorrectionForm extends KualiDocumentFormBase {
     }
 
     public Integer getInputGroupId() {
-        return inputGroupId;
+        return ((CorrectionDocument) getDocument()).getCorrectionInputGroupId();
     }
-
-    public void setInputGroupId(Integer g) {
-        this.inputGroupId = g;
-    }
-
+    
     public boolean getProcessInBatch() {
         return processInBatch;
     }

@@ -15,10 +15,13 @@
  */
 package org.kuali.module.gl.util;
 
+import java.util.Collection;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.gl.bo.CorrectionChange;
 import org.kuali.module.gl.bo.CorrectionCriteria;
+import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.web.struts.form.CorrectionForm;
 import org.kuali.rice.KNSServiceLocator;
 
@@ -117,5 +120,29 @@ public class CorrectionDocumentUtils {
     public static boolean validCorrectionChangeForSaving(CorrectionChange correctionChange) {
         return correctionChange == null || 
                 (StringUtils.isBlank(correctionChange.getCorrectionFieldName()) &&  StringUtils.isBlank(correctionChange.getCorrectionFieldValue()));
+    }
+    
+    /**
+     * Sets all origin entries' entry IDs to null within the collection.
+     * 
+     * @param originEntries
+     */
+    public static void setAllEntryIdsToNull(Collection<OriginEntry> originEntries) {
+        for (OriginEntry entry : originEntries) {
+            entry.setEntryId(null);
+        }
+    }
+    
+    /**
+     * Sets all origin entries' entry IDs to be sequential starting from 0 in the collection
+     * 
+     * @param originEntries
+     */
+    public static void setSequentialEntryIds(Collection<OriginEntry> originEntries) {
+        int index = 0;
+        for (OriginEntry entry : originEntries) {
+            entry.setEntryId(new Integer(index));
+            index++;
+        }
     }
 }

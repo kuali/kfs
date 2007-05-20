@@ -66,7 +66,7 @@
     </kul:tab>
   </c:if>
   <kul:tab tabTitle="Summary" defaultOpen="true" tabErrorKey="summary">
-    <c:if test="${(KualiForm.dataLoadedFlag and !KualiForm.restrictedFunctionalityMode) or KualiForm.document.correctionOutputGroupId != null or not empty KualiForm.editingMode['viewOnly']}" >
+    <c:if test="${(not (KualiForm.persistedOriginEntriesMissing && KualiForm.inputGroupIdFromLastDocumentLoad eq KualiForm.inputGroupId)) && ((KualiForm.dataLoadedFlag and !KualiForm.restrictedFunctionalityMode) or KualiForm.document.correctionOutputGroupId != null or not empty KualiForm.editingMode['viewOnly'])}" >
       <html:hidden property="document.correctionDebitTotalAmount"/>
       <html:hidden property="document.correctionCreditTotalAmount"/>
       <html:hidden property="document.correctionRowCount"/>
@@ -97,7 +97,26 @@
         </table>
       </div>
     </c:if>
-    <c:if test="${KualiForm.restrictedFunctionalityMode && KualiForm.editingMode['fullEntry']}" >
+    <c:if test="${KualiForm.persistedOriginEntriesMissing && KualiForm.inputGroupIdFromLastDocumentLoad eq KualiForm.inputGroupId}">
+      <div class="tab-container" align="center"> 
+	    <table cellpadding="0" class="datatable" summary=""> 
+          <tr>
+            <c:if test="${KualiForm.showOutputFlag == true or KualiForm.showSummaryOutputFlag == true}">
+              <td align="left" valign="middle" class="subhead"><span class="subhead-left">Summary of Output Group</span></td>
+            </c:if>
+            <c:if test="${KualiForm.showOutputFlag == false or KualiForm.showSummaryOutputFlag == true}">
+              <td align="left" valign="middle" class="subhead"><span class="subhead-left">Summary of Input Group</span></td>
+            </c:if>
+          </tr>
+        </table>
+        <table cellpadding="0" class="datatable">
+          <tr>
+            <td>The summary is unavailable because the origin entries are unavailable.</td> 
+          </tr>
+        </table>
+      </div>
+    </c:if>
+    <c:if test="${KualiForm.restrictedFunctionalityMode && not KualiForm.persistedOriginEntriesMissing && KualiForm.editingMode['fullEntry']}" >
       <div class="tab-container" align="center"> 
 	    <table cellpadding="0" class="datatable" summary=""> 
           <tr>
@@ -155,14 +174,9 @@
               <td colspan="2" class="bord-l-b" style="padding: 4px; vertical-align: top;"> 
                 <center>
                   <label for="inputGroupId"><strong>Origin Entry Group</strong></label><br/><br/>
-                  <html:select property="inputGroupId" size="10" >
-                    <c:if test="${KualiForm.inputGroupIdFromLastDocumentLoadIsMissing}">
-                      <c:if test="${KualiForm.inputGroupId eq KualiForm.inputGroupIdFromLastDocumentLoad}">
-                        <option value="<c:out value="${KualiForm.inputGroupIdFromLastDocumentLoad}"/>" selected="selected"><c:out value="${KualiForm.inputGroupIdFromLastDocumentLoad}"/> Document was last saved with this origin entry group selected.  Group is no longer in system.</option>
-                      </c:if>
-                      <c:if test="${KualiForm.inputGroupId ne KualiForm.inputGroupIdFromLastDocumentLoad}">
-                        <option value="<c:out value="${KualiForm.inputGroupIdFromLastDocumentLoad}"/>"><c:out value="${KualiForm.inputGroupIdFromLastDocumentLoad}"/> Document was last saved with this origin entry group selected.  Group is no longer in system.</option>
-                      </c:if>
+                  <html:select property="document.correctionInputGroupId" size="10" >
+                    <c:if test="${KualiForm.inputGroupIdFromLastDocumentLoadIsMissing and KualiForm.inputGroupId eq KualiForm.inputGroupIdFromLastDocumentLoad}">
+                      <option value="<c:out value="${KualiForm.inputGroupIdFromLastDocumentLoad}"/>" selected="selected"><c:out value="${KualiForm.inputGroupIdFromLastDocumentLoad}"/> Document was last saved with this origin entry group selected.  Group is no longer in system.</option>
                     </c:if>
                     <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|module|gl|web|optionfinder|CorrectionGroupEntriesFinder" label="label" value="key" />
                   </html:select>
@@ -198,7 +212,7 @@
       </c:if>
     </kul:tab>
     <kul:tab tabTitle="Search Results" defaultOpen="true" tabErrorKey="searchResults">
-      <c:if test="${KualiForm.restrictedFunctionalityMode}">
+      <c:if test="${KualiForm.restrictedFunctionalityMode && !KualiForm.persistedOriginEntriesMissing}">
         <div class="tab-container" align="center">
           <table cellpadding=0 class="datatable" summary=""> 
             <tr>
@@ -210,7 +224,7 @@
           </table>
         </div>
       </c:if>
-      <c:if test="${KualiForm.persistedOriginEntriesMissing}">
+      <c:if test="${KualiForm.restrictedFunctionalityMode && KualiForm.persistedOriginEntriesMissing && KualiForm.inputGroupIdFromLastDocumentLoad eq KualiForm.inputGroupId}">
         <div class="tab-container" align="center">
           <table cellpadding=0 class="datatable" summary=""> 
             <tr>
@@ -222,7 +236,7 @@
           </table>
         </div>
       </c:if>
-      <c:if test="${KualiForm.chooseSystem != null and KualiForm.editMethod != null and KualiForm.dataLoadedFlag == true and !KualiForm.restrictedFunctionalityMode and !KualiForm.persistedOriginEntriesMissing}" >
+      <c:if test="${KualiForm.chooseSystem != null and KualiForm.editMethod != null and KualiForm.dataLoadedFlag == true and !KualiForm.restrictedFunctionalityMode and !(KualiForm.persistedOriginEntriesMissing && KualiForm.inputGroupIdFromLastDocumentLoad eq KualiForm.inputGroupId)}" >
         <div class="tab-container" align="left" style="overflow: scroll; width: 100% ;"> 
           <table cellpadding=0 class="datatable" summary=""> 
             <tr>

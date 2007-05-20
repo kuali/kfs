@@ -46,6 +46,20 @@ public interface OriginEntryService {
     public OriginEntryGroup copyEntries(Date date, String sourceCode, boolean valid,boolean process,boolean scrub,Collection<OriginEntry> entries);
 
     /**
+     * Copy a set of entries into a new group.  This method can use less space than the method that takes in a collection, because iterators can
+     * be implemented to load data one chunk at a time, similar to how java ResultSets work.
+     * 
+     * @param date
+     * @param sourceCode
+     * @param valid
+     * @param process
+     * @param scrub
+     * @param entries
+     * @return
+     */
+    public OriginEntryGroup copyEntries(Date date, String sourceCode, boolean valid,boolean process,boolean scrub,Iterator<OriginEntry> entries);
+    
+    /**
      * Delete entry
      * 
      * @param oe Entry to delete

@@ -15,6 +15,8 @@
  */
 package org.kuali.module.gl.service;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.List;
 
@@ -47,6 +49,11 @@ public interface CorrectionDocumentService {
 
     public CorrectionDocument findByCorrectionDocumentHeaderId(String docId);
     
+    /**
+     * Returns metadata to help render columns in the GLCP.  Do not modify this list or the contents in this list.
+     * @param docId
+     * @return
+     */
     public List<Column> getTableRenderColumnMetadata(String docId);
     
     /**
@@ -80,6 +87,16 @@ public interface CorrectionDocumentService {
     public boolean areInputOriginEntriesPersisted(CorrectionDocument document);
     
     /**
+     * Writes out the persisted input origin entries in an {@link OutputStream} in a flat file format
+     * 
+     * @param document 
+     * @param out an open and ready output stream
+     * @throws IOException
+     * @throws RuntimeException several reasons, including if the entries are not persisted
+     */
+    public void writePersistedInputOriginEntriesToStream(CorrectionDocument document, OutputStream out) throws IOException;
+    
+    /**
      * This method persists an Iterator of input origin entries for a document that is in the initiated or saved state
      * 
      * @param document an initiated or saved document
@@ -100,6 +117,16 @@ public interface CorrectionDocumentService {
     public List<OriginEntry> retrievePersistedOutputOriginEntries(CorrectionDocument document, int abortThreshold);
     
     /**
+     * Retrieves output origin entries that have been persisted for this document in an iterator.  Implementations of
+     * this method may choose to implement this method in a way that consumes very little memory.
+     * 
+     * @param document the document
+     * @return the iterator
+     * @throws RuntimeException several reasons, primarily relating to underlying persistence layer problems 
+     */
+    public Iterator<OriginEntry> retrievePersistedOutputOriginEntriesAsIterator(CorrectionDocument document);
+    
+    /**
      * Returns true if the system is storing output origin entries for this class.  Note that this does not mean that there's at least one output origin
      * entry record persisted for this document, but merely returns true if and only if the underlying persistence mechanism has a record of this document's
      * origin entries.  See the docs for the implementations of this method for more implementation specific details.
@@ -108,4 +135,14 @@ public interface CorrectionDocumentService {
      * @return
      */
     public boolean areOutputOriginEntriesPersisted(CorrectionDocument document);
+    
+    /**
+     * Writes out the persisted output origin entries in an {@link OutputStream} in a flat file format\
+     * 
+     * @param document
+     * @param out axn open and ready output stream
+     * @throws IOException
+     * @throws RuntimeException several reasons, including if the entries are not persisted
+     */
+    public void writePersistedOutputOriginEntriesToStream(CorrectionDocument document, OutputStream out) throws IOException;
 }

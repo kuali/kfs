@@ -15,6 +15,11 @@
  */
 package org.kuali.module.chart.service.impl;
 
+import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.kuali.core.util.spring.Cached;
+import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.dao.SubAccountDao;
 import org.kuali.module.chart.service.SubAccountService;
@@ -26,6 +31,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class SubAccountServiceImpl implements SubAccountService {
+    private static final Logger LOG = Logger.getLogger(SubAccountServiceImpl.class);
+
     private SubAccountDao subAccountDao;
 
     /**
@@ -33,6 +40,28 @@ public class SubAccountServiceImpl implements SubAccountService {
      */
     public SubAccount getByPrimaryId(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
         return subAccountDao.getByPrimaryId(chartOfAccountsCode, accountNumber, subAccountNumber);
+    }
+
+    /**
+     * Method is used by KualiAccountAttribute to enable caching of accounts for routing.
+     * 
+     * @see org.kuali.module.chart.service.impl.SubAccountServiceImpl#getByPrimaryId(String, String, String)
+     */
+    @Cached
+    public SubAccount getByPrimaryIdWithCaching(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
+        return subAccountDao.getByPrimaryId(chartOfAccountsCode, accountNumber, subAccountNumber);
+    }
+
+    /**
+     * Retrieves SubAccount objects associated with the given chart-org-subAccount code combination
+     * 
+     * @param chartOfAccountsCode - 'Reports To' Chart of Accounts Code
+     * @param organizationCode - 'Reports To' Organization Code
+     * @param subAccountNumber - Sub Account Number
+     * @return a list of SubAccount objects
+     */
+    public List getSubAccountsByReportsToOrganization(String chartOfAccountsCode, String organizationCode, String subAccountNumber) {
+        return subAccountDao.getSubAccountsByReportsToOrganization(chartOfAccountsCode, organizationCode, subAccountNumber);
     }
 
     /**

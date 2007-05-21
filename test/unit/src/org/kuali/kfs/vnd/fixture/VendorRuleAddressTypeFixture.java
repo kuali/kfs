@@ -31,19 +31,23 @@ import org.kuali.module.vendor.fixtures.VendorTestConstants.AddressTypes;
  */
 public enum VendorRuleAddressTypeFixture {
 
-    WITH_PO_TYPE_AND_PO_ADDR_TYPES(AddressTypes.poType, AddressTypes.poType, AddressTypes.poType), 
-    WITH_DV_TYPE_AND_RM_ADDR_TYPES(AddressTypes.dvType, AddressTypes.rmType, AddressTypes.rmType), 
-    WITH_PO_TYPE_AND_RM_ADDR_TYPES(AddressTypes.poType, AddressTypes.rmType, AddressTypes.rmType), 
-    WITH_PO_TYPE_AND_ONE_PO_AND_ONE_RM_ADDR_TYPES(AddressTypes.poType, AddressTypes.poType, AddressTypes.rmType), ;
+    WITH_PO_TYPE_AND_PO_ADDR_TYPES(AddressTypes.poType, AddressTypes.poType, true, AddressTypes.poType, false), 
+    WITH_DV_TYPE_AND_RM_ADDR_TYPES(AddressTypes.dvType, AddressTypes.rmType, true, AddressTypes.rmType, false), 
+    WITH_PO_TYPE_AND_RM_ADDR_TYPES(AddressTypes.poType, AddressTypes.rmType, true, AddressTypes.rmType, false), 
+    WITH_PO_TYPE_AND_ONE_PO_AND_ONE_RM_ADDR_TYPES(AddressTypes.poType, AddressTypes.poType, true, AddressTypes.rmType, true), ;
 
-    public final String typeCode;
-    public final String addrTypeCode1;
-    public final String addrTypeCode2;
+    private String typeCode;
+    private String addrTypeCode1;
+    private String addrTypeCode2;
+    private boolean defaultAddr1;
+    private boolean defaultAddr2;
 
-    VendorRuleAddressTypeFixture(String typeCode, String addrTypeCode1, String addrTypeCode2) {
+    VendorRuleAddressTypeFixture(String typeCode, String addrTypeCode1, boolean default1, String addrTypeCode2, boolean default2) {
         this.typeCode = typeCode;
         this.addrTypeCode1 = addrTypeCode1;
+        this.defaultAddr1 = default1;
         this.addrTypeCode2 = addrTypeCode2;
+        this.defaultAddr2 = default2;
     }
 
     @SuppressWarnings("deprecation")
@@ -56,8 +60,9 @@ public enum VendorRuleAddressTypeFixture {
         VendorAddress addr1 = new VendorAddress();
         VendorAddress addr2 = new VendorAddress();
         addr1.setVendorAddressTypeCode(this.addrTypeCode1);
-        addr1.setVendorDefaultAddressIndicator(true);
+        addr1.setVendorDefaultAddressIndicator(this.defaultAddr1);
         addr2.setVendorAddressTypeCode(this.addrTypeCode2);
+        addr2.setVendorDefaultAddressIndicator(this.defaultAddr2);
         addrList.add(addr1);
         addrList.add(addr2);
         vndr.setVendorAddresses(addrList);

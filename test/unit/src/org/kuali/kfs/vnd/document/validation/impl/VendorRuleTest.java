@@ -20,7 +20,9 @@ import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 import java.util.List;
 
 import org.kuali.core.document.MaintenanceDocument;
+import org.kuali.core.document.MaintenanceDocumentBase;
 import org.kuali.core.maintenance.MaintenanceRuleTestBase;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorContract;
 import org.kuali.module.vendor.bo.VendorDetail;
@@ -29,8 +31,10 @@ import org.kuali.module.vendor.fixtures.VendorContractPurchaseOrderLimitAmountPr
 import org.kuali.module.vendor.fixtures.VendorRuleAddressStateZipFixture;
 import org.kuali.module.vendor.fixtures.VendorRuleAddressTypeFixture;
 import org.kuali.module.vendor.fixtures.VendorRuleFaxNumberFixture;
+import org.kuali.module.vendor.maintenance.VendorMaintainableImpl;
 import org.kuali.test.WithTestSpringContext;
-import org.kuali.test.suite.RelatesTo;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class should contain all tests of methods implementing Vendor rules.  For this
@@ -67,33 +71,7 @@ public class VendorRuleTest extends MaintenanceRuleTestBase {
         rule = null;
         super.tearDown();
     }
-    
-    /*
-     * TESTS OF ValidateParentVendorTaxNumber
-     */
-    /*
-    public void testValidateParentVendorTaxNumber_UniqueVendor() throws WorkflowException {
-        maintDoc = new MaintenanceDocumentBase();
-        newVendor.setVendorParentIndicator(true);
-        newVendor.setVendorHeaderGeneratedIdentifier( new Integer("111111111") );
-        newVendor.getVendorHeader().setVendorTaxTypeCode( taxTypeCode );
-        newVendor.getVendorHeader().setVendorTaxNumber( taxNumber );
-        VendorMaintainableImpl vmi = new VendorMaintainableImpl();
-        vmi.setBusinessObject( newVendor );
-        maintDoc.setNewMaintainableObject( vmi );
         
-        maintDoc.getDocumentHeader().setDocumentNumber("111111111");
-        
-        SpringServiceLocator.getDocumentService().prepareWorkflowDocument( maintDoc );        
-        SpringServiceLocator.getDocumentService().saveDocument( maintDoc );
-        try {
-            assertTrue( rule.validateParentVendorTaxNumber( newVendor ) );
-        } finally {
-            SpringServiceLocator.getDocumentService().cancelDocument( maintDoc, "Test cleanup" );
-        }
-    }
-    */
-    
     /*
      * TESTS OF ValidateTaxTypeAndTaxNumberBlankness
      */
@@ -210,30 +188,25 @@ public class VendorRuleTest extends MaintenanceRuleTestBase {
         return rule;
     } 
      
-    //@RelatesTo(RelatesTo.JiraIssue.KULPURAP609)
-    public void testValidateAddressType_WithPOTypeAndPOAddrTypes() {
+    public void testProcessAddressValidation_WithPOTypeAndPOAddrTypes() {
         rule = validateAddressType_TestHelper( VendorRuleAddressTypeFixture.WITH_PO_TYPE_AND_PO_ADDR_TYPES );
         assertTrue(rule.processAddressValidation( maintDoc ));
     }
 
-    //@RelatesTo(RelatesTo.JiraIssue.KULPURAP609)
-    public void testValidateAddressType_WithDVTypeAndRMAddrTypes() {
+    public void testProcessAddressValidation_WithDVTypeAndRMAddrTypes() {
         rule = validateAddressType_TestHelper( VendorRuleAddressTypeFixture.WITH_DV_TYPE_AND_RM_ADDR_TYPES );
         assertTrue(rule.processAddressValidation( maintDoc ));
     }
     
-    //@RelatesTo(RelatesTo.JiraIssue.KULPURAP609)
-    public void testValidateAddressType_WithPOTypeAndRMAddrTypes() {
+    public void testProcessAddressValidation_WithPOTypeAndRMAddrTypes() {
         rule = validateAddressType_TestHelper( VendorRuleAddressTypeFixture.WITH_PO_TYPE_AND_RM_ADDR_TYPES );
         assertFalse(rule.processAddressValidation( maintDoc ));
     }
     
-    /*
-    public void testValidateAddressType_WithPOTypeAndOnePOAndOneRMAddrTypes() {
+    public void testProcessAddressValidation_WithPOTypeAndOnePOAndOneRMAddrTypes() {
         rule  = validateAddressType_TestHelper( VendorRuleAddressTypeFixture.WITH_PO_TYPE_AND_ONE_PO_AND_ONE_RM_ADDR_TYPES );
         assertTrue(rule.processAddressValidation( maintDoc ));
     }
-    */
     
     
     /*

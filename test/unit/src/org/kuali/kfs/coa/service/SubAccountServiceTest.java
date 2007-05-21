@@ -25,8 +25,6 @@ import org.kuali.test.WithTestSpringContext;
 
 /**
  * This class tests the SubAccount service.
- * 
- * 
  */
 @WithTestSpringContext
 public class SubAccountServiceTest extends KualiTestBase {
@@ -52,8 +50,20 @@ public class SubAccountServiceTest extends KualiTestBase {
         sa.setChartOfAccountsCode(CHART);
         sa.setSubAccountNumber(SUB_ACCOUNT);
 
-
         SubAccount retrieved = getSubAccountService().getByPrimaryId(CHART, ACCOUNT, SUB_ACCOUNT);
+        assertTrue("Didn't retrieve sub account", ObjectUtils.isNotNull(retrieved));
+        assertEquals("Wrong chart", CHART, retrieved.getChartOfAccountsCode());
+        assertEquals("Wrong account", ACCOUNT, retrieved.getAccountNumber());
+        assertEquals("Wrong Sub account number", SUB_ACCOUNT, retrieved.getSubAccountNumber());
+    }
+
+    public void testGetByPrimaryIdWithCaching() throws Exception {
+        SubAccount sa = new SubAccount();
+        sa.setAccountNumber(ACCOUNT);
+        sa.setChartOfAccountsCode(CHART);
+        sa.setSubAccountNumber(SUB_ACCOUNT);
+
+        SubAccount retrieved = getSubAccountService().getByPrimaryIdWithCaching(CHART, ACCOUNT, SUB_ACCOUNT);
         assertTrue("Didn't retrieve sub account", ObjectUtils.isNotNull(retrieved));
         assertEquals("Wrong chart", CHART, retrieved.getChartOfAccountsCode());
         assertEquals("Wrong account", ACCOUNT, retrieved.getAccountNumber());

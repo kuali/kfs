@@ -26,11 +26,13 @@ import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.core.util.FieldUtils;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.workflow.WorkflowUtils;
 import org.kuali.core.workflow.attribute.WorkflowLookupableImpl;
@@ -44,6 +46,7 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
 import edu.iu.uis.eden.doctype.DocumentType;
+import edu.iu.uis.eden.engine.RouteContext;
 import edu.iu.uis.eden.lookupable.Field;
 import edu.iu.uis.eden.lookupable.Row;
 
@@ -90,6 +93,7 @@ public class KualiWorkflowUtils extends WorkflowUtils {
     public static final String C_G_AWARD_DOC_TYPE = "KualiResearchAdminPostAwardMaintenanceDocument";
     public static final String C_G_PROPOSAL_DOC_TYPE = "KualiProposalMaintenanceDocument";
 
+    public static final String FINANCIAL_DOCUMENT_TOTAL_AMOUNT_XPATH = xstreamSafeXPath(XSTREAM_MATCH_ANYWHERE_PREFIX + "documentHeader/financialDocumentTotalAmount/value");
     public static final String ACCOUNT_CHANGE_DETAILS_XPATH = xstreamSafeXPath(NEW_MAINTAINABLE_PREFIX + "accountChangeDetails/list/org.kuali.module.chart.bo.AccountChangeDetail");
     public static final String ORG_REVERSION_DETAILS_XPATH = xstreamSafeXPath(NEW_MAINTAINABLE_PREFIX + "organizationReversionChangeOrganizations/list/org.kuali.module.chart.bo.OrganizationReversionChangeOrganization");
 
@@ -375,5 +379,33 @@ public class KualiWorkflowUtils extends WorkflowUtils {
         chartFields.add(new Field("", "", Field.QUICKFINDER, false, "", "", null, lookupableName)); // quickfinder/lookup icon
         return new Row(chartFields);
     }
-
+    
+    /**
+     * This method gets the document total amount from the DocumentHeader 
+     * 
+     * If an XPathExpressionException is thrown, this will be re-thrown within a RuntimeException.
+     *
+     * @param routeContext The RouteContext object from the workflow system
+     * @return the KualiDecimal value of the total amount from the document's workflow document content or null if the amount value cannot be found.
+     */
+    public static KualiDecimal getFinancialDocumentTotalAmount(RouteContext routeContext) {
+        Document doc = routeContext.getDocumentContent().getDocument();
+        XPath xpath = getXPath(doc);
+        String docTotalAmount = null;
+        String xpathXpression = FINANCIAL_DOCUMENT_TOTAL_AMOUNT_XPATH;
+        try {
+            docTotalAmount = (String) xpath.evaluate(xpathXpression, doc, XPathConstants.STRING);
+            if (StringUtils.isEmpty(docTotalAmount)) {
+                String message = "Cannot find financial document total amount for document with doc id " + routeContext.getDocument().getRouteHeaderId();
+                LOG.warn("getDocumentTotalAmount() " + message);
+                return null;
+            }
+            return new KualiDecimal(docTotalAmount);
+        }
+        catch (XPathExpressionException xe) {
+            String errorMsg = "Error executing XPath expression - '" + xpathXpression + "'";
+            LOG.error(errorMsg,xe);
+            throw new RuntimeException (errorMsg,xe);
+        }
+    }
 }

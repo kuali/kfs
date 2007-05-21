@@ -74,6 +74,21 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         accountResponsibilities.addAll(getDelegatedResponsibilities(universalUser));
         return accountResponsibilities;
     }
+    
+    /**
+     * 
+     * This method determines if the given user has any responsibilities on the given account
+     * @param universalUser the user to check responsibilities for
+     * @param account the account to check responsibilities on
+     * @return true if user is somehow responsible for account, false if otherwise
+     */
+    public boolean determineUserResponsibilityOnAccount(UniversalUser universalUser, Account account) {
+        boolean result = hasFiscalOfficerResponsibility(universalUser, account);
+        if (!result) {
+            result = hasDelegatedResponsibility(universalUser, account);
+        }
+        return result;
+    }
 
     /**
      * @see org.kuali.module.chart.dao.AccountDao#getPrimaryDelegationByExample(org.kuali.module.chart.bo.Delegate,
@@ -136,6 +151,29 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         }
         return fiscalOfficerResponsibilities;
     }
+    
+    /**
+     * 
+     * This method determines if a given user has fiscal officer responsiblity on a given account.
+     * @param universalUser the user to check responsibilities for
+     * @param account the account to check responsibilities on
+     * @return true if user does have fiscal officer responsibility on account, false if otherwise
+     */
+    private boolean hasFiscalOfficerResponsibility(UniversalUser universalUser, Account account) {
+        boolean hasFiscalOfficerResponsibility = false;
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("accountFiscalOfficerSystemIdentifier", universalUser.getPersonUniversalIdentifier());
+        criteria.addEqualTo("chartOfAccountsCode", account.getChartOfAccountsCode());
+        criteria.addEqualTo("accountNumber", account.getAccountNumber());
+        Collection accounts = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Account.class, criteria));
+        if (accounts != null && accounts.size() > 0) {
+            Account retrievedAccount = (Account)accounts.iterator().next();
+            if (ObjectUtils.isNotNull(retrievedAccount)) {
+                hasFiscalOfficerResponsibility = true;
+            }
+        }
+        return hasFiscalOfficerResponsibility;
+    }
 
     /**
      * method to get the fo delegated responsibilities for the account
@@ -161,6 +199,36 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
             }
         }
         return delegatedResponsibilities;
+    }
+    
+    /**
+     * 
+     * This method determines if a user has delegated responsibilities on a given account.
+     * @param universalUser the user to check responsibilities for
+     * @param account the account to check responsibilities on
+     * @return true if user has delegated responsibilities
+     */
+    private boolean hasDelegatedResponsibility(UniversalUser universalUser, Account account) {
+        boolean hasResponsibility = false;
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("accountDelegateSystemId", universalUser.getPersonUniversalIdentifier());
+        criteria.addEqualTo("chartOfAccountsCode", account.getChartOfAccountsCode());
+        criteria.addEqualTo("accountNumber", account.getAccountNumber());
+        Collection accountDelegates = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Delegate.class, criteria));
+        for (Iterator iter = accountDelegates.iterator(); iter.hasNext() && !hasResponsibility;) {
+            Delegate accountDelegate = (Delegate) iter.next();
+            if (accountDelegate.isAccountDelegateActiveIndicator()) {
+                // the start_date should never be null in the real world, but
+                // there is some test data that
+                // contains null startDates, therefore this check.
+                if (ObjectUtils.isNotNull(accountDelegate.getAccountDelegateStartDate())) {
+                    if (!accountDelegate.getAccountDelegateStartDate().after(dateTimeService.getCurrentDate())) {
+                        hasResponsibility = true;
+                    }
+                }
+            }
+        }
+        return hasResponsibility;
     }
 
     public Iterator getAllAccounts() {

@@ -22,6 +22,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.Closure;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.core.authorization.AuthorizationConstants;
@@ -29,11 +31,15 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.bo.AccountResponsibility;
 import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ChartUser;
+import org.kuali.module.chart.service.AccountService;
 import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -142,20 +148,59 @@ public class AccountingDocumentAuthorizerBase extends TransactionalDocumentAutho
         }
         return false;
     }
+    
+    /**
+     * This class, a simple closure, decides if an account belongs 
+     * in the editableAccounts map or not: if it does not exist, or if the account
+     * is editable, it will go into the map. 
+     */
+    private class AccountResponsibilityClosure implements Closure {
+        private Map editableAccounts;
+        private ChartUser currentUser;
+        private AccountService accountService;
+        
+        public AccountResponsibilityClosure(Map editableAccounts, ChartUser currentUser, AccountService accountService) {
+            this.editableAccounts = editableAccounts;
+            this.currentUser = currentUser;
+            this.accountService = accountService;
+        }
+        
+        public void execute(Object input) {
+            AccountingLine acctLine = (AccountingLine)input;
+            Account acct = accountService.getByPrimaryId(acctLine.getChartOfAccountsCode(), acctLine.getAccountNumber());
+            if (ObjectUtils.isNotNull(acct)) {
+                if (accountService.hasResponsibilityOnAccount(currentUser.getUniversalUser(), acct)) {
+                    editableAccounts.put(getKeyForMap(acctLine), acct);
+                }
+            } else {
+                editableAccounts.put(getKeyForMap(acctLine), getKeyForMap(acctLine));
+            }
+        }
+        
+        private String getKeyForMap(AccountingLine acctgLine) {
+            StringBuilder key = new StringBuilder();
+            key.append(acctgLine.getChartOfAccountsCode());
+            key.append(":");
+            key.append(acctgLine.getAccountNumber());
+            return key.toString();
+        }
+        
+    }
 
     /**
      * @see org.kuali.module.financial.document.authorization.FinancialDocumentAuthorizer#getEditableAccounts(org.kuali.core.document.TransactionalDocument, org.kuali.module.chart.bo.ChartUser)
      */
     public Map getEditableAccounts(TransactionalDocument document, ChartUser user) {
+        
         Map editableAccounts = new HashMap();
+        AccountingDocument acctDoc = (AccountingDocument)document;
+        AccountResponsibilityClosure accountResponsibilityClosure = new AccountResponsibilityClosure(editableAccounts, user, SpringServiceLocator.getAccountService());
 
-        // convert AccountResponsibilities HashMap into Account Map
-        for (Iterator i = user.getAccountResponsibilities().entrySet().iterator(); i.hasNext();) {
-            Map.Entry e = (Map.Entry) i.next();
-            AccountResponsibility accountResponsibility = (AccountResponsibility) e.getValue();
-            Account account = accountResponsibility.getAccount();
-            editableAccounts.put(account.getAccountKey(), account);
-        }
+        // for every source accounting line, decide if account should be in map
+        CollectionUtils.forAllDo(acctDoc.getSourceAccountingLines(), accountResponsibilityClosure);
+        
+        // for every target accounting line, decide if account should be in map
+        CollectionUtils.forAllDo(acctDoc.getTargetAccountingLines(), accountResponsibilityClosure);
 
         return editableAccounts;
     }

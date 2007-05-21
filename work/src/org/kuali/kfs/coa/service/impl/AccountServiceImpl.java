@@ -85,6 +85,13 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
+     * @see org.kuali.module.chart.service.AccountService#hasResponsibilityOnAccount(org.kuali.core.bo.user.UniversalUser, org.kuali.module.chart.bo.Account)
+     */
+    public boolean hasResponsibilityOnAccount(UniversalUser kualiUser, Account account) {
+        return accountDao.determineUserResponsibilityOnAccount(kualiUser, account);
+    }
+
+    /**
      * @see org.kuali.module.chart.service.AccountService#getPrimaryDelegationByExample(org.kuali.module.chart.bo.Delegate,
      *      java.lang.String)
      */

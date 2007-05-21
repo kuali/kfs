@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.document.authorization.DocumentAuthorizer;
 import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.util.GlobalVariables;
@@ -665,5 +666,14 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
         catch (Exception e) {
             throw new InfrastructureException("unable to create a new target accounting line", e);
         }
+    }
+    
+    /**
+     * This method finds its appropriate document authorizer and uses that to reset
+     * the map of editable accounts, based on the current accounting lines.
+     */
+    public void refreshEditableAccounts() {
+        AccountingDocumentAuthorizer authorizer = (AccountingDocumentAuthorizer)SpringServiceLocator.getDocumentAuthorizationService().getDocumentAuthorizer(this.getDocument());
+        this.setEditableAccounts(authorizer.getEditableAccounts((TransactionalDocument)this.getDocument(), (ChartUser)GlobalVariables.getUserSession().getUniversalUser().getModuleUser( ChartUser.MODULE_ID )));
     }
 }

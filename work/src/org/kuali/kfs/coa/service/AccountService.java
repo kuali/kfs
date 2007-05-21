@@ -75,6 +75,14 @@ public interface AccountService {
      * @return a list of Accounts that the user has responsibility for
      */
     public List getAccountsThatUserIsResponsibleFor(UniversalUser kualiUser);
+    
+    /**
+     * Does the given user have responsibilites on the given account?
+     * @param kualiUser the universal user to check responsibilities for
+     * @param account the account to check responsibilities on
+     * @return true if user does have responsibilities, false if otherwise
+     */
+    public boolean hasResponsibilityOnAccount(UniversalUser kualiUser, Account account);
 
     /**
      * get all accounts in the system. This is needed by a sufficient funds rebuilder job

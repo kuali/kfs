@@ -101,7 +101,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
         this.setRequestorPersonPhoneNumber(SpringServiceLocator.getPhoneNumberService().formatNumberIfPossible(currentUser.getUniversalUser().getPersonLocalPhoneNumber()));
         
         // set the APO limit
-        this.setOrganizationAutomaticPurchaseOrderLimit(SpringServiceLocator.getRequisitionService().getApoLimit(this.getVendorContractGeneratedIdentifier(), this.getChartOfAccountsCode(), this.getOrganizationCode()));
+        this.setOrganizationAutomaticPurchaseOrderLimit(SpringServiceLocator.getPurapService().getApoLimit(this.getVendorContractGeneratedIdentifier(), this.getChartOfAccountsCode(), this.getOrganizationCode()));
 
         BillingAddress billingAddress = new BillingAddress();
         billingAddress.setBillingCampusCode(this.getDeliveryCampusCode());
@@ -263,7 +263,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 //        }
 //      }
 
-        this.setOrganizationAutomaticPurchaseOrderLimit(SpringServiceLocator.getRequisitionService().getApoLimit(this.getVendorContractGeneratedIdentifier(), this.getChartOfAccountsCode(), this.getOrganizationCode()));
+        this.setOrganizationAutomaticPurchaseOrderLimit(SpringServiceLocator.getPurapService().getApoLimit(this.getVendorContractGeneratedIdentifier(), this.getChartOfAccountsCode(), this.getOrganizationCode()));
       
         this.refreshAllReferences();
 	}

@@ -24,7 +24,5 @@ public interface RequisitionService {
 
     public RequisitionDocument getRequisitionById(Integer id);
 
-    public KualiDecimal getApoLimit(Integer vendorContractGeneratedIdentifier, String chart, String org);
-
     public boolean isAutomaticPurchaseOrderAllowed(RequisitionDocument requisition);
 }

@@ -59,7 +59,7 @@ public class RequisitionAction extends PurchasingActionBase {
         RequisitionDocument document = (RequisitionDocument) rqForm.getDocument();
     	
         // super.refresh() must occur before this line to get the correct APO limit
-        document.setOrganizationAutomaticPurchaseOrderLimit(SpringServiceLocator.getRequisitionService().getApoLimit(document.getVendorContractGeneratedIdentifier(), document.getChartOfAccountsCode(), document.getOrganizationCode()));
+        document.setOrganizationAutomaticPurchaseOrderLimit(SpringServiceLocator.getPurapService().getApoLimit(document.getVendorContractGeneratedIdentifier(), document.getChartOfAccountsCode(), document.getOrganizationCode()));
         return forward;
     }
 

@@ -32,6 +32,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.NoteService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
@@ -56,6 +57,7 @@ import org.kuali.module.purap.service.PrintService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderPostProcessorService;
 import org.kuali.module.purap.service.PurchaseOrderService;
+import org.kuali.module.purap.service.RequisitionService;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.service.VendorService;
 import org.springframework.transaction.annotation.Transactional;
@@ -78,6 +80,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private KualiConfigurationService kualiConfigurationService;
     private KualiRuleService kualiRuleService;
     private VendorService vendorService;
+    private RequisitionService requisitionService;
     
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;    
@@ -127,9 +130,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         this.vendorService = vendorService;
     }
     
+    public void setRequisitionService(RequisitionService requisitionService) {
+        this.requisitionService = requisitionService;
+    }
 
+    
     public void save(PurchaseOrderDocument purchaseOrderDocument) {
-        purchaseOrderDao.save(purchaseOrderDocument);
+        businessObjectService.save(purchaseOrderDocument);
     }
 
     /**
@@ -212,6 +219,36 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             throw new RuntimeException("Error persisting document # " + poDocument.getDocumentHeader().getDocumentNumber() + " " + e.getMessage());
         }
         return poDocument;
+    }
+    
+    public KualiDecimal getInternalPurchasingDollarLimit(PurchaseOrderDocument po, String chartCode, String orgCode) {
+        if ((po.getVendorContract() != null) && (po.getContractManager() != null)) {
+            KualiDecimal contractDollarLimit = vendorService.getApoLimitFromContract(po.getVendorContract().getVendorContractGeneratedIdentifier(), chartCode, orgCode);
+            KualiDecimal contractManagerLimit = po.getContractManager().getContractManagerDelegationDollarLimit();
+            if ((contractDollarLimit != null) && (contractManagerLimit != null)) {
+                if (contractDollarLimit.compareTo(contractManagerLimit) > 0) {
+                    return contractDollarLimit;
+                }
+                else {
+                    return contractManagerLimit;
+                }
+            } else if (contractDollarLimit != null) {
+                return contractDollarLimit;
+            } else {
+                return contractManagerLimit;
+            }
+        }
+        else if ((po.getVendorContract() == null) && (po.getContractManager() != null)) {
+            return po.getContractManager().getContractManagerDelegationDollarLimit();
+        }
+        else if ((po.getVendorContract() != null) && (po.getContractManager() == null)) {
+            return purapService.getApoLimit(po.getVendorContract().getVendorContractGeneratedIdentifier(), chartCode, orgCode);
+        }
+        else {
+            String errorMsg = "No internal purchase order dollar limit found for purchase order '" + po.getPurapDocumentIdentifier() + "'.";
+            LOG.warn(errorMsg);
+            return null;
+        }
     }
     
     public boolean firstPurchaseOrderTransmitViaPrint (KualiDocumentFormBase kualiDocumentFormBase, String docType, String annotation, List adhocRoutingRecipients,

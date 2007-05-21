@@ -29,6 +29,7 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.OrganizationParameter;
 import org.kuali.module.purap.dao.RequisitionDao;
 import org.kuali.module.purap.document.RequisitionDocument;
+import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.RequisitionService;
 import org.kuali.module.vendor.bo.VendorContract;
 import org.kuali.module.vendor.bo.VendorDetail;
@@ -43,6 +44,7 @@ public class RequisitionServiceImpl implements RequisitionService {
     private DateTimeService dateTimeService;
     private RequisitionDao requisitionDao;
     private VendorService vendorService;
+    private PurapService purapService;
 
     public void save(RequisitionDocument requisitionDocument) {
         requisitionDao.save(requisitionDocument);
@@ -50,27 +52,6 @@ public class RequisitionServiceImpl implements RequisitionService {
     
     public RequisitionDocument getRequisitionById(Integer id) {
         return requisitionDao.getRequisitionById(id);
-    }
-    
-    public KualiDecimal getApoLimit(Integer vendorContractGeneratedIdentifier, String chart, String org) {
-        if ( ObjectUtils.isNull(chart) || ObjectUtils.isNull(org) ) {
-            return null;
-        }
-
-        KualiDecimal purchaseOrderTotalLimit = SpringServiceLocator.getVendorService().getApoLimitFromContract(
-          vendorContractGeneratedIdentifier, chart, org);
-        
-        if ( ObjectUtils.isNull(purchaseOrderTotalLimit)) {
-        // We didn't find the limit on the vendor contract, get it from the org parameter table.
-            OrganizationParameter organizationParameter = new OrganizationParameter();
-            organizationParameter.setChartOfAccountsCode(chart);
-            organizationParameter.setOrganizationCode(org);
-            Map orgParamKeys = SpringServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(organizationParameter);
-            organizationParameter = (OrganizationParameter) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(OrganizationParameter.class, orgParamKeys);
-            purchaseOrderTotalLimit = organizationParameter.getOrganizationAutomaticPurchaseOrderLimit();
-        }
-
-        return purchaseOrderTotalLimit;
     }
     
 //    public void disapproveRequisition(String docHeaderId, String level, String networkId) {
@@ -141,7 +122,7 @@ public class RequisitionServiceImpl implements RequisitionService {
     private String checkAutomaticPurchaseOrderRules(RequisitionDocument requisition) {
         String requisitionSource = requisition.getRequisitionSourceCode();
         KualiDecimal reqTotal = requisition.getTotalDollarAmount();
-        KualiDecimal apoLimit = getApoLimit(requisition.getVendorContractGeneratedIdentifier(),
+        KualiDecimal apoLimit = purapService.getApoLimit(requisition.getVendorContractGeneratedIdentifier(),
           requisition.getChartOfAccountsCode(), requisition.getOrganizationCode());
         requisition.setOrganizationAutomaticPurchaseOrderLimit(apoLimit);
         
@@ -274,6 +255,10 @@ public class RequisitionServiceImpl implements RequisitionService {
 
     public void setVendorService(VendorService vendorService) {
         this.vendorService = vendorService;    
+    }
+
+    public void setPurapService(PurapService purapService) {
+        this.purapService = purapService;
     }
 
 }

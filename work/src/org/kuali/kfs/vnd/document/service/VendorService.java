@@ -42,9 +42,25 @@ public interface VendorService {
     public VendorDetail getParentVendor(Integer vendorHeaderGeneratedIdentifier);
 
     /**
-     * This method gets the apo limit for a given vendor contract. If the contract has a contractOrg and the contractOrg is not
-     * excluded, then return the apo limit for the contractOrg. If there is no contractOrg for this contract or the contractOrg is
-     * excluded, then return the apo limit from the contract.
+     * This method gets the apo limit for the given parameters using the following logic:<br> 
+     * <br>
+     * First it checks to see if an existing {@link org.kuali.module.vendor.bo.VendorContractOrganization} object exists for 
+     * the associated parameters. If one exists and it is not excluded 
+     * (see {@link org.kuali.module.vendor.bo.VendorContractOrganization#isVendorContractExcludeIndicator()})
+     * this will return the value of {@link org.kuali.module.vendor.bo.VendorContractOrganization#getVendorContractPurchaseOrderLimitAmount()}.<br>
+     * <br>
+     * If an associated {@link org.kuali.module.vendor.bo.VendorContractOrganization} object cannot be found then a valid
+     * {@link org.kuali.module.vendor.bo.VendorContract} object will be sought.  If one is found this method will return the value of
+     * {@link org.kuali.module.vendor.bo.VendorContract#getOrganizationAutomaticPurchaseOrderLimit()}.<br>
+     * <br>
+     * If no valid {@link org.kuali.module.vendor.bo.VendorContractOrganization} or {@link org.kuali.module.vendor.bo.VendorContract} 
+     * objects can be found for the given parameters this method will return null.
+     * 
+     * @param contractId id used to find {@link org.kuali.module.vendor.bo.VendorContractOrganization} object and {@link org.kuali.module.vendor.bo.VendorContract} object
+     * @param chart chart code for use in finding {@link org.kuali.module.vendor.bo.VendorContractOrganization} object
+     * @param org org code for use in finding {@link org.kuali.module.vendor.bo.VendorContractOrganization} object
+     * @return the automatic purchase order limit amount from the contract found using the parameters.  If parameters do not find valid
+     * vendor contract objects then null is returned.
      */
     public KualiDecimal getApoLimitFromContract(Integer contractId, String chart, String org);
 

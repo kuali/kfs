@@ -78,43 +78,35 @@ public class VendorServiceImpl implements VendorService {
     */
     public KualiDecimal getApoLimitFromContract(Integer contractId, String chart, String org) {
         LOG.debug("Entering getApoLimitFromContract with contractId:"+contractId+", chart:"+chart+", org:"+org);
-        KualiDecimal returnValue = new KualiDecimal(0);
-        
-        if (ObjectUtils.isNull(contractId) || ObjectUtils.isNull(chart) || ObjectUtils.isNull(org)) {
-            LOG.debug("Exiting getApoLimitFromContract because of null input.");
-            return null;
-        }
-        
-        // Get the contract.
-        VendorContract contract = new VendorContract();
-        contract.setVendorContractGeneratedIdentifier(contractId);
-        Map contractKeys = SpringServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(contract);
-        contract = (VendorContract) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(VendorContract.class, contractKeys);
-        if (ObjectUtils.isNull(contract)) {
-            return returnValue;
-        }
-
         // See if there is a contractOrg for this contract.
-        VendorContractOrganization contractOrg = new VendorContractOrganization();
-        contractOrg.setVendorContractGeneratedIdentifier(contractId);
-        contractOrg.setChartOfAccountsCode(chart);
-        contractOrg.setOrganizationCode(org);
-        Map orgKeys = SpringServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(contractOrg);
-        contractOrg = (VendorContractOrganization) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(VendorContractOrganization.class, orgKeys);
-        if (ObjectUtils.isNotNull(contractOrg)) {
-          if (! contractOrg.isVendorContractExcludeIndicator()) { // It's not excluded.
-              returnValue = contractOrg.getVendorContractPurchaseOrderLimitAmount();
-          }
+        VendorContractOrganization contractOrg = null;
+        VendorContract contract = null;
+        if (ObjectUtils.isNotNull(contractId) && ObjectUtils.isNotNull(chart) && ObjectUtils.isNotNull(org)) {
+            VendorContractOrganization exampleContractOrg = new VendorContractOrganization();
+            exampleContractOrg.setVendorContractGeneratedIdentifier(contractId);
+            exampleContractOrg.setChartOfAccountsCode(chart);
+            exampleContractOrg.setOrganizationCode(org);
+            Map orgKeys = SpringServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(exampleContractOrg);
+            contractOrg = (VendorContractOrganization) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(VendorContractOrganization.class, orgKeys);
         }
-        else { // There is no contractOrg for this contract.
-            if (ObjectUtils.isNotNull(contract.getOrganizationAutomaticPurchaseOrderLimit())) {
-                returnValue = contract.getOrganizationAutomaticPurchaseOrderLimit();
+        else if (ObjectUtils.isNotNull(contractId)) {
+            VendorContract exampleContract = new VendorContract();
+            exampleContract.setVendorContractGeneratedIdentifier(contractId);
+            Map contractKeys = SpringServiceLocator.getPersistenceService().getPrimaryKeyFieldValues(exampleContract);
+            contract = (VendorContract) SpringServiceLocator.getBusinessObjectService().findByPrimaryKey(VendorContract.class, contractKeys);
+        }
+        
+        if (ObjectUtils.isNotNull(contractOrg)) {
+            if (!contractOrg.isVendorContractExcludeIndicator()) { // It's not excluded.
+                return contractOrg.getVendorContractPurchaseOrderLimitAmount();
             }
         }
-        LOG.debug("Exiting getApoLimitFromContract normally.");
-        return returnValue;
-    }
-    
+        else if (ObjectUtils.isNotNull(contract)) {
+            return contract.getOrganizationAutomaticPurchaseOrderLimit();
+        }
+        return null;
+      }
+
     /**
      * @see org.kuali.module.vendor.service.VendorService#getParentVendor(java.lang.Integer)
      */

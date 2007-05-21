@@ -18,6 +18,7 @@ package org.kuali.module.purap.service;
 import java.util.List;
 
 import org.kuali.core.bo.Note;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.bo.CreditMemoView;
 import org.kuali.module.purap.bo.PaymentRequestView;
@@ -44,4 +45,24 @@ public interface PurapService {
     public void addBelowLineItems(PurchasingAccountsPayableDocument document);
     
     public String[] getBelowTheLineForDocument(PurchasingAccountsPayableDocument document);
+    
+    /*
+     *    PURCHASING DOCUMENT METHODS
+     * 
+     */
+
+    /**
+     * This method gets the Automatic Purchase Order Limit amount based first on the derived contract limit
+     * (see {@link org.kuali.module.vendor.service.VendorService#getApoLimitFromContract(Integer, String, String)})
+     * and if that is null then based on the {@link org.kuali.module.purap.bo.OrganizationParameter} associated
+     * with the given 'chart' and 'org' values.
+     * 
+     * @param vendorContractGeneratedIdentifier
+     * @param chart chart code to use when looking up limit amount on {@link org.kuali.module.vendor.bo.VendorContract} 
+     * and {@link org.kuali.module.purap.bo.OrganizationParameter}
+     * @param org organization code to use when looking up limit amount on {@link org.kuali.module.vendor.bo.VendorContract} 
+     * and {@link org.kuali.module.purap.bo.OrganizationParameter}
+     * @return a KualiDecimal if a valid limit amount is found or null if one is not found
+     */
+    public KualiDecimal getApoLimit(Integer vendorContractGeneratedIdentifier, String chart, String org);
 }

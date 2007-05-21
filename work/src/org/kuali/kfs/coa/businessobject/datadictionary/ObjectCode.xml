@@ -124,7 +124,7 @@
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
                 <required>true</required>
                 <control>
-				    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" script="setReportsToChartCode();" /> 
+				    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" script="if ( typeof setReportsToChartCode == 'function' ) { setReportsToChartCode(); }" /> 
                 </control>
             </attributeReference>
 

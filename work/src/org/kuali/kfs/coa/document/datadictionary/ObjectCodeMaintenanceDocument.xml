@@ -38,6 +38,10 @@
         <documentTypeName>KualiObjectCodeMaintenanceDocument</documentTypeName>
         <documentTypeCode>OBJT</documentTypeCode>
 
+		<webScriptFile>dwr/interface/ChartService.js</webScriptFile>
+		<webScriptFile>scripts/kfs/objectInfo.js</webScriptFile>
+
+
         <label>Object Code Maintenance Document</label>
         <shortLabel>OCMainDoc</shortLabel>
 

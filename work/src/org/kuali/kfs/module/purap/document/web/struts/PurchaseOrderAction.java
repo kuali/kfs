@@ -29,9 +29,13 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
+import org.kuali.Constants;
+import org.kuali.KeyConstants;
 import org.kuali.core.bo.Note;
+import org.kuali.core.document.Document;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
@@ -49,10 +53,10 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.question.SingleConfirmationQuestion;
 import org.kuali.module.purap.web.struts.form.PurchaseOrderForm;
 import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.rice.KNSServiceLocator;
 
 /**
  * This class handles specific Actions requests for the Requisition.
- * 
  */
 public class PurchaseOrderAction extends PurchasingActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderAction.class);
@@ -63,33 +67,33 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
- 
+
         PurchaseOrderForm poForm = (PurchaseOrderForm) form;
         PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
         BusinessObjectService businessObjectService = SpringServiceLocator.getBusinessObjectService();
 
-        //Handling lookups for alternate vendor for escrow payment that are only specific to Purchase Order
+        // Handling lookups for alternate vendor for escrow payment that are only specific to Purchase Order
         if (request.getParameter("document.alternateVendorHeaderGeneratedIdentifier") != null && request.getParameter("document.alternateVendorDetailAssignedIdentifier") != null) {
             Integer alternateVendorDetailAssignedId = document.getAlternateVendorDetailAssignedIdentifier();
             Integer alternateVendorHeaderGeneratedId = document.getAlternateVendorHeaderGeneratedIdentifier();
             VendorDetail refreshVendorDetail = new VendorDetail();
             refreshVendorDetail.setVendorDetailAssignedIdentifier(alternateVendorDetailAssignedId);
             refreshVendorDetail.setVendorHeaderGeneratedIdentifier(alternateVendorHeaderGeneratedId);
-            refreshVendorDetail = (VendorDetail)businessObjectService.retrieve(refreshVendorDetail);
+            refreshVendorDetail = (VendorDetail) businessObjectService.retrieve(refreshVendorDetail);
             document.templateAlternateVendor(refreshVendorDetail);
-        } 
-        
+        }
+
         String newStipulation = request.getParameter("document.vendorStipulationDescription");
         if (StringUtils.isNotEmpty(newStipulation)) {
             poForm.getNewPurchaseOrderVendorStipulationLine().setVendorStipulationDescription(newStipulation);
-        }    
+        }
         return super.refresh(mapping, form, request, response);
     }
 
     public ActionForward viewRelatedDocuments(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("viewRelatedDocuments() enter action");
 
-        //TODO add code
+        // TODO add code
 
         return mapping.findForward("viewRelatedDocuments");
     }
@@ -97,11 +101,11 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward viewPaymentHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("viewPaymentHistory() enter action");
 
-        //TODO add code
+        // TODO add code
 
         return mapping.findForward("viewPaymentHistory");
     }
-    
+
     /**
      * This method...
      * 
@@ -119,10 +123,10 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * @throws Exception
      */
     private ActionForward askQuestionsAndRoute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionType, String confirmType, String documentType, String notePrefix, String messageType, String operation) throws Exception {
-    
+
         LOG.debug("AskQuestionsAndRoute started.");
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        PurchaseOrderDocument po = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
+        PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
         Object question = request.getParameter(KFSConstants.QUESTION_INST_ATTRIBUTE_NAME);
         String reason = request.getParameter(KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME);
         String noteText = "";
@@ -133,18 +137,18 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         if (question == null) {
             String key = kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_DOCUMENT);
             String message = StringUtils.replace(key, "{0}", operation);
-            
+
             // Ask question if not already asked.
             return this.performQuestionWithInput(mapping, form, request, response, questionType, message, KFSConstants.CONFIRMATION_QUESTION, questionType, "");
         }
         else {
-            Object buttonClicked = request.getParameter( KFSConstants.QUESTION_CLICKED_BUTTON );
+            Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
             if (question.equals(questionType) && buttonClicked.equals(ConfirmationQuestion.NO)) {
-                //If 'No' is the button clicked, just reload the doc
+                // If 'No' is the button clicked, just reload the doc
                 return mapping.findForward(KFSConstants.MAPPING_BASIC);
             }
             else if (question.equals(confirmType) && buttonClicked.equals(SingleConfirmationQuestion.OK)) {
-                // This is the case when the user clicks on "OK" in the end. 
+                // This is the case when the user clicks on "OK" in the end.
                 // After we inform the user that the close has been rerouted, we'll redirect to the portal page.
                 return mapping.findForward(KFSConstants.MAPPING_PORTAL);
             }
@@ -169,15 +173,15 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                     }
                     return this.performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response, questionType, kualiConfiguration.getPropertyString(PurapKeyConstants.PURCHASE_ORDER_QUESTION_DOCUMENT), KFSConstants.CONFIRMATION_QUESTION, questionType, "", reason, PurapKeyConstants.ERROR_PURCHASE_ORDER_REASON_REQUIRED, KFSConstants.QUESTION_REASON_ATTRIBUTE_NAME, new Integer(reasonLimit).toString());
                 }
-            }   
+            }
         }
         boolean success;
         if (po.isPendingActionIndicator()) {
-            success = false;   
+            success = false;
         }
         else {
             success = SpringServiceLocator.getPurchaseOrderService().updateFlagsAndRoute(kualiDocumentFormBase, documentType, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
-        }        
+        }
         if (!success) {
             return mapping.findForward(KFSConstants.MAPPING_ERROR);
         }
@@ -187,7 +191,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         newNote.setNoteTypeCode("BO");
         kualiDocumentFormBase.setNewNote(newNote);
         insertBONote(mapping, form, request, response);
-                
+
         GlobalVariables.getMessageList().add(messageType);
         if (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -196,7 +200,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             return this.performQuestionWithoutInput(mapping, form, request, response, confirmType, kualiConfiguration.getPropertyString(messageType), PODocumentsStrings.SINGLE_CONFIRMATION_QUESTION, questionType, "");
         }
     }
-    
+
     public ActionForward closePo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("ClosePO started.");
         String operation = "Close ";
@@ -206,7 +210,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward paymentHoldPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("PaymentHoldPO started.");
         String operation = "Hold Payment ";
-        return askQuestionsAndRoute(mapping, form, request, response, PODocumentsStrings.PAYMENT_HOLD_QUESTION, PODocumentsStrings.PAYMENT_HOLD_CONFIRM, PurchaseOrderDocTypes.PURCHASE_ORDER_PAYMENT_HOLD_DOCUMENT, PODocumentsStrings.PAYMENT_HOLD_NOTE_PREFIX, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_PAYMENT_HOLD, operation);        
+        return askQuestionsAndRoute(mapping, form, request, response, PODocumentsStrings.PAYMENT_HOLD_QUESTION, PODocumentsStrings.PAYMENT_HOLD_CONFIRM, PurchaseOrderDocTypes.PURCHASE_ORDER_PAYMENT_HOLD_DOCUMENT, PODocumentsStrings.PAYMENT_HOLD_NOTE_PREFIX, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_PAYMENT_HOLD, operation);
     }
 
     public ActionForward removeHoldPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -214,12 +218,14 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         String operation = "Remove Payment Hold ";
         ActionForward forward = askQuestionsAndRoute(mapping, form, request, response, PODocumentsStrings.REMOVE_HOLD_QUESTION, PODocumentsStrings.REMOVE_HOLD_CONFIRM, PurchaseOrderDocTypes.PURCHASE_ORDER_REMOVE_HOLD_DOCUMENT, PODocumentsStrings.REMOVE_HOLD_NOTE_PREFIX, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_REMOVE_HOLD, operation);
 
-        // Also need to send an FYI to the AP workgroup. 
-        //KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        //PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
-        //WorkgroupVO workgroupVO = SpringServiceLocator.getWorkflowGroupService().getWorkgroupByGroupName(PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
-        //SpringServiceLocator.getPurchaseOrderService().sendFYItoWorkgroup(po, kualiDocumentFormBase.getAnnotation(), workgroupVO.getWorkgroupId() );
-    
+        // Also need to send an FYI to the AP workgroup.
+        // KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        // PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
+        // WorkgroupVO workgroupVO =
+        // SpringServiceLocator.getWorkflowGroupService().getWorkgroupByGroupName(PurapConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
+        // SpringServiceLocator.getPurchaseOrderService().sendFYItoWorkgroup(po, kualiDocumentFormBase.getAnnotation(),
+        // workgroupVO.getWorkgroupId() );
+
         return forward;
     }
 
@@ -241,11 +247,11 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         LOG.debug("Reopen PO started");
         String operation = "Reopen ";
         return askQuestionsAndRoute(mapping, form, request, response, PODocumentsStrings.REOPEN_PO_QUESTION, PODocumentsStrings.CONFIRM_REOPEN_QUESTION, PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT, PODocumentsStrings.REOPEN_NOTE_PREFIX, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_REOPEN_DOCUMENT, operation);
-    } 
+    }
 
     /**
-     * 
      * This method...
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -257,8 +263,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         LOG.debug("Amend PO started");
         String operation = "Amend ";
         return askQuestionsAndRoute(mapping, form, request, response, PODocumentsStrings.AMENDMENT_PO_QUESTION, PODocumentsStrings.CONFIRM_AMENDMENT_QUESTION, PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, PODocumentsStrings.AMENDMENT_NOTE_PREFIX, PurapKeyConstants.PURCHASE_ORDER_MESSAGE_AMEND_DOCUMENT, operation);
-    } 
-    
+    }
+
     public ActionForward voidPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("Void PO started");
         String operation = "Void ";
@@ -279,7 +285,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      */
     public ActionForward printPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        PurchaseOrderDocument po = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
+        PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
         try {
             StringBuffer sbFilename = new StringBuffer();
@@ -288,8 +294,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             sbFilename.append("_");
             sbFilename.append(System.currentTimeMillis());
             sbFilename.append(".pdf");
-            
-            //for testing Generate PO PDF, set the APO to true
+
+            // for testing Generate PO PDF, set the APO to true
             po.setPurchaseOrderAutomaticIndicator(true);
             boolean success = SpringServiceLocator.getPurchaseOrderService().printPurchaseOrderPDF(po, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PRINT_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), baosPDF);
 
@@ -307,29 +313,29 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             sbContentDispValue.append(sbFilename);
 
             response.setHeader("Content-disposition", sbContentDispValue.toString());
-    
+
             response.setContentLength(baosPDF.size());
-       
+
             ServletOutputStream sos;
 
             sos = response.getOutputStream();
-          
+
             baosPDF.writeTo(sos);
-        
+
             sos.flush();
-            
+
         }
         finally {
             if (baosPDF != null) {
-              baosPDF.reset();
+                baosPDF.reset();
             }
         }
-        return null;        
+        return null;
     }
-    
+
     public ActionForward firstTransmitPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        PurchaseOrderDocument po = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
+        PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
         try {
             String environment = "dev";
@@ -339,8 +345,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             sbFilename.append("_");
             sbFilename.append(System.currentTimeMillis());
             sbFilename.append(".pdf");
-            
-            //for testing Generate PO PDF, set the APO to true
+
+            // for testing Generate PO PDF, set the APO to true
             po.setPurchaseOrderAutomaticIndicator(true);
             boolean success = SpringServiceLocator.getPurchaseOrderService().firstPurchaseOrderTransmitViaPrint(kualiDocumentFormBase, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_PRINT_DOCUMENT, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase), baosPDF, environment);
 
@@ -358,31 +364,29 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             sbContentDispValue.append(sbFilename);
 
             response.setHeader("Content-disposition", sbContentDispValue.toString());
-    
+
             response.setContentLength(baosPDF.size());
-       
+
             ServletOutputStream sos;
 
             sos = response.getOutputStream();
-          
+
             baosPDF.writeTo(sos);
-        
+
             sos.flush();
-            
+
         }
         finally {
             if (baosPDF != null) {
-              baosPDF.reset();
+                baosPDF.reset();
             }
         }
-        return null;        
+        return null;
     }
-    
+
     /**
-     * 
-     * This method is invoked when the user clicks on the Select All button on a Purchase Order Retransmit
-     * document. It will select the checkboxes of all the items to be included in the retransmission of the
-     * PO.
+     * This method is invoked when the user clicks on the Select All button on a Purchase Order Retransmit document. It will select
+     * the checkboxes of all the items to be included in the retransmission of the PO.
      * 
      * @param mapping
      * @param form
@@ -394,18 +398,17 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward selectAllForRetransmit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
-        List <PurchaseOrderItem> items = po.getItems();
+        List<PurchaseOrderItem> items = po.getItems();
         for (PurchaseOrderItem item : items) {
             item.setItemSelectedForRetransmitIndicator(true);
         }
         ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
-     * This method is invoked when the user clicks on the Deselect All button on a Purchase Order Retransmit
-     * document. It will uncheck the checkboxes of all the items to be excluded from the retransmission of the
-     * PO.
+     * This method is invoked when the user clicks on the Deselect All button on a Purchase Order Retransmit document. It will
+     * uncheck the checkboxes of all the items to be excluded from the retransmission of the PO.
      * 
      * @param mapping
      * @param form
@@ -417,30 +420,24 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward deselectAllForRetransmit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
-        List <PurchaseOrderItem> items = po.getItems();
+        List<PurchaseOrderItem> items = po.getItems();
         for (PurchaseOrderItem item : items) {
             item.setItemSelectedForRetransmitIndicator(false);
         }
         ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
-     * 
-     * This method is invoked when the user clicks on the Retransmit button on both the PO tabbed page
-     * and on the Purchase Order Retransmit Document page, which is essentially a PO tabbed page with
-     * the other irrelevant tabs being hidden.
-     * If it was invoked from the PO tabbed page, if the PO's pending indicator is false, this method
-     * will invoke the updateFlagsAndRoute in the PurchaseOrderService to update the flags, create 
-     * the PurchaseOrderRetransmitDocument and route it. If the routing was successful, we'll display
-     * the Purchase Order Retransmit Document page to the user, containing the newly created and routed
-     * PurchaseOrderRetransmitDocument and a retransmit button as well as a list of items that the user
-     * can select to be retransmitted.
-     * 
-     * If it was invoked from the Purchase Order Retransmit Document page, we'll invoke the 
-     * retransmitPurchaseOrderPDF method to create a PDF document based on the PO information and the
-     * items that were selected by the user on the Purchase Order Retransmit Document page to be
-     * retransmitted, then display the PDF to the browser.
+     * This method is invoked when the user clicks on the Retransmit button on both the PO tabbed page and on the Purchase Order
+     * Retransmit Document page, which is essentially a PO tabbed page with the other irrelevant tabs being hidden. If it was
+     * invoked from the PO tabbed page, if the PO's pending indicator is false, this method will invoke the updateFlagsAndRoute in
+     * the PurchaseOrderService to update the flags, create the PurchaseOrderRetransmitDocument and route it. If the routing was
+     * successful, we'll display the Purchase Order Retransmit Document page to the user, containing the newly created and routed
+     * PurchaseOrderRetransmitDocument and a retransmit button as well as a list of items that the user can select to be
+     * retransmitted. If it was invoked from the Purchase Order Retransmit Document page, we'll invoke the
+     * retransmitPurchaseOrderPDF method to create a PDF document based on the PO information and the items that were selected by
+     * the user on the Purchase Order Retransmit Document page to be retransmitted, then display the PDF to the browser.
      * 
      * @param mapping
      * @param form
@@ -453,9 +450,9 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
         PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
         if (!po.getDocumentHeader().getWorkflowDocument().getDocumentType().equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT)) {
-            
+
             String documentType = PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT;
-            
+
             boolean success;
             if (po.isPendingActionIndicator()) {
                 success = false;
@@ -523,7 +520,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             return null;
         }
     }
-    
+
     /**
      * TODO: Remove this dummy method when we have the actual PrintAction working
      * 
@@ -544,7 +541,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         povq.setPurchaseOrder(po);
         return povq;
     }
-    
+
     /**
      * This method is to check on a few conditions that would cause a warning message to be displayed on top of the Purchase Order
      * page.
@@ -565,7 +562,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         // "There is a pending action on this Purchase Order." (pend_action = Y)
         if (po.isPendingActionIndicator()) {
             GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PURCHASE_ORDER_PENDING_ACTION);
-        }   
+        }
 
         if (!po.isPurchaseOrderCurrentIndicator()) {
             ActionMessage noteMessage = new ActionMessage(PurapKeyConstants.WARNING_PURCHASE_ORDER_ALL_NOTES);
@@ -574,7 +571,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             messages.add(PurapConstants.STATUS_HISTORY_TAB_WARNING, statusHistoryMessage);
         }
     }
-    
+
     /**
      * Add a stipulation to the document.
      * 
@@ -629,11 +626,60 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.docHandler(mapping, form, request, response);
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        ((PurchaseOrderForm)kualiDocumentFormBase).addButtons();
-        PurchaseOrderDocument po = (PurchaseOrderDocument)kualiDocumentFormBase.getDocument();
+        ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
+        PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
         ActionMessages messages = new ActionMessages();
         checkForPOWarnings(po, messages);
         saveMessages(request, messages);
         return forward;
+    }
+
+    /* We don't need to lock the PO during amendment routing anymore, we'll lock it in updateFlagsAndRoute()
+    @Override
+    public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        if (!kualiDocumentFormBase.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentType().equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
+            return super.route(mapping, form, request, response);
+        }
+        else {
+            ActionForward preRulesForward = preRulesCheck(mapping, form, request, response);
+            if (preRulesForward != null) {
+                return preRulesForward;
+            }
+
+            boolean success = SpringServiceLocator.getPurchaseOrderService().routePurchaseOrderAmendmentDocument(kualiDocumentFormBase, kualiDocumentFormBase.getAnnotation(), combineAdHocRecipients(kualiDocumentFormBase));
+            if (!success) {
+                return mapping.findForward(KFSConstants.MAPPING_ERROR);
+            }
+            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+        }
+    }
+    */
+    
+    @Override
+    public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Object question = request.getParameter(Constants.QUESTION_INST_ATTRIBUTE_NAME);
+        // this should probably be moved into a private instance variable
+        KualiConfigurationService kualiConfiguration = SpringServiceLocator.getKualiConfigurationService();
+
+        // logic for cancel question
+        if (question == null) {
+            // ask question if not already asked
+            return this.performQuestionWithoutInput(mapping, form, request, response, Constants.DOCUMENT_CANCEL_QUESTION, kualiConfiguration.getPropertyString("document.question.cancel.text"), Constants.CONFIRMATION_QUESTION, Constants.MAPPING_CANCEL, "");
+        }
+        else {
+            Object buttonClicked = request.getParameter(Constants.QUESTION_CLICKED_BUTTON);
+            if ((Constants.DOCUMENT_CANCEL_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
+                // if no button clicked just reload the doc
+                return mapping.findForward(Constants.MAPPING_BASIC);
+            }
+            // else go to cancel logic below
+        }
+
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        SpringServiceLocator.getPurchaseOrderService().cancelAmendment(kualiDocumentFormBase);
+        SpringServiceLocator.getDocumentService().cancelDocument(kualiDocumentFormBase.getDocument(), kualiDocumentFormBase.getAnnotation());
+
+        return returnToSender(mapping, kualiDocumentFormBase);
     }
 }

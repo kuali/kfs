@@ -35,6 +35,7 @@ public interface PurchaseOrderService {
     public PurchaseOrderPostProcessorService convertDocTypeToService(String documentTypeId);  
     
     public boolean updateFlagsAndRoute(KualiDocumentFormBase kualiDocumentFormBase, String docType, String annotation, List adhocRoutingRecipients);
+    //public boolean routePurchaseOrderAmendmentDocument(KualiDocumentFormBase kualiDocumentFormBase, String annotation, List adhocRoutingRecipients);
     public KualiDecimal getInternalPurchasingDollarLimit(PurchaseOrderDocument po, String chartCode, String orgCode);
     public boolean firstPurchaseOrderTransmitViaPrint (KualiDocumentFormBase kualiDocumentFormBase, String docType, String annotation, List adhocRoutingRecipients,
         ByteArrayOutputStream baosPDF,  String environment);
@@ -51,5 +52,5 @@ public interface PurchaseOrderService {
     public PurchaseOrderDocument getPurchaseOrderInPendingPrintStatus(Integer id);
     public ArrayList<Note> getPurchaseOrderNotes(Integer id);
     //public void sendFYItoWorkgroup(PurchaseOrderDocument po, String annotation, Long workgroupId);
-    
+    public void cancelAmendment(KualiDocumentFormBase kualiDocumentFormBase);
 }

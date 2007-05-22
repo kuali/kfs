@@ -40,6 +40,7 @@ import org.kuali.module.purap.bo.PurchasingItemBase;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.vendor.VendorPropertyConstants;
+import org.kuali.rice.KNSServiceLocator;
 
 public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumentRuleBase {
 
@@ -98,7 +99,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                 return true;
             }
         }
-        String documentType = purDocument.getDocumentHeader().getWorkflowDocument().getDocumentType().replaceAll(PurapConstants.DOCUMENT_TYPE_PREFIX, KFSConstants.EMPTY_STRING).replaceAll(PurapConstants.DOCUMENT_TYPE_SUFFIX, KFSConstants.EMPTY_STRING);
+        String documentType = KNSServiceLocator.getDataDictionaryService().getDataDictionary().getDocumentEntry(purDocument.getDocumentHeader().getWorkflowDocument().getDocumentType()).getLabel();
         
         if (! valid) {
             GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_REQUIRED, documentType);

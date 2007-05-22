@@ -26,23 +26,24 @@
             <instructions>Look up a Purchase Order Quote Language</instructions>
 
             <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="purchaseOrderQuoteLanguageIdentifier" />
+                <sortAttributes>                
+	                <sortAttribute attributeName="purchaseOrderQuoteLanguageIdentifier" />
+                    <sortAttribute attributeName="purchaseOrderQuoteLanguageCreateDate" />
                 </sortAttributes>
             </defaultSort>
 
-            <lookupFields>
-                <lookupField attributeName="active" required="false" />
-                <lookupField attributeName="purchaseOrderQuoteLanguageCreateDate" required="false" />
-                <lookupField attributeName="purchaseOrderQuoteLanguageDescription" required="false" />
+            <lookupFields>                                
                 <lookupField attributeName="purchaseOrderQuoteLanguageIdentifier" required="false" />
+                <lookupField attributeName="purchaseOrderQuoteLanguageDescription" required="false" />
+                <lookupField attributeName="purchaseOrderQuoteLanguageCreateDate" required="false" />
+				<lookupField attributeName="active" required="false" />                
             </lookupFields>
 
             <resultFields>
-                <field attributeName="active" />
-                <field attributeName="purchaseOrderQuoteLanguageCreateDate" />
-                <field attributeName="purchaseOrderQuoteLanguageDescription" />
-                <field attributeName="purchaseOrderQuoteLanguageIdentifier" />
+                <field attributeName="purchaseOrderQuoteLanguageIdentifier" />	
+                <field attributeName="purchaseOrderQuoteLanguageDescription" />                
+				<field attributeName="purchaseOrderQuoteLanguageCreateDate" />			                
+				<field attributeName="active" />
             </resultFields>
         </lookup>
 
@@ -62,28 +63,23 @@
                 <description>active description...</description>
 			</attribute>
 
-            <attribute name="purchaseOrderQuoteLanguageCreateDate" forceUppercase="true">
+            <attributeReference name="purchaseOrderQuoteLanguageCreateDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
                 <label>Purchase Order Quote Language Create Date</label>
                 <shortLabel>Date</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>purchaseOrderQuoteLanguageCreateDate</summary>
+                <required>true</required>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
                 <description>purchaseOrderQuoteLanguageCreateDate description...</description>
-			</attribute>
+            </attributeReference>
 
-            <attribute name="purchaseOrderQuoteLanguageDescription" forceUppercase="true">
+            <attribute name="purchaseOrderQuoteLanguageDescription" forceUppercase="false">
                 <label>Purchase Order Quote Language Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>2000</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+                
                 <control>
                     <textarea rows="5" cols="80"/>
                 </control>

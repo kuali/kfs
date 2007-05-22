@@ -46,4 +46,6 @@ public class PurapPropertyConstants {
     public static final String PURCHASE_ORDER_IDENTIFIER = "document.purchaseOrderIdentifier";
     public static final String INVOICE_DATE = "document.invoiceDate";
     
+    // Quote Language
+    public static final String PURCHASE_ORDER_QUOTE_LANGUAGE_ID = "purchaseOrderQuoteLanguageIdentifier";
 }

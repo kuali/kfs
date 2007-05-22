@@ -20,9 +20,12 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.CampusParameter;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
+import org.kuali.module.purap.bo.PurchaseOrderQuoteLanguage;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
@@ -235,14 +238,10 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         String dueDate = (new Date(po.getPurchaseOrderQuoteDueDate().getTime())).toString();
         p.add(new Chunk("     RESPONSE MUST BE RECEIVED BY: ", ver_8_bold));
         p.add(new Chunk(dueDate+"\n\n", cour_10_normal));
-    
-        StringBuffer quoteStipulations = new StringBuffer();
-        quoteStipulations.append(" - Unless otherwise understood, there are no restrictions on the number of items or the quantity that may be ordered.\n");
-        quoteStipulations.append(" - No substitutes will be considered unless a complete description is given.\n");
-        quoteStipulations.append(" - The right is reserved to reject any offer.\n");
-        quoteStipulations.append(" - Indiana University is a political subdivision of the State of Indiana and is not subject to any sales or use tax imposed by the State of Indiana nor excise taxes imposed by the Federal Government.\n");
-        quoteStipulations.append(" - Indiana University is an Equal Opportunity Employer.\n");
-        quoteStipulations.append(" - We are a public entity subject to statutory disclosure requirements. All prohibitions against disclosure of a supplier’s pricing, proprietary and confidential information submitted under this RFQ, shall be construed as permitting disclosure when required by the Indiana Open Records Act, Indiana Code Section I C 5-14-et seq.\n");
+
+        //retrieve the quote stipulations
+        StringBuffer quoteStipulations = getPoQuoteLanguage();
+        
         p.add(new Chunk(quoteStipulations.toString(), ver_6_normal));
         p.add(new Chunk("\n ALL QUOTES MUST BE TOTALED", ver_12_normal));
         cell = new PdfPCell(p);
@@ -470,6 +469,31 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
     }  // End of createQuotePdf()
   
   
+    /** 
+     * This method returns a string buffer of the quote language descriptions from the database,
+     * ordered by the quote language identifier and appended with carriage returns
+     * after each line.
+     * 
+     * @return
+     */
+    private StringBuffer getPoQuoteLanguage(){
+
+        StringBuffer quoteLanguage = new StringBuffer();
+        Map<String, Object> criteria = new HashMap<String, Object>();
+        
+        //retrieve list of purchase order quote language objects sorted by PO Quote Language Identifier
+        Collection<PurchaseOrderQuoteLanguage>poqlList = SpringServiceLocator.getBusinessObjectService().findMatchingOrderBy(PurchaseOrderQuoteLanguage.class, criteria, PurapPropertyConstants.PURCHASE_ORDER_QUOTE_LANGUAGE_ID, true);
+
+        //append in string buffer
+        for (PurchaseOrderQuoteLanguage poql : poqlList){
+            quoteLanguage.append(poql.getPurchaseOrderQuoteLanguageDescription());
+            quoteLanguage.append("\n");    
+        }        
+
+        return quoteLanguage;
+        
+    }
+    
     private void createBlankRowInItemsTable(PdfPTable itemsTable) {
         //We're adding 6 cells because each row in the items table
   	    //contains 6 columns.

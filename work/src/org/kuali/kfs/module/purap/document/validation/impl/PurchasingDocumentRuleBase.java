@@ -98,8 +98,10 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                 return true;
             }
         }
+        String documentType = purDocument.getDocumentHeader().getWorkflowDocument().getDocumentType().replaceAll(PurapConstants.DOCUMENT_TYPE_PREFIX, KFSConstants.EMPTY_STRING).replaceAll(PurapConstants.DOCUMENT_TYPE_SUFFIX, KFSConstants.EMPTY_STRING);
+        
         if (! valid) {
-            GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_REQUIRED);
+            GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_REQUIRED, documentType);
         }
         return valid;
     }

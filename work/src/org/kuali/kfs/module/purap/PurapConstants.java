@@ -297,4 +297,7 @@ public class PurapConstants {
     public static final String ITEM_ALLOWS_POSITIVE = "ALLOWS_POSITIVE";
     public static final String ITEM_ALLOWS_NEGATIVE = "ALLOWS_NEGATIVE";
     public static final String ITEM_REQUIRES_USER_ENTERED_DESCRIPTION = "REQUIRES_USER_ENTERED_DESCRIPTION";
+    
+    public static final String DOCUMENT_TYPE_PREFIX = "Kuali";
+    public static final String DOCUMENT_TYPE_SUFFIX = "Document";
 }

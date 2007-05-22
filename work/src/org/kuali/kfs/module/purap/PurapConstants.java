@@ -298,6 +298,10 @@ public class PurapConstants {
     public static final String ITEM_ALLOWS_NEGATIVE = "ALLOWS_NEGATIVE";
     public static final String ITEM_REQUIRES_USER_ENTERED_DESCRIPTION = "REQUIRES_USER_ENTERED_DESCRIPTION";
     
-    public static final String DOCUMENT_TYPE_PREFIX = "Kuali";
-    public static final String DOCUMENT_TYPE_SUFFIX = "Document";
+    public static class ItemFields {
+        public static final String QUANTITY = "Quantity";
+        public static final String UNIT_OF_MEASURE = "Unit of Measure";
+        public static final String DESCRIPTION = "Description";
+        public static final String UNIT_COST = "Unit Cost";
+    }
 }

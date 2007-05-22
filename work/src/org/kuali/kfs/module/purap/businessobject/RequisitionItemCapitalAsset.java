@@ -28,6 +28,7 @@ public class RequisitionItemCapitalAsset extends PersistableBusinessObjectBase {
 	private Integer requisitionItemCapitalAssetIdentifier;
 	private Integer requisitionItemIdentifier;
 	private Long capitalAssetNumber;
+    private String addCapitalAssetNumber;
 
     private RequisitionItem requisitionItem;
 
@@ -129,5 +130,13 @@ public class RequisitionItemCapitalAsset extends PersistableBusinessObjectBase {
             m.put("requisitionItemCapitalAssetIdentifier", this.requisitionItemCapitalAssetIdentifier.toString());
         }
 	    return m;
+    }
+
+    public String getAddCapitalAssetNumber() {
+        return addCapitalAssetNumber;
+    }
+
+    public void setAddCapitalAssetNumber(String addCapitalAssetNumber) {
+        this.addCapitalAssetNumber = addCapitalAssetNumber;
     }
 }

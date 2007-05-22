@@ -25,6 +25,7 @@
 <%@ attribute name="displayRequisitionFields" required="false" description="Boolean to indicate if REQ specific fields should be displayed"%>
 <%@ attribute name="itemAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
 <%@ attribute name="accountingLineAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
+<%@ attribute name="camsAttributes" required="true" type="java.util.Map" description="The DataDictionary entry containing attributes for this row's fields."%>
 
 <kul:tab tabTitle="Items" defaultOpen="false" tabErrorKey="${PurapConstants.ITEM_TAB_ERRORS}">
     <div class="tab-container" align=center>
@@ -260,7 +261,10 @@
                         accountPrefix="document.item[${ctr}]." 
                         hideTotalLine="true" 
                         hideFields="amount" 
-                        accountingAddLineIndex="${ctr}" />
+                        accountingAddLineIndex="${ctr}"
+                        itemsAttributes="${itemAttributes}"
+                        camsAttributes="${camsAttributes}"
+                        ctr="${ctr}" />
 
                     <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">
                         </tbody>

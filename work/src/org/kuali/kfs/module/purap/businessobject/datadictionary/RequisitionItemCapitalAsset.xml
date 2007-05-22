@@ -21,41 +21,24 @@
     <businessObject businessObjectClass="org.kuali.module.purap.bo.RequisitionItemCapitalAsset">
 
 
-        <inquiry>
-            <title>Requisition Item Capital Asset Inquiry</title>
-
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="capitalAssetNumber" />
-                <field attributeName="requisitionItemIdentifier" />
-                <field attributeName="requisitionItemCapitalAssetIdentifier" />
-            </inquiryFields></inquirySection></inquirySections>
-        </inquiry>
-
-        <lookup>
-            <title>Requisition Item Capital Asset Lookup</title>
-
-            <instructions>Lookup an Requisition Item Capital Asset</instructions>
-
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="capitalAssetNumber" />
-                </sortAttributes>
-            </defaultSort>
-
-            <lookupFields>
-                <lookupField attributeName="capitalAssetNumber" required="false" />
-                <lookupField attributeName="requisitionItemIdentifier" required="false" />
-                <lookupField attributeName="requisitionItemCapitalAssetIdentifier" required="false" />
-            </lookupFields>
-
-            <resultFields>
-                <field attributeName="capitalAssetNumber" />
-                <field attributeName="requisitionItemIdentifier" />
-                <field attributeName="requisitionItemCapitalAssetIdentifier" />
-            </resultFields>
-        </lookup>
-
         <attributes>
+
+            <attribute name="addCapitalAssetNumber" >
+                <label>Add Asset Number</label>
+                <shortLabel>Add Asset #</shortLabel>
+            
+                <maxLength>12</maxLength>
+                <validationPattern>
+                    <numeric />
+                </validationPattern>
+            
+                <control>
+                    <text size="14" />
+                </control>
+            
+                <summary>addAssetLabel</summary>
+                <description>addAssetLabel description...</description>
+            </attribute>
 
             <attribute name="capitalAssetNumber" forceUppercase="true">
                 <label>Capital Asset Number</label>

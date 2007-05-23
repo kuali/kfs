@@ -109,13 +109,24 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     }
     
     /**
-     * This method validates the unit price for all applicable item types
+     * This method validates the unit price for all applicable item types. It also validates
+     * that the unit price and description fields were entered for all above the line items.
      * 
      * @param purDocument
      * @return
      */
     private boolean validateItemUnitPrice(PurchasingApItem item, String identifierString) {
         boolean valid = true;
+        if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+            if (ObjectUtils.isNull(item.getItemUnitPrice())) {
+                valid = false;
+                GlobalVariables.getErrorMap().putError("newPurchasingItemLine.itemUnitPrice", KFSKeyConstants.ERROR_REQUIRED, ItemFields.UNIT_COST + " in " + identifierString);
+            }
+            if (StringUtils.isEmpty(item.getItemDescription())) {
+                valid = false;
+                GlobalVariables.getErrorMap().putError("newPurchasingItemLine.itemDescription", KFSKeyConstants.ERROR_REQUIRED, ItemFields.DESCRIPTION + " in " + identifierString);
+            }
+        }
         if (ObjectUtils.isNotNull(item.getItemUnitPrice())) {
             if ((zero.compareTo(item.getItemUnitPrice()) > 0) && ((!item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE)) && (!item.getItemTypeCode().equals(ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE)))) {
                 // If the item type is not full order discount or trade in items, don't allow negative unit price.

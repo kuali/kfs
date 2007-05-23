@@ -213,6 +213,16 @@
            		       	    </inquirySummaryFields> 
                         </inquiryCollection>
                     </inquiryFields>
+                </inquirySection>
+                
+                <inquirySection title="Notes">
+                    <inquiryFields>
+                        <inquiryCollection name="boNotes" businessObjectClass="org.kuali.core.bo.Note">
+                        	<field attributeName="noteText"/>
+                        	<field attributeName="notePostedTimestamp"/>
+                        	<field attributeName="authorUniversal.personName"/>
+                        </inquiryCollection>
+                    </inquiryFields>
                 </inquirySection>         
                 
             </inquirySections>
@@ -698,6 +708,15 @@
                     <![CDATA[&nbsp;]]>
                 </summary>
                 <description>Vendor Search Aliases</description>
+            </collection>
+            <collection name="boNotes">
+                <label>Notes</label>
+                <shortLabel>Notes</shortLabel>
+                <elementLabel>Notes</elementLabel>
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Notes</description>
             </collection>
              
         </collections>    

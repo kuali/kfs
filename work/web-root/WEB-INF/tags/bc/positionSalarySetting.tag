@@ -396,7 +396,7 @@
                 field="appointmentRequestedFteQuantity"
                 fieldAlign="right"
                 readOnly="true"
-                formattedNumberValue="${formattedNumber}&nbsp;"
+                formattedNumberValue="${formattedNumber}"
                 rowSpan="1" dataFieldCssClass="amount" />
             <bc:pbglLineDataCell dataCellCssClass="infoline"
                 accountingLine="newBCAFLine"
@@ -414,7 +414,7 @@
                 field="appointmentRequestedCsfFteQuantity"
                 fieldAlign="right"
                 readOnly="true"
-                formattedNumberValue="${formattedNumber}&nbsp;"
+                formattedNumberValue="${formattedNumber}"
                 rowSpan="1" dataFieldCssClass="amount" />
             <bc:pbglLineDataCell dataCellCssClass="infoline"
                 accountingLine="newBCAFLine"

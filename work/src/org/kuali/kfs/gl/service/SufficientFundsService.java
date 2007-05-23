@@ -18,6 +18,7 @@ package org.kuali.module.gl.service;
 import java.util.List;
 
 import org.kuali.core.document.TransactionalDocument;
+import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.GeneralLedgerPostingDocument;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.gl.bo.Transaction;
@@ -42,10 +43,19 @@ public interface SufficientFundsService {
     /**
      * This method checks for sufficient funds on a list of transactions
      * 
-     * @param document document
+     * @param transactions list of transactions
      * @return Empty List if has sufficient funds for all accounts, List of SufficientFundsItem if not
      */
     public List<SufficientFundsItem> checkSufficientFunds(List<? extends Transaction> transactions);
+
+    /**
+     * This checks for sufficient funds on a list of accounts
+     * 
+     * @param accountLines list of accounts
+     * @param financialDocumentTypeCode the financial document type code that the accounts below to
+     * @return empty list if all accounts have sufficient funds... otherwise a list of <code>SufficientFundsItem</code>
+     */
+    public List<SufficientFundsItem> checkSufficientFundsUsingAccounts(List<? extends AccountingLine> accountLines,String financialDocumentTypeCode);
 
     /**
      * This operation derives the acct_sf_finobj_cd which is used to populate the General Ledger Pending entry table, so that later

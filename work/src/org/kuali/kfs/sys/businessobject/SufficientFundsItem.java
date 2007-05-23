@@ -19,6 +19,7 @@ import java.io.Serializable;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.Options;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -59,6 +60,28 @@ public class SufficientFundsItem implements Serializable, Comparable {
         this.balanceTyp = tran.getBalanceType();
 
         add(tran);
+    }
+
+    public SufficientFundsItem(Options universityFiscalYear, AccountingLine accountLine, String sufficientFundsObjectCode) {
+
+        amount = KualiDecimal.ZERO;
+        year = universityFiscalYear;
+        account = accountLine.getAccount();
+        financialObject = accountLine.getObjectCode();
+        financialObjectType = accountLine.getObjectType();
+        this.sufficientFundsObjectCode = sufficientFundsObjectCode;
+        this.balanceTyp = accountLine.getBalanceTyp();
+
+        add(accountLine);
+    }
+
+    public void add(AccountingLine a) {
+        if (a.getObjectType().getFinObjectTypeDebitcreditCd().equals(a.getDebitCreditCode()) || KFSConstants.EMPTY_STRING.equals(a.getDebitCreditCode())) {
+            amount = amount.add(a.getAmount());
+        }
+        else {
+            amount = amount.subtract(a.getAmount());
+        }
     }
 
     public void add(Transaction t) {

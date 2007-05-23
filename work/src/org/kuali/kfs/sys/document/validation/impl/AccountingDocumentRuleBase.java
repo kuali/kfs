@@ -1878,28 +1878,21 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
 
             boolean isDebit = false;
             KualiDecimal amount = accountingLine.getAmount();
-            // non error correction
-            if (!rule.isErrorCorrection(accountingDocument)) {
-                boolean isPositiveAmount = amount.isPositive();
-                // isDebit if income/liability/expense/asset and line amount is positive
-                if (isPositiveAmount && (rule.isIncomeOrLiability(accountingLine) || rule.isExpenseOrAsset(accountingLine))) {
-                    isDebit = true;
-                }
-                else {
-                    throw new IllegalStateException(isDebitCalculationIllegalStateExceptionMessage);
-                }
+            boolean isPositiveAmount = amount.isPositive();
+            // isDebit if income/liability/expense/asset and line amount is positive
+            if (isPositiveAmount && (rule.isIncomeOrLiability(accountingLine) || rule.isExpenseOrAsset(accountingLine))) {
+                isDebit = true;
             }
-            // error correction
             else {
-                boolean isNegativeAmount = amount.isNegative();
-                // isDebit if income/liability/expense/asset and line amount is negative
-                if (isNegativeAmount && (rule.isIncomeOrLiability(accountingLine) || rule.isExpenseOrAsset(accountingLine))) {
+                // non error correction
+                if (!rule.isErrorCorrection(accountingDocument)) {
+                    throw new IllegalStateException(isDebitCalculationIllegalStateExceptionMessage); 
+                
+                }
+                // error correction
+                else {
                     isDebit = false;
                 }
-                else {
-                    throw new IllegalStateException(isDebitCalculationIllegalStateExceptionMessage);
-                }
-
             }
 
             LOG.debug("isDebitConsideringNothingPositiveOnly(AccountingDocumentRuleBase, AccountingDocument, AccountingLine) - end");
@@ -1995,7 +1988,6 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
          * the following are invalid ( throws an <code>IllegalStateException</code>)
          * <ol>
          * <li> !isErrorCorrection && !(lineAmount > 0)
-         * <li> isErrorCorrection && !(lineAmount < 0)
          * </ol>
          * 
          * @param rule
@@ -2008,45 +2000,34 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
 
             boolean isDebit = false;
             KualiDecimal amount = accountingLine.getAmount();
-            // non error correction
-            if (!rule.isErrorCorrection(accountingDocument)) {
-                boolean isPositiveAmount = amount.isPositive();
-                // only allow amount >0
-                if (!isPositiveAmount) {
-                    throw new IllegalStateException(isDebitCalculationIllegalStateExceptionMessage);
-                }
-                // source line
-                if (accountingLine.isSourceAccountingLine()) {
+            boolean isPositiveAmount = amount.isPositive();
+            // non error correction - only allow amount >0
+            if (!isPositiveAmount && !rule.isErrorCorrection(accountingDocument)) {
+                throw new IllegalStateException(isDebitCalculationIllegalStateExceptionMessage);
+            }
+            // source line
+            if (accountingLine.isSourceAccountingLine()) {
+                //could write below block in one line using == as XNOR operator, but that's confusing to read:
+                //isDebit = (rule.isIncomeOrLiability(accountingLine) == isPositiveAmount);
+                if (isPositiveAmount) { 
                     isDebit = rule.isIncomeOrLiability(accountingLine);
                 }
-                // target line
                 else {
-                    if (accountingLine.isTargetAccountingLine()) {
+                    isDebit = rule.isExpenseOrAsset(accountingLine);
+                }
+            }
+            // target line
+            else {
+                if (accountingLine.isTargetAccountingLine()) {
+                    if (isPositiveAmount) {
                         isDebit = rule.isExpenseOrAsset(accountingLine);
                     }
                     else {
-                        throw new IllegalArgumentException(isInvalidLineTypeIllegalArgumentExceptionMessage);
-                    }
-                }
-            }
-            // error correction document
-            else {
-                boolean isNegativeAmount = amount.isNegative();
-                if (!isNegativeAmount) {
-                    throw new IllegalStateException(isDebitCalculationIllegalStateExceptionMessage);
-                }
-                // source line
-                if (accountingLine.isSourceAccountingLine()) {
-                    isDebit = rule.isExpenseOrAsset(accountingLine);
-                }
-                // target line
-                else {
-                    if (accountingLine.isTargetAccountingLine()) {
                         isDebit = rule.isIncomeOrLiability(accountingLine);
                     }
-                    else {
-                        throw new IllegalArgumentException(isInvalidLineTypeIllegalArgumentExceptionMessage);
-                    }
+                }
+                else {
+                    throw new IllegalArgumentException(isInvalidLineTypeIllegalArgumentExceptionMessage);
                 }
             }
 

@@ -153,13 +153,25 @@ public class CorrectionDocumentUtils {
         }
     }
     
+    /**
+     * Returns whether an origin entry matches the passed in criteria.  If both the criteria and actual value are both String types and are empty, null, or whitespace only,
+     * then they will match.
+     * 
+     * @param cc
+     * @param oe
+     * @return
+     */
     public static boolean entryMatchesCriteria(CorrectionCriteria cc, OriginEntry oe) {
         OriginEntryFieldFinder oeff = new OriginEntryFieldFinder();
         Object fieldActualValue = oe.getFieldValue(cc.getCorrectionFieldName());
-        String fieldTestValue = cc.getCorrectionFieldValue() == null ? "" : cc.getCorrectionFieldValue();
+        String fieldTestValue = StringUtils.isBlank(cc.getCorrectionFieldValue()) ? "" : cc.getCorrectionFieldValue();
         String fieldType = oeff.getFieldType(cc.getCorrectionFieldName());
         String fieldActualValueString = convertToString(fieldActualValue, fieldType);
 
+        if ("String".equals(fieldType) && StringUtils.isBlank(fieldActualValueString)) {
+            fieldActualValueString = "";
+        }
+        
         if ("eq".equals(cc.getCorrectionOperatorCode())) {
             return fieldActualValueString.equals(fieldTestValue);
         }
@@ -178,6 +190,13 @@ public class CorrectionDocumentUtils {
         throw new IllegalArgumentException("Unknown operator: " + cc.getCorrectionOperatorCode());
     }
     
+    /**
+     * Converts the value into a string, with the appropriate formatting
+     * 
+     * @param fieldActualValue
+     * @param fieldType
+     * @return
+     */
     public static String convertToString(Object fieldActualValue, String fieldType) {
         if (fieldActualValue == null) {
             return "";
@@ -202,11 +221,13 @@ public class CorrectionDocumentUtils {
     }
     
     /**
-     * This method...
+     * Applies a list of change criteria groups to an origin entry.  Note that the returned value, if not null, is a reference to the same
+     * instance as the origin entry passed in (i.e. intentional side effect)
+     * 
      * @param entry
-     * @param matchCriteriaOnly
+     * @param matchCriteriaOnly if true and no criteria match, then this method will return null 
      * @param changeCriteriaGroups
-     * @return
+     * @return the passed in entry instance, or null (see above)
      */
     public static OriginEntry applyCriteriaToEntry(OriginEntry entry, boolean matchCriteriaOnly, List<CorrectionChangeGroup> changeCriteriaGroups) {
         if (matchCriteriaOnly && !doesEntryMatchAnyCriteriaGroups(entry, changeCriteriaGroups)) {
@@ -232,6 +253,13 @@ public class CorrectionDocumentUtils {
         return entry;
     }
     
+    /**
+     * Returns whether the entry matches any of the criteria groups
+     * 
+     * @param entry
+     * @param groups
+     * @return
+     */
     public static boolean doesEntryMatchAnyCriteriaGroups(OriginEntry entry, Collection<CorrectionChangeGroup> groups) {
         boolean anyGroupMatch = false;
         for (CorrectionChangeGroup ccg : groups) {
@@ -251,6 +279,11 @@ public class CorrectionDocumentUtils {
         return anyGroupMatch;
     }
     
+    /**
+     * Computes the statistics (credit amount, debit amount, row count) of a collection of origin entries.
+     * @param entries
+     * @return
+     */
     public static OriginEntryStatistics getStatistics(Collection<OriginEntry> entries) {
         OriginEntryStatistics oes = new OriginEntryStatistics();
 
@@ -260,10 +293,20 @@ public class CorrectionDocumentUtils {
         return oes;
     }
 
+    /**
+     * Returns whether the origin entry represents a debit budget
+     * @param oe
+     * @return
+     */
     public static boolean isDebitBudget(OriginEntry oe) {
         return (oe.getTransactionDebitCreditCode() == null || KFSConstants.GL_BUDGET_CODE.equals(oe.getTransactionDebitCreditCode()) || KFSConstants.GL_DEBIT_CODE.equals(oe.getTransactionDebitCreditCode()));
     }
     
+    /**
+     * Given an instance of statistics, it adds infromation from the passed in entry to the statistics
+     * @param entry
+     * @param statistics
+     */
     public static void updateStatisticsWithEntry(OriginEntry entry, OriginEntryStatistics statistics) {
         statistics.incrementCount();
         if (isDebitBudget(entry)) {
@@ -274,6 +317,11 @@ public class CorrectionDocumentUtils {
         }
     }
     
+    /**
+     * Sets document with the statistics data
+     * @param statistics
+     * @param document
+     */
     public static void copyStatisticsToDocument(OriginEntryStatistics statistics, CorrectionDocument document) {
         document.setCorrectionCreditTotalAmount(statistics.getCreditTotalAmount());
         document.setCorrectionDebitTotalAmount(statistics.getDebitTotalAmount());

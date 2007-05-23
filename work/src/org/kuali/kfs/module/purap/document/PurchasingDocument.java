@@ -30,7 +30,6 @@ import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.bo.RequisitionSource;
 import org.kuali.module.vendor.bo.PurchaseOrderCostSource;
-import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorContract;
 import org.kuali.module.vendor.bo.VendorDetail;
 
@@ -1202,8 +1201,6 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
     public PurchasingApItem getItem(int pos);
     
     public void setVendorContractName(String vendorContractName);
-    public Integer getVendorAddressGeneratedIdentifier();
-    public void setVendorAddressGeneratedIdentifier(Integer vendorAddressGeneratedIdentifier);
     public boolean isDeliveryBuildingOther();
     
     /**
@@ -1220,10 +1217,4 @@ public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
      */
     public void templateVendorContract(VendorContract vendorContract);
  
-    /**
-     * Convenience method to set vendor address fields based on a given VendorAddress.
-     * 
-     * @param vendorAddress
-     */
-    public void templateVendorAddress(VendorAddress vendorAddress);
 }

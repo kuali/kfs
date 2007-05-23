@@ -21,6 +21,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.purap.document.CreditMemoDocument;
 
 /**
  * 
@@ -38,7 +39,7 @@ public class CreditMemoItem extends AccountsPayableItemBase {
 	private KualiDecimal itemExtendedPrice;
 	private boolean itemAssignedToTradeInIndicator;
 
-    private CreditMemo creditMemo;
+    private CreditMemoDocument creditMemo;
 
 	/**
 	 * Default constructor.
@@ -214,26 +215,6 @@ public class CreditMemoItem extends AccountsPayableItemBase {
 		this.itemAssignedToTradeInIndicator = itemAssignedToTradeInIndicator;
 	}
 
-
-	/**
-	 * Gets the creditMemo attribute.
-	 * 
-	 * @return Returns the creditMemo
-	 * 
-	 */
-	public CreditMemo getCreditMemo() { 
-		return creditMemo;
-	}
-
-	/**
-	 * Sets the creditMemo attribute.
-	 * 
-	 * @param creditMemo The creditMemo to set.
-	 * @deprecated
-	 */
-	public void setCreditMemo(CreditMemo creditMemo) {
-		this.creditMemo = creditMemo;
-	}
     
     /**
      * @see org.kuali.module.purap.bo.PurApItemBase#getAccountingLineClass()
@@ -252,5 +233,9 @@ public class CreditMemoItem extends AccountsPayableItemBase {
             m.put("creditMemoItemIdentifier", this.creditMemoItemIdentifier.toString());
         }
 	    return m;
+    }
+
+    public CreditMemoDocument getCreditMemo() {
+        return creditMemo;
     }
 }

@@ -16,8 +16,11 @@
 
 package org.kuali.module.purap.document;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+
 import org.kuali.core.bo.Note;
-import org.kuali.module.purap.bo.CreditMemoAccount;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.bo.CreditMemoItem;
 import org.kuali.module.purap.bo.CreditMemoStatusHistory;
 
@@ -27,6 +30,15 @@ import org.kuali.module.purap.bo.CreditMemoStatusHistory;
  */
 public class CreditMemoDocument extends AccountsPayableDocumentBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CreditMemoDocument.class);
+
+    private Integer paymentRequestIdentifier;
+    private String creditMemoNumber;
+    private Date creditMemoDate;
+    private KualiDecimal creditMemoAmount;
+    private Timestamp creditMemoPaidTimestamp;
+    private String itemMiscellaneousCreditDescription;
+    
+    private PaymentRequestDocument paymentRequest;
 
     /**
 	 * Default constructor.
@@ -45,6 +57,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
 
     public void refreshAllReferences() {
         super.refreshAllReferences();
+        this.refreshReferenceObject("paymentRequest");
     }
     
     /**
@@ -95,4 +108,137 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
 //    public Class getSourceAccountingLineClass() {
 //        return CreditMemoAccount.class;
 //    }
+
+
+    /**
+     * Gets the paymentRequestIdentifier attribute.
+     * 
+     * @return Returns the paymentRequestIdentifier
+     * 
+     */
+    public Integer getPaymentRequestIdentifier() { 
+        return paymentRequestIdentifier;
+    }
+
+    /**
+     * Sets the paymentRequestIdentifier attribute.
+     * 
+     * @param paymentRequestIdentifier The paymentRequestIdentifier to set.
+     * 
+     */
+    public void setPaymentRequestIdentifier(Integer paymentRequestIdentifier) {
+        this.paymentRequestIdentifier = paymentRequestIdentifier;
+    }
+
+
+    /**
+     * Gets the creditMemoNumber attribute.
+     * 
+     * @return Returns the creditMemoNumber
+     * 
+     */
+    public String getCreditMemoNumber() { 
+        return creditMemoNumber;
+    }
+
+    /**
+     * Sets the creditMemoNumber attribute.
+     * 
+     * @param creditMemoNumber The creditMemoNumber to set.
+     * 
+     */
+    public void setCreditMemoNumber(String creditMemoNumber) {
+        this.creditMemoNumber = creditMemoNumber;
+    }
+
+
+    /**
+     * Gets the creditMemoDate attribute.
+     * 
+     * @return Returns the creditMemoDate
+     * 
+     */
+    public Date getCreditMemoDate() { 
+        return creditMemoDate;
+    }
+
+    /**
+     * Sets the creditMemoDate attribute.
+     * 
+     * @param creditMemoDate The creditMemoDate to set.
+     * 
+     */
+    public void setCreditMemoDate(Date creditMemoDate) {
+        this.creditMemoDate = creditMemoDate;
+    }
+
+    /**
+     * Gets the creditMemoAmount attribute.
+     * 
+     * @return Returns the creditMemoAmount
+     * 
+     */
+    public KualiDecimal getCreditMemoAmount() { 
+        return creditMemoAmount;
+    }
+
+    /**
+     * Sets the creditMemoAmount attribute.
+     * 
+     * @param creditMemoAmount The creditMemoAmount to set.
+     * 
+     */
+    public void setCreditMemoAmount(KualiDecimal creditMemoAmount) {
+        this.creditMemoAmount = creditMemoAmount;
+    }
+
+    /**
+     * Gets the itemMiscellaneousCreditDescription attribute.
+     * 
+     * @return Returns the itemMiscellaneousCreditDescription
+     * 
+     */
+    public String getItemMiscellaneousCreditDescription() { 
+        return itemMiscellaneousCreditDescription;
+    }
+
+    /**
+     * Sets the itemMiscellaneousCreditDescription attribute.
+     * 
+     * @param itemMiscellaneousCreditDescription The itemMiscellaneousCreditDescription to set.
+     * 
+     */
+    public void setItemMiscellaneousCreditDescription(String itemMiscellaneousCreditDescription) {
+        this.itemMiscellaneousCreditDescription = itemMiscellaneousCreditDescription;
+    }
+
+
+    /**
+     * Gets the creditMemoPaidTimestamp attribute. 
+     * @return Returns the creditMemoPaidTimestamp.
+     */
+    public Timestamp getCreditMemoPaidTimestamp() {
+        return creditMemoPaidTimestamp;
+    }
+
+    /**
+     * Sets the creditMemoPaidTimestamp attribute value.
+     * @param creditMemoPaidTimestamp The creditMemoPaidTimestamp to set.
+     */
+    public void setCreditMemoPaidTimestamp(Timestamp creditMemoPaidTimestamp) {
+        this.creditMemoPaidTimestamp = creditMemoPaidTimestamp;
+    }
+
+
+    /**
+     * Gets the paymentRequest attribute.
+     * 
+     * @return Returns the paymentRequest
+     * 
+     */
+    public PaymentRequestDocument getPaymentRequest() { 
+        return paymentRequest;
+    }
+
+
 }

@@ -74,7 +74,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
     private Integer purchaseOrderPreviousIdentifier;
     private Integer alternateVendorHeaderGeneratedIdentifier;
     private Integer alternateVendorDetailAssignedIdentifier;
-    private String alternateVendorNumber; //not persisted in db
     private String alternateVendorName;
     private String statusChange;
     private String statusChangeNote;
@@ -82,18 +81,20 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase implements Cop
     private boolean pendingActionIndicator;
     private Date purchaseOrderFirstTransmissionDate;
     
+    //COLLECTIONS
+    private List<PurchaseOrderVendorStipulation> purchaseOrderVendorStipulations;
+
+    // NOT PERSISTED IN DB
+    private String alternateVendorNumber;
+    private String purchaseOrderRetransmissionMethodCode;
+    private String retransmitHeader;
+    
+    // REFERENCE OBJECTS
     private PurchaseOrderVendorChoice purchaseOrderVendorChoice;
     private PaymentTermType vendorPaymentTerms;
     private ShippingTitle vendorShippingTitle;
     private ShippingPaymentTerms vendorShippingPaymentTerms;
     private RecurringPaymentFrequency recurringPaymentFrequency;
-    
-    //COLLECTIONS
-    private List<PurchaseOrderVendorStipulation> purchaseOrderVendorStipulations;
-    
-    //Not persisted in db
-    private String purchaseOrderRetransmissionMethodCode;
-    private String retransmitHeader;
     
     /**
 	 * Default constructor.

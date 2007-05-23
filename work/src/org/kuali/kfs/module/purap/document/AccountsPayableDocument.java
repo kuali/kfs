@@ -15,6 +15,10 @@
  */
 package org.kuali.module.purap.document;
 
+import java.sql.Date;
+
+import org.kuali.core.bo.Campus;
+
 
 
 /**
@@ -22,6 +26,48 @@ package org.kuali.module.purap.document;
  * 
  */
 public interface AccountsPayableDocument extends PurchasingAccountsPayableDocument {
-    public Integer getVendorAddressGeneratedIdentifier();
-    public void setVendorAddressGeneratedIdentifier(Integer vendorAddressGeneratedIdentifier);
+
+    public Integer getPurchaseOrderIdentifier();
+
+    public void setPurchaseOrderIdentifier(Integer purchaseOrderIdentifier);
+
+    public String getAccountsPayableProcessorIdentifier();
+
+    public void setAccountsPayableProcessorIdentifier(String accountsPayableProcessorIdentifier);
+
+    public String getAccountsPayableHoldIdentifier();
+
+    public void setAccountsPayableHoldIdentifier(String accountsPayableHoldIdentifier);
+
+    public String getProcessingCampusCode();
+
+    public void setProcessingCampusCode(String processingCampusCode);
+    
+    public Date getAccountsPayableApprovalDate();
+
+    public void setAccountsPayableApprovalDate(Date accountsPayableApprovalDate);
+
+    public Date getExtractedDate();
+
+    public void setExtractedDate(Date extractedDate);
+
+    public boolean isHoldIndicator();
+
+    public void setHoldIndicator(boolean holdIndicator);
+
+    public String getNoteLine1Text();
+
+    public void setNoteLine1Text(String noteLine1Text);
+
+    public String getNoteLine2Text();
+
+    public void setNoteLine2Text(String noteLine2Text);
+
+    public String getNoteLine3Text();
+
+    public void setNoteLine3Text(String noteLine3Text);
+
+    public Campus getProcessingCampus();
+
+    public PurchaseOrderDocument getPurchaseOrderDocument();
 }

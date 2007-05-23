@@ -43,60 +43,13 @@ public class AccountsPayableActionBase extends KualiAccountingDocumentActionBase
         AccountsPayableFormBase baseForm = (AccountsPayableFormBase) form;
         AccountsPayableDocumentBase document = (AccountsPayableDocumentBase)baseForm.getDocument();
         String refreshCaller = baseForm.getRefreshCaller();
-        BusinessObjectService businessObjectService = SpringServiceLocator.getBusinessObjectService();        
-        PhoneNumberService phoneNumberService = SpringServiceLocator.getPhoneNumberService();
         
-        // Format phone numbers        
-       /*
-        document.setInstitutionContactPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getInstitutionContactPhoneNumber()));    
-        document.setRequestorPersonPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getRequestorPersonPhoneNumber()));    
-        document.setDeliveryToPhoneNumber(phoneNumberService.formatNumberIfPossible(document.getDeliveryToPhoneNumber()));
-        */
-        //Set a few fields on the delivery tag in a data-dependent manner (KULPURAP-260).
-       /*
-        if (!( ObjectUtils.nullSafeEquals( refreshCaller, KFSConstants.KUALI_LOOKUPABLE_IMPL ) ||
-               ObjectUtils.nullSafeEquals( refreshCaller, KFSConstants.KUALI_USER_LOOKUPABLE_IMPL ) ) && 
-             ( ObjectUtils.isNotNull( document.isDeliveryBuildingOther() ) ) ) {
-            if (document.isDeliveryBuildingOther()) {
-                document.setDeliveryBuildingName("Other");
-                document.setDeliveryBuildingCode("OTH");
-                baseForm.setNotOtherDeliveryBuilding(false);
-            }
-            else {
-                document.setDeliveryBuildingName(null);
-                document.setDeliveryBuildingCode(null);
-                baseForm.setNotOtherDeliveryBuilding(true);
-            }
-        }
-        
-        if (document.getVendorDetail() == null &&
-            document.getVendorDetailAssignedIdentifier() != null &&
-            document.getVendorHeaderGeneratedIdentifier() != null)  {
-
-            Integer vendorDetailAssignedId = document.getVendorDetailAssignedIdentifier();
-            Integer vendorHeaderGeneratedId = document.getVendorHeaderGeneratedIdentifier();
-            VendorDetail refreshVendorDetail = new VendorDetail();
-            refreshVendorDetail.setVendorDetailAssignedIdentifier(vendorDetailAssignedId);
-            refreshVendorDetail.setVendorHeaderGeneratedIdentifier(vendorHeaderGeneratedId);
-            refreshVendorDetail = (VendorDetail)businessObjectService.retrieve(refreshVendorDetail);
-            document.templateVendorDetail(refreshVendorDetail);
-        }
-    */
         if (KFSConstants.KUALI_LOOKUPABLE_IMPL.equals(baseForm.getRefreshCaller())) {
-           /*
-            if (request.getParameter("document.vendorContractGeneratedIdentifier") != null) {
-                Integer vendorContractGeneratedId = document.getVendorContractGeneratedIdentifier();
-                VendorContract refreshVendorContract = new VendorContract();
-                refreshVendorContract.setVendorContractGeneratedIdentifier(vendorContractGeneratedId);
-                refreshVendorContract = (VendorContract)businessObjectService.retrieve(refreshVendorContract);
-                document.templateVendorContract(refreshVendorContract);
-            }
-            */
             if (request.getParameter("document.vendorAddressGeneratedIdentifier") != null) {
                 Integer vendorAddressGeneratedId = document.getVendorAddressGeneratedIdentifier();
                 VendorAddress refreshVendorAddress = new VendorAddress();
                 refreshVendorAddress.setVendorAddressGeneratedIdentifier(vendorAddressGeneratedId);
-                refreshVendorAddress = (VendorAddress)businessObjectService.retrieve(refreshVendorAddress);
+                refreshVendorAddress = (VendorAddress)SpringServiceLocator.getBusinessObjectService().retrieve(refreshVendorAddress);
                 document.templateVendorAddress(refreshVendorAddress);
             }
         }

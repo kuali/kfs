@@ -19,9 +19,17 @@ import java.util.List;
 
 import org.kuali.core.bo.Note;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.bo.Country;
+import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.module.purap.bo.CreditMemoView;
+import org.kuali.module.purap.bo.PaymentRequestView;
+import org.kuali.module.purap.bo.PurchaseOrderView;
 import org.kuali.module.purap.bo.PurchasingApItem;
+import org.kuali.module.purap.bo.RequisitionView;
 import org.kuali.module.purap.bo.Status;
+import org.kuali.module.vendor.bo.VendorAddress;
+import org.kuali.module.vendor.bo.VendorDetail;
 
 
 /**
@@ -29,48 +37,13 @@ import org.kuali.module.purap.bo.Status;
  */
 public interface PurchasingAccountsPayableDocument extends AccountingDocument {
     
-    public Integer getVendorHeaderGeneratedIdentifier();
-
     /**
-     * Sets the vendorHeaderGeneratedIdentifier attribute.
+     * Convenience method to set vendor address fields based on a given VendorAddress.
      * 
-     * @param vendorHeaderGeneratedIdentifier The vendorHeaderGeneratedIdentifier to set.
-     * 
+     * @param vendorAddress
      */
-    public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier);
+    public void templateVendorAddress(VendorAddress vendorAddress);
 
-
-    /**
-     * Gets the vendorDetailAssignedIdentifier attribute.
-     * 
-     * @return Returns the vendorDetailAssignedIdentifier
-     * 
-     */
-    public Integer getVendorDetailAssignedIdentifier();
-
-    /**
-     * Sets the vendorDetailAssignedIdentifier attribute.
-     * 
-     * @param vendorDetailAssignedIdentifier The vendorDetailAssignedIdentifier to set.
-     * 
-     */
-    public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier);
-
-    public String getVendorCustomerNumber();
-
-    public void setVendorCustomerNumber(String vendorCustomerNumber);
-
-    public Integer getPurapDocumentIdentifier();
-
-    public void setPurapDocumentIdentifier(Integer identifier);
-
-    public Status getStatus();
-
-    public void setStatus(Status status);
-
-    public String getStatusCode();
-
-    public void setStatusCode(String statusCode);
 
     public List getStatusHistories();
     
@@ -86,6 +59,10 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
 
     public void setStatusHistories(List statusHistories);
 
+    public List<RequisitionView> getRelatedRequisitionViews();
+    public List<CreditMemoView> getRelatedCreditMemoViews();
+    public List<PaymentRequestView> getRelatedPaymentRequestViews();
+    public List<PurchaseOrderView> getRelatedPurchaseOrderViews();
     public List<PurchasingApItem> getItems();
     
     public void addItem(PurchasingApItem item);
@@ -99,5 +76,61 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
     public KualiDecimal getTotalDollarAmount();
     
     public abstract Class getItemClass();
+    public void renumberItems(int start);
     
+    public Country getVendorCountry();
+    public Status getStatus();
+    public VendorDetail getVendorDetail();
+
+    public String getVendorNumber();
+    public void setVendorNumber(String vendorNumber);
+    public Integer getVendorHeaderGeneratedIdentifier();
+    public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier);
+    public Integer getVendorDetailAssignedIdentifier();
+    public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier);
+    public String getVendorCustomerNumber();
+    public void setVendorCustomerNumber(String vendorCustomerNumber);
+    public Integer getPurapDocumentIdentifier();
+    public void setPurapDocumentIdentifier(Integer identifier);
+    public String getStatusCode();
+    public void setStatusCode(String statusCode);
+    public String getVendorCityName();
+    public void setVendorCityName(String vendorCityName);
+    public String getVendorCountryCode();
+    public void setVendorCountryCode(String vendorCountryCode);
+    public String getVendorLine1Address();
+    public void setVendorLine1Address(String vendorLine1Address);
+    public String getVendorLine2Address();
+    public void setVendorLine2Address(String vendorLine2Address);
+    public String getVendorName();
+    public void setVendorName(String vendorName);
+    public String getVendorPostalCode();
+    public void setVendorPostalCode(String vendorPostalCode);
+    public String getVendorStateCode();
+    public void setVendorStateCode(String vendorStateCode);
+    public Integer getAccountsPayablePurchasingDocumentLinkIdentifier();
+    public void setAccountsPayablePurchasingDocumentLinkIdentifier(Integer accountsPayablePurchasingDocumentLinkIdentifier);
+    public Integer getVendorAddressGeneratedIdentifier();
+    public void setVendorAddressGeneratedIdentifier(Integer vendorAddressGeneratedIdentifier);
+
+    /**
+     * Gets the belowTheLineTypes attribute. 
+     * @return Returns the belowTheLineTypes.
+     */
+    public String[] getBelowTheLineTypes();
+
+
+    /**
+     * Gets the summaryAccounts attribute this is used by the summary accounts method 
+     * @return Returns the summaryAccounts.
+     */
+    public List<SourceAccountingLine> getSummaryAccounts();
+
+    /**
+     * Sets the summaryAccounts attribute value.
+     * @param summaryAccounts The summaryAccounts to set.
+     */
+    public void setSummaryAccounts(List<SourceAccountingLine> summaryAccounts);
+        
+
 }

@@ -21,7 +21,6 @@ import java.util.List;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.bo.Country;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
@@ -102,7 +101,6 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private String vendorShippingPaymentTermsCode;
 
     // NOT PERSISTED IN DB
-    private Integer vendorAddressGeneratedIdentifier;
     private String vendorContractName;
     private String supplierDiversityLabel;
     private String vendorContactsLabel;
@@ -123,16 +121,14 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private Account nonInstitutionFundAccount;
     private Chart nonInstitutionFundChartOfAccounts;
     private VendorContract vendorContract;
-    private Country vendorCountry;
     private ContractManager contractManager;
-    
-    
 
+    
     public PurchasingDocumentBase() {
         super();
     }
 
-    
+
     /**
      * Retrieve all references common to purchasing
      */
@@ -146,7 +142,6 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         this.refreshReferenceObject("organization");
         this.refreshReferenceObject("deliveryCampus");
         this.refreshReferenceObject("vendorContract");
-        this.refreshReferenceObject("vendorCountry");
     }
 
     /**
@@ -174,18 +169,10 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     }
     
     /**
-     * @see org.kuali.module.purap.document.PurchasingDocument#templateVendorAddress(org.kuali.module.vendor.bo.VendorAddress)
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#templateVendorAddress(org.kuali.module.vendor.bo.VendorAddress)
      */
     public void templateVendorAddress(VendorAddress vendorAddress) {
-        if (vendorAddress == null) {
-            return;
-        }
-        this.setVendorLine1Address(vendorAddress.getVendorLine1Address());
-        this.setVendorLine2Address(vendorAddress.getVendorLine2Address());
-        this.setVendorCityName(vendorAddress.getVendorCityName());
-        this.setVendorStateCode(vendorAddress.getVendorStateCode());
-        this.setVendorPostalCode(vendorAddress.getVendorZipCode());
-        this.setVendorCountryCode(vendorAddress.getVendorCountryCode());
+        super.templateVendorAddress(vendorAddress);
         this.setVendorFaxNumber(vendorAddress.getVendorFaxNumber());
     }    
     
@@ -1508,14 +1495,6 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         this.nonInstitutionFundChartOfAccounts = nonInstitutionFundChartOfAccounts;
     }
 
-    public Integer getVendorAddressGeneratedIdentifier() {
-        return vendorAddressGeneratedIdentifier;
-    }
-
-    public void setVendorAddressGeneratedIdentifier(Integer vendorAddressGeneratedIdentifier) {
-        this.vendorAddressGeneratedIdentifier = vendorAddressGeneratedIdentifier;
-    }
-
     public String getVendorContractName() {
         return vendorContractName;
     }
@@ -1558,14 +1537,6 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     
     public void setVendorContactsLabel(String vendorContactsLabel) {
         this.vendorContactsLabel = vendorContactsLabel;
-    }
-
-    public Country getVendorCountry() {
-        return vendorCountry;
-    }
-
-    public void setVendorCountry(Country vendorCountry) {
-        this.vendorCountry = vendorCountry;
     }
 
     public ContractManager getContractManager() {

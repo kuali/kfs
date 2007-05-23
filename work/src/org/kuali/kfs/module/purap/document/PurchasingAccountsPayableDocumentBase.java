@@ -27,6 +27,7 @@ import org.kuali.core.service.NoteService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
+import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.kfs.util.SpringServiceLocator;
@@ -37,6 +38,7 @@ import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.bo.RequisitionView;
 import org.kuali.module.purap.bo.Status;
 import org.kuali.module.purap.bo.StatusHistory;
+import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorDetail;
 
 /**
@@ -62,6 +64,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
     // NOT PERSISTED IN DB
     private String vendorNumber; 
+    private Integer vendorAddressGeneratedIdentifier;
 
     // COMMON ELEMENTS
     protected List statusHistories;
@@ -77,6 +80,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     // REFERENCE OBJECTS
     private Status status;
     private VendorDetail vendorDetail;
+    private Country vendorCountry;
 
     // STATIC
     public transient String [] belowTheLineTypes;
@@ -104,7 +108,23 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public void refreshAllReferences() {
         this.refreshReferenceObject("status");
         this.refreshReferenceObject("vendorDetail");
+        this.refreshReferenceObject("vendorCountry");
     }
+
+    /**
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#templateVendorAddress(org.kuali.module.vendor.bo.VendorAddress)
+     */
+    public void templateVendorAddress(VendorAddress vendorAddress) {
+        if (vendorAddress == null) {
+            return;
+        }
+        this.setVendorLine1Address(vendorAddress.getVendorLine1Address());
+        this.setVendorLine2Address(vendorAddress.getVendorLine2Address());
+        this.setVendorCityName(vendorAddress.getVendorCityName());
+        this.setVendorStateCode(vendorAddress.getVendorStateCode());
+        this.setVendorPostalCode(vendorAddress.getVendorZipCode());
+        this.setVendorCountryCode(vendorAddress.getVendorCountryCode());
+    }    
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
@@ -424,6 +444,14 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         this.vendorStateCode = vendorStateCode;
     }
     
+    public Integer getVendorAddressGeneratedIdentifier() {
+        return vendorAddressGeneratedIdentifier;
+    }
+
+    public void setVendorAddressGeneratedIdentifier(Integer vendorAddressGeneratedIdentifier) {
+        this.vendorAddressGeneratedIdentifier = vendorAddressGeneratedIdentifier;
+    }
+
     /**
      * Gets the accountsPayablePurchasingDocumentLinkIdentifier attribute. 
      * @return Returns the accountsPayablePurchasingDocumentLinkIdentifier.
@@ -516,5 +544,10 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public void setSummaryAccounts(List<SourceAccountingLine> summaryAccounts) {
         this.summaryAccounts = summaryAccounts;
     }
+
+    public Country getVendorCountry() {
+        return vendorCountry;
+    }
+
         
 }

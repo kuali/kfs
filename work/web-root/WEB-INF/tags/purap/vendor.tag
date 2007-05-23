@@ -177,10 +177,10 @@
                 </c:if>                                                 
                 <c:if test="${displayPaymentRequestFields or displayCreditMemoFields}">
                     <th align=right valign=middle class="bord-l-b" rowspan="3">
-                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.checkStubNoteLine1Text}" /></div>
+                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.noteLine1Text}" /></div>
                     </th>
                     <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.checkStubNoteLine1Text}" property="document.checkStubNoteLine1Text" readOnly="${not (fullEntryMode or amendmentEntry)}" />
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.noteLine1Text}" property="document.noteLine1Text" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                     </td>
                 </c:if>                                                 
                 <th align=right valign=middle class="bord-l-b">
@@ -195,7 +195,7 @@
                 <!-- left column populated by note row span for PUR docs-->
                 <c:if test="${displayPaymentRequestFields or displayCreditMemoFields}">
                     <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.checkStubNoteLine2Text}" property="document.checkStubNoteLine2Text" readOnly="${not (fullEntryMode or amendmentEntry)}" />
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.noteLine2Text}" property="document.noteLine2Text" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                     </td>
                 </c:if>                                                 
                 <th align=right valign=middle class="bord-l-b">
@@ -210,7 +210,7 @@
                 <!-- left column populated by note row span for PUR docs-->
                 <c:if test="${displayPaymentRequestFields or displayCreditMemoFields}">
                     <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.checkStubNoteLine3Text}" property="document.checkStubNoteLine3Text" readOnly="${not (fullEntryMode or amendmentEntry)}" />
+                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.noteLine3Text}" property="document.noteLine3Text" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                     </td>
                 </c:if>                                                 
                 <th align=right valign=middle class="bord-l-b">

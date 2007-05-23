@@ -120,7 +120,7 @@
 					<c:if test="${!viewOnly}">
 					<td rowspan="${institutionDirectColumns}" class="datacell">
 						<div align="center">
-							<html:image property="methodToCall.recalculate.anchor${currentTabIndex}" src="./images/tinybutton-recalculate.gif" styleClass="tinybutton" alt="recalculate" />
+							<html:image property="methodToCall.recalculate.anchor${currentTabIndex}" src="images/tinybutton-recalculate.gif" styleClass="tinybutton" alt="recalculate" />
 						</div>
 					</td>
 					</c:if>
@@ -308,7 +308,7 @@
 					</td>
 					<td rowspan="${institutionDirectColumns}" class="infoline">
 						<div align="center">
-							<html:image property="methodToCall.insertInstitutionCostShareDirect.anchor${currentTabIndex}" src="./images/tinybutton-add1.gif" styleClass="tinybutton" alt="add" />
+							<html:image property="methodToCall.insertInstitutionCostShareDirect.anchor${currentTabIndex}" src="images/tinybutton-add1.gif" styleClass="tinybutton" alt="add" />
 						</div>
 					</td>
 				</tr>
@@ -379,7 +379,7 @@
 						<c:if test="${!viewOnly}">
 						<td rowspan="${institutionDirectColumns}" class="datacell">
 							<div align="center">
-								<html:image property="methodToCall.deleteInstitutionCostShareDirect.line${rowctr}.anchor${currentTabIndex}" src="./images/tinybutton-delete1.gif" styleClass="tinybutton" alt="delete" />
+								<html:image property="methodToCall.deleteInstitutionCostShareDirect.line${rowctr}.anchor${currentTabIndex}" src="images/tinybutton-delete1.gif" styleClass="tinybutton" alt="delete" />
 							</div>
 						</td>
 						</c:if>

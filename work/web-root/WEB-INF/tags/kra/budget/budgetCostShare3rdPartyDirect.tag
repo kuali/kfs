@@ -114,7 +114,7 @@
 					<c:if test="${!viewOnly}">
 					<td rowspan="3" class="infoline">
 						<div align="center">
-							<html:image property="methodToCall.recalculate.anchor${currentTabIndex}" src="./images/tinybutton-recalculate.gif" styleClass="tinybutton" alt="recalculate" />
+							<html:image property="methodToCall.recalculate.anchor${currentTabIndex}" src="images/tinybutton-recalculate.gif" styleClass="tinybutton" alt="recalculate" />
 						</div>
 					</td>
 					</c:if>
@@ -300,7 +300,7 @@
 					</td>
 					<td rowspan="2" class="infoline">
 						<div align="center">
-							<html:image property="methodToCall.insertThirdPartyCostShareDirect.anchor${currentTabIndex}" src="./images/tinybutton-add1.gif" styleClass="tinybutton" alt="add" />
+							<html:image property="methodToCall.insertThirdPartyCostShareDirect.anchor${currentTabIndex}" src="images/tinybutton-add1.gif" styleClass="tinybutton" alt="add" />
 						</div>
 					</td>
 				</tr>
@@ -354,7 +354,7 @@
 						<c:if test="${!viewOnly}">
 						<td rowspan="2" class="datacell">
 							<div align="center">
-								<html:image property="methodToCall.deleteThirdPartyCostShare.line${rowctr}.anchor${currentTabIndex}" src="./images/tinybutton-delete1.gif" styleClass="tinybutton" alt="delete" />
+								<html:image property="methodToCall.deleteThirdPartyCostShare.line${rowctr}.anchor${currentTabIndex}" src="images/tinybutton-delete1.gif" styleClass="tinybutton" alt="delete" />
 							</div>
 						</td>
 						</c:if>

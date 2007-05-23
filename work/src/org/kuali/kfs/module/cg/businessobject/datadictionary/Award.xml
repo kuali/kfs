@@ -100,7 +100,7 @@
                             <field attributeName="subcontractorNumber" />
                             <field attributeName="subcontractor.subcontractorName" />
                             <field attributeName="awardSubcontractorDescription" />
-                            <field attributeName="awardSubcontractorAmount"/>
+                            <field attributeName="subcontractorAmount"/>
                             <inquirySummaryFields>
                                 <inquirySummaryField attributeName="subcontractor.subcontractorName" />
                                 <inquirySummaryField attributeName="awardSubcontractorAmount" />

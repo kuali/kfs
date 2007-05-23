@@ -29,6 +29,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.IcrAutomatedEntry;
@@ -417,12 +418,13 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
             // if there is one found, but not for this fiscal year, complain
             // about this to the user
             if (anyFound && !anyFoundInThisFy) {
-                putFieldError("a21SubAccount.financialIcrSeriesIdentifier", KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_ICR_FIN_SERIES_ID_EXISTS_BUT_NOT_FOR_THIS_FY, new String[] { a21.getFinancialIcrSeriesIdentifier(), fiscalYear.toString() });
+                putFieldError(KFSPropertyConstants.A21_SUB_ACCOUNT+"."+KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER, KFSKeyConstants.ERROR_DOCUMENT_SUBACCTMAINT_ICR_FIN_SERIES_ID_EXISTS_BUT_NOT_FOR_THIS_FY, new String[] { a21.getFinancialIcrSeriesIdentifier(), fiscalYear.toString() });
             }
 
             // if one isnt found at all, complain about that
             if (!anyFound) {
-                putFieldError("a21SubAccount.financialIcrSeriesIdentifier", KFSKeyConstants.ERROR_EXISTENCE, "ICR Financial Series ID: " + a21.getFinancialIcrSeriesIdentifier());
+                String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(A21SubAccount.class, KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER);
+                putFieldError(KFSPropertyConstants.A21_SUB_ACCOUNT+"."+KFSPropertyConstants.FINANCIAL_ICR_SERIES_IDENTIFIER, KFSKeyConstants.ERROR_EXISTENCE, label + " (" + a21.getFinancialIcrSeriesIdentifier() + ")");
             }
         }
 

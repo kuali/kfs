@@ -52,7 +52,7 @@
           <tr><td>processInBatch</td><td>${KualiForm.processInBatch}</td></tr>
           <tr><td>chooseSystem</td><td>${KualiForm.chooseSystem}</td></tr>
           <tr><td>editMethod</td><td>${KualiForm.editMethod}</td></tr>
-          <tr><td>inputGroupId</td><td>${KualiForm.inputGroupId}</td></tr>
+          <tr><td>inputGroupId</td><td>${KualiForm.document.correctionInputGroupId}</td></tr>
           <tr><td>outputGroupId</td><td>${KualiForm.outputGroupId}</td></tr>
           <tr><td>inputFileName</td><td>${KualiForm.inputFileName}</td></tr>
           <tr><td>dataLoadedFlag</td><td>${KualiForm.dataLoadedFlag}</td></tr>
@@ -66,7 +66,7 @@
     </kul:tab>
   </c:if>
   <kul:tab tabTitle="Summary" defaultOpen="true" tabErrorKey="summary">
-    <c:if test="${(not (KualiForm.persistedOriginEntriesMissing && KualiForm.inputGroupIdFromLastDocumentLoad eq KualiForm.inputGroupId)) && ((KualiForm.dataLoadedFlag and !KualiForm.restrictedFunctionalityMode) or KualiForm.document.correctionOutputGroupId != null or not empty KualiForm.editingMode['viewOnly'])}" >
+    <c:if test="${KualiForm.document.correctionTypeCode ne 'R' and (not (KualiForm.persistedOriginEntriesMissing && KualiForm.inputGroupIdFromLastDocumentLoad eq KualiForm.inputGroupId)) && ((KualiForm.dataLoadedFlag and !KualiForm.restrictedFunctionalityMode) or KualiForm.document.correctionOutputGroupId != null or not empty KualiForm.editingMode['viewOnly'])}" >
       <html:hidden property="document.correctionDebitTotalAmount"/>
       <html:hidden property="document.correctionCreditTotalAmount"/>
       <html:hidden property="document.correctionRowCount"/>
@@ -97,7 +97,7 @@
         </table>
       </div>
     </c:if>
-    <c:if test="${KualiForm.persistedOriginEntriesMissing && KualiForm.inputGroupIdFromLastDocumentLoad eq KualiForm.inputGroupId}">
+    <c:if test="${KualiForm.persistedOriginEntriesMissing && KualiForm.inputGroupIdFromLastDocumentLoad eq KualiForm.document.correctionInputGroupId}">
       <div class="tab-container" align="center"> 
 	    <table cellpadding="0" class="datatable" summary=""> 
           <tr>
@@ -178,14 +178,25 @@
                     <c:if test="${KualiForm.inputGroupIdFromLastDocumentLoadIsMissing and KualiForm.inputGroupId eq KualiForm.inputGroupIdFromLastDocumentLoad}">
                       <option value="<c:out value="${KualiForm.inputGroupIdFromLastDocumentLoad}"/>" selected="selected"><c:out value="${KualiForm.inputGroupIdFromLastDocumentLoad}"/> Document was last saved with this origin entry group selected.  Group is no longer in system.</option>
                     </c:if>
-                    <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|module|gl|web|optionfinder|CorrectionGroupEntriesFinder" label="label" value="key" />
+                    <c:choose>
+                      <c:when test="${KualiForm.editMethod eq 'R'}">
+                        <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|module|gl|web|optionfinder|ProcessingCorrectionGroupEntriesFinder" label="label" value="key" />
+                      </c:when>
+                      <c:otherwise>
+                        <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|module|gl|web|optionfinder|CorrectionGroupEntriesFinder" label="label" value="key" />
+                      </c:otherwise>
+                    </c:choose>
                   </html:select>
                   
                   <html:hidden property="previousInputGroupId"/>
-                  <br/><br/>  
-                  <html:image property="methodToCall.loadGroup.anchor${currentTabIndex}" src="images/tinybutton-loadgroup.gif" styleClass="tinybutton" alt="ShowAllEntries" title="Show All Entries"/>
+                  <br/><br/>
+                  <c:if test="${KualiForm.editMethod eq 'R'}">
+                    <html:image property="methodToCall.confirmDeleteDocument.anchor${currentTabIndex}" src="images/tinybutton-remgrpproc.gif" styleClass="tinybutton" alt="deleteDocument" title="Remove Group From Processing" />
+                  </c:if>
+                  <c:if test="${KualiForm.editMethod eq 'M' or KualiForm.editMethod eq 'C'}">
+                    <html:image property="methodToCall.loadGroup.anchor${currentTabIndex}" src="images/tinybutton-loadgroup.gif" styleClass="tinybutton" alt="ShowAllEntries" title="Show All Entries"/>
+                  </c:if>
                   <html:image property="methodToCall.saveToDesktop.anchor${currentTabIndex}" src="images/tinybutton-cpygrpdesk.gif" styleClass="tinybutton" alt="saveToDeskTop" title="Save To Desktop" onclick="excludeSubmitRestriction=true" />
-                  <html:image property="methodToCall.confirmDeleteDocument.anchor${currentTabIndex}" src="images/tinybutton-remgrpproc.gif" styleClass="tinybutton" alt="deleteDocument" title="Remove Group From Processing" />
                 </center> 
               </td>
             </tr>
@@ -202,7 +213,7 @@
           <table cellpadding=0 class="datatable" summary=""> 
             <tr>
               <td class="bord-l-b" style="padding: 4px;">
-                <html:hidden property="inputGroupId"/>
+                <html:hidden property="document.correctionInputGroupId"/>
                 <html:file size="30" property="sourceFile" />
                 <html:image property="methodToCall.uploadFile.anchor${currentTabIndex}" src="images/tinybutton-loaddoc.gif" styleClass="tinybutton" alt="uploadFile" title="upload file"/>
               </td>
@@ -224,7 +235,7 @@
           </table>
         </div>
       </c:if>
-      <c:if test="${KualiForm.restrictedFunctionalityMode && KualiForm.persistedOriginEntriesMissing && KualiForm.inputGroupIdFromLastDocumentLoad eq KualiForm.inputGroupId}">
+      <c:if test="${KualiForm.restrictedFunctionalityMode && KualiForm.persistedOriginEntriesMissing && KualiForm.inputGroupIdFromLastDocumentLoad eq KualiForm.document.correctionInputGroupId}">
         <div class="tab-container" align="center">
           <table cellpadding=0 class="datatable" summary=""> 
             <tr>
@@ -236,7 +247,7 @@
           </table>
         </div>
       </c:if>
-      <c:if test="${KualiForm.chooseSystem != null and KualiForm.editMethod != null and KualiForm.dataLoadedFlag == true and !KualiForm.restrictedFunctionalityMode and !(KualiForm.persistedOriginEntriesMissing && KualiForm.inputGroupIdFromLastDocumentLoad eq KualiForm.inputGroupId)}" >
+      <c:if test="${KualiForm.chooseSystem != null and KualiForm.editMethod != null and KualiForm.dataLoadedFlag == true and !KualiForm.restrictedFunctionalityMode and !(KualiForm.persistedOriginEntriesMissing && KualiForm.inputGroupIdFromLastDocumentLoad eq KualiForm.document.correctionInputGroupId)}" >
         <div class="tab-container" align="left" style="overflow: scroll; width: 100% ;"> 
           <table cellpadding=0 class="datatable" summary=""> 
             <tr>
@@ -328,14 +339,6 @@
                 <STRONG> Do you want to edit this document? </STRONG>
                 <html:image property="methodToCall.manualEdit.anchor${currentTabIndex}" src="images/tinybutton-edit1.gif" styleClass="tinybutton" alt="show edit" />
               </td>
-            </c:if>
-            <c:if test="${KualiForm.deleteFileFlag == true}" >
-              <tr>
-                <td>
-                  <STRONG> Do you want mark this group so it is not processed? </STRONG>
-                  <html:image property="methodToCall.deleteGroup.anchor${currentTabIndex - 3}" src="images/tinybutton-delete1.gif" styleClass="tinybutton" alt="Mark Group so it is not processed" />
-                </td>
-              </tr>
             </c:if>
           </table>
         </div>
@@ -620,7 +623,12 @@
             <td align="left" valign="middle" > <c:out value="${KualiForm.document.correctionOutputGroupId}" /></td>
           </c:if>
           <c:if test="${KualiForm.document.correctionOutputGroupId == null}">
-            <td align="left" valign="middle" > The output group ID is unavailable until the document has a status of FINAL.</td>
+            <c:if test="${KualiForm.document.correctionTypeCode eq 'R'}">
+              <td align="left" valign="middle" ><c:out value="${Constants.NOT_AVAILABLE_STRING}"/></td>
+            </c:if>
+            <c:if test="${KualiForm.document.correctionTypeCode ne 'R'}">
+              <td align="left" valign="middle" > The output group ID is unavailable until the document has a status of FINAL.</td>
+            </c:if>
           </c:if>
         </tr>
         <c:if test="${KualiForm.document.correctionInputFileName != null}">

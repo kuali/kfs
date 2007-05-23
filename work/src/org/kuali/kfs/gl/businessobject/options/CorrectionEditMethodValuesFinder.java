@@ -32,12 +32,13 @@ public class CorrectionEditMethodValuesFinder extends KeyValuesBase {
     /*
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List getKeyValues() {
-        List activeLabels = new ArrayList();
+    public List<KeyLabelPair> getKeyValues() {
+        List<KeyLabelPair> activeLabels = new ArrayList<KeyLabelPair>();
         activeLabels.add(new KeyLabelPair("", "Edit Method"));
         activeLabels.add(new KeyLabelPair(CorrectionDocumentService.CORRECTION_TYPE_CRITERIA, "Using Criteria"));
         activeLabels.add(new KeyLabelPair(CorrectionDocumentService.CORRECTION_TYPE_MANUAL, "Manual Edit"));
-
+        activeLabels.add(new KeyLabelPair(CorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING, "Remove Group From Processing"));
+        
         return activeLabels;
     }
 

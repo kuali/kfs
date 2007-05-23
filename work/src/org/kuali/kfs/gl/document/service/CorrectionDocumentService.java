@@ -24,11 +24,13 @@ import org.kuali.core.web.ui.Column;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.document.CorrectionDocument;
+import org.kuali.module.gl.util.CorrectionDocumentEntryMetadata;
 import org.kuali.module.gl.util.CorrectionDocumentUtils;
 
 public interface CorrectionDocumentService {
     public final static String CORRECTION_TYPE_MANUAL = "M";
     public final static String CORRECTION_TYPE_CRITERIA = "C";
+    public final static String CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING = "R";
 
     public final static String SYSTEM_DATABASE = "D";
     public final static String SYSTEM_UPLOAD = "U";
@@ -117,6 +119,16 @@ public interface CorrectionDocumentService {
     public List<OriginEntry> retrievePersistedOutputOriginEntries(CorrectionDocument document, int abortThreshold);
     
     /**
+     * Retrieves input origin entries that have been persisted for this document in an iterator.  Implementations of
+     * this method may choose to implement this method in a way that consumes very little memory.
+     * 
+     * @param document the document
+     * @return the iterator
+     * @throws RuntimeException several reasons, primarily relating to underlying persistence layer problems 
+     */
+    public Iterator<OriginEntry> retrievePersistedInputOriginEntriesAsIterator(CorrectionDocument document);
+    
+    /**
      * Retrieves output origin entries that have been persisted for this document in an iterator.  Implementations of
      * this method may choose to implement this method in a way that consumes very little memory.
      * 
@@ -145,4 +157,6 @@ public interface CorrectionDocumentService {
      * @throws RuntimeException several reasons, including if the entries are not persisted
      */
     public void writePersistedOutputOriginEntriesToStream(CorrectionDocument document, OutputStream out) throws IOException;
+    
+    public void persistOriginEntryGroupsForDocumentSave(CorrectionDocument document, CorrectionDocumentEntryMetadata correctionDocumentEntryMetadata);
 }

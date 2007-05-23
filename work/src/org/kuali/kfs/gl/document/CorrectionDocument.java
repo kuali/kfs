@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.Constants;
 import org.kuali.core.document.DocumentBase;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.service.DateTimeService;
@@ -45,7 +46,8 @@ public class CorrectionDocument extends TransactionalDocumentBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionDocument.class);
 
     private String correctionTypeCode; // CorrectionDocumentService.CORRECTION_TYPE_MANUAL or
-                                        // CorrectionDocumentService.CORRECTION_TYPE_CRITERIA
+                                       // CorrectionDocumentService.CORRECTION_TYPE_CRITERIA or
+                                       // CorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING
     private boolean correctionSelection; // false if all input rows should be in the output, true if only selected rows should be
                                             // in the output
     private boolean correctionFileDelete; // false if the file should be processed by scrubber, true if the file should not be
@@ -83,8 +85,14 @@ public class CorrectionDocument extends TransactionalDocumentBase {
         if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionTypeCode)) {
             return "Manual Edit";
         }
-        else {
+        else if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionTypeCode)) {
             return "Using Criteria";
+        }
+        else if (CorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING.equals(correctionTypeCode)) {
+            return "Remove Group from Processing";
+        }
+        else {
+            return Constants.NOT_AVAILABLE_STRING;
         }
     }
 
@@ -143,11 +151,20 @@ public class CorrectionDocument extends TransactionalDocumentBase {
         CorrectionDocument doc = correctionDocumentService.findByCorrectionDocumentHeaderId(docId);
 
         if (getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
-            OriginEntryGroup outputGroup = originEntryGroupService.getExactMatchingEntryGroup(doc.getCorrectionOutputGroupId().intValue());
-            if (!doc.getCorrectionFileDelete()) {
-                LOG.debug("handleRouteStatusChange() Mark group as to be processed");
-                outputGroup.setProcess(true);
-                originEntryGroupService.save(outputGroup);
+            String correctionType = doc.getCorrectionTypeCode();
+            if (CorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING.equals(correctionType)) {
+                SpringServiceLocator.getOriginEntryGroupService().dontProcessGroup(doc.getCorrectionInputGroupId());
+            }
+            else if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) || CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType)){
+                OriginEntryGroup outputGroup = originEntryGroupService.getExactMatchingEntryGroup(doc.getCorrectionOutputGroupId().intValue());
+                if (!doc.getCorrectionFileDelete()) {
+                    LOG.debug("handleRouteStatusChange() Mark group as to be processed");
+                    outputGroup.setProcess(true);
+                    originEntryGroupService.save(outputGroup);
+                }
+            }
+            else {
+                LOG.error("GLCP doc " + doc.getDocumentNumber() + " has an unknown correction type code: " + correctionType);
             }
         }
     }
@@ -169,36 +186,39 @@ public class CorrectionDocument extends TransactionalDocumentBase {
             LOG.error("Null routing level");
         }
         else if(WORKGROUP_APPROVAL_ROUTE_LEVEL.equals(routeLevel)) {
-            String docId = getDocumentHeader().getDocumentNumber();
-            // this code is performed asynchronously
-            
-            // First, save the origin entries to the origin entry table
-            DateTimeService dateTimeService = SpringServiceLocator.getDateTimeService();
-            OriginEntryService originEntryService = SpringServiceLocator.getOriginEntryService();
-            CorrectionDocumentService correctionDocumentService = SpringServiceLocator.getCorrectionDocumentService();
-            
-            Iterator<OriginEntry> outputEntries = correctionDocumentService.retrievePersistedOutputOriginEntriesAsIterator(this);
-            
-            // Create output group
-            java.sql.Date today = dateTimeService.getCurrentSqlDate();
-            // Scrub is set to false when the document is initiated. When the document is final, it will be changed to true
-            OriginEntryGroup oeg = originEntryService.copyEntries(today, OriginEntrySource.GL_CORRECTION_PROCESS_EDOC, true, false, true, outputEntries);
-            
-            // Now, run the reports
-            ReportService reportService = SpringServiceLocator.getReportService();
-            ScrubberService scrubberService = SpringServiceLocator.getScrubberService();
-            
-            setCorrectionOutputGroupId(oeg.getId());
-            // not using the document service to save because it touches workflow, just save the doc BO as a regular BO
-            SpringServiceLocator.getBusinessObjectService().save(this);
-            
-            LOG.debug("handleRouteStatusChange() Run reports");
-
-            reportService.correctionOnlineReport(this, today);
-
-            // Run the scrubber on this group to generate a bunch of reports. The scrubber won't save anything when running it
-            // this way.
-            scrubberService.scrubGroupReportOnly(oeg, docId);
+            String correctionType = getDocumentNumber();
+            if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) || CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionType)){
+                String docId = getDocumentHeader().getDocumentNumber();
+                // this code is performed asynchronously
+                
+                // First, save the origin entries to the origin entry table
+                DateTimeService dateTimeService = SpringServiceLocator.getDateTimeService();
+                OriginEntryService originEntryService = SpringServiceLocator.getOriginEntryService();
+                CorrectionDocumentService correctionDocumentService = SpringServiceLocator.getCorrectionDocumentService();
+                
+                Iterator<OriginEntry> outputEntries = correctionDocumentService.retrievePersistedOutputOriginEntriesAsIterator(this);
+                
+                // Create output group
+                java.sql.Date today = dateTimeService.getCurrentSqlDate();
+                // Scrub is set to false when the document is initiated. When the document is final, it will be changed to true
+                OriginEntryGroup oeg = originEntryService.copyEntries(today, OriginEntrySource.GL_CORRECTION_PROCESS_EDOC, true, false, true, outputEntries);
+                
+                // Now, run the reports
+                ReportService reportService = SpringServiceLocator.getReportService();
+                ScrubberService scrubberService = SpringServiceLocator.getScrubberService();
+                
+                setCorrectionOutputGroupId(oeg.getId());
+                // not using the document service to save because it touches workflow, just save the doc BO as a regular BO
+                SpringServiceLocator.getBusinessObjectService().save(this);
+                
+                LOG.debug("handleRouteStatusChange() Run reports");
+    
+                reportService.correctionOnlineReport(this, today);
+    
+                // Run the scrubber on this group to generate a bunch of reports. The scrubber won't save anything when running it
+                // this way.
+                scrubberService.scrubGroupReportOnly(oeg, docId);
+            }
         }
     }
 

@@ -46,8 +46,9 @@ import org.kuali.module.gl.bo.CorrectionCriteria;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.document.CorrectionDocument;
 import org.kuali.module.gl.service.CorrectionDocumentService;
+import org.kuali.module.gl.util.CorrectionDocumentEntryMetadata;
 
-public class CorrectionForm extends KualiDocumentFormBase {
+public class CorrectionForm extends KualiDocumentFormBase implements CorrectionDocumentEntryMetadata {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionForm.class);
 
     private String chooseSystem;

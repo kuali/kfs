@@ -1010,6 +1010,9 @@
 		<property name="originEntryService">
 			<ref bean="glOriginEntryService" />
 		</property>
+		<property name="originEntryGroupService">
+			<ref bean="glOriginEntryGroupService" />
+		</property>
 		<property name="glcpDirectoryName" value="${staging.directory}/GLCP"/>
 	</bean>
 

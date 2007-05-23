@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import org.apache.commons.collections.comparators.ComparableComparator;
 import org.apache.log4j.Logger;
@@ -41,15 +40,23 @@ import org.kuali.core.web.comparator.TemporalValueComparator;
 import org.kuali.core.web.ui.Column;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
 import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.CorrectionChangeDao;
 import org.kuali.module.gl.dao.CorrectionChangeGroupDao;
 import org.kuali.module.gl.dao.CorrectionCriteriaDao;
 import org.kuali.module.gl.document.CorrectionDocument;
 import org.kuali.module.gl.exception.LoadException;
 import org.kuali.module.gl.service.CorrectionDocumentService;
+import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
+import org.kuali.module.gl.util.CorrectionDocumentEntryMetadata;
+import org.kuali.module.gl.util.CorrectionDocumentUtils;
+import org.kuali.module.gl.util.OriginEntryFileIterator;
+import org.kuali.module.gl.util.OriginEntryStatistics;
+import org.kuali.module.gl.web.struts.form.CorrectionForm;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -66,103 +73,11 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
     private KualiConfigurationService kualiConfigurationService;
     private OriginEntryService originEntryService;
     private String glcpDirectoryName;
+    private OriginEntryGroupService originEntryGroupService;
     
     protected static final String INPUT_ORIGIN_ENTRIES_FILE_SUFFIX = "-input.txt";
     protected static final String OUTPUT_ORIGIN_ENTRIES_FILE_SUFFIX = "-output.txt";
 
-    protected class PersistedEntriesIterator implements Iterator<OriginEntry> {
-
-        protected OriginEntry nextEntry;
-        protected BufferedReader reader;
-        protected int lineNumber;
-        
-        public PersistedEntriesIterator(BufferedReader reader) {
-            if (reader == null) {
-                LOG.error("reader is null in the PersistedEntriesIterator!");
-                throw new IllegalArgumentException("reader is null!");
-            }
-            this.reader = reader;
-            nextEntry = null;
-            lineNumber = 0;
-        }
-        
-        /**
-         * @see java.util.Iterator#hasNext()
-         */
-        public boolean hasNext() {
-            if (nextEntry == null) {
-                fetchNextEntry();
-                return nextEntry != null;
-            }
-            else {
-                // we have a next entry loaded
-                return true;
-            }
-        }
-
-        /**
-         * @see java.util.Iterator#next()
-         */
-        public OriginEntry next() {
-            if (nextEntry != null) {
-                // an entry may have been fetched by hasNext()
-                OriginEntry temp = nextEntry;
-                nextEntry = null;
-                return temp;
-            }
-            else {
-                // maybe next() is called repeatedly w/o calling hasNext.  This is a bad idea, but the
-                // interface allows it
-                fetchNextEntry();
-                if (nextEntry == null) {
-                    throw new NoSuchElementException();
-                }
-                OriginEntry temp = nextEntry;
-                nextEntry = null;
-                return temp;
-            }
-        }
-
-        /**
-         * @see java.util.Iterator#remove()
-         */
-        public void remove() {
-            throw new UnsupportedOperationException("Cannot remove entry from collection");
-        }
-        
-        protected void fetchNextEntry() {
-            try {
-                String line = reader.readLine();
-                if (line == null) {
-                    nextEntry = null;
-                    reader.close();
-                }
-                else {
-                    nextEntry = new OriginEntry();
-                    nextEntry.setFromTextFile(line, lineNumber);
-                    lineNumber++;
-                    // if there's an LoadException, then we'll just let it propagate up
-                }
-            }
-            catch (IOException e) {
-                LOG.error("error in the CorrectionDocumentServiceImpl iterator", e);
-                throw new RuntimeException("error retrieving origin entries");
-            }
-        }
-
-        /**
-         * @see java.lang.Object#finalize()
-         */
-        @Override
-        protected void finalize() throws Throwable {
-            super.finalize();
-            if (reader != null) {
-                reader.close();
-            }
-        }
-    }
-    
-    
     /**
      * 
      * @see org.kuali.module.gl.service.CorrectionDocumentService#findByDocumentNumberAndCorrectionChangeGroupNumber(java.lang.String, int)
@@ -448,6 +363,11 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
         }
     }
     
+    protected BufferedOutputStream openEntryOutputStreamForOutputGroup(CorrectionDocument document) throws IOException {
+        String fullPathUniqueFileName = generateOutputOriginEntryFileName(document);
+        return new BufferedOutputStream(new FileOutputStream(fullPathUniqueFileName));
+    }
+    
     
     /**
      * @see org.kuali.module.gl.service.CorrectionDocumentService#removePersistedInputOriginEntriesForInitiatedOrSavedDocument(org.kuali.module.gl.document.CorrectionDocument)
@@ -540,7 +460,15 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
         }
         return entries;
     }
-
+    
+    /**
+     * @see org.kuali.module.gl.service.CorrectionDocumentService#retrievePersistedInputOriginEntriesAsIterator(org.kuali.module.gl.document.CorrectionDocument)
+     */
+    public Iterator<OriginEntry> retrievePersistedInputOriginEntriesAsIterator(CorrectionDocument document) {
+        String fullPathUniqueFileName = generateInputOriginEntryFileName(document);
+        return retrievePersistedOriginEntriesAsIterator(fullPathUniqueFileName);
+    }
+    
     /**
      * @see org.kuali.module.gl.service.CorrectionDocumentService#retrievePersistedOutputOriginEntriesAsIterator(org.kuali.module.gl.document.CorrectionDocument)
      */
@@ -562,7 +490,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
             fReader = new FileReader(fileIn);
             reader = new BufferedReader(fReader);
             
-            return new PersistedEntriesIterator(reader);
+            return new OriginEntryFileIterator(reader);
         }
         catch (IOException e) {
             LOG.error("retrievePersistedOriginEntries() Error opening file " + fileIn.getAbsolutePath(), e);
@@ -623,6 +551,105 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
             fileIn.close();
         }
     }
+
+    public void persistOriginEntryGroupsForDocumentSave(CorrectionDocument document, CorrectionDocumentEntryMetadata correctionDocumentEntryMetadata) {
+        if (correctionDocumentEntryMetadata.getAllEntries() == null && !correctionDocumentEntryMetadata.isRestrictedFunctionalityMode()) {
+            // if we don't have origin entries loaded and not in restricted functionality mode, then there's nothing worth persisting
+            removePersistedInputOriginEntries(document);
+            removePersistedOutputOriginEntries(document);
+            return;
+        }
+        
+        if (!correctionDocumentEntryMetadata.getDataLoadedFlag() && !correctionDocumentEntryMetadata.isRestrictedFunctionalityMode()) {
+            // data is not loaded (maybe user selected a new group with no rows)
+            // clear out existing data
+            removePersistedInputOriginEntries(document);
+            removePersistedOutputOriginEntries(document);
+            return;
+        }
+        
+        // reload the group from the origin entry service
+        Iterator<OriginEntry> inputGroupEntries;
+        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        if ((workflowDocument.stateIsSaved() && !(correctionDocumentEntryMetadata.getInputGroupIdFromLastDocumentLoad() != null && correctionDocumentEntryMetadata.getInputGroupIdFromLastDocumentLoad().equals(document.getCorrectionInputGroupId()))) 
+                || workflowDocument.stateIsInitiated()) {
+            // we haven't saved the origin entry group yet, so let's load the entries from the DB and persist them for the document
+            // this could be because we've previously saved the doc, but now we are now using a new input group, so we have to repersist the input group
+            OriginEntryGroup group = originEntryGroupService.getExactMatchingEntryGroup(document.getCorrectionInputGroupId());
+            inputGroupEntries = originEntryService.getEntriesByGroup(group);
+            persistInputOriginEntriesForInitiatedOrSavedDocument(document, inputGroupEntries);
+            
+            // we've exhausted the iterator for the origin entries group
+            // reload the iterator from the file
+            inputGroupEntries = retrievePersistedInputOriginEntriesAsIterator(document);
+        }
+        else if (workflowDocument.stateIsSaved() && correctionDocumentEntryMetadata.getInputGroupIdFromLastDocumentLoad().equals(document.getCorrectionInputGroupId())) {
+            // we've saved the origin entries before, so just retrieve them
+            inputGroupEntries = retrievePersistedInputOriginEntriesAsIterator(document);
+        }
+        else {
+            LOG.error("Unexpected state while trying to persist/retrieve GLCP origin entries during document save: document status is " 
+                    + workflowDocument.getStatusDisplayValue() + " selected input group: " + document.getCorrectionInputGroupId()
+                    + " last saved input group: " + correctionDocumentEntryMetadata.getInputGroupIdFromLastDocumentLoad());
+            throw new RuntimeException("Error persisting GLCP document origin entries.");
+        }
+        
+        OriginEntryStatistics statistics;
+        if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionDocumentEntryMetadata.getEditMethod())) {
+            // persist the allEntries element as the output group, since it has all of the modifications made by during the manual edits 
+            persistOutputOriginEntriesForInitiatedOrSavedDocument(document, correctionDocumentEntryMetadata.getAllEntries().iterator());
+            
+            // even though the struts action handler may have computed the doc totals, let's recompute them
+            statistics = CorrectionDocumentUtils.getStatistics(correctionDocumentEntryMetadata.getAllEntries());
+        }
+        else if (CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionDocumentEntryMetadata.getEditMethod())) {
+            // we want to persist the values of the output group.  So reapply all of the criteria on each entry, one at a time
+            
+            BufferedOutputStream bufferedOutputStream = null;
+            try {
+                bufferedOutputStream = openEntryOutputStreamForOutputGroup(document);
+                statistics = new OriginEntryStatistics();
+                byte[] newLine = "\n".getBytes();
+                
+                while (inputGroupEntries.hasNext()) {
+                    OriginEntry entry = inputGroupEntries.next();
+                    
+                    entry = CorrectionDocumentUtils.applyCriteriaToEntry(entry, correctionDocumentEntryMetadata.getMatchCriteriaOnly(), document.getCorrectionChangeGroup());
+                    if (entry != null) {
+                        CorrectionDocumentUtils.updateStatisticsWithEntry(entry, statistics);
+                        bufferedOutputStream.write(entry.getLine().getBytes());
+                        bufferedOutputStream.write(newLine);
+                    }
+                    // else it was null, which means that the match criteria only flag was set, and the entry didn't match the criteria
+                }
+            }
+            catch (IOException e) {
+                LOG.error("Unable to persist persisted output entry", e);
+                throw new RuntimeException("Unable to persist output entry");
+            }
+            finally {
+                if (bufferedOutputStream != null) {
+                    try {
+                        bufferedOutputStream.close();
+                    }
+                    catch (IOException e) {
+                        LOG.error("Unable to close output stream for persisted output entries", e);
+                        throw new RuntimeException("Unable to close output entry file");
+                    }
+                }
+            }
+        }
+        else if (CorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING.equals(correctionDocumentEntryMetadata.getEditMethod())) {
+            // just wipe out the previous output entries
+            removePersistedOutputOriginEntries(document);
+            statistics = new OriginEntryStatistics();
+        }
+        else {
+            throw new RuntimeException("Unrecognized edit method: " + correctionDocumentEntryMetadata.getEditMethod());
+        }
+        
+        CorrectionDocumentUtils.copyStatisticsToDocument(statistics, document);
+    }
     
     protected String getOriginEntryStagingDirectoryPath() {
         return getGlcpDirectoryName();
@@ -673,5 +700,21 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      */
     public void setGlcpDirectoryName(String glcpDirectoryName) {
         this.glcpDirectoryName = glcpDirectoryName;
+    }
+
+    /**
+     * Gets the originEntryGroupService attribute. 
+     * @return Returns the originEntryGroupService.
+     */
+    public OriginEntryGroupService getOriginEntryGroupService() {
+        return originEntryGroupService;
+    }
+
+    /**
+     * Sets the originEntryGroupService attribute value.
+     * @param originEntryGroupService The originEntryGroupService to set.
+     */
+    public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
+        this.originEntryGroupService = originEntryGroupService;
     }
 }

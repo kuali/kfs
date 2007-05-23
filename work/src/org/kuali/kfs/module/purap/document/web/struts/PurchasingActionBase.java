@@ -15,6 +15,8 @@
  */
 package org.kuali.module.purap.web.struts.action;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -29,13 +31,12 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.rule.event.AddAccountingLineEvent;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.kfs.web.ui.AccountingLineDecorator;
-import org.kuali.module.kra.KraConstants;
-import org.kuali.module.kra.KraKeyConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
@@ -329,6 +330,16 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
 
         purchasingForm.setHideDistributeAccounts(true);
         
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    public ActionForward refreshAccountSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
+        PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument)purchasingForm.getDocument();
+        List<PurchasingApItem> items = document.getItems();
+        List<SourceAccountingLine> summaryAccountingLines = SpringServiceLocator.getPurapService().generateSummary(items);
+        document.setSummaryAccounts(summaryAccountingLines);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
        

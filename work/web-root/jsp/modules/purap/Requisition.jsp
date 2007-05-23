@@ -56,6 +56,9 @@
     <purap:additional
         documentAttributes="${DataDictionary.KualiRequisitionDocument.attributes}"
         displayRequisitionFields="true" />
+        
+    <purap:accountsummary
+    	documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />
 
     <purap:relatedDocuments
             documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />

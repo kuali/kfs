@@ -75,7 +75,13 @@
 		</property>
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
-		</property>		
+		</property>
+		<property name="purapAccountingService">
+			<ref bean="purapAccountingService" />
+		</property>	
+	</bean>
+	
+	<bean id="purapAccountingService" class="org.kuali.module.purap.service.impl.PurapAccountingServiceImpl">
 	</bean>
 
     <bean id="generalLedgerService" class="org.kuali.module.purap.service.impl.GeneralLedgerServiceImpl">

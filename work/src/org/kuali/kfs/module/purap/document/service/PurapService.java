@@ -19,10 +19,12 @@ import java.util.List;
 
 import org.kuali.core.bo.Note;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.bo.CreditMemoView;
 import org.kuali.module.purap.bo.PaymentRequestView;
 import org.kuali.module.purap.bo.PurchaseOrderView;
+import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.bo.RequisitionView;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 
@@ -45,6 +47,8 @@ public interface PurapService {
     public void addBelowLineItems(PurchasingAccountsPayableDocument document);
     
     public String[] getBelowTheLineForDocument(PurchasingAccountsPayableDocument document);
+    
+    public List<SourceAccountingLine> generateSummary(List<PurchasingApItem> items);
     
     /*
      *    PURCHASING DOCUMENT METHODS

@@ -26,12 +26,14 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.OrganizationParameter;
 import org.kuali.module.purap.bo.PurchaseOrderView;
 import org.kuali.module.purap.bo.PurchasingApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapService;
 
 public class PurapServiceImpl implements PurapService {
@@ -39,6 +41,7 @@ public class PurapServiceImpl implements PurapService {
 
     private BusinessObjectService businessObjectService;
     private KualiConfigurationService kualiConfigurationService;
+    private PurapAccountingService purapAccountingService;
     
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;    
@@ -46,6 +49,10 @@ public class PurapServiceImpl implements PurapService {
 
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;    
+    }
+    
+    public void setPurapAccountingService(PurapAccountingService purapAccountingService) {
+        this.purapAccountingService = purapAccountingService;
     }
     
     /**
@@ -210,6 +217,11 @@ public class PurapServiceImpl implements PurapService {
         String[] itemTypes = kualiConfigurationService.getApplicationParameterValues(securityGroup, PurapConstants.BELOW_THE_LINES_PARAMETER);
         return itemTypes;
     }
+    
+    public List<SourceAccountingLine> generateSummary(List<PurchasingApItem> items) {
+        return purapAccountingService.generateSummary(items);
+    }
+    
     
     /*
      *    PURCHASING DOCUMENT METHODS

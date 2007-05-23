@@ -36,6 +36,7 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.bo.BillingAddress;
+import org.kuali.module.purap.bo.RequisitionAccount;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.bo.RequisitionStatusHistory;
 import org.kuali.module.purap.bo.RequisitionView;

@@ -124,11 +124,12 @@ public class PurapConstants {
 
     public static Integer APO_CONTRACT_MANAGER = new Integer(99);
 
-    // Requisition Tab Errors
+    // Requisition/Purchase Order Tab Errors
     public static final String DELIVERY_TAB_ERRORS = "document.delivery*";
     public static final String VENDOR_ERRORS = "document.vendor*";
     public static final String ADDITIONAL_TAB_ERRORS = "document.requestor*,document.purchaseOrderTransmissionMethodCode,document.chartOfAccountsCode,document.organizationCode,document.purchaseOrderCostSourceCode,document.purchaseOrderTotalLimit";
     public static final String ITEM_TAB_ERRORS = "document.item*,accountDistribution*";
+    public static final String ACCOUNT_SUMMARY_TAB_ERRORS = "document.accountSummary*";
     public static final String ACCOUNT_DISTRIBUTION_ERROR_KEY = "accountDistribution";
 
     // Assign Contract Manager Tab Errors
@@ -303,5 +304,5 @@ public class PurapConstants {
         public static final String UNIT_OF_MEASURE = "Unit of Measure";
         public static final String DESCRIPTION = "Description";
         public static final String UNIT_COST = "Unit Cost";
-    }
+	}
 }

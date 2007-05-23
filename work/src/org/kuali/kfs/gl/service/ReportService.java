@@ -202,7 +202,7 @@ public interface ReportService {
      * @param reportSummary
      * @param runDate
      */
-    public void generateBalanceForwardStatisticsReport(List reportSummary, Date runDate);
+    public void generateBalanceForwardStatisticsReport(List reportSummary, Date runDate, OriginEntryGroup openAccountOriginEntryGroup, OriginEntryGroup closedAccountOriginEntryGroup);
 
     /**
      * Encumbrance Closing Report
@@ -210,7 +210,7 @@ public interface ReportService {
      * @param reportSummary
      * @param runDate
      */
-    public void generateEncumbranceClosingStatisticsReport(List reportSummary, Date runDate);
+    public void generateEncumbranceClosingStatisticsReport(Map jobParameters, List reportSummary, Date runDate, OriginEntryGroup originEntryGroup);
 
     /**
      * Nominal Activity Closing Report
@@ -219,7 +219,7 @@ public interface ReportService {
      * @param reportSummary
      * @param runDate
      */
-    public void generateNominalActivityClosingStatisticsReport(Map jobParameters, List reportSummary, Date runDate);
+    public void generateNominalActivityClosingStatisticsReport(Map jobParameters, List reportSummary, Date runDate, OriginEntryGroup originEntryGroup);
     
     /**
      * Poster Reversal Transactions Listing

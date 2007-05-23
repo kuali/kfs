@@ -129,7 +129,7 @@ public class YearEndServiceImpl implements YearEndService {
         jobParameters.put(GLConstants.ColumnNames.FUND_BAL_OBJECT_CD, varFundBalanceObjectCode);
         jobParameters.put(GLConstants.ColumnNames.FUND_BAL_OBJ_TYP_CD, varFundBalanceObjectTypeCode);
 
-        OriginEntryGroup nominalClosingOriginEntryGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_CLOSE_NOMINAL_BALANCES, false, false, false);
+        OriginEntryGroup nominalClosingOriginEntryGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_CLOSE_NOMINAL_BALANCES, true, false, true);
 
         Iterator<Balance> balanceIterator = balanceService.findBalancesForFiscalYear(varFiscalYear);
 
@@ -150,6 +150,8 @@ public class YearEndServiceImpl implements YearEndService {
 
             Balance balance = balanceIterator.next();
             String actualFinancial = balance.getOption().getActualFinancialBalanceTypeCd();
+            
+            LOG.info("Balance: "+balance);
 
             globalReadCount++;
             selectSw = true;
@@ -931,7 +933,7 @@ public class YearEndServiceImpl implements YearEndService {
         statistics.add(summary);
 
         Date runDate = new Date(dateTimeService.getCurrentDate().getTime());
-        reportService.generateNominalActivityClosingStatisticsReport(jobParameters, statistics, runDate);
+        reportService.generateNominalActivityClosingStatisticsReport(jobParameters, statistics, runDate, nominalClosingOriginEntryGroup);
     }
 
     /**
@@ -1045,8 +1047,8 @@ public class YearEndServiceImpl implements YearEndService {
 
         Integer varFiscalYear = new Integer(kualiConfigurationService.getApplicationParameterValue(KFSConstants.GENERAL_LEDGER_YEAR_END_SCRIPT, GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR));
 
-        OriginEntryGroup unclosedPriorYearAccountGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_BEGINNING_BALANCE, false, false, false);
-        OriginEntryGroup closedPriorYearAccountGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_BEGINNING_BALANCE_PRIOR_YEAR, false, false, false);
+        OriginEntryGroup unclosedPriorYearAccountGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_BEGINNING_BALANCE, true, false, true);
+        OriginEntryGroup closedPriorYearAccountGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_BEGINNING_BALANCE_PRIOR_YEAR, true, false, true);
 
         BalanceForwardRuleHelper balanceForwardRuleHelper = new BalanceForwardRuleHelper(varFiscalYear, varTransactionDate, closedPriorYearAccountGroup, unclosedPriorYearAccountGroup);
 
@@ -1059,6 +1061,7 @@ public class YearEndServiceImpl implements YearEndService {
         while (balanceIterator.hasNext()) {
 
             Balance balance = balanceIterator.next();
+            LOG.info("balance: "+balance);
 
             // The rule helper maintains the state of the overall processing of the entire
             // set of year end balances. This state is available via balanceForwardRuleHelper.getState().
@@ -1090,12 +1093,12 @@ public class YearEndServiceImpl implements YearEndService {
 
         summary = new Summary();
         summary.setSortOrder(3);
-        summary.setDescription("     RECORDS FOR CLOSED ACCOUNTS");
+        summary.setDescription("RECORDS FOR CLOSED ACCOUNTS....:");
         summary.setCount(balanceForwardRuleHelper.getState().getSequenceClosedCount());
         statistics.add(summary);
 
         Date runDate = new Date(dateTimeService.getCurrentDate().getTime());
-        reportService.generateBalanceForwardStatisticsReport(statistics, runDate);
+        reportService.generateBalanceForwardStatisticsReport(statistics, runDate, unclosedPriorYearAccountGroup, closedPriorYearAccountGroup);
     }
 
     /**
@@ -1123,13 +1126,17 @@ public class YearEndServiceImpl implements YearEndService {
             LOG.error("Failed to parse TRANSACTION_DT from kualiConfigurationService");
             throw new RuntimeException("Unable to get transaction date from kualiConfigurationService", pe);
         }
+        
+        HashMap jobParameters = new HashMap();
+        jobParameters.put(GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR, varFiscalYear);
+        jobParameters.put(GLConstants.ColumnNames.UNIV_DT, varTransactionDate);
 
         // counters for the report
         int encumbrancesRead = 0;
         int encumbrancesSelected = 0;
         int originEntriesWritten = 0;
 
-        OriginEntryGroup originEntryGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_ENCUMBRANCE_CLOSING, true, true, true);
+        OriginEntryGroup originEntryGroup = originEntryGroupService.createGroup(varTransactionDate, OriginEntrySource.YEAR_END_ENCUMBRANCE_CLOSING, true, false, true);
 
         // encumbranceDao will return all encumbrances for the fiscal year sorted properly by all of the appropriate keys.
         Iterator encumbranceIterator = encumbranceDao.getEncumbrancesToClose(varFiscalYear);
@@ -1222,7 +1229,7 @@ public class YearEndServiceImpl implements YearEndService {
         statistics.add(summary);
 
         Date runDate = new Date(dateTimeService.getCurrentDate().getTime());
-        reportService.generateEncumbranceClosingStatisticsReport(statistics, runDate);
+        reportService.generateEncumbranceClosingStatisticsReport(jobParameters, statistics, runDate, originEntryGroup);
     }
 
     public void setEncumbranceDao(EncumbranceDao encumbranceDao) {

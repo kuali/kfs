@@ -57,7 +57,7 @@ import org.kuali.module.gl.util.GeneralLedgerPendingEntryReport;
 import org.kuali.module.gl.util.LedgerEntryHolder;
 import org.kuali.module.gl.util.LedgerReport;
 import org.kuali.module.gl.util.Message;
-import org.kuali.module.gl.util.NominalActivityClosingTransactionReport;
+import org.kuali.module.gl.util.YearEndTransactionReport;
 import org.kuali.module.gl.util.PosterOutputSummaryReport;
 import org.kuali.module.gl.util.Summary;
 import org.kuali.module.gl.util.TransactionListingReport;
@@ -591,24 +591,24 @@ public class ReportServiceImpl implements ReportService {
      * 
      * @see org.kuali.module.gl.service.ReportService#generateBalanceForwardStatisticsReport(java.util.List, java.util.Date)
      */
-    public void generateBalanceForwardStatisticsReport(List reportSummary, Date runDate) {
+    public void generateBalanceForwardStatisticsReport(List reportSummary, Date runDate, OriginEntryGroup openAccountOriginEntryGroup, OriginEntryGroup closedAccountOriginEntryGroup) {
         LOG.debug("generateBalanceForwardStatisticsReport() started");
 
-        TransactionReport transactionReport = new TransactionReport();
+        YearEndTransactionReport transactionReport = new YearEndTransactionReport(YearEndTransactionReport.YearEndReportType.FORWARD_BALANCES_REPORT);
         String title = "Balance Forward Report ";
-        transactionReport.generateReport(new HashMap<Transaction, List<Message>>(), reportSummary, runDate, title, "year_end_balance_forward", reportsDirectory);
+        transactionReport.generateReport(new HashMap(), new HashMap(), reportSummary, runDate, title, "year_end_balance_forward", reportsDirectory, new Object[] { new Object[] { openAccountOriginEntryGroup, "Open Account Balance Forwards Statistics" }, new Object[] { closedAccountOriginEntryGroup, "Closed Account Balance Fowards Statistics" } } );
     }
 
     /**
      * 
      * @see org.kuali.module.gl.service.ReportService#generateEncumbranceClosingStatisticsReport(java.util.List, java.util.Date)
      */
-    public void generateEncumbranceClosingStatisticsReport(List reportSummary, Date runDate) {
+    public void generateEncumbranceClosingStatisticsReport(Map jobParameters, List reportSummary, Date runDate, OriginEntryGroup originEntryGroup) {
         LOG.debug("generateEncumbranceForwardStatisticsReport() started");
 
-        TransactionReport transactionReport = new TransactionReport();
+        YearEndTransactionReport transactionReport = new YearEndTransactionReport(YearEndTransactionReport.YearEndReportType.FORWARD_ENCUMBERANCES_REPORT);
         String title = "Encumbrance Closing Report ";
-        transactionReport.generateReport(new HashMap<Transaction, List<Message>>(), reportSummary, runDate, title, "year_end_encumbrance_closing", reportsDirectory);
+        transactionReport.generateReport(jobParameters, new HashMap(), reportSummary, runDate, title, "year_end_encumbrance_closing", reportsDirectory, new Object[] { new Object[] { originEntryGroup, "Forward Encumberance Ledger Statistics" } });
     }
 
     /**
@@ -616,12 +616,12 @@ public class ReportServiceImpl implements ReportService {
      * @see org.kuali.module.gl.service.ReportService#generateNominalActivityClosingStatisticsReport(java.util.Map, java.util.List,
      *      java.util.Date)
      */
-    public void generateNominalActivityClosingStatisticsReport(Map jobParameters, List reportSummary, Date runDate) {
+    public void generateNominalActivityClosingStatisticsReport(Map jobParameters, List reportSummary, Date runDate, OriginEntryGroup originEntryGroup) {
         LOG.debug("generateNominalActivityClosingStatisticsReport() started");
 
-        NominalActivityClosingTransactionReport transactionReport = new NominalActivityClosingTransactionReport();
+        YearEndTransactionReport transactionReport = new YearEndTransactionReport(YearEndTransactionReport.YearEndReportType.NOMINAL_ACTIVITY_CLOSE_REPORT);
         String title = "Nominal Activity Closing Report ";
-        transactionReport.generateReport(jobParameters, null, reportSummary, runDate, title, "year_end_nominal_activity_closing", reportsDirectory);
+        transactionReport.generateReport(jobParameters, null, reportSummary, runDate, title, "year_end_nominal_activity_closing", reportsDirectory, new Object[] { new Object[] { originEntryGroup, "Nominal Activity Closing Ledger Statistics" } });
     }
 
     /**

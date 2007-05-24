@@ -38,19 +38,21 @@ import org.kuali.module.labor.bo.LaborOriginEntry;
 
 public class LaborCorrectionForm extends CorrectionForm {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborCorrectionForm.class);
-
-    private List<LaborOriginEntry> allEntries;
-    private List<LaborOriginEntry> displayEntries;
     
-    private LaborOriginEntry entryForManualEdit;
-
-    public LaborCorrectionForm() {
+     public LaborCorrectionForm() {
         super();
+        
+        
     }
     public void clearForm() {
         super.clearForm();
         
-        allEntries = new ArrayList<LaborOriginEntry>();
-        displayEntries = new ArrayList<LaborOriginEntry>();
     }
+    
+    public void setDocType(){
+        setDocumentType("LLCP");
+        setDocTitle("Labor Ledger Correction Process");
+        setHtmlFormAction("laborLedgerCorrection");
+    }
+    
  }

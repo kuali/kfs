@@ -26,6 +26,8 @@
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map"
     description="The DataDictionary entry containing attributes for this row's fields." %>             
 
+<c:set var="amendmentEntry" value="${(!empty KualiForm.editingMode['amendmentEntry'])}" />
+
 <kul:tab tabTitle="Payment Info" defaultOpen="false">
     <div class="tab-container" align=center>
         <div class="h2-container">
@@ -38,7 +40,7 @@
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.recurringPaymentTypeCode}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentTypeCode}" property="document.recurringPaymentTypeCode" readOnly="${not fullEntryMode}" />
+                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentTypeCode}" property="document.recurringPaymentTypeCode" readOnly="${not (fullEntryMode or amendmentEntry)}" />
                 </td>
             </tr>
             <tr>
@@ -46,10 +48,10 @@
                    <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.purchaseOrderBeginDate}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell"> from:
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderBeginDate}" property="document.purchaseOrderBeginDate" datePicker="true" readOnly="${not fullEntryMode}"/>
+                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderBeginDate}" property="document.purchaseOrderBeginDate" datePicker="true" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
                  	&nbsp;&nbsp;
                   to:
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderEndDate}" property="document.purchaseOrderEndDate" datePicker="true" readOnly="${not fullEntryMode}"/>
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.purchaseOrderEndDate}" property="document.purchaseOrderEndDate" datePicker="true" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
                </td> 
             </tr>
 		</table> 
@@ -65,13 +67,13 @@
 	                   <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.recurringPaymentAmount}" /></div>
 	                </th>
 	                <td align=left valign=middle class="datacell"> Amount:
-	                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentAmount}" property="document.recurringPaymentAmount" readOnly="${not fullEntryMode}"/>
+	                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentAmount}" property="document.recurringPaymentAmount" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
 	                 	&nbsp;&nbsp;
 	                  	First Payment Date:
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentDate}" property="document.recurringPaymentDate" datePicker="true" readOnly="${not fullEntryMode}"/>
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentDate}" property="document.recurringPaymentDate" datePicker="true" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
 	              		&nbsp;&nbsp;
 	              		Frequency:
-	                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentFrequencyCode}" property="document.recurringPaymentFrequencyCode" readOnly="${not fullEntryMode}"/>
+	                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentFrequencyCode}" property="document.recurringPaymentFrequencyCode" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
 	                </td> 
 	            </tr>
 	            <tr>
@@ -79,10 +81,10 @@
 	                   <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.initialPaymentAmount}" /></div>
 	                </th>
 	                <td align=left valign=middle class="datacell"> Amount:
-	                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.initialPaymentAmount}" property="document.initialPaymentAmount" readOnly="${not fullEntryMode}"/>
+	                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.initialPaymentAmount}" property="document.initialPaymentAmount" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
 	                 	&nbsp;&nbsp;
 	                  Date:
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.initialPaymentDate}" property="document.initialPaymentDate" datePicker="true" readOnly="${not fullEntryMode}"/>
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.initialPaymentDate}" property="document.initialPaymentDate" datePicker="true" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
 	               </td> 
 	            </tr>
 	            <tr>
@@ -90,10 +92,10 @@
 	                   <div align="right"><kul:htmlAttributeLabel  attributeEntry="${documentAttributes.finalPaymentAmount}" /></div>
 	                </th>
 	                <td align=left valign=middle class="datacell"> Amount:
-	                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.finalPaymentAmount}" property="document.finalPaymentAmount" readOnly="${not fullEntryMode}"/>
+	                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.finalPaymentAmount}" property="document.finalPaymentAmount" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
 	                 	&nbsp;&nbsp;
 	                  Date:
-	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.finalPaymentDate}" property="document.finalPaymentDate" datePicker="true" readOnly="${not fullEntryMode}"/>
+	                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.finalPaymentDate}" property="document.finalPaymentDate" datePicker="true" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
 	               </td> 
 	            </tr>
 			</table> 

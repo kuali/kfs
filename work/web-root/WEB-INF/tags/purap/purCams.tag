@@ -28,6 +28,7 @@
 <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
 <c:set var="topLevelTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
 <c:set var="currentTab" value="${KualiForm.tabStateJstl}" />
+<c:set var="amendmentEntry" value="${(not empty KualiForm.editingMode['amendmentEntry'])}" />
 
 <%-- default to closed --%>
 <c:choose>
@@ -63,13 +64,13 @@
             <div align="right"><kul:htmlAttributeLabel attributeEntry="${itemsAttributes.capitalAssetTransactionTypeCode}" /></div>
         </th>
         <td align=left valign=middle class="datacell">
-            <kul:htmlControlAttribute attributeEntry="${itemsAttributes.capitalAssetTransactionTypeCode}" property="document.item[${ctr}].capitalAssetTransactionTypeCode" readOnly="${not fullEntryMode}" />
+            <kul:htmlControlAttribute attributeEntry="${itemsAttributes.capitalAssetTransactionTypeCode}" property="document.item[${ctr}].capitalAssetTransactionTypeCode" readOnly="${not (fullEntryMode or amendmentEntry)}" />
         </td>
         <th align=right valign=middle class="bord-l-b">
             <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsAttributes.addCapitalAssetNumber}" /></div>
         </th>
         <td align=left valign=middle class="datacell">
-            <!-- kul:htmlControlAttribute attributeEntry="${camsAttributes.addCapitalAssetNumber}" property="document.addCapitalAssetNumber" readOnly="${not fullEntryMode}" / -->&nbsp;
+            <!-- kul:htmlControlAttribute attributeEntry="${camsAttributes.addCapitalAssetNumber}" property="document.addCapitalAssetNumber" readOnly="${not (fullEntryMode or amendmentEntry)}" / -->&nbsp;
             <html:image property="methodToCall.addAsset" src="images/tinybutton-add1.gif" alt="Insert an Asset" title="Add an Asset" styleClass="tinybutton" />
         </td>
     </tr>
@@ -79,7 +80,7 @@
             <div align="right"><kul:htmlAttributeLabel attributeEntry="${itemsAttributes.itemCapitalAssetNoteText}" /></div>
         </th>
         <td align=left valign=middle class="datacell">
-            <kul:htmlControlAttribute attributeEntry="${itemsAttributes.itemCapitalAssetNoteText}" property="document.item[${ctr}].itemCapitalAssetNoteText" readOnly="${not fullEntryMode}" />
+            <kul:htmlControlAttribute attributeEntry="${itemsAttributes.itemCapitalAssetNoteText}" property="document.item[${ctr}].itemCapitalAssetNoteText" readOnly="${not (fullEntryMode or amendmentEntry)}" />
         </td>
         <th align=right valign=middle class="bord-l-b">
             <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsAttributes.capitalAssetNumber}" /></div>
@@ -87,7 +88,7 @@
         <td align=left valign=middle class="datacell">
             <!-- TODO add logic to loop through assets on item -->
             <!-- for:each -->
-                <!-- kul:htmlControlAttribute attributeEntry="${camsAttributes.addCapitalAssetNumber}" property="document.addCapitalAssetNumber" readOnly="${not fullEntryMode}" / -->&nbsp;
+                <!-- kul:htmlControlAttribute attributeEntry="${camsAttributes.addCapitalAssetNumber}" property="document.addCapitalAssetNumber" readOnly="${not (fullEntryMode or amendmentEntry)}" / -->&nbsp;
                 <html:image property="methodToCall.deleteAsset" src="images/tinybutton-delete1.gif" alt="Remove an Asset" title="Delete an Asset" styleClass="tinybutton" />
             <!-- /for:each -->
         </td>

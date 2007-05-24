@@ -36,7 +36,7 @@
                 <kul:htmlAttributeHeaderCell attributeEntry="${stipulationAttributes.vendorStipulationDescription}" />
                 <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
             </tr>
-            <c:if test="${fullEntryMode}" >
+            <c:if test="${(fullEntryMode or (!empty KualiForm.editingMode['amendmentEntry']))}" >
                 <tr>
                     <kul:htmlAttributeHeaderCell literalLabel="add:" scope="row"/>
                     <td class="infoline">
@@ -58,7 +58,7 @@
 		                    <kul:htmlControlAttribute 
 		                        attributeEntry="${stipulationAttributes.vendorStipulationDescription}" 
 		                        property="document.purchaseOrderVendorStipulation[${ctr}].vendorStipulationDescription" 
-		                        readOnly="${not fullEntryMode}" 
+		                        readOnly="${not (fullEntryMode or (!empty KualiForm.editingMode['amendmentEntry']))}" 
 		                    />
                             <html:hidden property="document.purchaseOrderVendorStipulation[${ctr}].vendorStipulationCreateDate" />
                             <html:hidden property="document.purchaseOrderVendorStipulation[${ctr}].vendorStipulationAuthorEmployeeIdentifier" />

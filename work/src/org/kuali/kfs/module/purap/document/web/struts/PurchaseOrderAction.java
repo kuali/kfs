@@ -633,10 +633,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         checkForPOWarnings(po, messages);
         saveMessages(request, messages);
         
-        //If this is an amendment document, put the accountingLineEditMode as full entry.
-        if (po.getDocumentHeader().getWorkflowDocument().getDocumentType().equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
-            poForm.getAccountingLineEditingMode().put(AuthorizationConstants.EditMode.FULL_ENTRY, "TRUE");
-        }
         return forward;
     }
 

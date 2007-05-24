@@ -84,13 +84,14 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
 
     /**
      * 
-     * This method validates that the item detail must not be empty if its account is not empty.
+     * This method validates that the item detail must not be empty if its account is not empty and its item type is ITEM.
+     * 
      * @param item
      * @return
      */
     private boolean validateEmptyItemWithAccounts(PurchaseOrderItem item, String identifierString) {
         boolean valid = true;
-        if (item.isItemDetailEmpty() && !item.isAccountListEmpty()) {
+        if (item.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE) && item.isItemDetailEmpty() && !item.isAccountListEmpty()) {
             valid = false;
             GlobalVariables.getErrorMap().putError("newPurchasingItemLine", PurapKeyConstants.ERROR_ITEM_ACCOUNTING_NOT_ALLOWED, identifierString);
         }

@@ -18,6 +18,7 @@ package org.kuali.module.purap.web.struts.form;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.ExtraButton;
@@ -55,6 +56,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         this.setNewPurchasingItemLine(setupNewPurchasingItemLine());
         setNewPurchaseOrderVendorStipulationLine(new PurchaseOrderVendorStipulation());
         this.accountingLineEditingMode = new HashMap();
+        this.accountingLineEditingMode.put(AuthorizationConstants.EditMode.FULL_ENTRY, "TRUE");
     }
 
     /**

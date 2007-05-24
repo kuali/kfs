@@ -151,7 +151,7 @@ public class YearEndServiceImpl implements YearEndService {
             Balance balance = balanceIterator.next();
             String actualFinancial = balance.getOption().getActualFinancialBalanceTypeCd();
             
-            LOG.info("Balance: "+balance);
+            LOG.debug("Balance: "+balance);
 
             globalReadCount++;
             selectSw = true;
@@ -311,13 +311,7 @@ public class YearEndServiceImpl implements YearEndService {
                         // 937 006180 DELIMITED BY SIZE INTO
                         // 938 006190 TRN-LDGR-ENTR-DESC OF GLEN-RECORD
 
-                        StringBuffer neDescription = new StringBuffer(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_CLOSE_ENTRY_TO_NOMINAL_EXPENSE));
-                        neDescription.append(balance.getSubAccountNumber()).append("-").append(balance.getObjectCode()).append("-").append(balance.getSubObjectCode());
-                        int socLength = null == balance.getSubObjectCode() ? 0 : balance.getSubObjectCode().length();
-                        while (3 > socLength++) {
-                            neDescription.append(' ');
-                        }
-                        activityEntry.setTransactionLedgerEntryDescription(neDescription.append("-").append(balance.getObjectTypeCode()).toString());
+                        activityEntry.setTransactionLedgerEntryDescription(this.createTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_CLOSE_ENTRY_TO_NOMINAL_EXPENSE), balance));
 
                         // 939 006200 ELSE
 
@@ -336,13 +330,7 @@ public class YearEndServiceImpl implements YearEndService {
                         // 949 006300 DELIMITED BY SIZE INTO
                         // 950 006310 TRN-LDGR-ENTR-DESC OF GLEN-RECORD.
 
-                        StringBuffer nrDescription = new StringBuffer(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_CLOSE_ENTRY_TO_NOMINAL_REVENUE));
-                        nrDescription.append(balance.getSubAccountNumber()).append("-").append(balance.getObjectCode()).append("-").append(balance.getSubObjectCode());
-                        int socLength = null == balance.getSubObjectCode() ? 0 : balance.getSubObjectCode().length();
-                        while (3 > socLength++) {
-                            nrDescription.append(' ');
-                        }
-                        activityEntry.setTransactionLedgerEntryDescription(nrDescription.append("-").append(balance.getObjectTypeCode()).toString());
+                        activityEntry.setTransactionLedgerEntryDescription(this.createTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_CLOSE_ENTRY_TO_NOMINAL_REVENUE), balance));
 
                     }
 
@@ -745,13 +733,7 @@ public class YearEndServiceImpl implements YearEndService {
                     // 1108 007830 DELIMITED BY SIZE INTO
                     // 1109 007840 TRN-LDGR-ENTR-DESC OF GLEN-RECORD.
 
-                    StringBuffer fbDescription = new StringBuffer(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_CLOSE_ENTRY_TO_NOMINAL_BUDGET));
-                    fbDescription.append(balance.getSubAccountNumber()).append("-").append(balance.getObjectCode()).append("-").append(balance.getSubObjectCode());
-                    int socLength = null == balance.getSubObjectCode() ? 0 : balance.getSubObjectCode().length();
-                    while (3 > socLength++) {
-                        fbDescription.append(' ');
-                    }
-                    offsetEntry.setTransactionLedgerEntryDescription(fbDescription.append("-").append(balance.getObjectTypeCode()).toString());
+                    offsetEntry.setTransactionLedgerEntryDescription(this.createTransactionLedgerEntryDescription(kualiConfigurationService.getPropertyString(KFSKeyConstants.MSG_CLOSE_ENTRY_TO_FUND_BALANCE), balance));
 
                     // 1110 007850 MOVE GLGLBL-ACLN-ANNL-BAL-AMT
                     // 1111 007860 TO TRN-LDGR-ENTR-AMT OF GLEN-RECORD.
@@ -1025,6 +1007,28 @@ public class YearEndServiceImpl implements YearEndService {
         return true;
 
     }
+    
+    private String createTransactionLedgerEntryDescription(String descriptorIntro, Balance balance) {
+        StringBuilder description = new StringBuilder();
+        description.append(descriptorIntro.trim()).append(' ');
+        description.append(getSizedField(5, balance.getSubAccountNumber())).append("-").append(getSizedField(4, balance.getObjectCode())).append("-").append(getSizedField(2, balance.getSubObjectCode()));
+        int socLength = null == balance.getSubObjectCode() ? 0 : balance.getSubObjectCode().length();
+        while (3 > socLength++) {
+            description.append(' ');
+        }
+        return description.append("-").append(getSizedField(2, balance.getObjectTypeCode())).toString();
+    }
+    
+    protected StringBuilder getSizedField(int size, String value) {
+        StringBuilder fieldString = new StringBuilder();
+        if (value != null) {
+            fieldString.append(value);
+        }
+        while (fieldString.length() < size) {
+            fieldString.append('-');
+        }
+        return fieldString;
+    } 
 
     /**
      * This method handles executing the loop over all balances, and generating reports on the balance forwarding process as a
@@ -1061,7 +1065,7 @@ public class YearEndServiceImpl implements YearEndService {
         while (balanceIterator.hasNext()) {
 
             Balance balance = balanceIterator.next();
-            LOG.info("balance: "+balance);
+            LOG.debug("balance: "+balance);
 
             // The rule helper maintains the state of the overall processing of the entire
             // set of year end balances. This state is available via balanceForwardRuleHelper.getState().

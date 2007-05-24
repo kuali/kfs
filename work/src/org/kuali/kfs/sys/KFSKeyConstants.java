@@ -597,6 +597,7 @@ public class KFSKeyConstants extends KeyConstants {
     public static final String MSG_CLOSE_ENTRY_TO_NOMINAL_BUDGET = "message.gl.ClosingEntryToNB";
     public static final String MSG_CLOSE_ENTRY_TO_NOMINAL_REVENUE = "message.gl.ClosingEntryToNR";
     public static final String MSG_CLOSE_ENTRY_TO_NOMINAL_EXPENSE = "message.gl.ClosingEntryToNE";
+    public static final String MSG_CLOSE_ENTRY_TO_FUND_BALANCE = "message.gl.ClosingEntryToFB";
     public static final String MSG_AUTO_FORWARD = "message.gl.AutoForward";
     public static final String MSG_ACCOUNT_CLOSED_TO = "message.gl.AccountClosedTo";
 

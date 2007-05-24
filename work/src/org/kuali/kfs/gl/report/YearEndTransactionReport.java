@@ -50,8 +50,8 @@ import com.lowagie.text.pdf.PdfWriter;
 /**
  */
 public class YearEndTransactionReport {
-
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(YearEndTransactionReport.class);
+    private static float SECTION_MARGIN = 22.0f;
     
     private Font headerFont;
     private Font textFont;
@@ -143,14 +143,21 @@ public class YearEndTransactionReport {
 
             // Sort what we get
             Collections.sort(reportSummary);
+            Paragraph paragraph;
             
             if (this.reportType == YearEndReportType.FORWARD_ENCUMBERANCES_REPORT || this.reportType == YearEndReportType.NOMINAL_ACTIVITY_CLOSE_REPORT) {
-                document.add(generateParametersSection(jobParameters));
-                document.add(new Paragraph()); // spacing
+                paragraph = new Paragraph();
+                paragraph.setSpacingBefore(SECTION_MARGIN);
+                paragraph.setSpacingAfter(SECTION_MARGIN);
+                paragraph.add(generateParametersSection(jobParameters));
+                document.add(paragraph);
             }
 
-            document.add(generateStatisticsSection(reportSummary));
-            document.add(new Paragraph());
+            paragraph = new Paragraph();
+            paragraph.setSpacingBefore(SECTION_MARGIN);
+            paragraph.setSpacingAfter(SECTION_MARGIN);
+            paragraph.add(generateStatisticsSection(reportSummary));
+            document.add(paragraph);
 
             if (reportErrors != null && reportErrors.size() > 0) {
                 document.add(generateWarningsSection(reportErrors));
@@ -162,8 +169,11 @@ public class YearEndTransactionReport {
                 Collection groups = new ArrayList();
                 groups.add(group);
                 LedgerEntryHolder ledgerEntryHolder = SpringServiceLocator.getOriginEntryService().getSummaryByGroupId(groups);
-                document.add(generateLedgerSection(ledgerEntryHolder, reportName));
-                document.add(new Paragraph());
+                paragraph = new Paragraph();
+                paragraph.setSpacingBefore(SECTION_MARGIN);
+                paragraph.setSpacingAfter(SECTION_MARGIN);
+                paragraph.add(generateLedgerSection(ledgerEntryHolder, reportName));
+                document.add(paragraph);
             }
         }
         catch (Exception de) {

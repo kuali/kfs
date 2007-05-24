@@ -19,17 +19,22 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.collections.comparators.ComparableComparator;
+import org.apache.commons.io.filefilter.AgeFileFilter;
+import org.apache.commons.io.filefilter.AndFileFilter;
+import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.log4j.Logger;
 import org.kuali.Constants;
 import org.kuali.core.dao.DocumentDao;
@@ -299,11 +304,19 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
 
     protected String generateInputOriginEntryFileName(CorrectionDocument document) {
         String docId = document.getDocumentHeader().getDocumentNumber();
-        return getOriginEntryStagingDirectoryPath() + File.separator + docId + INPUT_ORIGIN_ENTRIES_FILE_SUFFIX;
+        return generateInputOriginEntryFileName(docId);
     }
     
     protected String generateOutputOriginEntryFileName(CorrectionDocument document) {
         String docId = document.getDocumentHeader().getDocumentNumber();
+        return generateOutputOriginEntryFileName(docId);
+    }
+    
+    protected String generateInputOriginEntryFileName(String docId) {
+        return getOriginEntryStagingDirectoryPath() + File.separator + docId + INPUT_ORIGIN_ENTRIES_FILE_SUFFIX;
+    }
+    
+    protected String generateOutputOriginEntryFileName(String docId) {
         return getOriginEntryStagingDirectoryPath() + File.separator + docId + OUTPUT_ORIGIN_ENTRIES_FILE_SUFFIX;
     }
     
@@ -373,10 +386,6 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * @see org.kuali.module.gl.service.CorrectionDocumentService#removePersistedInputOriginEntriesForInitiatedOrSavedDocument(org.kuali.module.gl.document.CorrectionDocument)
      */
     public void removePersistedInputOriginEntries(CorrectionDocument document) {
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if (!workflowDocument.stateIsInitiated() && !workflowDocument.stateIsSaved()) {
-            LOG.error("This method may only be called when the document is in the initiated or saved state.");
-        }
         String fullPathUniqueFileName = generateInputOriginEntryFileName(document);
         removePersistedOriginEntries(fullPathUniqueFileName);
     }
@@ -385,14 +394,25 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
      * @see org.kuali.module.gl.service.CorrectionDocumentService#removePersistedOutputOriginEntriesForInitiatedOrSavedDocument(org.kuali.module.gl.document.CorrectionDocument)
      */
     public void removePersistedOutputOriginEntries(CorrectionDocument document) {
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if (!workflowDocument.stateIsInitiated() && !workflowDocument.stateIsSaved()) {
-            LOG.error("This method may only be called when the document is in the initiated or saved state.");
-        }
         String fullPathUniqueFileName = generateOutputOriginEntryFileName(document);
         removePersistedOriginEntries(fullPathUniqueFileName);
     }
     
+    
+    /**
+     * @see org.kuali.module.gl.service.CorrectionDocumentService#removePersistedInputOriginEntries(java.lang.String)
+     */
+    public void removePersistedInputOriginEntries(String docId) {
+        removePersistedOriginEntries(generateInputOriginEntryFileName(docId));
+    }
+
+    /**
+     * @see org.kuali.module.gl.service.CorrectionDocumentService#removePersistedOutputOriginEntries(java.lang.String)
+     */
+    public void removePersistedOutputOriginEntries(String docId) {
+        removePersistedOriginEntries(generateOutputOriginEntryFileName(docId));
+    }
+
     protected void removePersistedOriginEntries(String fullPathUniqueFileName) {
         File fileOut = new File(fullPathUniqueFileName);
         if (fileOut.exists() && fileOut.isFile()) {

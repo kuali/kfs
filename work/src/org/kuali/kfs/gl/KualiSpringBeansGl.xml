@@ -59,6 +59,7 @@
 				<value>glYearEndJob</value>
 				<value>glManualPurgeJob</value>
 				<value>glClearOldOriginEntriesJob</value>
+				<value>glPurgeCorrectionProcessFilesJob</value>
 			</list>
 		</property>
 		<property name="triggerNames">
@@ -964,6 +965,8 @@
 
 	<bean id="glInterDepartmentalBillingDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.InterDepartmentalBillingDaoOjb" />
 
+	<bean id="glCorrectionDocumentDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.CorrectionDocumentDaoOjb" />
+	
 	<!-- SUFFICIENT FUNDS SERVICE/DAO -->
 	<bean id="sufficientFundsService" class="org.kuali.module.gl.service.impl.SufficientFundsServiceImpl">
 		<property name="accountService">
@@ -1392,6 +1395,23 @@
 		</property>
 		<property name="collectorInputFileType">
 		    <ref bean="collectorInputFileType" />
+		</property>
+	</bean>
+
+	<bean id="glPurgeCorrectionProcessFilesStep" class="org.kuali.module.gl.batch.PurgeCorrectionProcessFilesStep" parent="step">
+		<property name="correctionDocumentDao">
+			<ref bean="glCorrectionDocumentDao" />
+		</property>
+		<property name="correctionDocumentService">
+			<ref bean="glCorrectionDocumentService"/>
+		</property>
+	</bean>
+	
+	<bean id="glPurgeCorrectionProcessFilesJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="glPurgeCorrectionProcessFilesStep" />
+			</list>
 		</property>
 	</bean>
 	

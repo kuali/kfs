@@ -68,6 +68,8 @@ public interface CorrectionDocumentService {
     
     public void removePersistedInputOriginEntries(CorrectionDocument document);
     
+    public void removePersistedInputOriginEntries(String docId);
+    
     /**
      * Retrieves input origin entries that have been persisted for this document
      * @param document the document
@@ -107,6 +109,8 @@ public interface CorrectionDocumentService {
     public void persistOutputOriginEntriesForInitiatedOrSavedDocument(CorrectionDocument document, Iterator<OriginEntry> entries);
     
     public void removePersistedOutputOriginEntries(CorrectionDocument document);
+    
+    public void removePersistedOutputOriginEntries(String docId);
     
     /**
      * Retrieves output origin entries that have been persisted for this document
@@ -158,5 +162,10 @@ public interface CorrectionDocumentService {
      */
     public void writePersistedOutputOriginEntriesToStream(CorrectionDocument document, OutputStream out) throws IOException;
     
+    /**
+     * Saves the input and output origin entry groups for a document prior to saving the document
+     * @param document
+     * @param correctionDocumentEntryMetadata
+     */
     public void persistOriginEntryGroupsForDocumentSave(CorrectionDocument document, CorrectionDocumentEntryMetadata correctionDocumentEntryMetadata);
 }

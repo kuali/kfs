@@ -51,7 +51,7 @@ import com.lowagie.text.pdf.PdfWriter;
  */
 public class YearEndTransactionReport {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(YearEndTransactionReport.class);
-    private static float SECTION_MARGIN = 22.0f;
+    private static float SECTION_MARGIN = 15.0f;  // what does iText measure units in?  Pixels?  Inches?  Centimeters?  I don't know...so this number is really a wild guess but it looks okay
     
     private Font headerFont;
     private Font textFont;

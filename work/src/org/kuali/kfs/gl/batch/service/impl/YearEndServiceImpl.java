@@ -1019,7 +1019,7 @@ public class YearEndServiceImpl implements YearEndService {
         return description.append("-").append(getSizedField(2, balance.getObjectTypeCode())).toString();
     }
     
-    protected StringBuilder getSizedField(int size, String value) {
+    private StringBuilder getSizedField(int size, String value) {
         StringBuilder fieldString = new StringBuilder();
         if (value != null) {
             fieldString.append(value);

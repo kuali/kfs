@@ -19,12 +19,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.OriginEntryDao;
 import org.kuali.module.gl.dao.ojb.OriginEntryDaoOjb;
@@ -209,4 +211,25 @@ public class LaborOriginEntryDaoOjb extends OriginEntryDaoOjb implements LaborOr
 
         return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
     }
+    
+    
+    /**
+     * 
+     * @see org.kuali.module.labor.dao.LaborOriginEntryDao#getMatchingEntriesByCollection(java.util.Map)
+     */
+    public Collection getMatchingEntriesByCollection(Map searchCriteria) {
+        LOG.debug("getMatchingEntries() started");
+
+        Criteria criteria = new Criteria();
+        for (Iterator iter = searchCriteria.keySet().iterator(); iter.hasNext();) {
+            String element = (String) iter.next();
+            criteria.addEqualTo(element, searchCriteria.get(element));
+        }
+
+        QueryByCriteria qbc = QueryFactory.newQuery(this.getEntryClass(), criteria);
+        qbc.addOrderByAscending("entryGroupId");
+        return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+    }
+    
+  
 }

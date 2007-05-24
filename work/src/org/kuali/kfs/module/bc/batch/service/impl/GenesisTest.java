@@ -106,35 +106,8 @@ public class GenesisTest {
       //  genesisTestService.testPositionBuild(2007);
       LOG.warn("\nstarting fiscalYearMakers\n");
       //dateMakerTestService.fiscalYearMakers(2008,true);
-      try
-      {
-      //dateMakerTestService.fiscalYearMakers(2009,true);
-       dateMakerTestService.testRoutine(); 
-      }
-      catch(NoSuchFieldException ex)
-      {
-        ex.printStackTrace();  
-        throw(new SQLException("unable to update base year",
-        "fiscal year makers rolled back"));
-      }
-      catch(IllegalAccessException ex)
-      {
-        ex.printStackTrace();  
-        throw(new SQLException("unable to update base year",
-        "fiscal year makers rolled back"));
-      }
-      catch (NoSuchMethodException ex)
-      {
-        ex.printStackTrace();
-        throw(new SQLException("unable to update base year",
-        "fiscal year makers rolled back"));
-      }
-      catch (InvocationTargetException ex)
-      {
-        ex.printStackTrace();
-        throw(new SQLException("unable to update base year",
-                               "fiscal year makers rolled back"));
-      }
+      dateMakerTestService.fiscalYearMakers(2009,false);
+      //dateMakerTestService.testRoutine(); 
       LOG.warn("\nfiscalYearMakers finished\n");
       // create the proxy BC headers
       /*

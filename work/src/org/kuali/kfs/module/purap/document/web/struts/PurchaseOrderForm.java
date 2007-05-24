@@ -15,6 +15,9 @@
  */
 package org.kuali.module.purap.web.struts.form;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.ExtraButton;
@@ -25,7 +28,6 @@ import org.kuali.module.purap.bo.PurchaseOrderAccount;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.bo.PurchasingApItem;
-import org.kuali.module.purap.bo.RequisitionAccount;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 
 /**
@@ -41,6 +43,9 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     private String retransmitFaxNumber;
     private String retransmitHeader;
     
+    //Need this for amendment for accounting line only
+    protected Map accountingLineEditingMode;
+    
     /**
      * Constructs a PurchaseOrderForm instance and sets up the appropriately casted document.
      */
@@ -49,7 +54,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         setDocument(new PurchaseOrderDocument());
         this.setNewPurchasingItemLine(setupNewPurchasingItemLine());
         setNewPurchaseOrderVendorStipulationLine(new PurchaseOrderVendorStipulation());
-        // addButtons();
+        this.accountingLineEditingMode = new HashMap();
     }
 
     /**
@@ -199,4 +204,13 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     public void setRetransmitItemsSelected(String[] retransmitItemsSelected) {
       this.retransmitItemsSelected = retransmitItemsSelected;
     }
+
+    public Map getAccountingLineEditingMode() {
+        return accountingLineEditingMode;
+    }
+
+    public void setAccountingLineEditingMode(Map accountingLineEditingMode) {
+        this.accountingLineEditingMode = accountingLineEditingMode;
+    }
+    
 }

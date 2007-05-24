@@ -31,6 +31,7 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.kuali.Constants;
 import org.kuali.KeyConstants;
+import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.Note;
 import org.kuali.core.document.Document;
 import org.kuali.core.question.ConfirmationQuestion;
@@ -625,12 +626,17 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.docHandler(mapping, form, request, response);
-        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
-        PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
+        PurchaseOrderForm poForm = (PurchaseOrderForm) form;
+        poForm.addButtons();
+        PurchaseOrderDocument po = (PurchaseOrderDocument)poForm.getDocument();
         ActionMessages messages = new ActionMessages();
         checkForPOWarnings(po, messages);
         saveMessages(request, messages);
+        
+        //If this is an amendment document, put the accountingLineEditMode as full entry.
+        if (po.getDocumentHeader().getWorkflowDocument().getDocumentType().equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
+            poForm.getAccountingLineEditingMode().put(AuthorizationConstants.EditMode.FULL_ENTRY, "TRUE");
+        }
         return forward;
     }
 

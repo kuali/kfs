@@ -89,11 +89,11 @@ import org.kuali.rice.KNSServiceLocator;
 import edu.iu.uis.eden.clientapp.IDocHandler;
 
 public class CorrectionAction extends KualiDocumentActionBase implements KualiTableRenderAction {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionAction.class);
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionAction.class);
 
-    private static OriginEntryGroupService originEntryGroupService;
+    protected static OriginEntryGroupService originEntryGroupService;
     private static OriginEntryService originEntryService;
-    private static DateTimeService dateTimeService;
+    protected static DateTimeService dateTimeService;
     private static KualiConfigurationService kualiConfigurationService;
 
     public static final String SYSTEM_AND_EDIT_METHOD_ERROR_KEY = "systemAndEditMethod";
@@ -1236,7 +1236,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
      * @param correctionForm
      * @throws Exception
      */
-    private void loadAllEntries(Integer groupId, CorrectionForm correctionForm) throws Exception {
+    protected void loadAllEntries(Integer groupId, CorrectionForm correctionForm) throws Exception {
         LOG.debug("loadAllEntries() started");
 
         if (!correctionForm.isRestrictedFunctionalityMode()) {
@@ -1720,7 +1720,7 @@ public class CorrectionAction extends KualiDocumentActionBase implements KualiTa
      * @param entries the entries to summarize 
      * @param clearOutSummary whether to set the doc summary to 0s
      */
-    private void updateDocumentSummary(CorrectionDocument document, List<OriginEntry> entries,
+    protected void updateDocumentSummary(CorrectionDocument document, List<OriginEntry> entries,
             boolean clearOutSummary) {
         if (clearOutSummary) {
             document.setCorrectionCreditTotalAmount(null);

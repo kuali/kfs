@@ -19,6 +19,7 @@ import java.io.BufferedOutputStream;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.module.gl.bo.OriginEntryGroup;
@@ -199,6 +200,7 @@ public interface LaborOriginEntryService {
      */
     public int getCountOfEntriesInGroups(Collection<OriginEntryGroup> groups);
     
+    public List<LaborOriginEntry> getEntriesByGroupId(Integer groupId);
     
     
     /**

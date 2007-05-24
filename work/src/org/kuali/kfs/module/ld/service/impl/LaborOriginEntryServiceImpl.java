@@ -26,10 +26,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.labor.bo.LaborTransaction;
 import org.kuali.module.gl.dao.OriginEntryDao;
@@ -172,7 +174,7 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
         LaborOriginEntry e = new LaborOriginEntry(laborTransaction);
         e.setGroup(originEntryGroup);
 
-        originEntryDao.saveOriginEntry(e);
+        laborOriginEntryDao.saveOriginEntry(e);
     }
 
     /**
@@ -251,6 +253,27 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
             }
         }
     }
+    
+    
+    /**
+     * @see org.kuali.module.gl.service.OriginEntryService#getMatchingEntriesByList(java.util.Map)
+     */
+    public List<LaborOriginEntry> getEntriesByGroupId(Integer groupId) {
+        if (groupId == null) {
+            throw new IllegalArgumentException("Group ID is null");
+        }
+        Map<String, Object> searchCriteria = new HashMap<String, Object>();
+        searchCriteria.put("entryGroupId", groupId);
+        Collection<LaborOriginEntry> searchResultAsCollection = getMatchingEntriesByCollection(searchCriteria);
+        if (searchResultAsCollection instanceof List) {
+            return (List<LaborOriginEntry>) searchResultAsCollection;
+        }
+        else {
+            return new ArrayList<LaborOriginEntry>(searchResultAsCollection);
+        }
+    }
+    
+    
 
     public LedgerEntryHolder getSummaryByGroupId(Collection groupIdList) {
         LOG.debug("getSummaryByGroupId() started");
@@ -297,7 +320,7 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
     public Collection getMatchingEntriesByCollection(Map searchCriteria) {
         LOG.debug("getMatchingEntriesByCollection() started");
 
-        return originEntryDao.getMatchingEntriesByCollection(searchCriteria);
+        return laborOriginEntryDao.getMatchingEntriesByCollection(searchCriteria);
     }
 
     /**

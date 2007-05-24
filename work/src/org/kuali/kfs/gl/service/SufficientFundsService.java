@@ -55,7 +55,8 @@ public interface SufficientFundsService {
      * @param financialDocumentTypeCode the financial document type code that the accounts below to
      * @return empty list if all accounts have sufficient funds... otherwise a list of <code>SufficientFundsItem</code>
      */
-    public List<SufficientFundsItem> checkSufficientFundsUsingAccounts(List<? extends AccountingLine> accountLines,String financialDocumentTypeCode);
+    // TODO delyea - awaiting decision on PURAP sufficient funds methodology
+//    public List<SufficientFundsItem> checkSufficientFundsUsingAccounts(List<? extends AccountingLine> accountLines,String financialDocumentTypeCode);
 
     /**
      * This operation derives the acct_sf_finobj_cd which is used to populate the General Ledger Pending entry table, so that later

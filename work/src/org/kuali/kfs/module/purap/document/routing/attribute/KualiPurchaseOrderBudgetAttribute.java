@@ -16,19 +16,26 @@
 package org.kuali.workflow.module.purap.attribute;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import javax.xml.xpath.XPath;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.core.lookup.LookupUtils;
+import org.kuali.core.service.DocumentTypeService;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.SubAccount;
+import org.kuali.module.gl.util.SufficientFundsItem;
+import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.workflow.KualiWorkflowUtils;
 
 import edu.iu.uis.eden.WorkflowServiceErrorImpl;
+import edu.iu.uis.eden.exception.WorkflowException;
 import edu.iu.uis.eden.lookupable.Row;
 import edu.iu.uis.eden.plugin.attributes.WorkflowAttribute;
 import edu.iu.uis.eden.routeheader.DocumentContent;
@@ -36,6 +43,9 @@ import edu.iu.uis.eden.routetemplate.RuleExtension;
 import edu.iu.uis.eden.routetemplate.RuleExtensionValue;
 import edu.iu.uis.eden.util.Utilities;
 
+/**
+ * TODO delyea - documentation
+ */
 public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
     private static Logger LOG = Logger.getLogger(KualiPurchaseOrderBudgetAttribute.class);
 
@@ -43,14 +53,18 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
 
     private boolean required = false;
     private String finCoaCd;
-    private List rows;
+    private List ruleRows;
+    private List routingDataRows;
 
     /**
      * No arg constructor
      */
     public KualiPurchaseOrderBudgetAttribute() {
-        rows = new ArrayList();
-        rows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, FIN_COA_CD_KEY));
+        ruleRows = new ArrayList<edu.iu.uis.eden.lookupable.Row>();
+        ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, FIN_COA_CD_KEY));
+        
+        routingDataRows = new ArrayList<edu.iu.uis.eden.lookupable.Row>();
+        routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, FIN_COA_CD_KEY));
     }
 
     /**
@@ -68,21 +82,21 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
         if (Utilities.isEmpty(getFinCoaCd())) {
             return "";
         }
-        return new StringBuffer("<report><chart>").append(getFinCoaCd()).append("</chart></report>").toString();
+        return new StringBuffer("<report><" + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE + ">").append(getFinCoaCd()).append("</" + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE + "></report>").toString();
     }
 
     /**
      * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getRoutingDataRows()
      */
     public List<Row> getRoutingDataRows() {
-        return rows;
+        return routingDataRows;
     }
 
     /**
      * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getRuleRows()
      */
     public List<Row> getRuleRows() {
-        return rows;
+        return ruleRows;
     }
 
     /**
@@ -94,9 +108,69 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
         return extensions;
     }
 
+    /**
+     * This method will return true for a match if all the following conditions are met:
+     * <ol>
+     * <li>The fiscal year of the document is less than or equal to the system's current fiscal year
+     * <li>At least one account with the rule extension chart code (passed in via the ruleExtensions parameter) has insufficient funds on it
+     * </ol>
+     * 
+     * @param docContent - contains the data in XML format that will be compared with the rules saved in workflow
+     * @param ruleExtensions - These should include chart codes to match against coming from rules in the system
+     * @return true if this document contains required criteria and rule should fire
+     */
     public boolean isMatch(DocumentContent docContent, List<RuleExtension> ruleExtensions) {
-        // TODO Auto-generated method stub
+        String ruleChartCode = getRuleExtentionValue(FIN_COA_CD_KEY, ruleExtensions);
+        if (StringUtils.isBlank(ruleChartCode)) {
+            String errorMsg = "Attempted matching of Rule Extension where " + KualiWorkflowUtils.getBusinessObjectAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE) + " is blank";
+            LOG.error(errorMsg);
+            throw new RuntimeException(errorMsg);
+        }
+        // TODO delyea - TESTING - uncomment this for testing
+//        // if document's fiscal year is less than or equal to the current fiscal year
+//        XPath xPath = KualiWorkflowUtils.getXPath(docContent.getDocument());
+//        String xpathExpression = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "document/accountingPeriodKey/postingYear";
+//        String documentFiscalYearString = KualiWorkflowUtils.xstreamSafeEval(xPath, xpathExpression, docContent.getDocContent());
+//        if ( SpringServiceLocator.getUniversityDateService().getCurrentFiscalYear().compareTo(Integer.valueOf(documentFiscalYearString)) >= 0 ) {
+//            String documentHeaderId = KualiWorkflowUtils.getDocumentHeaderDocumentNumber(docContent.getDocument());
+//            try {
+//                PurchaseOrderDocument po = (PurchaseOrderDocument) SpringServiceLocator.getDocumentService().getByDocumentHeaderId(documentHeaderId);
+//                List<SourceAccountingLine> summaryAccounts = po.getSummaryAccounts();
+//                // get list of sufficientfundItems
+//                DocumentTypeService docTypeService = SpringServiceLocator.getDocumentTypeService();
+//                String financialDocumentTypeCode = docTypeService.getDocumentTypeCodeByClass(po.getClass());
+//                List<SufficientFundsItem> fundsItems = SpringServiceLocator.getSufficientFundsService().checkSufficientFundsUsingAccounts(summaryAccounts, financialDocumentTypeCode);
+//                if (!fundsItems.isEmpty()) {
+//                    for (SufficientFundsItem fundsItem : fundsItems) {
+//                        if (ruleChartCode.equalsIgnoreCase(fundsItem.getAccount().getChartOfAccountsCode())) {
+//                            LOG.debug("Chart code of rule extension matches chart code of at least one Sufficient Funds Item");
+//                            return true;
+//                        }
+//                    }
+//                }
+//            }
+//            catch (WorkflowException e) {
+//                String errorMsg = "Error attempted to get document using doc id  " + documentHeaderId;
+//                LOG.error(errorMsg);
+//                throw new RuntimeException(errorMsg);
+//            }
+//        }
         return false;
+    }
+
+    private String getRuleExtentionValue(String key, List ruleExtensions) {
+        for (Iterator iter = ruleExtensions.iterator(); iter.hasNext();) {
+            RuleExtension extension = (RuleExtension) iter.next();
+            if (extension.getRuleTemplateAttribute().getRuleAttribute().getClassName().equals(this.getClass().getName())) {
+                for (Iterator iterator = extension.getExtensionValues().iterator(); iterator.hasNext();) {
+                    RuleExtensionValue value = (RuleExtensionValue) iterator.next();
+                    if (value.getKey().equals(key)) {
+                        return value.getValue();
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     /**
@@ -112,12 +186,12 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
     public List validateRuleData(Map paramMap) {
         List errors = new ArrayList();
         setFinCoaCd(LookupUtils.forceUppercase(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, (String) paramMap.get(FIN_COA_CD_KEY)));
-        String label = SpringServiceLocator.getDataDictionaryService().getAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        String label = KualiWorkflowUtils.getBusinessObjectAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         if (isRequired() && StringUtils.isBlank(getFinCoaCd())) {
             // value is blank but required
             errors.add(new WorkflowServiceErrorImpl(label + " is required.", "routetemplate.xmlattribute.error"));
-        } else if (StringUtils.isBlank(getFinCoaCd())) {
-            // check value for validity
+        } else if (StringUtils.isNotBlank(getFinCoaCd())) {
+            // not blank so check value for validity
             Chart chart = getChart(getFinCoaCd());
             if (chart == null) {
                 errors.add(new WorkflowServiceErrorImpl(label + " entered is invalid.","routetemplate.xmlattribute.error"));

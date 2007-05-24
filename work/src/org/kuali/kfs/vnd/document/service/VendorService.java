@@ -138,4 +138,27 @@ public interface VendorService {
      */
     public boolean noRouteSignificantChangeOccurred( VendorDetail newVDtl, VendorHeader newVHdr, 
             VendorDetail oldVDtl, VendorHeader oldVHdr );
+    
+    /**
+     * This method will indicate whether the vendor identified by the given <code>vendorHeaderGeneratedIdentifier</code>
+     * is an employee of the institution.  The vendor must have a valid tax id and it must be of type SSN (see  
+     * {@link org.kuali.module.vendor.VendorConstants#TAX_TYPE_SSN}).
+     * 
+     * TODO - delyea - documentation
+     * 
+     * @param vendorHeaderGeneratedIdentifier       The Header Id in Integer form
+     * @return true if the vendor identified by the <code>vendorHeaderGeneratedIdentifier</code> given is an employee of 
+     * the institution
+     */
+    public boolean isVendorInstitutionEmployee(Integer vendorHeaderGeneratedIdentifier);
+
+    /**
+     * This method will indicate whether the vendor identified by the given <code>vendorHeaderGeneratedIdentifier</code>
+     * is a non-resident alien by checking the value of {@link org.kuali.module.vendor.bo.VendorHeader#getVendorForeignIndicator()}.
+     * 
+     * @param vendorHeaderGeneratedIdentifier       The Header Id in Integer form
+     * @return true if the vendor identified by the <code>vendorHeaderGeneratedIdentifier</code> given is valid and is marked
+     * as a foreign vendor
+     */
+    public boolean isVendorNonResidentAlien(Integer vendorHeaderGeneratedIdentifier);
 }

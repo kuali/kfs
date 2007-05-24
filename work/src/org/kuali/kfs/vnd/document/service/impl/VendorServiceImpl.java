@@ -27,6 +27,7 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.util.SpringServiceLocator;
+import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorPropertyConstants;
 import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorContract;
@@ -140,7 +141,7 @@ public class VendorServiceImpl implements VendorService {
         LOG.debug("Exiting getParentVendor normally.");
         return result;
     }
-
+    
     /**
      * @see org.kuali.module.vendor.service.VendorService#getVendorB2BContract(VendorDetail, String)
      */
@@ -269,6 +270,36 @@ public class VendorServiceImpl implements VendorService {
         LOG.debug( "Exiting equalMemberLists." );
         return result;
     } 
+    
+    /**
+     * @see org.kuali.module.vendor.service.VendorService#isVendorInstitutionEmployee(java.lang.Integer)
+     */
+    public boolean isVendorInstitutionEmployee(Integer vendorHeaderGeneratedIdentifier) {
+        VendorDetail vendorToUse = getParentVendor(vendorHeaderGeneratedIdentifier);
+        if (ObjectUtils.isNull(vendorToUse)) {
+            String errorMsg = "Vendor with header generated id '" + vendorHeaderGeneratedIdentifier + "' cannot be found in the system";
+            LOG.error(errorMsg);
+            throw new RuntimeException(errorMsg);
+        }
+        if (VendorConstants.TAX_TYPE_SSN.equals(vendorToUse.getVendorHeader().getVendorTaxTypeCode())) {
+            // TODO delyea - FINISH THIS - logic for finding out if person is employee
+            return StringUtils.isNotBlank(vendorToUse.getVendorHeader().getVendorTaxNumber());
+        }
+        return false;
+    }
+
+    /**
+     * @see org.kuali.module.vendor.service.VendorService#isVendorNonResidentAlien(java.lang.Integer)
+     */
+    public boolean isVendorNonResidentAlien(Integer vendorHeaderGeneratedIdentifier) {
+        VendorDetail vendorToUse = getParentVendor(vendorHeaderGeneratedIdentifier);
+        if (ObjectUtils.isNull(vendorToUse)) {
+            String errorMsg = "Vendor with header generated id '" + vendorHeaderGeneratedIdentifier + "' cannot be found in the system";
+            LOG.error(errorMsg);
+            throw new RuntimeException(errorMsg);
+        }
+        return vendorToUse.getVendorHeader().getVendorForeignIndicator();
+    }
 }
 
 

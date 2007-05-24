@@ -526,6 +526,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     public ResolvedQualifiedRole resolveQualifiedRole(RouteContext context, String roleName, String qualifiedRole) throws EdenUserNotFoundException {
         try {
             List members = new ArrayList();
+            // TODO delyea - figure out how to use different financial document type code for CM here
             String kualiDocumentType = SpringServiceLocator.getDataDictionaryService().getDocumentTypeCodeByTypeName(context.getDocument().getDocumentType().getName());
             String annotation = "";
             if (FISCAL_OFFICER_ROLE_KEY.equals(roleName)) {

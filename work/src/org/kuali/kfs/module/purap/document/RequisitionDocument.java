@@ -36,7 +36,6 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.bo.BillingAddress;
-import org.kuali.module.purap.bo.RequisitionAccount;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.bo.RequisitionStatusHistory;
 import org.kuali.module.purap.bo.RequisitionView;
@@ -313,6 +312,14 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     public void handleRouteLevelChange() {
         LOG.debug("handleRouteLevelChange() started");
         super.handleRouteLevelChange();
+        try {
+            String[] nodeNames = getDocumentHeader().getWorkflowDocument().getNodeNames();
+        }
+        catch (WorkflowException e) {
+            String errorMsg = "Error getting node names for document with id " + getDocumentNumber();
+            LOG.error(errorMsg,e);
+            throw new RuntimeException(errorMsg,e);
+        }
 
         //on level change alter EPIC status of document - possibly clear & reset attributes
 //        DocumentRouteHeaderValue routeHeader = getRouteHeaderService().getRouteHeader(levelChangeEvent.getRouteHeaderId());

@@ -42,9 +42,24 @@ public class PurapConstants {
         public static class Workgroups {
             // RequisitionDocument
             public static final String SEPARATION_OF_DUTIES_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "WORKGROUP.SEPARATION_OF_DUTIES";
+
             // PurchaseOrderDocument
             // TODO delyea - add this workgroup
-            public static final String INTERNAL_PURCHASING_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "WORKGROUP.INTERNAL_PURCHASING_REVIEW";
+            public static final String INTERNAL_PURCHASING_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "INTERNAL_PURCHASING_REVIEWERS";
+            // TODO delyea - add this workgroup
+            public static final String PURCHASE_ORDER_VENDOR_EMPLOYEE_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "PO_EMPLOYEE_VENDOR_REVIEWERS";
+            // TODO delyea - add this workgroup
+            public static final String PURCHASE_ORDER_VENDOR_NRA_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "PO_NRA_VENDOR_REVIEWERS";
+            // TODO delyea - add this workgroup
+            public static final String PURCHASE_ORDER_VENDOR_NRA_EMPLOYEE_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "PO_NRA_EMPLOYEE_VENDOR_REVIEWERS";
+            
+            // PaymentRequestDocument
+            // TODO delyea - add this workgroup
+            public static final String PAYMENT_REQUEST_VENDOR_EMPLOYEE_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "PREQ_EMPLOYEE_VENDOR_REVIEWERS";
+            // TODO delyea - add this workgroup
+            public static final String PAYMENT_REQUEST_VENDOR_NRA_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "PREQ_NRA_VENDOR_REVIEWERS";
+            // TODO delyea - add this workgroup
+            public static final String PAYMENT_REQUEST_VENDOR_NRA_EMPLOYEE_WORKGROUP_NAME = PURAP_PARAM_PREFIX + "PREQ_NRA_EMPLOYEE_VENDOR_REVIEWERS";
         }
     }
 
@@ -298,11 +313,11 @@ public class PurapConstants {
     public static final String ITEM_ALLOWS_POSITIVE = "ALLOWS_POSITIVE";
     public static final String ITEM_ALLOWS_NEGATIVE = "ALLOWS_NEGATIVE";
     public static final String ITEM_REQUIRES_USER_ENTERED_DESCRIPTION = "REQUIRES_USER_ENTERED_DESCRIPTION";
-    
+
     public static class ItemFields {
         public static final String QUANTITY = "Quantity";
         public static final String UNIT_OF_MEASURE = "Unit of Measure";
         public static final String DESCRIPTION = "Description";
         public static final String UNIT_COST = "Unit Cost";
-	}
+    }
 }

@@ -48,6 +48,12 @@
 		</property>
 	</bean>
 
+	<bean id="workflow-org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod-Lookupable" parent="workflowLookupable" singleton="false">
+		<property name="businessObjectClassName">
+			<value>org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod</value>
+		</property>
+	</bean>
+
 	<bean id="purapUserService" class="org.kuali.module.purap.service.impl.PurapUserServiceImpl" parent="kualiModuleUserServiceBase">
 	</bean>
 

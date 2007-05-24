@@ -93,6 +93,7 @@ public class KualiWorkflowUtils extends WorkflowUtils {
     public static final String C_G_AWARD_DOC_TYPE = "KualiResearchAdminPostAwardMaintenanceDocument";
     public static final String C_G_PROPOSAL_DOC_TYPE = "KualiProposalMaintenanceDocument";
 
+    public static final String FINANCIAL_DOCUMENT_HEADER_DOCUMENT_NUMBER = xstreamSafeXPath(XSTREAM_MATCH_ANYWHERE_PREFIX + "documentHeader/documentNumber");
     public static final String FINANCIAL_DOCUMENT_TOTAL_AMOUNT_XPATH = xstreamSafeXPath(XSTREAM_MATCH_ANYWHERE_PREFIX + "documentHeader/financialDocumentTotalAmount/value");
     public static final String ACCOUNT_CHANGE_DETAILS_XPATH = xstreamSafeXPath(NEW_MAINTAINABLE_PREFIX + "accountChangeDetails/list/org.kuali.module.chart.bo.AccountChangeDetail");
     public static final String ORG_REVERSION_DETAILS_XPATH = xstreamSafeXPath(NEW_MAINTAINABLE_PREFIX + "organizationReversionChangeOrganizations/list/org.kuali.module.chart.bo.OrganizationReversionChangeOrganization");
@@ -242,6 +243,17 @@ public class KualiWorkflowUtils extends WorkflowUtils {
             throw new RuntimeException("getTargetAccountingLineClassName method of KualiWorkflowUtils caught IllegalAccessException while try to create instance of class: " + documentClass);
         }
     }
+    
+    /**
+     * This method returns a label from the data dictionary service
+     * 
+     * @param businessObjectClass - class where the label should come from
+     * @param attributeName - name of the attribute you need the label for
+     * @return the label from the data dictionary for the given Class and attributeName or null if not found
+     */
+    public static final String getBusinessObjectAttributeLabel(Class businessObjectClass, String attributeName) {
+        return SpringServiceLocator.getDataDictionaryService().getAttributeLabel(businessObjectClass, attributeName);
+    }
 
     /**
      *
@@ -389,18 +401,67 @@ public class KualiWorkflowUtils extends WorkflowUtils {
      * @return the KualiDecimal value of the total amount from the document's workflow document content or null if the amount value cannot be found.
      */
     public static KualiDecimal getFinancialDocumentTotalAmount(RouteContext routeContext) {
-        Document doc = routeContext.getDocumentContent().getDocument();
-        XPath xpath = getXPath(doc);
+        Document document = routeContext.getDocumentContent().getDocument();
+        return getFinancialDocumentTotalAmount(document);
+    }
+
+    /**
+     * This method gets the document total amount from the DocumentHeader 
+     * 
+     * If an XPathExpressionException is thrown, this will be re-thrown within a RuntimeException.
+     *
+     * @param routeContext The RouteContext object from the workflow system
+     * @return the KualiDecimal value of the total amount from the document's workflow document content or null if the amount value cannot be found.
+     */
+    public static KualiDecimal getFinancialDocumentTotalAmount(Document document) {
+        XPath xpath = getXPath(document);
         String docTotalAmount = null;
         String xpathXpression = FINANCIAL_DOCUMENT_TOTAL_AMOUNT_XPATH;
         try {
-            docTotalAmount = (String) xpath.evaluate(xpathXpression, doc, XPathConstants.STRING);
+            docTotalAmount = (String) xpath.evaluate(xpathXpression, document, XPathConstants.STRING);
             if (StringUtils.isEmpty(docTotalAmount)) {
-                String message = "Cannot find financial document total amount for document with doc id " + routeContext.getDocument().getRouteHeaderId();
+                String message = "Cannot find financial document total amount";
                 LOG.warn("getDocumentTotalAmount() " + message);
                 return null;
             }
             return new KualiDecimal(docTotalAmount);
+        }
+        catch (XPathExpressionException xe) {
+            String errorMsg = "Error executing XPath expression - '" + xpathXpression + "'";
+            LOG.error(errorMsg,xe);
+            throw new RuntimeException (errorMsg,xe);
+        }
+    }
+
+    /**
+     * This method...
+     * TODO delyea - documentation
+     * @param routeContext
+     * @return
+     */
+    public static String getDocumentHeaderDocumentNumber(RouteContext routeContext) {
+        Document document = routeContext.getDocumentContent().getDocument();
+        return getDocumentHeaderDocumentNumber(document);
+    }
+
+    /**
+     * This method...
+     * TODO delyea - documentation
+     * @param document
+     * @return
+     */
+    public static String getDocumentHeaderDocumentNumber(Document document) {
+        XPath xpath = getXPath(document);
+        String docHeaderNumber = null;
+        String xpathXpression = FINANCIAL_DOCUMENT_HEADER_DOCUMENT_NUMBER;
+        try {
+            docHeaderNumber = (String) xpath.evaluate(xpathXpression, document, XPathConstants.STRING);
+            if (StringUtils.isEmpty(docHeaderNumber)) {
+                String message = "Cannot find financial document header document number";
+                LOG.error("getDocumentHeaderDocumentNumber() " + message);
+                throw new RuntimeException (message);
+            }
+            return docHeaderNumber;
         }
         catch (XPathExpressionException xe) {
             String errorMsg = "Error executing XPath expression - '" + xpathXpression + "'";

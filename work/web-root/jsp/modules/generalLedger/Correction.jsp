@@ -16,8 +16,8 @@
 <%@ include file="/jsp/core/tldHeader.jsp" %>
 <%@ taglib tagdir="/WEB-INF/tags/gl/glcp" prefix="glcp"%>
 
-<kul:page showDocumentInfo="true" docTitle="General Ledger Correction Process"
-	htmlFormAction="generalLedgerCorrection"transactionalDocument="false"
+<kul:page showDocumentInfo="true" docTitle="${KualiForm.docTitle}"
+	htmlFormAction="${KualiForm.htmlFormAction}" transactionalDocument="false"
 	renderMultipart="true" showTabButtons="true">
   <c:set var="readOnly" value="${empty KualiForm.editingMode['fullEntry']}" />
 
@@ -178,14 +178,34 @@
                     <c:if test="${KualiForm.inputGroupIdFromLastDocumentLoadIsMissing and KualiForm.inputGroupId eq KualiForm.inputGroupIdFromLastDocumentLoad}">
                       <option value="<c:out value="${KualiForm.inputGroupIdFromLastDocumentLoad}"/>" selected="selected"><c:out value="${KualiForm.inputGroupIdFromLastDocumentLoad}"/> Document was last saved with this origin entry group selected.  Group is no longer in system.</option>
                     </c:if>
-                    <c:choose>
-                      <c:when test="${KualiForm.editMethod eq 'R'}">
-                        <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|module|gl|web|optionfinder|ProcessingCorrectionGroupEntriesFinder" label="label" value="key" />
-                      </c:when>
-                      <c:otherwise>
-                        <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|module|gl|web|optionfinder|CorrectionGroupEntriesFinder" label="label" value="key" />
-                      </c:otherwise>
-                    </c:choose>
+                    
+                  <c:choose>
+					<c:when test="${KualiForm.documentType == 'LLCP'}" >
+						<html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|module|labor|web|optionfinder|CorrectionLaborGroupEntriesFinder" label="label" value="key" />
+                   	</c:when>
+                   	<c:otherwise>
+                   		<c:choose>
+	                      <c:when test="${KualiForm.editMethod eq 'R'}">
+    	                    <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|module|gl|web|optionfinder|ProcessingCorrectionGroupEntriesFinder" label="label" value="key" />
+        	              </c:when>
+            	          <c:otherwise>
+                	        <html:optionsCollection property="actionFormUtilMap.getOptionsMap~org|kuali|module|gl|web|optionfinder|CorrectionGroupEntriesFinder" label="label" value="key" />
+                    	  </c:otherwise>
+                    	</c:choose>
+                   	</c:otherwise>
+                  </c:choose>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                   </html:select>
                   
                   <html:hidden property="previousInputGroupId"/>

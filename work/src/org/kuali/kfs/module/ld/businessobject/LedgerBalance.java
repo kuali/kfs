@@ -35,6 +35,7 @@ import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.gl.bo.Balance;
+import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.service.LaborUserService;
 
 /**
@@ -63,12 +64,14 @@ public class LedgerBalance extends Balance {
     private KualiDecimal month12AccountLineAmount;
     private KualiDecimal month13AccountLineAmount;
     private Timestamp transactionDateTimeStamp;
+    private String financialObjectFringeOrSalaryCode;
 
     private Chart chartOfAccounts;
     private ObjectType financialObjectType;
     private Balance financialBalance;
 
     private UniversalUser ledgerPerson; // follow naming convention?
+    private LaborObject laborObject;
 
     /**
      * Default constructor.
@@ -744,6 +747,25 @@ public class LedgerBalance extends Balance {
             this.month13AccountLineAmount = month13AccountLineAmount.add(amount);
             this.setAccountLineAnnualBalanceAmount(this.getAccountLineAnnualBalanceAmount().add(amount));
         }
+    }
+    
+    /**
+     * Retrieve the associated <code>{@link LaborObject}</code> linked by chart of accounts code, financial object code, and university fiscal year
+     *
+     * @return Labor Object
+     */
+    public LaborObject getLaborObject() {
+        return laborObject;
+    }
+    
+    /**
+     * For OJB to assign a Labor Object association
+     *
+     * @param lobj
+     */
+    @Deprecated
+    public void setLaborObject(LaborObject lobj) {
+        laborObject = lobj;
     }
     
     public UniversalUser getLedgerPerson() {

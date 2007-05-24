@@ -69,6 +69,7 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase i
         setDocument(new SalaryExpenseTransferDocument());
         setFinancialBalanceTypeCode("AC");
         setUniversityFiscalYear(0);
+        setFinancialObjectFringeOrSalaryCode("S");
     }
     
     /**

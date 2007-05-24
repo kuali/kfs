@@ -63,6 +63,10 @@
                     />
                 <td>${KualiForm.universityFiscalYear}&nbsp;</td>
               </tr>
+              <tr>
+                <td>Financial Object Fringe or Salary Code</td>
+                <td>${KualiForm.financialObjectFringeOrSalaryCode}&nbsp;</td>
+              </tr>
             </table>
                 <p>
         </div>
@@ -103,7 +107,7 @@
                 <kul:balanceInquiryLookup
                     boClassName="org.kuali.module.labor.bo.LedgerBalance"
                     actionPath="glBalanceInquiryLookup.do"
-                    lookupParameters="emplid:emplid,financialBalanceTypeCode:financialBalanceTypeCode"
+                    lookupParameters="emplid:emplid,financialBalanceTypeCode:financialBalanceTypeCode,'S':laborObject.financialObjectFringeOrSalaryCode"
                     hideReturnLink="false" />
             </jsp:attribute>
             <jsp:attribute name="customActions">

@@ -73,6 +73,7 @@
                 <lookupField attributeName="universityFiscalYear" required="true">
                     <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.FiscalYearFinder</defaultValueFinderClass>
                 </lookupField>
+                <lookupField attributeName="laborObject.financialObjectFringeOrSalaryCode" required="false" />
                 <lookupField attributeName="emplid" required="false" />
                 <lookupField attributeName="financialBalanceTypeCode" required="true" />
 			</lookupFields>
@@ -110,6 +111,21 @@
         </lookup>
 
         <attributes>
+
+            <attribute name="laborObject.financialObjectFringeOrSalaryCode" forceUppercase="true">
+                <label>Financial Object Fringe Or Salary Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <hidden />
+                </control>
+
+                <summary>financialObjectFringeOrSalaryCode</summary>
+                <description>financialObjectFringeOrSalaryCode description...</description>
+			</attribute>
 
             <attributeReference name="emplid" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personPayrollIdentifier"/>
 
@@ -298,6 +314,12 @@
 				<supportAttribute sourceName="emplid" targetName="personPayrollIdentifier" identifier="true" />
 				<supportAttribute sourceName="ledgerPerson.personUserIdentifier" targetName="personUserIdentifier" identifier="true"/>
 				<supportAttribute sourceName="ledgerPerson.personName" targetName="personName" />
+            </relationship>
+            <relationship objectAttributeName="laborObject" >
+                <primitiveAttribute sourceName="laborObject.chartOfAccountsCode" targetName="chartOfAccountsCode" />
+				<supportAttribute sourceName="laborObject.financialObjectFringeOrSalaryCode" targetName="financialObjectFringeOrSalaryCode"/>
+				<supportAttribute sourceName="laborObject.financialObjectCode" targetName="financialObjectCode" identifier="true"/>
+				<supportAttribute sourceName="laborObject.universityFiscalYear" targetName="universityFiscalYear" />
             </relationship>
         </relationships>
     </businessObject>

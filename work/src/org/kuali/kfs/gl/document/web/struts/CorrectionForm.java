@@ -51,6 +51,11 @@ import org.kuali.module.gl.util.CorrectionDocumentEntryMetadata;
 public class CorrectionForm extends KualiDocumentFormBase implements CorrectionDocumentEntryMetadata {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionForm.class);
 
+    private String docTitle;
+    private String htmlFormAction;
+    private String documentType;
+
+    
     private String chooseSystem;
     /**
      * Used to store the previously selected system, in case the user changed the selection when it's not appropriate, so that it can be restored
@@ -134,6 +139,8 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
         entryForManualEdit.setEntryId(0);
         
         originEntrySearchResultTableMetadata = new KualiTableRenderFormMetadata();
+        
+        setDocType();
     }
 
     /**
@@ -579,4 +586,36 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
     public void setPersistedOriginEntriesMissing(boolean persistedOriginEntriesMissing) {
         this.persistedOriginEntriesMissing = persistedOriginEntriesMissing;
     }
+
+    public String getDocTitle() {
+        return docTitle;
+    }
+
+    public void setDocTitle(String docTitle) {
+        this.docTitle = docTitle;
+    }
+
+    public String getDocumentType() {
+        return documentType;
+    }
+
+    public void setDocumentType(String documentType) {
+        this.documentType = documentType;
+    }
+
+    public String getHtmlFormAction() {
+        return htmlFormAction;
+    }
+
+    public void setHtmlFormAction(String htmlFormAction) {
+        this.htmlFormAction = htmlFormAction;
+    }
+    
+    public void setDocType(){
+        setDocumentType("GLCP");
+        setDocTitle("General Ledger Correction Process");
+        setHtmlFormAction("generalLedgerCorrection");
+    }
+
+    
 }

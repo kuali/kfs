@@ -104,9 +104,10 @@
 			<equals arg1="${is.local.build}" arg2="true" />
 		</condition>
 		<property name="appenders" value="INFO, LogFile" />
-		<condition property="startup.stats.mailing.list" value="${configuration.manager.mailing.list}">
+		<!-- todo rice commons upgrade broke this -->
+		<!--<condition property="startup.stats.mailing.list" value="${configuration.manager.mailing.list}">
 			<equals arg1="${build.environment}" arg2="cnv" />
-		</condition>
+		</condition>-->
 		<property name="startup.stats.mailing.list" value="" />
 		<property name="use.quartz.scheduling" value="true" />
 		<condition property="use.quartz.jdbc.jobstore" value="false">

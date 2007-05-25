@@ -55,7 +55,7 @@ import org.kuali.module.vendor.service.PhoneNumberService;
 /**
  * This class handles specific Actions requests for the Purchasing Ap.
  */
-public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
+public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchasingActionBase.class);
 
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -332,15 +332,5 @@ public class PurchasingActionBase extends KualiAccountingDocumentActionBase {
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
-    public ActionForward refreshAccountSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
-        PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
-        PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument)purchasingForm.getDocument();
-        List<PurchasingApItem> items = document.getItems();
-        List<SourceAccountingLine> summaryAccountingLines = SpringServiceLocator.getPurapService().generateSummary(items);
-        document.setSummaryAccounts(summaryAccountingLines);
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-       
+           
 }

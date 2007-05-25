@@ -74,6 +74,9 @@
 	    <kul:routeLog />
 	</c:if>
 	
+	<purap:accountsummary
+    	documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />
+	
     <purap:relatedDocuments
            documentAttributes="${DataDictionary.RelatedDocuments.attributes}"
            />

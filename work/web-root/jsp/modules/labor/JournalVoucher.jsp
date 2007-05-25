@@ -30,9 +30,8 @@
 	<kul:tab tabTitle="Labor Journal Voucher Details" defaultOpen="true"
 		tabErrorKey="${Constants.EDIT_JOURNAL_VOUCHER_ERRORS}">
 		<div class="tab-container" align=center>
-		<div class="h2-container">
-		<h2>Lable Journal Voucher Details</h2>
-		</div>
+		<div class="h2-container"><h2>Labor Journal Voucher Details</h2></div>
+		
 		<table cellpadding=0 class="datatable"
 			summary="view/edit ad hoc recipients">
 			<tbody>

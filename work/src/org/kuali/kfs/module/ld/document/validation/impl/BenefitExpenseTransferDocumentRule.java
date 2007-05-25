@@ -26,6 +26,7 @@ import org.kuali.core.document.Document;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
@@ -37,6 +38,7 @@ import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.bo.PositionObjectBenefit;
 import org.kuali.module.labor.document.BenefitExpenseTransferDocument;
+import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 
 /**
  * Business rule(s) applicable to Benefit Expense Transfer documents.
@@ -48,6 +50,16 @@ public class BenefitExpenseTransferDocumentRule extends LaborExpenseTransferDocu
 
     protected boolean AddAccountingLineBusinessRules(AccountingDocument accountingDocument, AccountingLine accountingLine) {
         return processCustomAddAccountingLineBusinessRules(accountingDocument, accountingLine);
+    }
+    
+    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+        // Validate that an employee ID is enterred.
+        BenefitExpenseTransferDocument benefitExpenseTransferDocument = (BenefitExpenseTransferDocument) document;
+       
+        // Make sure the employee does not have any pending salary transfers
+//          if (!validatePendingExpenseTransfer(emplid))
+//              return false;
+        return true;
     }
 
     /**

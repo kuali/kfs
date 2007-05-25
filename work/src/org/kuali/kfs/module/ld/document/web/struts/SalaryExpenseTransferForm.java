@@ -19,46 +19,30 @@ import java.sql.Date;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
-import static org.kuali.Constants.MULTIPLE_VALUE;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
-import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.SpringServiceLocator;
 import org.kuali.module.labor.bo.LaborUser;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
 import org.kuali.module.labor.service.LaborUserService;
+import org.kuali.rice.KNSServiceLocator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
  * This class is the form class for the Salary Expense Transfer document. This method extends the parent
- * KualiTransactionalDocumentFormBase class which contains all of the common form methods and form attributes needed by the
- * Salary Expense Transfer document. It adds a new method which is a convenience method for getting at the Salary Expense Transfer document easier.
- * 
- * 
+ * KualiTransactionalDocumentFormBase class which contains all of the common form methods and form attributes needed by the Salary
+ * Expense Transfer document. It adds a new method which is a convenience method for getting at the Salary Expense Transfer document
+ * easier.
  */
-public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase implements MultipleValueLookupBroker {
+public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
     private static Log LOG = LogFactory.getLog(SalaryExpenseTransferForm.class);
+
     private LaborUser user;
     private String balanceTypeCode;
     private Integer fiscalYear;
-
-    /**
-     * Used to indicate which result set we're using when refreshing/returning from a multi-value lookup
-     */
-    private String lookupResultsSequenceNumber;
-    /**
-     * The type of result returned by the multi-value lookup
-     * 
-     * TODO: to be persisted in the lookup results service instead?
-     */
-    private String lookupResultsBOClassName;
-    
-    /**
-     * The name of the collection looked up (by a multiple value lookup)
-     */
-    private String lookedUpCollectionName;
+    private String financialObjectFringeOrSalaryCode;
 
     /**
      * Constructs a SalaryExpenseTransferForm instance and sets up the appropriately casted document.
@@ -69,74 +53,79 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase i
         setDocument(new SalaryExpenseTransferDocument());
         setFinancialBalanceTypeCode("AC");
         setUniversityFiscalYear(0);
+        this.setFinancialObjectFringeOrSalaryCode("S");
     }
-    
+
     /**
-     *
+     * Gets the balanceTypeCode attribute.
+     * 
+     * @return Returns the balanceTypeCode.
      */
     public String getFinancialBalanceTypeCode() {
         return balanceTypeCode;
     }
 
     /**
+     * Sets the balanceTypeCode attribute value.
      * 
+     * @param balanceTypeCode The balanceTypeCode to set.
      */
-    public void setFinancialBalanceTypeCode(String code) {
-        balanceTypeCode = code;
+    public void setFinancialBalanceTypeCode(String balanceTypeCode) {
+        this.balanceTypeCode = balanceTypeCode;
     }
-    
+
     /**
      * @see org.kuali.core.web.struts.form.DocumentFormBase#populate(HttpServletRequest)
      */
+    @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
     }
 
     /**
-     * 
      * This method returns a refernce to the Salary Expense Transfer Document
+     * 
      * @return SalaryExpenseTransferDocument
-     */    
+     */
     public SalaryExpenseTransferDocument getSalaryExpenseTransferDocument() {
         return (SalaryExpenseTransferDocument) getDocument();
     }
-    
+
     /**
      * Assign <code>{@link LaborUser}</code> instance to the struts form.
-     *
+     * 
      * @param user
      */
     public void setUser(LaborUser user) {
         this.user = user;
     }
-    
+
     /**
      * Retrieve <code>{@link LaborUser}</code> instance from the struts from.
-     *
+     * 
      * @return LaborUser
      */
     public LaborUser getUser() {
         return user;
     }
-    
-   /**
-    * 
-    * This method sets the employee ID retrieved from the universal user service
-    * @param emplid
-    * @throws UserNotFoundException because a lookup at the database discovers user data from the personPayrollIdentifier
-    */
+
+    /**
+     * This method sets the employee ID retrieved from the universal user service
+     * 
+     * @param emplid
+     * @throws UserNotFoundException because a lookup at the database discovers user data from the personPayrollIdentifier
+     */
     public void setEmplid(String id) throws UserNotFoundException {
         getSalaryExpenseTransferDocument().setEmplid(id);
-        
+
         if (id != null) {
             setUser(((LaborUserService) SpringServiceLocator.getService("laborUserService")).getLaborUserByPersonPayrollIdentifier(id));
         }
     }
 
     /**
-     * 
      * This method returns the employee ID from the UniversalUser table.
-     *
+     * 
      * @return String of the personPayrollIdentifier
      * @throws UserNotFoundException because a lookup at the database discovers user data from the personPayrollIdentifier
      */
@@ -147,58 +136,11 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase i
         }
         return getSalaryExpenseTransferDocument().getEmplid();
     }
-    
-    /**
-     * @see org.kuali.core.web.struts.form.AccountingDocumentFormBase#getRefreshCaller()
-     */
-    public String getRefreshCaller() {
-        return MULTIPLE_VALUE;
-    }
 
     /**
-     * @see MultipleValueLookupBroker#getLookupResultsSequenceNumber()
+     * @see org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase#getUniversityFiscalYear()
      */
-    public String getLookupResultsSequenceNumber() {
-        return lookupResultsSequenceNumber;
-    }
-
-    /**
-     * @see MultipleValueLookupBroker#setLookupResultsSequenceNumber(String)
-     */
-    public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
-        this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
-    }
-
-    /**
-     * @see MultipleValueLookupBroker#getLookupResultsBOClassName()
-     */
-    public String getLookupResultsBOClassName() {
-        return lookupResultsBOClassName;
-    }
-
-
-    /**
-     * @see MultipleValueLookupBroker#setLookupResultsBOClassName(String)
-     */
-    public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
-        this.lookupResultsBOClassName = lookupResultsBOClassName;
-    }
-
-
-    /**
-     * @see MultipleValueLookupBroker#getLookupedUpCollectionName()
-     */
-    public String getLookedUpCollectionName() {
-        return lookedUpCollectionName;
-    }
-
-    /**
-     * @see MultipleValueLookupBroker#getLookupedUpCollectionName(String)
-     */
-    public void setLookedUpCollectionName(String lookedUpCollectionName) {
-        this.lookedUpCollectionName = lookedUpCollectionName;
-    }
-    
+    @Override
     public Integer getUniversityFiscalYear() {
         if (fiscalYear > 0) {
             return fiscalYear;
@@ -208,43 +150,27 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase i
         }
     }
 
+    /**
+     * @see org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase#setUniversityFiscalYear(java.lang.Integer)
+     */
+    @Override
     public void setUniversityFiscalYear(Integer year) {
         fiscalYear = year;
     }
-    
+
     /**
-     * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#getForcedReadOnlyFields()
+     * Gets the financialObjectFringeOrSalaryCode attribute. 
+     * @return Returns the financialObjectFringeOrSalaryCode.
      */
-    @Override
-    public Map getForcedReadOnlyFields() {
-        Map map = super.getForcedReadOnlyFields();
-        map.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, Boolean.TRUE);
-        map.put(KFSPropertyConstants.ACCOUNT_NUMBER, Boolean.TRUE);
-        map.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, Boolean.TRUE);
-        map.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, Boolean.TRUE);
-        map.put(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE, Boolean.TRUE);
-        map.put(KFSPropertyConstants.PROJECT_CODE, Boolean.TRUE);
-        map.put(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID, Boolean.TRUE);
-        map.put(KFSPropertyConstants.POSITION_NUMBER, Boolean.TRUE);
-        map.put(KFSPropertyConstants.PAYROLL_END_DATE_FISCAL_PERIOD_CODE, Boolean.TRUE);
-        return map;
+    public String getFinancialObjectFringeOrSalaryCode() {
+        return financialObjectFringeOrSalaryCode;
     }
 
     /**
-     * @see org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase#getAccountingLineEditableFields()
-     */ 
-    @Override
-    public Map getAccountingLineEditableFields() {
-        Map map = super.getAccountingLineEditableFields();
-        map.remove(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        map.remove(KFSPropertyConstants.ACCOUNT_NUMBER);
-        map.remove(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
-        map.remove(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
-        map.remove(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
-        map.remove(KFSPropertyConstants.PROJECT_CODE);
-        map.remove(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID);
-        map.remove(KFSPropertyConstants.POSITION_NUMBER);
-        return map;
+     * Sets the financialObjectFringeOrSalaryCode attribute value.
+     * @param financialObjectFringeOrSalaryCode The financialObjectFringeOrSalaryCode to set.
+     */
+    public void setFinancialObjectFringeOrSalaryCode(String financialObjectFringeOrSalaryCode) {
+        this.financialObjectFringeOrSalaryCode = financialObjectFringeOrSalaryCode;
     }
-
 }

@@ -15,14 +15,22 @@
  */
 package org.kuali.module.labor.web.struts.action;
 
+import org.kuali.module.labor.bo.LedgerBalance;
+import org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase;
 
 /**
  * This class extends the parent KualiTransactionalDocumentActionBase class, which contains all common action methods. Since the SEP
  * follows the basic transactional document pattern, there are no specific actions that it has to implement; however, this empty
  * class is necessary for integrating into the framework.
- * 
- * 
  */
-public class BenefitExpenseTransferAction extends LaborDocumentActionBase {
+public class BenefitExpenseTransferAction extends ExpenseTransferDocumentActionBase {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BenefitExpenseTransferAction.class);
 
+    /**
+     * @see org.kuali.module.labor.web.struts.action.ExpenseTransferDocumentActionBase#getLookupResultsBOClassName(org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase)
+     */
+    @Override
+    protected String getLookupResultsBOClassName(ExpenseTransferDocumentFormBase expenseTransferDocumentForm) {
+        return LedgerBalance.class.getName();
+    }
 }

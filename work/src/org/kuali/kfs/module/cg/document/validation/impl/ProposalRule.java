@@ -50,6 +50,7 @@ public class ProposalRule extends CGMaintenanceDocumentRuleBase {
         success &= checkPrimary(newProposalCopy.getProposalProjectDirectors(), ProposalProjectDirector.class, KFSPropertyConstants.PROPOSAL_PROJECT_DIRECTORS, Proposal.class);
         success &= checkProjectDirectorsExist(newProposalCopy.getProposalProjectDirectors(), ProposalProjectDirector.class, KFSPropertyConstants.PROPOSAL_PROJECT_DIRECTORS);
         success &= checkProjectDirectorsStatuses(newProposalCopy.getProposalProjectDirectors(), ProposalProjectDirector.class, KFSPropertyConstants.PROPOSAL_PROJECT_DIRECTORS);
+        success &= checkFederalPassThrough(newProposalCopy.getProposalFederalPassThroughIndicator(), newProposalCopy.getAgency(), newProposalCopy.getFederalPassThroughAgencyNumber(), Proposal.class, KFSPropertyConstants.PROPOSAL_FEDERAL_PASS_THROUGH_INDICATOR);
         success &= checkAgencyNotEqualToFederalPassThroughAgency(newProposalCopy.getAgency(), newProposalCopy.getFederalPassThroughAgency(), KFSPropertyConstants.AGENCY_NUMBER, KFSPropertyConstants.FEDERAL_PASS_THROUGH_AGENCY_NUMBER);
         return success;
     }
